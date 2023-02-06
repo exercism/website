@@ -1,10 +1,12 @@
 import * as highlighter from 'highlight.js'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
+import setupBqn from 'highlightjs-bqn'
 
 highlighter.default.registerLanguage('abap', setupABAP)
 highlighter.default.registerLanguage('cobol', setupCobol)
+highlighter.default.registerLanguage('bqn', setupBqn)
 
 highlighter.default.configure({
   throwUnescapedHTML: true,
@@ -108,7 +110,8 @@ export const highlightAll = (parent: ParentNode = document): void => {
     highlightBlock(block)
   })
 }
-
+// this will be replaced by the one in @/hooks. after all conflicts are resolved
+// and is missing 'html' dependency which is needed so it actually highlights code block when parsed html arrives
 export const useHighlighting = <T>() => {
   const parentRef = useRef<T | null>(null)
 

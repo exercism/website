@@ -3,13 +3,14 @@ require 'test_helper'
 class SerializeFilesTest < ActiveSupport::TestCase
   test "serializes files" do
     files = {
-      "bob.rb" => {
-        type: :exercise,
-        content: "content",
-        digest: "123"
-      }
+      "bob.rb" => "hey bob",
+      "test.rb" => "test 123"
     }
 
-    assert_equal [{ filename: "bob.rb", digest: "123", type: :exercise, content: "content" }], SerializeFiles.(files)
+    expected = [
+      { filename: "bob.rb", content: "hey bob" },
+      { filename: "test.rb", content: "test 123" }
+    ]
+    assert_equal expected, SerializeFiles.(files)
   end
 end

@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": "app/javascript",
     "allowJs": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom", "es2018.promise", "es2017"],
+    "lib": ["es6", "dom", "DOM.Iterable", "es2018.promise", "es2017"],
     "module": "es2020",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -14,7 +15,10 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "types": ["app/javascript/declarations"]
+    "types": ["./app/javascript/declarations"],
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "exclude": [
     "**/*.spec.ts",

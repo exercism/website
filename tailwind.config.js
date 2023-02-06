@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       screens: {
         max850: { max: '850px' },
+        mxl: { min: '1200px' },
       },
       gridTemplateColumns: {
         // Simple 16 column grid
@@ -51,6 +52,8 @@ module.exports = {
       none: 'none',
       buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
       xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
+      xsZ1_dark: '0px 2px 4px #0F0923',
+      dark_xsZ1: '0px 2px 4px #0F0923',
       xsZ1v2: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
       xsZ1v3: '0px 2px 4px 0px rgba(79, 114, 205, 0.4)',
       sm: 'var(--box-shadow-sm)',
@@ -170,6 +173,7 @@ module.exports = {
       veryLightGreen: 'rgba(79,205,167,0.15)',
       veryLightGreen2: '#E7FDF6',
       limeGreen: '#1FA378',
+      healthyGreen: '#00B500',
 
       tooManyGreens: '#59D2AE',
       literallySoManyGreens: '#4FCDA7',
@@ -184,6 +188,7 @@ module.exports = {
       red: '#EB5757',
       lightRed: '#FDEAEA',
       veryLightRed: '#FFEDED',
+      youtubeRed: '#D81A1A',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',
@@ -195,13 +200,18 @@ module.exports = {
       warning: '#E48900',
       warningBtnBorder: '#573C13',
 
+      // I think this should be called danger, as it is a variant of alert
       alert: '#D85050',
+      danger: '#D85050',
+      danger_dark: '#F17070',
+      bgDanger_dark: '#2F2121',
       alertBtnBorder: '#873333',
 
       anotherGold: '#FAE54D',
 
       muddy: '#6E82AA',
       caution: '#955D09',
+      cautionLabel: '#3E2705',
       color22: '#C8D5EF',
 
       commonBadge: 'rgb(var(--commonBadge-RGB))',
@@ -248,6 +258,7 @@ module.exports = {
     height: {
       auto: 'auto',
       arbitary: '1px',
+      32: '32px',
       48: '48px',
       100: '100%',
     },

@@ -3,7 +3,6 @@ import { GraphicalIcon, TrackIcon, Avatar } from '../../components/common'
 import { GenericTooltip } from '../../components/misc/ExercismTippy'
 import { MetricsChannel } from '../../channels/metricsChannel'
 import { Metric } from '../types'
-import { TopLearningCountries } from './TopLearningCountries'
 
 const coordinatesToPosition = (latitude: number, longitude: number) => {
   const map_width = 724
@@ -20,18 +19,6 @@ const coordinatesToPosition = (latitude: number, longitude: number) => {
   const top = ((y + 62) / map_height) * 100
   return [left, top]
 }
-
-const TOP_LEARNING_DATA = [
-  { country: 'Germany', flag: '🇩🇪', percent: 10 },
-  { country: 'USA', flag: '\u{1f1fa}\u{1f1f8}', percent: 7 },
-  { country: 'India', flag: '\u{1f1ee}\u{1f1f3}', percent: 4 },
-  { country: 'Brazil', flag: '🇧🇷', percent: 2.4 },
-  { country: 'UK', flag: '\u{1f1ec}\u{1f1e7}', percent: 1.2 },
-  { country: 'Poland', flag: '🇵🇱', percent: 0.5 },
-  { country: 'Russia', flag: '🇷🇺', percent: 0.3 },
-  { country: 'Canada', flag: '🇨🇦', percent: 0.1 },
-  { country: 'Spain', flag: '🇪🇸', percent: 0.05 },
-]
 
 const MetricPointWithTooltip = ({
   metric,
@@ -187,16 +174,19 @@ const MetricPoint = ({ metric }: { metric: Metric }): JSX.Element => {
 
 export default ({
   initialMetrics,
+  trackTitle,
 }: {
   initialMetrics: Metric[]
+  trackTitle?: string
 }): JSX.Element => {
   const [metrics, setMetrics] = useState(initialMetrics)
 
   useEffect(() => {
     const connection = new MetricsChannel((metric: Metric) => {
-      // if (metric.type == 'submit_submission_metric') {
-      //   console.log(metric.track.title)
-      // }
+      if (trackTitle && trackTitle !== metric.track?.title) {
+        return
+      }
+
       setMetrics((oldMetrics) => [...oldMetrics, metric])
 
       // Remove the metric again after 1 minute

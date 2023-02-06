@@ -1,11 +1,5 @@
-module ViewComponents
-  module Blog
-    class SharePostLink < ViewComponent
-      initialize_with :post
+class ViewComponents::Blog::SharePostLink < ViewComponents::ViewComponent
+  initialize_with :post
 
-      def to_s
-        ReactComponents::Blog::SharePostLink.new(AssembleBlogPostSharePanel.(post)).to_s
-      end
-    end
-  end
+  def to_s = ReactComponents::Common::ShareLink.new(SerializeBlogPostForSharing.(post)).to_s
 end

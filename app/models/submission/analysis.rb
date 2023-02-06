@@ -5,13 +5,21 @@ class Submission::Analysis < ApplicationRecord
   serialize :data, JSON
 
   belongs_to :submission
+  belongs_to :track
 
   scope :ops_successful, -> { where(ops_status: 200) }
+  scope :with_comments, -> { where('num_comments > 0') }
+
+  before_create do
+    self.num_comments = self.comment_blocks.size
+  end
+
+  before_validation on: :create do
+    self.track = submission.track unless track
+  end
 
   memoize
-  def has_comments?
-    comment_blocks.present?
-  end
+  def has_comments? = comment_blocks.present?
 
   memoize
   def num_comments_by_type
@@ -79,13 +87,8 @@ class Submission::Analysis < ApplicationRecord
     comments.compact.sort_by { |c| TYPES.index(c[:type]) }
   end
 
-  def ops_success?
-    ops_status == 200
-  end
-
-  def ops_errored?
-    !ops_success?
-  end
+  def ops_success? = ops_status == 200
+  def ops_errored? = !ops_success?
 
   private
   def comment_blocks
@@ -97,9 +100,7 @@ class Submission::Analysis < ApplicationRecord
     HashWithIndifferentAccess.new(super)
   end
 
-  def analyzer_repo
-    "#{submission.track.slug}-analyzer"
-  end
+  def analyzer_repo = "#{submission.track.slug}-analyzer"
 
   TYPES = %i[essential actionable informative celebratory].freeze
   DEFAULT_TYPE = :informative

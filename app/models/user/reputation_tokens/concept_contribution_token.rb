@@ -16,7 +16,5 @@ class User::ReputationTokens::ConceptContributionToken < User::ReputationToken
     }
   end
 
-  def guard_params
-    "Concept##{concept.id}"
-  end
+  def guard_params = "Concept##{concept.id}"
 end

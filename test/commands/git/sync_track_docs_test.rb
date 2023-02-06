@@ -43,4 +43,12 @@ class Git::SyncTrackDocsTest < ActiveSupport::TestCase
 
     Git::SyncTrackDocs.(track)
   end
+
+  test "updates if config.json hasn't changed but force_sync is true" do
+    track = create :track, synced_to_git_sha: "5f717d8cfc5f588ddff9b1ea5e605f33e70a5c45"
+
+    Git::SyncTrackDocs.(track, force_sync: true)
+
+    assert_equal 1, Document.count
+  end
 end

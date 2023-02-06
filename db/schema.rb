@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_03_185625) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -94,26 +94,47 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.index ["track_id"], name: "index_cohorts_on_track_id"
   end
 
-  create_table "contributor_team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "contributor_team_id", null: false
-    t.bigint "user_id", null: false
-    t.boolean "visible", default: true, null: false
-    t.integer "seniority", limit: 1, default: 0, null: false
+  create_table "community_stories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "interviewer_id", null: false
+    t.bigint "interviewee_id", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", limit: 280, null: false
+    t.string "thumbnail_url", null: false
+    t.string "image_url", null: false
+    t.string "youtube_id", null: false
+    t.integer "length_in_minutes", limit: 2, null: false
+    t.datetime "published_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
-    t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
-    t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
+    t.index ["interviewee_id"], name: "index_community_stories_on_interviewee_id"
+    t.index ["interviewer_id"], name: "index_community_stories_on_interviewer_id"
+    t.index ["uuid"], name: "index_community_stories_on_uuid", unique: true
   end
 
-  create_table "contributor_teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "community_videos", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id"
-    t.string "github_name", null: false
-    t.integer "type", limit: 1, default: 0, null: false
+    t.bigint "exercise_id"
+    t.bigint "author_id"
+    t.bigint "submitted_by_id", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "platform", null: false
+    t.string "title", null: false
+    t.string "url", null: false
+    t.string "watch_id", null: false
+    t.string "embed_id", null: false
+    t.string "channel_name", null: false
+    t.string "thumbnail_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
-    t.index ["track_id"], name: "index_contributor_teams_on_track_id"
+    t.string "channel_url", null: false
+    t.string "embed_url", null: false
+    t.index ["author_id"], name: "index_community_videos_on_author_id"
+    t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
+    t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
+    t.index ["track_id"], name: "index_community_videos_on_track_id"
+    t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
   end
 
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -157,6 +178,94 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
+  end
+
+  create_table "exercise_approach_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_approach_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_approach_id", "user_id"], name: "index_exercise_approach_author_approach_id_user_id", unique: true
+    t.index ["exercise_approach_id"], name: "index_exercise_approaches_authorships_on_approach_id"
+    t.index ["user_id"], name: "index_exercise_approach_authorships_on_user_id"
+  end
+
+  create_table "exercise_approach_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_approach_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_approach_id", "user_id"], name: "index_exercise_approach_contributor_approach_id_user_id", unique: true
+    t.index ["exercise_approach_id"], name: "index_exercise_approaches_contributorships_on_approach_id"
+    t.index ["user_id"], name: "index_exercise_approach_contributorships_on_user_id"
+  end
+
+  create_table "exercise_approach_introduction_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_authors_on_exercise_and_user", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approach_introduction_authorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_approach_introduction_authorships_on_user_id"
+  end
+
+  create_table "exercise_approach_introduction_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "user_id"], name: "index_exercise_approach_intro_contris_on_exercise_and_user", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approach_intro_contributorships_on_exercise_id"
+    t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
+  end
+
+  create_table "exercise_approaches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", limit: 350, null: false
+    t.string "synced_to_git_sha", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "uuid"], name: "index_exercise_approaches_on_exercise_id_and_uuid", unique: true
+    t.index ["exercise_id"], name: "index_exercise_approaches_on_exercise_id"
+    t.index ["uuid"], name: "index_exercise_approaches_on_uuid"
+  end
+
+  create_table "exercise_article_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_article_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_article_id", "user_id"], name: "index_exercise_article_author_article_id_user_id", unique: true
+    t.index ["exercise_article_id"], name: "index_exercise_article_authorships_on_article_id"
+    t.index ["user_id"], name: "index_exercise_article_authorships_on_user_id"
+  end
+
+  create_table "exercise_article_contributorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_article_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_article_id", "user_id"], name: "index_exercise_article_contributor_article_id_user_id", unique: true
+    t.index ["exercise_article_id"], name: "index_exercise_article_contributorships_on_article_id"
+    t.index ["user_id"], name: "index_exercise_article_contributorships_on_user_id"
+  end
+
+  create_table "exercise_articles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.string "uuid", null: false
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", limit: 350, null: false
+    t.string "synced_to_git_sha", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "uuid"], name: "index_exercise_articles_on_exercise_id_and_uuid", unique: true
+    t.index ["exercise_id"], name: "index_exercise_articles_on_exercise_id"
+    t.index ["uuid"], name: "index_exercise_articles_on_uuid"
   end
 
   create_table "exercise_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -216,9 +325,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
     t.string "uuid", null: false
     t.bigint "track_id"
-    t.index ["exercise_id", "ast_digest"], name: "exercise_representations_unique", unique: true
-    t.index ["exercise_id", "ast_digest"], name: "index_exercise_representations_on_exercise_id_and_ast_digest"
-    t.index ["exercise_id"], name: "index_exercise_representations_on_exercise_id"
+    t.datetime "feedback_added_at"
+    t.integer "representer_version", limit: 2, default: 1, null: false
+    t.integer "exercise_version", limit: 2, default: 1, null: false
+    t.integer "draft_feedback_type", limit: 1
+    t.text "draft_feedback_markdown"
+    t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
@@ -258,6 +370,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "updated_at", null: false
     t.boolean "has_test_runner", default: false, null: false
     t.integer "num_published_solutions", default: 0, null: false
+    t.boolean "has_approaches", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "index_exercises_on_track_id"
     t.index ["uuid"], name: "index_exercises_on_uuid"
@@ -348,6 +461,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.index ["uuid"], name: "index_github_tasks_on_uuid", unique: true
   end
 
+  create_table "github_team_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "user_id", null: false
+    t.string "team_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "team_name"], name: "index_github_team_members_on_user_id_and_team_name", unique: true
+  end
+
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "submission_id", null: false
@@ -427,6 +548,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.index ["status", "exercise_id"], name: "index_mentor_requests_on_status_and_exercise_id"
     t.index ["status", "track_id"], name: "index_mentor_requests_on_status_and_track_id"
     t.index ["student_id"], name: "index_mentor_requests_on_student_id"
+    t.index ["track_id", "exercise_id"], name: "index_mentor_requests_on_track_id_and_exercise_id"
     t.index ["track_id", "status"], name: "index_mentor_requests_on_track_id_and_status"
     t.index ["track_id"], name: "index_mentor_requests_on_track_id"
     t.index ["uuid"], name: "index_mentor_requests_on_uuid", unique: true
@@ -617,6 +739,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "updated_at", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
+    t.boolean "unlocked_help", default: false, null: false
     t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
@@ -634,7 +757,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.string "tooling_job_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "num_comments", limit: 1, default: 0, null: false
+    t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
+    t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id", "num_comments"], name: "index_submission_analyses_on_track_id_and_num_comments"
+    t.index ["track_id"], name: "index_submission_analyses_on_track_id"
   end
 
   create_table "submission_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -656,9 +784,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "mentored_by_id"
+    t.bigint "track_id"
     t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
+    t.index ["track_id", "id"], name: "index_submission_representations_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -675,7 +806,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
     t.string "git_sha", limit: 50
+    t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
+    t.index ["track_id", "id"], name: "index_submission_test_runs_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id"], name: "index_submission_test_runs_on_track_id"
     t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
 
@@ -691,7 +825,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
+    t.integer "track_id", limit: 2
+    t.integer "exercise_id", limit: 3
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
+    t.index ["track_id", "exercise_id"], name: "index_submissions_on_track_id_and_exercise_id"
+    t.index ["track_id", "tests_status"], name: "index_submissions_on_track_id_and_tests_status"
+    t.index ["track_id"], name: "index_submissions_on_track_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
@@ -746,6 +885,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.boolean "has_test_runner", default: false, null: false
     t.boolean "has_representer", default: false, null: false
     t.boolean "has_analyzer", default: false, null: false
+    t.integer "representer_version", limit: 2, default: 1, null: false
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
@@ -792,6 +932,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
   end
 
+  create_table "user_block_domains", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "domain", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_user_block_domains_on_domain", unique: true
+  end
+
+  create_table "user_challenges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "challenge_id"], name: "index_user_challenges_on_user_id_and_challenge_id", unique: true
+    t.index ["user_id"], name: "index_user_challenges_on_user_id"
+  end
+
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "token"
@@ -811,6 +967,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.boolean "email_on_nudge_notification", default: true, null: false
     t.boolean "email_on_student_finished_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_finished_discussion_notification", default: true, null: false
+    t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
+    t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -917,6 +1075,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "updated_at", null: false
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
+    t.index ["track_id", "category", "external_url"], name: "index_user_reputation_tokens_on_track_id_category_external_url"
     t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
     t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
@@ -933,6 +1092,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.boolean "last_viewed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "num_finished_discussions", limit: 3, default: 0, null: false
     t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
@@ -988,6 +1148,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "show_on_supporters_page", default: true, null: false
+    t.datetime "disabled_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
@@ -1005,13 +1166,28 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
-  add_foreign_key "contributor_team_memberships", "contributor_teams"
-  add_foreign_key "contributor_team_memberships", "users"
-  add_foreign_key "contributor_teams", "tracks"
+  add_foreign_key "community_stories", "users", column: "interviewee_id"
+  add_foreign_key "community_stories", "users", column: "interviewer_id"
+  add_foreign_key "community_videos", "users", column: "author_id"
+  add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "documents", "tracks"
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"
   add_foreign_key "donations_subscriptions", "users"
+  add_foreign_key "exercise_approach_authorships", "exercise_approaches"
+  add_foreign_key "exercise_approach_authorships", "users"
+  add_foreign_key "exercise_approach_contributorships", "exercise_approaches"
+  add_foreign_key "exercise_approach_contributorships", "users"
+  add_foreign_key "exercise_approach_introduction_authorships", "exercises"
+  add_foreign_key "exercise_approach_introduction_authorships", "users"
+  add_foreign_key "exercise_approach_introduction_contributorships", "exercises"
+  add_foreign_key "exercise_approach_introduction_contributorships", "users"
+  add_foreign_key "exercise_approaches", "exercises"
+  add_foreign_key "exercise_article_authorships", "exercise_articles"
+  add_foreign_key "exercise_article_authorships", "users"
+  add_foreign_key "exercise_article_contributorships", "exercise_articles"
+  add_foreign_key "exercise_article_contributorships", "users"
+  add_foreign_key "exercise_articles", "exercises"
   add_foreign_key "exercise_authorships", "exercises"
   add_foreign_key "exercise_authorships", "users"
   add_foreign_key "exercise_contributorships", "exercises"
@@ -1062,10 +1238,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_114915) do
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
   add_foreign_key "submission_analyses", "submissions"
+  add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
+  add_foreign_key "submission_representations", "tracks"
   add_foreign_key "submission_representations", "users", column: "mentored_by_id"
   add_foreign_key "submission_test_runs", "submissions"
+  add_foreign_key "submission_test_runs", "tracks"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "track_concept_authorships", "track_concepts"
   add_foreign_key "track_concept_authorships", "users"

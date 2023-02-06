@@ -11,9 +11,7 @@ module Badges
       user.created_at < V3_RELEASE_DATE
     end
 
-    def send_email_on_acquisition?
-      false
-    end
+    def send_email_on_acquisition? = false
 
     V3_RELEASE_DATE = Time.new(2021, 9, 1, 0, 0, 0, 0).freeze
     private_constant :V3_RELEASE_DATE

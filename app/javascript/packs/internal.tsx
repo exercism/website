@@ -100,11 +100,8 @@ initReact({
     <MarkdownEditor contextId={data.context_id} />
   ),
 
-  'modals-first-time-modal': (data: any) => (
-    <Modals.FirstTimeModal
-      endpoint={data.endpoint}
-      contributors={camelizeKeysAs<readonly User[]>(data.contributors)}
-    />
+  'modals-challenge-12in23-modal': (data: any) => (
+    <Modals.Challenge12in23Modal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
@@ -149,7 +146,7 @@ initReact({
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       instructions={data.instructions}
-      tests={data.tests}
+      testFiles={data.test_files}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}

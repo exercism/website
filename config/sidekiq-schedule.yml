@@ -17,6 +17,11 @@ mark_outdated_reputation_week_periods:
   queue: reputation
   args: ["week"]
 
+update_tracks_build_status:
+  cron: "1 0 * * *"
+  class: "UpdateTracksBuildStatusJob"
+  queue: dribble
+
 # 4am every date (1hr after above)
 mark_outdated_reputation_month_periods:
   cron: "5 0 * * *"
@@ -49,9 +54,9 @@ sync_tracks:
   class: "SyncTracksJob"
   queue: dribble
 
-sync_team_permissions:
+sync_team_members:
   cron: "0 1 * * 3"
-  class: "SyncTeamPermissionsJob"
+  class: "SyncTeamMembersJob"
   queue: dribble
 
 # 1am Thursday
@@ -100,4 +105,10 @@ update_last_week_metrics:
 update_last_quarter_metrics:
   cron: "0 12 * * *"
   class: "UpdateLastQuarterMetricsJob"
+  queue: metrics
+
+# Every hour
+update_metric_stats:
+  cron: "0 * * * *"
+  class: "UpdateMetricStatsJob"
   queue: metrics

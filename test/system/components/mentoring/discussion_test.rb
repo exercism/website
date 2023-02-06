@@ -290,7 +290,7 @@ module Components
             author: mentor,
             content_markdown: "Hello",
             updated_at: Time.current)
-          wait_for_websockets
+          2.times { wait_for_websockets }
           DiscussionPostListChannel.notify!(discussion)
         end
 

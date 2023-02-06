@@ -1,3 +1,4 @@
+import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
 import React, { useState } from 'react'
 import { Tab, GraphicalIcon } from '../../../common'
 import { CompleteRepresentationData } from '../../../types'
@@ -6,6 +7,7 @@ import { Guidance } from '../../session/Guidance'
 // import { Guidance } from '../../session/Guidance'
 import { Scratchpad } from '../../session/Scratchpad'
 import AutomationRules from './AutomationRules'
+import Considerations from './Considerations'
 
 type RepresentationTabIndex = 'information' | 'scratchpad' | 'guidance'
 
@@ -38,7 +40,19 @@ export function UtilityTabs({
         </Tab>
       </div>
       <Tab.Panel id="information" context={TabsContext}>
+        <Considerations guidance={data.guidance} />
         <AutomationRules guidance={data.guidance} />
+
+        {data.analyzerFeedback && (
+          <div className="mx-24 my-16 border-t-2 border-borderColor6 pt-16 ">
+            <AnalyzerFeedback
+              summary={data.analyzerFeedback.summary}
+              comments={data.analyzerFeedback.comments}
+              automatedFeedbackInfoLink={'???'}
+              track={data.representation.track}
+            />
+          </div>
+        )}
       </Tab.Panel>
       <Tab.Panel id="scratchpad" context={TabsContext}>
         <Scratchpad

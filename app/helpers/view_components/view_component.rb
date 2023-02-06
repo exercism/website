@@ -5,10 +5,11 @@ module ViewComponents
 
     delegate :user_signed_in?, :current_user,
       :render, :safe_join, :raw,
-      :tag, :link_to, :external_link_to, :button_to, :image_tag,
+      :tag, :link_to, :external_link_to, :button_to, :image_tag, :image_url,
       :time_ago_in_words, :pluralize, :number_with_delimiter,
       :graphical_icon, :icon, :track_icon, :exercise_icon, :avatar,
       :capture_haml,
+      :javascript_include_tag,
       to: :view_context
 
     # This is called when you called `render SomeComponent.new(...)`

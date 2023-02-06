@@ -27,9 +27,10 @@ module ViewComponents
                   class: tab_class(:overview)
                 ),
 
-                (iterations_tab unless user_track.external?),
-                (community_solutions_tab unless exercise.tutorial?),
-                (mentoring_tab unless user_track.external? || exercise.tutorial?)
+                (iterations_tab if show_iterations_tab?),
+                (dig_deeper_tab if show_dig_deeper_tab?),
+                (community_solutions_tab if show_community_solutions_tab?),
+                (mentoring_tab if show_mentoring_tab?)
               ]
             )
           end + editor_btn
@@ -55,6 +56,21 @@ module ViewComponents
         )
       end
 
+      def dig_deeper_tab
+        parts = [
+          graphical_icon('dig-deeper'),
+          tag.span("Dig Deeper", "data-text": "Dig Deeper")
+        ]
+        lockable_tab(
+          safe_join(parts),
+          Exercism::Routes.track_exercise_dig_deeper_path(track, exercise),
+          :dig_deeper,
+          dig_deeper_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_dig_deeper_path(track, exercise),
+            render_react_components: true)
+        )
+      end
+
       def community_solutions_tab
         parts = [
           graphical_icon('community-solutions'),
@@ -64,7 +80,9 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_solutions_path(track, exercise),
           :community_solutions,
-          solutions_tab_locked?
+          solutions_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_solutions_path(track, exercise),
+            render_react_components: true)
         )
       end
 
@@ -82,15 +100,31 @@ module ViewComponents
           safe_join(parts),
           Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
           :mentoring,
-          mentoring_tab_locked?
+          mentoring_tab_locked?,
+          locked_tab_tooltip_attrs(Exercism::Routes.tooltip_locked_track_exercise_mentor_discussions_path(track, exercise))
         )
       end
 
-      def lockable_tab(html, href, class_name, locked)
+      def show_iterations_tab? = !user_track.external?
+      def show_dig_deeper_tab? = !exercise.tutorial? && exercise.has_approaches?
+      def show_community_solutions_tab? = !exercise.tutorial?
+      def show_mentoring_tab? = !user_track.external? && !exercise.tutorial?
+
+      def lockable_tab(html, href, class_name, locked, locked_attrs = {})
         css_class = tab_class(class_name, locked:)
 
-        locked ? tag.div(html, class: css_class) :
+        locked ? tag.div(html, class: css_class, 'aria-label': 'This tab is locked', **locked_attrs) :
           link_to(html, href, class: css_class)
+      end
+
+      def locked_tab_tooltip_attrs(endpoint, render_react_components: false)
+        {
+          'data-tooltip-type': 'automation-locked',
+          'data-endpoint': endpoint,
+          'data-placement': 'bottom',
+          'data-interactive': true,
+          'data-render-react-components': render_react_components
+        }
       end
 
       def tab_class(tab, locked: false)
@@ -102,21 +136,14 @@ module ViewComponents
       end
 
       memoize
-      def track
-        user_track.track
-      end
+      def track = user_track.track
 
       memoize
-      def solutions_tab_locked?
-        return false if user_track.external?
+      def user = user_track.user
 
-        mentoring_tab_locked?
-      end
-
-      memoize
-      def mentoring_tab_locked?
-        !@solution&.iterated?
-      end
+      def dig_deeper_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution&.iterated?
+      def solutions_tab_locked? = !user_track.external? && !solution&.unlocked_help? && !solution&.iterated?
+      def mentoring_tab_locked? = !user_track.external? && !solution&.iterated?
     end
   end
 end

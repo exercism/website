@@ -3,8 +3,10 @@ en:
     errors:
       not_onboarded: "You have not yet onboarded on the website"
       not_supermentor: "You do not have supermentor permissions"
+      not_supermentor_for_track: "You do not have supermentor permissions for this track"
       not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
+      duplicate_video: "The video has already been submitted by someone else"
       exercise_not_found: "The exercise you specified could not be found"
       invalid_auth_token: "The auth token provided is invalid"
       invalid_mentor_student_relationship: "There is not a valid relationship between you and this student"
@@ -17,6 +19,7 @@ en:
       solution_comments_not_allowed: "Comments may not be retrieved or posted on this solution"
       solution_comment_not_found: "This solution comment could not be found"
       solution_without_iterations: "This solution does not have any iterations"
+      solution_unlock_help_not_accessible: "You do not have permission to unlock help for this solution"
       solution_comment_not_accessible: "This comment is not accessible"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"
@@ -49,3 +52,4 @@ en:
       invalid_metric_period: "The metric period is invalid"
       invalid_metric_type: "The metric type is invalid"
       profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"
+      invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"

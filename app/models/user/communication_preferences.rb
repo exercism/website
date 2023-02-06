@@ -11,6 +11,7 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_student_replied_to_discussion_notification
       email_on_student_finished_discussion_notification
       email_on_student_added_iteration_notification
+      email_on_automated_feedback_added_notification
     ]
   end
 
@@ -19,6 +20,7 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_acquired_badge_notification
       email_on_general_update_notification
       email_on_nudge_notification
+      email_about_fundraising_campaigns
       receive_product_updates
     ]
   end

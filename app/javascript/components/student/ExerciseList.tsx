@@ -106,7 +106,7 @@ export default ({
   const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
     { solutions: SolutionForStudent[]; exercises: Exercise[] },
     Error | Response
-  >(['exercise-list', request.endpoint, request.query], request)
+  >(['exercise-list', request], request)
 
   const results = resolvedData?.exercises.map((exercise) => {
     const solution = resolvedData.solutions.find(

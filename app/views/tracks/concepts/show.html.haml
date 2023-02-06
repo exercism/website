@@ -67,7 +67,7 @@
         %section.extra-info
           = render ReactComponents::Track::ConceptMakersButton.new(@concept)
 
-          = link_to "https://github.com/exercism/#{@track.slug}/tree/main/concepts/#{@concept.slug}", target: "_blank", rel: 'noopener' do
+          = link_to "https://github.com/exercism/#{@track.slug}/tree/main/concepts/#{@concept.slug}", target: "_blank", rel: 'noreferrer' do
             = graphical_icon "external-site-github", css_class: "github-icon"
             %span Edit via GitHub
             = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"

@@ -1,10 +1,10 @@
 class Submission < ApplicationRecord
   extend Mandate::Memoize
 
+  belongs_to :track
+  belongs_to :exercise
   belongs_to :solution
   has_one :user, through: :solution
-  has_one :exercise, through: :solution
-  has_one :track, through: :exercise
   has_one :iteration, dependent: :destroy
 
   has_many :files, class_name: "Submission::File", dependent: :destroy
@@ -48,13 +48,16 @@ class Submission < ApplicationRecord
     self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
   end
 
+  before_validation on: :create do
+    self.track = solution.track unless track
+    self.exercise = solution.exercise unless exercise
+  end
+
   after_save_commit do
     solution.update_iteration_status! if iteration
   end
 
-  def to_param
-    uuid
-  end
+  def to_param = uuid
 
   def broadcast!
     SubmissionChannel.broadcast!(self)
@@ -80,9 +83,7 @@ class Submission < ApplicationRecord
     false
   end
 
-  def has_automated_feedback?
-    num_automated_comments_by_type.values.sum.positive?
-  end
+  def has_automated_feedback? = num_automated_comments_by_type.values.sum.positive?
 
   %i[essential actionable non_actionable].each do |type|
     define_method "num_#{type}_automated_comments" do

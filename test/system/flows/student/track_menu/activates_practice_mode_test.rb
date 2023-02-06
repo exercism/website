@@ -13,6 +13,8 @@ module Flows
           create :concept_exercise, track: track
           create :user_track, user: user, track: track
 
+          stub_latest_track_forum_threads(track)
+
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)

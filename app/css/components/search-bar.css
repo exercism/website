@@ -18,6 +18,13 @@
         background-repeat: no-repeat;
         background-position: 12px center;
     }
+
+    input.--search.--right {
+        @apply px-16 pr-40;
+        background-size: 20px 20px;
+        background-position: right 16px center;
+    }
+
     & .--filter-btn,
     & .--reset-btn {
         @apply flex items-center;

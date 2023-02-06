@@ -21,7 +21,8 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            For this task, you'll be working on <strong>Analyzers</strong>..
+            For this task, you&apos;ll be working on <strong>Analyzers</strong>
+            ..
           </h3>
           <p>
             Analyzers take code and generating automated suggestions for how to
@@ -83,8 +84,8 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
           <h3>
             This task is about <strong>Representers</strong>.
             <p>
-              Representers create normalised versions of students' submissions,
-              which can have mentoring comments attached to them.
+              Representers create normalised versions of students&apos;
+              submissions, which can have mentoring comments attached to them.
             </p>
           </h3>
         </>
@@ -96,7 +97,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
             This task is about <strong>Test Runners</strong>.
           </h3>
           <p>
-            Test Runners allow Exercism to run students' code and determine
+            Test Runners allow Exercism to run students&apos; code and determine
             whether they pass or fail the tests, and provide useful feedback to
             the student.
           </p>

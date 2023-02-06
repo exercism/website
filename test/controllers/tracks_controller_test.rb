@@ -37,6 +37,8 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     track = create :track, active: false
     create :user_track, user: user, track: track
 
+    stub_latest_track_forum_threads(track)
+
     get track_url(track)
 
     assert_response :ok

@@ -7,20 +7,22 @@ module ViewComponents
 
     def to_s
       tag.header(id: "site-header") do
-        # announcement_bar +
-        tag.div(class: "lg-container container") do
-          logo + docs_nav + contextual_section
-        end
+        announcement_bar +
+          tag.div(class: "lg-container container") do
+            logo + docs_nav + contextual_section
+          end
       end
     end
 
     private
     def announcement_bar
-      link_to(Exercism::Routes.hiring_about_path, class: "announcement-bar") do
+      return tag.span("") if current_user&.total_donated_in_cents&.positive?
+
+      link_to(Exercism::Routes.donate_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("We’re hiring!") +
-            tag.strong("Come and join the Exercism team") +
-            tag.span("😁")
+          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
+            tag.strong("Please support us if you can!") +
+            tag.span("⚠️")
         end
       end
     end
@@ -56,16 +58,23 @@ module ViewComponents
           si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing) +
+            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true) +
             si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected)
+    def si_nav_li(title, icon_name, url, selected, new: false)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        link_to(graphical_icon(icon_name) + tag.span(title), url, "data-turbo-frame": "tf-main")
+        elems = [graphical_icon(icon_name), tag.span(title)]
+        if new
+          elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
+            graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
+            tag.span("New")
+          end)
+        end
+        link_to(safe_join(elems), url, "data-turbo-frame": "tf-main", class: 'relative')
       end
     end
 
@@ -92,8 +101,7 @@ module ViewComponents
       items = [
         { html: link_to("Home", Exercism::Routes.root_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Language Tracks", Exercism::Routes.tracks_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
-        { html: link_to("Contribute", Exercism::Routes.contributing_root_path, "data-turbo-frame": "tf-main"),
-          className: "opt site-link" },
+        { html: link_to("Community", Exercism::Routes.community_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Donate 💜", Exercism::Routes.donate_path, "data-turbo-frame": "tf-main"), className: "opt site-link donate" }
       ]
@@ -107,8 +115,7 @@ module ViewComponents
             [
               si_nav_li("Home", :home, Exercism::Routes.root_path, selected_tab == :dashboard),
               si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              # tag.li { "What is Exercism?", about_path )
-              si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing),
+              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true),
               si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
               si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
             ]

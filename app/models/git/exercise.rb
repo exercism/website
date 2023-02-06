@@ -5,6 +5,8 @@ module Git
     extend Git::HasGitFilepath
 
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
+    delegate :introduction, :introduction_last_modified_at, :introduction_exists?, :introduction_edit_url, to: :approaches,
+      prefix: true
 
     git_filepath :instructions, file: ".docs/instructions.md", append_file: ".docs/instructions.append.md"
     git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"
@@ -36,14 +38,14 @@ module Git
       @git_sha = git_sha
     end
 
-    def synced_git_sha
-      commit.oid
-    end
+    def synced_git_sha = commit.oid
 
     def valid_submission_filepath?(filepath)
       return false if filepath.match?(%r{[^a-zA-Z0-9_./-]})
       return false if filepath.starts_with?(".meta/")
       return false if filepath.starts_with?(".docs/")
+      return false if filepath.starts_with?(".approaches/")
+      return false if filepath.starts_with?(".articles/")
       return false if filepath.starts_with?(".exercism/")
 
       # We don't want to let students override the editor files
@@ -90,6 +92,12 @@ module Git
     def has_test_runner?
       config.fetch(:test_runner, true)
     end
+
+    memoize
+    def representer_version = representer[:version] || 1
+
+    memoize
+    def representer = config[:representer] || {}
 
     memoize
     def solution_filepaths
@@ -139,8 +147,12 @@ module Git
       {}
     end
 
-    def tests
-      read_file_blob(test_filepaths.first)
+    def test_files
+      test_filepaths.index_with do |filepath|
+        read_file_blob(filepath)
+      end
+    rescue StandardError
+      {}
     end
 
     # Files that should be transported
@@ -174,7 +186,9 @@ module Git
     memoize
     def tooling_filepaths
       filepaths.reject do |filepath|
-        filepath.starts_with?(".docs/")
+        filepath.starts_with?(".docs/") ||
+          filepath.starts_with?(".approaches/") ||
+          filepath.starts_with?(".articles/")
       end
     end
 
@@ -220,6 +234,7 @@ module Git
       filtered_filepaths = filepaths.select do |filepath|
         next if filepath.start_with?('.docs/')
         next if filepath.start_with?('.meta/')
+        next if filepath.start_with?('.approaches/')
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 
@@ -236,12 +251,16 @@ module Git
 
     def dir = "exercises/#{exercise_type}/#{exercise_slug}"
 
+    memoize
+    def approaches = Git::Exercise::Approaches.new(exercise_slug, exercise_type, git_sha, repo:)
+
+    memoize
+    def articles = Git::Exercise::Articles.new(exercise_slug, exercise_type, git_sha, repo:)
+
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
-    def absolute_filepath(filepath)
-      "#{dir}/#{filepath}"
-    end
+    def absolute_filepath(filepath) = "#{dir}/#{filepath}"
 
     def filepaths
       file_entries.map { |defn| defn[:full] }
@@ -258,18 +277,12 @@ module Git
     end
 
     memoize
-    def tree
-      repo.fetch_tree(commit, dir)
-    end
+    def tree = repo.fetch_tree(commit, dir)
 
     memoize
-    def commit
-      repo.lookup_commit(git_sha)
-    end
+    def commit = repo.lookup_commit(git_sha)
 
     memoize
-    def track
-      Track.new(repo:)
-    end
+    def track = Track.new(repo:)
   end
 end

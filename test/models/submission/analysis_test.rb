@@ -63,7 +63,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     expected = [
       {
         type: :informative,
-        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noopener">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
+        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noreferrer">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
       }
     ]
     assert_equal expected, analysis.comments
@@ -88,7 +88,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     expected = [
       {
         type: :essential,
-        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noopener">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
+        html: %{<p>As well as string interpolation, another common way to create strings in Ruby is to use <a href="https://www.rubyguides.com/2012/01/ruby-string-formatting/" target="_blank" rel="noreferrer">String#%</a> (perhaps read as "String format").\nFor example:</p>\n<pre><code class="language-ruby">"One for %s, one for you" % iHiD"\n</code></pre>\n} # rubocop:disable Layout/LineLength
       },
       {
         type: :informative,
@@ -200,5 +200,37 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     refute analysis.has_informative_comments?
   end
 
+  test "num_comments: without comments" do
+    analysis = create :submission_analysis, data: { comments: [] }
+
+    assert_equal 0, analysis.num_comments
+  end
+
+  test "num_comments: with comments" do
+    analysis = create :submission_analysis, data: {
+      comments: [
+        "ruby.two-fer.string_interpolation",
+        "ruby.two-fer.class_method"
+      ]
+    }
+
+    assert_equal 2, analysis.num_comments
+  end
+
   # TODO: - Add a test for if the data is empty
+
+  test "scope: with_comments" do
+    analysis_1 = create :submission_analysis, data: { comments: ["comment_key"] }
+    analysis_2 = create :submission_analysis, data: { comments: ["comment_key"] }
+    create :submission_analysis, data: { comments: [] }
+
+    assert_equal [analysis_1, analysis_2], Submission::Analysis.with_comments
+  end
+
+  test "track: inferred from submission" do
+    submission = create :submission
+    analysis = create :submission_analysis, submission: submission
+
+    assert_equal submission.track, analysis.track
+  end
 end

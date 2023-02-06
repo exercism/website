@@ -7,7 +7,7 @@ module Webhooks
       ::Webhooks::ProcessMembershipUpdate.(
         # params[:action] does not work as it is populated by Rails with the action method name
         request.request_parameters[:action],
-        params[:member][:login],
+        params[:member][:id],
         params[:team][:name],
         params[:organization][:login]
       )

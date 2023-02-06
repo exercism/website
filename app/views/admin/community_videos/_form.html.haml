@@ -1,0 +1,26 @@
+= form_with(model: [:admin, community_video]) do |f|
+  - if community_video.errors.any?
+    %div{ style: "color: red" }
+      %h2
+        = pluralize(community_video.errors.count, "error")
+        prohibited this community_video from being saved:
+      %ul
+        - community_video.errors.each do |error|
+          %li= error.full_message
+  %div
+    .text-h6.mb-8 Track: #{community_video.track&.title}
+    .text-h6.mb-8 Exercise: #{community_video.exercise&.title}
+    - submitted_by = community_video.submitted_by
+    .text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}
+
+    .flex.flex-col.mb-16
+      = f.label :title, class: 'text-h6 mb-4'
+      = f.text_field :title
+
+    .flex.flex-col.mb-16
+      = f.label :status, class: 'text-h6 mb-4'
+      .c-select
+        = f.select :status, (CommunityVideo.statuses.keys.map { |k| [k.titleize, k] })
+
+  %div
+    = f.submit class: 'btn btn-primary btn-base'

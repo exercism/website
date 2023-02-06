@@ -5,25 +5,25 @@ class Solution
     test "calls update if appropriate" do
       solution = create_solution
 
-      UpdateToLatestExerciseVersion.expects(:call).with(solution)
+      Solution::UpdateToLatestExerciseVersion.expects(:call).with(solution)
 
-      AutoUpdateToLatestExerciseVersion.(solution)
+      Solution::AutoUpdateToLatestExerciseVersion.(solution)
     end
 
     test "doesn't call update if git_sha is already the same" do
       solution = create_solution(git_sha: "HEAD")
 
-      UpdateToLatestExerciseVersion.expects(:call).never
+      Solution::UpdateToLatestExerciseVersion.expects(:call).never
 
-      AutoUpdateToLatestExerciseVersion.(solution)
+      Solution::AutoUpdateToLatestExerciseVersion.(solution)
     end
 
     test "doesn't call update if head tests status is failed" do
       solution = create_solution(latest_iteration_head_tests_status: :failed)
 
-      UpdateToLatestExerciseVersion.expects(:call).never
+      Solution::UpdateToLatestExerciseVersion.expects(:call).never
 
-      AutoUpdateToLatestExerciseVersion.(solution)
+      Solution::AutoUpdateToLatestExerciseVersion.(solution)
     end
 
     test "doesn't call update if user has setting disabled" do
@@ -31,9 +31,9 @@ class Solution
       user.preferences.update!(auto_update_exercises: false)
       solution = create_solution(user:)
 
-      UpdateToLatestExerciseVersion.expects(:call).never
+      Solution::UpdateToLatestExerciseVersion.expects(:call).never
 
-      AutoUpdateToLatestExerciseVersion.(solution)
+      Solution::AutoUpdateToLatestExerciseVersion.(solution)
     end
 
     def create_solution(params = {})

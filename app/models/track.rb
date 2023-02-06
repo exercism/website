@@ -1,6 +1,7 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include Track::BuildStatus
 
   friendly_id :slug, use: [:history]
 
@@ -8,8 +9,12 @@ class Track < ApplicationRecord
   has_many :concepts, class_name: "::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
   has_many :solutions, through: :exercises
+  has_many :submissions, dependent: :destroy
   has_many :representations, class_name: "Exercise::Representation", dependent: :destroy
   has_many :user_tracks, dependent: :destroy
+  has_many :mentor_discussions, through: :solutions
+  has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy
+  has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
@@ -41,13 +46,7 @@ class Track < ApplicationRecord
     find_by(slug:)
   end
 
-  def recache_num_exercises!
-    update_column(:num_exercises, exercises.where(status: %i[active beta]).count)
-  end
-
-  def to_param
-    slug
-  end
+  def to_param = slug
 
   memoize
   def git
@@ -93,9 +92,7 @@ class Track < ApplicationRecord
       count
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
     git.highlightjs_language || slug
@@ -111,6 +108,20 @@ class Track < ApplicationRecord
 
   memoize
   def mentoring_notes = Git::Track::MentorNotes.new(slug)
+
+  memoize
+  def representer = Git::Representer.new(repo_url: representer_repo_url)
+
+  def test_runner_repo_url = "#{repo_url}-test-runner"
+  def representer_repo_url = "#{repo_url}-representer"
+  def analyzer_repo_url = "#{repo_url}-analyzer"
+
+  memoize
+  def foregone_exercises
+    git.foregone_exercises.map { |slug| ProblemSpecifications::Exercise.new(slug) }
+  end
+
+  def github_team_name = slug
 
   CATGEORIES = {
     paradigm: "Paradigm",

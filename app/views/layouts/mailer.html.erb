@@ -112,23 +112,27 @@
         </main>
 
         <!-- Footer information. Footer is a useful landmark element. -->
-        <footer>
+        <footer style="text-align:center">
             <!-- Since this is a transactional email, you aren't required to include opt-out language. -->
             <p style="font-size: 16px; font-weight: 400; line-height: 24px; margin-top: 48px;">
                 You received this email because you've signed up to 
                 <%= link_to "Exercism", root_url %>.
                 <br/>
+                <% if @user %>
+                You can 
+                <% end %>
                 <% if @user && @unsubscribe_key %>
-                  <%= link_to "Unsubscribe from this email", unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key) %>
+                  <%= link_to "unsubscribe from this email", unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key) %>
+                  or
                 <% end %>
                 <% if @user %>
-                  <%= link_to "Change your notification settings", unsubscribe_url(token: @user.communication_preferences.token) %>
+                  <%= link_to "change your notification settings", unsubscribe_url(token: @user.communication_preferences.token) %>
                 <% end %>
             </p>
 
             <!-- The address element does exactly what it says. By default, it is block-level and italicizes text. You can override this behavior inline. -->
             <address style="font-size: 16px; font-style: normal; font-weight: 400; line-height: 24px;">
-                <strong>Sent by Exercism:</strong> Unit G3; 81 Bournville Lane, United Kingdom
+                <strong style="font-weight:600">Sent by Exercism:</strong> Unit G3; 81 Bournville Lane, United Kingdom
             </address>
         </footer>
     </div>

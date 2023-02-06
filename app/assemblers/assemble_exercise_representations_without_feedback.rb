@@ -9,6 +9,7 @@ class AssembleExerciseRepresentationsWithoutFeedback
     SerializePaginatedCollection.(
       representations,
       serializer: SerializeExerciseRepresentations,
+      serializer_kwargs: { params: },
       meta: {
         unscoped_total: 0 # TODO: fix performance
         # unscoped_total: Exercise::Representation.without_feedback.count

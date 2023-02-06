@@ -7,12 +7,45 @@
             margin-left: -16px;
         }
         transition: margin 0.2s ease-out;
-        cursor: pointer;
 
         & .c-avatar,
         &.c-avatar {
             height: 32px;
             width: 32px;
         }
+    }
+
+    & .counter {
+        @apply grid place-content-center;
+        @apply bg-backgroundColorG rounded-circle;
+        @apply text-13 font-semibold text-textColor6;
+        @apply -ml-[16px];
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.c-faces-with-overflow-counter {
+    @apply relative flex;
+    & .face {
+        &:not(:first-child) {
+            margin-left: -16px;
+        }
+        transition: margin 0.2s ease-out;
+
+        & .c-avatar,
+        &.c-avatar {
+            height: 32px;
+            width: 32px;
+        }
+    }
+
+    & .overflow-counter {
+        @apply grid place-content-center;
+        @apply bg-backgroundColorG rounded-circle;
+        @apply text-13 font-semibold text-textColor6;
+        @apply -ml-[16px];
+        width: 32px;
+        height: 32px;
     }
 }

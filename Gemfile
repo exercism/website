@@ -9,10 +9,7 @@ gem 'jsbundling-rails'
 gem 'turbo-rails'
 gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
-gem 'mysql2',
-  github: 'brianmario/mysql2',
-  ref: '56c0ced2afe2cabe0b3f1a05e8e5e86713ebbc87'
-
+gem 'mysql2', '~> 0.5.4'
 gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
@@ -37,8 +34,7 @@ gem 'kaminari'
 gem 'oj'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.84.0'
-# gem 'exercism-config', path: '../exercism_config'
+gem 'exercism-config', '>= 0.86.0' # path: '../exercism_config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
@@ -61,6 +57,10 @@ gem 'omniauth-rails_csrf_protection'
 
 # Payments
 gem 'stripe'
+gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
+
+# Discourse
+gem 'discourse_api'
 
 # Reporting
 gem 'skylight'
@@ -114,9 +114,11 @@ gem 'mini_magick'
 
 gem 'elasticsearch', '6.8.3'
 
-gem "rack-attack", "~> 6.6"
+gem 'rack-attack', '~> 6.6'
 
 gem 'geocoder', '~> 1.8'
-gem "maxminddb", "~> 0.1.22"
+gem 'maxminddb', '~> 0.1.22'
 
-gem "rubyzip", "~> 2.3"
+gem 'rubyzip', '~> 2.3'
+
+gem "toml", "~> 0.3.0"

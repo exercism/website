@@ -14,7 +14,5 @@ class ProblemReport < ApplicationRecord
 
   has_markdown_field :content
 
-  def type
-    super.to_sym
-  end
+  def type = super.to_sym
 end

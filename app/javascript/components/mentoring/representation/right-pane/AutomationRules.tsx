@@ -4,8 +4,6 @@ import { CompleteRepresentationData } from '../../../types'
 export default function AutomationRules({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
-  console.log(guidance)
-
   const prLink = (
     <a
       href={guidance.links.improveRepresenterGuidance}
@@ -18,7 +16,7 @@ export default function AutomationRules({
 
   if (!guidance.representations) {
     return (
-      <p className="px-24 py-16 text-p-base">
+      <p className="px-24 mb-16 text-p-base">
         This representer doesn&apos;t have any guidance yet. Guidance notes are
         written by our maintainers to explain what normalizations occur during
         the representation process. If you are a maintainer, please help get
@@ -28,7 +26,7 @@ export default function AutomationRules({
   }
 
   return (
-    <div className="px-24 shadow-xsZ1v2 mb-24">
+    <div className="px-24 shadow-xsZ1v2 pt-12 pb-24">
       <h2 className="text-h4 mb-12">Please read before giving feedback</h2>
       <div
         dangerouslySetInnerHTML={{

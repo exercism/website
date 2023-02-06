@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
   end
 
+  get "discourse/sso" => "discourse/sso"
+
   # ### #
   # SPI #
   # ### #
@@ -36,11 +38,20 @@ Rails.application.routes.draw do
   # ######## #
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
+    resource :coinbase, only: [:create], controller: "coinbase"
     resource :issue_updates, only: [:create]
     resource :membership_updates, only: [:create]
     resource :push_updates, only: [:create]
     resource :pull_request_updates, only: [:create]
     resource :organization_updates, only: [:create]
+    resource :workflow_run_updates, only: [:create]
+  end
+
+  # ##### #
+  # Admin #
+  # ##### #
+  namespace :admin do
+    resources :community_videos
   end
 
   # ############ #
@@ -110,9 +121,6 @@ Rails.application.routes.draw do
     resources :exercise_representations
     resources :tracks, only: [:show]
     resources :site_updates, except: [:destroy]
-    resources :contributor_teams, only: %i[index show] do
-      resources :memberships, controller: "contributor_teams/memberships", except: [:index]
-    end
   end
 
   namespace :contributing do
@@ -123,8 +131,22 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :community, only: %i[show], controller: "community"
+
+  namespace :community do
+    resources :stories, only: %i[index show]
+  end
+
   resources :tracks, only: %i[index show] do
     get :about, on: :member
+
+    resource :build, only: %i[show], controller: "tracks/build" do
+      get :syllabus_tooltip
+      get :representer_tooltip
+      get :analyzer_tooltip
+      get :test_runner_tooltip
+      get :practice_exercises_tooltip
+    end
 
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member
@@ -141,9 +163,23 @@ Rails.application.routes.draw do
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests" do
         get :no_slots_remaining
       end
-      resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions"
+      resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions" do
+        collection do
+          get :tooltip_locked
+        end
+      end
+      resources :solutions, only: %i[index show], controller: "tracks/community_solutions" do
+        collection do
+          get :tooltip_locked
+        end
+      end
 
-      resources :solutions, only: %i[index show], controller: "tracks/community_solutions"
+      resources :articles, only: %i[index show], controller: "tracks/articles"
+      resources :approaches, only: %i[index show], controller: "tracks/approaches"
+
+      resource :dig_deeper, only: %i[show], controller: "tracks/dig_deeper" do
+        get :tooltip_locked
+      end
     end
 
     member do
@@ -160,10 +196,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :challenges, only: [:show] do
+    post :start, on: :member
+  end
+
   # ############ #
   # Unsubscribe  #
   # ############ #
-  resource :unsubscribe, only: %i[show update], controller: "unsubscribe"
+  resource :unsubscribe, only: %i[show update], controller: "unsubscribe" do
+    patch :all
+  end
 
   # #### #
   # Blog #

@@ -78,12 +78,14 @@ class UserTrack < ApplicationRecord
   end
 
   def enabled_exercises(exercises)
-    exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
+    status = %i[active beta]
+    status << :wip if maintainer?
+
+    exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
-  def external?
-    false
-  end
+  def external? = false
 
   memoize
   def has_notifications?
@@ -120,9 +122,7 @@ class UserTrack < ApplicationRecord
     Mentor::Request.where(solution: solutions).pending
   end
 
-  def tutorial_exercise_completed?
-    num_completed_exercises.positive?
-  end
+  def tutorial_exercise_completed? = num_completed_exercises.positive?
 
   def exercise_has_notifications?(exercise)
     # None of these can have notifications
@@ -155,6 +155,13 @@ class UserTrack < ApplicationRecord
     reload
     self.summary_key = nil
     @summary = nil
+  end
+
+  memoize
+  def maintainer?
+    return true if user.staff? || user.admin?
+
+    user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
   private

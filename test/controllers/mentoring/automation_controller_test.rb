@@ -1,13 +1,15 @@
 require "test_helper"
 
 class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
-  test "index: renders correctly for supermentor" do
-    user = create :user, :supermentor
-    sign_in!(user)
+  %i[admin staff supermentor].each do |role|
+    test "index: renders correctly for #{role}" do
+      user = create :user, role
+      sign_in!(user)
 
-    get mentoring_automation_index_path
+      get mentoring_automation_index_path
 
-    assert_template "mentoring/automation/index"
+      assert_template "mentoring/automation/index"
+    end
   end
 
   test "index: redirects non supermentors" do
@@ -16,6 +18,15 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
 
     get mentoring_automation_index_path
     assert_redirected_to mentoring_path
+  end
+
+  test "index: renders correct for filtered track supermentor" do
+    track = create :track
+    user = create :user, :supermentor
+    sign_in!(user)
+
+    get mentoring_automation_index_path(track_slug: track.slug)
+    assert_template "mentoring/automation/index"
   end
 
   test "with_feedback: renders correctly for supermentor" do
@@ -35,11 +46,22 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to mentoring_path
   end
 
-  test "edit: renders correct for supermentors" do
+  test "with_feedback: renders correct for filtered track supermentor" do
+    track = create :track
     user = create :user, :supermentor
     sign_in!(user)
 
-    representation = create :exercise_representation
+    get with_feedback_mentoring_automation_index_path(track_slug: track.slug)
+    assert_template "mentoring/automation/with_feedback"
+  end
+
+  test "edit: renders correct for supermentors" do
+    exercise = create :practice_exercise
+    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
+    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
+    sign_in!(user)
+
+    representation = create :exercise_representation, exercise: exercise
     get edit_mentoring_automation_path(representation)
 
     assert_template "mentoring/automation/edit"
@@ -59,6 +81,17 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
 
     representation = create :exercise_representation
+
+    get edit_mentoring_automation_path(representation)
+    assert_redirected_to mentoring_path
+  end
+
+  test "edit: redirects supermentor that is not a supermentor for the filtered track" do
+    track = create :track
+    user = create :user, :supermentor
+    sign_in!(user)
+
+    representation = create :exercise_representation, track: track
 
     get edit_mentoring_automation_path(representation)
     assert_redirected_to mentoring_path

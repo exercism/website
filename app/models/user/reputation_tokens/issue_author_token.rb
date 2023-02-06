@@ -14,9 +14,7 @@ class User::ReputationTokens::IssueAuthorToken < User::ReputationToken
     end
   end
 
-  def guard_params
-    "issue##{issue_node_id}"
-  end
+  def guard_params = "issue##{issue_node_id}"
 
   def i18n_params
     {

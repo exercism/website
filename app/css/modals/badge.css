@@ -66,7 +66,8 @@
         @apply mb-28;
     }
     & .reason {
-        @apply text-p-large text-unnamed15 mb-4;
+        @apply text-p-large text-unnamed15 mb-4 text-center;
+        @apply max-w-[500px] mx-auto;
     }
     & .earned-at {
         @apply text-p-base text-borderLight mb-32;

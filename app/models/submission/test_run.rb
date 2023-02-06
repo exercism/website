@@ -4,6 +4,7 @@ class Submission::TestRun < ApplicationRecord
 
   serialize :raw_results, JSON
 
+  belongs_to :track
   belongs_to :submission
   has_one :exercise, through: :submission
 
@@ -31,33 +32,17 @@ class Submission::TestRun < ApplicationRecord
     end
   end
 
-  def status
-    super.try(&:to_sym)
+  before_validation on: :create do
+    self.track = submission.track unless track
   end
 
-  def ops_success?
-    ops_status == 200
-  end
-
-  def timed_out?
-    ops_status == 408
-  end
-
-  def ops_errored?
-    !ops_success?
-  end
-
-  def passed?
-    status == :pass
-  end
-
-  def errored?
-    status == :error
-  end
-
-  def failed?
-    status == :fail
-  end
+  def status = super.try(&:to_sym)
+  def ops_success? = ops_status == 200
+  def timed_out? = ops_status == 408
+  def ops_errored? = !ops_success?
+  def passed? = status == :pass
+  def errored? = status == :error
+  def failed? = status == :fail
 
   memoize
   def test_results
@@ -94,13 +79,9 @@ class Submission::TestRun < ApplicationRecord
       }
     end
 
-    def to_json(*_args)
-      to_h.to_json
-    end
+    def to_json(*_args) = to_h.to_json
 
-    def as_json(*_args)
-      to_h
-    end
+    def as_json(*_args) = to_h
   end
   private_constant :TestResult
 end

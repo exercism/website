@@ -176,21 +176,6 @@ class TrackTest < ActiveSupport::TestCase
     assert_nil Track.for_repo("exercism/configlet")
   end
 
-  test "recache_num_exercises!" do
-    track = create :track
-    track.recache_num_exercises!
-    assert_equal 0, track.num_exercises
-
-    create :practice_exercise, track: track, status: :beta
-    assert_equal 1, track.num_exercises
-
-    create :concept_exercise, track: track, status: :active
-    assert_equal 2, track.num_exercises
-
-    create :practice_exercise, track: track, status: :wip
-    assert_equal 2, track.num_exercises
-  end
-
   test "representations" do
     track = create :track
     exercise_1 = create :practice_exercise, track: track
@@ -204,5 +189,26 @@ class TrackTest < ActiveSupport::TestCase
     create :exercise_representation, exercise: exercise_3
 
     assert_equal [representation_1, representation_2], track.representations
+  end
+
+  test "submissions" do
+    track = create :track
+
+    submissions = create_list(:submission, 3, solution: (create :practice_solution, track:))
+
+    assert_equal submissions, track.submissions
+  end
+
+  test "foregone_exercises" do
+    track = create :track
+
+    expected_slugs = %w[alphametics zipper]
+    assert_equal expected_slugs, track.foregone_exercises.map(&:slug)
+  end
+
+  test "representer" do
+    track = create :track
+
+    assert_equal 2, track.representer.version
   end
 end

@@ -97,6 +97,14 @@ class SolutionTest < ActiveSupport::TestCase
     assert solution.reload.iterated?
   end
 
+  test "submitted?" do
+    solution = create :concept_solution
+    refute solution.submitted?
+
+    create :submission, solution: solution
+    assert solution.submitted?
+  end
+
   test "#completed?" do
     refute create(:concept_solution, completed_at: nil).completed?
     assert create(:concept_solution, completed_at: Time.current).completed?
@@ -346,7 +354,7 @@ class SolutionTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
@@ -383,7 +391,7 @@ class SolutionTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
@@ -706,5 +714,11 @@ class SolutionTest < ActiveSupport::TestCase
     assert_enqueued_with(job: MandateJob, args: [Solution::QueueHeadTestRun.name, solution]) do
       solution.update!(published_at: Time.current)
     end
+  end
+
+  test "unlocked_help is false by default" do
+    solution = create :practice_solution
+
+    refute solution.unlocked_help?
   end
 end

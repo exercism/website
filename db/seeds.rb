@@ -99,36 +99,13 @@ bob.confirm
 bob.update!(accepted_privacy_policy_at: Time.current, accepted_terms_at: Time.current)
 bob.auth_tokens.create!
 
-track_slugs = %w[05ab1e ada arm64-assembly ballerina bash c ceylon cfml clojure clojurescript coffeescript common-lisp coq cpp crystal csharp d dart delphi elixir elm emacs-lisp erlang factor forth fortran fsharp gleam gnu-apl go groovy haskell haxe idris io j java javascript julia kotlin lfe lua mips nim nix objective-c ocaml perl5 pharo-smalltalk php plsql pony powershell prolog purescript python r racket raku reasonml ruby rust scala scheme shen sml solidity swift system-verilog tcl typescript vbnet vimscript x86-64-assembly zig]
+track_slugs = %w[05ab1e 8th abap ada arm64-assembly awk babashka ballerina bash c ceylon cfml clojure clojurescript cobol coffeescript common-lisp coq cpp crystal csharp d dart delphi elixir elm emacs-lisp erlang factor forth fortran free-pascal fsharp gleam gnu-apl gnucobol go groovy haskell haxe idris io j java javascript javascript-legacy julia kotlin lfe lua mips nim nix objective-c ocaml perl5 pharo-smalltalk php plsql pony powershell prolog purescript python qsharp r racket raku reasonml red research_experiment_1 ruby rust scala scheme shen sml solidity swift system-verilog tcl typescript unison vbnet vimscript vlang wasm wren x86-64-assembly zig]
 track_slugs.each do |track_slug|
-  next unless %w[ruby csharp prolog].include?(track_slug)
+  next unless %w[ruby csharp elixir javascript prolog].include?(track_slug)
 
   begin
     puts "Adding Track: #{track_slug}"
-
-    repo_url = "https://github.com/exercism/#{track_slug}"
-    repo = Git::Repository.new(repo_url: repo_url)
-
-    # Find the first commit in the repo
-    first_commit = repo.head_commit
-    Rugged::Walker.walk(repo.send(:rugged_repo),
-      show: repo.head_commit.oid,
-      sort: Rugged::SORT_DATE | Rugged::SORT_TOPO,
-      simplify: true
-    ) do |commit|
-      first_commit = commit
-    end
-
-    git_track = Git::Track.new(repo.head_commit.oid, repo_url: repo_url)
-    track = Track::Create.(
-      track_slug,
-      title: git_track.title,
-      blurb: git_track.blurb,
-      tags: git_track.tags,
-      repo_url: repo_url,
-      synced_to_git_sha: first_commit.oid
-    )
-    Git::SyncTrack.(track)
+    Track::Create.("https://github.com/exercism/#{track_slug}")
   rescue StandardError => e
     # puts e.message
     # puts e.backtrace

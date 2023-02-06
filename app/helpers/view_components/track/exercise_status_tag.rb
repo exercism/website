@@ -4,6 +4,8 @@ module ViewComponents
       initialize_with :exercise, :user_track
 
       def to_s
+        return tag.div("Work In Progress", class: 'c-exercise-status-tag --wip') if exercise.wip?
+
         status = user_track.exercise_status(exercise).to_sym
         case status
         when :available

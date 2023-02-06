@@ -23,7 +23,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
           <h3>
             This task requires you to <strong>create</strong> something new.
           </h3>
-          <p>This means you’ll be building something from scratch.</p>
+          <p>This means you&apos;ll be building something from scratch.</p>
         </>
       )
     case 'fix':
@@ -33,7 +33,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
             This task requires you to <strong>fix</strong> something broken.
           </h3>
           <p>
-            This means you’ll be taking something that's currently not
+            This means you&apos;ll be taking something that&apos;s currently not
             working and fixing it.
           </p>
         </>
@@ -72,7 +72,7 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
           </h3>
           <p>
             Exercism have a central repository of exercises that are updated by
-            a cross-language team. This task involves updating one Track's
+            a cross-language team. This task involves updating one Track&apos;s
             implementation to the latest version of an Exercise.
           </p>
         </>

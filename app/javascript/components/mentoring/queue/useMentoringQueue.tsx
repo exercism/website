@@ -64,23 +64,18 @@ export const useMentoringQueue = ({
     }
   }, [exerciseSlug, request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
-  const {
-    resolvedData,
-    latestData,
-    isFetching,
-    status,
-    error,
-  } = usePaginatedRequestQuery<APIResponse>(
-    ['mentoring-request', debouncedQuery],
-    {
-      ...request,
-      query: debouncedQuery,
-      options: {
-        ...request.options,
-        enabled: !!track,
-      },
-    }
-  )
+  const { resolvedData, latestData, isFetching, status, error } =
+    usePaginatedRequestQuery<APIResponse>(
+      ['mentoring-request', debouncedQuery, request],
+      {
+        ...request,
+        query: debouncedQuery,
+        options: {
+          ...request.options,
+          enabled: !!track,
+        },
+      }
+    )
 
   useHistory({ pushOn: debouncedQuery })
 

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Pagination } from '../../common/Pagination'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { APIResponse } from './useMentoringAutomation'
-import { QueryStatus } from 'react-query'
+import type { QueryStatus } from 'react-query'
+import { Pagination, FilterFallback } from '@/components/common/'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
-import { GraphicalIcon } from '../../common'
+import type { APIResponse } from './useMentoringAutomation'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -72,34 +71,9 @@ function Component({
   )
 }
 
-function TableFallbackComponent({
-  icon,
-  title,
-  description,
-  svgFilter,
-}: {
-  icon: string
-  title: string
-  description: string
-  svgFilter?: string
-}) {
-  return (
-    <div className="text-center py-40">
-      <GraphicalIcon
-        className={`w-[48px] h-[48px] m-auto mb-20 ${svgFilter}`}
-        icon={icon}
-      />
-      <div className="text-h5 mb-8 text-textColor6">{title}</div>
-      <div className="mb-20 text-textColor6 leading-160 text-16">
-        {description}
-      </div>
-    </div>
-  )
-}
-
 function NoResultsOfQuery() {
   return (
-    <TableFallbackComponent
+    <FilterFallback
       icon="no-result-magnifier"
       title="No solutions found."
       description="Try changing your filters to find solutions that need feedback."
@@ -109,7 +83,7 @@ function NoResultsOfQuery() {
 
 function NoResultsYet() {
   return (
-    <TableFallbackComponent
+    <FilterFallback
       icon="automation"
       svgFilter="filter-textColor6"
       title="There are currently no solutions that need feedback."

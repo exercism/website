@@ -5,8 +5,10 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { MarkdownEditor } from '../../../common'
-import { MarkdownEditorHandle } from '../../../common/MarkdownEditor'
+import {
+  MarkdownEditorHandle,
+  MarkdownEditor,
+} from '@/components/common/MarkdownEditor'
 import { PrimaryButton } from '../common/PrimaryButton'
 
 export function RepresentationFeedbackEditor({

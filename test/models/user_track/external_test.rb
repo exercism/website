@@ -5,6 +5,7 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     ut = UserTrack::External.new(mock)
     assert ut.external?
     assert_empty ut.learnt_concepts
+    refute ut.maintainer?
 
     assert ut.exercise_unlocked?(nil)
     refute ut.exercise_completed?(nil)
@@ -86,7 +87,6 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
 
   test "exercises" do
     track = create :track
-    user_track = UserTrack::External.new(track)
 
     create :concept_exercise, :random_slug, track: track, status: :wip
     beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
@@ -99,9 +99,19 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     create :practice_exercise, :random_slug, track: track, status: :deprecated
 
     # wip and deprecated exercises are not included
+    track.update(course: true)
+    user_track = UserTrack::External.new(track)
     assert_equal [
       beta_concept_exercise,
       active_concept_exercise,
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
+
+    # concept exercises are excluded when track does not have course
+    track.update(course: false)
+    user_track = UserTrack::External.new(track)
+    assert_equal [
       beta_practice_exercise,
       active_practice_exercise
     ].map(&:slug).sort, user_track.exercises.map(&:slug).sort
@@ -109,7 +119,6 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
 
   test "concept_exercises" do
     track = create :track
-    user_track = UserTrack::External.new(track)
 
     create :concept_exercise, :random_slug, track: track, status: :wip
     beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
@@ -120,15 +129,21 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     create :practice_exercise, :random_slug, track: track
 
     # wip and deprecated exercises are not included
+    track.update(course: true)
+    user_track = UserTrack::External.new(track)
     assert_equal [
       beta_concept_exercise,
       active_concept_exercise
     ].map(&:slug).sort, user_track.concept_exercises.map(&:slug).sort
+
+    # concept exercises are excluded when track does not have course
+    track.update(course: false)
+    user_track = UserTrack::External.new(track)
+    assert_empty user_track.concept_exercises
   end
 
   test "practice_exercises" do
     track = create :track
-    user_track = UserTrack::External.new(track)
 
     create :practice_exercise, :random_slug, track: track, status: :wip
     beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
@@ -139,6 +154,16 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     create :concept_exercise, :random_slug, track: track
 
     # wip and deprecated exercises are not included
+    track.update(course: true)
+    user_track = UserTrack::External.new(track)
+    assert_equal [
+      beta_practice_exercise,
+      active_practice_exercise
+    ].map(&:slug).sort, user_track.practice_exercises.map(&:slug).sort
+
+    # practice exercises are included when track does not have course
+    track.update(course: false)
+    user_track = UserTrack::External.new(track)
     assert_equal [
       beta_practice_exercise,
       active_practice_exercise

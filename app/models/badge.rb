@@ -40,30 +40,18 @@ class Badge < ApplicationRecord
     self.description = seed_data[:description]
   end
 
-  def send_email_on_acquisition?
-    raise "Implement this method in the child class"
-  end
+  def send_email_on_acquisition? = raise "Implement this method in the child class"
 
   # Stub that children can override to generate
   # notifications when they are created
   def notification_key; end
 
   # Stub to allow badges to short-circuit queueing
-  def self.worth_queuing?(**_context)
-    true
-  end
+  def self.worth_queuing?(**_context) = true
+  def award_to?(_user) = raise "Implement this method in the child class"
 
-  def award_to?(_user)
-    raise "Implement this method in the child class"
-  end
-
-  def rarity
-    super.to_sym
-  end
-
-  def icon
-    super.to_sym
-  end
+  def rarity = super.to_sym
+  def icon = super.to_sym
 
   # TODO: Cache number of users
   def percentage_awardees

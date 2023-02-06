@@ -50,7 +50,7 @@
       %section.extra-info
         .updated-at Last updated #{@exercise.updated_at.strftime('%e %B %Y')}
 
-        = link_to "https://github.com/exercism/#{@track.slug}/tree/main/exercises/#{@exercise.git_type}/#{@exercise.slug}", target: "_blank", rel: 'noopener' do
+        = link_to "https://github.com/exercism/#{@track.slug}/tree/main/exercises/#{@exercise.git_type}/#{@exercise.slug}", target: "_blank", rel: 'noreferrer' do
           = graphical_icon "external-site-github", css_class: "github-icon"
           %span Edit via GitHub
           = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
@@ -60,7 +60,7 @@
         - if @solution.status_completed? || @solution.status_published?
           = render "tracks/exercises/show/action_box_completed", track: @track, exercise: @exercise, solution: @solution
         - elsif @solution.status_iterated?
-          = render "tracks/exercises/show/action_box_iterated", track: @track, exercise: @exercise, solution: @solution
+          = render "tracks/exercises/show/action_box_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
         - elsif @solution.status_started?
           = render "tracks/exercises/show/action_box_started", track: @track, exercise: @exercise, solution: @solution
 

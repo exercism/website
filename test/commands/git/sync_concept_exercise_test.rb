@@ -384,4 +384,35 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     Git::SyncConceptExercise.(exercise, force_sync: true)
   end
+
+  test "updates has_approaches" do
+    exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs'
+    Exercise::UpdateHasApproaches.expects(:call).with(exercise)
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+  end
+
+  test "syncs introduction authors" do
+    author = create :user, github_username: 'erikschierboom'
+    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_authors
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+
+    assert_equal [author], exercise.reload.approach_introduction_authors
+  end
+
+  test "syncs introduction contributors" do
+    contributor = create :user, github_username: 'ihid'
+    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_contributors
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+
+    assert_equal [contributor], exercise.reload.approach_introduction_contributors
+  end
 end

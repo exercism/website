@@ -17,6 +17,8 @@ module Flows
           create :concept_solution, status: :completed, user: user, completed_at: 2.days.ago
           create :user_track, user: user, track: track
 
+          stub_latest_track_forum_threads(track)
+
           use_capybara_host do
             sign_in!(user)
             visit track_url(track)

@@ -78,11 +78,13 @@ export type Testimonial = {
 
 type UserLinks = {
   self?: string
+  profile?: string
 }
 export type User = {
   avatarUrl: string
+  name?: string
   handle: string
-  hasAvatar: boolean
+  hasAvatar?: boolean
   reputation?: string
   links?: UserLinks
 }
@@ -277,6 +279,9 @@ export type Track = {
 export type AutomationTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
   numSubmissions: number
 }
+export type VideoTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
+  numVideos?: number
+}
 
 export type Iteration = {
   uuid: string
@@ -463,6 +468,8 @@ export type Representation = {
   track: RepresentationTrack
   numSubmissions: number
   feedbackHtml: string
+  draftFeedbackType: RepresentationFeedbackType | null
+  draftFeedbackMarkdown: string | null
   feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
   lastSubmittedAt: string
@@ -473,23 +480,25 @@ export type Representation = {
 
 export type RepresentationData = Representation & {
   files: readonly File[]
+  testFiles: readonly TestFile[]
   instructions: string
-  tests: string
 }
 
 export type RepresentationFeedbackType =
   | 'essential'
   | 'actionable'
   | 'non_actionable'
+  | 'celebratory'
 
 export type CompleteRepresentationData = {
   representation: RepresentationData
-  examples: Pick<RepresentationData, 'files' | 'instructions' | 'tests'>[]
+  examples: Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>[]
   mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
   mentorSolution: CommunitySolution
   links: { back: string; success: string }
   guidance: Guidance
   scratchpad: Scratchpad
+  analyzerFeedback?: AnalyzerFeedback
 }
 
 export type Guidance = {
@@ -504,6 +513,7 @@ export type GuidanceLinks = {
   improveExerciseGuidance: string
   improveTrackGuidance: string
   improveRepresenterGuidance?: string
+  representationFeedbackGuide: string
 }
 
 export type Contributor = {
@@ -802,3 +812,46 @@ export type Modifier =
   | 'placeholder-shown'
   | 'autofill'
   | 'read-only'
+
+export type CommunityVideoAuthorLinks = {
+  profile?: string
+}
+
+export type CommunityVideoAuthor = {
+  name: string
+  handle: string
+  avatarUrl: string
+  links: CommunityVideoAuthorLinks
+}
+
+export type CommunityVideoPlatform = 'youtube' | 'vimeo'
+
+export type CommunityVideoLinks = {
+  watch: string
+  embed: string
+  channel: string
+  thumbnail: string
+}
+
+export type CommunityVideoType = {
+  author?: CommunityVideoAuthor
+  // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
+  url?: string
+  // TODO: revisit video-grid embedUrl
+  embedUrl?: string
+  submittedBy: CommunityVideoAuthor
+  thumbnailUrl?: string
+  platform: CommunityVideoPlatform
+  title: string
+  createdAt: string
+  links: CommunityVideoLinks
+}
+
+export type CommunityVideosProps = {
+  videos: CommunityVideoType[]
+}
+
+export type TestFile = {
+  filename: string
+  content: string
+}

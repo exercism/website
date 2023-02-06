@@ -5,7 +5,7 @@ module LinksHelper
       text = capture_haml(&block).html_safe
     end
 
-    link_to url, options.merge(target: "_blank", rel: 'noopener') do
+    link_to url, options.merge(target: "_blank", rel: 'noreferrer') do
       (text + icon("external-link", "The link opens in a new window or tab")).html_safe
     end
   end

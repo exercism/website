@@ -9,7 +9,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     expected = [
       <<~HINT
         <ul>
-        <li>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</li>\n<li>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">built-in methods</a>.</li>
+        <li>The <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noreferrer\">rubymostas strings guide</a> has a nice\nintroduction to Ruby strings.</li>\n<li>The <code>String</code> object has many useful <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noreferrer\">built-in methods</a>.</li>
         </ul>
       HINT
     ]
@@ -134,20 +134,20 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
     expected = [[<<~HINT_1], [<<~HINT_2], [<<~HINT_3]]
       <ul>
-      <li>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noopener\">Ruby language official
+      <li>There are different ways to search for text in a string, which can be found on the <a href=\"https://ruby-doc.org/core-2.7.0/String.html\" target=\"_blank\" rel=\"noreferrer\">Ruby language official
       documentation</a>.</li>
-      <li>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\" rel=\"noopener\">built in methods</a> to strip white space.</li>
+      <li>There are <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-strip\" target=\"_blank\" rel=\"noreferrer\">built in methods</a> to strip white space.</li>
       </ul>
     HINT_1
       <ul>
-      <li>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\" rel=\"noopener\">method</a> to perform this
+      <li>Ruby <code>String</code> objects have a <a href=\"https://ruby-doc.org/core-2.7.0/String.html#method-i-downcase\" target=\"_blank\" rel=\"noreferrer\">method</a> to perform this
       operation.</li>
       </ul>
     HINT_2
       <ul>
-      <li>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">concatenate
+      <li>There are several ways to <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noreferrer\">concatenate
       strings</a>, but the preferred one is usually
-      <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noopener\">string interpolation</a>
+      <a href=\"http://ruby-for-beginners.rubymonstas.org/built_in_classes/strings.html\" target=\"_blank\" rel=\"noreferrer\">string interpolation</a>
       </li>
       </ul>
     HINT_3

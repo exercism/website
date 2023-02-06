@@ -21,7 +21,7 @@ export function PreviewFooter({
   onSubmit: () => void
 }): JSX.Element {
   return (
-    <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderLight2 px-24">
+    <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderLight2 px-24 flex-shrink-0">
       <div className="tabs flex flex-row child:px-12 child:py-10 child:text-14">
         {examples.map(
           (
@@ -48,7 +48,7 @@ export function PreviewFooter({
           <br />
           Your feedback will appear on{' '}
           <strong className="font-medium text-primaryBtnBorder">
-            {pluralizeWithNumber(numOfSolutions, "solution")}
+            {pluralizeWithNumber(numOfSolutions, 'solution')}
           </strong>
         </div>
         <CancelButton onClick={onClose} />

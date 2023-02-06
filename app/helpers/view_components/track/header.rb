@@ -1,7 +1,7 @@
 module ViewComponents
   module Track
     class Header < ViewComponent
-      TABS = %i[overview concepts exercises about].freeze
+      TABS = %i[overview concepts exercises about build].freeze
 
       initialize_with :track, :selected_tab
 
@@ -16,14 +16,16 @@ module ViewComponents
             track:,
             tags:,
             tabs:,
-            selected_tab:
+            selected_tab:,
+            practice_mode:,
+            external: user_track.external?
           )
         end
       end
 
       def tags
         ts = []
-        if user_track&.practice_mode?
+        if practice_mode
           ts << tag.div(class: 'c-tag --practice-mode --compact') do
             graphical_icon("practice-mode") +
               tag.span("Practice Mode")
@@ -48,6 +50,7 @@ module ViewComponents
         tabs << concepts_tab if track.course? && !user_track.practice_mode?
         tabs << exercises_tab
         tabs << about_tab(:about_track_path) unless user_track.external?
+        tabs << build_tab
 
         safe_join(tabs)
       end
@@ -76,6 +79,14 @@ module ViewComponents
         )
       end
 
+      def build_tab
+        link_to(
+          graphical_icon(:building) + tag.span("Build Status"),
+          Exercism::Routes.track_build_path(track),
+          class: tab_class(:build)
+        )
+      end
+
       def tab_class(tab)
         "c-tab-2 #{'selected' if tab == selected_tab}"
       end
@@ -83,6 +94,8 @@ module ViewComponents
       def guard!
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
       end
+
+      def practice_mode = !!user_track&.practice_mode?
 
       memoize
       def user_track

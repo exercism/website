@@ -174,14 +174,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [rare_badge, common_badge], user.featured_badges
   end
 
-  test "mentor?" do
-    user = create :user, became_mentor_at: nil
-    refute user.mentor?
-
-    user.update(became_mentor_at: Time.current)
-    assert user.mentor?
-  end
-
   test "recently_used_cli?" do
     freeze_time do
       user = create :user
@@ -260,16 +252,6 @@ class UserTest < ActiveSupport::TestCase
     assert user.introducer_dismissed?('scratchpad')
   end
 
-  test "teams" do
-    user = create :user
-    team_1 = create :contributor_team, :random
-    team_2 = create :contributor_team, :random, track: nil
-    create :contributor_team_membership, team: team_1, user: user
-    create :contributor_team_membership, team: team_2, user: user
-
-    assert_equal [team_1, team_2], user.teams
-  end
-
   test "welcome email is not sent for normal user creation" do
     User::Notification::CreateEmailOnly.expects(:call).never
     create :user
@@ -301,5 +283,90 @@ class UserTest < ActiveSupport::TestCase
 
     user.update(reputation: 5)
     assert user.may_create_profile?
+  end
+
+  test "profile?" do
+    user = create :user
+    refute user.profile?
+
+    create :user_profile, user: user
+
+    assert user.reload.profile?
+  end
+
+  test "confirmed?" do
+    user = create :user, email: 'test@invalid.org', confirmed_at: nil, disabled_at: nil
+    refute user.confirmed?
+
+    user.update(confirmed_at: Time.current)
+    assert user.confirmed?
+
+    block_domain = create :user_block_domain, domain: 'invalid.org'
+    refute user.confirmed?
+
+    block_domain.delete
+    assert user.confirmed?
+
+    user.update(disabled_at: Time.current)
+    refute user.confirmed?
+  end
+
+  test "blocked?" do
+    user = create :user, email: 'test@invalid.org'
+    refute user.blocked?
+
+    create :user_block_domain, domain: 'invalid.org'
+    assert user.blocked?
+  end
+
+  test "disabled?" do
+    user = create :user, disabled_at: nil
+    refute user.disabled?
+
+    user.update(disabled_at: Time.current)
+    assert user.disabled?
+  end
+
+  test "scope: random" do
+    create_list(:user, 100)
+    refute_equal User.all, User.random
+  end
+
+  test "github_auth?" do
+    user = create :user, uid: nil
+    refute user.github_auth?
+
+    user.update(uid: 'aiqweqwe')
+    assert user.github_auth?
+  end
+
+  test "captcha_required?" do
+    user = create :user, uid: nil, created_at: Time.current
+    assert user.captcha_required?
+
+    user.update(uid: nil, created_at: Time.current - 4.days)
+    refute user.captcha_required?
+
+    user.update(uid: 'aiqweqwe', created_at: Time.current)
+    refute user.captcha_required?
+
+    user.update(uid: 'aiqweqwe', created_at: Time.current - 4.days)
+    refute user.captcha_required?
+  end
+
+  test "github_team_memberships" do
+    user = create :user, uid: '182346'
+    other_user = create :user, uid: '769032'
+    assert_empty user.github_team_memberships
+
+    team_member_1 = create :github_team_member, user_id: user.uid
+    assert_equal [team_member_1], user.reload.github_team_memberships
+
+    team_member_2 = create :github_team_member, user_id: user.uid
+    assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
+
+    # Sanity check: other user
+    create :github_team_member, user_id: other_user.uid
+    assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
   end
 end

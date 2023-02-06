@@ -69,7 +69,7 @@
 
     & .about-section {
         @apply bg-backgroundColorA;
-        @apply pt-48;
+        @apply pt-40;
         & .inner {
             @apply pb-64;
             @apply flex items-start;

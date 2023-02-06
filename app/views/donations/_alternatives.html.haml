@@ -1,0 +1,14 @@
+%div{ class: 'max-w-[550px]' }
+  %h2.text-h5.mt-40.mb-4 Too cool for fiat? Donate using crypto!
+  %p.text-p-base.mb-8 We also accept donations via cryptocurrency. We support a wide range of different currencies via Coinbase. We aim to convert half to fiat and keep half in the currency in which it was donated.
+  .flex
+    = render ViewComponents::DonateWithCrypto.new
+
+  %h2.text-h5.mt-40.mb-4 Looking for another payment provider?
+  %p.text-p-base.mb-8 We are currently in the process of getting set up to accept donations with Paypal. Please contact #{link_to 'fundraising@exercism.org', 'mailto:fundraising@exercism.org'} if there is another provider you feel we should add.
+  -#
+    %p.text-p-base.mb-8 We currently support Paypal as an alternative payment provider. Please contact #{link_to "fundraising@exercism.org", "mailto:fundraising@exercism.org"} if there is another provider you feel we should add.
+    .flex
+      = link_to "https://paypal.me/exercism", class: "btn-m btn-secondary bg-white" do
+        = graphical_icon "paypal", category: :graphics, css_class: "!filter-none"
+        %span Donate with Paypal

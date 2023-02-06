@@ -92,7 +92,7 @@ export function useAutomation(
 
   const { status, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
-      ['mentor-representations-list', request.endpoint, request.query],
+      ['mentor-representations-list', request],
       request
     )
 
@@ -102,7 +102,7 @@ export function useAutomation(
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
       }
-    }, 300)
+    }, 500)
 
     return () => {
       clearTimeout(handler)
@@ -117,14 +117,14 @@ export function useAutomation(
       setCriteria('')
       setSelectedTrack(track)
 
-      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
+      setQuery({ ...request.query, trackSlug: track.slug, page: 1 })
     },
     [setPage, setQuery, request.query]
   )
 
   // Automatically set a selected track based on query or the lack of it
   useEffect(() => {
-    // don't repeat 'find' on track change, only when page loads
+    // don't repeat `find` on track change, only when page loads
     if (tracks.length > 0 && selectedTrack === initialTrackData) {
       const foundTrack = tracks.find(
         (t: AutomationTrack) => t.slug == request.query.trackSlug
@@ -157,13 +157,13 @@ export function useAutomation(
     (withFeedback) => {
       if (withFeedback && resolvedData) {
         return {
-          with_feedback: resolvedData.meta.unscopedTotal,
+          with_feedback: resolvedData.meta.totalCount,
           without_feedback: representationsWithoutFeedbackCount,
         }
       } else if (resolvedData) {
         return {
           with_feedback: representationsWithFeedbackCount,
-          without_feedback: resolvedData.meta.unscopedTotal,
+          without_feedback: resolvedData.meta.totalCount,
         }
       } else {
         return {

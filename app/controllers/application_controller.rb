@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   around_action :mark_notifications_as_read!
   before_action :set_request_context
   after_action :set_body_class_header
+  after_action :set_csp_header
 
   def process_action(*args)
     super
@@ -58,14 +59,12 @@ class ApplicationController < ActionController::Base
 
   def ensure_mentor!
     return if current_user&.mentor?
-    return if current_user&.admin? # Admins have mentor permissions
 
     redirect_to mentoring_path
   end
 
   def ensure_supermentor!
     return if current_user&.supermentor?
-    return if current_user&.admin? # Admins have supermentor permissions
 
     redirect_to mentoring_path
   end
@@ -80,9 +79,44 @@ class ApplicationController < ActionController::Base
     Exercism.request_context = { remote_ip: request.remote_ip }
   end
 
+  # rubocop:disable Lint/PercentStringArray
+  def csp_policy
+    websockets = "ws://#{Rails.env.production? ? 'exercism.org' : 'local.exercism.io:3334'}"
+    stripe = "https://js.stripe.com"
+    captcha = %w[https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/]
+    google_fonts_font = "https://fonts.gstatic.com"
+    google_fonts_css = "https://fonts.googleapis.com"
+    fontawesome = "https://maxcdn.bootstrapcdn.com"
+    spellchecker = "https://cdn.jsdelivr.net"
+
+    default = %w['self' https://exercism.org https://api.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
+    default << "127.0.0.1" if Rails.env.test?
+
+    {
+      default:,
+      connect: ["'self'", websockets, spellchecker],
+      img: %w['self' data: https://*],
+      media: %w[*],
+      script: default + [stripe, spellchecker, *captcha],
+      frame: [stripe, *captcha],
+      font: [google_fonts_font, fontawesome],
+      style: default + ["'unsafe-inline'", google_fonts_css, fontawesome],
+      child: %w['none']
+
+    }.map do |type, domains|
+      "#{type}-src #{domains.join(' ')}"
+    end.join("; ")
+  end
+  helper_method :csp_policy
+  # rubocop:enable Lint/PercentStringArray
+
   private
   def set_body_class_header
     response.set_header("Exercism-Body-Class", body_class)
+  end
+
+  def set_csp_header
+    response.set_header('Content-Security-Policy-Report-Only', csp_policy)
   end
 
   def storable_location?

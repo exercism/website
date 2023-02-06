@@ -314,6 +314,29 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
+  test "recalculates num_finished_discussions" do
+    mentor = create :user
+    mentorship = create :user_track_mentorship, user: mentor
+
+    perform_enqueued_jobs do
+      discussion_1 = create :mentor_discussion, mentor: mentor
+      discussion_2 = create :mentor_discussion, mentor: mentor
+      discussion_3 = create :mentor_discussion, mentor: mentor
+
+      # Sanity check
+      assert_equal 0, mentorship.num_finished_discussions
+
+      discussion_1.student_finished!
+      assert_equal 1, mentorship.reload.num_finished_discussions
+
+      discussion_2.mentor_finished!
+      assert_equal 1, mentorship.reload.num_finished_discussions
+
+      discussion_3.student_finished!
+      assert_equal 2, mentorship.reload.num_finished_discussions
+    end
+  end
+
   test "mentor_satisfaction_percentage is rounded up" do
     mentor = create :user
 
@@ -345,6 +368,30 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       Mentor::UpdateSatisfactionRating.expects(:call).never
 
       discussion.update(status: :finished)
+    end
+  end
+
+  test "does not update num discussions finished if status is unchanged" do
+    mentor = create :user
+    discussion = create :mentor_discussion, mentor: mentor, status: :finished
+
+    perform_enqueued_jobs do
+      Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never
+
+      discussion.update(rating: :great)
+    end
+  end
+
+  %i[awaiting_student awaiting_mentor mentor_finished].each do |status|
+    test "does not update num discussions finished if status is #{status}" do
+      mentor = create :user
+      discussion = create :mentor_discussion, mentor: mentor
+
+      perform_enqueued_jobs do
+        Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never
+
+        discussion.update(status:)
+      end
     end
   end
 end

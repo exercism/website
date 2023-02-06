@@ -1,48 +1,33 @@
 #page-donate
+  - link_class = "underline hover:text-lightBlue"
   %header.pt-24.pd:mt-40.md:shadow-lgZ1
     .lg-container.flex.flex-col.items-center.c-shapes
-      = graphical_icon "donate", category: :graphics
+      = graphical_icon "community-with-exercism-logo", category: :graphics
       %h1.text-h1.mb-4
-        %strong.text-gradient Our Goal:
-        Bring the joy of programming to everyone, everywhere ✨
+        %strong.text-gradient Support our goal:
+        Give everyone an equal chance to learn and master programming. ✨
 
-      .hidden.md:flex.flex-col.items-center.w-100
-        .text-textColor2.text-16.leading-200.flex.items-center.font-semibold.self-end.mb-12
-          .mr-16 Next milestone
-          .c-financial-amount
-            .currency.text-16.leading-100.mr-4 $
-            .dollars.text-20.leading-130 5000
-            .cents.text-14.leading-100 .00
-          .text-14.text-textColor6.font-medium.ml-8 per month
-
-        .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
-          .c-progress
-            - progress = [1, Donations::Subscription.active_total_per_month_in_dollars / 5000.0].min * 100
-            .bar{ style: "width:#{progress}%" }
-            .target-icon
-              = graphical_icon "party-popper"
-            .goal.bg-lightGold.py-6.px-12.text-16.text-textColor1.leading-150.font-semibold.rounded-8
-              Hire a community manager
-
-        %ul.steps
-          %li.text-darkSuccessGreen
-            1. Build version 3
-            = icon "completed-check-circle", "Done"
-          %li.text-textColor2
-            2. Hire a community manager
-          %li.text-textColor7
-            3. Hire a content manager
+      .text-textColor1.text-20.text-center.leading-150.mb-48
+        If you share our desire to make the world a better &amp; fairer place, please support us.
+        %br
+        %span.font-medium
+          You can learn more about our
+          = link_to 'Mission,', about_path, class: link_class
+          = link_to 'Impact', impact_about_path, class: link_class
+          and
+          = succeed('.') do
+            = link_to 'Team', team_about_path, class: link_class
 
       .summary.lg-container.hidden.md:flex.items-center
         .item
-          .value= Donations::Payment.total_supporters
+          .value= number_with_delimiter(Donations::Payment.total_supporters)
           .metric Supporters
 
         .item
           - parts = Donations::Subscription.active_total_per_month_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
-            .dollars.text-32.leading-130= parts[0]
+            .dollars.text-32.leading-130= number_with_delimiter(parts[0])
             .cents.text-20.leading-100 .#{parts[1].to_s.ljust(2, '0')}
           .metric Total Monthly Pledges
 
@@ -50,33 +35,65 @@
           - parts = Donations::Payment.total_donated_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
-            .dollars.text-32.leading-130= parts[0]
+            .dollars.text-32.leading-130= number_with_delimiter(parts[0])
             .cents.text-20.leading-100 .#{parts[1].to_s.ljust(2, '0')}
           .metric Total Raised (since Sept 2021)
 
   .lg-container
     %article.pt-40
-      %section.video-section
-        <div class="video mb-32 rounded-8 overflow-hidden border-3 border-purple" style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595936549?title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
       - if user_signed_in?
         %section.form-section
           = render ReactComponents::Donations::FormWithModal.new
+          = render "alternatives"
+
       - else
         %section.form-section.flex-shrink-0{ style: 'width:500px' }
           .c-donations-form.p-32.text-center
-            %h2.text-h3.mb-8 Please log in to donate.
+            %h2.text-h4.mb-8 Please log in to donate using a debit/credit card.
             %p.text-p-base
               Due to constant attacks by bots we now require that everyone
               = link_to "logs in", new_user_session_path
               or
               = link_to "signs up", new_user_registration_path
-              before donating. We apologize for the inconvenience!
+              before donating using a debit or credit card. You can still use other forms of donations below. We apologize for the inconvenience!
+
+          = render "alternatives"
 
       %section.info-section.pt-48.lg:pt-0
-        %h2.text-h3.mb-12 Help Exercism reach more people and get even better.
-        %p.text-p-large.mb-12
-          Exercism is a not-for-profit organisation that relies on donations from people like you to help us stay sustainable and grow.
-          Through generous donations we were able to make Exercism version 3 (see the video above!), but that's the beginning of what we plan to achieve.
-        %p.text-p-large Can you help empower us with the creative freedom and financial breathing room to develop Exercism into all it can be, and to help as many people embrace the joy of programming as possible?
-        %hr.border-borderColor5.mt-48.mb-32
+        %h2.text-h2.mb-32 Here&apos;s what you can do to support us.
+        .flex.flex-row.shadow-baseZ1.p-24.rounded-16.bg-white.mb-16.border-2.border-gradient.relative
+          = graphical_icon "money-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+          .flex.flex-col
+            .text-h4.mb-4 Donate
+            .text-prose.text-textColor5{ class: 'mr-[40px]' }
+              Support us financially using the donation box
+              %span.hidden.md:inline to the right.
+              %span.inline.md:hidden above.
+              Every dollar helps us keep us independent, advert-free and able to grow, so please support us if you can! 💜
+          .hidden.lg:flex.self-center.absolute{ class: 'text-[70px] right-[-40px]' }
+            👉🏼
+
+        .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
+          = graphical_icon "organisation-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+          .flex.flex-col
+            .text-h4.mb-4 Get your company involved
+            .text-prose.text-textColor5
+              Does your company support not-for-profits or charities? Do you have a matched giving scheme at work? We&apos;d love to chat to you to understand how your company could support us. Please
+              drop us an email at
+              = link_to "fundraising@exercism.org", "mailto:fundraising@exercism.org", class: "text-lightBlue font-medium underline"
+              and we'll explore further!
+
+        .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
+          = graphical_icon "social-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+          .flex.flex-col
+            .text-h4.mb-4 Love Exercism? Tell others about us!
+            .text-prose.text-textColor5
+              Follow us on
+              = link_to 'Twitter,', 'https://twitter.com/exercism_io', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
+              = link_to 'GitHub', 'https://github.com/exercism', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
+              and
+              = link_to 'LinkedIn', 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
+              then share our posts, and create your own! We try to share everything we see 🙂
+
+

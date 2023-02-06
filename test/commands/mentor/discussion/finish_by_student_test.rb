@@ -192,17 +192,19 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   end
 
   test "updates supermentor role" do
-    mentor = create :user, mentor_satisfaction_percentage: 95
+    track = create :track
+    mentor = create :user
+    create :user_track_mentorship, track: track, user: mentor
 
     99.times do
-      create :mentor_discussion, :finished, mentor:
+      create :mentor_discussion, :student_finished, rating: :great, mentor:
     end
 
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create :mentor_discussion, :student_finished, rating: :great, mentor: mentor
 
     Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
-
     perform_enqueued_jobs
+
     assert mentor.reload.supermentor?
   end
 end

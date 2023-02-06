@@ -33,6 +33,20 @@ const SUBSCRIPTION_DEFAULT_AMOUNT = currency(32)
 
 const DEFAULT_ERROR = new Error('Unable to fetch subscription information')
 
+type Props = {
+  request: Request
+  defaultAmount?: Partial<FormAmount>
+  defaultTransactionType?: PaymentIntentType
+  onSuccess: (type: PaymentIntentType, amount: currency) => void
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
+  onProcessing?: () => void
+  onSettled?: () => void
+  links: Links
+  id?: string
+}
+
 export const Form = ({
   request,
   defaultAmount,
@@ -40,20 +54,12 @@ export const Form = ({
   onSuccess,
   links,
   userSignedIn,
+  captchaRequired,
+  recaptchaSiteKey,
   onProcessing = () => null,
   onSettled = () => null,
   id,
-}: {
-  request: Request
-  defaultAmount?: Partial<FormAmount>
-  defaultTransactionType?: PaymentIntentType
-  onSuccess: (type: PaymentIntentType, amount: currency) => void
-  userSignedIn: boolean
-  onProcessing?: () => void
-  onSettled?: () => void
-  links: Links
-  id?: string
-}): JSX.Element => {
+}: Props): JSX.Element => {
   const queryCache = useQueryCache()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription
@@ -182,6 +188,8 @@ export const Form = ({
             <StripeForm
               paymentIntentType={transactionType}
               userSignedIn={userSignedIn}
+              captchaRequired={captchaRequired}
+              recaptchaSiteKey={recaptchaSiteKey}
               amount={currentAmount}
               onSuccess={handleSuccess}
               onProcessing={onProcessing}

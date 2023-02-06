@@ -1,6 +1,10 @@
 FactoryBot.define do
   factory :mentor_request, class: 'Mentor::Request' do
-    solution { create :practice_solution }
+    transient do
+      exercise { create :practice_exercise }
+    end
+
+    solution { create :practice_solution, exercise: }
     comment_markdown { "I could do with some help here" }
     external { false }
 

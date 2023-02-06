@@ -7,12 +7,7 @@ module ViewComponents
     end
 
     private
-    def endpoint
-      Exercism.config.hcaptcha_endpoint
-    end
-
-    def site_key
-      Exercism.secrets.hcaptcha_site_key
-    end
+    def endpoint = Exercism.config.hcaptcha_endpoint
+    def site_key = Exercism.secrets.hcaptcha_site_key
   end
 end

@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { FileViewer } from './FileViewer'
-import { File } from '../../types'
+import { TestsPanel, TestContentWrapper } from '@/components/editor/index'
+import { File, TestFile } from '../../types'
 
 const TabsContext = createContext<TabContext>({
   current: '',
@@ -13,13 +14,13 @@ export const FilePanel = ({
   language,
   indentSize,
   instructions,
-  tests,
+  testFiles,
 }: {
   files: readonly File[]
   language: string
   indentSize: number
   instructions?: string
-  tests?: string
+  testFiles?: readonly TestFile[]
 }): JSX.Element | null => {
   const [tab, setTab] = useState<string>('')
 
@@ -56,7 +57,7 @@ export const FilePanel = ({
             </Tab>
           ) : null}
 
-          {tests ? (
+          {testFiles ? (
             <Tab key="tests" id="tests" context={TabsContext}>
               Tests
             </Tab>
@@ -88,21 +89,12 @@ export const FilePanel = ({
               />
             </Tab.Panel>
           ) : null}
-          {tests ? (
-            <Tab.Panel key="tests" id="tests" context={TabsContext}>
-              <FileViewer
-                file={{
-                  type: 'exercise',
-                  filename: 'Tests',
-                  digest: '',
-                  content: tests,
-                }}
-                language={language}
-                indentSize={indentSize}
-              />
-            </Tab.Panel>
-          ) : null}
         </div>
+        {testFiles ? (
+          <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
+            <TestsPanel highlightjsLanguage={language} />
+          </TestContentWrapper>
+        ) : null}
       </div>
     </TabsContext.Provider>
   )

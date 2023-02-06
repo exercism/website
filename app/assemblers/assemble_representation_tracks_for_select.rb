@@ -4,18 +4,22 @@ class AssembleRepresentationTracksForSelect
   initialize_with :mentor, with_feedback: Mandate::NO_DEFAULT
 
   def call
-    tracks.map { |track| SerializeTrackForSelect.(track).merge(num_submissions: track_counts[track.id]) }
+    tracks.map do |track|
+      SerializeTrackForSelect.(track).merge(num_submissions: track_num_representations[track.id])
+    end
   end
 
   private
   memoize
-  def track_counts = representations.group(:track_id).count
+  def tracks = supermentored_tracks.select { |track| track_num_representations.key?(track.id) }
 
   memoize
-  def tracks = Track.where(id: track_counts.keys).order(title: :asc)
+  def supermentored_tracks = Track.where(id: mentor.track_mentorships.supermentor_frequency.select(:track_id)).order(title: :asc)
 
   memoize
-  def representations
-    Exercise::Representation::Search.(mentor:, with_feedback:, sorted: false, paginated: false)
+  def track_num_representations
+    Exercise::Representation::Search.(mentor:, with_feedback:, sorted: false, paginated: false, track: supermentored_tracks).
+      group(:track_id).
+      count
   end
 end

@@ -16,6 +16,10 @@ module Website
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false
 
+    # For some reason, the default queue (mailers) is not used so we
+    # need to explicitly set it here
+    config.action_mailer.deliver_later_queue_name = 'mailers'
+
     config.exceptions_app = self.routes
 
     config.generators do |g|

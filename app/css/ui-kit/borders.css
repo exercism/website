@@ -15,4 +15,20 @@
         background-origin: border-box;
         background-clip: padding-box, border-box;
     }
+    .border-gradient-bgGray {
+        border-style: solid;
+        border-color: transparent;
+        background-image: linear-gradient(#fbfcfe, #fbfcfe),
+            linear-gradient(#2200ff, #9e00ff);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+    }
+    .border-gradient-lightPurple {
+        border-style: solid;
+        border-color: transparent;
+        background-image: linear-gradient(#fafaff, #fafaff),
+            linear-gradient(#2200ff, #9e00ff);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+    }
 }

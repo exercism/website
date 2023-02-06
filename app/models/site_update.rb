@@ -34,9 +34,7 @@ class SiteUpdate < ApplicationRecord
     )
   end
 
-  def pull_request_number
-    pull_request&.number
-  end
+  def pull_request_number = pull_request&.number
 
   def cacheable_rendering_data
     d = {
@@ -81,7 +79,5 @@ class SiteUpdate < ApplicationRecord
   end
 
   # Should be overriden in children
-  def icon_url
-    nil
-  end
+  def icon_url = nil
 end

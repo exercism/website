@@ -17,11 +17,6 @@ class SerializeContributor
   end
 
   private
-  def activity
-    contextual_data.activity
-  end
-
-  def reputation
-    contextual_data.reputation
-  end
+  def activity = contextual_data.activity
+  def reputation = contextual_data.reputation
 end

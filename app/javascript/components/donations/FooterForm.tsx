@@ -13,15 +13,21 @@ type Links = {
 const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
 const DEFAULT_AMOUNT = currency(16)
 
+type Props = {
+  request: Request
+  links: Links
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
+}
+
 const FooterForm = ({
   request,
   links,
   userSignedIn,
-}: {
-  request: Request
-  links: Links
-  userSignedIn: boolean
-}): JSX.Element => {
+  captchaRequired,
+  recaptchaSiteKey,
+}: Props): JSX.Element => {
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
   const [customAmount, setCustomAmount] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
@@ -93,6 +99,8 @@ const FooterForm = ({
         amount={currentAmount}
         request={request}
         userSignedIn={userSignedIn}
+        captchaRequired={captchaRequired}
+        recaptchaSiteKey={recaptchaSiteKey}
         links={links}
       />
     </>

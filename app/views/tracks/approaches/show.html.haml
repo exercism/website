@@ -1,0 +1,65 @@
+- content_for :meta_title, "Explore the '#{@approach.title.html_safe}' approach for #{@exercise.title} in #{@track.title} on Exercism"
+- content_for :meta_description, "Explore the '#{@approach.title.html_safe}' approach for #{@exercise.title} in #{@track.title} on Exercism. #{@approach.blurb.html_safe}"
+-# TODO: add :meta_image
+
+#page-approaches-show.pb-80
+  %header.pt-24.md:pt-32.pb-32{ class: 'md:pb-[158px]' }
+    .md-container.flex.flex-col.md:flex-row-reverse.items-center
+      = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "py-8 px-24 bg-gray border-2 border-gradient-bgGray rounded-100 flex flex-row items-center h-[68px]" do
+        = track_icon @track, css_class: 'h-[40px] w-[40px] mr-12'
+        = exercise_icon @exercise, css_class: 'h-[48px] w-[48px] mr-12'
+        .flex.flex-col.mr-24
+          .text-h5.whitespace-nowrap= @exercise.title
+          .textColor-6.font-normal.leading-150.text-16 in #{@track.title}
+
+      .block.flex-grow
+        %h1.text-h0.mb-8.md:mb-8= @approach.title
+        .flex.items-center.text-16.font-semibold.leading-150.text-textColor1
+          = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'h-[40px] mr-12')
+          %span.text-textColor6.mr-12
+            &middot
+          %span.text-textColor6
+            Published at
+            = format_date(@approach.created_at)
+  .md-container.mb-32.md:mb-48
+    %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
+      .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
+        = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
+        .info.md:hidden
+          %h3.text-h6.mb-2 Find this approach useful?
+          %p.text-p-small Share it around!
+        .info.hidden.md:block.mr-auto
+          %h3.text-h5.mb-2 Find the approach interesting or useful?
+          %p.text-p-base Share it around and have others benefit too!
+
+        = render ViewComponents::Exercise::ShareApproachButton.new(@approach)
+
+      .p-16.md:py-32.md:px-40.flex.flex-col
+        .c-textual-content.--large
+          = raw @approach.content_html
+
+        .published-at
+          = format_date(@approach.updated_at)
+          &middot;
+          Found it useful?
+          = render ViewComponents::Exercise::ShareApproachLink.new(@approach)
+
+  - if @other_approaches.present?
+    .md-container.flex.flex-col
+      .flex.justify-center.mb-32
+        = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
+        .flex.flex-col
+          %h2.text-h3.font-bold.mb-4 Other Approaches to #{@exercise.title}
+          .text-p-base.text-textColor6 Other ways our community solved this exercise
+
+      .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
+        - @other_approaches.each do |other_approach|
+          = link_to Exercism::Routes.track_exercise_approach_path(@track, @exercise, other_approach[:slug]), class: "bg-white shadow-base rounded-8 px-20 py-16 flex flex-col" do
+            %pre.border-1.border-lightGray.rounded-8.p-16.mb-16
+              %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[180px]", style: "text-overflow:ellipsis" }
+                = other_approach[:snippet]
+            %h5.text-h5.mb-2
+              = other_approach[:title]
+            %p.text-p-base.text-textColor6.mb-12
+              = other_approach[:blurb]
+            = render ReactComponents::Common::Credits.new(other_approach[:users], other_approach[:num_authors], "author", other_approach[:num_contributors], "contributor", css_class: "text-14 text-textColor1 font-semibold mt-auto h-[32px]")

@@ -60,15 +60,15 @@
         @apply bg-backgroundColorA;
 
         & .container {
-            @apply flex;
+            @apply flex pt-32;
         }
 
         & .lhs {
             @apply flex-grow;
-            margin-top: -130px;
+            /* margin-top: -130px; */
         }
         & .rhs {
-            @apply ml-64 flex-shrink-0 pt-32;
+            @apply ml-64 flex-shrink-0;
             width: 400px;
         }
 
@@ -344,7 +344,7 @@
 
         & section.learning-pattern,
         & .stats-box {
-            @apply border-1 border-borderColor6 rounded-8;
+            @apply border-1 border-borderColor6 bg-white rounded-8;
         }
         & section.learning-pattern {
             @apply py-12 px-24 mb-40;
@@ -365,6 +365,7 @@
             @apply block;
             @apply py-16 px-24 mb-24;
             @apply flex items-center;
+            @apply shadow-sm;
 
             &:hover {
                 @apply shadow-base;

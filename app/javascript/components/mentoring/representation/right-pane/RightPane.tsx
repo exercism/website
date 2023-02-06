@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
-} from '../../../types'
+} from '@/components/types'
 import HowImportant from './HowImportant'
 import MentoringConversation from './MentoringConversation'
 import { UtilityTabs } from './UtilityTabs'
@@ -13,10 +13,11 @@ export function RightPane({
   data: CompleteRepresentationData
 }): JSX.Element {
   const [feedbackType, setFeedbackType] = useState<RepresentationFeedbackType>(
-    data.representation.feedbackType !== null
-      ? data.representation.feedbackType
-      : 'essential'
+    data.representation.feedbackType ||
+      data.representation.draftFeedbackType ||
+      'essential'
   )
+
   return (
     <div className="!h-100 flex flex-col justify-between">
       <UtilityTabs data={data} />
@@ -25,6 +26,7 @@ export function RightPane({
           feedbackType={feedbackType}
           setFeedbackType={setFeedbackType}
         />
+
         <MentoringConversation feedbackType={feedbackType} data={data} />
       </div>
     </div>

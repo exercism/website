@@ -8,9 +8,7 @@ class Github::Organization
   end
 
   memoize
-  def active?
-    name.present?
-  end
+  def active? = name.present?
 
   def remove_member(github_username)
     # TODO: remove below line and enable commented line below that
@@ -78,7 +76,7 @@ class Github::Organization
     users = Set.new
 
     loop do
-      response = fetch_team_member_usernames(cursor)
+      response = fetch_team_members(cursor)
 
       response.dig(:data, :organization, :teams, :nodes).each do |team|
         users.merge(team.dig(:members, :nodes).pluck(:login))
@@ -91,15 +89,35 @@ class Github::Organization
     end
   end
 
-  def fetch_team_member_usernames(cursor)
+  def team_members
+    cursor = nil
+    members = {}
+
+    loop do
+      response = fetch_team_members(cursor)
+
+      response.dig(:data, :organization, :teams, :nodes).each do |team_node|
+        members[team_node[:name]] = team_node.dig(:members, :nodes).pluck(:databaseId)
+      end
+
+      break members unless response.dig(:data, :organization, :teams, :pageInfo, :hasNextPage)
+
+      cursor = response.dig(:data, :organization, :teams, :pageInfo, :endCursor)
+      handle_rate_limit(response.dig(:data, :rateLimit))
+    end
+  end
+
+  def fetch_team_members(cursor)
     query = <<~QUERY.strip
       {
         organization(login: "#{name}") {
           teams(first: 100 #{%(, after: "#{cursor}") if cursor}) {
             nodes {
+              name
               members {
                 nodes {
                   login
+                  databaseId
                 }
               }
             }

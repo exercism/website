@@ -10,12 +10,17 @@ class Submission::Representation < ApplicationRecord
 
   belongs_to :submission
   belongs_to :mentored_by, optional: true, class_name: "User"
+  belongs_to :track
 
   has_one :solution, through: :submission
+  has_one :iteration, through: :submission
   has_one :exercise, through: :solution
 
   has_one :exercise_representation,
-    ->(sr) { where("exercise_representations.exercise_id": sr.solution.exercise_id) },
+    lambda { |sr|
+      where("exercise_representations.exercise_id": sr.solution.exercise_id).
+        order('exercise_representations.id desc')
+    },
     foreign_key: :ast_digest,
     primary_key: :ast_digest,
     class_name: "Exercise::Representation",
@@ -24,6 +29,10 @@ class Submission::Representation < ApplicationRecord
   before_create do
     self.ast_digest = self.class.digest_ast(ast) unless self.ast_digest
     self.ops_status = OPS_STATUS_ERRORED if self.ast_digest.blank?
+  end
+
+  before_validation on: :create do
+    self.track = submission.track unless track
   end
 
   delegate :has_feedback?, to: :exercise_representation

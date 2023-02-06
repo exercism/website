@@ -31,6 +31,7 @@ api_non_get_limit_proc = proc do |req|
   next 8 if req.patch? && req.routed_to == 'api/settings/user_preferences#update'
   next 8 if req.patch? && req.routed_to == 'api/settings/communication_preferences#update'
   next 8 if req.patch? && req.routed_to == 'api/settings#sudo_update'
+  next 10 if req.patch? && req.routed_to == 'api/mentoring/representations#update'
 
   5
 end
@@ -38,12 +39,14 @@ end
 Rack::Attack.throttle("API - POST/PATCH/PUT/DELETE", limit: api_non_get_limit_proc, period: 1.minute) do |req|
   next unless req.post? || req.patch? || req.put? || req.delete?
   next unless req.path.starts_with?('/api')
+  next if req.path.starts_with?('/sidekiq')
 
   req.throttle_key
 end
 
 Rack::Attack.throttle("API - export solutions", limit: 10, period: 1.week) do |req|
   next unless req.get?
+  next if req.path.starts_with?('/sidekiq')
   next unless req.routed_to == 'api/export_solutions#index'
 
   req.throttle_key

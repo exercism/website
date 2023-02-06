@@ -2,8 +2,11 @@
     @apply overflow-auto;
 
     & code {
-        @apply block;
+        @apply flex;
         @apply py-8;
+        ul {
+            @apply w-fill;
+        }
         & li {
             @apply flex;
             @apply text-15 font-mono leading-huge;

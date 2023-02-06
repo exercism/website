@@ -57,6 +57,10 @@ module ActiveRecord
   end
 end
 
+class Hash
+  def to_obj = JSON.parse(to_json, object_class: OpenStruct)
+end
+
 module TestHelpers
   extend ActionView::Helpers::AssetUrlHelper
 
@@ -81,6 +85,13 @@ module TestHelpers
     repo_url = TestHelpers.git_repo_url("docs")
     repo = Git::Repository.new(repo_url:)
     Git::Repository.expects(:new).at_least_once.returns(repo)
+  end
+
+  def self.use_problem_specifications_test_repo!
+    repo_url = TestHelpers.git_repo_url("problem-specifications")
+    Git::ProblemSpecifications.new(repo_url:).tap do |repo|
+      Git::ProblemSpecifications.expects(:new).at_least_once.returns(repo)
+    end
   end
 
   def self.download_dir = Rails.root / 'tmp' / 'downloads'
@@ -162,6 +173,10 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
+  def assert_equal_structs(expected, actual)
+    assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
+  end
+
   def assert_equal_arrays(expected, actual)
     assert_equal(expected.to_ary.sort, actual.to_ary.sort)
   end
@@ -205,16 +220,21 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil)
+  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil, reason: nil, git_sha: nil)
     execution_output = {
       "representation.txt" => ast,
+      "representation.json" => metadata&.to_json,
       "mapping.json" => mapping&.to_json
     }
     create_tooling_job!(
       submission,
       :representer,
       execution_status:,
-      execution_output:
+      execution_output:,
+      context: { reason: },
+      source: {
+        'exercise_git_sha' => git_sha || submission.git_sha
+      }
     )
   end
 
@@ -279,6 +299,10 @@ class ActiveSupport::TestCase
     [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
       Exercism.opensearch_client.indices.refresh(index:)
     end
+  end
+
+  def stub_latest_track_forum_threads(track)
+    stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
   end
 end
 

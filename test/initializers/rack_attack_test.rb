@@ -100,9 +100,6 @@ class RackAttackTest < Webhooks::BaseTestCase
   test "don't rate limit unauthorized non-API POST/PATCH/PUT/DELETE requests" do
     logout
 
-    create :user, github_username: 'member12'
-    create :contributor_team, github_name: 'reviewers'
-
     payload = {
       action: 'added',
       member: {
@@ -164,6 +161,16 @@ class RackAttackTest < Webhooks::BaseTestCase
 
       assert_response :too_many_requests
       assert_includes response.get_header("Retry-After"), "42" # 42 is number of secs remaining this minute
+    end
+  end
+
+  test "sidekiq is not blocked" do
+    user = create :user, :admin
+    setup_user(user)
+
+    50.times do
+      get sidekiq_web_path
+      assert_response :redirect
     end
   end
 

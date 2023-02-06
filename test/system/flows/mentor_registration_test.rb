@@ -17,9 +17,10 @@ module Flows
         click_on "Try mentoring now"
         find("label", text: "Ruby").click
         within(".m-become-mentor") { click_on "Continue" }
+
         find("label", text: "Abide by the\nCode of Conduct").click
         find("label", text: "Be patient, empathic and kind to those you're mentoring").click
-        find("label", text: "Demonstrate\nintellectual humility").click(x: 0, y: 0)
+        find("label", text: "Demonstrate\nintellectual humility").find(".c-checkbox").click # TODO: simplify
         find("label", text: "Not use Exercism to promote personal agendas").click
         within(".m-become-mentor") { click_on "Continue" }
         click_on "I'm ready to get started"

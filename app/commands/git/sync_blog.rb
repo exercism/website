@@ -1,44 +1,71 @@
-module Git
-  class SyncBlog
-    include Mandate
+class Git::SyncBlog
+  include Mandate
 
-    queue_as :default
+  queue_as :default
 
-    def call
-      repo.update!
+  def call
+    repo.update!
 
-      repo.config[:posts].each do |data|
-        create_or_update_post(data)
-      end
+    repo.config[:posts].to_a.each do |data|
+      create_or_update_post(data)
     end
 
-    private
-    def create_or_update_post(data)
-      author = User.find_by!(handle: data[:author_handle])
-      attributes = {
-        slug: data[:slug],
-        author:,
-        category: data[:category],
-        title: data[:title],
-        published_at: data[:published_at],
-        description: data[:description],
-        marketing_copy: data[:marketing_copy],
-        image_url: data[:image_url],
-        youtube_id: data[:youtube_id]
-      }
+    repo.config[:stories].to_a.each do |data|
+      create_or_update_story(data)
+    end
+  end
 
-      post = BlogPost.create_or_find_by!(
-        uuid: data[:uuid]
-      ) { |d| d.attributes = attributes }
+  private
+  def create_or_update_post(data)
+    author = User.find_by!(handle: data[:author_handle])
+    attributes = {
+      slug: data[:slug],
+      author:,
+      category: data[:category],
+      title: data[:title],
+      published_at: data[:published_at],
+      description: data[:description],
+      marketing_copy: data[:marketing_copy],
+      image_url: data[:image_url],
+      youtube_id: data[:youtube_id]
+    }
 
-      post.update!(attributes)
-    rescue StandardError => e
-      Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
+    post = BlogPost.find_create_or_find_by!(uuid: data[:uuid]) do |d|
+      d.attributes = attributes
     end
 
-    memoize
-    def repo
-      Git::Blog.new
+    post.update!(attributes)
+  rescue StandardError => e
+    Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
+  end
+
+  def create_or_update_story(data)
+    interviewer = User.find_by!(handle: data[:interviewer_handle])
+    interviewee = User.find_by!(handle: data[:interviewee_handle])
+    attributes = {
+      interviewer:,
+      interviewee:,
+      slug: data[:slug],
+      title: data[:title],
+      blurb: data[:blurb],
+      published_at: data[:published_at],
+      thumbnail_url: data[:thumbnail_url],
+      image_url: data[:image_url],
+      youtube_id: data[:youtube_id],
+      length_in_minutes: data[:length_in_minutes]
+    }
+
+    story = CommunityStory.find_create_or_find_by!(uuid: data[:uuid]) do |d|
+      d.attributes = attributes
     end
+
+    story.update!(attributes)
+  rescue StandardError => e
+    Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
+  end
+
+  memoize
+  def repo
+    Git::Blog.new
   end
 end

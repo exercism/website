@@ -26,6 +26,8 @@ module Flows
       submission = create :submission, solution: solution
       create :iteration, submission: submission, solution: solution
 
+      stub_latest_track_forum_threads(track)
+
       use_capybara_host do
         sign_in!(user)
         visit track_url(track)
@@ -62,6 +64,8 @@ module Flows
         completed_at: 2.days.ago,
         status: :completed
 
+      stub_latest_track_forum_threads(track)
+
       use_capybara_host do
         sign_in!(user)
         visit track_url(track)
@@ -97,6 +101,8 @@ module Flows
       track = create :track, title: "Ruby"
       create :user_track, user: user, track: track
       create :concept_exercise, track: track, slug: "hello-world"
+
+      stub_latest_track_forum_threads(track)
 
       use_capybara_host do
         sign_in!(user)

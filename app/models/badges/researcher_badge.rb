@@ -11,9 +11,7 @@ module Badges
       RESEARCHERS.include?(user.github_username.downcase)
     end
 
-    def send_email_on_acquisition?
-      true
-    end
+    def send_email_on_acquisition? = true
 
     RESEARCHERS = %w[
       bergjohan

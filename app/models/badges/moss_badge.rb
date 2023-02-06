@@ -11,9 +11,7 @@ module Badges
       SUPPORTERS.include?(user.github_username.downcase)
     end
 
-    def send_email_on_acquisition?
-      true
-    end
+    def send_email_on_acquisition? = true
 
     SUPPORTERS = %w[
       andrerfcsantos

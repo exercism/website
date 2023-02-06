@@ -1,0 +1,405 @@
+- content_for :meta_title, "#{@track.title} impact and status on Exercism"
+- content_for :meta_description, "Explore the impact and status of #{@track.title} on Exercism."
+
+#page-tracks-build.bg-white
+  = render ViewComponents::Track::Header.new(@track, :build)
+
+  .track-build-header
+  .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
+    .col-span-3.xl:col-span-2
+      %h1.text-h1.mb-16.text-40.font-bold.z-1
+        .highlight-text= number_with_delimiter(@status.students.num_students)
+        students have developed their #{@track.title} skills on Exercism.
+      .grid.grid-cols-3.mb-32.gap-16
+        .report-stat
+          .stat-name
+            Students
+            = graphical_icon "info-circle"
+          .current-number= number_with_delimiter(@status.students.num_students)
+          -# .growth +#{@status.students.num_students_per_day} per day
+        .report-stat
+          .stat-name
+            Submissions
+            = graphical_icon "info-circle"
+          .current-number= number_with_delimiter(@status.submissions.num_submissions)
+          -# .growth +#{@status.submissions.num_submissions_per_day} per day
+        .report-stat
+          .stat-name
+            Mentoring Discussions
+            = graphical_icon "info-circle"
+          .current-number
+            = number_with_delimiter(@status.mentor_discussions.num_discussions)
+          -# .growth +10 per day
+
+      .track-status
+        %h3.text-h3.font-bold.mb-12
+          The #{@track.title} track
+          = render ViewComponents::Track::Build::Health.new(@status.health)
+
+        .flex
+          .flex.flex-col.mr-40
+            .tooling-status-label Building
+            .tooling-status-group
+              - if @track.course?
+                %div{ 'tooling-status': @status.syllabus.health, 'aria-label': "Syllabus status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
+                  = graphical_icon 'syllabus'
+              %div{ 'tooling-status': @status.test_runner.health, 'aria-label': "Status of the test runner for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
+                = graphical_icon 'test-runner'
+              %div{ 'tooling-status': @status.analyzer.health, 'aria-label': "Status of the analyzer for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.analyzer_tooltip_track_build_path(@track) }
+                = graphical_icon 'analyzer'
+              %div{ 'tooling-status': @status.representer.health, 'aria-label': "Status of the representer for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.representer_tooltip_track_build_path(@track) }
+                = graphical_icon 'representer'
+              %div{ 'tooling-status': @status.practice_exercises.health, 'aria-label': "Practice Exercises status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.practice_exercises_tooltip_track_build_path(@track) }
+                = graphical_icon 'practice-exercises'
+
+          -# .flex.flex-col.pl-40.border-l-1.border-borderLight
+            .tooling-status-label Outreach & Activity
+            .tooling-status-group
+              %div{ 'tooling-status': 'healthy' }
+                = graphical_icon "user-group"
+              %div{ 'tooling-status': 'critical' }
+                = graphical_icon "conversation-chat"
+
+      -# .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32
+        = image_tag @track.icon_url, class: "w-[64px] h-[64px] mr-24"
+        .flex.flex-col.mr-48
+          %h5.text-h5 We&apos;re looking for 5 volunteers for the #{@track.title} Track.
+          %p.text-textColor5.text-18.leading-140 Could you commit to 3 hours per week over the next 6 months to get the #{@track.title} track up to scratch?
+        = link_to "", class: "btn btn-primary btn-large border-1 border-textColor1 rounded-8 shadow-xsZ1v3" do
+          Learn more
+
+
+      .flex.mb-16.items-center
+        = graphical_icon "building", css_class: "h-[64px] w-[64px] mr-20", hex: true
+        .flex.flex-col.mr-auto
+          %h2.text-h2 Build
+          %p.text-18.text-textColor1.leading-150 Use your knowledge to build the #{@track.title} track itself
+
+        = link_to contributing_contributors_path(track_slug: @track.slug), class: "people hidden lg:flex items-center" do
+          .c-faces.mr-16
+            - @track.top_contributors[0, 3].map do |author|
+              .face= avatar(author)
+          .stats.text-16
+            .contributors.text-textColor1.font-medium.mb-2= pluralize(@track.num_code_contributors, "contributor")
+
+      - if @track.course?
+        .track-team-group
+          .track-header.mb-16
+            .flex.items-center.justify-between.mb-8
+              %h3.--syllabus-gradient Create the #{@track.title} syllabus
+              = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
+                Learn More
+            %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
+
+          - if @status.syllabus.concepts.active.size < @status.syllabus.concepts.num_active_target
+            .action-required
+              Next goal: Create a complete syllabus with at least #{@status.syllabus.concepts.num_active_target} concepts.
+              = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+                Find out more.
+
+          - unless @status.syllabus.health == "missing"
+            .usage-stats-header
+              %h4 Usage statistics
+
+            %details.mb-10
+              %summary.--syllabus
+                #{@status.syllabus.concepts.active.size} concepts being taught
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.syllabus.concepts.active.each do |concept|
+                .record-row
+                  .record-name
+                    = render ViewComponents::ConceptIcon.new(concept, :small)
+                    = concept.name
+                  .record-value #{number_with_delimiter(concept.num_students_learnt)} learnt
+
+            %details
+              %summary.--lightbulb
+                #{@status.syllabus.concept_exercises.active.size} active learning exercises
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name.mb-0
+                .record-value
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.syllabus.concept_exercises.active.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+            - if @status.syllabus.concept_exercises.deprecated.size.positive?
+              %details.mt-10
+                %summary.--lightbulb
+                  #{@status.syllabus.concept_exercises.deprecated.size} deprecated learning exercises
+                  = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+                .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                  .record-name.mb-0
+                  .record-value
+                    .record-element Started
+                    .record-element Attempts
+                    .record-element Completions
+                    .record-element Mentoring requests
+                - @status.syllabus.concept_exercises.deprecated.each do |exercise|
+                  .record-row
+                    .record-name
+                      = exercise_icon exercise
+                      = exercise.title
+                    .record-value
+                      .record-element
+                        %strong= number_with_delimiter(exercise.num_started)
+                      .record-element
+                        %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                      .record-element
+                        %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                      .record-element
+                        %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+          = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
+      .track-team-group
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--test-runner-gradient Build Test Runners
+            = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
+              Learn More
+          %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
+
+        - if @status.test_runner.health == "missing"
+          .action-required
+            Next goal: Build a Test Runner.
+            = link_to doc_path(:building, "tooling/test-runners/interface") do
+              Find out more.
+        - elsif @status.test_runner.version_target
+          .action-required
+            Next goal: Get Test Runners to Version #{@status.test_runner.version_target}. #{@track.title} is currently utilising a Version #{@status.test_runner.version} Test Runner.
+            = link_to doc_path(:building, "tooling/test-runners/interface") do
+              Find out more.
+
+        - unless @status.test_runner.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          .stats-container.test-runner
+            .record-row
+              .record-name Total Test Runner Runs
+              .record-value= number_with_delimiter(@status.test_runner.num_runs)
+            .record-row
+              .record-name Test Run Pass Rate
+              .record-value #{@status.test_runner.num_passed_percentage}% (#{@status.test_runner.num_passed})
+            .record-row
+              .record-name Test Run Fail Rate
+              .record-value #{@status.test_runner.num_failed_percentage}% (#{@status.test_runner.num_failed})
+            .record-row
+              .record-name Test Run Error Rate
+              .record-value #{@status.test_runner.num_errored_percentage}% (#{@status.test_runner.num_errored})
+
+        = render ReactComponents::Common::Credits.new(@status.test_runner.volunteers.users, @status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
+      .track-team-group
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--analyzer-gradient Build Analyzers
+            = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
+              Learn More
+          %p Build an Analyzer for #{@track.title}: Exercism's analyzers automatically assess student's submissions and provide mentor-style commentary.
+
+        - if @status.analyzer.health == "missing"
+          .action-required
+            Next goal: Build an Analyzer.
+            = link_to doc_path(:building, "tooling/analyzers/interface") do
+              Find out more.
+
+        - unless @status.analyzer.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          .stats-container
+            .record-row
+              .record-name Total Analyzer Runs
+              .record-value= number_with_delimiter(@status.analyzer.num_runs)
+            .record-row
+              .record-name Total Analysis Comments Made
+              .record-value= number_with_delimiter(@status.analyzer.num_comments)
+            .record-row
+              .record-name Feedback Given Frequency
+              .record-value #{@status.analyzer.display_rate_percentage}%
+
+        = render ReactComponents::Common::Credits.new(@status.analyzer.volunteers.users, @status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
+      .track-team-group
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--representer-gradient Build Representers
+            = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
+              Learn More
+          %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
+
+        - if @status.representer.health == "missing"
+          .action-required
+            Next goal: Build a Representer.
+            = link_to doc_path(:building, "tooling/representers/interface") do
+              Find out more.
+
+        - unless @status.representer.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+          .stats-container
+            .record-row
+              .record-name Total Representer Runs
+              .record-value= number_with_delimiter(@status.representer.num_runs)
+            .record-row
+              .record-name Total Representation Comments Made
+              .record-value= number_with_delimiter(@status.representer.num_comments)
+            .record-row
+              .record-name Feedback Given Frequency
+              .record-value #{@status.representer.display_rate_percentage}%
+
+
+        = render ReactComponents::Common::Credits.new(@status.representer.volunteers.users, @status.representer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
+
+      .track-team-group
+        .track-header.mb-16
+          .flex.items-center.justify-between.mb-8
+            %h3.--practice-exercises-gradient Create Practice Exercises
+            = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
+              Learn More
+          %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
+
+        - if @status.practice_exercises.active.size < @status.practice_exercises.num_active_target
+          .action-required
+            Next goal: Implement #{%w[exemplar health].include?(@status.practice_exercises.health) ? '' : 'at least '}#{@status.practice_exercises.num_active_target} practice exercises.
+            = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+              Find out more.
+
+        - unless @status.practice_exercises.health == "missing"
+          .usage-stats-header
+            %h4 Usage statistics
+
+          - if @status.practice_exercises.active.size.positive?
+            %details
+              %summary.--practice-exercises
+                #{@status.practice_exercises.active.size} active practice exercises
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name
+                .record-value
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.practice_exercises.active.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+
+          - if @status.practice_exercises.deprecated.size.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.deprecated.size} deprecated practice exercises
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-name
+                .record-value
+                  .record-element Started
+                  .record-element Attempts
+                  .record-element Completions
+                  .record-element Mentoring requests
+              - @status.practice_exercises.deprecated.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      %strong= number_with_delimiter(exercise.num_started)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                    .record-element
+                      %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+          - if @status.practice_exercises.unimplemented.size.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.unimplemented.size} unimplemented practice #{'exercise'.pluralize(@status.practice_exercises.unimplemented.size)}
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.practice_exercises.unimplemented.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
+
+          - if @status.practice_exercises.foregone.size.positive?
+            %details.mt-10
+              %summary.--practice-exercises
+                #{@status.practice_exercises.foregone.size} foregone practice #{'exercise'.pluralize(@status.practice_exercises.foregone.size)}
+                = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+              - @status.practice_exercises.foregone.each do |exercise|
+                .record-row
+                  .record-name
+                    = exercise_icon exercise
+                    = exercise.title
+                  .record-value
+                    .record-element
+                      = external_link_to "View data", exercise.links.self, class: 'external-link'
+
+        = render ReactComponents::Common::Credits.new(@status.practice_exercises.volunteers.users, @status.practice_exercises.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
+    .hidden.xl:block.col-span-1
+      %div{ class: 'h-[284px]' }
+        = ReactComponents::Impact::Map.new(track: @track)
+      .rounded-8.p-24.shadow-baseZ1.bg-white
+        .flex.items-center.mb-12
+          = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
+          .label-large.mr-16
+            = 'Volunteer'.pluralize(@status.volunteers.num_volunteers)
+          .count-bubble= @status.volunteers.num_volunteers
+
+        - @status.volunteers.users[0, 3].to_a.each do |volunteer|
+          .contributor-credit-block
+            .contributor
+              = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle mr-12")
+              = volunteer.handle
+            = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
+
+        .inline-grid.grid-cols-6.gap-16.mt-20.mb-16
+          - @status.volunteers.users[3..].to_a.each do |volunteer|
+            = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle")
+          - if @status.volunteers.num_volunteers > @status.volunteers.users.size
+            .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
+              = link_to contributing_contributors_path(track_slug: @track.slug) do
+                + #{number_with_delimiter(@status.volunteers.num_volunteers - @status.volunteers.users.size)} more
+
+
+        .rounded-8.py-16.px-20.bg-backgroundColorG
+          %h6.text-h6.leading-150.mb-4 We 💙 our volunteers
+          %p.text-textColor5.leading-150.text-14.mb-4
+            Exercism relies on open-source volunteers to build our language tracks and mentor students.
+          = link_to community_path, class: "text-lightBlue font-semibold flex items-center" do
+            %span.mr-8.leading-170 Become an Exercism Volunteer
+            = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-lightBlue"

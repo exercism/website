@@ -68,6 +68,25 @@ class User < ApplicationRecord
 
   has_many :contributorships, class_name: "Exercise::Contributorship", dependent: :destroy
   has_many :contributed_exercises, through: :contributorships, source: :exercise
+
+  has_many :article_authorships, class_name: "Exercise::Article::Authorship", dependent: :destroy
+  has_many :authored_articles, through: :article_authorships, source: :article
+
+  has_many :article_contributorships, class_name: "Exercise::Article::Contributorship", dependent: :destroy
+  has_many :contributed_articles, through: :article_contributorships, source: :article
+
+  has_many :approach_authorships, class_name: "Exercise::Approach::Authorship", dependent: :destroy
+  has_many :authored_approaches, through: :approach_authorships, source: :approach
+
+  has_many :approach_contributorships, class_name: "Exercise::Approach::Contributorship", dependent: :destroy
+  has_many :contributed_approaches, through: :approach_contributorships, source: :approach
+
+  has_many :approach_introduction_authorships, class_name: "Exercise::Approach::Introduction::Authorship", dependent: :destroy
+  has_many :authored_approach_introduction_exercises, through: :approach_introduction_authorships, source: :exercise
+  has_many :approach_introduction_contributorships, class_name: "Exercise::Approach::Introduction::Contributorship",
+    dependent: :destroy
+  has_many :contributed_approach_introduction_exercises, through: :approach_introduction_contributorships, source: :exercise
+
   has_many :scratchpad_pages, dependent: :destroy
 
   has_many :solution_comments, dependent: :destroy, class_name: "Solution::Comment", inverse_of: :author
@@ -87,12 +106,19 @@ class User < ApplicationRecord
   has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
   has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
 
-  has_many :team_memberships, class_name: "ContributorTeam::Membership", dependent: :destroy
-  has_many :teams, through: :team_memberships, source: :team
-
   has_many :problem_reports, dependent: :destroy
 
   has_many :cohort_memberships, dependent: :destroy
+
+  has_many :github_team_memberships,
+    class_name: "Github::TeamMember",
+    primary_key: :uid,
+    inverse_of: :user,
+    dependent: :destroy
+
+  has_many :challenges, dependent: :destroy
+
+  scope :random, -> { order('RAND()') }
 
   # TODO: Validate presence of name
 
@@ -124,9 +150,7 @@ class User < ApplicationRecord
     find_by!(handle: param)
   end
 
-  def to_param
-    handle
-  end
+  def to_param = handle
 
   def pronoun_parts
     a = pronouns.to_s.split("/")
@@ -154,14 +178,10 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
-  def active_subscription
-    donation_subscriptions.active.last
-  end
+  def active_subscription = donation_subscriptions.active.last
 
   memoize
-  def active_donation_subscription_amount_in_cents
-    donation_subscriptions.active.last&.amount_in_cents
-  end
+  def active_donation_subscription_amount_in_cents = donation_subscriptions.active.last&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars
@@ -169,9 +189,7 @@ class User < ApplicationRecord
   end
 
   memoize
-  def total_one_off_donations_in_dollars
-    total_donated_in_dollars - total_subscription_donations_in_dollars
-  end
+  def total_one_off_donations_in_dollars = total_donated_in_dollars - total_subscription_donations_in_dollars
 
   memoize
   def total_donated_in_dollars
@@ -227,9 +245,7 @@ class User < ApplicationRecord
       accepted_terms_at.present?
   end
 
-  def has_avatar_url?
-    super.presence? || avatar.attached?
-  end
+  def has_avatar_url? = avatar_url.present? || avatar.attached?
 
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
@@ -246,17 +262,8 @@ class User < ApplicationRecord
     %w[english spanish]
   end
 
-  def mentor?
-    became_mentor_at.present?
-  end
-
-  def system?
-    id == SYSTEM_USER_ID
-  end
-
-  def ghost?
-    id == GHOST_USER_ID
-  end
+  def system? = id == SYSTEM_USER_ID
+  def ghost? = id == GHOST_USER_ID
 
   def dismiss_introducer!(slug)
     dismissed_introducers.create_or_find_by!(slug:)
@@ -271,4 +278,12 @@ class User < ApplicationRecord
   end
 
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
+  def profile? = profile.present?
+
+  def confirmed? = super && !disabled? && !blocked?
+  def disabled? = !!disabled_at
+  def blocked? = User::BlockDomain.blocked?(user: self)
+
+  def github_auth? = uid.present?
+  def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 end

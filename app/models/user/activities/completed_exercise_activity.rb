@@ -4,13 +4,8 @@ module User::Activities
       self.occurred_at = solution.completed_at
     end
 
-    def url
-      Exercism::Routes.track_exercise_path(track, solution.exercise)
-    end
-
-    def guard_params
-      "Solution##{solution.id}"
-    end
+    def url = Exercism::Routes.track_exercise_path(track, solution.exercise)
+    def guard_params = "Solution##{solution.id}"
 
     def i18n_params
       {

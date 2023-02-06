@@ -1,13 +1,9 @@
-module Github
-  class Task
-    class Destroy
-      include Mandate
+class Github::Task::Destroy
+  include Mandate
 
-      initialize_with :issue_url
+  initialize_with :issue_url
 
-      def call
-        Github::Task.where(issue_url:).destroy_all
-      end
-    end
+  def call
+    Github::Task.where(issue_url:).destroy_all
   end
 end

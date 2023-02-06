@@ -39,6 +39,7 @@ import StudentExerciseList from '../components/student/ExerciseList'
 import * as Common from '../components/common'
 
 import * as Student from '../components/student'
+import * as Community from '../components/community'
 
 import * as TrackComponents from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
@@ -57,7 +58,6 @@ import {
   Metric,
 } from '../components/types'
 
-import * as Blog from '../components/blog'
 import * as Tooltips from '../components/tooltips'
 import { Dropdown } from '../components/dropdowns/Dropdown'
 import * as Profile from '../components/profile'
@@ -88,11 +88,11 @@ declare global {
 import { QueryCache } from 'react-query'
 window.queryCache = new QueryCache()
 
-// // Add all react components here.
-// // Each should map 1-1 to a component in app/helpers/components
-initReact({
-  'blog-share-post-link': (data: any) => (
-    <Blog.SharePostLink
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+export const mappings = {
+  'share-link': (data: any) => (
+    <Common.ShareLink
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
@@ -105,6 +105,8 @@ initReact({
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
         userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
       />
     </Suspense>
   ),
@@ -138,6 +140,7 @@ initReact({
   ),
   'common-expander': (data: any) => (
     <Common.Expander
+      contentIsSafe={data.content_is_safe}
       content={data.content}
       buttonTextCompressed={data.button_text_compressed}
       buttonTextExpanded={data.button_text_expanded}
@@ -167,11 +170,28 @@ initReact({
       <CLIWalkthroughButton html={data.html} />
     </Suspense>
   ),
+
+  'community-video-grid': (data: any) => (
+    <Community.VideoGrid data={camelizeKeys(data)} />
+  ),
+  'community-stories-grid': (data: any) => (
+    <Community.StoriesGrid data={camelizeKeys(data)} />
+  ),
+
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
+
+  'track-dig-deeper': (data: DigDeeperProps) => (
+    <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
+  ),
+
+  'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
+    <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
+  ),
+
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
       avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
@@ -186,6 +206,15 @@ initReact({
       numAuthors={data.num_authors}
       numContributors={data.num_contributors}
       links={data.links}
+    />
+  ),
+  'common-credits': (data: any) => (
+    <Common.Credits
+      users={camelizeKeysAs<User[]>(data.users)}
+      topCount={data.top_count}
+      topLabel={data.top_label}
+      bottomCount={data.bottom_count}
+      bottomLabel={data.bottom_label}
     />
   ),
   'common-exercise-widget': (data: any) => (
@@ -274,6 +303,11 @@ initReact({
   'exercise-tooltip': (data: any) => (
     <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
   ),
+
+  'tooling-tooltip': (data: any) => (
+    <Tooltips.ToolingTooltip endpoint={data.endpoint} />
+  ),
+
   'concept-tooltip': (data: any) => (
     <Tooltips.ConceptTooltip endpoint={data.endpoint} />
   ),
@@ -389,7 +423,7 @@ initReact({
   ),
   'impact-chart': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <ImpactChart data={camelizeKeys(data)} />
+      <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
   'impact-testimonials': (data: any) => (
@@ -404,7 +438,7 @@ initReact({
 
     return (
       <Suspense fallback={renderLoader()}>
-        <ImpactMap initialMetrics={metrics} />
+        <ImpactMap initialMetrics={metrics} trackTitle={data.track_title} />
       </Suspense>
     )
   },
@@ -415,10 +449,16 @@ initReact({
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
         userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
       />
     </Suspense>
   ),
-})
+}
+
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+initReact(mappings)
 
 document.addEventListener(
   'turbo:load',
@@ -426,7 +466,9 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

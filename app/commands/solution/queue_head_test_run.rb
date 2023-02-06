@@ -4,7 +4,7 @@
 class Solution::QueueHeadTestRun
   include Mandate
 
-  queue_as :default
+  queue_as :background
 
   initialize_with :solution, force: false
 

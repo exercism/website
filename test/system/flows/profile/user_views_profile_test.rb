@@ -24,5 +24,16 @@ module Flows
         end
       end
     end
+
+    test "shows (escaped) bio" do
+      author = create :user, bio: 'Programming is my passion! <img src="x">'
+      create :user_profile, user: author
+
+      use_capybara_host do
+        visit profile_path(author.handle)
+
+        assert_text author.bio
+      end
+    end
   end
 end

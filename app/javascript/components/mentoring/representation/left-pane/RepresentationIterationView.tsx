@@ -25,7 +25,7 @@ export const IterationView = ({
           language={representationData.track.highlightjsLanguage}
           indentSize={2}
           instructions={representationData.instructions}
-          tests={representationData.tests}
+          testFiles={representationData.testFiles}
         />
       </ResultsZone>
     </React.Fragment>

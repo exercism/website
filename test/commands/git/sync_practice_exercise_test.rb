@@ -17,7 +17,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     git_sha = repo.head_commit.parents.first.oid
     strings = create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
-    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', position: 9, difficulty: 7, git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
+    exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', slug: 'anagram', title: 'Anagram', position: 9, difficulty: 7, git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
     exercise.prerequisites << strings
     exercise.practiced_concepts << strings
@@ -277,7 +277,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     end
 
     new_contributorship = exercise.contributorships.find_by(contributor: new_contributor)
-    new_contributor_rep_token = new_contributor.reputation_tokens.last
+    new_contributor_rep_token = User::ReputationTokens::ExerciseContributionToken.where(user: new_contributor).last
     assert_equal :contributed_to_exercise, new_contributor_rep_token.reason
     assert_equal :authoring, new_contributor_rep_token.category
     assert_equal 10, new_contributor_rep_token.value
@@ -296,7 +296,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
       Git::SyncPracticeExercise.(exercise)
     end
 
-    assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
+    assert_equal 1, User::ReputationTokens::ExerciseContributionToken.where(user: existing_contributor).count
   end
 
   test "syncs with nil prerequisites" do
@@ -353,5 +353,93 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     SiteUpdates::ProcessNewExerciseUpdate.expects(:call).with(exercise)
 
     Git::SyncPracticeExercise.(exercise, force_sync: true)
+  end
+
+  test "updates has_approaches" do
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+    Exercise::UpdateHasApproaches.expects(:call).with(exercise)
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+  end
+
+  test "syncs introduction authors" do
+    author = create :user, github_username: 'erikschierboom'
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_authors
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal [author], exercise.reload.approach_introduction_authors
+  end
+
+  test "syncs introduction contributors" do
+    contributor_1 = create :user, github_username: 'ihid'
+    contributor_2 = create :user, github_username: 'jane'
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_contributors
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal [contributor_1, contributor_2], exercise.reload.approach_introduction_contributors
+  end
+
+  test "syncs approaches" do
+    user_1 = create :user, github_username: 'erikschierboom'
+    user_2 = create :user, github_username: 'ihid'
+    exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', slug: 'hamming'
+
+    # Sanity check
+    assert_empty exercise.approaches
+
+    create :exercise_approach, exercise: exercise
+    assert_equal 1, exercise.reload.approaches.count
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal 2, exercise.reload.approaches.count
+
+    approach_1 = exercise.approaches.first
+    assert_equal "23360676-7b7f-4759-b6b6-011ef8f9c420", approach_1.uuid
+    assert_equal "functional", approach_1.slug
+    assert_equal "Functional", approach_1.title
+    assert_equal "All those functions", approach_1.blurb
+    assert_equal [user_1], approach_1.authors
+    assert_equal [user_2], approach_1.contributors
+
+    approach_2 = exercise.approaches.second
+    assert_equal "954be92c-a79e-4ed6-bd0f-f4db3c09a668", approach_2.uuid
+    assert_equal "readability", approach_2.slug
+    assert_equal "Readability", approach_2.title
+    assert_equal "This reads well!", approach_2.blurb
+    assert_equal [user_1, user_2], approach_2.authors
+    assert_empty approach_2.contributors
+  end
+
+  test "syncs articles" do
+    user_1 = create :user, github_username: 'erikschierboom'
+    user_2 = create :user, github_username: 'ihid'
+    exercise = create :practice_exercise, uuid: '53603e05-2051-4904-a181-e358390f9ae7', slug: 'hamming'
+
+    # Sanity check
+    assert_empty exercise.articles
+
+    create :exercise_article, exercise: exercise
+    assert_equal 1, exercise.reload.articles.count
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal 1, exercise.reload.articles.count
+
+    article = exercise.articles.first
+    assert_equal "7feff49c-32ea-4d30-b6da-002b51e0f57d", article.uuid
+    assert_equal "performance", article.slug
+    assert_equal "Performance", article.title
+    assert_equal "Check out this perf!", article.blurb
+    assert_equal [user_1], article.authors
+    assert_equal [user_2], article.contributors
   end
 end

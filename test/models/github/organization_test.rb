@@ -73,6 +73,7 @@ class Github::OrganizationTest < ActiveSupport::TestCase
           teams: {
             nodes: [
               {
+                name: 'ruby',
                 members: {
                   nodes: [
                     { login: 'ErikSchierboom' },
@@ -81,6 +82,7 @@ class Github::OrganizationTest < ActiveSupport::TestCase
                 }
               },
               {
+                name: 'fsharp',
                 members: {
                   nodes: [
                     { login: 'ErikSchierboom' },
@@ -106,5 +108,50 @@ class Github::OrganizationTest < ActiveSupport::TestCase
       to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
 
     assert_equal %w[ErikSchierboom iHiD DJ], Github::Organization.instance.team_member_usernames.to_a
+  end
+
+  test "team_members" do
+    response = {
+      data: {
+        organization: {
+          teams: {
+            nodes: [
+              {
+                name: 'ruby',
+                members: {
+                  nodes: [
+                    { databaseId: 142_153 },
+                    { databaseId: 123_813 }
+                  ]
+                }
+              },
+              {
+                name: 'fsharp',
+                members: {
+                  nodes: [
+                    { databaseId: 142_153 },
+                    { databaseId: 229_136 }
+                  ]
+                }
+              }
+            ]
+          },
+          pageInfo: {
+            hasNextPage: false,
+            endCursor: "Y3Vyc29yOnYyOpK5MjAyMC0wMy0yN1QwNzozOToyMCswMTowMM4XhMuR"
+          }
+        },
+        rateLimit: {
+          remaining: 4989,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    stub_request(:post, "https://api.github.com/graphql").
+      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    expected = { 'ruby' => [142_153, 123_813], 'fsharp' => [142_153, 229_136] }
+    assert_equal expected, Github::Organization.instance.team_members.to_h
   end
 end

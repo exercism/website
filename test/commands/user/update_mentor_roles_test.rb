@@ -2,7 +2,9 @@ require "test_helper"
 
 class User::UpdateMentorRolesTest < ActiveSupport::TestCase
   test "adds or removes supermentor role depending on criteria being met" do
+    track = create :track
     user = create :user, became_mentor_at: nil, roles: []
+    create :user_track_mentorship, user: user, track: track
 
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor? # Not yet a mentor
@@ -17,22 +19,24 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     refute user.reload.supermentor?
 
     99.times do
-      create :mentor_discussion, :student_finished, mentor: user
+      create :mentor_discussion, :student_finished, rating: :great, mentor: user, track:
     end
 
     # Too few finished mentoring sessions
-    user.update(mentor_satisfaction_percentage: 95)
+    perform_enqueued_jobs
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
 
     # Only mentor discussions finished by student count
-    create :mentor_discussion, :awaiting_mentor, mentor: user
-    create :mentor_discussion, :awaiting_student, mentor: user
-    create :mentor_discussion, :mentor_finished, mentor: user
+    create :mentor_discussion, :awaiting_mentor, mentor: user, track: track
+    create :mentor_discussion, :awaiting_student, mentor: user, track: track
+    create :mentor_discussion, :mentor_finished, mentor: user, track: track
+    perform_enqueued_jobs
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
 
-    create :mentor_discussion, :student_finished, mentor: user
+    create :mentor_discussion, :student_finished, rating: :great, mentor: user, track: track
+    perform_enqueued_jobs
     User::UpdateMentorRoles.(user)
     assert user.reload.supermentor?
 
@@ -45,5 +49,32 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     user.update(mentor_satisfaction_percentage: 94)
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
+  end
+
+  test "awards supermentor badge when role is added" do
+    track = create :track
+    user = create :user
+    create :user_track_mentorship, user: user, track: track
+
+    # Sanity check: role is not added so badge shouldn't be awarded
+    User::UpdateMentorRoles.(user)
+    refute_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+
+    create_list(:mentor_discussion, 100, :student_finished, rating: :great, mentor: user, track:)
+    perform_enqueued_jobs
+
+    User::UpdateMentorRoles.(user)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
+
+    # Sanity check: losing role does not result in losing badge
+    create_list(:mentor_discussion, 100, :student_finished, rating: :problematic, mentor: user, track:)
+    perform_enqueued_jobs
+
+    User::UpdateMentorRoles.(user)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SupermentorBadge
   end
 end

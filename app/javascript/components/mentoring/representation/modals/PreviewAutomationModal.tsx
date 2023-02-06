@@ -1,13 +1,16 @@
 import React, { useCallback, useState } from 'react'
-import { SplitPane } from '../../../common'
-import { Modal } from '../../../modals/Modal'
+import { useMutation } from 'react-query'
+import {
+  CompleteRepresentationData,
+  RepresentationFeedbackType,
+} from '@/components/types'
+import { SplitPane } from '@/components/common'
+import { Modal } from '@/components/modals'
+import { sendRequest } from '@/utils'
 import { IterationView } from '../left-pane/RepresentationIterationView'
 import { PreviewFeedbackComment } from './PreviewFeedbackComment'
 import { PreviewFooter } from './PreviewFooter'
 import { AutomationModalProps } from './SubmittedAutomationModal'
-import { CompleteRepresentationData, RepresentationFeedbackType } from '../../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
 
 type PreviewAutomationModalProps = AutomationModalProps & {
   data: CompleteRepresentationData

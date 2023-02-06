@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react'
-import { GraphicalIcon } from '../../../common'
-import { DonationLinks } from '../../../types'
+import { GraphicalIcon } from '@/components/common'
+import { DonationLinks } from '@/components/types'
 const DonationsFormWithModal = lazy(
-  () => import('../../../donations/FormWithModal')
+  () => import('@/components/donations/FormWithModal')
 )
 export function DonationStep({
   mentorHandle,
@@ -72,6 +72,9 @@ export function DonationStep({
               request={donationLinks.request}
               links={donationLinks.links}
               userSignedIn={donationLinks.userSignedIn}
+              // TODO
+              captchaRequired={false}
+              recaptchaSiteKey={''}
             />
           </Suspense>
         </div>

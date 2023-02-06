@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { FormButton, GraphicalIcon } from '../common'
+import { sendRequest } from '@/utils/send-request'
+import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
@@ -57,21 +57,22 @@ export const Challenge12in23Modal = ({
 
           <p className="">
             Expand your horizons in 2023 by trying out 12 different programming
-            languages in Exercism's #12in23 Challenge.
+            languages in Exercism&apos;s #12in23 Challenge.
           </p>
         </header>
 
         <h2>What do I have to do?</h2>
         <p className="mb-12">
-          It's simple - complete 5 exercises (not including "Hello World!") in
-          12 languages throughout the year. We'll give you a nice progress page
-          that shows you how you're getting on, and if you complete the
-          challenge we'll give you access to exclusive badges and SWAG.
+          It&apos;s simple - complete 5 exercises (not including &quot;Hello
+          World!&quot;) in 12 languages throughout the year. We&apos;ll give you
+          a nice progress page that shows you how you&apos;re getting on, and if
+          you complete the challenge we&apos;ll give you access to exclusive
+          badges and SWAG.
         </p>
 
         <p className="mb-12">
-          Each month we'll focus on a different paradigm (e.g. functional, OOP,
-          low-level, old-school, new, esoteric), and highlight interesting
+          Each month we&apos;ll focus on a different paradigm (e.g. functional,
+          OOP, low-level, old-school, new, esoteric), and highlight interesting
           solutions and ideas! Join in by using the #12in23 hashtag on social
           media and streaming services, and chat using the tag on our forums.
         </p>
@@ -93,7 +94,7 @@ export const Challenge12in23Modal = ({
         </ErrorBoundary>
       </div>
       <div className="rhs">
-        <h2 className="text-h4 mb-12">Watch Jeremy's introduction...</h2>
+        <h2 className="text-h4 mb-12">Watch Jeremy&apos;s introduction...</h2>
         <div
           className="video relative rounded-8 overflow-hidden !mb-24"
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
@@ -110,8 +111,8 @@ export const Challenge12in23Modal = ({
         <p className="text-p-base">
           Try and expand your horizons! Go old-school with COBOL, cutting edge
           with Unison and esoteric with Prolog. Explore low-level code with
-          Assembly, expressions with a Lisp and functional with Haskell! There's
-          over 60 languages to choose from!
+          Assembly, expressions with a Lisp and functional with Haskell!
+          There&apos;s over 60 languages to choose from!
         </p>
       </div>
     </Modal>

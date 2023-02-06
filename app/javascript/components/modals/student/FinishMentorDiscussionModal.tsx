@@ -9,7 +9,7 @@ import { RequeuedStep } from './finish-mentor-discussion-modal/RequeuedStep'
 import { SatisfiedStep } from './finish-mentor-discussion-modal/SatisfiedStep'
 import { ReportStep } from './finish-mentor-discussion-modal/ReportStep'
 import { useMachine } from '@xstate/react'
-import { Machine } from 'xstate'
+import { createMachine } from 'xstate'
 import { redirectTo } from '../../../utils/redirect-to'
 import { DonationStep } from './finish-mentor-discussion-modal/DonationStep'
 import { DiscussionLinks } from '../../student/mentoring-session/DiscussionActions'
@@ -26,7 +26,7 @@ export type MentorReport = {
   reason: ReportReason
 }
 
-const modalStepMachine = Machine({
+const modalStepMachine = createMachine({
   id: 'modalStep',
   initial: 'rateMentor',
   states: {
@@ -87,14 +87,14 @@ const Inner = ({
       )
     case 'celebration':
       return (
-        <DonationStep
-          donationLinks={links.donation}
-          mentorHandle={discussion.mentor.handle}
-        />
-        // <CelebrationStep
+        // <DonationStep
+        //   donationLinks={links.donation}
         //   mentorHandle={discussion.mentor.handle}
-        //   links={links}
         // />
+        <CelebrationStep
+          mentorHandle={discussion.mentor.handle}
+          links={links}
+        />
       )
     case 'satisfied':
       return (
@@ -147,7 +147,7 @@ export const FinishMentorDiscussionModal = ({
       cover
       aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
       className="m-finish-student-mentor-discussion"
-      ReactModalClassName="!bg-unnamed15"
+      ReactModalClassName="bg-unnamed15"
       {...props}
     >
       <Inner links={links} discussion={discussion} />

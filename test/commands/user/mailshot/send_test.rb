@@ -12,7 +12,7 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
         { params: { user: }, args: [] }
       ]
     ) do
-      User::Mailshot::Send.(user, :community_launch)
+      assert User::Mailshot::Send.(user, :community_launch)
     end
   end
 
@@ -21,7 +21,7 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
     user.communication_preferences.update(receive_product_updates: false)
 
     assert_no_enqueued_jobs do
-      User::Mailshot::Send.(user, :community_launch)
+      refute User::Mailshot::Send.(user, :community_launch)
     end
   end
 
@@ -36,7 +36,7 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
         { params: { user: }, args: [] }
       ]
     ) do
-      User::Mailshot::Send.(user, :company_support_donor)
+      assert User::Mailshot::Send.(user, :company_support_donor)
     end
   end
 
@@ -51,7 +51,7 @@ class User::Mailshot::SendTest < ActiveSupport::TestCase
         { params: { user: }, args: [] }
       ]
     ) do
-      User::Mailshot::Send.(user, :company_support_testimonial)
+      assert User::Mailshot::Send.(user, :company_support_testimonial)
     end
   end
 end

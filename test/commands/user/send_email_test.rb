@@ -73,12 +73,18 @@ class User::SendEmailTest < ActiveSupport::TestCase
   def assert_email_sent(emailable)
     called = false
     sending_block = proc { called = true }
-    User::SendEmail.(emailable, &sending_block)
+
+    sent = User::SendEmail.(emailable, &sending_block)
+
+    assert sent
     assert called
   end
 
   def refute_email_sent(emailable)
     sending_block = proc { flunk }
-    User::SendEmail.(emailable, &sending_block)
+
+    sent = User::SendEmail.(emailable, &sending_block)
+
+    refute sent
   end
 end

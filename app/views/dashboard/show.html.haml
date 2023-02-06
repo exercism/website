@@ -62,19 +62,43 @@
         -# = render ViewComponents::ProminentLink.new("See all updates", "#")
 
     .rhs
-      = link_to challenge_path('12in23'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
-        %h2.text-h3.text-white.text-center.mb-8
-          The #12in23 Challenge
-        %p.text-p-base.text-white.text-center.mb-16
-          Broaden your horizons. Try 12 languages during 2023 and become a better developer!
-          %br
-          %strong{ class: "!font-semibold !text-white" } Which will you choose?
+      - if current_user.challenges.exists?
+        .flex.flex-col.items-start.mb-28
+          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+            %span.emoji.mr-6 📆
+            Month 2 of #12in23
+          %h2.text-h3 It's Functional February!
+          %p.text-p-base.mb-6
+            We're exploring functional languages this month.
+            We have interviews with language creators, live streaming, and lots more.
+            Come and join in.
+          = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
+            %span Explore #12in23
+            = graphical_icon "arrow-right"
+      - else
+        = link_to challenge_path('12in23'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
+          %h2.text-h3.text-white.text-center.mb-8
+            The #12in23 Challenge
+          %p.text-p-base.text-white.text-center.mb-16
+            Broaden your horizons. Try 12 languages during 2023 and become a better developer!
+            %br
+            %strong{ class: "!font-semibold !text-white" } Which will you choose?
 
-        .flex.flex-wrap.justify-center.gap-2
-          - Track.active.map(&:icon_url).shuffle.each do |icon_url|
-            = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[30px] w-[30px]"
-
+          .flex.flex-wrap.justify-center.gap-2
+            - Track.active.map(&:icon_url).shuffle.each do |icon_url|
+              = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[30px] w-[30px]"
         -# %p.text-p-base.text-white.text-center.font-bold #12in23
+
+
+
+      %h2.text-h4.mb-2 This Thursday: Headline Interview
+      %p.text-p-base.mb-8
+        Coming this Thursday, Jeremy speaks to José Valim, the Creator of Elixir, about why he chose to make Elixir functional.
+        Come and watch live!
+      = link_to "https://www.youtube.com/watch?v=LknqlTouTKg", class: "bg-white flex flex-col items-center rounded-8 shadow-baseZ1 mb-32 overflow-hidden" do
+        = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg", class: 'block w-fill'
+
+
 
       - if @user_tracks.present?
         = render "tracks_section", user_tracks: @user_tracks, num_user_tracks: @num_user_tracks

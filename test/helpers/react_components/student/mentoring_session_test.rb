@@ -22,8 +22,8 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
     create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: false
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, discussion)
-
-    current_user = User.find_by!(handle: 'iHiD')
+    component.stubs(current_user: student)
+    component.stubs(user_signed_in?: true)
 
     assert_component component,
       "student-mentoring-session",
@@ -60,10 +60,10 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
             request: {
               endpoint: Exercism::Routes.api_donations_active_subscription_url,
               options: {
-                initial_data: AssembleActiveSubscription.(current_user)
+                initial_data: AssembleActiveSubscription.(student)
               }
             },
-            user_signed_in: user_signed_in?,
+            user_signed_in: true,
             links: {
               settings: Exercism::Routes.donations_settings_url,
               donate: Exercism::Routes.donate_url

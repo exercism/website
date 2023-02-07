@@ -55,9 +55,15 @@
           .c-textual-content.--large
             %h2 About #{@track.title}
             = ReactComponents::Common::Expander.new(Markdown::Parse.(@track.about), content_is_safe: true, button_text_compressed: "Read more on #{@track.title}", button_text_expanded: "Read less")
-        %pre
-          %code{ class: "lang-#{@track.highlightjs_language}" }
-            = @track.snippet
+
+        - if @track.intro_video_youtube_slug.present?
+          %div{ class: 'w-[100%] max-w-[500px]' }
+            .c-youtube-container
+              %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@track.intro_video_youtube_slug}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+        - else
+          %pre
+            %code{ class: "lang-#{@track.highlightjs_language}" }
+              = @track.snippet
 
   %section.exercises-section
     .lg-container

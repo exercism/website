@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_07_134342) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_07_162100) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -886,6 +886,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_07_134342) do
     t.boolean "has_representer", default: false, null: false
     t.boolean "has_analyzer", default: false, null: false
     t.integer "representer_version", limit: 2, default: 1, null: false
+    t.string "intro_video_youtube_slug"
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 

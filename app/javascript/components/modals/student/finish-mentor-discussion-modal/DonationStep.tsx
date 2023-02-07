@@ -81,19 +81,3 @@ export function DonationStep({
     </div>
   )
 }
-
-// {
-//   "request": {
-//       "endpoint": "http://local.exercism.io:3020/api/v2/donations/active_subscription",
-//       "options": {
-//           "initialData": {
-//               "subscription": null
-//           }
-//       }
-//   },
-//   "userSignedIn": true,
-//   "links": {
-//       "settings": "http://local.exercism.io:3020/settings/donations",
-//       "donate": "http://local.exercism.io:3020/donate"
-//   }
-// }

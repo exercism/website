@@ -72,9 +72,8 @@ export function DonationStep({
               request={donationLinks.request}
               links={donationLinks.links}
               userSignedIn={donationLinks.userSignedIn}
-              // TODO
-              captchaRequired={false}
-              recaptchaSiteKey={''}
+              captchaRequired={donationLinks.captchaRequired}
+              recaptchaSiteKey={donationLinks.recaptchaSiteKey}
             />
           </Suspense>
         </div>

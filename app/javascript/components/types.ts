@@ -430,6 +430,8 @@ export type DonationLinks = {
     }
   }
   userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
   links: {
     settings: string
     donate: string

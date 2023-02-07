@@ -50,6 +50,7 @@
     "highlightjs-bqn": "^0.0.1",
     "highlightjs-cobol": "^0.3.1",
     "highlightjs-sap-abap": "^0.2.0",
+    "highlightjs-zig": "^1.0.2",
     "humps": "^2.0.1",
     "lang-julia": "^0.1.0",
     "localforage": "^1.9.0",

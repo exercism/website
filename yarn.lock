@@ -5075,6 +5075,11 @@ highlightjs-sap-abap@^0.2.0:
   resolved "https://registry.yarnpkg.com/highlightjs-sap-abap/-/highlightjs-sap-abap-0.2.0.tgz#d5291bf777deb7c297683f7dc87c02c8d108cc5b"
   integrity sha512-vUwYBIMB+BmlPKjlHeEiQK8M1GeQ2VOtiaQo778kZ8N+kh+Q3gQ9jd1wbFNOAgbkLnpOrQrsxypVuJsZIIHoqQ==
 
+highlightjs-zig@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/highlightjs-zig/-/highlightjs-zig-1.0.2.tgz#ced413367dfce465283a53892bd9d889bca620cc"
+  integrity sha512-ZPSQfyiUMmux685sTNzTXuvXAXH6Gqzc+WSRzhYiknCRELjma1FOdTJ/zs8L9KutmX+YOtdlkmS+NypOxInpqA==
+
 hogan.js@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/hogan.js/-/hogan.js-3.0.2.tgz#4cd9e1abd4294146e7679e41d7898732b02c7bfd"

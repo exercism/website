@@ -17,6 +17,7 @@ module ReactComponents
             track_objectives: user_track&.objectives.to_s,
             out_of_date: solution.out_of_date?,
             videos:,
+
             links: {
               exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
               create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
@@ -31,6 +32,8 @@ module ReactComponents
                   }
                 },
                 user_signed_in: user_signed_in?,
+                captcha_required: !current_user || current_user.captcha_required?,
+                recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
                 links: {
                   settings: Exercism::Routes.donations_settings_url,
                   donate: Exercism::Routes.donate_url

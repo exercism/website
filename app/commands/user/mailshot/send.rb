@@ -14,7 +14,10 @@ class User::Mailshot::Send
   def call
     mailshot = User::Mailshot.create!(mailshot_id:, user_id: user.id)
     User::SendEmail.(mailshot) do
-      MailshotsMailer.with(user:).send(mailshot_id).deliver_later
+      MailshotsMailer.with(
+        user:,
+        email_communication_preferences_key: mailshot.email_communication_preferences_key
+      ).send(mailshot_id).deliver_later
     end
   rescue ActiveRecord::RecordNotUnique
     false

@@ -45,4 +45,12 @@ class MailshotsMailer < ApplicationMailer
     subject = "It's Functional February!"
     mail_to_user(@user, subject)
   end
+
+  def upcoming_jose_valim
+    @user = params[:user]
+    @email_communication_preferences_key = params[:email_communication_preferences_key]
+
+    subject = "This Thursday: Live interview with José Valim - creator of Elixir"
+    mail_to_user(@user, subject)
+  end
 end

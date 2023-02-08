@@ -62,6 +62,28 @@
         -# = render ViewComponents::ProminentLink.new("See all updates", "#")
 
     .rhs
+      - if @live_event
+        .mb-32
+          .flex.items-center.mb-2
+            .animate-pulse.bg-alert.rounded-circle.mr-6{ class: "w-[10px] h-[10px]" }
+            .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase Live now
+          %h3.text-h4= @live_event.title
+          %p.text-p-base.mb-12
+            = @live_event.description
+            Watch on
+            = link_to "Twitch", "https://www.twitch.tv/exercismlive"
+            - if @live_event.youtube?
+              or
+              = link_to "YouTube", "https://www.youtube.com/watch?v=#{@live_event.youtube_id}"
+            👇🏽
+
+          .rounded-8.shadow-baseZ1.w-fill
+            - if @live_event.youtube?
+              .c-youtube-container
+                %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@live_event.youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+            - else
+              %iframe{ src: "https://player.twitch.tv/?channel=exercismlive&parent=exercism.org", height: "240", width: "100%", allowfullscreen: true }
+
       - if current_user.challenges.exists?
         .flex.flex-col.items-start.mb-28
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
@@ -87,18 +109,38 @@
           .flex.flex-wrap.justify-center.gap-2
             - Track.active.map(&:icon_url).shuffle.each do |icon_url|
               = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[30px] w-[30px]"
-        -# %p.text-p-base.text-white.text-center.font-bold #12in23
 
+      - if @featured_event
+        .flex.flex-col.mb-32
+          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+            %span.emoji.mr-6 ⏳
+            Coming soon
+          %h2.text-h4.mb-2= @featured_event.title
+          %p.text-p-base.mb-4= @featured_event.description
+          .py-8.px-12.rounded-8.bg-veryLightBlue.font-medium.mb-16.self-start
+            Live at
+            %strong.font-semibold.text-textColor1 #{format_datetime(@featured_event.starts_at)}.
+            Save the date!
 
+          - if @featured_event.youtube?
+            = link_to "https://www.youtube.com/watch?v=#{@featured_event.youtube_id}", class: "bg-white flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
+              = image_tag @featured_event.thumbnail_url, class: 'block w-fill'
 
-      %h2.text-h4.mb-2 This Thursday: Headline Interview
-      %p.text-p-base.mb-8
-        Coming this Thursday, Jeremy speaks to José Valim, the Creator of Elixir, about why he chose to make Elixir functional.
-        Come and watch live!
-      = link_to "https://www.youtube.com/watch?v=LknqlTouTKg", class: "bg-white flex flex-col items-center rounded-8 shadow-baseZ1 mb-32 overflow-hidden" do
-        = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg", class: 'block w-fill'
+      - if @scheduled_events.present?
+        .mb-24
+          %h2.text-h4.mb-4 Upcoming Streaming Schedule
+          %p.text-p-base.mb-12
+            This schedule is regularly updated. All events will stream on our
+            = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+            \- subscribe so not to miss out!
+            %strong.font-semibold All times in UTC.
 
-
+          %ul.text-p-base.list-disc.pl-16
+            - @scheduled_events.each do |event|
+              %li.mb-4
+                .font-medium.text-textColor6.text-14.leading-100
+                  = format_datetime(event.starts_at)
+                %strong.font-semibold.text-textColor2= event.title
 
       - if @user_tracks.present?
         = render "tracks_section", user_tracks: @user_tracks, num_user_tracks: @num_user_tracks

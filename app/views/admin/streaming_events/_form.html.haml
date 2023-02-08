@@ -1,0 +1,33 @@
+= form_with(model: [:admin, streaming_event]) do |form|
+  - if streaming_event.errors.any?
+    .mb-12.text-red
+      %h2
+        = pluralize(streaming_event.errors.count, "error")
+        prohibited this streaming_event from being saved:
+      %ul
+        - streaming_event.errors.each do |error|
+          %li= error.full_message
+  .flex.flex-col
+    .mb-12
+      = form.label :title, class: "block mb-4"
+      = form.text_field :title, class: 'w-fill'
+    .mb-12
+      = form.label :description, class: "block mb-4"
+      = form.text_area :description, class: 'w-fill'
+    .mb-12
+      = form.label :starts_at, class: "block mb-4"
+      = form.datetime_field :starts_at
+    .mb-12
+      = form.label :ends_at, class: "block mb-4"
+      = form.datetime_field :ends_at
+    .mb-12
+      = form.label :featured, class: "block mb-4"
+      = form.check_box :featured
+    .mb-12
+      = form.label :youtube_id, class: "block mb-4"
+      = form.text_field :youtube_id
+    .mb-12
+      = form.label :thumbnail_url, class: "block mb-4"
+      = form.text_field :thumbnail_url
+    .mb-12
+      = form.submit class: "btn btn-primary"

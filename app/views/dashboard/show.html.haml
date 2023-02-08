@@ -65,7 +65,7 @@
       - if @live_event
         .mb-32
           .flex.items-center.mb-2
-            .animate-pulse.bg-alert.rounded-circle.mr-8{ class: "w-[10px] h-[10px]" }
+            .animate-pulse.bg-alert.rounded-circle.mr-6{ class: "w-[10px] h-[10px]" }
             .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase Live now
           %h3.text-h4= @live_event.title
           %p.text-p-base.mb-12
@@ -136,7 +136,7 @@
             %strong.font-semibold All times in UTC.
 
           %ul.text-p-base.list-disc.pl-16
-            - StreamingEvent.next_5.each do |event|
+            - @scheduled_events.each do |event|
               %li.mb-4
                 .font-medium.text-textColor6.text-14.leading-100
                   = format_datetime(event.starts_at)

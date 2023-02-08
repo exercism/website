@@ -9,6 +9,7 @@ class DashboardController < ApplicationController
 
     @live_event = StreamingEvent.live
     @featured_event = StreamingEvent.next_featured unless @live_event
+    @scheduled_events = StreamingEvent.next_5
 
     if current_user.mentor? # rubocop:disable Style/GuardClause
       @mentor_discussions = Mentor::Discussion::Retrieve.(

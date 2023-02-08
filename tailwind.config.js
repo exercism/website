@@ -164,7 +164,7 @@ module.exports = {
       purpleHover: '#F2F0FC',
 
       gray: '#A9A6BD',
-      darkGray: '#26282D',
+      darkGray: 'var(--textColor3)',
 
       darkSuccessGreen: '#2E8C70',
       darkGreen: '#43B593',
@@ -212,7 +212,7 @@ module.exports = {
       muddy: '#6E82AA',
       caution: '#955D09',
       cautionLabel: '#3E2705',
-      color22: '#C8D5EF',
+      color22: 'var(--color22)',
 
       commonBadge: 'rgb(var(--commonBadge-RGB))',
       commonBadgeFill: '#505359',

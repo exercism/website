@@ -1,6 +1,26 @@
 @import "../styles";
 
 #page-tracks-build {
+    .theme-light {
+        --headerBackground: linear-gradient(
+                180deg,
+                rgba(251, 251, 255, 0) 79.36%,
+                #f4f4fd 100%
+            ),
+            linear-gradient(
+                180deg,
+                #fafaff 0%,
+                rgba(250, 250, 255, 0.677852) 24.48%,
+                rgba(250, 250, 255, 0) 77.6%,
+                #fafaff 100%
+            ),
+            url("bg-tracks-header@2x.jpg"), #fafaff;
+    }
+
+    .theme-dark {
+        --headerBackground: #191525;
+    }
+
     .--syllabus {
         &:before {
             content: url("icons/syllabus.svg");
@@ -115,7 +135,7 @@
 
     /* --------------------------------------------------------------------- */
 
-    @apply bg-white;
+    @apply bg-backgroundColorA;
     .track-build-header {
         z-index: 0;
         width: 100%;
@@ -124,19 +144,7 @@
         top: 200px;
         @apply absolute;
 
-        background: linear-gradient(
-                180deg,
-                rgba(251, 251, 255, 0) 79.36%,
-                #f4f4fd 100%
-            ),
-            linear-gradient(
-                180deg,
-                #fafaff 0%,
-                rgba(250, 250, 255, 0.677852) 24.48%,
-                rgba(250, 250, 255, 0) 77.6%,
-                #fafaff 100%
-            ),
-            url("bg-tracks-header@2x.jpg"), #fafaff;
+        background: var(--headerBackground);
         background-size: cover;
     }
 
@@ -157,7 +165,7 @@
     }
 
     .report-stat {
-        @apply flex flex-col py-16 px-24 shadow-sm bg-white rounded-8;
+        @apply flex flex-col py-16 px-24 shadow-sm bg-backgroundColorA rounded-8;
         .stat-name {
             @apply flex items-center;
             @apply label-large;
@@ -185,7 +193,7 @@
     }
 
     .track-status {
-        @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-white;
+        @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-backgroundColorA;
     }
 
     [tooling-status="exemplar"] {
@@ -291,7 +299,7 @@
             @apply mb-0;
         }
         .record-element {
-            @apply bg-white items-center;
+            @apply bg-backgroundColorA items-center;
         }
     }
 

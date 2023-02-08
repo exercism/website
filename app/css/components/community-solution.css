@@ -54,7 +54,7 @@
         @apply flex-grow;
         @apply border-1 border-borderColor7 rounded-8;
         @apply mb-16;
-
+        @apply overflow-hidden;
         & code {
             @apply p-16;
             @apply block;

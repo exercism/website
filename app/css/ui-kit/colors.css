@@ -162,6 +162,8 @@
     --textColor8: var(--c-E1EBFF);
     --textColor9: var(--c-FFFFFF);
 
+    --color22: #c8d5ef;
+
     --linkColor: var(--c-2E57E8);
     --buttonBorderColor1: var(--c-26282D);
     --buttonBorderColor2: var(--c-A9A6BD);
@@ -214,6 +216,8 @@
     /* TODO: Replace with purple-filter */
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
         hue-rotate(236deg) brightness(97%) contrast(80%);
+    --textColor1-filter: invert(10%) sepia(35%) saturate(3157%)
+        hue-rotate(231deg) brightness(99%) contrast(113%);
     --textColor2-filter: invert(7%) sepia(25%) saturate(7470%)
         hue-rotate(241deg) brightness(100%) contrast(107%);
     --textColor5-filter: invert(22%) sepia(33%) saturate(565%)
@@ -257,6 +261,7 @@
     --backgroundColorE: var(--c-4A475F); /* Confirmed */
     --backgroundColorF: var(--c-191525);
     --backgroundColorG: var(--c-2F2943);
+    --backgroundColorH: var(--c-F0F3F9);
 
     /* backgroundColorF */
     --backgroundColorProgress: var(--c-191525);
@@ -267,10 +272,14 @@
     --borderColor7: var(--c-533F56);
     --textColor1: var(--c-FFFFFF);
     --textColor2: var(--c-F0F3F9); /* Confirmed */
+    /* same as buttonBorderColor1 for now */
+    --textColor3: var(--c-8480A0);
     --textColor5: var(--c-CBC9D9);
     --textColor6: var(--c-A9A6BD); /* Confirmed */
     --textColor7: var(--c-6A6781); /* Confirmed */
     --textColor9: var(--c-000000);
+
+    --color22: var(--c-533F56);
 
     --linkColor: var(--c-7097FF);
     --buttonBorderColor1: var(--c-8480A0);
@@ -294,10 +303,16 @@
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)
         brightness(106%) contrast(96%);
+    --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
+        hue-rotate(236deg) brightness(97%) contrast(80%);
+    --textColor1-filter: invert(100%) sepia(0%) saturate(7500%)
+        hue-rotate(242deg) brightness(101%) contrast(100%);
     --textColor2-filter: invert(93%) sepia(31%) saturate(246%)
         hue-rotate(177deg) brightness(100%) contrast(96%);
     --textColor6-filter: invert(71%) sepia(18%) saturate(258%)
         hue-rotate(208deg) brightness(93%) contrast(86%);
+    --textColor7-filter: invert(43%) sepia(4%) saturate(2017%)
+        hue-rotate(207deg) brightness(92%) contrast(86%);
     --buttonBorderColor1-filter: invert(52%) sepia(9%) saturate(862%)
         hue-rotate(208deg) brightness(97%) contrast(95%);
     --primary-reputation-filter: invert(88%) sepia(37%) saturate(870%)

@@ -1,7 +1,11 @@
 @import "../styles";
 
 .c-exercise-header {
-    @apply border-t-1 border-color22;
+    /* is it necessary? it creates a 2px top border (site header has 1px bottom-border)
+    while has a 1px bottom border
+    which looks a bit disturbing
+    */
+    /* @apply border-t-1 border-color22; */
     @apply mb-12;
 
     background: var(--exercise-header-gradient);

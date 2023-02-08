@@ -2,7 +2,11 @@
     .border-gradient {
         border-style: solid;
         border-color: transparent;
-        background-image: linear-gradient(white, white),
+        /* TODO: decide its lighttheme color. it was white, now it is FAFAFF */
+        background-image: linear-gradient(
+                var(--backgroundColorF),
+                var(--backgroundColorF)
+            ),
             linear-gradient(#2200ff, #9e00ff);
         background-origin: border-box;
         background-clip: padding-box, border-box;

@@ -7,10 +7,10 @@
       %section.progress-chart
         %h2
           - if user_track.completed_percentage.zero?
-            You’ve just started the #{track.title} track.
+            You&apos;ve just started the #{track.title} track.
             %strong Good luck, adventurer!
           - else
-            You’re
+            You&apos;re
             %em #{user_track.completed_percentage}%
             through the #{track.title} track.
             %strong Keep it up! 🚀

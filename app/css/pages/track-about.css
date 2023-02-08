@@ -223,7 +223,12 @@
         }
     }
     & .features-section {
-        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+        background: linear-gradient(
+            180deg,
+            var(--backgroundColorA) 80%,
+            var(--backgroundColorB) 100%
+        );
+        /* background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%); */
         & .section-header {
             @apply border-t-3 border-borderColor7;
             @apply pt-48;

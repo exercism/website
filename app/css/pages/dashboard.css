@@ -214,11 +214,11 @@
                         height: 8px;
 
                         &::-webkit-progress-bar {
-                            @apply bg-veryLightBlue;
+                            background: var(--backgroundColorProgress);
                         }
                         &[value] {
                             &::-webkit-progress-value {
-                                @apply bg-lightBlue;
+                                background: var(--fillColorProgress);
                             }
                         }
                     }

@@ -20,8 +20,6 @@
         filter: var(--orange-filter);
     }
 
-    /* I don't think we need duplicates of all the filters - 
-    one here, one in colors.css, or do we? */
     .filter-lightBlue {
         filter: invert(25%) sepia(55%) saturate(3687%) hue-rotate(223deg)
             brightness(94%) contrast(93%);

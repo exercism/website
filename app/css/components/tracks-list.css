@@ -187,10 +187,12 @@
                 @apply mb-16;
                 height: 6px;
                 @apply flex flex-row;
-                @apply bg-veryLightBlue rounded-8;
+                background: var(--backgroundColorProgress);
+                @apply rounded-8;
 
                 & .--fill {
-                    @apply bg-lightBlue rounded-8;
+                    background: var(--fillColorProgress);
+                    @apply rounded-8;
                     min-width: 6px;
                     height: 100%;
                 }

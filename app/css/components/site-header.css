@@ -24,7 +24,9 @@ body.devise {
 
     & .announcement-bar {
         @apply block;
-        @apply bg-textColor2 py-8;
+        @apply py-8;
+        /* hardcoding now to remain the same in dark mode */
+        background: #130b43;
         @apply text-lightPurple font-semibold text-16 leading-160 text-center;
         & strong {
             @apply text-lightGold mx-4 font-semibold;

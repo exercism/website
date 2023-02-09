@@ -302,6 +302,7 @@
     --box-shadow-lg: 0px 4px 42px 0px rgba(0, 0, 0, 0.6);
     --box-shadow-lgZ1: 0px 4px 42px 0px rgba(0, 0, 0, 0.9);
 
+    --white-filter: var(--filter-FFFFFF);
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)
         brightness(106%) contrast(96%);

@@ -9,13 +9,13 @@ body.namespace-.controller-journey {
 #site-footer {
     /* Show this through JS to avoid CLS */
     display: none;
+    background: #130b43;
 
     margin-top: 100px;
     @screen lg {
         margin-top: 200px;
     }
 
-    @apply bg-textColor2;
     @apply border-t-8 border-purple;
 
     & .external-section {
@@ -176,7 +176,7 @@ body.namespace-.controller-journey {
         & li {
             @apply mb-8;
             & a {
-                @apply text-color22 font-medium text-16 leading-150;
+                @apply text-[#c8d5ef] font-medium text-16 leading-150;
             }
         }
     }
@@ -233,10 +233,10 @@ body.namespace-.controller-journey {
         }
     }
     & .legals {
-        @apply text-color22 text-16 leading-160;
+        @apply text-[#c8d5ef] text-16 leading-160;
         & a {
             @apply text-lightPurple font-medium;
-            @apply border-b-1 border-color22;
+            @apply border-b-1 border-[#c8d5ef];
         }
 
         & .copyright {

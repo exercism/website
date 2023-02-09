@@ -45,7 +45,7 @@
                 }
                 & .automation-sorter {
                     & button {
-                        @apply bg-unnamed15 border-none shadow-none text-textColor6;
+                        @apply bg-backgroundColorD border-none shadow-none text-textColor6;
                     }
                 }
                 & .action-icon {
@@ -70,7 +70,7 @@
                 & .c-pagination {
                     @apply px-24 py-16;
                 }
-                @apply border-lightGray border-t-1;
+                @apply border-borderColor7 border-t-1;
             }
         }
     }

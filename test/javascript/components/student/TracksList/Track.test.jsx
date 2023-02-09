@@ -4,25 +4,22 @@ import '@testing-library/jest-dom/extend-expect'
 import { Track } from '../../../../../app/javascript/components/student/tracks-list/Track'
 
 test('hides progress bar if track is unjoined', () => {
-  const { queryByTestId } = render(
-    <Track track={{ isJoined: false, isNew: false, tags: [] }} />
-  )
+  render(<Track track={{ isJoined: false, isNew: false, tags: [] }} />)
 
-  expect(queryByTestId('track-progress-bar')).not.toBeInTheDocument()
+  expect(screen.queryByTestId('track-progress-bar')).not.toBeInTheDocument()
 })
 
 test('hides joined status if track is unjoined', () => {
-  const { queryByText } = render(
-    <Track track={{ isJoined: false, isNew: false, tags: [] }} />
-  )
+  render(<Track track={{ isJoined: false, isNew: false, tags: [] }} />)
 
-  expect(queryByText('Joined')).not.toBeInTheDocument()
+  expect(screen.queryByText('Joined')).not.toBeInTheDocument()
 })
 
 test('shows completed concept exercises if track is joined', () => {
-  const { queryByText } = render(
+  render(
     <Track
       track={{
+        course: true,
         isJoined: false,
         isNew: false,
         tags: [],
@@ -32,13 +29,14 @@ test('shows completed concept exercises if track is joined', () => {
     />
   )
 
-  expect(queryByText('1/2 concepts')).toBeInTheDocument()
+  expect(screen.queryByText('1/2 concepts')).toBeInTheDocument()
 })
 
 test('shows number of concept exercises if track is unjoined', () => {
-  const { queryByText } = render(
+  render(
     <Track
       track={{
+        course: true,
         isJoined: false,
         isNew: false,
         tags: [],
@@ -47,11 +45,11 @@ test('shows number of concept exercises if track is unjoined', () => {
     />
   )
 
-  expect(queryByText('2 concepts')).toBeInTheDocument()
+  expect(screen.queryByText('2 concepts')).toBeInTheDocument()
 })
 
 test('shows completed practice exercises if track is joined', () => {
-  const { queryByText } = render(
+  render(
     <Track
       track={{
         isJoined: false,
@@ -63,11 +61,11 @@ test('shows completed practice exercises if track is joined', () => {
     />
   )
 
-  expect(queryByText('3/5 exercises')).toBeInTheDocument()
+  expect(screen.queryByText('3/5 exercises')).toBeInTheDocument()
 })
 
 test('shows number of practice exercises if track is unjoined', () => {
-  const { queryByText } = render(
+  render(
     <Track
       track={{
         isJoined: false,
@@ -78,7 +76,7 @@ test('shows number of practice exercises if track is unjoined', () => {
     />
   )
 
-  expect(queryByText('5 exercises')).toBeInTheDocument()
+  expect(screen.queryByText('5 exercises')).toBeInTheDocument()
 })
 
 test('shows new tag if track is new', () => {
@@ -126,10 +124,11 @@ test('hides new tag if track is joined', () => {
   expect(screen.queryByText('New')).not.toBeInTheDocument()
 })
 
-test('shows learning mode tag if track has more than 5 concepts', () => {
+test('shows learning mode tag if course mode is enabled', () => {
   render(
     <Track
       track={{
+        course: true,
         isJoined: false,
         isNew: true,
         tags: [],
@@ -139,12 +138,14 @@ test('shows learning mode tag if track has more than 5 concepts', () => {
   )
 
   expect(screen.getByText('Learning Mode')).toBeInTheDocument()
+  expect(screen.getByText('6 concepts')).toBeInTheDocument()
 })
 
-test('hides learning mode tag if track has less than 5 concepts', () => {
+test('hides learning mode tag if course mode is disabled', () => {
   render(
     <Track
       track={{
+        course: false,
         isJoined: false,
         isNew: true,
         tags: [],

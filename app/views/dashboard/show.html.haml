@@ -62,6 +62,11 @@
         -# = render ViewComponents::ProminentLink.new("See all updates", "#")
 
     .rhs
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 5413e55d7 (Add Jose now email)
       - if @live_event
         .mb-32
           .flex.items-center.mb-2
@@ -77,13 +82,17 @@
               = link_to "YouTube", "https://www.youtube.com/watch?v=#{@live_event.youtube_id}"
             👇🏽
 
-          .rounded-8.shadow-baseZ1.w-fill
+          .rounded-8.shadow-baseZ1.w-fill.overflow-hidden
             - if @live_event.youtube?
               .c-youtube-container
                 %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@live_event.youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
             - else
               %iframe{ src: "https://player.twitch.tv/?channel=exercismlive&parent=exercism.org", height: "240", width: "100%", allowfullscreen: true }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 3059c7dc9 (Add Jose now email)
+>>>>>>> 5413e55d7 (Add Jose now email)
       - if current_user.challenges.exists?
         .flex.flex-col.items-start.mb-28
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4

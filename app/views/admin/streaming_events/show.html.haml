@@ -12,7 +12,6 @@
   .flex
     = link_to "Edit this streaming event", edit_admin_streaming_event_path(@streaming_event), class: 'btn btn-standard btn-base'
     |
-    = link_to "Back to streaming event", admin_streaming_events_path, class: 'btn btn-standard btn-base'
-
-    -# \#{button_to "Destroy this community video", [:admin, @streaming_event, method: :delete}
-
+   = button_to "Destroy this event", [:admin, @streaming_event], method: :delete, data: { confirm: "Are you sure? Destroy #{@streaming_event.title}?" }, class: 'btn btn-warning'
+    |
+    = link_to "Back to all streaming events", admin_streaming_events_path, class: 'btn btn-standard btn-base'

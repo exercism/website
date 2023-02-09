@@ -92,9 +92,8 @@ test('shows empty state and allows resetting', async () => {
   userEvent.click(await screen.findByLabelText('Windows'))
   userEvent.click(screen.getByRole('button', { name: /apply/i }))
 
-  await waitFor(() =>
-    expect(screen.getByText('No results found')).toBeInTheDocument()
-  )
+  const noResultsFound = await screen.findByText('No results found')
+  expect(noResultsFound).toBeInTheDocument()
 
   userEvent.click(
     screen.getByRole('button', { name: /reset search and filters/i })

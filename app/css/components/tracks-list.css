@@ -187,7 +187,7 @@
                 @apply mb-16;
                 height: 6px;
                 @apply flex flex-row;
-                background: var(--backgroundColorProgress);
+                background: var(--backgroundColorI);
                 @apply rounded-8;
 
                 & .--fill {

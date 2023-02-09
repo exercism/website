@@ -214,7 +214,7 @@
                         height: 8px;
 
                         &::-webkit-progress-bar {
-                            background: var(--backgroundColorProgress);
+                            background: var(--backgroundColorI);
                         }
                         &[value] {
                             &::-webkit-progress-value {

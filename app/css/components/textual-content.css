@@ -209,8 +209,8 @@
         /* Inline code blocks */
         & :not(pre) > code {
             @apply inline-flex items-center justify-center rounded-5;
-            @apply px-6 text-gotToLoveAPurple leading-regular;
-            background: var(--backgroundColorProgress);
+            @apply px-6 text-textColor10 leading-regular;
+            background: var(--backgroundColorI);
         }
 
         & table {

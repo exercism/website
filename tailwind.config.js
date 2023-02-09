@@ -81,6 +81,7 @@ module.exports = {
       backgroundColorF: 'var(--backgroundColorF)',
       backgroundColorG: 'var(--backgroundColorG)',
       backgroundColorH: 'var(--backgroundColorH)',
+      backgroundColorI: 'var(--backgroundColorI)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',
@@ -96,6 +97,7 @@ module.exports = {
       textColor7: 'var(--textColor7)',
       textColor8: 'var(--textColor8)',
       textColor9: 'var(--textColor9)',
+      textColor10: 'var(--textColor10)',
 
       linkColor: 'var(--linkColor)',
       buttonBorderColor1: 'var(--buttonBorderColor1)',
@@ -153,7 +155,7 @@ module.exports = {
       purpleDarkened: '#3B2A93',
       purpleDarker3: '#453A8F',
       anotherPurple: '#604FCD' /* Remove this */,
-      lightPurple: '#B0A8E3',
+      // lightPurple: '#B0A8E3',
       lightPurpleDarkened: '#f2f0fc',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
@@ -164,6 +166,7 @@ module.exports = {
       purpleHover: '#F2F0FC',
 
       gray: '#A9A6BD',
+      // TODO: fix this - change it back to its hex value
       darkGray: 'var(--textColor3)',
 
       darkSuccessGreen: '#2E8C70',

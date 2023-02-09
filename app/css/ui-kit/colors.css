@@ -142,7 +142,7 @@
     --backgroundColorG: var(--c-F6F7FB);
     --backgroundColorH: var(--c-130B43);
     /* veryLightBlue */
-    --backgroundColorProgress: #e1ebff;
+    --backgroundColorI: #e1ebff;
     /* lightBlue */
     --fillColorProgress: #2e57e8;
     --borderColor1: var(--c-000000);
@@ -161,6 +161,8 @@
     --textColor7: var(--c-76709F);
     --textColor8: var(--c-E1EBFF);
     --textColor9: var(--c-FFFFFF);
+    /* inline codeblock - gotToLoveAPurple - needs a theme-dark pair  */
+    --textColor10: #271b72;
 
     --color22: #c8d5ef;
 
@@ -264,7 +266,7 @@
     --backgroundColorH: var(--c-F0F3F9);
 
     /* backgroundColorF */
-    --backgroundColorProgress: var(--c-191525);
+    --backgroundColorI: var(--c-191525);
     --fillColorProgress: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
     --borderColor3: var(--c-8480A0);
     --borderColor5: var(--c-433F56); /* Confirmed */

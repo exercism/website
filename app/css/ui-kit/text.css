@@ -89,7 +89,7 @@
     }
 
     .text-radio-essential {
-        @apply text-14 font-semibold text-biggerBolderAndMorePurpleThanEver;
+        @apply text-14 font-semibold text-textColor1;
     }
 
     .text-gradient {

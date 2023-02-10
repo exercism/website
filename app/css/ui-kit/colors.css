@@ -143,6 +143,9 @@
     --backgroundColorH: var(--c-130B43);
     /* veryLightBlue */
     --backgroundColorI: #e1ebff;
+
+    /* used at background linear-gradients */
+    --backgroundColorJ: #fbfbff;
     /* lightBlue */
     --fillColorProgress: #2e57e8;
     --borderColor1: var(--c-000000);
@@ -255,6 +258,8 @@
 }
 
 .theme-dark {
+    color-scheme: dark;
+
     --backgroundColorA: var(--c-282339);
     --backgroundColorA-RGB: 40, 35, 57;
     --backgroundColorB: var(--c-211D2F);
@@ -265,8 +270,11 @@
     --backgroundColorG: var(--c-2F2943);
     --backgroundColorH: var(--c-F0F3F9);
 
-    /* backgroundColorF */
+    /* backgroundColorF's colors */
     --backgroundColorI: var(--c-191525);
+
+    /* this is used at tiny gradients - needs a proper dark-theme color */
+    --backgroundColorJ: var(--backgroundColorA);
     --fillColorProgress: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
     --borderColor3: var(--c-8480A0);
     --borderColor5: var(--c-433F56); /* Confirmed */
@@ -326,6 +334,7 @@
     /* same as light theme, but becomes black if it is missing */
     --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
+    --purple-filter: var(--filter-FFFFFF);
 
     @apply text-textColor5 bg-backgroundColorB;
 }

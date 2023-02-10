@@ -6,7 +6,11 @@
     & article {
         & section {
             @apply pt-48 pb-64;
-            background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+            background: linear-gradient(
+                180deg,
+                var(--backgroundColorA) 80%,
+                var(--backgroundColorJ) 100%
+            );
         }
         & header.section-header {
             @apply relative self-center;

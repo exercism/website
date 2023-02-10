@@ -23,7 +23,7 @@ export function PreviewFeedbackComment({
       <div className="flex flex-row items-center mb-12">
         <Avatar className="w-[32px] h-[32px] mr-16" src={mentor.avatarUrl} />
         <div className="text-15 text-btnBorder font-medium">
-          <span className="text-primaryBtnBorder">{mentor.name}</span> gave this
+          <span className="text-textColor1">{mentor.name}</span> gave this
           feedback on a solution exactly like yours:
         </div>{' '}
       </div>

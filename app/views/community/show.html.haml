@@ -18,7 +18,7 @@
           = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
           Recent topics
 
-        = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+        = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-backgroundColorA px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
           = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
           .flex.flex-col.mr-auto
             %h5.text-h5 What are your favorite books on programming?
@@ -29,7 +29,7 @@
             48
 
         - @forum_threads.each do |thread|
-          = link_to thread.url, class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
+          = link_to thread.url, class: 'flex items-center bg-backgroundColorA px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
             = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'
             .flex.flex-col.mr-auto
               %h5.text-h5= thread.title
@@ -50,7 +50,7 @@
 
         .grid.grid-cols-1.lg:grid-cols-3.gap-16
           - @community_stories.each do |community_story|
-            = link_to community_story_path(community_story), class: 'flex flex-col shadow-sm p-16 bg-white rounded-8' do
+            = link_to community_story_path(community_story), class: 'flex flex-col shadow-sm p-16 bg-backgroundColorA rounded-8' do
               = image_tag community_story.thumbnail_url, class: "bg-borderLight rounded-8 mb-12 w-[100%]", width: 243, height: 136
               %h5.text-h5.mb-8= community_story.title
               .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
@@ -62,7 +62,7 @@
           = link_to "", class: 'explore-link mt-32' do
             Explore more Community Stories
 
-      .flex.flex-col.bg-white.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3] min-w-[440px]", style: 'height: fit-content; ' }
+      .flex.flex-col.bg-backgroundColorA.shadow-baseZ1.p-32.rounded-8{ class: "shrink-[3] min-w-[440px]", style: 'height: fit-content; ' }
         .flex.flex-wrap.pb-16.mb-24{ class: 'w-fill max-w-[360px]' }
           - @supporter_avatar_urls.each do |supporter_avatar_url|
             = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'

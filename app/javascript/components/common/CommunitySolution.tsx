@@ -151,7 +151,7 @@ export const CommunitySolution = ({
         <ProcessingStatus solution={solution} />
       </header>
       <pre ref={snippetRef}>
-        <code className={solution.track.highlightjsLanguage}>
+        <code className={`language-${solution.track.highlightjsLanguage}`}>
           {solution.snippet}
         </code>
       </pre>

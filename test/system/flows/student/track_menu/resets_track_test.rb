@@ -28,7 +28,7 @@ module Flows
             within(".m-reset-track") { click_on "Reset track" }
 
             wait_for_redirect
-            assert_text "You’ve just started the Ruby track"
+            assert_text "You've just started the Ruby track"
           end
         end
       end

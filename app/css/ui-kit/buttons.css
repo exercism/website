@@ -71,7 +71,7 @@
 
     .btn-secondary {
         @apply btn-i-filled;
-        @apply text-purple bg-lightPurple;
+        @apply text-purple bg-backgroundColorF;
 
         @apply border-1 border-purple;
         & > .c-icon {

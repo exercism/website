@@ -4,7 +4,7 @@
         @apply bg-backgroundColorA;
         background: linear-gradient(
             180deg,
-            #ffffff 80%,
+            var(--backgroundColorA) 80%,
             var(--backgroundColorC) 100%
         );
     }
@@ -23,7 +23,7 @@
             @apply mt-24 mb-48;
 
             @apply py-8 px-24 rounded-8;
-            @apply bg-veryLightBlue;
+            @apply bg-backgroundColorI;
             @apply font-medium;
 
             & a {
@@ -40,7 +40,7 @@
     }
     progress {
         &::-webkit-progress-bar {
-            @apply bg-veryLightBlue;
+            @apply bg-backgroundColorI;
         }
         &[value] {
             &::-webkit-progress-value {

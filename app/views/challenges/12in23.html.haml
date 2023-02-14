@@ -10,7 +10,7 @@
           %p.text-p-xlarge.mb-20
             This month for #12in23 we're exploring functional languages. We've got interviews with language creators, lots of live streaming, exclusive functional swag and more.
 
-          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
+          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorA
             .flex-shrink
               %h2.text-h4.mb-2 Start by watching our Functional February overview video  👉
               %p.text-p-base.mb-8
@@ -33,9 +33,9 @@
           - tracks = Track.where(slug: %w[elixir fsharp clojure erlang haskell ocaml scala sml gleam])
           .grid.grid-cols-9.gap-12.mb-32
             - tracks.each do |track|
-              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
+              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
                 - if track.course?
-                  .rounded-circle.bg-white.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
+                  .rounded-circle.bg-backgroundColorA.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
                     = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple'
                 = image_tag track.icon_url, class: 'mb-8'
                 .text-h6= track.title.gsub("Standard ML", "SML")
@@ -92,7 +92,7 @@
               for details!
 
         .ml-80{ class: 'max-w-[450px]' }
-          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 Upcoming Schedule
             %p.text-p-base.mb-12.italic
               We're currently finalising the schedule for February.
@@ -104,25 +104,25 @@
                 %strong.font-semibold Interview with Jose Valim, creator of Elixir.
                 Live-streamed on Twitch and YouTube.
 
-          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 How does #12in23 work?
             %p.text-p-base.mb-12
               Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
-              = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-backgroundColorA p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-introducing-12in23.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
                 .text-center.text-h6 Take the #12in23 Challenge
 
-              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorA p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
                 .text-center.text-h6 The Official #12in23 Calendar
 
-            %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
+            %p.text-p-small.text-center.mt-20.bg-backgroundColorI.rounded-8.py-8.px-12.font-medium
               You can track your progress at the bottom of the page.
 
-          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
             %p.text-p-base.mb-12
               We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
@@ -141,7 +141,7 @@
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
-          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
+          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
             = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
@@ -155,5 +155,5 @@
         - num_placeholders = 12 - @track_counts.size
         - if num_placeholders.positive?
           - num_placeholders.times do
-            .shadow-base.bg-white.rounded-8.flex.flex-col.items-center.justify-center{ class: 'min-h-[175px]' }
+            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center{ class: 'min-h-[175px]' }
               .text-h0{ class: "opacity-[0.2]" } ?

@@ -37,11 +37,11 @@
             @apply mt-24 mb-40;
 
             @apply py-8 px-24 rounded-8;
-            @apply bg-veryLightBlue;
+            @apply bg-backgroundColorI;
             @apply font-medium;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-linkColor;
             }
         }
 

@@ -30,7 +30,7 @@
               = render ReactComponents::Impact::Stat.new(:sign_up_metric, Metrics.num_users.to_i)
             .text-successColor.font-bold +1,342 per day
 
-          .py-12.px-32.bg-bgGray
+          .py-12.px-32.bg-backgroundColorB
             %h3.label-large Exercises Practiced
             .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
               = render ReactComponents::Impact::Stat.new(:start_solution_metric, Metrics.num_solutions.to_i)
@@ -40,15 +40,15 @@
             %h3.label-large Mentoring Discussions
             .text-purple.font-semibold.text-40.leading-150= number_with_delimiter(Metrics.num_discussions.to_i)
 
-        .bg-bgGray.shadow-base.py-16.px-24
+        .bg-backgroundColorB.shadow-base.py-16.px-24
           %p.text-p-large.mb-8
             %span.text-h5 Exercism teaches #{Track.active.count} programming languages
             from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title},
             using a unique blend of learning, practicing, and mentoring.
           %p.text-h5 Everything on Exercism is 100% free.
 
-      .shadow-lg.flex-grow.bg-white.rounded-16.py-48.px-24.relative
-        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-white.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
+      .shadow-lg.flex-grow.bg-backgroundColorA.rounded-16.py-48.px-24.relative
+        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-backgroundColorA.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
           = graphical_icon "graph-stats-gradient", css_class: 'h-[24px] w-[24px] mr-12'
           Live activity on Exercism
         = ReactComponents::Impact::Map.new
@@ -93,7 +93,7 @@
 
   .md-container.mb-64
     .flex.flex-col.md:flex-row
-      .md:mr-32.mb-48.md:mb-0.shadow-lg.flex-grow.bg-white.rounded-16.py-40.px-48
+      .md:mr-32.mb-48.md:mb-0.shadow-lg.flex-grow.bg-backgroundColorA.rounded-16.py-40.px-48
         %h2.text-h1.mb-32 Exercism is powered by huge team of wonderful volunteers.
         .grid.grid-cols-1.gap-20.lg:grid-cols-3
           .flex.flex-col
@@ -108,10 +108,10 @@
 
         .flex.flex-wrap.mt-32.overflow-y-hidden{ class: 'h-[76px]' }
           - @contributor_avatars.each do |avatar|
-            = image_tag avatar, class: 'bg-white h-[32px] w-[32px] mr-[-14px] mb-12 rounded-circle'
+            = image_tag avatar, class: 'bg-backgroundColorA h-[32px] w-[32px] mr-[-14px] mb-12 rounded-circle'
 
       %div{ class: 'w-fill md:max-w-[374px]' }
-        .py-24.px-24.pt-60.shadow-base.mb-32.bg-white.relative
+        .py-24.px-24.pt-60.shadow-base.mb-32.bg-backgroundColorA.relative
           .absolute.bg-lightGold.rounded-circle.w-48.text-24.p-12{ class: 'top-0 -translate-y-1/2' } 🙌
           %h3.text-h4.mb-8 Has Exercism helped you become a better developer?
           %p.text-p-large.mb-16 If Exercism has helped your career prospects or given you joy, please consider financially supporting us.
@@ -161,7 +161,7 @@
             friends.
 
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
-    .bg-white.flex.flex-col.text-center.justify-center.rounded-32.pt-24.pb-40.px-48.shadow-lgv2
+    .bg-backgroundColorA.flex.flex-col.text-center.justify-center.rounded-32.pt-24.pb-40.px-48.shadow-lgv2
       .text-48.leading-130.mb-8 🚀
       %h2.text-h1.mb-12 Become rocket fuel for our mission
       %p.text-p-2xlarge.mb-36.text-center.text-textColor6.font-medium

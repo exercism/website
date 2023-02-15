@@ -21,6 +21,7 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_general_update_notification
       email_on_nudge_notification
       email_about_fundraising_campaigns
+      email_about_events
       receive_product_updates
     ]
   end

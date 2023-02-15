@@ -7,6 +7,10 @@ class DashboardController < ApplicationController
     @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10)
     @blog_posts = BlogPost.published.ordered_by_recency.limit(3).includes(:author)
 
+    @live_event = StreamingEvent.live
+    @featured_event = StreamingEvent.next_featured unless @live_event
+    @scheduled_events = StreamingEvent.next_5
+
     if current_user.mentor? # rubocop:disable Style/GuardClause
       @mentor_discussions = Mentor::Discussion::Retrieve.(
         current_user,

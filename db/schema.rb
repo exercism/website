@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_03_185625) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -750,6 +750,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_03_185625) do
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
   end
 
+  create_table "streaming_events", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.string "youtube_id"
+    t.boolean "featured", default: false, null: false
+    t.string "thumbnail_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["starts_at", "ends_at"], name: "index_streaming_events_on_starts_at_and_ends_at"
+  end
+
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
@@ -886,6 +899,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_03_185625) do
     t.boolean "has_representer", default: false, null: false
     t.boolean "has_analyzer", default: false, null: false
     t.integer "representer_version", limit: 2, default: 1, null: false
+    t.string "intro_video_youtube_slug"
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
@@ -969,6 +983,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_03_185625) do
     t.boolean "email_on_mentor_finished_discussion_notification", default: true, null: false
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
+    t.boolean "email_about_events", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end

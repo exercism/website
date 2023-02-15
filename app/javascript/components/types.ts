@@ -246,6 +246,7 @@ export type MentorSessionExercise = {
 }
 
 export type StudentTrack = {
+  course: boolean
   slug: string
   webUrl: string
   iconUrl: string

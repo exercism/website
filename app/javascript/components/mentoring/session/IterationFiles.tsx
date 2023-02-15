@@ -8,7 +8,7 @@ import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 
 const TabsContext = createContext<TabContext>({
   current: '',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 type ComponentProps = {

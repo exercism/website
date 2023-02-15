@@ -74,3 +74,17 @@ declare module 'highlightjs-bqn' {
 
   export default setup
 }
+
+declare module 'highlightjs-zig' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module 'highlightjs-gleam' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}

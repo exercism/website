@@ -63,7 +63,7 @@
     "postcss-cli": "^9.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^14.0.2",
-    "postcss-nesting": "^10.0.3",
+    "postcss-nesting": "^11.2.0",
     "prop-types": "^15.7.2",
     "qs": "^6.9.6",
     "react": "^16.13.1",

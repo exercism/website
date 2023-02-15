@@ -30,24 +30,24 @@
     }
     & article {
         @apply flex flex-col;
+        @apply lg:flex lg:flex-row-reverse;
 
-        @apply lg:grid;
-        @screen lg {
-            grid-template:
-                "video form" auto
-                "info form" auto / auto auto;
+        /* @screen lg { */
+        /*     grid-template: */
+        /*         "video form" auto */
+        /*         "info form" auto / auto auto; */
 
-            & section.video-section {
-                grid-area: video;
-            }
-            & section.info-section {
-                grid-area: info;
-            }
-            & section.form-section {
-                grid-area: form;
-                @apply pl-48;
-            }
-        }
+        /*     & section.video-section { */
+        /*         grid-area: video; */
+        /*     } */
+        /*     & section.info-section { */
+        /*         grid-area: info; */
+        /*     } */
+        /*     & section.form-section { */
+        /*         grid-area: form; */
+        /*         @apply pl-48; */
+        /*     } */
+        /* } */
     }
     & .c-progress {
         @apply relative;

@@ -338,3 +338,10 @@
 
     @apply text-textColor5 bg-backgroundColorB;
 }
+
+@media (prefers-color-scheme: dark) {
+    body.theme-unset {
+        background: red;
+        @reuse .theme-dark;
+    }
+}

@@ -1,4 +1,17 @@
 module.exports = {
+  mode: 'jit',
+
+  options: {
+    // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
+    defaultExtractor: (line) => {
+      return [
+        ...(line.match(/[^<>"'`;\s]*[^<>"'`;\s:]/g) || []),
+        ...(line.match(/[^<>"'`;\s.(){}[\]#=%]*[^<>"'`;\s.(){}[\]#=%:]/g) ||
+          []),
+      ]
+    },
+  },
+
   content: [
     './app/views/**/*.haml',
     './app/helpers/**/*.rb',
@@ -351,6 +364,12 @@ module.exports = {
     },
   },
   plugins: [
+    [
+      'postcss-reuse',
+      {
+        mode: 'class',
+      },
+    ],
     function ({ addVariant }) {
       addVariant('child', '& > *')
     },

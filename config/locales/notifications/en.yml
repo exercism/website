@@ -30,6 +30,11 @@ en:
       1: >
         Welcome to Exercism! Explore your dashboard to learn more.
 
+    onboarding_community:
+      1: >
+        Community is at the heart of Exercism. Try our forums and mentoring, get involved on YouTube and Twitch.
+        Check the community section for more info!
+
     nudge_to_request_mentoring:
       1: >
         <strong>It's time to get mentored!</strong>

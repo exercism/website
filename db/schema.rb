@@ -1166,6 +1166,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
     t.datetime "disabled_at"
     t.date "last_visited_on"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

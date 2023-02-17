@@ -10,7 +10,7 @@ class CreateOnboardingNotificationsJob < ApplicationJob
   # 0 would be immediately after signing up
   # 1 is a day after signing up, etc
   #
-  # Each slug should be paired with a User::Notifications::Onboarding{$SLUG}Notification
+  # Each slug should be paired with a User::Notifications::Onboarding{$SLUG}Notification class
   EMAILS = {
     1 => :community,
     3 => :fundraising

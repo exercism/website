@@ -1,5 +1,72 @@
 @import "../styles";
 
+@layer components {
+    .tooling-status {
+        @apply flex items-center border-2 border-black rounded-circle mr-16;
+        @apply bg-lightPurple;
+        height: 48px;
+        width: 48px;
+
+        img {
+            height: 20px;
+            width: 20px;
+            @apply mx-auto;
+        }
+    }
+
+    .usage-summary {
+        @apply flex items-center;
+        @apply label-large leading-150;
+        @apply cursor-pointer;
+        @apply before-icon;
+        .summary-chevron {
+            @apply transition-all;
+            @apply filter-textColor6;
+            height: 16px;
+            width: 16px;
+            @apply flex ml-auto;
+        }
+    }
+
+    .stats-container {
+        @apply flex flex-col;
+        @apply py-12 px-24;
+        @apply border-1 border-borderLight2 rounded-8;
+    }
+
+    .stats-container + .c-react-component {
+        @apply mt-16;
+    }
+
+    .track-leader {
+        @apply text-h3 font-bold flex text-center items-center;
+
+        &:before {
+            @apply block mr-16;
+            height: 32px;
+            width: 32px;
+        }
+    }
+
+    .usage-stats-header {
+        h4 {
+            @apply text-h4 mb-8;
+            @apply before-icon;
+            &:before {
+                content: url("icons/graph-stats.svg");
+            }
+        }
+    }
+    .before-icon {
+        @apply flex items-center;
+        &:before {
+            height: 24px;
+            width: 24px;
+            @apply block mr-16;
+            @apply filter-textColor1;
+        }
+    }
+}
 #page-tracks-build {
     .--syllabus {
         &:before {
@@ -42,74 +109,6 @@
     .--practice-exercises-gradient {
         &:before {
             content: url("icons/practice-exercises-gradient.svg");
-        }
-    }
-
-    @layer components {
-        .tooling-status {
-            @apply flex items-center border-2 border-black rounded-circle mr-16;
-            @apply bg-lightPurple;
-            height: 48px;
-            width: 48px;
-
-            img {
-                height: 20px;
-                width: 20px;
-                @apply mx-auto;
-            }
-        }
-
-        .usage-summary {
-            @apply flex items-center;
-            @apply label-large leading-150;
-            @apply cursor-pointer;
-            @apply before-icon;
-            .summary-chevron {
-                @apply transition-all;
-                @apply filter-textColor6;
-                height: 16px;
-                width: 16px;
-                @apply flex ml-auto;
-            }
-        }
-
-        .stats-container {
-            @apply flex flex-col;
-            @apply py-12 px-24;
-            @apply border-1 border-borderLight2 rounded-8;
-        }
-
-        .stats-container + .c-react-component {
-            @apply mt-16;
-        }
-
-        .track-leader {
-            @apply text-h3 font-bold flex text-center items-center;
-
-            &:before {
-                @apply block mr-16;
-                height: 32px;
-                width: 32px;
-            }
-        }
-
-        .usage-stats-header {
-            h4 {
-                @apply text-h4 mb-8;
-                @apply before-icon;
-                &:before {
-                    content: url("icons/graph-stats.svg");
-                }
-            }
-        }
-        .before-icon {
-            @apply flex items-center;
-            &:before {
-                height: 24px;
-                width: 24px;
-                @apply block mr-16;
-                @apply filter-textColor1;
-            }
         }
     }
 

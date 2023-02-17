@@ -5,6 +5,10 @@ class CreateOnboardingNotificationsJob < ApplicationJob
     def notification_type
       "onboarding_#{slug}".to_sym
     end
+
+    def has_notification
+      @has_notification ||= I18n.backend.send(:translations)[:en][:notifications][notification_type].present?
+    end
   end
 
   # 0 would be immediately after signing up
@@ -46,9 +50,7 @@ class CreateOnboardingNotificationsJob < ApplicationJob
 
   private
   def send_email(user, email)
-    has_notification = I18n.backend.send(:translations)[:en][:notifications][email.notification_type].present?
-
-    if has_notification
+    if email.has_notification
       User::Notification::Create.(user, email.notification_type)
     else
       User::Notification::CreateEmailOnly.(user, email.notification_type)

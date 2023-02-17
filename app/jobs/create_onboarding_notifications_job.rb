@@ -17,24 +17,24 @@ class CreateOnboardingNotificationsJob < ApplicationJob
   }.map { |day, slug| OnboardingEmail.new(day:, slug:) }.freeze
 
   # For each email we get all the users that signed up between
-  # n days ago and n+safety_offset days ago.
-  # So for example, for a day 3 email, if SAFETY_OFFSET is 1,
+  # n days ago and n+SAFETY_OFFSET_IN_DAYS days ago.
+  # So for example, for a day 3 email, if SAFETY_OFFSET_IN_DAYS is 1,
   # we check anyone that signed up between days 3 and 4.
   #
   # This gives us a security blanket that if our scripts don't
   # run for a period of time, no-one gets missed. But after the safety
   # period we don't end up spamming old users. All onboarding notifications
   # only send once, so this is safe to run multiple times.
-  SAFETY_OFFSET = 1
+  SAFETY_OFFSET_IN_DAYS = 1
 
-  private_constant :EMAILS, :SAFETY_OFFSET, :OnboardingEmail
+  private_constant :EMAILS, :SAFETY_OFFSET_IN_DAYS, :OnboardingEmail
 
   def perform
     I18n.backend.send(:init_translations)
 
     EMAILS.each do |email|
       users = User.where('created_at < ?', Time.current - email.day.days).
-        where('created_at > ?', Time.current - (email.day + SAFETY_OFFSET).days)
+        where('created_at > ?', Time.current - (email.day + SAFETY_OFFSET_IN_DAYS).days)
 
       users.find_each do |user|
         send_email(user, email)

@@ -19,8 +19,6 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
   end
 
   test "sends onboarding fundraising notification to correct users" do
-    skip
-
     user_1 = create :user, created_at: Time.current - 3.1.days
     user_2 = create :user, created_at: Time.current - 3.5.days
     user_3 = create :user, created_at: Time.current - 3.9.days

@@ -35,6 +35,11 @@ en:
         Community is at the heart of Exercism. Try our forums and mentoring, get involved on YouTube and Twitch.
         Check the community section for more info!
 
+    onboarding_fundraising:
+      1: >
+        Support our goal: Give everyone an equal chance to learn and master programming.
+        Check the donate section for more info!
+
     nudge_to_request_mentoring:
       1: >
         <strong>It's time to get mentored!</strong>

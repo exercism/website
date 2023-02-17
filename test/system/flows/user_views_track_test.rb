@@ -47,7 +47,7 @@ module Flows
       use_capybara_host do
         visit track_path(track)
 
-        assert_text "A taste of the concepts you’ll cover"
+        assert_text "A taste of the concepts you'll cover"
       end
     end
 
@@ -57,7 +57,7 @@ module Flows
       use_capybara_host do
         visit track_path(track)
 
-        refute_text "A taste of the concepts you’ll cover"
+        refute_text "A taste of the concepts you'll cover"
       end
     end
   end

@@ -36,7 +36,11 @@ class CreateOnboardingNotificationsJob < ApplicationJob
       users = User.where('created_at < ?', Time.current - email.day.days).
         where('created_at > ?', Time.current - (email.day + SAFETY_OFFSET).days)
 
-      users.find_each { |user| send_email(user, email) }
+      users.find_each do |user|
+        send_email(user, email)
+      rescue StandardError => e
+        Bugsnag.notify(e)
+      end
     end
   end
 

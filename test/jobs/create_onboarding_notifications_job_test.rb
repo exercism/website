@@ -34,4 +34,24 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
 
     CreateOnboardingNotificationsJob.perform_now
   end
+
+  test "gracefully handle errors" do
+    community_user_1 = create :user, created_at: Time.current - 1.5.days
+    community_user_2 = create :user, created_at: Time.current - 1.6.days
+    community_user_3 = create :user, created_at: Time.current - 1.7.days
+
+    fundraising_user_1 = create :user, created_at: Time.current - 3.1.days
+    fundraising_user_2 = create :user, created_at: Time.current - 3.3.days
+    fundraising_user_3 = create :user, created_at: Time.current - 3.5.days
+
+    User::Notification::Create.expects(:call).with(community_user_1, :onboarding_community).raises
+    User::Notification::Create.expects(:call).with(community_user_2, :onboarding_community).once
+    User::Notification::Create.expects(:call).with(community_user_3, :onboarding_community).once
+
+    User::Notification::Create.expects(:call).with(fundraising_user_1, :onboarding_fundraising).once
+    User::Notification::Create.expects(:call).with(fundraising_user_2, :onboarding_fundraising).raises
+    User::Notification::Create.expects(:call).with(fundraising_user_3, :onboarding_fundraising).once
+
+    CreateOnboardingNotificationsJob.perform_now
+  end
 end

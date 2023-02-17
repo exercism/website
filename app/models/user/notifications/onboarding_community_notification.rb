@@ -7,7 +7,5 @@ class User::Notifications::OnboardingCommunityNotification < User::Notification
     "" # Users should only have this email once
   end
 
-  def email_communication_preferences_key
-    # TODO: Add a new communication preference for onboarding emails
-  end
+  def email_communication_preferences_key = "email_on_onboarding"
 end

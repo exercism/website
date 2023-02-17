@@ -984,7 +984,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
-    t.boolean "email_on_onboarding", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end

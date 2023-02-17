@@ -22,7 +22,7 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_nudge_notification
       email_about_fundraising_campaigns
       email_about_events
-      email_on_onboarding
+      receive_onboarding_emails
       receive_product_updates
     ]
   end

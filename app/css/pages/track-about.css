@@ -313,6 +313,11 @@
         & img.screenshot {
             @apply mb-32;
             max-width: 100%;
+            mask-image: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 1) 50%,
+                transparent 100%
+            );
         }
     }
     & .upsell-section {

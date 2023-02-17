@@ -7,7 +7,7 @@ class User::Notifications::OnboardingCommunityNotificationTest < ActiveSupport::
     notification = User::Notifications::OnboardingCommunityNotification.create!(user:)
 
     assert_equal "#{user.id}|onboarding_community|", notification.uniqueness_key
-    assert_equal "Community is at the heart of Exercism. Try our forums and mentoring, get involved on YouTube and Twitch. Check the community section for more info!", notification.text # rubocop:disable Layout/LineLength
+    assert_equal I18n.t('notifications.onboarding_community')[1].strip, notification.text
     assert_equal :icon, notification.image_type
     assert notification.image_url.starts_with?('/assets/icons/community-')
     assert_equal "https://test.exercism.org/community", notification.url

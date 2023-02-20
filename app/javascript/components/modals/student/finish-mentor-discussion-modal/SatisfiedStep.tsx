@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { FormButton } from '../../../common'
-import { FetchingBoundary } from '../../../FetchingBoundary'
-import { MentorDiscussion } from '../../../types'
+import { sendRequest } from '@/utils'
+import { FormButton } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { MentorDiscussion } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
@@ -40,7 +40,7 @@ export const SatisfiedStep = ({
 
   return (
     <section className="acceptable-decision-step">
-      <h2>Sorry that this mentoring wasn't great.</h2>
+      <h2>Sorry that this mentoring wasn&apos;t great.</h2>
       <p className="explanation">
         Would you like to put this exercise back in the queue for another mentor
         to look at?

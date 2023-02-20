@@ -212,11 +212,11 @@ const CompleteExerciseNudge = ({
     <section className={classNames.join(' ')}>
       <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
-        <h3>Nice, it looks like you’re done here!</h3>
+        <h3>Nice, it looks like you&apos;re done here!</h3>
         <p>
           Complete the exercise to unlock new concepts and exercises.{' '}
           <strong>
-            Remember, you can get mentored even after you’ve completed the
+            Remember, you can get mentored even after you&apos;ve completed the
             exercise.
           </strong>
         </p>
@@ -261,8 +261,8 @@ const MentoringNudge = ({
         <h3>Improve your solution with mentoring</h3>
         <p>
           On average, students that get mentoring iterate a further 3.5 times on
-          their solution. It’s a great way to discover what you don’t know about
-          your language.
+          their solution. It&apos;s a great way to discover what you don&apos;t
+          know about your language.
         </p>
         <div className="options">
           <MentoringComboButton

@@ -340,8 +340,13 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    body.theme-unset {
-        background: red;
-        @reuse .theme-dark;
+    .theme-unset {
+        @inline .theme-dark;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .theme-unset {
+        @inline .theme-light;
     }
 }

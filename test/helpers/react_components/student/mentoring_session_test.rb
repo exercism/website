@@ -57,6 +57,7 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           private_mentoring: solution.external_mentoring_request_url,
           mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
           donation_links: {
+            show_donation_modal: true,
             request: {
               endpoint: Exercism::Routes.api_donations_active_subscription_url,
               options: {
@@ -120,6 +121,7 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           private_mentoring: solution.external_mentoring_request_url,
           mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
           donation_links: {
+            show_donation_modal: true,
             request: {
               endpoint: Exercism::Routes.api_donations_active_subscription_url,
               options: {

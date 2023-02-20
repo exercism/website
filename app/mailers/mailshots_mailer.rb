@@ -61,4 +61,11 @@ class MailshotsMailer < ApplicationMailer
     subject = "Starting now: Live interview with José Valim, creator of Elixir"
     mail_to_user(@user, subject)
   end
+
+  def challenge_12in23_update_feb
+    @user = params[:user]
+
+    subject = "How's your #12in23 going?"
+    mail_to_user(@user, subject)
+  end
 end

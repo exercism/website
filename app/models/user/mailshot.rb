@@ -8,6 +8,7 @@ class User::Mailshot < ApplicationRecord
     ],
     receive_product_updates: %w[
       challenge_12in23_launch
+      challenge_12in23_update_feb
     ]
   }.freeze
 

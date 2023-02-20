@@ -189,7 +189,7 @@
         - unless @status.test_runner.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
-          .stats-container.test-runner
+          .c-build-page-stats-container.test-runner
             .record-row
               .record-name Total Test Runner Runs
               .record-value= number_with_delimiter(@status.test_runner.num_runs)
@@ -222,7 +222,7 @@
         - unless @status.analyzer.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
-          .stats-container
+          .c-build-page-stats-container
             .record-row
               .record-name Total Analyzer Runs
               .record-value= number_with_delimiter(@status.analyzer.num_runs)
@@ -252,7 +252,7 @@
         - unless @status.representer.health == "missing"
           .usage-stats-header
             %h4 Usage statistics
-          .stats-container
+          .c-build-page-stats-container
             .record-row
               .record-name Total Representer Runs
               .record-value= number_with_delimiter(@status.representer.num_runs)

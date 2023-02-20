@@ -65,7 +65,7 @@ class MailshotsMailer < ApplicationMailer
   def challenge_12in23_update_feb
     @user = params[:user]
 
-    subject = "How's #12in23 going?"
+    subject = "How's your #12in23 going?"
     mail_to_user(@user, subject)
   end
 end

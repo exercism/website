@@ -378,7 +378,7 @@
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
           .label-large.mr-16
             = 'Volunteer'.pluralize(@status.volunteers.num_volunteers)
-          .count-bubble= @status.volunteers.num_volunteers
+          .c-count-bubble= @status.volunteers.num_volunteers
 
         - @status.volunteers.users[0, 3].to_a.each do |volunteer|
           .contributor-credit-block

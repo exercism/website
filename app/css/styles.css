@@ -92,8 +92,7 @@ img {
         @apply relative;
     }
 
-    /* this is pretty general purpose. has many duplicates, but I may not want to redo this again :) */
-    .count-bubble {
+    .c-count-bubble {
         @apply border-1 border-borderLight rounded-100 px-12;
         @apply text-textColor6 text-13 leading-200 font-medium;
     }

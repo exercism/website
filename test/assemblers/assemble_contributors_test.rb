@@ -1,7 +1,7 @@
 require "test_helper"
 
 class AssembleContributorsTest < ActiveSupport::TestCase
-  test "index should return top 20 serialized correctly" do
+  test "should return top 20 serialized correctly" do
     users = Array.new(25) do |idx|
       create(:user, handle: "handle-#{idx}").tap do |user|
         create :user_reputation_period, user: user, period: :forever, reputation: idx + 1
@@ -19,7 +19,7 @@ class AssembleContributorsTest < ActiveSupport::TestCase
     assert_equal expected, AssembleContributors.({})
   end
 
-  test "index should proxy correctly" do
+  test "should proxy correctly" do
     track = create :track
     user_1 = create(:user, handle: 'foobar')
     user_2 = create(:user, handle: 'foo')

@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import { FinishMentorDiscussionModal } from '../../modals/mentor/FinishMentorDiscussionModal'
-import { ModalProps } from '../../modals/Modal'
-import { MentorDiscussion as Discussion } from '../../types'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { typecheck } from '../../../utils/typecheck'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { FinishMentorDiscussionModal } from '@/components/modals/mentor/FinishMentorDiscussionModal'
+import { ModalProps } from '@/components/modals/Modal'
+import type { MentorDiscussion as Discussion } from '@/components/types'
 
 export const FinishButton = ({
   endpoint,

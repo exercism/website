@@ -15,19 +15,10 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-  DonationLinks,
+  DiscussionLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 import { SplitPane } from '../common'
-
-export type Links = {
-  exercise: string
-  learnMoreAboutPrivateMentoring: string
-  privateMentoring: string
-  mentoringGuide: string
-  createMentorRequest: string
-  donationLinks: DonationLinks
-}
 
 export type Video = {
   url: string
@@ -68,7 +59,7 @@ export const MentoringSession = ({
   videos: Video[]
   track: Track
   request?: Request
-  links: Links
+  links: DiscussionLinks
   outOfDate: boolean
 }): JSX.Element => {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
@@ -102,13 +93,7 @@ export const MentoringSession = ({
               <CloseButton url={links.exercise} />
               <SessionInfo track={track} exercise={exercise} mentor={mentor} />
               {discussion ? (
-                <DiscussionActions
-                  discussion={discussion}
-                  links={{
-                    exercise: exercise.links.self,
-                    donation: links.donationLinks,
-                  }}
-                />
+                <DiscussionActions discussion={discussion} links={links} />
               ) : null}
             </header>
             <IterationView
@@ -133,7 +118,7 @@ export const MentoringSession = ({
                 userHandle={userHandle}
                 iterations={iterations}
                 onIterationScroll={handleIterationScroll}
-                links={{ exercise: exercise.links.self }}
+                links={links}
                 status={status}
               />
             ) : (

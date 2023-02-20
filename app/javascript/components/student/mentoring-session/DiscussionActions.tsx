@@ -1,12 +1,7 @@
 import React from 'react'
+import { DiscussionLinks, MentorDiscussion } from '@/components/types'
+import { GraphicalIcon } from '@/components/common'
 import { FinishButton } from './FinishButton'
-import { DonationLinks, MentorDiscussion } from '../../types'
-import { GraphicalIcon } from '../../common'
-
-export type DiscussionLinks = {
-  exercise: string
-  donation: DonationLinks
-}
 
 export const DiscussionActions = ({
   discussion,

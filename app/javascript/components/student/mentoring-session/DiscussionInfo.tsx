@@ -9,10 +9,7 @@ import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
 import { QueryStatus } from 'react-query'
-
-type Links = {
-  exercise: string
-}
+import { DiscussionLinks } from './DiscussionActions'
 
 export const DiscussionInfo = ({
   discussion,
@@ -28,7 +25,7 @@ export const DiscussionInfo = ({
   userHandle: string
   iterations: readonly Iteration[]
   onIterationScroll: (iteration: Iteration) => void
-  links: Links
+  links: DiscussionLinks
   status: QueryStatus
 }): JSX.Element => {
   return (
@@ -56,8 +53,8 @@ export const DiscussionInfo = ({
                   <strong>
                     It&apos;s time to review {mentor.handle}&apos;s mentoring
                   </strong>
-                  You’ll be able to leave feedback and share what you thought of
-                  your experience.
+                  You&apos;ll be able to leave feedback and share what you
+                  thought of your experience.
                 </p>
                 <FinishButton
                   discussion={discussion}

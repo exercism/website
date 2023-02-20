@@ -1,26 +1,19 @@
 import React, { useRef, useCallback } from 'react'
+import { useMutation } from 'react-query'
+import { sendRequest, typecheck } from '@/utils/'
 import {
   CopyToClipboardButton,
   FormButton,
   GraphicalIcon,
   MedianWaitTime,
-} from '../../../common'
+} from '@/components/common'
 import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-} from '../../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { typecheck } from '../../../../utils/typecheck'
-import { MentorSessionRequest as Request } from '../../../types'
-import { FetchingBoundary } from '../../../FetchingBoundary'
-
-type Links = {
-  learnMoreAboutPrivateMentoring: string
-  privateMentoring: string
-  mentoringGuide: string
-  createMentorRequest: string
-}
+  DiscussionLinks,
+} from '@/components/types'
+import { MentorSessionRequest as Request } from '@/components/types'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -34,7 +27,7 @@ export const MentoringRequestForm = ({
   trackObjectives: string
   track: Track
   exercise: Exercise
-  links: Links
+  links: DiscussionLinks
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<Request>(
@@ -79,7 +72,7 @@ export const MentoringRequestForm = ({
       <form data-turbo="false" className="community" onSubmit={handleSubmit}>
         <div className="heading">
           <div className="info">
-            <h2>It’s time to deepen your knowledge.</h2>
+            <h2>It&apos;s time to deepen your knowledge.</h2>
             <p>
               Start a mentoring discussion on <strong>{exercise.title}</strong>{' '}
               to discover new and exciting ways to approach it. Expand and
@@ -94,7 +87,7 @@ export const MentoringRequestForm = ({
           </label>
           <p id="request-mentoring-form-track-description">
             Tell our mentors a little about your programming background and what
-            you’re aiming to learn from {track.title}.
+            you&apos;re aiming to learn from {track.title}.
           </p>
           <textarea
             ref={trackObjectivesRef}

@@ -338,3 +338,15 @@
 
     @apply text-textColor5 bg-backgroundColorB;
 }
+
+@media (prefers-color-scheme: dark) {
+    .theme-unset {
+        @inline .theme-dark;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .theme-unset {
+        @inline .theme-light;
+    }
+}

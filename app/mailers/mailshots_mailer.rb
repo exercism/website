@@ -54,11 +54,11 @@ class MailshotsMailer < ApplicationMailer
     mail_to_user(@user, subject)
   end
 
-  def now_jose_valim
+  def now_louis_pilfold
     @user = params[:user]
     @email_communication_preferences_key = params[:email_communication_preferences_key]
 
-    subject = "Starting now: Live interview with José Valim, creator of Elixir"
+    subject = "Starting now: Live interview with Louis Pilfold, creator of Gleam"
     mail_to_user(@user, subject)
   end
 

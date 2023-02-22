@@ -9,7 +9,7 @@ class AssembleProfileTestimonialsList
 
   def call
     SerializePaginatedCollection.(
-      testimonials.order(id: :desc).page(params[:page]).per(64),
+      paginated_testimonials,
       serializer: SerializeMentorTestimonials,
       meta: {
         unscoped_total: testimonials.count
@@ -18,6 +18,17 @@ class AssembleProfileTestimonialsList
   end
 
   memoize
+  def paginated_testimonials
+    page = testimonials.order(id: :desc).page(params[:page]).per(64)
+    return page unless params[:uuid]
+    return page if page.map(&:id).include?(params[:uuid])
+
+    selected = user.mentor_testimonials.published.find_by(id: params[:uuid])
+    return page unless selected
+
+    (page + [selected])
+  end
+
   def testimonials
     user.mentor_testimonials.published
   end

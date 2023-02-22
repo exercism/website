@@ -58,7 +58,7 @@ class MailshotsMailer < ApplicationMailer
     @user = params[:user]
     @email_communication_preferences_key = params[:email_communication_preferences_key]
 
-    subject = "Starting now: Live interview with Louis Pilfold, creator of Gleam"
+    subject = "Watch back our interview with Louis Pilfold, creator of Gleam"
     mail_to_user(@user, subject)
   end
 

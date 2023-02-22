@@ -10,6 +10,23 @@
         @apply bg-backgroundColorF;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    .theme-unset {
+        & .c-progress {
+            @apply bg-backgroundColorF !important;
+        }
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .theme-unset {
+        & .c-progress {
+            @apply bg-veryLightBlue !important;
+        }
+    }
+}
+
 .c-progress {
     @apply w-100 rounded-100;
     @apply flex items-center;

@@ -3,10 +3,6 @@
         filter: var(--filter-twitter);
     }
 
-    .filter-textColor6 {
-        filter: var(--textColor6-filter);
-    }
-
     .filter-white,
     .white-filter {
         filter: var(--white-filter);
@@ -29,6 +25,22 @@
         filter: var(--textColor1-filter);
     }
 
+    .filter-textColor2 {
+        filter: var(--textColor2-filter);
+    }
+
+    .filter-textColor5 {
+        filter: var(--textColor5-filter);
+    }
+
+    .filter-textColor6 {
+        filter: var(--textColor6-filter);
+    }
+
+    .filter-textColor7 {
+        filter: var(--textColor7-filter);
+    }
+
     .filter-healthyGreen {
         filter: invert(57%) sepia(64%) saturate(5598%) hue-rotate(92deg)
             brightness(99%) contrast(111%);
@@ -46,5 +58,13 @@
         /* this is loss 2.8% */
         filter: invert(53%) sepia(16%) saturate(4455%) hue-rotate(323deg)
             brightness(84%) contrast(103%);
+    }
+
+    .filter-svg-darkmode {
+        filter: var(--svg-darkmode-filter);
+    }
+
+    .filter-exercism-logo-with-black {
+        filter: var(--exercism-with-logo-black-filter);
     }
 }

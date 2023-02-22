@@ -125,6 +125,10 @@
     --filter-E2CB2D: invert(73%) sepia(100%) saturate(350%) hue-rotate(3deg)
         brightness(94%) contrast(94%);
 
+    /* textColor6 dark-mode variant */
+    --filter-A9A6BD: invert(75%) sepia(8%) saturate(561%) hue-rotate(208deg)
+        brightness(90%) contrast(90%);
+
     --container-padding-x: 16px;
     @screen md {
         --container-padding-x: 32px;
@@ -217,6 +221,7 @@
         brightness(97%) contrast(80%);
     --dark-purple-filter: invert(20%) sepia(60%) saturate(1812%)
         hue-rotate(229deg) brightness(92%) contrast(89%);
+    --exercism-with-logo-black-filter: var(--textColor1-filter);
 
     /* TODO: Replace with purple-filter */
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
@@ -304,13 +309,18 @@
     --paginationCurrentBackgroundColor: var(--c-403A66);
 
     --modalBackgroundColor: rgba(40, 35, 57, 0.7);
-
     --box-shadow-sm: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
     --box-shadow-base: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
     --box-shadow-lg: 0px 4px 42px 0px rgba(0, 0, 0, 0.6);
     --box-shadow-lgZ1: 0px 4px 42px 0px rgba(0, 0, 0, 0.9);
 
     --white-filter: var(--filter-FFFFFF);
+
+    /* this only applies if it is dark mode */
+    --white-filter-when-dark: var(--filter-FFFFFF);
+    /* this can be a dark mode filter for all (or most) the black svgs */
+    /* it is only present in the dark-mode block and won't effect the original variant */
+    --svg-darkmode-filter: var(--filter-A9A6BD);
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)
         brightness(106%) contrast(96%);
@@ -320,6 +330,8 @@
         hue-rotate(242deg) brightness(101%) contrast(100%);
     --textColor2-filter: invert(93%) sepia(31%) saturate(246%)
         hue-rotate(177deg) brightness(100%) contrast(96%);
+    --textColor5-filter: invert(89%) sepia(10%) saturate(255%)
+        hue-rotate(208deg) brightness(94%) contrast(84%);
     --textColor6-filter: invert(71%) sepia(18%) saturate(258%)
         hue-rotate(208deg) brightness(93%) contrast(86%);
     --textColor7-filter: invert(43%) sepia(4%) saturate(2017%)
@@ -335,6 +347,8 @@
     --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
     --purple-filter: var(--filter-FFFFFF);
+
+    --exercism-with-logo-black-filter: var(--textColor6-filter);
 
     @apply text-textColor5 bg-backgroundColorB;
 }

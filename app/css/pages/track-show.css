@@ -281,6 +281,7 @@
                             & > .c-icon {
                                 height: 16px;
                                 width: 16px;
+                                filter: var(--textColor5-filter);
                             }
                         }
                         & > .description {
@@ -298,7 +299,7 @@
                             height: 12px;
                             width: 12px;
                             @apply ml-32;
-                            @apply text-textColor6;
+                            @apply filter-textColor6;
                         }
                     }
                 }
@@ -382,6 +383,7 @@
                 height: 24px;
                 width: 24px;
                 @apply ml-auto;
+                @apply filter-textColor2;
             }
             & .icons {
                 @apply flex items-center;
@@ -436,6 +438,7 @@
                     height: 24px;
                     width: 24px;
                     @apply mr-16;
+                    @apply filter-textColor1;
                 }
             }
             & .c-heading-with-count {

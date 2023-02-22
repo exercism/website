@@ -11,5 +11,6 @@
         height: 24px;
         width: 24px;
         @apply mr-6;
+        @apply filter-textColor7;
     }
 }

@@ -29,7 +29,7 @@ module ViewComponents
 
     def logo
       link_to Exercism::Routes.root_path, class: "exercism-link xl:block", "data-turbo-frame": "tf-main" do
-        icon("exercism-with-logo-black", "Exercism")
+        icon("exercism-with-logo-black", "Exercism", css_class: 'filter-exercism-logo-with-black')
       end
     end
 

@@ -43,7 +43,7 @@
         & .c-icon {
             height: 18px;
             width: 18px;
-            filter: var(--buttonBorderColor1-filter);
+            @apply filter-textColor5;
         }
         @apply md:px-24;
     }
@@ -54,7 +54,7 @@
             @apply mr-12;
             height: 18px;
             width: 18px;
-            filter: var(--buttonBorderColor1-filter);
+            filter: var(--linkColor-filter);
         }
     }
 }

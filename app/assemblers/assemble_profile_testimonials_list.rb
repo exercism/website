@@ -19,11 +19,11 @@ class AssembleProfileTestimonialsList
 
   memoize
   def paginated_testimonials
-    page = testimonials.order(id: :desc).page(params[:page]).per(64)
+    page = testimonials.order(id: :desc).page(params[:page]).per(1)
     return page unless params[:uuid]
-    return page if page.map(&:id).include?(params[:uuid])
+    return page if page.map(&:uuid).include?(params[:uuid])
 
-    selected = user.mentor_testimonials.published.find_by(id: params[:uuid])
+    selected = user.mentor_testimonials.published.find_by(uuid: params[:uuid])
     return page unless selected
 
     (page + [selected])

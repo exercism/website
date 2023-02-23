@@ -235,6 +235,7 @@ module Git
         next if filepath.start_with?('.docs/')
         next if filepath.start_with?('.meta/')
         next if filepath.start_with?('.approaches/')
+        next if filepath.start_with?('.articles/')
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 

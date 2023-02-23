@@ -111,6 +111,7 @@
                         &.expanded {
                             & button:after {
                                 background-image: url("data:image/svg+xml;base64,CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDpub25lO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6MS41cHg7ZmlsbC1ydWxlOmV2ZW5vZGQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5hcnJvdy11cC0xPC90aXRsZT48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0uNzUsMTcuMTg5LDExLjQ3LDYuNDdhLjc0OS43NDksMCwwLDEsMS4wNiwwTDIzLjI1LDE3LjE4OSIvPjwvc3ZnPg==");
+                                filter: var(--c-prominent-link-icon-filter);
                             }
                         }
                         & button {

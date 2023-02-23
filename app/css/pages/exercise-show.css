@@ -287,7 +287,7 @@
                     @apply text-darkGreen bg-darkGreen;
                 }
                 &.failed {
-                    @apply bg-darkGreen bg-red;
+                    @apply text-red bg-red;
                 }
             }
         }
@@ -301,6 +301,7 @@
                 height: 16px;
                 width: 16px;
                 @apply ml-64;
+                @apply filter-textColor6;
             }
         }
 
@@ -345,11 +346,12 @@
                 }
                 & .learn-more {
                     @apply flex items-center;
-                    @apply font-semibold text-lightBlue text-14 leading-170;
+                    @apply font-semibold text-prominentLinkColor text-14 leading-170;
                     & .c-icon {
                         height: 14px;
                         width: 14px;
                         @apply ml-8;
+                        filter: var(--c-prominent-link-icon-filter);
                     }
                 }
             }

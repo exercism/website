@@ -104,6 +104,7 @@
                             }
                             & button:after {
                                 background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS13aWR0aDoxLjVweDtmaWxsLXJ1bGU6ZXZlbm9kZDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93LWRvd24tMTwvdGl0bGU+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjMuMjUsNy4zMTEsMTIuNTMsMTguMDNhLjc0OS43NDksMCwwLDEtMS4wNiwwTC43NSw3LjMxMSIvPjwvc3ZnPg==");
+                                filter: var(--c-prominent-link-icon-filter);
                             }
                         }
 
@@ -114,8 +115,9 @@
                         }
                         & button {
                             @apply flex items-center;
-                            @apply text-16 leading-170 text-lightBlue font-semibold;
-                            @apply bg-veryLightBlue rounded-100 justify-center;
+                            @apply text-16 leading-170 text-prominentLinkColor font-semibold;
+                            @apply rounded-100 justify-center;
+                            background: var(--c-prominent-link-bg);
                             @apply py-8 px-24 mt-20;
 
                             &:after {
@@ -212,6 +214,7 @@
                             height: 24px;
                             width: 24px;
                             @apply ml-56;
+                            filter: var(--textColor5-filter);
                         }
                     }
                 }
@@ -315,8 +318,8 @@
             max-width: 100%;
             mask-image: linear-gradient(
                 to bottom,
-                rgba(0, 0, 0, 1) 50%,
-                transparent 100%
+                rgba(0, 0, 0, 1) 30%,
+                transparent 95%
             );
         }
     }

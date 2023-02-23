@@ -9,7 +9,7 @@ class AssembleProfileTestimonialsList
 
   def call
     SerializePaginatedCollection.(
-      testimonials.page(params[:page]).per(64),
+      testimonials.order(id: :desc).page(params[:page]).per(64),
       serializer: SerializeMentorTestimonials,
       meta: {
         unscoped_total: testimonials.count

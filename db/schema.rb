@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1164,6 +1164,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
     t.datetime "updated_at", null: false
     t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "disabled_at"
+    t.date "last_visited_on"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["github_username"], name: "index_users_on_github_username", unique: true

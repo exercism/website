@@ -147,6 +147,7 @@
     --backgroundColorH: var(--c-130B43);
     /* veryLightBlue */
     --backgroundColorI: #e1ebff;
+    --c-prominent-link-bg: #e1ebff;
 
     /* used at background linear-gradients */
     --backgroundColorJ: #fbfbff;
@@ -170,6 +171,7 @@
     --textColor9: var(--c-FFFFFF);
     /* inline codeblock - gotToLoveAPurple - needs a theme-dark pair  */
     --textColor10: #271b72;
+    --c-prominent-link-color: #2e57e8;
 
     --color22: #c8d5ef;
 
@@ -216,6 +218,8 @@
         hue-rotate(355deg) brightness(90%) contrast(96%);
     --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
+    --c-prominent-link-icon-filter: invert(49%) sepia(99%) saturate(6416%)
+        hue-rotate(225deg) brightness(94%) contrast(93%);
     --white-filter: var(--filter-FFFFFF);
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
@@ -238,6 +242,8 @@
         hue-rotate(208deg) brightness(94%) contrast(83%);
     --orange-filter: invert(57%) sepia(90%) saturate(682%) hue-rotate(354deg)
         brightness(95%) contrast(104%);
+    --processing-orange-filter: invert(57%) sepia(90%) saturate(682%)
+        hue-rotate(354deg) brightness(95%) contrast(104%);
     --dark-green-filter: invert(55%) sepia(64%) saturate(367%)
         hue-rotate(111deg) brightness(99%) contrast(87%);
     --red-filter: invert(78%) sepia(76%) saturate(7147%) hue-rotate(332deg)
@@ -277,6 +283,7 @@
 
     /* backgroundColorF's colors */
     --backgroundColorI: var(--c-191525);
+    --c-prominent-link-bg: #4a475f;
 
     /* this is used at tiny gradients - needs a proper dark-theme color */
     --backgroundColorJ: var(--backgroundColorA);
@@ -293,7 +300,7 @@
     --textColor6: var(--c-A9A6BD); /* Confirmed */
     --textColor7: var(--c-6A6781); /* Confirmed */
     --textColor9: var(--c-000000);
-
+    --c-prominent-link-color: #ffd38f;
     --color22: var(--c-533F56);
 
     --linkColor: var(--c-7097FF);
@@ -324,6 +331,8 @@
     /* This is yellow */
     --orange-filter: invert(100%) sepia(52%) saturate(2878%) hue-rotate(329deg)
         brightness(106%) contrast(96%);
+    --processing-orange-filter: invert(57%) sepia(90%) saturate(682%)
+        hue-rotate(354deg) brightness(95%) contrast(104%);
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
         hue-rotate(236deg) brightness(97%) contrast(80%);
     --textColor1-filter: invert(100%) sepia(0%) saturate(7500%)
@@ -341,6 +350,8 @@
     --primary-reputation-filter: invert(88%) sepia(37%) saturate(870%)
         hue-rotate(355deg) brightness(90%) contrast(96%);
     --light-gold-filter: invert(79%) sepia(31%) saturate(572%)
+        hue-rotate(340deg) brightness(105%) contrast(101%);
+    --c-prominent-link-icon-filter: invert(79%) sepia(31%) saturate(572%)
         hue-rotate(340deg) brightness(105%) contrast(101%);
     --linkColor-filter: var(--filter-7097FF);
     /* same as light theme, but becomes black if it is missing */

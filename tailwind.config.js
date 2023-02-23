@@ -111,6 +111,7 @@ module.exports = {
       textColor8: 'var(--textColor8)',
       textColor9: 'var(--textColor9)',
       textColor10: 'var(--textColor10)',
+      prominentLinkColor: 'var(--c-prominent-link-color)',
 
       linkColor: 'var(--linkColor)',
       buttonBorderColor1: 'var(--buttonBorderColor1)',

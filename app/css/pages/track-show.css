@@ -477,7 +477,7 @@
                 }
                 & a.all {
                     @apply block flex-grow-0 flex-shrink-0;
-                    @apply font-semibold text-lightBlue;
+                    @apply font-semibold text-linkColor;
                 }
             }
 
@@ -491,7 +491,7 @@
                     @apply text-14 leading-paragraph mb-8;
                 }
                 & a {
-                    @apply block text-14 text-lightBlue font-semibold;
+                    @apply block text-14 text-linkColor font-semibold;
                 }
             }
         }
@@ -574,7 +574,7 @@
                             @apply mr-12;
                             height: 16px;
                             width: 16px;
-                            filter: --var(textColor6-filter);
+                            filter: var(--textColor6-filter);
                         }
                     }
                     & .next-slot {

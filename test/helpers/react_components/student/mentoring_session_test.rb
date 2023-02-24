@@ -139,4 +139,41 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         }
       }
   end
+
+  test "sets show_donation_modal correctly" do
+    student = create :user
+    solution = create :concept_solution, user: student
+    create :iteration, solution: solution
+    mentor_request = create :mentor_request, solution: solution
+
+    generate_data = proc do
+      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+      component.stubs(current_user: student)
+      component.stubs(user_signed_in?: true)
+      component.to_h
+    end
+
+    # No testimonials shows model
+    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+
+    # 1/2/3 testimonials doesn't
+    3.times do
+      create :mentor_testimonial, student: student
+      refute generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    end
+
+    # 4 testimonials does
+    create :mentor_testimonial, student: student
+    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+
+    # 5/6/7/8 testimonials doesn't
+    4.times do
+      create :mentor_testimonial, student: student
+      refute generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    end
+
+    # 9 testimonials does
+    create :mentor_testimonial, student: student
+    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+  end
 end

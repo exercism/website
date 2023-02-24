@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
 
   def updated_last_visited_on!
     return unless user_signed_in?
-    return unless request.format == 'html'
+    return unless request.format == :html
     return if current_user.last_visited_on == Time.zone.today
 
     current_user.update(last_visited_on: Time.zone.today)

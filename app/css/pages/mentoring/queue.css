@@ -116,6 +116,7 @@
                     height: 32px;
                     width: 32px;
                     @apply mr-12;
+                    @apply filter-textColor6;
                 }
                 & .title {
                     @apply flex-grow;

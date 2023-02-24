@@ -33,6 +33,7 @@
         height: 24px;
         width: 24px;
         @apply ml-16;
+        @apply filter-textColor3;
     }
 
     & .message {

@@ -29,6 +29,10 @@
         filter: var(--textColor2-filter);
     }
 
+    .filter-textColor3 {
+        filter: var(--textColor3-filter);
+    }
+
     .filter-textColor5 {
         filter: var(--textColor5-filter);
     }

@@ -251,6 +251,8 @@
         hue-rotate(231deg) brightness(99%) contrast(113%);
     --textColor2-filter: invert(7%) sepia(25%) saturate(7470%)
         hue-rotate(241deg) brightness(100%) contrast(107%);
+    --textColor3-filter: invert(13%) sepia(4%) saturate(1617%)
+        hue-rotate(185deg) brightness(93%) contrast(91%);
     --textColor5-filter: invert(22%) sepia(33%) saturate(565%)
         hue-rotate(209deg) brightness(96%) contrast(93%);
     --textColor6-filter: invert(35%) sepia(3%) saturate(6422%)
@@ -373,6 +375,8 @@
         hue-rotate(242deg) brightness(101%) contrast(100%);
     --textColor2-filter: invert(93%) sepia(31%) saturate(246%)
         hue-rotate(177deg) brightness(100%) contrast(96%);
+    --textColor3-filter: invert(52%) sepia(14%) saturate(586%)
+        hue-rotate(208deg) brightness(97%) contrast(91%);
     --textColor5-filter: invert(89%) sepia(10%) saturate(255%)
         hue-rotate(208deg) brightness(94%) contrast(84%);
     --textColor6-filter: invert(71%) sepia(18%) saturate(258%)
@@ -385,6 +389,8 @@
         hue-rotate(355deg) brightness(90%) contrast(96%);
     --light-gold-filter: invert(79%) sepia(31%) saturate(572%)
         hue-rotate(340deg) brightness(105%) contrast(101%);
+    --dark-green-filter: invert(55%) sepia(64%) saturate(367%)
+        hue-rotate(111deg) brightness(99%) contrast(87%);
     --c-prominent-link-icon-filter: invert(79%) sepia(31%) saturate(572%)
         hue-rotate(340deg) brightness(105%) contrast(101%);
     --linkColor-filter: var(--filter-7097FF);

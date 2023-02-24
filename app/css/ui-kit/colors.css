@@ -209,6 +209,23 @@
     --legendaryBadgeFill-RGB: 75, 0, 0;
     --legendaryBadgeShadow-RGB: 235, 87, 87; /* TODO */
 
+    /* -- HLJS light --  */
+    /* Atom One Light by Daniel Gamage
+    Original One Light Syntax theme from https://github.com/atom/one-light-syntax */
+
+    --hljs-base: #fafafa;
+    --hljs-mono-1: #383a42;
+    --hljs-mono-2: #686b77;
+    --hljs-mono-3: #a0a1a7;
+    --hljs-hue-1: #0184bb;
+    --hljs-hue-2: #4078f2;
+    --hljs-hue-3: #a626a4;
+    --hljs-hue-4: #50a14f;
+    --hljs-hue-5: #e45649;
+    --hljs-hue-5-2: #c91243;
+    --hljs-hue-6: #986801;
+    --hljs-hue-6-2: #c18401;
+
     /* https://codepen.io/sosuke/pen/Pjoqqp */
     --notifications-active-filter: invert(76%) sepia(54%) saturate(3406%)
         hue-rotate(349deg) brightness(92%) contrast(111%);
@@ -320,6 +337,23 @@
     --box-shadow-base: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
     --box-shadow-lg: 0px 4px 42px 0px rgba(0, 0, 0, 0.6);
     --box-shadow-lgZ1: 0px 4px 42px 0px rgba(0, 0, 0, 0.9);
+
+    /* -- HLJS dark -- */
+    /* Atom One Dark by Daniel Gamage
+    Original One Dark Syntax theme from https://github& .com/atom/one-dark-syntax */
+
+    --hljs-base: #282c34;
+    --hljs-mono-1: #abb2bf;
+    --hljs-mono-2: #818896;
+    --hljs-mono-3: #5c6370;
+    --hljs-hue-1: #56b6c2;
+    --hljs-hue-2: #61aeee;
+    --hljs-hue-3: #c678dd;
+    --hljs-hue-4: #98c379;
+    --hljs-hue-5: #e06c75;
+    --hljs-hue-5-2: #be5046;
+    --hljs-hue-6: #d19a66;
+    --hljs-hue-6-2: #e6c07b;
 
     --white-filter: var(--filter-FFFFFF);
 

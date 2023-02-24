@@ -6,7 +6,7 @@ class MailshotsPreview < ActionMailer::Preview
   delegate :challenge_12in23_calendar, to: :mailer
   delegate :functional_february, to: :mailer
   delegate :now_louis_pilfold, to: :mailer
-  delegate :challenge_12in23_update_feb, to: :mailer
+  delegate :challenge_12in23_feb_swag, to: :mailer
 
   private
   def mailer

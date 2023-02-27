@@ -171,6 +171,7 @@ body.devise {
         & .c-icon {
             height: 16px;
             width: 16px;
+            @apply filter-textColor6;
         }
     }
     & .user-menu-dropdown,
@@ -235,7 +236,7 @@ body.devise {
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    @apply ml-32 text-textColor6;
+                    @apply ml-32 filter-textColor6;
                 }
             }
         }

@@ -10,11 +10,11 @@ module ViewComponents
     def menu_button
       {
         label: "Button to open the profile menu",
-        className: "user-menu ",
+        className: "user-menu",
         html: safe_join(
           [
             avatar(current_user),
-            icon("more-vertical", "Profile Menu", css_class: 'filter-svg-darkmode')
+            icon("more-vertical", "Profile Menu")
           ]
         )
       }

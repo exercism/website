@@ -1,40 +1,18 @@
 @import "../styles";
 
-.theme-light #page-dashboard {
-    background-image: linear-gradient(
+.theme-light {
+    --page-dashboard-background-image: linear-gradient(
         180deg,
         #e1ebff 70px,
         rgba(225, 235, 255, 0) 290px
     );
 }
-.theme-dark #page-dashboard {
-    background-image: linear-gradient(
-        180deg,
-        #000 0%,
-        rgba(40, 35, 57, 0) 220px
-    );
-}
-@media (prefers-color-scheme: light) {
-    .theme-unset #page-dashboard {
-        background-image: linear-gradient(
-            180deg,
-            #e1ebff 70px,
-            rgba(225, 235, 255, 0) 290px
-        ) !important;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .theme-unset #page-dashboard {
-        background-image: linear-gradient(
-            180deg,
-            #000 0%,
-            rgba(40, 35, 57, 0) 220px
-        ) !important;
-    }
+.theme-dark {
+    --page-dashboard-background-image: rgba(40, 35, 57, 0);
 }
 
 #page-dashboard {
+    background-image: var(--page-dashboard-background-image);
     article {
         @apply pt-32;
     }
@@ -254,6 +232,7 @@
                     @apply ml-60 text-textColor6;
                     height: 16px;
                     width: 16px;
+                    @apply filter-textColor6;
                 }
             }
         }

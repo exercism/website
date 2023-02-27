@@ -68,6 +68,7 @@ img {
         & > .c-icon {
             height: 14px;
             width: 14px;
+            @apply filter-textColor6;
         }
     }
     .btn-small-secondary {

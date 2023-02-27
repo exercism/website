@@ -351,6 +351,7 @@
 
     .highlight-text {
         @apply inline relative z-1;
+        @apply text-textColor1NoDark;
 
         background-color: transparent;
         &:before {

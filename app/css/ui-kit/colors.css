@@ -399,7 +399,9 @@
     /* same as light theme, but becomes black if it is missing */
     --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
-    --purple-filter: var(--filter-FFFFFF);
+    /* --purple-filter: var(--filter-FFFFFF); */
+    --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
+        brightness(97%) contrast(80%);
 
     --exercism-with-logo-black-filter: var(--textColor6-filter);
 

@@ -162,6 +162,7 @@
     --borderColor9: var(--c-FFFFFF);
     /* textColor1 and textColor2 has different dark-themes */
     --textColor1: var(--c-130B43);
+    --textColor1-no-dark: var(--c-130B43);
     --textColor2: var(--c-130B43);
     --textColor3: var(--c-26282D);
     --textColor5: var(--c-3F3A5A);
@@ -312,6 +313,7 @@
     --borderColor6: var(--c-433F56);
     --borderColor7: var(--c-533F56);
     --textColor1: var(--c-FFFFFF);
+    --textColor1-no-dark: var(--c-130B43);
     --textColor2: var(--c-F0F3F9); /* Confirmed */
     /* same as buttonBorderColor1 for now */
     --textColor3: var(--c-8480A0);

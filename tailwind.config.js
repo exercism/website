@@ -103,6 +103,7 @@ module.exports = {
       borderColor7: 'var(--borderColor7)',
       borderColor9: 'var(--borderColor9)',
       textColor1: 'var(--textColor1)',
+      textColor1NoDark: 'var(--textColor1-no-dark)',
       textColor2: 'var(--textColor2)',
       textColor3: 'var(--textColor3)',
       textColor5: 'var(--textColor5)',

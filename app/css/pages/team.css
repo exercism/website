@@ -51,6 +51,7 @@
                 height: 48px;
                 width: 48px;
                 @apply mb-16;
+                @apply filter-textColor1;
             }
         }
         & .person {
@@ -95,6 +96,7 @@
                     & .c-icon {
                         height: 16px;
                         width: 16px;
+                        @apply filter-textColor6;
                     }
                     & span {
                         @apply mx-16;

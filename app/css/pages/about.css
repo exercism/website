@@ -10,6 +10,7 @@
         & .logo {
             height: 80px;
             width: 80px;
+            @apply filter-textColor1;
         }
         & p {
             max-width: 1024px;

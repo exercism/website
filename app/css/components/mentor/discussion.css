@@ -28,6 +28,7 @@
                 & .c-icon {
                     height: 24px;
                     width: 24px;
+                    @apply filter-textColor6;
                 }
             }
             & .c-track-icon {

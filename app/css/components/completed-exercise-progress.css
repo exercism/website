@@ -41,6 +41,7 @@
                     height: 24px;
                     width: 24px;
                     @apply mx-8;
+                    @apply filter-textColor1;
                 }
             }
             & .list {

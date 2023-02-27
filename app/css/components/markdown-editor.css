@@ -108,6 +108,10 @@
             & .cm-strong {
                 @apply text-textColor2 font-medium;
             }
+
+            .CodeMirror-cursor {
+                @apply border-textColor1;
+            }
         }
     }
     & .editor-footer {

@@ -47,14 +47,4 @@ class MailshotsMailer < ApplicationMailer
     subject = "Watch back our interview with Louis Pilfold, creator of Gleam"
     mail_to_user(@user, subject)
   end
-<<<<<<< HEAD
-
-  def challenge_12in23_feb_swag
-    @user = params[:user]
-
-    subject = "Functional February SWAG is here!"
-    mail_to_user(@user, subject)
-  end
-=======
->>>>>>> fd928cc96 (Add Mechanical March mailer)
 end

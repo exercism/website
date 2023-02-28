@@ -5,7 +5,7 @@ class Badges::MechanicalMarchBadgeTest < ActiveSupport::TestCase
     badge = create :mechanical_march_badge
     assert_equal "Mechanical March", badge.name
     assert_equal :ultimate, badge.rarity
-    assert_equal :mechanical, badge.icon
+    assert_equal :'badge-machine-code', badge.icon
     assert_equal 'Completed and published five exercises in a systems language in March', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key

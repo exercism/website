@@ -1,4 +1,4 @@
-- content_for :meta_title, "#{@user.handle}'s testimonials on Exercism"
+- content_for :meta_title, "#{sanitize(@user.handle)}'s testimonials on Exercism".html_safe
 - content_for :meta_description, "Explore the testimonails that students have left for #{@user.handle} on Exercism, and learn how wonderful they are!"
 
 #page-profile-testimonials

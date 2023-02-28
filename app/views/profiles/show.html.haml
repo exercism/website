@@ -1,4 +1,4 @@
-- content_for :meta_title, "#{@user.handle}'s profile on Exercism"
+- content_for :meta_title, "#{sanitize(@user.handle)}'s profile on Exercism".html_safe
 - content_for :meta_description, "Explore what #{@user.handle} has done on Exercism - their solutions, contributions and testimonials."
 
 - if params[:first_time]

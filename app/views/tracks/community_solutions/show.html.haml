@@ -1,4 +1,4 @@
-- content_for :meta_title, "#{@solution.user.handle}'s solution for #{@exercise.title} in #{@track.title} on Exercism"
+- content_for :meta_title, "#{sanitize(@solution.user.handle)}'s solution for #{@exercise.title} in #{@track.title} on Exercism".html_safe
 - content_for :meta_description, "Learn from how #{@solution.user.handle} solved #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise."
 
 #page-community-solution

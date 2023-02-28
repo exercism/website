@@ -4,7 +4,7 @@ module Badges
 
     seed "Mechanical March",
       :ultimate,
-      'mechanical',
+      'badge-machine-code',
       'Completed and published five exercises in a systems language in March'
 
     def self.worth_queuing?(exercise:)

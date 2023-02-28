@@ -5,70 +5,68 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
-            Month 3 of #12in23
-          %h1.text-h1.mb-8 It's Mechanical March! ✨
+            Month 2 of #12in23
+          %h1.text-h1.mb-8 It's Functional February! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring system languages - those that compile to machine code. We've got interviews with core language and community members (from Go, Rust and hopefully more!), lots of live streaming, exclusive swag and more.
+            This month for #12in23 we're exploring functional languages. We've got interviews with language creators, lots of live streaming, exclusive functional swag and more.
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Mechanical March overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Functional February overview video  👉
               %p.text-p-base.mb-8
-                Our introductory video gives a quick overview to the month, explores what we mean by systems languages, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
+                We've put together an introductory video to get you started. Its split into two parts. In part 1, we'll tell your what's in store for the month. In part 2 we'll take a brief look at what makes functional programming so interesting!
               %p.text-p-base
                 Take a watch and leave a comment!
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/j92a-9B4kLM", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/uIFGx1SDnWI", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Mechancal March badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the Functional February badge for completing and publishing 5 exercises in one of the following languages.
             Consider starting with a language with a syllabus (
             = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
             ).
 
-          - tracks = Track.where(slug: %w[c cpp d go nim rust vlang zig])
-          .grid.grid-cols-8.gap-12.mb-32
+          - tracks = Track.where(slug: %w[elixir fsharp clojure erlang haskell ocaml scala sml gleam])
+          .grid.grid-cols-9.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
                 - if track.course?
                   .rounded-circle.bg-white.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
                     = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple'
                 = image_tag track.icon_url, class: 'mb-8'
-                .text-h6= track.title
+                .text-h6= track.title.gsub("Standard ML", "SML")
 
           %p.text-p-large.mb-12
-            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in systems languages:
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach from a functional perspective:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/linked-list.svg", class: "w-[25px] inline"
-              %strong.font-semibold Linked List*:
-              Practice allocating/freeing memory, and pointers
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/hamming.svg", class: "w-[25px] inline"
+              %strong.font-semibold Hamming:
+              Explore higher order functions
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/secret-handshake.svg", class: "w-[25px] inline"
-              %strong.font-semibold Secret Handshake:
-              Explore bitwise operators
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/collatz-conjecture.svg", class: "w-[25px] inline"
+              %strong.font-semibold Collatz Conjecture:
+              Try out recursion
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/pangram.svg", class: "w-[25px] inline"
-              %strong.font-semibold Pangram:
-              Explore for loops, strings and characters
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/robot-simulator.svg", class: "w-[25px] inline"
+              %strong.font-semibold Robot Simulator:
+              Explore immutability, records, pattern matching
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/sieve.svg", class: "w-[25px] inline"
-              %strong.font-semibold Sieve:
-              Practice arrays and for loops
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/yacht.svg", class: "w-[25px] inline"
+              %strong.font-semibold Yacht:
+              Practice pattern-matching and higher-order functions
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/binary-search.svg", class: "w-[25px] inline"
-              %strong.font-semibold Binary Search:
-              A classic exercise for loops.
-
-          %p.text-p-base.italic * Some tracks have implemented "Simple Linked List" instead, which is also great to try.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/protein-translation.svg", class: "w-[25px] inline"
+              %strong.font-semibold Protein Translation:
+              Practice higher-order functions and pattern matching further
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12
-            Throughout the month we'll have interviews — including Josh Triplett, the co-lead of Rust, and Jonny Boursiquot, a key member of the Go community — walkthroughs from Exercism track contributors, and live streams of the community solving exercises. We're hoping to give some regular streamers official residencies this month too!
+            Throughout the month we'll have interviews — including Jose Valim, the creator of Elixir, and Louis Pilfold, the creator or Gleam — walkthroughs from Exercism track contributors, and live streams of the community solving exercises.
             Subscribe to our
             = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
             and
@@ -80,8 +78,8 @@
           %ul.text-p-large.list-disc.pl-16
             %li.mb-4
               Help us compile the
-              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-systems-languages/4181"
-              for learning and mastering systems programming in our dedicated forum thread.
+              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-functional-languages/3254"
+              for learning and mastering functional programming languages in our dedicated forum thread.
             %li.mb-4
               Join in the conversation by using the
               = link_to "#12in23 tag on our forums", "https://forum.exercism.org/tag/12in23"
@@ -89,9 +87,9 @@
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4
-              We have exclusive Mechancial March swag that will only be available later in the month. Keep an eye on the
+              We have exclusive "functional" swag that will only be available this month coming soon. Keep an eye on the
               = link_to "swag store", "https://swag.exercism.org"
-              for details (and check our the Functional February swag before it goes too!)
+              for details!
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
@@ -115,10 +113,10 @@
             %p.text-p-base.mb-12
               Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
-              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-12in23-feb-update.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
-                .text-center.text-h6 How's your #12in23 going?
+                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-introducing-12in23.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
+                .text-center.text-h6 Take the #12in23 Challenge
 
               = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
@@ -126,33 +124,13 @@
                 .text-center.text-h6 The Official #12in23 Calendar
 
             %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
-              Track your progress at the bottom of the page.
+              You can track your progress at the bottom of the page.
 
           .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
             %p.text-p-base.mb-12
               We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
             = link_to "Donate now", donate_path, class: 'btn btn-primary'
-
-          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
-            %h2.text-h4.mb-4 The year-long #12in23 badge
-            %p.text-p-base.mb-12
-              At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
-
-              Each valid exercise will be shown below.
-              Find the full list of rules and exercises in
-              #{link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183'}.
-
-            - if @badge_progress_exercises.present?
-              %h2.text-h6.mt-20.mb-12
-                Published Exercises
-                .inline.text-14 (#{@badge_progress_exercises.size} / 10 so far)
-              .grid.grid-cols-6.gap-12
-                - @badge_progress_exercises.each do |track_slug, exercise_slug|
-                  = link_to track_exercise_path(track_slug, exercise_slug) do
-                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-[48px]"
-            - else
-              %h2.text-h6.mt-20 No valid exercises found.
 
   %article
     .md-container

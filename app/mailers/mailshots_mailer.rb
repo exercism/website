@@ -24,22 +24,7 @@ class MailshotsMailer < ApplicationMailer
     mail_to_user(@user, subject, reply_to: "loretta@exercism.org")
   end
 
-  def challenge_12in23_launch
-    @user = params[:user]
-
-    subject = "Take the #12in23 Challenge"
-    mail_to_user(@user, subject)
-  end
-
-  def challenge_12in23_calendar
-    @user = params[:user]
-    @signed_up = @user.challenges.where(challenge_id: "12in23").exists?
-
-    subject = "Meet the #12in23 Calendar"
-    mail_to_user(@user, subject)
-  end
-
-  def functional_february
+  def mechanical_march
     @user = params[:user]
     @email_communication_preferences_key = params[:email_communication_preferences_key]
 
@@ -60,13 +45,6 @@ class MailshotsMailer < ApplicationMailer
     @email_communication_preferences_key = params[:email_communication_preferences_key]
 
     subject = "Watch back our interview with Louis Pilfold, creator of Gleam"
-    mail_to_user(@user, subject)
-  end
-
-  def challenge_12in23_feb_swag
-    @user = params[:user]
-
-    subject = "Functional February SWAG is here!"
     mail_to_user(@user, subject)
   end
 end

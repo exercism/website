@@ -3,6 +3,7 @@ class User::Mailshot < ApplicationRecord
 
   PREFERENCE_KEYS = {
     email_about_events: %w[
+      upcoming_jose_valim
       now_louis_pilfold
     ],
     receive_product_updates: %w[

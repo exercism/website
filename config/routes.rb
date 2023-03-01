@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
     resource :coinbase, only: [:create], controller: "coinbase"
+    resource :github_sponsors, only: [:create]
+
     resource :issue_updates, only: [:create]
     resource :membership_updates, only: [:create]
     resource :push_updates, only: [:create]

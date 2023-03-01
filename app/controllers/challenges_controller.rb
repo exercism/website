@@ -48,7 +48,7 @@ class ChallengesController < ApplicationController
     valid_slugs += feb_tracks.product(feb_exercises)
 
     march_tracks = %w[c cpp d nim go rust vlang zig]
-    march_exercises = %w[linked-list simple-linked-list secret-handshake sieve binary-search]
+    march_exercises = %w[linked-list simple-linked-list secret-handshake sieve binary-search pangram]
     valid_slugs += march_tracks.product(march_exercises)
 
     taken_exercises = []

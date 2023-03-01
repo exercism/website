@@ -140,7 +140,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::AnybodyThereBadge
   end
 
-  test "awards functional february badge when published five or more exercises in track after participating in 12in23 challenge" do
+  test "awards functional february badge when published five or more exercises in Functional February track" do
     travel_to Time.utc(2022, 2, 24)
 
     track = create :track, slug: 'fsharp'
@@ -164,6 +164,32 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
     assert_includes user.reload.badges.map(&:class), Badges::FunctionalFebruaryBadge
+  end
+
+  test "awards mechanical march badge when published five or more exercises in Mechanical March track" do
+    travel_to Time.utc(2022, 3, 12)
+
+    track = create :track, slug: 'rust'
+    user = create :user
+    user_track = create :user_track, user: user, track: track
+
+    create :user_challenge, user: user, challenge_id: '12in23'
+
+    4.times do
+      exercise = create :practice_exercise, :random_slug, track: track
+      create :practice_solution, :published, user: user, track: track, exercise: exercise
+      refute user.badges.present?
+    end
+
+    exercise = create :practice_exercise, :random_slug, track: track
+    solution = create :practice_solution, user: user, exercise: exercise
+    create :iteration, solution: solution, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::MechanicalMarchBadge
   end
 
   test "solution snippet updated to published iteration's snippet when single iteration is published" do

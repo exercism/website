@@ -87,8 +87,15 @@ class NotificationsMailer < ApplicationMailer
     notification = params[:notification]
     @user = notification.user
 
-    subject = "Meet the Exercism community"
-    @title = "Meet the Exercism community"
+    subject = "Exercism - Join our community"
+    mail_to_user(@user, subject)
+  end
+
+  def onboarding_fundraising
+    notification = params[:notification]
+    @user = notification.user
+
+    subject = "Exercism - A Free Platform with a Social Mission"
     mail_to_user(@user, subject)
   end
 

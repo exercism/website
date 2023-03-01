@@ -41,5 +41,26 @@ class ChallengesController < ApplicationController
       to_h # Then back to {track_id => count}
 
     @tracks = Track.where(id: @track_counts.keys).index_by(&:id)
+
+    valid_slugs = []
+    feb_tracks = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam]
+    feb_exercises = %w[hamming collatz-conjecture robot-simulator yacht protein-translation]
+    valid_slugs += feb_tracks.product(feb_exercises)
+
+    march_tracks = %w[c cpp d nim go rust vlang zig]
+    march_exercises = %w[linked-list simple-linked-list secret-handshake sieve binary-search]
+    valid_slugs += march_tracks.product(march_exercises)
+
+    taken_exercises = []
+    @badge_progress_exercises = current_user.solutions.where('YEAR(solutions.published_at) = 2023').published.
+      joins(:track).pluck('tracks.slug', 'exercises.slug').
+      select do |track_slug, exercise_slug|
+        # We only want to count an exercise done in the first langauge its done in
+        next if taken_exercises.include?(exercise_slug)
+
+        valid_slugs.include?([track_slug, exercise_slug]).tap do |valid|
+          taken_exercises << exercise_slug if valid
+        end
+      end
   end
 end

@@ -41,18 +41,20 @@
             right: 32px;
             @apply absolute flex flex-col;
             & .private {
+                @apply text-textColor1NoDark;
                 @apply flex self-end;
-                @apply py-8 px-16 mb-12 rounded-100 bg-backgroundColorA;
+                @apply py-8 px-16 mb-12 rounded-100 bg-white;
                 @apply font-medium text-15 leading-paragraph;
 
                 & .c-icon {
                     height: 16px;
                     width: 16px;
                     @apply mr-12;
+                    @apply self-center filter-textColor1NoDark;
                 }
             }
             & .explanation {
-                @apply text-textColor6 text-16 font-medium leading-huge;
+                @apply text-textColor6NoDark text-16 font-medium leading-huge;
             }
         }
 
@@ -60,14 +62,16 @@
             @apply mt-32 mb-8;
             height: 64px;
             width: 64px;
+            @apply filter-textColor6NoDark;
         }
         & h1 {
-            @apply text-64 leading-tight font-bold text-textColor1;
+            @apply text-64 leading-tight font-bold text-textColor1NoDark;
             @apply mb-8;
         }
         & .subtitle {
             @apply text-22 leading-huge;
             @apply mb-32;
+            @apply text-textColor6NoDark;
         }
 
         & .tracks {

@@ -108,6 +108,7 @@ module.exports = {
       textColor3: 'var(--textColor3)',
       textColor5: 'var(--textColor5)',
       textColor6: 'var(--textColor6)',
+      textColor6NoDark: '#5C5589',
       textColor7: 'var(--textColor7)',
       textColor8: 'var(--textColor8)',
       textColor9: 'var(--textColor9)',

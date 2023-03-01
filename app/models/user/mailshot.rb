@@ -5,9 +5,9 @@ class User::Mailshot < ApplicationRecord
     email_about_events: %w[
       upcoming_jose_valim
       now_louis_pilfold
+      mechanical_march
     ],
     receive_product_updates: %w[
-      mechanical_march
     ]
   }.freeze
 

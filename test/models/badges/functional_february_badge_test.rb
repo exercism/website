@@ -20,27 +20,27 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     # No solutions
     refute badge.award_to?(user.reload)
 
-    # hello world doesn't could
+    # hello world doesn't count
     exercise = create :practice_exercise, slug: 'hello-world', track: fsharp
-    create :practice_solution, :published, user: user, track: fsharp, exercise: exercise
+    create :practice_solution, :published, user: user, track: fsharp, exercise: exercise, published_at: Time.utc(2022, 2, 1)
     refute badge.award_to?(user.reload)
 
     # 4 bob's is not enough
     4.times do |idx|
       exercise = create :practice_exercise, slug: 'bob', track: fsharp
-      create :practice_solution, :published, user:, track: fsharp, exercise:, completed_at: Time.utc(2022, 2, idx + 5)
+      create :practice_solution, :published, user:, track: fsharp, exercise:, published_at: Time.utc(2022, 2, idx + 5)
     end
     refute badge.award_to?(user.reload)
 
     # Doesn't care if we get a 5th exercise in csharp
     another_exercise = create :practice_exercise, slug: 'leap', track: csharp
-    create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise
+    create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise, published_at: Time.utc(2022, 2, 28)
     refute badge.award_to?(user.reload)
 
-    # Iterate a 5th bob, but in march
+    # Publish a 5th bob, but in march
     exercise = create :practice_exercise, slug: 'bob', track: fsharp
     solution = create :practice_solution, :iterated, user: user, track: fsharp, exercise: exercise,
-      completed_at: Time.utc(2022, 3, 1)
+      published_at: Time.utc(2022, 3, 1)
     refute badge.award_to?(user.reload)
 
     # Complete it

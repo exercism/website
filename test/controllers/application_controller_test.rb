@@ -9,4 +9,22 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal 400, response.status
   end
+
+  test "visiting HTML page updates last_visited_on date" do
+    user = create :user, last_visited_on: nil
+
+    sign_in!(user)
+    get dashboard_path
+
+    assert_equal Time.zone.today, user.last_visited_on
+  end
+
+  test "calling API does not update last_visited_on date" do
+    user = create :user, last_visited_on: nil
+
+    sign_in!(user)
+    get api_tracks_path, headers: @headers, as: :json
+
+    assert_nil user.last_visited_on
+  end
 end

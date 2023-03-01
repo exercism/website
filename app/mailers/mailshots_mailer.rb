@@ -41,6 +41,7 @@ class MailshotsMailer < ApplicationMailer
 
   def functional_february
     @user = params[:user]
+    @email_communication_preferences_key = params[:email_communication_preferences_key]
 
     subject = "It's Functional February!"
     mail_to_user(@user, subject)

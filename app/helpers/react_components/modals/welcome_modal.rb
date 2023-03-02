@@ -1,11 +1,16 @@
 module ReactComponents
   module Modals
-    class Challenge12in23Modal < ReactComponent
+    class WelcomeModal < ReactComponent
       def to_s
         return if current_user.introducer_dismissed?(slug)
 
+        if current_user.solutions.count >= 2
+          current_user.dismiss_introducer!(slug)
+          return
+        end
+
         super(
-          "modals-challenge-12in23-modal",
+          "modals-welcome-modal",
           {
             endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug)
           }
@@ -14,7 +19,7 @@ module ReactComponents
 
       private
       def slug
-        "challenge-12in23-modal"
+        "welcome-modal"
       end
     end
   end

@@ -1,3 +1,3 @@
-export { Challenge12in23Modal } from './Challenge12in23Modal'
+export { WelcomeModal } from './WelcomeModal'
 export { Modal } from './Modal'
 export { UploadVideoModal } from './upload-video'

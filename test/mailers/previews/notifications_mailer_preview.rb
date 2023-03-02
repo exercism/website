@@ -65,6 +65,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).automated_feedback_added
   end
 
+  def onboarding_product
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingCommunityNotification.first
+    ).onboarding_fundraising
+  end
+
   def onboarding_community
     NotificationsMailer.with(
       notification: User::Notifications::OnboardingCommunityNotification.first

@@ -16,8 +16,9 @@ class CreateOnboardingNotificationsJob < ApplicationJob
   #
   # Each slug should be paired with a User::Notifications::Onboarding{$SLUG}Notification class
   EMAILS = {
-    1 => :community,
-    3 => :fundraising
+    1 => :product,
+    3 => :community,
+    5 => :fundraising
   }.map { |day, slug| OnboardingEmail.new(day:, slug:) }.freeze
 
   # For each email we get all the users that signed up between

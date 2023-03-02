@@ -1,10 +1,35 @@
-%p Hi #{@user.handle},
+%p Hey there,
+
 %p
-  We're so glad you've signed up! Exercism is a not-for-profit organisation dedicated to helping as many people as possible improve their programming fluency.
+  Welcome to #{link_to 'Exercism', 'https://exercism.org'}!
+  We're excited to have you as a part of our community and looking forward to helping you as you go even deeper on your programming journey.
+
+
 %p
-  We have over 50 languages for you to explore, many with full-on courses for learning that language. All tracks have volunteer mentors who want to help you develop an understanding of why they love those languages, and help you get fluent in them.
+  Exercism is designed to be help you develop a deep understanding of whichever language you choose to learn.
+  We're a registered not-for-profit organisation and 100% free.
+
+%p I put this video together (which you might have seen when you signed up) which walks you through a few key things 👇
+
+%p{ style: "margin-bottom: 24px" }
+  %a{ href: "https://www.youtube.com/watch?v=8rmbTWAncb8", style: "display:block; box-shadow: 0px 2px 4px #0F0923" }
+    %img{ src: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-onboarding-welcome-with-play-icon.jpg", style: "width:100%; display:block" }
+
 %p
-  If you have any problems, please report them on #{link_to 'our issue tracker', 'https://github.com/exercism/exercism/issues'}.
-  We hope you have a great time on Exercism and find it both useful and fun!
+  If you ever get stuck or have questions, don't hesitate to post in #{link_to 'our forum', 'https://forum.exercism.org'}.
+  Our community is friendly and supportive, and we're always happy to help.
+  We believe that learning is a collaborative effort and that we can all learn from each other.
+
+%p
+  Finally, don't miss out on our #{link_to 'YouTube channel', 'https://www.youtube.com/@Exercism_org'} where we share interesting interviews, walkthroughs, and tutorials about Exercism.
+  You might find some tips and tricks that will make your learning journey even more enjoyable.
+
+%p Have a great day!
+
+%p
+  Jeremy Walker
+  %br
+  Exercism's Co-founder &amp; CEO
 
 = email_button_to 'Visit Exercism', root_url
+

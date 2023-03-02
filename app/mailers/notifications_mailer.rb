@@ -78,8 +78,8 @@ class NotificationsMailer < ApplicationMailer
     notification = params[:notification]
     @user = notification.user
 
+    @hide_header = true
     subject = "Welcome to Exercism"
-    @title = "Welcome to Exercism!"
     mail_to_user(@user, subject)
   end
 

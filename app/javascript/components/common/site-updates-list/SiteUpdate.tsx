@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react'
-import { fromNow } from '../../../utils/date'
+import React from 'react'
+import { fromNow } from '@/utils/date'
+import {
+  SiteUpdate as SiteUpdateProps,
+  SiteUpdateContext,
+} from '@/components/types'
 import { Avatar } from '../Avatar'
 import { SiteUpdateIcon } from './SiteUpdateIcon'
 import { ExpandedInfo } from './ExpandedInfo'
-import { SiteUpdate as SiteUpdateProps, SiteUpdateContext } from '../../types'
 
 export const SiteUpdate = ({
   update,
@@ -16,7 +19,7 @@ export const SiteUpdate = ({
     <div className="c-site-update">
       <SiteUpdateIcon
         icon={update.icon}
-        context={context}
+        context={update.expanded ? 'track' : context}
         track={update.track}
       />
       <div className="content">
@@ -30,16 +33,18 @@ export const SiteUpdate = ({
               {fromNow(update.publishedAt)}
             </time>
           </div>
-          <div className="c-faces --static">
-            {update.makers.map((maker) => (
-              <Avatar
-                key={maker.handle}
-                src={maker.avatarUrl}
-                handle={maker.handle}
-                className="face"
-              />
-            ))}
-          </div>
+          {!update.expanded && (
+            <div className="c-faces --static">
+              {update.makers.map((maker) => (
+                <Avatar
+                  key={maker.handle}
+                  src={maker.avatarUrl}
+                  handle={maker.handle}
+                  className="face"
+                />
+              ))}
+            </div>
+          )}
         </div>
         {update.expanded ? (
           <ExpandedInfo

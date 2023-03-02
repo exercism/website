@@ -7,7 +7,7 @@ import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export const Challenge12in23Modal = ({
+export const WelcomeModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
@@ -53,31 +53,28 @@ export const Challenge12in23Modal = ({
     >
       <div className="lhs">
         <header>
-          <h1>The #12in23 Challenge</h1>
+          <h1>Welcome to Exercism! 💙</h1>
 
           <p className="">
-            Expand your horizons in 2023 by trying out 12 different programming
-            languages in Exercism's #12in23 Challenge.
+            Exercism is the place to deepen your programming skills and explore
+            over 65 programming languages. It's 100% free.
           </p>
         </header>
 
-        <h2>What do I have to do?</h2>
+        <h2>Thanks for joining!</h2>
         <p className="mb-12">
-          It's simple - complete 5 exercises (not including "Hello World!") in
-          12 languages throughout the year. We'll give you a nice progress page
-          that shows you how you're getting on, and if you complete the
-          challenge we'll give you access to exclusive badges and SWAG.
+          Exercism has been made by thousands of people who want to create a
+          fun, powerful educational platform that makes it easy to learn and
+          deepen your programming skils. We're really glad you've joined us for
+          the ride! Check our forums, Youtube and Twitch to explore everything
+          Exercism has to offer 🎉
         </p>
 
         <p className="mb-12">
-          Each month we'll focus on a different paradigm (e.g. functional, OOP,
-          low-level, old-school, new, esoteric), and highlight interesting
-          solutions and ideas! Join in by using the #12in23 hashtag on social
-          media and streaming services, and chat using the tag on our forums.
-        </p>
-
-        <p className="mb-12">
-          Get started by clicking the card on the right of your dashboard.
+          To get started, watch the welcome video on the right then head to the
+          Tracks page and choose the language you want to explore first. Solve
+          the classic "Hello World" exercise to familiarise yourself with the
+          platform, then start solving exercises for real.
         </p>
 
         <FormButton
@@ -93,25 +90,25 @@ export const Challenge12in23Modal = ({
         </ErrorBoundary>
       </div>
       <div className="rhs">
-        <h2 className="text-h4 mb-12">Watch Jeremy's introduction...</h2>
+        <h2 className="text-h4 mb-12">Start with our welcome video 👇🏽</h2>
         <div
           className="video relative rounded-8 overflow-hidden !mb-24"
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe
-            src="https://www.youtube-nocookie.com/embed/Svzev-9shKs"
+            src="https://www.youtube-nocookie.com/embed/8rmbTWAncb8"
             title="Introducing the 'Community' tab"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </div>
-        <h2 className="text-h4 mb-12">Which languages should I choose?</h2>
-        <p className="text-p-base">
-          Try and expand your horizons! Go old-school with COBOL, cutting edge
-          with Unison and esoteric with Prolog. Explore low-level code with
-          Assembly, expressions with a Lisp and functional with Haskell! There's
-          over 60 languages to choose from!
+        <h2 className="text-h4 mb-4">Where can I join #12in23?</h2>
+        <p className="text-p-base mb-8">
+          Discovered Exercism because of #12in23 or one of our featured months?
+          Good stuff! Once you've watched the video above, close this modal and
+          you'll see a big graphic on the right-hand side advertising #12in23.
+          Click on that and follow the instructions to get started!
         </p>
       </div>
     </Modal>

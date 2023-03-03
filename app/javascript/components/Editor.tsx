@@ -40,6 +40,7 @@ import {
   InstructionsPanel,
   TestsPanel,
   ResultsPanel,
+  FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
 
@@ -417,6 +418,8 @@ export default ({
                   hasCancelled={hasCancelled}
                   {...panels.results}
                 />
+                {/* TODO */}
+                <FeedbackPanel />
               </TasksContext.Provider>
             }
           />

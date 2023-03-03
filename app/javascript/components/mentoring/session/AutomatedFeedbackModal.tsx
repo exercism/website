@@ -11,7 +11,6 @@ import {
 } from '../../types'
 import { AnalyzerFeedback } from '../../student/iterations-list/AnalyzerFeedback'
 import { RepresenterFeedback } from '../../student/iterations-list/RepresenterFeedback'
-import { SessionInfo } from './SessionInfo'
 
 const DEFAULT_ERROR = new Error('Unable to load automated feedback')
 

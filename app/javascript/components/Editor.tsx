@@ -36,6 +36,7 @@ import {
   InstructionsTab,
   TestsTab,
   ResultsTab,
+  FeedbackTab,
   InstructionsPanel,
   TestsPanel,
   ResultsPanel,
@@ -394,6 +395,7 @@ export default ({
                   <InstructionsTab />
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
+                  <FeedbackTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (

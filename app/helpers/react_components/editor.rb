@@ -1,7 +1,6 @@
 module ReactComponents
   class Editor < ReactComponent
     initialize_with :solution
-
     def to_s
       super(
         "editor",
@@ -32,9 +31,14 @@ module ReactComponents
               }
             }
           },
+          iteration: {
+            analyzer_feedback: @iteration.analyzer_feedback,
+            representer_feedback: @iteration.representer_feedback
+          },
           track: {
             title: track.title,
-            slug: track.slug
+            slug: track.slug,
+            icon_url: track.icon_url
           },
           exercise: {
             title: solution.exercise.title,
@@ -42,7 +46,8 @@ module ReactComponents
           },
           links: {
             run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
-            back: Exercism::Routes.track_exercise_path(track, solution.exercise)
+            back: Exercism::Routes.track_exercise_path(track, solution.exercise),
+            automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated')
           }
         }
       )
@@ -75,6 +80,19 @@ module ReactComponents
     memoize
     def track
       solution.track
+    end
+
+    # TODO: Fix this
+    def use_solution
+      @solution = Solution.find_by!(uuid: solution.uuid)
+    rescue ActiveRecord::RecordNotFound
+      render_solution_not_found
+    end
+
+    def use_iteration
+      @iteration = @solution.iterations.last
+    rescue ActiveRecord::RecordNotFound
+      render_iteration_not_found
     end
   end
 end

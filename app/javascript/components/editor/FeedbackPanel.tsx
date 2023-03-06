@@ -3,9 +3,20 @@ import { GraphicalIcon, Tab } from '../common'
 import { TabsContext } from '../Editor'
 import { AnalyzerFeedback } from '../student/iterations-list/AnalyzerFeedback'
 import { RepresenterFeedback } from '../student/iterations-list/RepresenterFeedback'
+import { Iteration, Track } from '../types'
 
 // TODO: pass down these, add types
-export const FeedbackPanel = ({ iteration, track, links }): JSX.Element => {
+
+type FeedbackPanelProps = {
+  iteration: Pick<Iteration, 'analyzerFeedback' | 'representerFeedback'>
+  track: Pick<Track, 'title' | 'iconUrl'>
+  automatedFeedbackInfoLink: string
+}
+export const FeedbackPanel = ({
+  iteration,
+  track,
+  automatedFeedbackInfoLink,
+}: FeedbackPanelProps): JSX.Element => {
   return (
     <Tab.Panel id="feedback" context={TabsContext}>
       <section className="feedback-pane">
@@ -17,7 +28,7 @@ export const FeedbackPanel = ({ iteration, track, links }): JSX.Element => {
             <AnalyzerFeedback
               {...iteration.analyzerFeedback}
               track={track}
-              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+              automatedFeedbackInfoLink={automatedFeedbackInfoLink}
             />
           ) : null}
         </FeedbackDetail>

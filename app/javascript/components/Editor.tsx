@@ -82,6 +82,7 @@ export default ({
   track,
   exercise,
   links,
+  iteration,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -419,7 +420,11 @@ export default ({
                   {...panels.results}
                 />
                 {/* TODO */}
-                <FeedbackPanel />
+                <FeedbackPanel
+                  track={track}
+                  iteration={iteration}
+                  automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+                />
               </TasksContext.Provider>
             }
           />

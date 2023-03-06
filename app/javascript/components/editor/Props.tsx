@@ -1,4 +1,4 @@
-import { File, TestFile } from '../types'
+import { AnalyzerFeedback, File, RepresenterFeedback, TestFile } from '../types'
 import { Submission, Assignment, EditorSettings } from './types'
 
 export type EditorFeatures = {
@@ -15,11 +15,17 @@ export type TaskContext = {
 type Links = {
   runTests: string
   back: string
+  automatedFeedbackInfoLink: string
 }
 
 type Track = {
   title: string
   slug: string
+  iconUrl: string
+}
+type Iteration = {
+  representerFeedback: RepresenterFeedback
+  analyzerFeedback: AnalyzerFeedback
 }
 
 type Exercise = {
@@ -59,6 +65,7 @@ export type Props = {
   panels: EditorPanels
   track: Track
   exercise: Exercise
+  iteration: Iteration
   links: Links
   features?: EditorFeatures
 }

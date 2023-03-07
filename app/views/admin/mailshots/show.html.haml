@@ -1,0 +1,18 @@
+.lg-container
+  %h1.text-h1= @mailshot.slug
+
+  .text-h6.mb-8 Slug: #{@mailshot.slug}
+  .text-h6.mb-8 Subject: #{@mailshot.subject}
+  .text-h6.mb-8 Preference Key: #{@mailshot.email_communication_preferences_key}
+  .text-h6.mb-8 Num Sends: #{@send_count}
+  .text-h6.mb-8 Created at: #{format_date(@mailshot.created_at)}
+
+  .flex
+    = link_to "Edit this mailshot", edit_admin_mailshot_path(@mailshot), class: 'btn btn-standard btn-base'
+    = link_to "Preview HTML", "/rails/mailers/mailshots/mailshot.html?slug=#{@mailshot.slug}", rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
+    = link_to "Preview Text", "/rails/mailers/mailshots/mailshot.txt?slug=#{@mailshot.slug}", rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
+    - if @send_count.zero?
+      |
+      = button_to "Destroy this mailshot", [:admin, @mailshot], method: :delete, data: { confirm: "Are you sure? Destroy #{@mailshot.slug}?" }, class: 'btn btn-warning'
+    |
+    = link_to "Back to all mailshots", admin_mailshots_path, class: 'btn btn-standard btn-base'

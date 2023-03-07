@@ -1,0 +1,35 @@
+= form_with(model: [:admin, mailshot]) do |form|
+  - if mailshot.errors.any?
+    .mb-12.text-red
+      %h2
+        = pluralize(mailshot.errors.count, "error")
+        prohibited this mailshot from being saved:
+      %ul
+        - mailshot.errors.each do |error|
+          %li= error.full_message
+
+  .flex.flex-col
+    .mb-12
+      = form.label :slug, class: "block mb-4"
+      = form.text_field :slug, class: 'w-fill'
+    .mb-12
+      = form.label :subject, class: "block mb-4"
+      = form.text_field :subject, class: 'w-fill'
+    .mb-12
+      = form.label :email_communication_preferences_key, class: "block mb-4"
+      .c-select= form.select :email_communication_preferences_key, communication_preferences_keys, class: 'w-fill'
+    .mb-12
+      = form.label :button_text, class: "block mb-4"
+      = form.text_field :button_text, class: 'w-fill'
+    .mb-12
+      = form.label :button_url, class: "block mb-4"
+      = form.text_field :button_url, class: 'w-fill'
+    .mb-12
+      = form.label :content_markdown, class: "block mb-4"
+      = form.text_area :content_markdown, class: 'w-fill h-[400px]'
+    .mb-12
+      = form.label :text_content, class: "block mb-4"
+      = form.text_area :text_content, class: 'w-fill h-[400px]'
+
+    .mb-12
+      = form.submit class: "btn btn-primary"

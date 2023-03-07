@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     resources :community_videos
+    resources :mailshots
     resources :streaming_events
   end
 

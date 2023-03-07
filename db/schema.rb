@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_07_215041) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -481,6 +481,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
     t.integer "num_loc"
     t.index ["solution_id"], name: "index_iterations_on_solution_id"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
+  end
+
+  create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "email_communication_preferences_key", null: false
+    t.string "subject", null: false
+    t.string "button_url", null: false
+    t.string "button_text", null: false
+    t.text "text_content", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_mailshots_on_slug", unique: true
   end
 
   create_table "mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -984,6 +998,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -999,12 +1014,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
 
   create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "mailshot_id", null: false
+    t.string "mailshot_slug"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "mailshot_id", null: false
     t.index ["email_status"], name: "index_user_mailshots_on_email_status"
-    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id", unique: true
+    t.index ["mailshot_id"], name: "fk_rails_9ddeeadfc0"
+    t.index ["user_id", "mailshot_slug"], name: "index_user_mailshots_on_user_id_and_mailshot_slug", unique: true
     t.index ["user_id"], name: "index_user_mailshots_on_user_id"
   end
 
@@ -1024,6 +1041,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
     t.datetime "read_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "auto_read_on_url_match", default: true, null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["type", "user_id"], name: "index_user_notifications_on_type_and_user_id"
@@ -1166,6 +1184,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
     t.datetime "disabled_at"
     t.date "last_visited_on"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
@@ -1277,6 +1296,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_145455) do
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_dismissed_introducers", "users"
+  add_foreign_key "user_mailshots", "mailshots"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"

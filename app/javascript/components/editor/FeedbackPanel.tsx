@@ -5,33 +5,29 @@ import { TabsContext } from '../Editor'
 import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
 import { AnalyzerFeedback } from '../student/iterations-list/AnalyzerFeedback'
 import { RepresenterFeedback } from '../student/iterations-list/RepresenterFeedback'
-import { Links } from '../student/MentoringDropdown'
-import { Mentor } from '../student/MentoringSession'
 import { Iteration, MentorDiscussion, Track } from '../types'
 
 // TODO: pass down these, add types
 
 type FeedbackPanelProps = {
   iteration: Pick<Iteration, 'analyzerFeedback' | 'representerFeedback'>
+  iterations: readonly Iteration[]
+  onIterationScroll: (iteration: Iteration) => void
   track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
   discussion: MentorDiscussion
-  mentor: Mentor
   userHandle: string
-  iterations: readonly Iteration[]
-  onIterationScroll: (iteration: Iteration) => void
-  links: Links
   status: QueryStatus
 }
 export const FeedbackPanel = ({
   iteration,
+  iterations,
+  onIterationScroll,
   track,
   automatedFeedbackInfoLink,
-  iterations,
   discussion,
   userHandle,
   status,
-  onIterationScroll,
 }: FeedbackPanelProps): JSX.Element => {
   return (
     <Tab.Panel id="feedback" context={TabsContext}>

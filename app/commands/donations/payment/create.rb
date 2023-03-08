@@ -23,7 +23,7 @@ class Donations::Payment::Create
       subscription:,
       amount_in_cents: stripe_data.amount
     ).tap do |payment|
-      user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
+      user.update(donated: true, total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
       AwardBadgeJob.perform_later(user, :supporter)
       Donations::Payment::SendEmail.defer(payment)
     end

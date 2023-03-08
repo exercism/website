@@ -26,15 +26,14 @@
 
 
     .donors.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-20.mb-20
-      - @badges.each do |badge|
-        - user = badge.user
+      - @supporting_users.each do |user|
         .donor.flex
           = image_tag user.avatar_url, alt: "User-uploaded avatar of #{user.name}"
           .text
             .name.text-h5.mb-2= user.name
-            .when.text-textColor6 First supported #{time_ago_in_words(badge.created_at)} ago
+            .when.text-textColor6 First supported #{time_ago_in_words(user.first_donated_at)} ago
 
-    = paginate @badges
+    = paginate @supporting_users
 
     .missing.border-1.border-borderLight.rounded-8.py-12.px-16.bg-backgroundColorA.mt-40
       .flex

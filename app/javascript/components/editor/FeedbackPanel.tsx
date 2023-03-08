@@ -46,19 +46,29 @@ export const FeedbackPanel = ({
             {status === 'loading' ? (
               <div>Loading...</div>
             ) : (
-              data?.items?.map((post, index) => {
-                return (
-                  <ReadonlyDiscussionPostView
-                    key={post.uuid}
-                    prevIterationIdx={
-                      index === 0
-                        ? 0
-                        : data.items[index >= 1 ? index - 1 : 0].iterationIdx
-                    }
-                    post={post}
-                  />
-                )
-              })
+              <div>
+                <p className="text-p-base">
+                  This is your latest mentoring session for this exercise. To
+                  continue the discussion, switch to{' '}
+                  <a href="font-semibold text-blue">mentoring mode</a>.
+                </p>
+                <div>
+                  {data?.items?.map((post, index) => {
+                    return (
+                      <ReadonlyDiscussionPostView
+                        key={post.uuid}
+                        prevIterationIdx={
+                          index === 0
+                            ? 0
+                            : data.items[index >= 1 ? index - 1 : 0]
+                                .iterationIdx
+                        }
+                        post={post}
+                      />
+                    )
+                  })}
+                </div>
+              </div>
             )}
           </FeedbackDetail>
         ) : null}

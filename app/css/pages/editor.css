@@ -304,10 +304,11 @@
 
             section.feedback-pane {
                 --header-height: 32px;
+                @apply pb-16 px-24;
 
                 & .timeline-entry {
                     @apply flex;
-                    @apply py-8 px-24;
+                    @apply py-8;
                     @apply relative;
 
                     &:first-child {
@@ -323,10 +324,13 @@
                     &:before {
                         content: "";
                         @apply absolute;
-                        left: 40px;
+                        left: 16px;
                         top: 0;
                         bottom: 0;
                         @apply border-l-1 border-borderColor6;
+                    }
+                    &:first-child:before {
+                        @apply hidden;
                     }
 
                     & .timeline-marker {
@@ -430,13 +434,14 @@
                         }
                     }
                 }
-                @apply pb-16 px-24;
+
                 .c-details.feedback {
                     @apply border-t-2 border-lightGray;
-                    @apply mt-24 pt-16;
+                    @apply first:border-t-0;
+                    @apply pt-16 pb-12;
 
                     & > .--summary {
-                        @apply mb-10;
+                        @apply mb-4;
                         & > .--summary-inner {
                             @apply flex items-center;
 

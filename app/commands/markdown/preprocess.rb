@@ -50,6 +50,11 @@ class Markdown::Preprocess
       link_text.match(%r{^video:vimeo/(\d+)$}) do |m|
         node.url = "https://player.vimeo.com/video/#{m[1]}"
       end
+
+      link_text.match(%r{^video:youtube-mail/(\w+)$}) do |m|
+        node.each.first.string_content = node.url
+        node.url = "https://www.youtube.com/watch?v=#{m[1]}"
+      end
     end
   end
 

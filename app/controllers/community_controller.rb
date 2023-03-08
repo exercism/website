@@ -4,7 +4,7 @@ class CommunityController < ApplicationController
   def show
     # TODO: add caching
     @supporter_avatar_urls =
-      User.supporter.
+      User.public_supporter.
         with_attached_avatar.
         where.not('users.avatar_url': nil).
         order(first_donated_at: :desc).

@@ -121,7 +121,7 @@ class User < ApplicationRecord
   scope :random, -> { order('RAND()') }
 
   scope :donor, -> { where.not(first_donated_at: nil) }
-  scope :supporter, -> { donor.where(show_on_supporters_page: true) }
+  scope :public_supporter, -> { donor.where(show_on_supporters_page: true) }
 
   # TODO: Validate presence of name
 

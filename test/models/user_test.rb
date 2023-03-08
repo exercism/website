@@ -348,12 +348,12 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [user_2, user_3], User.donor.order(:id)
   end
 
-  test "scope: supporter" do
+  test "scope: public_supporter" do
     create :user, first_donated_at: nil
     create :user, first_donated_at: Time.current, show_on_supporters_page: false
     user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
 
-    assert_equal [user_3], User.supporter.order(:id)
+    assert_equal [user_3], User.public_supporter.order(:id)
   end
 
   test "github_auth?" do

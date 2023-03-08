@@ -1,6 +1,8 @@
 class Mailshot < ApplicationRecord
   has_markdown_field :content, strip_h1: false
 
+  def sent_to_audiences = super.to_a.map(&:to_sym).to_set
+
   def email_communication_preferences_key
     super&.to_sym
   end

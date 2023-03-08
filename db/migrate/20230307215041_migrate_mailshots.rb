@@ -15,14 +15,18 @@ class MigrateMailshots < ActiveRecord::Migration[7.0]
         subject: "Legacy",
         button_url: "Legacy",
         button_text: "Legacy",
-        text_content: "Legacy"
+        text_content: "Legacy",
         content_markdown: "Legacy",
-        content_html: "Legacy"
+        content_html: "Legacy",
+        test_sent: true
       )
       User::Mailshot.where(mailshot_slug: slug).update_all(mailshot_id: mailshot.id)
     end
 
     change_column_null :user_mailshots, :mailshot_id, false
     add_foreign_key :user_mailshots, :mailshots
+
+    remove_index :user_mailshots, [:user_id, :mailshot_slug]
+    add_index :user_mailshots, [:user_id, :mailshot_id]
   end
 end

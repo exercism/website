@@ -5,6 +5,8 @@ class CreateMailshots < ActiveRecord::Migration[7.0]
     create_table :mailshots do |t|
       t.string :slug, null: false
       t.string :email_communication_preferences_key, null: false
+      t.boolean :test_sent, null: false, default: false
+      t.json :sent_to_audiences
 
       t.string :subject, null: false
 

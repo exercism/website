@@ -1,6 +1,6 @@
 class Admin::MailshotsController < ApplicationController
   before_action :ensure_admin!
-  before_action :set_mailshot, only: %i[show edit update destroy]
+  before_action :set_mailshot, only: %i[show edit update destroy send_test send_to_audience]
 
   # GET /admin/mailshots
   def index
@@ -11,6 +11,8 @@ class Admin::MailshotsController < ApplicationController
   # GET /admin/mailshots/1
   def show
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
+    @audiences = [:admins]
+    @audiences += Track.pluck(:slug).map { |slug| "track##{slug}" }
   end
 
   # GET /admin/mailshots/new
@@ -48,6 +50,23 @@ class Admin::MailshotsController < ApplicationController
   def destroy
     @mailshot.destroy
     redirect_to admin_mailshots_url, notice: "mailshot was successfully destroyed."
+  end
+
+  def send_test
+    Mailshot::SendTest.(@mailshot)
+
+    flash[:mailshot_status] = "Test email sent!"
+
+    redirect_to [:admin, @mailshot]
+  end
+
+  def send_to_audience
+    audience_type, audience_slug = params[:audience].split("#")
+    Mailshot::Send.(@mailshot, audience_type, audience_slug)
+
+    flash[:mailshot_status] = "Email sent to audience: #{params[:audience]}!"
+
+    redirect_to [:admin, @mailshot]
   end
 
   private

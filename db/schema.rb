@@ -998,7 +998,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_215041) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -1041,7 +1040,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_215041) do
     t.datetime "read_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "auto_read_on_url_match", default: true, null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["type", "user_id"], name: "index_user_notifications_on_type_and_user_id"
@@ -1184,7 +1182,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_215041) do
     t.datetime "disabled_at"
     t.date "last_visited_on"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

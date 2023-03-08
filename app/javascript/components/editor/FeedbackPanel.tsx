@@ -46,28 +46,31 @@ export const FeedbackPanel = ({
             {status === 'loading' ? (
               <div>Loading...</div>
             ) : (
-              <div>
+              <div className="c-discussion-timeline">
                 <p className="text-p-base">
                   This is your latest mentoring session for this exercise. To
                   continue the discussion, switch to{' '}
-                  <a href="font-semibold text-blue">mentoring mode</a>.
+                  <a
+                    className="font-semibold text-blue"
+                    href="mentor_discussions"
+                  >
+                    mentoring mode
+                  </a>
+                  .
                 </p>
-                <div>
-                  {data?.items?.map((post, index) => {
-                    return (
-                      <ReadonlyDiscussionPostView
-                        key={post.uuid}
-                        prevIterationIdx={
-                          index === 0
-                            ? 0
-                            : data.items[index >= 1 ? index - 1 : 0]
-                                .iterationIdx
-                        }
-                        post={post}
-                      />
-                    )
-                  })}
-                </div>
+                {data?.items?.map((post, index) => {
+                  return (
+                    <ReadonlyDiscussionPostView
+                      key={post.uuid}
+                      prevIterationIdx={
+                        index === 0
+                          ? 0
+                          : data.items[index >= 1 ? index - 1 : 0].iterationIdx
+                      }
+                      post={post}
+                    />
+                  )
+                })}
               </div>
             )}
           </FeedbackDetail>

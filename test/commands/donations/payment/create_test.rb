@@ -19,7 +19,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
     assert_equal user, payment.user
     assert_nil payment.subscription
     assert_equal amount, user.total_donated_in_cents
-    assert user.donated
+    assert user.donated?
   end
 
   test "awards supporter badge" do

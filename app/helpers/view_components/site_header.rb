@@ -16,7 +16,7 @@ module ViewComponents
 
     private
     def announcement_bar
-      return tag.span("") if current_user&.donated
+      return tag.span("") if current_user&.donated?
 
       link_to(Exercism::Routes.donate_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do

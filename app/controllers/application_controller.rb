@@ -34,6 +34,13 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  def ensure_iHiD! # rubocop:disable Naming/MethodName
+    return true if Rails.env.development?
+    return true if current_user&.id == User::IHID_USER_ID
+
+    redirect_to root_path
+  end
+
   # We want to mark relevant notifications as read, but we don't
   # care about doing this before the rest of the action is run, so we
   # use a promise to kick it off async. However, we do want it to finish

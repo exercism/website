@@ -24,6 +24,7 @@ class Mailshot::SendTestMailTest < ActiveSupport::TestCase
   end
 
   test "updates record" do
+    create :user, id: User::IHID_USER_ID
     mailshot = create :mailshot
     refute mailshot.test_sent?
 

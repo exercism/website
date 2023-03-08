@@ -34,6 +34,12 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  def ensure_staff!
+    return if current_user&.staff?
+
+    redirect_to maintaining_root_path
+  end
+
   # We want to mark relevant notifications as read, but we don't
   # care about doing this before the rest of the action is run, so we
   # use a promise to kick it off async. However, we do want it to finish

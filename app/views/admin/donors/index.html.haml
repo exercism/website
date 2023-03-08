@@ -16,3 +16,5 @@
         %td= format_datetime(donor.first_donated_at)
   .flex
     = link_to "New donor", new_admin_donor_path, class: 'btn btn-primary btn-base'
+
+  = paginate @donors

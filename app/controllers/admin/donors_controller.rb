@@ -3,7 +3,10 @@ class Admin::DonorsController < ApplicationController
 
   # GET /admin/donors
   def index
-    @donors = User.donor.order(first_donated_at: :desc).page(params[:page]).per(30)
+    @donors = User.donor.
+      order(first_donated_at: :desc).
+      page(params[:page]).
+      per(30)
   end
 
   # GET /admin/donors/new

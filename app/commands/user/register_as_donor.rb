@@ -1,4 +1,4 @@
-class Donations::RegisterUserAsDonor
+class User::RegisterAsDonor
   include Mandate
 
   initialize_with :user, :first_donated_at

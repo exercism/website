@@ -72,7 +72,7 @@ export type Props = {
   panels: EditorPanels
   track: Track
   exercise: Exercise
-  iteration: Iteration
+  iteration?: Iteration
   discussion?: MentorDiscussion
   links: Links
   features?: EditorFeatures

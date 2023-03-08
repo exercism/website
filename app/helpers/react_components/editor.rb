@@ -31,10 +31,10 @@ module ReactComponents
               }
             }
           },
-          iteration: {
+          iteration: iteration ? {
             analyzer_feedback: iteration&.analyzer_feedback,
             representer_feedback: iteration&.representer_feedback
-          },
+          } : nil,
           discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
           track: {
             title: track.title,

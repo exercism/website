@@ -32,9 +32,10 @@ module ReactComponents
             }
           },
           iteration: {
-            analyzer_feedback: @iteration.analyzer_feedback,
-            representer_feedback: @iteration.representer_feedback
+            analyzer_feedback: iteration&.analyzer_feedback,
+            representer_feedback: iteration&.representer_feedback
           },
+          discussion:,
           track: {
             title: track.title,
             slug: track.slug,
@@ -54,11 +55,16 @@ module ReactComponents
     end
 
     private
-    def submissions
-      submission = solution.latest_submission
+    def submissions = submission ? [SerializeSubmission.(submission)] : []
 
-      submission ? [SerializeSubmission.(submission)] : []
-    end
+    memoize
+    def submission = solution.latest_submission
+
+    memoize
+    def iteration = submission&.iteration
+
+    memoize
+    def discussion = solution.mentor_discussions.last
 
     memoize
     def introduction
@@ -80,19 +86,6 @@ module ReactComponents
     memoize
     def track
       solution.track
-    end
-
-    # TODO: Fix this
-    def use_solution
-      @solution = Solution.find_by!(uuid: solution.uuid)
-    rescue ActiveRecord::RecordNotFound
-      render_solution_not_found
-    end
-
-    def use_iteration
-      @iteration = @solution.iterations.last
-    rescue ActiveRecord::RecordNotFound
-      render_iteration_not_found
     end
   end
 end

@@ -44,17 +44,19 @@ export const FeedbackPanel = ({
             />
           ) : null}
         </FeedbackDetail>
-        <FeedbackDetail summary="Mentoring Discussion">
-          <DiscussionPostList
-            // This should be the last iteration
-            iterations={iterations}
-            userIsStudent={true}
-            discussionUuid={discussion.uuid}
-            userHandle={userHandle}
-            onIterationScroll={onIterationScroll}
-            status={status}
-          />
-        </FeedbackDetail>
+        {discussion ? (
+          <FeedbackDetail summary="Mentoring Discussion">
+            <DiscussionPostList
+              // This should be the last iteration
+              iterations={iterations}
+              userIsStudent={true}
+              discussionUuid={discussion.uuid}
+              userHandle={userHandle}
+              onIterationScroll={onIterationScroll}
+              status={status}
+            />
+          </FeedbackDetail>
+        ) : null}
       </section>
     </Tab.Panel>
   )

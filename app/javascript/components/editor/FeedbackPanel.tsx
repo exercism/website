@@ -29,18 +29,22 @@ export const FeedbackPanel = ({
   return (
     <Tab.Panel id="feedback" context={TabsContext}>
       <section className="feedback-pane">
-        <FeedbackDetail summary="Automated Feedback">
-          {iteration.representerFeedback ? (
-            <RepresenterFeedback {...iteration.representerFeedback} />
-          ) : null}
-          {iteration.analyzerFeedback ? (
-            <AnalyzerFeedback
-              {...iteration.analyzerFeedback}
-              track={track}
-              automatedFeedbackInfoLink={automatedFeedbackInfoLink}
-            />
-          ) : null}
-        </FeedbackDetail>
+        {iteration ? (
+          <FeedbackDetail summary="Automated Feedback">
+            <>
+              {iteration.representerFeedback ? (
+                <RepresenterFeedback {...iteration.representerFeedback} />
+              ) : null}
+              {iteration.analyzerFeedback ? (
+                <AnalyzerFeedback
+                  {...iteration.analyzerFeedback}
+                  track={track}
+                  automatedFeedbackInfoLink={automatedFeedbackInfoLink}
+                />
+              ) : null}
+            </>
+          </FeedbackDetail>
+        ) : null}
         {discussion ? (
           <FeedbackDetail summary="Mentoring Discussion">
             {status === 'loading' ? (

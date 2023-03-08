@@ -29,7 +29,7 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
   end
 
   test "schedules if record counts matched" do
-    Array.new(2) { create :user, :admin }
+    Array.new(3) { create :user, :admin }
     mailshot = create :mailshot
 
     assert_enqueued_with(job: MandateJob) do

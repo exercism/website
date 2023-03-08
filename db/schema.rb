@@ -494,6 +494,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_215041) do
     t.text "content_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "test_sent", default: false, null: false
+    t.json "sent_to_audiences"
     t.index ["slug"], name: "index_mailshots_on_slug", unique: true
   end
 

@@ -53,7 +53,7 @@ class Admin::MailshotsController < ApplicationController
   end
 
   def send_test
-    Mailshot::SendTest.(@mailshot)
+    Mailshot::SendTestMail.(@mailshot)
 
     flash[:mailshot_status] = "Test email sent!"
 

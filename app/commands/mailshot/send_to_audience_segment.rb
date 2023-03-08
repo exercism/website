@@ -2,10 +2,12 @@ class Mailshot
   class SendToAudienceSegment
     include Mandate
 
+    queue_as :background
+
     initialize_with :mailshot, :audience_type, :audience_slug, :limit, :offset
 
     # TOOD: This is where we can add throttling to check how many
-    # mails have be sent today and reschedule ourselves for the next
+    # mails have been sent today and reschedule ourselves for the next
     # day if we've hit a limit
     def call
       @ar_relation, @user_extractor = mailshot.audience_for(audience_type, audience_slug)

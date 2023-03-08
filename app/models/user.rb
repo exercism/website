@@ -257,6 +257,8 @@ class User < ApplicationRecord
     avatar.attached? || self[:avatar_url].present?
   end
 
+  def donated? = first_donated_at.present?
+
   # TODO
   def languages_spoken
     %w[english spanish]

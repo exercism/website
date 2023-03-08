@@ -327,6 +327,14 @@ class UserTest < ActiveSupport::TestCase
     assert user.disabled?
   end
 
+  test "donated?" do
+    user = create :user, first_donated_at: nil
+    refute user.donated?
+
+    user.update(first_donated_at: Time.current)
+    assert user.donated?
+  end
+
   test "scope: random" do
     create_list(:user, 100)
     refute_equal User.all, User.random

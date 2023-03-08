@@ -37,23 +37,7 @@ class PagesController < ApplicationController
     }
   end
 
-  def organisation_supporters
-    use_num_individual_supporters
-  end
-
-  def individual_supporters
-    use_num_individual_supporters
-    @badges = User.supporter.
-      order(first_donated_at: :desc).
-      page(params[:page]).per(30)
-  end
-
   def supporter_gobridge
     @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
-  end
-
-  private
-  def use_num_individual_supporters
-    @num_individual_supporters = User.supporter.count
   end
 end

@@ -8,7 +8,7 @@ class AboutController < ApplicationController
   def individual_supporters
     use_num_individual_supporters
     @supporting_users = User.public_supporter.
-      order(first_donated_at: :desc).
+      order(first_donated_at: :asc).
       page(params[:page]).per(30)
   end
 
@@ -149,6 +149,6 @@ class AboutController < ApplicationController
 
   private
   def use_num_individual_supporters
-    @num_individual_supporters = User.public_supporter.count
+    @num_individual_supporters = User.donor.count
   end
 end

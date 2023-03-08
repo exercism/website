@@ -13,7 +13,7 @@ class ViewComponents::HeaderTest < ActionView::TestCase
   test "show support message when logged in but not a donor" do
     site_header_component = ViewComponents::SiteHeader.new
     site_header_component.stubs(namespace_name: "mentoring")
-    user = create :user, donated: false
+    user = create :user
     sign_in! user
 
     html = render(site_header_component)
@@ -24,7 +24,7 @@ class ViewComponents::HeaderTest < ActionView::TestCase
   test "don't show support message when logged in and a donor" do
     site_header_component = ViewComponents::SiteHeader.new
     site_header_component.stubs(namespace_name: "mentoring")
-    user = create :user, donated: true
+    user = create :user, :donor
     sign_in! user
 
     html = render(site_header_component)

@@ -20,7 +20,7 @@
 
       .summary.lg-container.hidden.md:flex.items-center
         .item
-          .value= number_with_delimiter(Donations::Payment.total_supporters)
+          .value= number_with_delimiter(User.donor.count)
           .metric Supporters
 
         .item

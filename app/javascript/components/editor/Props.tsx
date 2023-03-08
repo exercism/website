@@ -1,4 +1,10 @@
-import { AnalyzerFeedback, File, RepresenterFeedback, TestFile } from '../types'
+import {
+  AnalyzerFeedback,
+  File,
+  MentorDiscussion,
+  RepresenterFeedback,
+  TestFile,
+} from '../types'
 import { Submission, Assignment, EditorSettings } from './types'
 
 export type EditorFeatures = {
@@ -23,6 +29,7 @@ type Track = {
   slug: string
   iconUrl: string
 }
+
 type Iteration = {
   representerFeedback: RepresenterFeedback
   analyzerFeedback: AnalyzerFeedback
@@ -66,6 +73,7 @@ export type Props = {
   track: Track
   exercise: Exercise
   iteration: Iteration
+  discussion?: MentorDiscussion
   links: Links
   features?: EditorFeatures
 }

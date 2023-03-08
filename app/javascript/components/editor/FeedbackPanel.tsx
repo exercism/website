@@ -15,7 +15,7 @@ type FeedbackPanelProps = {
   onIterationScroll: (iteration: Iteration) => void
   track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
-  discussion: MentorDiscussion
+  discussion?: MentorDiscussion
   userHandle: string
   status: QueryStatus
 }

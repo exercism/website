@@ -46,6 +46,10 @@ FactoryBot.define do
       roles { [:admin] }
     end
 
+    trait :staff do
+      roles { [:staff] }
+    end
+
     trait :maintainer do
       roles { [:maintainer] }
     end

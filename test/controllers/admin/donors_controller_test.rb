@@ -1,13 +1,27 @@
 require "test_helper"
 
 class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get admin_donors_index_url
-    assert_response :success
-  end
+  %w[admin_donors_url new_admin_donor_url].each do |route|
+    test "get #{route} should 302 if not signed in" do
+      get send(route)
 
-  test "should get new" do
-    get admin_donors_new_url
-    assert_response :success
+      assert_response :redirect
+    end
+
+    test "get #{route} should 302 if not staff" do
+      sign_in!
+
+      get send(route)
+
+      assert_response :redirect
+    end
+
+    test "get #{route} should 200 if staff" do
+      sign_in!(create(:user, :staff))
+
+      get send(route)
+
+      assert_response :success
+    end
   end
 end

@@ -7,6 +7,7 @@ class CommunityController < ApplicationController
       User.supporter.
         with_attached_avatar.
         where.not('users.avatar_url': nil).
+        order(first_donated_at: :desc).
         pluck(:avatar_url).
         last(40)
 

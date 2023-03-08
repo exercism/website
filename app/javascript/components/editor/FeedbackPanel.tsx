@@ -1,34 +1,31 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
-import { GraphicalIcon, Tab } from '../common'
+import { useRequestQuery } from '@/hooks'
+import { shortFromNow } from '@/utils/time'
+import { Avatar, GraphicalIcon, Tab } from '../common'
 import { TabsContext } from '../Editor'
-import { DiscussionPostList } from '../mentoring/discussion/DiscussionPostList'
+import { Iteration, MentorDiscussion, Track } from '../types'
+import { DiscussionPostProps } from '../mentoring/discussion/DiscussionPost'
 import { AnalyzerFeedback } from '../student/iterations-list/AnalyzerFeedback'
 import { RepresenterFeedback } from '../student/iterations-list/RepresenterFeedback'
-import { Iteration, MentorDiscussion, Track } from '../types'
-
-// TODO: pass down these, add types
+import { DiscussionPostContent } from '../mentoring/discussion/discussion-post/DiscussionPostContent'
 
 type FeedbackPanelProps = {
   iteration: Pick<Iteration, 'analyzerFeedback' | 'representerFeedback'>
-  iterations: readonly Iteration[]
-  onIterationScroll: (iteration: Iteration) => void
   track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
   discussion?: MentorDiscussion
-  userHandle: string
-  status: QueryStatus
 }
 export const FeedbackPanel = ({
   iteration,
-  iterations,
-  onIterationScroll,
   track,
   automatedFeedbackInfoLink,
   discussion,
-  userHandle,
-  status,
 }: FeedbackPanelProps): JSX.Element => {
+  const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
+    `posts-discussion-${discussion?.uuid}`,
+    { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
+  )
+
   return (
     <Tab.Panel id="feedback" context={TabsContext}>
       <section className="feedback-pane">
@@ -46,15 +43,23 @@ export const FeedbackPanel = ({
         </FeedbackDetail>
         {discussion ? (
           <FeedbackDetail summary="Mentoring Discussion">
-            <DiscussionPostList
-              // This should be the last iteration
-              iterations={iterations}
-              userIsStudent={true}
-              discussionUuid={discussion.uuid}
-              userHandle={userHandle}
-              onIterationScroll={onIterationScroll}
-              status={status}
-            />
+            {status === 'loading' ? (
+              <div>Loading...</div>
+            ) : (
+              data?.items?.map((post, index) => {
+                return (
+                  <ReadonlyDiscussionPostView
+                    key={post.uuid}
+                    prevIterationIdx={
+                      index === 0
+                        ? 0
+                        : data.items[index >= 1 ? index - 1 : 0].iterationIdx
+                    }
+                    post={post}
+                  />
+                )
+              })
+            )}
           </FeedbackDetail>
         ) : null}
       </section>
@@ -71,7 +76,7 @@ function FeedbackDetail({
 }): JSX.Element {
   return (
     <details className="c-details feedback">
-      <summary className="--summary">
+      <summary className="--summary select-none">
         <div className="--summary-inner">
           <span className="summary-title">{summary}</span>
           <span className="--closed-icon">
@@ -84,5 +89,58 @@ function FeedbackDetail({
       </summary>
       {children}
     </details>
+  )
+}
+
+function ReadonlyDiscussionPostView({
+  post,
+  className = '',
+  prevIterationIdx,
+}: {
+  post: DiscussionPostProps
+  className?: string
+  prevIterationIdx: number
+}): JSX.Element {
+  const classNames = ['post', 'timeline-entry', className].filter(
+    (c) => c.length > 0
+  )
+
+  return (
+    <>
+      {prevIterationIdx === post.iterationIdx ? null : (
+        <ReadonlyIterationMarker idx={post.iterationIdx} />
+      )}
+      <div className={classNames.join(' ')}>
+        <Avatar
+          handle={post.authorHandle}
+          src={post.authorAvatarUrl}
+          className="timeline-marker"
+        />
+        <div className="timeline-content">
+          <header className="timeline-entry-header">
+            <div className="author">{post.authorHandle}</div>
+            <time>{shortFromNow(post.updatedAt)}</time>
+          </header>
+          <DiscussionPostContent contentHtml={post.contentHtml} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+function ReadonlyIterationMarker({ idx }: Pick<Iteration, 'idx'>): JSX.Element {
+  return (
+    <div className="timeline-entry iteration-entry">
+      <div className="timeline-marker">
+        <GraphicalIcon icon="iteration" />
+      </div>
+      <div className="timeline-content">
+        <div className="timeline-entry-header">
+          <div className="info">
+            <strong>Iteration {idx}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

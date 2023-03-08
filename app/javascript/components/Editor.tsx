@@ -420,7 +420,6 @@ export default ({
                   hasCancelled={hasCancelled}
                   {...panels.results}
                 />
-                {/* TODO */}
                 <FeedbackPanel
                   track={track}
                   iteration={iteration}

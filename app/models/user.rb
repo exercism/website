@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036
+  IHID_USER_ID = 1530
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable

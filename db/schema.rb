@@ -1168,7 +1168,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_095911) do
     t.datetime "first_donated_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page"
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"

@@ -11,14 +11,14 @@ class Badge::SupporterBadgeTest < ActiveSupport::TestCase
   end
 
   test "award_to?" do
-    user = create :user
+    user = create :user, donated: false
     badge = create :supporter_badge
 
     # No solutions
     refute badge.award_to?(user.reload)
 
     # Solution but no submissions
-    user.update(total_donated_in_cents: 1)
+    user.update(donated: true)
     assert badge.award_to?(user)
   end
 end

@@ -110,6 +110,9 @@ Rails.application.configure do
   config.action_controller.asset_host = Exercism.config.website_assets_host
   config.asset_host = Exercism.config.website_assets_host
 
+  config.action_mailer.show_previews = true
+  config.action_mailer.preview_path ||= defined?(Rails.root) ? Rails.root.join('test', 'mailers', 'previews') : nil
+
   # SMTP setup
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -125,3 +128,13 @@ end
 Rails.application.routes.default_url_options = {
   host: Exercism.config.website_url
 }
+
+class ::Rails::MailersController
+  before_action :authenticate_user!
+
+  def ensure_admin!
+    return if current_user&.admin?
+
+    redirect_to root_path
+  end
+end

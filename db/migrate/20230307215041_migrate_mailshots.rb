@@ -27,6 +27,6 @@ class MigrateMailshots < ActiveRecord::Migration[7.0]
     add_foreign_key :user_mailshots, :mailshots
 
     remove_index :user_mailshots, [:user_id, :mailshot_slug]
-    add_index :user_mailshots, [:user_id, :mailshot_id]
+    add_index :user_mailshots, [:user_id, :mailshot_id], unique: true
   end
 end

@@ -38,4 +38,18 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal first_donated_at, user.first_donated_at
     assert_redirected_to admin_donors_url
   end
+
+  test "create ignore leading and trailing whitespace in email" do
+    email = "jane@test.org"
+    first_donated_at = Time.utc(2022, 4, 14)
+    user = create :user, :staff, email: email
+
+    sign_in!(user)
+
+    post admin_donors_url, params: { email: "  jane@test.org   ", first_donated_at: first_donated_at.to_s }
+
+    assert user.reload.donated?
+    assert_equal first_donated_at, user.first_donated_at
+    assert_redirected_to admin_donors_url
+  end
 end

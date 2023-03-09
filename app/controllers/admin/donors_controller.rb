@@ -22,7 +22,7 @@ class Admin::DonorsController < ApplicationController
     end
 
     begin
-      first_donated_at = Time.parse(params[:first_donated_at]).utc
+      first_donated_at = Time.find_zone("UTC").parse(params[:first_donated_at])
 
       if first_donated_at > Time.current
         @error = "First donated at date must be in past"

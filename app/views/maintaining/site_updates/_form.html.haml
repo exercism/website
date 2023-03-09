@@ -1,4 +1,4 @@
-= form_with(model: update, url: maintaining_site_update_path(update)) do |form|
+= form_for(update, url:, as: :site_update) do |form|
   - if update.errors.any?
     .mb-12.text-red
       %h2
@@ -15,9 +15,10 @@
     = form.label :description_markdown, "Description (markdown)"
     = form.text_area :description_markdown
 
-  .field
-    = form.label :pull_request_number, "Pull Request ID (#{update.track.repo_url}/pull/<ID>)"
-    = form.text_field :pull_request_number
+  - unless update.new_record?
+    .field
+      = form.label :pull_request_number, "Pull Request ID (#{update.track.repo_url}/pull/<ID>)"
+      = form.text_field :pull_request_number
 
   .flex.gap-8
     = form.button button_label, class: "btn-primary btn-m"

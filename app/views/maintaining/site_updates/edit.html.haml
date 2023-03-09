@@ -1,3 +1,3 @@
 #maintaining-site-update-form.c-site-updates-form
   %h2.text-h3 Edit Site Update
-  = render "form", update: @update, button_label: "Edit update"
+  = render "form", update: @update, url: maintaining_site_update_path(@update), button_label: "Update Site Update"

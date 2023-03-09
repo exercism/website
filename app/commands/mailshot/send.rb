@@ -6,7 +6,7 @@ class Mailshot
 
     def call
       # Start the daisy chain of sending
-      Mailshot::SendToAudienceSegment.defer(mailshot, audience_type, audience_slug, 1000, 0)
+      Mailshot::SendToAudienceSegment.defer(mailshot, audience_type, audience_slug, 100, 0)
 
       # Update the record with this audience as sent to
       audience = "#{audience_type}##{audience_slug}".gsub(/\#$/, "")

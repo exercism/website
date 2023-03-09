@@ -54,7 +54,7 @@ class Markdown::Parse
     Markdown::RenderHTML.(doc, nofollow_links:, heading_ids:)
   end
 
-  ALLOWED_ATTRIBUTE_NAMES = %w[id href target rel class width height alt src].freeze
+  ALLOWED_ATTRIBUTE_NAMES = %w[id href target rel class style width height alt src].freeze
   ALLOWED_TOOLTIP_TYPES = %w[concept exercise].freeze
   private_constant :ALLOWED_ATTRIBUTE_NAMES, :ALLOWED_TOOLTIP_TYPES
 end

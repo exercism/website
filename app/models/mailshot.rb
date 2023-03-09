@@ -25,6 +25,20 @@ class Mailshot < ApplicationRecord
     ]
   end
 
+  def audience_for_donors(_)
+    [
+      User.where.not(first_donated_at: nil),
+      ->(user) { user }
+    ]
+  end
+
+  def audience_for_reputation(min_rep)
+    [
+      User.where('reputation >= ?', min_rep),
+      ->(user) { user }
+    ]
+  end
+
   def audience_for_track(slug)
     [
       UserTrack.where(track: Track.find_by!(slug:)).includes(:user),
@@ -33,6 +47,13 @@ class Mailshot < ApplicationRecord
 
         user_track.user
       end
+    ]
+  end
+
+  def audience_for_challenge(slug)
+    [
+      User::Challenge.where(challenge_id: slug).includes(:user),
+      ->(uc) { uc.user }
     ]
   end
 

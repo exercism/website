@@ -6,7 +6,7 @@ class Mailshot::SendTestTest < ActiveSupport::TestCase
     audience_type = "track"
     audience_slug = "elixir"
 
-    Mailshot::SendToAudienceSegment.expects(:defer).with(mailshot, audience_type, audience_slug, 1000, 0)
+    Mailshot::SendToAudienceSegment.expects(:defer).with(mailshot, audience_type, audience_slug, 100, 0)
 
     Mailshot::Send.(mailshot, audience_type, audience_slug)
   end

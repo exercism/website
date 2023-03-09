@@ -573,7 +573,7 @@ export type SiteUpdateIconType =
 export type SiteUpdateExpandedInfo = {
   author: Contributor
   title: string
-  description: string
+  descriptionHtml: string
 }
 
 export type SiteUpdate = {

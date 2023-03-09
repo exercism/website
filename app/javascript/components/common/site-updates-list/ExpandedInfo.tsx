@@ -30,7 +30,12 @@ export const ExpandedInfo = ({
           </div>
         </div>
       </div>
-      <div className="description">{expanded.description}</div>
+      {expanded.descriptionHtml && (
+        <div
+          className="description"
+          dangerouslySetInnerHTML={{ __html: expanded.descriptionHtml }}
+        />
+      )}
       {pullRequest ? <PullRequestWidget {...pullRequest} /> : null}
       {conceptWidget ? <ConceptWidget {...conceptWidget} /> : null}
       {exerciseWidget ? (

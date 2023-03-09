@@ -15,10 +15,14 @@
     = form.label :description_markdown, "Description (markdown)"
     = form.text_area :description_markdown
 
-  - unless update.new_record?
+  - if update.new_record?
     .field
-      = form.label :pull_request_number, "Pull Request ID (#{update.track.repo_url}/pull/<ID>)"
-      = form.text_field :pull_request_number
+    = form.label :track, "Track"
+    = form.collection_select :track_id, tracks, :id, :title
+
+  .field
+    = form.label :pull_request_number, "Pull Request number (https://github.com/exercism/<repo>/pull/<number>)"
+    = form.text_field :pull_request_number
 
   .flex.gap-8
     = form.button button_label, class: "btn-primary btn-m"

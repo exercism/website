@@ -1,4 +1,7 @@
 #maintaining-site-updates.c-admin-table.lg-container
+  %h1.text-h1.mb-8 Site updates
+  - if flash[:site_updates_notice]
+    .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
   %table.mb-8
     %thead
       %tr

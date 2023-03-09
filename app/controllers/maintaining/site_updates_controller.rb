@@ -7,6 +7,19 @@ class Maintaining::SiteUpdatesController < ApplicationController
 
   def new
     @update = SiteUpdates::ArbitraryUpdate.new
+    @tracks = maintained_tracks
+  end
+
+  def create
+    create_params = site_update_params.merge(author: current_user, published_at: Time.current)
+    @update = SiteUpdates::ArbitraryUpdate.new(create_params)
+
+    if @update.save
+      flash[:site_updates_notice] = "Site update was successfully created."
+      redirect_to %i[maintaining site_updates]
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -25,5 +38,15 @@ class Maintaining::SiteUpdatesController < ApplicationController
     end
 
     redirect_to action: :index
+  end
+
+  private
+  def maintained_tracks
+    Track.where(slug: Github::TeamMember.where(user_id: current_user.id).select(:team_name)).order(:title)
+  end
+
+  # Whitelist allowed parameters
+  def site_update_params
+    params.require(:site_update).permit(:title, :description_markdown, :track_id, :pull_request_number)
   end
 end

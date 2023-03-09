@@ -398,7 +398,7 @@ export default ({
                   <InstructionsTab />
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
-                  <FeedbackTab />
+                  {iteration ? <FeedbackTab /> : null}
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -420,12 +420,14 @@ export default ({
                   hasCancelled={hasCancelled}
                   {...panels.results}
                 />
-                <FeedbackPanel
-                  track={track}
-                  iteration={iteration}
-                  discussion={discussion}
-                  automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
-                />
+                {iteration ? (
+                  <FeedbackPanel
+                    track={track}
+                    iteration={iteration}
+                    discussion={discussion}
+                    automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+                  />
+                ) : null}
               </TasksContext.Provider>
             }
           />

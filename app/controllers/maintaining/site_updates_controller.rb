@@ -6,7 +6,7 @@ class Maintaining::SiteUpdatesController < ApplicationController
   end
 
   def new
-    @update = SiteUpdates::ArbitaryUpdate.new
+    @update = SiteUpdates::ArbitraryUpdate.new
   end
 
   def edit

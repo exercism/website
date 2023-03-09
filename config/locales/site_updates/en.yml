@@ -8,6 +8,6 @@ en:
       1: >
         <em>%{maker_handles}</em> published a new Concept: <a href="%{concept_url}">%{concept_name}</a>
 
-    arbitary:
+    arbitrary:
       1: >
         <em>%{author_handle}</em> published a new update.

@@ -2,7 +2,7 @@ en:
   site_updates:
     new_exercise:
       1: >
-        <em>%{author_handle}</em> published a new Exercise: <a href="%{exercise_url}">%{exercise_title}</a>
+        <em>%{maker_handles}</em> published a new Exercise: <a href="%{exercise_url}">%{exercise_title}</a>
 
     new_concept:
       1: >

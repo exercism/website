@@ -1,0 +1,15 @@
+-# haml-lint:disable InstanceVariables
+= form_for @update, url: maintaining_site_update_path(@update), as: :site_update do |f|
+  .field
+    = f.label :title, "Title"
+    = f.text_field :title
+
+  .field
+    = f.label :title, "Description"
+    = f.text_area :description
+
+  .field
+    = f.label :pull_request_number, "Pull Request ID (#{@update.track.repo_url}/pull/xxx)"
+    = f.text_field :pull_request_number
+
+  = f.button "Update Post", class: "btn-primary btn-m"

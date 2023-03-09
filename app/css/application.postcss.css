@@ -221,6 +221,7 @@
 @import "./pages/maintaining/dashboard";
 @import "./pages/maintaining/track";
 @import "./pages/maintaining/admin-table";
+@import "./pages/maintaining/site-updates-form";
 @import "./pages/journey";
 @import "./pages/journey/overview";
 @import "./pages/journey/solutions";

@@ -426,6 +426,7 @@ export default ({
                     iteration={iteration}
                     discussion={discussion}
                     automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+                    mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
               </TasksContext.Provider>

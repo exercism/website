@@ -48,7 +48,8 @@ module ReactComponents
           links: {
             run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
             back: Exercism::Routes.track_exercise_path(track, solution.exercise),
-            automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated')
+            automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
+            mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise)
           }
         }
       )

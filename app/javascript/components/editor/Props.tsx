@@ -22,6 +22,7 @@ type Links = {
   runTests: string
   back: string
   automatedFeedbackInfoLink: string
+  mentorDiscussions: string
 }
 
 type Track = {

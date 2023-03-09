@@ -9,12 +9,14 @@ export type FeedbackPanelProps = {
   iteration?: Pick<Iteration, 'analyzerFeedback' | 'representerFeedback'>
   track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
+  mentorDiscussionsLink: string
   discussion?: MentorDiscussion
 }
 export const FeedbackPanel = ({
   iteration,
   track,
   automatedFeedbackInfoLink,
+  mentorDiscussionsLink,
   discussion,
 }: FeedbackPanelProps): JSX.Element => {
   const AutomatedFeedbackProps = { iteration, track, automatedFeedbackInfoLink }
@@ -31,18 +33,26 @@ export const FeedbackPanel = ({
             <MentoringDiscussion discussion={discussion} />
           </>
         ) : (
-          <RequestMentoring />
+          <RequestMentoring mentorDiscussionsLink={mentorDiscussionsLink} />
         )}
       </section>
     </Tab.Panel>
   )
 }
 
-function RequestMentoring(): JSX.Element {
+function RequestMentoring({
+  mentorDiscussionsLink,
+}: Pick<FeedbackPanelProps, 'mentorDiscussionsLink'>): JSX.Element {
   return (
     <section className="run-tests-prompt">
       <GraphicalIcon icon="mentoring" className="filter-textColor6" />
-      <h2>Please request mentoring to get feedback.</h2>
+      <h2>
+        Please&nbsp;
+        <a className="underline" href={mentorDiscussionsLink}>
+          request mentoring
+        </a>
+        &nbsp;to get feedback.
+      </h2>
     </section>
   )
 }

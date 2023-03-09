@@ -185,7 +185,7 @@ module Components
           visit mentoring_discussion_path(discussion)
         end
 
-        within(".discussion") { assert_text "Iteration 1" }
+        within(".c-discussion-timeline") { assert_text "Iteration 1" }
         assert_text "Iteration 1was submitted\n7d ago"
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"

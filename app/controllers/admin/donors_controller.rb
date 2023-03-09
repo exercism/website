@@ -30,7 +30,8 @@ class Admin::DonorsController < ApplicationController
       end
 
       User::RegisterAsDonor.(user, first_donated_at)
-      redirect_to %i[admin donors], notice: "Donor was successfully created."
+      flash[:donors_notice] = "Donor was successfully created."
+      redirect_to %i[admin donors]
     rescue ArgumentError
       @error = "Invalid first donated at date"
       render :new

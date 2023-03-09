@@ -34,6 +34,12 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  def ensure_staff!
+    return if current_user&.staff?
+
+    redirect_to maintaining_root_path
+  end
+
   def ensure_iHiD! # rubocop:disable Naming/MethodName
     return true if Rails.env.development?
     return true if current_user&.id == User::IHID_USER_ID

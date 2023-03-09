@@ -121,6 +121,9 @@ class User < ApplicationRecord
 
   scope :random, -> { order('RAND()') }
 
+  scope :donor, -> { where.not(first_donated_at: nil) }
+  scope :public_supporter, -> { donor.where(show_on_supporters_page: true) }
+
   # TODO: Validate presence of name
 
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
@@ -257,6 +260,8 @@ class User < ApplicationRecord
   def has_avatar?
     avatar.attached? || self[:avatar_url].present?
   end
+
+  def donated? = first_donated_at.present?
 
   # TODO
   def languages_spoken

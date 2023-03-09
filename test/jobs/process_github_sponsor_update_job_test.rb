@@ -1,19 +1,38 @@
 require "test_helper"
 
 class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
+  test "updates first_donated_at to current time" do
+    freeze_time do
+      github_username = "foobar"
+      user = create :user, github_username: github_username, first_donated_at: nil
+
+      perform_enqueued_jobs do
+        ProcessGithubSponsorUpdateJob.perform_now(
+          'created',
+          github_username
+        )
+      end
+
+      assert_equal Time.current, user.reload.first_donated_at
+      assert user.donated?
+    end
+  end
+
   test "awards badge when created" do
     github_username = "foobar"
     user = create :user, github_username: github_username
 
-    AwardBadgeJob.expects(:perform_later).with(user, :supporter).once
+    perform_enqueued_jobs do
+      ProcessGithubSponsorUpdateJob.perform_now(
+        'created',
+        github_username
+      )
+    end
 
-    ProcessGithubSponsorUpdateJob.perform_now(
-      'created',
-      github_username
-    )
+    assert_includes user.reload.badges, Badges::SupporterBadge.first
   end
 
-  test "nooop when action is not created" do
+  test "noop when action is not created" do
     github_username = "foobar"
     create :user, github_username:
 

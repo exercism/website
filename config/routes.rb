@@ -61,6 +61,7 @@ Rails.application.routes.draw do
       end
     end
     resources :streaming_events
+    resources :donors, only: %i[index new create]
   end
 
   # ############ #

@@ -327,9 +327,33 @@ class UserTest < ActiveSupport::TestCase
     assert user.disabled?
   end
 
+  test "donated?" do
+    user = create :user, first_donated_at: nil
+    refute user.donated?
+
+    user.update(first_donated_at: Time.current)
+    assert user.donated?
+  end
+
   test "scope: random" do
     create_list(:user, 100)
     refute_equal User.all, User.random
+  end
+
+  test "scope: donor" do
+    create :user, first_donated_at: nil
+    user_2 = create :user, first_donated_at: Time.current, show_on_supporters_page: false
+    user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
+
+    assert_equal [user_2, user_3], User.donor.order(:id)
+  end
+
+  test "scope: public_supporter" do
+    create :user, first_donated_at: nil
+    create :user, first_donated_at: Time.current, show_on_supporters_page: false
+    user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
+
+    assert_equal [user_3], User.public_supporter.order(:id)
   end
 
   test "github_auth?" do

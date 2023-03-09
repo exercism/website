@@ -7,6 +7,6 @@ class ProcessGithubSponsorUpdateJob < ApplicationJob
     user = User.find_by(github_username: gh_username)
     return unless user
 
-    AwardBadgeJob.perform_later(user, :supporter)
+    User::RegisterAsDonor.(user, Time.current)
   end
 end

@@ -14,7 +14,7 @@ class Admin::DonorsController < ApplicationController
 
   # POST /admin/donors
   def create
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email]&.strip)
 
     if user.nil?
       @error = "Could not find user with this email address"

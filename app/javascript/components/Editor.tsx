@@ -420,14 +420,12 @@ export default ({
                   hasCancelled={hasCancelled}
                   {...panels.results}
                 />
-                {iteration ? (
-                  <FeedbackPanel
-                    track={track}
-                    iteration={iteration}
-                    discussion={discussion}
-                    automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
-                  />
-                ) : null}
+                <FeedbackPanel
+                  track={track}
+                  iteration={iteration}
+                  discussion={discussion}
+                  automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+                />
               </TasksContext.Provider>
             }
           />

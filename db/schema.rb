@@ -483,6 +483,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_095911) do
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
 
+  create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "email_communication_preferences_key", null: false
+    t.string "subject", null: false
+    t.string "button_url", null: false
+    t.string "button_text", null: false
+    t.text "text_content", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "test_sent", default: false, null: false
+    t.json "sent_to_audiences"
+    t.index ["slug"], name: "index_mailshots_on_slug", unique: true
+  end
+
   create_table "mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "discussion_id", null: false
@@ -999,12 +1015,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_095911) do
 
   create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "mailshot_id", null: false
+    t.string "mailshot_slug"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "mailshot_id", null: false
     t.index ["email_status"], name: "index_user_mailshots_on_email_status"
-    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id", unique: true
+    t.index ["mailshot_id"], name: "fk_rails_9ddeeadfc0"
+    t.index ["user_id", "mailshot_slug"], name: "index_user_mailshots_on_user_id_and_mailshot_slug", unique: true
     t.index ["user_id"], name: "index_user_mailshots_on_user_id"
   end
 
@@ -1278,6 +1296,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_095911) do
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_dismissed_introducers", "users"
+  add_foreign_key "user_mailshots", "mailshots"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"

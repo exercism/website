@@ -398,4 +398,9 @@ Done')
     expected = %(<h2 id="h-my-title">my title</h2>\n<h2 id="h-my-title-1">my title</h2>\n<h2 id="h-my-title-2">my title</h2>\n)
     assert_equal expected, Markdown::Parse.("## my title\n\n## my title\n\n## my title", heading_ids: true, lower_heading_levels_by: 0)
   end
+
+  test "render youtube video for mail with link" do
+    expected = %(<a href="https://www.youtube.com/watch?v=LknqlTouTKg" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/LknqlTouTKg](https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg)")
+  end
 end

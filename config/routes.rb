@@ -54,6 +54,12 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     resources :community_videos
+    resources :mailshots do
+      member do
+        patch :send_test
+        patch :send_to_audience
+      end
+    end
     resources :streaming_events
     resources :donors, only: %i[index new create]
   end

@@ -1,4 +1,12 @@
 class MailshotsPreview < ActionMailer::Preview
+  def mailshot
+    mailshot = Mailshot.find_by!(slug: params[:slug])
+    MailshotsMailer.with(
+      user: User.fourth,
+      mailshot:
+    ).mailshot
+  end
+
   delegate :community_launch, to: :mailer
   delegate :company_support_donor, to: :mailer
   delegate :company_support_testimonial, to: :mailer
@@ -7,6 +15,9 @@ class MailshotsPreview < ActionMailer::Preview
 
   private
   def mailer
-    MailshotsMailer.with(user: User.fourth, email_communication_preferences_key: :email_about_events)
+    MailshotsMailer.with(
+      user: User.fourth,
+      email_communication_preferences_key: :email_about_events
+    )
   end
 end

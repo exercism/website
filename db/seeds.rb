@@ -21,7 +21,8 @@ User.find_by_id(User::GHOST_USER_ID) || User.create!(
 )
 
 puts "Creating User iHiD"
-iHiD = User.find_by(handle: 'iHiD') || User.create!(
+iHiD = User.find_by_id(User::IHID_USER_ID) || User.create!(
+  id: User::IHID_USER_ID,
   handle: 'iHiD',
   email: 'ihid@exercism.org',
   name: 'Jeremy Walker',

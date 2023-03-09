@@ -1,16 +1,23 @@
--# haml-lint:disable InstanceVariables
-= form_for @update, url: maintaining_site_update_path(@update), as: :site_update do |f|
+= form_with(model: update, url: maintaining_site_update_path(update)) do |form|
+  - if update.errors.any?
+    .mb-12.text-red
+      %h2
+        = pluralize(update.errors.count, "error")
+        prohibited this site update from being saved:
+      %ul
+        - update.errors.each do |error|
+          %li= error.full_message
   .field
-    = f.label :title, "Title"
-    = f.text_field :title
+    = form.label :title, "Title"
+    = form.text_field :title
 
   .field
-    = f.label :title, "Description (markdown)"
-    = f.text_area :description_markdown
+    = form.label :description_markdown, "Description (markdown)"
+    = form.text_area :description_markdown
 
   .field
-    = f.label :pull_request_number, "Pull Request ID (#{@update.track.repo_url}/pull/<ID>)"
-    = f.text_field :pull_request_number
+    = form.label :pull_request_number, "Pull Request ID (#{update.track.repo_url}/pull/<ID>)"
+    = form.text_field :pull_request_number
 
   .flex.gap-8
     = f.button button_label, class: "btn-primary btn-m"

@@ -5,6 +5,10 @@ class Maintaining::SiteUpdatesController < ApplicationController
     @updates = @updates.page(params[:page]).per(30)
   end
 
+  def new
+    @update = SiteUpdates::ArbitaryUpdate.new
+  end
+
   def edit
     @update = SiteUpdate.find(params[:id])
   end
@@ -15,7 +19,7 @@ class Maintaining::SiteUpdatesController < ApplicationController
     if @update.editable_by?(current_user)
       @update.update!(
         params.require(:site_update).permit(
-          :title, :description, :pull_request_number
+          :title, :description_markdown, :pull_request_number
         ).merge(author: current_user)
       )
     end

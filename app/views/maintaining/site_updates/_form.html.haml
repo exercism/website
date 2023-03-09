@@ -12,4 +12,7 @@
     = f.label :pull_request_number, "Pull Request ID (#{@update.track.repo_url}/pull/<ID>)"
     = f.text_field :pull_request_number
 
-  = f.button "Update Post", class: "btn-primary btn-m"
+  .flex.gap-8
+    = f.button button_label, class: "btn-primary btn-m"
+    = link_to maintaining_site_updates_path, class: "btn-primary btn-m" do
+      Back to site updates

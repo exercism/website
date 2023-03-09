@@ -37,7 +37,7 @@ module Components
         update = create :new_exercise_site_update,
           author: author,
           title: "New exercise",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 
@@ -61,7 +61,7 @@ module Components
         create :new_exercise_site_update,
           author: author,
           title: "New exercise",
-          description: "New description",
+          description_markdown: "New description",
           pull_request: pull_request
 
         visit test_components_common_site_updates_list_path
@@ -87,7 +87,7 @@ module Components
           author: author,
           exercise: exercise,
           title: "New exercise",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 
@@ -103,7 +103,7 @@ module Components
           track: strings.track,
           author: author,
           title: "New concept",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 

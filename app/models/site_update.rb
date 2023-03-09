@@ -13,6 +13,8 @@ class SiteUpdate < ApplicationRecord
   belongs_to :author, optional: true, class_name: "User"
   belongs_to :pull_request, optional: true, class_name: "Github::PullRequest"
 
+  has_markdown_field :description
+
   before_validation only: :create do
     self.published_at = Time.current + 3.hours unless published_at
   end
@@ -57,7 +59,7 @@ class SiteUpdate < ApplicationRecord
           avatar_url: author.avatar_url
         },
         title:,
-        description:
+        description_html:
       }
     end
 
@@ -75,7 +77,7 @@ class SiteUpdate < ApplicationRecord
   end
 
   def expanded?
-    [author, title, description].all?(&:present?)
+    [author, title, description_markdown].all?(&:present?)
   end
 
   # Should be overriden in children

@@ -132,7 +132,10 @@ module Components
       exercise = create :concept_exercise, track: track
       create :user_track, track: track, user: user
       solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      submission = create :submission, solution: solution,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
       create :submission_test_run,
         submission: submission,
         ops_status: 200,
@@ -141,19 +144,24 @@ module Components
           status: "pass",
           tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
         }
+      create :iteration, solution: solution, submission: submission
+      create :submission_file, submission: submission
+      create :submission_analysis, submission: submission, data: {
+        comments: [
+          { type: "essential", comment: "ruby.two-fer.splat_args" }
+        ]
+      }
 
       use_capybara_host do
         sign_in!(user)
         visit edit_track_exercise_path(track, exercise)
 
-        within(".--split-rhs .tabs") do
-          find_all(".c-tab").first.find("span", text: "Instructions").click
-          # assert_selector('.c-tab', count: 2)
-        end
+        click_on "Feedback"
 
         assert_text "Instrasdf"
       end
     end
+
     test "user runs tests and tests pass - v2 test runner" do
       user = create :user
       track = create :track

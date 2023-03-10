@@ -117,7 +117,7 @@ module Components
       end
     end
 
-    test "feedback for iteration without automated feedback" do
+    test "show feedback tab and request message when there are no automated nor mentor feedbacks" do
       user = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
@@ -139,12 +139,12 @@ module Components
         sleep 0.5
         click_on "Feedback"
 
-        # in JSX &nbsp; is used and this is thats equivalent here
+        # Use "\n" to match where JSX uses "&nbsp;"
         assert_text "Please \nrequest mentoring\n to get feedback."
       end
     end
 
-    test "feedback shows automated feedback when only representer" do
+    test "feedback panel shows automated feedback details when submission has representer feedback" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -170,7 +170,7 @@ module Components
         exercise: exercise,
         source_submission: submission,
         feedback_author: mentor,
-        feedback_markdown: "Good job",
+        feedback_markdown: "Some representer feedback",
         feedback_type: :essential,
         ast_digest: "AST"
       create :submission_representation, submission: submission, ast_digest: "AST"
@@ -186,11 +186,11 @@ module Components
         # click_on can only click on links or buttons
         find("details", text: "Automated Feedback").click
         refute_text "Our Ruby Analyzer has some comments"
-        assert_text "Good job"
+        assert_text "Some representer feedback"
       end
     end
 
-    test "feedback shows automated feedback when only analyzer" do
+    test "feedback panel shows automated feedback details when submission has analyzer feedback" do
       user = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
@@ -230,7 +230,7 @@ module Components
       end
     end
 
-    test "feedback shows mentoring discussion hides automated feedback" do
+    test "feedback panel shows mentoring discussion details" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -270,7 +270,7 @@ module Components
       end
     end
 
-    test "everything is visible on feedback panel" do
+    test "feedback panel shows automated feedback and mentoring discussion details" do
       user = create :user
       mentor = create :user
       track = create :track

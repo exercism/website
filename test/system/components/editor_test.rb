@@ -78,6 +78,23 @@ module Components
       assert_no_css ".hints-btn"
     end
 
+    test "user switches to instructions tab" do
+      user = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      create :concept_solution, user: user, exercise: exercise
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        click_on "Instructions"
+
+        assert_text "How to debug"
+      end
+    end
+
     test "hide feedback tab when there are iterations" do
       user = create :user
       track = create :track
@@ -91,9 +108,6 @@ module Components
         content: "class LogLineParser",
         filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("class LogLineParser")
-      # tests passed
-      # click on submit
-      # itertation is created
 
       use_capybara_host do
         sign_in!(user)
@@ -102,6 +116,7 @@ module Components
         refute_text "Feedback"
       end
     end
+
     test "feedback for iteration without automated feedback" do
       user = create :user
       track = create :track
@@ -120,13 +135,62 @@ module Components
         sign_in!(user)
         visit edit_track_exercise_path(track, exercise)
 
+        # Make sure component is mounted
+        sleep 0.5
         click_on "Feedback"
 
-        assert_text "request mentoring"
+        # in JSX &nbsp; is used and this is thats equivalent here
+        assert_text "Please \nrequest mentoring\n to get feedback."
       end
     end
 
-    test "feedback for iteration with automated feedback" do
+    test "feedback shows automated feedback when only representer" do
+      user = create :user
+      mentor = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
+      submission = create :submission, solution: solution,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      create :submission_test_run,
+        submission: submission,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      create :iteration, solution: solution, submission: submission, idx: 1
+      create :submission_file, submission: submission
+
+      create :exercise_representation,
+        exercise: exercise,
+        source_submission: submission,
+        feedback_author: mentor,
+        feedback_markdown: "Good job",
+        feedback_type: :essential,
+        ast_digest: "AST"
+      create :submission_representation, submission: submission, ast_digest: "AST"
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        refute_text "Mentoring Discussion"
+        assert_text "Automated Feedback"
+        # click_on can only click on links or buttons
+        find("details", text: "Automated Feedback").click
+        refute_text "Our Ruby Analyzer has some comments"
+        assert_text "Good job"
+      end
+    end
+
+    test "feedback shows automated feedback when only analyzer" do
       user = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
@@ -144,7 +208,7 @@ module Components
           status: "pass",
           tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
         }
-      create :iteration, solution: solution, submission: submission
+      create :iteration, solution: solution, submission: submission, idx: 1
       create :submission_file, submission: submission
       create :submission_analysis, submission: submission, data: {
         comments: [
@@ -156,9 +220,112 @@ module Components
         sign_in!(user)
         visit edit_track_exercise_path(track, exercise)
 
+        sleep 0.5
         click_on "Feedback"
+        refute_text "Mentoring Discussion"
+        assert_text "Automated Feedback"
+        # click_on can only click on links or buttons
+        find("details", text: "Automated Feedback").click
+        assert_text "Our Ruby Analyzer has some comments"
+      end
+    end
 
-        assert_text "Instrasdf"
+    test "feedback shows mentoring discussion hides automated feedback" do
+      user = create :user
+      mentor = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
+      submission = create :submission, solution: solution,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      create :submission_test_run,
+        submission: submission,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      create :iteration, solution: solution, submission: submission, idx: 1
+      create :submission_file, submission: submission
+      create :mentor_discussion, solution: solution, mentor: mentor
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        assert_text "Mentoring Discussion"
+        refute_text "Automated Feedback"
+        # click_on can only click on links or buttons
+        find("details", text: "Mentoring Discussion").click
+        assert_text "This is your latest mentoring session"
+        assert_css "img[src='#{user.avatar_url}']"\
+        "[alt=\"Uploaded avatar of #{user.handle}\"]"
+        assert_text "Iteration 1"
+      end
+    end
+
+    test "everything is visible on feedback panel" do
+      user = create :user
+      mentor = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
+      # run tests
+      submission = create :submission, solution: solution,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      # tests passed
+      # click on submit
+      create :submission_test_run,
+        submission: submission,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      # itertation is created
+      create :iteration, solution: solution, submission: submission, idx: 1
+      create :submission_file, submission: submission
+      create :submission_analysis, submission: submission, data: {
+        comments: [
+          { type: "essential", comment: "ruby.two-fer.splat_args" }
+        ]
+      }
+      create :exercise_representation,
+        exercise: exercise,
+        source_submission: submission,
+        feedback_author: mentor,
+        feedback_markdown: "Good job",
+        feedback_type: :essential,
+        ast_digest: "AST"
+      create :submission_representation, submission: submission, ast_digest: "AST"
+      create :mentor_discussion, solution: solution, mentor: mentor
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        assert_text "Mentoring Discussion"
+        assert_text "Automated Feedback"
+        # click_on can only click on links or buttons
+        find("details", text: "Automated Feedback").click
+        find("details", text: "Mentoring Discussion").click
+        assert_text "Our Ruby Analyzer has some comments"
+        assert_text "This is your latest mentoring session"
+        assert_css "img[src='#{user.avatar_url}']"\
+        "[alt=\"Uploaded avatar of #{user.handle}\"]"
+        assert_text "Iteration 1"
       end
     end
 

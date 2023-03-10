@@ -98,7 +98,7 @@ module Components
 
         click_on "Feedback"
 
-        assert_text "Please request mentoring to get feedback."
+        assert_text "request mentoring"
       end
     end
 

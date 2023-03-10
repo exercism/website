@@ -117,7 +117,7 @@ module Components
       end
     end
 
-    test "show feedback tab and request message when there are no automated nor mentor feedbacks" do
+    test "show feedback tab and request message when there is no automated nor mentor feedback" do
       user = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
@@ -185,7 +185,6 @@ module Components
         assert_text "Automated Feedback"
         # click_on can only click on links or buttons
         find("details", text: "Automated Feedback").click
-        refute_text "Our Ruby Analyzer has some comments"
         assert_text "Some representer feedback"
       end
     end
@@ -304,7 +303,7 @@ module Components
         exercise: exercise,
         source_submission: submission,
         feedback_author: mentor,
-        feedback_markdown: "Good job",
+        feedback_markdown: "Representer feedback",
         feedback_type: :essential,
         ast_digest: "AST"
       create :submission_representation, submission: submission, ast_digest: "AST"
@@ -323,6 +322,7 @@ module Components
         find("details", text: "Mentoring Discussion").click
         assert_text "Our Ruby Analyzer has some comments"
         assert_text "This is your latest mentoring session"
+        assert_text "Representer feedback"
         assert_css "img[src='#{user.avatar_url}']"\
         "[alt=\"Uploaded avatar of #{user.handle}\"]"
         assert_text "Iteration 1"

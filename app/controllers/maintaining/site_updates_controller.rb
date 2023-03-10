@@ -7,7 +7,7 @@ class Maintaining::SiteUpdatesController < ApplicationController
 
   def new
     @update = SiteUpdates::ArbitraryUpdate.new
-    @tracks = maintained_tracks
+    setup_new_form
   end
 
   def create
@@ -18,6 +18,7 @@ class Maintaining::SiteUpdatesController < ApplicationController
       flash[:site_updates_notice] = "Site update was successfully created."
       redirect_to %i[maintaining site_updates]
     else
+      setup_new_form
       render :new, status: :unprocessable_entity
     end
   end
@@ -41,8 +42,8 @@ class Maintaining::SiteUpdatesController < ApplicationController
   end
 
   private
-  def maintained_tracks
-    Track.where(slug: Github::TeamMember.where(user_id: current_user.id).select(:team_name)).order(:title)
+  def setup_new_form
+    @tracks = Track.where(slug: Github::TeamMember.where(user_id: current_user.id).select(:team_name)).order(:title)
   end
 
   # Whitelist allowed parameters

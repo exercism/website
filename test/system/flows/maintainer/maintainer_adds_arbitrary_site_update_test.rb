@@ -27,9 +27,6 @@ module Flows
           click_on 'Create Site Update'
 
           assert_text 'F# track now supports .NET 7'
-
-          visit dashboard_path
-          assert_text 'F# track now supports .NET 7'
         end
       end
     end

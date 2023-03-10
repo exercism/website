@@ -46,7 +46,7 @@ module Components
           assert_text "by Author"
           assert_text "New description"
           assert_css "img[src='#{update.exercise.icon_url}']"
-          assert_css "img[src='#{author.avatar_url}']"
+          assert_css "img[src='#{update.exercise.track.icon_url}']"
         end
       end
 

@@ -10,7 +10,4 @@ class ChangeDescriptionToDescriptionMarkdownInSiteUpdates < ActiveRecord::Migrat
     end
   end
 end
-
-
-
   

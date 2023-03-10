@@ -88,8 +88,8 @@ class SiteUpdateTest < ActiveSupport::TestCase
   end
 
   test "updates description_html when description_markdown is set" do
-    site_update = create :site_update, description_markdown: ""
-    assert_empty site_update.description_html
+    site_update = create :site_update, description_markdown: nil
+    assert_nil site_update.description_html
 
     site_update.update(description_markdown: "Hi there")
     assert_equal "<p>Hi there</p>\n", site_update.description_html

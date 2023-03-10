@@ -35,7 +35,7 @@ module Components
       end
     end
 
-    test "user switches tabs" do
+    test "user switches files" do
       user = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
@@ -76,6 +76,30 @@ module Components
       end
 
       assert_no_css ".hints-btn"
+    end
+
+    test "feedback for iteration without automated feedback" do
+      user = create :user
+      track = create :track
+      exercise = create :concept_exercise, track: track
+      create :user_track, track: track, user: user
+      solution = create :concept_solution, user: user, exercise: exercise
+      submission = create :submission, solution: solution
+      create :submission_file,
+        submission: submission,
+        content: "class LogLineParser",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("class LogLineParser")
+      create :iteration, submission: submission
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        click_on "Feedback"
+
+        assert_text "Please request mentoring to get feedback."
+      end
     end
 
     test "user runs tests and tests pass - v2 test runner" do

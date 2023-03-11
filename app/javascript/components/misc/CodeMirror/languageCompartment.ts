@@ -40,6 +40,10 @@ export const loadLanguageCompartment = async (
       const { wren } = await import('@exercism/codemirror-lang-wren')
       return compartment.of(wren())
     }
+    case 'zig': {
+      const { rust: zig } = await import('@codemirror/lang-rust')
+      return compartment.of(zig())
+    }
 
     // Legacy
     case 'abap': {

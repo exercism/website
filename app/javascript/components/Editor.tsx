@@ -422,6 +422,7 @@ export default ({
                 />
                 {iteration ? (
                   <FeedbackPanel
+                    exercise={exercise}
                     track={track}
                     iteration={iteration}
                     discussion={discussion}

@@ -1,22 +1,30 @@
 #page-community
   %header
   .lg-container.mt-40.relative
-    .flex.gap-128.mb-60
+    .flex.items-start.gap-128.mb-60
       .block
         = graphical_icon "community", css_class: "h-[48px] w-[48px] mb-8"
         %h1.text-h1.mb-8 Join our community!
+        %p.text-p-xlarge.leading-150.mb-8
+          Accelerate your learning with Exercism&apos;s community.
+          Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
         %p.text-p-xlarge.leading-150.mb-20
           %strong
-            Accelerate your learning with Exercism&apos;s community.
-          Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
+            Join our Discord for social chat and to get support. Use our Forum for deeper discussions and bug reports.
 
-        = link_to 'https://forum.exercism.org/', class: "btn-primary btn-l mb-20 w-[fit-content]" do
-          %span Explore our forum
-          = graphical_icon "arrow-right"
+        .flex.flex-col.sm:flex-row.gap-12.mb-20
+          = link_to discord_redirect_path, class: "btn-primary btn-l sm:w-[fit-content]" do
+            = graphical_icon "external-site-discord", css_class: '!filter-none'
+            %span Join our Discord Server
+
+          = link_to forum_redirect_path, class: "btn-enhanced btn-l sm:w-[fit-content]" do
+            %span Explore our forum
+            = graphical_icon "arrow-right"
+
 
         .text-warning.font-semibold.leading-150.flex.items-center.mb-8.py-6.px-12
           = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
-          Recent topics
+          Recent forum topics
 
         = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-white px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
           = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
@@ -39,8 +47,7 @@
               = graphical_icon "message-bubble-square"
               = thread.posts_count
 
-      = link_to 'https://forum.exercism.org/', class: 'hidden lg:block w-[45%] flex-shrink-0 max-w-[620px]' do
-        = image_tag "screenshots/forum.png", alt: "", role: :presentation, class: 'shadow-baseZ1 rounded-8 w-fill'
+      = image_tag "screenshots/forum.webp", width: 1767, height: 1232, alt: "", role: :presentation, class: 'rounded-8 w-fill hidden lg:block w-[45%] flex-shrink-0 max-w-[620px] mt-[-16px]'
 
     .flex.flex-col.lg:flex-row.gap-y-32.gap-x-96.mb-48
       .block

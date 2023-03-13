@@ -1,4 +1,4 @@
 export { MentoringDiscussion } from './FeedbackPanelMentoringDiscussion'
 export { ReadonlyDiscussionPostView } from './ReadonlyDiscussionPostView'
-export { ReadonlyIterationMarker } from './ReadOnlyIterationMarker'
+export { ReadonlyIterationMarker } from './ReadonlyIterationMarker'
 export { PendingMentoringRequest } from './PendingMentoringRequest'

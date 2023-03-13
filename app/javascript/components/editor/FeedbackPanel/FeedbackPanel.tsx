@@ -27,20 +27,20 @@ export const FeedbackPanel = ({
   const hasFeedback =
     discussion || iteration?.analyzerFeedback || iteration?.representerFeedback
 
-  const mentoringDiscussionOpenByDefault =
-    discussion &&
-    !(iteration?.analyzerFeedback && iteration?.representerFeedback)
+  const automatedFeedbackOpenByDefault =
+    !discussion &&
+    (!!iteration?.analyzerFeedback || !!iteration?.representerFeedback)
 
   return (
     <Tab.Panel id="feedback" context={TabsContext}>
       <section className="feedback-pane">
         {hasFeedback ? (
           <>
-            <AutomatedFeedback {...AutomatedFeedbackProps} />
-            <MentoringDiscussion
-              open={mentoringDiscussionOpenByDefault}
-              discussion={discussion}
+            <AutomatedFeedback
+              open={automatedFeedbackOpenByDefault}
+              {...AutomatedFeedbackProps}
             />
+            <MentoringDiscussion open discussion={discussion} />
           </>
         ) : (
           <RequestMentoring

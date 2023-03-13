@@ -8,16 +8,17 @@ export function AutomatedFeedback({
   iteration,
   track,
   automatedFeedbackInfoLink,
+  open,
 }: Pick<
   FeedbackPanelProps,
   'iteration' | 'automatedFeedbackInfoLink' | 'track'
->): JSX.Element | null {
+> & { open?: boolean }): JSX.Element | null {
   if (
     iteration &&
     (iteration.analyzerFeedback || iteration.representerFeedback)
   ) {
     return (
-      <FeedbackDetail open summary="Automated Feedback">
+      <FeedbackDetail open={open} summary="Automated Feedback">
         <>
           {iteration.representerFeedback ? (
             <RepresenterFeedback {...iteration.representerFeedback} />

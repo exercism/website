@@ -311,8 +311,8 @@ module Components
         click_on "Feedback"
         assert_text "Mentoring Discussion"
         assert_text "Automated Feedback"
-        refute_text "This is your latest mentoring session"
-        find("details", text: "Mentoring Discussion").click
+        refute_text "Our Ruby Analyzer has some comments"
+        find("details", text: "Automated Feedback").click
         assert_text "Our Ruby Analyzer has some comments"
         assert_text "This is your latest mentoring session"
         assert_text "Representer feedback"

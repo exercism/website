@@ -1,3 +1,4 @@
+-# rubocop:disable Style/HashSyntax
 #mentor-external-page
   %section.top-section
     .lg-container.c-shapes
@@ -11,7 +12,10 @@
         Some of our best mentors worried too.
 
       - if user_signed_in?
-        = ReactComponents::Mentoring::TryMentoringButton.new.to_s
+        - if current_user.reputation >= 20
+          = ReactComponents::Mentoring::TryMentoringButton.new.to_s
+        - else
+          = render "locked", current_user: current_user, profile_min_reputation: 20
       - else
         .flex.items-center
           = link_to "Sign up to try mentoring", new_user_registration_path, class: 'btn-m btn-primary'
@@ -38,3 +42,4 @@
           = graphical_icon "mentoring-soft-skills"
           %h3 Develop your "soft skills"
           %p Soft skills like communication and being able to take feedback are paramount in progressing in any field or profession.
+-# rubocop:enable Style/HashSyntax

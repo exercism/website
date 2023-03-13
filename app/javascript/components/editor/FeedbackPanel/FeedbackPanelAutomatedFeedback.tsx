@@ -17,7 +17,7 @@ export function AutomatedFeedback({
     (iteration.analyzerFeedback || iteration.representerFeedback)
   ) {
     return (
-      <FeedbackDetail summary="Automated Feedback">
+      <FeedbackDetail open summary="Automated Feedback">
         <>
           {iteration.representerFeedback ? (
             <RepresenterFeedback {...iteration.representerFeedback} />

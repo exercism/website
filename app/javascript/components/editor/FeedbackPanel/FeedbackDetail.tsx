@@ -1,15 +1,17 @@
-import { GraphicalIcon } from '@/components/common'
 import React from 'react'
+import { GraphicalIcon } from '@/components/common'
 
 export function FeedbackDetail({
   summary,
   children,
+  open,
 }: {
   summary: string
   children: React.ReactNode
+  open?: boolean
 }): JSX.Element {
   return (
-    <details className="c-details feedback">
+    <details open={open} className="c-details feedback">
       <summary className="--summary select-none">
         <div className="--summary-inner">
           <span className="summary-title">{summary}</span>

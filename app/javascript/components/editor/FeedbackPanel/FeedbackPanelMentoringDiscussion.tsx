@@ -10,14 +10,17 @@ import { FeedbackDetail } from './FeedbackDetail'
 
 export function MentoringDiscussion({
   discussion,
-}: Pick<FeedbackPanelProps, 'discussion'>): JSX.Element | null {
+  open,
+}: Pick<FeedbackPanelProps, 'discussion'> & {
+  open?: boolean
+}): JSX.Element | null {
   const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
     `posts-discussion-${discussion?.uuid}`,
     { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
   if (discussion) {
     return (
-      <FeedbackDetail summary="Mentoring Discussion">
+      <FeedbackDetail open={open} summary="Mentoring Discussion">
         {status === 'loading' ? (
           <div>Loading...</div>
         ) : (

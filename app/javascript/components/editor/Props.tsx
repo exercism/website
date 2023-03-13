@@ -21,8 +21,9 @@ export type TaskContext = {
 type Links = {
   runTests: string
   back: string
-  automatedFeedbackInfoLink: string
+  automatedFeedbackInfo: string
   mentorDiscussions: string
+  mentoringRequest: string
 }
 
 type Track = {
@@ -77,4 +78,5 @@ export type Props = {
   discussion?: MentorDiscussion
   links: Links
   features?: EditorFeatures
+  mentoringRequested: boolean
 }

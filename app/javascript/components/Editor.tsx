@@ -84,6 +84,7 @@ export default ({
   links,
   iteration,
   discussion,
+  mentoringRequested,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -426,7 +427,9 @@ export default ({
                     track={track}
                     iteration={iteration}
                     discussion={discussion}
-                    automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+                    requestedMentoring={mentoringRequested}
+                    mentoringRequestLink={links.mentoringRequest}
+                    automatedFeedbackInfoLink={links.automatedFeedbackInfo}
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}

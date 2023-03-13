@@ -52,9 +52,7 @@ function RequestMentoring({
   mentorDiscussionsLink,
 }: Pick<
   FeedbackPanelProps,
-  'exercise',
-  'track',
-  'mentorDiscussionsLink'
+  'exercise' | 'track' | 'mentorDiscussionsLink'
 >): JSX.Element {
   return (
     <section className="pt-10">
@@ -73,8 +71,8 @@ function RequestMentoring({
           <GraphicalIcon
             icon="mentoring-prompt"
             category="graphics"
-            height="110"
-            width="110"
+            height={110}
+            width={110}
             className="ml-48 mt-20"
           />
         </div>
@@ -90,19 +88,23 @@ function RequestMentoring({
 
       <h3 className="text-h4 mb-8">Why get feedback?</h3>
       <div className="mb-12">
-        <h4 className="text-h6 mb-4">Attain real fluency in {track.title}</h4>
+        <h4 className="text-h6 mb-4">Attain real fluency in {track.title}</h4>
         <p className="text-p-base">
-          Learning a language is more than being able to use it, it's about
+          Learning a language is more than being able to use it, it&apos;s about
           being able to <strong className="font-semibold">think</strong> in it.
           Our mentors will help develop your perceptions.
         </p>
       </div>
 
       <div className="mb-12">
-        <h4 className="text-h6 mb-4"> You don't know what you don't know</h4>
+        <h4 className="text-h6 mb-4">
+          {' '}
+          You don&apos;t know what you don&apos;t know
+        </h4>
         <p className="text-p-base">
-          It's hard to progress when you don't know what's missing. Our mentors
-          will help you discover the gaps in your {track.title} knowledge.
+          It&apos;s hard to progress when you don&apos;t know what&apos;s
+          missing. Our mentors will help you discover the gaps in your{' '}
+          {track.title} knowledge.
         </p>
       </div>
 
@@ -111,7 +113,7 @@ function RequestMentoring({
         <p className="text-p-base">
           {' '}
           Whatever your questions, our mentors will be able to help you. Make
-          sure you ask what's on your mind when requesting a mentor.
+          sure you ask what&apos;s on your mind when requesting a mentor.
         </p>
       </div>
 

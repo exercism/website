@@ -13,11 +13,11 @@
             Join our Discord for social chat and to get support. Join our Forum for deeper discussions and bug reports.
 
         .flex.flex-row.gap-12
-          = link_to 'https://forum.exercism.org/', class: "btn-primary btn-l mb-20 w-[fit-content]" do
+          = link_to discord_redirect_path, class: "btn-primary btn-l mb-20 w-[fit-content]" do
             = graphical_icon "external-site-discord", css_class: '!filter-none'
             %span Join our Discord
 
-          = link_to 'https://forum.exercism.org/', class: "btn-enhanced btn-l mb-20 w-[fit-content]" do
+          = link_to forum_redirect_path, class: "btn-enhanced btn-l mb-20 w-[fit-content]" do
             %span Explore our forum
             = graphical_icon "arrow-right"
 

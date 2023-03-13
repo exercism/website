@@ -12,7 +12,7 @@ export function FeedbackDetail({
 }): JSX.Element {
   return (
     <details open={open} className="c-details feedback">
-      <summary className="--summary select-none">
+      <summary className="--summary select-none text-textColor1">
         <div className="--summary-inner">
           <span className="summary-title">{summary}</span>
           <span className="--closed-icon">

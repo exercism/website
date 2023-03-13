@@ -27,9 +27,18 @@ export const FeedbackPanel = ({
   discussion,
 }: FeedbackPanelProps): JSX.Element => {
   const AutomatedFeedbackProps = { iteration, track, automatedFeedbackInfoLink }
+  const MentoringDiscussionProps = {
+    mentoringRequestLink,
+    discussion,
+    requestedMentoring,
+  }
+  const RequestMentoringProps = { track, exercise, mentorDiscussionsLink }
 
   const hasFeedback =
-    discussion || iteration?.analyzerFeedback || iteration?.representerFeedback
+    discussion ||
+    iteration?.analyzerFeedback ||
+    iteration?.representerFeedback ||
+    requestedMentoring
 
   const automatedFeedbackOpenByDefault = !discussion
 
@@ -38,38 +47,16 @@ export const FeedbackPanel = ({
       <section className="feedback-pane">
         {hasFeedback ? (
           <>
+            <MentoringDiscussion open {...MentoringDiscussionProps} />
             <AutomatedFeedback
               open={automatedFeedbackOpenByDefault}
               {...AutomatedFeedbackProps}
             />
-            <MentoringDiscussion open discussion={discussion} />
           </>
-        ) : requestedMentoring ? (
-          <PendingMentoringRequest
-            mentoringRequestLink={mentoringRequestLink}
-          />
         ) : (
-          <RequestMentoring
-            track={track}
-            exercise={exercise}
-            mentorDiscussionsLink={mentorDiscussionsLink}
-          />
+          <RequestMentoring {...RequestMentoringProps} />
         )}
       </section>
     </Tab.Panel>
-  )
-}
-
-function PendingMentoringRequest({
-  mentoringRequestLink,
-}: Pick<FeedbackPanelProps, 'mentoringRequestLink'>): JSX.Element {
-  return (
-    <div className="flex flex-col">
-      <h2 className="text-h4 mb-4">You&apos;ve requested mentoring</h2>
-      <p className="text-p-base mb-8">Waiting on a mentor...</p>
-      <a className="btn-primary btn-s mr-auto" href={mentoringRequestLink}>
-        View your request
-      </a>
-    </div>
   )
 }

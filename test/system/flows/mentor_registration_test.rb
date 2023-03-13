@@ -18,7 +18,7 @@ module Flows
     test "registers to be a mentor" do
       stub_request(:post, "https://dev.null.exercism.io/")
 
-      user = create :user, :not_mentor, reputation: 21
+      user = create :user, :not_mentor, reputation: 20
       create :track, title: "Ruby"
 
       use_capybara_host do

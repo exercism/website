@@ -3,7 +3,7 @@ import { Tab } from '@/components/common'
 import { TabsContext } from '../../Editor'
 import { Iteration, MentorDiscussion, Exercise, Track } from '../../types'
 import { AutomatedFeedback } from './FeedbackPanelAutomatedFeedback'
-import { MentoringDiscussion } from './FeedbackPanelMentoringDiscussion'
+import { MentoringDiscussion } from './FeedbackPanelMentoringDiscussion/FeedbackPanelMentoringDiscussion'
 import { RequestMentoring } from './FeedbackPanelRequestMentoring'
 
 export type FeedbackPanelProps = {

@@ -26,7 +26,7 @@ module Components
             visit Exercism::Routes.private_solution_path(solution)
             within(".mentoring") { find(".--dropdown-segment").click }
 
-            assert_link "Continue mentoring",
+            assert_link "Continue code review",
               href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
             assert_link "my-mentor",
               href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
@@ -48,7 +48,7 @@ module Components
             visit Exercism::Routes.private_solution_path(solution)
             within(".mentoring") { find(".--dropdown-segment").click }
 
-            assert_link "Request mentoring"
+            assert_link "Submit for Code Review"
             assert_text "Want to get mentored by a friend?"
           end
         end
@@ -82,13 +82,13 @@ module Components
             visit Exercism::Routes.private_solution_path(solution)
             assert_css(".mentoring-discussion-nudge")
 
-            assert_link "Request mentoring"
+            assert_link "Submit for Code Review"
             assert_link "my-mentor",
               href: Exercism::Routes.track_exercise_mentor_discussion_path(solution.track, solution.exercise, discussion.uuid)
           end
         end
 
-        test "shows links to request mentoring within nudge section" do
+        test "shows links to submit for code review within nudge section" do
           user = create :user
           solution = create :practice_solution, user: user
           submission = create :submission, solution: solution,
@@ -103,7 +103,7 @@ module Components
             visit Exercism::Routes.private_solution_path(solution)
             within(".mentoring-prompt-nudge") { find(".--dropdown-segment").click }
 
-            assert_link "Request mentoring"
+            assert_link "Submit for Code Review"
             assert_text "Want to get mentored by a friend?"
           end
         end

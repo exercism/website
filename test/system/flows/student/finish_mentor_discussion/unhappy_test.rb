@@ -35,7 +35,7 @@ module Flows
             click_on "Go back to your solution"
 
             assert_equal :finished, discussion.reload.status
-            assert_text "View mentoring request"
+            assert_text "View request"
           end
         end
       end

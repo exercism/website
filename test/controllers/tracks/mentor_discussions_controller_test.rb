@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
-  test "index: no solution" do
+  test "index: no solution" do
     user = create :user
     exercise = create :practice_exercise
 
@@ -29,7 +29,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_includes @response.body, "Take your solution to the next level"
-    assert_includes @response.body, "You have no past mentoring discussions"
+    assert_includes @response.body, "You have no past code review sessions"
   end
 
   test "index: requested" do
@@ -43,7 +43,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_includes @response.body, "You’ve requested mentoring"
-    assert_includes @response.body, "You have no past mentoring discussions"
+    assert_includes @response.body, "You have no past code review sessions"
   end
 
   test "index: in-progress" do
@@ -57,7 +57,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_includes @response.body, "You're being mentored by"
-    assert_includes @response.body, "You have no past mentoring discussions"
+    assert_includes @response.body, "You have no past code review sessions"
   end
 
   test "index: finished" do

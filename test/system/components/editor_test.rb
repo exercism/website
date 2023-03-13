@@ -139,8 +139,7 @@ module Components
         sleep 0.5
         click_on "Feedback"
 
-        # Use "\n" to match where JSX uses "&nbsp;"
-        assert_text "Please \nrequest mentoring\n to get feedback."
+        assert_text "Take your solution to the next level"
       end
     end
 

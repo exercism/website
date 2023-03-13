@@ -323,6 +323,12 @@ Rails.application.routes.draw do
   get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
   get "contribute", to: redirect("contributing")
 
+  get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G")
+  get "r/twitter", to: redirect("https://twitter.com/exercism_io")
+  get "r/youtube", to: redirect("https://youtube.com/@exercism_org")
+  get "r/twitch", to: redirect("https://twitch.tv/exercismlive")
+  get "r/youtube-community", to: redirect("https://youtube.com/@ExercismCommunity")
+
   # Licences
   %w[licence license].each do |spelling|
     get "#{spelling}s/cc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa"), as: "cc_sa_4_#{spelling}"

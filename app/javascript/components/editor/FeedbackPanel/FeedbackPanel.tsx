@@ -27,9 +27,7 @@ export const FeedbackPanel = ({
   const hasFeedback =
     discussion || iteration?.analyzerFeedback || iteration?.representerFeedback
 
-  const automatedFeedbackOpenByDefault =
-    !discussion &&
-    (!!iteration?.analyzerFeedback || !!iteration?.representerFeedback)
+  const automatedFeedbackOpenByDefault = !discussion
 
   return (
     <Tab.Panel id="feedback" context={TabsContext}>

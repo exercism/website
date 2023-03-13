@@ -10,14 +10,14 @@
           Ask questions, explore ideas, and get to know millions of other developers upskilling on Exercism.
         %p.text-p-xlarge.leading-150.mb-20
           %strong
-            Join our Discord for social chat and to get support. Join our Forum for deeper discussions and bug reports.
+            Join our Discord for social chat and to get support. Use our Forum for deeper discussions and bug reports.
 
-        .flex.flex-row.gap-12
-          = link_to discord_redirect_path, class: "btn-primary btn-l mb-20 w-[fit-content]" do
+        .flex.flex-col.sm:flex-row.gap-12.mb-20
+          = link_to discord_redirect_path, class: "btn-primary btn-l sm:w-[fit-content]" do
             = graphical_icon "external-site-discord", css_class: '!filter-none'
-            %span Join our Discord
+            %span Join our Discord Server
 
-          = link_to forum_redirect_path, class: "btn-enhanced btn-l mb-20 w-[fit-content]" do
+          = link_to forum_redirect_path, class: "btn-enhanced btn-l sm:w-[fit-content]" do
             %span Explore our forum
             = graphical_icon "arrow-right"
 

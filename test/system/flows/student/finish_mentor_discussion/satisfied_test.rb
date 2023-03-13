@@ -58,7 +58,7 @@ module Flows
             click_on "Yes please"
             click_on "Go back to your solution"
 
-            assert_text "View mentoring request"
+            assert_text "View request"
           end
         end
       end

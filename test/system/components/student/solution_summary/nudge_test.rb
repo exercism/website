@@ -18,7 +18,7 @@ module Components
             visit Exercism::Routes.private_solution_path(solution)
 
             assert_text "Struggling with this exercise?"
-            assert_link "Request mentoring",
+            assert_link "Submit for Code Review",
               href: Exercism::Routes.new_track_exercise_mentor_request_path(solution.track, solution.exercise)
           end
         end

@@ -325,7 +325,7 @@ Rails.application.routes.draw do
 
   get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect
   get "r/twitter", to: redirect("https://twitter.com/exercism_io"), as: :twitter_redirect
-  get "r/youtube", to: redirect("https://youtube.com/@exercism_org"), as: :youtuve_redirect
+  get "r/youtube", to: redirect("https://youtube.com/@exercism_org"), as: :youtube_redirect
   get "r/twitch", to: redirect("https://twitch.tv/exercismlive"), as: :twitch_redirect
   get "r/youtube-community", to: redirect("https://youtube.com/@ExercismCommunity"), as: :youtube_community_redirect
   get "r/forum", to: redirect("https://forum.exercism.org"), as: :forum_redirect

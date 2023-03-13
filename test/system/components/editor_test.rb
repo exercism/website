@@ -143,7 +143,7 @@ module Components
       end
     end
 
-    test "feedback panel shows automated feedback details when submission has representer feedback" do
+    test "feedback panel shows an open automated feedback details when submission has representer feedback" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -182,13 +182,11 @@ module Components
         click_on "Feedback"
         refute_text "Mentoring Discussion"
         assert_text "Automated Feedback"
-        # click_on can only click on links or buttons
-        find("details", text: "Automated Feedback").click
         assert_text "Some representer feedback"
       end
     end
 
-    test "feedback panel shows automated feedback details when submission has analyzer feedback" do
+    test "feedback panel shows an open automated feedback details when submission has analyzer feedback" do
       user = create :user
       track = create :track
       exercise = create :concept_exercise, track: track
@@ -223,12 +221,11 @@ module Components
         refute_text "Mentoring Discussion"
         assert_text "Automated Feedback"
         # click_on can only click on links or buttons
-        find("details", text: "Automated Feedback").click
         assert_text "Our Ruby Analyzer has some comments"
       end
     end
 
-    test "feedback panel shows mentoring discussion details" do
+    test "feedback panel shows an open mentoring discussion details and no automated feedback" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -259,8 +256,6 @@ module Components
         click_on "Feedback"
         assert_text "Mentoring Discussion"
         refute_text "Automated Feedback"
-        # click_on can only click on links or buttons
-        find("details", text: "Mentoring Discussion").click
         assert_text "This is your latest mentoring session"
         assert_css "img[src='#{user.avatar_url}']"\
         "[alt=\"Uploaded avatar of #{user.handle}\"]"
@@ -268,7 +263,7 @@ module Components
       end
     end
 
-    test "feedback panel shows automated feedback and mentoring discussion details" do
+    test "feedback panel shows an open automated feedback and closed mentoring discussion details" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -316,8 +311,7 @@ module Components
         click_on "Feedback"
         assert_text "Mentoring Discussion"
         assert_text "Automated Feedback"
-        # click_on can only click on links or buttons
-        find("details", text: "Automated Feedback").click
+        refute_text "This is your latest mentoring session"
         find("details", text: "Mentoring Discussion").click
         assert_text "Our Ruby Analyzer has some comments"
         assert_text "This is your latest mentoring session"

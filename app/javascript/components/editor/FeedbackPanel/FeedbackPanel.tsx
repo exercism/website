@@ -29,7 +29,7 @@ export const FeedbackPanel = ({
 
   const mentoringDiscussionOpenByDefault =
     discussion &&
-    !(iteration?.analyzerFeedback || iteration?.representerFeedback)
+    !(iteration?.analyzerFeedback && iteration?.representerFeedback)
 
   return (
     <Tab.Panel id="feedback" context={TabsContext}>

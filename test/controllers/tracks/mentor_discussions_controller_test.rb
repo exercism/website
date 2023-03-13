@@ -42,7 +42,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
     assert_response :ok
-    assert_includes @response.body, "You’ve requested mentoring"
+    assert_includes @response.body, "You&apos;ve requested mentoring"
     assert_includes @response.body, "You have no past code review sessions"
   end
 

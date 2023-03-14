@@ -4,8 +4,7 @@ class User::BecomeMentor
   initialize_with :user, :track_slugs
 
   def call
-    return if user.mentor?
-    return if user.reputation < 20
+    return if user.mentor? || user.reputation < 20
 
     raise MissingTracksError if tracks.blank?
 

@@ -12,7 +12,7 @@ module Components
 
         assert_text "Author published a new Exercise"
         assert_link "Bob", href: Exercism::Routes.track_exercise_url(exercise.track, exercise)
-        assert_text "yesterday"
+        assert_text "Yesterday"
         assert_css "img[src='#{exercise.icon_url}']"
         assert_css "img[src='#{author.avatar_url}']"
       end
@@ -28,7 +28,7 @@ module Components
 
         assert_text "We published a new Concept"
         assert_link "Strings", href: Exercism::Routes.track_concept_url(strings.track, strings)
-        assert_text "yesterday"
+        assert_text "Yesterday"
         assert_css ".c-concept-icon", text: "St"
       end
 

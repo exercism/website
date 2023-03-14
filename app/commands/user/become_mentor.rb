@@ -5,6 +5,7 @@ class User::BecomeMentor
 
   def call
     return if user.mentor?
+    return if user.reputation < 20
 
     raise MissingTracksError if tracks.blank?
 

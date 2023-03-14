@@ -543,6 +543,15 @@
             }
         }
     }
+    .c-discussion-timeline {
+        & .timeline-entry {
+            @apply px-0;
+
+            &:before {
+                left: 16px;
+            }
+        }
+    }
 }
 
 /* General overrides */

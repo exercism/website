@@ -6,9 +6,14 @@ export function PendingMentoringRequest({
 }: Pick<FeedbackPanelProps, 'mentoringRequestLink'>): JSX.Element {
   return (
     <div className="flex flex-col">
-      <h2 className="text-h5 mb-4">You&apos;ve requested mentoring</h2>
-      <p className="text-p-base mb-8">Waiting on a mentor...</p>
-      <a className="btn-primary btn-s mr-auto" href={mentoringRequestLink}>
+      <p className="text-p-base mb-8">
+        <strong className="font-semibold text-textColor2">
+          You&apos;ve submitted your solution for Code Review.
+        </strong>{' '}
+        A mentor will (hopefully) provide you with feedback soon. You'll recieve
+        a notification and email when this happens.
+      </p>
+      <a className="btn-enhanced btn-s mr-auto" href={mentoringRequestLink}>
         View your request
       </a>
     </div>

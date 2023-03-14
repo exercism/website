@@ -22,13 +22,13 @@ export function MentoringDiscussion({
   )
   if (discussion) {
     return (
-      <FeedbackDetail open={open} summary="Mentoring Discussion">
+      <FeedbackDetail open={open} summary="Code Review">
         {status === 'loading' ? (
           <div>Loading...</div>
         ) : (
           <div className="c-discussion-timeline">
             <p className="text-p-base">
-              This is your latest mentoring session for this exercise. To
+              This is your latest code review session for this exercise. To
               continue the discussion, switch to{' '}
               <a className="font-semibold text-blue" href="mentor_discussions">
                 mentoring mode
@@ -54,7 +54,7 @@ export function MentoringDiscussion({
     )
   } else if (requestedMentoring) {
     return (
-      <FeedbackDetail open={open} summary="Mentoring discussion">
+      <FeedbackDetail open={open} summary="Code Review (Pending)">
         <PendingMentoringRequest mentoringRequestLink={mentoringRequestLink} />
       </FeedbackDetail>
     )

@@ -30,7 +30,7 @@ export const SiteUpdate = ({
               dangerouslySetInnerHTML={{ __html: update.text }}
             />
             <time dateTime={update.publishedAt}>
-              {fromNow(update.publishedAt)}
+              {fromNow(update.publishedAt, true)}
             </time>
           </div>
           {!update.expanded && (

@@ -27,7 +27,7 @@ module Components
           assert_text "Showing 1 contribution"
           assert_link strip_tags(token.text), href: "https://test.exercism.org/token"
           assert_text "Ruby"
-          assert_text "Yesterday"
+          assert_text "yesterday"
           assert_text "+ 30"
           # TODO: Fix how icons are rendered
           assert_css ".reputation-token > img.primary-icon[src='#{exercise.icon_url}']"

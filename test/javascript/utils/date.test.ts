@@ -4,13 +4,24 @@ import { fromNow } from '../../../app/javascript/utils/date'
 
 test('fromNow - same day', () => {
   const date = new Date()
-  expect(fromNow(date)).toEqual('Today')
+  expect(fromNow(date, true)).toEqual('Today')
+})
+
+test('fromNow - same day with no titlecase', () => {
+  const date = new Date()
+  expect(fromNow(date)).toEqual('today')
+})
+
+test('fromNow - Yesterday', () => {
+  const date = new Date()
+  date.setDate(date.getDate() - 1)
+  expect(fromNow(date, true)).toEqual('Yesterday')
 })
 
 test('fromNow - yesterday', () => {
   const date = new Date()
   date.setDate(date.getDate() - 1)
-  expect(fromNow(date)).toEqual('Yesterday')
+  expect(fromNow(date)).toEqual('yesterday')
 })
 
 test('fromNow - multiple ago', () => {

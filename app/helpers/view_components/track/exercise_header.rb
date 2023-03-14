@@ -89,7 +89,7 @@ module ViewComponents
       def mentoring_tab
         parts = []
         parts << graphical_icon('mentoring')
-        parts << tag.span("Mentoring", "data-text": "Mentoring")
+        parts << tag.span("Code Review", "data-text": "Mentoring")
 
         if solution
           count = solution.mentor_discussions.count + solution.mentor_requests.pending.count

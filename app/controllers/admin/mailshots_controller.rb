@@ -11,7 +11,8 @@ class Admin::MailshotsController < ApplicationController
   # GET /admin/mailshots/1
   def show
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
-    @audiences = [:admins]
+    @audiences = %w[admins donors challenge#12in23]
+    @audiences += [100, 10, 1].map { |min| "reputation##{min}" }
     @audiences += Track.pluck(:slug).map { |slug| "track##{slug}" }
   end
 

@@ -31,7 +31,11 @@ export const AnalyzerFeedback = ({
         and systems developed by our community.{' '}
         <a href={automatedFeedbackInfoLink}>
           Learn more
-          <Icon icon="external-link" alt="Opens in a new tab" />
+          <Icon
+            icon="external-link"
+            alt="Opens in a new tab"
+            className="filter-lightBlue"
+          />
         </a>
       </div>
     </div>

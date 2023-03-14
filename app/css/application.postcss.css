@@ -65,6 +65,8 @@
 @import "./components/loading-overlay";
 @import "./components/loading-suspense";
 @import "./components/unlocked-concept";
+@import "./components/discussion-timeline";
+
 
 @import "./components/share-panel";
 @import "./components/split-pane";

@@ -3,16 +3,16 @@
     .content
       %h2 Take your solution to the next level
       %p
-        Get mentored on your solution to
+        Get feedback on your solution to
         %strong= exercise.title
-        by a #{track.title} mentor to discover new ways to approach the problem, and expand and deepen your #{track.title} knowledge.
+        by a #{track.title} mentor and discover new ways to approach the problem, and expand and deepen your #{track.title} knowledge.
       .btns
-        = link_to "Request mentoring", new_track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-m'
+        = link_to "Submit for code review", new_track_exercise_mentor_request_path(track, exercise), class: 'btn-primary btn-m'
         .wow It’s absolutely free! 😲
 
     = graphical_icon "mentoring-prompt", category: 'graphics'
   .why
-    %h3 Why mentoring?
+    %h3 Why get feedback?
     .points
       .point
         %h4 Attain real fluency in #{track.title}
@@ -39,13 +39,13 @@
       .point
         .num 1
         .content
-          %h4 Request mentoring
+          %h4 Submit for Code Review
           %p Send a request to the Exercism community. Tell us what you're aiming to learn so the right mentor can pair with you.
 
       .point
         .num 2
         .content
-          %h4 Acceptance &amp; feedback
+          %h4 Get feedback
           %p Once a mentor accepts your request, they’ll review your solution and request, and give you your first feedback.
 
       .point

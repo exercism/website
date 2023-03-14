@@ -37,7 +37,48 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     end
   end
 
-  test "schedules correct jobs for a track" do
+  test "schedules audience_for_donors" do
+    mailshot = create :mailshot
+
+    good_user = create :user, :donor
+    bad_user = create :user
+
+    User::Mailshot::Send.expects(:call).with(good_user, mailshot)
+    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :donors, nil, 10, 0)
+  end
+
+  test "schedules audience_for_challenge" do
+    mailshot = create :mailshot
+
+    good_user = create :user, :donor
+    create :user_challenge, challenge_id: '12in23', user: good_user
+
+    bad_user = create :user
+    create :user_challenge, challenge_id: 'foobar', user: bad_user
+
+    User::Mailshot::Send.expects(:call).with(good_user, mailshot)
+    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :challenge, '12in23', 10, 0)
+  end
+
+  test "schedules audience_for_reputation" do
+    mailshot = create :mailshot
+
+    good_user_1 = create :user, reputation: 50
+    good_user_2 = create :user, reputation: 51
+    bad_user = create :user, reputation: 49
+
+    User::Mailshot::Send.expects(:call).with(good_user_1, mailshot)
+    User::Mailshot::Send.expects(:call).with(good_user_2, mailshot)
+    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :reputation, 50, 10, 0)
+  end
+
+  test "schedules audience_for_track" do
     mailshot = create :mailshot
     track = create :track
 

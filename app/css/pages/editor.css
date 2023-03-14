@@ -302,6 +302,43 @@
                 height: 100%;
             }
 
+            section.feedback-pane {
+                @apply pb-16 px-24;
+
+                .c-details.feedback {
+                    @apply border-t-2 border-lightGray;
+                    @apply first:border-t-0;
+
+                    & > .--summary {
+                        @apply mb-4;
+                        @apply pt-16 pb-12;
+                        & > .--summary-inner {
+                            @apply flex items-center;
+
+                            .summary-title {
+                                @apply flex-grow;
+                                @apply text-18 font-semibold leading-140;
+                            }
+
+                            .--closed-icon,
+                            .--open-icon {
+                                height: 24px;
+                                width: 24px;
+
+                                @apply flex flex-shrink-0 items-center justify-center;
+                                @apply border-gray border-1 rounded-circle;
+                                @apply text-darkGray;
+                                @apply ml-16;
+
+                                .c-icon {
+                                    height: 11px;
+                                    width: 11px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             & section.instructions-pane {
                 @apply pb-16 px-24;
 
@@ -503,6 +540,15 @@
             @apply pt-0;
             & .cm-line {
                 @apply pl-8 pr-8;
+            }
+        }
+    }
+    .c-discussion-timeline {
+        & .timeline-entry {
+            @apply px-0;
+
+            &:before {
+                left: 16px;
             }
         }
     }

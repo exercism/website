@@ -29,11 +29,11 @@ export const MentoringComboButton = ({
     <ComboButton className={className}>
       <PrimarySegment>
         {mentoringStatus === 'in_progress' && links.inProgressDiscussion ? (
-          <a href={links.inProgressDiscussion}>Continue mentoring</a>
+          <a href={links.inProgressDiscussion}>Continue code review</a>
         ) : mentoringStatus === 'requested' ? (
-          <a href={links.pendingMentorRequest}>View mentoring request</a>
+          <a href={links.pendingMentorRequest}>View request</a>
         ) : (
-          <a href={links.requestMentoring}>Request mentoring</a>
+          <a href={links.requestMentoring}>Submit for Code Review</a>
         )}
       </PrimarySegment>
       <DropdownSegment>

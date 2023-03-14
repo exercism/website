@@ -1,5 +1,5 @@
 module Maintaining
-  class TracksController < ApplicationController
+  class TracksController < Maintaining::BaseController
     def show
       @track = Track.find(params[:id])
 

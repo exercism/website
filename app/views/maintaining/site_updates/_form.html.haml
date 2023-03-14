@@ -12,13 +12,13 @@
     = form.text_field :title
 
   .field
-    = form.label :description_markdown, "Description (markdown)"
-    = form.text_area :description_markdown
+    = form.label :description_markdown, "Description (markdown, max 600 chars, don't use headings)"
+    = form.text_area :description_markdown, maxlength: 600, class: '!w-[600px]'
 
   - if update.new_record?
     .field
     = form.label :track, "Track"
-    = form.collection_select :track_id, tracks, :id, :title
+    .c-select.mb-20= form.collection_select :track_id, tracks, :id, :title
 
   .field
     = form.label :pull_request_number, "Pull Request number (https://github.com/exercism/<repo>/pull/<number>)"

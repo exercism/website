@@ -1,4 +1,4 @@
-class Maintaining::SiteUpdatesController < ApplicationController
+class Maintaining::SiteUpdatesController < Maintaining::BaseController
   def index
     @updates = SiteUpdate.sorted
     @updates = @updates.for_track(Track.find(params[:track_slug])) if params[:track_slug].present?
@@ -43,7 +43,8 @@ class Maintaining::SiteUpdatesController < ApplicationController
 
   private
   def setup_new_form
-    @tracks = Track.where(slug: Github::TeamMember.where(user_id: current_user.id).select(:team_name)).order(:title)
+    @tracks = current_user.admin? ? Track.all :
+      Track.where(slug: Github::TeamMember.where(user_id: current_user.id).select(:team_name)).order(:title)
   end
 
   # Whitelist allowed parameters

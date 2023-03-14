@@ -64,6 +64,7 @@
 @import "./components/solution-iterations";
 @import "./components/loading-overlay";
 @import "./components/loading-suspense";
+@import "./components/unlocked-concept";
 
 @import "./components/share-panel";
 @import "./components/split-pane";
@@ -220,7 +221,7 @@
 @import "./pages/mentoring/testimonials";
 @import "./pages/maintaining/dashboard";
 @import "./pages/maintaining/track";
-@import "./pages/maintaining/admin-table";
+@import "./pages/maintaining/admin-index";
 @import "./pages/maintaining/site-updates-form";
 @import "./pages/journey";
 @import "./pages/journey/overview";

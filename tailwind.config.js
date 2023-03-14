@@ -349,7 +349,7 @@ module.exports = {
   },
   plugins: [
     function ({ addVariant }) {
-      addVariant('child', '& > *')
+      addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
     },
   ],
   corePlugins: {

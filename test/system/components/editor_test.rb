@@ -180,7 +180,7 @@ module Components
 
         sleep 0.5
         click_on "Feedback"
-        refute_text "Mentoring Discussion"
+        refute_text "Code Review"
         assert_text "Automated Feedback"
         assert_text "Some representer feedback"
       end
@@ -218,14 +218,14 @@ module Components
 
         sleep 0.5
         click_on "Feedback"
-        refute_text "Mentoring Discussion"
+        refute_text "Code Review"
         assert_text "Automated Feedback"
         # click_on can only click on links or buttons
         assert_text "Our Ruby Analyzer has some comments"
       end
     end
 
-    test "feedback panel shows an open mentoring discussion details and no automated feedback" do
+    test "feedback panel shows an open code review details and no automated feedback" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -254,16 +254,16 @@ module Components
 
         sleep 0.5
         click_on "Feedback"
-        assert_text "Mentoring Discussion"
+        assert_text "Code Review"
         refute_text "Automated Feedback"
-        assert_text "This is your latest mentoring session"
+        assert_text "This is your latest code review session for this exercise."
         assert_css "img[src='#{user.avatar_url}']"\
         "[alt=\"Uploaded avatar of #{user.handle}\"]"
         assert_text "Iteration 1"
       end
     end
 
-    test "feedback panel shows an open automated feedback and closed mentoring discussion details" do
+    test "feedback panel shows an open automated feedback and closed code review details" do
       user = create :user
       mentor = create :user
       track = create :track
@@ -309,12 +309,12 @@ module Components
 
         sleep 0.5
         click_on "Feedback"
-        assert_text "Mentoring Discussion"
+        assert_text "Code Review"
         assert_text "Automated Feedback"
         refute_text "Our Ruby Analyzer has some comments"
         find("details", text: "Automated Feedback").click
         assert_text "Our Ruby Analyzer has some comments"
-        assert_text "This is your latest mentoring session"
+        assert_text "This is your latest code review session for this exercise."
         assert_text "Representer feedback"
         assert_css "img[src='#{user.avatar_url}']"\
         "[alt=\"Uploaded avatar of #{user.handle}\"]"

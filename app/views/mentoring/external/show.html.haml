@@ -11,7 +11,7 @@
         Some of our best mentors worried too.
 
       - if user_signed_in?
-        - if current_user.reputation >= 20
+        - if current_user.reputation >= 20 || current_user.mentor?
           = ReactComponents::Mentoring::TryMentoringButton.new
         - else
           = render "locked", profile_min_reputation: 20

@@ -15,6 +15,17 @@ module Flows
       end
     end
 
+    test "dont show progress bar if user is already mentor with 19 reps" do
+      old_time = Time.current - 1.week
+      user = create :user, reputation: 19, became_mentor_at: old_time
+
+      use_capybara_host do
+        sign_in!(user)
+        visit Exercism::Routes.mentoring_url
+        refute_text "Ability to mentor unlocks at"
+      end
+    end
+
     test "registers to be a mentor" do
       stub_request(:post, "https://dev.null.exercism.io/")
 

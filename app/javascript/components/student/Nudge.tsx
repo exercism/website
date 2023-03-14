@@ -216,8 +216,8 @@ const CompleteExerciseNudge = ({
         <p>
           Complete the exercise to unlock new concepts and exercises.{' '}
           <strong>
-            Remember, you can get mentored even after you’ve completed the
-            exercise.
+            Remember, you can request code review even after you’ve completed
+            the exercise.
           </strong>
         </p>
       </div>
@@ -258,11 +258,10 @@ const MentoringNudge = ({
     <section className={classNames.join(' ')}>
       <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
-        <h3>Improve your solution with mentoring</h3>
+        <h3>Improve your solution with code review</h3>
         <p>
-          On average, students that get mentoring iterate a further 3.5 times on
-          their solution. It’s a great way to discover what you don’t know about
-          your language.
+          Having your code reviewed by a mentor is an incredbile way to identify
+          your knowledge gapes and accelerate your learning. It's totally free.
         </p>
         <div className="options">
           <MentoringComboButton
@@ -276,7 +275,7 @@ const MentoringNudge = ({
             target="_blank"
             rel="noreferrer"
           >
-            What is Mentoring?
+            What is Code Review?
             <Icon icon="external-link" alt="Opens in a new tab" />
           </a>
         </div>
@@ -309,7 +308,7 @@ const TestsFailedNudge = ({
         <p>Get some help from our awesome {track.title} mentors.</p>
         <div className="options">
           <a href={links.requestMentoring} className="btn-primary btn-s">
-            Request mentoring
+            Submit for Code Review
           </a>
           <a
             href={links.mentoringInfo}

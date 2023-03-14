@@ -12,7 +12,7 @@ export const Header = ({
   return mentoringStatus === 'in_progress' ? (
     <div className="discussion-in-progress">
       <h3>Mentoring currently in progress</h3>
-      <p>Share links aren’t available with active mentoring</p>
+      <p>Share links aren&apos;t available with active mentoring</p>
     </div>
   ) : (
     <div className="mentoring-request">

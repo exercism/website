@@ -21,8 +21,8 @@ module Flows
             sign_in!(user)
             visit track_exercise_mentor_discussions_path(track, exercise)
 
-            assert_text "You have no past mentoring discussions"
-            click_on "Request mentoring"
+            assert_text "You have no past code review sessions"
+            click_on "Submit for code review"
             assert_text "Submit mentoring request"
           end
         end
@@ -43,7 +43,7 @@ module Flows
             sign_in!(user)
             visit track_exercise_mentor_discussions_path(track, exercise)
 
-            assert_text "You’ve requested mentoring"
+            assert_text "requested mentoring"
             assert_text "Waiting on a mentor..."
           end
         end

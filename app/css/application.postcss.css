@@ -64,6 +64,7 @@
 @import "./components/solution-iterations";
 @import "./components/loading-overlay";
 @import "./components/loading-suspense";
+@import "./components/discussion-timeline";
 
 @import "./components/share-panel";
 @import "./components/split-pane";

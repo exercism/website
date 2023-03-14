@@ -21,7 +21,7 @@ module Flows
         within(".m-generic-confirmation") { click_on "Cancel mentoring request" }
 
         wait_for_redirect
-        assert_link "Request mentoring"
+        assert_link "Submit for code review"
       end
     end
   end

@@ -29,5 +29,18 @@ export const buildEditor = build<Props>({
       back: '',
     },
     features: { theme: true, keybindings: true },
+    iteration: {
+      analyzerFeedback: null,
+      representerFeedback: {
+        html: '<p>This is exemplar!</p>\n',
+        author: {
+          name: 'Aron Demeter',
+          reputation: 56,
+          avatarUrl:
+            'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg',
+          profileUrl: 'http://local.exercism.io:3020/profiles/dem4ron',
+        },
+      },
+    },
   },
 })

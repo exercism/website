@@ -35,7 +35,7 @@ export const DiscussionInfo = ({
     <PostsWrapper discussion={discussion}>
       <div id="panel-discussion">
         <MentorInfo mentor={mentor} />
-        <div className="discussion">
+        <div className="c-discussion-timeline">
           <DiscussionPostList
             iterations={iterations}
             userIsStudent={true}
@@ -56,8 +56,8 @@ export const DiscussionInfo = ({
                   <strong>
                     It&apos;s time to review {mentor.handle}&apos;s mentoring
                   </strong>
-                  You’ll be able to leave feedback and share what you thought of
-                  your experience.
+                  You&apos;ll be able to leave feedback and share what you
+                  thought of your experience.
                 </p>
                 <FinishButton
                   discussion={discussion}

@@ -1,7 +1,6 @@
 module ReactComponents
   class Editor < ReactComponent
     initialize_with :solution
-
     def to_s
       super(
         "editor",
@@ -32,28 +31,43 @@ module ReactComponents
               }
             }
           },
+          iteration: iteration ? {
+            analyzer_feedback: iteration&.analyzer_feedback,
+            representer_feedback: iteration&.representer_feedback
+          } : nil,
+          discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
           track: {
             title: track.title,
-            slug: track.slug
+            slug: track.slug,
+            icon_url: track.icon_url
           },
           exercise: {
             title: solution.exercise.title,
             slug: solution.exercise.slug
           },
+          mentoring_requested: solution.mentoring_requested?,
           links: {
             run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
-            back: Exercism::Routes.track_exercise_path(track, solution.exercise)
+            back: Exercism::Routes.track_exercise_path(track, solution.exercise),
+            automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
+            mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
+            mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise)
           }
         }
       )
     end
 
     private
-    def submissions
-      submission = solution.latest_submission
+    def submissions = submission ? [SerializeSubmission.(submission)] : []
 
-      submission ? [SerializeSubmission.(submission)] : []
-    end
+    memoize
+    def submission = solution.latest_submission
+
+    memoize
+    def iteration = submission&.iteration
+
+    memoize
+    def discussion = solution.mentor_discussions.last
 
     memoize
     def introduction

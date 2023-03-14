@@ -22,8 +22,8 @@ export function fromNow(date: ConfigType): string {
   } else if (days > 1) {
     return `${days} ${pluralize('days', weeks)} ago`
   } else if (days === 1) {
-    return 'yesterday'
+    return 'Yesterday'
   } else {
-    return 'today'
+    return 'Today'
   }
 }

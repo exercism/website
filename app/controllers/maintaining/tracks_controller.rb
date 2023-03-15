@@ -27,7 +27,8 @@ module Maintaining
       image[:image_tags].first
     rescue Aws::ECR::Errors::ImageNotFoundException,
            Aws::ECR::Errors::BadRequest,
-           Aws::ECR::Errors::AccessDeniedException
+           Aws::ECR::Errors::AccessDeniedException,
+           Aws::ECR::Errors::RepositoryNotFoundException
       nil
     end
   end

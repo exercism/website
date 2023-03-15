@@ -12,7 +12,7 @@ module Components
 
         assert_text "Author published a new Exercise"
         assert_link "Bob", href: Exercism::Routes.track_exercise_url(exercise.track, exercise)
-        assert_text "yesterday"
+        assert_text "Yesterday"
         assert_css "img[src='#{exercise.icon_url}']"
         assert_css "img[src='#{author.avatar_url}']"
       end
@@ -28,7 +28,7 @@ module Components
 
         assert_text "We published a new Concept"
         assert_link "Strings", href: Exercism::Routes.track_concept_url(strings.track, strings)
-        assert_text "yesterday"
+        assert_text "Yesterday"
         assert_css ".c-concept-icon", text: "St"
       end
 
@@ -37,7 +37,7 @@ module Components
         update = create :new_exercise_site_update,
           author: author,
           title: "New exercise",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 
@@ -46,7 +46,7 @@ module Components
           assert_text "by Author"
           assert_text "New description"
           assert_css "img[src='#{update.exercise.icon_url}']"
-          assert_css "img[src='#{author.avatar_url}']"
+          assert_css "img[src='#{update.exercise.track.icon_url}']"
         end
       end
 
@@ -61,7 +61,7 @@ module Components
         create :new_exercise_site_update,
           author: author,
           title: "New exercise",
-          description: "New description",
+          description_markdown: "New description",
           pull_request: pull_request
 
         visit test_components_common_site_updates_list_path
@@ -87,7 +87,7 @@ module Components
           author: author,
           exercise: exercise,
           title: "New exercise",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 
@@ -103,7 +103,7 @@ module Components
           track: strings.track,
           author: author,
           title: "New concept",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 

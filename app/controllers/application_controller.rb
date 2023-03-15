@@ -34,6 +34,12 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  def ensure_maintainer!
+    return if current_user&.maintainer?
+
+    redirect_to root_path
+  end
+
   def ensure_staff!
     return if current_user&.staff?
 

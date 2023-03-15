@@ -21,8 +21,10 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
     author = create :user
     title = "Check this out!!"
-    description = "I did something really cool :)"
-    update = create :site_update, exercise: exercise, track: track, author: author, title: title, description: description
+    description_markdown = "I did something really cool :)"
+    description_html = "<p>I did something really cool :)</p>\n"
+    update = create :site_update, exercise: exercise, track: track, author: author, title: title,
+      description_markdown: description_markdown
 
     expected = {
       author: {
@@ -30,7 +32,7 @@ class SiteUpdateTest < ActiveSupport::TestCase
         "avatar_url" => author.avatar_url
       },
       title:,
-      description:
+      description_html:
     }.stringify_keys
     assert_equal expected, update.rendering_data[:expanded]
   end
@@ -83,5 +85,13 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
     assert_equal [ruby_update, js_update], SiteUpdate.all # Sanity
     assert_equal [js_update], SiteUpdate.for_track(js)
+  end
+
+  test "updates description_html when description_markdown is set" do
+    site_update = create :site_update, description_markdown: nil
+    assert_nil site_update.description_html
+
+    site_update.update(description_markdown: "Hi there")
+    assert_equal "<p>Hi there</p>\n", site_update.description_html
   end
 end

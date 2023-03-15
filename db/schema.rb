@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_095911) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_09_093726) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -692,9 +692,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_095911) do
     t.bigint "pull_request_id"
     t.datetime "published_at", null: false
     t.string "title"
-    t.text "description"
+    t.text "description_markdown"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description_html"
     t.index ["author_id"], name: "index_site_updates_on_author_id"
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
     t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"

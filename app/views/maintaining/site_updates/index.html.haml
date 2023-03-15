@@ -1,6 +1,9 @@
-#maintaining-site-updates.c-admin-table
+#maintaining-site-updates.c-admin-index
   .lg-container
-    %table
+    %h1.text-h1.mb-8 Site updates
+    - if flash[:site_updates_notice]
+      .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
+    %table.mb-8
       %thead
         %tr
           %th Type
@@ -19,14 +22,22 @@
             - when SiteUpdates::NewConceptUpdate
               %td Concept
               %td #{update.track&.title} / #{update.concept&.name}
+            - when SiteUpdates::ArbitraryUpdate
+              %td Arbitrary
+              %td= update.track&.title
 
             %td= update.published_at
             %td
               - if update.expanded?
                 .title= update.title
                 .handle= update.author.handle
-                %p= update.description
+                %p= update.description_html&.html_safe
             %td= update.pull_request&.title
             %td
               - if update.editable_by?(current_user)
                 = link_to "Edit", edit_maintaining_site_update_path(update)
+
+    .flex
+      = link_to "New site update", new_maintaining_site_update_path, class: 'btn btn-primary btn-base'
+
+    = paginate @updates

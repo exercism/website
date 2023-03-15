@@ -17,4 +17,9 @@ FactoryBot.define do
     end
     track { concept.track }
   end
+
+  factory :arbitrary_site_update, class: "SiteUpdates::ArbitraryUpdate" do
+    author { create(:user) }
+    track { create(:track) }
+  end
 end

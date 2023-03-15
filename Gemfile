@@ -53,6 +53,7 @@ gem 'devise', '~> 4.7'
 
 # Omniauth
 gem 'omniauth-github'
+gem 'omniauth-discord'
 gem 'omniauth-rails_csrf_protection'
 
 # Payments

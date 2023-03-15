@@ -7,7 +7,7 @@ module Auth
     def github
       if user_signed_in?
         User::LinkWithGithub.(current_user, request.env["omniauth.auth"])
-        return redirect_to settings_path
+        return redirect_to integration_settings_path
       end
 
       @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"])
@@ -20,6 +20,11 @@ module Auth
 
         redirect_to after_omniauth_failure_path_for(resource_name)
       end
+    end
+
+    def discord
+      User::LinkWithDiscord.(current_user, request.env["omniauth.auth"])
+      redirect_to integration_settings_path
     end
 
     def failure

@@ -4,7 +4,7 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
   test "creates correctly" do
     stub_request(:post, "https://dev.null.exercism.io/")
 
-    user = create :user, :not_mentor, reputation: 20
+    user = create :user, :not_mentor, reputation: User::MIN_REP_TO_MENTOR
     create :track, slug: :ruby
     csharp = create :track, slug: :csharp
     fsharp = create :track, slug: :fsharp
@@ -16,7 +16,7 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
 
   test "skips if user is a mentor already" do
     old_time = Time.current - 1.week
-    user = create :user, became_mentor_at: old_time, reputation: 21
+    user = create :user, became_mentor_at: old_time, reputation: User::MIN_REP_TO_MENTOR
 
     User::BecomeMentor.(user, [create(:track).slug])
     assert user.mentor?
@@ -31,7 +31,7 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
   end
 
   test "fails with invalid track" do
-    user = create :user, :not_mentor, reputation: 20
+    user = create :user, :not_mentor, reputation: User::MIN_REP_TO_MENTOR
     create :track, slug: :fsharp
 
     assert_raises InvalidTrackSlugsError do
@@ -40,7 +40,7 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
   end
 
   test "fails without tracks" do
-    user = create :user, :not_mentor, reputation: 20
+    user = create :user, :not_mentor, reputation: User::MIN_REP_TO_MENTOR
     create :track, slug: :ruby
     create :track, slug: :fsharp
     create :track, slug: :csharp

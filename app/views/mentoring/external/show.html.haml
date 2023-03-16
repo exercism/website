@@ -11,10 +11,10 @@
         Some of our best mentors worried too.
 
       - if user_signed_in?
-        - if current_user.reputation >= 20
+        - if current_user.reputation >= User::MIN_REP_TO_MENTOR
           = ReactComponents::Mentoring::TryMentoringButton.new
         - else
-          = render "locked", profile_min_reputation: 20
+          = render "locked", profile_min_reputation: User::MIN_REP_TO_MENTOR
       - else
         .flex.items-center
           = link_to "Sign up to try mentoring", new_user_registration_path, class: 'btn-m btn-primary'

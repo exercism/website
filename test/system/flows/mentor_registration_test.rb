@@ -6,7 +6,7 @@ module Flows
     include CapybaraHelpers
 
     test "show progress bar if reputation is not enough to mentor" do
-      user = create :user, :not_mentor, reputation: 19
+      user = create :user, :not_mentor, reputation: User::MIN_REP_TO_MENTOR - 1
 
       use_capybara_host do
         sign_in!(user)
@@ -18,7 +18,7 @@ module Flows
     test "registers to be a mentor" do
       stub_request(:post, "https://dev.null.exercism.io/")
 
-      user = create :user, :not_mentor, reputation: 20
+      user = create :user, :not_mentor, reputation: User::MIN_REP_TO_MENTOR
       create :track, title: "Ruby"
 
       use_capybara_host do

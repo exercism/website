@@ -12,7 +12,7 @@ FactoryBot.define do
     moss begetter bard architect troubleshooter
     completer conceptual supermentor
     participant_in_12_in_23 functional_february
-    mechanical_march
+    mechanical_march analytical_april
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

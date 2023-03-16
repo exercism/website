@@ -8,6 +8,8 @@ class User::LinkWithDiscord
   end
 
   private
+  delegate :uid, to: :auth
+
   def set_uid!
     user.update!(discord_uid: uid)
   rescue ActiveRecord::RecordNotUnique
@@ -16,9 +18,5 @@ class User::LinkWithDiscord
 
     old_user.update!(discord_uid: nil)
     user.update!(discord_uid: uid)
-  end
-
-  def uid
-    auth.uid
   end
 end

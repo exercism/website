@@ -72,6 +72,9 @@ Style/ConditionalAssignment:
   SingleLineConditionsOnly: false
   IncludeTernaryExpressions: false
 
+Style/FormatString:
+  EnforcedStyle: percent
+
 Style/StringLiterals:
   Enabled: false
 

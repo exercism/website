@@ -7,11 +7,11 @@ module Flows
       include CapybaraHelpers
 
       test 'maintainer adds arbitrary site update' do
-        maintainer = create :user, :maintainer
+        maintainer = create :user, :maintainer, uid: '136131'
         maintainer.dismiss_introducer!('welcome-modal')
         track = create :track, slug: 'fsharp', repo_url: 'exercism/fsharp'
         create :user_track, user: maintainer, track: track
-        create :github_team_member, team_name: track.github_team_name, user_id: maintainer.id
+        create :github_team_member, team_name: track.github_team_name, user_id: maintainer.uid
         pr = create :github_pull_request, repo: track.repo_url
 
         use_capybara_host do

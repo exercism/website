@@ -117,6 +117,13 @@ export function Representations({
               </div>
             ) : null}
           </StatusTab>
+          <StatusTab<AutomationStatus>
+            status="admin"
+            currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
+            setStatus={() => null}
+          >
+            <a href="">Admin</a>
+          </StatusTab>
         </div>
         {!withFeedback && (
           <Checkbox

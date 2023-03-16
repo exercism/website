@@ -24,7 +24,7 @@ class User::SetDiscordRoles
   end
 
   def set_role!(role_id) # rubocop:disable Naming/AccessorMethodName
-    url = format(API_URL, GUILD_ID, user.discord_uid, role_id)
+    url = API_URL % [GUILD_ID, user.discord_uid, role_id]
     RestClient.put(url, {}, Authorization: AUTH_HEADER)
   end
 

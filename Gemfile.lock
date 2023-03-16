@@ -324,6 +324,9 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
       rack-protection
+    omniauth-discord (1.0.2)
+      omniauth (~> 2.0.4)
+      omniauth-oauth2
     omniauth-github (2.0.0)
       omniauth (~> 2.0)
       omniauth-oauth2 (~> 1.7.1)
@@ -566,6 +569,7 @@ DEPENDENCIES
   mysql2 (~> 0.5.4)
   octokit
   oj
+  omniauth-discord
   omniauth-github
   omniauth-rails_csrf_protection
   propshaft (= 0.4.0)

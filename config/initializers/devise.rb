@@ -291,6 +291,10 @@ Devise.setup do |config|
     Exercism.secrets.github_omniauth_app_secret,
     scope: "user:email"
 
+  config.omniauth :discord,
+    Exercism.secrets.discord_omniauth_app_id,
+    Exercism.secrets.discord_omniauth_app_secret
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { Avatar, GraphicalIcon, Pagination } from '../../common'
+import { Request } from '@/hooks'
 
-type StoriesGridProps = {
-  data: any
+export type StoriesGridProps = {
+  request: Request
 }
 
-export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
+export function StoriesGrid({ request }: StoriesGridProps): JSX.Element | null {
   const [page, setPage] = useState<number>(1)
 
-  if (data.request.options.initialData.meta.totalCount === 0) {
+  if (request.options.initialData.meta.totalCount === 0) {
     return null
   }
 
@@ -16,13 +17,15 @@ export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
       <StoriesGridHeader />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
-        {data.request.options.initialData.results.map((story: StoryProps) => (
-          <Story {...story} />
-        ))}
+        {request.options.initialData.results.map(
+          (story: StoryProps, k: number) => (
+            <Story key={k} {...story} />
+          )
+        )}
       </div>
       <Pagination
         current={page}
-        total={data.request.options.initialData.meta.totalCount}
+        total={request.options.initialData.meta.totalCount}
         setPage={setPage}
       />
     </div>
@@ -60,12 +63,7 @@ type StoryProps = {
     self: string
   }
 }
-function Story({
-  title,
-  thumbnailUrl,
-  interviewee,
-  links,
-}: StoryProps): JSX.Element {
+function Story({ title, interviewee, links }: StoryProps): JSX.Element {
   return (
     <a href={links.self}>
       <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">

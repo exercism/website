@@ -171,11 +171,11 @@ export const mappings = {
     </Suspense>
   ),
 
-  'community-video-grid': (data: any) => (
-    <Community.VideoGrid data={camelizeKeys(data)} />
+  'community-video-grid': (data: VideoGridProps): JSX.Element => (
+    <Community.VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
   ),
-  'community-stories-grid': (data: any) => (
-    <Community.StoriesGrid data={camelizeKeys(data)} />
+  'community-stories-grid': (data: any): JSX.Element => (
+    <Community.StoriesGrid {...camelizeKeysAs<StoriesGridProps>(data)} />
   ),
 
   'track-exercise-community-solutions-list': (data: any) => (
@@ -184,7 +184,7 @@ export const mappings = {
     />
   ),
 
-  'track-dig-deeper': (data: DigDeeperProps) => (
+  'track-dig-deeper': (data: DigDeeperProps): JSX.Element => (
     <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
   ),
 
@@ -460,15 +460,18 @@ export const mappings = {
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-document.addEventListener(
-  'turbo:load',
-  () => (document.getElementById('site-footer').style.display = 'block')
-)
+document.addEventListener('turbo:load', () => {
+  const siteFooter = document.getElementById('site-footer')
+  if (siteFooter === null) return
+  siteFooter.style.display = 'block'
+})
 
 import { highlightAll } from '../utils/highlight'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
+import { VideoGridProps } from '@/components/community/video-grid/index.js'
+import { StoriesGridProps } from '@/components/community/stories-grid/index.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

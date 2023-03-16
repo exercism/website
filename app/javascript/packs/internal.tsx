@@ -14,11 +14,11 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
-  Testimonial,
+  // Testimonial,
   MentoredTrackExercise,
   // User,
   // SiteUpdate,
-  UserPreferences,
+  UserPreference,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
@@ -150,14 +150,14 @@ initReact({
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track'>>(
+      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track' | 'links'>>(
         data.guidance
       )}
       outOfDate={data.out_of_date}
       downloadCommand={data.download_command}
     />
   ),
-  'mentoring-representations-with-feedback': (data: any) => (
+  'mentoring-representations-with-feedback': (data: AutomationProps) => (
     <Mentoring.RepresentationsWithFeedback
       data={camelizeKeysAs<AutomationProps>(data)}
     />
@@ -255,9 +255,9 @@ initReact({
   ),
   'settings-user-preferences-form': (data: any) => (
     <Settings.UserPreferencesForm
-      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
-        data.preferences
-      )}
+      defaultPreferences={camelizeKeysAs<{
+        automation: readonly UserPreference[]
+      }>(data.preferences)}
       links={data.links}
     />
   ),

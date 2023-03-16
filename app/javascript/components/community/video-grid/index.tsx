@@ -14,14 +14,12 @@ import type { Request } from '@/hooks'
 import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
 
-type VideoGridProps = {
-  data: {
-    tracks: VideoTrack[]
-    request: Request
-  }
+export type VideoGridProps = {
+  tracks: VideoTrack[]
+  request: Request
 }
 
-export function VideoGrid({ data }: VideoGridProps): JSX.Element {
+export function VideoGrid({ tracks, request }: VideoGridProps): JSX.Element {
   const {
     resolvedData,
     page,
@@ -31,7 +29,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     selectedTrack,
     criteria,
     setCriteria,
-  } = useVideoGrid(data.request, data.tracks)
+  } = useVideoGrid(request, tracks)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const timer = useRef<any>()
@@ -51,7 +49,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   return (
     <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
       <VideoGridHeader
-        tracks={data.tracks}
+        tracks={tracks}
         handleTrackChange={handleTrackChange}
         selectedTrack={selectedTrack}
       />

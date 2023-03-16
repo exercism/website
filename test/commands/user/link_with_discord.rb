@@ -6,6 +6,8 @@ class User::LinkWithDiscordTest < ActiveSupport::TestCase
     auth = stub(uid:)
     user = create :user, discord_uid: uid
 
+    User::SetDiscordRoles.expects(:defer).with(user)
+
     User::LinkWithDiscord.(user, auth)
 
     assert_equal uid, user.reload.discord_uid
@@ -15,6 +17,8 @@ class User::LinkWithDiscordTest < ActiveSupport::TestCase
     uid = '111'
     auth = stub(uid:)
     user = create :user
+
+    User::SetDiscordRoles.expects(:defer).with(user)
 
     User::LinkWithDiscord.(user, auth)
 
@@ -26,6 +30,8 @@ class User::LinkWithDiscordTest < ActiveSupport::TestCase
     auth = stub(uid:)
     old_user = create :user, discord_uid: uid
     new_user = create :user
+
+    User::SetDiscordRoles.expects(:defer).with(new_user)
 
     User::LinkWithDiscord.(new_user, auth)
 

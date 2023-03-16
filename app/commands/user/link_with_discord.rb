@@ -5,6 +5,7 @@ class User::LinkWithDiscord
 
   def call
     set_uid!
+    User::SetDiscordRoles.defer(user)
   end
 
   private

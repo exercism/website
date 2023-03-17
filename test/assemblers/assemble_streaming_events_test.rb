@@ -13,7 +13,25 @@ class AssembleStreamingEventsTest < ActiveSupport::TestCase
     event_3 = create :streaming_event, :random, starts_at: Time.current - 4.hours, ends_at: Time.current + 4.hours
 
     actual = AssembleStreamingEvents.({})
-    assert_equal [event_3.title, event_1.title, event_2.title], actual[:results].map(&:title)
+    assert_equal [event_3.title, event_1.title, event_2.title], actual[:results].pluck(:title)
+  end
+
+  test "return live events by default" do
+    event_1 = create :streaming_event, :random, starts_at: Time.current - 3.hours, ends_at: Time.current + 3.hours
+    event_2 = create :streaming_event, :random, starts_at: Time.current - 2.hours, ends_at: Time.current + 2.hours
+    create :streaming_event, :random, starts_at: Time.current + 4.hours, ends_at: Time.current + 5.hours
+
+    actual = AssembleStreamingEvents.({})
+    assert_equal [event_1.title, event_2.title], actual[:results].pluck(:title)
+  end
+
+  test "return scheduled events" do
+    create :streaming_event, :random, starts_at: Time.current - 3.hours, ends_at: Time.current + 3.hours
+    create :streaming_event, :random, starts_at: Time.current - 2.hours, ends_at: Time.current + 2.hours
+    event_3 = create :streaming_event, :random, starts_at: Time.current + 4.hours, ends_at: Time.current + 5.hours
+
+    actual = AssembleStreamingEvents.({ scheduled: true })
+    assert_equal [event_3.title], actual[:results].pluck(:title)
   end
 
   test "results are serialized correctly" do

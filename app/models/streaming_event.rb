@@ -1,22 +1,19 @@
 class StreamingEvent < ApplicationRecord
-  def self.live
-    where('starts_at <= NOW() and ends_at >= NOW()').first
+  scope :live, -> { where('starts_at <= NOW() AND ends_at >= NOW()') }
+  scope :scheduled, -> { where('starts_at > NOW()') }
+  scope :featured, -> { where(featured: true) }
+
+  def self.current_live = live.first
+  def self.next_featured = scheduled.featured.order(:starts_at).first
+  def self.next_5 = scheduled.order(:starts_at).first(5)
+
+  def youtube? = youtube_id.present?
+
+  def youtube_external_url
+    "https://www.youtube.com/watch?v=#{youtube_id}" if youtube?
   end
 
-  def self.next_featured
-    where(featured: true).
-      where('starts_at > NOW()').
-      order(:starts_at).
-      first
-  end
-
-  def self.next_5
-    where('starts_at > NOW()').
-      order(:starts_at).
-      first(5)
-  end
-
-  def youtube?
-    youtube_id.present?
+  def youtube_embed_url
+    "https://www.youtube.com/embed/#{youtube_id}" if youtube?
   end
 end

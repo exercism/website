@@ -15,6 +15,7 @@ import { useAutomation } from './useAutomation'
 export type AutomationLinks = {
   withFeedback?: string
   withoutFeedback?: string
+  admin?: string
   hideIntroducer: string
 }
 
@@ -23,7 +24,7 @@ export type AutomationProps = {
   links: AutomationLinks
   representationsRequest: Request
   sortOptions: SortOption[]
-  withFeedback: boolean
+  selectedTab: 'admin' | 'with_feedback' | 'without_feedback'
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
   trackCacheKey: string
@@ -35,12 +36,13 @@ export function Representations({
   sortOptions,
   links,
   representationsRequest,
-  withFeedback,
+  selectedTab,
   representationsWithoutFeedbackCount,
   representationsWithFeedbackCount,
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
+  const withFeedback = selectedTab === 'with_feedback'
   const {
     feedbackCount,
     checked,
@@ -95,7 +97,7 @@ export function Representations({
         <div className="tabs">
           <StatusTab<AutomationStatus>
             status="without_feedback"
-            currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
+            currentStatus={selectedTab}
             setStatus={() => null}
           >
             <a href={links.withoutFeedback}>Need feedback</a>
@@ -107,7 +109,7 @@ export function Representations({
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"
-            currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
+            currentStatus={selectedTab}
             setStatus={() => null}
           >
             <a href={links.withFeedback}>Feedback submitted</a>
@@ -119,10 +121,10 @@ export function Representations({
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="admin"
-            currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
+            currentStatus={selectedTab}
             setStatus={() => null}
           >
-            <a href="">Admin</a>
+            <a href={links.admin}>Admin</a>
           </StatusTab>
         </div>
         {!withFeedback && (

@@ -162,6 +162,11 @@ initReact({
       data={camelizeKeysAs<AutomationProps>(data)}
     />
   ),
+  'mentoring-representations-admin': (data: any) => (
+    <Mentoring.RepresentationsAdmin
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
   'mentoring-representations-without-feedback': (data: any) => (
     <Mentoring.RepresentationsWithoutFeedback
       data={camelizeKeysAs<AutomationProps>(data)}

@@ -1,12 +1,12 @@
 module ReactComponents
   module Mentoring
     module Representations
-      class WithFeedback < ReactComponent
+      class Admin < ReactComponent
         initialize_with :mentor, :params
 
         def to_s
           super(
-            "mentoring-representations-with-feedback",
+            "mentoring-representations-admin",
             {
               representations_request:,
               tracks_request:,
@@ -66,7 +66,7 @@ module ReactComponents
         def links
           {
             without_feedback: Exercism::Routes.mentoring_automation_index_path,
-            admin: Exercism::Routes.admin_mentoring_automation_index_path,
+            with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_path,
             hide_introducer: Exercism::Routes.hide_api_settings_introducer_path(INTRODUCER_SLUG)
           }
         end

@@ -4,14 +4,15 @@ import { AutomationProps, Representations } from './Representation'
 export type RepresentationsWithFeedbackProps = {
   data: AutomationProps
 }
-export function RepresentationsWithFeedback({
+export function RepresentationsAdmin({
   data,
 }: RepresentationsWithFeedbackProps): JSX.Element {
+  console.log(data)
   return (
     <Representations
       {...data}
-      trackCacheKey="automation-with-feedback-track-cache-key"
-      selectedTab="with_feedback"
+      trackCacheKey="automation-admin-track-cache-key"
+      selectedTab="admin"
     />
   )
 }

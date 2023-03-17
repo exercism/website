@@ -7,5 +7,10 @@ FactoryBot.define do
     featured { false }
     youtube_id { "MyString" }
     thumbnail_url { "MyString" }
+
+    trait :random do
+      title { SecureRandom.hex }
+      description { SecureRandom.hex }
+    end
   end
 end

@@ -142,6 +142,8 @@ namespace :api do
 
     resources :docs, only: [:index]
 
+    resources :streaming_events, only: [:index]
+
     resources :solutions, only: %i[index show update], param: :uuid do
       member do
         get :diff

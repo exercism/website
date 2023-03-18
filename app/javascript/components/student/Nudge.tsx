@@ -260,7 +260,7 @@ const MentoringNudge = ({
       <div className="info">
         <h3>Improve your solution with code review</h3>
         <p>
-          Having your code reviewed by a mentor is an incredbile way to identify
+          Having your code reviewed by a mentor is an incredible way to identify
           your knowledge gapes and accelerate your learning. It's totally free.
         </p>
         <div className="options">

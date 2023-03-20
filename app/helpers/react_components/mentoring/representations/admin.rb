@@ -13,6 +13,7 @@ module ReactComponents
               links:,
               sort_options: SORT_OPTIONS,
               representations_without_feedback_count:,
+              representations_with_feedback_count:,
               is_introducer_hidden:
             }
           )
@@ -40,10 +41,15 @@ module ReactComponents
           }.compact
         end
 
-        def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, representations_request_params)
+        def representations = AssembleExerciseRepresentationsAdmin.(representations_request_params)
 
         def representations_without_feedback_count
           Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false,
+            track: ::Track.where(slug: track_slugs)).count
+        end
+
+        def representations_with_feedback_count
+          Exercise::Representation::Search.(mentor:, with_feedback: true, sorted: false, paginated: false,
             track: ::Track.where(slug: track_slugs)).count
         end
 
@@ -57,6 +63,7 @@ module ReactComponents
           }
         end
 
+        # TODO: This just get all the tracks where a representation exists
         memoize
         def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
 

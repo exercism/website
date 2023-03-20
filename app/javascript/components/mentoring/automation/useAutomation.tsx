@@ -5,12 +5,18 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { QueryStatus } from 'react-query'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import { ListState, useList } from '../../../hooks/use-list'
-import { AutomationTrack, Representation } from '../../types'
+import {
+  ListState,
+  useList,
+  usePaginatedRequestQuery,
+  Request,
+  useHistory,
+  removeEmpty,
+} from '@/hooks'
 import { useTrackList } from '../queue/useTrackList'
+import { SelectedTab } from './Representation'
+import type { QueryStatus } from 'react-query'
+import type { AutomationTrack, Representation } from '@/components/types'
 
 export type APIResponse = {
   results: Representation[]
@@ -62,7 +68,7 @@ export function useAutomation(
   representationsWithoutFeedbackCount: number | undefined,
   tracksRequest: Request,
   cacheKey: string,
-  withFeedback: boolean
+  selectedTab: SelectedTab
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
@@ -152,25 +158,33 @@ export function useAutomation(
     [request.query, setPage, setQuery]
   )
 
+  // TODO: Add admin count
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(
-    (withFeedback) => {
-      if (withFeedback && resolvedData) {
-        return {
-          with_feedback: resolvedData.meta.totalCount,
-          without_feedback: representationsWithoutFeedbackCount,
+    (selectedTab: SelectedTab) => {
+      if (resolvedData) {
+        switch (selectedTab) {
+          case 'with_feedback':
+            return {
+              with_feedback: resolvedData.meta.totalCount,
+              without_feedback: representationsWithoutFeedbackCount,
+            }
+          case 'without_feedback':
+            return {
+              with_feedback: representationsWithFeedbackCount,
+              without_feedback: resolvedData.meta.totalCount,
+            }
+          case 'admin':
+            return {
+              with_feedback: representationsWithFeedbackCount,
+              without_feedback: representationsWithoutFeedbackCount,
+            }
         }
-      } else if (resolvedData) {
-        return {
-          with_feedback: representationsWithFeedbackCount,
-          without_feedback: resolvedData.meta.totalCount,
-        }
-      } else {
+      } else
         return {
           with_feedback: 0,
           without_feedback: 0,
         }
-      }
     },
     [
       representationsWithFeedbackCount,
@@ -180,8 +194,8 @@ export function useAutomation(
   )
 
   const feedbackCount = useMemo(
-    () => getFeedbackCount(withFeedback),
-    [getFeedbackCount, withFeedback]
+    () => getFeedbackCount(selectedTab),
+    [getFeedbackCount, selectedTab]
   )
 
   return {
@@ -196,7 +210,7 @@ export function useAutomation(
     setChecked,
     order: request.query.order,
     setOrder,
-    page: request.query.page,
+    page: request.query.page || 0,
     setPage,
     tracks,
     trackListStatus,

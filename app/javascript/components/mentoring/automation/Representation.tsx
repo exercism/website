@@ -19,12 +19,13 @@ export type AutomationLinks = {
   hideIntroducer: string
 }
 
+export type SelectedTab = 'admin' | 'with_feedback' | 'without_feedback'
 export type AutomationProps = {
   tracksRequest: Request
   links: AutomationLinks
   representationsRequest: Request
   sortOptions: SortOption[]
-  selectedTab: 'admin' | 'with_feedback' | 'without_feedback'
+  selectedTab: SelectedTab
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
   trackCacheKey: string
@@ -69,7 +70,7 @@ export function Representations({
     representationsWithoutFeedbackCount,
     tracksRequest,
     trackCacheKey,
-    withFeedback
+    selectedTab
   )
 
   // timeout is stored in a useRef, so it can be cancelled

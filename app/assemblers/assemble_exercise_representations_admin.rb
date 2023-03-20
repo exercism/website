@@ -3,7 +3,7 @@ class AssembleExerciseRepresentationsAdmin
 
   def self.keys = %i[page order criteria track_slug]
 
-  initialize_with :mentor, :params
+  initialize_with :params
 
   def call
     SerializePaginatedCollection.(
@@ -11,7 +11,7 @@ class AssembleExerciseRepresentationsAdmin
       serializer: SerializeExerciseRepresentations,
       serializer_kwargs: { params: },
       meta: {
-        unscoped_total: Exercise::Representation.with_feedback_by(mentor).count
+        unscoped_total: Exercise::Representation.with_feedback.count
       }
     )
   end
@@ -20,7 +20,7 @@ class AssembleExerciseRepresentationsAdmin
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor:,
+      mentor: nil,
       track:,
       with_feedback: true,
       criteria: params[:criteria],

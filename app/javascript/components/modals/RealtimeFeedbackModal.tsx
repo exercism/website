@@ -13,7 +13,13 @@ export const RealtimeFeedbackModal = ({
   onSubmit,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   return (
-    <Modal closeButton={true} open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      closeButton={false}
+      onClose={onClose}
+      shouldCloseOnEsc={false}
+      shouldCloseOnOverlayClick={false}
+    >
       <h3 className="text-h3 mb-16">Checking for automated feedback...</h3>
       {/* wait wait wait */}
       <div className="flex gap-8">

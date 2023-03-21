@@ -63,9 +63,9 @@ module ReactComponents
           }
         end
 
-        # TODO: This just get all the tracks where a representation exists
+        # Get all the tracks where a representation exists
         memoize
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
+        def tracks = AssembleRepresentationTracksForAdminSelect.(with_feedback: true)
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }

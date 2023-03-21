@@ -130,7 +130,7 @@ export const Nudge = ({
     return () => {
       channel.disconnect()
     }
-  }, [CACHE_KEY, solution])
+  }, [CACHE_KEY, solution, queryCache])
 
   useEffect(() => {
     setNudgeType(getNudgeType())
@@ -261,7 +261,8 @@ const MentoringNudge = ({
         <h3>Improve your solution with code review</h3>
         <p>
           Having your code reviewed by a mentor is an incredible way to identify
-          your knowledge gapes and accelerate your learning. It's totally free.
+          your knowledge gapes and accelerate your learning. It&apos;s totally
+          free.
         </p>
         <div className="options">
           <MentoringComboButton
@@ -326,7 +327,6 @@ const TestsFailedNudge = ({
 }
 
 const MentoringRequestedNudge = ({
-  track,
   links,
   className = '',
 }: {

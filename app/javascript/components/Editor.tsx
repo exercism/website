@@ -449,6 +449,7 @@ export default ({
             open={feedbackModalOpen}
             onClose={hideFeedbackModal}
             onSubmit={submit}
+            uuid={submission?.uuid}
           />
         </div>
       </TabsContext.Provider>

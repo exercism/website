@@ -1,17 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SubmitButton } from '../editor/SubmitButton'
 import { Modal } from './Modal'
+import { LatestIterationStatusChannel } from '@/channels/latestIterationStatusChannel'
+import { queryCache } from 'react-query'
+import { solution } from '../track/approaches-elements/mock-snippet'
 
 type RealtimeFeedbackModalProps = {
   open: boolean
   onClose: () => void
   onSubmit: () => void
+  uuid: string | undefined
 }
 export const RealtimeFeedbackModal = ({
   open,
   onClose,
   onSubmit,
+  uuid,
 }: RealtimeFeedbackModalProps): JSX.Element => {
+  useEffect(() => {
+    const channel = new LatestIterationStatusChannel(
+      'da74c6c0c1b04b6bbea7fbb1f9c52d63',
+      (response) => {
+        // queryCache.setQueryData(CACHE_KEY, response)
+      }
+    )
+
+    return () => {
+      channel.disconnect()
+    }
+  })
+
   return (
     <Modal
       open={open}

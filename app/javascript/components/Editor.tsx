@@ -43,6 +43,7 @@ import {
   FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
+import { RealtimeFeedbackModal } from './modals'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -97,6 +98,7 @@ export default ({
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState<boolean>(false)
   const {
     create: createSubmission,
     current: submission,
@@ -189,6 +191,13 @@ export default ({
     submission,
     track.slug,
   ])
+
+  const showFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(true)
+  }, [])
+  const hideFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(false)
+  }, [])
 
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
@@ -377,7 +386,7 @@ export default ({
                     ref={runTestsButtonRef}
                   />
                   <SubmitButton
-                    onClick={submit}
+                    onClick={showFeedbackModal}
                     disabled={isSubmitDisabled}
                     ref={submitButtonRef}
                   />
@@ -416,7 +425,7 @@ export default ({
                   timeout={timeout}
                   onUpdate={updateSubmission}
                   onRunTests={runTests}
-                  onSubmit={submit}
+                  onSubmit={showFeedbackModal}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
                   {...panels.results}
@@ -435,6 +444,11 @@ export default ({
                 ) : null}
               </TasksContext.Provider>
             }
+          />
+          <RealtimeFeedbackModal
+            open={feedbackModalOpen}
+            onClose={hideFeedbackModal}
+            onSubmit={submit}
           />
         </div>
       </TabsContext.Provider>

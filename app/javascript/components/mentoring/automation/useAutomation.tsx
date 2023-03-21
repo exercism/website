@@ -210,7 +210,7 @@ export function useAutomation(
     setChecked,
     order: request.query.order,
     setOrder,
-    page: request.query.page || 0,
+    page: request.query.page || 1,
     setPage,
     tracks,
     trackListStatus,

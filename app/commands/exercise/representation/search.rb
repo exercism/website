@@ -24,9 +24,9 @@ class Exercise::Representation::Search
 
   private
   def filter_with_feedback!
-    if with_feedback && mentor
+    if with_feedback && mentor.present?
       @representations = @representations.with_feedback_by(mentor)
-    elsif with_feedback && !mentor
+    elsif with_feedback
       @representations = @representations.with_feedback
     else
       @representations = @representations.without_feedback

@@ -22,7 +22,7 @@ module ReactComponents
         private
         def representations_request
           {
-            endpoint: Exercism::Routes.with_feedback_api_mentoring_representations_url,
+            endpoint: Exercism::Routes.admin_api_mentoring_representations_url,
             query: representations_request_params,
             options: {
               initial_data: representations,

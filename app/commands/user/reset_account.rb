@@ -12,13 +12,14 @@ class User::ResetAccount
 
     user.update(
       reputation: 0,
-      roles: [],
       bio: nil,
       avatar_url: nil,
       location: nil,
       pronouns: nil,
       became_mentor_at: nil
     )
+
+    User::UpdateRoles.(user, [])
   end
 
   def reset_tracks!

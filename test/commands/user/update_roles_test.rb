@@ -13,4 +13,12 @@ class User::UpdateRolesTest < ActiveSupport::TestCase
     assert_includes user.roles, :maintainer
     assert_includes user.roles, :supermentor
   end
+
+  test "updates discourse roles" do
+    user = create :user, roles: []
+
+    User::SetDiscordRoles.expects(:call).with(user)
+
+    User::UpdateRoles.(user, [:staff])
+  end
 end

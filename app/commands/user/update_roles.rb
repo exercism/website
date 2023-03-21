@@ -5,5 +5,6 @@ class User::UpdateRoles
 
   def call
     user.update(roles:)
+    User::SetDiscordRoles.(user)
   end
 end

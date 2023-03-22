@@ -3,10 +3,7 @@ import { SubmitButton } from '../editor/SubmitButton'
 import { Modal } from './Modal'
 import { useQueryCache } from 'react-query'
 import { SolutionChannel } from '@/channels/solutionChannel'
-
-type Solution = {
-  uuid: string
-}
+import { Solution } from '../editor/Props'
 
 type RealtimeFeedbackModalProps = {
   open: boolean
@@ -24,6 +21,7 @@ export const RealtimeFeedbackModal = ({
   const queryCache = useQueryCache()
   const CACHE_KEY = `editor-${solution.uuid}-feedback`
   useEffect(() => {
+    console.log('loggin something out', solution)
     const solutionChannel = new SolutionChannel(
       { uuid: solution.uuid },
       (response) => {

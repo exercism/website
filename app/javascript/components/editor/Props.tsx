@@ -42,7 +42,7 @@ type Exercise = {
   slug: string
 }
 
-type Solution = {
+export type Solution = {
   uuid: string
 }
 

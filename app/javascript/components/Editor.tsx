@@ -166,6 +166,13 @@ export default ({
     })
   }, [createSubmission, dispatch, files])
 
+  const showFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(true)
+  }, [])
+  const hideFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(false)
+  }, [])
+
   const submit = useCallback(() => {
     if (isSubmitDisabled) {
       return
@@ -180,7 +187,8 @@ export default ({
     createIteration(submission, {
       onSuccess: async (iteration) => {
         await cache.invalidateQueries([getCacheKey(track.slug, exercise.slug)])
-        redirectTo(iteration.links.solution)
+        showFeedbackModal()
+        // redirectTo(iteration.links.solution)
       },
     })
   }, [
@@ -189,16 +197,10 @@ export default ({
     dispatch,
     exercise.slug,
     isSubmitDisabled,
+    showFeedbackModal,
     submission,
     track.slug,
   ])
-
-  const showFeedbackModal = useCallback(() => {
-    setFeedbackModalOpen(true)
-  }, [])
-  const hideFeedbackModal = useCallback(() => {
-    setFeedbackModalOpen(false)
-  }, [])
 
   const updateSubmission = useCallback(
     (testRun: TestRun) => {
@@ -387,7 +389,7 @@ export default ({
                     ref={runTestsButtonRef}
                   />
                   <SubmitButton
-                    onClick={showFeedbackModal}
+                    onClick={submit}
                     disabled={isSubmitDisabled}
                     ref={submitButtonRef}
                   />

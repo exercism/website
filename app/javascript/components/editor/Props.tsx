@@ -1,3 +1,4 @@
+import { IterationsListRequest } from '../student/IterationsList'
 import {
   AnalyzerFeedback,
   File,
@@ -84,4 +85,5 @@ export type Props = {
   links: Links
   features?: EditorFeatures
   mentoringRequested: boolean
+  request: IterationsListRequest
 }

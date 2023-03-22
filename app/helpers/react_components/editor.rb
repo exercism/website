@@ -48,6 +48,7 @@ module ReactComponents
           solution: {
             uuid: solution.uuid
           },
+          request:,
           mentoring_requested: solution.mentoring_requested?,
           links: {
             run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
@@ -58,6 +59,23 @@ module ReactComponents
           }
         }
       )
+    end
+
+    # TODO: clean this up, and maybe enough to get the latest iteration?
+    def request
+      {
+        endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
+        options: {
+          initial_data: {
+            iterations: solution.
+              iterations.
+              includes(:track, :exercise, :files, :submission).
+              order(id: :desc).
+              map { |iteration| SerializeIteration.(iteration, sideload: %i[automated_feedback]) }
+          },
+          initial_data_updated_at: Time.current.to_i
+        }
+      }
     end
 
     private

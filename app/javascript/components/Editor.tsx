@@ -86,6 +86,7 @@ export default ({
   links,
   iteration,
   discussion,
+  request,
   mentoringRequested,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
@@ -100,6 +101,7 @@ export default ({
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
   const [feedbackModalOpen, setFeedbackModalOpen] = useState<boolean>(false)
+  const [redirectLink, setRedirectLink] = useState('')
   const {
     create: createSubmission,
     current: submission,
@@ -183,12 +185,11 @@ export default ({
     }
 
     dispatch({ status: EditorStatus.CREATING_ITERATION })
-
+    showFeedbackModal()
     createIteration(submission, {
       onSuccess: async (iteration) => {
         await cache.invalidateQueries([getCacheKey(track.slug, exercise.slug)])
-        showFeedbackModal()
-        // redirectTo(iteration.links.solution)
+        setRedirectLink(iteration.links.solution)
       },
     })
   }, [
@@ -454,6 +455,10 @@ export default ({
               onClose={hideFeedbackModal}
               onSubmit={submit}
               solution={solution}
+              track={track}
+              request={request}
+              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+              redirectLink={redirectLink}
             />
           )}
         </div>

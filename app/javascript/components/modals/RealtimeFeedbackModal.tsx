@@ -4,34 +4,37 @@ import { Modal } from './Modal'
 import { useQueryCache } from 'react-query'
 import { SolutionChannel } from '@/channels/solutionChannel'
 
+type Solution = {
+  uuid: string
+}
+
 type RealtimeFeedbackModalProps = {
   open: boolean
   onClose: () => void
   onSubmit: () => void
-  uuid: string | undefined
+  solution: Solution
 }
+
 export const RealtimeFeedbackModal = ({
   open,
   onClose,
   onSubmit,
-  uuid,
+  solution,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const queryCache = useQueryCache()
-  const CACHE_KEY = `nudge-${uuid}`
+  const CACHE_KEY = `editor-${solution.uuid}-feedback`
   useEffect(() => {
-    console.log('loggin something out')
     const solutionChannel = new SolutionChannel(
-      { uuid: 'd3d4854eca2b4385b2a5025137f25e6d' },
+      { uuid: solution.uuid },
       (response) => {
-        console.log('response', response)
-        queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
+        queryCache.setQueryData(CACHE_KEY, response)
       }
     )
 
     return () => {
       solutionChannel.disconnect()
     }
-  })
+  }, [CACHE_KEY, solution, queryCache])
 
   return (
     <Modal

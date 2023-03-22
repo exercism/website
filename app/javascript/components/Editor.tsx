@@ -451,7 +451,7 @@ export default ({
               open={feedbackModalOpen}
               onClose={hideFeedbackModal}
               onSubmit={submit}
-              uuid={submission?.uuid}
+              solution={solution}
             />
           )}
         </div>

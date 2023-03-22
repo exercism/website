@@ -445,12 +445,14 @@ export default ({
               </TasksContext.Provider>
             }
           />
-          <RealtimeFeedbackModal
-            open={feedbackModalOpen}
-            onClose={hideFeedbackModal}
-            onSubmit={submit}
-            uuid={submission?.uuid}
-          />
+          {feedbackModalOpen && (
+            <RealtimeFeedbackModal
+              open={feedbackModalOpen}
+              onClose={hideFeedbackModal}
+              onSubmit={submit}
+              uuid={submission?.uuid}
+            />
+          )}
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

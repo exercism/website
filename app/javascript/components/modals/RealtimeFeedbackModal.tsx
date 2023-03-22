@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { SubmitButton } from '../editor/SubmitButton'
 import { Modal } from './Modal'
-import { LatestIterationStatusChannel } from '@/channels/latestIterationStatusChannel'
-import { queryCache } from 'react-query'
-import { solution } from '../track/approaches-elements/mock-snippet'
+import { useQueryCache } from 'react-query'
+import { SolutionChannel } from '@/channels/solutionChannel'
 
 type RealtimeFeedbackModalProps = {
   open: boolean
@@ -17,16 +16,20 @@ export const RealtimeFeedbackModal = ({
   onSubmit,
   uuid,
 }: RealtimeFeedbackModalProps): JSX.Element => {
+  const queryCache = useQueryCache()
+  const CACHE_KEY = `nudge-${uuid}`
   useEffect(() => {
-    const channel = new LatestIterationStatusChannel(
-      'da74c6c0c1b04b6bbea7fbb1f9c52d63',
+    console.log('loggin something out')
+    const solutionChannel = new SolutionChannel(
+      { uuid: 'd3d4854eca2b4385b2a5025137f25e6d' },
       (response) => {
-        // queryCache.setQueryData(CACHE_KEY, response)
+        console.log('response', response)
+        queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
       }
     )
 
     return () => {
-      channel.disconnect()
+      solutionChannel.disconnect()
     }
   })
 

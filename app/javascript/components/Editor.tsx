@@ -82,6 +82,7 @@ export default ({
   panels,
   track,
   exercise,
+  solution,
   links,
   iteration,
   discussion,

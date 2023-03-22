@@ -45,6 +45,9 @@ module ReactComponents
             title: solution.exercise.title,
             slug: solution.exercise.slug
           },
+          solution: {
+            uuid: solution.uuid
+          },
           mentoring_requested: solution.mentoring_requested?,
           links: {
             run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),

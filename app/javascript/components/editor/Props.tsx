@@ -42,6 +42,10 @@ type Exercise = {
   slug: string
 }
 
+type Solution = {
+  uuid: string
+}
+
 type AutosaveConfig = {
   key: string
   saveInterval: number
@@ -75,6 +79,7 @@ export type Props = {
   track: Track
   exercise: Exercise
   iteration?: Iteration
+  solution: Solution
   discussion?: MentorDiscussion
   links: Links
   features?: EditorFeatures

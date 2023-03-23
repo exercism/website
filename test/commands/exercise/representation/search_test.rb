@@ -68,12 +68,18 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
   test "filter: with_feedback" do
     mentor = create :user
-    representation_1 = create :exercise_representation, feedback_author: nil, feedback_type: nil, num_submissions: 4
-    representation_2 = create :exercise_representation, feedback_author: mentor, feedback_type: :actionable, num_submissions: 3
-    representation_3 = create :exercise_representation, feedback_author: mentor, feedback_type: :essential, num_submissions: 2
+    other_mentor = create :user
+    representation_1 = create :exercise_representation, feedback_author: nil, feedback_type: nil, num_submissions: 5
+    representation_2 = create :exercise_representation, feedback_author: mentor, feedback_type: :actionable, num_submissions: 4
+    representation_3 = create :exercise_representation, feedback_author: mentor, feedback_type: :essential, num_submissions: 3
+    representation_4 = create :exercise_representation, feedback_author: other_mentor, feedback_type: :essential, num_submissions: 2
 
     assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor:)
+    assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor: nil)
+
     assert_equal [representation_2, representation_3], Exercise::Representation::Search.(with_feedback: true, mentor:)
+    assert_equal [representation_2, representation_3, representation_4],
+      Exercise::Representation::Search.(with_feedback: true, mentor: nil)
   end
 
   test "filter: mentor when status is :without_feedback returns representations for mentored tracks" do

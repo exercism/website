@@ -51,6 +51,10 @@ class ChallengesController < ApplicationController
     march_exercises = %w[linked-list simple-linked-list secret-handshake sieve binary-search pangram]
     valid_slugs += march_tracks.product(march_exercises)
 
+    april_tracks = %w[julia python r]
+    april_exercises = %w[etl largest-series-product saddle-points sum-of-multiples word-count]
+    valid_slugs += april_tracks.product(april_exercises)
+
     taken_exercises = []
     @badge_progress_exercises = current_user.solutions.where('YEAR(solutions.published_at) = 2023').published.
       joins(:track).pluck('tracks.slug', 'exercises.slug').

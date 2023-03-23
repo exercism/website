@@ -5,16 +5,16 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
-            Month 4 of #12in23
-          %h1.text-h1.mb-8 It's Analytical April! ✨
+            Month 3 of #12in23
+          %h1.text-h1.mb-8 It's Mechanical March! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that excel at analyzing data. We've got interviews with core language and community members (from Go, Rust and hopefully more!), lots of live streaming, exclusive swag and more.
+            This month for #12in23 we're exploring system languages - those that compile to machine code. We've got interviews with core language and community members (from Go, Rust and hopefully more!), lots of live streaming, exclusive swag and more.
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Analytical April overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Mechanical March overview video  👉
               %p.text-p-base.mb-8
-                Our introductory video gives a quick overview to the month, explores what we mean by analyzing data, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
+                Our introductory video gives a quick overview to the month, explores what we mean by systems languages, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
                 Take a watch and leave a comment!
 
@@ -25,12 +25,12 @@
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Analytical April badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the Mechanical March badge for completing and publishing 5 exercises in one of the following languages.
             Consider starting with a language with a syllabus (
             = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
             ).
 
-          - tracks = Track.where(slug: %w[julia python r])
+          - tracks = Track.where(slug: %w[c cpp d go nim rust vlang zig])
           .grid.grid-cols-8.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
@@ -41,28 +41,30 @@
                 .text-h6= track.title
 
           %p.text-p-large.mb-12
-            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in analytical languages:
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in systems languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/etl.svg", class: "w-[25px] inline"
-              %strong.font-semibold ETL:
-              Reshape data into a different format
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/linked-list.svg", class: "w-[25px] inline"
+              %strong.font-semibold Linked List*:
+              Practice allocating/freeing memory, and pointers
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/largest-series-product.svg", class: "w-[25px] inline"
-              %strong.font-semibold Largest Series Product:
-              Look for patterns in a string of digits
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/secret-handshake.svg", class: "w-[25px] inline"
+              %strong.font-semibold Secret Handshake:
+              Explore bitwise operators
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/saddle-points.svg", class: "w-[25px] inline"
-              %strong.font-semibold Saddle Points:
-              Work with multidimensional arrays
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/pangram.svg", class: "w-[25px] inline"
+              %strong.font-semibold Pangram:
+              Explore for loops, strings and characters
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/sum-of-multiples.svg", class: "w-[25px] inline"
-              %strong.font-semibold Sum Of Multiples:
-              Practice filtering and summation of a sequence of numbers
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/sieve.svg", class: "w-[25px] inline"
+              %strong.font-semibold Sieve:
+              Practice arrays and for loops
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/word-count.svg", class: "w-[25px] inline"
-              %strong.font-semibold Word Count:
-              Convert a string into words and count them
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/binary-search.svg", class: "w-[25px] inline"
+              %strong.font-semibold Binary Search:
+              A classic exercise for loops.
+
+          %p.text-p-base.italic * Some tracks have implemented "Simple Linked List" instead, which is also great to try.
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12
@@ -79,7 +81,7 @@
             %li.mb-4
               Help us compile the
               = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-systems-languages/4181"
-              for learning and mastering analytical languages in our dedicated forum thread.
+              for learning and mastering systems programming in our dedicated forum thread.
             %li.mb-4
               Join in the conversation by using the
               = link_to "#12in23 tag on our forums", "https://forum.exercism.org/tag/12in23"
@@ -87,9 +89,9 @@
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4
-              We have exclusive Analytical April swag that will only be available later in the month. Keep an eye on the
+              We have exclusive Mechanical March swag that will only be available later in the month. Keep an eye on the
               = link_to "swag store", "https://swag.exercism.org"
-              for details (and check our the Mechanical March swag before it goes too!)
+              for details (and check our the Functional February swag before it goes too!)
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
@@ -144,7 +146,7 @@
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
                 Published Exercises
-                .inline.text-14 (#{@badge_progress_exercises.size} / 15 so far)
+                .inline.text-14 (#{@badge_progress_exercises.size} / 10 so far)
               .grid.grid-cols-6.gap-12
                 - @badge_progress_exercises.each do |track_slug, exercise_slug|
                   = link_to track_exercise_path(track_slug, exercise_slug) do

@@ -28,6 +28,7 @@ export type AutomationProps = {
   selectedTab: SelectedTab
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
+  allRepresentationsWithFeedbackCount?: number
   trackCacheKey: string
   isIntroducerHidden: boolean
 }
@@ -38,6 +39,7 @@ export function Representations({
   links,
   representationsRequest,
   selectedTab,
+  allRepresentationsWithFeedbackCount,
   representationsWithoutFeedbackCount,
   representationsWithFeedbackCount,
   trackCacheKey,
@@ -66,6 +68,7 @@ export function Representations({
     criteria,
   } = useAutomation(
     representationsRequest,
+    allRepresentationsWithFeedbackCount,
     representationsWithFeedbackCount,
     representationsWithoutFeedbackCount,
     tracksRequest,
@@ -126,6 +129,11 @@ export function Representations({
             setStatus={() => null}
           >
             <a href={links.admin}>Admin</a>
+            {resolvedData ? (
+              <div className="count">
+                {feedbackCount['all_with_feedback']?.toLocaleString()}
+              </div>
+            ) : null}
           </StatusTab>
         </div>
         {!withFeedback && (

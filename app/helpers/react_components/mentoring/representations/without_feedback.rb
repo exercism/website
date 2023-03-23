@@ -13,6 +13,7 @@ module ReactComponents
               links:,
               sort_options: SORT_OPTIONS,
               representations_with_feedback_count:,
+              all_representations_with_feedback_count:,
               is_introducer_hidden:
             }
           )
@@ -47,6 +48,11 @@ module ReactComponents
 
         def representations_with_feedback_count
           Exercise::Representation::Search.(mentor:, with_feedback: true, sorted: false, paginated: false,
+            track: ::Track.where(slug: track_slugs)).count
+        end
+
+        def all_representations_with_feedback_count
+          Exercise::Representation::Search.(mentor: nil, with_feedback: true, sorted: false, paginated: false,
             track: ::Track.where(slug: track_slugs)).count
         end
 

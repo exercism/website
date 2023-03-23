@@ -50,6 +50,7 @@ type returnMentoringAutomation = {
   trackListError: unknown
   isTrackListFetching: boolean
   feedbackCount: {
+    all_with_feedback: number | undefined
     with_feedback: number | undefined
     without_feedback: number | undefined
   }
@@ -64,6 +65,7 @@ const initialTrackData: AutomationTrack = {
 
 export function useAutomation(
   representationsRequest: Request,
+  allRepresentationsWithFeedbackCount: number | undefined,
   representationsWithFeedbackCount: number | undefined,
   representationsWithoutFeedbackCount: number | undefined,
   tracksRequest: Request,
@@ -158,7 +160,6 @@ export function useAutomation(
     [request.query, setPage, setQuery]
   )
 
-  // TODO: Add admin count
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(
     (selectedTab: SelectedTab) => {
@@ -166,27 +167,32 @@ export function useAutomation(
         switch (selectedTab) {
           case 'with_feedback':
             return {
+              all_with_feedback: allRepresentationsWithFeedbackCount,
               with_feedback: resolvedData.meta.totalCount,
               without_feedback: representationsWithoutFeedbackCount,
             }
           case 'without_feedback':
             return {
+              all_with_feedback: allRepresentationsWithFeedbackCount,
               with_feedback: representationsWithFeedbackCount,
               without_feedback: resolvedData.meta.totalCount,
             }
           case 'admin':
             return {
+              all_with_feedback: resolvedData.meta.totalCount,
               with_feedback: representationsWithFeedbackCount,
               without_feedback: representationsWithoutFeedbackCount,
             }
         }
       } else
         return {
+          all_with_feedback: 0,
           with_feedback: 0,
           without_feedback: 0,
         }
     },
     [
+      allRepresentationsWithFeedbackCount,
       representationsWithFeedbackCount,
       representationsWithoutFeedbackCount,
       resolvedData,

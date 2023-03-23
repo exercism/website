@@ -118,10 +118,7 @@ export default ({
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
     testRunStatus !== TestRunStatus.PASS || !filesEqual(submissionFiles, files)
-  const isProcessing =
-    status === EditorStatus.CREATING_SUBMISSION ||
-    status === EditorStatus.CREATING_ITERATION ||
-    testRunStatus === TestRunStatus.QUEUED
+  const [isProcessing, setIsProcessing] = useState(false)
   const haveFilesChanged =
     submission === null ||
     !filesEqual(submissionFiles, files) ||
@@ -129,6 +126,16 @@ export default ({
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
   const cache = useQueryCache()
+
+  useEffect(() => {
+    if (
+      status === EditorStatus.CREATING_SUBMISSION ||
+      status === EditorStatus.CREATING_ITERATION ||
+      testRunStatus === TestRunStatus.QUEUED
+    )
+      setIsProcessing(true)
+    else setIsProcessing(false)
+  }, [status, testRunStatus])
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -173,6 +180,7 @@ export default ({
   }, [])
   const hideFeedbackModal = useCallback(() => {
     setFeedbackModalOpen(false)
+    setIsProcessing(false)
   }, [])
 
   const submit = useCallback(() => {

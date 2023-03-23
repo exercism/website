@@ -71,6 +71,6 @@ export const AutomatedFeedbackModal = ({
   )
 }
 
-const LoadingComponent = () => (
+const LoadingComponent = (): JSX.Element => (
   <Icon icon="spinner" alt="Loading automated feedback" />
 )

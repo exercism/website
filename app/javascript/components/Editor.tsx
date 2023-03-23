@@ -6,7 +6,6 @@ import React, {
   createContext,
 } from 'react'
 import { useQueryCache } from 'react-query'
-import { redirectTo } from '@/utils/redirect-to'
 import { getCacheKey } from '@/components/student'
 import type { File } from './types'
 import { type TabContext, SplitPane } from './common'
@@ -100,8 +99,9 @@ export default ({
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
-  const [feedbackModalOpen, setFeedbackModalOpen] = useState<boolean>(false)
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false)
   const [redirectLink, setRedirectLink] = useState('')
+  const [hasLatestIteration, setHasLatestIteration] = useState(false)
   const {
     create: createSubmission,
     current: submission,
@@ -144,6 +144,7 @@ export default ({
       onSuccess: () => {
         dispatch({ status: EditorStatus.INITIALIZED })
         setSubmissionFiles(files)
+        setHasLatestIteration(false)
       },
       onError: async (error) => {
         let editorError = null
@@ -192,19 +193,25 @@ export default ({
       throw 'Submission expected'
     }
 
-    dispatch({ status: EditorStatus.CREATING_ITERATION })
     showFeedbackModal()
-    createIteration(submission, {
-      onSuccess: async (iteration) => {
-        await cache.invalidateQueries([getCacheKey(track.slug, exercise.slug)])
-        setRedirectLink(iteration.links.solution)
-      },
-    })
+    if (!hasLatestIteration) {
+      dispatch({ status: EditorStatus.CREATING_ITERATION })
+      createIteration(submission, {
+        onSuccess: async (iteration) => {
+          await cache.invalidateQueries([
+            getCacheKey(track.slug, exercise.slug),
+          ])
+          setRedirectLink(iteration.links.solution)
+          setHasLatestIteration(true)
+        },
+      })
+    }
   }, [
     cache,
     createIteration,
     dispatch,
     exercise.slug,
+    hasLatestIteration,
     isSubmitDisabled,
     showFeedbackModal,
     submission,
@@ -457,18 +464,17 @@ export default ({
               </TasksContext.Provider>
             }
           />
-          {feedbackModalOpen && (
-            <RealtimeFeedbackModal
-              open={feedbackModalOpen}
-              onClose={hideFeedbackModal}
-              onSubmit={submit}
-              solution={solution}
-              track={track}
-              request={request}
-              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
-              redirectLink={redirectLink}
-            />
-          )}
+          <RealtimeFeedbackModal
+            open={feedbackModalOpen}
+            onClose={hideFeedbackModal}
+            onSubmit={submit}
+            solution={solution}
+            track={track}
+            request={request}
+            automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+            redirectLink={redirectLink}
+            submission={submission}
+          />
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

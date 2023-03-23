@@ -7,9 +7,9 @@ import { RepresenterFeedback } from '@/components/student/iterations-list/Repres
 import { Modal } from './Modal'
 import { Solution } from '../editor/Props'
 import { Iteration, IterationStatus, Track } from '../types'
-import { Loading } from '../common'
 import { redirectTo } from '@/utils/redirect-to'
 import { IterationsListRequest } from '../student/IterationsList'
+import { Submission } from '../editor/types'
 
 type RealtimeFeedbackModalProps = {
   open: boolean
@@ -20,7 +20,10 @@ type RealtimeFeedbackModalProps = {
   automatedFeedbackInfoLink: string
   request: IterationsListRequest
   redirectLink: string
+  submission: Submission | null
 }
+
+type ResolvedIteration = Iteration & { submissionUuid?: string }
 
 const REFETCH_INTERVAL = 2000
 
@@ -32,14 +35,16 @@ export const RealtimeFeedbackModal = ({
   request,
   automatedFeedbackInfoLink,
   redirectLink,
+  submission,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const [checkStatus, setCheckStatus] = useState('loading')
   const queryCache = useQueryCache()
   const CACHE_KEY = `editor-${solution.uuid}-feedback`
 
   const [queryEnabled, setQueryEnabled] = useState(true)
-  const { resolvedData, status } = usePaginatedRequestQuery<{
-    iterations: readonly Iteration[]
+  const [latestIteration, setLatestIteration] = useState<ResolvedIteration>()
+  const { resolvedData } = usePaginatedRequestQuery<{
+    iterations: ResolvedIteration[]
   }>(CACHE_KEY, {
     ...request,
     options: {
@@ -49,16 +54,25 @@ export const RealtimeFeedbackModal = ({
   })
 
   useEffect(() => {
-    if (resolvedData) {
-      setCheckStatus(status)
+    if (
+      resolvedData &&
+      submission?.uuid === resolvedData.iterations[0].submissionUuid
+    ) {
+      setLatestIteration(resolvedData.iterations[0])
+      setCheckStatus('success')
+    } else {
+      setCheckStatus('loading')
+      setLatestIteration(undefined)
     }
-  }, [resolvedData, status])
+  }, [resolvedData, submission])
+
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
       { uuid: solution.uuid },
       (response) => {
         const lastIteration =
           response.iterations[response.iterations.length - 1]
+        setLatestIteration(lastIteration)
         setCheckStatus(lastIteration.status)
 
         queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
@@ -69,9 +83,6 @@ export const RealtimeFeedbackModal = ({
       solutionChannel.disconnect()
     }
   }, [CACHE_KEY, queryCache, solution])
-
-  const latestIteration =
-    resolvedData?.iterations[resolvedData?.iterations.length - 1]
 
   useEffect(() => {
     if (!latestIteration) {
@@ -98,11 +109,7 @@ export const RealtimeFeedbackModal = ({
   function FeedbackContent() {
     switch (checkStatus) {
       case 'loading':
-        return (
-          <h3 className="text-h3">
-            Checking for automated feedback... <Loading />
-          </h3>
-        )
+        return <h3 className="text-h3">Checking for automated feedback...</h3>
       case 'no_automated_feedback':
         return (
           <h3 className="text-h3">

@@ -119,11 +119,21 @@ class ExerciseTest < ActiveSupport::TestCase
   end
 
   test "enqueues job to run head test runs when git_important_files_hash changes" do
-    exercise = create :practice_exercise
+    exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
 
     assert_enqueued_with(job: MandateJob, args: [Exercise::QueueSolutionHeadTestRuns.name, exercise]) do
       exercise.update!(git_important_files_hash: 'new-hash')
     end
+  end
+
+  test "does not enqueue job to run head test runs when git_important_files_hash changes but commit contains skip tests marker" do
+    exercise = create :practice_exercise, slug: 'satellite'
+
+    Exercise::QueueSolutionHeadTestRuns.expects(:defer).never
+    exercise.update!(git_important_files_hash: 'new-hash', git_sha: '535122df5b0ebf4feb54a9dbec00bec5900c562f')
+
+    Exercise::QueueSolutionHeadTestRuns.expects(:defer).once
+    exercise.update!(git_important_files_hash: 'new-hash', git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff')
   end
 
   test "does not enqueue job to run head test runs when git_important_files_hash does not change" do
@@ -162,5 +172,13 @@ class ExerciseTest < ActiveSupport::TestCase
 
     Track::UpdateNumExercises.expects(:call).with(track).never
     exercise.update(title: 'something')
+  end
+
+  test "skip test runs when commit contains magic marker" do
+    exercise = create :practice_exercise, slug: 'satellite', git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
+    refute exercise.skip_test_runs?
+
+    exercise.update!(git_sha: '535122df5b0ebf4feb54a9dbec00bec5900c562f')
+    assert exercise.skip_test_runs?
   end
 end

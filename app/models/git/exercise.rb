@@ -258,6 +258,9 @@ module Git
     memoize
     def articles = Git::Exercise::Articles.new(exercise_slug, exercise_type, git_sha, repo:)
 
+    memoize
+    def skip_test_runs? = commit.message.downcase.include?(SKIP_TEST_RUNS_MAGIC_MARKER)
+
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
@@ -285,5 +288,8 @@ module Git
 
     memoize
     def track = Track.new(repo:)
+
+    SKIP_TEST_RUNS_MAGIC_MARKER = "[skip tests]".freeze
+    private_constant :SKIP_TEST_RUNS_MAGIC_MARKER
   end
 end

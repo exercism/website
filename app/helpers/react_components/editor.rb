@@ -70,7 +70,6 @@ module ReactComponents
             iterations: solution.
               iterations.
               includes(:track, :exercise, :files, :submission).
-              order(id: :desc).
               map { |iteration| SerializeIteration.(iteration, sideload: %i[automated_feedback]) }
           },
           initial_data_updated_at: Time.current.to_i

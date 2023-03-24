@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 /**
  *
- * @param second Timeout goal in milliseconds
+ * @param second Timeout goal in seconds
  * @param callback Callback function
  * @returns [setShouldRestart, timer, timeoutReached]
  *
@@ -20,7 +20,7 @@ export function useTimeout(
   number,
   boolean
 ] {
-  const [timer, setTimer] = useState(0)
+  const [timer, setTimer] = useState(1)
   const [shouldRestart, setShouldRestart] = useState(false)
   const [timeoutReached, setTimeoutReached] = useState(false)
   const [startTimer, setStartTimer] = useState(false)
@@ -44,7 +44,7 @@ export function useTimeout(
 
   useEffect(() => {
     if (shouldRestart) {
-      setTimer(0)
+      setTimer(1)
       setTimeoutReached(false)
       setShouldRestart(false)
     }

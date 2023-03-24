@@ -29,6 +29,12 @@ type ResolvedIteration = Iteration & { submissionUuid?: string }
 
 const REFETCH_INTERVAL = 2000
 const BROADCAST_TIMEOUT_IN_SECONDS = 10
+const PENDING_STATUS = [
+  IterationStatus.DELETED,
+  IterationStatus.UNTESTED,
+  IterationStatus.TESTING,
+  IterationStatus.ANALYZING,
+]
 
 export const RealtimeFeedbackModal = ({
   open,
@@ -44,7 +50,7 @@ export const RealtimeFeedbackModal = ({
   const queryCache = useQueryCache()
   const CACHE_KEY = `editor-${solution.uuid}-feedback`
 
-  const [queryEnabled, setQueryEnabled] = useState(true)
+  const [queryEnabled, setQueryEnabled] = useState(false)
   const [latestIteration, setLatestIteration] = useState<ResolvedIteration>()
   const [itIsTakingTooLong, setItIsTakingTooLong] = useState(false)
   const { resolvedData } = usePaginatedRequestQuery<{
@@ -71,27 +77,25 @@ export const RealtimeFeedbackModal = ({
   }, [open, restartTimer, startTimer])
 
   useEffect(() => {
+    const lastIteration =
+      resolvedData?.iterations[resolvedData.iterations.length - 1]
     if (
-      resolvedData &&
-      submission?.uuid === resolvedData.iterations[0]?.submissionUuid
+      lastIteration &&
+      submission?.uuid === lastIteration?.submissionUuid &&
+      !PENDING_STATUS.includes(lastIteration.status)
     ) {
-      setLatestIteration(resolvedData.iterations[0])
-      setCheckStatus('success')
+      setLatestIteration(lastIteration)
+      setCheckStatus(lastIteration.status)
     } else {
       setCheckStatus('loading')
       setLatestIteration(undefined)
     }
-  }, [resolvedData, submission])
+  }, [latestIteration, resolvedData, submission])
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
       { uuid: solution.uuid },
       (response) => {
-        const lastIteration =
-          response.iterations[response.iterations.length - 1]
-        setLatestIteration(lastIteration)
-        setCheckStatus(lastIteration.status)
-
         queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
       }
     )
@@ -193,7 +197,7 @@ export const RealtimeFeedbackModal = ({
       shouldCloseOnOverlayClick
       ReactModalClassName="max-w-[40%]"
     >
-      {FeedbackContent()}
+      <FeedbackContent />
     </Modal>
   )
 }

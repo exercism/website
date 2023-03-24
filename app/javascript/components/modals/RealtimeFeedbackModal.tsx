@@ -5,7 +5,7 @@ import { SolutionChannel } from '@/channels/solutionChannel'
 import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
 import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
 import { Modal } from './Modal'
-import { Solution } from '../editor/Props'
+import { Props } from '../editor/Props'
 import { Iteration, IterationStatus, Track } from '../types'
 import { redirectTo } from '@/utils/redirect-to'
 import { IterationsListRequest } from '../student/IterationsList'
@@ -17,13 +17,13 @@ type RealtimeFeedbackModalProps = {
   open: boolean
   onClose: () => void
   onSubmit: () => void
-  solution: Solution
   track: Pick<Track, 'iconUrl' | 'title'>
   automatedFeedbackInfoLink: string
   request: IterationsListRequest
   redirectLink: string
   submission: Submission | null
-}
+  mentorDiscussionsLink: string
+} & Pick<Props, 'exercise' | 'solution'>
 
 type ResolvedIteration = Iteration & { submissionUuid?: string }
 
@@ -40,9 +40,11 @@ export const RealtimeFeedbackModal = ({
   open,
   onClose,
   solution,
+  exercise,
   track,
   request,
   automatedFeedbackInfoLink,
+  mentorDiscussionsLink,
   redirectLink,
   submission,
 }: RealtimeFeedbackModalProps): JSX.Element => {
@@ -144,11 +146,32 @@ export const RealtimeFeedbackModal = ({
             {itIsTakingTooLong && <TakingTooLong onClick={continueAnyway} />}
           </div>
         )
-      case 'no_automated_feedback':
+      case IterationStatus.UNTESTED:
+      case IterationStatus.NO_AUTOMATED_FEEDBACK:
         return (
-          <h3 className="text-h4">
-            There is no automated feedback for your solution
-          </h3>
+          <div className="flex flex-col items-center py-24">
+            <h3 className="text-18 leading-regular font-semibold text-textColor1 mb-12 text-center ">
+              There is no automated feedback for this exercise
+            </h3>
+            <GraphicalIcon
+              height={120}
+              width={120}
+              className="mb-16"
+              icon="mentoring"
+              category="graphics"
+            />
+            <p className="text-16 mb-24 leading-huge text-center ">
+              However, we recommend requesting a code review from one of our
+              mentors for the {exercise.title} exercise to help improve your{' '}
+              {track.title} skills.
+            </p>
+            <div className="flex gap-16">
+              <a href={mentorDiscussionsLink} className="btn-secondary btn-s">
+                Submit for a code review
+              </a>
+              <ContinueAnyway onClick={continueAnyway} />
+            </div>
+          </div>
         )
       default:
         return (
@@ -180,8 +203,8 @@ export const RealtimeFeedbackModal = ({
               />
             ) : null}
             <div className="flex gap-16 mt-16">
-              <ContinueAnyway onClick={continueAnyway} />
               <GoBackToExercise onClick={onClose} />
+              <ContinueAnyway onClick={continueAnyway} />
             </div>
           </div>
         )

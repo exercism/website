@@ -474,6 +474,8 @@ export default ({
             automatedFeedbackInfoLink={links.automatedFeedbackInfo}
             redirectLink={redirectLink}
             submission={submission}
+            exercise={exercise}
+            mentorDiscussionsLink={links.mentorDiscussions}
           />
         </div>
       </TabsContext.Provider>

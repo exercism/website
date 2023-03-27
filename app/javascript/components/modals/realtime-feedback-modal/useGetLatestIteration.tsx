@@ -37,7 +37,7 @@ export function useGetLatestIteration({
   }>(CACHE_KEY, {
     ...request,
     options: {
-      ...request.options,
+      ...request?.options,
       refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
     },
   })

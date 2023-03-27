@@ -4,21 +4,21 @@ import { useEffect, useState } from 'react'
  *
  * @param second Timeout goal in seconds
  * @param callback Callback function
- * @returns [setShouldRestart, timer, timeoutReached]
+ * @returns [setStartTimer, setShouldRestart, timer, timeoutReached]
  *
  * - setStartTimer: A setter that starts the timer if set to `true`
  * - setShouldRestart: A setter that resets the timer if set to `true`
- * - timer: current state of the timer in second
  * - timeoutReached: a boolean if timer reaches the goal
+ * - timer: current state of the timer in second
  */
 export function useTimeout(
   second: number,
-  callback: () => void
+  callback?: () => void
 ): [
   React.Dispatch<React.SetStateAction<boolean>>,
   React.Dispatch<React.SetStateAction<boolean>>,
-  number,
-  boolean
+  boolean,
+  number
 ] {
   const [timer, setTimer] = useState(1)
   const [shouldRestart, setShouldRestart] = useState(false)
@@ -34,7 +34,7 @@ export function useTimeout(
       }, 1000)
     }
 
-    if (timeoutReached) {
+    if (timeoutReached && callback) {
       callback()
     }
 
@@ -56,5 +56,5 @@ export function useTimeout(
     }
   }, [second, timer])
 
-  return [setStartTimer, setShouldRestart, timer, timeoutReached]
+  return [setStartTimer, setShouldRestart, timeoutReached, timer]
 }

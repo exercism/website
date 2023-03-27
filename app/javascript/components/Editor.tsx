@@ -472,7 +472,7 @@ export default ({
             track={track}
             request={request}
             automatedFeedbackInfoLink={links.automatedFeedbackInfo}
-            redirectLink={redirectLink}
+            redirectToExerciseLink={redirectLink}
             submission={submission}
             exercise={exercise}
             mentorDiscussionsLink={links.mentorDiscussions}

@@ -5,24 +5,26 @@ import { AnalysisStatusSummary } from '@/components/track/iteration-summary/Anal
 import { GoBackToExercise, ContinueButton } from './FeedbackContentButtons'
 import { FeedbackContentProps } from '../FeedbackContent'
 
+const HEADLINE = [
+  "We've found some automated feedback",
+  "We've found a celebratory automated feedback! 🎉",
+]
+
 export function FoundAutomatedFeedback({
   latestIteration,
   track,
   automatedFeedbackInfoLink,
   onClose,
-  continueAnyway,
+  onContinue,
+  celebratory = false,
 }: Pick<
   FeedbackContentProps,
-  | 'latestIteration'
-  | 'track'
-  | 'automatedFeedbackInfoLink'
-  | 'onClose'
-  | 'continueAnyway'
->): JSX.Element {
+  'latestIteration' | 'track' | 'automatedFeedbackInfoLink' | 'onClose'
+> & { onContinue: () => void; celebratory?: boolean }): JSX.Element {
   return (
     <div className="flex-col items-left">
       <div className="text-h4 mb-16 flex c-iteration-summary">
-        We&apos;ve found some automated feedback
+        {HEADLINE[+celebratory]}
         {latestIteration ? (
           <AnalysisStatusSummary
             numEssentialAutomatedComments={
@@ -48,8 +50,8 @@ export function FoundAutomatedFeedback({
         />
       ) : null}
       <div className="flex gap-16 mt-16">
-        <GoBackToExercise onClick={onClose} />
-        <ContinueButton anyway onClick={continueAnyway} />
+        {!celebratory && <GoBackToExercise onClick={onClose} />}
+        <ContinueButton anyway={!celebratory} onClick={onContinue} />
       </div>
     </div>
   )

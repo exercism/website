@@ -54,13 +54,24 @@ export function FeedbackContent({
           track={track}
         />
       )
+    case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+      return (
+        <FoundAutomatedFeedback
+          celebratory
+          track={track}
+          automatedFeedbackInfoLink={automatedFeedbackInfoLink}
+          onClose={onClose}
+          onContinue={continueAnyway}
+          latestIteration={latestIteration}
+        />
+      )
     default:
       return (
         <FoundAutomatedFeedback
           track={track}
           automatedFeedbackInfoLink={automatedFeedbackInfoLink}
           onClose={onClose}
-          continueAnyway={continueAnyway}
+          onContinue={continueAnyway}
           latestIteration={latestIteration}
         />
       )

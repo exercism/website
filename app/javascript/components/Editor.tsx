@@ -444,7 +444,7 @@ export default ({
                   timeout={timeout}
                   onUpdate={updateSubmission}
                   onRunTests={runTests}
-                  onSubmit={showFeedbackModal}
+                  onSubmit={submit}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
                   {...panels.results}

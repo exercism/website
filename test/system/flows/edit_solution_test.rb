@@ -10,7 +10,7 @@ module Components
       include CodeMirrorHelpers
       include RedirectHelpers
 
-      test "user submits code" do
+      test "user submits code on broadcast timeout" do
         use_capybara_host do
           user = create :user
           create :user_auth_token, user: user
@@ -34,6 +34,8 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".lhs-footer") { click_on "Submit" }
 
+          sleep(10)
+          click_on "Continue"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -63,6 +65,8 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           within(".success-box") { click_on "Submit" }
 
+          sleep(10)
+          click_on "Continue"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -88,6 +92,8 @@ module Components
           visit edit_track_exercise_path(solution.track, solution.exercise)
           within(".lhs-footer") { click_on "Submit" }
 
+          sleep(10)
+          click_on "Continue"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -119,6 +125,8 @@ module Components
           visit edit_track_exercise_path(solution.track, solution.exercise)
           within(".lhs-footer") { click_on "Submit" }
 
+          sleep(10)
+          click_on "Continue"
           wait_for_redirect
           assert_text "Iteration 1"
         end

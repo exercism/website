@@ -38,4 +38,16 @@ class User::LinkWithDiscordTest < ActiveSupport::TestCase
     assert_nil old_user.reload.discord_uid
     assert_equal uid, new_user.reload.discord_uid
   end
+
+  test "awards chatterbox badge" do
+    uid = '111'
+    auth = stub(uid:)
+    user = create :user, discord_uid: nil
+
+    perform_enqueued_jobs do
+      User::LinkWithDiscord.(user, auth)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::ChatterboxBadge
+  end
 end

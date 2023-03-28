@@ -126,16 +126,6 @@ class ExerciseTest < ActiveSupport::TestCase
     end
   end
 
-  test "does not enqueue job to run head test runs when git_important_files_hash changes but commit contains skip tests marker" do
-    exercise = create :practice_exercise, slug: 'satellite'
-
-    Exercise::QueueSolutionHeadTestRuns.expects(:defer).never
-    exercise.update!(git_important_files_hash: 'new-hash', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54')
-
-    Exercise::QueueSolutionHeadTestRuns.expects(:defer).once
-    exercise.update!(git_important_files_hash: 'new-hash', git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff')
-  end
-
   test "does not enqueue job to run head test runs when git_important_files_hash does not change" do
     exercise = create :practice_exercise
 

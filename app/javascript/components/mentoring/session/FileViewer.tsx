@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { File } from '../../types'
 import { useHighlighting } from '../../../utils/highlight'
-import { useLogger } from '@/hooks'
 
 export const FileViewer = ({
   language,

@@ -3,7 +3,7 @@ module Badges
     seed "Discourser",
       :common,
       'discourser',
-      'Linked your Exercism account to the Forum'
+      "Joined Exercism's forum"
 
     def award_to?(user) = has_discourse_account?(user)
 

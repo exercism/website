@@ -96,7 +96,7 @@ class Exercise < ApplicationRecord
   after_update_commit do
     if saved_changes.include?(:git_important_files_hash)
       Exercise::MarkSolutionsAsOutOfDateInIndex.defer(self)
-      Exercise::QueueSolutionHeadTestRuns.defer(self) unless skip_test_runs?
+      Exercise::QueueSolutionHeadTestRuns.defer(self)
     end
   end
 

@@ -6,6 +6,8 @@ class Exercise::QueueSolutionHeadTestRuns
   initialize_with :exercise
 
   def call
+    return if exercise.skip_test_runs?
+
     exercise.solutions.published.find_each do |solution|
       # This is n+2 hell.
       Solution::QueueHeadTestRun.(solution)

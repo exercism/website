@@ -6,7 +6,7 @@ class Badge::ChatterboxBadgeTest < ActiveSupport::TestCase
     assert_equal "Chatterbox", badge.name
     assert_equal :common, badge.rarity
     assert_equal :chatterbox, badge.icon
-    assert_equal "Linked your Exercism account to Discord", badge.description
+    assert_equal "Joined Exercism's Discord server", badge.description
     refute badge.send_email_on_acquisition?
   end
 

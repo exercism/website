@@ -3,7 +3,7 @@ module Badges
     seed "Chatterbox",
       :common,
       :chatterbox,
-      "Linked your Exercism account to Discord"
+      "Joined Exercism's Discord server"
 
     def award_to?(user) = user.discord_uid.present?
 

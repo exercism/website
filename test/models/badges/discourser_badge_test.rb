@@ -7,7 +7,7 @@ class Badges::DiscourserBadgeTest < ActiveSupport::TestCase
     assert_equal :common, badge.rarity
     assert_equal :discourser, badge.icon
     assert_equal 'Linked your Exercism account to the Forum', badge.description
-    refute badge.send_email_on_acquisition?
+    assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end
 

@@ -7,7 +7,7 @@ module Badges
 
     def award_to?(user) = has_discourse_account?(user)
 
-    def send_email_on_acquisition? = false
+    def send_email_on_acquisition? = true
 
     private
     def has_discourse_account?(user)

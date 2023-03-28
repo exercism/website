@@ -289,7 +289,7 @@ module Git
     memoize
     def track = Track.new(repo:)
 
-    SKIP_TEST_RUNS_MAGIC_MARKER = "[skip tests]".freeze
+    SKIP_TEST_RUNS_MAGIC_MARKER = "[no important files changed]".freeze
     private_constant :SKIP_TEST_RUNS_MAGIC_MARKER
   end
 end

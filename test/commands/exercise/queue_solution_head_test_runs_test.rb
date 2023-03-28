@@ -24,7 +24,7 @@ class Exercise::QueueSolutionHeadTestRunsTest < ActiveSupport::TestCase
   end
 
   test "does not queue solutions when exercise's synced commit contains magic marker" do
-    exercise = create :practice_exercise, slug: 'satellite', git_sha: '535122df5b0ebf4feb54a9dbec00bec5900c562f'
+    exercise = create :practice_exercise, slug: 'satellite', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
     solution_1 = create :practice_solution, :published, exercise: exercise
     solution_2 = create :practice_solution, :published, exercise: exercise
 

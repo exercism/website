@@ -6,6 +6,7 @@ class User::LinkWithDiscord
   def call
     set_uid!
     User::SetDiscordRoles.defer(user)
+    AwardBadgeJob.perform_later(user, :chatterbox)
   end
 
   private

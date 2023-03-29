@@ -67,7 +67,7 @@ class Submission::TestRun < ApplicationRecord
 
     def to_h
       {
-        name: test[:name],
+        name: test[:name].to_s,
         status: test[:status].try(&:to_sym),
         test_code: test[:test_code],
         message: test[:message],

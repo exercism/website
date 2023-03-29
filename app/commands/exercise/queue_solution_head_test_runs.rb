@@ -6,7 +6,7 @@ class Exercise::QueueSolutionHeadTestRuns
   initialize_with :exercise
 
   def call
-    return if exercise.skip_test_runs?
+    return if exercise.git_no_important_files_changed?
 
     exercise.solutions.published.find_each do |solution|
       # This is n+2 hell.

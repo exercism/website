@@ -283,9 +283,9 @@
             @apply shadow-xsZ1 z-shadow;
 
             & .tabs {
-                @apply scroll-x-hidden;
                 @apply flex flex-shrink-0 flex-grow-0;
                 @apply py-16 px-24;
+                @apply scroll-x-hidden;
 
                 & .c-tab {
                     height: 36px;

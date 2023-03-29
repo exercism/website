@@ -80,8 +80,8 @@ class Exercise < ApplicationRecord
 
   delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
     :approaches_introduction, :approaches_introduction_last_modified_at, :approaches_introduction_exists?,
-    :approaches_introduction_edit_url, :skip_test_runs?, to: :git
-  delegate :dir, to: :git, prefix: true
+    :approaches_introduction_edit_url, to: :git
+  delegate :dir, :no_important_files_changed?, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
   before_create do

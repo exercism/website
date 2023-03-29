@@ -120,6 +120,22 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal test_as_hash, result.as_json(1, 2, 3) # Test with arbitary args
   end
 
+  test "test_results - name is stringified" do
+    name = { foo: 'bar' }
+    tests = [{ 'name' => name }]
+
+    tr = create :submission_test_run, raw_results: {
+      version: 2,
+      status: 'pass',
+      tests:
+    }
+    result = tr.test_results.first
+
+    test_as_hash = { name: name.to_s }
+
+    assert_equal test_as_hash, result.to_h
+  end
+
   test "test_results - version 3" do
     name = "some name"
     status = "some status"

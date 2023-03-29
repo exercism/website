@@ -19,7 +19,7 @@ class User::ResetAccount
       became_mentor_at: nil
     )
 
-    User::UpdateRoles.(user, [])
+    User::RemoveRoles.(user, user.roles)
   end
 
   def reset_tracks!

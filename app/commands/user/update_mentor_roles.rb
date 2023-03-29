@@ -5,10 +5,10 @@ class User::UpdateMentorRoles
 
   def call
     if Mentor::Supermentor.eligible?(user)
-      User::UpdateRoles.(user, user.roles.add(Mentor::Supermentor::ROLE))
+      User::AddRoles.(user, [Mentor::Supermentor::ROLE])
       AwardBadgeJob.perform_later(user, :supermentor)
     else
-      User::UpdateRoles.(user, user.roles.delete(Mentor::Supermentor::ROLE))
+      User::RemoveRoles.(user, [Mentor::Supermentor::ROLE])
     end
   end
 end

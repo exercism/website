@@ -20,7 +20,6 @@ class AssembleExerciseRepresentationsAdmin
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor: nil,
       track:,
       with_feedback: true,
       criteria: params[:criteria],

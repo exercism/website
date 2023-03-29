@@ -2,41 +2,41 @@ require "test_helper"
 
 class AssembleStreamingEventsTest < ActiveSupport::TestCase
   test "returns maximum of 20 elements" do
-    create_list(:streaming_event, 25, :random, starts_at: Time.current - 3.hours, ends_at: Time.current + 3.hours)
+    create_list(:streaming_event, 25)
     actual = AssembleStreamingEvents.({})
     assert_equal 20, actual[:results].size
   end
 
   test "results are sorted by start date" do
-    event_1 = create :streaming_event, :random, starts_at: Time.current - 3.hours, ends_at: Time.current + 3.hours
-    event_2 = create :streaming_event, :random, starts_at: Time.current - 2.hours, ends_at: Time.current + 2.hours
-    event_3 = create :streaming_event, :random, starts_at: Time.current - 4.hours, ends_at: Time.current + 4.hours
+    event_1 = create :streaming_event, starts_at: Time.current + 3.hours
+    event_2 = create :streaming_event, starts_at: Time.current + 2.hours
+    event_3 = create :streaming_event, starts_at: Time.current + 4.hours
 
     actual = AssembleStreamingEvents.({})
-    assert_equal [event_3.title, event_1.title, event_2.title], actual[:results].pluck(:title)
+    assert_equal [event_2.title, event_1.title, event_3.title], actual[:results].pluck(:title)
   end
 
-  test "return live events by default" do
-    event_1 = create :streaming_event, :random, starts_at: Time.current - 3.hours, ends_at: Time.current + 3.hours
-    event_2 = create :streaming_event, :random, starts_at: Time.current - 2.hours, ends_at: Time.current + 2.hours
-    create :streaming_event, :random, starts_at: Time.current + 4.hours, ends_at: Time.current + 5.hours
+  test "return scheduled events by default" do
+    create :streaming_event, :past
+    create :streaming_event, :live
+    scheduled = create :streaming_event
 
     actual = AssembleStreamingEvents.({})
-    assert_equal [event_1.title, event_2.title], actual[:results].pluck(:title)
+    assert_equal [scheduled.title], actual[:results].pluck(:title)
   end
 
-  test "return scheduled events" do
-    create :streaming_event, :random, starts_at: Time.current - 3.hours, ends_at: Time.current + 3.hours
-    create :streaming_event, :random, starts_at: Time.current - 2.hours, ends_at: Time.current + 2.hours
-    event_3 = create :streaming_event, :random, starts_at: Time.current + 4.hours, ends_at: Time.current + 5.hours
+  test "return live events" do
+    create :streaming_event, :past
+    live = create :streaming_event, :live
+    create :streaming_event
 
-    actual = AssembleStreamingEvents.({ scheduled: true })
-    assert_equal [event_3.title], actual[:results].pluck(:title)
+    actual = AssembleStreamingEvents.({ live: true })
+    assert_equal [live.title], actual[:results].pluck(:title)
   end
 
   test "results are serialized correctly" do
     freeze_time do
-      event = create :streaming_event, :random, starts_at: Time.current - 2.hours, ends_at: Time.current + 3.hours
+      event = create :streaming_event
 
       actual = AssembleStreamingEvents.({})
       expected = {

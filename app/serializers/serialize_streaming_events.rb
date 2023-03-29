@@ -16,7 +16,7 @@ class SerializeStreamingEvents
         description: event.description,
         starts_at: event.starts_at,
         ends_at: event.ends_at,
-        featured: event.featured,
+        featured: event.featured?,
         thumbnail_url: event.thumbnail_url,
         links: {
           watch: event.youtube_external_url,

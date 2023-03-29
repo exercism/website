@@ -1,9 +1,8 @@
 class StreamingEvent < ApplicationRecord
-  scope :live, -> { where('starts_at <= NOW() AND ends_at >= NOW()') }
-  scope :scheduled, -> { where('starts_at > NOW()') }
+  scope :live, -> { where('starts_at <= ? AND ends_at >= ?', Time.current, Time.current) }
+  scope :scheduled, -> { where('starts_at > ?', Time.current) }
   scope :featured, -> { where(featured: true) }
 
-  def self.current_live = live.first
   def self.next_featured = scheduled.featured.order(:starts_at).first
   def self.next_5 = scheduled.order(:starts_at).first(5)
 

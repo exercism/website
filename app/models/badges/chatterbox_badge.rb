@@ -7,6 +7,6 @@ module Badges
 
     def award_to?(user) = user.discord_uid.present?
 
-    def send_email_on_acquisition? = true
+    def send_email_on_acquisition? = false
   end
 end

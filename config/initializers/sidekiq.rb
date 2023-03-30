@@ -8,6 +8,8 @@ Sidekiq.configure_server do |config|
     Sidekiq.schedule = YAML.load_file(Rails.root.join('config', 'sidekiq-schedule.yml'))
     SidekiqScheduler::Scheduler.instance.reload_schedule!
   end
+
+  config.logger.level = Logger::WARN
 end
 
 Sidekiq.configure_client do |config|

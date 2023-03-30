@@ -226,17 +226,19 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
     representations = Array.new(25) do |idx|
       create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track: track
     end
 
-    get without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
+    params = { track_slug: track.slug }
+
+    get without_feedback_api_mentoring_representations_path, params:, headers: @headers, as: :json
     assert_response :ok
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
-      serializer_kwargs: { params: {} },
+      serializer_kwargs: { params: },
       meta: {
         # TODO: enable when performance is fixed
         unscoped_total: 0
@@ -268,22 +270,25 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   # with_feedback #
   #################
   test "with_feedback retrieves representations" do
+    track = create :track
     user = create :user, :supermentor
     setup_user(user)
 
     representations = Array.new(25) do |idx|
       create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track: track
     end
 
-    get with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
+    params = { track_slug: track.slug }
+
+    get with_feedback_api_mentoring_representations_path, params:, headers: @headers, as: :json
     assert_response :ok
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
       paginated_representations,
       serializer: SerializeExerciseRepresentations,
-      serializer_kwargs: { params: {} },
+      serializer_kwargs: { params: },
       meta: {
         unscoped_total: 25
       }

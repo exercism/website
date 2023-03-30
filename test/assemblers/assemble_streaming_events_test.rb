@@ -50,7 +50,7 @@ class AssembleStreamingEventsTest < ActiveSupport::TestCase
             featured: false,
             thumbnail_url: event.thumbnail_url,
             links: { watch: event.youtube_external_url,
-                     embed: event.youtube_embed_url } 
+                     embed: event.youtube_embed_url }
           }
         ],
         meta: { current_page: 1, total_count: 1, total_pages: 1 }

@@ -36,7 +36,7 @@ class Exercise::Representation::Search
   def filter_track!
     if track.blank?
       # Force no records being returned when no track was specified
-      @representations = @representations.where('false')
+      @representations = @representations.none
       return
     end
 

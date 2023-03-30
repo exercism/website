@@ -165,6 +165,43 @@ module Components
         end
       end
 
+      test "feedback modal shows there is no feedback suggests code review then visits mentoring link" do
+        use_capybara_host do
+          user_track = create :user_track
+          solution = create :concept_solution, user: user_track.user, track: user_track.track
+          submission = create :submission, solution: solution,
+            tests_status: :passed,
+            representation_status: :queued,
+            analysis_status: :queued
+
+          sign_in!(user_track.user)
+          visit edit_track_exercise_path(solution.track, solution.exercise)
+          test_run = create :submission_test_run,
+            submission: Submission.last,
+            ops_status: 200,
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
+
+          assert_button "Submit", disabled: false
+
+          visit edit_track_exercise_path(solution.track, solution.exercise)
+          within(".lhs-footer") { click_on "Submit" }
+          assert_text "Checking for automated feedback"
+          sleep(1)
+          submission.update!(representation_status: :generated, analysis_status: :completed)
+          solution.reload
+          Submission::TestRunsChannel.broadcast!(test_run)
+          SolutionChannel.broadcast!(solution)
+          refute_text "Checking for automated feedback"
+          assert_text "There is no automated feedback for this exercise"
+          assert_text "we recommend requesting a code review"
+          click_on "Submit for a code review"
+          assert_text "Take your solution to the next level"
+        end
+      end
+
       test "feedback modal shows celebratory feedback" do
         use_capybara_host do
           user_track = create :user_track

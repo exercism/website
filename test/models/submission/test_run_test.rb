@@ -129,11 +129,8 @@ class Submission::TestRunTest < ActiveSupport::TestCase
       status: 'pass',
       tests:
     }
-    result = tr.test_results.first
-
-    test_as_hash = { name: name.to_s }
-
-    assert_equal test_as_hash, result.to_h
+    expected = JSON.parse(JSON.generate(name)).to_s
+    assert_equal expected, tr.test_results.first.to_h[:name]
   end
 
   test "test_results - version 3" do

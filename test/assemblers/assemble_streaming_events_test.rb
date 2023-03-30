@@ -41,14 +41,17 @@ class AssembleStreamingEventsTest < ActiveSupport::TestCase
       actual = AssembleStreamingEvents.({})
       expected = {
         results: [
-          { title: event.title,
+          {
+            id: event.id,
+            title: event.title,
             description: event.description,
             starts_at: event.starts_at,
             ends_at: event.ends_at,
             featured: false,
             thumbnail_url: event.thumbnail_url,
             links: { watch: event.youtube_external_url,
-                     embed: event.youtube_embed_url } }
+                     embed: event.youtube_embed_url } 
+          }
         ],
         meta: { current_page: 1, total_count: 1, total_pages: 1 }
       }

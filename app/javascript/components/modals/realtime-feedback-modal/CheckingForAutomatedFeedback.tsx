@@ -19,22 +19,22 @@ function CheckingForFeedback({
         />
         Checking for automated feedback...{' '}
       </div>
-      {showTakingTooLong && <TakingTooLong onClick={onClick} />}
+      {showTakingTooLong && <TakingTooLong />}
+      <button onClick={onClick} className="btn-primary btn-s mr-auto">
+        Continue anyway
+      </button>
     </div>
   )
 }
 
-function TakingTooLong({ onClick }: { onClick: () => void }): JSX.Element {
+function TakingTooLong(): JSX.Element {
   return (
     <div>
-      <p className="mb-16 text-p-base">
+      <p className="text-p-base">
         Sorry, this is taking a little long.
         <br />
         We&apos;ll continue generating feedback in the background.
       </p>
-      <button onClick={onClick} className="btn-primary btn-s">
-        Continue
-      </button>
     </div>
   )
 }

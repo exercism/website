@@ -4,7 +4,7 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  initialize_with with_feedback: Mandate::NO_DEFAULT, mentor: nil, criteria: nil, track: nil,
+  initialize_with with_feedback: Mandate::NO_DEFAULT, mentor: nil, criteria: nil, track: Mandate::NO_DEFAULT,
     order: :most_submissions, page: 1, paginated: true, sorted: true, only_mentored_solutions: false do
     @order = order.try(&:to_sym)
   end

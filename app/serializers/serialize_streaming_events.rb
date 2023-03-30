@@ -12,6 +12,7 @@ class SerializeStreamingEvents
 
     def call
       {
+        id: event.id,
         title: event.title,
         description: event.description,
         starts_at: event.starts_at,

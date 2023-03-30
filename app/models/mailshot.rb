@@ -15,8 +15,6 @@ class Mailshot < ApplicationRecord
     send("audience_for_#{type}", slug)
   end
 
-  # rubocop:disable Lint/NonLocalExitFromIterator
-
   # This is pretty terribly slow and should only be used rarely.
   def audience_for_admins(_)
     [
@@ -39,6 +37,17 @@ class Mailshot < ApplicationRecord
     ]
   end
 
+  def audience_for_recently_active(days)
+    [
+      User.where('last_visited_on >= ?', Time.current - days.days),
+      lambda do |user|
+        return unless user.iterations.count >= 2
+
+        user
+      end
+    ]
+  end
+
   def audience_for_track(slug)
     [
       UserTrack.where(track: Track.find_by!(slug:)).includes(:user),
@@ -56,6 +65,4 @@ class Mailshot < ApplicationRecord
       ->(uc) { uc.user }
     ]
   end
-
-  # rubocop:enable Lint/NonLocalExitFromIterator
 end

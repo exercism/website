@@ -31,5 +31,5 @@ class AssembleExerciseRepresentationsWithoutFeedback
     )
   end
 
-  def track = Track.find(params[:track_slug])
+  def track = Track.find_by(slug: params[:track_slug])
 end

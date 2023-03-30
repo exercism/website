@@ -34,7 +34,11 @@ class Exercise::Representation::Search
   end
 
   def filter_track!
-    return if track.blank?
+    if track.blank?
+      # Force no records being returned when no track was specified
+      @representations = @representations.where('false')
+      return
+    end
 
     # If we're filtering on exercises, we'll apply the track filter on the exercises
     # and not on the representations, as the latter kills MySQL performance

@@ -92,7 +92,7 @@ class Track::DetermineConceptMapLayout
     end
 
     memoize
-    delegate :empty?, to: :nodes
+    def empty? = nodes.empty? # rubocop:disable Rails/Delegate
 
     memoize
     def has_cycle?

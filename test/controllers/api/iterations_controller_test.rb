@@ -3,11 +3,70 @@ require_relative './base_test_case'
 class API::IterationsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_solution_iterations_path, args: 1, method: :post
   guard_incorrect_token! :api_solution_iteration_path, args: 2, method: :delete
+  guard_incorrect_token! :latest_api_solution_iterations_path, args: 1
   guard_incorrect_token! :latest_status_api_solution_iterations_path, args: 1
   guard_incorrect_token! :automated_feedback_api_solution_iteration_path, args: 2
 
   ###
-  # latst_status
+  # latest
+  ###
+  test "latest should 404 if the solution doesn't exist" do
+    setup_user
+    get latest_api_solution_iterations_path(999), headers: @headers, as: :json
+    assert_response :not_found
+  end
+
+  test "latest should 404 if no iteration exist" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :not_found
+  end
+
+  test "latest should 403 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :forbidden
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest should return latest iteration" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :iteration, solution: solution
+    it_2 = create :iteration, solution: solution
+
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :ok
+
+    expected = { iteration: SerializeIteration.(it_2) }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest should return latest iteration even if it was deleted" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :iteration, solution: solution
+    it_2 = create :iteration, solution: solution, deleted_at: Time.current
+
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :ok
+
+    expected = { iteration: SerializeIteration.(it_2) }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  ###
+  # latest_status
   ###
   test "latest_status should 404 if the solution doesn't exist" do
     setup_user

@@ -22,7 +22,7 @@ module API
           authors: @exercise.authors.includes(:profile).map { |author| mapper.(author) },
           contributors: @exercise.contributors.includes(:profile).map { |contributor| mapper.(contributor) },
           links: {
-            github: "https://github.com/exercism/#{@track.slug}/commits/main/exercises/#{@exercise.git_type}/#{@exercise.slug}" # rubocop:disable Layout/LineLength
+            github: "https://github.com/exercism/#{@track.slug}/commits/main/exercises/#{@exercise.git_type}/#{@exercise.slug}"
           }
         }
       end

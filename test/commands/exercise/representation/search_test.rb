@@ -4,10 +4,10 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
   test "by default it returns feedback with > 1 submission" do
     track = create :track
     mentor = create :user
-    representation_1 = create :exercise_representation, num_submissions: 3, track: track
-    representation_2 = create :exercise_representation, num_submissions: 2, track: track
-    create :exercise_representation, num_submissions: 1, track: track
-    create :exercise_representation, num_submissions: 0, track: track
+    representation_1 = create(:exercise_representation, num_submissions: 3, track:)
+    representation_2 = create(:exercise_representation, num_submissions: 2, track:)
+    create(:exercise_representation, num_submissions: 1, track:)
+    create(:exercise_representation, num_submissions: 0, track:)
 
     assert_equal [representation_1, representation_2], Exercise::Representation::Search.(with_feedback: false, mentor:, track:)
   end
@@ -18,9 +18,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     exercise_1 = create :practice_exercise, slug: 'anagram', title: 'Annie'
     exercise_2 = create :practice_exercise, slug: 'isogram', title: 'Isogram'
     exercise_3 = create :practice_exercise, slug: 'leap', title: 'Frog'
-    representation_1 = create :exercise_representation, exercise: exercise_1, num_submissions: 4, track: track
-    representation_2 = create :exercise_representation, exercise: exercise_2, num_submissions: 3, track: track
-    representation_3 = create :exercise_representation, exercise: exercise_3, num_submissions: 2, track: track
+    representation_1 = create(:exercise_representation, exercise: exercise_1, num_submissions: 4, track:)
+    representation_2 = create(:exercise_representation, exercise: exercise_2, num_submissions: 3, track:)
+    representation_3 = create(:exercise_representation, exercise: exercise_3, num_submissions: 2, track:)
 
     assert_equal [representation_1, representation_2],
       Exercise::Representation::Search.(criteria: 'gram', with_feedback: false, mentor:, track:)
@@ -35,9 +35,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     exercise_1 = create :practice_exercise, slug: 'anagram', title: 'Annie'
     exercise_2 = create :practice_exercise, slug: 'another', title: 'Another'
     exercise_3 = create :practice_exercise, slug: 'leap', title: 'Frog'
-    representation_1 = create :exercise_representation, exercise: exercise_1, num_submissions: 4, track: track
-    representation_2 = create :exercise_representation, exercise: exercise_2, num_submissions: 3, track: track
-    representation_3 = create :exercise_representation, exercise: exercise_3, num_submissions: 2, track: track
+    representation_1 = create(:exercise_representation, exercise: exercise_1, num_submissions: 4, track:)
+    representation_2 = create(:exercise_representation, exercise: exercise_2, num_submissions: 3, track:)
+    representation_3 = create(:exercise_representation, exercise: exercise_3, num_submissions: 2, track:)
 
     assert_equal [representation_1, representation_2, representation_3],
       Exercise::Representation::Search.(criteria: nil, with_feedback: false, mentor:, track:)
@@ -73,13 +73,13 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     track = create :track
     mentor = create :user
     other_mentor = create :user
-    representation_1 = create :exercise_representation, feedback_author: nil, feedback_type: nil, num_submissions: 5, track: track
-    representation_2 = create :exercise_representation, feedback_author: mentor, feedback_type: :actionable, num_submissions: 4,
-      track: track
-    representation_3 = create :exercise_representation, feedback_author: mentor, feedback_type: :essential, num_submissions: 3,
-      track: track
-    representation_4 = create :exercise_representation, feedback_author: other_mentor, feedback_type: :essential, num_submissions: 2,
-      track: track
+    representation_1 = create(:exercise_representation, feedback_author: nil, feedback_type: nil, num_submissions: 5, track:)
+    representation_2 = create(:exercise_representation, feedback_author: mentor, feedback_type: :actionable, num_submissions: 4,
+      track:)
+    representation_3 = create(:exercise_representation, feedback_author: mentor, feedback_type: :essential, num_submissions: 3,
+      track:)
+    representation_4 = create(:exercise_representation, feedback_author: other_mentor, feedback_type: :essential, num_submissions: 2,
+      track:)
 
     assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor:, track:)
     assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor: nil, track:)
@@ -122,12 +122,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     mentor_1 = create :user
     mentor_2 = create :user
     mentor_3 = create :user
-    representation_1 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_1, num_submissions: 4,
-      track: track
-    representation_2 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_1, num_submissions: 3,
-      track: track
-    representation_3 = create :exercise_representation, feedback_type: :actionable, feedback_author: mentor_2, num_submissions: 2,
-      track: track
+    representation_1 = create(:exercise_representation, feedback_type: :actionable, feedback_author: mentor_1, num_submissions: 4,
+      track:)
+    representation_2 = create(:exercise_representation, feedback_type: :actionable, feedback_author: mentor_1, num_submissions: 3,
+      track:)
+    representation_3 = create(:exercise_representation, feedback_type: :actionable, feedback_author: mentor_2, num_submissions: 2,
+      track:)
 
     assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1, with_feedback: true, track:)
     assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: true, track:)
@@ -152,9 +152,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
   test "filter: track is nil returns no records" do
     track = create :track, :random_slug
-    exercise = create :practice_exercise, track: track
-    create :exercise_representation, exercise: exercise, num_submissions: 4, track: track
-    create :exercise_representation, exercise: exercise, num_submissions: 3, track: track
+    exercise = create(:practice_exercise, track:)
+    create(:exercise_representation, exercise:, num_submissions: 4, track:)
+    create(:exercise_representation, exercise:, num_submissions: 3, track:)
 
     assert_empty Exercise::Representation::Search.(track: nil, with_feedback: false)
   end
@@ -164,12 +164,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     mentor_1 = create :user
     mentor_2 = create :user
     mentor_3 = create :user
-    representation_1 = create :exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 4,
-      ast_digest: 'digest_1', track: track
-    representation_2 = create :exercise_representation, feedback_author: mentor_2, feedback_type: :actionable, num_submissions: 3,
-      ast_digest: 'digest_2', track: track
-    representation_3 = create :exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 2,
-      ast_digest: 'digest_3', track: track
+    representation_1 = create(:exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 4,
+      ast_digest: 'digest_1', track:)
+    representation_2 = create(:exercise_representation, feedback_author: mentor_2, feedback_type: :actionable, num_submissions: 3,
+      ast_digest: 'digest_2', track:)
+    representation_3 = create(:exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 2,
+      ast_digest: 'digest_3', track:)
     create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: mentor_1
     create :submission_representation, ast_digest: representation_2.ast_digest
     create :submission_representation, ast_digest: representation_3.ast_digest
@@ -208,9 +208,9 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
   test "sorts" do
     track = create :track
     mentor = create :user
-    representation_1 = create :exercise_representation, num_submissions: 3, last_submitted_at: Time.zone.now - 3.days, track: track
-    representation_2 = create :exercise_representation, num_submissions: 2, last_submitted_at: Time.zone.now - 5.days, track: track
-    representation_3 = create :exercise_representation, num_submissions: 8, last_submitted_at: Time.zone.now - 4.days, track: track
+    representation_1 = create(:exercise_representation, num_submissions: 3, last_submitted_at: Time.zone.now - 3.days, track:)
+    representation_2 = create(:exercise_representation, num_submissions: 2, last_submitted_at: Time.zone.now - 5.days, track:)
+    representation_3 = create(:exercise_representation, num_submissions: 8, last_submitted_at: Time.zone.now - 4.days, track:)
 
     # Default: order by num_submissions
     assert_equal [representation_3, representation_1, representation_2],

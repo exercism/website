@@ -19,9 +19,9 @@ class AwardBadgeJobTest < ActiveJob::TestCase
 
   test "use badge email setting by default" do
     user = create :user
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     solution.update_column(:last_iterated_at, Time.current - 1.week)
-    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    create :mentor_discussion, solution:, created_at: Time.current - 1.day
     solution.update_column(:last_iterated_at, Time.current)
 
     perform_enqueued_jobs do
@@ -33,9 +33,9 @@ class AwardBadgeJobTest < ActiveJob::TestCase
 
   test "override badge email setting" do
     user = create :user
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     solution.update_column(:last_iterated_at, Time.current - 1.week)
-    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    create :mentor_discussion, solution:, created_at: Time.current - 1.day
     solution.update_column(:last_iterated_at, Time.current)
 
     perform_enqueued_jobs do

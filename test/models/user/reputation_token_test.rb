@@ -22,11 +22,11 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
     title = "The cat on the mat sat"
 
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     token = create :user_code_contribution_reputation_token,
       created_at: Time.current - 1.week,
-      exercise: exercise,
-      track: track,
+      exercise:,
+      track:,
       external_url: "https://google.com",
       params: {
         repo:,
@@ -74,7 +74,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
   test "updates user's reputation" do
     user = create :user, handle: "User22", github_username: "user22"
-    create :user_reputation_token, user: user
+    create(:user_reputation_token, user:)
 
     assert 10, user.reload.reputation
   end

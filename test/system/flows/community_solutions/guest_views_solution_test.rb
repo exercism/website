@@ -12,19 +12,19 @@ module Flows
         user = create :user, handle: "handle"
         ruby = create :track, slug: "ruby"
         exercise = create :concept_exercise, track: ruby
-        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: user
-        submission_1 = create :submission, solution: solution
+        solution = create(:concept_solution, :published, published_at: 2.days.ago, exercise:, user:)
+        submission_1 = create(:submission, solution:)
         create :submission_file,
           submission: submission_1,
           content: "class Bob\nend",
           filename: "bob.rb"
-        submission_2 = create :submission, solution: solution
+        submission_2 = create(:submission, solution:)
         create :submission_file,
           submission: submission_2,
           content: "class Lasagna\nend",
           filename: "bob.rb"
-        create :iteration, idx: 1, solution: solution, submission: submission_1
-        create :iteration, idx: 2, solution: solution, submission: submission_2
+        create :iteration, idx: 1, solution:, submission: submission_1
+        create :iteration, idx: 2, solution:, submission: submission_2
 
         use_capybara_host do
           visit track_exercise_solution_path(exercise.track, exercise, user.handle)
@@ -39,13 +39,13 @@ module Flows
       test "views comments" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
-          author: author,
+          author:,
           content_markdown: "# Hello world",
-          solution: solution,
+          solution:,
           updated_at: 2.days.ago
 
         use_capybara_host do
@@ -62,9 +62,9 @@ module Flows
       test "cant write a comment" do
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
@@ -76,9 +76,9 @@ module Flows
       test "cant star a solution" do
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
         3.times { create :solution_star, solution: }
 
         use_capybara_host do

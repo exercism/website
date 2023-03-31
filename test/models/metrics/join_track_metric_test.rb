@@ -5,7 +5,7 @@ class Metrics::JoinTrackMetricTest < ActiveSupport::TestCase
     freeze_time do
       track = create :track, id: 2
       user = create :user, id: 3
-      user_track = create :user_track, user: user, track: track, id: 4
+      user_track = create :user_track, user:, track:, id: 4
       occurred_at = Time.current - 5.seconds
 
       metric = Metric::Create.(:join_track, occurred_at, user_track:, track:, user:)

@@ -4,10 +4,10 @@ class Mentor::UpdateSatisfactionRatingTest < ActiveSupport::TestCase
   test "updates mentor_satisfaction_percentage" do
     mentor = create :user
 
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
-    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :acceptable
-    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :good
+    create :mentor_discussion, mentor:, status: :finished, rating: :great
+    create :mentor_discussion, mentor:, status: :finished, rating: :problematic
+    create :mentor_discussion, mentor:, status: :mentor_finished, rating: :acceptable
+    create :mentor_discussion, mentor:, status: :mentor_finished, rating: :good
 
     # Sanity check
     assert_nil mentor.mentor_satisfaction_percentage
@@ -20,9 +20,9 @@ class Mentor::UpdateSatisfactionRatingTest < ActiveSupport::TestCase
   test "mentor_satisfaction_percentage is rounded up" do
     mentor = create :user
 
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
-    create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :problematic
-    create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+    create :mentor_discussion, mentor:, status: :finished, rating: :great
+    create :mentor_discussion, mentor:, status: :mentor_finished, rating: :problematic
+    create :mentor_discussion, mentor:, status: :finished, rating: :problematic
 
     # Sanity check
     assert_nil mentor.mentor_satisfaction_percentage
@@ -40,7 +40,7 @@ class Mentor::UpdateSatisfactionRatingTest < ActiveSupport::TestCase
       create :mentor_discussion, :finished, mentor:, rating: :great
     end
 
-    create :mentor_discussion, :finished, mentor: mentor, rating: :great
+    create :mentor_discussion, :finished, mentor:, rating: :great
     perform_enqueued_jobs
 
     Mentor::UpdateSatisfactionRating.(mentor)

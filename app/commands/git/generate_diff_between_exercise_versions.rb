@@ -20,7 +20,7 @@ class Git::GenerateDiffBetweenExerciseVersions
   memoize
   def changed_in_git
     # This is a diff of two commits considering all files in the respective old and new directories
-    raw_diff = `cd #{repo_dir} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}` # rubocop:disable Layout/LineLength
+    raw_diff = `cd #{repo_dir} && git diff #{old_sha} #{exercise.git_sha} -- #{old_git.dir} #{new_git.dir}`
 
     ProcessDiff.(raw_diff, exercise)
   end
@@ -31,7 +31,7 @@ class Git::GenerateDiffBetweenExerciseVersions
   memoize
   def changed_in_config
     changed_in_config_filepaths.flat_map do |filepath|
-      raw_diff = `cd #{repo_dir} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}` # rubocop:disable Layout/LineLength
+      raw_diff = `cd #{repo_dir} && git diff #{first_sha} #{exercise.git_sha} -- #{filepath}`
       ProcessDiff.(raw_diff, exercise)
     end
   end
@@ -40,7 +40,7 @@ class Git::GenerateDiffBetweenExerciseVersions
   def changed_in_config_filepaths = new_interesting_paths - changed_in_git_filepaths
 
   memoize
-  def first_sha = `cd #{repo_dir} && git rev-list HEAD | tail -n 1`.strip # rubocop:disable Layout/LineLength
+  def first_sha = `cd #{repo_dir} && git rev-list HEAD | tail -n 1`.strip
 
   memoize
   def interesting_paths

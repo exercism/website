@@ -49,7 +49,7 @@ class Github::Sponsors::SyncRepoTest < ActiveSupport::TestCase
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?('"endCursor":null') }.
+      with { |request| request.body.exclude?('"endCursor":null') }.
       to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     ProcessGithubSponsorUpdateJob.expects(:perform_later).with('created', 'ErikSchierboom').once
@@ -107,7 +107,7 @@ class Github::Sponsors::SyncRepoTest < ActiveSupport::TestCase
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?('"endCursor":null') }.
+      with { |request| request.body.exclude?('"endCursor":null') }.
       to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     start = Time.now.utc

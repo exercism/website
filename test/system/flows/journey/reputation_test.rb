@@ -10,9 +10,9 @@ module Flow
       test "shows contribution" do
         user = create :user
         track = create :track, title: "Ruby"
-        create :concept_exercise, track: track
-        create :user_code_contribution_reputation_token, user: user, seen: false
-        create :user_code_contribution_reputation_token, user: user, seen: false
+        create(:concept_exercise, track:)
+        create :user_code_contribution_reputation_token, user:, seen: false
+        create :user_code_contribution_reputation_token, user:, seen: false
 
         use_capybara_host do
           sign_in!(user)

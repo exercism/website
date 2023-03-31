@@ -23,10 +23,10 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
       feedback_author: user, num_submissions: 3
 
-    create :user_track_mentorship, user: user, track: csharp, num_finished_discussions: 100
-    create :user_track_mentorship, user: user, track: clojure, num_finished_discussions: 100
-    create :user_track_mentorship, user: user, track: javascript, num_finished_discussions: 100
-    create :user_track_mentorship, user: user, track: ruby, num_finished_discussions: 100
+    create :user_track_mentorship, user:, track: csharp, num_finished_discussions: 100
+    create :user_track_mentorship, user:, track: clojure, num_finished_discussions: 100
+    create :user_track_mentorship, user:, track: javascript, num_finished_discussions: 100
+    create :user_track_mentorship, user:, track: ruby, num_finished_discussions: 100
 
     expected = [
       { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
@@ -40,13 +40,13 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
   test "status is without_feedback" do
     user = create :user
     track = create :track, :random_slug
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
-    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: :actionable, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
 
-    create :user_track_mentorship, user: user, track: track, num_finished_discussions: 100
+    create :user_track_mentorship, user:, track:, num_finished_discussions: 100
 
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
@@ -58,14 +58,14 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     user_1 = create :user
     user_2 = create :user
     track = create :track, :random_slug
-    exercise = create :practice_exercise, track: track
-    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: nil, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2, num_submissions: 3
+    exercise = create(:practice_exercise, track:)
+    create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 3
 
-    create :user_track_mentorship, user: user_1, track: track, num_finished_discussions: 100
+    create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
 
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
@@ -77,13 +77,13 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     user_1 = create :user
     user_2 = create :user
     track = create :track, :random_slug
-    exercise = create :practice_exercise, track: track
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 4
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2, num_submissions: 2
-    create :exercise_representation, exercise: exercise, feedback_type: :actionable, feedback_author: user_2, num_submissions: 1
+    exercise = create(:practice_exercise, track:)
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_1, num_submissions: 4
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 2
+    create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 1
 
-    create :user_track_mentorship, user: user_1, track: track, num_finished_discussions: 100
+    create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
 
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
@@ -116,8 +116,8 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
         feedback_author: user, num_submissions: 3
 
-      create :user_track_mentorship, user: user, track: csharp, num_finished_discussions: 101
-      create :user_track_mentorship, user: user, track: clojure, num_finished_discussions: 333
+      create :user_track_mentorship, user:, track: csharp, num_finished_discussions: 101
+      create :user_track_mentorship, user:, track: clojure, num_finished_discussions: 333
 
       # Sanity check: ignore track with too few finished discussions
       create :user_track_mentorship, user:, track: ruby, num_finished_discussions: 6

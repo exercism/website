@@ -9,9 +9,9 @@ module Flows
       test "solution author views disabled comments" do
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author, allow_comments: false
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: false
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(author)
@@ -25,9 +25,9 @@ module Flows
       test "other user views disabled comments" do
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author, allow_comments: false
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: false
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!

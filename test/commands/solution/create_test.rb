@@ -36,7 +36,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
   test "idempotent" do
     user = create :user
     ex = create :concept_exercise
-    ut = create :user_track, user: user, track: ex.track
+    ut = create :user_track, user:, track: ex.track
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true).twice
 
     assert_idempotent_command { Solution::Create.(ut.user, ex) }
@@ -45,7 +45,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
   test "creates activity" do
     user = create :user
     exercise = create :concept_exercise
-    ut = create :user_track, user: user, track: exercise.track
+    ut = create :user_track, user:, track: exercise.track
     create :hello_world_solution, :completed, track: ut.track, user: ut.user
 
     solution = Solution::Create.(ut.user, exercise)
@@ -59,9 +59,9 @@ class Solution::CreateTest < ActiveSupport::TestCase
   test "does not create activity if not new" do
     user = create :user
     exercise = create :concept_exercise
-    ut = create :user_track, user: user, track: exercise.track
+    ut = create :user_track, user:, track: exercise.track
     create :hello_world_solution, :completed, track: ut.track, user: ut.user
-    create :concept_solution, exercise: exercise, user: user
+    create(:concept_solution, exercise:, user:)
 
     Solution::Create.(ut.user, exercise)
 
@@ -71,8 +71,8 @@ class Solution::CreateTest < ActiveSupport::TestCase
   test "adds metric" do
     track = create :track
     user = create :user
-    ex = create :concept_exercise, track: track
-    create :user_track, track: track, user: user
+    ex = create(:concept_exercise, track:)
+    create(:user_track, track:, user:)
     UserTrack.any_instance.expects(:exercise_unlocked?).with(ex).returns(true)
 
     solution = Solution::Create.(user, ex)

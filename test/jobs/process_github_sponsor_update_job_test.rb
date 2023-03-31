@@ -4,7 +4,7 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
   test "updates first_donated_at to current time" do
     freeze_time do
       github_username = "foobar"
-      user = create :user, github_username: github_username, first_donated_at: nil
+      user = create :user, github_username:, first_donated_at: nil
 
       perform_enqueued_jobs do
         ProcessGithubSponsorUpdateJob.perform_now(
@@ -20,7 +20,7 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
 
   test "awards badge when created" do
     github_username = "foobar"
-    user = create :user, github_username: github_username
+    user = create(:user, github_username:)
 
     perform_enqueued_jobs do
       ProcessGithubSponsorUpdateJob.perform_now(

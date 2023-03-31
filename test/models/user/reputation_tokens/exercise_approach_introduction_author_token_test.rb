@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseApproachIntroductionAuthorTokenTest < Acti
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     exercise = create :practice_exercise
-    authorship = create :exercise_approach_introduction_authorship, author: user, exercise: exercise
+    authorship = create(:exercise_approach_introduction_authorship, author: user, exercise:)
     track = exercise.track
 
     User::ReputationToken::Create.(

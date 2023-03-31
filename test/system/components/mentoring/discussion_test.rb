@@ -16,8 +16,8 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, idx: 1, solution: solution
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        create(:iteration, idx: 1, solution:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -38,11 +38,11 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        iteration = create(:iteration, idx: 1, solution:)
         submission = create :submission,
-          solution: solution,
-          iteration: iteration,
+          solution:,
+          iteration:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
@@ -57,9 +57,9 @@ module Components
           feedback_type: :essential,
           ast_digest: "AST"
         create :submission_representation,
-          submission: submission,
+          submission:,
           ast_digest: "AST"
-        create :submission_file, submission: submission
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -79,11 +79,11 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        iteration = create(:iteration, idx: 1, solution:)
         submission = create :submission,
-          solution: solution,
-          iteration: iteration,
+          solution:,
+          iteration:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
@@ -96,9 +96,9 @@ module Components
           feedback_type: :essential,
           ast_digest: "AST"
         create :submission_representation,
-          submission: submission,
+          submission:,
           ast_digest: "AST"
-        create :submission_file, submission: submission
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -118,11 +118,11 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        iteration = create(:iteration, idx: 1, solution:)
         submission = create :submission,
-          solution: solution,
-          iteration: iteration,
+          solution:,
+          iteration:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
@@ -137,9 +137,9 @@ module Components
           feedback_type: :essential,
           ast_digest: "AST"
         create :submission_representation,
-          submission: submission,
+          submission:,
           ast_digest: "AST"
-        create :submission_file, submission: submission
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -158,10 +158,10 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        iteration = create :iteration, idx: 1, solution: solution
-        submission = create :submission, solution: solution, iteration: iteration, analysis_status: :completed
-        create :submission_analysis, submission: submission, data: {
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        iteration = create(:iteration, idx: 1, solution:)
+        submission = create :submission, solution:, iteration:, analysis_status: :completed
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "essential", comment: "ruby.two-fer.splat_args" }
           ]
@@ -183,9 +183,9 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -210,10 +210,10 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
-        create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
+        create :mentor_student_relationship, mentor:, student:, favorited: true
 
         use_capybara_host do
           sign_in!(mentor)
@@ -232,8 +232,8 @@ module Components
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, idx: 1, solution: solution
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        create(:iteration, idx: 1, solution:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -249,13 +249,13 @@ module Components
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
         solution = create :concept_solution, user: student
-        request = create :mentor_request, solution: solution, comment_markdown: "Hello, Mentor",
+        request = create :mentor_request, solution:, comment_markdown: "Hello, Mentor",
           created_at: 5.days.ago, updated_at: 2.days.ago
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
-        submission = create :submission, solution: solution
-        create :iteration, idx: 2, solution: solution, created_at: 1.week.ago, submission: submission
-        submission = create :submission, solution: solution
-        iteration = create :iteration, idx: 1, solution: solution, created_at: 1.week.ago, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:, request:)
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 2, solution:, created_at: 1.week.ago, submission:)
+        submission = create(:submission, solution:)
+        iteration = create(:iteration, idx: 1, solution:, created_at: 1.week.ago, submission:)
         create(:mentor_discussion_post,
           discussion:,
           iteration:,
@@ -284,12 +284,12 @@ module Components
         mentor = create :user, handle: "author"
         student = create :user, handle: "student"
         track = create :track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, user: student, exercise: exercise
-        request = create :mentor_request, :v2, solution: solution, comment_markdown: ""
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: request
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, user: student, exercise:)
+        request = create :mentor_request, :v2, solution:, comment_markdown: ""
+        discussion = create(:mentor_discussion, solution:, mentor:, request:)
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -302,13 +302,13 @@ module Components
       test "shows iteration information" do
         mentor = create :user
         solution = create :concept_solution
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, tests_status: "failed", solution: solution
-        iteration = create :iteration,
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, tests_status: "failed", solution:)
+        iteration = create(:iteration,
           idx: 1,
-          solution: solution,
+          solution:,
           created_at: Time.current - 2.days,
-          submission: submission
+          submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -333,19 +333,19 @@ module Components
         ruby = create :track, slug: "ruby"
         bob = create :concept_exercise, track: ruby
         solution = create :concept_solution, exercise: bob
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission_1 = create :submission, solution: solution
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission_1 = create(:submission, solution:)
         create :submission_file,
           submission: submission_1,
           content: "class Bob\nend",
           filename: "bob.rb"
-        submission_2 = create :submission, solution: solution
+        submission_2 = create(:submission, solution:)
         create :submission_file,
           submission: submission_2,
           content: "class Lasagna\nend",
           filename: "bob.rb"
-        create :iteration, idx: 1, solution: solution, submission: submission_1
-        create :iteration, idx: 2, solution: solution, submission: submission_2
+        create :iteration, idx: 1, solution:, submission: submission_1
+        create :iteration, idx: 2, solution:, submission: submission_2
 
         use_capybara_host do
           sign_in!(mentor)
@@ -360,9 +360,9 @@ module Components
       test "refetches when new post comes in" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        iteration = create :iteration, solution: solution, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        iteration = create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -385,9 +385,9 @@ module Components
       test "submit a new post" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -406,8 +406,8 @@ module Components
       test "submit a new post after discussion is finished" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor, status: :mentor_finished
-        create :iteration, solution: solution
+        discussion = create :mentor_discussion, solution:, mentor:, status: :mentor_finished
+        create(:iteration, solution:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -427,9 +427,9 @@ module Components
       test "edit an existing post" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        iteration = create :iteration, solution: solution, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        iteration = create(:iteration, solution:, submission:)
         create(:mentor_discussion_post,
           discussion:,
           iteration:,
@@ -453,9 +453,9 @@ module Components
       test "deletes an existing post" do
         mentor = create :user, handle: "author"
         solution = create :concept_solution
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        iteration = create :iteration, solution: solution, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        iteration = create(:iteration, solution:, submission:)
         create(:mentor_discussion_post,
           discussion:,
           iteration:,
@@ -479,9 +479,9 @@ module Components
         student = create :user
         mentor = create :user, handle: "author"
         solution = create :concept_solution, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        submission = create :submission, solution: solution
-        iteration = create :iteration, solution: solution, submission: submission
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        submission = create(:submission, solution:)
+        iteration = create(:iteration, solution:, submission:)
         create(:mentor_request, solution:)
         create(:mentor_discussion_post,
           discussion:,
@@ -499,12 +499,12 @@ module Components
       test "mentor marks discussion as nothing to do" do
         mentor = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise
-        discussion = create :mentor_discussion,
+        solution = create(:concept_solution, exercise:)
+        discussion = create(:mentor_discussion,
           :awaiting_mentor,
-          solution: solution,
-          mentor: mentor
-        create :iteration, solution: solution
+          solution:,
+          mentor:)
+        create(:iteration, solution:)
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
@@ -520,12 +520,12 @@ module Components
       test "mentor is unable to remove discussion from inbox if finished" do
         mentor = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise
-        discussion = create :mentor_discussion,
+        solution = create(:concept_solution, exercise:)
+        discussion = create(:mentor_discussion,
           :mentor_finished,
-          solution: solution,
-          mentor: mentor
-        create :iteration, solution: solution
+          solution:,
+          mentor:)
+        create(:iteration, solution:)
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do
@@ -541,13 +541,13 @@ module Components
 
         mentor = create :user, handle: "author"
         exercise = create :concept_exercise, slug: "lasagna"
-        solution = create :concept_solution, exercise: exercise
+        solution = create(:concept_solution, exercise:)
         discussion = create :mentor_discussion,
-          solution: solution,
-          mentor: mentor,
+          solution:,
+          mentor:,
           awaiting_mentor_since: 1.day.ago
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -564,13 +564,13 @@ module Components
 
         mentor = create :user, handle: "author"
         exercise = create :practice_exercise
-        solution = create :practice_solution, exercise: exercise
+        solution = create(:practice_solution, exercise:)
         discussion = create :mentor_discussion,
-          solution: solution,
-          mentor: mentor,
+          solution:,
+          mentor:,
           awaiting_mentor_since: 1.day.ago
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -584,14 +584,14 @@ module Components
       test "mentor sees own solution" do
         mentor = create :user, handle: "mentor"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise
-        mentor_solution = create :concept_solution, exercise: exercise, user: mentor # rubocop:disable Lint/UselessAssignment
+        solution = create(:concept_solution, exercise:)
+        mentor_solution = create :concept_solution, exercise:, user: mentor
         create :iteration, solution: mentor_solution
         discussion = create :mentor_discussion,
-          solution: solution,
-          mentor: mentor,
+          solution:,
+          mentor:,
           awaiting_mentor_since: 1.day.ago
-        create :iteration, solution: solution
+        create(:iteration, solution:)
         create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
         use_capybara_host do

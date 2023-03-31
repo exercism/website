@@ -79,7 +79,7 @@ class Badge::BardBadgeTest < ActiveSupport::TestCase
       yyyc514
       yzalvin
     ].each do |github_username|
-      bard_user = create :user, github_username: github_username
+      bard_user = create(:user, github_username:)
       assert badge.award_to?(bard_user)
     end
   end
@@ -89,7 +89,7 @@ class Badge::BardBadgeTest < ActiveSupport::TestCase
 
     # Checks username case-insensitive
     %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
-      user = create :user, github_username: github_username
+      user = create(:user, github_username:)
       assert badge.award_to?(user)
       user.destroy
     end

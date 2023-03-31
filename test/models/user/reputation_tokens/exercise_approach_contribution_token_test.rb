@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseApproachContributionTokenTest < ActiveSupp
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     approach = create :exercise_approach
-    contributorship = create :exercise_approach_contributorship, contributor: user, approach: approach
+    contributorship = create(:exercise_approach_contributorship, contributor: user, approach:)
     exercise = approach.exercise
     track = approach.track
 

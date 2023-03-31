@@ -298,7 +298,7 @@ Rails.application.routes.draw do
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
 
   %i[installation learning resources tests].each do |doc|
-    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
+    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}")
   end
 
   get "values", to: redirect("about")
@@ -322,7 +322,7 @@ Rails.application.routes.draw do
   get "my/settings", to: redirect("settings")
   get "my/tracks", to: redirect("tracks")
   get "getting-started", to: redirect("docs/using/getting-started")
-  get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
+  get '/languages/:slug', to: redirect('/tracks/%{slug}')
   get "contribute", to: redirect("contributing")
 
   get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect

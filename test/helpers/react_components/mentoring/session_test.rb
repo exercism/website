@@ -7,17 +7,17 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
     mentor = create :user
     student = create :user
     track = create :track, slug: "ruby"
-    user_track = create :user_track, track: track, user: student
-    exercise = create :concept_exercise, track: track, slug: "lasagna"
-    solution = create :concept_solution, user: student, exercise: exercise
+    user_track = create :user_track, track:, user: student
+    exercise = create :concept_exercise, track:, slug: "lasagna"
+    solution = create(:concept_solution, user: student, exercise:)
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
 
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    iteration_3 = create :iteration, solution: solution
+    iteration_1 = create(:iteration, solution:)
+    iteration_2 = create(:iteration, solution:)
+    iteration_3 = create(:iteration, solution:)
 
     component = ReactComponents::Mentoring::Session.new(request: mentor_request)
     component.stubs(current_user: mentor)
@@ -75,22 +75,22 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
     mentor = create :user
     student = create :user
     track = create :track, slug: "ruby"
-    user_track = create :user_track, user: student, track: track
-    exercise = create :concept_exercise, track: track, slug: "lasagna"
-    solution = create :concept_solution, user: student, exercise: exercise
+    user_track = create(:user_track, user: student, track:)
+    exercise = create :concept_exercise, track:, slug: "lasagna"
+    solution = create(:concept_solution, user: student, exercise:)
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
+    discussion = create :mentor_discussion, solution:, mentor:, request: mentor_request
 
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration_2, seen_by_mentor: true
+    iteration_1 = create(:iteration, solution:)
+    iteration_2 = create(:iteration, solution:)
+    create :mentor_discussion_post, discussion:, iteration: iteration_2, seen_by_mentor: true
 
-    iteration_3 = create :iteration, solution: solution
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: true
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_mentor: false
+    iteration_3 = create(:iteration, solution:)
+    create :mentor_discussion_post, discussion:, iteration: iteration_3, seen_by_mentor: true
+    create :mentor_discussion_post, discussion:, iteration: iteration_3, seen_by_mentor: false
 
     component = ReactComponents::Mentoring::Session.new(discussion:)
     component.stubs(current_user: mentor)
@@ -153,17 +153,17 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
     mentor = create :user
     student = create :user
     track = create :track, slug: "ruby"
-    user_track = create :user_track, track: track, user: student
-    exercise = create :concept_exercise, track: track, slug: "lasagna"
-    solution = create :concept_solution, user: student, exercise: exercise
+    user_track = create :user_track, track:, user: student
+    exercise = create :concept_exercise, track:, slug: "lasagna"
+    solution = create(:concept_solution, user: student, exercise:)
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
 
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    iteration_3 = create :iteration, solution: solution
+    iteration_1 = create(:iteration, solution:)
+    iteration_2 = create(:iteration, solution:)
+    iteration_3 = create(:iteration, solution:)
 
     create :user_dismissed_introducer, slug: 'scratchpad', user: mentor
 

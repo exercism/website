@@ -10,12 +10,12 @@ module Flows
         test "no mentoring" do
           user = create :user
           track = create :track
-          create :user_track, user: user, track: track
-          exercise = create :concept_exercise, track: track
-          solution = create :concept_solution, exercise: exercise, user: user
-          submission = create :submission, tests_status: :queued, solution: solution
-          create :iteration, solution: solution, submission: submission
-          create :submission_file, submission: submission
+          create(:user_track, user:, track:)
+          exercise = create(:concept_exercise, track:)
+          solution = create(:concept_solution, exercise:, user:)
+          submission = create(:submission, tests_status: :queued, solution:)
+          create(:iteration, solution:, submission:)
+          create(:submission_file, submission:)
 
           use_capybara_host do
             sign_in!(user)
@@ -30,14 +30,14 @@ module Flows
         test "requested mentoring" do
           user = create :user
           track = create :track
-          create :user_track, user: user, track: track
-          exercise = create :concept_exercise, track: track
-          solution = create :concept_solution, exercise: exercise, user: user
-          submission = create :submission, tests_status: :queued, solution: solution
-          create :iteration, solution: solution, submission: submission
-          create :submission_file, submission: submission
+          create(:user_track, user:, track:)
+          exercise = create(:concept_exercise, track:)
+          solution = create(:concept_solution, exercise:, user:)
+          submission = create(:submission, tests_status: :queued, solution:)
+          create(:iteration, solution:, submission:)
+          create(:submission_file, submission:)
 
-          create :mentor_request, solution: solution, student: user
+          create :mentor_request, solution:, student: user
 
           use_capybara_host do
             sign_in!(user)
@@ -52,14 +52,14 @@ module Flows
           user = create :user
           mentor = create :user, handle: 'juanita'
           track = create :track
-          create :user_track, user: user, track: track
-          exercise = create :concept_exercise, track: track
-          solution = create :concept_solution, exercise: exercise, user: user
-          submission = create :submission, tests_status: :queued, solution: solution
-          create :iteration, solution: solution, submission: submission
-          create :submission_file, submission: submission
+          create(:user_track, user:, track:)
+          exercise = create(:concept_exercise, track:)
+          solution = create(:concept_solution, exercise:, user:)
+          submission = create(:submission, tests_status: :queued, solution:)
+          create(:iteration, solution:, submission:)
+          create(:submission_file, submission:)
 
-          create :mentor_discussion, :awaiting_student, solution: solution, student: user, mentor: mentor
+          create(:mentor_discussion, :awaiting_student, solution:, student: user, mentor:)
 
           use_capybara_host do
             sign_in!(user)
@@ -75,15 +75,15 @@ module Flows
           mentor_2 = create :user, handle: 'aziz'
           mentor_3 = create :user, handle: 'yamikani'
           track = create :track
-          create :user_track, user: user, track: track
-          exercise = create :concept_exercise, track: track
-          solution = create :concept_solution, exercise: exercise, user: user
-          submission = create :submission, tests_status: :queued, solution: solution
-          create :iteration, solution: solution, submission: submission
-          create :submission_file, submission: submission
+          create(:user_track, user:, track:)
+          exercise = create(:concept_exercise, track:)
+          solution = create(:concept_solution, exercise:, user:)
+          submission = create(:submission, tests_status: :queued, solution:)
+          create(:iteration, solution:, submission:)
+          create(:submission_file, submission:)
 
-          create :mentor_discussion, :student_finished, solution: solution, student: user, mentor: mentor_1
-          create :mentor_discussion, :student_finished, solution: solution, student: user, mentor: mentor_2
+          create :mentor_discussion, :student_finished, solution:, student: user, mentor: mentor_1
+          create :mentor_discussion, :student_finished, solution:, student: user, mentor: mentor_2
 
           use_capybara_host do
             sign_in!(user)
@@ -96,7 +96,7 @@ module Flows
             end
 
             # Create discussion finished by mentor
-            discussion = create :mentor_discussion, :mentor_finished, solution: solution, student: user, mentor: mentor_3
+            discussion = create :mentor_discussion, :mentor_finished, solution:, student: user, mentor: mentor_3
             solution.mentoring_in_progress!
 
             # Reload page

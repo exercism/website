@@ -5,9 +5,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
 
     user = create :user
-    user_track = create :user_track, user: user, track: exercise.track
-    solution = create :concept_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:concept_solution, user:, exercise:)
+    create(:iteration, solution:)
 
     Solution::Complete.(solution, user_track)
 
@@ -16,15 +16,15 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
   test "sets concept exercise concepts as learnt" do
     track = create :track
-    concept = create :concept, track: track
-    exercise = create :concept_exercise, track: track
+    concept = create(:concept, track:)
+    exercise = create(:concept_exercise, track:)
     exercise.taught_concepts << concept
 
     user = create :user
-    user_track = create :user_track, user: user, track: track
-    solution = create :concept_solution, user: user, exercise: exercise
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, user:, exercise:)
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
 
     Solution::Complete.(solution, user_track)
 
@@ -35,9 +35,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
 
     user = create :user
-    user_track = create :user_track, user: user, track: exercise.track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
+    create(:iteration, solution:)
 
     Solution::Complete.(solution, user_track)
 
@@ -48,9 +48,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
 
     user = create :user
-    user_track = create :user_track, user: user, track: exercise.track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
+    create(:iteration, solution:)
 
     Solution::Complete.(solution, user_track)
 
@@ -66,9 +66,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       completed_at = Time.current - 5.minutes
 
       user = create :user
-      user_track = create :user_track, user: user, track: exercise.track
-      solution = create :concept_solution, user: user, exercise: exercise, completed_at: completed_at
-      create :iteration, solution: solution
+      user_track = create :user_track, user:, track: exercise.track
+      solution = create(:concept_solution, user:, exercise:, completed_at:)
+      create(:iteration, solution:)
 
       # Sanity check
       assert solution.completed?
@@ -86,8 +86,8 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
 
     user = create :user
-    user_track = create :user_track, user: user, track: exercise.track
-    solution = create :practice_solution, user: user, exercise: exercise
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
 
     assert_raises SolutionHasNoIterationsError do
       Solution::Complete.(solution, user_track)
@@ -96,9 +96,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
   test "awards anybody there badge when hello-world exercise is completed in five tracks" do
     user = create :user
-    user_track = create :user_track, user: user
-    solution = create :hello_world_solution, user: user
-    create :iteration, solution: solution
+    user_track = create(:user_track, user:)
+    solution = create(:hello_world_solution, user:)
+    create(:iteration, solution:)
     refute user.badges.present?
 
     4.times do |idx|
@@ -116,9 +116,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, slug: 'all-your-base'
 
     user = create :user
-    user_track = create :user_track, user: user, track: exercise.track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
+    create(:iteration, solution:)
     refute user.badges.present?
 
     Solution::Complete.(solution, user_track)
@@ -131,9 +131,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, slug: 'bob'
 
     user = create :user
-    user_track = create :user_track, user: user, track: exercise.track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
+    create(:iteration, solution:)
     refute user.badges.present?
 
     Solution::Complete.(solution, user_track)
@@ -145,12 +145,12 @@ class Solution::CompleteTest < ActiveSupport::TestCase
   test "awards lackadaisical badge when bob exercise is completed in five tracks" do
     user = create :user
     track = create :track
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
     refute user.badges.present?
 
     exercise = create :practice_exercise, slug: 'bob'
-    solution = create :practice_solution, user: user, track: track, exercise: exercise
-    create :iteration, solution: solution
+    solution = create(:practice_solution, user:, track:, exercise:)
+    create(:iteration, solution:)
 
     4.times do |idx|
       other_track = create :track, slug: "track_#{idx}"
@@ -167,18 +167,18 @@ class Solution::CompleteTest < ActiveSupport::TestCase
   test "awards completer badge when all the track's exercises are now completed" do
     user = create :user
     track = create :track
-    create :hello_world_exercise, track: track
-    concept_exercise = create :concept_exercise, track: track, position: 1
-    practice_exercise = create :practice_exercise, track: track, position: 2, slug: 'leap'
-    user_track = create :user_track, user: user, track: track
+    create(:hello_world_exercise, track:)
+    concept_exercise = create :concept_exercise, track:, position: 1
+    practice_exercise = create :practice_exercise, track:, position: 2, slug: 'leap'
+    user_track = create(:user_track, user:, track:)
     refute user.badges.present?
 
-    create :hello_world_solution, :completed, user: user, track: track
-    create :concept_solution, :completed, user: user, track: track, exercise: concept_exercise
+    create(:hello_world_solution, :completed, user:, track:)
+    create :concept_solution, :completed, user:, track:, exercise: concept_exercise
     refute user.reload.badges.present?
 
-    solution = create :practice_solution, user: user, track: track, exercise: practice_exercise
-    create :iteration, solution: solution
+    solution = create :practice_solution, user:, track:, exercise: practice_exercise
+    create(:iteration, solution:)
 
     Solution::Complete.(solution, user_track)
 
@@ -189,18 +189,18 @@ class Solution::CompleteTest < ActiveSupport::TestCase
   test "awards conceptual badge when all the track's learning exercises are now completed" do
     user = create :user
     track = create :track
-    create :hello_world_exercise, track: track
-    concept_exercise = create :concept_exercise, track: track, position: 1
-    practice_exercise = create :practice_exercise, track: track, position: 2, slug: 'leap'
-    user_track = create :user_track, user: user, track: track
+    create(:hello_world_exercise, track:)
+    concept_exercise = create :concept_exercise, track:, position: 1
+    practice_exercise = create :practice_exercise, track:, position: 2, slug: 'leap'
+    user_track = create(:user_track, user:, track:)
     refute user.badges.present?
 
-    create :hello_world_solution, :completed, user: user, track: track
-    create :practice_solution, :completed, user: user, track: track, exercise: practice_exercise
+    create(:hello_world_solution, :completed, user:, track:)
+    create :practice_solution, :completed, user:, track:, exercise: practice_exercise
     refute user.reload.badges.present?
 
-    solution = create :concept_solution, user: user, track: track, exercise: concept_exercise
-    create :iteration, solution: solution
+    solution = create :concept_solution, user:, track:, exercise: concept_exercise
+    create(:iteration, solution:)
 
     Solution::Complete.(solution, user_track)
 
@@ -211,10 +211,10 @@ class Solution::CompleteTest < ActiveSupport::TestCase
   test "adds metric" do
     track = create :track
     user = create :user
-    exercise = create :concept_exercise, track: track
-    user_track = create :user_track, user: user, track: track
-    solution = create :concept_solution, user: user, exercise: exercise
-    create :iteration, solution: solution
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, user:, exercise:)
+    create(:iteration, solution:)
 
     Solution::Complete.(solution, user_track)
     perform_enqueued_jobs

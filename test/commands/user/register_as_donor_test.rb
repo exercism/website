@@ -13,7 +13,7 @@ class User::RegisterAsDonorTest < ActiveSupport::TestCase
 
   test "does not update first_donated_at when already set" do
     first_donated_at = Time.utc(2021, 7, 22)
-    user = create :user, first_donated_at: first_donated_at
+    user = create(:user, first_donated_at:)
 
     User::RegisterAsDonor.(user, Time.current)
 

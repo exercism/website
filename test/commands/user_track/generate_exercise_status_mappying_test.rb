@@ -3,9 +3,9 @@ require "test_helper"
 class UserTrack::GenerateExerciseStatusMappingTest < ActiveSupport::TestCase
   test "maps correctly" do
     track = create :track
-    user_track = create :user_track, track: track
-    basics = create :concept, track: track, slug: 'basics'
-    exercise = create :practice_exercise, :random_slug, track: track, position: 7
+    user_track = create(:user_track, track:)
+    basics = create :concept, track:, slug: 'basics'
+    exercise = create :practice_exercise, :random_slug, track:, position: 7
     exercise.practiced_concepts << basics
 
     mapping = UserTrack::GenerateExerciseStatusMapping.(user_track)
@@ -23,13 +23,13 @@ class UserTrack::GenerateExerciseStatusMappingTest < ActiveSupport::TestCase
 
   test "sorts correctly" do
     track = create :track
-    user_track = create :user_track, track: track
-    basics = create :concept, track: track, slug: 'basics'
-    concept = create :concept_exercise, :random_slug, track: track, position: 11
+    user_track = create(:user_track, track:)
+    basics = create :concept, track:, slug: 'basics'
+    concept = create :concept_exercise, :random_slug, track:, position: 11
     concept.taught_concepts << basics
-    seven = create :practice_exercise, :random_slug, track: track, position: 7
-    five = create :practice_exercise, :random_slug, track: track, position: 5
-    nine = create :practice_exercise, :random_slug, track: track, position: 9
+    seven = create :practice_exercise, :random_slug, track:, position: 7
+    five = create :practice_exercise, :random_slug, track:, position: 5
+    nine = create :practice_exercise, :random_slug, track:, position: 9
     five.practiced_concepts << basics
     seven.practiced_concepts << basics
     nine.practiced_concepts << basics

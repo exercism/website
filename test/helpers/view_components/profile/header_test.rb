@@ -3,7 +3,7 @@ require "test_helper"
 class ViewComponents::Profile::HeaderTest < ActionView::TestCase
   test "roles" do
     user = create :user, roles: [:must_be_present]
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     user.stubs(founder?: true, staff?: true, maintainer?: true)
     html = render(ViewComponents::Profile::Header.new(user, user.profile, nil))
@@ -32,7 +32,7 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Published Solutions"
 
-    create :practice_solution, :published, user: user
+    create(:practice_solution, :published, user:)
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     assert_includes html, "Published Solutions"
   end
@@ -56,7 +56,7 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Contributions"
 
-    create :user_code_contribution_reputation_token, user: user
+    create(:user_code_contribution_reputation_token, user:)
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     assert_includes html, "Contributions"
   end

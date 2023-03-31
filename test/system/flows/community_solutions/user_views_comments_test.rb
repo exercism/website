@@ -11,13 +11,13 @@ module Flows
       test "user sees solution comments" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
-          author: author,
+          author:,
           content_markdown: "# Hello world",
-          solution: solution,
+          solution:,
           updated_at: 2.days.ago
 
         use_capybara_host do
@@ -36,9 +36,9 @@ module Flows
         user = create :user, handle: "other-user"
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -58,13 +58,13 @@ module Flows
       test "user edits a comment" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
-          author: author,
+          author:,
           content_markdown: "# Hello world",
-          solution: solution,
+          solution:,
           updated_at: 2.days.ago
 
         use_capybara_host do
@@ -82,13 +82,13 @@ module Flows
       test "user deletes a comment" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
-          author: author,
+          author:,
           content_markdown: "# Hello world",
-          solution: solution,
+          solution:,
           updated_at: 2.days.ago
 
         use_capybara_host do
@@ -106,9 +106,9 @@ module Flows
       test "user sees comments zero state" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!

@@ -4,10 +4,10 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
   test "sets mentored_by when a mentor has commented on the iteration" do
     mentor = create :user
     submission = create :submission
-    submission_representation = create :submission_representation, submission: submission, mentored_by: nil
-    iteration = create :iteration, submission: submission
-    discussion = create :mentor_discussion, solution: submission.solution, mentor: mentor
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration
+    submission_representation = create :submission_representation, submission:, mentored_by: nil
+    iteration = create(:iteration, submission:)
+    discussion = create(:mentor_discussion, solution: submission.solution, mentor:)
+    create(:mentor_discussion_post, discussion:, iteration:)
 
     Submission::Representation::UpdateMentor.(submission)
 
@@ -16,8 +16,8 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
 
   test "sets mentored_by to nil when no there is no mentoring discussion on the iteration" do
     submission = create :submission
-    submission_representation = create :submission_representation, submission: submission
-    create :iteration, submission: submission
+    submission_representation = create(:submission_representation, submission:)
+    create(:iteration, submission:)
 
     Submission::Representation::UpdateMentor.(submission)
 
@@ -27,9 +27,9 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
   test "sets mentored_by to nil when the mentor has not yet commented on the iteration's mentoring discussion" do
     mentor = create :user
     submission = create :submission
-    submission_representation = create :submission_representation, submission: submission
-    create :iteration, submission: submission
-    create :mentor_discussion, solution: submission.solution, mentor: mentor
+    submission_representation = create(:submission_representation, submission:)
+    create(:iteration, submission:)
+    create(:mentor_discussion, solution: submission.solution, mentor:)
 
     Submission::Representation::UpdateMentor.(submission)
 
@@ -38,7 +38,7 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
 
   test "don't update mentor when the submission has no iteration" do
     submission = create :submission
-    submission_representation = create :submission_representation, submission: submission
+    submission_representation = create(:submission_representation, submission:)
 
     Submission::Representation::UpdateMentor.(submission)
 
@@ -47,7 +47,7 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
 
   test "don't update mentor when the submission has no representation" do
     submission = create :submission
-    create :iteration, submission: submission
+    create(:iteration, submission:)
 
     Submission::Representation::UpdateMentor.(submission)
 
@@ -59,11 +59,11 @@ class Submission::Representation::UpdateMentorTest < ActiveSupport::TestCase
     mentor = create :user
     ghost = create :user, :ghost
     submission = create :submission, user: student
-    submission_representation = create :submission_representation, submission: submission
-    iteration = create :iteration, submission: submission
-    discussion = create :mentor_discussion, solution: submission.solution, mentor: mentor
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration, author: student
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration, author: ghost
+    submission_representation = create(:submission_representation, submission:)
+    iteration = create(:iteration, submission:)
+    discussion = create(:mentor_discussion, solution: submission.solution, mentor:)
+    create :mentor_discussion_post, discussion:, iteration:, author: student
+    create :mentor_discussion_post, discussion:, iteration:, author: ghost
 
     Submission::Representation::UpdateMentor.(submission)
 

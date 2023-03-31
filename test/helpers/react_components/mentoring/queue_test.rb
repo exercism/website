@@ -8,9 +8,9 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
     ruby = create :track, slug: "ruby", title: "Ruby"
     csharp = create :track, slug: "csharp", title: "C#"
 
-    create :user_track_mentorship, user: user, track: fsharp
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: csharp
+    create :user_track_mentorship, user:, track: fsharp
+    create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: csharp
 
     # This shouldn't be included
     strings = create :concept_exercise, track: ruby
@@ -26,8 +26,8 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
     4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     # Create mentor solutions to fred and zipper, with zipper completed
-    create :concept_solution, user: user, exercise: fred
-    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+    create :concept_solution, user:, exercise: fred
+    create :concept_solution, user:, exercise: zipper, completed_at: Time.current
 
     params = {
       criteria: "bo",
@@ -151,8 +151,8 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
     ruby = create :track, slug: "ruby", title: "Ruby"
     csharp = create :track, slug: "csharp", title: "C#"
 
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: csharp, last_viewed: true
+    create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: csharp, last_viewed: true
 
     # This shouldn't be included
     strings = create :concept_exercise, track: ruby
@@ -168,8 +168,8 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
     4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     # Create mentor solutions to fred and zipper, with zipper completed
-    create :concept_solution, user: user, exercise: fred
-    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+    create :concept_solution, user:, exercise: fred
+    create :concept_solution, user:, exercise: zipper, completed_at: Time.current
 
     component = ReactComponents::Mentoring::Queue.new(user, {})
 
@@ -269,9 +269,9 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
     csharp = create :track, slug: "csharp", title: "C#"
     ruby = create :track, slug: "ruby", title: "Ruby"
 
-    create :user_track_mentorship, user: user, track: fsharp
-    ruby_mentorship = create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: csharp
+    create :user_track_mentorship, user:, track: fsharp
+    ruby_mentorship = create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: csharp
 
     # These are csharp and should be included
     bob = create :practice_exercise, track: fsharp, slug: :bob, title: "Bob"

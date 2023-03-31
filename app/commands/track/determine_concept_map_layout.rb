@@ -92,9 +92,7 @@ class Track::DetermineConceptMapLayout
     end
 
     memoize
-    def empty?
-      nodes.empty?
-    end
+    delegate :empty?, to: :nodes
 
     memoize
     def has_cycle?

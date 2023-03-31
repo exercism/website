@@ -5,8 +5,8 @@ class Exercise::MarkSolutionsAsOutOfDateInIndexTest < ActiveSupport::TestCase
     track = create :track, slug: 'fsharp'
     user_1 = create :user
     user_2 = create :user
-    exercise_1 = create :practice_exercise, id: 7, track: track
-    exercise_2 = create :practice_exercise, id: 8, track: track
+    exercise_1 = create(:practice_exercise, id: 7, track:)
+    exercise_2 = create(:practice_exercise, id: 8, track:)
     solution_1 = create :practice_solution, exercise: exercise_1, user: user_1, git_important_files_hash: 'different-hash'
     solution_2 = create :practice_solution, exercise: exercise_1, user: user_2,
       git_important_files_hash: exercise_1.git_important_files_hash

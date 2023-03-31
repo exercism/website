@@ -12,12 +12,12 @@ module Flows
         ruby = create :track
         bob = create :concept_exercise, title: "Bob", track: ruby
         solution = create :concept_solution, exercise: bob
-        discussion = create :mentor_discussion, solution: solution
+        discussion = create(:mentor_discussion, solution:)
         create :mentor_testimonial, :revealed,
-          mentor: mentor,
-          student: student,
+          mentor:,
+          student:,
           content: "Great mentor!",
-          discussion: discussion,
+          discussion:,
           created_at: 1.day.ago
 
         use_capybara_host do

@@ -11,7 +11,7 @@ class User::ReputationToken::AwardForPullRequestsForUser
     pull_requests.find_each do |pr|
       User::ReputationToken::AwardForPullRequest.(**pr.data)
     rescue StandardError => e
-      Rails.logger.error "Error syncing pull request reputation for user #{user.handle} and pr #{pr.repo}/#{pr.number}: #{e}" # rubocop:disable Layout/LineLength
+      Rails.logger.error "Error syncing pull request reputation for user #{user.handle} and pr #{pr.repo}/#{pr.number}: #{e}"
     end
   end
 

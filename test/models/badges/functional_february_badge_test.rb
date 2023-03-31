@@ -22,7 +22,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
 
     # hello world doesn't count
     exercise = create :practice_exercise, slug: 'hello-world', track: fsharp
-    create :practice_solution, :published, user: user, track: fsharp, exercise: exercise, published_at: Time.utc(2022, 2, 1)
+    create :practice_solution, :published, user:, track: fsharp, exercise:, published_at: Time.utc(2022, 2, 1)
     refute badge.award_to?(user.reload)
 
     # 4 bob's is not enough
@@ -34,12 +34,12 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
 
     # Doesn't care if we get a 5th exercise in csharp
     another_exercise = create :practice_exercise, slug: 'leap', track: csharp
-    create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise, published_at: Time.utc(2022, 2, 28)
+    create :practice_solution, :published, user:, track: csharp, exercise: another_exercise, published_at: Time.utc(2022, 2, 28)
     refute badge.award_to?(user.reload)
 
     # Publish a 5th bob, but on second of march
     exercise = create :practice_exercise, slug: 'bob', track: fsharp
-    solution = create :practice_solution, :iterated, user: user, track: fsharp, exercise: exercise,
+    solution = create :practice_solution, :iterated, user:, track: fsharp, exercise:,
       published_at: Time.utc(2022, 3, 2)
     refute badge.award_to?(user.reload)
 

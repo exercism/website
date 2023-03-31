@@ -3,8 +3,8 @@ require 'test_helper'
 class SerializeSubmissionTest < ActiveSupport::TestCase
   test "test submission" do
     user = create :user
-    solution = create :concept_solution, user: user
-    submission = create :submission, solution: solution,
+    solution = create(:concept_solution, user:)
+    submission = create :submission, solution:,
       tests_status: :failed,
       representation_status: :generated,
       analysis_status: :completed

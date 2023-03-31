@@ -3,11 +3,11 @@ require 'test_helper'
 class NotificationsFlowsTest < ActiveSupport::TestCase
   test "notifications generated and sent" do
     user = create :user
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     mentor = create :user
-    request = create :mentor_request, solution: solution
-    submission = create :submission, solution: solution
-    iteration = create :iteration, submission: submission
+    request = create(:mentor_request, solution:)
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, submission:)
     content_markdown = "This\nis some sort of\nreply"
 
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, content_markdown)

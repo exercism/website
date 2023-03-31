@@ -4,7 +4,7 @@ class User::AuthenticateFromOmniauth
   initialize_with :auth
 
   def call
-    find_by_uid || find_by_email || create # rubocop:disable Rails/DynamicFindBy
+    find_by_uid || find_by_email || create
   end
 
   def find_by_uid

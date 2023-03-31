@@ -47,7 +47,7 @@ module ViewComponents
           )
         end
 
-        tabs << concepts_tab if track.course? && !user_track.practice_mode?
+        tabs << concepts_tab if user_track.course? && !user_track.practice_mode?
         tabs << exercises_tab
         tabs << about_tab(:about_track_path) unless user_track.external?
         tabs << build_tab

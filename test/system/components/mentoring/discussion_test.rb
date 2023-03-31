@@ -72,6 +72,86 @@ module Components
         assert_text "Good job"
       end
 
+      test "renders correctly if edited_by is missing" do
+        mentor = create :user
+        student = create :user, handle: "student"
+        create :user, name: "Feedback Author", reputation: 50
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, idx: 1, solution: solution
+        submission = create :submission,
+          solution: solution,
+          iteration: iteration,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        author = create :user, name: "Feedback author"
+        create :exercise_representation,
+          exercise: running,
+          source_submission: submission,
+          feedback_author: author,
+          feedback_markdown: "Good job",
+          feedback_type: :essential,
+          ast_digest: "AST"
+        create :submission_representation,
+          submission: submission,
+          ast_digest: "AST"
+        create :submission_file, submission: submission
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_discussion_path(discussion)
+          click_on "Student received automated feedback"
+        end
+
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        refute_text "edited by Feedback editor"
+        assert_text "Good job"
+      end
+
+      test "doesnt show edited by if author and editor are the same" do
+        mentor = create :user
+        student = create :user, handle: "student"
+        create :user, name: "Feedback Author", reputation: 50
+        ruby = create :track, title: "Ruby"
+        running = create :concept_exercise, title: "Running", track: ruby
+        solution = create :concept_solution, exercise: running, user: student
+        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        iteration = create :iteration, idx: 1, solution: solution
+        submission = create :submission,
+          solution: solution,
+          iteration: iteration,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        author = create :user, name: "Feedback author"
+        editor = create :user, name: "Feedback author"
+        create :exercise_representation,
+          exercise: running,
+          source_submission: submission,
+          feedback_author: author,
+          feedback_editor: editor,
+          feedback_markdown: "Good job",
+          feedback_type: :essential,
+          ast_digest: "AST"
+        create :submission_representation,
+          submission: submission,
+          ast_digest: "AST"
+        create :submission_file, submission: submission
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_discussion_path(discussion)
+          click_on "Student received automated feedback"
+        end
+
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        refute_text "edited by Feedback author"
+        assert_text "Good job"
+      end
+
       test "shows analyzer feedback" do
         mentor = create :user
         student = create :user, handle: "student"

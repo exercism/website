@@ -47,10 +47,12 @@ module Components
           representation_status: :generated,
           analysis_status: :completed
         author = create :user, name: "Feedback author"
+        editor = create :user, name: "Feedback editor"
         create :exercise_representation,
           exercise: running,
           source_submission: submission,
           feedback_author: author,
+          feedback_editor: editor,
           feedback_markdown: "Good job",
           feedback_type: :essential,
           ast_digest: "AST"
@@ -66,6 +68,7 @@ module Components
         end
 
         assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        assert_text "edited by Feedback editor"
         assert_text "Good job"
       end
 

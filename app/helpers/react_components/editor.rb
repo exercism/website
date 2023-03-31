@@ -64,13 +64,10 @@ module ReactComponents
     # TODO: clean this up, and maybe enough to get the latest iteration?
     def request
       {
-        endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
+        endpoint: Exercism::Routes.latest_api_solution_iterations_path(solution.uuid, sideload: [:iterations]),
         options: {
           initial_data: {
-            iterations: solution.
-              iterations.
-              includes(:track, :exercise, :files, :submission).
-              map { |iteration| SerializeIteration.(iteration, sideload: %i[automated_feedback]) }
+            iterations:
           },
           initial_data_updated_at: Time.current.to_i
         }
@@ -85,6 +82,9 @@ module ReactComponents
 
     memoize
     def iteration = submission&.iteration
+
+    memoize
+    def iterations = SerializeIteration.(solution.iterations.includes(:track, :exercise, :files, :submission).last)
 
     memoize
     def discussion = solution.mentor_discussions.last

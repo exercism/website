@@ -241,9 +241,13 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
   end
 
   test "course?" do
-    track = create :track, course: false
-
+    track = create :track
     ut = UserTrack::External.new(track)
+
+    track.update(course: false)
     refute ut.course?
+
+    track.update(course: true)
+    assert ut.course?
   end
 end

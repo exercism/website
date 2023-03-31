@@ -33,7 +33,7 @@ export function useGetLatestIteration({
   const [queryEnabled, setQueryEnabled] = useState(false)
 
   const { resolvedData } = usePaginatedRequestQuery<{
-    iterations: ResolvedIteration[]
+    iteration: ResolvedIteration
   }>(CACHE_KEY, {
     ...request,
     options: {
@@ -41,16 +41,16 @@ export function useGetLatestIteration({
       refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
     },
   })
+
   useEffect(() => {
-    const lastIteration =
-      resolvedData?.iterations[resolvedData.iterations.length - 1]
+    const { iteration } = resolvedData || {}
     if (
-      lastIteration &&
-      submission?.uuid === lastIteration?.submissionUuid &&
-      !PENDING_STATUS.includes(lastIteration.status)
+      iteration &&
+      submission?.uuid === iteration?.submissionUuid &&
+      !PENDING_STATUS.includes(iteration.status)
     ) {
-      setLatestIteration(lastIteration)
-      setCheckStatus(lastIteration.status)
+      setLatestIteration(iteration)
+      setCheckStatus(iteration.status)
     } else {
       setCheckStatus('loading')
       setLatestIteration(undefined)

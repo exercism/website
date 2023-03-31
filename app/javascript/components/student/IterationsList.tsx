@@ -109,7 +109,7 @@ export const IterationsList = ({
     }
 
     if (isOpen.length === 0) {
-      setIsOpen(resolvedData.iterations.map((_, i) => (i === 0 ? true : false)))
+      setIsOpen(resolvedData.iterations.map((_, i) => i === 0))
 
       return
     }

@@ -33,7 +33,7 @@ function TakingTooLong(): JSX.Element {
       <p className="text-p-base">
         Sorry, this is taking a little long.
         <br />
-        We&apos;ll continue generating feedback in the background.
+        We&apos;ll continue gathering feedback in the background.
       </p>
     </div>
   )

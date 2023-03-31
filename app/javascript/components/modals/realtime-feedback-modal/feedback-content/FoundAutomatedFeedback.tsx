@@ -7,7 +7,7 @@ import { FeedbackContentProps } from '../FeedbackContent'
 
 const HEADLINE = [
   "We've found some automated feedback",
-  "We've found a celebratory automated feedback! 🎉",
+  "We've found celebratory automated feedback! 🎉",
 ]
 
 export function FoundAutomatedFeedback({

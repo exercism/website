@@ -237,7 +237,7 @@ module Components
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionChannel.broadcast!(solution)
-          assert_text "We've found a celebratory automated feedback! 🎉"
+          assert_text "We've found celebratory automated feedback! 🎉"
         end
       end
 

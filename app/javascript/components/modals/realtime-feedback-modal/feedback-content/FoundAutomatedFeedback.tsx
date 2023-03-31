@@ -39,15 +39,15 @@ export function FoundAutomatedFeedback({
           />
         ) : null}
       </div>
-      {latestIteration?.representerFeedback ? (
-        <RepresenterFeedback {...latestIteration.representerFeedback} />
-      ) : null}
       {latestIteration?.analyzerFeedback ? (
         <AnalyzerFeedback
           {...latestIteration.analyzerFeedback}
           track={track}
           automatedFeedbackInfoLink={automatedFeedbackInfoLink}
         />
+      ) : null}
+      {latestIteration?.representerFeedback ? (
+        <RepresenterFeedback {...latestIteration.representerFeedback} />
       ) : null}
       <div className="flex gap-16 mt-16">
         {!celebratory && <GoBackToExercise onClick={onClose} />}

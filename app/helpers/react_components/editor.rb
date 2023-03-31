@@ -67,7 +67,7 @@ module ReactComponents
         endpoint: Exercism::Routes.latest_api_solution_iterations_path(solution.uuid, sideload: [:iterations]),
         options: {
           initial_data: {
-            iterations:
+            iteration:
           },
           initial_data_updated_at: Time.current.to_i
         }

@@ -65,6 +65,34 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "latest allows sideloading automated feedback" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create :iteration, solution: solution
+    submission = create :submission, solution: solution,
+      tests_status: :passed,
+      representation_status: :queued,
+      analysis_status: :queued
+    create :submission_analysis, submission: submission, data: {
+      comments: [
+        { type: "informative", comment: "ruby.two-fer.splat_args" },
+        { type: "essential", comment: "ruby.two-fer.splat_args" }
+      ]
+    }
+    it_2 = create :iteration, submission: submission
+
+    get latest_api_solution_iterations_path(solution.uuid, sideload: [:automated_feedback]), headers: @headers, as: :json
+    assert_response :ok
+
+    expected = { iteration: SerializeIteration.(it_2.reload, sideload: [:automated_feedback]) }
+    # expected[:iteration][:analyzer_feedback][:comments][0][:type] = 'essential'
+    # expected[:iteration][:analyzer_feedback][:comments][1][:type] = 'informative'
+    actual = JSON.parse(response.body, symbolize_names: true)
+    # pp actual
+    # pp expected
+    assert_equal expected, actual
+  end
+
   ###
   # latest_status
   ###

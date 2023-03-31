@@ -5,10 +5,11 @@ module API
     before_action :use_iteration, only: %i[destroy automated_feedback]
 
     def latest
-      iteration = @solution.iterations.last
+      iteration = @solution.iterations.includes(:track, :exercise, :files, :submission).last
       return render_iteration_not_found if iteration.nil?
 
-      render json: { iteration: SerializeIteration.(iteration) }
+      sideload = sideload?(:automated_feedback) ? [:automated_feedback] : []
+      render json: { iteration: SerializeIteration.(iteration, sideload:) }
     end
 
     # TOOD: Would it be better to have a status for no iteration status

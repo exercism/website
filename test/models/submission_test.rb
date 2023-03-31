@@ -318,7 +318,8 @@ class SubmissionTest < ActiveSupport::TestCase
         reputation: 50,
         avatar_url: author.avatar_url,
         profile_url: nil
-      }
+      },
+      editor: nil
     }
     assert_equal expected, submission.representer_feedback
   end

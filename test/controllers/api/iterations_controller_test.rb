@@ -85,11 +85,9 @@ class API::IterationsControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = { iteration: SerializeIteration.(it_2.reload, sideload: [:automated_feedback]) }
-    # expected[:iteration][:analyzer_feedback][:comments][0][:type] = 'essential'
-    # expected[:iteration][:analyzer_feedback][:comments][1][:type] = 'informative'
+    expected[:iteration][:analyzer_feedback][:comments][0][:type] = 'essential'
+    expected[:iteration][:analyzer_feedback][:comments][1][:type] = 'informative'
     actual = JSON.parse(response.body, symbolize_names: true)
-    # pp actual
-    # pp expected
     assert_equal expected, actual
   end
 

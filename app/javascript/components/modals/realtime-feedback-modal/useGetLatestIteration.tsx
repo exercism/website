@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQueryCache } from 'react-query'
 import { usePaginatedRequestQuery } from '@/hooks'
-import { SolutionChannel } from '@/channels/solutionChannel'
+import { SolutionWithLatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
 import { IterationStatus } from '@/components/types'
 import type {
   RealtimeFeedbackModalProps,
@@ -58,10 +58,10 @@ export function useGetLatestIteration({
   }, [latestIteration, resolvedData, submission])
 
   useEffect(() => {
-    const solutionChannel = new SolutionChannel(
+    const solutionChannel = new SolutionWithLatestIterationChannel(
       { uuid: solution.uuid },
       (response) => {
-        queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
+        queryCache.setQueryData(CACHE_KEY, { iteration: response.iteration })
       }
     )
 

@@ -928,7 +928,6 @@ class UserTrackTest < ActiveSupport::TestCase
     non_maintainer_user_track = create :user_track, track: track, user: non_maintainer
     maintainer = create :user, :maintainer, uid: '256123'
     maintainer_user_track = create :user_track, track: track, user: maintainer
-    create :github_team_member, user_id: maintainer.uid, team_name: track.github_team_name
 
     track.update(course: true)
     assert non_maintainer_user_track.course?
@@ -940,6 +939,11 @@ class UserTrackTest < ActiveSupport::TestCase
 
     create :concept_exercise, status: :wip, track: track
     refute non_maintainer_user_track.course?
-    assert maintainer_user_track.course?
+    refute maintainer_user_track.course?
+
+    # Only track maintainer that are in the track's GitHub team are excempted
+    create :github_team_member, user_id: maintainer.uid, team_name: track.github_team_name
+    refute non_maintainer_user_track.reload.course?
+    assert maintainer_user_track.reload.course?
   end
 end

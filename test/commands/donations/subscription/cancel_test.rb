@@ -6,7 +6,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     user = create :user, active_donation_subscription: true
     subscription = create :donations_subscription, user:, stripe_id: subscription_id
 
-    Stripe::Subscription.expects(:delete).with(subscription_id)
+    Stripe::Subscription.expects(:cancel).with(subscription_id)
 
     Donations::Subscription::Cancel.(subscription)
     refute subscription.active?
@@ -19,7 +19,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     subscription = create :donations_subscription, user:, stripe_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000, status: 'active')
-    Stripe::Subscription.expects(:delete).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
+    Stripe::Subscription.expects(:cancel).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
     Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
 
     assert_raises do
@@ -33,7 +33,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     subscription = create :donations_subscription, user:, stripe_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000, status: 'canceled')
-    Stripe::Subscription.expects(:delete).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
+    Stripe::Subscription.expects(:cancel).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
     Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
 
     Donations::Subscription::Cancel.(subscription)

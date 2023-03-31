@@ -921,4 +921,25 @@ class UserTrackTest < ActiveSupport::TestCase
     create :github_team_member, user_id: user.uid, team_name: track.github_team_name
     assert user_track.reload.maintainer?
   end
+
+  test "course?" do
+    track = create :track
+    non_maintainer = create :user
+    non_maintainer_user_track = create :user_track, track: track, user: non_maintainer
+    maintainer = create :user, :maintainer, uid: '256123'
+    maintainer_user_track = create :user_track, track: track, user: maintainer
+    create :github_team_member, user_id: maintainer.uid, team_name: track.github_team_name
+
+    track.update(course: true)
+    assert non_maintainer_user_track.course?
+    assert maintainer_user_track.course?
+
+    track.update(course: false)
+    refute non_maintainer_user_track.course?
+    refute maintainer_user_track.course?
+
+    create :concept_exercise, status: :wip, track: track
+    refute non_maintainer_user_track.course?
+    assert maintainer_user_track.course?
+  end
 end

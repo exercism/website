@@ -19,7 +19,7 @@ class Donations::PaymentIntent::Cancel
   end
 
   def delete_subscription!(subscription_id)
-    Stripe::Subscription.delete(subscription_id)
+    Stripe::Subscription.cancel(subscription_id)
   rescue StandardError => e
     Rails.logger.error(e)
   end

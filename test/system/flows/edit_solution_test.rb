@@ -193,7 +193,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionChannel.broadcast!(solution)
+          SolutionWithLatestIterationChannel.broadcast!(solution)
           refute_text "Checking for automated feedback"
           assert_text "There is no automated feedback for this exercise"
           assert_text "we recommend requesting a code review"
@@ -236,7 +236,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionChannel.broadcast!(solution)
+          SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "We've found celebratory automated feedback! 🎉"
         end
       end
@@ -275,7 +275,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionChannel.broadcast!(solution)
+          SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
           assert_text "We've found some automated feedback"
         end
@@ -315,7 +315,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionChannel.broadcast!(solution)
+          SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
           assert_text "We've found some automated feedback"
           click_on "Go back to editor"

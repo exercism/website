@@ -1,11 +1,11 @@
 module Badges
-  class MechanicalMarchBadge < Badge
-    TRACK_SLUGS = %w[c cpp d go nim rust vlang zig].freeze
+  class AnalyticalAprilBadge < Badge
+    TRACK_SLUGS = %w[julia python r].freeze
 
-    seed "Mechanical March",
+    seed "Analytical April",
       :rare,
-      'badge-machine-code',
-      'Completed and published five exercises in a systems language in March'
+      'badge-analytical-april',
+      'Completed and published five exercises in an analytical language in April'
 
     def self.worth_queuing?(exercise:)
       return false if exercise.tutorial?
@@ -17,9 +17,9 @@ module Badges
       user.solutions.published.joins(exercise: :track).
         where('tracks.slug': TRACK_SLUGS).
         where('
-                (MONTH(published_at) = 2 AND (DAY(published_at) = 28 OR DAY(published_at) = 29)) OR
-                (MONTH(published_at) = 3) OR
-                (MONTH(published_at) = 4 AND DAY(published_at) = 1)
+                (MONTH(published_at) = 3 AND DAY(published_at) = 31) OR
+                (MONTH(published_at) = 4) OR
+                (MONTH(published_at) = 5 AND DAY(published_at) = 1)
               ').
         where.not('exercises.slug': 'hello-world').
         count >= 5

@@ -3,7 +3,7 @@ module Badges
     TRACK_SLUGS = %w[c cpp d go nim rust vlang zig].freeze
 
     seed "Mechanical March",
-      :ultimate,
+      :rare,
       'badge-machine-code',
       'Completed and published five exercises in a systems language in March'
 
@@ -16,7 +16,11 @@ module Badges
     def award_to?(user)
       user.solutions.published.joins(exercise: :track).
         where('tracks.slug': TRACK_SLUGS).
-        where('MONTH(published_at) = 3').
+        where('
+                (MONTH(published_at) = 2 AND (DAY(published_at) = 28 OR DAY(published_at) = 29)) OR
+                (MONTH(published_at) = 3) OR
+                (MONTH(published_at) = 4 AND DAY(published_at) = 1)
+              ').
         where.not('exercises.slug': 'hello-world').
         count >= 5
     end

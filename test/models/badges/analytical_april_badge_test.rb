@@ -4,8 +4,8 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :analytical_april_badge
     assert_equal "Analytical April", badge.name
-    assert_equal :ultimate, badge.rarity
-    assert_equal :'badge-machine-code', badge.icon
+    assert_equal :rare, badge.rarity
+    assert_equal :'badge-analytical-april', badge.icon
     assert_equal 'Completed and published five exercises in an analytical language in April', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
@@ -37,10 +37,10 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
     create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise, published_at: Time.utc(2023, 4, 6)
     refute badge.award_to?(user.reload)
 
-    # Iterate a 5th bob, but in February
+    # Iterate a 5th bob, but in March
     exercise = create :practice_exercise, slug: 'bob', track: python
     solution = create :practice_solution, :iterated, user: user, track: python, exercise: exercise,
-      published_at: Time.utc(2023, 3, 1)
+      published_at: Time.utc(2023, 3, 30)
     refute badge.award_to?(user.reload)
 
     # Complete it
@@ -49,6 +49,30 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
 
     # Publish it
     solution.update(published_at: Time.utc(2023, 4, 28))
+    assert badge.award_to?(user.reload)
+  end
+
+  test "last day of march" do
+    user = create :user
+    badge = create :analytical_april_badge
+    python = create :track, slug: 'python'
+    5.times do
+      exercise = create :practice_exercise, slug: 'bob', track: python
+      create :practice_solution, :iterated, user:, track: python, exercise:,
+        published_at: Time.utc(2023, 3, 31)
+    end
+    assert badge.award_to?(user.reload)
+  end
+
+  test "last day of may" do
+    user = create :user
+    badge = create :analytical_april_badge
+    python = create :track, slug: 'python'
+    5.times do
+      exercise = create :practice_exercise, slug: 'bob', track: python
+      create :practice_solution, :iterated, user:, track: python, exercise:,
+        published_at: Time.utc(2023, 5, 1)
+    end
     assert badge.award_to?(user.reload)
   end
 

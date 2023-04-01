@@ -5,17 +5,13 @@
 
     & header.hero {
         @apply mb-4;
-
-        & .container {
-            @apply relative;
-        }
+        @apply relative;
 
         & .background {
             @apply absolute;
             left: 0;
             right: 0;
-            top: 0;
-
+            bottom: 0;
             & .bottom {
                 @apply absolute;
                 height: 180px;
@@ -30,6 +26,7 @@
                 );
             }
         }
+
         & .content {
             @apply relative;
             @apply flex flex-col items-center;

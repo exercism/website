@@ -8,7 +8,7 @@
             Month 4 of #12in23
           %h1.text-h1.mb-8 It's Analytical April! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that excel at analyzing data. We've got interviews with core language and community members (from Go, Rust and hopefully more!), lots of live streaming, exclusive swag and more.
+            This month for #12in23 we're exploring languages that excel at data science. We're digging into Python, Julia and R, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
             .flex-shrink
@@ -21,7 +21,7 @@
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/_PPXEJZ7gOg", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/RTWo4C1r41I", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
@@ -66,24 +66,25 @@
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12
-            Throughout the month we'll have interviews — including Josh Triplett, the co-lead of Rust, and Jonny Boursiquot, a key member of the Go community — walkthroughs from Exercism track contributors, and live streams of the community solving exercises. We're hoping to give some regular streamers official residencies this month too!
+            Throughout the month we'll have interviews, walkthroughs from Exercism track contributors, and live streams of the community solving exercises. Our streaming team is really growing so definitely check out what's on!
             Subscribe to our
             = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
             and
             = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
             to not miss out!
-            There is a schedule at the top right of this page.
+            There's also a schedule at the top right of this page.
 
           %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
           %ul.text-p-large.list-disc.pl-16
             %li.mb-4
               Help us compile the
-              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-systems-languages/4181"
-              for learning and mastering analytical languages in our dedicated forum thread.
+              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-data-science-languages/4955"
+              for learning and mastering data science languages in our dedicated forum thread.
             %li.mb-4
               Join in the conversation by using the
-              = link_to "#12in23 tag on our forums", "https://forum.exercism.org/tag/12in23"
-              or the
+              #{link_to '#12in23 tag on our forums', 'https://forum.exercism.org/tag/12in23'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord'},
+              or using the
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4

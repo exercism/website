@@ -31,13 +31,11 @@ function EditedBy({
   author,
   editor,
 }: Pick<Props, 'author' | 'editor'>): JSX.Element | null {
-  if (!editor || editor.name === author.name) {
-    return null
-  } else {
-    return (
-      <em>
-        &nbsp;(edited by <strong>{editor.name}</strong>)
-      </em>
-    )
-  }
+  if (!editor || editor.name === author.name) return null
+
+  return (
+    <em>
+      &nbsp;(edited by <strong>{editor.name}</strong>)
+    </em>
+  )
 }

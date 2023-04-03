@@ -36,6 +36,7 @@ class Solution::Publish
   def award_badges!
     AwardBadgeJob.perform_later(solution.user, :functional_february)
     AwardBadgeJob.perform_later(solution.user, :mechanical_march)
+    AwardBadgeJob.perform_later(solution.user, :analytical_april)
   end
 
   def record_activity!

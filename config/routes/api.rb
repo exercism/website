@@ -187,6 +187,7 @@ namespace :api do
         collection do
           get :with_feedback
           get :without_feedback
+          get :admin
           get :tracks_with_feedback
           get :tracks_without_feedback
         end

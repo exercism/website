@@ -127,6 +127,33 @@ module Flows
           end
         end
       end
+
+      test "mentor sees all feedback of their supermentor frequency tracks where feedback has been given on admin page" do
+        mentor = create :user, :supermentor
+        other_mentor = create :user, :supermentor
+
+        track = create :track, slug: :csharp, title: 'C#'
+
+        exercise_1 = create :practice_exercise, track: track, slug: 'bob'
+        exercise_2 = create :practice_exercise, track: track, slug: 'leap'
+        exercise_3 = create :practice_exercise, track: track, slug: 'isogram'
+
+        create :exercise_representation, :with_feedback, exercise: exercise_1, num_submissions: 3, feedback_author: mentor
+        create :exercise_representation, :with_feedback, exercise: exercise_2, num_submissions: 2, feedback_author: other_mentor
+        create :exercise_representation, exercise: exercise_3, feedback_type: nil, num_submissions: 3
+
+        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: track
+        create :user_track_mentorship, :supermentor_frequency, user: other_mentor, track: track
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit admin_mentoring_automation_index_path
+
+          assert_text exercise_1.title
+          assert_text exercise_2.title
+          refute_text exercise_3.title
+        end
+      end
     end
   end
 end

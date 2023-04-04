@@ -5,12 +5,18 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { QueryStatus } from 'react-query'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import { ListState, useList } from '../../../hooks/use-list'
-import { AutomationTrack, Representation } from '../../types'
+import {
+  ListState,
+  useList,
+  usePaginatedRequestQuery,
+  Request,
+  useHistory,
+  removeEmpty,
+} from '@/hooks'
 import { useTrackList } from '../queue/useTrackList'
+import { SelectedTab } from './Representation'
+import type { QueryStatus } from 'react-query'
+import type { AutomationTrack, Representation } from '@/components/types'
 
 export type APIResponse = {
   results: Representation[]
@@ -44,6 +50,7 @@ type returnMentoringAutomation = {
   trackListError: unknown
   isTrackListFetching: boolean
   feedbackCount: {
+    all_with_feedback: number | undefined
     with_feedback: number | undefined
     without_feedback: number | undefined
   }
@@ -58,11 +65,12 @@ const initialTrackData: AutomationTrack = {
 
 export function useAutomation(
   representationsRequest: Request,
+  allRepresentationsWithFeedbackCount: number | undefined,
   representationsWithFeedbackCount: number | undefined,
   representationsWithoutFeedbackCount: number | undefined,
   tracksRequest: Request,
   cacheKey: string,
-  withFeedback: boolean
+  selectedTab: SelectedTab
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
@@ -154,25 +162,37 @@ export function useAutomation(
 
   // Get the proper count number of automation requests for tabs
   const getFeedbackCount = useCallback(
-    (withFeedback) => {
-      if (withFeedback && resolvedData) {
-        return {
-          with_feedback: resolvedData.meta.totalCount,
-          without_feedback: representationsWithoutFeedbackCount,
+    (selectedTab: SelectedTab) => {
+      if (resolvedData) {
+        switch (selectedTab) {
+          case 'with_feedback':
+            return {
+              all_with_feedback: allRepresentationsWithFeedbackCount,
+              with_feedback: resolvedData.meta.totalCount,
+              without_feedback: representationsWithoutFeedbackCount,
+            }
+          case 'without_feedback':
+            return {
+              all_with_feedback: allRepresentationsWithFeedbackCount,
+              with_feedback: representationsWithFeedbackCount,
+              without_feedback: resolvedData.meta.totalCount,
+            }
+          case 'admin':
+            return {
+              all_with_feedback: resolvedData.meta.totalCount,
+              with_feedback: representationsWithFeedbackCount,
+              without_feedback: representationsWithoutFeedbackCount,
+            }
         }
-      } else if (resolvedData) {
+      } else
         return {
-          with_feedback: representationsWithFeedbackCount,
-          without_feedback: resolvedData.meta.totalCount,
-        }
-      } else {
-        return {
+          all_with_feedback: 0,
           with_feedback: 0,
           without_feedback: 0,
         }
-      }
     },
     [
+      allRepresentationsWithFeedbackCount,
       representationsWithFeedbackCount,
       representationsWithoutFeedbackCount,
       resolvedData,
@@ -180,8 +200,8 @@ export function useAutomation(
   )
 
   const feedbackCount = useMemo(
-    () => getFeedbackCount(withFeedback),
-    [getFeedbackCount, withFeedback]
+    () => getFeedbackCount(selectedTab),
+    [getFeedbackCount, selectedTab]
   )
 
   return {
@@ -196,7 +216,7 @@ export function useAutomation(
     setChecked,
     order: request.query.order,
     setOrder,
-    page: request.query.page,
+    page: request.query.page || 1,
     setPage,
     tracks,
     trackListStatus,

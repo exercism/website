@@ -121,6 +121,7 @@ Rails.application.routes.draw do
     resources :automation, only: %i[index edit], param: :uuid do
       collection do
         get :with_feedback
+        get :admin
         get :tooltip_locked
       end
     end

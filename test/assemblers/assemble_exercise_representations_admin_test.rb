@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
+class AssembleExerciseRepresentationsAdminTest < ActiveSupport::TestCase
   test "index should return top 20 serialized correctly" do
     track = create :track
     user = create :user
@@ -20,25 +20,23 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsWithFeedback.(user, params)
+    assert_equal expected, AssembleExerciseRepresentationsAdmin.(params)
   end
 
   test "should proxy correctly" do
     track = create :track
-    mentor = create :user
     criteria = 'bob'
     order = 'num_submissions'
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
       with_feedback: true,
-      mentor:,
       track:,
       page:,
       order:,
       criteria:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsWithFeedback.(mentor, { track_slug: track.slug, criteria:, order:, page: })
+    AssembleExerciseRepresentationsAdmin.({ track_slug: track.slug, criteria:, order:, page: })
   end
 end

@@ -1,19 +1,19 @@
 module ReactComponents
   module Mentoring
     module Representations
-      class WithoutFeedback < ReactComponent
+      class Admin < ReactComponent
         initialize_with :mentor, :params
 
         def to_s
           super(
-            "mentoring-representations-without-feedback",
+            "mentoring-representations-admin",
             {
               representations_request:,
               tracks_request:,
               links:,
               sort_options: SORT_OPTIONS,
+              representations_without_feedback_count:,
               representations_with_feedback_count:,
-              all_representations_with_feedback_count:,
               is_introducer_hidden:
             }
           )
@@ -22,7 +22,7 @@ module ReactComponents
         private
         def representations_request
           {
-            endpoint: Exercism::Routes.without_feedback_api_mentoring_representations_url,
+            endpoint: Exercism::Routes.admin_api_mentoring_representations_url,
             query: representations_request_params,
             options: {
               initial_data: representations,
@@ -34,7 +34,6 @@ module ReactComponents
         memoize
         def representations_request_params
           {
-            only_mentored_solutions: params[:only_mentored_solutions],
             criteria: params.fetch(:criteria, ''),
             track_slug: params.fetch(:track_slug, track_slugs.first),
             order: params[:order],
@@ -42,8 +41,11 @@ module ReactComponents
           }.compact
         end
 
-        def representations
-          AssembleExerciseRepresentationsWithoutFeedback.(mentor, representations_request_params)
+        def representations = AssembleExerciseRepresentationsAdmin.(representations_request_params)
+
+        def representations_without_feedback_count
+          Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false,
+            track: ::Track.where(slug: track_slugs)).count
         end
 
         def representations_with_feedback_count
@@ -51,14 +53,9 @@ module ReactComponents
             track: ::Track.where(slug: track_slugs)).count
         end
 
-        def all_representations_with_feedback_count
-          Exercise::Representation::Search.(mentor: nil, with_feedback: true, sorted: false, paginated: false,
-            track: ::Track.where(slug: track_slugs)).count
-        end
-
         def tracks_request
           {
-            endpoint: Exercism::Routes.tracks_without_feedback_api_mentoring_representations_url,
+            endpoint: Exercism::Routes.tracks_with_feedback_api_mentoring_representations_url,
             options: {
               initial_data: tracks,
               stale_time: 5000 # milliseconds
@@ -67,15 +64,15 @@ module ReactComponents
         end
 
         memoize
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: false)
+        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }
 
         def links
           {
+            without_feedback: Exercism::Routes.mentoring_automation_index_path,
             with_feedback: Exercism::Routes.with_feedback_mentoring_automation_index_path,
-            admin: Exercism::Routes.admin_mentoring_automation_index_path,
             hide_introducer: Exercism::Routes.hide_api_settings_introducer_path(INTRODUCER_SLUG)
           }
         end

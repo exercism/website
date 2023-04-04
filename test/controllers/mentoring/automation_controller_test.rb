@@ -3,7 +3,10 @@ require "test_helper"
 class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
   %i[admin staff supermentor].each do |role|
     test "index: renders correctly for #{role}" do
+      track = create :track
       user = create :user, role
+      create :exercise_representation, feedback_type: nil, num_submissions: 3, track: track
+      create :user_track_mentorship, :supermentor_frequency, user: user, track: track
       sign_in!(user)
 
       get mentoring_automation_index_path

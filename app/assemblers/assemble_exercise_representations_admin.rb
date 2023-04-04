@@ -1,9 +1,9 @@
-class AssembleExerciseRepresentationsWithoutFeedback
+class AssembleExerciseRepresentationsAdmin
   include Mandate
 
-  def self.keys = %i[page order criteria track_slug only_mentored_solutions]
+  def self.keys = %i[page order criteria track_slug]
 
-  initialize_with :mentor, :params
+  initialize_with :params
 
   def call
     SerializePaginatedCollection.(
@@ -11,8 +11,7 @@ class AssembleExerciseRepresentationsWithoutFeedback
       serializer: SerializeExerciseRepresentations,
       serializer_kwargs: { params: },
       meta: {
-        unscoped_total: 0 # TODO: fix performance
-        # unscoped_total: Exercise::Representation.without_feedback.count
+        unscoped_total: Exercise::Representation.with_feedback.count
       }
     )
   end
@@ -21,10 +20,8 @@ class AssembleExerciseRepresentationsWithoutFeedback
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor:,
       track:,
-      with_feedback: false,
-      only_mentored_solutions: params[:only_mentored_solutions],
+      with_feedback: true,
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)

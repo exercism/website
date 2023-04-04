@@ -311,14 +311,13 @@ export type Iteration = {
   }
 }
 
+type FeedbackContributor = Pick<User, 'name' | 'avatarUrl' | 'reputation'> & {
+  profileUrl: string
+}
 export type RepresenterFeedback = {
   html: string
-  author: {
-    name: string
-    reputation: number
-    avatarUrl: string
-    profileUrl: string
-  }
+  author: FeedbackContributor
+  editor?: FeedbackContributor
 }
 
 export type AnalyzerFeedback = {

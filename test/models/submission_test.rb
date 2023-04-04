@@ -318,9 +318,42 @@ class SubmissionTest < ActiveSupport::TestCase
         reputation: 50,
         avatar_url: author.avatar_url,
         profile_url: nil
-      }
+      },
+      editor: nil
     }
     assert_equal expected, submission.representer_feedback
+  end
+
+  test "representer_feedback with editor" do
+    reputation = 50
+    author = create :user, reputation: reputation
+    editor = create :user, reputation: 33
+    markdown = "foobar"
+    ast_digest = "digest"
+    submission = create :submission, representation_status: :generated
+    create :submission_representation, ast_digest: ast_digest, submission: submission
+    exercise_representation = create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
+      feedback_markdown: markdown, feedback_author: author, feedback_type: :essential
+
+    assert_nil submission.representer_feedback[:editor]
+
+    exercise_representation.update(feedback_editor: editor)
+    expected = {
+      html: "<p>foobar</p>\n",
+      author: {
+        name: author.name,
+        reputation: 50,
+        avatar_url: author.avatar_url,
+        profile_url: nil
+      },
+      editor: {
+        name: editor.name,
+        reputation: editor.reputation,
+        avatar_url: editor.avatar_url,
+        profile_url: nil
+      }
+    }
+    assert_equal expected, submission.reload.representer_feedback
   end
 
   test "analyzer_feedback is populated correctly" do

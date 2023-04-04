@@ -151,6 +151,7 @@ class Submission < ApplicationRecord
     return nil unless exercise_representation&.has_feedback?
 
     author = exercise_representation.feedback_author
+    editor = exercise_representation.feedback_editor
 
     {
       html: exercise_representation.feedback_html,
@@ -159,7 +160,15 @@ class Submission < ApplicationRecord
         reputation: author.reputation,
         avatar_url: author.avatar_url,
         profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
-      }
+      },
+      editor: if editor.present?
+                {
+                  name: editor.name,
+                  reputation: editor.reputation,
+                  avatar_url: editor.avatar_url,
+                  profile_url: editor.profile ? Exercism::Routes.profile_url(editor) : nil
+                }
+              end
     }
   end
 

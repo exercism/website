@@ -129,7 +129,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "mentor_finished! doesn't modernise existing time" do
+  test "mentor_finished! doesn't modernize existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
@@ -160,7 +160,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "awaiting_student! doesn't modernise existing time" do
+  test "awaiting_student! doesn't modernize existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
@@ -211,7 +211,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "awaiting_mentor doesn't modernise existing time" do
+  test "awaiting_mentor doesn't modernize existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 

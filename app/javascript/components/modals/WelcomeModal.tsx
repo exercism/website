@@ -73,7 +73,7 @@ export const WelcomeModal = ({
         <p className="mb-12">
           To get started, watch the welcome video on the right then head to the
           Tracks page and choose the language you want to explore first. Solve
-          the classic "Hello World" exercise to familiarise yourself with the
+          the classic "Hello World" exercise to familiarize yourself with the
           platform, then start solving exercises for real.
         </p>
 

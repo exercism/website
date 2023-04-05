@@ -7,7 +7,6 @@ import { ProcessingStatusSummary } from '../common'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
-import { CopyButton } from '../mentoring/session/iteration-view/iteration-header/CopyButton'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
@@ -117,7 +116,6 @@ export function IterationSummary({
           }
         />
       ) : null}
-      {iteration.files && <CopyButton files={iteration.files} />}
       <time
         dateTime={iteration.createdAt.toString()}
         title={iteration.createdAt.toString()}

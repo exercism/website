@@ -36,6 +36,7 @@
     }
     & section.iterations {
         & .iteration {
+            @apply relative;
             @apply mb-16 shadow-lg rounded-8;
             @apply flex flex-col;
 

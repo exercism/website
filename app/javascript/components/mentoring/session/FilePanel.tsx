@@ -3,6 +3,7 @@ import { Tab, TabContext } from '../../common/Tab'
 import { FileViewer } from './FileViewer'
 import { TestsPanel, TestContentWrapper } from '@/components/editor/index'
 import { File, TestFile } from '../../types'
+import { CopyButton } from './iteration-view/iteration-header/CopyButton'
 
 const TabsContext = createContext<TabContext>({
   current: '',
@@ -45,24 +46,28 @@ export const FilePanel = ({
     >
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
-          {files.map((file) => (
-            <Tab key={file.digest} id={file.filename} context={TabsContext}>
-              {file.filename}
-            </Tab>
-          ))}
+          <div className="flex flex-grow relative">
+            {files.map((file) => (
+              <Tab key={file.digest} id={file.filename} context={TabsContext}>
+                {file.filename}
+              </Tab>
+            ))}
 
-          {instructions ? (
-            <Tab key="instructions" id="instructions" context={TabsContext}>
-              Instructions
-            </Tab>
-          ) : null}
+            {instructions ? (
+              <Tab key="instructions" id="instructions" context={TabsContext}>
+                Instructions
+              </Tab>
+            ) : null}
 
-          {testFiles ? (
-            <Tab key="tests" id="tests" context={TabsContext}>
-              Tests
-            </Tab>
-          ) : null}
+            {testFiles ? (
+              <Tab key="tests" id="tests" context={TabsContext}>
+                Tests
+              </Tab>
+            ) : null}
+          </div>
+          {files && <CopyButton files={files} />}
         </div>
+
         <div className="c-code-pane">
           {files.map((file) => (
             <Tab.Panel

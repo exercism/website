@@ -104,7 +104,6 @@ export function IterationSummary({
         <ProcessingStatusSummary iterationStatus={iteration.status} />
       )}
 
-      {iteration.files && <CopyButton files={iteration.files} />}
       {showFeedbackIndicator ? (
         <AnalysisStatusSummary
           numEssentialAutomatedComments={
@@ -118,6 +117,7 @@ export function IterationSummary({
           }
         />
       ) : null}
+      {iteration.files && <CopyButton files={iteration.files} />}
       <time
         dateTime={iteration.createdAt.toString()}
         title={iteration.createdAt.toString()}

@@ -86,7 +86,7 @@
         }
     }
     & > .c-copy-text-to-clipboard {
-        @apply border-borderColor6 shadow-xsZ1 ml-16;
+        @apply border-borderColor6 shadow-xsZ1 ml-32;
         @apply w-auto;
         @apply py-0 px-12;
         height: 40px;

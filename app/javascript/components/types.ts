@@ -414,6 +414,7 @@ export type MentorDiscussion = {
   iterationsCount: number
   createdAt: string
   updatedAt: string
+  tooltipUrl: string
   links: {
     self: string
     posts: string

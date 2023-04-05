@@ -10,7 +10,11 @@ const KEY_NAMES_LEGACY = Object.freeze({
   SPACE: 'Space',
 })
 
-export function CopyToClipboardButton({ textToCopy }: { textToCopy: string }) {
+export function CopyToClipboardButton({
+  textToCopy,
+}: {
+  textToCopy: string
+}): JSX.Element {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [justCopied, setJustCopied] = useState(false)
 

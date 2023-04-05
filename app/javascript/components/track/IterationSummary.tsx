@@ -7,6 +7,7 @@ import { ProcessingStatusSummary } from '../common'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
+import { CopyButton } from '../mentoring/session/iteration-view/iteration-header/CopyButton'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
@@ -102,6 +103,8 @@ export function IterationSummary({
       ) : (
         <ProcessingStatusSummary iterationStatus={iteration.status} />
       )}
+
+      {iteration.files && <CopyButton files={iteration.files} />}
       {showFeedbackIndicator ? (
         <AnalysisStatusSummary
           numEssentialAutomatedComments={

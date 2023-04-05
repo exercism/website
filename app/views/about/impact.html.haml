@@ -28,13 +28,11 @@
             %h3.label-large Students
             .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
               = render ReactComponents::Impact::Stat.new(:sign_up_metric, Metrics.num_users.to_i)
-            .text-successColor.font-bold +1,342 per day
 
           .py-12.px-32.bg-bgGray
             %h3.label-large Exercises Practiced
             .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
               = render ReactComponents::Impact::Stat.new(:start_solution_metric, Metrics.num_solutions.to_i)
-            .text-successColor.font-bold +5,742 per day
 
           .py-12.px-32
             %h3.label-large Mentoring Discussions

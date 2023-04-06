@@ -85,6 +85,8 @@ class UserTrack < ApplicationRecord
     exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end
 
+  def course? = track.course? || (maintainer? && track.concept_exercises.exists?)
+
   def external? = false
 
   memoize

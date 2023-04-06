@@ -239,4 +239,15 @@ class UserTrack::ExternalTest < ActiveSupport::TestCase
     expected = [pe_1, pe_2].map(&:slug).sort
     assert_equal expected, user_track.practice_exercises_for_concept(c_1).map(&:slug).sort
   end
+
+  test "course?" do
+    track = create :track
+    ut = UserTrack::External.new(track)
+
+    track.update(course: false)
+    refute ut.course?
+
+    track.update(course: true)
+    assert ut.course?
+  end
 end

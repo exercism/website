@@ -13,6 +13,9 @@ class CalculateLinesOfCodeJob < ApplicationJob
 
     return unless iteration.submission.valid_filepaths.any?
 
+    # Legacy solutions may never have been pushed to EFS, so check that here.
+    submission.write_to_efs!
+
     body = RestClient.post(
       Exercism.config.lines_of_code_counter_url,
       {

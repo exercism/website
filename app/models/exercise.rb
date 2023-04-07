@@ -99,7 +99,7 @@ class Exercise < ApplicationRecord
 
       unless git_no_important_files_changed?
         Exercise::QueueSolutionHeadTestRuns.defer(self)
-        RecalculateImportantFilesHashWithSolutions.(self)
+        Exercise::RecalculateImportantFilesHashWithSolutions.(self)
       end
     end
   end

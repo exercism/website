@@ -118,7 +118,7 @@ class ExerciseTest < ActiveSupport::TestCase
     end
   end
 
-  test "enqueues job to run head test runs when git_important_files_hash changes" do
+  test "enqueues head test runs job when git_important_files_hash changes" do
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
 
     assert_enqueued_with(job: MandateJob, args: [Exercise::QueueSolutionHeadTestRuns.name, exercise]) do
@@ -126,12 +126,44 @@ class ExerciseTest < ActiveSupport::TestCase
     end
   end
 
-  test "does not enqueue job to run head test runs when git_important_files_hash does not change" do
+  test "does not enqueue head test runs job when git_important_files_hash changes when exercise's synced commit contains magic marker" do # rubocop:disable Layout/LineLength
+    exercise = create :practice_exercise, slug: 'satellite', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
+
+    Exercise::QueueSolutionHeadTestRuns.expects(:defer).never
+
+    exercise.update!(git_important_files_hash: 'new-hash')
+  end
+
+  test "does not enqueue head test runs job when git_important_files_hash does not change" do
     exercise = create :practice_exercise
 
     assert_no_enqueued_jobs only: MandateJob do
       exercise.update!(position: 2)
     end
+  end
+
+  test "recalculates important files hash with solutions when git_important_files_hash changes" do
+    exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
+
+    Exercise::RecalculateImportantFilesHashWithSolutions.expects(:call).with(exercise).once
+
+    exercise.update!(git_important_files_hash: 'new-hash')
+  end
+
+  test "does not recalculate important files hash with solutions when git_important_files_hash changes when exercise's synced commit contains magic marker" do # rubocop:disable Layout/LineLength
+    exercise = create :practice_exercise, slug: 'satellite', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
+
+    Exercise::RecalculateImportantFilesHashWithSolutions.expects(:call).never
+
+    exercise.update!(git_important_files_hash: 'new-hash')
+  end
+
+  test "does not recalculate important files hash with solutions when git_important_files_hash does not change" do
+    exercise = create :practice_exercise
+
+    Exercise::RecalculateImportantFilesHashWithSolutions.expects(:call).never
+
+    exercise.update!(position: 2)
   end
 
   test "updates track num_exercises when created" do

@@ -22,7 +22,7 @@ class Exercise
           update_all(git_important_files_hash: new_git_important_files_hash)
 
         Submission::TestRun.joins(:submission).
-          where(submissions: { exercise:, git_important_files_hash: old_git_important_files_hash }).
+          where(submissions: { exercise: }, git_important_files_hash: old_git_important_files_hash).
           update_all(git_important_files_hash: new_git_important_files_hash)
       end
     end

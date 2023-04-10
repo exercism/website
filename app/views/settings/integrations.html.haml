@@ -29,13 +29,12 @@
             %span Connect with GitHub
 
       %section.github-section.flex.flex-col.items-start
-        .mb-12.text-15.leading-130.font-medium.self-stretch.bg-veryLightRed.text-red.rounded-5.py-8.px-12 This integration is currently work in progress. Please connect your account and we will resync all permissions once it is finished.
         %h2{ class: "!mb-4" } Discord
         - if current_user.discord_uid.present?
           %p.text-16.leading-140
             Your Exercism and Discord accounts are linked.
             You should receive the correct roles on Discord.
-            -# If you don't, please email #{link_to 'jonathan@exercism.org', 'mailto:jonathan@exercism.org'}.
+            If you don't, please email #{link_to 'jonathan@exercism.org', 'mailto:jonathan@exercism.org'}.
         - else
           %p.text-16.leading-140.mb-16
             To be assigned the correct roles on Discord, please connect your Exercism and Discord accounts.
@@ -46,5 +45,3 @@
             data: { turbo: false } do
             = graphical_icon 'external-site-discord', css_class: '!filter-none'
             %span Connect with Discord
-
-

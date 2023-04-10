@@ -16,13 +16,12 @@ module ViewComponents
 
     private
     def announcement_bar
-      return tag.span("") if current_user&.donated?
+      # return tag.span("") if current_user&.donated?
 
-      link_to(Exercism::Routes.donate_path, class: "announcement-bar") do
+      link_to("https://exercism.org/blog/insiders-preview", class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
-            tag.strong("Please support us if you can!") +
-            tag.span("⚠️")
+          tag.span("🕵️ Speak preview: Exercism Insiders is coming soon.") +
+            tag.strong("Watch our preview video!")
         end
       end
     end

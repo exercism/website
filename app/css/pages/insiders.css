@@ -16,7 +16,7 @@
         @apply block mx-auto max-w-[600px];
         @apply py-8 px-20 text-center;
         @apply rounded-8;
-        @apply border-1 border-greenPrompt font-normal text-18 leading-150;
+        @apply border-1 border-greenPrompt font-medium text-18 leading-150;
         background-color: rgba(theme(colors.greenPrompt), 0.16);
     }
     .get-insiders-link {

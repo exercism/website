@@ -65,6 +65,7 @@ module.exports = {
       lgZ1: 'var(--box-shadow-lgZ1)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
       keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',
+      launching: '8px 8px 0px #211E28',
     },
     colors: {
       transparent: 'transparent',
@@ -162,6 +163,10 @@ module.exports = {
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
       purpleHover: '#F2F0FC',
+
+      yellowPrompt: '#FFD38F',
+      launchingYellow: '#F7B000',
+      greenPrompt: '#59D2AE',
 
       gray: '#A9A6BD',
       darkGray: '#26282D',

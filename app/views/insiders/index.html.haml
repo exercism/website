@@ -1,39 +1,56 @@
 #page-insiders
   .lg-container
-    .top.grid.grid-cols-1.md:grid-cols-2.gap-48
+    .top.grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64
       .top-lhs
-        %h1.text-h1.flex.items-center.gap-20.mb-8
+        %h1.text-h1.flex.items-center.gap-20.mb-8.text-48
           Exercism Insiders
           = graphical_icon "purple-pixel-heart"
         %h3.text-h3.mb-16 Our way of saying thank you.
-        %h5.text-h5.bg-launchingYellow.shadow-launching.py-8.px-16.mr-auto.inline-block.mb-24 Launching End of April 2023
+        %h5.launching Launching End of April 2023
         %p.text-p-large.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
         .c-insiders-prompt.--already-insider.mb-36
           Insiders is available to regular contributors, mentors, or donors. Set up a recurring donation to get access.
-        %a.btn-l.btn-primary
+        %a.get-insiders-link
           Get access to Insiders
           = graphical_icon "arrow-right"
       .top-rhs
         =# TODO
-        %div{ style: "width: 623px; height: 350px; background: #302B42; border-radius: 24px;" }
+        %div{ style: "width: 623px; height: 350px; background: #302B42; border-radius: 24px; margin-left:auto" }
 
-    %h2.text-h2 Exclusive Insider Features
+    %h2.text-h2.mb-32 Exclusive Insider Features
     .features
-      - @features.each do |element|
+      - @features.each do |feature|
         .feature
-          = graphical_icon element[:icon], css_class: element[:filter] ? "filter-yellowPrompt" : ""
-          %h4= element[:title]
-          %p= element[:desc]
-    %h2.text-h2 Behind the scenes access
+          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
+          %h4= feature[:title]
+          %p= feature[:desc]
+    %h2.text-h2.mb-32 Behind the scenes access
     .features
-      - @bts_access.each do |element|
+      - @bts_access.each do |feature|
         .feature
-          = graphical_icon element[:icon], css_class: element[:filter] ? "filter-yellowPrompt" : ""
-          %h4= element[:title]
-          %p= element[:desc]
+          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
+          %h4= feature[:title]
+          %p= feature[:desc]
 
+  .gradient-container
+    .lg-container
+      %h2.text-h1.mb-16 Offers from our partners
+      %p.text-p-large.mx-auto.mb-32{ class: "max-w-[800px]" }
+        We're source great free trials and deals for you from commercial partners. It's their way of saying thank you for your work in Open Source.
+      %p.light-green-prompt.mb-64 We're aiming to add new partnerships and deals each month.
+      .features
+        - @partners.each do |partner|
+          .feature
+            = icon partner[:icon], partner[:name], category: :partners
+            %h4= partner[:name]
+            %p= partner[:offer]
 
-    %h2.text-h1 Offers from our partners
-    %p.text-p-large We're source great free trials and deals for you from commercial partners. It's their way of saying thank you for your work in Open Source.
-
+  .gradient-container
+    .lg-container
+      %h2.text-h1.mb-40 The Nitty Gritty
+      .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
+        - @faq.each do |entry|
+          %details
+            %summary= entry[:question]
+            = entry[:answer]
 

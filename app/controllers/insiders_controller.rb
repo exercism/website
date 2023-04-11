@@ -17,10 +17,25 @@ class InsidersController < ApplicationController
     { icon: 'megaphone', title: 'Contribute on community calls',
       desc: "Our community calls are watchable by anyone, but only Insiders join in the conversation. Come and chat with the team and give us your thoughts and ideas.", filter: true }
   ].freeze
+
+  PARTNERS = [
+    { icon: 'figma', name: 'Figma', offer: 'Get 20% off your monthly subscription!' },
+    { icon: 'figma', name: 'Figma', offer: 'Get 20% off your monthly subscription!' },
+    { icon: 'figma', name: 'Figma', offer: 'Get 20% off your monthly subscription!' },
+    { icon: 'figma', name: 'Figma', offer: 'Get 20% off your monthly subscription!' }
+  ].freeze
+
+  FAQ = [
+    { question: 'You wot m8?', answer: 'You dizzy blud.' },
+    { question: 'You wot m8?', answer: 'You dizzy blud.' },
+    { question: 'You wot m8?', answer: 'You dizzy blud.' }
+  ].freeze
   # rubocop:enable Layout/LineLength
 
   def index
     @features = FEATURES
     @bts_access = BTS_ACCESS
+    @partners = PARTNERS
+    @faq = FAQ
   end
 end

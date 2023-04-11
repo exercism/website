@@ -62,6 +62,7 @@
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-hexrgba": "^2.1.0",
     "postcss-import": "^14.0.2",
     "postcss-nesting": "^10.0.3",
     "prop-types": "^15.7.2",

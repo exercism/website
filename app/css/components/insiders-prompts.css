@@ -1,0 +1,28 @@
+.c-insiders-prompt {
+    @apply flex py-8 px-12;
+    @apply text-16 font-semibold leading-150;
+    @apply rounded-16 border-2;
+
+    &.--available {
+        @apply border-yellowPrompt text-yellowPrompt;
+        background-color: rgba(theme(colors.yellowPrompt), 0.16);
+        &:before {
+            content: url("icons/alert-circle.svg");
+            width: 24px;
+            height: 24px;
+            @apply my-auto mr-16;
+            @apply filter-yellowPrompt;
+        }
+    }
+    &.--already-insider {
+        @apply border-greenPrompt text-greenPrompt;
+        background-color: rgba(theme(colors.greenPrompt), 0.16);
+        &:before {
+            content: url("icons/check-circle-2.svg");
+            width: 24px;
+            height: 24px;
+            @apply my-auto mr-16;
+            @apply filter-darkSuccess;
+        }
+    }
+}

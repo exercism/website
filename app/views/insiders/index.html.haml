@@ -1,1 +1,39 @@
-hello
+#page-insiders
+  .lg-container
+    .top.grid.grid-cols-1.md:grid-cols-2.gap-48
+      .top-lhs
+        %h1.text-h1.flex.items-center.gap-20.mb-8
+          Exercism Insiders
+          = graphical_icon "purple-pixel-heart"
+        %h3.text-h3.mb-16 Our way of saying thank you.
+        %h5.text-h5.bg-launchingYellow.shadow-launching.py-8.px-16.mr-auto.inline-block.mb-24 Launching End of April 2023
+        %p.text-p-large.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
+        .c-insiders-prompt.--already-insider.mb-36
+          Insiders is available to regular contributors, mentors, or donors. Set up a recurring donation to get access.
+        %a.btn-l.btn-primary
+          Get access to Insiders
+          = graphical_icon "arrow-right"
+      .top-rhs
+        =# TODO
+        %div{ style: "width: 623px; height: 350px; background: #302B42; border-radius: 24px;" }
+
+    %h2.text-h2 Exclusive Insider Features
+    .features
+      - @features.each do |element|
+        .feature
+          = graphical_icon element[:icon], css_class: element[:filter] ? "filter-yellowPrompt" : ""
+          %h4= element[:title]
+          %p= element[:desc]
+    %h2.text-h2 Behind the scenes access
+    .features
+      - @bts_access.each do |element|
+        .feature
+          = graphical_icon element[:icon], css_class: element[:filter] ? "filter-yellowPrompt" : ""
+          %h4= element[:title]
+          %p= element[:desc]
+
+
+    %h2.text-h1 Offers from our partners
+    %p.text-p-large We're source great free trials and deals for you from commercial partners. It's their way of saying thank you for your work in Open Source.
+
+

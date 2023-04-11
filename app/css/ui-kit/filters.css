@@ -48,4 +48,16 @@
         filter: invert(53%) sepia(16%) saturate(4455%) hue-rotate(323deg)
             brightness(84%) contrast(103%);
     }
+
+    /* 2E8C70 */
+    .filter-darkSuccess {
+        filter: invert(44%) sepia(52%) saturate(498%) hue-rotate(111deg)
+            brightness(94%) contrast(86%);
+    }
+
+    /* #FFD38F */
+    .filter-yellowPrompt {
+        filter: invert(81%) sepia(28%) saturate(678%) hue-rotate(336deg)
+            brightness(105%) contrast(101%);
+    }
 }

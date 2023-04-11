@@ -13,9 +13,9 @@ module Flows
           create :user, :ghost
           user = create :user
           track = create :track, title: "Ruby"
-          create :concept_exercise, track: track
-          create :concept_solution, status: :completed, user: user, completed_at: 2.days.ago
-          create :user_track, user: user, track: track
+          create(:concept_exercise, track:)
+          create :concept_solution, status: :completed, user:, completed_at: 2.days.ago
+          create(:user_track, user:, track:)
 
           stub_latest_track_forum_threads(track)
 

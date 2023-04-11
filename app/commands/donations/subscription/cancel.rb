@@ -7,7 +7,7 @@ class Donations::Subscription::Cancel
 
   def call
     begin
-      Stripe::Subscription.delete(subscription.stripe_id)
+      Stripe::Subscription.cancel(subscription.stripe_id)
     rescue Stripe::InvalidRequestError
       data = Stripe::Subscription.retrieve(subscription.stripe_id)
 

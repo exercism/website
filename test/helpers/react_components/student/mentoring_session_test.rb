@@ -5,21 +5,21 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
     mentor = create :user
     student = create :user
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, user: student, track: track
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, user: student, track:)
+    discussion = create(:mentor_discussion, solution:, mentor:)
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
 
-    iteration_1 = create :iteration, solution: solution
-    iteration_2 = create :iteration, solution: solution
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration_2, seen_by_student: true
+    iteration_1 = create(:iteration, solution:)
+    iteration_2 = create(:iteration, solution:)
+    create :mentor_discussion_post, discussion:, iteration: iteration_2, seen_by_student: true
 
-    iteration_3 = create :iteration, solution: solution
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: true
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration_3, seen_by_student: false
+    iteration_3 = create(:iteration, solution:)
+    create :mentor_discussion_post, discussion:, iteration: iteration_3, seen_by_student: true
+    create :mentor_discussion_post, discussion:, iteration: iteration_3, seen_by_student: false
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, discussion)
 
@@ -61,14 +61,14 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
   test "mentoring solution renders with request" do
     student = create :user
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, user: student, track: track
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, user: student, track:)
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25)
 
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
 

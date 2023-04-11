@@ -22,7 +22,7 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
 
     # hello world doesn't count
     exercise = create :practice_exercise, slug: 'hello-world', track: python
-    create :practice_solution, :published, user: user, track: python, exercise: exercise, published_at: Time.utc(2023, 4, 1)
+    create :practice_solution, :published, user:, track: python, exercise:, published_at: Time.utc(2023, 4, 1)
     refute badge.award_to?(user.reload)
 
     # 4 bob's is not enough
@@ -34,12 +34,12 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
 
     # Doesn't care if we get a 5th exercise in csharp
     another_exercise = create :practice_exercise, slug: 'leap', track: csharp
-    create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise, published_at: Time.utc(2023, 4, 6)
+    create :practice_solution, :published, user:, track: csharp, exercise: another_exercise, published_at: Time.utc(2023, 4, 6)
     refute badge.award_to?(user.reload)
 
     # Iterate a 5th bob, but in March
     exercise = create :practice_exercise, slug: 'bob', track: python
-    solution = create :practice_solution, :iterated, user: user, track: python, exercise: exercise,
+    solution = create :practice_solution, :iterated, user:, track: python, exercise:,
       published_at: Time.utc(2023, 3, 30)
     refute badge.award_to?(user.reload)
 

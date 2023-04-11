@@ -3,9 +3,9 @@ require "test_helper"
 class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
   test "adds relevant rows with track for normal tokens" do
     handle = 'ihid'
-    user = create :user, handle: handle
+    user = create(:user, handle:)
     track = create :track
-    create :user_code_contribution_reputation_token, user: user, track: track, earned_on: Time.zone.today
+    create :user_code_contribution_reputation_token, user:, track:, earned_on: Time.zone.today
 
     args = { user_handle: handle, user_id: user.id, dirty: false }
     should_invalidate = [
@@ -38,7 +38,7 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
 
   test "adds relevant rows without track" do
     user = create :user
-    token = create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+    token = create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
     refute token.track # Sanity
 
     args = { user_id: user.id, dirty: false }
@@ -66,9 +66,9 @@ class User::ReputationPeriod::MarkOutdatedTest < ActiveSupport::TestCase
 
   test "works for publishing" do
     handle = 'ihid'
-    user = create :user, handle: handle
+    user = create(:user, handle:)
     track = create :track
-    create :user_published_solution_reputation_token, user: user, track: track, earned_on: Time.zone.today
+    create :user_published_solution_reputation_token, user:, track:, earned_on: Time.zone.today
 
     args = { user_handle: handle, user_id: user.id, dirty: false }
     period = create(:user_reputation_period, period: :week, category: :any, about: :everything, **args)

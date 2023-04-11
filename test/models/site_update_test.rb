@@ -17,14 +17,14 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
   test "rendering expanded data" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
     author = create :user
     title = "Check this out!!"
     description_markdown = "I did something really cool :)"
     description_html = "<p>I did something really cool :)</p>\n"
-    update = create :site_update, exercise: exercise, track: track, author: author, title: title,
-      description_markdown: description_markdown
+    update = create(:site_update, exercise:, track:, author:, title:,
+      description_markdown:)
 
     expected = {
       author: {
@@ -39,10 +39,10 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
   test "rendering pull request" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
     pull_request = create :github_pull_request
-    update = create :site_update, exercise: exercise, track: track, pull_request: pull_request
+    update = create(:site_update, exercise:, track:, pull_request:)
 
     expected = {
       title: pull_request.title,

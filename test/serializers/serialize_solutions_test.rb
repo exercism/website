@@ -3,9 +3,9 @@ require 'test_helper'
 class SerializeSolutionsTest < ActiveSupport::TestCase
   test "basic to_hash" do
     user = create :user
-    solution = create :practice_solution, published_at: Time.current - 1.week, user: user
-    create :submission, solution: solution
-    user_track = create :user_track, user: user, track: solution.track
+    solution = create(:practice_solution, published_at: Time.current - 1.week, user:)
+    create(:submission, solution:)
+    user_track = create :user_track, user:, track: solution.track
 
     expected = [SerializeSolution.(solution, user_track:)]
 
@@ -17,14 +17,14 @@ class SerializeSolutionsTest < ActiveSupport::TestCase
     track = create :track
 
     # One with notifications and one without
-    exercise_1 = create :practice_exercise, track: track
-    exercise_2 = create :practice_exercise, track: track
-    solution_1 = create :practice_solution, exercise: exercise_1, user: user
-    solution_2 = create :practice_solution, exercise: exercise_2, user: user
+    exercise_1 = create(:practice_exercise, track:)
+    exercise_2 = create(:practice_exercise, track:)
+    solution_1 = create(:practice_solution, exercise: exercise_1, user:)
+    solution_2 = create(:practice_solution, exercise: exercise_2, user:)
     discussion = create(:mentor_discussion, solution: solution_1)
-    create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
+    create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
 
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
     assert user_track.exercise_has_notifications?(exercise_1)
     refute user_track.exercise_has_notifications?(exercise_2)
 

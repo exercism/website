@@ -10,21 +10,21 @@ module Flows
     test "student requests mentorship" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
-      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+      create(:user_track, user:, track:)
+      hello_world = create :concept_exercise, track:, slug: "hello-world"
 
       # completed hello world
       create :concept_solution,
         exercise: hello_world,
-        user: user,
+        user:,
         completed_at: 2.days.ago,
         status: :completed
 
       # completed lasagna
-      exercise = create :concept_exercise, track: track, title: "Lasagna"
-      solution = create :concept_solution, exercise: exercise, user: user, status: :completed, completed_at: 2.days.ago
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission, solution: solution
+      exercise = create :concept_exercise, track:, title: "Lasagna"
+      solution = create :concept_solution, exercise:, user:, status: :completed, completed_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, submission:, solution:)
 
       stub_latest_track_forum_threads(track)
 
@@ -46,21 +46,21 @@ module Flows
     test "student can not request mentorship for hello-world" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
-      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+      create(:user_track, user:, track:)
+      hello_world = create :concept_exercise, track:, slug: "hello-world"
 
       # completed hello world
       create :concept_solution,
         exercise: hello_world,
-        user: user,
+        user:,
         completed_at: 2.days.ago,
         status: :completed
 
       # completed hello world
-      exercise = create :concept_exercise, track: track, slug: "lasagna"
+      exercise = create :concept_exercise, track:, slug: "lasagna"
       create :concept_solution,
-        exercise: exercise,
-        user: user,
+        exercise:,
+        user:,
         completed_at: 2.days.ago,
         status: :completed
 
@@ -78,13 +78,13 @@ module Flows
     test "student can not request mentorship for hello world" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
-      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+      create(:user_track, user:, track:)
+      hello_world = create :concept_exercise, track:, slug: "hello-world"
 
       # completed hello world
       create :concept_solution,
         exercise: hello_world,
-        user: user,
+        user:,
         completed_at: 2.days.ago,
         status: :completed
 
@@ -99,8 +99,8 @@ module Flows
     test "student sees required number of completed exercises to request mentorship" do
       user = create :user
       track = create :track, title: "Ruby"
-      create :user_track, user: user, track: track
-      create :concept_exercise, track: track, slug: "hello-world"
+      create(:user_track, user:, track:)
+      create :concept_exercise, track:, slug: "hello-world"
 
       stub_latest_track_forum_threads(track)
 
@@ -115,21 +115,21 @@ module Flows
     test "student requests mentorship when slots are full" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
+      create(:user_track, user:, track:)
 
       # slot 1
-      exercise_1 = create :concept_exercise, track: track, slug: "strings"
-      solution_1 = create :concept_solution, user: user, exercise: exercise_1
+      exercise_1 = create :concept_exercise, track:, slug: "strings"
+      solution_1 = create :concept_solution, user:, exercise: exercise_1
       create :mentor_discussion, solution: solution_1
 
       # slot 2
-      exercise_2 = create :concept_exercise, track: track, slug: "walking"
-      solution_2 = create :concept_solution, user: user, exercise: exercise_2
+      exercise_2 = create :concept_exercise, track:, slug: "walking"
+      solution_2 = create :concept_solution, user:, exercise: exercise_2
       create :mentor_discussion, solution: solution_2
 
       # slot 3
       exercise_3 = create :concept_exercise, slug: "running"
-      create :concept_solution, user: user, exercise: exercise_3
+      create :concept_solution, user:, exercise: exercise_3
 
       use_capybara_host do
         sign_in!(user)
@@ -142,23 +142,23 @@ module Flows
     test "student edits empty comment" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
+      create(:user_track, user:, track:)
 
-      hello_world = create :concept_exercise, track: track, slug: "hello-world"
+      hello_world = create :concept_exercise, track:, slug: "hello-world"
 
       # completed hello world
       create :concept_solution,
         exercise: hello_world,
-        user: user,
+        user:,
         completed_at: 2.days.ago,
         status: :completed
 
       # completed lasagna
-      exercise = create :concept_exercise, track: track, title: "Lasagna"
-      solution = create :concept_solution, exercise: exercise, user: user, status: :completed, completed_at: 2.days.ago
-      create :mentor_request, :v2, solution: solution, comment_markdown: ""
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission, solution: solution
+      exercise = create :concept_exercise, track:, title: "Lasagna"
+      solution = create :concept_solution, exercise:, user:, status: :completed, completed_at: 2.days.ago
+      create :mentor_request, :v2, solution:, comment_markdown: ""
+      submission = create(:submission, solution:)
+      create(:iteration, submission:, solution:)
 
       use_capybara_host do
         sign_in!(user)

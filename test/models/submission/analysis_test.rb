@@ -44,7 +44,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
     expected = [{
       type: :informative,
-      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
+      html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n"
     }]
     assert_equal expected, analysis.comments
   end
@@ -92,7 +92,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
       },
       {
         type: :informative,
-        html: %(<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n) # rubocop:disable Layout/LineLength
+        html: %(<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n)
       }
     ]
 
@@ -229,7 +229,7 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
   test "track: inferred from submission" do
     submission = create :submission
-    analysis = create :submission_analysis, submission: submission
+    analysis = create(:submission_analysis, submission:)
 
     assert_equal submission.track, analysis.track
   end

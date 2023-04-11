@@ -5,7 +5,7 @@ class SiteUpdates::ArbitraryUpdateTest < ActiveSupport::TestCase
     freeze_time do
       author = create :user, handle: "We"
       track = create :track
-      update = create :arbitrary_site_update, author: author, track: track
+      update = create(:arbitrary_site_update, author:, track:)
 
       expected = {
         text: "<em>We</em> published a new update.",

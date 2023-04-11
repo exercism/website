@@ -4,10 +4,10 @@ class SerializeMentorTestimonialsTest < ActiveSupport::TestCase
   test "basic testimonial" do
     student = create :user, handle: "student"
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise
-    discussion = create :mentor_discussion, solution: solution
-    testimonial = create :mentor_testimonial, content: "Great mentor!", student: student, discussion: discussion
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    discussion = create(:mentor_discussion, solution:)
+    testimonial = create(:mentor_testimonial, content: "Great mentor!", student:, discussion:)
 
     expected = [
       {

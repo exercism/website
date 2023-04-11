@@ -3,8 +3,8 @@ require_relative "../react_component_test_case"
 class ReactComponents::Student::ExerciseStatusDotTest < ReactComponentTestCase
   test "is correct with user_track" do
     track = create :track
-    exercise = create :practice_exercise, track: track
-    user_track = create :user_track, track: track
+    exercise = create(:practice_exercise, track:)
+    user_track = create(:user_track, track:)
 
     component = render(ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track))
     assert_component component,
@@ -22,7 +22,7 @@ class ReactComponents::Student::ExerciseStatusDotTest < ReactComponentTestCase
 
   test "is correct with external user_track" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     component = ReactComponents::Student::ExerciseStatusDot.new(exercise, UserTrack::External.new(track))
     assert_component component,

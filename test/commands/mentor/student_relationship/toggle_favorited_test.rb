@@ -11,7 +11,7 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
+    create(:mentor_discussion, mentor:, solution:)
 
     Mentor::StudentRelationship::ToggleFavorited.(mentor, student, true)
 
@@ -25,7 +25,7 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
+    create(:mentor_discussion, mentor:, solution:)
 
     Mentor::StudentRelationship::ToggleFavorited.(mentor, student, false)
 
@@ -39,8 +39,8 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
-    rel = create :mentor_student_relationship, mentor: mentor, student: student, favorited: false
+    create(:mentor_discussion, mentor:, solution:)
+    rel = create :mentor_student_relationship, mentor:, student:, favorited: false
 
     refute rel.favorited?
 
@@ -53,8 +53,8 @@ class Mentor::StudentRelationship::ToggleFavoritedTest < ActiveSupport::TestCase
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
-    rel = create :mentor_student_relationship, mentor: mentor, student: student, favorited: true
+    create(:mentor_discussion, mentor:, solution:)
+    rel = create :mentor_student_relationship, mentor:, student:, favorited: true
     assert rel.favorited?
 
     Mentor::StudentRelationship::ToggleFavorited.(rel.mentor, rel.student, false)

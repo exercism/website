@@ -10,7 +10,7 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
 
   test "calculates data correctly" do
     user = create :user
-    create :user_code_contribution_reputation_token, user: user
+    create(:user_code_contribution_reputation_token, user:)
     2.times { create :user_code_merge_reputation_token, user: }
     3.times { create :user_code_review_reputation_token, user: }
     4.times { create :user_exercise_author_reputation_token, user: }
@@ -26,10 +26,10 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
   test "filters track correctly" do
     user = create :user
     track = create :track, slug: :js
-    create :user_code_contribution_reputation_token, user: user, track: track
-    create :user_code_contribution_reputation_token, user: user, track: track
-    create :user_code_contribution_reputation_token, user: user, track: create(:track)
-    create :user_code_contribution_reputation_token, user: user, track: nil
+    create(:user_code_contribution_reputation_token, user:, track:)
+    create(:user_code_contribution_reputation_token, user:, track:)
+    create :user_code_contribution_reputation_token, user:, track: create(:track)
+    create :user_code_contribution_reputation_token, user:, track: nil
 
     data = User::ReputationToken::CalculateContextualData.(user.id, track_id: track.id)
     assert_equal "2 PRs created", data.activity
@@ -39,10 +39,10 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
   test "filters earned_since correctly" do
     freeze_time do
       user = create :user
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 1.day
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 2.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 3.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 1.day
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 2.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 3.days
 
       data = User::ReputationToken::CalculateContextualData.(user.id, earned_since: Time.zone.today)
       assert_equal "1 PR created", data.activity
@@ -57,14 +57,14 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
   test "filters period correctly" do
     freeze_time do
       user = create :user
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 6.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 7.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 29.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 30.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 31.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 364.days
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today - 365.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 6.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 7.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 29.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 30.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 31.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 364.days
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 365.days
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "2 PRs created", data.activity
@@ -92,12 +92,12 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
 
   test "filters category correctly" do
     user = create :user
-    create :user_code_contribution_reputation_token, user: user
-    create :user_code_merge_reputation_token, user: user
-    create :user_code_review_reputation_token, user: user
-    create :user_exercise_author_reputation_token, user: user
-    create :user_exercise_contribution_reputation_token, user: user
-    create :user_published_solution_reputation_token, user: user
+    create(:user_code_contribution_reputation_token, user:)
+    create(:user_code_merge_reputation_token, user:)
+    create(:user_code_review_reputation_token, user:)
+    create(:user_exercise_author_reputation_token, user:)
+    create(:user_exercise_contribution_reputation_token, user:)
+    create(:user_published_solution_reputation_token, user:)
     3.times { create :user_mentored_reputation_token, user: }
 
     data = User::ReputationToken::CalculateContextualData.(user.id, category: :building)
@@ -112,7 +112,7 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
   test "check we use activerecord select_all (for cache check below)" do
     freeze_time do
       user = create :user
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
 
       ActiveRecord::Base.connection.expects(:select_all).once.returns([])
       User::ReputationToken::CalculateContextualData.(user.id, period: :week)
@@ -122,7 +122,7 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
   test "check we use cache" do
     freeze_time do
       user = create :user
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "1 PR created", data.activity
@@ -139,14 +139,14 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
   test "check cache is invalidated when a new token is created" do
     freeze_time do
       user = create :user
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "1 PR created", data.activity
       assert_equal 12, data.reputation
 
       # Create a second token
-      create :user_code_contribution_reputation_token, user: user, earned_on: Time.zone.today
+      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "2 PRs created", data.activity

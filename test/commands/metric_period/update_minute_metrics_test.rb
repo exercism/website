@@ -6,10 +6,10 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
   test "metrics are counted per action" do
     freeze_time do
       track = create :track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track: track
-      create :finish_mentoring_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 13.seconds, track: track
-      create :finish_mentoring_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 8.seconds, track: track
-      create :open_issue_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track:)
+      create(:finish_mentoring_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 13.seconds, track:)
+      create(:finish_mentoring_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 8.seconds, track:)
+      create(:open_issue_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 55.seconds, track:)
 
       MetricPeriod::UpdateMinuteMetrics.()
 
@@ -28,16 +28,16 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
   test "metrics are counted per minute of the day" do
     freeze_time do
       track = create :track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds, track:)
 
       # Sanity check: two minutes ago should be ignored
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute - 2.minutes, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute - 2.minutes, track:)
 
       # Sanity check: current minute should be ignored
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute, track:)
 
       MetricPeriod::UpdateMinuteMetrics.()
 
@@ -81,16 +81,16 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
       track = create :track
 
       # Normally these would be counted, but they'll be ignored in this test
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 1.second, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 10.seconds, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute.prev_min + 59.seconds, track:)
 
-      create :start_solution_metric, occurred_at: Time.current - 2.minutes, track: track
-      create :start_solution_metric, occurred_at: Time.current - 2.minutes, track: track
+      create(:start_solution_metric, occurred_at: Time.current - 2.minutes, track:)
+      create(:start_solution_metric, occurred_at: Time.current - 2.minutes, track:)
 
       # Sanity check: current minute should be ignored
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_minute, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_minute, track:)
 
       MetricPeriod::UpdateMinuteMetrics.(Time.current - 2.minutes)
 
@@ -103,7 +103,7 @@ class MetricPeriod::UpdateMinuteMetricsTest < ActiveSupport::TestCase
   test "updates count of existing metric" do
     freeze_time do
       track = create :track
-      metric_period = create :metric_period_minute, metric_type: Metrics::OpenIssueMetric.name, track: track,
+      metric_period = create :metric_period_minute, metric_type: Metrics::OpenIssueMetric.name, track:,
         minute: Time.current.prev_min.min_of_day, count: 13
 
       7.times do

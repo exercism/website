@@ -45,15 +45,15 @@ class RackAttackTest < Webhooks::BaseTestCase
     freeze_time do
       user = create :user
       track = create :track
-      create :user_track, track: track, user: user
+      create(:user_track, track:, user:)
 
       setup_user(user)
 
       # Call the same route with different parameters,
       # which leads to a different URL path
       5.times do
-        solution = create :practice_solution, user: user, track: track
-        create :iteration, solution: solution
+        solution = create(:practice_solution, user:, track:)
+        create(:iteration, solution:)
 
         patch complete_api_solution_path(solution.uuid), headers: @headers, as: :json
 
@@ -61,8 +61,8 @@ class RackAttackTest < Webhooks::BaseTestCase
       end
 
       # Exceeding rate limit returns too_many_requests response
-      solution = create :practice_solution, user: user, track: track
-      create :iteration, solution: solution
+      solution = create(:practice_solution, user:, track:)
+      create(:iteration, solution:)
 
       patch complete_api_solution_path(solution.uuid), headers: @headers, as: :json
 

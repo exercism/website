@@ -51,7 +51,7 @@ class CombineAuthorsAndContributorsTest < ActiveSupport::TestCase
     track = create :track
 
     users = create_list(:user, 6) do |user|
-      create :user_track, user: user, track: track
+      create(:user_track, user:, track:)
     end
 
     authors = User.where('id < ?', users[5].id)

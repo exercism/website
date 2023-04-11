@@ -9,13 +9,13 @@ class Mentor::SupermentorTest < ActiveSupport::TestCase
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: mentor but not mentored anything
-    mentorship = create :user_track_mentorship, user: user, track: track
+    mentorship = create(:user_track_mentorship, user:, track:)
     user.update(roles: [:mentor])
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: ignore other user's track mentorships
     other_user = create :user
-    create :user_track_mentorship, num_finished_discussions: 150, user: other_user, track: track
+    create(:user_track_mentorship, num_finished_discussions: 150, user: other_user, track:)
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: mentored too few students
@@ -37,13 +37,13 @@ class Mentor::SupermentorTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
     mentor = create :user
     other_mentor = create :user
-    mentorship = create :user_track_mentorship, user: mentor, track: track
+    mentorship = create(:user_track_mentorship, user: mentor, track:)
 
     # Sanity check: not mentored anything
     refute Mentor::Supermentor.for_track?(mentor, track)
 
     # Sanity check: ignore other user's track mentorships
-    create :user_track_mentorship, num_finished_discussions: 150, user: other_mentor, track: track
+    create(:user_track_mentorship, num_finished_discussions: 150, user: other_mentor, track:)
     refute Mentor::Supermentor.for_track?(mentor, track)
 
     # Sanity check: ignore other track's mentorships

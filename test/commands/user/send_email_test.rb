@@ -3,7 +3,7 @@ require 'test_helper'
 class User::SendEmailTest < ActiveSupport::TestCase
   test "sends email" do
     user = create :user
-    notification = create :mentor_started_discussion_notification, :unread, user: user
+    notification = create(:mentor_started_discussion_notification, :unread, user:)
 
     assert_email_sent(notification)
   end

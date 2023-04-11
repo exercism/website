@@ -19,7 +19,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
-    original_request = create :mentor_request, solution: solution, comment_markdown: comment_markdown
+    original_request = create(:mentor_request, solution:, comment_markdown:)
     original_request.fulfilled!
 
     # Check it respects false
@@ -27,7 +27,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     assert_equal 1, solution.mentor_requests.size
 
     # Check it respects true
-    discussion = create :mentor_discussion, solution: solution, request: original_request
+    discussion = create :mentor_discussion, solution:, request: original_request
     Mentor::Discussion::FinishByStudent.(discussion, 5, requeue: true)
     assert_equal :finished, discussion.status
     assert_equal 2, solution.mentor_requests.size
@@ -147,7 +147,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
       create :mentor_discussion, :student_finished, mentor:
     end
 
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
     refute mentor.badges.present?
 
     Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
@@ -173,9 +173,9 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     student = create :user, handle: "student"
     mentor = create :user, email: "mentor@exercism.org"
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Strings", track: track
-    solution = create :concept_solution, user: student, exercise: exercise
-    discussion = create :mentor_discussion, mentor: mentor, solution: solution
+    exercise = create(:concept_exercise, title: "Strings", track:)
+    solution = create(:concept_solution, user: student, exercise:)
+    discussion = create(:mentor_discussion, mentor:, solution:)
 
     perform_enqueued_jobs do
       Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
@@ -194,13 +194,13 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "updates supermentor role" do
     track = create :track
     mentor = create :user
-    create :user_track_mentorship, track: track, user: mentor
+    create :user_track_mentorship, track:, user: mentor
 
     99.times do
       create :mentor_discussion, :student_finished, rating: :great, mentor:
     end
 
-    discussion = create :mentor_discussion, :student_finished, rating: :great, mentor: mentor
+    discussion = create(:mentor_discussion, :student_finished, rating: :great, mentor:)
 
     Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
     perform_enqueued_jobs

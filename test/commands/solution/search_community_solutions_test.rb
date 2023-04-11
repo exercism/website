@@ -3,15 +3,15 @@ require "test_helper"
 class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
   test "no options returns all published" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -23,19 +23,19 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "criteria: search for user handle" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     user_1 = create :user, handle: 'amy'
     user_2 = create :user, handle: 'chris'
-    solution_1 = create :concept_solution, exercise: exercise, user: user_1, num_stars: 11, published_at: Time.current,
+    solution_1 = create :concept_solution, exercise:, user: user_1, num_stars: 11, published_at: Time.current,
       status: :published
-    solution_2 = create :concept_solution, exercise: exercise, user: user_2, num_stars: 22, published_at: Time.current,
+    solution_2 = create :concept_solution, exercise:, user: user_2, num_stars: 22, published_at: Time.current,
       status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -52,12 +52,12 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     # TODO: enable once we allow searching for code
     skip
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, published_at: Time.current, status: :published
     submission_1 = create :submission, solution: solution_1
     iteration_1 = create :iteration, solution: solution_1, submission: submission_1
     submission_file_1 = create :submission_file, submission: submission_1
-    solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, published_at: Time.current, status: :published
     submission_2 = create :submission, solution: solution_2
     iteration_2 = create :iteration, solution: solution_2, submission: submission_2
     submission_file_2 = create :submission_file, submission: submission_2
@@ -66,7 +66,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -86,12 +86,12 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "filter: tests_status" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
-    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published
+    solution_3 = create :concept_solution, exercise:, num_stars: 33, published_at: Time.current, status: :published
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
@@ -101,7 +101,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -122,14 +122,14 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.stubs(:defer)
 
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published,
       published_iteration_head_tests_status: :passed
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published,
       published_iteration_head_tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
-    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
+    solution_3 = create :concept_solution, exercise:, num_stars: 33, published_at: Time.current, status: :published,
       published_iteration_head_tests_status: :errored
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
@@ -140,7 +140,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -160,19 +160,19 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "filter: sync_status" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, git_important_files_hash: exercise.git_important_files_hash,
       num_stars: 11, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+    solution_2 = create :concept_solution, exercise:, git_important_files_hash: exercise.git_important_files_hash,
       num_stars: 22, published_at: Time.current, status: :published
-    solution_3 = create :concept_solution, exercise: exercise, git_important_files_hash: 'different_hash', num_stars: 33,
+    solution_3 = create :concept_solution, exercise:, git_important_files_hash: 'different_hash', num_stars: 33,
       published_at: Time.current, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -188,9 +188,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "pagination" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -227,9 +227,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "sort newest first" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    new_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 1.week, status: :published
-    old_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 2.weeks, status: :published
+    exercise = create(:concept_exercise, track:)
+    new_solution = create :concept_solution, exercise:, published_at: Time.current - 1.week, status: :published
+    old_solution = create :concept_solution, exercise:, published_at: Time.current - 2.weeks, status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -241,10 +241,10 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "sort most starred first" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    least_starred = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    exercise = create(:concept_exercise, track:)
+    least_starred = create :concept_solution, exercise:, num_stars: 2, published_at: Time.current - 1.week,
       status: :published
-    most_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current - 2.weeks,
       status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
@@ -257,10 +257,10 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "sort most starred first by default" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    least_starred = create :concept_solution, exercise: exercise, num_stars: 2, published_at: Time.current - 1.week,
+    exercise = create(:concept_exercise, track:)
+    least_starred = create :concept_solution, exercise:, num_stars: 2, published_at: Time.current - 1.week,
       status: :published
-    most_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current - 2.weeks,
       status: :published
 
     # Sanity check: ensure that the results are not returned using the fallback
@@ -306,12 +306,12 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: no options returns all published" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -321,16 +321,16 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: criteria: search for user handle" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     user_1 = create :user, handle: 'amy'
     user_2 = create :user, handle: 'chris'
-    solution_1 = create :concept_solution, exercise: exercise, user: user_1, num_stars: 11, published_at: Time.current,
+    solution_1 = create :concept_solution, exercise:, user: user_1, num_stars: 11, published_at: Time.current,
       status: :published
-    solution_2 = create :concept_solution, exercise: exercise, user: user_2, num_stars: 22, published_at: Time.current,
+    solution_2 = create :concept_solution, exercise:, user: user_2, num_stars: 22, published_at: Time.current,
       status: :published
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -345,19 +345,19 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: filter: tests_status" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
-    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published
+    solution_3 = create :concept_solution, exercise:, num_stars: 33, published_at: Time.current, status: :published
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -374,14 +374,14 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: filter: head_tests_status" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published,
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published,
       published_iteration_head_tests_status: :passed
     submission_1 = create :submission, solution: solution_1, tests_status: :passed
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published,
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published,
       published_iteration_head_tests_status: :passed
     submission_2 = create :submission, solution: solution_2, tests_status: :passed
-    solution_3 = create :concept_solution, exercise: exercise, num_stars: 33, published_at: Time.current, status: :published,
+    solution_3 = create :concept_solution, exercise:, num_stars: 33, published_at: Time.current, status: :published,
       published_iteration_head_tests_status: :errored
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
@@ -389,7 +389,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -406,16 +406,16 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: filter: sync_status" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, git_important_files_hash: exercise.git_important_files_hash,
       num_stars: 11, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash,
+    solution_2 = create :concept_solution, exercise:, git_important_files_hash: exercise.git_important_files_hash,
       num_stars: 22, published_at: Time.current, status: :published
-    solution_3 = create :concept_solution, exercise: exercise, git_important_files_hash: 'different_hash', num_stars: 33,
+    solution_3 = create :concept_solution, exercise:, git_important_files_hash: 'different_hash', num_stars: 33,
       published_at: Time.current, status: :published
 
     # Unpublished
-    create :concept_solution, exercise: exercise
+    create(:concept_solution, exercise:)
 
     # A different exercise
     create :concept_solution
@@ -429,9 +429,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: pagination" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution_1 = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current, status: :published
-    solution_2 = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current, status: :published
+    exercise = create(:concept_exercise, track:)
+    solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
+    solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
 
     assert_equal [solution_2], Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 1, nil, "", nil, nil, nil)
     assert_equal [solution_1], Solution::SearchCommunitySolutions::Fallback.(exercise, 2, 1, nil, "", nil, nil, nil)
@@ -441,9 +441,9 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: sort newest first" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    new_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 1.week, status: :published
-    old_solution = create :concept_solution, exercise: exercise, published_at: Time.current - 2.weeks, status: :published
+    exercise = create(:concept_exercise, track:)
+    new_solution = create :concept_solution, exercise:, published_at: Time.current - 1.week, status: :published
+    old_solution = create :concept_solution, exercise:, published_at: Time.current - 2.weeks, status: :published
 
     assert_equal [new_solution, old_solution],
       Solution::SearchCommunitySolutions::Fallback.(exercise, 1, 15, :newest, "", nil, nil, nil)
@@ -451,10 +451,10 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: sort most starred first" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
+    exercise = create(:concept_exercise, track:)
+    least_starred = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current - 1.week,
       status: :published
-    most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current - 2.weeks,
       status: :published
 
     assert_equal [most_starred, least_starred],
@@ -463,10 +463,10 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
 
   test "fallback: sort most starred first by default" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    least_starred = create :concept_solution, exercise: exercise, num_stars: 11, published_at: Time.current - 1.week,
+    exercise = create(:concept_exercise, track:)
+    least_starred = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current - 1.week,
       status: :published
-    most_starred = create :concept_solution, exercise: exercise, num_stars: 22, published_at: Time.current - 2.weeks,
+    most_starred = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current - 2.weeks,
       status: :published
 
     assert_equal [most_starred, least_starred],

@@ -7,9 +7,9 @@ class Exercise::Representation::TriggerRerunsTest < ActiveSupport::TestCase
 
     good_submission = create :submission, solution: create(:practice_solution, git_sha:)
     bad_submission = create :submission, solution: create(:practice_solution, git_sha: SecureRandom.uuid)
-    exercise_representation = create :exercise_representation, ast_digest: ast_digest
-    create :submission_representation, ast_digest: ast_digest, submission: good_submission
-    create :submission_representation, ast_digest: ast_digest, submission: bad_submission
+    exercise_representation = create(:exercise_representation, ast_digest:)
+    create :submission_representation, ast_digest:, submission: good_submission
+    create :submission_representation, ast_digest:, submission: bad_submission
 
     Submission::Representation::Init.expects(:call).with(good_submission, run_in_background: true)
     Exercise::Representation::TriggerReruns.(exercise_representation, git_sha)

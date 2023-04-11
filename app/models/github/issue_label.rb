@@ -50,7 +50,7 @@ class Github::IssueLabel < ApplicationRecord
   private
   memoize
   def components
-    name.match(%r{^(?<namespace>[a-zA-z]):(?<type>[a-zA-z\-]+)/(?<value>[a-zA-z\-]+)$})
+    name.match(%r{^(?<namespace>[a-zA-z]):(?<type>[a-zA-z-]+)/(?<value>[a-zA-z-]+)$})
   end
 
   TYPES = {

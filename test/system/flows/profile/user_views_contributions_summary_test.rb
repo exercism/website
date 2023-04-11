@@ -8,8 +8,8 @@ module Flows
 
       test "shows contribution summary" do
         user = create :user, handle: "user"
-        create :user_profile, user: user
-        create :user_code_contribution_reputation_token, user: user
+        create(:user_profile, user:)
+        create(:user_code_contribution_reputation_token, user:)
 
         use_capybara_host do
           visit profile_path(user.handle)

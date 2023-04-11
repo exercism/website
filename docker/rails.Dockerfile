@@ -1,4 +1,4 @@
-FROM ruby:3.1.0-bullseye
+FROM ruby:3.2.1-bullseye
 
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER

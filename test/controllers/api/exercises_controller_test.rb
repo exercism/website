@@ -26,7 +26,7 @@ module API
     test "index should proxy params for user" do
       setup_user
       track = create :track
-      user_track = create :user_track, user: @current_user, track: track
+      user_track = create(:user_track, user: @current_user, track:)
 
       Exercise::Search.expects(:call).with(
         user_track,
@@ -43,7 +43,7 @@ module API
 
     test "index should search and return exercises" do
       track = create :track
-      exercise = create :concept_exercise, track: track, title: "Bob"
+      exercise = create :concept_exercise, track:, title: "Bob"
 
       get api_track_exercises_path(
         track,
@@ -61,10 +61,10 @@ module API
       setup_user
 
       track = create :track
-      user_track = create :user_track, user: @current_user, track: track
+      user_track = create(:user_track, user: @current_user, track:)
 
-      bob = create :concept_exercise, track: track, title: "Bob"
-      food = create :concept_exercise, track: track, title: "Food"
+      bob = create :concept_exercise, track:, title: "Bob"
+      food = create :concept_exercise, track:, title: "Food"
 
       solution = create :concept_solution,
         user: @current_user,
@@ -93,7 +93,7 @@ module API
 
     test "index should search when not logged in" do
       track = create :track
-      exercise = create :concept_exercise, track: track, title: "Bob"
+      exercise = create :concept_exercise, track:, title: "Bob"
 
       get api_track_exercises_path(track, sideload: [:solutions]), as: :json
 

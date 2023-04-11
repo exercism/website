@@ -4,7 +4,7 @@ class AssembleContributorsTest < ActiveSupport::TestCase
   test "should return top 20 serialized correctly" do
     users = Array.new(25) do |idx|
       create(:user, handle: "handle-#{idx}").tap do |user|
-        create :user_reputation_period, user: user, period: :forever, reputation: idx + 1
+        create :user_reputation_period, user:, period: :forever, reputation: idx + 1
       end
     end.reverse
 

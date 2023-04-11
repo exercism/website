@@ -9,10 +9,10 @@ module Components
       test "shows solutions" do
         user = create :user
         track = create :track, title: "Ruby"
-        exercise = create :concept_exercise, title: "Lasagna", icon_name: 'lasagna', track: track, slug: :lasagna
-        solution = create :concept_solution, :completed, exercise: exercise, completed_at: Time.current, user: user,
+        exercise = create :concept_exercise, title: "Lasagna", icon_name: 'lasagna', track:, slug: :lasagna
+        solution = create :concept_solution, :completed, exercise:, completed_at: Time.current, user:,
           num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
-        create :submission, solution: solution
+        create(:submission, solution:)
         travel_to(Time.current - 2.days) do
           3.times { create :iteration, solution: }
         end
@@ -40,7 +40,7 @@ module Components
 
       test "hides last submitted for non-submitted solution" do
         user = create :user
-        solution = create :concept_solution, user: user
+        solution = create(:concept_solution, user:)
 
         wait_for_opensearch_to_be_synced
 
@@ -58,8 +58,8 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Bob"
         exercise_2 = create :concept_exercise, title: "Lasagna"
-        create :concept_solution, exercise: exercise, user: user, published_at: 2.days.ago
-        create :concept_solution, exercise: exercise_2, user: user, published_at: 1.day.ago
+        create :concept_solution, exercise:, user:, published_at: 2.days.ago
+        create :concept_solution, exercise: exercise_2, user:, published_at: 1.day.ago
 
         wait_for_opensearch_to_be_synced
 
@@ -83,8 +83,8 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
-        create :concept_solution, exercise: exercise_2, user: user
+        create(:concept_solution, exercise:, user:)
+        create(:concept_solution, exercise: exercise_2, user:)
 
         wait_for_opensearch_to_be_synced
 
@@ -102,10 +102,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user, status: :published
+        create :concept_solution, exercise:, user:, status: :published
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :requested,
@@ -130,10 +130,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
+        create(:concept_solution, exercise:, user:)
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :requested
@@ -157,10 +157,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
+        create(:concept_solution, exercise:, user:)
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :finished
@@ -184,10 +184,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user, git_important_files_hash: exercise.git_important_files_hash
+        create :concept_solution, exercise:, user:, git_important_files_hash: exercise.git_important_files_hash
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           git_important_files_hash: 'other-hash'
@@ -211,10 +211,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        solution_1 = create :concept_solution, exercise: exercise, user: user, published_at: Time.current
+        solution_1 = create :concept_solution, exercise:, user:, published_at: Time.current
         solution_2 = create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current
         submission_1 = create :submission, solution: solution_1, tests_status: :failed
@@ -244,13 +244,13 @@ module Components
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
         solution_1 = create :concept_solution,
-          exercise: exercise,
-          user: user,
+          exercise:,
+          user:,
           published_at: Time.current,
           published_iteration_head_tests_status: :passed
         solution_2 = create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           published_iteration_head_tests_status: :errored
@@ -278,10 +278,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
+        create(:concept_solution, exercise:, user:)
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :requested
@@ -307,8 +307,8 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user, created_at: 2.days.ago
-        create :concept_solution, exercise: exercise_2, user: user, created_at: 3.days.ago
+        create :concept_solution, exercise:, user:, created_at: 2.days.ago
+        create :concept_solution, exercise: exercise_2, user:, created_at: 3.days.ago
 
         wait_for_opensearch_to_be_synced
 

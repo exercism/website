@@ -263,7 +263,7 @@ Done')
   end
 
   test "skip unsupported internal links" do
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/contributors/iliketohelp">iliketohelp</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/contributors/iliketohelp">iliketohelp</a></p>\n)
     assert_equal expected, Markdown::Parse.("[iliketohelp](https://exercism.org/tracks/ruby/contributors/iliketohelp)")
   end
 

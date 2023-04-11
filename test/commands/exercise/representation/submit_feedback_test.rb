@@ -54,8 +54,8 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     feedback_markdown = 'Try _this_'
     feedback_type = :actionable
     feedback_added_at = Time.zone.now - 2.minutes
-    representation = create :exercise_representation, feedback_author: author, feedback_markdown: feedback_markdown,
-      feedback_type: feedback_type, feedback_added_at: feedback_added_at
+    representation = create(:exercise_representation, feedback_author: author, feedback_markdown:,
+      feedback_type:, feedback_added_at:)
 
     Exercise::Representation::SubmitFeedback.(editor, representation, feedback_markdown, feedback_type)
 
@@ -72,8 +72,8 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     author = create :user
     feedback_markdown = 'Try _this_'
     feedback_type = :actionable
-    representation = create :exercise_representation, feedback_author: author, feedback_markdown: feedback_markdown,
-      feedback_type: feedback_type
+    representation = create(:exercise_representation, feedback_author: author, feedback_markdown:,
+      feedback_type:)
 
     # Sanity check
     refute User::ReputationTokens::AutomationFeedbackAuthorToken.where(user: editor).exists?
@@ -92,8 +92,8 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
     mentor = create :user
     feedback_markdown = 'Try _this_'
     feedback_type = :actionable
-    representation = create :exercise_representation, feedback_author: mentor, feedback_markdown: feedback_markdown,
-      feedback_type: feedback_type
+    representation = create(:exercise_representation, feedback_author: mentor, feedback_markdown:,
+      feedback_type:)
 
     # Sanity check
     refute User::ReputationTokens::AutomationFeedbackEditorToken.where(user: mentor).exists?
@@ -108,8 +108,8 @@ class Exercise::Representation::SubmitFeedbackTest < ActiveSupport::TestCase
   %i[essential actionable non_actionable celebratory].each do |feedback_type|
     test "updating #{feedback_type} feedback does notifications" do
       mentor = create :user
-      representation = create :exercise_representation, feedback_author: mentor, feedback_markdown: 'Try this',
-        feedback_type: feedback_type
+      representation = create(:exercise_representation, feedback_author: mentor, feedback_markdown: 'Try this',
+        feedback_type:)
 
       Exercise::Representation::SendNewFeedbackNotifications.expects(:defer).with(representation).never
 

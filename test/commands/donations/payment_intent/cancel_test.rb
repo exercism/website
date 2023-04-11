@@ -13,7 +13,7 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
 
     Stripe::PaymentIntent.expects(:retrieve).with(payment_intent_id).returns(payment_intent)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
-    Stripe::Subscription.expects(:delete).with(subscription_id)
+    Stripe::Subscription.expects(:cancel).with(subscription_id)
     Stripe::Invoice.expects(:void_invoice).with(invoice_id)
 
     Donations::PaymentIntent::Cancel.(payment_intent_id)
@@ -31,7 +31,7 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
 
     Stripe::PaymentIntent.expects(:retrieve).with(payment_intent_id).returns(payment_intent)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
-    Stripe::Subscription.expects(:delete).with(subscription_id)
+    Stripe::Subscription.expects(:cancel).with(subscription_id)
     Stripe::Invoice.expects(:void_invoice).never
 
     Donations::PaymentIntent::Cancel.(payment_intent_id)

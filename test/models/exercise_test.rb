@@ -90,7 +90,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "has_test_runner?" do
     track = create :track, has_test_runner: true
-    exercise = create :practice_exercise, track: track, has_test_runner: true
+    exercise = create :practice_exercise, track:, has_test_runner: true
 
     assert exercise.has_test_runner?
 
@@ -142,7 +142,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "updates track num_exercises when deleted" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     Track::UpdateNumExercises.expects(:call).with(track)
     exercise.destroy
@@ -150,7 +150,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "updates track num_exercises when status column changed" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     Track::UpdateNumExercises.expects(:call).with(track)
     exercise.update(status: :beta)
@@ -158,7 +158,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "doesnt update track num_exercises when other column changed" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     Track::UpdateNumExercises.expects(:call).with(track).never
     exercise.update(title: 'something')

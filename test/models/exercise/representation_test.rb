@@ -46,8 +46,8 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
   test "num_times_used" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
 
     ast = SecureRandom.uuid
     ast_digest = Submission::Representation.digest_ast(ast)
@@ -57,13 +57,13 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
       ast_digest:)
     assert_equal 0, exercise_representation.num_times_used
 
-    create :submission_representation, submission: submission
+    create(:submission_representation, submission:)
     assert_equal 0, exercise_representation.num_times_used
 
-    create :submission_representation, ast_digest: ast_digest, submission: submission
+    create(:submission_representation, ast_digest:, submission:)
     assert_equal 1, exercise_representation.num_times_used
 
-    create :submission_representation, ast_digest: ast_digest, submission: submission
+    create(:submission_representation, ast_digest:, submission:)
     assert_equal 2, exercise_representation.num_times_used
   end
 
@@ -72,9 +72,9 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     ast = "My AST"
     ast_digest = Submission::Representation.digest_ast(ast)
 
-    representation = create :exercise_representation,
-      exercise: exercise,
-      ast_digest: ast_digest
+    representation = create(:exercise_representation,
+      exercise:,
+      ast_digest:)
 
     assert_empty representation.reload.submission_representations
 
@@ -86,16 +86,16 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     assert_empty representation.reload.submission_representations
 
     # One matching ast_digest
-    submission_representation = create :submission_representation,
+    submission_representation = create(:submission_representation,
       submission: create(:submission, exercise:),
-      ast_digest: ast_digest
+      ast_digest:)
 
     assert_equal [submission_representation], representation.reload.submission_representations
 
     # Multiple matching ast_digests
-    submission_representation_2 = create :submission_representation,
+    submission_representation_2 = create(:submission_representation,
       submission: create(:submission, exercise:),
-      ast_digest: ast_digest
+      ast_digest:)
 
     assert_equal [submission_representation, submission_representation_2], representation.reload.submission_representations.order(:id)
   end
@@ -156,9 +156,9 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
   test "track" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
-    representation = create :exercise_representation, exercise: exercise
+    representation = create(:exercise_representation, exercise:)
 
     assert_equal track, representation.track
   end
@@ -186,22 +186,22 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
 
   test "track is inferred from exercise" do
     track = create :track
-    exercise = create :practice_exercise, track: track
-    representation = create :exercise_representation, exercise: exercise, track: nil
+    exercise = create(:practice_exercise, track:)
+    representation = create :exercise_representation, exercise:, track: nil
 
     assert_equal track, representation.track
   end
 
   test "analyzer_feedback" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
-    submission = create :submission, solution: solution, analysis_status: :completed
-    create :submission_analysis, submission: submission, data: {
+    solution = create(:concept_solution, exercise:)
+    submission = create :submission, solution:, analysis_status: :completed
+    create :submission_analysis, submission:, data: {
       summary: "Some summary",
       comments: ["ruby.two-fer.incorrect_default_param"]
     }
 
-    representation = create :exercise_representation, exercise: exercise, source_submission: submission
+    representation = create :exercise_representation, exercise:, source_submission: submission
 
     assert_equal submission.analyzer_feedback, representation.analyzer_feedback
   end

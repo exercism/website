@@ -25,7 +25,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     updated_at = Time.current - 1.week
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     previous_head_sha = repo.head_commit.parents.first.oid
-    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", position: 3, git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
+    exercise = create(:concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", position: 3, git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha, updated_at:) # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
     Git::SyncConceptExercise.(exercise)
@@ -267,7 +267,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
-    existing_author_authorship = create :exercise_authorship, exercise: exercise, author: existing_author
+    existing_author_authorship = create :exercise_authorship, exercise:, author: existing_author
     create :user_exercise_author_reputation_token, user: existing_author, params: { authorship: existing_author_authorship }
 
     perform_enqueued_jobs do
@@ -327,7 +327,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520", synced_to_git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
-    existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
+    existing_contributorship = create :exercise_contributorship, exercise:, contributor: existing_contributor
     create :user_exercise_contribution_reputation_token, user: existing_contributor,
       params: { contributorship: existing_contributorship }
 

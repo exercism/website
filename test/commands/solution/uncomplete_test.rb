@@ -3,7 +3,7 @@ require 'test_helper'
 class Solution::UncompleteTest < ActiveSupport::TestCase
   test "unpublishes solution" do
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     iteration.solution.update!(completed_at: Time.current, published_iteration: iteration, published_at: Time.current)
 
     Solution::Uncomplete.(solution)
@@ -14,7 +14,7 @@ class Solution::UncompleteTest < ActiveSupport::TestCase
 
   test "uncompletes solution" do
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     iteration.solution.update!(completed_at: Time.current, published_iteration: iteration, published_at: Time.current)
 
     Solution::Uncomplete.(solution)

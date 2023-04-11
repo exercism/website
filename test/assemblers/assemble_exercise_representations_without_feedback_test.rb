@@ -4,11 +4,11 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
   test "index should return top 20 serialized correctly" do
     track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track_mentorship, user:, track:)
+    exercise = create(:practice_exercise, track:)
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track: track
+      create(:exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise:,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track:)
     end
     params = { track_slug: track.slug }
 

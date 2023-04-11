@@ -16,7 +16,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
   test "cancel should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     patch cancel_api_solution_submission_test_run_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
@@ -32,7 +32,7 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
   test "cancel should cancel submission" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :test_runner)
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)

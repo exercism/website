@@ -27,8 +27,8 @@ class Mentor::Discussion::ReplyByStudentTest < ActiveSupport::TestCase
 
   test "creates notification" do
     user = create :user
-    solution = create :practice_solution, user: user
-    iteration = create :iteration, solution: solution
+    solution = create(:practice_solution, user:)
+    iteration = create(:iteration, solution:)
     mentor = create :user
     discussion = create(:mentor_discussion, solution:, mentor:)
 

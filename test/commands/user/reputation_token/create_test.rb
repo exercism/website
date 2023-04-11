@@ -123,7 +123,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
 
   test "does not award contributor token if category is publishing" do
     user = create :user
-    solution = create :practice_solution, :published, user: user
+    solution = create(:practice_solution, :published, user:)
 
     # The published reputation token's category is publishing
     User::ReputationToken::Create.(

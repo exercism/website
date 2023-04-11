@@ -9,19 +9,19 @@ module Flows
       test "user sees track learning details" do
         user = create :user
         track = create :track
-        user_track = create :user_track, user: user, track: track, created_at: Time.utc(2016, 12, 25)
+        user_track = create :user_track, user:, track:, created_at: Time.utc(2016, 12, 25)
 
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        create :mentor_discussion, student: user, solution: solution, status: :finished
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        create :mentor_discussion, student: user, solution:, status: :finished
 
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        create :mentor_discussion, student: user, solution: solution, status: :awaiting_student
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        create :mentor_discussion, student: user, solution:, status: :awaiting_student
 
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        create :mentor_request, student: user, solution: solution, status: :pending
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        create :mentor_request, student: user, solution:, status: :pending
 
         use_capybara_host do
           sign_in!(user)
@@ -40,7 +40,7 @@ module Flows
       test "user sees zero state for track learning" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
+        create(:user_track, user:, track:)
 
         use_capybara_host do
           sign_in!(user)
@@ -53,7 +53,7 @@ module Flows
       test "user sees zero state for mentoring" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
+        create(:user_track, user:, track:)
 
         use_capybara_host do
           sign_in!(user)
@@ -67,7 +67,7 @@ module Flows
       test "user sees zero state for contributing" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
+        create(:user_track, user:, track:)
 
         use_capybara_host do
           sign_in!(user)

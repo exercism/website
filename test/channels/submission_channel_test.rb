@@ -3,7 +3,7 @@ require "test_helper"
 class SubmissionChannelTest < ActionCable::Channel::TestCase
   test ".broadcast! broadcasts submission" do
     solution = create :practice_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_broadcast_on(
       'submission',

@@ -6,7 +6,7 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
       iteration = create :iteration
       content_markdown = "foobar"
       mentor = create :user
-      discussion = create :mentor_discussion, mentor: mentor, solution: iteration.solution
+      discussion = create :mentor_discussion, mentor:, solution: iteration.solution
 
       discussion_post = Mentor::Discussion::ReplyByMentor.(
         discussion,
@@ -28,8 +28,8 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
 
   test "creates notification" do
     user = create :user
-    solution = create :practice_solution, user: user
-    iteration = create :iteration, solution: solution
+    solution = create(:practice_solution, user:)
+    iteration = create(:iteration, solution:)
     discussion = create(:mentor_discussion, solution:)
 
     Mentor::Discussion::ReplyByMentor.(
@@ -49,7 +49,7 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
   test "sets mentor of submission representation" do
     iteration = create :iteration
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor, solution: iteration.solution
+    discussion = create :mentor_discussion, mentor:, solution: iteration.solution
     submission_representation = create :submission_representation, submission: iteration.submission, mentored_by: nil
 
     perform_enqueued_jobs do

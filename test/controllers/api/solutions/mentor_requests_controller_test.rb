@@ -46,9 +46,9 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
   test "create should create correctly" do
     user = create :user
     setup_user(user)
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
     create :user_track, user: @current_user, track: solution.track
-    create :iteration, solution: solution
+    create(:iteration, solution:)
 
     comment = "foo to the baaar"
     post api_solution_mentor_requests_path(solution.uuid),

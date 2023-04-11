@@ -26,7 +26,7 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
 
   test "handles empty inputs" do
     user = create :user
-    create :user_reputation_period, user: user, reputation: 1000
+    create :user_reputation_period, user:, reputation: 1000
 
     assert_search [user],
       User::ReputationPeriod::Search.(period: nil, category: nil, track_id: nil, user_handle: nil, page: nil)

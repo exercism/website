@@ -9,14 +9,14 @@ module Flows
 
     test "user publishes solution when completing it" do
       track = create :track
-      strings = create :concept_exercise, track: track
+      strings = create(:concept_exercise, track:)
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, user: user, exercise: strings
-      submission = create :submission, solution: solution
-      create :iteration, idx: 2, submission: submission
-      submission = create :submission, solution: solution
-      iteration_1 = create :iteration, idx: 1, submission: submission
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, user:, exercise: strings
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 2, submission:)
+      submission = create(:submission, solution:)
+      iteration_1 = create(:iteration, idx: 1, submission:)
 
       use_capybara_host do
         sign_in!(user)
@@ -42,14 +42,14 @@ module Flows
 
     test "user publishes a completed solution" do
       track = create :track
-      strings = create :concept_exercise, track: track
+      strings = create(:concept_exercise, track:)
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, :completed, user: user, exercise: strings
-      submission = create :submission, solution: solution
-      create :iteration, idx: 2, submission: submission
-      submission = create :submission, solution: solution
-      iteration_1 = create :iteration, idx: 1, submission: submission
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, :completed, user:, exercise: strings
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 2, submission:)
+      submission = create(:submission, solution:)
+      iteration_1 = create(:iteration, idx: 1, submission:)
 
       use_capybara_host do
         sign_in!(user)
@@ -72,12 +72,12 @@ module Flows
 
     test "user sees their published solution" do
       track = create :track
-      strings = create :concept_exercise, track: track
+      strings = create(:concept_exercise, track:)
       user = create :user, handle: "User"
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, :completed, :published, user: user, exercise: strings
-      submission = create :submission, solution: solution
-      iteration_2 = create :iteration, idx: 2, submission: submission
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, :completed, :published, user:, exercise: strings
+      submission = create(:submission, solution:)
+      iteration_2 = create(:iteration, idx: 2, submission:)
       solution.update!(published_iteration: iteration_2)
 
       use_capybara_host do
@@ -91,17 +91,17 @@ module Flows
 
     test "user changes a published iteration" do
       track = create :track
-      strings = create :concept_exercise, track: track
+      strings = create(:concept_exercise, track:)
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, :completed, :published, user: user, exercise: strings
-      submission_1 = create :submission, solution: solution
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, :completed, :published, user:, exercise: strings
+      submission_1 = create(:submission, solution:)
       create :iteration, idx: 1, submission: submission_1
       create :submission_file, content: "module Bob\nend", filename: "bob.rb", submission: submission_1
-      submission_2 = create :submission, solution: solution
+      submission_2 = create(:submission, solution:)
       iteration_2 = create :iteration, idx: 2, submission: submission_2
       create :submission_file, content: "class Bob\nend", filename: "bob.rb", submission: submission_2
-      submission_3 = create :submission, solution: solution
+      submission_3 = create(:submission, solution:)
       create :iteration, :deleted, idx: 3, submission: submission_3
       create :submission_file, content: "just Bob\nend", filename: "bob.rb", submission: submission_3
 
@@ -143,14 +143,14 @@ module Flows
 
     test "user unpublishes an iteration" do
       track = create :track
-      strings = create :concept_exercise, track: track
+      strings = create(:concept_exercise, track:)
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, :completed, :published, user: user, exercise: strings
-      submission = create :submission, solution: solution
-      iteration_2 = create :iteration, idx: 2, submission: submission
-      submission = create :submission, solution: solution
-      create :iteration, idx: 1, submission: submission
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, :completed, :published, user:, exercise: strings
+      submission = create(:submission, solution:)
+      iteration_2 = create(:iteration, idx: 2, submission:)
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, submission:)
       solution.update!(published_iteration: iteration_2)
 
       use_capybara_host do

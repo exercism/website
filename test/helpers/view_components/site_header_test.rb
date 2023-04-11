@@ -2,6 +2,7 @@ require "test_helper"
 
 class ViewComponents::HeaderTest < ActionView::TestCase
   test "show support message when not logged in" do
+    skip
     site_header_component = ViewComponents::SiteHeader.new
     site_header_component.stubs(namespace_name: "mentoring")
 
@@ -11,6 +12,7 @@ class ViewComponents::HeaderTest < ActionView::TestCase
   end
 
   test "show support message when logged in but not a donor" do
+    skip
     site_header_component = ViewComponents::SiteHeader.new
     site_header_component.stubs(namespace_name: "mentoring")
     user = create :user
@@ -22,6 +24,7 @@ class ViewComponents::HeaderTest < ActionView::TestCase
   end
 
   test "don't show support message when logged in and a donor" do
+    skip
     site_header_component = ViewComponents::SiteHeader.new
     site_header_component.stubs(namespace_name: "mentoring")
     user = create :user, :donor

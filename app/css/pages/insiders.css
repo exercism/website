@@ -1,0 +1,23 @@
+#page-insiders {
+    .features {
+        @apply grid lg:grid-cols-3 grid-cols-1 gap-24;
+        .feature {
+            .c-icon {
+                height: 45px;
+                width: 45px;
+                @apply mb-12;
+            }
+            background-color: #302b42;
+            @apply py-20 px-24 rounded-16;
+            @apply flex flex-col;
+
+            h4 {
+                @apply text-h4 mb-8;
+            }
+
+            p {
+                @apply text-p-base;
+            }
+        }
+    }
+}

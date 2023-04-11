@@ -20,7 +20,7 @@ module ViewComponents
 
       link_to("https://exercism.org/blog/insiders-preview", class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("🕵️ Speak preview: Exercism Insiders is coming soon.") +
+          tag.span("🕵️ Sneak preview: Exercism Insiders is coming soon.") +
             tag.strong("Watch our preview video!")
         end
       end

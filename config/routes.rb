@@ -90,6 +90,8 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
+  resources :insiders, only: [:index]
+
   resources :profiles, only: %i[index show new create] do
     collection do
       get :intro

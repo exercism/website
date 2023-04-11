@@ -16,12 +16,14 @@ export const FilePanel = ({
   indentSize,
   instructions,
   testFiles,
+  showCopyButton = false,
 }: {
   files: readonly File[]
   language: string
   indentSize: number
   instructions?: string
   testFiles?: readonly TestFile[]
+  showCopyButton?: boolean
 }): JSX.Element | null => {
   const [tab, setTab] = useState<string>('')
 
@@ -65,7 +67,7 @@ export const FilePanel = ({
               </Tab>
             ) : null}
           </div>
-          {files && <CopyButton files={files} />}
+          {files && showCopyButton && <CopyButton files={files} />}
         </div>
 
         <div className="c-code-pane">

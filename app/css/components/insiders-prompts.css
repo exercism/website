@@ -8,9 +8,10 @@
         @apply border-yellowPrompt text-yellowPrompt;
         background-color: rgba(theme(colors.yellowPrompt), 0.16);
         &:before {
-            content: url("icons/alert-circle.svg");
+            content: url("icons/alert-circle-2.svg");
             width: 24px;
             height: 24px;
+
             @apply my-auto;
             @apply filter-yellowPrompt;
         }

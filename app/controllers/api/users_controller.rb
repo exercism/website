@@ -4,7 +4,7 @@ module API
       render json: {
         user: {
           handle: current_user.handle,
-          insiders_status: :foobar # TODO!!!!
+          insiders_status: :eligible # TODO!!!!
         }
       }
     end

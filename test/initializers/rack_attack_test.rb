@@ -10,7 +10,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
       # Sanity check: different token does not count against rate limit
       5.times do
-        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
         assert_response :success
       end
 
@@ -25,18 +25,18 @@ class RackAttackTest < Webhooks::BaseTestCase
 
       # Sanity check: different HTTP method does not count against limit
       5.times do
-        patch api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        patch api_user_path, params: { user: @current_user }, headers: @headers, as: :json
         assert_response :success
       end
 
       # Sanity check: response not rate limited while not exceeding limit
       5.times do
-        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
         assert_response :success
       end
 
       # Exceeding rate limit returns too_many_requests response
-      put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+      put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
       assert_response :too_many_requests
     end
   end
@@ -129,7 +129,7 @@ class RackAttackTest < Webhooks::BaseTestCase
     # First five requests are successful as they don't exceed the throttling limit
     [1, 5, 13, 22, 28].each do |seconds_passed|
       travel_to beginning_of_minute + seconds_passed.seconds do
-        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
         assert_response :success
       end
     end
@@ -137,7 +137,7 @@ class RackAttackTest < Webhooks::BaseTestCase
     # Hit rate limit for requests within the same minute that exceed the throttling limit
     [33, 44, 59].each do |seconds_passed|
       travel_to beginning_of_minute + seconds_passed.seconds do
-        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
         assert_response :too_many_requests
       end
     end
@@ -145,7 +145,7 @@ class RackAttackTest < Webhooks::BaseTestCase
     # Rate limit resets at 1 minute
     travel_to beginning_of_minute + 1.minute do
       5.times do
-        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
         assert_response :success
       end
     end
@@ -156,7 +156,7 @@ class RackAttackTest < Webhooks::BaseTestCase
       setup_user
 
       6.times do
-        put api_user_path(@current_user), params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
       end
 
       assert_response :too_many_requests

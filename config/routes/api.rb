@@ -14,10 +14,7 @@ namespace :api do
     resources :tracks, only: [:show]
   end
 
-  # TODO: This is just a stub
-  resources :users, only: [:update]
-
-  resource :user, only: [] do
+  resource :user, only: %i[show update] do
     resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
   end
 

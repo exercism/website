@@ -21,7 +21,7 @@ class Insiders::UpdateStatusTest < ActiveSupport::TestCase
     %i[ineligible eligible],
     %i[eligible eligible],
     %i[active active],
-    %i[expired active],
+    %i[expired eligible],
     %i[lifetime_active lifetime_active]
   ].each do |(current_status, expected_status)|
     test "eligble: insiders_status set to #{expected_status} when currently #{current_status}" do

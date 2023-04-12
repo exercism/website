@@ -10,7 +10,7 @@ class User::ReputationPeriod::UpdateReputation
       recalculate!
     end
 
-    User::InsidersStatus::Unset.(period.user)
+    User::InsidersStatus::TriggerUpdate.(period.user)
   end
 
   private

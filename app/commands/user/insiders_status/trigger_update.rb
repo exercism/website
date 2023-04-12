@@ -1,4 +1,4 @@
-class User::InsidersStatus::Unset
+class User::InsidersStatus::TriggerUpdate
   include Mandate
 
   initialize_with :user

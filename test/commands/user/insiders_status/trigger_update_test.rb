@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class User::InsidersStatus::UnsetTest < ActiveSupport::TestCase
+class User::InsidersStatus::TriggerUpdateTest < ActiveSupport::TestCase
   test "insiders_status set to unset" do
     user = create :user, insiders_status: :ineligible
 
-    User::InsidersStatus::Unset.(user)
+    User::InsidersStatus::TriggerUpdate.(user)
 
     assert_equal :unset, user.insiders_status
   end
@@ -13,7 +13,7 @@ class User::InsidersStatus::UnsetTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :active
 
     perform_enqueued_jobs do
-      User::InsidersStatus::Unset.(user)
+      User::InsidersStatus::TriggerUpdate.(user)
     end
 
     assert_equal :ineligible, user.reload.insiders_status

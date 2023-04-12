@@ -46,6 +46,14 @@ body.namespace-.controller-insiders {
                 }
             }
         }
+        .auth-buttons {
+            a:first-child {
+                @apply text-aliceBlue;
+            }
+            a:last-child {
+                @apply bg-[#282339] text-[#9E8EFF] border-[#9E8EFF];
+            }
+        }
     }
 }
 

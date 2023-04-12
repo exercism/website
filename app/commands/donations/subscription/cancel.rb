@@ -19,6 +19,6 @@ class Donations::Subscription::Cancel
 
     # Update based on whether there is another different active subscription
     user = subscription.user
-    Donations::Subscription::SetActiveDonationSubscription.(user, user.donation_subscriptions.active.exists?)
+    User::SetActiveDonationSubscription.(user, user.donation_subscriptions.active.exists?)
   end
 end

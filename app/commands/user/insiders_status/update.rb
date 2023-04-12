@@ -23,20 +23,24 @@ class User::InsidersStatus::Update
   def eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
 
   def update_eligible_lifetime
-    return if user.insiders_status == :lifetime_active
+    return if user.insiders_status == :active_lifetime
 
-    user.update(insiders_status: :eligible_lifetime)
+    if user.insiders_status == :active
+      user.update(insiders_status: :active_lifetime)
+    else
+      user.update(insiders_status: :eligible_lifetime)
+    end
   end
 
   def update_eligible
-    return if user.insiders_status == :lifetime_active
+    return if user.insiders_status == :active_lifetime
     return if user.insiders_status == :active
 
     user.update(insiders_status: :eligible)
   end
 
   def update_ineligible
-    return if user.insiders_status == :lifetime_active
+    return if user.insiders_status == :active_lifetime
     return if user.insiders_status == :expired
 
     if user.insiders_status == :active

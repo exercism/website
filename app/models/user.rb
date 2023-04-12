@@ -7,7 +7,13 @@ class User < ApplicationRecord
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
 
-  enum insiders_status: { unset: 0, ineligible: 1, eligible: 2, active: 3, expired: 4, eligible_lifetime: 5, lifetime_active: 6 }
+  enum insiders_status: {
+    unset: 0,
+    ineligible: 1,
+    eligible: 2, eligible_lifetime: 5,
+    active: 3, active_lifetime: 6,
+    expired: 4
+  }
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable

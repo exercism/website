@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
-  %i[ineligible active expired lifetime_active].each do |current_status|
+  %i[ineligible active expired active_lifetime].each do |current_status|
     test "don't change status when current status is #{current_status}" do
       user = create :user, insiders_status: current_status
 
@@ -20,7 +20,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     end
   end
 
-  [%i[eligible active], %i[eligible_lifetime lifetime_active]].each do |(current, expected)|
+  [%i[eligible active], %i[eligible_lifetime active_lifetime]].each do |(current, expected)|
     test "change status to #{expected} when current status is #{current}" do
       user = create :user, insiders_status: current
 
@@ -39,7 +39,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     User::InsidersStatus::Activate.(user)
   end
 
-  test "notification is created when changing status to lifetime_active" do
+  test "notification is created when changing status to active_lifetime" do
     user = create :user, :admin
 
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once

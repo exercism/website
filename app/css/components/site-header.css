@@ -14,6 +14,41 @@ body.devise {
     }
 }
 
+body.namespace-.controller-insiders {
+    #site-header {
+        @apply bg-russianViolet border-[#433F56];
+        .c-icon:not(button .c-icon),
+        .user-menu .c-icon {
+            @apply filter-aliceBlue;
+        }
+
+        a:not(a.announcement-bar) {
+            @apply text-gray;
+        }
+        .user-menu-dropdown,
+        .explore-menu-dropdown {
+            box-shadow: 0px 2px 4px #0f0923;
+            @apply bg-russianViolet shadow-lg rounded-8;
+
+            .info {
+                .name {
+                    @apply text-aliceBlue;
+                }
+                .handle {
+                    @apply text-gray;
+                }
+            }
+
+            li.opt a {
+                @apply bg-russianViolet;
+                &:hover {
+                    background-color: #3a3557;
+                }
+            }
+        }
+    }
+}
+
 #site-header {
     @apply bg-backgroundColorA border-b-1 border-borderColor7;
     @apply sticky top-0;
@@ -24,11 +59,21 @@ body.devise {
 
     & .announcement-bar {
         @apply block;
-        @apply bg-textColor2 py-8;
-        @apply text-lightPurple font-semibold text-16 leading-160 text-center;
+        @apply bg-[#7029F5] py-8;
+        @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         & strong {
             @apply text-lightGold mx-4 font-semibold;
             @apply underline;
+        }
+
+        .lg-container {
+            @apply flex justify-center;
+            .c-icon {
+                @apply mr-8;
+                filter: none !important;
+                height: 24px;
+                width: 24px;
+            }
         }
     }
 

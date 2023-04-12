@@ -394,10 +394,25 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
   end
 
-  test "insiders_status" do
+  test "insiders_status is symbol" do
     user = create :user
 
     user.update(insiders_status: :active)
     assert_equal :active, user.insiders_status
+  end
+
+  test "insiders_status is updated when active_donation_subscription changes" do
+    user = create :user, active_donation_subscription: false, insiders_status: :ineligible
+
+    perform_enqueued_jobs do
+      user.update(active_donation_subscription: true)
+      assert_equal :eligible, user.reload.insiders_status
+
+      user.update(active_donation_subscription: false)
+      assert_equal :ineligible, user.reload.insiders_status
+
+      user.update(reputation: 20)
+      assert_equal :ineligible, user.reload.insiders_status
+    end
   end
 end

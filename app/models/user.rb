@@ -146,6 +146,10 @@ class User < ApplicationRecord
     after_confirmation if confirmed?
   end
 
+  after_commit do
+    Insiders::UpdateStatus.defer(self) if saved_changes.include?(:active_donation_subscription)
+  end
+
   def after_confirmation
     User::Notification::CreateEmailOnly.(self, :joined_exercism)
   end

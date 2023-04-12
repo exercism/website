@@ -1,4 +1,4 @@
-class Insiders::GrantAccess
+class Insiders::MakeEligible
   include Mandate
 
   initialize_with :user

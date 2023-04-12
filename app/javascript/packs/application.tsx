@@ -29,6 +29,7 @@ const CLIWalkthroughButton = lazy(
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
+const InsiderStatus = lazy(() => import('../components/insiders/InsiderStatus'))
 const ImpactTestimonials = lazy(
   () => import('../components/impact/Testimonials')
 )
@@ -426,6 +427,11 @@ export const mappings = {
       <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
+  'insiders-status': (data: InsidersStatusData): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <InsiderStatus {...data} />
+    </Suspense>
+  ),
   'impact-testimonials': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <ImpactTestimonials data={data} />
@@ -469,6 +475,7 @@ import { highlightAll } from '../utils/highlight'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
+import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

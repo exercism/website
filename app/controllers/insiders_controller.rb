@@ -1,4 +1,5 @@
 class InsidersController < ApplicationController
+  skip_before_action :authenticate_user!
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'moon', title: 'Dark theme',

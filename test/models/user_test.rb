@@ -393,4 +393,11 @@ class UserTest < ActiveSupport::TestCase
     create :github_team_member, user_id: other_user.uid
     assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
   end
+
+  test "insiders_status" do
+    user = create :user
+
+    user.update(insiders_status: :active)
+    assert_equal :active, user.insiders_status
+  end
 end

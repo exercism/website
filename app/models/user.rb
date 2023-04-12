@@ -7,6 +7,8 @@ class User < ApplicationRecord
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
 
+  enum insiders_status: { ineligible: 0, eligible: 1, active: 2, expired: 3, lifetime_active: 4 }
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,

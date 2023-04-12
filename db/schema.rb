@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_15_200720) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_12_075814) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1186,12 +1186,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_200720) do
     t.date "last_visited_on"
     t.datetime "first_donated_at"
     t.string "discord_uid"
+    t.integer "insiders_status", limit: 1, default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
+    t.index ["insiders_status"], name: "index_users_on_insiders_status"
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

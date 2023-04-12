@@ -94,8 +94,8 @@ export default function Status(data: InsidersStatusData): JSX.Element {
 
 function ComingSoon(): JSX.Element {
   return (
-    <div className="bg-[#191525] text-aliceBlue text-h4 flex gap-8 py-12 px-24 rounded-16">
-      Coming soon{' '}
+    <div className="bg-[#191525] text-aliceBlue text-h6 flex gap-8 py-12 px-24 rounded-16">
+      Check back later in the month to get access{' '}
       <GraphicalIcon icon="purple-pixel-heart" height={24} width={24} />
     </div>
   )

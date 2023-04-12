@@ -6,10 +6,11 @@ class User::ReputationPeriod::UpdateReputation
   def call
     if should_delete?
       period.destroy
-      return
+    else
+      recalculate!
     end
 
-    recalculate!
+    Insiders::UpdateStatus.defer(period.user)
   end
 
   private

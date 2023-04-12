@@ -1,5 +1,5 @@
 #page-insiders {
-    @apply py-64;
+    @apply pt-48 pb-64;
     background-color: #282339;
     color: #cbc9d9;
 

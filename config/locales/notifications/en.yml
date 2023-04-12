@@ -42,3 +42,7 @@ en:
     mentor_finished_discussion:
       1: >
         %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}
+
+    joined_insiders:
+      1: >
+        Welcome to Exercism Insiders!

@@ -1,18 +1,24 @@
+.c-react-wrapper-insiders-status {
+    @apply min-h-[160px];
+}
+
 .c-insiders-prompt {
-    @apply flex py-8 px-12 gap-16;
+    @apply flex py-8 px-20 gap-16;
 
     @apply text-16 font-semibold leading-150;
     @apply rounded-16 border-2;
+
+    &:before {
+        @apply w-[24px] h-[24px];
+        @apply self-center;
+        @apply flex-shrink-0;
+    }
 
     &.--ineligible {
         @apply border-yellowPrompt text-yellowPrompt;
         background-color: rgba(theme(colors.yellowPrompt), 0.16);
         &:before {
             content: url("icons/alert-circle-2.svg");
-            width: 24px;
-            height: 24px;
-
-            @apply my-auto;
             @apply filter-yellowPrompt;
         }
     }
@@ -21,10 +27,7 @@
         background-color: rgba(theme(colors.yellowPrompt), 0.16);
         &:before {
             content: url("icons/spinner-small.svg");
-            width: 24px;
-            height: 24px;
             @apply filter-yellowPrompt;
-            @apply self-center;
             animation: spin 2s linear infinite;
         }
     }
@@ -33,9 +36,6 @@
         background-color: rgba(theme(colors.greenPrompt), 0.16);
         &:before {
             content: url("icons/check-circle-2.svg");
-            width: 24px;
-            height: 24px;
-            @apply my-auto;
             @apply filter-darkSuccess;
         }
     }

@@ -7,7 +7,7 @@
           = graphical_icon "purple-pixel-heart"
         %h3.text-h3.mb-16 Our way of saying thank you.
         %h5.launching Launching End of April 2023
-        %p.text-p-large.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
+        %p.text-p-xlarge.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
         - if current_user.present?
           = render ReactComponents::Insiders::InsidersStatus.new
 

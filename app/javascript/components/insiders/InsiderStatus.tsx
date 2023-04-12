@@ -7,7 +7,7 @@ import { typecheck } from '@/utils/typecheck'
 
 const STATUS_DATA = {
   eligible: {
-    text: "You're currently eligible for Insiders. Thank you for being part of Exercism. We're excited to take you with us on the next step in our journey.",
+    text: "You're currently eligible for Insiders. Thank you for being part of Exercism. We're excited continue with you on our journey!",
     css: '--already-insider',
   },
 
@@ -17,7 +17,7 @@ const STATUS_DATA = {
   },
 
   lifetime_eligible: {
-    text: "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited to take you with us on the next step in our journey.",
+    text: "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited continue with you on our journey!",
     css: '--already-insider',
   },
   unset: {
@@ -68,7 +68,7 @@ export default function Status(data: InsidersStatusData): JSX.Element {
   const eligible = status !== 'ineligible'
 
   return (
-    <div className="min-h-[160px]">
+    <>
       <div
         className={`c-insiders-prompt mb-36 ${STATUS_DATA[insidersStatus].css}`}
       >
@@ -88,7 +88,7 @@ export default function Status(data: InsidersStatusData): JSX.Element {
           </a>
         </ExercismTippy>
       )}
-    </div>
+    </>
   )
 }
 

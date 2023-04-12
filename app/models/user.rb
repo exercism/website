@@ -147,7 +147,7 @@ class User < ApplicationRecord
   end
 
   after_commit do
-    Insiders::UpdateStatus.defer(self) if saved_changes.include?(:active_donation_subscription)
+    Insiders::UpdateStatus.defer(self) if (saved_changes.keys & %w[active_donation_subscription roles]).present?
   end
 
   def after_confirmation

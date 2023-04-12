@@ -413,7 +413,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "insiders_status is updated when user roles change" do
+  test "insiders_status is updated when roles change" do
     user = create :user, roles: []
 
     perform_enqueued_jobs do
@@ -425,11 +425,23 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "insiders_status is updated when reputation changes" do
+    user = create :user, reputation: 0
+
+    perform_enqueued_jobs do
+      user.update(reputation: 1_000)
+      assert_equal :eligible, user.reload.insiders_status
+
+      user.update(reputation: 0)
+      assert_equal :ineligible, user.reload.insiders_status
+    end
+  end
+
   test "insiders_status is not updated when other non-related column changes" do
     user = create :user, insiders_status: :active
 
     perform_enqueued_jobs do
-      user.update(reputation: 20)
+      user.update(name: 'New name')
 
       # Would have been :ineligible if the status were updated
       assert_equal :active, user.reload.insiders_status

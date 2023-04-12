@@ -132,4 +132,13 @@ class NotificationsMailer < ApplicationMailer
     subject = "There's new feedback on your solution to #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
+
+  def joined_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
 end

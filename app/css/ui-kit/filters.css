@@ -60,4 +60,10 @@
         filter: invert(81%) sepia(28%) saturate(678%) hue-rotate(336deg)
             brightness(105%) contrast(101%);
     }
+
+    /* #F0F3F9 */
+    .filter-aliceBlue {
+        filter: invert(94%) sepia(7%) saturate(129%) hue-rotate(182deg)
+            brightness(102%) contrast(96%);
+    }
 }

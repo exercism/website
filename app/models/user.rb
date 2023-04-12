@@ -7,8 +7,7 @@ class User < ApplicationRecord
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
 
-  enum insiders_status: { unset: 0, ineligible: 1, eligible: 2, active: 3, expired: 4, eligible_lifetime_active: 5,
-                          lifetime_active: 6 }
+  enum insiders_status: { unset: 0, ineligible: 1, eligible: 2, active: 3, expired: 4, eligible_lifetime: 5, lifetime_active: 6 }
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
@@ -148,7 +147,7 @@ class User < ApplicationRecord
   end
 
   after_commit do
-    Insiders::Unset.(self)
+    User::InsidersStatus::Unset.(self) if (saved_changes.keys & %w[active_donation_subscription roles]).present?
   end
 
   def after_confirmation

@@ -9,8 +9,8 @@ class RecheckActiveInsidersJobTest < ActiveJob::TestCase
     create :user, insiders_status: :expired
     create :user, insiders_status: :lifetime_active
 
-    Insiders::UpdateStatus.expects(:call).with(active_user_1).once
-    Insiders::UpdateStatus.expects(:call).with(active_user_2).once
+    User::InsidersStatus::Update.expects(:call).with(active_user_1).once
+    User::InsidersStatus::Update.expects(:call).with(active_user_2).once
 
     perform_enqueued_jobs do
       RecheckActiveInsidersJob.perform_now

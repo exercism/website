@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Insiders::UpdateStatusTest < ActiveSupport::TestCase
+class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   [
     %i[ineligible ineligible],
     %i[eligible ineligible],
@@ -11,7 +11,7 @@ class Insiders::UpdateStatusTest < ActiveSupport::TestCase
     test "ineligble: insiders_status set to #{expected_status} when currently #{current_status}" do
       user = create :user, insiders_status: current_status
 
-      Insiders::UpdateStatus.(user)
+      User::InsidersStatus::Update.(user)
 
       assert_equal expected_status, user.insiders_status
     end
@@ -30,7 +30,7 @@ class Insiders::UpdateStatusTest < ActiveSupport::TestCase
       # Make the user eligible
       user.update(active_donation_subscription: true)
 
-      Insiders::UpdateStatus.(user)
+      User::InsidersStatus::Update.(user)
 
       assert_equal expected_status, user.insiders_status
     end

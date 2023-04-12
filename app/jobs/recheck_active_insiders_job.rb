@@ -3,7 +3,9 @@ class RecheckActiveInsidersJob < ApplicationJob
 
   def perform
     User.where(insiders_status: :active).find_each do |user|
-      Insiders::UpdateStatus.(user)
+      User::InsidersStatus::Update.(user)
+    rescue StandardError => e
+      Bugsnag.notify(e)
     end
   end
 end

@@ -1,10 +1,10 @@
-class Insiders::Unset
+class User::InsidersStatus::Unset
   include Mandate
 
   initialize_with :user
 
   def call
     user.update(insiders_status: :unset)
-    Insiders::UpdateStatus.defer(self)
+    User::InsidersStatus::Update.defer(user)
   end
 end

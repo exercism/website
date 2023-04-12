@@ -15,7 +15,9 @@ body.devise {
 }
 
 body.namespace-.controller-insiders {
+    --reddot-dark: #59d2ae;
     #site-header {
+        /* russianViolet is site-header background */
         @apply bg-russianViolet border-[#433F56];
         .c-icon:not(button .c-icon),
         .user-menu .c-icon {
@@ -52,6 +54,27 @@ body.namespace-.controller-insiders {
             }
             a:last-child {
                 @apply bg-[#282339] text-[#9E8EFF] border-[#9E8EFF];
+            }
+        }
+        .new-badge {
+            background-image: url("icons/new-badge-dark.svg");
+        }
+
+        .c-notification {
+            background: #191525;
+            .--count {
+                background-color: var(--reddot-dark);
+                color: #191525;
+            }
+            .c-icon {
+                @apply filter-notification-bell-dark;
+            }
+        }
+
+        .--notification {
+            @apply bg-russianViolet;
+            &:after {
+                background-color: var(--reddot-dark);
             }
         }
     }
@@ -201,6 +224,7 @@ body.namespace-.controller-insiders {
         }
         & .c-notification {
             @apply ml-8 mr-48;
+            box-shadow: none;
         }
         & .c-react-wrapper-dropdowns-reputation {
             @apply hidden xl:block lg:mr-48;

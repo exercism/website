@@ -57,7 +57,7 @@ module ViewComponents
           si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true) +
+            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community) +
             si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
         end
       end

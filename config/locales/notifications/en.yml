@@ -46,3 +46,11 @@ en:
     joined_insiders:
       1: >
         Welcome to Exercism Insiders!
+
+    joined_lifetime_insiders:
+      1: >
+        Welcome to Exercism Lifetime Insiders!
+
+    expired_insiders:
+      1: >
+        Your Exercism Insiders membership has expired.

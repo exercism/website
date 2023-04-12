@@ -141,4 +141,22 @@ class NotificationsMailer < ApplicationMailer
     subject = "Welcome to Exercism Insiders"
     mail_to_user(@user, subject)
   end
+
+  def joined_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Lifetime Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def expired_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Exercism Insiders membership expired"
+    mail_to_user(@user, subject)
+  end
 end

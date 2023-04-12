@@ -14,6 +14,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
       user = create :user, insiders_status: current_status
 
       User::Notification::Create.expects(:call).with(user, :joined_insiders).never
+      User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).never
 
       User::InsidersStatus::Activate.(user)
     end
@@ -41,8 +42,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "notification is created when changing status to lifetime_active" do
     user = create :user, :admin
 
-    # TODO: different notification for lifetime?
-    User::Notification::Create.expects(:call).with(user, :joined_insiders).once
+    User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
 
     user.update(insiders_status: :eligible_lifetime)
     User::InsidersStatus::Activate.(user)

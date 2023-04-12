@@ -28,6 +28,6 @@ class Donations::Subscription::UpdateAmount
 
     # Update based on whether there is another different active subscription
     user = subscription.user
-    user.update!(active_donation_subscription: user.donation_subscriptions.active.exists?)
+    Donations::Subscription::SetActiveDonationSubscription.(user, user.donation_subscriptions.active.exists?)
   end
 end

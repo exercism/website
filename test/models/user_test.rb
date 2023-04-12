@@ -400,39 +400,4 @@ class UserTest < ActiveSupport::TestCase
     user.update(insiders_status: :active)
     assert_equal :active, user.insiders_status
   end
-
-  test "insiders_status is updated when active_donation_subscription changes" do
-    user = create :user, active_donation_subscription: false, insiders_status: :ineligible
-
-    perform_enqueued_jobs do
-      user.update(active_donation_subscription: true)
-      assert_equal :eligible, user.reload.insiders_status
-
-      user.update(active_donation_subscription: false)
-      assert_equal :ineligible, user.reload.insiders_status
-    end
-  end
-
-  test "insiders_status is updated when roles change" do
-    user = create :user, roles: []
-
-    perform_enqueued_jobs do
-      user.update(roles: [:maintainer])
-      assert_equal :eligible, user.reload.insiders_status
-
-      user.update(roles: [])
-      assert_equal :ineligible, user.reload.insiders_status
-    end
-  end
-
-  test "insiders_status is not updated when other non-related column changes" do
-    user = create :user, insiders_status: :active
-
-    perform_enqueued_jobs do
-      user.update(name: 'New name')
-
-      # Would have been :ineligible if the status were updated
-      assert_equal :active, user.reload.insiders_status
-    end
-  end
 end

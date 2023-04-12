@@ -6,5 +6,6 @@ class User::AddRoles
   def call
     user.update(roles: user.roles + roles)
     User::SetDiscordRoles.(user)
+    User::InsidersStatus::TriggerUpdate.(user)
   end
 end

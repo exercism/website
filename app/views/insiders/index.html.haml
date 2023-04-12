@@ -8,11 +8,8 @@
         %h3.text-h3.mb-16 Our way of saying thank you.
         %h5.launching Launching End of April 2023
         %p.text-p-large.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
-        .c-insiders-prompt.--already-insider.mb-36
-          Insiders is available to regular contributors, mentors, or donors. Set up a recurring donation to get access.
-        %a.get-insiders-link
-          Get access to Insiders
-          = graphical_icon "arrow-right"
+        = render ReactComponents::Insiders::Status.new
+
       .top-rhs
         =# TODO
         %div{ style: "width: 623px; height: 350px; background: #302B42; border-radius: 24px; margin-left:auto" }

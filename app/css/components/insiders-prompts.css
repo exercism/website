@@ -1,17 +1,30 @@
 .c-insiders-prompt {
-    @apply flex py-8 px-12;
+    @apply flex py-8 px-12 gap-16;
+
     @apply text-16 font-semibold leading-150;
     @apply rounded-16 border-2;
 
-    &.--available {
+    &.--ineligible {
         @apply border-yellowPrompt text-yellowPrompt;
         background-color: rgba(theme(colors.yellowPrompt), 0.16);
         &:before {
             content: url("icons/alert-circle.svg");
             width: 24px;
             height: 24px;
-            @apply my-auto mr-16;
+            @apply my-auto;
             @apply filter-yellowPrompt;
+        }
+    }
+    &.--unset {
+        @apply border-yellowPrompt text-yellowPrompt;
+        background-color: rgba(theme(colors.yellowPrompt), 0.16);
+        &:before {
+            content: url("icons/spinner-small.svg");
+            width: 24px;
+            height: 24px;
+            @apply filter-yellowPrompt;
+            @apply self-center;
+            animation: spin 2s linear infinite;
         }
     }
     &.--already-insider {
@@ -21,7 +34,7 @@
             content: url("icons/check-circle-2.svg");
             width: 24px;
             height: 24px;
-            @apply my-auto mr-16;
+            @apply my-auto;
             @apply filter-darkSuccess;
         }
     }

@@ -7,9 +7,10 @@ body.namespace-.controller-insiders {
         background: #191525;
 
         .external-section {
-            background: #191525;
+            background: none;
+            box-shadow: none;
             .bottom {
-                background: #191525;
+                background: none;
             }
 
             .btn-enhanced.btn-l {

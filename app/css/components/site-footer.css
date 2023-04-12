@@ -4,6 +4,18 @@ body.namespace-.controller-journey,
 body.namespace-.controller-insiders {
     & #site-footer {
         margin-top: 0px;
+        background: #191525;
+
+        .external-section {
+            background: none;
+            .bottom {
+                background: none;
+            }
+
+            .btn-enhanced.btn-l {
+                box-shadow: none;
+            }
+        }
     }
 }
 

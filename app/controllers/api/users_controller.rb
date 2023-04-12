@@ -1,7 +1,13 @@
 module API
   class UsersController < BaseController
-    skip_before_action :authenticate_user!
-    before_action :authenticate_user
+    def show
+      render json: {
+        user: {
+          handle: current_user.handle,
+          insiders_status: :eligible # TODO!!!!
+        }
+      }
+    end
 
     def update
       current_user.update!(user_params)

@@ -146,10 +146,6 @@ class User < ApplicationRecord
     after_confirmation if confirmed?
   end
 
-  after_commit do
-    User::InsidersStatus::TriggerUpdate.(self) if (saved_changes.keys & %w[active_donation_subscription roles]).present?
-  end
-
   def after_confirmation
     User::Notification::CreateEmailOnly.(self, :joined_exercism)
   end

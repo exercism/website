@@ -8,7 +8,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     %i[expired expired],
     %i[lifetime_active lifetime_active]
   ].each do |(current_status, expected_status)|
-    test "ineligble: insiders_status set to #{expected_status} when currently #{current_status}" do
+    test "ineligible: insiders_status set to #{expected_status} when currently #{current_status}" do
       user = create :user, insiders_status: current_status
 
       User::InsidersStatus::Update.(user)
@@ -24,7 +24,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     %i[expired eligible],
     %i[lifetime_active lifetime_active]
   ].each do |(current_status, expected_status)|
-    test "eligble: insiders_status set to #{expected_status} when currently #{current_status}" do
+    test "eligible: insiders_status set to #{expected_status} when currently #{current_status}" do
       user = create :user, insiders_status: current_status
 
       # Make the user eligible

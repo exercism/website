@@ -39,6 +39,10 @@ class User::InsidersStatus::Update
     return if user.insiders_status == :lifetime_active
     return if user.insiders_status == :expired
 
-    user.update(insiders_status: :ineligible)
+    if user.insiders_status == :active
+      user.update(insiders_status: :expired)
+    else
+      user.update(insiders_status: :ineligible)
+    end
   end
 end

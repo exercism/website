@@ -5,7 +5,7 @@ module ReactComponents
         super(
           "insiders-status",
           {
-            status: 'unset',
+            status: current_user.insiders_status,
             donate_link: Exercism::Routes.donate_path,
             insiders_status_request: Exercism::Routes.api_user_url(current_user)
           }

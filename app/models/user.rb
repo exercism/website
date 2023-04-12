@@ -13,7 +13,7 @@ class User < ApplicationRecord
     eligible: 2, eligible_lifetime: 5,
     active: 3, active_lifetime: 6,
     expired: 4
-  }
+  }, _prefix: true
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable

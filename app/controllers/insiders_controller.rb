@@ -34,6 +34,8 @@ class InsidersController < ApplicationController
   # rubocop:enable Layout/LineLength
 
   def index
+    User::InsidersStatus::TriggerUpdate.(current_user) if user_signed_in? && current_user.insiders_status_unset?
+
     @features = FEATURES
     @bts_access = BTS_ACCESS
     @partners = PARTNERS

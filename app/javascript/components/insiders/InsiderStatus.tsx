@@ -16,10 +16,11 @@ const STATUS_DATA = {
     css: '--ineligible',
   },
 
-  lifetime_eligible: {
+  eligible_lifetime: {
     text: "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited continue with you on our journey!",
     css: '--already-insider',
   },
+
   unset: {
     text: "We're currently calculating your Insiders status. This box will update once we've finished.",
     css: '--unset',
@@ -28,7 +29,7 @@ const STATUS_DATA = {
 
 const BUTTON_TEXT = ['Set up a Recurring Donation', 'Get access to Insiders']
 
-type InsiderStatus = 'eligible' | 'lifetime_eligible' | 'unset' | 'ineligible'
+type InsiderStatus = 'eligible' | 'eligible_lifetime' | 'unset' | 'ineligible'
 export type InsidersStatusData = {
   status: InsiderStatus
   donate_link: string
@@ -94,7 +95,7 @@ export default function Status(data: InsidersStatusData): JSX.Element {
 
 function ComingSoon(): JSX.Element {
   return (
-    <div className="bg-[#191525] text-aliceBlue text-h6 flex gap-8 py-12 px-24 rounded-16">
+    <div className="bg-[#191525] text-aliceBlue text-h6 flex gap-8 py-12 px-12 rounded-8">
       Check back later in the month to get access{' '}
       <GraphicalIcon icon="purple-pixel-heart" height={24} width={24} />
     </div>

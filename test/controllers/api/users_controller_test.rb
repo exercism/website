@@ -14,7 +14,7 @@ class API::UsersControllerTest < API::BaseTestCase
     expected = {
       user: {
         handle: @current_user.handle,
-        insiders_status: :foobar # TODO!!!!
+        insiders_status: @current_user.insiders_status
       }
     }
 

@@ -13,7 +13,7 @@
     }
 
     .light-green-prompt {
-        @apply block mx-auto max-w-[600px];
+        @apply block mx-auto max-w-[610px];
         @apply py-8 px-20 text-center;
         @apply rounded-8;
         @apply border-1 border-greenPrompt font-medium text-18 leading-150;
@@ -34,7 +34,7 @@
             .c-icon {
                 height: 45px;
                 width: 45px;
-                @apply mb-12;
+                @apply mb-12 relative;
             }
             box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
             background-color: #302b42;
@@ -94,7 +94,9 @@
             #221e31 0%,
             rgba(34, 30, 49, 0) 100%
         );
-
+        .c-icon {
+            @apply absolute;
+        }
         h2,
         p {
             @apply text-center;

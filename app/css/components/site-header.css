@@ -175,11 +175,8 @@ body.namespace-.controller-insiders {
             @apply whitespace-nowrap;
 
             & .c-icon {
-                @apply hidden;
-                height: 24px;
-                width: 24px;
-                @apply mr-12;
-                filter: var(--textColor6-filter);
+                height: 16px;
+                width: 16px;
             }
         }
     }

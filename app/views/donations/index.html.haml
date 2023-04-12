@@ -18,6 +18,7 @@
           = succeed('.') do
             = link_to 'Team', team_about_path, class: link_class
 
+      #anchor-donate
       .summary.lg-container.hidden.md:flex.items-center
         .item
           .value= number_with_delimiter(User.donor.count)

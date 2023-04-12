@@ -76,18 +76,25 @@ export default function Status(data: InsidersStatusData): JSX.Element {
         {STATUS_DATA[insidersStatus].text}
       </div>
 
-      {insidersStatus !== 'unset' && (
+      {(insidersStatus === 'eligible' ||
+        insidersStatus === 'eligible_lifetime') && (
         <ExercismTippy content={<ComingSoon />}>
-          <a
-            className="flex"
-            href={insidersStatus === 'ineligible' ? donate_link : ''}
-          >
-            <button className="get-insiders-link grow" disabled={eligible}>
-              <span>{BUTTON_TEXT[+eligible]}</span>
-              <GraphicalIcon icon="arrow-right" />
-            </button>
-          </a>
+          <button className="flex get-insiders-link grow" disabled={true}>
+            <span>{BUTTON_TEXT[+eligible]}</span>
+            <GraphicalIcon icon="arrow-right" />
+          </button>
         </ExercismTippy>
+      )}
+
+      {insidersStatus === 'ineligible' && (
+        <a
+          className="flex"
+          href={donate_link}
+          className="get-insiders-link grow"
+        >
+          <span>{BUTTON_TEXT[+eligible]}</span>
+          <GraphicalIcon icon="arrow-right" />
+        </a>
       )}
     </>
   )
@@ -97,7 +104,7 @@ function ComingSoon(): JSX.Element {
   return (
     <div className="bg-[#191525] text-aliceBlue text-h6 flex gap-8 py-12 px-12 rounded-8">
       Check back later in the month to get access{' '}
-      <GraphicalIcon icon="purple-pixel-heart" height={24} width={24} />
+      <GraphicalIcon icon="insiders" height={24} width={24} />
     </div>
   )
 }

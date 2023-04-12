@@ -20,7 +20,7 @@ module ViewComponents
 
       link_to("https://exercism.org/blog/insiders-preview", class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          graphical_icon("purple-pixel-heart") + tag.span("Exercism Insiders launching soon.") +
+          graphical_icon("insiders") + tag.span("Exercism Insiders launching soon.") +
             tag.strong("Check your status.")
         end
       end
@@ -52,21 +52,26 @@ module ViewComponents
     end
 
     def signed_in_nav
+      insiders_content = tag.span(class: "flex items-center gap-6") do
+        tag.span("Insiders") +
+          graphical_icon(:insiders, css_class: "!filter-none")
+      end
+
       tag.nav(class: 'signed-in') do
         tag.ul do
           si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
             si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community) +
-            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
+            si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected, new: false)
+    def si_nav_li(title, _icon_name, url, selected, new: false)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        elems = [graphical_icon(icon_name), tag.span(title)]
+        elems = [tag.span(title)]
         if new
           elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
             graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +

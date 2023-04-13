@@ -6,7 +6,6 @@ class RecheckActiveInsidersJobTest < ActiveJob::TestCase
     active_user_2 = create :user, insiders_status: :active
     create :user, insiders_status: :ineligible
     create :user, insiders_status: :eligible
-    create :user, insiders_status: :expired
     create :user, insiders_status: :active_lifetime
 
     User::InsidersStatus::Update.expects(:call).with(active_user_1).once

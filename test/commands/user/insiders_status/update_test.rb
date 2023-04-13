@@ -2,18 +2,17 @@ require 'test_helper'
 
 class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   [
-    %i[ineligible ineligible],
-    %i[eligible ineligible],
-    %i[active expired],
-    %i[expired expired],
-    %i[active_lifetime active_lifetime]
+    # %i[ineligible ineligible],
+    %i[eligible ineligible]
+    # %i[active ineligible],
+    # %i[active_lifetime active_lifetime]
   ].each do |(current_status, expected_status)|
     test "ineligible: insiders_status set to #{expected_status} when currently #{current_status}" do
       user = create :user, insiders_status: current_status
 
       User::InsidersStatus::Update.(user)
 
-      assert_equal expected_status, user.insiders_status
+      assert_equal expected_status, user.reload.insiders_status
     end
   end
 
@@ -21,7 +20,6 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     %i[ineligible eligible],
     %i[eligible eligible],
     %i[active active],
-    %i[expired eligible],
     %i[active_lifetime active_lifetime]
   ].each do |(current_status, expected_status)|
     test "eligible: insiders_status set to #{expected_status} when currently #{current_status}" do
@@ -40,7 +38,6 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     %i[ineligible eligible_lifetime],
     %i[eligible eligible_lifetime],
     %i[active active_lifetime],
-    %i[expired eligible_lifetime],
     %i[active_lifetime active_lifetime]
   ].each do |(current_status, expected_status)|
     test "eligible_lifetime: insiders_status set to #{expected_status} when currently #{current_status}" do

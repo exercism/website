@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
-  %i[ineligible active expired active_lifetime].each do |current_status|
+  %i[ineligible active active_lifetime].each do |current_status|
     test "don't change status when current status is #{current_status}" do
       user = create :user, insiders_status: current_status
 

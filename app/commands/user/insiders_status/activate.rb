@@ -4,7 +4,7 @@ class User::InsidersStatus::Activate
   initialize_with :user
 
   def call
-    user.lock! do
+    user.with_lock do
       return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
 
       if user.insiders_status == :eligible

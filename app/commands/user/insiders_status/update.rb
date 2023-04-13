@@ -8,7 +8,7 @@ class User::InsidersStatus::Update
   def call
     eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
 
-    user.lock! do
+    user.with_lock do
       return if eligibility_status == user.insiders_status
 
       case eligibility_status
@@ -42,12 +42,7 @@ class User::InsidersStatus::Update
 
   def update_ineligible
     return if user.insiders_status == :active_lifetime
-    return if user.insiders_status == :expired
 
-    if user.insiders_status == :active
-      user.update(insiders_status: :expired)
-    else
-      user.update(insiders_status: :ineligible)
-    end
+    user.update(insiders_status: :ineligible)
   end
 end

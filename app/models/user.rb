@@ -10,9 +10,10 @@ class User < ApplicationRecord
   enum insiders_status: {
     unset: 0,
     ineligible: 1,
-    eligible: 2, eligible_lifetime: 5,
-    active: 3, active_lifetime: 6,
-    expired: 4
+    eligible: 2,
+    eligible_lifetime: 3,
+    active: 4,
+    active_lifetime: 5
   }, _prefix: true
 
   # Include default devise modules. Others available are:

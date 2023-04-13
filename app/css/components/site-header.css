@@ -111,7 +111,7 @@ body.namespace-.controller-insiders {
                 @apply flex sm:flex-row flex-col;
             }
             .c-icon {
-                @apply sm:mr-8 mr-16;
+                @apply sm:block hidden mr-8;
                 filter: none !important;
                 height: 24px;
                 width: 24px;

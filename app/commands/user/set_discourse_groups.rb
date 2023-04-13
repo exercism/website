@@ -21,20 +21,17 @@ class User::SetDiscourseGroups
   def set_pm_enabled!
     return if user.reputation < MIN_REP_FOR_PM_ENABLED
 
-    group_id = client.group("pm-enabled").dig(*%w[group id])
-
-    begin
-      client.group_add(group_id, user_id: [discourse_user_id])
-    rescue DiscourseApi::UnprocessableEntity
-      # If the user was already a member of the group,
-      # ignore the error
-    end
+    add_to_group!("pm-enabled")
   end
 
   def set_insiders!
     return unless user.insider?
 
-    group_id = client.group("Insiders").dig(*%w[group id])
+    add_to_group!("Insiders")
+  end
+
+  def add_to_group!(group_name)
+    group_id = client.group(group_name).dig(*%w[group id])
 
     begin
       client.group_add(group_id, user_id: [discourse_user_id])

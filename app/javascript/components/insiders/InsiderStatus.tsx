@@ -46,7 +46,7 @@ export default function Status(data: InsidersStatusData): JSX.Element {
   const [insidersStatus, setInsidersStatus] = useState(status)
 
   const [mutation] = useMutation<Response>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
         endpoint: insiders_status_request,
         method: 'GET',
@@ -66,7 +66,8 @@ export default function Status(data: InsidersStatusData): JSX.Element {
     }
   }, [insidersStatus, mutation])
 
-  const eligible = status !== 'ineligible'
+  const eligible =
+    insidersStatus === 'eligible' || insidersStatus === 'eligible_lifetime'
 
   return (
     <>
@@ -76,22 +77,19 @@ export default function Status(data: InsidersStatusData): JSX.Element {
         {STATUS_DATA[insidersStatus].text}
       </div>
 
-      {(insidersStatus === 'eligible' ||
-        insidersStatus === 'eligible_lifetime') && (
+      {eligible && (
         <ExercismTippy content={<ComingSoon />}>
-          <button className="flex get-insiders-link grow" disabled={true}>
-            <span>{BUTTON_TEXT[+eligible]}</span>
-            <GraphicalIcon icon="arrow-right" />
-          </button>
+          <div>
+            <button className="flex get-insiders-link grow" disabled>
+              <span>{BUTTON_TEXT[+eligible]}</span>
+              <GraphicalIcon icon="arrow-right" />
+            </button>
+          </div>
         </ExercismTippy>
       )}
 
       {insidersStatus === 'ineligible' && (
-        <a
-          className="flex"
-          href={donate_link}
-          className="get-insiders-link grow"
-        >
+        <a href={donate_link} className="flex get-insiders-link grow">
           <span>{BUTTON_TEXT[+eligible]}</span>
           <GraphicalIcon icon="arrow-right" />
         </a>

@@ -53,7 +53,7 @@ body.namespace-.controller-insiders {
                 @apply text-aliceBlue;
             }
             a:last-child {
-                @apply bg-[#282339] text-[#9E8EFF] border-[#9E8EFF];
+                @apply bg-darkBlueViolet text-blueViolet border-blueViolet;
             }
         }
         .new-badge {

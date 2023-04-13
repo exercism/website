@@ -40,21 +40,18 @@
                     = icon(badge.icon, "Badge: #{badge.name}")
 
         - if user.roles.present?
-          .tags
-            - if user.founder?
-              .tag.founder
-                = graphical_icon :logo
-                .title Exercism Founder
+          - tags = []
+          - tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if user.staff?
+          - tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if user.maintainer?
+          -# TODO: add user.insider?
+          - tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if user.maintainer?
 
-            - else
-              - if user.staff?
-                .tag.staff
-                  = graphical_icon :logo
-                  .title Exercism Staff
-              - if user.maintainer?
-                .tag.maintainer
-                  = graphical_icon :maintaining
-                  .title Maintainer
+          .tags
+            - tags.take(2).each do |tag|
+              %div{ class: tag[:class] }
+                = graphical_icon tag[:icon]
+                .title= tag[:title]
+
 
     .tabs-section
       = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do

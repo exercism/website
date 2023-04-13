@@ -7,17 +7,17 @@ import { typecheck } from '@/utils/typecheck'
 
 const STATUS_DATA = {
   eligible: {
-    text: "You're currently eligible for Insiders. Thank you for being part of Exercism. We're excited continue with you on our journey!",
+    text: "You're currently eligible for Insiders. Thank you for being part of Exercism. We're excited to continue with you on our journey!",
     css: '--already-insider',
   },
 
   ineligible: {
-    text: 'Insiders is available to contributors, mentors, and regular donors. Set up a recurring donation to get access when we launch.',
+    text: 'Insiders is available to contributors, mentors, and regular donors. Earn rep or set up up a recurring donation to get access.',
     css: '--ineligible',
   },
 
   eligible_lifetime: {
-    text: "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited continue with you on our journey!",
+    text: "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited to continue with you on our journey!",
     css: '--already-insider',
   },
 

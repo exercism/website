@@ -133,4 +133,19 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
     User::InsidersStatus::Update.(user)
   end
+
+  test "eligible_lifetime: awards insiders badge when current status is active" do
+    user = create :user, insiders_status: :unset
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user, :active)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+  end
 end

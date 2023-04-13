@@ -31,20 +31,42 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   end
 
   test "notification is created when changing status to active" do
-    user = create :user
+    user = create :user, insiders_status: :eligible
 
     User::Notification::Create.expects(:call).with(user, :joined_insiders).once
 
-    user.update(insiders_status: :eligible)
     User::InsidersStatus::Activate.(user)
   end
 
   test "notification is created when changing status to active_lifetime" do
-    user = create :user, :admin
+    user = create :user, :admin, insiders_status: :eligible_lifetime
 
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
 
-    user.update(insiders_status: :eligible_lifetime)
     User::InsidersStatus::Activate.(user)
+  end
+
+  test "awards insider badge when changing status to active" do
+    user = create :user, insiders_status: :eligible
+
+    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+  end
+
+  test "awards insider badge when changing status to active_lifetime" do
+    user = create :user, :admin, insiders_status: :eligible_lifetime
+
+    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
   end
 end

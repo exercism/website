@@ -31,6 +31,19 @@ class User::SetDiscourseGroups
     end
   end
 
+  def set_insiders!
+    return unless user.insider?
+
+    group_id = client.group("Insiders").dig(*%w[group id])
+
+    begin
+      client.group_add(group_id, user_id: [discourse_user_id])
+    rescue DiscourseApi::UnprocessableEntity
+      # If the user was already a member of the group,
+      # ignore the error
+    end
+  end
+
   memoize
   def discourse_user_id = discourse_user_data['id']
 

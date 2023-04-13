@@ -11,7 +11,7 @@ class RecheckInsidersJobTest < ActiveJob::TestCase
 
     User::InsidersStatus::Update.expects(:call).with(active_user_1).once
     User::InsidersStatus::Update.expects(:call).with(active_user_2).once
-    User::InsidersStatus::Update.expects(:call).with(eligible_user).once    
+    User::InsidersStatus::Update.expects(:call).with(eligible_user).once
 
     perform_enqueued_jobs do
       RecheckInsidersJob.perform_now

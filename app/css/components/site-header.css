@@ -27,6 +27,14 @@ body.namespace-.controller-insiders {
         a:not(a.announcement-bar) {
             @apply text-gray;
         }
+
+        .explore-menu {
+            @apply bg-russianViolet text-aliceBlue;
+            @apply shadow-none;
+            .c-icon {
+                @apply filter-aliceBlue;
+            }
+        }
         .user-menu-dropdown,
         .explore-menu-dropdown {
             box-shadow: 0px 2px 4px #0f0923;
@@ -98,9 +106,12 @@ body.namespace-.controller-insiders {
         }
 
         .lg-container {
-            @apply flex justify-center;
+            @apply flex justify-center items-center;
+            .text-container {
+                @apply flex sm:flex-row flex-col;
+            }
             .c-icon {
-                @apply mr-8;
+                @apply sm:mr-8 mr-16;
                 filter: none !important;
                 height: 24px;
                 width: 24px;

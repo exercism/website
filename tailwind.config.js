@@ -11,6 +11,7 @@ module.exports = {
       screens: {
         max850: { max: '850px' },
         mxl: { min: '1200px' },
+        xs: { min: '480px' },
       },
       gridTemplateColumns: {
         // Simple 16 column grid

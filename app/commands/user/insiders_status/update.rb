@@ -6,22 +6,23 @@ class User::InsidersStatus::Update
   initialize_with :user
 
   def call
-    return if eligibility_status == user.insiders_status
+    eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
 
-    case eligibility_status
-    when :eligible_lifetime
-      update_eligible_lifetime
-    when :eligible
-      update_eligible
-    when :ineligible
-      update_ineligible
+    user.lock! do
+      return if eligibility_status == user.insiders_status
+
+      case eligibility_status
+      when :eligible_lifetime
+        update_eligible_lifetime
+      when :eligible
+        update_eligible
+      when :ineligible
+        update_ineligible
+      end
     end
   end
 
   private
-  memoize
-  def eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
-
   def update_eligible_lifetime
     return if user.insiders_status == :active_lifetime
 

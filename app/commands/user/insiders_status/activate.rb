@@ -4,14 +4,16 @@ class User::InsidersStatus::Activate
   initialize_with :user
 
   def call
-    return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
+    user.lock! do
+      return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
 
-    if user.insiders_status == :eligible
-      user.update(insiders_status: :active)
-      User::Notification::Create.(user, :joined_insiders)
-    else
-      user.update(insiders_status: :active_lifetime)
-      User::Notification::Create.(user, :joined_lifetime_insiders)
+      if user.insiders_status == :eligible
+        user.update(insiders_status: :active)
+        User::Notification::Create.(user, :joined_insiders)
+      else
+        user.update(insiders_status: :active_lifetime)
+        User::Notification::Create.(user, :joined_lifetime_insiders)
+      end
     end
   end
 end

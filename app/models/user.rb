@@ -16,6 +16,13 @@ class User < ApplicationRecord
     active_lifetime: 5
   }, _prefix: true
 
+  enum flair: {
+    founder: 0,
+    staff: 1,
+    insider: 2,
+    lifetime_insider: 3
+  }, _prefix: true
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -304,4 +311,5 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def insiders_status = super.to_sym
+  def flair = super&.to_sym
 end

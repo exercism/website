@@ -54,6 +54,30 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     end
   end
 
+  %i[eligible eligible_lifetime active active_lifetime].each do |current_status|
+    test "eligible: notification not created when current status is #{current_status}" do
+      user = create :user, insiders_status: :unset
+
+      # Make the user eligible
+      user.update(active_donation_subscription: true)
+
+      User::Notification::Create.expects(:call).never
+
+      User::InsidersStatus::Update.(user, current_status)
+    end
+  end
+
+  test "eligible: notification created when current status is ineligible" do
+    user = create :user, insiders_status: :unset
+
+    # Make the user eligible
+    user.update(active_donation_subscription: true)
+
+    User::Notification::Create.expects(:call).with(user, :join_insiders).once
+
+    User::InsidersStatus::Update.(user, :ineligible)
+  end
+
   [
     %i[ineligible eligible_lifetime],
     %i[eligible eligible_lifetime],

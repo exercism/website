@@ -42,6 +42,7 @@ class User::InsidersStatus::Update
       user.update(insiders_status: :active)
     else
       user.update(insiders_status: :eligible)
+      User::Notification::Create.(user, :join_insiders) if status_before_unset == :ineligible
     end
   end
 

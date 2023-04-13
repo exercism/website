@@ -28,6 +28,10 @@ body.namespace-.controller-insiders {
             @apply text-gray;
         }
 
+        & .announcement-bar {
+            @apply bg-[#7029F5];
+        }
+
         .explore-menu {
             @apply bg-russianViolet text-aliceBlue;
             @apply shadow-none;
@@ -118,6 +122,10 @@ body.namespace-.controller-insiders {
             }
         }
     }
+
+    .user-menu-dropdown li.site-link.donate:after {
+        @apply !border-textColor6;
+    }
 }
 
 #site-header {
@@ -130,7 +138,7 @@ body.namespace-.controller-insiders {
 
     & .announcement-bar {
         @apply block;
-        @apply bg-[#7029F5] py-8;
+        @apply bg-textColor2 py-8;
         @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         & strong {
             @apply text-lightGold mx-4 font-semibold;

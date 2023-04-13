@@ -20,7 +20,7 @@ class User < ApplicationRecord
     founder: 0,
     staff: 1,
     insider: 2,
-    lifetime_insider: 3
+    original_insider: 3
   }, _prefix: true
 
   # Include default devise modules. Others available are:

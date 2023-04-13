@@ -47,4 +47,22 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     user.update(insiders_status: :eligible_lifetime)
     User::InsidersStatus::Activate.(user)
   end
+
+  test "flair updated when changing status to active" do
+    user = create :user, flair: nil, insiders_status: :eligible
+
+    User::InsidersStatus::Activate.(user)
+
+    assert_equal :insider, user.flair
+  end
+
+  %i[founder staff original_insider].each do |flair|
+    test "flair not updated when changing status to active and current flair is #{flair}" do
+      user = create :user, flair:, insiders_status: :eligible
+
+      User::InsidersStatus::Activate.(user)
+
+      assert_equal flair, user.flair
+    end
+  end
 end

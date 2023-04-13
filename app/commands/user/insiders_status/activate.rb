@@ -14,6 +14,8 @@ class User::InsidersStatus::Activate
         user.update(insiders_status: :active_lifetime)
         User::Notification::Create.(user, :joined_lifetime_insiders)
       end
+
+      user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
     end
   end
 end

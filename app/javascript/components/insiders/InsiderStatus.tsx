@@ -70,7 +70,7 @@ export default function Status(data: InsidersStatusData): JSX.Element {
     insidersStatus === 'eligible' || insidersStatus === 'eligible_lifetime'
 
   return (
-    <>
+    <div className="flex flex-col items-start">
       <div
         className={`c-insiders-prompt mb-36 ${STATUS_DATA[insidersStatus].css}`}
       >
@@ -94,7 +94,7 @@ export default function Status(data: InsidersStatusData): JSX.Element {
           <GraphicalIcon icon="arrow-right" />
         </a>
       )}
-    </>
+    </div>
   )
 }
 

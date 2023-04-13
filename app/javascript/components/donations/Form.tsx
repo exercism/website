@@ -1,6 +1,7 @@
 import React, { useState, createContext, useCallback, useMemo } from 'react'
 import { PaymentIntentType } from './StripeForm'
 import { Tab, TabContext } from '../common/Tab'
+import { Icon } from '../common'
 import { TransactionForm } from './TransactionForm'
 import { ExistingSubscriptionNotice } from './ExistingSubscriptionNotice'
 import { ExercismStripeElements } from './ExercismStripeElements'
@@ -136,8 +137,17 @@ export const Form = ({
     >
       <div id={id} className="c-donations-form">
         <div className="--tabs">
-          <Tab id="subscription" context={TabsContext}>
-            💙 Monthly
+          <Tab
+            id="subscription"
+            context={TabsContext}
+            className="!flex justify-center"
+          >
+            <Icon
+              icon="insiders"
+              alt="Eligible for Insiders Access"
+              className="emoji mr-4 !filter-none"
+            ></Icon>
+            Monthly Recurring
           </Tab>
           <Tab id="payment" context={TabsContext}>
             One-off

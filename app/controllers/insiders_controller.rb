@@ -6,7 +6,7 @@ class InsidersController < ApplicationController
       desc: "Our most requested feature will be available for Insiders at launch. Make Exercism even more beautiful and give your eyes a break when coding at night with our slick new dark theme.", filter: true },
     { icon: 'robot', title: 'ChatGPT',
       desc: "Our ChatGPT integration will help you get unstuck in the editor and give you tips when you submit a solution. It\'s brilliant half the time and terrible the rest, but it\'s definitely fun to use!", filter: true },
-    { icon: 'insiders', title: 'Nametag Flair & Badges',
+    { icon: 'insiders', title: 'Name tag flair & Badges',
       desc: "Celebrate your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Plus get an exclusive Original Insider - only avaliable at launch." }
   ].freeze
 

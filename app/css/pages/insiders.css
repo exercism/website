@@ -1,5 +1,5 @@
 #page-insiders {
-    @apply pt-48 pb-64;
+    @apply pt-20 md:pt-48 pb-64;
     background-color: #282339;
     color: #cbc9d9;
 

@@ -40,4 +40,15 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     refute subscription.active?
     refute user.active_donation_subscription?
   end
+
+  test "triggers insiders_status update" do
+    subscription_id = SecureRandom.uuid
+    user = create :user, active_donation_subscription: true
+    subscription = create :donations_subscription, user:, stripe_id: subscription_id
+
+    Stripe::Subscription.expects(:cancel).with(subscription_id)
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+
+    Donations::Subscription::Cancel.(subscription)
+  end
 end

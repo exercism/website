@@ -31,4 +31,14 @@ class Donations::Subscription::CreateTest < Donations::TestBase
     assert_equal 1, Donations::Subscription.count
     assert_equal sub_1, sub_2
   end
+
+  test "triggers insiders_status update" do
+    user = create :user
+    id = SecureRandom.uuid
+    amount = 1500
+    data = mock_stripe_subscription(id, amount)
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+
+    Donations::Subscription::Create.(user, data)
+  end
 end

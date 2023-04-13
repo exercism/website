@@ -100,4 +100,21 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
     assert_equal 20, authoring_period.reload.reputation
     assert_equal 5, mentoring_period.reload.reputation
   end
+
+  test "insiders_status is updated" do
+    user = create :user, reputation: 0
+
+    token = create(:user_code_contribution_reputation_token, level: :large, user:)
+    period = create(:user_reputation_period, :dirty, user:, period: :month, category: :any)
+
+    perform_enqueued_jobs do
+      User::ReputationPeriod::UpdateReputation.(period)
+      assert_equal :eligible, user.reload.insiders_status
+
+      token.destroy
+      period.update(dirty: true)
+      User::ReputationPeriod::UpdateReputation.(period)
+      assert_equal :ineligible, user.reload.insiders_status
+    end
+  end
 end

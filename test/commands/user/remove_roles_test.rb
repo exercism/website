@@ -19,4 +19,12 @@ class User::RemoveRolesTest < ActiveSupport::TestCase
 
     User::RemoveRoles.(user, [:staff])
   end
+
+  test "triggers insiders_status update" do
+    user = create :user, roles: []
+
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user)
+
+    User::RemoveRoles.(user, [:staff])
+  end
 end

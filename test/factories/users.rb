@@ -42,6 +42,10 @@ FactoryBot.define do
       name { "Ghost" }
     end
 
+    trait :founder do
+      roles { [:founder] }
+    end
+
     trait :admin do
       roles { [:admin] }
     end

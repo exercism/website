@@ -132,4 +132,49 @@ class NotificationsMailer < ApplicationMailer
     subject = "There's new feedback on your solution to #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
+
+  def joined_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def joined_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Lifetime Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def join_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Join Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def join_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Join Exercism Lifetime Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def expired_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Exercism Insiders membership expired"
+    mail_to_user(@user, subject)
+  end
 end

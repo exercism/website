@@ -7,6 +7,15 @@ class User < ApplicationRecord
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
 
+  enum insiders_status: {
+    unset: 0,
+    ineligible: 1,
+    eligible: 2,
+    eligible_lifetime: 3,
+    active: 4,
+    active_lifetime: 5
+  }, _prefix: true
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -293,4 +302,6 @@ class User < ApplicationRecord
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
+
+  def insiders_status = super.to_sym
 end

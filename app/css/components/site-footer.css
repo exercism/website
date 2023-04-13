@@ -1,8 +1,22 @@
 @import "../styles";
 
-body.namespace-.controller-journey {
+body.namespace-.controller-journey,
+body.namespace-.controller-insiders {
     & #site-footer {
         margin-top: 0px;
+        background: #191525;
+
+        .external-section {
+            background: none;
+            box-shadow: none;
+            .bottom {
+                background: none;
+            }
+
+            .btn-enhanced.btn-l {
+                box-shadow: none;
+            }
+        }
     }
 }
 

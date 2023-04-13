@@ -6,8 +6,6 @@ class User::InsidersStatus::Update
   initialize_with :user, :status_before_unset
 
   def call
-    return unless user.insiders_status == :unset
-
     eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
 
     user.with_lock do

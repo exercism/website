@@ -21,13 +21,13 @@ class User::SetDiscourseGroups
   def set_pm_enabled!
     return if user.reputation < MIN_REP_FOR_PM_ENABLED
 
-    add_to_group!("pm-enabled")
+    add_to_group!(PM_ENABLED_GROUP_NAME)
   end
 
   def set_insiders!
     return unless user.insider?
 
-    add_to_group!("Insiders")
+    add_to_group!(INSIDERS_GROUP_NAME)
   end
 
   def add_to_group!(group_name)
@@ -52,4 +52,7 @@ class User::SetDiscourseGroups
 
   MIN_REP_FOR_TRUST_LEVEL = 20
   MIN_REP_FOR_PM_ENABLED = 1000
+
+  PM_ENABLED_GROUP_NAME = "pm-enabled".freeze
+  INSIDERS_GROUP_NAME = "insiders".freeze
 end

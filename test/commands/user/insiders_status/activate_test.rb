@@ -23,6 +23,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   [%i[eligible active], %i[eligible_lifetime active_lifetime]].each do |(current, expected)|
     test "change status to #{expected} when current status is #{current}" do
       user = create :user, insiders_status: current
+      User::SetDiscourseGroups.stubs(:call)
 
       User::InsidersStatus::Activate.(user)
 
@@ -33,6 +34,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "notification is created when changing status to active" do
     user = create :user
 
+    User::SetDiscourseGroups.stubs(:call)
     User::Notification::Create.expects(:call).with(user, :joined_insiders).once
 
     user.update(insiders_status: :eligible)
@@ -42,6 +44,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "notification is created when changing status to active_lifetime" do
     user = create :user, :admin
 
+    User::SetDiscourseGroups.stubs(:call)
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
 
     user.update(insiders_status: :eligible_lifetime)
@@ -51,6 +54,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "set discord roles when changing status to active" do
     user = create :user
 
+    User::SetDiscourseGroups.stubs(:call)
     User::SetDiscordRoles.expects(:call).with(user)
 
     user.update(insiders_status: :eligible)
@@ -60,7 +64,26 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "set discord roles when changing status to active_lifetime" do
     user = create :user, :admin
 
+    User::SetDiscourseGroups.stubs(:call)
     User::SetDiscordRoles.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible_lifetime)
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "set discourse groups when changing status to active" do
+    user = create :user
+
+    User::SetDiscourseGroups.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible)
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "set discourse groups when changing status to active_lifetime" do
+    user = create :user, :admin
+
+    User::SetDiscourseGroups.expects(:call).with(user)
 
     user.update(insiders_status: :eligible_lifetime)
     User::InsidersStatus::Activate.(user)

@@ -20,6 +20,7 @@ class User::InsidersStatus::Update
     end
 
     User::SetDiscordRoles.(user)
+    User::SetDiscourseGroups.(user)
   end
 
   private

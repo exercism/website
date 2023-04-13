@@ -6,6 +6,7 @@ class User::SetDiscourseGroups
   def call
     set_trust_level!
     set_pm_enabled!
+    set_insiders!
   rescue DiscourseApi::NotFoundError
     # If the external user can't be found, then the
     # oauth didn't complete so there's nothing to do.
@@ -25,21 +26,28 @@ class User::SetDiscourseGroups
   end
 
   def set_insiders!
-    return unless user.insider?
-
-    add_to_group!(INSIDERS_GROUP_NAME)
+    if user.insider?
+      add_to_group!(INSIDERS_GROUP_NAME)
+    else
+      remove_from_group!(INSIDERS_GROUP_NAME)
+    end
   end
 
   def add_to_group!(group_name)
-    group_id = client.group(group_name).dig(*%w[group id])
-
-    begin
-      client.group_add(group_id, user_id: [discourse_user_id])
-    rescue DiscourseApi::UnprocessableEntity
-      # If the user was already a member of the group,
-      # ignore the error
-    end
+    client.group_add(group_id(group_name), user_id: [discourse_user_id])
+  rescue DiscourseApi::UnprocessableEntity
+    # If the user was already a member of the group,
+    # ignore the error
   end
+
+  def remove_from_group!(group_name)
+    client.group_remove(group_id(group_name), user_id: [discourse_user_id])
+  rescue DiscourseApi::UnprocessableEntity
+    # If the user was already a member of the group,
+    # ignore the error
+  end
+
+  def group_id(group_name) = client.group(group_name).dig(*%w[group id])
 
   memoize
   def discourse_user_id = discourse_user_data['id']

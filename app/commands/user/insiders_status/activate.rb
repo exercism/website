@@ -16,6 +16,7 @@ class User::InsidersStatus::Activate
       end
 
       User::SetDiscordRoles.(user)
+      User::SetDiscourseGroups.(user)
     end
   end
 end

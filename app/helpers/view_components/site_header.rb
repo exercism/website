@@ -20,8 +20,11 @@ module ViewComponents
 
       link_to("https://exercism.org/blog/insiders-preview", class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          graphical_icon("insiders") + tag.span("Exercism Insiders launching soon.") +
-            tag.strong("Check your status.")
+          graphical_icon("insiders") +
+            tag.div(class: 'text-container') do
+              tag.span("Exercism Insiders launching soon.") +
+                tag.strong("Check your status.")
+            end
         end
       end
     end

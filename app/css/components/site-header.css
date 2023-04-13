@@ -27,7 +27,17 @@ body.namespace-.controller-insiders {
         a:not(a.announcement-bar) {
             @apply text-gray;
         }
+
+        .explore-menu {
+            @apply bg-russianViolet text-aliceBlue;
+            @apply shadow-none;
+            .c-icon {
+                @apply filter-aliceBlue;
+            }
+        }
         .user-menu-dropdown,
+        .c-notifications-dropdown ul,
+        .c-reputation-dropdown ul,
         .explore-menu-dropdown {
             box-shadow: 0px 2px 4px #0f0923;
             @apply bg-russianViolet shadow-lg rounded-8;
@@ -41,11 +51,41 @@ body.namespace-.controller-insiders {
                 }
             }
 
-            li.opt a {
+            li.opt a,
+            .notification,
+            .token,
+            .c-prominent-link {
                 @apply bg-russianViolet;
                 &:hover {
                     background-color: #3a3557;
                 }
+            }
+
+            .notification {
+                .text {
+                    @apply text-aliceBlue;
+                }
+
+                .created-at {
+                    @apply text-gray;
+                }
+            }
+
+            .c-reputation {
+                @apply bg-[#191525] text-gray border-none shadow-none;
+                .c-icon {
+                    @apply filter-gray;
+                }
+            }
+            .earned-on {
+                @apply text-gray;
+            }
+            .description {
+                @apply text-aliceBlue;
+            }
+
+            .notification .icon {
+                @apply filter-aliceBlue;
             }
         }
         .auth-buttons {
@@ -98,9 +138,12 @@ body.namespace-.controller-insiders {
         }
 
         .lg-container {
-            @apply flex justify-center;
+            @apply flex justify-center items-center;
+            .text-container {
+                @apply flex sm:flex-row flex-col;
+            }
             .c-icon {
-                @apply mr-8;
+                @apply sm:block hidden mr-8;
                 filter: none !important;
                 height: 24px;
                 width: 24px;

@@ -36,6 +36,8 @@ body.namespace-.controller-insiders {
             }
         }
         .user-menu-dropdown,
+        .c-notifications-dropdown ul,
+        .c-reputation-dropdown ul,
         .explore-menu-dropdown {
             box-shadow: 0px 2px 4px #0f0923;
             @apply bg-russianViolet shadow-lg rounded-8;
@@ -49,11 +51,41 @@ body.namespace-.controller-insiders {
                 }
             }
 
-            li.opt a {
+            li.opt a,
+            .notification,
+            .token,
+            .c-prominent-link {
                 @apply bg-russianViolet;
                 &:hover {
                     background-color: #3a3557;
                 }
+            }
+
+            .notification {
+                .text {
+                    @apply text-aliceBlue;
+                }
+
+                .created-at {
+                    @apply text-gray;
+                }
+            }
+
+            .c-reputation {
+                @apply bg-[#191525] text-gray border-none shadow-none;
+                .c-icon {
+                    @apply filter-gray;
+                }
+            }
+            .earned-on {
+                @apply text-gray;
+            }
+            .description {
+                @apply text-aliceBlue;
+            }
+
+            .notification .icon {
+                @apply filter-aliceBlue;
             }
         }
         .auth-buttons {

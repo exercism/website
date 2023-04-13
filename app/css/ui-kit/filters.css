@@ -72,4 +72,10 @@
         filter: invert(40%) sepia(48%) saturate(1566%) hue-rotate(221deg)
             brightness(99%) contrast(94%);
     }
+
+    /* #A9A6BD */
+    .filter-gray {
+        filter: invert(71%) sepia(14%) saturate(317%) hue-rotate(208deg)
+            brightness(93%) contrast(86%);
+    }
 }

@@ -9,10 +9,10 @@ class User::InsidersStatus::Activate
 
       if user.insiders_status == :eligible
         user.update(insiders_status: :active)
-        User::Notification::Create.(user, :joined_insiders)
+        User::Notification::Create.(user, :joined_insiders) if FeatureFlag::INSIDERS
       else
         user.update(insiders_status: :active_lifetime)
-        User::Notification::Create.(user, :joined_lifetime_insiders)
+        User::Notification::Create.(user, :joined_lifetime_insiders) if FeatureFlag::INSIDERS
       end
     end
   end

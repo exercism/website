@@ -71,9 +71,7 @@ module ViewComponents
       end
     end
 
-    def si_nav_li(title, _icon_name, url, selected, new: false)
-      raise if new
-
+    def si_nav_li(title, _icon_name, url, selected)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
         elems = [tag.span(title)]

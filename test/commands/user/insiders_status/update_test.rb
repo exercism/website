@@ -96,4 +96,41 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       assert_equal expected_status, user.insiders_status
     end
   end
+
+  %i[eligible_lifetime active_lifetime].each do |current_status|
+    test "eligible_lifetime: notification not created when current status is #{current_status}" do
+      user = create :user, insiders_status: :unset
+
+      # Make the user eligible
+      user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+      User::Notification::Create.expects(:call).never
+
+      User::InsidersStatus::Update.(user, current_status)
+    end
+  end
+
+  %i[ineligible eligible].each do |current_status|
+    test "eligible_lifetime: notification created when current status is #{current_status}" do
+      user = create :user, insiders_status: :unset
+
+      # Make the user eligible
+      user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+      User::Notification::Create.expects(:call).with(user, :join_lifetime_insiders).once
+
+      User::InsidersStatus::Update.(user, current_status)
+    end
+  end
+
+  test "eligible_lifetime: notification created when current status is active" do
+    user = create :user, insiders_status: :unset
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
+
+    User::InsidersStatus::Update.(user, :active)
+  end
 end

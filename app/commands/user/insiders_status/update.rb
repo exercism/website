@@ -27,8 +27,10 @@ class User::InsidersStatus::Update
       user.update(insiders_status: :active_lifetime)
     when :active
       user.update(insiders_status: :active_lifetime)
+      User::Notification::Create.(user, :joined_lifetime_insiders)
     else
       user.update(insiders_status: :eligible_lifetime)
+      User::Notification::Create.(user, :join_lifetime_insiders) unless status_before_unset == :eligible_lifetime
     end
   end
 
@@ -42,7 +44,7 @@ class User::InsidersStatus::Update
       user.update(insiders_status: :active)
     else
       user.update(insiders_status: :eligible)
-      User::Notification::Create.(user, :join_insiders) if status_before_unset == :ineligible
+      User::Notification::Create.(user, :join_insiders) unless status_before_unset == :eligible
     end
   end
 

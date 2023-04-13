@@ -140,7 +140,7 @@ body.namespace-.controller-insiders {
         .lg-container {
             @apply flex justify-center items-center;
             .text-container {
-                @apply flex sm:flex-row flex-col;
+                @apply sm:flex flex-row;
             }
             .c-icon {
                 @apply sm:block hidden mr-8;

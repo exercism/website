@@ -3,11 +3,11 @@ class InsidersController < ApplicationController
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'moon', title: 'Dark theme',
-      desc: "One of our most requested features is now available for Insiders. Make Exercism even more beautiful and give your eyes a break when coding at night with our slick new dark theme.", filter: true },
+      desc: "Our most requested feature will be available for Insiders at launch. Make Exercism even more beautiful and give your eyes a break when coding at night with our slick new dark theme.", filter: true },
     { icon: 'robot', title: 'ChatGPT',
-      desc: "Our ChatGPT integration helps you get unstuck in the editor and gives you tips when you submit a solution. It\'s brilliant half the time and terrible the rest, but it\'s definitely fun to use!", filter: true },
+      desc: "Our ChatGPT integration will help you get unstuck in the editor and give you tips when you submit a solution. It\'s brilliant half the time and terrible the rest, but it\'s definitely fun to use!", filter: true },
     { icon: 'insiders', title: 'Nametag Flair & Badges',
-      desc: "We\'re sourcing free trials and deals for you from commercial partners. It\'s their way of saying thank you for supporting free education and open source software." }
+      desc: "Celebrate your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Plus get an exclusive Original Insider - only avaliable at launch." }
   ].freeze
 
   BTS_ACCESS = [
@@ -26,11 +26,6 @@ class InsidersController < ApplicationController
     { icon: 'figma', name: 'Figma', offer: 'Get 20% off your monthly subscription!' }
   ].freeze
 
-  FAQ = [
-    { question: 'You wot m8?', answer: 'You dizzy blud.' },
-    { question: 'You wot m8?', answer: 'You dizzy blud.' },
-    { question: 'You wot m8?', answer: 'You dizzy blud.' }
-  ].freeze
   # rubocop:enable Layout/LineLength
 
   def index
@@ -39,6 +34,5 @@ class InsidersController < ApplicationController
     @features = FEATURES
     @bts_access = BTS_ACCESS
     @partners = PARTNERS
-    @faq = FAQ
   end
 end

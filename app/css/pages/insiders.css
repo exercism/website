@@ -51,6 +51,19 @@
         }
     }
 
+    .faqs {
+        a {
+            @apply text-veryLightBlue font-semibold underline;
+        }
+
+        p,
+        ul {
+            @apply !text-left;
+        }
+        ul {
+            @apply list-disc ml-20;
+        }
+    }
     details {
         @apply cursor-pointer;
         &[open] {

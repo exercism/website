@@ -12,7 +12,7 @@ const STATUS_DATA = {
   },
 
   ineligible: {
-    text: 'Insiders is available to regular contributors, mentors, or donors. Set up a recurring donation to get access.',
+    text: 'Insiders is available to contributors, mentors, and regular donors. Set up a recurring donation to get access when we launch.',
     css: '--ineligible',
   },
 

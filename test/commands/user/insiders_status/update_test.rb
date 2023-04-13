@@ -2,10 +2,10 @@ require 'test_helper'
 
 class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   [
-    # %i[ineligible ineligible],
-    %i[eligible ineligible]
-    # %i[active ineligible],
-    # %i[active_lifetime active_lifetime]
+    %i[ineligible ineligible],
+    %i[eligible ineligible],
+    %i[active ineligible],
+    %i[active_lifetime active_lifetime]
   ].each do |(current_status, expected_status)|
     test "ineligible: insiders_status set to #{expected_status} when currently #{current_status}" do
       user = create :user, insiders_status: current_status

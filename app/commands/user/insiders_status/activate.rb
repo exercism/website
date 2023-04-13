@@ -13,7 +13,7 @@ class User::InsidersStatus::Activate
 
       user.update(insiders_status:)
       user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
-      User::Notification::Create.(user, notification_type)
+      User::Notification::Create.(user, notification_type) if FeatureFlag::INSIDERS
     end
   end
 end

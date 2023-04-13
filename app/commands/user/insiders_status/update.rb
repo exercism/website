@@ -8,8 +8,10 @@ class User::InsidersStatus::Update
   def call
     return unless user.insiders_status == :unset
 
+    eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
+
     user.with_lock do
-      case User::InsidersStatus::DetermineEligibilityStatus.(user)
+      case eligibility_status
       when :eligible_lifetime
         update_eligible_lifetime
       when :eligible

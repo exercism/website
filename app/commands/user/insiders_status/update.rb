@@ -6,11 +6,10 @@ class User::InsidersStatus::Update
   initialize_with :user, :status_before_unset
 
   def call
-    eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
-    return if eligibility_status == status_before_unset
+    return unless user.insiders_status == :unset
 
     user.with_lock do
-      case eligibility_status
+      case User::InsidersStatus::DetermineEligibilityStatus.(user)
       when :eligible_lifetime
         update_eligible_lifetime
       when :eligible
@@ -23,9 +22,10 @@ class User::InsidersStatus::Update
 
   private
   def update_eligible_lifetime
-    return if status_before_unset == :active_lifetime
-
-    if status_before_unset == :active
+    case status_before_unset
+    when :active_lifetime
+      user.update(insiders_status: :active_lifetime)
+    when :active
       user.update(insiders_status: :active_lifetime)
     else
       user.update(insiders_status: :eligible_lifetime)
@@ -33,16 +33,27 @@ class User::InsidersStatus::Update
   end
 
   def update_eligible
-    return if status_before_unset == :active_lifetime
-    return if status_before_unset == :active
-
-    user.update(insiders_status: :eligible)
+    case status_before_unset
+    when :active_lifetime
+      user.update(insiders_status: :active_lifetime)
+    when :eligible_lifetime
+      user.update(insiders_status: :eligible_lifetime)
+    when :active
+      user.update(insiders_status: :active)
+    else
+      user.update(insiders_status: :eligible)
+    end
   end
 
   def update_ineligible
-    return if status_before_unset == :active_lifetime
-    return if status_before_unset == :eligible_lifetime
-
-    user.update(insiders_status: :ineligible)
+    case status_before_unset
+    when :active_lifetime
+      user.update(insiders_status: :active_lifetime)
+    when :eligible_lifetime
+      user.update(insiders_status: :eligible_lifetime)
+    else
+      user.update(insiders_status: :ineligible)
+      User::Notification::Create.(user, :expired_insiders) if status_before_unset == :active
+    end
   end
 end

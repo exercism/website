@@ -21,7 +21,7 @@ class User < ApplicationRecord
     staff: 1,
     insider: 2,
     original_insider: 3
-  }, _prefix: true
+  }, _prefix: "show", _suffix: "flair"
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable

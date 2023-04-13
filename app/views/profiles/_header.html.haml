@@ -40,17 +40,22 @@
                     = icon(badge.icon, "Badge: #{badge.name}")
 
         - if user.roles.present?
-          - tags = []
-          - tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if user.staff?
-          - tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if user.maintainer?
-          -# TODO: add user.insider?
-          - tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if user.maintainer?
-
           .tags
-            - tags.take(2).each do |tag|
-              %div{ class: tag[:class] }
-                = graphical_icon tag[:icon]
-                .title= tag[:title]
+            - if user.founder?
+              .tag.founder
+                = graphical_icon :logo
+                .title Exercism Founder
+            - else
+              - tags = []
+              - tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if user.staff?
+              - tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if user.maintainer?
+              -# TODO: add user.insider?
+              - tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if user.maintainer?
+
+              - tags.take(2).each do |tag|
+                %div{ class: tag[:class] }
+                  = graphical_icon tag[:icon]
+                  .title= tag[:title]
 
 
     .tabs-section

@@ -50,7 +50,7 @@
     }
 
     /* 2E8C70 */
-    .filter-darkSuccess {
+    .filter-greenPrompt {
         filter: invert(44%) sepia(52%) saturate(498%) hue-rotate(111deg)
             brightness(94%) contrast(86%);
     }

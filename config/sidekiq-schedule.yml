@@ -29,6 +29,11 @@ mark_outdated_reputation_month_periods:
   queue: reputation
   args: ["month"]
 
+recheck_insiders:
+  cron: "1 0 * * *"
+  class: "RecheckInsidersJob"
+  queue: dribble
+
 # 5am every date (1hr after above)
 mark_outdated_reputation_year_periods:
   cron: "15 0 * * *"

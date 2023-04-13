@@ -35,6 +35,14 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     end
   end
 
+  test "ineligible: set discord roles" do
+    user = create :user, insiders_status: :unset
+
+    User::SetDiscordRoles.expects(:call).with(user)
+
+    User::InsidersStatus::Update.(user, :active)
+  end
+
   [
     %i[ineligible eligible],
     %i[eligible eligible],
@@ -74,6 +82,17 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user.update(active_donation_subscription: true)
 
     User::Notification::Create.expects(:call).with(user, :join_insiders).once
+
+    User::InsidersStatus::Update.(user, :ineligible)
+  end
+
+  test "eligible: set discord roles" do
+    user = create :user, insiders_status: :unset
+
+    # Make the user eligible
+    user.update(active_donation_subscription: true)
+
+    User::SetDiscordRoles.expects(:call).with(user)
 
     User::InsidersStatus::Update.(user, :ineligible)
   end
@@ -130,6 +149,17 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
 
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
+
+    User::InsidersStatus::Update.(user, :active)
+  end
+
+  test "eligible_lifetime: set discord roles" do
+    user = create :user, insiders_status: :unset
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    User::SetDiscordRoles.expects(:call).with(user)
 
     User::InsidersStatus::Update.(user, :active)
   end

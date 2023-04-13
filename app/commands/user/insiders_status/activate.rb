@@ -14,6 +14,8 @@ class User::InsidersStatus::Activate
         user.update(insiders_status: :active_lifetime)
         User::Notification::Create.(user, :joined_lifetime_insiders) if FeatureFlag::INSIDERS
       end
+
+      User::SetDiscordRoles.(user)
     end
   end
 end

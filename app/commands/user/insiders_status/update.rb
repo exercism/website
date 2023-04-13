@@ -18,6 +18,8 @@ class User::InsidersStatus::Update
         update_ineligible
       end
     end
+
+    User::SetDiscordRoles.(user)
   end
 
   private

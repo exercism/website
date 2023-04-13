@@ -47,4 +47,22 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     user.update(insiders_status: :eligible_lifetime)
     User::InsidersStatus::Activate.(user)
   end
+
+  test "set discord roles when changing status to active" do
+    user = create :user
+
+    User::SetDiscordRoles.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible)
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "set discord roles when changing status to active_lifetime" do
+    user = create :user, :admin
+
+    User::SetDiscordRoles.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible_lifetime)
+    User::InsidersStatus::Activate.(user)
+  end
 end

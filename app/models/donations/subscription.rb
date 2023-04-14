@@ -4,6 +4,7 @@ class Donations::Subscription < ApplicationRecord
   scope :active, -> { where(status: :active) }
 
   enum status: { canceled: 0, overdue: 1, active: 2 }, _suffix: true
+  enum provider: { stripe: 0, github: 1, paypal: 2 }, _suffix: true
 
   def amount_in_dollars
     amount_in_cents / BigDecimal(100)
@@ -14,4 +15,5 @@ class Donations::Subscription < ApplicationRecord
   end
 
   def status = super.to_sym
+  def provider = super.to_sym
 end

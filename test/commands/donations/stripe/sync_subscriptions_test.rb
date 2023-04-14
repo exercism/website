@@ -1,11 +1,11 @@
 require_relative '../test_base'
 
 class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
-  test "creates subscription for subscriptions only in Stripe" do
+  test "creates subscription for subscriptions only in Stripe with known stripe customer" do
     user_1 = create :user, stripe_customer_id: "cus_1"
     user_2 = create :user, stripe_customer_id: "cus_2"
 
-    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?limit=100&query=status:'active'").
+    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
       to_return(
         status: 200,
         body: {
@@ -16,7 +16,10 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
             {
               "id": "su_1",
               "object": "subscription",
-              "customer": "cus_1",
+              "customer": {
+                "id": "cus_1",
+                "email": "user1@test.org"
+              },
               "items": {
                 "object": "list",
                 "data": [
@@ -39,7 +42,10 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
             {
               "id": "su_2",
               "object": "subscription",
-              "customer": "cus_2",
+              "customer": {
+                "id": "cus_2",
+                "email": "user2@test.org"
+              },
               "items": {
                 "object": "list",
                 "data": [
@@ -83,8 +89,11 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
     assert_equal 777, subscription_2.amount_in_cents
   end
 
-  test "gracefully handles subscriptions only in Stripe that can't be linked to a user" do
-    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?limit=100&query=status:'active'").
+  test "creates subscription for subscriptions only in Stripe with unknown stripe customer but known email" do
+    user_1 = create :user, email: 'user1@test.org', stripe_customer_id: nil
+    user_2 = create :user, email: 'user2@test.org', stripe_customer_id: nil
+
+    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
       to_return(
         status: 200,
         body: {
@@ -95,7 +104,97 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
             {
               "id": "su_1",
               "object": "subscription",
-              "customer": "cus_1",
+              "customer": {
+                "id": "cus_1",
+                "email": "user1@test.org"
+              },
+              "items": {
+                "object": "list",
+                "data": [
+                  {
+                    "id": "si_1",
+                    "object": "subscription_item",
+                    "price": {
+                      "id": "p_1",
+                      "object": "price",
+                      "unit_amount": 999
+                    },
+                    "subscription": "sub_1"
+                  }
+                ],
+                "has_more": false,
+                "url": "/v1/subscription_items?subscription=sub_1"
+              },
+              "status": "active"
+            },
+            {
+              "id": "su_2",
+              "object": "subscription",
+              "customer": {
+                "id": "cus_2",
+                "email": "user2@test.org"
+              },
+              "items": {
+                "object": "list",
+                "data": [
+                  {
+                    "id": "si_2",
+                    "object": "subscription_item",
+                    "price": {
+                      "id": "p_2",
+                      "object": "price",
+                      "unit_amount": 777
+                    },
+                    "subscription": "sub_2"
+                  }
+                ],
+                "has_more": false,
+                "url": "/v1/subscription_items?subscription=sub_2"
+              },
+              "status": "active"
+            }
+          ]
+        }.to_json,
+        headers: { 'Content-Type': 'application/json' }
+      )
+
+    refute Donations::Subscription.exists?
+
+    Donations::Stripe::SyncSubscriptions.()
+
+    assert_equal 2, Donations::Subscription.count
+
+    assert_equal "cus_1", user_1.reload.stripe_customer_id
+    assert_equal 1, user_1.donation_subscriptions.count
+    subscription_1 = user_1.donation_subscriptions.first
+    assert subscription_1.active
+    assert_equal "su_1", subscription_1.stripe_id
+    assert_equal 999, subscription_1.amount_in_cents
+
+    assert_equal "cus_2", user_2.reload.stripe_customer_id
+    assert_equal 1, user_2.donation_subscriptions.count
+    subscription_2 = user_2.donation_subscriptions.first
+    assert subscription_2.active
+    assert_equal "su_2", subscription_2.stripe_id
+    assert_equal 777, subscription_2.amount_in_cents
+  end
+
+  test "gracefully handles subscriptions only in Stripe that can't be linked to a user" do
+    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
+      to_return(
+        status: 200,
+        body: {
+          "object": "search_result",
+          "url": "/v1/subscriptions/search",
+          "has_more": false,
+          "data": [
+            {
+              "id": "su_1",
+              "object": "subscription",
+              "customer": {
+                "id": "cus_1",
+                "email": "user1@test.org"
+              },
               "items": {
                 "object": "list",
                 "data": [
@@ -136,7 +235,7 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
     subscription_2 = create :donations_subscription, user: user_2, stripe_id: "su_2", amount_in_cents: 777,
       updated_at: Time.utc(2022, 4, 22)
 
-    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?limit=100&query=status:'active'").
+    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
       to_return(
         status: 200,
         body: {
@@ -147,7 +246,10 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
             {
               "id": "su_1",
               "object": "subscription",
-              "customer": "cus_1",
+              "customer": {
+                "id": "cus_1",
+                "email": "user1@test.org"
+              },
               "items": {
                 "object": "list",
                 "data": [
@@ -170,7 +272,10 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
             {
               "id": "su_2",
               "object": "subscription",
-              "customer": "cus_2",
+              "customer": {
+                "id": "cus_2",
+                "email": "user2@test.org"
+              },
               "items": {
                 "object": "list",
                 "data": [
@@ -215,7 +320,7 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
     subscription_2 = create :donations_subscription, user: user_2, stripe_id: "su_2", amount_in_cents: 777,
       updated_at: Time.utc(2022, 4, 22)
 
-    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?limit=100&query=status:'active'").
+    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
       to_return(
         status: 200,
         body: {
@@ -226,7 +331,10 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
             {
               "id": "su_1",
               "object": "subscription",
-              "customer": "cus_1",
+              "customer": {
+                "id": "cus_1",
+                "email": "user1@test.org"
+              },
               "items": {
                 "object": "list",
                 "data": [

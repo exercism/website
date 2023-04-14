@@ -36,7 +36,7 @@
         background-color: rgba(theme(colors.greenPrompt), 0.16);
         &:before {
             content: url("icons/check-circle-2.svg");
-            @apply filter-darkSuccess;
+            @apply filter-greenPrompt;
         }
     }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_13_083642) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_12_075814) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1187,7 +1187,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_083642) do
     t.datetime "first_donated_at"
     t.string "discord_uid"
     t.integer "insiders_status", limit: 1, default: 0, null: false
-    t.integer "flair", limit: 1
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

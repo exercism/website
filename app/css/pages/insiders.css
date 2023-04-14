@@ -1,5 +1,5 @@
 #page-insiders {
-    @apply pt-48 pb-64;
+    @apply pt-20 md:pt-48 pb-64;
     background-color: #282339;
     color: #cbc9d9;
 
@@ -51,6 +51,19 @@
         }
     }
 
+    .faqs {
+        a {
+            @apply text-veryLightBlue font-semibold underline;
+        }
+
+        p,
+        ul {
+            @apply !text-left;
+        }
+        ul {
+            @apply list-disc ml-20;
+        }
+    }
     details {
         @apply cursor-pointer;
         &[open] {

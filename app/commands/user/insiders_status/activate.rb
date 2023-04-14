@@ -7,13 +7,13 @@ class User::InsidersStatus::Activate
     user.with_lock do
       return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
 
-      lifetime_insider = user.insiders_status == :eligible_lifetime
-      insiders_status = lifetime_insider ? :active_lifetime : :active
-      notification_type = lifetime_insider ? :joined_lifetime_insiders : :joined_insiders
-
-      user.update(insiders_status:)
-      user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
-      User::Notification::Create.(user, notification_type) if FeatureFlag::INSIDERS
+      if user.insiders_status == :eligible
+        user.update(insiders_status: :active)
+        User::Notification::Create.(user, :joined_insiders) if FeatureFlag::INSIDERS
+      else
+        user.update(insiders_status: :active_lifetime)
+        User::Notification::Create.(user, :joined_lifetime_insiders) if FeatureFlag::INSIDERS
+      end
     end
   end
 end

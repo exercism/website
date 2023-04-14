@@ -27,7 +27,21 @@ body.namespace-.controller-insiders {
         a:not(a.announcement-bar) {
             @apply text-gray;
         }
+
+        & .announcement-bar {
+            @apply bg-[#7029F5];
+        }
+
+        .explore-menu {
+            @apply bg-russianViolet text-aliceBlue;
+            @apply shadow-none;
+            .c-icon {
+                @apply filter-aliceBlue;
+            }
+        }
         .user-menu-dropdown,
+        .c-notifications-dropdown ul,
+        .c-reputation-dropdown ul,
         .explore-menu-dropdown {
             box-shadow: 0px 2px 4px #0f0923;
             @apply bg-russianViolet shadow-lg rounded-8;
@@ -41,11 +55,41 @@ body.namespace-.controller-insiders {
                 }
             }
 
-            li.opt a {
+            li.opt a,
+            .notification,
+            .token,
+            .c-prominent-link {
                 @apply bg-russianViolet;
                 &:hover {
                     background-color: #3a3557;
                 }
+            }
+
+            .notification {
+                .text {
+                    @apply text-aliceBlue;
+                }
+
+                .created-at {
+                    @apply text-gray;
+                }
+            }
+
+            .c-reputation {
+                @apply bg-[#191525] text-gray border-none shadow-none;
+                .c-icon {
+                    @apply filter-gray;
+                }
+            }
+            .earned-on {
+                @apply text-gray;
+            }
+            .description {
+                @apply text-aliceBlue;
+            }
+
+            .notification .icon {
+                @apply filter-aliceBlue;
             }
         }
         .auth-buttons {
@@ -78,6 +122,10 @@ body.namespace-.controller-insiders {
             }
         }
     }
+
+    .user-menu-dropdown li.site-link.donate:after {
+        @apply !border-textColor6;
+    }
 }
 
 #site-header {
@@ -90,7 +138,7 @@ body.namespace-.controller-insiders {
 
     & .announcement-bar {
         @apply block;
-        @apply bg-[#7029F5] py-8;
+        @apply bg-textColor2 py-8;
         @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         & strong {
             @apply text-lightGold mx-4 font-semibold;
@@ -98,9 +146,12 @@ body.namespace-.controller-insiders {
         }
 
         .lg-container {
-            @apply flex justify-center;
+            @apply flex justify-center items-center;
+            .text-container {
+                @apply sm:flex flex-row;
+            }
             .c-icon {
-                @apply mr-8;
+                @apply sm:block hidden mr-8;
                 filter: none !important;
                 height: 24px;
                 width: 24px;

@@ -5,7 +5,7 @@
     .lg-container.container
       = avatar(current_user)
       .info
-        .handle= current_user.handle
+        .handle= render ViewComponents::HandleWithFlair.new(current_user.handle, current_user&.flair, size: "18px")
         .extra= current_user.name
       / TODO: Add tests for this
       = link_to badges_journey_path(anchor: "journey-content") do
@@ -29,7 +29,10 @@
       .header-intro.mb-16
         = graphical_icon "logo"
         .content
-          %h1 Welcome back, #{current_user.handle}!
+          %h1.flex
+            Welcome back,&nbsp;
+            = render ViewComponents::HandleWithFlair.new(current_user.handle, current_user&.flair, size: "32px")
+            !
           %p.welcome
             Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.

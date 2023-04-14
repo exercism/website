@@ -20,6 +20,7 @@ class SerializeMentorDiscussion
       },
       student: {
         handle: discussion.student_handle,
+        flair: discussion.student_flair,
         avatar_url: discussion.student_avatar_url,
         is_favorited: student_favorited
       },

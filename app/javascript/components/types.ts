@@ -101,6 +101,7 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
+  flair: string
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
@@ -394,6 +395,7 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
+    flair: string
   }
   mentor: {
     avatarUrl: string

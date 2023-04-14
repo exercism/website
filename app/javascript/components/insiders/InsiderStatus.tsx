@@ -100,9 +100,9 @@ export default function Status(data: InsidersStatusData): JSX.Element {
 
 function ComingSoon(): JSX.Element {
   return (
-    <div className="bg-[#191525] text-aliceBlue text-h6 flex gap-8 py-12 px-12 rounded-8">
-      Check back later in the month to get access{' '}
-      <GraphicalIcon icon="insiders" height={24} width={24} />
+    <div className="bg-[#191525] text-aliceBlue text-h6 py-12 px-12 rounded-8 text-center max-w-[480px]">
+      Insiders will launch at the end of April. Check back then to get access!
+      We'll also send you an email at launch 🎉
     </div>
   )
 }

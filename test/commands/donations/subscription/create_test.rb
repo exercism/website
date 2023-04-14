@@ -15,7 +15,7 @@ class Donations::Subscription::CreateTest < Donations::TestBase
     assert_equal id, subscription.stripe_id
     assert_equal amount, subscription.amount_in_cents
     assert_equal user, subscription.user
-    assert subscription.active?
+    assert_equal :active, subscription.status
     assert user.active_donation_subscription?
   end
 

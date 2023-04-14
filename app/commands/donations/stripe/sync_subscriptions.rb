@@ -4,6 +4,7 @@ class Donations::Stripe::SyncSubscriptions
 
   def call
     create_subscriptions!
+    update_subscriptions!
     deactivate_subscriptions!
   end
 
@@ -19,11 +20,22 @@ class Donations::Stripe::SyncSubscriptions
     end
   end
 
+  def update_subscriptions!
+    subscription_ids = local_subscription_ids & active_stripe_subscription_ids
+    subscription_ids.each do |subscription_id|
+      subscription = local_subscriptions[subscription_id]
+      stripe_subscription = active_stripe_subscriptions[subscription_id]
+
+      update_subscription_status(subscription, SUBSCRIPTION_STATUSES[stripe_subscription.status])
+    end
+  end
+
   def deactivate_subscriptions!
     inactive_subscription_ids = local_subscription_ids - active_stripe_subscription_ids
     inactive_subscription_ids.each do |subscription_id|
       subscription = local_subscriptions[subscription_id]
-      Donations::Subscription::Deactivate.(subscription) if subscription.active
+
+      update_subscription_status(subscription, SUBSCRIPTION_STATUSES[subscription.status])
     end
   end
 
@@ -47,6 +59,12 @@ class Donations::Stripe::SyncSubscriptions
   memoize
   def local_subscription_ids = local_subscriptions.keys
 
+  def update_subscription_status(subscription, status)
+    subscription.update(status:)
+
+    Donations::Subscription::Deactivate.(subscription) if subscription.status == :canceled
+  end
+
   def subscription_user(subscription)
     stripe_user = User.find_by(stripe_customer_id: subscription.customer.id)
     return stripe_user if stripe_user
@@ -55,4 +73,15 @@ class Donations::Stripe::SyncSubscriptions
       user.update(stripe_customer_id: subscription.customer.id)
     end
   end
+
+  SUBSCRIPTION_STATUSES = {
+    "active" => :active,
+    "trialing" => :active,
+    "incomplete" => :overdue,
+    "past_due" => :overdue,
+    "canceled" => :canceled,
+    "unpaid" => :canceled,
+    "incomplete_expired" => :canceled
+  }.freeze
+  private_constant :SUBSCRIPTION_STATUSES
 end

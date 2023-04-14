@@ -12,7 +12,7 @@ class Donations::Subscription::Create
       user:,
       stripe_id: stripe_data.id,
       amount_in_cents: stripe_data.items.data[0].price.unit_amount,
-      active: true
+      status: :active
     ).tap do
       User::SetActiveDonationSubscription.(user, true)
     end

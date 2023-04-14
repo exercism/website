@@ -7,7 +7,7 @@ class Donations::Subscription::DeactivateTest < Donations::TestBase
     subscription = create :donations_subscription, active: true, user:, stripe_id: subscription_id
 
     Donations::Subscription::Deactivate.(subscription)
-    refute subscription.active?
+    assert_equal :canceled, subscription.status
     refute user.active_donation_subscription?
   end
 

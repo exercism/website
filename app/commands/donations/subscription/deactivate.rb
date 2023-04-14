@@ -5,7 +5,7 @@ class Donations::Subscription::Deactivate
   initialize_with :subscription
 
   def call
-    subscription.update!(active: false)
+    subscription.update!(status: :canceled)
 
     # Update based on whether there is another different active subscription
     user = subscription.user

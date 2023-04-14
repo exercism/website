@@ -9,7 +9,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:cancel).with(subscription_id)
 
     Donations::Subscription::Cancel.(subscription)
-    refute subscription.active?
+    assert_equal :canceled, subscription.status
     refute user.active_donation_subscription?
   end
 
@@ -37,7 +37,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
 
     Donations::Subscription::Cancel.(subscription)
-    refute subscription.active?
+    assert_equal :canceled, subscription.status
     refute user.active_donation_subscription?
   end
 

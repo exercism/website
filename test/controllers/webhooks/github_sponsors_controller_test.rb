@@ -24,13 +24,20 @@ class Webhooks::GithubSponsorsControllerTest < Webhooks::BaseTestCase
     payload = {
       action: 'created',
       sponsorship: {
+        node_id: 'ab1234',
+        created_at: "2019-05-15T15:20:33Z",
         sponsor: {
           login: 'user22'
+        },
+        tier: {
+          is_one_time: true,
+          monthly_price_in_cents: 300
         }
       }
     }
 
-    ProcessGithubSponsorUpdateJob.expects(:perform_later).with('created', 'user22')
+    ProcessGithubSponsorUpdateJob.expects(:perform_later).
+      with('created', 'user22', 'ab1234', Time.parse("2019-05-15T15:20:33Z").utc, true, 300)
 
     post webhooks_github_sponsors_path, headers: headers(payload), as: :json, params: payload
     assert_response :no_content

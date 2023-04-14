@@ -9,7 +9,11 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
       perform_enqueued_jobs do
         ProcessGithubSponsorUpdateJob.perform_now(
           'created',
-          github_username
+          github_username,
+          'abd456',
+          Time.utc(2022, 3, 6),
+          true,
+          300
         )
       end
 
@@ -25,7 +29,11 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
     perform_enqueued_jobs do
       ProcessGithubSponsorUpdateJob.perform_now(
         'created',
-        github_username
+        github_username,
+        'abd456',
+        Time.utc(2022, 3, 6),
+        true,
+        300
       )
     end
 
@@ -40,7 +48,11 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
 
     refute ProcessGithubSponsorUpdateJob.perform_now(
       'something else',
-      github_username
+      github_username,
+      'abd456',
+      Time.utc(2022, 3, 6),
+      true,
+      300
     )
   end
 
@@ -49,7 +61,11 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
 
     refute ProcessGithubSponsorUpdateJob.perform_now(
       'something else',
-      "foobar"
+      "foobar",
+      'abd456',
+      Time.utc(2022, 3, 6),
+      true,
+      300
     )
   end
 end

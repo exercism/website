@@ -2,6 +2,7 @@ import React from 'react'
 import { PullRequestWidget } from './PullRequestWidget'
 import { ExerciseWidget } from '../ExerciseWidget'
 import { ConceptWidget } from '../ConceptWidget'
+import { HandleWithFlair } from '../HandleWithFlair'
 import type {
   SiteUpdate as SiteUpdateProps,
   SiteUpdateExpandedInfo,
@@ -25,7 +26,14 @@ export const ExpandedInfo = ({
           <div className="title">{expanded.title}</div>
           <div className="byline">
             <div className="by">
-              by <strong>{expanded.author.handle}</strong>
+              by&nbsp;
+              <strong>
+                <HandleWithFlair
+                  handle={expanded.author.handle}
+                  flair={expanded.author.flair}
+                  size={18}
+                />{' '}
+              </strong>
             </div>
           </div>
         </div>

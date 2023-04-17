@@ -17,7 +17,7 @@ export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
       <StoriesGridHeader />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
         {data.request.options.initialData.results.map((story: StoryProps) => (
-          <Story {...story} />
+          <Story key={story.title} {...story} />
         ))}
       </div>
       <Pagination
@@ -60,12 +60,7 @@ type StoryProps = {
     self: string
   }
 }
-function Story({
-  title,
-  thumbnailUrl,
-  interviewee,
-  links,
-}: StoryProps): JSX.Element {
+function Story({ title, interviewee, links }: StoryProps): JSX.Element {
   return (
     <a href={links.self}>
       <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">

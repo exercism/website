@@ -1,6 +1,11 @@
 import React from 'react'
 import { Contributor } from '../../types'
-import { Avatar, GraphicalIcon, Reputation } from '../../common'
+import {
+  Avatar,
+  GraphicalIcon,
+  HandleWithFlair,
+  Reputation,
+} from '../../common'
 
 export const ContributorRow = ({
   contributor,
@@ -17,7 +22,11 @@ export const ContributorRow = ({
         <div className="flex-grow flex flex-col md:flex-row items-start md:items-center">
           <div className="info mb-4 md:mb-0">
             <h3 className="mb-4 md:mb-0">
-              {contributor.handle}
+              <HandleWithFlair
+                handle={contributor.handle}
+                flair={contributor.flair}
+                size={16}
+              />
               <span className="md:hidden text-textColor6 ml-8 text-14">
                 #{contributor.rank}
               </span>

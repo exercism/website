@@ -1,7 +1,7 @@
 import React from 'react'
 import { SharePlatform, Testimonial } from '../types'
 import { Modal, ModalProps } from './Modal'
-import { Avatar, TrackIcon } from '../common'
+import { Avatar, HandleWithFlair, TrackIcon } from '../common'
 import { fromNow } from '../../utils/time'
 import { SharePanel } from '../common/SharePanel'
 
@@ -28,7 +28,14 @@ export const TestimonialModal = ({
       <div className="testimonial-section">
         <div className="content">{testimonial.content}</div>
         <div className="student">
-          by <strong>{testimonial.student.handle}</strong>
+          by&nbsp;
+          <strong>
+            <HandleWithFlair
+              handle={testimonial.student.handle}
+              flair={testimonial.student.flair}
+              size={20}
+            />
+          </strong>
         </div>
         <div className="exercise">
           on <strong>{testimonial.exercise.title}</strong> in

@@ -11,6 +11,7 @@ module API
           {
             avatar_url: user.avatar_url,
             handle: user.handle,
+            flair: user&.flair,
             reputation: user.formatted_reputation,
             links: {
               self: user.profile ? profile_url(user) : nil

@@ -14,7 +14,8 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
       makers: makers.map do |maker|
         {
           handle: maker.handle,
-          avatar_url: maker.avatar_url
+          avatar_url: maker.avatar_url,
+          flair: maker&.flair
         }
       end
     )

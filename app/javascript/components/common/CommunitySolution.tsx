@@ -142,10 +142,8 @@ export const CommunitySolution = ({
                 {
                   <HandleWithFlair
                     handle={solution.author.handle}
-                    // TODO! pass this down
                     flair={solution.author.flair}
                     size={16}
-                    iconClassName="ml-8"
                   />
                 }
                 &apos;s solution

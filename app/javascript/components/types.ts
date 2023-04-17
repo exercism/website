@@ -58,6 +58,7 @@ export type Testimonial = {
   student: {
     avatarUrl: string
     handle: string
+    flair: string
   }
   exercise: {
     title: string
@@ -401,6 +402,7 @@ export type MentorDiscussion = {
   mentor: {
     avatarUrl: string
     handle: string
+    flair: string
   }
   track: {
     title: string
@@ -510,6 +512,7 @@ export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
+  flair: string
   activity: string
   reputation: string
   links: {

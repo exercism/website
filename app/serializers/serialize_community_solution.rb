@@ -20,7 +20,7 @@ class SerializeCommunitySolution
       author: {
         handle: user.handle,
         avatar_url: user.avatar_url,
-        flair: user.flair
+        flair: user&.flair
       },
       exercise: {
         title: solution.exercise.title,

@@ -22,7 +22,6 @@ export const StudentInfo = ({
               handle={student.handle}
               flair={student.flair}
               size={18}
-              iconClassName="ml-8"
             />
           </div>
           <Reputation

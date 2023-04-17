@@ -1,10 +1,16 @@
 import React from 'react'
+import { usePaginatedRequestQuery } from '@/hooks'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { ModalProps, Modal } from './Modal'
-import { ProminentLink, Avatar, GraphicalIcon, Reputation } from '../common'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { User } from '../types'
+import {
+  ProminentLink,
+  Avatar,
+  GraphicalIcon,
+  Reputation,
+  HandleWithFlair,
+} from '../common'
+import type { User } from '../types'
 
 const DEFAULT_ERROR = new Error('Unable to load exercise contributors')
 
@@ -26,7 +32,9 @@ const MakerInner = ({
   return (
     <>
       <Avatar src={maker.avatarUrl} handle={maker.handle} />
-      <div className="handle">{maker.handle}</div>
+      <div className="handle">
+        <HandleWithFlair handle={maker.handle} flair={maker.flair} size={16} />
+      </div>
       <Reputation value={maker.reputation!} type="primary" size="small" />
       {showIcon ? (
         <GraphicalIcon icon="chevron-right" />
@@ -98,12 +106,11 @@ export const ExerciseMakersModal = ({
   endpoint,
   ...props
 }: { endpoint: string } & Omit<ModalProps, 'className'>): JSX.Element => {
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
-    APIResponse
-  >(['exercise-makers', endpoint], {
-    endpoint: endpoint,
-    options: { enabled: props.open },
-  })
+  const { status, resolvedData, isFetching, error } =
+    usePaginatedRequestQuery<APIResponse>(['exercise-makers', endpoint], {
+      endpoint: endpoint,
+      options: { enabled: props.open },
+    })
 
   return (
     <Modal {...props} className="m-makers">

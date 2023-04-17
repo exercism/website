@@ -36,7 +36,6 @@ export const DiscussionPostView = ({
               handle={post.authorHandle}
               flair={post.authorFlair}
               size={16}
-              iconClassName="ml-8"
             />
           </div>
           <time>{shortFromNow(post.updatedAt)}</time>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Avatar, GraphicalIcon, Icon } from '../common'
+import { Avatar, GraphicalIcon, HandleWithFlair, Icon } from '../common'
 import {
   IterationStatus,
   SolutionForStudent,
@@ -148,13 +148,7 @@ export const Nudge = ({
 
   switch (nudgeType) {
     case 'mentoringRequested':
-      return (
-        <MentoringRequestedNudge
-          track={track}
-          links={links}
-          className={className}
-        />
-      )
+      return <MentoringRequestedNudge links={links} className={className} />
     case 'inProgress':
       return (
         <InProgressMentoringNudge
@@ -261,7 +255,8 @@ const MentoringNudge = ({
         <h3>Improve your solution with code review</h3>
         <p>
           Having your code reviewed by a mentor is an incredible way to identify
-          your knowledge gaps and accelerate your learning. It's totally free.
+          your knowledge gaps and accelerate your learning. It&apos;s totally
+          free.
         </p>
         <div className="options">
           <MentoringComboButton
@@ -326,11 +321,9 @@ const TestsFailedNudge = ({
 }
 
 const MentoringRequestedNudge = ({
-  track,
   links,
   className = '',
 }: {
-  track: Track
   links: {
     mentoringInfo: string
     pendingMentorRequest: string
@@ -381,9 +374,17 @@ const InProgressMentoringNudge = ({
       />
 
       <div className="info">
-        <h3>
-          You&apos;re being mentored by{' '}
-          <strong>{discussion.mentor.handle}</strong>
+        <h3 className="flex">
+          You&apos;re being mentored by&nbsp;
+          <strong>
+            {
+              <HandleWithFlair
+                handle={discussion.mentor.handle}
+                flair={discussion.mentor.flair}
+                size={20}
+              />
+            }
+          </strong>
         </h3>
         <div className="details">
           {discussion.status === 'awaiting_student' ? (

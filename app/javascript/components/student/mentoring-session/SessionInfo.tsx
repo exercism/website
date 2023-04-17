@@ -1,11 +1,10 @@
 import React from 'react'
-import { TrackIcon } from '../../common/TrackIcon'
-import { ExerciseIcon } from '../../common/ExerciseIcon'
-import {
+import { TrackIcon, ExerciseIcon, HandleWithFlair } from '@/components/common'
+import { Mentor } from '../MentoringSession'
+import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-} from '../../types'
-import { Mentor } from '../MentoringSession'
+} from '@/components/types'
 
 export const SessionInfo = ({
   mentor,
@@ -23,7 +22,20 @@ export const SessionInfo = ({
       <div className="info-for-student">
         {mentor ? (
           <React.Fragment>
-            You&apos;re being mentored by <strong>{mentor.handle}</strong> on{' '}
+            <div className="flex items-center">
+              You&apos;re being mentored by&nbsp;
+              <strong className="flex">
+                {
+                  <HandleWithFlair
+                    handle={mentor.handle}
+                    flair={mentor.flair}
+                    size={14}
+                  />
+                }
+                &nbsp;
+              </strong>
+              on
+            </div>{' '}
             <div className="exercise-title">{exercise.title}</div>
           </React.Fragment>
         ) : (

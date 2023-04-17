@@ -16,7 +16,7 @@ export function HandleWithFlair({
 }): JSX.Element | null {
   return (
     <span className="flex items-center">
-      {handle}{' '}
+      {handle}&nbsp;
       {flair && (
         <GraphicalIcon
           className={iconClassName}

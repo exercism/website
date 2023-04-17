@@ -165,6 +165,7 @@ export type CommunitySolution = {
   author: {
     handle: string
     avatarUrl: string
+    flair: string
   }
   exercise: {
     title: string

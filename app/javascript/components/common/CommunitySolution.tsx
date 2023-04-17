@@ -1,16 +1,16 @@
 import React from 'react'
-import { GraphicalIcon, Avatar, Icon } from '../common'
-import {
-  CommunitySolution as CommunitySolutionProps,
-  CommunitySolutionContext,
-  SubmissionTestsStatus,
-} from '../types'
-import { useHighlighting } from '../../utils/highlight'
-import { shortFromNow } from '../../utils/time'
+import { useHighlighting, shortFromNow } from '@/utils'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
+import { HandleWithFlair } from './HandleWithFlair'
+import { GraphicalIcon, Avatar, Icon } from '../common'
 import { Outdated } from './exercise-widget/info/Outdated'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import {
+  type CommunitySolution as CommunitySolutionProps,
+  type CommunitySolutionContext,
+  SubmissionTestsStatus,
+} from '../types'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
@@ -139,7 +139,16 @@ export const CommunitySolution = ({
           ) : (
             <>
               <div className="--title">
-                {solution.author.handle}&apos;s solution
+                {
+                  <HandleWithFlair
+                    handle={solution.author.handle}
+                    // TODO! pass this down
+                    flair={solution.author.flair}
+                    size={16}
+                    iconClassName="ml-8"
+                  />
+                }
+                &apos;s solution
               </div>
               <div className="--subtitle">
                 to {solution.exercise.title} in {solution.track.title}

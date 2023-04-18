@@ -12,7 +12,7 @@ module ViewComponents
     def icon
       return unless @flair.present?
 
-      icon_name = @flair == "original_insider" ? :og_insiders : :insiders
+      icon_name = @flair == "original_insider" ? :original_insiders : :insiders
       icon_styles = "all:unset; height:#{@height}; width:#{@width};"
       graphical_icon(icon_name, style: icon_styles).to_s
     end

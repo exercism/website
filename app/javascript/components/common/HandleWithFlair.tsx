@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from './GraphicalIcon'
 
-const FLAIRS = ['insiders', 'og-insiders']
+const FLAIRS = ['insiders', 'original-insiders']
 
 export function HandleWithFlair({
   handle,

@@ -468,7 +468,6 @@ import type { AutomationLockedTooltipProps } from '../components/tooltips/Automa
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
-import { HandleWithFlair } from '@/components/common/HandleWithFlair.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

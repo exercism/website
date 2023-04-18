@@ -165,12 +165,14 @@ class Submission < ApplicationRecord
       author: {
         name: author.name,
         reputation: author.reputation,
+        flair: author&.flair,
         avatar_url: author.avatar_url,
         profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
       },
       editor: if editor.present?
                 {
                   name: editor.name,
+                  flair: author&.flair,
                   reputation: editor.reputation,
                   avatar_url: editor.avatar_url,
                   profile_url: editor.profile ? Exercism::Routes.profile_url(editor) : nil

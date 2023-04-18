@@ -83,6 +83,7 @@ type UserLinks = {
 }
 export type User = {
   avatarUrl: string
+  flair: string
   name?: string
   handle: string
   hasAvatar?: boolean
@@ -314,7 +315,10 @@ export type Iteration = {
   }
 }
 
-type FeedbackContributor = Pick<User, 'name' | 'avatarUrl' | 'reputation'> & {
+type FeedbackContributor = Pick<
+  User,
+  'name' | 'avatarUrl' | 'reputation' | 'flair' | 'handle'
+> & {
   profileUrl: string
 }
 export type RepresenterFeedback = {
@@ -727,6 +731,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
+    flair: string
     reputation: string
   }
   updatedAt: string

@@ -13,6 +13,7 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -51,6 +52,7 @@ test('links to private url if context is mentoring', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -90,6 +92,7 @@ test('links to public url if context is profile', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -129,6 +132,7 @@ test('links to public url if context is exercise', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -168,6 +172,7 @@ test('shows author avatar if context is exercise', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -206,6 +211,7 @@ test('shows author avatar if context is mentoring', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -247,6 +253,7 @@ test('shows exercise icon if context is profile', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -288,6 +295,7 @@ test('shows correct title if context is mentoring', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -325,6 +333,7 @@ test('shows correct title if context is profile', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -362,6 +371,7 @@ test('shows correct title if context is exercise', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -389,7 +399,8 @@ test('shows correct title if context is exercise', async () => {
 
   render(<CommunitySolution solution={solution} context="exercise" />)
 
-  expect(screen.getByText("handle's solution")).toBeInTheDocument()
+  expect(screen.getByText('handle')).toBeInTheDocument()
+  expect(screen.getByText("'s solution")).toBeInTheDocument()
   expect(screen.getByText('to Exercise in Track')).toBeInTheDocument()
 })
 
@@ -399,6 +410,7 @@ test('renders processing status', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -435,6 +447,7 @@ test('renders golden check icon when published iteration passed head tests', asy
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -464,8 +477,7 @@ test('renders golden check icon when published iteration passed head tests', asy
 
   expect(
     screen.getByRole('img', {
-      name:
-        'This solution passes the tests of the latest version of this exercise',
+      name: 'This solution passes the tests of the latest version of this exercise',
     })
   ).toBeInTheDocument()
 })
@@ -476,6 +488,7 @@ test('renders cross when published iteration fails head tests', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -505,8 +518,7 @@ test('renders cross when published iteration fails head tests', async () => {
 
   expect(
     screen.getByRole('img', {
-      name:
-        'This solution does not fully solve the latest version of this exercise',
+      name: 'This solution does not fully solve the latest version of this exercise',
     })
   ).toBeInTheDocument()
 })
@@ -517,6 +529,7 @@ test('renders warning icon when solution is out of date', async () => {
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -546,8 +559,7 @@ test('renders warning icon when solution is out of date', async () => {
 
   expect(
     screen.getByRole('img', {
-      name:
-        'This solution was solved against an older version of this exercise',
+      name: 'This solution was solved against an older version of this exercise',
     })
   ).toBeInTheDocument()
 })
@@ -558,6 +570,7 @@ test('does not render warning icon when solution is not out of date', async () =
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -587,8 +600,7 @@ test('does not render warning icon when solution is not out of date', async () =
 
   expect(
     screen.queryByRole('img', {
-      name:
-        'This solution has not been tested against the latest version of this exercise',
+      name: 'This solution has not been tested against the latest version of this exercise',
     })
   ).not.toBeInTheDocument()
 })

@@ -16,14 +16,17 @@ export function HandleWithFlair({
 }): JSX.Element | null {
   return (
     <span className="flex items-center">
-      {handle}&nbsp;
+      {handle}
       {flair && (
-        <GraphicalIcon
-          className={iconClassName}
-          height={size}
-          width={size}
-          icon={FLAIRS[+(flair === 'original_insider')]}
-        />
+        <>
+          &nbsp;
+          <GraphicalIcon
+            className={iconClassName}
+            height={size}
+            width={size}
+            icon={FLAIRS[+(flair === 'original_insider')]}
+          />
+        </>
       )}
     </span>
   )

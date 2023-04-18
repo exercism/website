@@ -71,7 +71,7 @@
             .info
               .mentors
                 Mentored by&nbsp;
-                %strong= @mentor_discussions.map { |d| render(ViewComponents::HandleWithFlair.new(d.mentor.handle, d.mentor&.flair, size: "16px")) }.map(&:to_s).to_sentence.html_safe
+                %strong= @mentor_discussions.map { |d| render(ViewComponents::HandleWithFlair.new(d.mentor.handle, d.mentor&.flair, size: 16)) }.map(&:to_s).to_sentence.html_safe
 
 
               = link_to doc_path(:using, 'feedback'), class: 'more' do

@@ -14,6 +14,8 @@ export function HandleWithFlair({
   size: number
   iconClassName?: string
 }): JSX.Element | null {
+  size = size - 3
+
   return (
     <span className="flex items-center">
       {handle}

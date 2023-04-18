@@ -3,8 +3,9 @@ module ViewComponents
     def initialize(handle, flair, size: nil)
       @handle = handle
       @flair = flair
-      @height = size
-      @width = size
+      size -= 3
+      @height = "#{size}px"
+      @width = "#{size}px"
 
       super()
     end

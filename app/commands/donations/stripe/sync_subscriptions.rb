@@ -16,7 +16,7 @@ class Donations::Stripe::SyncSubscriptions
       user = subscription_user(subscription)
       next unless user
 
-      Donations::Subscription::Create.(user, :stripe, subscription)
+      Donations::Stripe::CreateSubscription.(user, subscription)
     end
   end
 

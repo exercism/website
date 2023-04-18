@@ -263,7 +263,7 @@ module Components
 
           assert_css "img[src='#{ruby.icon_url}'][alt=\"icon for Ruby track\"]"
           assert_css "img.c-exercise-icon"
-          assert_text "You're being mentored by mentor on\nRunning"
+          assert_text "You're being mentored by \nmentor\n on\nRunning"
         end
       end
 

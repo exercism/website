@@ -164,7 +164,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_071755) do
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
-    t.index ["external_id"], name: "index_donations_payments_on_external_id", unique: true
+    t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
   end
@@ -179,7 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_071755) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
-    t.index ["external_id"], name: "index_donations_subscriptions_on_external_id", unique: true
+    t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 

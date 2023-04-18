@@ -33,6 +33,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: "request-comment",
           author_handle: "student",
+          author_flair: nil,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Welcome",
@@ -44,6 +45,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: discussion_post.uuid,
           author_handle: "author",
+          author_flair: nil,
           author_avatar_url: mentor.avatar_url,
           by_student: false,
           content_markdown: "Hello",
@@ -80,6 +82,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: "request-comment",
           author_handle: "student",
+          author_flair: nil,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Hello",
@@ -186,6 +189,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: post.uuid,
         author_handle: user.handle,
+        author_flair: nil,
         author_avatar_url: user.avatar_url,
         by_student: false,
         content_markdown: content,
@@ -235,6 +239,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         id: post.uuid,
         author_handle: user.handle,
+        author_flair: nil,
         author_avatar_url: user.avatar_url,
         by_student: true,
         content_markdown: content,
@@ -343,6 +348,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "mentor",
+        author_flair: nil,
         author_avatar_url: mentor.avatar_url,
         by_student: false,
         content_markdown: "content",
@@ -429,6 +435,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "mentor",
+        author_flair: nil,
         author_avatar_url: mentor.avatar_url,
         by_student: false,
         content_markdown: "Hello",

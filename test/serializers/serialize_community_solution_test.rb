@@ -20,6 +20,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       language: solution.track.highlightjs_language,
       author: {
         handle: solution.user.handle,
+        flair: solution.user&.flair,
         avatar_url: solution.user.avatar_url
       },
       exercise: {

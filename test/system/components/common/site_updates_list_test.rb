@@ -10,7 +10,7 @@ module Components
 
         visit test_components_common_site_updates_list_path
 
-        assert_text "Author\n published a new Exercise"
+        assert_text "Author published a new Exercise"
         assert_link "Bob", href: Exercism::Routes.track_exercise_url(exercise.track, exercise)
         assert_text "Yesterday"
         assert_css "img[src='#{exercise.icon_url}']"

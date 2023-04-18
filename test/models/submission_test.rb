@@ -316,6 +316,7 @@ class SubmissionTest < ActiveSupport::TestCase
       author: {
         name: author.name,
         reputation: 50,
+        flair: author&.flair,
         avatar_url: author.avatar_url,
         profile_url: nil
       },
@@ -343,12 +344,14 @@ class SubmissionTest < ActiveSupport::TestCase
       author: {
         name: author.name,
         reputation: 50,
+        flair: author&.flair,
         avatar_url: author.avatar_url,
         profile_url: nil
       },
       editor: {
         name: editor.name,
         reputation: editor.reputation,
+        flair: editor&.flair,
         avatar_url: editor.avatar_url,
         profile_url: nil
       }

@@ -25,7 +25,7 @@ class Webhooks::GithubSponsorsControllerTest < Webhooks::BaseTestCase
       action: 'created',
       sponsorship: {
         node_id: 'ab1234',
-        created_at: "2019-05-15T15:20:33Z",
+        privacy_level: 'public',
         sponsor: {
           login: 'user22'
         },
@@ -37,7 +37,7 @@ class Webhooks::GithubSponsorsControllerTest < Webhooks::BaseTestCase
     }
 
     ProcessGithubSponsorUpdateJob.expects(:perform_later).
-      with('created', 'user22', 'ab1234', Time.parse("2019-05-15T15:20:33Z").utc, true, 300)
+      with('created', 'user22', 'ab1234', 'public', true, 300)
 
     post webhooks_github_sponsors_path, headers: headers(payload), as: :json, params: payload
     assert_response :no_content

@@ -18,6 +18,6 @@ class Donations::Subscription::Create
       User::SetActiveDonationSubscription.(user, true)
     end
   rescue ActiveRecord::RecordNotUnique
-    Donations::Subscription.find_by!(external_id: stripe_data.id)
+    Donations::Subscription.find_by!(external_id: stripe_data.id, provider:)
   end
 end

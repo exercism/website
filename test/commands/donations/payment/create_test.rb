@@ -18,6 +18,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
       assert_equal amount, payment.amount_in_cents
       assert_equal receipt_url, payment.external_receipt_url
       assert_equal user, payment.user
+      assert_equal :stripe, payment.provider
       assert_nil payment.subscription
       assert_equal amount, user.total_donated_in_cents
       assert_equal Time.current, user.first_donated_at

@@ -311,6 +311,89 @@ class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
     assert_equal Time.utc(2022, 4, 22), subscription_2.updated_at
   end
 
+  test "updates status to match Stripe status" do
+    user_1 = create :user, stripe_customer_id: "cus_1"
+    user_2 = create :user, stripe_customer_id: "cus_2"
+
+    subscription_1 = create :donations_subscription, user: user_1, stripe_id: "su_1", amount_in_cents: 999,
+      updated_at: Time.utc(2022, 3, 18), status: :overdue
+    subscription_2 = create :donations_subscription, user: user_2, stripe_id: "su_2", amount_in_cents: 777,
+      updated_at: Time.utc(2022, 4, 22), status: :active
+
+    stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
+      to_return(
+        status: 200,
+        body: {
+          "object": "search_result",
+          "url": "/v1/subscriptions/search",
+          "has_more": false,
+          "data": [
+            {
+              "id": "su_1",
+              "object": "subscription",
+              "customer": {
+                "id": "cus_1",
+                "email": "user1@test.org"
+              },
+              "items": {
+                "object": "list",
+                "data": [
+                  {
+                    "id": "si_1",
+                    "object": "subscription_item",
+                    "price": {
+                      "id": "p_1",
+                      "object": "price",
+                      "unit_amount": 999
+                    },
+                    "subscription": "sub_1"
+                  }
+                ],
+                "has_more": false,
+                "url": "/v1/subscription_items?subscription=sub_1"
+              },
+              "status": "active"
+            },
+            {
+              "id": "su_2",
+              "object": "subscription",
+              "customer": {
+                "id": "cus_2",
+                "email": "user2@test.org"
+              },
+              "items": {
+                "object": "list",
+                "data": [
+                  {
+                    "id": "si_2",
+                    "object": "subscription_item",
+                    "price": {
+                      "id": "p_2",
+                      "object": "price",
+                      "unit_amount": 777
+                    },
+                    "subscription": "sub_2"
+                  }
+                ],
+                "has_more": false,
+                "url": "/v1/subscription_items?subscription=sub_2"
+              },
+              "status": "unpaid"
+            }
+          ]
+        }.to_json,
+        headers: { 'Content-Type': 'application/json' }
+      )
+
+    assert_equal 2, Donations::Subscription.count
+
+    Donations::Stripe::SyncSubscriptions.()
+
+    assert_equal 2, Donations::Subscription.count
+    assert_equal :active, subscription_1.reload.status
+    assert_equal :canceled, subscription_2.reload.status
+  end
+
   test "deactivates subscriptions that are not active in Stripe" do
     user_1 = create :user, stripe_customer_id: "cus_1"
     user_2 = create :user, stripe_customer_id: "cus_2"

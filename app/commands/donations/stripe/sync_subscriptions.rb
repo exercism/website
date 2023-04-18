@@ -26,7 +26,7 @@ class Donations::Stripe::SyncSubscriptions
       subscription = local_subscriptions[subscription_id]
       stripe_subscription = active_stripe_subscriptions[subscription_id]
 
-      update_subscription_status(subscription, SUBSCRIPTION_STATUSES[stripe_subscription.status])
+      update_subscription_status(subscription, stripe_subscription)
     end
   end
 
@@ -34,8 +34,9 @@ class Donations::Stripe::SyncSubscriptions
     inactive_subscription_ids = local_subscription_ids - active_stripe_subscription_ids
     inactive_subscription_ids.each do |subscription_id|
       subscription = local_subscriptions[subscription_id]
+      stripe_subscription = Stripe::Subscription.retrieve(subscription_id)
 
-      update_subscription_status(subscription, SUBSCRIPTION_STATUSES[subscription.status])
+      update_subscription_status(subscription, stripe_subscription)
     end
   end
 
@@ -59,7 +60,9 @@ class Donations::Stripe::SyncSubscriptions
   memoize
   def local_subscription_ids = local_subscriptions.keys
 
-  def update_subscription_status(subscription, status)
+  def update_subscription_status(subscription, stripe_subscription)
+    status = SUBSCRIPTION_STATUSES.fetch(stripe_subscription&.status, :canceled)
+
     subscription.update(status:)
 
     Donations::Subscription::Deactivate.(subscription) if subscription.status == :canceled

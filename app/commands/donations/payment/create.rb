@@ -4,47 +4,24 @@
 # "payment intents".
 
 class Donations::Payment::Create
-  class SubscriptionNotCreatedError < RuntimeError
-    def initialize
-      super "Subscription not yet created. Wait for webhook then try again."
-    end
-  end
-
   include Mandate
 
-  initialize_with :user, :provider, :stripe_data, subscription: nil
+  initialize_with :user, :provider, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
 
   def call
-    charge = stripe_data.charges.first
     Donations::Payment.create!(
       user:,
       provider:,
-      external_id: stripe_data.id,
-      external_receipt_url: charge.receipt_url,
+      external_id:,
+      external_receipt_url:,
       subscription:,
-      amount_in_cents: stripe_data.amount
+      amount_in_cents:
     ).tap do |payment|
       user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
       User::RegisterAsDonor.(user, Time.current)
       Donations::Payment::SendEmail.defer(payment)
     end
   rescue ActiveRecord::RecordNotUnique
-    Donations::Payment.find_by!(external_id: stripe_data.id, provider:)
-  end
-
-  memoize
-  def subscription
-    return @subscription if @subscription
-
-    return unless stripe_data.invoice
-
-    invoice = Stripe::Invoice.retrieve(stripe_data.invoice)
-    return unless invoice.subscription
-
-    begin
-      user.donation_subscriptions.find_by!(external_id: invoice.subscription, provider:)
-    rescue ActiveRecord::RecordNotFound
-      raise SubscriptionNotCreatedError
-    end
+    Donations::Payment.find_by!(external_id:, provider:)
   end
 end

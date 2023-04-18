@@ -12,7 +12,7 @@ class Donations::PaymentIntent::HandleSuccess
     return unless user
 
     subscription = Donations::Stripe::CreateSubscription.(user, subscription_data) if subscription_data
-    Donations::Payment::Create.(user, :stripe, payment_intent, subscription:)
+    Donations::Stripe::CreatePayment.(user, payment_intent, subscription:)
   end
 
   private

@@ -11,7 +11,7 @@ class Donations::PaymentIntent::HandleSuccess
   def call
     return unless user
 
-    subscription = Donations::Subscription::Create.(user, subscription_data) if subscription_data
+    subscription = Donations::Subscription::Create.(user, :stripe, subscription_data) if subscription_data
     Donations::Payment::Create.(user, payment_intent, subscription:)
   end
 

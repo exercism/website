@@ -5,7 +5,7 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
     subscription_id = SecureRandom.uuid
     item_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, stripe_id: subscription_id, amount_in_cents: 500
+    subscription = create :donations_subscription, user:, external_id: subscription_id, amount_in_cents: 500
     new_amount_in_cents = 1200
 
     subscription_data = mock_stripe_subscription(subscription_id, 500, item_id:)
@@ -34,7 +34,7 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
     subscription_id = SecureRandom.uuid
     item_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, stripe_id: subscription_id, amount_in_cents: 500
+    subscription = create :donations_subscription, user:, external_id: subscription_id, amount_in_cents: 500
     new_amount_in_cents = 1200
 
     subscription_data = mock_stripe_subscription(subscription_id, 500, item_id:)

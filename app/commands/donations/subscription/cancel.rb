@@ -7,9 +7,9 @@ class Donations::Subscription::Cancel
 
   def call
     begin
-      Stripe::Subscription.cancel(subscription.stripe_id)
+      Stripe::Subscription.cancel(subscription.external_id)
     rescue Stripe::InvalidRequestError
-      data = Stripe::Subscription.retrieve(subscription.stripe_id)
+      data = Stripe::Subscription.retrieve(subscription.external_id)
 
       # Raise if we failed to cancel an active subscription
       raise if data.status == 'active'

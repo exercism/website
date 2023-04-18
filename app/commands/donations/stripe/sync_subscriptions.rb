@@ -16,7 +16,7 @@ class Donations::Stripe::SyncSubscriptions
       user = subscription_user(subscription)
       next unless user
 
-      Donations::Subscription::Create.(user, subscription)
+      Donations::Subscription::Create.(user, :stripe, subscription)
     end
   end
 
@@ -55,7 +55,7 @@ class Donations::Stripe::SyncSubscriptions
   def active_stripe_subscription_ids = active_stripe_subscriptions.keys
 
   memoize
-  def local_subscriptions = Donations::Subscription.find_each.index_by(&:stripe_id)
+  def local_subscriptions = Donations::Subscription.find_each.index_by(&:external_id)
 
   memoize
   def local_subscription_ids = local_subscriptions.keys

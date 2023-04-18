@@ -4,7 +4,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
   test "cancels for subscription" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, stripe_id: subscription_id
+    subscription = create :donations_subscription, user:, external_id: subscription_id
 
     Stripe::Subscription.expects(:cancel).with(subscription_id)
 
@@ -16,7 +16,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
   test "blows up if subscription can't be deleted" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, stripe_id: subscription_id
+    subscription = create :donations_subscription, user:, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000, status: 'active')
     Stripe::Subscription.expects(:cancel).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
@@ -30,7 +30,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
   test "doesn't blow up if subscription is already cancelled" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, stripe_id: subscription_id
+    subscription = create :donations_subscription, user:, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000, status: 'canceled')
     Stripe::Subscription.expects(:cancel).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
@@ -44,7 +44,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
   test "triggers insiders_status update" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, stripe_id: subscription_id
+    subscription = create :donations_subscription, user:, external_id: subscription_id
 
     Stripe::Subscription.expects(:cancel).with(subscription_id)
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once

@@ -6,10 +6,10 @@ class Donations::Subscription::UpdateAmount
   initialize_with :subscription, :amount_in_cents
 
   def call
-    stripe_data = Stripe::Subscription.retrieve(subscription.stripe_id)
+    stripe_data = Stripe::Subscription.retrieve(subscription.external_id)
 
     Stripe::Subscription.update(
-      subscription.stripe_id,
+      subscription.external_id,
       items: [{
         id: stripe_data.items.data[0].id,
         price_data: {

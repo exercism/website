@@ -2,10 +2,10 @@
 # and creates a record of it in our database. The actual
 # creation of the subscription within Stripe happens through
 # "payment intents".
-class Donations::Subscription::Create
+class Donations::Stripe::CreateSubscription
   include Mandate
 
-  initialize_with :user, :provider, :stripe_data
+  initialize_with :user, :stripe_data
 
   def call
     Donations::Subscription.create!(

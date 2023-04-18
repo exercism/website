@@ -18,8 +18,8 @@ class Donations::Payment::Create
     charge = stripe_data.charges.first
     Donations::Payment.create!(
       user:,
-      stripe_id: stripe_data.id,
-      stripe_receipt_url: charge.receipt_url,
+      external_id: stripe_data.id,
+      external_receipt_url: charge.receipt_url,
       subscription:,
       amount_in_cents: stripe_data.amount
     ).tap do |payment|
@@ -28,7 +28,7 @@ class Donations::Payment::Create
       Donations::Payment::SendEmail.defer(payment)
     end
   rescue ActiveRecord::RecordNotUnique
-    Donations::Payment.find_by!(stripe_id: stripe_data.id)
+    Donations::Payment.find_by!(external_id: stripe_data.id)
   end
 
   memoize
@@ -41,7 +41,7 @@ class Donations::Payment::Create
     return unless invoice.subscription
 
     begin
-      user.donation_subscriptions.find_by!(stripe_id: invoice.subscription)
+      user.donation_subscriptions.find_by!(external_id: invoice.subscription)
     rescue ActiveRecord::RecordNotFound
       raise SubscriptionNotCreatedError
     end

@@ -12,12 +12,13 @@ class Donations::Payment::Create
 
   include Mandate
 
-  initialize_with :user, :stripe_data, subscription: nil
+  initialize_with :user, :provider, :stripe_data, subscription: nil
 
   def call
     charge = stripe_data.charges.first
     Donations::Payment.create!(
       user:,
+      provider:,
       external_id: stripe_data.id,
       external_receipt_url: charge.receipt_url,
       subscription:,
@@ -28,7 +29,7 @@ class Donations::Payment::Create
       Donations::Payment::SendEmail.defer(payment)
     end
   rescue ActiveRecord::RecordNotUnique
-    Donations::Payment.find_by!(external_id: stripe_data.id)
+    Donations::Payment.find_by!(external_id: stripe_data.id, provider:)
   end
 
   memoize
@@ -41,7 +42,7 @@ class Donations::Payment::Create
     return unless invoice.subscription
 
     begin
-      user.donation_subscriptions.find_by!(external_id: invoice.subscription)
+      user.donation_subscriptions.find_by!(external_id: invoice.subscription, provider:)
     rescue ActiveRecord::RecordNotFound
       raise SubscriptionNotCreatedError
     end

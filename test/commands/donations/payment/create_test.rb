@@ -44,8 +44,8 @@ class Donations::Payment::CreateTest < Donations::TestBase
       Donations::Payment::Create.(user, :stripe, 1, 1, "")
     end
 
-    delivery = ActionMailer::Base.deliveries.find { |d| d.subject == "Thank you for your donation" }
-    assert_equal [user.email], delivery.to
+    deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Thank you for your donation" && d.to == [user.email] }
+    assert_equal 1, deliveries.count
   end
 
   test "works with subscription passed manually" do

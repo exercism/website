@@ -55,7 +55,7 @@ class Donations::Stripe::SyncSubscriptions
   def active_stripe_subscription_ids = active_stripe_subscriptions.keys
 
   memoize
-  def local_subscriptions = Donations::Subscription.find_each.index_by(&:external_id)
+  def local_subscriptions = Donations::Subscription.stripe.find_each.index_by(&:external_id)
 
   memoize
   def local_subscription_ids = local_subscriptions.keys

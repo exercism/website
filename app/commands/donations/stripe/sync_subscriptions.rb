@@ -65,7 +65,7 @@ class Donations::Stripe::SyncSubscriptions
 
     subscription.update(status:)
 
-    Donations::Subscription::Deactivate.(subscription) if subscription.canceled_status?
+    Donations::Subscription::Deactivate.(subscription) if subscription.canceled?
   end
 
   def subscription_user(subscription)

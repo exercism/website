@@ -21,7 +21,7 @@ export function HandleWithFlair({
         <>
           &nbsp;
           <GraphicalIcon
-            className={iconClassName}
+            className={'handle-with-flair-icon ' + iconClassName}
             height={size}
             width={size}
             icon={FLAIRS[+(flair === 'original_insider')]}

@@ -80,7 +80,7 @@ module Components
             sign_in!(user)
             visit Exercism::Routes.private_solution_path(solution)
 
-            assert_text "You're being mentored by Mentor"
+            assert_text "You're being mentored by \nMentor"
             assert_text "Your turn to respond"
             assert_link "Open discussion",
               href: Exercism::Routes.track_exercise_mentor_discussion_url(solution.track, solution.exercise, discussion)

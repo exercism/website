@@ -18,8 +18,13 @@ module ViewComponents
     end
 
     def to_s
-      tag.span(class: 'flex items-center', title: @flair) do
-        "#{@handle}&nbsp;#{icon}".html_safe
+      tag.span(
+        class: 'flex items-center',
+        title: @flair
+      ) do
+        content = @handle
+        content += "&nbsp;#{icon}" if @flair.present?
+        content.html_safe
       end
     end
   end

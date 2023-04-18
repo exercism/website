@@ -34,6 +34,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           iteration_idx: 2,
           author_handle: "student",
           author_avatar_url: student.avatar_url,
+          author_flair: student&.flair,
           by_student: true,
           content_markdown: "Request comment",
           content_html: "<p>Request comment</p>\n",

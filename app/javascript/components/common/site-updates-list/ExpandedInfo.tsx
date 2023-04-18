@@ -25,14 +25,14 @@ export const ExpandedInfo = ({
         <div className="info">
           <div className="title">{expanded.title}</div>
           <div className="byline">
-            <div className="by">
+            <div className="by flex">
               by&nbsp;
               <strong>
                 <HandleWithFlair
                   handle={expanded.author.handle}
                   flair={expanded.author.flair}
                   size={18}
-                />{' '}
+                />
               </strong>
             </div>
           </div>

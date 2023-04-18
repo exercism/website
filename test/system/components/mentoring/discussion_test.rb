@@ -67,7 +67,7 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
         assert_text "edited by Feedback editor"
         assert_text "Good job"
       end
@@ -106,8 +106,8 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Feedback author gave this feedback on a solution very similar to yours"
-        refute_text "edited by Feedback editor"
+        assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
+        refute_text "edited by \nFeedback editor"
         assert_text "Good job"
       end
 
@@ -147,8 +147,8 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Feedback author gave this feedback on a solution very similar to yours"
-        refute_text "edited by Feedback author"
+        assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
+        refute_text "edited by \nFeedback author"
         assert_text "Good job"
       end
 

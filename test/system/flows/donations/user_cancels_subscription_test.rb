@@ -11,7 +11,7 @@ module Flows
         stub_request(:delete, "https://api.stripe.com/v1/subscriptions/#{subscription_id}").
           to_return(status: 200, body: {}.to_json)
         user = create :user, active_donation_subscription: true
-        create :donations_subscription, external_id: subscription_id, user:, active: true
+        create :donations_subscription, user:, status: :active, provider: :stripe, external_id: subscription_id
 
         use_capybara_host do
           sign_in!(user)

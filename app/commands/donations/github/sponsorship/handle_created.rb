@@ -6,6 +6,7 @@ class Donations::Github::Sponsorship::HandleCreated
   initialize_with :user, :node_id, :privacy_level, :is_one_time, :monthly_price_in_cents
 
   def call
-    # TODO
+    subscription = Donations::Github::Subscription::Create.(user, node_id, monthly_price_in_cents) unless is_one_time
+    Donations::Github::Payment::Create.(user, node_id, monthly_price_in_cents, subscription:)
   end
 end

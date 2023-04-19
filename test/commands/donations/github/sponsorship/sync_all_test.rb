@@ -1,5 +1,48 @@
 require_relative '../../test_base'
 
+# {
+#   "data": {
+#     "organization": {
+#       "sponsorshipsAsMaintainer": {
+#         "nodes": [
+#           {
+#             "sponsorEntity": {
+#               "login": "ABBDBSD"
+#             },
+#             "id": "S_kwHOAFXRv84AASNH",
+#             "privacyLevel": "PUBLIC",
+#             "isOneTimePayment": false,
+#             "tier": {
+#               "monthlyPriceInCents": 500
+#             }
+#           },
+#           {
+
+# query ($endCursor: String) {
+#   organization(login: "exercism") {
+#     sponsorshipsAsMaintainer(
+#       first: 100
+#       activeOnly: true
+#       includePrivate: true
+#       after: $endCursor
+#     ) {
+#       nodes {
+#         sponsorEntity {
+#           ... on User {
+#             login
+#           }
+#         }
+#         id
+#         privacyLevel
+#         isOneTimePayment
+#         tier {
+#           monthlyPriceInCents
+#         }
+#       }
+#     }
+#   }
+# }
+
 class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
   # test "creates subscription for subscriptions only in Stripe with known stripe customer" do
   #   user_1 = create :user, stripe_customer_id: "cus_1"

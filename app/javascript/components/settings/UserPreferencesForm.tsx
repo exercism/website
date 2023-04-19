@@ -8,7 +8,7 @@ type Links = {
   update: string
 }
 
-type UserPreferences = {
+export type UserPreferences = {
   automation: readonly UserPreference[]
 }
 

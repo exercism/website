@@ -26,10 +26,10 @@ class Donations::Stripe::CreatePayment
   def subscription
     return @subscription if @subscription
 
-    return unless stripe_data.invoice
+    return nil unless stripe_data.invoice
 
     invoice = Stripe::Invoice.retrieve(stripe_data.invoice)
-    return unless invoice.subscription
+    return nil unless invoice.subscription
 
     begin
       user.donation_subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)

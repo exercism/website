@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
+class Donations::Stripe::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
   test "disable user when three or more payment intents have failed in last 24 hours" do
     invoice_id = SecureRandom.uuid
     subscription_id = SecureRandom.uuid
@@ -13,7 +13,7 @@ class Donations::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
 
     Stripe::Charge.expects(:search).returns(Array.new(3, {}))
 
-    Donations::PaymentIntent::HandleInvoiceFailure.(invoice:)
+    Donations::Stripe::PaymentIntent::HandleInvoiceFailure.(invoice:)
 
     assert user.reload.disabled?
   end
@@ -30,7 +30,7 @@ class Donations::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
 
     Stripe::Charge.expects(:search).returns(Array.new(2, {}))
 
-    Donations::PaymentIntent::HandleInvoiceFailure.(invoice:)
+    Donations::Stripe::PaymentIntent::HandleInvoiceFailure.(invoice:)
 
     refute user.reload.disabled?
   end
@@ -47,7 +47,7 @@ class Donations::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
 
     Stripe::Charge.expects(:search).never
 
-    Donations::PaymentIntent::HandleInvoiceFailure.(invoice:)
+    Donations::Stripe::PaymentIntent::HandleInvoiceFailure.(invoice:)
 
     refute user.reload.disabled?
   end
@@ -60,7 +60,7 @@ class Donations::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
 
     Stripe::Charge.expects(:search).never
 
-    Donations::PaymentIntent::HandleInvoiceFailure.(invoice:)
+    Donations::Stripe::PaymentIntent::HandleInvoiceFailure.(invoice:)
   end
 
   test "raises when invoice doesn't have customer" do
@@ -69,13 +69,13 @@ class Donations::PaymentIntent::HandleInvoiceFailureTest < Donations::TestBase
     invoice = mock_stripe_invoice(invoice_id, subscription_id, customer: nil)
 
     assert_raises do
-      Donations::PaymentIntent::HandleInvoiceFailure.(invoice:)
+      Donations::Stripe::PaymentIntent::HandleInvoiceFailure.(invoice:)
     end
   end
 
   test "raises when id or invoice isn't passed" do
     assert_raises do
-      Donations::PaymentIntent::HandleInvoiceFailure.()
+      Donations::Stripe::PaymentIntent::HandleInvoiceFailure.()
     end
   end
 end

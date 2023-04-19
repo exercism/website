@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::PaymentIntent::CreateTest < Donations::TestBase
+class Donations::Stripe::PaymentIntent::CreateTest < Donations::TestBase
   test "creates payment correctly" do
     customer_id = SecureRandom.uuid
     user = create :user, stripe_customer_id: customer_id
@@ -16,7 +16,7 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
       setup_future_usage: 'off_session'
     ).returns(payment_intent)
 
-    actual = Donations::PaymentIntent::Create.(user, type, amount_in_cents)
+    actual = Donations::Stripe::PaymentIntent::Create.(user, type, amount_in_cents)
     assert_equal payment_intent, actual
   end
 
@@ -45,7 +45,7 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
       expand: ['latest_invoice.payment_intent']
     ).returns(stripe_subscription)
 
-    actual = Donations::PaymentIntent::Create.(user, type, amount_in_cents)
+    actual = Donations::Stripe::PaymentIntent::Create.(user, type, amount_in_cents)
     assert_equal payment_intent, actual
   end
 
@@ -60,7 +60,7 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
     Stripe::PaymentIntent.expects(:create).never
     Stripe::Subscription.expects(:create).never
 
-    assert_nil Donations::PaymentIntent::Create.(user, type, amount_in_cents)
+    assert_nil Donations::Stripe::PaymentIntent::Create.(user, type, amount_in_cents)
   end
 
   test "don't create Stripe payment intent when email uses blocked domain" do
@@ -73,7 +73,7 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
     Stripe::PaymentIntent.expects(:create).never
     Stripe::Subscription.expects(:create).never
 
-    assert_nil Donations::PaymentIntent::Create.(email, type, amount_in_cents)
+    assert_nil Donations::Stripe::PaymentIntent::Create.(email, type, amount_in_cents)
   end
 
   test "log error in bugsnag when email uses blocked domain" do
@@ -88,6 +88,6 @@ class Donations::PaymentIntent::CreateTest < Donations::TestBase
 
     Bugsnag.expects(:notify).once
 
-    assert_nil Donations::PaymentIntent::Create.(email, type, amount_in_cents)
+    assert_nil Donations::Stripe::PaymentIntent::Create.(email, type, amount_in_cents)
   end
 end

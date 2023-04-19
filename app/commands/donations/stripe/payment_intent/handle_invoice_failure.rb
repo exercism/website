@@ -1,4 +1,4 @@
-class Donations::PaymentIntent::HandleInvoiceFailure
+class Donations::Stripe::PaymentIntent::HandleInvoiceFailure
   include Mandate
 
   initialize_with id: nil, invoice: nil do

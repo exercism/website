@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::PaymentIntent::CancelTest < Donations::TestBase
+class Donations::Stripe::PaymentIntent::CancelTest < Donations::TestBase
   test "cancels for subscription" do
     payment_intent_id = SecureRandom.uuid
     subscription_id = SecureRandom.uuid
@@ -16,7 +16,7 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:cancel).with(subscription_id)
     Stripe::Invoice.expects(:void_invoice).with(invoice_id)
 
-    Donations::PaymentIntent::Cancel.(payment_intent_id)
+    Donations::Stripe::PaymentIntent::Cancel.(payment_intent_id)
   end
 
   test "does not void unopen invoices" do
@@ -34,7 +34,7 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:cancel).with(subscription_id)
     Stripe::Invoice.expects(:void_invoice).never
 
-    Donations::PaymentIntent::Cancel.(payment_intent_id)
+    Donations::Stripe::PaymentIntent::Cancel.(payment_intent_id)
   end
 
   test "cancels payments" do
@@ -46,6 +46,6 @@ class Donations::PaymentIntent::CancelTest < Donations::TestBase
     Stripe::PaymentIntent.expects(:retrieve).with(payment_intent_id).returns(payment_intent)
     Stripe::PaymentIntent.expects(:cancel).with(payment_intent_id)
 
-    Donations::PaymentIntent::Cancel.(payment_intent_id)
+    Donations::Stripe::PaymentIntent::Cancel.(payment_intent_id)
   end
 end

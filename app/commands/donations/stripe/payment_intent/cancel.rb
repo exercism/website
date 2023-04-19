@@ -1,4 +1,4 @@
-class Donations::PaymentIntent::Cancel
+class Donations::Stripe::PaymentIntent::Cancel
   include Mandate
 
   initialize_with :id

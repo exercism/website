@@ -1,4 +1,4 @@
-class Donations::PaymentIntent::CreateForPayment
+class Donations::Stripe::PaymentIntent::CreateForPayment
   include Mandate
 
   initialize_with :customer_id, :amount_in_cents

@@ -1,14 +1,14 @@
-class Donations::PaymentIntentError < RuntimeError
+class Donations::Stripe::PaymentIntentError < RuntimeError
 end
 
-class Donations::PaymentIntent::Create
+class Donations::Stripe::PaymentIntent::Create
   include Mandate
 
   initialize_with :user_or_email, :type, :amount_in_cents
 
   def call
     if invalid_user_or_email?
-      Bugsnag.notify(Donations::PaymentIntentError.new("Invalid user or email trying to make donation: #{user_or_email}"))
+      Bugsnag.notify(Donations::Stripe::PaymentIntentError.new("Invalid user or email trying to make donation: #{user_or_email}"))
       return
     end
 
@@ -18,9 +18,9 @@ class Donations::PaymentIntent::Create
 
     case type.to_sym
     when :subscription
-      Donations::PaymentIntent::CreateForSubscription.(customer_id, amount_in_cents)
+      Donations::Stripe::PaymentIntent::CreateForSubscription.(customer_id, amount_in_cents)
     else
-      Donations::PaymentIntent::CreateForPayment.(customer_id, amount_in_cents)
+      Donations::Stripe::PaymentIntent::CreateForPayment.(customer_id, amount_in_cents)
     end
   end
 

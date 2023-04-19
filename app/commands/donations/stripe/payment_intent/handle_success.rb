@@ -1,4 +1,4 @@
-class Donations::PaymentIntent::HandleSuccess
+class Donations::Stripe::PaymentIntent::HandleSuccess
   include Mandate
 
   def initialize(id: nil, payment_intent: nil)

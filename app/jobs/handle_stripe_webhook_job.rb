@@ -8,9 +8,9 @@ class HandleStripeWebhookJob < ApplicationJob
 
     case event.type
     when 'payment_intent.succeeded'
-      Donations::PaymentIntent::HandleSuccess.(payment_intent: event.data.object)
+      Donations::Stripe::PaymentIntent::HandleSuccess.(payment_intent: event.data.object)
     when 'invoice.payment_failed'
-      Donations::PaymentIntent::HandleInvoiceFailure.(invoice: event.data.object)
+      Donations::Stripe::PaymentIntent::HandleInvoiceFailure.(invoice: event.data.object)
     when 'invoice.payment_succeeded'
       data_object = event.data.object
       if data_object['billing_reason'] == 'subscription_create'

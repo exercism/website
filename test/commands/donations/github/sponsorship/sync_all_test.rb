@@ -1,6 +1,6 @@
 require_relative '../../test_base'
 
-class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
+class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
   # test "creates subscription for subscriptions only in Stripe with known stripe customer" do
   #   user_1 = create :user, stripe_customer_id: "cus_1"
   #   user_2 = create :user, stripe_customer_id: "cus_2"
@@ -72,7 +72,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
 
   #   refute Donations::Subscription.exists?
 
-  #   Donations::Stripe::SyncSubscriptions.()
+  #   Donations::Github::Sponsorship::SyncAll.()
 
   #   assert_equal 2, Donations::Subscription.count
 
@@ -162,7 +162,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
 
   #   refute Donations::Subscription.exists?
 
-  #   Donations::Stripe::SyncSubscriptions.()
+  #   Donations::Github::Sponsorship::SyncAll.()
 
   #   assert_equal 2, Donations::Subscription.count
 
@@ -225,7 +225,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
 
   #   refute Donations::Subscription.exists?
 
-  #   Donations::Stripe::SyncSubscriptions.()
+  #   Donations::Github::Sponsorship::SyncAll.()
 
   #   refute Donations::Subscription.exists?
   # end
@@ -306,7 +306,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
 
   #   assert_equal 2, Donations::Subscription.count
 
-  #   Donations::Stripe::SyncSubscriptions.()
+  #   Donations::Github::Sponsorship::SyncAll.()
 
   #   assert_equal 2, Donations::Subscription.count
   #   assert_equal :active, subscription_1.reload.status
@@ -391,7 +391,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
 
   #   assert_equal 2, Donations::Subscription.count
 
-  #   Donations::Stripe::SyncSubscriptions.()
+  #   Donations::Github::Sponsorship::SyncAll.()
 
   #   assert_equal 2, Donations::Subscription.count
   #   assert_equal :active, subscription_1.reload.status
@@ -476,7 +476,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
   #   assert_equal :active, subscription_1.reload.status
   #   assert_equal :active, subscription_2.reload.status
 
-  #   Donations::Stripe::SyncSubscriptions.()
+  #   Donations::Github::Sponsorship::SyncAll.()
 
   #   assert_equal 2, Donations::Subscription.count
   #   assert_equal :active, subscription_1.reload.status
@@ -539,7 +539,7 @@ class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
 
   #     assert_equal :active, subscription.status
 
-  #     Donations::Stripe::SyncSubscriptions.()
+  #     Donations::Github::Sponsorship::SyncAll.()
 
   #     assert_equal new_status, subscription.reload.status
   #   end

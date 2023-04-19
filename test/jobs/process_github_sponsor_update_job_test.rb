@@ -1,71 +1,88 @@
 require "test_helper"
 
 class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
-  test "updates first_donated_at to current time" do
-    freeze_time do
-      github_username = "foobar"
-      user = create :user, github_username:, first_donated_at: nil
-
-      perform_enqueued_jobs do
-        ProcessGithubSponsorUpdateJob.perform_now(
-          'created',
-          github_username,
-          'abd456',
-          Time.utc(2022, 3, 6),
-          true,
-          300
-        )
-      end
-
-      assert_equal Time.current, user.reload.first_donated_at
-      assert user.donated?
-    end
-  end
-
-  test "awards badge when created" do
-    github_username = "foobar"
+  test "processes 'cancelled' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    privacy_level = 'public'
+    is_one_time = true
+    monthly_price_in_cents = 300
     user = create(:user, github_username:)
 
-    perform_enqueued_jobs do
-      ProcessGithubSponsorUpdateJob.perform_now(
-        'created',
-        github_username,
-        'abd456',
-        Time.utc(2022, 3, 6),
-        true,
-        300
-      )
-    end
+    Donations::Github::Sponsorship::HandleCancelled.expects(:call).
+      with(user, node_id, privacy_level, is_one_time, monthly_price_in_cents).
+      once
 
-    assert_includes user.reload.badges, Badges::SupporterBadge.first
-  end
-
-  test "noop when action is not created" do
-    github_username = "foobar"
-    create :user, github_username:
-
-    AwardBadgeJob.expects(:perform_later).never
-
-    refute ProcessGithubSponsorUpdateJob.perform_now(
-      'something else',
-      github_username,
-      'abd456',
-      Time.utc(2022, 3, 6),
-      true,
-      300
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'cancelled', github_username, node_id, privacy_level, is_one_time, monthly_price_in_cents
     )
   end
 
-  test "nooop when user does not exist" do
-    AwardBadgeJob.expects(:perform_later).never
+  test "processes 'created' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    privacy_level = 'public'
+    is_one_time = true
+    monthly_price_in_cents = 300
+    user = create(:user, github_username:)
 
-    refute ProcessGithubSponsorUpdateJob.perform_now(
-      'something else',
-      "foobar",
-      'abd456',
-      Time.utc(2022, 3, 6),
-      true,
-      300
+    Donations::Github::Sponsorship::HandleCreated.expects(:call).
+      with(user, node_id, privacy_level, is_one_time, monthly_price_in_cents).
+      once
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'created', github_username, node_id, privacy_level, is_one_time, monthly_price_in_cents
+    )
+  end
+
+  test "processes 'edited' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    privacy_level = 'public'
+    is_one_time = true
+    monthly_price_in_cents = 300
+    user = create(:user, github_username:)
+
+    Donations::Github::Sponsorship::HandleEdited.expects(:call).
+      with(user, node_id, privacy_level, is_one_time, monthly_price_in_cents).
+      once
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'edited', github_username, node_id, privacy_level, is_one_time, monthly_price_in_cents
+    )
+  end
+
+  test "processes 'tier_changed' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    privacy_level = 'public'
+    is_one_time = true
+    monthly_price_in_cents = 300
+    user = create(:user, github_username:)
+
+    Donations::Github::Sponsorship::HandleTierChanged.expects(:call).
+      with(user, node_id, privacy_level, is_one_time, monthly_price_in_cents).
+      once
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'tier_changed', github_username, node_id, privacy_level, is_one_time, monthly_price_in_cents
+    )
+  end
+
+  test "noop when user does not exist" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    privacy_level = 'public'
+    is_one_time = true
+    monthly_price_in_cents = 300
+
+    Donations::Github::Sponsorship::HandleCancelled.expects(:call).never
+    Donations::Github::Sponsorship::HandleCreated.expects(:call).never
+    Donations::Github::Sponsorship::HandleEdited.expects(:call).never
+    Donations::Github::Sponsorship::HandleTierChanged.expects(:call).never
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'cancelled', github_username, node_id, privacy_level, is_one_time, monthly_price_in_cents
     )
   end
 end

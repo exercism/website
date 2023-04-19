@@ -1,5 +1,5 @@
-# Ensure that our local Stripe subscriptions match the actual Stripe subscriptions
-class Donations::Github::Subscription::SyncAll
+# Ensure that our local payments and subscriptions match the Github sponsorships
+class Donations::Github::Sponsorship::SyncAll
   include Mandate
 
   def call

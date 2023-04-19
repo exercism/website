@@ -1,13 +1,13 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Github::CreatePaymentTest < Donations::TestBase
+class Donations::Github::Payment::CreateTest < Donations::TestBase
   test "creates correctly" do
     freeze_time do
       user = create :user
       node_id = SecureRandom.uuid
       amount_in_cents = 1500
 
-      Donations::Github::CreatePayment.(user, node_id, amount_in_cents)
+      Donations::Github::Payment::Create.(user, node_id, amount_in_cents)
 
       assert_equal 1, Donations::Payment.count
 
@@ -29,7 +29,7 @@ class Donations::Github::CreatePaymentTest < Donations::TestBase
     refute user.reload.badges.present?
 
     assert_enqueued_with(job: AwardBadgeJob) do
-      Donations::Github::CreatePayment.(user, 1, 1)
+      Donations::Github::Payment::Create.(user, 1, 1)
     end
 
     perform_enqueued_jobs
@@ -40,7 +40,7 @@ class Donations::Github::CreatePaymentTest < Donations::TestBase
     user = create :user
 
     perform_enqueued_jobs do
-      Donations::Github::CreatePayment.(user, 1, 1)
+      Donations::Github::Payment::Create.(user, 1, 1)
     end
 
     deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Thank you for your donation" && d.to == [user.email] }
@@ -51,7 +51,7 @@ class Donations::Github::CreatePaymentTest < Donations::TestBase
     user = create :user
     subscription = create :donations_subscription, provider: :github
 
-    Donations::Github::CreatePayment.(user, 5, 1500, subscription:)
+    Donations::Github::Payment::Create.(user, 5, 1500, subscription:)
 
     assert_equal 1, Donations::Payment.count
 
@@ -64,8 +64,8 @@ class Donations::Github::CreatePaymentTest < Donations::TestBase
     id = SecureRandom.uuid
     amount_in_cents = 1500
 
-    payment_1 = Donations::Github::CreatePayment.(user, id, amount_in_cents)
-    payment_2 = Donations::Github::CreatePayment.(user, id, amount_in_cents)
+    payment_1 = Donations::Github::Payment::Create.(user, id, amount_in_cents)
+    payment_2 = Donations::Github::Payment::Create.(user, id, amount_in_cents)
 
     assert_equal 1, Donations::Payment.count
     assert_equal payment_1, payment_2

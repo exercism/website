@@ -1,12 +1,12 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Github::CreateSubscriptionTest < Donations::TestBase
+class Donations::Github::Subscription::CreateTest < Donations::TestBase
   test "creates correctly" do
     user = create :user
     node_id = SecureRandom.uuid
     amount = 1500
 
-    Donations::Github::CreateSubscription.(user, node_id, amount)
+    Donations::Github::Subscription::Create.(user, node_id, amount)
 
     assert_equal 1, Donations::Subscription.count
 
@@ -24,8 +24,8 @@ class Donations::Github::CreateSubscriptionTest < Donations::TestBase
     node_id = SecureRandom.uuid
     amount = 1500
 
-    sub_1 = Donations::Github::CreateSubscription.(user, node_id, amount)
-    sub_2 = Donations::Github::CreateSubscription.(user, node_id, amount)
+    sub_1 = Donations::Github::Subscription::Create.(user, node_id, amount)
+    sub_2 = Donations::Github::Subscription::Create.(user, node_id, amount)
 
     assert_equal 1, Donations::Subscription.count
     assert_equal sub_1, sub_2
@@ -37,6 +37,6 @@ class Donations::Github::CreateSubscriptionTest < Donations::TestBase
     amount = 1500
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Donations::Github::CreateSubscription.(user, node_id, amount)
+    Donations::Github::Subscription::Create.(user, node_id, amount)
   end
 end

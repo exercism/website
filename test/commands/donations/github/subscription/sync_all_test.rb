@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Stripe::SyncSubscriptionsTest < Donations::TestBase
+class Donations::Github::Subscription::SyncAllTest < Donations::TestBase
   # test "creates subscription for subscriptions only in Stripe with known stripe customer" do
   #   user_1 = create :user, stripe_customer_id: "cus_1"
   #   user_2 = create :user, stripe_customer_id: "cus_2"

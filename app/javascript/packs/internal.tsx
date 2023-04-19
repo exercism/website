@@ -266,6 +266,12 @@ initReact({
       links={data.links}
     />
   ),
+  'settings-theme-preference-form': (data: any) => (
+    <Settings.ThemePreferenceForm
+      defaultThemePreference={data.default_theme_preference}
+      links={data.links}
+    />
+  ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm
       defaultPreferences={camelizeKeysAs<CommunicationPreferences>(

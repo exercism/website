@@ -34,7 +34,7 @@ const THEMES: Theme[] = [
     label: 'System',
     value: 'system',
     background:
-      'linear-gradient(90deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
+      'linear-gradient(135deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
     iconFilter: 'gray',
   },
   {
@@ -79,7 +79,14 @@ export const ThemePreferenceForm = ({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Theme</h2>
+      <h2 className="!mb-4">Theme</h2>
+      <p className="text-p-base mb-16">
+        Dark theme is only available to Exercism Insiders.
+        {/* Add a pivot here that says one of the following */}
+        {/* active: We hope you enjoy it. Thanks for all your support. */}
+        {/* eligible: We're eligible to join Insiders. [Get started here](...). */}
+        {/* else: [Learn more about Exercism Insiders](...). */}
+      </p>
       <div className="flex gap-32">
         {THEMES.map((t: Theme) => (
           <ThemeButton

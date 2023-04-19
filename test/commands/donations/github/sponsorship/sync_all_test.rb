@@ -1,590 +1,82 @@
 require_relative '../../test_base'
 
-# {
-#   "data": {
-#     "organization": {
-#       "sponsorshipsAsMaintainer": {
-#         "nodes": [
-#           {
-#             "sponsorEntity": {
-#               "login": "ABBDBSD"
-#             },
-#             "id": "S_kwHOAFXRv84AASNH",
-#             "privacyLevel": "PUBLIC",
-#             "isOneTimePayment": false,
-#             "tier": {
-#               "monthlyPriceInCents": 500
-#             }
-#           },
-#           {
-
-# query ($endCursor: String) {
-#   organization(login: "exercism") {
-#     sponsorshipsAsMaintainer(
-#       first: 100
-#       activeOnly: true
-#       includePrivate: true
-#       after: $endCursor
-#     ) {
-#       nodes {
-#         sponsorEntity {
-#           ... on User {
-#             login
-#           }
-#         }
-#         id
-#         privacyLevel
-#         isOneTimePayment
-#         tier {
-#           monthlyPriceInCents
-#         }
-#       }
-#     }
-#   }
-# }
-
 class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
-  # test "creates subscription for subscriptions only in Stripe with known stripe customer" do
-  #   user_1 = create :user, stripe_customer_id: "cus_1"
-  #   user_2 = create :user, stripe_customer_id: "cus_2"
+  test "creates subscription for known Github user with unknown sponsorship with repeating payment" do
+    create :user, github_username: 'user_1'
+    create :user, github_username: 'user_2'
 
-  #   stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #     to_return(
-  #       status: 200,
-  #       body: {
-  #         "object": "search_result",
-  #         "url": "/v1/subscriptions/search",
-  #         "has_more": false,
-  #         "data": [
-  #           {
-  #             "id": "su_1",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_1",
-  #               "email": "user1@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_1",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_1",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_1"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_1"
-  #             },
-  #             "status": "active"
-  #           },
-  #           {
-  #             "id": "su_2",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_2",
-  #               "email": "user2@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_2",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_2",
-  #                     "object": "price",
-  #                     "unit_amount": 777
-  #                   },
-  #                   "subscription": "sub_2"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_2"
-  #             },
-  #             "status": "active"
-  #           }
-  #         ]
-  #       }.to_json,
-  #       headers: { 'Content-Type': 'application/json' }
-  #     )
+    first_response = {
+      data: {
+        organization: {
+          sponsorshipsAsMaintainer: {
+            nodes: [
+              {
+                sponsorEntity: {
+                  login: "user_1"
+                },
+                id: "S_kwHOAFXRv84AASNH",
+                privacyLevel: "PUBLIC",
+                isOneTimePayment: false,
+                tier: {
+                  monthlyPriceInCents: 500
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: true,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4991,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
 
-  #   refute Donations::Subscription.exists?
+    second_response = {
+      data: {
+        organization: {
+          sponsorshipsAsMaintainer: {
+            nodes: [
+              {
+                sponsorEntity: {
+                  login: "user_2"
+                },
+                id: "S_kwHOAFXRv84BBEEF",
+                privacyLevel: "PRIVATE",
+                isOneTimePayment: false,
+                tier: {
+                  monthlyPriceInCents: 300
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orabc'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4990,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
 
-  #   Donations::Github::Sponsorship::SyncAll.()
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| request.body.include?('"endCursor":null') }.
+      to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
-  #   assert_equal 2, Donations::Subscription.count
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| request.body.exclude?('"endCursor":null') }.
+      to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
 
-  #   assert_equal 1, user_1.donation_subscriptions.count
-  #   subscription_1 = user_1.donation_subscriptions.first
-  #   assert_equal :active, subscription_1.status
-  #   assert_equal :stripe, subscription_1.provider
-  #   assert_equal "su_1", subscription_1.external_id
-  #   assert_equal 999, subscription_1.amount_in_cents
+    ProcessGithubSponsorUpdateJob.expects(:perform_later).with('created', 'user_1', 'S_kwHOAFXRv84BBEEF', 'public', false, 500).once
+    ProcessGithubSponsorUpdateJob.expects(:perform_later).with('created', 'user_2', 'S_kwHOAFXRv84BBEEF', 'private', false, 300).once
 
-  #   assert_equal 1, user_2.donation_subscriptions.count
-  #   subscription_2 = user_2.donation_subscriptions.first
-  #   assert_equal :active, subscription_2.status
-  #   assert_equal :stripe, subscription_2.provider
-  #   assert_equal "su_2", subscription_2.external_id
-  #   assert_equal 777, subscription_2.amount_in_cents
-  # end
-
-  # test "creates subscription for subscriptions only in Stripe with unknown stripe customer but known email" do
-  #   user_1 = create :user, email: 'user1@test.org', stripe_customer_id: nil
-  #   user_2 = create :user, email: 'user2@test.org', stripe_customer_id: nil
-
-  #   stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #     to_return(
-  #       status: 200,
-  #       body: {
-  #         "object": "search_result",
-  #         "url": "/v1/subscriptions/search",
-  #         "has_more": false,
-  #         "data": [
-  #           {
-  #             "id": "su_1",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_1",
-  #               "email": "user1@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_1",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_1",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_1"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_1"
-  #             },
-  #             "status": "active"
-  #           },
-  #           {
-  #             "id": "su_2",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_2",
-  #               "email": "user2@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_2",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_2",
-  #                     "object": "price",
-  #                     "unit_amount": 777
-  #                   },
-  #                   "subscription": "sub_2"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_2"
-  #             },
-  #             "status": "active"
-  #           }
-  #         ]
-  #       }.to_json,
-  #       headers: { 'Content-Type': 'application/json' }
-  #     )
-
-  #   refute Donations::Subscription.exists?
-
-  #   Donations::Github::Sponsorship::SyncAll.()
-
-  #   assert_equal 2, Donations::Subscription.count
-
-  #   assert_equal "cus_1", user_1.reload.stripe_customer_id
-  #   assert_equal 1, user_1.donation_subscriptions.count
-  #   subscription_1 = user_1.donation_subscriptions.first
-  #   assert_equal :active, subscription_1.status
-  #   assert_equal :stripe, subscription_1.provider
-  #   assert_equal "su_1", subscription_1.external_id
-  #   assert_equal 999, subscription_1.amount_in_cents
-
-  #   assert_equal "cus_2", user_2.reload.stripe_customer_id
-  #   assert_equal 1, user_2.donation_subscriptions.count
-  #   subscription_2 = user_2.donation_subscriptions.first
-  #   assert_equal :active, subscription_2.status
-  #   assert_equal :stripe, subscription_2.provider
-  #   assert_equal "su_2", subscription_2.external_id
-  #   assert_equal 777, subscription_2.amount_in_cents
-  # end
-
-  # test "gracefully handles subscriptions only in Stripe that can't be linked to a user" do
-  #   stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #     to_return(
-  #       status: 200,
-  #       body: {
-  #         "object": "search_result",
-  #         "url": "/v1/subscriptions/search",
-  #         "has_more": false,
-  #         "data": [
-  #           {
-  #             "id": "su_1",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_1",
-  #               "email": "user1@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_1",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_1",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_1"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_1"
-  #             },
-  #             "status": "active"
-  #           }
-  #         ]
-  #       }.to_json,
-  #       headers: { 'Content-Type': 'application/json' }
-  #     )
-
-  #   refute Donations::Subscription.exists?
-
-  #   Donations::Github::Sponsorship::SyncAll.()
-
-  #   refute Donations::Subscription.exists?
-  # end
-
-  # test "does not change subscriptions with matching Stripe status" do
-  #   user_1 = create :user, stripe_customer_id: "cus_1"
-  #   user_2 = create :user, stripe_customer_id: "cus_2"
-
-  #   subscription_1 = create :donations_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
-  #     updated_at: Time.utc(2022, 3, 18), status: :active
-  #   subscription_2 = create :donations_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
-  #     updated_at: Time.utc(2022, 4, 22), status: :active
-
-  #   stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #     to_return(
-  #       status: 200,
-  #       body: {
-  #         "object": "search_result",
-  #         "url": "/v1/subscriptions/search",
-  #         "has_more": false,
-  #         "data": [
-  #           {
-  #             "id": "su_1",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_1",
-  #               "email": "user1@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_1",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_1",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_1"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_1"
-  #             },
-  #             "status": "active"
-  #           },
-  #           {
-  #             "id": "su_2",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_2",
-  #               "email": "user2@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_2",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_2",
-  #                     "object": "price",
-  #                     "unit_amount": 777
-  #                   },
-  #                   "subscription": "sub_2"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_2"
-  #             },
-  #             "status": "active"
-  #           }
-  #         ]
-  #       }.to_json,
-  #       headers: { 'Content-Type': 'application/json' }
-  #     )
-
-  #   assert_equal 2, Donations::Subscription.count
-
-  #   Donations::Github::Sponsorship::SyncAll.()
-
-  #   assert_equal 2, Donations::Subscription.count
-  #   assert_equal :active, subscription_1.reload.status
-  #   assert_equal :active, subscription_2.reload.status
-  #   assert_equal Time.utc(2022, 3, 18), subscription_1.updated_at
-  #   assert_equal Time.utc(2022, 4, 22), subscription_2.updated_at
-  # end
-
-  # test "updates status to match Stripe status" do
-  #   user_1 = create :user, stripe_customer_id: "cus_1"
-  #   user_2 = create :user, stripe_customer_id: "cus_2"
-
-  #   subscription_1 = create :donations_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
-  #     updated_at: Time.utc(2022, 3, 18), status: :overdue
-  #   subscription_2 = create :donations_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
-  #     updated_at: Time.utc(2022, 4, 22), status: :active
-
-  #   stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #     to_return(
-  #       status: 200,
-  #       body: {
-  #         "object": "search_result",
-  #         "url": "/v1/subscriptions/search",
-  #         "has_more": false,
-  #         "data": [
-  #           {
-  #             "id": "su_1",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_1",
-  #               "email": "user1@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_1",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_1",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_1"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_1"
-  #             },
-  #             "status": "active"
-  #           },
-  #           {
-  #             "id": "su_2",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_2",
-  #               "email": "user2@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_2",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_2",
-  #                     "object": "price",
-  #                     "unit_amount": 777
-  #                   },
-  #                   "subscription": "sub_2"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_2"
-  #             },
-  #             "status": "unpaid"
-  #           }
-  #         ]
-  #       }.to_json,
-  #       headers: { 'Content-Type': 'application/json' }
-  #     )
-
-  #   assert_equal 2, Donations::Subscription.count
-
-  #   Donations::Github::Sponsorship::SyncAll.()
-
-  #   assert_equal 2, Donations::Subscription.count
-  #   assert_equal :active, subscription_1.reload.status
-  #   assert_equal :canceled, subscription_2.reload.status
-  # end
-
-  # test "deactivates subscriptions that are not active in Stripe" do
-  #   user_1 = create :user, stripe_customer_id: "cus_1"
-  #   user_2 = create :user, stripe_customer_id: "cus_2"
-
-  #   subscription_1 = create :donations_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
-  #     updated_at: Time.utc(2022, 3, 18), status: :active
-  #   subscription_2 = create :donations_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
-  #     updated_at: Time.utc(2022, 4, 22), status: :active
-
-  #   stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #     to_return(
-  #       status: 200,
-  #       body: {
-  #         "object": "search_result",
-  #         "url": "/v1/subscriptions/search",
-  #         "has_more": false,
-  #         "data": [
-  #           {
-  #             "id": "su_1",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_1",
-  #               "email": "user1@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_1",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_1",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_1"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_1"
-  #             },
-  #             "status": "active"
-  #           },
-  #           {
-  #             "id": "su_2",
-  #             "object": "subscription",
-  #             "customer": {
-  #               "id": "cus_2",
-  #               "email": "user2@test.org"
-  #             },
-  #             "items": {
-  #               "object": "list",
-  #               "data": [
-  #                 {
-  #                   "id": "si_2",
-  #                   "object": "subscription_item",
-  #                   "price": {
-  #                     "id": "p_2",
-  #                     "object": "price",
-  #                     "unit_amount": 999
-  #                   },
-  #                   "subscription": "sub_2"
-  #                 }
-  #               ],
-  #               "has_more": false,
-  #               "url": "/v1/subscription_items?subscription=sub_2"
-  #             },
-  #             "status": "canceled"
-  #           }
-  #         ]
-  #       }.to_json,
-  #       headers: { 'Content-Type': 'application/json' }
-  #     )
-
-  #   assert_equal 2, Donations::Subscription.count
-  #   assert_equal :active, subscription_1.reload.status
-  #   assert_equal :active, subscription_2.reload.status
-
-  #   Donations::Github::Sponsorship::SyncAll.()
-
-  #   assert_equal 2, Donations::Subscription.count
-  #   assert_equal :active, subscription_1.reload.status
-  #   assert_equal :canceled, subscription_2.reload.status
-  # end
-
-  # [
-  #   ["active", :active],
-  #   ["trialing", :active],
-  #   ["incomplete", :overdue],
-  #   ["past_due", :overdue],
-  #   ["canceled", :canceled],
-  #   ["unpaid", :canceled],
-  #   ["incomplete_expired", :canceled]
-  # ].each do |(stripe_status, new_status)|
-  #   test "updates subscription status to #{new_status} when Stripe status is #{stripe_status}" do
-  #     user = create :user, stripe_customer_id: "cus_1"
-
-  #     subscription = create :donations_subscription, user:, external_id: "su_1", amount_in_cents: 999,
-  #       updated_at: Time.utc(2022, 3, 18), status: :active
-
-  #     stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
-  #       to_return(
-  #         status: 200,
-  #         body: {
-  #           "object": "search_result",
-  #           "url": "/v1/subscriptions/search",
-  #           "has_more": false,
-  #           "data": [
-  #             {
-  #               "id": "su_1",
-  #               "object": "subscription",
-  #               "customer": {
-  #                 "id": "cus_1",
-  #                 "email": "user1@test.org"
-  #               },
-  #               "items": {
-  #                 "object": "list",
-  #                 "data": [
-  #                   {
-  #                     "id": "si_1",
-  #                     "object": "subscription_item",
-  #                     "price": {
-  #                       "id": "p_1",
-  #                       "object": "price",
-  #                       "unit_amount": 999
-  #                     },
-  #                     "subscription": "sub_1"
-  #                   }
-  #                 ],
-  #                 "has_more": false,
-  #                 "url": "/v1/subscription_items?subscription=sub_1"
-  #               },
-  #               "status": stripe_status
-  #             }
-  #           ]
-  #         }.to_json,
-  #         headers: { 'Content-Type': 'application/json' }
-  #       )
-
-  #     assert_equal :active, subscription.status
-
-  #     Donations::Github::Sponsorship::SyncAll.()
-
-  #     assert_equal new_status, subscription.reload.status
-  #   end
-  # end
+    Donations::Github::Sponsorship::SyncAll.()
+  end
 end

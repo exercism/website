@@ -3,7 +3,7 @@
 class Donations::Github::Subscription::Create
   include Mandate
 
-  initialize_with :user, :node_id, :amount_in_cents, subscription: nil
+  initialize_with :user, :node_id, :amount_in_cents
 
   def call
     Donations::Subscription::Create.(user, :github, node_id, amount_in_cents)

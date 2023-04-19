@@ -32,8 +32,13 @@
         %h3 Get involved
         %hr.c-divider.--small
         %ul
+          %li
+            = link_to insiders_path, class: 'flex items-center gap-6' do
+              %span Insiders
+              = graphical_icon "insiders", css_class: 'w-[20px] h-[20px]'
           %li= link_to "Contribute", contributing_root_path
           %li= link_to "Mentor", mentoring_path
+          %li= link_to "Donate", donate_path
 
       .col
         %h3 Legal &amp; policies

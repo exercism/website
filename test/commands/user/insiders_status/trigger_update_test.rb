@@ -1,12 +1,22 @@
 require 'test_helper'
 
 class User::InsidersStatus::TriggerUpdateTest < ActiveSupport::TestCase
-  test "insiders_status set to unset" do
+  test "insiders_status set to unset if current status is ineligible" do
     user = create :user, insiders_status: :ineligible
 
     User::InsidersStatus::TriggerUpdate.(user)
 
     assert_equal :unset, user.insiders_status
+  end
+
+  %i[eligible eligible_lifetime active active_lifetime].each do |insiders_status|
+    test "insiders_status not first unset if current status is #{insiders_status}" do
+      user = create(:user, insiders_status:)
+
+      User::InsidersStatus::TriggerUpdate.(user)
+
+      assert_equal insiders_status, user.insiders_status
+    end
   end
 
   test "updates insider_status" do

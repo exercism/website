@@ -6,10 +6,10 @@ class User::InsidersStatus::Update
   initialize_with :user, :status_before_unset
 
   def call
-    return unless user.insiders_status == :unset
+    eligibility_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
 
     user.with_lock do
-      case User::InsidersStatus::DetermineEligibilityStatus.(user)
+      case eligibility_status
       when :eligible_lifetime
         update_eligible_lifetime
       when :eligible
@@ -27,10 +27,10 @@ class User::InsidersStatus::Update
       user.update(insiders_status: :active_lifetime)
     when :active
       user.update(insiders_status: :active_lifetime)
-      User::Notification::Create.(user, :joined_lifetime_insiders)
+      User::Notification::Create.(user, :joined_lifetime_insiders) if FeatureFlag::INSIDERS
     else
       user.update(insiders_status: :eligible_lifetime)
-      User::Notification::Create.(user, :join_lifetime_insiders) unless status_before_unset == :eligible_lifetime
+      User::Notification::Create.(user, :join_lifetime_insiders) if FeatureFlag::INSIDERS && status_before_unset != :eligible_lifetime
     end
   end
 
@@ -44,7 +44,7 @@ class User::InsidersStatus::Update
       user.update(insiders_status: :active)
     else
       user.update(insiders_status: :eligible)
-      User::Notification::Create.(user, :join_insiders) unless status_before_unset == :eligible
+      User::Notification::Create.(user, :join_insiders) if FeatureFlag::INSIDERS && status_before_unset != :eligible
     end
   end
 
@@ -56,7 +56,7 @@ class User::InsidersStatus::Update
       user.update(insiders_status: :eligible_lifetime)
     else
       user.update(insiders_status: :ineligible)
-      User::Notification::Create.(user, :expired_insiders) if status_before_unset == :active
+      User::Notification::Create.(user, :expired_insiders) if FeatureFlag::INSIDERS && status_before_unset == :active
     end
   end
 end

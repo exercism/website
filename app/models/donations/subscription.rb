@@ -1,8 +1,6 @@
 class Donations::Subscription < ApplicationRecord
   belongs_to :user
 
-  scope :active, -> { where(status: :active) }
-
   enum status: { canceled: 0, overdue: 1, active: 2 }
   enum provider: { stripe: 0, github: 1, paypal: 2 }
 

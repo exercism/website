@@ -8,7 +8,6 @@ class Donations::Subscription::Deactivate
     subscription.update!(status: :canceled)
 
     # Update based on whether there is another different active subscription
-    user = subscription.user
-    User::SetActiveDonationSubscription.(user, user.donation_subscriptions.active.exists?)
+    User::UpdateActiveDonationSubscription.(subscription.user)
   end
 end

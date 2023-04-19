@@ -15,7 +15,7 @@ class Donations::Subscription::Create
       amount_in_cents:,
       status: :active
     ).tap do
-      User::SetActiveDonationSubscription.(user, true)
+      User::UpdateActiveDonationSubscription.(user)
     end
   rescue ActiveRecord::RecordNotUnique
     Donations::Subscription.find_by!(external_id:, provider:)

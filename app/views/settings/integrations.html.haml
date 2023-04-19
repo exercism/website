@@ -45,3 +45,6 @@
             data: { turbo: false } do
             = graphical_icon 'external-site-discord', css_class: '!filter-none'
             %span Connect with Discord
+
+      %section
+        = render ReactComponents::Settings::ChatGptForm.new

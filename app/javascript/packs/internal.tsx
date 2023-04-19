@@ -252,6 +252,9 @@ initReact({
   'settings-email-form': (data: any) => (
     <Settings.EmailForm defaultEmail={data.email} links={data.links} />
   ),
+  'settings-chatgpt-api-key-form': (data: any) => (
+    <Settings.ChatGptForm currentApiKey={data.api_key} links={data.links} />
+  ),
   'settings-password-form': (data: any) => (
     <Settings.PasswordForm links={data.links} />
   ),

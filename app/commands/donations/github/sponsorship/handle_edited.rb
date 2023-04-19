@@ -6,6 +6,7 @@ class Donations::Github::Sponsorship::HandleEdited
   initialize_with :user, :node_id, :privacy_level, :is_one_time, :monthly_price_in_cents
 
   def call
-    # TODO
+    # TODO: decide if we want to use the privacy_level to
+    # update the user's show_on_supporters_page field
   end
 end

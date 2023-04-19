@@ -6,6 +6,11 @@ class Donations::Github::Sponsorship::HandleTierChanged
   initialize_with :user, :node_id, :privacy_level, :is_one_time, :monthly_price_in_cents
 
   def call
-    # TODO
+    return if is_one_time
+
+    subscription = user.donation_subscriptions.find_by(external_id: node_id, provider: :github)
+    raise unless subscription
+
+    Donations::Subscription::UpdateAmount.(subscription, monthly_price_in_cents)
   end
 end

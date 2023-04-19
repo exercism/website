@@ -24,10 +24,6 @@ class Donations::Stripe::Subscription::UpdateAmount
       proration_behavior: 'none'
     )
 
-    subscription.update!(amount_in_cents:)
-
-    # Update based on whether there is another different active subscription
-    user = subscription.user
-    User::SetActiveDonationSubscription.(user, user.donation_subscriptions.active.exists?)
+    Donations::Subscription::UpdateAmount.(subscription, amount_in_cents)
   end
 end

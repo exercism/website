@@ -64,6 +64,9 @@ gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 # Discourse
 gem 'discourse_api'
 
+# OpenAI
+gem 'ruby-openai'
+
 # Reporting
 gem 'skylight'
 

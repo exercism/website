@@ -49,8 +49,7 @@
               - tags = []
               - tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if user.staff?
               - tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if user.maintainer?
-              -# TODO: add user.insider?
-              - tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if user.maintainer?
+              - tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if %i[eligible eligible_lifetime].include?(user.insiders_status)
 
               - tags.take(2).each do |tag|
                 %div{ class: tag[:class] }

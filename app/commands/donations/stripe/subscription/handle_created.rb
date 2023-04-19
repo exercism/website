@@ -1,4 +1,4 @@
-class Donations::Subscription::HandleCreated
+class Donations::Stripe::Subscription::HandleCreated
   include Mandate
 
   initialize_with subscription_id: Mandate::NO_DEFAULT, payment_intent_id: Mandate::NO_DEFAULT

@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Subscription::HandleCreatedTest < Donations::TestBase
+class Donations::Stripe::Subscription::HandleCreatedTest < Donations::TestBase
   test "update subscription" do
     subscription_id = SecureRandom.uuid
     payment_intent_id = SecureRandom.uuid
@@ -13,7 +13,7 @@ class Donations::Subscription::HandleCreatedTest < Donations::TestBase
       default_payment_method: payment_method
     )
 
-    Donations::Subscription::HandleCreated.(
+    Donations::Stripe::Subscription::HandleCreated.(
       subscription_id:,
       payment_intent_id:
     )

@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Subscription::UpdateAmountTest < Donations::TestBase
+class Donations::Stripe::Subscription::UpdateAmountTest < Donations::TestBase
   test "update subscription" do
     subscription_id = SecureRandom.uuid
     item_id = SecureRandom.uuid
@@ -26,7 +26,7 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
       proration_behavior: 'none'
     )
 
-    Donations::Subscription::UpdateAmount.(subscription, new_amount_in_cents)
+    Donations::Stripe::Subscription::UpdateAmount.(subscription, new_amount_in_cents)
     assert_equal new_amount_in_cents, subscription.amount_in_cents
   end
 
@@ -43,6 +43,6 @@ class Donations::Subscription::UpdateAmountTest < Donations::TestBase
 
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Donations::Subscription::UpdateAmount.(subscription, new_amount_in_cents)
+    Donations::Stripe::Subscription::UpdateAmount.(subscription, new_amount_in_cents)
   end
 end

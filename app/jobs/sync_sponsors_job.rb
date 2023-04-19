@@ -6,6 +6,6 @@ class SyncSponsorsJob < ApplicationJob
 
   def perform
     Github::Sponsors::Sync.()
-    Donations::Stripe::SyncSubscriptions.()
+    Donations::Stripe::Subscription::SyncAll.()
   end
 end

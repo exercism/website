@@ -14,7 +14,7 @@ class HandleStripeWebhookJob < ApplicationJob
     when 'invoice.payment_succeeded'
       data_object = event.data.object
       if data_object['billing_reason'] == 'subscription_create'
-        Donations::Subscription::HandleCreated.(
+        Donations::Stripe::Subscription::HandleCreated.(
           subscription_id: data_object['subscription'],
           payment_intent_id: data_object['payment_intent']
         )

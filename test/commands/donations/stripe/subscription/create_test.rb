@@ -1,13 +1,13 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Stripe::CreateSubscriptionTest < Donations::TestBase
+class Donations::Stripe::Subscription::CreateTest < Donations::TestBase
   test "creates correctly" do
     user = create :user
     id = SecureRandom.uuid
     amount = 1500
     data = mock_stripe_subscription(id, amount)
 
-    Donations::Stripe::CreateSubscription.(user, data)
+    Donations::Stripe::Subscription::Create.(user, data)
 
     assert_equal 1, Donations::Subscription.count
 
@@ -26,8 +26,8 @@ class Donations::Stripe::CreateSubscriptionTest < Donations::TestBase
     amount = 1500
     data = mock_stripe_subscription(id, amount)
 
-    sub_1 = Donations::Stripe::CreateSubscription.(user, data)
-    sub_2 = Donations::Stripe::CreateSubscription.(user, data)
+    sub_1 = Donations::Stripe::Subscription::Create.(user, data)
+    sub_2 = Donations::Stripe::Subscription::Create.(user, data)
 
     assert_equal 1, Donations::Subscription.count
     assert_equal sub_1, sub_2
@@ -40,6 +40,6 @@ class Donations::Stripe::CreateSubscriptionTest < Donations::TestBase
     data = mock_stripe_subscription(id, amount)
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Donations::Stripe::CreateSubscription.(user, data)
+    Donations::Stripe::Subscription::Create.(user, data)
   end
 end

@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Subscription::CancelTest < Donations::TestBase
+class Donations::Stripe::Subscription::CancelTest < Donations::TestBase
   test "cancels for subscription" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
@@ -8,7 +8,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
 
     Stripe::Subscription.expects(:cancel).with(subscription_id)
 
-    Donations::Subscription::Cancel.(subscription)
+    Donations::Stripe::Subscription::Cancel.(subscription)
     assert_equal :canceled, subscription.status
     refute user.active_donation_subscription?
   end
@@ -23,7 +23,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
 
     assert_raises do
-      Donations::Subscription::Cancel.(subscription)
+      Donations::Stripe::Subscription::Cancel.(subscription)
     end
   end
 
@@ -36,7 +36,7 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:cancel).with(subscription_id).raises(Stripe::InvalidRequestError.new(nil, nil))
     Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
 
-    Donations::Subscription::Cancel.(subscription)
+    Donations::Stripe::Subscription::Cancel.(subscription)
     assert_equal :canceled, subscription.status
     refute user.active_donation_subscription?
   end
@@ -49,6 +49,6 @@ class Donations::Subscription::CancelTest < Donations::TestBase
     Stripe::Subscription.expects(:cancel).with(subscription_id)
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Donations::Subscription::Cancel.(subscription)
+    Donations::Stripe::Subscription::Cancel.(subscription)
   end
 end

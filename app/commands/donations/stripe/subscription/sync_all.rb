@@ -1,5 +1,5 @@
 # Ensure that our local Stripe subscriptions match the actual Stripe subscriptions
-class Donations::Stripe::SyncSubscriptions
+class Donations::Stripe::Subscription::SyncAll
   include Mandate
 
   def call
@@ -16,7 +16,7 @@ class Donations::Stripe::SyncSubscriptions
       user = subscription_user(stripe_subscription)
       next unless user
 
-      Donations::Stripe::CreateSubscription.(user, stripe_subscription)
+      Donations::Stripe::Subscription::Create.(user, stripe_subscription)
     end
   end
 

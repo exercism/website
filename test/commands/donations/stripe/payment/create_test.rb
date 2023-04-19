@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Stripe::CreatePaymentTest < Donations::TestBase
+class Donations::Stripe::Payment::CreateTest < Donations::TestBase
   test "creates correctly" do
     freeze_time do
       user = create :user
@@ -9,7 +9,7 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
       receipt_url = SecureRandom.uuid
       data = mock_stripe_payment(id, amount, receipt_url)
 
-      Donations::Stripe::CreatePayment.(user, data)
+      Donations::Stripe::Payment::Create.(user, data)
 
       assert_equal 1, Donations::Payment.count
 
@@ -31,7 +31,7 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
     refute user.reload.badges.present?
 
     assert_enqueued_with(job: AwardBadgeJob) do
-      Donations::Stripe::CreatePayment.(user, mock_stripe_payment(1, 1, ""))
+      Donations::Stripe::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
     end
 
     perform_enqueued_jobs
@@ -42,7 +42,7 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
     user = create :user
 
     perform_enqueued_jobs do
-      Donations::Stripe::CreatePayment.(user, mock_stripe_payment(1, 1, ""))
+      Donations::Stripe::Payment::Create.(user, mock_stripe_payment(1, 1, ""))
     end
 
     deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Thank you for your donation" && d.to == [user.email] }
@@ -54,7 +54,7 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
     subscription = create :donations_subscription
     data = mock_stripe_payment(5, 1500, "")
 
-    Donations::Stripe::CreatePayment.(user, data, subscription:)
+    Donations::Stripe::Payment::Create.(user, data, subscription:)
 
     assert_equal 1, Donations::Payment.count
 
@@ -72,7 +72,7 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
     invoice = mock_stripe_invoice(nil, stripe_subscription_id)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
 
-    Donations::Stripe::CreatePayment.(user, data)
+    Donations::Stripe::Payment::Create.(user, data)
 
     assert_equal 1, Donations::Payment.count
 
@@ -88,8 +88,8 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
     invoice = mock_stripe_invoice(nil, SecureRandom.uuid)
     Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
 
-    assert_raises Donations::Stripe::CreatePayment::SubscriptionNotCreatedError do
-      Donations::Stripe::CreatePayment.(user, data)
+    assert_raises Donations::Stripe::Payment::Create::SubscriptionNotCreatedError do
+      Donations::Stripe::Payment::Create.(user, data)
     end
   end
 
@@ -99,8 +99,8 @@ class Donations::Stripe::CreatePaymentTest < Donations::TestBase
     amount = 1500
     data = mock_stripe_payment(id, amount, "")
 
-    payment_1 = Donations::Stripe::CreatePayment.(user, data)
-    payment_2 = Donations::Stripe::CreatePayment.(user, data)
+    payment_1 = Donations::Stripe::Payment::Create.(user, data)
+    payment_2 = Donations::Stripe::Payment::Create.(user, data)
 
     assert_equal 1, Donations::Payment.count
     assert_equal payment_1, payment_2

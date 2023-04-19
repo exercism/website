@@ -1,6 +1,6 @@
 # This cancels a payment within Stripe, and updates a record
 # within our database.
-class Donations::Subscription::Cancel
+class Donations::Stripe::Subscription::Cancel
   include Mandate
 
   initialize_with :subscription

@@ -2,7 +2,7 @@
 # and creates a record of it in our database. The actual
 # creation of the payment within Stripe happens through
 # "payment intents".
-class Donations::Stripe::CreatePayment
+class Donations::Stripe::Payment::Create
   class SubscriptionNotCreatedError < RuntimeError
     def initialize
       super "Subscription not yet created. Wait for webhook then try again."

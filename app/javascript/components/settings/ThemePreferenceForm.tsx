@@ -14,10 +14,6 @@ type RequestBody = {
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to update pronouns')
-
-const THEME_BUTTON_SIZE = 128
-
 type Theme = {
   label: string
   background: string
@@ -25,6 +21,8 @@ type Theme = {
   value: string
 }
 
+const DEFAULT_ERROR = new Error('Unable to update theme preference')
+const THEME_BUTTON_SIZE = 128
 const THEMES: Theme[] = [
   {
     label: 'Light',
@@ -101,18 +99,18 @@ export const ThemePreferenceForm = ({
           status={status}
           error={error}
           defaultError={DEFAULT_ERROR}
-          SuccessMessage={() => <SuccessMessage theme={theme} />}
+          SuccessMessage={() => <SuccessMessage />}
         />
       </div>
     </form>
   )
 }
 
-const SuccessMessage = ({ theme }: { theme: string }) => {
+const SuccessMessage = () => {
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your theme has been set to {theme}
+      Your theme preference has been updated!
     </div>
   )
 }
@@ -141,6 +139,7 @@ function ThemeButton({
             width: `${THEME_BUTTON_SIZE}px`,
             background: `${theme.background}`,
             filter: disabled ? 'grayscale(0.9)' : '',
+            opacity: disabled ? '60%' : '100%',
           }}
           className={`flex items-center justify-center border-1 border-borderColor6 rounded-8 ${
             selected && '--selected-theme'
@@ -165,7 +164,7 @@ function ThemeButton({
 function DisabledTooltip(): JSX.Element {
   return (
     <div className="flex items-center bg-russianViolet rounded-16 py-8 px-12 text-p-base text-aliceBlue">
-      You must be&nbsp;
+      You must be an&nbsp;
       <strong style={{ color: 'inherit' }} className="flex items-center">
         Exercism Insider&nbsp;
         <GraphicalIcon icon="insiders" height={24} width={24} />

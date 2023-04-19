@@ -5,8 +5,5 @@ class Donations::Subscription::UpdateAmount
 
   def call
     subscription.update!(amount_in_cents:)
-
-    # Update based on whether there is another different active subscription
-    User::UpdateActiveDonationSubscription.(subscription.user)
   end
 end

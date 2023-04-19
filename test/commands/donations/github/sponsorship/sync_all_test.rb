@@ -1,9 +1,9 @@
 require_relative '../../test_base'
 
 class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
-  test "creates subscription for known Github user with unknown sponsorship with repeating payment" do
-    create :user, github_username: 'user_1'
-    create :user, github_username: 'user_2'
+  test "creates missing subscriptions and payments" do
+    user_1 = create :user, github_username: 'user_1'
+    user_2 = create :user, github_username: 'user_2'
 
     first_response = {
       data: {
@@ -46,7 +46,7 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                 },
                 id: "S_kwHOAFXRv84BBEEF",
                 privacyLevel: "PRIVATE",
-                isOneTimePayment: false,
+                isOneTimePayment: true,
                 tier: {
                   monthlyPriceInCents: 300
                 }
@@ -74,9 +74,24 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
       with { |request| request.body.exclude?('"endCursor":null') }.
       to_return(status: 200, body: second_response.to_json, headers: { 'Content-Type': 'application/json' })
 
-    ProcessGithubSponsorUpdateJob.expects(:perform_later).with('created', 'user_1', 'S_kwHOAFXRv84BBEEF', 'public', false, 500).once
-    ProcessGithubSponsorUpdateJob.expects(:perform_later).with('created', 'user_2', 'S_kwHOAFXRv84BBEEF', 'private', false, 300).once
-
     Donations::Github::Sponsorship::SyncAll.()
+
+    assert_enqueued_with(job: MandateJob, args: [
+                           Donations::Github::Sponsorship::HandleCreated.name,
+                           user_1,
+                           "S_kwHOAFXRv84AASNH",
+                           "public",
+                           false,
+                           500
+                         ])
+
+    assert_enqueued_with(job: MandateJob, args: [
+                           Donations::Github::Sponsorship::HandleCreated.name,
+                           user_2,
+                           "S_kwHOAFXRv84BBEEF",
+                           "private",
+                           true,
+                           300
+                         ])
   end
 end

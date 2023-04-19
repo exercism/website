@@ -3,45 +3,45 @@ class Donations::Github::Sponsorship::SyncAll
   include Mandate
 
   def call
-    # create_subscriptions!
-    # update_subscriptions!
-    # deactivate_subscriptions!
+    create_subscriptions_and_payments!
+    # update_subscriptions_and_payments!
+    # deactivate_subscriptions_and_payments!
   end
 
   private
-  def create_subscriptions!
-    missing_subscription_ids = github_subscription_sponsorships - local_subscription_ids
-    missing_subscription_ids.each do |subscription_id|
-      github_subscription = active_stripe_subscriptions[subscription_id]
-      next unless github_subscription.sponsor
+  def create_subscriptions_and_payments!
+    missing_or_incomplete_sponsorship_ids = github_sponsorship_ids - (local_subscription_ids & local_payment_ids)
+    missing_or_incomplete_sponsorship_ids.each do |sponsorship_id|
+      github_sponsorship = github_sponsorships[sponsorship_id]
 
-      Donations::Github::Subscription::Create.(
-        github_subscription.sponsor, github_subscription[:id], github_subscription[:monthly_price_in_cents]
+      Donations::Github::Sponsorship::HandleCreated.defer(
+        github_sponsorship[:sponsor],
+        github_sponsorship[:id],
+        github_sponsorship[:privacy_level],
+        github_sponsorship[:is_one_time_payment],
+        github_sponsorship[:monthly_price_in_cents]
       )
     end
   end
 
   memoize
-  def github_subscription_sponsorships
-    github_sponsorships.select { |_, sponsorship| sponsorship[:is_one_time_payment] }
-  end
-
-  memoize
-  def github_subscription_sponsorship_ids = github_subscription_sponsorships.keys
-
-  memoize
   def github_sponsorships
-    Github::Graphql::ExecuteQuery.(QUERY, %i[organization sponsorshipsAsMaintainer]).flat_map do |data|
-      data[:nodes].map do |node|
+    sponsorships = Github::Graphql::ExecuteQuery.(QUERY, %i[organization sponsorshipsAsMaintainer]).flat_map do |data|
+      data[:nodes].filter_map do |node|
+        sponsor = User.find_by(github_username: node[:sponsorEntity][:login])
+        next unless sponsor
+
         {
           id: node[:id],
-          sponsor: User.find_by(github_username: node[:sponsorEntity][:login]),
           privacy_level: node[:privacyLevel].downcase,
           is_one_time_payment: node[:isOneTimePayment],
-          monthly_price_in_cents: node[:tier][:monthlyPriceInCents]
+          monthly_price_in_cents: node[:tier][:monthlyPriceInCents],
+          sponsor:
         }
       end
-    end.index_by(&:id)
+    end
+
+    sponsorships.index_by { |sponsorship| sponsorship[:id] }
   end
 
   memoize
@@ -51,7 +51,7 @@ class Donations::Github::Sponsorship::SyncAll
   def local_payments = Donations::Payment.github.find_each.index_by(&:external_id)
 
   memoize
-  def local_payment_ids = local_subscriptions.keys
+  def local_payment_ids = local_payments.keys
 
   memoize
   def local_subscriptions = Donations::Subscription.github.find_each.index_by(&:external_id)
@@ -91,7 +91,7 @@ class Donations::Github::Sponsorship::SyncAll
   QUERY
   private_constant :QUERY
 
-  # def update_subscriptions!
+  # def update_subscriptions_and_payments!
   #   subscription_ids = local_subscription_ids & active_stripe_subscription_ids
   #   subscription_ids.each do |subscription_id|
   #     subscription = local_subscriptions[subscription_id]
@@ -101,7 +101,7 @@ class Donations::Github::Sponsorship::SyncAll
   #   end
   # end
 
-  # def deactivate_subscriptions!
+  # def deactivate_subscriptions_and_payments!
   #   inactive_subscription_ids = local_subscription_ids - active_stripe_subscription_ids
   #   inactive_subscription_ids.each do |subscription_id|
   #     subscription = local_subscriptions[subscription_id]

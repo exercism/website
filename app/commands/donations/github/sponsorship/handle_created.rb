@@ -3,6 +3,8 @@
 class Donations::Github::Sponsorship::HandleCreated
   include Mandate
 
+  queue_as :default
+
   initialize_with :user, :node_id, :privacy_level, :is_one_time, :monthly_price_in_cents
 
   def call

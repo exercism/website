@@ -11,12 +11,12 @@ class Donations::Stripe::SyncSubscriptions
   def create_subscriptions!
     missing_active_subscription_ids = active_stripe_subscription_ids - local_subscription_ids
     missing_active_subscription_ids.each do |subscription_id|
-      subscription = active_stripe_subscriptions[subscription_id]
+      stripe_subscription = active_stripe_subscriptions[subscription_id]
 
-      user = subscription_user(subscription)
+      user = subscription_user(stripe_subscription)
       next unless user
 
-      Donations::Stripe::CreateSubscription.(user, subscription)
+      Donations::Stripe::CreateSubscription.(user, stripe_subscription)
     end
   end
 
@@ -42,13 +42,13 @@ class Donations::Stripe::SyncSubscriptions
 
   memoize
   def active_stripe_subscriptions
-    subscriptions = Stripe::Subscription.search({
+    stripe_subscriptions = Stripe::Subscription.search({
       query: "status:'active'",
       limit: 100,
       expand: ["data.customer"]
     })
 
-    subscriptions.auto_paging_each.index_by(&:id)
+    stripe_subscriptions.auto_paging_each.index_by(&:id)
   end
 
   memoize
@@ -68,12 +68,12 @@ class Donations::Stripe::SyncSubscriptions
     Donations::Subscription::Deactivate.(subscription) if subscription.canceled?
   end
 
-  def subscription_user(subscription)
-    stripe_user = User.find_by(stripe_customer_id: subscription.customer.id)
+  def subscription_user(stripe_subscription)
+    stripe_user = User.find_by(stripe_customer_id: stripe_subscription.customer.id)
     return stripe_user if stripe_user
 
-    User.find_by(email: subscription.customer.email)&.tap do |user|
-      user.update(stripe_customer_id: subscription.customer.id)
+    User.find_by(email: stripe_subscription.customer.email)&.tap do |user|
+      user.update(stripe_customer_id: stripe_subscription.customer.id)
     end
   end
 

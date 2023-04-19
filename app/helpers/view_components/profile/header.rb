@@ -8,7 +8,8 @@ module ViewComponents
           user:,
           profile:,
           selected_tab:,
-          top_three_tracks:
+          top_three_tracks:,
+          header_tags:
       end
 
       def top_three_tracks
@@ -22,6 +23,14 @@ module ViewComponents
 
         ::Track.where(id: track_ids).
           order(Arel.sql("FIND_IN_SET(id, '#{track_ids.join(',')}')"))
+      end
+
+      def header_tags
+        tags = []
+        tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if @user.staff?
+        tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if @user.maintainer?
+        tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if %i[eligible eligible_lifetime].include?(@user.insiders_status) # rubocop:disable Layout/LineLength
+        tags.take(2)
       end
     end
   end

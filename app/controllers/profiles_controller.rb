@@ -74,10 +74,9 @@ class ProfilesController < ApplicationController
   def use_profile
     @profile = @user&.profile
 
-    unless @profile # rubocop:disable Style/GuardClause
-      return redirect_to action: :intro if current_user&.handle == params[:id]
+    return if @profile
+    return redirect_to action: :intro if current_user&.handle == params[:id]
 
-      render_404
-    end
+    render_404
   end
 end

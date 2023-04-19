@@ -1,6 +1,6 @@
 # This creates a new customer in Stripe and stores
 # the id in our database.
-class Donations::Customer::CreateForUser
+class Donations::Stripe::Customer::CreateForUser
   include Mandate
 
   initialize_with :user

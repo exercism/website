@@ -1,6 +1,6 @@
-require_relative '../test_base'
+require_relative '../../test_base'
 
-class Donations::Customer::CreateForEmailTest < Donations::TestBase
+class Donations::Stripe::Customer::CreateForEmailTest < Donations::TestBase
   test "creates correctly" do
     email = "#{SecureRandom.uuid}@bar.com"
     customer_id = SecureRandom.uuid
@@ -8,7 +8,7 @@ class Donations::Customer::CreateForEmailTest < Donations::TestBase
     Stripe::Customer.expects(:create).returns(mock_stripe_customer(customer_id)).at_least_once
     Stripe::Customer.expects(:list).returns(mock(data: []))
 
-    actual_id = Donations::Customer::CreateForEmail.(email)
+    actual_id = Donations::Stripe::Customer::CreateForEmail.(email)
 
     assert_equal customer_id, actual_id
   end
@@ -21,7 +21,7 @@ class Donations::Customer::CreateForEmailTest < Donations::TestBase
     Stripe::Customer.expects(:list).with(email:, limit: 1).returns(resp)
     Stripe::Customer.expects(:create).never
 
-    actual = Donations::Customer::CreateForEmail.(email)
+    actual = Donations::Stripe::Customer::CreateForEmail.(email)
 
     assert_equal customer_id, actual
   end

@@ -1,6 +1,6 @@
 # This creates a new customer in Stripe for an email address.
 # This gets called if the user doesn't exist
-class Donations::Customer::CreateForEmail
+class Donations::Stripe::Customer::CreateForEmail
   include Mandate
 
   initialize_with :email

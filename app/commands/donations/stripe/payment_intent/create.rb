@@ -13,8 +13,8 @@ class Donations::Stripe::PaymentIntent::Create
     end
 
     customer_id = user ?
-      Donations::Customer::CreateForUser.(user) :
-      Donations::Customer::CreateForEmail.(user_or_email)
+      Donations::Stripe::Customer::CreateForUser.(user) :
+      Donations::Stripe::Customer::CreateForEmail.(user_or_email)
 
     case type.to_sym
     when :subscription

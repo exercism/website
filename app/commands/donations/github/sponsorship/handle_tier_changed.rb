@@ -11,6 +11,6 @@ class Donations::Github::Sponsorship::HandleTierChanged
     subscription = user.donation_subscriptions.find_by(external_id: node_id, provider: :github)
     raise unless subscription
 
-    Donations::Subscription::UpdateAmount.(subscription, monthly_price_in_cents)
+    subscription.update!(amount_in_cents: monthly_price_in_cents)
   end
 end

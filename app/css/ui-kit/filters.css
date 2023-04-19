@@ -12,6 +12,11 @@
         filter: var(--white-filter);
     }
 
+    .filter-white-no-dark {
+        filter: invert(100%) sepia(0%) saturate(7484%) hue-rotate(136deg)
+            brightness(99%) contrast(104%);
+    }
+
     .filter-lightGold {
         filter: var(--lightGold-filter);
     }

@@ -269,6 +269,7 @@ initReact({
   'settings-theme-preference-form': (data: any) => (
     <Settings.ThemePreferenceForm
       defaultThemePreference={data.default_theme_preference}
+      insidersStatus={data.insiders_status}
       links={data.links}
     />
   ),

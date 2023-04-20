@@ -10,16 +10,16 @@
       %h1.text-h0.flex.flex-col.items-center.text-center
         Exercism is supported by
         %br
-        = icon "packt", "Packt Publishing", category: :partners, css_class: "logo packt"
+        = icon @org.slug, @org.name, category: :partners, css_class: "logo #{@org.slug}"
 
   .md-container
     %article
       .lhs
-        %h2.text-h2= @org.name
-        %h2.text-h2 How Packt Publishing supports Exercism
+        %h2.text-h2 How #{@org.name} supports Exercism
         %hr.c-divider.mt-20.mb-28
-        %p.text-p-xlarge.mb-40 Packt Publishing are a core Exercism partner, helping us develop both the fundraising and content side of the platform. They have sponsored our new Fundraising role, and we are currently developing a deeper partnership which we will launch in early 2022.
+        %p.text-p-xlarge.mb-40= @org.description_markdown
 
+        -# TODO: replace this with valid introduction, etc
         %h2.text-h2 About Packt Publishing
         %hr.c-divider.mt-20.mb-28
         %p.text-p-xlarge.mb-16 Packt is a tech publisher focused on the practical application of technology. Packt authors are mostly working developers who do the job of sorting out what actually works and how to get things done with the endless stream of new technology. Packt readers and users are busy working engineers building solutions and applications, who want to know whether how a technology works in practice, and whether it’s worth using.

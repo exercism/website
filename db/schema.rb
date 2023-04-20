@@ -889,6 +889,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
+  create_table "supporting_organisations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "support_explanation"
+    t.text "description_markdown", null: false
+    t.text "description_html", null: false
+    t.text "insiders_offer_description"
+    t.boolean "featured", default: false, null: false
+    t.boolean "has_insiders_offer", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_supporting_organisations_on_slug", unique: true
+  end
+
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false

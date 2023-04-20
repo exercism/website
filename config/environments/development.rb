@@ -78,6 +78,7 @@ Rails.application.configure do
   config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
+  config.hosts << /.*.ngrok-free.app/
 end
 
 Rails.application.routes.default_url_options = {

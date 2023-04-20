@@ -5,7 +5,7 @@ class Donations::Github::Sponsorship::SyncAll
   def call
     create_subscriptions_and_payments!
     # update_subscriptions_and_payments!
-    # deactivate_subscriptions_and_payments!
+    deactivate_subscriptions!
   end
 
   private
@@ -20,6 +20,21 @@ class Donations::Github::Sponsorship::SyncAll
         github_sponsorship[:privacy_level],
         github_sponsorship[:is_one_time_payment],
         github_sponsorship[:monthly_price_in_cents]
+      )
+    end
+  end
+
+  def deactivate_subscriptions!
+    cancelled_sponsorship_ids = local_subscription_ids - github_sponsorship_ids
+    cancelled_sponsorship_ids.each do |sponsorship_id|
+      subscription = local_subscriptions[sponsorship_id]
+
+      Donations::Github::Sponsorship::HandleCancelled.defer(
+        subscription.user,
+        subscription.external_id,
+        subscription.user.show_on_supporters_page ? 'public' : 'private',
+        false,
+        subscription.amount_in_cents
       )
     end
   end

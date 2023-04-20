@@ -94,4 +94,60 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                            300
                          ])
   end
+
+  test "cancel missing subscriptions" do
+    user_1 = create :user, github_username: 'user_1', active_donation_subscription: true, show_on_supporters_page: true
+    user_2 = create :user, github_username: 'user_2', active_donation_subscription: true, show_on_supporters_page: false
+
+    create :donations_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
+      status: :active, amount_in_cents: 500
+    create :donations_subscription, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github,
+      status: :active, amount_in_cents: 300
+
+    response = {
+      data: {
+        organization: {
+          sponsorshipsAsMaintainer: {
+            nodes: [
+              {
+                sponsorEntity: {
+                  login: "user_1"
+                },
+                id: "S_kwHOAFXRv84AASNH",
+                privacyLevel: "PUBLIC",
+                isOneTimePayment: false,
+                tier: {
+                  monthlyPriceInCents: 500
+                }
+              }
+            ],
+            pageInfo: {
+              hasNextPage: false,
+              endCursor: 'Y3Vyc29yOnYyOpK5MjAxOS0wMS0yMVQxNDo0OTo0MCswMTowMM4Orjsp'
+            }
+          }
+        },
+        rateLimit: {
+          remaining: 4991,
+          resetAt: '2021-03-10T15:32:50Z'
+        }
+      }
+    }
+
+    RestClient.unstub(:post)
+    stub_request(:post, "https://api.github.com/graphql").
+      with { |request| request.body.include?('"endCursor":null') }.
+      to_return(status: 200, body: response.to_json, headers: { 'Content-Type': 'application/json' })
+
+    Donations::Github::Sponsorship::SyncAll.()
+
+    assert_enqueued_with(job: MandateJob, args: [
+                           Donations::Github::Sponsorship::HandleCancelled.name,
+                           user_2,
+                           "S_kwHOAFXRv84BBEEF",
+                           "private",
+                           false,
+                           300
+                         ])
+  end
 end

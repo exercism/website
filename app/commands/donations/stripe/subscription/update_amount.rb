@@ -1,4 +1,4 @@
-# This cancels a payment within Stripe, and makes a record
+# This updates a payment within Stripe, and updates a record
 # within our database.
 class Donations::Stripe::Subscription::UpdateAmount
   include Mandate
@@ -24,6 +24,6 @@ class Donations::Stripe::Subscription::UpdateAmount
       proration_behavior: 'none'
     )
 
-    Donations::Subscription::UpdateAmount.(subscription, amount_in_cents)
+    subscription.update!(amount_in_cents:)
   end
 end

@@ -1,0 +1,109 @@
+- content_for :meta_title, "Supporting Exercism"
+- content_for :meta_description, "Can your organisation help Exercism grow? Become rocket fuel for our mission!"
+
+= render ViewComponents::AboutNav.new(:organisation_supporters)
+
+#page-organisation-supporters
+  %header.pb-56.c-header-with-bg
+    .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
+      = graphical_icon "rocket", category: "graphics", css_class: "rocket mb-8"
+      %h1.text-h0.mb-16
+        Become
+        %strong rocket fuel
+        for our mission
+      %p.text-p-2xlarge.text-textColor6.font-medium.mb-32
+        Partner with us or donate to support our mission to bringing free code learning and practice to the world.
+      .logos.flex.items-center.justify-center.flex-wrap.mb-44
+        = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla"
+        = icon "packt", "Packt Publishing", category: :partners, css_class: "packt"
+        = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge"
+        = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago"
+
+  .md-container.mb-48
+    .cta.top-cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
+      = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
+      .text
+        %h2.text-h4.mb-4 Want to discuss how you can help Exercism?
+        %p.text-p-large
+          Get in touch with
+          = succeed(',') do
+            %strong Jeremy Walker
+          Exercism's CEO.
+
+      = link_to "mailto:jeremy@exercism.io", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
+        = graphical_icon "email"
+        %span jeremy@exercism.io
+
+  .md-container
+    .flex.mb-48.md:mb-56.items-start.flex-col.md:flex-row
+      .lhs
+        = graphical_icon "target", css_class: "mb-16"
+        %h2.text-h2.mb-20 Support from our funders is crucial to achieving Exercism's goals
+        %hr.c-divider.mb-28
+        %p.text-p-large.mb-16 While much of Exercism is run by our volunteer community, the website and core infrastructure are managed by a full-time team.
+        %p.text-p-large.mb-16 We also undertake specific larger projects, such as the development of our automated analyzers, which require a committed team working more intensely on something over a fixed period of time.
+        %p.text-p-large In order to fund this core team and these products we rely on grant funding from companies or organisation that wish to contribute to our vision of helping providing free programming education for everyone.
+
+      = graphical_icon "target", category: :graphics, css_class: "mt-32 md:mt-0 md:ml-64 lg:ml-128"
+
+    .areas-of-collaboration.pt-32.pb-56.px-32.md:px-64.flex.flex-col.items-center.bg-evenLighterBlue.rounded-8.mb-48.md:mb-56
+      = graphical_icon "partnership", css_class: "mb-16"
+      %h2.text-h2.text-center Areas in which organisations have supported us so far
+      %hr.c-divider.mt-20.mb-32
+
+      .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.gap-y-48.gap-x-32
+        -# .item Diversity &amp; Inclusivity Initiatives
+        .item Fundraising
+        .item Research Projects
+        .item Track Development
+        .item Developing Automation
+        -# .item Developing Mentor-Learner relationships
+        .item Community Building
+        .item Servers and infrastructure
+
+    .supporters.flex.flex-col.items-center.mb-56
+      %h2.text-h2.text-center Our Supporters
+      %hr.c-divider.mt-20.mb-32
+
+      .grid.grid-cols-1.md:grid-cols-2.gap-24
+        - @supporting_orgs.each do |org|
+          .supporter
+            = icon org.slug, org.name, category: :partners, css_class: "logo #{org.slug}"
+            %p
+              %strong= org.name
+              are a core Exercism partner, helping us develop both the fundraising and content side of the platform. They have sponsored our new Fundraising role, and we are currently developing a deeper partnership which we will launch in early 2022.
+            = render ViewComponents::ProminentLink.new("Learn more", Exercism::Routes.about_supporting_organisation_path(org.slug))
+        .supporter
+          = icon "chicago", "University of Chicago", category: :partners, css_class: "logo chicago"
+          %p
+            The
+            %strong University of Chicago
+            in partnership with
+            %strong The Sloan Foundation
+            funded the creation of Exercism v3 as part of a wider research project into how people evolve programming skills and knowledge across multiple languages.
+
+        .supporter
+          = icon "mozilla", "Mozilla", category: :partners, css_class: "logo mozilla"
+          %p
+            %strong Mozilla
+            supported us in the creation of our automated analyzers. They funded the product design, prototype, and analyzer infrastructure, saving thousands of hours of mentors time, and dramatically reducing wait-times for students.
+
+    .individuals.flex.flex-col.items-center.text-center.mb-56
+      = icon "individual-supporters", "Individual Supporters"
+      %h2.text-h2 Exercism is also supported by generous individuals
+      %hr.c-divider.mt-20.mb-28
+      = render ViewComponents::ProminentLink.new("See all of our #{@num_individual_supporters} individual supporters", individual_supporters_about_path)
+
+    .cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
+      = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
+      .text
+        %h2.text-h4.mb-4 Want to discuss how you can help Exercism?
+        %p.text-p-large
+          Get in touch with
+          = succeed(',') do
+            %strong Jeremy Walker
+          Exercism's CEO.
+
+      = link_to "mailto:jeremy@exercism.io", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
+        = graphical_icon "email"
+        %span jeremy@exercism.io

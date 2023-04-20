@@ -270,6 +270,7 @@ Rails.application.routes.draw do
   # About Pages #
   ###############
   resource :about, controller: 'about', only: [:show] do
+    resources :supporting_organisations, only: %i[index show], path: "supporters/organisations", controller: "about/supporting_organisations"
     get :impact
     get :team
     get :hiring
@@ -278,11 +279,11 @@ Rails.application.routes.draw do
     get :hiring_front_end_developer, path: "hiring/front-end-developer-4", as: :hiring_4
     get :hiring_rails_developer, path: "hiring/rails-developer-5", as: :hiring_5
     get :individual_supporters, path: "supporters/individuals", as: :individual_supporters
-    get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
+    # get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
 
-    %w[packt gobridge].each do |supporter|
-      get "supporter_#{supporter}".to_sym, path: "supporters/organisations/#{supporter}", as: "supporter_#{supporter}"
-    end
+    # %w[packt gobridge].each do |supporter|
+    #   get "supporter_#{supporter}".to_sym, path: "supporters/organisations/#{supporter}", as: "supporter_#{supporter}"
+    # end
   end
 
   #########

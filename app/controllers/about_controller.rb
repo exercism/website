@@ -12,13 +12,13 @@ class AboutController < ApplicationController
       page(params[:page]).per(30)
   end
 
-  def supporter_gobridge
-    @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
-  end
+  # def supporter_gobridge
+  #   @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
+  # end
 
-  def supporter_packt
-    @org = SupportingOrganisation.find_by!(slug: 'packt')
-  end
+  # def supporter_packt
+  #   @org = SupportingOrganisation.find_by!(slug: 'packt')
+  # end
 
   #     ips = [
   #       '24.28.78.40',

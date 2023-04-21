@@ -22,6 +22,27 @@ type Theme = {
   value: string
 }
 
+function setThemeClassName(theme: string) {
+  const body = document.querySelector('body')
+  if (!body) return
+  const currentTheme = body.classList.value.match(/theme-\S+/)?.[0]
+  if (theme === currentTheme) {
+    return
+  }
+
+  if (currentTheme && !currentTheme.startsWith('theme-')) {
+    body.classList.remove(currentTheme)
+  }
+
+  if (currentTheme && currentTheme.startsWith('theme-')) {
+    body.classList.remove(
+      ...Array.from(body.classList.value.matchAll(/theme-\S+/g), (m) => m[0])
+    )
+  }
+
+  body.classList.add(`theme-${theme}`)
+}
+
 const DEFAULT_ERROR = new Error('Unable to update theme preference')
 const THEME_BUTTON_SIZE = 130
 const THEMES: Theme[] = [
@@ -33,7 +54,7 @@ const THEMES: Theme[] = [
   },
   {
     label: 'System',
-    value: 'system',
+    value: 'unset',
     background:
       'linear-gradient(135deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
     iconFilter: 'gray',
@@ -78,6 +99,11 @@ export const ThemePreferenceForm = ({
     [mutation]
   )
 
+  const handleThemeUpdate = useCallback((t) => {
+    setTheme(t.value)
+    setThemeClassName(t.value)
+  }, [])
+
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2 className="!mb-4">Theme</h2>
@@ -92,7 +118,7 @@ export const ThemePreferenceForm = ({
             theme={t}
             currentTheme={theme}
             disabled={isDisabled(insidersStatus, t.value)}
-            onClick={() => setTheme(t.value)}
+            onClick={() => handleThemeUpdate(t)}
           />
         ))}
       </div>
@@ -177,6 +203,7 @@ function ThemeButton({
         <button
           type="button"
           disabled={disabled}
+          value={theme.value}
           id={`${theme.value}-theme`}
           style={{
             height: `${THEME_BUTTON_SIZE}px`,
@@ -219,7 +246,12 @@ function DisabledTooltip(): JSX.Element {
 }
 
 function isDisabled(insidersStatus: string, theme: string): boolean {
-  const active = ['active', 'active_lifetime'].includes(insidersStatus)
+  const active = [
+    'active',
+    'active_lifetime',
+    'eligible',
+    'eligible_lifetime',
+  ].includes(insidersStatus)
   const themeDisabled = ['dark', 'system'].includes(theme)
 
   return !active && themeDisabled

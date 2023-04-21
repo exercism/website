@@ -9,8 +9,9 @@ class Webhooks::Paypal::VerifySignature
   initialize_with :headers, :body
 
   def call
-    # TODO: add bearer token
-    headers = { 'Content-Type': 'application/json' }
+    access_token = Webhooks::Paypal::RequestAccessToken.()
+
+    headers = { 'Content-Type': 'application/json', 'Authorization': "Bearer #{access_token}" }
     response = Net::HTTP.post(WEBHOOK_URI, request_body.to_json, headers)
 
     raise SignatureVerificationError unless response.is_a?(Net::HTTPSuccess)

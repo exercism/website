@@ -4,5 +4,10 @@ class Donations::Paypal::Subscription::HandlePaymentFailed
 
   initialize_with :resource
 
-  def call; end
+  def call
+    subscription = Donations::Subscription.find_by(external_id: resource[:id], provider: :paypal)
+    return unless subscription
+
+    Donations::Subscription::Overdue.(subscription)
+  end
 end

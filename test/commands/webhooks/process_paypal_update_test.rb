@@ -5,9 +5,9 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
     ["BILLING.SUBSCRIPTION.ACTIVATED", Donations::Paypal::Subscription::HandleActivated],
     ["BILLING.SUBSCRIPTION.CANCELLED", Donations::Paypal::Subscription::HandleCancelled],
     ["BILLING.SUBSCRIPTION.CREATED", Donations::Paypal::Subscription::HandleCreated],
-    ["BILLING.SUBSCRIPTION.EXPIRED", Donations::Paypal::Subscription::HandleExpired],
+    ["BILLING.SUBSCRIPTION.EXPIRED", Donations::Paypal::Subscription::HandleCancelled],
     ["BILLING.SUBSCRIPTION.PAYMENT.FAILED", Donations::Paypal::Subscription::HandlePaymentFailed],
-    ["BILLING.SUBSCRIPTION.RE-ACTIVATED", Donations::Paypal::Subscription::HandleReActivated],
+    ["BILLING.SUBSCRIPTION.RE-ACTIVATED", Donations::Paypal::Subscription::HandleActivated],
     ["BILLING.SUBSCRIPTION.UPDATED", Donations::Paypal::Subscription::HandleUpdated],
     ["PAYMENT.SALE.COMPLETED", Donations::Paypal::Payment::HandleSaleCompleted],
     ["PAYMENT.SALE.DENIED", Donations::Paypal::Payment::HandleSaleDenied],
@@ -29,9 +29,7 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
       Donations::Paypal::Subscription::HandleActivated.expects(:call).never
       Donations::Paypal::Subscription::HandleCancelled.expects(:call).never
       Donations::Paypal::Subscription::HandleCreated.expects(:call).never
-      Donations::Paypal::Subscription::HandleExpired.expects(:call).never
       Donations::Paypal::Subscription::HandlePaymentFailed.expects(:call).never
-      Donations::Paypal::Subscription::HandleReActivated.expects(:call).never
       Donations::Paypal::Subscription::HandleUpdated.expects(:call).never
       Donations::Paypal::Payment::HandleSaleCompleted.expects(:call).never
       Donations::Paypal::Payment::HandleSaleDenied.expects(:call).never

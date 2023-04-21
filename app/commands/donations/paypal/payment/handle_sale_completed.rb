@@ -4,5 +4,10 @@ class Donations::Paypal::Payment::HandleSaleCompleted
 
   initialize_with :resource
 
-  def call; end
+  def call
+    payment = Donations::Payment.find_by(external_id: resource[:parent_payment], provider: :paypal)
+    return unless payment
+
+    # TODO: what to do here?
+  end
 end

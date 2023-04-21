@@ -3,12 +3,10 @@
 class Donations::Paypal::Payment::Create
   include Mandate
 
-  initialize_with :user, :id, :total_in_dollars, subscription: nil
+  initialize_with :user, :id, :amount, subscription: nil
 
-  def call
-    Donations::Payment::Create.(user, :paypal, id, amount_in_cents, nil, subscription:)
-  end
+  def call = Donations::Payment::Create.(user, :paypal, id, amount_in_cents, nil, subscription:)
 
   private
-  def amount_in_cents = (total_in_dollars * 100).to_i
+  def amount_in_cents = (amount * 100).to_i
 end

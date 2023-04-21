@@ -5,18 +5,14 @@ class Webhooks::ProcessPaypalUpdate
 
   def call
     case event_type
-    when "BILLING.SUBSCRIPTION.ACTIVATED"
+    when "BILLING.SUBSCRIPTION.ACTIVATED", "BILLING.SUBSCRIPTION.RE-ACTIVATED"
       Donations::Paypal::Subscription::HandleActivated.(resource)
-    when "BILLING.SUBSCRIPTION.CANCELLED"
+    when "BILLING.SUBSCRIPTION.CANCELLED", "BILLING.SUBSCRIPTION.EXPIRED"
       Donations::Paypal::Subscription::HandleCancelled.(resource)
     when "BILLING.SUBSCRIPTION.CREATED"
       Donations::Paypal::Subscription::HandleCreated.(resource)
-    when "BILLING.SUBSCRIPTION.EXPIRED"
-      Donations::Paypal::Subscription::HandleExpired.(resource)
     when "BILLING.SUBSCRIPTION.PAYMENT.FAILED"
       Donations::Paypal::Subscription::HandlePaymentFailed.(resource)
-    when "BILLING.SUBSCRIPTION.RE-ACTIVATED"
-      Donations::Paypal::Subscription::HandleReActivated.(resource)
     when "BILLING.SUBSCRIPTION.UPDATED"
       Donations::Paypal::Subscription::HandleUpdated.(resource)
     when "PAYMENT.SALE.COMPLETED"

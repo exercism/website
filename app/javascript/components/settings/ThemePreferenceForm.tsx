@@ -25,13 +25,19 @@ type Theme = {
 function setThemeClassName(theme: string) {
   const body = document.querySelector('body')
   if (!body) return
-  const currentTheme = body.classList.value.match(/theme-\S+/)?.[0]
 
-  if (theme === currentTheme || !currentTheme) {
+  const currentTheme = body.classList.value.match(/theme-\S+/)?.[0]
+  const newTheme = `theme-${theme}`
+
+  if (newTheme === currentTheme) {
     return
   }
 
-  body.classList.replace(currentTheme, `theme-${theme}`)
+  if (!currentTheme) {
+    body.classList.add(newTheme)
+  } else {
+    body.classList.replace(currentTheme, newTheme)
+  }
 }
 
 const DEFAULT_ERROR = new Error('Unable to update theme preference')

@@ -2,9 +2,7 @@
 class Donations::Paypal::Payment::HandleSaleCompleted
   include Mandate
 
-  queue_as :default
-
-  initialize_with :id, :resource
+  initialize_with :resource
 
   def call; end
 end

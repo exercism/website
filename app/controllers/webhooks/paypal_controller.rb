@@ -4,7 +4,6 @@ module Webhooks
     def create
       Webhooks::ProcessPaypalUpdate.(
         params[:event_type],
-        params[:id],
         request.request_parameters[:resource] # params[:resource] does not work as it is populated by Rails
       )
 

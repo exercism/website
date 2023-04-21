@@ -24,7 +24,6 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
 
   test "create should return 200 when signature is valid" do
     payload = {
-      id: "WH-77",
       event_type: "BILLING.SUBSCRIPTION.ACTIVATED",
       resource: {
         quantity: "20"
@@ -33,7 +32,6 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
 
     Webhooks::ProcessPaypalUpdate.expects(:call).with(
       "BILLING.SUBSCRIPTION.ACTIVATED",
-      "WH-77",
       { "quantity" => "20" }
     )
 

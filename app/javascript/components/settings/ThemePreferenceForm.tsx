@@ -4,8 +4,9 @@ import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
-type Links = {
+export type ThemePreferenceLinks = {
   update: string
+  insidersPath: string
 }
 
 type RequestBody = {
@@ -22,7 +23,7 @@ type Theme = {
 }
 
 const DEFAULT_ERROR = new Error('Unable to update theme preference')
-const THEME_BUTTON_SIZE = 128
+const THEME_BUTTON_SIZE = 130
 const THEMES: Theme[] = [
   {
     label: 'Light',
@@ -58,7 +59,7 @@ export const ThemePreferenceForm = ({
 }: {
   defaultThemePreference: string
   insidersStatus: string
-  links: Links
+  links: ThemePreferenceLinks
 }): JSX.Element => {
   const [theme, setTheme] = useState<string>(defaultThemePreference || '')
 
@@ -80,13 +81,10 @@ export const ThemePreferenceForm = ({
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
       <h2 className="!mb-4">Theme</h2>
-      <p className="text-p-base mb-16">
-        Dark theme is only available to Exercism Insiders.
-        {/* Add a pivot here that says one of the following */}
-        {/* active: We hope you enjoy it. Thanks for all your support. */}
-        {/* eligible: We're eligible to join Insiders. [Get started here](...). */}
-        {/* else: [Learn more about Exercism Insiders](...). */}
-      </p>
+      <InfoMessage
+        insidersStatus={insidersStatus}
+        insidersPath={links.insidersPath}
+      />
       <div className="flex gap-32">
         {THEMES.map((t: Theme) => (
           <ThemeButton
@@ -99,7 +97,7 @@ export const ThemePreferenceForm = ({
         ))}
       </div>
       <div className="form-footer">
-        <FormButton status={status} className="btn-primary btn-m">
+        <FormButton status={status} type="submit" className="btn-primary btn-m">
           Update theme preference
         </FormButton>
         <FormMessage
@@ -117,9 +115,47 @@ const SuccessMessage = () => {
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your theme preference has been updated!
+      Your theme has been updated!
     </div>
   )
+}
+
+function InfoMessage({
+  insidersStatus,
+  insidersPath,
+}: {
+  insidersStatus: string
+  insidersPath: string
+}): JSX.Element {
+  switch (insidersStatus) {
+    case 'active':
+    case 'active_lifetime':
+      return (
+        <p className="text-p-base mb-16">
+          We hope you enjoy it. Thanks for all your support.
+        </p>
+      )
+    case 'eligible':
+    case 'eligible_lifetime':
+      return (
+        <p className="text-p-base mb-16">
+          You&apos;re eligible to join Insiders.{' '}
+          <a href={insidersPath}>Get started here.</a>
+        </p>
+      )
+    case 'ineligible':
+      return (
+        <p className="text-p-base mb-16">
+          Dark theme is only available to Exercism Insiders.
+        </p>
+      )
+    default:
+      return (
+        <p className="text-p-base mb-16">
+          [Learn more about Exercism Insiders](...).
+        </p>
+      )
+  }
 }
 
 function ThemeButton({
@@ -139,6 +175,7 @@ function ThemeButton({
     <ExercismTippy content={disabled && <DisabledTooltip />}>
       <div className="flex flex-col gap-16 items-center">
         <button
+          type="button"
           disabled={disabled}
           id={`${theme.value}-theme`}
           style={{
@@ -160,7 +197,7 @@ function ThemeButton({
             className={!disabled ? `filter-${theme.iconFilter}` : ''}
           />
         </button>
-        <label className="text-p" htmlFor={`${theme.value}-theme`}>
+        <label className="text-p text-15" htmlFor={`${theme.value}-theme`}>
           {theme.label}
         </label>
       </div>
@@ -182,8 +219,8 @@ function DisabledTooltip(): JSX.Element {
 }
 
 function isDisabled(insidersStatus: string, theme: string): boolean {
-  const eligible = ['eligible', 'eligible_lifetime'].includes(insidersStatus)
+  const active = ['active', 'active_lifetime'].includes(insidersStatus)
   const themeDisabled = ['dark', 'system'].includes(theme)
 
-  return !eligible && themeDisabled
+  return !active && themeDisabled
 }

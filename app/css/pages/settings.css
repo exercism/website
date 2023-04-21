@@ -265,7 +265,10 @@
     }
 
     .--selected-theme {
-        @apply outline outline-4 outline-linkColor;
+        @apply outline outline-4 outline-successColor;
+        + label {
+            @apply text-successColor text-15;
+        }
     }
 }
 #page-settings-donations {

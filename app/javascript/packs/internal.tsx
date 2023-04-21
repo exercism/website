@@ -88,6 +88,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 import { AutomationProps } from '../components/mentoring/automation/Representation'
+import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm.js'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -270,7 +271,7 @@ initReact({
     <Settings.ThemePreferenceForm
       defaultThemePreference={data.default_theme_preference}
       insidersStatus={data.insiders_status}
-      links={data.links}
+      links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
     />
   ),
   'settings-communication-preferences-form': (data: any) => (

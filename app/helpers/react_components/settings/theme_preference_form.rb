@@ -7,14 +7,15 @@ module ReactComponents
           insiders_status: current_user.insiders_status,
           links: {
             # TODO: add this field too, check this update URL
-            update: Exercism::Routes.api_settings_url
+            update: Exercism::Routes.api_settings_url,
+            insiders_path: Exercism::Routes.insiders_path
           }
         })
       end
 
       # TODO: add these as default values in DB
       def default_theme_preference
-        %i[eligible eligible_lifetime].include?(current_user.insiders_status) ? 'system' : 'light'
+        %i[active active_lifetime].include?(current_user.insiders_status) ? 'system' : 'light'
       end
     end
   end

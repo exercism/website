@@ -249,7 +249,7 @@ function isDisabled(insidersStatus: string, theme: string): boolean {
     'eligible',
     'eligible_lifetime',
   ].includes(insidersStatus)
-  const themeDisabled = ['dark', 'system'].includes(theme)
+  const disabledTheme = ['dark', 'system'].includes(theme)
 
-  return !active && themeDisabled
+  return !active && disabledTheme
 }

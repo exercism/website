@@ -2,10 +2,10 @@ class About::SupportingOrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    @supporting_orgs = SupportingOrganisation.all
+    @supporting_orgs = SupportingOrganisation.all.select(:name, :slug)
   end
 
   def show
-    @org = SupportingOrganisation.find_by!(slug: params[:id])
+    @org = SupportingOrganisation.select(:name, :slug, :description_markdown).find_by!(slug: params[:id])
   end
 end

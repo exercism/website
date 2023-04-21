@@ -80,7 +80,7 @@ export const MentoringRequestInfo = ({
           </div>
         </div>
 
-        <div className="discussion">
+        <div className="c-discussion-timeline">
           <IterationMarker iteration={iteration} userIsStudent={false} />
           <DiscussionPost {...postProps} />
         </div>

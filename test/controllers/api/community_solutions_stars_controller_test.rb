@@ -34,7 +34,7 @@ module API
     test "destroy unstars solution" do
       setup_user
       solution = create :practice_solution, :published
-      create :solution_star, solution: solution, user: @current_user
+      create :solution_star, solution:, user: @current_user
       assert_equal 1, solution.stars.count
 
       delete api_track_exercise_community_solution_star_path(

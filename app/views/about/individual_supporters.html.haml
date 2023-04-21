@@ -26,15 +26,14 @@
 
 
     .donors.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-20.mb-20
-      - @badges.each do |badge|
-        - user = badge.user
+      - @supporting_users.each do |user|
         .donor.flex
           = image_tag user.avatar_url, alt: "User-uploaded avatar of #{user.name}"
           .text
             .name.text-h5.mb-2= user.name
-            .when.text-textColor6 First supported #{time_ago_in_words(badge.created_at)} ago
+            .when.text-textColor6 First supported #{time_ago_in_words(user.first_donated_at)} ago
 
-    = paginate @badges
+    = paginate @supporting_users
 
     .missing.border-1.border-borderLight.rounded-8.py-12.px-16.bg-backgroundColorA.mt-40
       .flex
@@ -43,8 +42,8 @@
           %h2.text-15.leading-140.text-textColor5.font-semibold.mb-4 Why am I not on this page?
           %p.text-14.leading-140.text-textColor5
             This page aims to show all individuals who have financially supported Exercism.
-            Technically, it lists everyone who have been awarded the Supporters Badge and who have enabled the "Appear on supporters page?" toggle in their #{link_to 'Donations Settings', donations_settings_path, class: 'text-lightBlue font-medium'}.
-            Donating through the Exercism website should automatically award you the Supporters badge.
+            Technically, it lists everyone who have been awarded the Supporter badge and who have enabled the "Appear on supporters page?" toggle in their #{link_to 'Donations Settings', donations_settings_path, class: 'text-lightBlue font-medium'}.
+            Donating through the Exercism website should automatically award you the Supporter badge.
             However, donating through a third party website (e.g. GitHub) may require you to email #{link_to 'donations@exercism.org', 'mailto:donations@exercism.org', class: 'text-lightBlue font-medium'} to ask us to manually award the badge.
 
 

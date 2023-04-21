@@ -9,10 +9,10 @@ module Flows
 
     test "student cancels mentor request" do
       user = create :user
-      solution = create :concept_solution, user: user
-      request = create :mentor_request, solution: solution
-      submission = create :submission, solution: solution
-      create :iteration, solution: solution, submission: submission
+      solution = create(:concept_solution, user:)
+      request = create(:mentor_request, solution:)
+      submission = create(:submission, solution:)
+      create(:iteration, solution:, submission:)
 
       use_capybara_host do
         sign_in!(user)
@@ -21,7 +21,7 @@ module Flows
         within(".m-generic-confirmation") { click_on "Cancel mentoring request" }
 
         wait_for_redirect
-        assert_link "Request mentoring"
+        assert_link "Submit for code review"
       end
     end
   end

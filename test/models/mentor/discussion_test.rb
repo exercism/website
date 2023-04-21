@@ -42,14 +42,14 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "#viewable_by? returns true if user is student" do
     student = create :user
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
 
     assert discussion.viewable_by?(student)
   end
 
   test "#viewable_by? returns true if user is mentor" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
 
     assert discussion.viewable_by?(mentor)
   end
@@ -129,7 +129,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "mentor_finished! doesn't modernise existing time" do
+  test "mentor_finished! doesn't modernize existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
@@ -160,7 +160,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "awaiting_student! doesn't modernise existing time" do
+  test "awaiting_student! doesn't modernize existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
@@ -211,7 +211,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "awaiting_mentor doesn't modernise existing time" do
+  test "awaiting_mentor doesn't modernize existing time" do
     freeze_time do
       original = Time.current - 2.weeks
 
@@ -255,7 +255,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion
     assert_equal 0, discussion.num_posts # Sanity
 
-    create :mentor_discussion_post, discussion: discussion
+    create(:mentor_discussion_post, discussion:)
     assert_equal 1, discussion.num_posts # Sanity
   end
 
@@ -275,9 +275,9 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     mentor = create :user
 
     perform_enqueued_jobs do
-      discussion_1 = create :mentor_discussion, mentor: mentor
-      discussion_2 = create :mentor_discussion, mentor: mentor
-      discussion_3 = create :mentor_discussion, mentor: mentor
+      discussion_1 = create(:mentor_discussion, mentor:)
+      discussion_2 = create(:mentor_discussion, mentor:)
+      discussion_3 = create(:mentor_discussion, mentor:)
 
       # Sanity check
       assert_equal 0, mentor.num_solutions_mentored
@@ -300,16 +300,16 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       # Sanity check
       assert_nil mentor.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
+      create :mentor_discussion, mentor:, status: :finished, rating: :great
       assert_equal 100, mentor.reload.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+      create :mentor_discussion, mentor:, status: :finished, rating: :problematic
       assert_equal 50, mentor.reload.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :acceptable
+      create :mentor_discussion, mentor:, status: :mentor_finished, rating: :acceptable
       assert_equal 67, mentor.reload.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :good
+      create :mentor_discussion, mentor:, status: :mentor_finished, rating: :good
       assert_equal 75, mentor.reload.mentor_satisfaction_percentage
     end
   end
@@ -319,9 +319,9 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     mentorship = create :user_track_mentorship, user: mentor
 
     perform_enqueued_jobs do
-      discussion_1 = create :mentor_discussion, mentor: mentor
-      discussion_2 = create :mentor_discussion, mentor: mentor
-      discussion_3 = create :mentor_discussion, mentor: mentor
+      discussion_1 = create(:mentor_discussion, mentor:)
+      discussion_2 = create(:mentor_discussion, mentor:)
+      discussion_3 = create(:mentor_discussion, mentor:)
 
       # Sanity check
       assert_equal 0, mentorship.num_finished_discussions
@@ -341,9 +341,9 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     mentor = create :user
 
     perform_enqueued_jobs do
-      create :mentor_discussion, mentor: mentor, status: :finished, rating: :great
-      create :mentor_discussion, mentor: mentor, status: :mentor_finished, rating: :problematic
-      create :mentor_discussion, mentor: mentor, status: :finished, rating: :problematic
+      create :mentor_discussion, mentor:, status: :finished, rating: :great
+      create :mentor_discussion, mentor:, status: :mentor_finished, rating: :problematic
+      create :mentor_discussion, mentor:, status: :finished, rating: :problematic
 
       assert_equal 34, mentor.reload.mentor_satisfaction_percentage
     end
@@ -351,7 +351,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "does not update num solutions mentored if status is unchanged" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
 
     perform_enqueued_jobs do
       Mentor::UpdateNumSolutionsMentored.expects(:call).never
@@ -362,7 +362,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "does not update satisfaction rating if rating is unchanged" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
 
     perform_enqueued_jobs do
       Mentor::UpdateSatisfactionRating.expects(:call).never
@@ -373,7 +373,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "does not update num discussions finished if status is unchanged" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor, status: :finished
+    discussion = create :mentor_discussion, mentor:, status: :finished
 
     perform_enqueued_jobs do
       Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never
@@ -385,7 +385,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   %i[awaiting_student awaiting_mentor mentor_finished].each do |status|
     test "does not update num discussions finished if status is #{status}" do
       mentor = create :user
-      discussion = create :mentor_discussion, mentor: mentor
+      discussion = create(:mentor_discussion, mentor:)
 
       perform_enqueued_jobs do
         Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never

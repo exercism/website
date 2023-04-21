@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :set_request_context
   after_action :set_body_class_header
   after_action :set_csp_header
+  after_action :updated_last_visited_on!
 
   def process_action(*args)
     super
@@ -31,6 +32,25 @@ class ApplicationController < ActionController::Base
     return if current_user&.admin?
 
     redirect_to maintaining_root_path
+  end
+
+  def ensure_maintainer!
+    return if current_user&.maintainer?
+
+    redirect_to root_path
+  end
+
+  def ensure_staff!
+    return if current_user&.staff?
+
+    redirect_to maintaining_root_path
+  end
+
+  def ensure_iHiD! # rubocop:disable Naming/MethodName
+    return true if Rails.env.development?
+    return true if current_user&.id == User::IHID_USER_ID
+
+    redirect_to root_path
   end
 
   # We want to mark relevant notifications as read, but we don't
@@ -130,6 +150,14 @@ class ApplicationController < ActionController::Base
 
   def store_user_location!
     store_location_for(:user, request.fullpath)
+  end
+
+  def updated_last_visited_on!
+    return unless user_signed_in?
+    return unless request.format == :html
+    return if current_user.last_visited_on == Time.zone.today
+
+    current_user.update(last_visited_on: Time.zone.today)
   end
 
   def render_template_as_json

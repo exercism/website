@@ -1,5 +1,5 @@
 #page-dashboard
-  = render ReactComponents::Modals::Challenge12in23Modal.new
+  = render ReactComponents::Modals::WelcomeModal.new
 
   .summary-bar
     .lg-container.container
@@ -88,12 +88,11 @@
         .flex.flex-col.items-start.mb-28
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
-            Month 2 of #12in23
-          %h2.text-h3 It's Functional February!
+            Month 4 of #12in23
+          %h2.text-h3 It's Analytical April!
           %p.text-p-base.mb-6
-            We're exploring functional languages this month.
-            We have interviews with language creators, live streaming, and lots more.
-            Come and join in.
+            This month we're exploring three languages that are great for Data Science(Python, Julia and R).
+            We've got exercises, SWAG and live streaming.
           = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
             %span Explore #12in23
             = graphical_icon "arrow-right"

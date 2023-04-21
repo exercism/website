@@ -5,7 +5,7 @@
     @apply relative flex px-8 items-center justify-center;
     @apply border-3 border-gradient;
 
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center flex-wrap;
     @apply text-16 leading-200 font-semibold;
     @apply px-16 rounded-100;
 

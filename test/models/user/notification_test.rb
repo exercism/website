@@ -3,9 +3,9 @@ require 'test_helper'
 class NotificationTest < ActiveSupport::TestCase
   test "statuses" do
     user = create :user
-    pending = create :notification, user: user, status: :pending
-    unread = create :notification, user: user, status: :unread
-    read = create :notification, user: user, status: :read
+    pending = create :notification, user:, status: :pending
+    unread = create :notification, user:, status: :unread
+    read = create :notification, user:, status: :read
 
     assert pending.pending?
     assert unread.unread?
@@ -20,7 +20,7 @@ class NotificationTest < ActiveSupport::TestCase
   test "read!" do
     freeze_time do
       user = create :user
-      notification = create :notification, user: user, status: :unread
+      notification = create :notification, user:, status: :unread
       refute notification.read?
       assert_empty user.notifications.read
       assert_equal [notification], user.notifications.unread

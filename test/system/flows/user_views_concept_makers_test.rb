@@ -7,11 +7,11 @@ module Flows
 
     test "shows concept makers" do
       track = create :track
-      concept = create :concept, track: track
+      concept = create(:concept, track:)
       author = create :user, handle: "ConceptAuthor"
       contributor = create :user, handle: "ConceptContributor"
-      create :concept_authorship, concept: concept, author: author
-      create :concept_contributorship, concept: concept, contributor: contributor
+      create(:concept_authorship, concept:, author:)
+      create(:concept_contributorship, concept:, contributor:)
 
       use_capybara_host do
         visit track_concept_path(track, concept)

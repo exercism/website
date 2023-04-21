@@ -5,15 +5,15 @@ class SerializeMentorDiscussionForMentorTest < ActiveSupport::TestCase
     student = create :user
     mentor = create :user
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise, user: student
-    create :iteration, solution: solution
-    discussion = create :mentor_discussion,
+    exercise = create(:concept_exercise, track:)
+    solution = create :concept_solution, exercise:, user: student
+    create(:iteration, solution:)
+    discussion = create(:mentor_discussion,
       :awaiting_mentor,
-      solution: solution,
-      mentor: mentor
-    create :mentor_discussion_post, discussion: discussion
-    create :mentor_discussion_post, discussion: discussion
+      solution:,
+      mentor:)
+    create(:mentor_discussion_post, discussion:)
+    create(:mentor_discussion_post, discussion:)
 
     output = mock
     SerializeMentorDiscussion.expects(:call).with(
@@ -36,13 +36,13 @@ class SerializeMentorDiscussionForMentorTest < ActiveSupport::TestCase
     student = create :user
     mentor = create :user
     solution = create :concept_solution, user: student
-    create :iteration, solution: solution
-    discussion = create :mentor_discussion,
+    create(:iteration, solution:)
+    discussion = create(:mentor_discussion,
       :awaiting_mentor,
-      solution: solution,
-      mentor: mentor
+      solution:,
+      mentor:)
 
-    relationship = create :mentor_student_relationship, student: student, mentor: mentor
+    relationship = create(:mentor_student_relationship, student:, mentor:)
 
     result = SerializeMentorDiscussionForMentor.(discussion)
     refute result[:student][:is_favorited]

@@ -4,9 +4,9 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
   test "serialize representation with feedback" do
     last_submitted_at = Time.zone.now - 2.days
     track = create :track, title: 'Ruby'
-    exercise = create :practice_exercise, title: 'Bob', track: track
-    representation = create :exercise_representation, id: 3, feedback_markdown: 'Yay', feedback_type: :essential,
-      exercise: exercise, num_submissions: 5, last_submitted_at: last_submitted_at
+    exercise = create(:practice_exercise, title: 'Bob', track:)
+    representation = create(:exercise_representation, id: 3, feedback_markdown: 'Yay', feedback_type: :essential,
+      exercise:, num_submissions: 5, last_submitted_at:)
     create :submission_file, submission: representation.source_submission, filename: "impl.rb", content: "Impl // Foo",
       digest: "fd4aee90ec004b1dab8a7baccd67b12e"
     create :submission_representation, submission: representation.source_submission, ast_digest: representation.ast_digest
@@ -57,9 +57,9 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
   test "serialize representation with draft feedback" do
     last_submitted_at = Time.zone.now - 2.days
     track = create :track, title: 'Ruby'
-    exercise = create :practice_exercise, title: 'Bob', track: track
-    representation = create :exercise_representation, id: 3, draft_feedback_markdown: 'Yay', draft_feedback_type: :essential,
-      exercise: exercise, num_submissions: 5, last_submitted_at: last_submitted_at
+    exercise = create(:practice_exercise, title: 'Bob', track:)
+    representation = create(:exercise_representation, id: 3, draft_feedback_markdown: 'Yay', draft_feedback_type: :essential,
+      exercise:, num_submissions: 5, last_submitted_at:)
     create :submission_file, submission: representation.source_submission, filename: "impl.rb", content: "Impl // Foo",
       digest: "fd4aee90ec004b1dab8a7baccd67b12e"
     create :submission_representation, submission: representation.source_submission, ast_digest: representation.ast_digest
@@ -110,9 +110,9 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
   test "serialize representation without feedback" do
     last_submitted_at = Time.zone.now - 2.days
     track = create :track, title: 'Ruby'
-    exercise = create :practice_exercise, title: 'Bob', track: track
-    representation = create :exercise_representation, id: 3, exercise: exercise, num_submissions: 5,
-      last_submitted_at: last_submitted_at
+    exercise = create(:practice_exercise, title: 'Bob', track:)
+    representation = create(:exercise_representation, id: 3, exercise:, num_submissions: 5,
+      last_submitted_at:)
     create :submission_file, submission: representation.source_submission, filename: "impl.rb", content: "Impl // Foo",
       digest: "fd4aee90ec004b1dab8a7baccd67b12e"
     create :submission_representation, submission: representation.source_submission, ast_digest: representation.ast_digest

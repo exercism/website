@@ -14,6 +14,120 @@ body.devise {
     }
 }
 
+body.namespace-.controller-insiders {
+    --reddot-dark: #59d2ae;
+    #site-header {
+        /* russianViolet is site-header background */
+        @apply bg-russianViolet border-[#433F56];
+        .c-icon:not(button .c-icon),
+        .user-menu .c-icon {
+            @apply filter-aliceBlue;
+        }
+
+        a:not(a.announcement-bar) {
+            @apply text-gray;
+        }
+
+        & .announcement-bar {
+            @apply bg-[#7029F5];
+        }
+
+        .explore-menu {
+            @apply bg-russianViolet text-aliceBlue;
+            @apply shadow-none;
+            .c-icon {
+                @apply filter-aliceBlue;
+            }
+        }
+        .user-menu-dropdown,
+        .c-notifications-dropdown ul,
+        .c-reputation-dropdown ul,
+        .explore-menu-dropdown {
+            box-shadow: 0px 2px 4px #0f0923;
+            @apply bg-russianViolet shadow-lg rounded-8;
+
+            .info {
+                .name {
+                    @apply text-aliceBlue;
+                }
+                .handle {
+                    @apply text-gray;
+                }
+            }
+
+            li.opt a,
+            .notification,
+            .token,
+            .c-prominent-link {
+                @apply bg-russianViolet;
+                &:hover {
+                    background-color: #3a3557;
+                }
+            }
+
+            .notification {
+                .text {
+                    @apply text-aliceBlue;
+                }
+
+                .created-at {
+                    @apply text-gray;
+                }
+            }
+
+            .c-reputation {
+                @apply bg-[#191525] text-gray border-none shadow-none;
+                .c-icon {
+                    @apply filter-gray;
+                }
+            }
+            .earned-on {
+                @apply text-gray;
+            }
+            .description {
+                @apply text-aliceBlue;
+            }
+
+            .notification .icon {
+                @apply filter-aliceBlue;
+            }
+        }
+        .auth-buttons {
+            a:first-child {
+                @apply text-aliceBlue;
+            }
+            a:last-child {
+                @apply bg-[#282339] text-[#9E8EFF] border-[#9E8EFF];
+            }
+        }
+        .new-badge {
+            background-image: url("icons/new-badge-dark.svg");
+        }
+
+        .c-notification {
+            background: #191525;
+            .--count {
+                background-color: var(--reddot-dark);
+                color: #191525;
+            }
+            .c-icon {
+                @apply filter-notification-bell-dark;
+            }
+        }
+
+        .--notification {
+            @apply bg-russianViolet;
+            &:after {
+                background-color: var(--reddot-dark);
+            }
+        }
+    }
+
+    .user-menu-dropdown li.site-link.donate:after {
+        @apply !border-textColor6;
+    }
+}
+
 #site-header {
     @apply bg-backgroundColorA border-b-1 border-borderColor7;
     @apply sticky top-0;
@@ -27,10 +141,25 @@ body.devise {
         @apply py-8;
         /* hardcoding now to remain the same in dark mode */
         background: #130b43;
-        @apply text-lightPurple font-semibold text-16 leading-160 text-center;
+        /* @apply text-lightPurple font-semibold text-16 leading-160 text-center; */
+        /* @apply bg-textColor2 py-8; */
+        @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         & strong {
             @apply text-lightGold mx-4 font-semibold;
             @apply underline;
+        }
+
+        .lg-container {
+            @apply flex justify-center items-center;
+            .text-container {
+                @apply sm:flex flex-row;
+            }
+            .c-icon {
+                @apply sm:block hidden mr-8;
+                filter: none !important;
+                height: 24px;
+                width: 24px;
+            }
         }
     }
 
@@ -101,11 +230,8 @@ body.devise {
             @apply whitespace-nowrap;
 
             & .c-icon {
-                @apply hidden;
-                height: 24px;
-                width: 24px;
-                @apply mr-12;
-                filter: var(--textColor6-filter);
+                height: 16px;
+                width: 16px;
             }
         }
     }
@@ -150,6 +276,7 @@ body.devise {
         }
         & .c-notification {
             @apply ml-8 mr-48;
+            box-shadow: none;
         }
         & .c-react-wrapper-dropdowns-reputation {
             @apply hidden xl:block lg:mr-48;

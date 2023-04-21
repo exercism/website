@@ -64,8 +64,8 @@ class Solution::QueueHeadTestRun
   end
 
   def process_submission!(submission)
-    # For legacy solutions, they may never have been pushed to EFS, so check that here.
-    submission.files.each(&:write_to_efs!) unless Dir.exist?([Exercism.config.efs_submissions_mount_point, submission.uuid].join('/'))
+    # Legacy solutions may never have been pushed to EFS, so check that here.
+    submission.write_to_efs!
 
     Submission::TestRun::Init.(
       submission,

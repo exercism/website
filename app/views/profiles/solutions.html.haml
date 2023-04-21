@@ -1,4 +1,4 @@
-- content_for :meta_title, "#{@user.handle}'s solutions Exercism"
+- content_for :meta_title, "#{sanitize(@user.handle)}'s solutions Exercism".html_safe
 - content_for :meta_description, "Explore #{@user.handle}'s solutions on Exercism, and see everything they've learnt."
 
 #page-profile-solutions

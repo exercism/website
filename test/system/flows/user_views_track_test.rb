@@ -60,5 +60,35 @@ module Flows
         refute_text "A taste of the concepts you'll cover"
       end
     end
+
+    test "shows syllabus if track has course" do
+      track = create :track, course: true
+      stub_latest_track_forum_threads(track)
+
+      use_capybara_host do
+        visit track_path(track)
+
+        click_on "Syllabus"
+        assert_text "Your journey through Ruby"
+      end
+    end
+
+    test "shows syllabus if track does not have course but user is track maintainer" do
+      track = create :track, course: false
+      create(:concept_exercise, status: :wip, track:)
+      user = create :user, :maintainer, uid: '256123'
+      create :github_team_member, user_id: user.uid, team_name: track.github_team_name
+      create(:user_track, track:, user:)
+      create(:hello_world_solution, :completed, track:, user:)
+      stub_latest_track_forum_threads(track)
+
+      use_capybara_host do
+        sign_in!(user.reload)
+        visit track_path(track)
+
+        click_on "Syllabus"
+        assert_text "Your journey through Ruby"
+      end
+    end
   end
 end

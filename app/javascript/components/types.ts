@@ -148,7 +148,7 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
-export type AutomationStatus = 'with_feedback' | 'without_feedback'
+export type AutomationStatus = 'with_feedback' | 'without_feedback' | 'admin'
 
 export type CommunitySolution = {
   uuid: string
@@ -311,14 +311,13 @@ export type Iteration = {
   }
 }
 
+type FeedbackContributor = Pick<User, 'name' | 'avatarUrl' | 'reputation'> & {
+  profileUrl: string
+}
 export type RepresenterFeedback = {
   html: string
-  author: {
-    name: string
-    reputation: number
-    avatarUrl: string
-    profileUrl: string
-  }
+  author: FeedbackContributor
+  editor?: FeedbackContributor
 }
 
 export type AnalyzerFeedback = {
@@ -573,7 +572,7 @@ export type SiteUpdateIconType =
 export type SiteUpdateExpandedInfo = {
   author: Contributor
   title: string
-  description: string
+  descriptionHtml: string
 }
 
 export type SiteUpdate = {

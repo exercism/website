@@ -3,18 +3,18 @@ require "test_helper"
 class SendUserMailshotJobTest < ActiveJob::TestCase
   test "sends email" do
     user = create :user
-    mailshot_id = :community_launch
+    mailshot = create :mailshot
 
-    User::Mailshot::Send.expects(:call).with(user, mailshot_id)
+    User::Mailshot::Send.expects(:call).with(user, mailshot)
 
-    SendUserMailshotJob.perform_now(user, mailshot_id)
+    SendUserMailshotJob.perform_now(user, mailshot)
   end
 
   test "sends email to correct queue" do
     user = create :user
-    mailshot_id = :community_launch
+    mailshot = create :mailshot
 
-    job = MailshotsMailer.with(user:).send(mailshot_id).deliver_later
+    job = MailshotsMailer.with(user:, mailshot:).send(:mailshot).deliver_later
 
     assert_equal 'mailers', job.queue_name
   end

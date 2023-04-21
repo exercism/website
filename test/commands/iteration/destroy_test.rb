@@ -92,8 +92,8 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
 
   test "does not update solution num_loc if iteration was not published iteration" do
     solution = create :concept_solution
-    iteration_1 = create :iteration, solution: solution, num_loc: 13
-    iteration_2 = create :iteration, solution: solution, num_loc: 77
+    iteration_1 = create :iteration, solution:, num_loc: 13
+    iteration_2 = create :iteration, solution:, num_loc: 77
     solution.update!(num_loc: iteration_1.num_loc, published_iteration: iteration_1, published_at: Time.current)
 
     Iteration::Destroy.(iteration_2)
@@ -103,8 +103,8 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
 
   test "updates solution num_loc to latest active iteration if iteration was published iteration" do
     solution = create :concept_solution
-    iteration_1 = create :iteration, solution: solution, num_loc: 13
-    iteration_2 = create :iteration, solution: solution, num_loc: 77
+    iteration_1 = create :iteration, solution:, num_loc: 13
+    iteration_2 = create :iteration, solution:, num_loc: 77
     solution.update!(num_loc: iteration_1.num_loc, published_iteration: iteration_1, published_at: Time.current)
 
     Iteration::Destroy.(iteration_1)
@@ -114,8 +114,8 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
 
   test "updates solution num_loc to latest active iteration if no iteration was published" do
     solution = create :concept_solution
-    iteration_1 = create :iteration, solution: solution, num_loc: 13
-    iteration_2 = create :iteration, solution: solution, num_loc: 77
+    iteration_1 = create :iteration, solution:, num_loc: 13
+    iteration_2 = create :iteration, solution:, num_loc: 77
     solution.update!(num_loc: iteration_1.num_loc)
 
     Iteration::Destroy.(iteration_1)
@@ -125,8 +125,8 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
 
   test "updates solution num_loc to zero if there are no active iterations" do
     solution = create :concept_solution
-    iteration_1 = create :iteration, solution: solution, num_loc: 13
-    create :iteration, :deleted, solution: solution, num_loc: 77
+    iteration_1 = create :iteration, solution:, num_loc: 13
+    create :iteration, :deleted, solution:, num_loc: 77
     solution.update!(num_loc: iteration_1.num_loc)
 
     Iteration::Destroy.(iteration_1)

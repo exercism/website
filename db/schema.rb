@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_12_075814) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -483,6 +483,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
   end
 
+  create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "email_communication_preferences_key", null: false
+    t.string "subject", null: false
+    t.string "button_url", null: false
+    t.string "button_text", null: false
+    t.text "text_content", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "test_sent", default: false, null: false
+    t.json "sent_to_audiences"
+    t.index ["slug"], name: "index_mailshots_on_slug", unique: true
+  end
+
   create_table "mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "discussion_id", null: false
@@ -676,9 +692,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
     t.bigint "pull_request_id"
     t.datetime "published_at", null: false
     t.string "title"
-    t.text "description"
+    t.text "description_markdown"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description_html"
     t.index ["author_id"], name: "index_site_updates_on_author_id"
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
     t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"
@@ -999,12 +1016,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
 
   create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "mailshot_id", null: false
+    t.string "mailshot_slug"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "mailshot_id", null: false
     t.index ["email_status"], name: "index_user_mailshots_on_email_status"
-    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id", unique: true
+    t.index ["mailshot_id"], name: "fk_rails_9ddeeadfc0"
+    t.index ["user_id", "mailshot_slug"], name: "index_user_mailshots_on_user_id_and_mailshot_slug", unique: true
     t.index ["user_id"], name: "index_user_mailshots_on_user_id"
   end
 
@@ -1164,14 +1183,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
     t.datetime "updated_at", null: false
     t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "disabled_at"
+    t.date "last_visited_on"
+    t.datetime "first_donated_at"
+    t.string "discord_uid"
+    t.integer "insiders_status", limit: 1, default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
     t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
+    t.index ["insiders_status"], name: "index_users_on_insiders_status"
+    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
-    t.index ["total_donated_in_cents", "show_on_supporters_page"], name: "users-supporters-page"
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
@@ -1275,6 +1301,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_08_172023) do
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_dismissed_introducers", "users"
+  add_foreign_key "user_mailshots", "mailshots"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"
   add_foreign_key "user_notifications", "users"

@@ -108,7 +108,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
 
   test "removes labels if no longer present" do
     issue = create :github_issue
-    create :github_issue_label, issue: issue
+    create(:github_issue_label, issue:)
 
     Github::Issue::CreateOrUpdate.(
       issue.node_id,

@@ -42,3 +42,23 @@ en:
     mentor_finished_discussion:
       1: >
         %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}
+
+    joined_insiders:
+      1: >
+        Welcome to Exercism Insiders!
+
+    joined_lifetime_insiders:
+      1: >
+        Welcome to Exercism Lifetime Insiders!
+
+    join_insiders:
+      1: >
+        Join Exercism Insiders!
+
+    join_lifetime_insiders:
+      1: >
+        Join Exercism Lifetime Insiders!
+
+    expired_insiders:
+      1: >
+        Your Exercism Insiders membership has expired.

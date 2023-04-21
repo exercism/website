@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
 
@@ -154,7 +154,7 @@ jobs:
       ###
       # Setup Ruby
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -306,7 +306,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -388,7 +388,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true

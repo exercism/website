@@ -93,7 +93,7 @@ img {
         @apply relative;
     }
 
-    .count-bubble {
+    .c-count-bubble {
         @apply border-1 border-borderLight rounded-100 px-12;
         @apply text-textColor6 text-13 leading-200 font-medium;
     }

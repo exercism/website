@@ -63,6 +63,13 @@ class Submission < ApplicationRecord
     SubmissionChannel.broadcast!(self)
   end
 
+  def write_to_efs!
+    dir = [Exercism.config.efs_submissions_mount_point, uuid].join('/')
+    return if Dir.exist?(dir)
+
+    files.each(&:write_to_efs!)
+  end
+
   def tests_passed?
     tests_status == "passed"
   end
@@ -151,6 +158,7 @@ class Submission < ApplicationRecord
     return nil unless exercise_representation&.has_feedback?
 
     author = exercise_representation.feedback_author
+    editor = exercise_representation.feedback_editor
 
     {
       html: exercise_representation.feedback_html,
@@ -159,7 +167,15 @@ class Submission < ApplicationRecord
         reputation: author.reputation,
         avatar_url: author.avatar_url,
         profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
-      }
+      },
+      editor: if editor.present?
+                {
+                  name: editor.name,
+                  reputation: editor.reputation,
+                  avatar_url: editor.avatar_url,
+                  profile_url: editor.profile ? Exercism::Routes.profile_url(editor) : nil
+                }
+              end
     }
   end
 

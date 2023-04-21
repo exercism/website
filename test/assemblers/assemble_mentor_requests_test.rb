@@ -40,7 +40,7 @@ class AssembleMentorRequestsTest < ActiveSupport::TestCase
     user = create :user
 
     mentored_track = create :track
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
     solution = create :concept_solution, track: mentored_track
     15.times { create :mentor_request, solution: }
 

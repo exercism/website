@@ -4,13 +4,24 @@ class User < ApplicationRecord
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036
+  IHID_USER_ID = 1530
+  MIN_REP_TO_MENTOR = 20
+
+  enum insiders_status: {
+    unset: 0,
+    ineligible: 1,
+    eligible: 2,
+    eligible_lifetime: 3,
+    active: 4,
+    active_lifetime: 5
+  }, _prefix: true
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable,
     :confirmable, :validatable,
-    :omniauthable, omniauth_providers: [:github]
+    :omniauthable, omniauth_providers: %i[github discord]
 
   has_many :auth_tokens, dependent: :destroy
 
@@ -119,6 +130,9 @@ class User < ApplicationRecord
   has_many :challenges, dependent: :destroy
 
   scope :random, -> { order('RAND()') }
+
+  scope :donor, -> { where.not(first_donated_at: nil) }
+  scope :public_supporter, -> { donor.where(show_on_supporters_page: true) }
 
   # TODO: Validate presence of name
 
@@ -257,6 +271,8 @@ class User < ApplicationRecord
     avatar.attached? || self[:avatar_url].present?
   end
 
+  def donated? = first_donated_at.present?
+
   # TODO
   def languages_spoken
     %w[english spanish]
@@ -286,4 +302,6 @@ class User < ApplicationRecord
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
+
+  def insiders_status = super.to_sym
 end

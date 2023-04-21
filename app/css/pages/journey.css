@@ -5,17 +5,17 @@
 
     & header.hero {
         @apply mb-4;
-
-        & .container {
-            @apply relative;
-        }
+        @apply relative;
 
         & .background {
-            @apply absolute;
+            @apply absolute overflow-hidden;
+            @apply flex justify-end;
+            @apply bg-cover;
+            background-image: url("hero-journey.svg");
             left: 0;
             right: 0;
             top: 0;
-
+            bottom: 0;
             & .bottom {
                 @apply absolute;
                 height: 180px;
@@ -30,6 +30,7 @@
                 );
             }
         }
+
         & .content {
             @apply relative;
             @apply flex flex-col items-center;
@@ -65,7 +66,7 @@
             @apply filter-textColor6NoDark;
         }
         & h1 {
-            @apply text-64 leading-tight font-bold text-textColor1NoDark;
+            @apply text-64 leading-tight text-center font-bold text-textColor1NoDark;
             @apply mb-8;
         }
         & .subtitle {

@@ -14,7 +14,7 @@ class Donations::Subscription::Create
       amount_in_cents: stripe_data.items.data[0].price.unit_amount,
       active: true
     ).tap do
-      user.update(active_donation_subscription: true)
+      User::SetActiveDonationSubscription.(user, true)
     end
   rescue ActiveRecord::RecordNotUnique
     Donations::Subscription.find_by!(stripe_id: stripe_data.id)

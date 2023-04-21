@@ -18,7 +18,7 @@
             }
         }
 
-        & .c-icon {
+        .c-icon:not(.c-primary-reputation .c-icon, .info-link .c-icon) {
             width: 160px;
             height: 160px;
             @apply mb-20;

@@ -15,17 +15,20 @@ import { useAutomation } from './useAutomation'
 export type AutomationLinks = {
   withFeedback?: string
   withoutFeedback?: string
+  admin?: string
   hideIntroducer: string
 }
 
+export type SelectedTab = 'admin' | 'with_feedback' | 'without_feedback'
 export type AutomationProps = {
   tracksRequest: Request
   links: AutomationLinks
   representationsRequest: Request
   sortOptions: SortOption[]
-  withFeedback: boolean
+  selectedTab: SelectedTab
   representationsWithoutFeedbackCount?: number
   representationsWithFeedbackCount?: number
+  allRepresentationsWithFeedbackCount?: number
   trackCacheKey: string
   isIntroducerHidden: boolean
 }
@@ -35,12 +38,14 @@ export function Representations({
   sortOptions,
   links,
   representationsRequest,
-  withFeedback,
+  selectedTab,
+  allRepresentationsWithFeedbackCount,
   representationsWithoutFeedbackCount,
   representationsWithFeedbackCount,
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
+  const withFeedback = selectedTab === 'with_feedback'
   const {
     feedbackCount,
     checked,
@@ -63,11 +68,12 @@ export function Representations({
     criteria,
   } = useAutomation(
     representationsRequest,
+    allRepresentationsWithFeedbackCount,
     representationsWithFeedbackCount,
     representationsWithoutFeedbackCount,
     tracksRequest,
     trackCacheKey,
-    withFeedback
+    selectedTab
   )
 
   // timeout is stored in a useRef, so it can be cancelled
@@ -95,7 +101,7 @@ export function Representations({
         <div className="tabs">
           <StatusTab<AutomationStatus>
             status="without_feedback"
-            currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
+            currentStatus={selectedTab}
             setStatus={() => null}
           >
             <a href={links.withoutFeedback}>Need feedback</a>
@@ -107,13 +113,25 @@ export function Representations({
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"
-            currentStatus={withFeedback ? 'with_feedback' : 'without_feedback'}
+            currentStatus={selectedTab}
             setStatus={() => null}
           >
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
               <div className="count">
                 {feedbackCount['with_feedback']?.toLocaleString()}
+              </div>
+            ) : null}
+          </StatusTab>
+          <StatusTab<AutomationStatus>
+            status="admin"
+            currentStatus={selectedTab}
+            setStatus={() => null}
+          >
+            <a href={links.admin}>Admin</a>
+            {resolvedData ? (
+              <div className="count">
+                {feedbackCount['all_with_feedback']?.toLocaleString()}
               </div>
             ) : null}
           </StatusTab>

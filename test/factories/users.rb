@@ -18,6 +18,10 @@ FactoryBot.define do
       end
     end
 
+    trait :donor do
+      first_donated_at { Time.current }
+    end
+
     trait :not_mentor do
       became_mentor_at { nil }
     end
@@ -38,8 +42,16 @@ FactoryBot.define do
       name { "Ghost" }
     end
 
+    trait :founder do
+      roles { [:founder] }
+    end
+
     trait :admin do
       roles { [:admin] }
+    end
+
+    trait :staff do
+      roles { [:staff] }
     end
 
     trait :maintainer do

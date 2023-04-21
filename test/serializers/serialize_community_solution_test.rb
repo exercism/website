@@ -4,7 +4,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     expected = {
       uuid: solution.uuid,
       snippet: solution.snippet,

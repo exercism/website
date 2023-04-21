@@ -41,7 +41,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
-    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(criteria: " ") # rubocop:disable Layout:LineLength
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(criteria: " ") # :LineLength
     assert_equal [ruby_doc_1], Document::SearchDocs.(criteria: "install")
     assert_equal [ruby_doc_1], Document::SearchDocs.(criteria: "inst step")
     assert_equal [elixir_doc, ruby_doc_2], Document::SearchDocs.(criteria: "resources")

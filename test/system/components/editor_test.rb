@@ -10,9 +10,9 @@ module Components
     test "user runs tests and tests pass with - v3 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -35,20 +35,20 @@ module Components
       end
     end
 
-    test "user switches tabs" do
+    test "user switches files" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
       create :submission_file,
-        submission: submission,
+        submission:,
         content: "class LogLineParser",
         filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("class LogLineParser")
       create :submission_file,
-        submission: submission,
+        submission:,
         content: "class log_line_parser_test",
         filename: "log_line_parser_test.rb",
         digest: Digest::SHA1.hexdigest("class log_line_parser_test")
@@ -66,9 +66,9 @@ module Components
     test "hides hints button if there are no hints" do
       user = create :user
       track = create :track
-      exercise = create :practice_exercise, track: track, slug: "allergies"
-      create :user_track, track: track, user: user
-      create :practice_solution, user: user, exercise: exercise
+      exercise = create :practice_exercise, track:, slug: "allergies"
+      create(:user_track, track:, user:)
+      create(:practice_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -78,12 +78,256 @@ module Components
       assert_no_css ".hints-btn"
     end
 
+    test "user switches to instructions tab" do
+      user = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        click_on "Instructions"
+
+        assert_text "How to debug"
+      end
+    end
+
+    test "hide feedback tab when there are iterations" do
+      user = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      # running test
+      submission = create(:submission, solution:)
+      create :submission_file,
+        submission:,
+        content: "class LogLineParser",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("class LogLineParser")
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        refute_text "Feedback"
+      end
+    end
+
+    test "show feedback tab and request message when there is no automated nor mentor feedback" do
+      user = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
+      create :submission_file,
+        submission:,
+        content: "class LogLineParser",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("class LogLineParser")
+      create(:iteration, submission:)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        # Make sure component is mounted
+        sleep 0.5
+        click_on "Feedback"
+
+        assert_text "Take your solution to the next level"
+      end
+    end
+
+    test "feedback panel shows an open automated feedback details when submission has representer feedback" do
+      user = create :user
+      mentor = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create :submission, solution:,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      create :submission_test_run,
+        submission:,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      create :iteration, solution:, submission:, idx: 1
+      create(:submission_file, submission:)
+
+      create :exercise_representation,
+        exercise:,
+        source_submission: submission,
+        feedback_author: mentor,
+        feedback_markdown: "Some representer feedback",
+        feedback_type: :essential,
+        ast_digest: "AST"
+      create :submission_representation, submission:, ast_digest: "AST"
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        refute_text "Code Review"
+        assert_text "Automated Feedback"
+        assert_text "Some representer feedback"
+      end
+    end
+
+    test "feedback panel shows an open automated feedback details when submission has analyzer feedback" do
+      user = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create :submission, solution:,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      create :submission_test_run,
+        submission:,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      create :iteration, solution:, submission:, idx: 1
+      create(:submission_file, submission:)
+      create :submission_analysis, submission:, data: {
+        comments: [
+          { type: "essential", comment: "ruby.two-fer.splat_args" }
+        ]
+      }
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        refute_text "Code Review"
+        assert_text "Automated Feedback"
+        # click_on can only click on links or buttons
+        assert_text "Our Ruby Analyzer has some comments"
+      end
+    end
+
+    test "feedback panel shows an open code review details and no automated feedback" do
+      user = create :user
+      mentor = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create :submission, solution:,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      create :submission_test_run,
+        submission:,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      create :iteration, solution:, submission:, idx: 1
+      create(:submission_file, submission:)
+      create(:mentor_discussion, solution:, mentor:)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        assert_text "Code Review"
+        refute_text "Automated Feedback"
+        assert_text "This is your latest code review session for this exercise."
+        assert_css "img[src='#{user.avatar_url}']"\
+        "[alt=\"Uploaded avatar of #{user.handle}\"]"
+        assert_text "Iteration 1"
+      end
+    end
+
+    test "feedback panel shows an open automated feedback and closed code review details" do
+      user = create :user
+      mentor = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      # run tests
+      submission = create :submission, solution:,
+        tests_status: :passed,
+        representation_status: :generated,
+        analysis_status: :completed
+      # tests passed
+      # click on submit
+      create :submission_test_run,
+        submission:,
+        ops_status: 200,
+        raw_results: {
+          version: 2,
+          status: "pass",
+          tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+        }
+      # itertation is created
+      create :iteration, solution:, submission:, idx: 1
+      create(:submission_file, submission:)
+      create :submission_analysis, submission:, data: {
+        comments: [
+          { type: "essential", comment: "ruby.two-fer.splat_args" }
+        ]
+      }
+      create :exercise_representation,
+        exercise:,
+        source_submission: submission,
+        feedback_author: mentor,
+        feedback_markdown: "Representer feedback",
+        feedback_type: :essential,
+        ast_digest: "AST"
+      create :submission_representation, submission:, ast_digest: "AST"
+      create(:mentor_discussion, solution:, mentor:)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        sleep 0.5
+        click_on "Feedback"
+        assert_text "Code Review"
+        assert_text "Automated Feedback"
+        refute_text "Our Ruby Analyzer has some comments"
+        find("details", text: "Automated Feedback").click
+        assert_text "Our Ruby Analyzer has some comments"
+        assert_text "This is your latest code review session for this exercise."
+        assert_text "Representer feedback"
+        assert_css "img[src='#{user.avatar_url}']"\
+        "[alt=\"Uploaded avatar of #{user.handle}\"]"
+        assert_text "Iteration 1"
+      end
+    end
+
     test "user runs tests and tests pass - v2 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -110,9 +354,9 @@ module Components
     test "user runs tests and tests pass with - v1 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -137,9 +381,9 @@ module Components
     test "user gets tests results even if websockets broadcast fails" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -163,9 +407,9 @@ module Components
     test "user runs tests and tests fail - v3 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -191,9 +435,9 @@ module Components
     test "user runs tests and tests fail - v2 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -220,9 +464,9 @@ module Components
     test "user runs tests and tests fail - v1 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -250,9 +494,9 @@ module Components
     test "user runs tests and errors" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -281,9 +525,9 @@ module Components
       expecting_errors do
         user = create :user
         track = create :track
-        exercise = create :concept_exercise, track: track
-        create :user_track, track: track, user: user
-        create :concept_solution, user: user, exercise: exercise
+        exercise = create(:concept_exercise, track:)
+        create(:user_track, track:, user:)
+        create(:concept_solution, user:, exercise:)
 
         use_capybara_host do
           sign_in!(user)
@@ -312,12 +556,12 @@ module Components
     test "user runs tests and cancels" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
       test_run = create :submission_test_run,
-        submission: submission,
+        submission:,
         ops_status: 200,
         raw_results: {
           version: 2,
@@ -354,12 +598,12 @@ module Components
     test "user sees previous test results - v3 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
       create :submission_test_run,
-        submission: submission,
+        submission:,
         ops_status: 200,
         raw_results: {
           version: 3,
@@ -378,12 +622,12 @@ module Components
     test "user sees previous test results - v2 test runner" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
       create :submission_test_run,
-        submission: submission,
+        submission:,
         ops_status: 200,
         raw_results: {
           version: 2,
@@ -402,19 +646,19 @@ module Components
     test "user reverts to last iteration" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
       create :submission_file,
-        submission: submission,
+        submission:,
         content: "old content",
         filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("old content")
-      create :iteration, submission: submission
-      submission = create :submission, solution: solution
+      create(:iteration, submission:)
+      submission = create(:submission, solution:)
       create :submission_file,
-        submission: submission,
+        submission:,
         content: "new content",
         filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("new content")
@@ -432,12 +676,12 @@ module Components
     test "user reverts to original exercise solution" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
       create :submission_file,
-        submission: submission,
+        submission:,
         content: "new content",
         filename: "log_line_parser.rb",
         digest: Digest::SHA1.hexdigest("new content")
@@ -455,9 +699,9 @@ module Components
     test "user views hints" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      create :concept_solution, user: user, exercise: exercise
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      create(:concept_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)
@@ -471,12 +715,12 @@ module Components
     test "user deletes legacy files" do
       user = create :user
       track = create :track
-      exercise = create :concept_exercise, track: track
-      create :user_track, track: track, user: user
-      solution = create :concept_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
-      create :submission_file, submission: submission, filename: "log_line_parser.rb", content: "foobar1"
-      create :submission_file, submission: submission, filename: "something_else.rb", content: "foobar2"
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
+      create :submission_file, submission:, filename: "log_line_parser.rb", content: "foobar1"
+      create :submission_file, submission:, filename: "something_else.rb", content: "foobar2"
 
       use_capybara_host do
         sign_in!(user)

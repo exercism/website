@@ -6,10 +6,10 @@ class MetricPeriod::UpdateLastQuarterMetricsTest < ActiveSupport::TestCase
   test "calculate metrics for last quarter" do
     freeze_time do
       track = create :track
-      create :publish_solution_metric, track: track, occurred_at: Time.current.prev_month
-      create :finish_mentoring_metric, track: track, occurred_at: Time.current.prev_month - 1.month
-      create :finish_mentoring_metric, track: track, occurred_at: Time.current.prev_month - 1.month
-      create :open_issue_metric, track: track, occurred_at: Time.current.prev_month - 2.months
+      create :publish_solution_metric, track:, occurred_at: Time.current.prev_month
+      create :finish_mentoring_metric, track:, occurred_at: Time.current.prev_month - 1.month
+      create :finish_mentoring_metric, track:, occurred_at: Time.current.prev_month - 1.month
+      create :open_issue_metric, track:, occurred_at: Time.current.prev_month - 2.months
 
       MetricPeriod::UpdateLastQuarterMetrics.()
 

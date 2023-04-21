@@ -1,5 +1,63 @@
 @import "../styles";
 
+@layer components {
+    .c-build-page-tooling-status {
+        @apply flex items-center border-2 border-black rounded-circle mr-16;
+        @apply bg-lightPurple;
+        height: 48px;
+        width: 48px;
+
+        img {
+            height: 20px;
+            width: 20px;
+            @apply mx-auto;
+        }
+    }
+
+    .c-build-page-usage-summary {
+        @apply flex items-center;
+        @apply label-large leading-150;
+        @apply cursor-pointer;
+        @apply c-build-page-before-icon;
+        .summary-chevron {
+            @apply transition-all;
+            @apply filter-textColor6;
+            height: 16px;
+            width: 16px;
+            @apply flex ml-auto;
+        }
+    }
+
+    .c-build-page-stats-container {
+        @apply flex flex-col;
+        @apply py-12 px-24;
+        @apply border-1 border-borderLight2 rounded-8;
+    }
+
+    .c-build-page-stats-container + .c-react-component {
+        @apply mt-16;
+    }
+
+    .c-build-page-track-leader {
+        @apply text-h3 font-bold flex text-center items-center;
+
+        &:before {
+            @apply block mr-16;
+            height: 32px;
+            width: 32px;
+        }
+    }
+
+    .c-build-page-before-icon {
+        @apply flex items-center;
+        &:before {
+            height: 24px;
+            width: 24px;
+            @apply block mr-16;
+            @apply filter-textColor1;
+        }
+    }
+}
 #page-tracks-build {
     .theme-light {
         --headerBackground: linear-gradient(
@@ -62,74 +120,6 @@
     .--practice-exercises-gradient {
         &:before {
             content: url("icons/practice-exercises-gradient.svg");
-        }
-    }
-
-    @layer components {
-        .tooling-status {
-            @apply flex items-center border-2 border-black rounded-circle mr-16;
-            @apply bg-lightPurple;
-            height: 48px;
-            width: 48px;
-
-            img {
-                height: 20px;
-                width: 20px;
-                @apply mx-auto;
-            }
-        }
-
-        .usage-summary {
-            @apply flex items-center;
-            @apply label-large leading-150;
-            @apply cursor-pointer;
-            @apply before-icon;
-            .summary-chevron {
-                @apply transition-all;
-                @apply filter-textColor6;
-                height: 16px;
-                width: 16px;
-                @apply flex ml-auto;
-            }
-        }
-
-        .stats-container {
-            @apply flex flex-col;
-            @apply py-12 px-24;
-            @apply border-1 border-borderLight2 rounded-8;
-        }
-
-        .stats-container + .c-react-component {
-            @apply mt-16;
-        }
-
-        .track-leader {
-            @apply text-h3 font-bold flex text-center items-center;
-
-            &:before {
-                @apply block mr-16;
-                height: 32px;
-                width: 32px;
-            }
-        }
-
-        .usage-stats-header {
-            h4 {
-                @apply text-h4 mb-8;
-                @apply before-icon;
-                &:before {
-                    content: url("icons/graph-stats.svg");
-                }
-            }
-        }
-        .before-icon {
-            @apply flex items-center;
-            &:before {
-                height: 24px;
-                width: 24px;
-                @apply block mr-16;
-                @apply filter-textColor1;
-            }
         }
     }
 
@@ -197,7 +187,7 @@
     }
 
     [tooling-status="exemplar"] {
-        @apply tooling-status relative;
+        @apply c-build-page-tooling-status relative;
         @apply border-healthyGreen;
 
         img {
@@ -215,7 +205,7 @@
     }
 
     [tooling-status="healthy"] {
-        @apply tooling-status;
+        @apply c-build-page-tooling-status;
         @apply border-healthyGreen;
         img {
             @apply filter-healthyGreen;
@@ -223,7 +213,7 @@
     }
 
     [tooling-status="needs_attention"] {
-        @apply tooling-status;
+        @apply c-build-page-tooling-status;
         @apply border-warning;
         img {
             @apply filter-warning;
@@ -231,7 +221,7 @@
     }
 
     [tooling-status="missing"] {
-        @apply tooling-status;
+        @apply c-build-page-tooling-status;
         @apply border-textColor6;
         img {
             @apply filter-textColor6;
@@ -249,9 +239,9 @@
                 @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
             }
             @apply select-none;
-            @apply stats-container;
+            @apply c-build-page-stats-container;
             summary {
-                @apply usage-summary;
+                @apply c-build-page-usage-summary;
             }
         }
 
@@ -266,7 +256,7 @@
 
     .track-header {
         h3 {
-            @apply track-leader;
+            @apply c-build-page-track-leader;
         }
         p {
             @apply text-16 text-textColor5 leading-150;
@@ -290,6 +280,15 @@
         }
     }
 
+    .usage-stats-header {
+        h4 {
+            @apply text-h4 mb-8;
+            @apply c-build-page-before-icon;
+            &:before {
+                content: url("icons/graph-stats.svg");
+            }
+        }
+    }
     .test-runner .record-value {
         @apply w-1-2;
     }

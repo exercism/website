@@ -17,7 +17,7 @@
         @apply md:text-31;
     }
     .text-h3 {
-        @apply text-20 text-textColor1 font-semibold leading-150;
+        @apply text-20 text-textColor1 font-semibold leading-130;
 
         @apply md:text-24;
     }

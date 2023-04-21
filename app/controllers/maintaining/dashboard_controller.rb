@@ -1,5 +1,5 @@
 module Maintaining
-  class DashboardController < ApplicationController
+  class DashboardController < Maintaining::BaseController
     def show
       @tracks = Track.order('title ASC')
     end

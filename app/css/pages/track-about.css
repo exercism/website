@@ -325,7 +325,10 @@
         }
     }
     & .upsell-section {
-        @apply bg-backgroundColorA;
+        background: linear-gradient(
+            var(--backgroundColorA),
+            var(--backgroundColorB)
+        );
         @apply pt-64;
 
         & .container {

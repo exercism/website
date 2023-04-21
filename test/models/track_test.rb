@@ -178,8 +178,8 @@ class TrackTest < ActiveSupport::TestCase
 
   test "representations" do
     track = create :track
-    exercise_1 = create :practice_exercise, track: track
-    exercise_2 = create :practice_exercise, track: track
+    exercise_1 = create(:practice_exercise, track:)
+    exercise_2 = create(:practice_exercise, track:)
     exercise_3 = create :practice_exercise, track: (create :track, :random_slug)
 
     representation_1 = create :exercise_representation, exercise: exercise_1

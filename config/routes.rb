@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
     resource :coinbase, only: [:create], controller: "coinbase"
+    resource :github_sponsors, only: [:create]
+
     resource :issue_updates, only: [:create]
     resource :membership_updates, only: [:create]
     resource :push_updates, only: [:create]
@@ -52,7 +54,14 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     resources :community_videos
+    resources :mailshots do
+      member do
+        patch :send_test
+        patch :send_to_audience
+      end
+    end
     resources :streaming_events
+    resources :donors, only: %i[index new create]
   end
 
   # ############ #
@@ -63,6 +72,7 @@ Rails.application.routes.draw do
     get :user_preferences
     get :communication_preferences
     get :donations
+    get :integrations
     patch :reset_account
     delete :destroy_account
   end
@@ -79,6 +89,8 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
 
   resources :impact, only: [:index]
+
+  resources :insiders, only: [:index]
 
   resources :profiles, only: %i[index show new create] do
     collection do
@@ -111,6 +123,7 @@ Rails.application.routes.draw do
     resources :automation, only: %i[index edit], param: :uuid do
       collection do
         get :with_feedback
+        get :admin
         get :tooltip_locked
       end
     end
@@ -287,7 +300,7 @@ Rails.application.routes.draw do
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
 
   %i[installation learning resources tests].each do |doc|
-    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
+    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}")
   end
 
   get "values", to: redirect("about")
@@ -311,8 +324,15 @@ Rails.application.routes.draw do
   get "my/settings", to: redirect("settings")
   get "my/tracks", to: redirect("tracks")
   get "getting-started", to: redirect("docs/using/getting-started")
-  get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
+  get '/languages/:slug', to: redirect('/tracks/%{slug}')
   get "contribute", to: redirect("contributing")
+
+  get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect
+  get "r/twitter", to: redirect("https://twitter.com/exercism_io"), as: :twitter_redirect
+  get "r/youtube", to: redirect("https://youtube.com/@exercism_org"), as: :youtube_redirect
+  get "r/twitch", to: redirect("https://twitch.tv/exercismlive"), as: :twitch_redirect
+  get "r/youtube-community", to: redirect("https://youtube.com/@ExercismCommunity"), as: :youtube_community_redirect
+  get "r/forum", to: redirect("https://forum.exercism.org"), as: :forum_redirect
 
   # Licences
   %w[licence license].each do |spelling|

@@ -2,23 +2,27 @@ require_relative '../test_base'
 
 class Donations::Payment::CreateTest < Donations::TestBase
   test "creates correctly" do
-    user = create :user
-    id = SecureRandom.uuid
-    amount = 1500
-    receipt_url = SecureRandom.uuid
-    data = mock_stripe_payment(id, amount, receipt_url)
+    freeze_time do
+      user = create :user
+      id = SecureRandom.uuid
+      amount = 1500
+      receipt_url = SecureRandom.uuid
+      data = mock_stripe_payment(id, amount, receipt_url)
 
-    Donations::Payment::Create.(user, data)
+      Donations::Payment::Create.(user, data)
 
-    assert_equal 1, Donations::Payment.count
+      assert_equal 1, Donations::Payment.count
 
-    payment = Donations::Payment.last
-    assert_equal id, payment.stripe_id
-    assert_equal amount, payment.amount_in_cents
-    assert_equal receipt_url, payment.stripe_receipt_url
-    assert_equal user, payment.user
-    assert_nil payment.subscription
-    assert_equal amount, user.total_donated_in_cents
+      payment = Donations::Payment.last
+      assert_equal id, payment.stripe_id
+      assert_equal amount, payment.amount_in_cents
+      assert_equal receipt_url, payment.stripe_receipt_url
+      assert_equal user, payment.user
+      assert_nil payment.subscription
+      assert_equal amount, user.total_donated_in_cents
+      assert_equal Time.current, user.first_donated_at
+      assert user.donated?
+    end
   end
 
   test "awards supporter badge" do
@@ -62,7 +66,7 @@ class Donations::Payment::CreateTest < Donations::TestBase
     invoice_id = SecureRandom.uuid
     stripe_subscription_id = SecureRandom.uuid
     user = create :user
-    subscription = create :donations_subscription, user: user, stripe_id: stripe_subscription_id
+    subscription = create :donations_subscription, user:, stripe_id: stripe_subscription_id
     data = mock_stripe_payment(5, 1500, "", invoice_id:)
 
     invoice = mock_stripe_invoice(nil, stripe_subscription_id)

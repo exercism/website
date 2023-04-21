@@ -14,10 +14,7 @@ namespace :api do
     resources :tracks, only: [:show]
   end
 
-  # TODO: This is just a stub
-  resources :users, only: [:update]
-
-  resource :user, only: [] do
+  resource :user, only: %i[show update] do
     resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
   end
 
@@ -142,6 +139,8 @@ namespace :api do
 
     resources :docs, only: [:index]
 
+    resources :streaming_events, only: [:index]
+
     resources :solutions, only: %i[index show update], param: :uuid do
       member do
         get :diff
@@ -185,6 +184,7 @@ namespace :api do
         collection do
           get :with_feedback
           get :without_feedback
+          get :admin
           get :tracks_with_feedback
           get :tracks_without_feedback
         end

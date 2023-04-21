@@ -57,8 +57,8 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
   test "edit links uses params" do
     current_time = Time.zone.now
     track = create :track, slug: 'ruby', title: 'Ruby'
-    exercise = create :practice_exercise, slug: 'bob', title: 'Bob', icon_name: 'bob', track: track
-    representation = create :exercise_representation, id: 3, feedback_markdown: 'Yay', exercise: exercise, num_submissions: 5,
+    exercise = create(:practice_exercise, slug: 'bob', title: 'Bob', icon_name: 'bob', track:)
+    representation = create :exercise_representation, id: 3, feedback_markdown: 'Yay', exercise:, num_submissions: 5,
       last_submitted_at: current_time - 5.days
 
     expected = [

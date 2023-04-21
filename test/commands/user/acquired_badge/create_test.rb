@@ -4,7 +4,7 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
   test "returns existing badge" do
     user = create :user
     badge = create :contributor_badge
-    expected = create :user_acquired_badge, user: user, badge: badge
+    expected = create(:user_acquired_badge, user:, badge:)
 
     actual = User::AcquiredBadge::Create.(user, :contributor)
     assert_equal expected, actual

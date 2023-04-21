@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseArticleAuthorTokenTest < ActiveSupport::Te
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     article = create :exercise_article
-    authorship = create :exercise_article_authorship, author: user, article: article
+    authorship = create(:exercise_article_authorship, author: user, article:)
     exercise = article.exercise
     track = article.track
 

@@ -7,17 +7,17 @@
 class User::Mailshot::Send
   include Mandate
 
-  initialize_with :user, :mailshot_id
+  initialize_with :user, :mailshot
 
   # This returns a boolean based on whether it succeeds or not
   # It returns the value of User::SendEmail if no exception occurs
   def call
-    mailshot = User::Mailshot.create!(mailshot_id:, user_id: user.id)
-    User::SendEmail.(mailshot) do
+    user_mailshot = User::Mailshot.create!(mailshot:, user:)
+    User::SendEmail.(user_mailshot) do
       MailshotsMailer.with(
         user:,
-        email_communication_preferences_key: mailshot.email_communication_preferences_key
-      ).send(mailshot_id).deliver_later
+        mailshot:
+      ).send(:mailshot).deliver_later
     end
   rescue ActiveRecord::RecordNotUnique
     false

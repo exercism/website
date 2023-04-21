@@ -36,9 +36,11 @@ import {
   InstructionsTab,
   TestsTab,
   ResultsTab,
+  FeedbackTab,
   InstructionsPanel,
   TestsPanel,
   ResultsPanel,
+  FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
 
@@ -80,6 +82,9 @@ export default ({
   track,
   exercise,
   links,
+  iteration,
+  discussion,
+  mentoringRequested,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -394,6 +399,7 @@ export default ({
                   <InstructionsTab />
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
+                  {iteration ? <FeedbackTab /> : null}
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -415,6 +421,18 @@ export default ({
                   hasCancelled={hasCancelled}
                   {...panels.results}
                 />
+                {iteration ? (
+                  <FeedbackPanel
+                    exercise={exercise}
+                    track={track}
+                    iteration={iteration}
+                    discussion={discussion}
+                    requestedMentoring={mentoringRequested}
+                    mentoringRequestLink={links.mentoringRequest}
+                    automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+                    mentorDiscussionsLink={links.mentorDiscussions}
+                  />
+                ) : null}
               </TasksContext.Provider>
             }
           />

@@ -3,7 +3,7 @@ require "test_helper"
 class AssembleExerciseListTest < ActiveSupport::TestCase
   test "renders external user" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     expected = {
       exercises: SerializeExercises.([exercise], user_track: nil)
@@ -14,8 +14,8 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
   test "renders for user" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track
-    user_track = create :user_track, user: user, track: track
+    exercise = create(:practice_exercise, track:)
+    user_track = create(:user_track, user:, track:)
 
     expected = {
       exercises: SerializeExercises.([exercise], user_track:)
@@ -26,11 +26,11 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
   test "renders for user with solutions" do
     user = create :user
     track = create :track
-    exercise_1 = create :practice_exercise, track: track
-    exercise_2 = create :practice_exercise, track: track
-    create :practice_solution, exercise: exercise_1, user: user
+    exercise_1 = create(:practice_exercise, track:)
+    exercise_2 = create(:practice_exercise, track:)
+    create(:practice_solution, exercise: exercise_1, user:)
     create :practice_solution, exercise: exercise_2 # Different user
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
 
     expected = {
       exercises: SerializeExercises.([exercise_1, exercise_2], user_track:),
@@ -42,7 +42,7 @@ class AssembleExerciseListTest < ActiveSupport::TestCase
   test "proxies correctly" do
     user = create :user
     track = create :track
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
 
     criteria = "foo"
     params = { sideload: ['solutions'], criteria: }

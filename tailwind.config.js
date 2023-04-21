@@ -24,6 +24,7 @@ module.exports = {
       screens: {
         max850: { max: '850px' },
         mxl: { min: '1200px' },
+        xs: { min: '480px' },
       },
       gridTemplateColumns: {
         // Simple 16 column grid
@@ -78,6 +79,7 @@ module.exports = {
       lgZ1: 'var(--box-shadow-lgZ1)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
       keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',
+      launching: '8px 8px 0px #211E28',
     },
     colors: {
       transparent: 'transparent',
@@ -147,6 +149,7 @@ module.exports = {
       unnamed10: '#3D3B45',
       unnamed13: '#33363F',
       unnamed15: '#F0F3F9',
+      aliceBlue: '#F0F3F9',
       unnamed16: '#8480A0',
       randomBlue: '#F9F8FF',
       lightGold: '#FFD38F',
@@ -171,7 +174,8 @@ module.exports = {
       purpleDarkened: '#3B2A93',
       purpleDarker3: '#453A8F',
       anotherPurple: '#604FCD' /* Remove this */,
-      // lightPurple: '#B0A8E3',
+      russianViolet: '#302b42',
+      lightPurple: '#B0A8E3',
       lightPurpleDarkened: '#f2f0fc',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
@@ -180,6 +184,10 @@ module.exports = {
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
       purpleHover: '#F2F0FC',
+
+      yellowPrompt: '#FFD38F',
+      launchingYellow: '#F7B000',
+      greenPrompt: '#59D2AE',
 
       gray: '#A9A6BD',
       // TODO: fix this - change it back to its hex value
@@ -208,6 +216,7 @@ module.exports = {
       lightRed: '#FDEAEA',
       veryLightRed: '#FFEDED',
       youtubeRed: '#D81A1A',
+      discordBlue: '#5865F2',
       bgRed: 'rgba(235, 87, 87, 0.15)',
       gold: '#E2CB2D',
       brown: '#47300C',
@@ -374,7 +383,7 @@ module.exports = {
       },
     ],
     function ({ addVariant }) {
-      addVariant('child', '& > *')
+      addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
     },
   ],
   corePlugins: {

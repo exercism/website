@@ -8,9 +8,9 @@ class CohortTest < ActiveSupport::TestCase
 
     cohort = create :cohort
 
-    create :cohort_membership, cohort: cohort, user: user_1
-    create :cohort_membership, cohort: cohort, user: user_2
-    create :cohort_membership, cohort: cohort, user: user_3
+    create :cohort_membership, cohort:, user: user_1
+    create :cohort_membership, cohort:, user: user_2
+    create :cohort_membership, cohort:, user: user_3
 
     assert_equal [user_1, user_2, user_3], cohort.members
   end
@@ -21,18 +21,18 @@ class CohortTest < ActiveSupport::TestCase
     # Empty cohort can be joined
     assert cohort.can_be_joined?
 
-    create :cohort_membership, cohort: cohort
-    create :cohort_membership, cohort: cohort
+    create(:cohort_membership, cohort:)
+    create(:cohort_membership, cohort:)
 
     # Cohort just shy of capacity can be joined
     assert cohort.can_be_joined?
 
-    create :cohort_membership, cohort: cohort
+    create(:cohort_membership, cohort:)
 
     # Cohort at capacity cannot be joined
     refute cohort.can_be_joined?
 
-    create :cohort_membership, cohort: cohort
+    create(:cohort_membership, cohort:)
 
     # Cohort exceeding capacity cannot be joined
     refute cohort.can_be_joined?

@@ -20,6 +20,10 @@ module API
       render json: AssembleExerciseRepresentationsWithFeedback.(current_user, with_feedback_params)
     end
 
+    def admin
+      render json: AssembleExerciseRepresentationsAdmin.(current_user, admin_params)
+    end
+
     def tracks_without_feedback
       render json: AssembleRepresentationTracksForSelect.(current_user, with_feedback: false)
     end
@@ -43,6 +47,10 @@ module API
 
     def with_feedback_params
       params.permit(*AssembleExerciseRepresentationsWithFeedback.keys)
+    end
+
+    def admin_params
+      params.permit(*AssembleExerciseRepresentationsAdmin.keys)
     end
 
     def update_params

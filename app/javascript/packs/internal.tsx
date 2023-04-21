@@ -100,8 +100,8 @@ initReact({
     <MarkdownEditor contextId={data.context_id} />
   ),
 
-  'modals-challenge-12in23-modal': (data: any) => (
-    <Modals.Challenge12in23Modal endpoint={data.endpoint} />
+  'modals-welcome-modal': (data: any) => (
+    <Modals.WelcomeModal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
@@ -159,6 +159,11 @@ initReact({
   ),
   'mentoring-representations-with-feedback': (data: any) => (
     <Mentoring.RepresentationsWithFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
+  'mentoring-representations-admin': (data: any) => (
+    <Mentoring.RepresentationsAdmin
       data={camelizeKeysAs<AutomationProps>(data)}
     />
   ),

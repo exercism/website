@@ -9,15 +9,15 @@ module Flows
       test "end discussion button does not show" do
         student = create :user, handle: "student"
         track = create :track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, user: student, exercise: exercise
-        request = create :mentor_request, solution: solution
-        discussion = create :mentor_discussion,
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, user: student, exercise:)
+        request = create(:mentor_request, solution:)
+        discussion = create(:mentor_discussion,
           status: :mentor_finished,
-          solution: solution,
-          request: request
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+          solution:,
+          request:)
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(student)
@@ -30,15 +30,15 @@ module Flows
       test "student reviews discussion" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, idx: 1, solution: solution, submission: submission
-        discussion = create :mentor_discussion, solution: solution, status: :mentor_finished
+        create(:iteration, idx: 1, solution:, submission:)
+        discussion = create :mentor_discussion, solution:, status: :mentor_finished
 
         use_capybara_host do
           sign_in!(user)

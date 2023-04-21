@@ -24,7 +24,7 @@ class Donations::Payment::Create
       amount_in_cents: stripe_data.amount
     ).tap do |payment|
       user.update(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
-      AwardBadgeJob.perform_later(user, :supporter)
+      User::RegisterAsDonor.(user, Time.current)
       Donations::Payment::SendEmail.defer(payment)
     end
   rescue ActiveRecord::RecordNotUnique

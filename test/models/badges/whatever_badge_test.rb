@@ -20,17 +20,17 @@ class Badge::WhateverBadgeTest < ActiveSupport::TestCase
     refute badge.award_to?(user.reload)
 
     # Completing hello-world does not award the badge
-    create :hello_world_solution, :completed, user: user, track: track
+    create(:hello_world_solution, :completed, user:, track:)
     refute badge.award_to?(user.reload)
 
     # Completing different exercise does not award the badge
     leap_exercise = create :practice_exercise, slug: 'leap'
-    create :practice_solution, :completed, user: user, track: track, exercise: leap_exercise
+    create :practice_solution, :completed, user:, track:, exercise: leap_exercise
     refute badge.award_to?(user.reload)
 
     # Iterate the bob exercise without completing does not award the badge
     bob_exercise = create :practice_exercise, slug: 'bob'
-    solution = create :practice_solution, :iterated, user: user, track: track, exercise: bob_exercise
+    solution = create :practice_solution, :iterated, user:, track:, exercise: bob_exercise
     refute badge.award_to?(user.reload)
 
     # Complete the bob exercise awards the badge

@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseArticleContributionTokenTest < ActiveSuppo
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     article = create :exercise_article
-    contributorship = create :exercise_article_contributorship, contributor: user, article: article
+    contributorship = create(:exercise_article_contributorship, contributor: user, article:)
     exercise = article.exercise
     track = article.track
 

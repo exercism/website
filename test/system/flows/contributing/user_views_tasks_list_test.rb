@@ -19,7 +19,7 @@ module Flows
       test "user views task tooltip" do
         track = create :track, title: "Ruby"
         create :github_task,
-          track: track,
+          track:,
           action: "create",
           type: "docs",
           size: "large",

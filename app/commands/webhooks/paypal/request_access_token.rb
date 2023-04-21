@@ -27,11 +27,14 @@ class Webhooks::Paypal::RequestAccessToken
 
   def request
     request = Net::HTTP::Post.new(OAUTH2_TOKEN_URI.request_uri)
-    request.basic_auth(Exercism.secrets.paypal_client_id, Exercism.secrets.paypal_client_secret)
+    request.basic_auth(paypal_client_id, paypal_client_secret)
     request.set_content_type('application/x-www-form-urlencoded')
     request.set_form_data({ 'grant_type' => 'client_credentials' })
     request
   end
+
+  def paypal_client_id = ENV.fetch('PAYPAL_CLIENT_ID', Exercism.secrets.paypal_client_id)
+  def paypal_client_secret = ENV.fetch('PAYPAL_CLIENT_SECRET', Exercism.secrets.paypal_client_secret)
 
   OAUTH2_TOKEN_URI = URI('https://api-m.sandbox.paypal.com/v1/oauth2/token').freeze
   private_constant :OAUTH2_TOKEN_URI

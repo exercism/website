@@ -2,8 +2,7 @@
 module Webhooks
   class PaypalController < BaseController
     def create
-      # TODO: enable once bearer token is used in verify signature
-      # Webhooks::Paypal::VerifySignature.(request.headers, payload_body)
+      Webhooks::Paypal::VerifySignature.(request.headers, payload_body)
 
       Webhooks::ProcessPaypalUpdate.(
         params[:event_type],

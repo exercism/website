@@ -9,8 +9,6 @@ class Webhooks::Paypal::VerifySignature
   initialize_with :headers, :body
 
   def call
-    access_token = Webhooks::Paypal::RequestAccessToken.()
-
     headers = { 'Content-Type': 'application/json', 'Authorization': "Bearer #{access_token}" }
     response = Net::HTTP.post(WEBHOOK_URI, request_body.to_json, headers)
 
@@ -23,6 +21,8 @@ class Webhooks::Paypal::VerifySignature
   end
 
   private
+  def access_token = Webhooks::Paypal::RequestAccessToken.()
+
   def request_body
     {
       auth_algo: headers['PAYPAL-AUTH-ALGO'],
@@ -30,10 +30,12 @@ class Webhooks::Paypal::VerifySignature
       transmission_id: headers['PAYPAL-TRANSMISSION-ID'],
       transmission_sig: headers['PAYPAL-TRANSMISSION-SIG'],
       transmission_time: headers['PAYPAL-TRANSMISSION-TIME'],
-      webhook_id: Exercism.secrets.paypal_webhook_id,
+      webhook_id:,
       webhook_event: body
     }
   end
+
+  def webhook_id = ENV.fetch('PAYPAL_WEBHOOK_ID', Exercism.secrets.paypal_webhook_id)
 
   WEBHOOK_URI = URI('https://api-m.paypal.com/v1/notifications/verify-webhook-signature').freeze
   private_constant :WEBHOOK_URI

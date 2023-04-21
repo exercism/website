@@ -18,6 +18,8 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
     }
     body = { resource: { id: 7 } }
 
+    Webhooks::Paypal::RequestAccessToken.expects(:call).returns(SecureRandom.uuid)
+
     Webhooks::Paypal::VerifySignature.(headers, body)
   end
 
@@ -38,12 +40,14 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
     }
     body = { resource: { id: 7 } }
 
+    Webhooks::Paypal::RequestAccessToken.expects(:call).returns(SecureRandom.uuid)
+
     assert_raises Webhooks::Paypal::VerifySignature::SignatureVerificationError do
       Webhooks::Paypal::VerifySignature.(headers, body)
     end
   end
 
-  test "raises when response fails is not valid" do
+  test "raises when response is not success" do
     stub_request(:post, "https://api-m.paypal.com/v1/notifications/verify-webhook-signature").
       with(
         body: "{\"auth_algo\":\"AUTH-ALGO\",\"cert_url\":\"CERT-URL\",\"transmission_id\":\"TRANSMISSION-ID\",\"transmission_sig\":\"TRANSMISSION-SIG\",\"transmission_time\":\"TRANSMISSION-TIME\",\"webhook_id\":null,\"webhook_event\":{\"resource\":{\"id\":7}}}", # rubocop:disable Layout/LineLength
@@ -59,6 +63,8 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
       'PAYPAL-TRANSMISSION-TIME' => 'TRANSMISSION-TIME'
     }
     body = { resource: { id: 7 } }
+
+    Webhooks::Paypal::RequestAccessToken.expects(:call).returns(SecureRandom.uuid)
 
     assert_raises Webhooks::Paypal::VerifySignature::SignatureVerificationError do
       Webhooks::Paypal::VerifySignature.(headers, body)
@@ -81,6 +87,8 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
       'PAYPAL-TRANSMISSION-TIME' => 'TRANSMISSION-TIME'
     }
     body = { resource: { id: 7 } }
+
+    Webhooks::Paypal::RequestAccessToken.expects(:call).returns(SecureRandom.uuid)
 
     assert_raises Webhooks::Paypal::VerifySignature::SignatureVerificationError do
       Webhooks::Paypal::VerifySignature.(headers, body)

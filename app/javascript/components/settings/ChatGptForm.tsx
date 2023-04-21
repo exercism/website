@@ -10,7 +10,6 @@ type Links = {
 type RequestBody = {
   user: {
     api_key: string
-    sudo_password: string
   }
 }
 
@@ -23,14 +22,13 @@ export const ChatGptForm = ({
   currentApiKey: string
   links: Links
 }): JSX.Element => {
-  const [state, setState] = useState({ apiKey: currentApiKey, password: '' })
+  const [state, setState] = useState(currentApiKey)
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',
     body: {
       user: {
-        api_key: state.apiKey,
-        sudo_password: state.password,
+        api_key: state,
       },
     },
   })
@@ -54,20 +52,8 @@ export const ChatGptForm = ({
         <input
           type="text"
           id="api_key"
-          value={state.apiKey}
-          onChange={(e) => setState({ ...state, apiKey: e.target.value })}
-          required
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="user_sudo_password" className="label">
-          Confirm your password
-        </label>
-        <input
-          type="password"
-          id="user_sudo_password"
-          value={state.password}
-          onChange={(e) => setState({ ...state, password: e.target.value })}
+          value={state}
+          onChange={(e) => setState(e.target.value)}
           required
         />
         <p className="info">Only available to Insiders</p>
@@ -80,18 +66,18 @@ export const ChatGptForm = ({
           status={status}
           defaultError={DEFAULT_ERROR}
           error={error}
-          SuccessMessage={() => <SuccessMessage apiKey={state.apiKey} />}
+          SuccessMessage={() => <SuccessMessage />}
         />
       </div>
     </form>
   )
 }
 
-const SuccessMessage = ({ apiKey }: { apiKey: string }) => {
+const SuccessMessage = (): JSX.Element => {
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your new API key is: {apiKey}
+      Your API key has been updated successfully.
     </div>
   )
 }

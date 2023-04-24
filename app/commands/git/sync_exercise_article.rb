@@ -26,12 +26,12 @@ class Git::SyncExerciseArticle
   end
 
   def authorships(article)
-    ::User.where(github_username: config[:authors].to_a).
+    ::User.with_data.where(data: { github_username: config[:authors].to_a }).
       map { |author| ::Exercise::Article::Authorship::Create.(article, author) }
   end
 
   def contributorships(article)
-    ::User.where(github_username: config[:contributors].to_a).
+    ::User.with_data.where(data: { github_username: config[:contributors].to_a }).
       map { |contributor| ::Exercise::Article::Contributorship::Create.(article, contributor) }
   end
 end

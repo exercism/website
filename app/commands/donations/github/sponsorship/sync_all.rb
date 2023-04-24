@@ -55,7 +55,7 @@ class Donations::Github::Sponsorship::SyncAll
   def github_sponsorships
     sponsorships = Github::Graphql::ExecuteQuery.(QUERY, %i[organization sponsorshipsAsMaintainer]).flat_map do |data|
       data[:nodes].filter_map do |node|
-        sponsor = User.find_by(github_username: node[:sponsorEntity][:login])
+        sponsor = User.with_data.find_by(data: { github_username: node[:sponsorEntity][:login] })
         next unless sponsor
 
         {

@@ -161,7 +161,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     user_track = create :user_track
     solution = create :practice_solution, user: user_track.user, track: user_track.track
     create(:iteration, solution:)
-    non_mentor = create :user, became_mentor_at: nil
+    non_mentor = create :user, :not_mentor
     Mentor::Request::Create.(solution, "Please help")
 
     output = SerializeSolutionForCLI.(solution, non_mentor)

@@ -47,11 +47,11 @@ const THEMES: Theme[] = [
     label: 'Light',
     value: 'light',
     background: 'white',
-    iconFilter: 'textColor1',
+    iconFilter: 'textColor1NoDark',
   },
   {
     label: 'System',
-    value: 'unset',
+    value: 'system',
     background:
       'linear-gradient(135deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
     iconFilter: 'gray',

@@ -409,13 +409,13 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .theme-unset {
+    .theme-system {
         @inline .theme-dark;
     }
 }
 
 @media (prefers-color-scheme: light) {
-    .theme-unset {
+    .theme-system {
         @inline .theme-light;
     }
 }

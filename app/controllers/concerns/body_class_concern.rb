@@ -25,7 +25,7 @@ module BodyClassConcern
   end
 
   def theme
-    "theme-unset"
+    "theme-system"
   end
 
   included do

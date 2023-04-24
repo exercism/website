@@ -18,7 +18,7 @@ class User::Data < ApplicationRecord
   def donated? = first_donated_at.present?
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
 
-  DEFAULT_FIELDS = %w[
+  FIELDS = %w[
     bio roles insiders_status
 
     stripe_customer_id discord_uid

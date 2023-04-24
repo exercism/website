@@ -139,7 +139,8 @@ class User < ApplicationRecord
   end
 
   after_create_commit do
-    create_data unless data
+    self.data_record # This is safer than creating for now
+
     create_preferences
     create_communication_preferences
 
@@ -151,6 +152,10 @@ class User < ApplicationRecord
     return build_data if new_record?
 
     User::MigrateToDataRecord.(id)
+
+    # Don't reply on the manually getting the migrated record
+    # Reload properly using Rails
+    reload_data
   end
 
   # If we don't know about this record, maybe the
@@ -161,13 +166,13 @@ class User < ApplicationRecord
     data_record.send(name, *args)
   end
 
-  def respond_to_missing?(name)
+  def respond_to_missing?(name, *_args)
     data_record.respond_to?(name)
   end
 
   # TODO: This is needed until we remove the attributes
   # directly from user, then it can be removed.
-  User::Data::DEFAULT_FIELDS.each do |field|
+  User::Data::FIELDS.each do |field|
     define_method field do
       data_record.send(field)
     end

@@ -183,18 +183,6 @@ class User < ApplicationRecord
     nil
   end
 
-  # TODO: This is needed until we remove the attributes
-  # directly from user, then it can be removed.
-  User::Data::FIELDS.each do |field|
-    define_method field do
-      data.send(field)
-    end
-
-    define_method "#{field}=" do |*args|
-      data.send("#{field}=", *args)
-    end
-  end
-
   def after_confirmation
     User::Notification::CreateEmailOnly.(self, :joined_exercism)
   end

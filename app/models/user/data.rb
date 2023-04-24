@@ -1,5 +1,3 @@
-# Once this is in production and everything is updated
-# we can get rid of the DEFAULT_FIELDS logic
 class User::Data < ApplicationRecord
   include User::Roles
 
@@ -55,22 +53,4 @@ class User::Data < ApplicationRecord
     end
   end
   def cache = super || (self.cache = {})
-
-  FIELDS = %w[
-    bio roles usages insiders_status cache
-
-    github_username
-    stripe_customer_id paypal_payer_id
-    discord_uid
-
-    accepted_privacy_policy_at accepted_terms_at
-    became_mentor_at joined_research_at first_donated_at
-    last_visited_on
-
-    num_solutions_mentored mentor_satisfaction_percentage
-    total_donated_in_cents
-
-    active_donation_subscription show_on_supporters_page
-    email_status
-  ].freeze
 end

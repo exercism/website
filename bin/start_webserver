@@ -25,6 +25,6 @@ FileUtils.chdir APP_ROOT do
   # As EFS files are owned by different users in different places
   # we need to tell libgit to be less stressed about user conflicts.
   Track.pluck(:slug).each do |slug|
-    system("git config --global --add safe.directory /mnt/efs/repos/#{slug}}")
+    system("git config --global --add safe.directory /mnt/efs/repos/#{slug}")
   end
 end

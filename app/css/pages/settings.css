@@ -263,6 +263,13 @@
             @apply text-16 leading-160 font-medium;
         }
     }
+
+    .--selected-theme {
+        @apply outline outline-4 outline-successColor;
+        + label {
+            @apply text-successColor text-15;
+        }
+    }
 }
 #page-settings-donations {
     & .subscription-box {

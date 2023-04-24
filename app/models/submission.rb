@@ -34,6 +34,7 @@ class Submission < ApplicationRecord
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
+  has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
   # TODO: It's important that we enforce rules on these to stop things from
   # going from the success states (passed/failed/errored/generated/completed)

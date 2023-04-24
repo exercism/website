@@ -1,26 +1,25 @@
-class Submission::AI::ChatGPT::TriggerHelpRequest
+class Submission::AI::ChatGPT::RequestHelp
   include Mandate
 
   initialize_with :submission
 
   def call
-    Exercism.config.lines_of_code_counter_url = "foo"
     data = {
-      submission_id: submission.id,
+      submission_uuid: submission.uuid,
       type: :help,
 
       track_title: track.title,
       instructions: formatted_instructions,
       tests: formatted_tests,
       submission: formatted_submission_files
-    }.to_json
+    }
 
     # We want to trigger this then forget about it.
     # We don't care about the result as that gets fired back
     # to the SPI when it's ready.
     Thread.new do
       RestClient.post(
-        Exercism.config.lines_of_code_counter_url,
+        Exercism.config.chatgpt_proxy_url,
         data,
         { content_type: :json, accept: :json }
       )

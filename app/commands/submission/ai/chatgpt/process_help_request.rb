@@ -4,7 +4,12 @@ class Submission::AI::ChatGPT::ProcessHelpRequest
   initialize_with :submission, :chatgpt_response
 
   def call
-    # Write a db record
+    record = submission.ai_help_records.create!(
+      source: "chatgpt",
+      advice_markdown: chatgpt_response
+    )
+
     # Fire a websocket
+    Submission::AIHelpRecordsChannel.broadcast!(record)
   end
 end

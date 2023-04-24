@@ -6,6 +6,7 @@ module SPI
         params[:type].to_sym,
         params[:chatgpt_response]
       )
+      render json: {}
     end
   end
 end

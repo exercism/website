@@ -10,7 +10,7 @@ module API
       return render_submission_not_accessible unless submission.solution.user_id == current_user.id
 
       render json: {
-        text: Submission::AI::ChatGPT::GetHelp.(submission)
+        text: Submission::AI::ChatGPT::RequestHelp.(submission)
       }
     end
   end

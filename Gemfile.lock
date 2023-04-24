@@ -96,7 +96,7 @@ GEM
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-dynamodb (1.83.0)
+    aws-sdk-dynamodb (1.84.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-ecr (1.58.0)
@@ -109,7 +109,7 @@ GEM
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
-    aws-sdk-secretsmanager (1.73.0)
+    aws-sdk-secretsmanager (1.74.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
@@ -167,7 +167,7 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.88.0)
+    exercism-config (0.91.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -236,9 +236,6 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    httparty (0.21.0)
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -437,8 +434,6 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
     ruby-next-core (0.15.3)
-    ruby-openai (3.7.0)
-      httparty (>= 0.18.1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -553,7 +548,7 @@ DEPENDENCIES
   devise (~> 4.7)
   discourse_api
   elasticsearch (= 6.8.3)
-  exercism-config (>= 0.86.0)
+  exercism-config (>= 0.91.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)
@@ -589,7 +584,6 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-performance
   rubocop-rails
-  ruby-openai
   rubyzip (~> 2.3)
   rugged (= 1.4.2)
   selenium-webdriver

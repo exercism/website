@@ -21,4 +21,10 @@ FileUtils.chdir APP_ROOT do
 
   # Finally we get the actual server running
   system! "bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000"
+
+  # As EFS files are owned by different users in different places
+  # we need to tell libgit to be less stressed about user conflicts.
+  Track.pluck(:slug).each do |slug|
+    system("git config --global --add safe.directory /mnt/efs/repos/#{slug}}")
+  end
 end

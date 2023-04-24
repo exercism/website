@@ -141,52 +141,31 @@ class User < ApplicationRecord
     attachable.variant :thumb, resize_to_fill: [200, 200]
   end
 
+  after_initialize do
+    build_data if new_record?
+  end
+
   before_create do
     self.name = self.handle if self.name.blank?
   end
 
   after_create_commit do
-    self.data_record # This is safer than creating for now
-
     create_preferences
     create_communication_preferences
 
     after_confirmation if confirmed?
   end
 
-  def data_record
-    return data if data
-    return build_data if new_record?
-
-    User::MigrateToDataRecord.(id)
-
-    # Don't reply on the manually getting the migrated record
-    # Reload properly using Rails
-    reload_data
-  end
-
   # If we don't know about this record, maybe the
   # user's data record has it instead?
   def method_missing(name, *args)
-    return unless data_record.respond_to?(name)
+    return unless data.respond_to?(name)
 
-    data_record.send(name, *args)
+    data.send(name, *args)
   end
 
   def respond_to_missing?(name, *_args)
-    data_record.respond_to?(name)
-  end
-
-  # TODO: This is needed until we remove the attributes
-  # directly from user, then it can be removed.
-  User::Data::FIELDS.each do |field|
-    define_method field do
-      data_record.send(field)
-    end
-
-    define_method "#{field}=" do |*args|
-      data_record.send("#{field}=", *args)
-    end
+    data.respond_to?(name)
   end
 
   def after_confirmation

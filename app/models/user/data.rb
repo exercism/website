@@ -28,21 +28,4 @@ class User::Data < ApplicationRecord
       '4.0' => us['4.0'] || 0
     }
   end
-
-  FIELDS = %w[
-    bio roles usages insiders_status
-
-    github_username
-    stripe_customer_id paypal_payer_id
-    discord_uid
-
-    accepted_privacy_policy_at accepted_terms_at
-    became_mentor_at joined_research_at first_donated_at
-    last_visited_on
-
-    num_solutions_mentored mentor_satisfaction_percentage
-    total_donated_in_cents
-
-    active_donation_subscription show_on_supporters_page
-  ].freeze
 end

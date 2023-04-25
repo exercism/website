@@ -14,7 +14,7 @@ FileUtils.chdir APP_ROOT do
   # we need to tell libgit to be less stressed about user conflicts.
   # Any instance of "fatal: detected dubious ownership in repository" 
   # means that this hasn't worked properly.
-  system! "ls -1 /mnt/efs/repos | xargs -p -L1 git config --global --add safe.directory"
+  system! "ls -1 -d /mnt/efs/repos/* | xargs -L1 git config --global --add safe.directory"
 
   # Finally we get the actual sidekiq running
   system! "bundle exec sidekiq"

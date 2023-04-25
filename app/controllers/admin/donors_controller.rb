@@ -1,6 +1,4 @@
-class Admin::DonorsController < ApplicationController
-  before_action :ensure_staff!
-
+class Admin::DonorsController < Admin::BaseController
   # GET /admin/donors
   def index
     @donors = User.donor.

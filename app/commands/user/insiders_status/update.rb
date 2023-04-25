@@ -6,8 +6,9 @@ class User::InsidersStatus::Update
   initialize_with :user, :status_before_unset
 
   def call
-    case User::InsidersStatus::DetermineEligibilityStatus.(user)
+    new_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
     user.with_lock do
+      case new_status
       when :eligible_lifetime
         update_eligible_lifetime
       when :eligible

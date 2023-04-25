@@ -8,7 +8,7 @@ class Donations::Paypal::Subscription::HandleUpdated
     subscription = Donations::Subscription.find_by(external_id: resource[:id], provider: :paypal)
     return unless subscription
 
-    total_in_dollars = resource.dig(:plan, :payment_definitions).first.dig(:amount, :value)
+    total_in_dollars = resource.dig(:plan, :payment_definitions).first.dig(:amount, :value).to_f
     amount_in_cents = (total_in_dollars * 100).to_i
     Donations::Subscription::UpdateAmount.(subscription, amount_in_cents)
   end

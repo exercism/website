@@ -3,5 +3,8 @@ class Donations::Subscription::Overdue
 
   initialize_with :subscription
 
-  def call = subscription.update!(status: :overdue)
+  def call
+    subscription.update!(status: :overdue)
+    User::InsidersStatus::TriggerUpdate.(subscription.user)
+  end
 end

@@ -3,5 +3,8 @@ class Donations::Subscription::Activate
 
   initialize_with :subscription
 
-  def call = subscription.update!(status: :active)
+  def call
+    subscription.update!(status: :active)
+    User::InsidersStatus::TriggerUpdate.(subscription.user)
+  end
 end

@@ -157,8 +157,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_064441) do
   create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "subscription_id"
-    t.string "stripe_id", null: false
-    t.string "stripe_receipt_url", null: false
+    t.string "external_id", null: false
+    t.string "external_receipt_url", null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

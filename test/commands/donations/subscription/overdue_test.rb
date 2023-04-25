@@ -1,13 +1,13 @@
 require_relative '../test_base'
 
-class Donations::Subscription::CancelTest < Donations::TestBase
-  test "cancels subscription" do
+class Donations::Subscription::OverdueTest < Donations::TestBase
+  test "marks subscription as overdue" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
     subscription = create :donations_subscription, status: :active, user:, external_id: subscription_id
 
-    Donations::Subscription::Cancel.(subscription)
-    assert subscription.canceled?
+    Donations::Subscription::OverdueTest.(subscription)
+    assert subscription.overdue?
     refute user.active_donation_subscription?
   end
 
@@ -18,6 +18,6 @@ class Donations::Subscription::CancelTest < Donations::TestBase
 
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Donations::Subscription::Cancel.(subscription)
+    Donations::Subscription::OverdueTest.(subscription)
   end
 end

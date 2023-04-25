@@ -7,7 +7,7 @@ class Donations::Subscription::ActivateTest < Donations::TestBase
     subscription = create :donations_subscription, active: false, user:, external_id: subscription_id
 
     Donations::Subscription::Activate.(subscription)
-    assert_equal :active, subscription.status
+    assert subscription.active?
     assert user.active_donation_subscription?
   end
 

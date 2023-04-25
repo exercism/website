@@ -152,7 +152,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                            Donations::Github::Sponsorship::HandleTierChanged.name,
                            user_1,
                            "S_kwHOAFXRv84AASNH",
-                           "public",
                            false,
                            1500
                          ])
@@ -161,7 +160,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                            Donations::Github::Sponsorship::HandleTierChanged.name,
                            user_2,
                            "S_kwHOAFXRv84BBEEF",
-                           "private",
                            false,
                            600
                          ])
@@ -216,9 +214,7 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                            Donations::Github::Sponsorship::HandleCancelled.name,
                            user_2,
                            "S_kwHOAFXRv84BBEEF",
-                           "private",
-                           false,
-                           300
+                           false
                          ])
   end
 end

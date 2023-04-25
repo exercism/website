@@ -46,9 +46,7 @@ class Donations::Github::Sponsorship::SyncAll
       Donations::Github::Sponsorship::HandleCancelled.defer(
         subscription.user,
         subscription.external_id,
-        subscription.user.show_on_supporters_page ? 'public' : 'private',
-        false,
-        subscription.amount_in_cents
+        false
       )
     end
   end

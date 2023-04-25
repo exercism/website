@@ -145,9 +145,17 @@
     --backgroundColorF: var(--c-FAFAFF);
     --backgroundColorG: var(--c-F6F7FB);
     --backgroundColorH: var(--c-130B43);
+    --backgroundColorNotifications: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0) 100%
+        ),
+        linear-gradient(0deg, theme(colors.champagne), theme(colors.champagne));
     /* veryLightBlue */
     --backgroundColorI: #e1ebff;
     --c-prominent-link-bg: #e1ebff;
+
+    --newBadgeIcon: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMjciIHZpZXdCb3g9IjAgMCAzMSAyNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTExIDQuNzMyMDVDMTEuNjE4OCA0LjM3NDc5IDEyLjM4MTIgNC4zNzQ3OSAxMyA0LjczMjA1TDIwLjM5MjMgOUMyMS4wMTExIDkuMzU3MjcgMjEuMzkyMyAxMC4wMTc1IDIxLjM5MjMgMTAuNzMyMVYxOS4yNjc5QzIxLjM5MjMgMTkuOTgyNSAyMS4wMTExIDIwLjY0MjcgMjAuMzkyMyAyMUwxMyAyNS4yNjc5QzEyLjM4MTIgMjUuNjI1MiAxMS42MTg4IDI1LjYyNTIgMTEgMjUuMjY3OUwzLjYwNzcgMjFDMi45ODg4OSAyMC42NDI3IDIuNjA3NyAxOS45ODI1IDIuNjA3NyAxOS4yNjhWMTAuNzMyMUMyLjYwNzcgMTAuMDE3NSAyLjk4ODg5IDkuMzU3MjcgMy42MDc3IDlMMTEgNC43MzIwNVoiIGZpbGw9IndoaXRlIiBzdHJva2U9InVybCgjcGFpbnQwX2xpbmVhcikiIHN0cm9rZS13aWR0aD0iMiIvPgo8Y2lyY2xlIGN4PSIyNCIgY3k9IjciIHI9IjUuNSIgZmlsbD0iI0VCNTc1NyIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSIxMiIgeTE9IjMiIHgyPSIxMiIgeTI9IjI3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMyMjAwRkYiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOUUwMEZGIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg==");
 
     /* used at background linear-gradients */
     --backgroundColorJ: #fbfbff;
@@ -236,6 +244,9 @@
         hue-rotate(355deg) brightness(90%) contrast(96%);
     --link-blue-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
+    --tracks-list-joined-filter: invert(49%) sepia(99%) saturate(6416%)
+        hue-rotate(225deg) brightness(94%) contrast(93%);
+
     --c-prominent-link-icon-filter: invert(49%) sepia(99%) saturate(6416%)
         hue-rotate(225deg) brightness(94%) contrast(93%);
     --white-filter: var(--filter-FFFFFF);
@@ -291,7 +302,8 @@
 .theme-dark {
     color-scheme: dark;
 
-    --backgroundColorA: var(--c-282339);
+    /* --backgroundColorA: var(--c-282339); */
+    --backgroundColorA: #302b42;
     --backgroundColorA-RGB: 40, 35, 57;
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-302B42);
@@ -300,19 +312,24 @@
     --backgroundColorF: var(--c-191525);
     --backgroundColorG: var(--c-2F2943);
     --backgroundColorH: var(--c-F0F3F9);
+    --backgroundColorI: var(--c-191525);
+    --backgroundColorJ: var(--backgroundColorA);
+    --backgroundColorNotifications: theme(colors.eerieBlack);
 
     /* backgroundColorF's colors */
-    --backgroundColorI: var(--c-191525);
     --c-prominent-link-bg: #4a475f;
 
+    --newBadgeIcon: url("icons/new-badge-dark.svg");
+
     /* this is used at tiny gradients - needs a proper dark-theme color */
-    --backgroundColorJ: var(--backgroundColorA);
     --fillColorProgress: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
     --borderColor3: var(--c-8480A0);
     --borderColor5: var(--c-433F56); /* Confirmed */
     --borderColor6: var(--c-433F56);
-    --borderColor7: var(--c-533F56);
-    --textColor1: var(--c-FFFFFF);
+    --borderColor7: #433f56;
+    /* --borderColor7: var(--c-533F56); */
+    --textColor1: #f0f3f9;
+    /* --textColor1: var(--c-FFFFFF); */
     --textColor1-no-dark: var(--c-130B43);
     --textColor2: var(--c-F0F3F9); /* Confirmed */
     /* same as buttonBorderColor1 for now */
@@ -373,8 +390,21 @@
         hue-rotate(354deg) brightness(95%) contrast(104%);
     --another-purple-filter: invert(23%) sepia(90%) saturate(1818%)
         hue-rotate(236deg) brightness(97%) contrast(80%);
-    --textColor1-filter: invert(100%) sepia(0%) saturate(7500%)
-        hue-rotate(242deg) brightness(101%) contrast(100%);
+    --tracks-list-joined-filter: invert(31%) sepia(64%) saturate(1659%)
+        hue-rotate(228deg) brightness(89%) contrast(90%);
+
+    /* white-filter */
+    /* --textColor1-filter: invert(100%) sepia(0%) saturate(7500%)
+        hue-rotate(242deg) brightness(101%) contrast(100%); */
+
+    --notifications-active-filter: invert(40%) sepia(48%) saturate(1566%)
+        hue-rotate(221deg) brightness(99%) contrast(94%);
+    --notifications-inactive-filter: invert(40%) sepia(48%) saturate(1566%)
+        hue-rotate(221deg) brightness(99%) contrast(94%);
+
+    /* aliceBlue-filter */
+    --textColor1-filter: invert(94%) sepia(7%) saturate(129%) hue-rotate(182deg)
+        brightness(102%) contrast(96%);
     --textColor2-filter: invert(93%) sepia(31%) saturate(246%)
         hue-rotate(177deg) brightness(100%) contrast(96%);
     --textColor3-filter: invert(52%) sepia(14%) saturate(586%)

@@ -6,13 +6,7 @@
 
     box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
 
-    background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.5) 0%,
-            rgba(255, 255, 255, 0) 100%
-        ),
-        linear-gradient(0deg, #fff4e3, #fff4e3);
-
+    background: var(--backgroundColorNotifications);
     & .c-icon {
         width: 21px;
         height: 21px;
@@ -21,8 +15,8 @@
 
     & .--count {
         @apply absolute flex items-center justify-center;
-        @apply bg-red text-textColor9 font-semibold rounded-circle;
-
+        @apply text-textColor9 font-semibold rounded-circle;
+        @apply bg-red dark:bg-seafoamGreen;
         top: -7px;
         right: -10px;
         width: 25px;

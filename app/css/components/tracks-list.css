@@ -60,12 +60,12 @@
         & .--state {
             @apply hidden items-center;
             @apply px-20;
-            @apply bg-lightOrange rounded-5;
+            @apply bg-lightOrange dark:bg-launchingYellow rounded-5;
             @apply mr-48;
             height: 48px;
 
             & p {
-                @apply text-16 font-medium text-textColor3;
+                @apply text-16 font-medium text-textColor3 dark:text-midnightBlue;
             }
             & .--reset-btn {
                 @apply ml-24;
@@ -151,15 +151,16 @@
                 & .--joined {
                     @apply flex items-center;
                     @apply flex-shrink-0;
-                    @apply text-14 leading-170 font-semibold text-lightBlue;
-                    @apply bg-veryLightBlue;
+                    @apply text-14 leading-170 font-semibold;
+                    @apply bg-veryLightBlue dark:bg-eerieBlack;
+                    @apply text-lightBlue dark:text-purple;
                     @apply ml-auto;
                     @apply py-4 px-12 rounded-5;
                     height: 32px;
                     & .c-icon {
                         height: 12px;
                         width: 12px;
-                        filter: var(--link-blue-filter);
+                        filter: var(--tracks-list-joined-filter);
                     }
                 }
             }

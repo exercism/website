@@ -167,6 +167,7 @@ module.exports = {
       evenLighterBlue: '#ECF2FF',
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
+      eerieBlack: '#191525',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',
@@ -179,12 +180,16 @@ module.exports = {
       lightPurpleDarkened: '#f2f0fc',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
+      // textColor1
+      midnightBlue: '#130B43',
       lightPurple: '#FAFAFF',
       purpleForever: '#5042AD',
+      vividPurple: '#7029F5',
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
       purpleHover: '#F2F0FC',
 
+      champagne: '#fff4e3',
       yellowPrompt: '#FFD38F',
       launchingYellow: '#F7B000',
       greenPrompt: '#59D2AE',
@@ -201,6 +206,7 @@ module.exports = {
       veryLightGreen2: '#E7FDF6',
       limeGreen: '#1FA378',
       healthyGreen: '#00B500',
+      seafoamGreen: '#59D2AE',
 
       tooManyGreens: '#59D2AE',
       literallySoManyGreens: '#4FCDA7',
@@ -290,6 +296,7 @@ module.exports = {
       48: '48px',
       100: '100%',
     },
+
     lineHeight: {
       none: '1',
       tight: '125%',

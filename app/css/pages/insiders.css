@@ -25,7 +25,7 @@
     }
 
     .launching {
-        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 mr-auto inline-block mb-24 text-textColor1;
+        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 mr-auto inline-block mb-24 text-midnightBlue;
     }
 
     .features {

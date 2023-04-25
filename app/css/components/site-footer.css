@@ -23,7 +23,7 @@ body.namespace-.controller-insiders {
 #site-footer {
     /* Show this through JS to avoid CLS */
     display: none;
-    background: #130b43;
+    @apply bg-midnightBlue dark:bg-eerieBlack;
 
     margin-top: 100px;
     @screen lg {

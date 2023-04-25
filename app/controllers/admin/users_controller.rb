@@ -1,6 +1,4 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :ensure_staff!
-
   # GET /admin/users
   def index; end
 

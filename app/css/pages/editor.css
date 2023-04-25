@@ -267,11 +267,11 @@
                 & button {
                     @apply ml-20;
                 }
-                & .run-tests-btn {
+                /* & .run-tests-btn {
                     & button {
                         @apply ml-0;
                     }
-                }
+                } */
             }
         }
         & .--split-rhs {

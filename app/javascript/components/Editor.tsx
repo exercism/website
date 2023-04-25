@@ -43,6 +43,8 @@ import {
   FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
+import { AskChatGptButton } from './editor/ChatGptFeedback/AskChatGptButton'
+import { ChatGptFeedbackModal } from './editor/ChatGptFeedback/ChatGptModal'
 
 type TabIndex = 'instructions' | 'tests' | 'results'
 
@@ -97,6 +99,7 @@ export default ({
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
+  const [chatGptModalOpen, setChatGptModalOpen] = useState(false)
   const {
     create: createSubmission,
     current: submission,
@@ -370,6 +373,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
+                  <AskChatGptButton onClick={() => setChatGptModalOpen(true)} />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -436,6 +440,14 @@ export default ({
               </TasksContext.Provider>
             }
           />
+
+          {submission && chatGptModalOpen && (
+            <ChatGptFeedbackModal
+              open={chatGptModalOpen}
+              onClose={() => setChatGptModalOpen(false)}
+              submission={submission}
+            />
+          )}
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

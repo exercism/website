@@ -9,7 +9,7 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
     user = create(:user, github_username:)
 
     Donations::Github::Sponsorship::HandleCancelled.expects(:call).
-      with(user, node_id, is_one_time, monthly_price_in_cents).
+      with(user, node_id, is_one_time).
       once
 
     ProcessGithubSponsorUpdateJob.perform_now(

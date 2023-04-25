@@ -19,6 +19,8 @@
       .text-h6.mb-8 Last Visited On: #{@user.last_visited_on}
       .text-h6.mb-8 Total Donated (in cents): #{@user.total_donated_in_cents}
       .text-h6.mb-8 Active Donation Subscription: #{@user.active_donation_subscription}
+      - if @user.disabled?
+        .text-h6.mb-8.text-danger Disabled At: #{@user.disabled_at}
     - elsif @searched
       .mb-12.text-p-base.font-bold.text-danger Could not find user
 

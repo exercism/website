@@ -17,7 +17,6 @@ class Donations::Github::Sponsorship::SyncAll
       Donations::Github::Sponsorship::HandleCreated.defer(
         github_sponsorship[:sponsor],
         github_sponsorship[:id],
-        github_sponsorship[:privacy_level],
         github_sponsorship[:is_one_time_payment],
         github_sponsorship[:monthly_price_in_cents]
       )
@@ -33,7 +32,6 @@ class Donations::Github::Sponsorship::SyncAll
       Donations::Github::Sponsorship::HandleTierChanged.defer(
         subscription.user,
         subscription.external_id,
-        github_sponsorship[:privacy_level],
         github_sponsorship[:is_one_time_payment],
         github_sponsorship[:monthly_price_in_cents]
       )
@@ -48,9 +46,7 @@ class Donations::Github::Sponsorship::SyncAll
       Donations::Github::Sponsorship::HandleCancelled.defer(
         subscription.user,
         subscription.external_id,
-        subscription.user.show_on_supporters_page ? 'public' : 'private',
-        false,
-        subscription.amount_in_cents
+        false
       )
     end
   end
@@ -64,7 +60,6 @@ class Donations::Github::Sponsorship::SyncAll
 
         {
           id: node[:id],
-          privacy_level: node[:privacyLevel].downcase,
           is_one_time_payment: node[:isOneTimePayment],
           monthly_price_in_cents: node[:tier][:monthlyPriceInCents],
           sponsor:
@@ -106,7 +101,6 @@ class Donations::Github::Sponsorship::SyncAll
               }
             }
             id
-            privacyLevel
             isOneTimePayment
             tier {
               monthlyPriceInCents

@@ -7,7 +7,7 @@ class Donations::Github::Sponsorship::HandleCancelledTest < Donations::TestBase
     user = create :user, active_donation_subscription: true
     subscription = create :donations_subscription, user:, external_id: sponsorship_node_id, provider: :github
 
-    Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, 'public', is_one_time, 300)
+    Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, is_one_time)
 
     assert_equal :canceled, subscription.status
     refute user.active_donation_subscription?
@@ -19,7 +19,7 @@ class Donations::Github::Sponsorship::HandleCancelledTest < Donations::TestBase
     user = create :user, active_donation_subscription: true
 
     assert_raises do
-      Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, 'public', is_one_time, 300)
+      Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, is_one_time)
     end
   end
 
@@ -28,7 +28,7 @@ class Donations::Github::Sponsorship::HandleCancelledTest < Donations::TestBase
     is_one_time = true
     user = create :user, active_donation_subscription: true
 
-    Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, 'public', is_one_time, 300)
+    Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, is_one_time)
 
     assert user.active_donation_subscription?
   end

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   # Admin #
   # ##### #
   namespace :admin do
+    root to: "dashboard#show"
     resources :community_videos
     resources :mailshots do
       member do
@@ -63,6 +64,11 @@ Rails.application.routes.draw do
     end
     resources :streaming_events
     resources :donors, only: %i[index new create]
+    resources :users, only: %i[index] do
+      collection do
+        get :search
+      end
+    end
   end
 
   # ############ #

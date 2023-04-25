@@ -9,7 +9,7 @@ class Donations::Github::Sponsorship::HandleTierChangedTest < Donations::TestBas
     subscription = create :donations_subscription, user:, provider: :github,
       external_id: sponsorship_node_id, amount_in_cents: 500
 
-    Donations::Github::Sponsorship::HandleTierChanged.(user, sponsorship_node_id, 'public', is_one_time, amount)
+    Donations::Github::Sponsorship::HandleTierChanged.(user, sponsorship_node_id, is_one_time, amount)
 
     assert_equal amount, subscription.reload.amount_in_cents
   end
@@ -22,7 +22,7 @@ class Donations::Github::Sponsorship::HandleTierChangedTest < Donations::TestBas
     subscription = create :donations_subscription, user:, provider: :github,
       external_id: sponsorship_node_id, amount_in_cents: 500
 
-    Donations::Github::Sponsorship::HandleTierChanged.(user, sponsorship_node_id, 'public', is_one_time, amount)
+    Donations::Github::Sponsorship::HandleTierChanged.(user, sponsorship_node_id, is_one_time, amount)
 
     assert_equal 500, subscription.reload.amount_in_cents
   end

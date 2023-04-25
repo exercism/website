@@ -8,7 +8,6 @@ module Webhooks
         request.request_parameters[:action],
         params[:sponsorship][:sponsor][:login],
         params[:sponsorship][:node_id],
-        params[:sponsorship][:privacy_level],
         params[:sponsorship][:tier][:is_one_time],
         params[:sponsorship][:tier][:monthly_price_in_cents]
       )

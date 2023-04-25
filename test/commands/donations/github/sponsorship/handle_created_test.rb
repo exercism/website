@@ -7,7 +7,7 @@ class Donations::Github::Sponsorship::HandleCreatedTest < Donations::TestBase
     amount = 300
     user = create :user, active_donation_subscription: true
 
-    Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, 'public', is_one_time, amount)
+    Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
     assert_equal 1, user.donation_subscriptions.count
     subscription = user.donation_subscriptions.last
@@ -27,7 +27,7 @@ class Donations::Github::Sponsorship::HandleCreatedTest < Donations::TestBase
       amount = 300
       user = create :user, active_donation_subscription: false
 
-      Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, 'public', is_one_time, amount)
+      Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
       assert user.donation_subscriptions.exists?
       assert user.active_donation_subscription?
@@ -52,7 +52,7 @@ class Donations::Github::Sponsorship::HandleCreatedTest < Donations::TestBase
     is_one_time = true
     user = create :user, active_donation_subscription: false
 
-    Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, 'public', is_one_time, 300)
+    Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, 300)
 
     refute user.donation_subscriptions.exists?
     refute user.active_donation_subscription?
@@ -65,7 +65,7 @@ class Donations::Github::Sponsorship::HandleCreatedTest < Donations::TestBase
       amount = 300
       user = create :user, active_donation_subscription: false
 
-      Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, 'public', is_one_time, amount)
+      Donations::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
       refute user.donation_subscriptions.exists?
       refute user.active_donation_subscription?

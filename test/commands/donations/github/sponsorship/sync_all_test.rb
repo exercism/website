@@ -15,7 +15,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                   login: "user_1"
                 },
                 id: "S_kwHOAFXRv84AASNH",
-                privacyLevel: "PUBLIC",
                 isOneTimePayment: false,
                 tier: {
                   monthlyPriceInCents: 500
@@ -45,7 +44,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                   login: "user_2"
                 },
                 id: "S_kwHOAFXRv84BBEEF",
-                privacyLevel: "PRIVATE",
                 isOneTimePayment: true,
                 tier: {
                   monthlyPriceInCents: 300
@@ -80,7 +78,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                            Donations::Github::Sponsorship::HandleCreated.name,
                            user_1,
                            "S_kwHOAFXRv84AASNH",
-                           "public",
                            false,
                            500
                          ])
@@ -89,7 +86,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                            Donations::Github::Sponsorship::HandleCreated.name,
                            user_2,
                            "S_kwHOAFXRv84BBEEF",
-                           "private",
                            true,
                            300
                          ])
@@ -116,7 +112,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                   login: "user_1"
                 },
                 id: "S_kwHOAFXRv84AASNH",
-                privacyLevel: "PUBLIC",
                 isOneTimePayment: false,
                 tier: {
                   monthlyPriceInCents: 1500
@@ -127,7 +122,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                   login: "user_2"
                 },
                 id: "S_kwHOAFXRv84BBEEF",
-                privacyLevel: "PRIVATE",
                 isOneTimePayment: false,
                 tier: {
                   monthlyPriceInCents: 600
@@ -192,7 +186,6 @@ class Donations::Github::Sponsorship::SyncAllTest < Donations::TestBase
                   login: "user_1"
                 },
                 id: "S_kwHOAFXRv84AASNH",
-                privacyLevel: "PUBLIC",
                 isOneTimePayment: false,
                 tier: {
                   monthlyPriceInCents: 500

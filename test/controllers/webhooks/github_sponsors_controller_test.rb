@@ -25,7 +25,6 @@ class Webhooks::GithubSponsorsControllerTest < Webhooks::BaseTestCase
       action: 'created',
       sponsorship: {
         node_id: 'ab1234',
-        privacy_level: 'public',
         sponsor: {
           login: 'user22'
         },
@@ -37,7 +36,7 @@ class Webhooks::GithubSponsorsControllerTest < Webhooks::BaseTestCase
     }
 
     ProcessGithubSponsorUpdateJob.expects(:perform_later).
-      with('created', 'user22', 'ab1234', 'public', true, 300)
+      with('created', 'user22', 'ab1234', true, 300)
 
     post webhooks_github_sponsors_path, headers: headers(payload), as: :json, params: payload
     assert_response :no_content

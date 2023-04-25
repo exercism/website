@@ -1,4 +1,4 @@
-class Admin::DonorsController < ApplicationController
+class Admin::DonorsController < Admin::BaseController
   before_action :ensure_staff!
 
   # GET /admin/donors

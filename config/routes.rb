@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   # Admin #
   # ##### #
   namespace :admin do
-    root to: "admin#index"
+    root to: "dashboard#show"
     resources :community_videos
     resources :mailshots do
       member do

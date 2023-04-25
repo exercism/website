@@ -10,9 +10,9 @@ module Webhooks
       )
 
       head :ok
-    rescue Webhooks::Paypal::VerifySignature::SignatureVerificationErrors => e
+    rescue Webhooks::Paypal::VerifySignature::SignatureVerificationError => e
       Bugsnag.notify(e)
-      head :bad_request
+      head :forbidden
     end
   end
 end

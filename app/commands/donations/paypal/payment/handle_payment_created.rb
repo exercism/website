@@ -10,9 +10,9 @@ class Donations::Paypal::Payment::HandlePaymentCreated
     return unless user
 
     subscription_id = resource[:billing_agreement_id]
-    amount = resource[:transactions].first.dig(:amount, :total)
+    amount = resource[:transactions].first.dig(:amount, :total).to_f
 
-    subscription = Donations::Stripe::Subscription::Create.(user, subscription_id, amount) if subscription_id
+    subscription = Donations::Paypal::Subscription::Create.(user, subscription_id, amount) if subscription_id
     Donations::Paypal::Payment::Create.(user, resource[:id], amount, subscription:)
   end
 end

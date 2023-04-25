@@ -2,23 +2,16 @@ require_relative './base_test_case'
 
 class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
   test "create should return 403 when signature is invalid" do
-    skip
-    # TODO: enable once signature validation was added
     payload = {
-      action: 'created',
-      sponsorship: {
-        sponsor: {
-          login: 'user22'
-        }
+      event_type: "BILLING.SUBSCRIPTION.ACTIVATED",
+      resource: {
+        quantity: "20"
       }
     }
 
-    invalid_headers = headers(payload)
-    invalid_headers['HTTP_X_HUB_SIGNATURE_256'] = "invalid_signature"
+    Webhooks::Paypal::VerifySignature.expects(:call).raises(Webhooks::Paypal::VerifySignature::SignatureVerificationError)
 
-    ProcessGithubSponsorUpdateJob.expects(:perform_later).never
-
-    post webhooks_paypal_path, headers: invalid_headers, as: :json, params: payload
+    post webhooks_paypal_path, as: :json, params: payload
     assert_response :forbidden
   end
 
@@ -29,6 +22,8 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
         quantity: "20"
       }
     }
+
+    Webhooks::Paypal::VerifySignature.stubs(:call)
 
     Webhooks::ProcessPaypalUpdate.expects(:call).with(
       "BILLING.SUBSCRIPTION.ACTIVATED",

@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
     @num_user_tracks = current_user.user_tracks.count
     @featured_badges = current_user.revealed_badges.order('id desc').limit(4)
     @num_badges = current_user.revealed_badges.count
-    @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10)
+    @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10).includes(:author)
     @blog_posts = BlogPost.published.ordered_by_recency.limit(3).includes(:author)
 
     @live_event = StreamingEvent.live.first

@@ -6,7 +6,7 @@ class Donations::Subscription::OverdueTest < Donations::TestBase
     user = create :user, active_donation_subscription: true
     subscription = create :donations_subscription, status: :active, user:, external_id: subscription_id
 
-    Donations::Subscription::OverdueTest.(subscription)
+    Donations::Subscription::Overdue.(subscription)
     assert subscription.overdue?
     refute user.active_donation_subscription?
   end
@@ -18,6 +18,6 @@ class Donations::Subscription::OverdueTest < Donations::TestBase
 
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Donations::Subscription::OverdueTest.(subscription)
+    Donations::Subscription::Overdue.(subscription)
   end
 end

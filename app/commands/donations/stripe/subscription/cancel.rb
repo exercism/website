@@ -15,6 +15,6 @@ class Donations::Stripe::Subscription::Cancel
       raise if data.status == 'active'
     end
 
-    Donations::Subscription::Deactivate.(subscription)
+    Donations::Subscription::Cancel.(subscription)
   end
 end

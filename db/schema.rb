@@ -1195,6 +1195,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
     t.datetime "first_donated_at"
     t.string "discord_uid"
     t.integer "insiders_status", limit: 1, default: 0, null: false
+    t.string "paypal_payer_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
@@ -1204,6 +1205,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["insiders_status"], name: "index_users_on_insiders_status"
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
+    t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true

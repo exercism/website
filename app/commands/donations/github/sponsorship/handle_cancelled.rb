@@ -11,6 +11,6 @@ class Donations::Github::Sponsorship::HandleCancelled
     subscription = user.donation_subscriptions.find_by(external_id: node_id, provider: :github)
     raise unless subscription
 
-    Donations::Subscription::Deactivate.(subscription)
+    Donations::Subscription::Cancel.(subscription)
   end
 end

@@ -4,14 +4,19 @@ import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
 import { Submission } from '../types'
 import { sendRequest } from '@/utils'
 
-type HelpRecord = {
+export type HelpRecord = {
   source: string
   advice_html: string
 }
 
+export type FetchingStatus = 'unfetched' | 'fetching' | 'received'
+
 export type useChatGptFeedbackProps = {
   helpRecord: HelpRecord | undefined | null
+  unfetched: boolean
   mutation: MutateFunction<void, unknown, undefined, unknown>
+  setStatus: React.Dispatch<React.SetStateAction<FetchingStatus>>
+  status: FetchingStatus
 }
 
 type Response = {
@@ -22,9 +27,10 @@ export function useChatGptFeedback({
 }: {
   submission: Submission
 }): useChatGptFeedbackProps {
-  const [helpRecord, setHelpRecord] = useState<HelpRecord | null | undefined>(
+  const [helpRecord, setHelpRecord] = useState<HelpRecord | undefined>(
     undefined
   )
+  const [status, setStatus] = useState<FetchingStatus>('unfetched')
 
   const [mutation] = useMutation<void>(async () => {
     const { fetch } = sendRequest({
@@ -33,7 +39,7 @@ export function useChatGptFeedback({
       body: null,
     })
 
-    return fetch.then(() => setHelpRecord(null))
+    return fetch.then(() => setStatus('fetching'))
   })
 
   useEffect(() => {
@@ -41,6 +47,7 @@ export function useChatGptFeedback({
       submission.uuid,
       (response: Response) => {
         setHelpRecord(response.help_record)
+        setStatus('received')
       }
     )
 
@@ -49,5 +56,11 @@ export function useChatGptFeedback({
     }
   }, [mutation, submission.uuid])
 
-  return { helpRecord, mutation }
+  return {
+    helpRecord,
+    mutation,
+    unfetched: helpRecord === undefined,
+    status,
+    setStatus,
+  }
 }

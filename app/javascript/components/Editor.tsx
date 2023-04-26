@@ -44,9 +44,11 @@ import {
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
 import { AskChatGptButton } from './editor/ChatGptFeedback/AskChatGptButton'
-import { ChatGptFeedbackModal } from './editor/ChatGptFeedback/ChatGptModal'
+import { useChatGptFeedback } from './editor/ChatGptFeedback/useChatGptFeedback'
+import { ChatGptTab } from './editor/ChatGptTab'
+import { ChatGptPanel } from './editor/ChatGptPanel/ChatGptPanel'
 
-type TabIndex = 'instructions' | 'tests' | 'results'
+type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -99,7 +101,6 @@ export default ({
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
-  const [chatGptModalOpen, setChatGptModalOpen] = useState(false)
   const {
     create: createSubmission,
     current: submission,
@@ -321,6 +322,25 @@ export default ({
 
   useEditorFocus({ editor: editorRef.current, isProcessing })
 
+  // pokeChatGpt will be triggerable only after submission is present
+  const {
+    mutation: pokeChatGpt,
+    status: ChatGptFetchingStatus,
+    helpRecord,
+    setStatus: setChatGptFetchingStatus,
+  } =
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    useChatGptFeedback({ submission: submission! })
+
+  const invokeChatGpt = useCallback(() => {
+    const status = ChatGptFetchingStatus
+    setTab('chatgpt')
+    if (status === 'unfetched') {
+      pokeChatGpt()
+      setChatGptFetchingStatus('fetching')
+    }
+  }, [ChatGptFetchingStatus, pokeChatGpt, setChatGptFetchingStatus])
+
   return (
     <FeaturesContext.Provider value={features}>
       <TabsContext.Provider
@@ -373,7 +393,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <AskChatGptButton onClick={() => setChatGptModalOpen(true)} />
+                  {submission && <AskChatGptButton onClick={invokeChatGpt} />}
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -404,6 +424,9 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
+                  {submission && ChatGptFetchingStatus !== 'unfetched' ? (
+                    <ChatGptTab />
+                  ) : null}
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -437,17 +460,17 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
+                {submission && (
+                  <ChatGptPanel
+                    helpRecord={helpRecord}
+                    mutation={pokeChatGpt}
+                    status={ChatGptFetchingStatus}
+                    submission={submission}
+                  />
+                )}
               </TasksContext.Provider>
             }
           />
-
-          {submission && (
-            <ChatGptFeedbackModal
-              open={chatGptModalOpen}
-              onClose={() => setChatGptModalOpen(false)}
-              submission={submission}
-            />
-          )}
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

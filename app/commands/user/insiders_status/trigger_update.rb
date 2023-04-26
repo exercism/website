@@ -9,7 +9,7 @@ class User::InsidersStatus::TriggerUpdate
       return if user.insiders_status_eligible_lifetime?
 
       user.update(insiders_status: :unset) if user.insiders_status_ineligible?
-      User::InsidersStatus::Update.defer(user)
     end
+    User::InsidersStatus::Update.defer(user)
   end
 end

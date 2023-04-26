@@ -24,17 +24,17 @@ class User::InsidersStatus::Update
       end
     end
 
-    User::Notification::Create.(user, @notification_key) if @notification_key
+    User::Notification::Create.(user, @notification_key) if @notification_key && FeatureFlag::INSIDERS
   end
 
   private
   def update_eligible_lifetime
     case user.insiders_status
     when :active
-      @notification_key = :joined_lifetime_insiders if FeatureFlag::INSIDERS
+      @notification_key = :joined_lifetime_insiders
       user.update(insiders_status: :active_lifetime)
     else
-      @notification_key = :join_lifetime_insiders if FeatureFlag::INSIDERS
+      @notification_key = :join_lifetime_insiders
       user.update(insiders_status: :eligible_lifetime)
     end
   end
@@ -42,12 +42,12 @@ class User::InsidersStatus::Update
   def update_eligible
     return if user.insiders_status_active?
 
-    @notification_key = :join_insiders if FeatureFlag::INSIDERS
+    @notification_key = :join_insiders
     user.update(insiders_status: :eligible)
   end
 
   def update_ineligible
-    @notification_key = :expired_insiders if FeatureFlag::INSIDERS && user.insiders_status_active?
+    @notification_key = :expired_insiders if user.insiders_status_active?
     user.update(insiders_status: :ineligible)
   end
 end

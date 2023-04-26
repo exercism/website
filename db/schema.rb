@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_26_220830) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -766,6 +766,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
     t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
+    t.index ["exercise_id", "status", "num_stars"], name: "solutions_ex_stat_stars", order: { status: :desc, num_stars: :desc }
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
@@ -786,6 +787,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["starts_at", "ends_at"], name: "index_streaming_events_on_starts_at_and_ends_at"
+  end
+
+  create_table "submission_ai_help_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.string "source", null: false
+    t.text "advice_markdown", null: false
+    t.text "advice_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_id"], name: "fk_rails_76b9473637"
   end
 
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1207,6 +1218,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
     t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["reputation"], name: "index_users_on_reputation"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
@@ -1291,6 +1303,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
+  add_foreign_key "submission_ai_help_records", "submissions"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"

@@ -43,10 +43,7 @@ import {
   FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
-import { AskChatGptButton } from './editor/ChatGptFeedback/AskChatGptButton'
-import { useChatGptFeedback } from './editor/ChatGptFeedback/useChatGptFeedback'
-import { ChatGptTab } from './editor/ChatGptTab'
-import { ChatGptPanel } from './editor/ChatGptPanel/ChatGptPanel'
+import * as ChatGPT from './editor/ChatGptFeedback'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
@@ -79,6 +76,7 @@ export const TasksContext = createContext<TaskContext>({
 export default ({
   timeout = 60000,
   defaultSubmissions,
+  insidersStatus,
   defaultFiles,
   defaultSettings,
   autosave,
@@ -128,6 +126,7 @@ export default ({
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
   const cache = useQueryCache()
+  const isInsider = ['active', 'active_lifetime'].includes(insidersStatus)
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -322,24 +321,34 @@ export default ({
 
   useEditorFocus({ editor: editorRef.current, isProcessing })
 
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
   // pokeChatGpt will be triggerable only after submission is present
   const {
     mutation: pokeChatGpt,
-    status: ChatGptFetchingStatus,
+    status: chatGptFetchingStatus,
     helpRecord,
     setStatus: setChatGptFetchingStatus,
-  } =
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    useChatGptFeedback({ submission: submission! })
+    setSubmissionUuid,
+    submissionUuid,
+  } = ChatGPT.Hook({ submission: submission! })
 
   const invokeChatGpt = useCallback(() => {
-    const status = ChatGptFetchingStatus
+    const status = chatGptFetchingStatus
     setTab('chatgpt')
-    if (status === 'unfetched') {
+    if (status === 'unfetched' || submissionUuid !== submission!.uuid) {
       pokeChatGpt()
       setChatGptFetchingStatus('fetching')
+      setSubmissionUuid(submission!.uuid)
     }
-  }, [ChatGptFetchingStatus, pokeChatGpt, setChatGptFetchingStatus])
+  }, [
+    chatGptFetchingStatus,
+    pokeChatGpt,
+    setChatGptFetchingStatus,
+    setSubmissionUuid,
+    submission,
+    submissionUuid,
+  ])
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
     <FeaturesContext.Provider value={features}>
@@ -393,7 +402,14 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  {submission && <AskChatGptButton onClick={invokeChatGpt} />}
+                  {isInsider && submission && (
+                    <ChatGPT.Button
+                      sameSubmission={submission.uuid === submissionUuid}
+                      isProcessing={isProcessing}
+                      chatGptFetchingStatus={chatGptFetchingStatus}
+                      onClick={invokeChatGpt}
+                    />
+                  )}
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -424,8 +440,10 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  {submission && ChatGptFetchingStatus !== 'unfetched' ? (
-                    <ChatGptTab />
+                  {isInsider &&
+                  submission &&
+                  chatGptFetchingStatus !== 'unfetched' ? (
+                    <ChatGPT.Tab />
                   ) : null}
                 </div>
                 <InstructionsPanel {...panels.instructions} />
@@ -460,11 +478,10 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {submission && (
-                  <ChatGptPanel
+                {submission && isInsider && (
+                  <ChatGPT.Panel
                     helpRecord={helpRecord}
-                    mutation={pokeChatGpt}
-                    status={ChatGptFetchingStatus}
+                    status={chatGptFetchingStatus}
                     submission={submission}
                   />
                 )}

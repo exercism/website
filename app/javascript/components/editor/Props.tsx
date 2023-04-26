@@ -67,6 +67,7 @@ type EditorPanels = {
 
 export type Props = {
   timeout?: number
+  insidersStatus: string
   defaultSubmissions: Submission[]
   defaultFiles: File[]
   defaultSettings: Partial<EditorSettings>

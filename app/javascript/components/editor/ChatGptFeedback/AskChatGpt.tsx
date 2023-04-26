@@ -1,34 +1,21 @@
-import { GraphicalIcon } from '@/components/common'
 import React from 'react'
-import { AskChatGptButton } from '../ChatGptFeedback/AskChatGptButton'
-import {
-  useChatGptFeedbackProps,
-  HelpRecord,
-} from '../ChatGptFeedback/useChatGptFeedback'
+import { GraphicalIcon } from '@/components/common'
+import type { useChatGptFeedbackProps, HelpRecord } from './useChatGptFeedback'
 
 export function AskChatGpt({
   helpRecord,
-  mutation,
   status,
-}: Pick<
-  useChatGptFeedbackProps,
-  'helpRecord' | 'mutation' | 'status'
->): JSX.Element {
+}: Pick<useChatGptFeedbackProps, 'helpRecord' | 'status'>): JSX.Element {
   switch (status) {
-    // this case is deprecated in this setup
-    case 'unfetched':
-      return (
-        <div>
-          <AskChatGptButton onClick={() => mutation()} />
-        </div>
-      )
-    case 'fetching':
+    case 'fetching': {
       return <AskingChatGpt />
-    case 'received':
-      if (helpRecord) {
-        return <ChatGptResponse helpRecord={helpRecord} />
-        //TODO: at this point we will never reach this, and if there is an error it will be stuck in loading forever
-      } else return <div>Couldn&apos;t receive feedback</div>
+    }
+    case 'received': {
+      return <ChatGptResponse helpRecord={helpRecord!} />
+    }
+    default: {
+      return <div>Couldn&apos;t receive feedback</div>
+    }
   }
 }
 

@@ -17,6 +17,8 @@ export type useChatGptFeedbackProps = {
   mutation: MutateFunction<void, unknown, undefined, unknown>
   setStatus: React.Dispatch<React.SetStateAction<FetchingStatus>>
   status: FetchingStatus
+  submissionUuid: string
+  setSubmissionUuid: React.Dispatch<React.SetStateAction<string>>
 }
 
 type Response = {
@@ -31,7 +33,7 @@ export function useChatGptFeedback({
     undefined
   )
   const [status, setStatus] = useState<FetchingStatus>('unfetched')
-
+  const [submissionUuid, setSubmissionUuid] = useState('')
   const [mutation] = useMutation<void>(async () => {
     const { fetch } = sendRequest({
       endpoint: submission.links.aiHelp,
@@ -63,5 +65,7 @@ export function useChatGptFeedback({
     unfetched: helpRecord === undefined,
     status,
     setStatus,
+    submissionUuid,
+    setSubmissionUuid,
   }
 }

@@ -5,8 +5,8 @@ class User::InsidersStatus::TriggerUpdate
 
   def call
     user.with_lock do
-      return if user.insiders_status_active?
       return if user.insiders_status_active_lifetime?
+      return if user.insiders_status_eligible_lifetime?
 
       user.update(insiders_status: :unset) if user.insiders_status_ineligible?
       User::InsidersStatus::Update.defer(user)

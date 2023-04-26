@@ -1205,6 +1205,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_072401) do
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["insiders_status"], name: "index_users_on_insiders_status"
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
+    t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true

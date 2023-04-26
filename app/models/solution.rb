@@ -42,6 +42,9 @@ class Solution < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
 
+  scope :published, -> { where(status: :published) }
+  scope :not_published, -> { where.not(status: :published) }
+
   delegate :files_for_editor, to: :exercise, prefix: :exercise
 
   before_create do

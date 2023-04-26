@@ -10,6 +10,6 @@ class SolutionChannel < ApplicationCable::Channel
   def self.broadcast!(solution)
     broadcast_to solution,
       solution: SerializeSolution.(solution),
-      iterations: SerializeIteration.(solution.iteration, sideload: [:automated_feedback])
+      iterations: SerializeIterations.(solution.iterations, sideload: [:automated_feedback])
   end
 end

@@ -5,6 +5,6 @@ class Donations::Subscription::Overdue
 
   def call
     subscription.update!(status: :overdue)
-    User::InsidersStatus::TriggerUpdate.(subscription.user)
+    User::UpdateActiveDonationSubscription.(subscription.user)
   end
 end

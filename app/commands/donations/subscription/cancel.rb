@@ -5,6 +5,6 @@ class Donations::Subscription::Cancel
 
   def call
     subscription.update!(status: :canceled)
-    User::InsidersStatus::TriggerUpdate.(subscription.user)
+    User::UpdateActiveDonationSubscription.(subscription.user)
   end
 end

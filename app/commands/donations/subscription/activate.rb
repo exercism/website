@@ -5,6 +5,6 @@ class Donations::Subscription::Activate
 
   def call
     subscription.update!(status: :active)
-    User::InsidersStatus::TriggerUpdate.(subscription.user)
+    User::UpdateActiveDonationSubscription.(subscription.user)
   end
 end

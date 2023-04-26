@@ -9,8 +9,8 @@ class Donations::Github::Sponsorship::HandleCancelledTest < Donations::TestBase
 
     Donations::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, is_one_time)
 
-    assert_equal :canceled, subscription.status
-    refute user.active_donation_subscription?
+    assert_equal :canceled, subscription.reload.status
+    refute user.reload.active_donation_subscription?
   end
 
   test "raises if subscription could not be found" do

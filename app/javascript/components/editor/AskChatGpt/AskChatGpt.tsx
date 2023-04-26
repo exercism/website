@@ -15,6 +15,7 @@ export function AskChatGpt({
   'helpRecord' | 'mutation' | 'status'
 >): JSX.Element {
   switch (status) {
+    // this case is deprecated in this setup
     case 'unfetched':
       return (
         <div>
@@ -26,6 +27,7 @@ export function AskChatGpt({
     case 'received':
       if (helpRecord) {
         return <ChatGptResponse helpRecord={helpRecord} />
+        //TODO: at this point we will never reach this, and if there is an error it will be stuck in loading forever
       } else return <div>Couldn&apos;t receive feedback</div>
   }
 }

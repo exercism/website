@@ -39,6 +39,7 @@ export function useChatGptFeedback({
       body: null,
     })
 
+    // TODO catch errors
     return fetch.then(() => setStatus('fetching'))
   })
 

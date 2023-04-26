@@ -20,9 +20,9 @@ class Webhooks::Paypal::RequestAccessToken
   private
   memoize
   def http
-    http = Net::HTTP.new(OAUTH2_TOKEN_URI.host, OAUTH2_TOKEN_URI.port)
-    http.use_ssl = true
-    http
+    Net::HTTP.new(OAUTH2_TOKEN_URI.host, OAUTH2_TOKEN_URI.port).tap do |http|
+      http.use_ssl = true
+    end
   end
 
   def request

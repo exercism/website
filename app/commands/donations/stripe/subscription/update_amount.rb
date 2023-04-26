@@ -24,6 +24,6 @@ class Donations::Stripe::Subscription::UpdateAmount
       proration_behavior: 'none'
     )
 
-    Donations::Subscription::UpdateAmount.(subscription, amount_in_cents:)
+    Donations::Subscription::UpdateAmount.(subscription, amount_in_cents)
   end
 end

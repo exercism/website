@@ -29,7 +29,7 @@ class User::InsidersStatus::TriggerUpdateTest < ActiveSupport::TestCase
     assert_equal :ineligible, user.reload.insiders_status
   end
 
-  %i[active active_lifetime].each do |status|
+  %i[eligible_lifetime active_lifetime].each do |status|
     test "noop if #{status}" do
       user = create :user, insiders_status: status
 

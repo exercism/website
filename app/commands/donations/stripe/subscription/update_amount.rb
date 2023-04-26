@@ -1,4 +1,4 @@
-# This cancels a payment within Stripe, and makes a record
+# This updates a payment within Stripe, and updates a record
 # within our database.
 class Donations::Stripe::Subscription::UpdateAmount
   include Mandate
@@ -25,9 +25,5 @@ class Donations::Stripe::Subscription::UpdateAmount
     )
 
     subscription.update!(amount_in_cents:)
-
-    # Update based on whether there is another different active subscription
-    user = subscription.user
-    User::SetActiveDonationSubscription.(user, user.donation_subscriptions.active.exists?)
   end
 end

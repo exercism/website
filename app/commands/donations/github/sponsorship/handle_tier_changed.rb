@@ -3,7 +3,7 @@
 class Donations::Github::Sponsorship::HandleTierChanged
   include Mandate
 
-  initialize_with :user, :node_id, :privacy_level, :is_one_time, :monthly_price_in_cents
+  initialize_with :user, :node_id, :is_one_time, :monthly_price_in_cents
 
   def call
     return if is_one_time

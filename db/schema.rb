@@ -789,16 +789,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_220830) do
     t.index ["starts_at", "ends_at"], name: "index_streaming_events_on_starts_at_and_ends_at"
   end
 
-  create_table "submission_ai_help_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "submission_id", null: false
-    t.string "source", null: false
-    t.text "advice_markdown", null: false
-    t.text "advice_html", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["submission_id"], name: "fk_rails_76b9473637"
-  end
-
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
     t.integer "ops_status", limit: 2, null: false
@@ -1303,7 +1293,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_220830) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
-  add_foreign_key "submission_ai_help_records", "submissions"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"

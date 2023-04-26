@@ -28,23 +28,21 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
       ) - 1
 
     return (
-      <GenericTooltip
-        disabled={!isDisabled}
-        content={TOOLTIP_TEXT[tooltipTextIndex]}
+      // <GenericTooltip
+      //   disabled={isDisabled}
+      //   content={TOOLTIP_TEXT[tooltipTextIndex]}
+      // >
+      <button
+        type="button"
+        className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+        disabled={isDisabled}
+        ref={ref}
+        {...props}
       >
-        <div className="run-tests-btn">
-          <button
-            type="button"
-            className="btn-enhanced btn-s"
-            disabled={isDisabled}
-            ref={ref}
-            {...props}
-          >
-            <GraphicalIcon icon="automation" />
-            <span>Stuck? Ask ChatGPT</span>
-          </button>
-        </div>
-      </GenericTooltip>
+        <GraphicalIcon icon="automation" />
+        <span>Stuck? Ask ChatGPT</span>
+      </button>
+      // </GenericTooltip>
     )
   }
 )

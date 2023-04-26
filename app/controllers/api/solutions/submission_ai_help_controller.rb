@@ -9,7 +9,14 @@ module API
 
       return render_submission_not_accessible unless submission.solution.user_id == current_user.id
 
-      Submission::AI::ChatGPT::RequestHelp.(submission)
+      if submission.ai_help_records.exists?
+        Thread.new do
+          sleep(2)
+          Submission::AIHelpRecordsChannel.broadcast!(submission.ai_help_records.last, submission.uuid)
+        end
+      else
+        Submission::AI::ChatGPT::RequestHelp.(submission)
+      end
 
       render json: {}
     end

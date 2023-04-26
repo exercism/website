@@ -30,7 +30,10 @@ module ReactComponents
               test_runner: {
                 average_test_duration: track.average_test_duration
               }
-            }
+            },
+            ai_help: SerializeSubmissionAIHelpRecord.(
+              submission.ai_help_records.last
+            )
           },
           iteration: iteration ? {
             analyzer_feedback: iteration&.analyzer_feedback,

@@ -1,4 +1,4 @@
-class AIHelpRecordsChannel < ApplicationCable::Channel
+class Submission::AIHelpRecordsChannel < ApplicationCable::Channel
   def subscribed
     # Assert that the user owns this submission
     submission = Submission.find_by!(uuid: params[:submission_uuid])
@@ -13,9 +13,6 @@ class AIHelpRecordsChannel < ApplicationCable::Channel
 
   def self.broadcast!(record, submission_uuid)
     broadcast_to submission_uuid,
-      help_record: {
-        source: record.source,
-        advice_html: record.advice_html
-      }
+      help_record: SerializeSubmissionAIHelpRecord.(record)
   end
 end

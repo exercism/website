@@ -26,7 +26,7 @@
 
     & .editor-status {
         @apply font-medium text-textColor6 text-15 leading-150;
-        @apply pr-20;
+        @apply pl-20;
         opacity: 0;
         animation: fadeIn 0.2s linear 0.3s 1 normal forwards;
     }

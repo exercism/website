@@ -130,6 +130,7 @@
 @import "./components/widgets/exercise";
 @import "./components/mentor-discussion-post-editor";
 @import "./components/test-run";
+@import "./components/chatgpt";
 @import "./components/alert";
 @import "./components/diff";
 @import "./components/cli-walkthrough";

@@ -16,7 +16,7 @@ export class AIHelpRecordsChannel {
   ) {
     this.subscription = consumer.subscriptions.create(
       {
-        channel: 'AIHelpRecordsChannel',
+        channel: 'Submission::AIHelpRecordsChannel',
         submission_uuid: submission_uuid,
       },
       {

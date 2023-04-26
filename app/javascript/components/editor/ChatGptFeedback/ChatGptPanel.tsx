@@ -14,7 +14,7 @@ export const ChatGptPanel = ({
 } & Pick<useChatGptFeedbackProps, 'helpRecord'>): JSX.Element => {
   return (
     <Tab.Panel id="chatgpt" context={TabsContext}>
-      <section className="flex justify-center py-12 px-8">
+      <section className="flex justify-center pb-16 px-24">
         <AskChatGpt status={status} helpRecord={helpRecord} />
       </section>
     </Tab.Panel>

@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   def show
-    @user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3)
+    @user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).includes(track: :concepts)
     @num_user_tracks = current_user.user_tracks.count
     @featured_badges = current_user.revealed_badges.order('id desc').limit(4)
     @num_badges = current_user.revealed_badges.count

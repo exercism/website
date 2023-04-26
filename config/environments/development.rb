@@ -7,8 +7,6 @@ Rails.application.configure do
     Bullet.console       = true
     Bullet.rails_logger  = true
     Bullet.add_footer    = true
-
-    Bullet.unused_eager_loading_enable = false
   end
 
   # Specify AnyCable WebSocket server URL to use by JS client

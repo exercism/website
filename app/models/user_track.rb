@@ -81,6 +81,7 @@ class UserTrack < ApplicationRecord
     status = %i[active beta]
     status << :wip if maintainer?
 
+    Rails.logger.info "#!!!#{Bullet.unused_eager_loading_enable?}"
     exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
     exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
   end

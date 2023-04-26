@@ -26,11 +26,11 @@ class Webhooks::Paypal::RequestAccessToken
   end
 
   def request
-    request = Net::HTTP::Post.new(OAUTH2_TOKEN_URI.request_uri)
-    request.basic_auth(paypal_client_id, paypal_client_secret)
-    request.set_content_type('application/x-www-form-urlencoded')
-    request.set_form_data({ 'grant_type' => 'client_credentials' })
-    request
+    Net::HTTP::Post.new(OAUTH2_TOKEN_URI.request_uri).tap do |request|
+      request.basic_auth(paypal_client_id, paypal_client_secret)
+      request.set_content_type('application/x-www-form-urlencoded')
+      request.set_form_data({ 'grant_type' => 'client_credentials' })
+    end
   end
 
   def paypal_client_id = ENV.fetch('PAYPAL_CLIENT_ID', Exercism.secrets.paypal_client_id)

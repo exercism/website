@@ -6,7 +6,7 @@ class Mentor::UpdateNumSolutionsMentored
   def call
     # TODO: This can be removed when we remove the data from users
     # Create a data record if there's not one
-    User.first.data_record
+    mentor.data_record
 
     # We're updating in a single query instead of two queries to avoid race-conditions
     # and using read_committed to avoid deadlocks

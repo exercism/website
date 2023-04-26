@@ -1,18 +1,18 @@
-class Submission::AIHelpRecordsChannel < ApplicationCable::Channel
+class AIHelpRecordsChannel < ApplicationCable::Channel
   def subscribed
     # Assert that the user owns this submission
-    submission = current_user.submissions.find_by!(uuid: params[:submission_uuid])
+    submission = Submission.find_by!(uuid: params[:submission_uuid])
 
     # Don't use persisted objects for stream_for
-    stream_for submission.id
+    stream_for submission.uuid
   end
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def self.broadcast!(record)
-    broadcast_to record.submission_id,
+  def self.broadcast!(record, submission_uuid)
+    broadcast_to submission_uuid,
       help_record: {
         source: record.source,
         advice_html: record.advice_html

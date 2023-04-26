@@ -441,7 +441,7 @@ export default ({
             }
           />
 
-          {submission && chatGptModalOpen && (
+          {submission && (
             <ChatGptFeedbackModal
               open={chatGptModalOpen}
               onClose={() => setChatGptModalOpen(false)}

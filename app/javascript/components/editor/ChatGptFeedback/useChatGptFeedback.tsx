@@ -1,60 +1,53 @@
 import { useEffect, useState } from 'react'
-import { useMutation, useQueryCache } from 'react-query'
-import { useLogger } from '@/hooks'
+import { MutateFunction, useMutation } from 'react-query'
 import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
 import { Submission } from '../types'
 import { sendRequest } from '@/utils'
-
-const REFETCH_INTERVAL = 2000
 
 type HelpRecord = {
   source: string
   advice_html: string
 }
+
+export type useChatGptFeedbackProps = {
+  helpRecord: HelpRecord | undefined | null
+  mutation: MutateFunction<void, unknown, undefined, unknown>
+}
+
+type Response = {
+  help_record: HelpRecord
+}
 export function useChatGptFeedback({
   submission,
 }: {
   submission: Submission
-}): { advice: HelpRecord | undefined } {
-  const [advice, setAdvice] = useState<HelpRecord>()
-
-  const queryCache = useQueryCache()
-  const CACHE_KEY = `editor-${submission.uuid}-chatgpt-feedback`
-
-  const [queryEnabled, setQueryEnabled] = useState(false)
-
-  const [mutation, { status, error }] = useMutation<void>(
-    () => {
-      const { fetch } = sendRequest({
-        endpoint: submission.links.aiHelp,
-        method: 'POST',
-        body: null,
-      })
-
-      return fetch.then((json) => setAdvice(json))
-    },
-    {
-      onSuccess: (data) => console.log(data),
-    }
+}): useChatGptFeedbackProps {
+  const [helpRecord, setHelpRecord] = useState<HelpRecord | null | undefined>(
+    undefined
   )
 
+  const [mutation] = useMutation<void>(async () => {
+    const { fetch } = sendRequest({
+      endpoint: submission.links.aiHelp,
+      method: 'POST',
+      body: null,
+    })
+
+    return fetch.then(() => setHelpRecord(null))
+  })
+
   useEffect(() => {
-    mutation()
     const solutionChannel = new AIHelpRecordsChannel(
       submission.uuid,
-      (response) => {
-        // queryCache.setQueryData(CACHE_KEY, { response })
-        setAdvice(response as any)
+      (response: Response) => {
+        setHelpRecord(response.help_record)
       }
     )
-
-    console.log(solutionChannel)
 
     return () => {
       solutionChannel.disconnect()
     }
   }, [mutation, submission.uuid])
-  useLogger('advice', advice)
 
-  return { advice }
+  return { helpRecord, mutation }
 }

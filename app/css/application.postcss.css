@@ -24,6 +24,7 @@
 @import "./tooltips/task";
 
 @import "./components/textblock";
+@import "./components/spinner";
 @import "./components/financial-amount";
 @import "./components/automated-feedback";
 @import "./components/share-button";

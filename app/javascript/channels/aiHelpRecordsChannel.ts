@@ -1,8 +1,10 @@
 import consumer from '../utils/action-cable-consumer'
-import { IterationStatus } from '../components/types'
 
 export type ChannelResponse = {
-  status: IterationStatus
+  help_record: {
+    source: string
+    advice_html: string
+  }
 }
 
 export class AIHelpRecordsChannel {
@@ -25,7 +27,7 @@ export class AIHelpRecordsChannel {
     )
   }
 
-  disconnect() {
+  disconnect(): void {
     this.subscription.unsubscribe()
   }
 }

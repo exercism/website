@@ -9,14 +9,4 @@ module SPI
       render json: {}
     end
   end
-
-  def show
-    submission_id = params[:submission_id]
-    ai_help_record = Submission::AIHelpRecord.find_by(submission_id:)
-    if ai_help_record
-      render json: ai_help_record, status: :ok
-    else
-      render json: { error: 'Record not found' }, status: :not_found
-    end
-  end
 end

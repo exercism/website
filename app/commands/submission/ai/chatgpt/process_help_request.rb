@@ -8,8 +8,7 @@ class Submission::AI::ChatGPT::ProcessHelpRequest
       source: "chatgpt",
       advice_markdown: chatgpt_response
     )
-
     # Fire a websocket
-    Submission::AIHelpRecordsChannel.broadcast!(record)
+    AIHelpRecordsChannel.broadcast!(record, submission.uuid)
   end
 end

@@ -1,11 +1,18 @@
 class SerializeIterations
   include Mandate
 
-  initialize_with :iterations, sideload: []
+  initialize_with :iterations, comment_counts: nil, sideload: []
 
   def call
     eager_loaded_iterations.map do |iteration|
-      SerializeIteration.(iteration, sideload:)
+      SerializeIteration.(iteration, sideload:).tap do |serialized|
+        if comment_counts
+          counts = comment_counts.select { |(it_id, _), _| it_id == iteration.id }
+          unread = counts.reject { |(_, seen), _| seen }.present?
+
+          serialized[:unread] = unread
+        end
+      end
     end
   end
 

@@ -64,8 +64,9 @@ gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 # Discourse
 gem 'discourse_api'
 
-# Reporting
+# Performance issue Reporting
 gem 'skylight'
+gem 'bullet'
 
 gem 'listen', '>= 3.0.5', '< 4.0'
 
@@ -79,7 +80,6 @@ group :development, :test do
   #  gem 'pry'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'bullet'
 
   # To avoid polling for changes on Windows MRI, it needs this opt-in gem
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?

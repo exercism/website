@@ -1,20 +1,14 @@
 def Exercism.without_bullet
-  return yield unless defined?(Bullet)
+  Bullet.enable = false
+  yield
+ensure
+  Bullet.enable = true
 
-  begin
-    Bullet.enable = false
-    yield
-  ensure
-    Bullet.enable = true
-
-    # This is reset whenever enable is set
-    # See https://github.com/flyerhzm/bullet/issues/481
-    Bullet.unused_eager_loading_enable = false
-    Bullet.counter_cache_enable = false
-  end
+  # This is reset whenever enable is set
+  # See https://github.com/flyerhzm/bullet/issues/481
+  Bullet.unused_eager_loading_enable = false
+  Bullet.counter_cache_enable = false
 end
-
-return unless defined?(Bullet)
 
 Rails.application.configure do
   config.after_initialize do

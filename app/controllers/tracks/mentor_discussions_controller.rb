@@ -4,7 +4,7 @@ class Tracks::MentorDiscussionsController < ApplicationController
   before_action :use_discussion, only: :show
 
   def index
-    redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
+    return redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
 
     @previous_discussions = @solution.mentor_discussions.finished.includes(mentor: :avatar_attachment)
   end

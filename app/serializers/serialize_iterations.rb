@@ -21,12 +21,14 @@ class SerializeIterations
     # with zero or one iterations in.
     return iterations if iterations.size < 2
 
-    iterations.includes(
+    its = iterations.includes(
       :exercise,
       :track,
       submission: %i[
         solution analysis submission_representation
       ]
     )
+    its = its.includes(:files) if sideload.include?(:files)
+    its
   end
 end

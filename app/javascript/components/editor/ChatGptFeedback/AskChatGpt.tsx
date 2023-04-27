@@ -17,7 +17,7 @@ export function AskChatGpt({
       break
     }
     case 'unfetched': {
-      content = <UnFetched />
+      content = <Unfetched />
       break
     }
     default: {
@@ -76,7 +76,7 @@ function AskingChatGpt() {
   )
 }
 
-function UnFetched(): JSX.Element {
+function Unfetched(): JSX.Element {
   return (
     <section className="run-tests-prompt">
       <GraphicalIcon className="filter-textColor6" icon="automation" />

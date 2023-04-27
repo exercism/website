@@ -5,9 +5,7 @@ class SerializeExercises
 
   def call
     any_recommended = false
-    exercises.
-      includes(:track).
-      map do |exercise|
+    eager_loaded_exercises.map do |exercise|
       if !any_recommended && %w[available started].include?(user_track&.exercise_status(exercise))
         any_recommended = true
         recommended = true
@@ -18,6 +16,16 @@ class SerializeExercises
         user_track:,
         recommended: !!recommended
       )
+    end
+  end
+
+  def eager_loaded_exercises
+    includes = [:track]
+
+    if exercises.is_a?(Array)
+      Exercise.where(id: exercises.map(&:id)).includes(includes)
+    else
+      exercises.includes(includes)
     end
   end
 end

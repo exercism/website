@@ -39,7 +39,7 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
 
     # Iterate a 5th bob, but in March
     exercise = create :practice_exercise, slug: 'bob', track: python
-    solution = create :practice_solution, :iterated, user:, track: python, exercise:,
+    solution = create :practice_solution, :published, user:, track: python, exercise:,
       published_at: Time.utc(2023, 3, 30)
     refute badge.award_to?(user.reload)
 
@@ -58,7 +58,7 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
     python = create :track, slug: 'python'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: python
-      create :practice_solution, :iterated, user:, track: python, exercise:,
+      create :practice_solution, :published, user:, track: python, exercise:,
         published_at: Time.utc(2023, 3, 31)
     end
     assert badge.award_to?(user.reload)
@@ -70,7 +70,7 @@ class Badges::AnalyticalAprilBadgeTest < ActiveSupport::TestCase
     python = create :track, slug: 'python'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: python
-      create :practice_solution, :iterated, user:, track: python, exercise:,
+      create :practice_solution, :published, user:, track: python, exercise:,
         published_at: Time.utc(2023, 5, 1)
     end
     assert badge.award_to?(user.reload)

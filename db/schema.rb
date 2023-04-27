@@ -765,7 +765,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_221922) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
+    t.index ["exercise_id", "status", "num_stars"], name: "solutions_ex_stat_stars", order: { status: :desc, num_stars: :desc }
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
@@ -1207,6 +1207,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_221922) do
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
     t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["reputation"], name: "index_users_on_reputation"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"

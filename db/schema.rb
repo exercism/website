@@ -765,7 +765,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "status", "num_stars"], name: "solutions_ex_stat_stars", order: { status: :desc, num_stars: :desc }
+    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
@@ -786,16 +786,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["starts_at", "ends_at"], name: "index_streaming_events_on_starts_at_and_ends_at"
-  end
-
-  create_table "submission_ai_help_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "submission_id", null: false
-    t.string "source", null: false
-    t.text "advice_markdown", null: false
-    t.text "advice_html", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["submission_id"], name: "fk_rails_76b9473637"
   end
 
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1128,8 +1118,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id", "category", "external_url"], name: "index_user_reputation_tokens_on_track_id_category_external_url"
+    t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
-    t.index ["user_id", "category"], name: "index_user_reputation_tokens_on_user_id_and_category"
     t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
     t.index ["user_id", "seen"], name: "index_user_reputation_tokens_on_user_id_and_seen"
     t.index ["user_id", "track_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_4"
@@ -1217,7 +1207,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
     t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
-    t.index ["reputation"], name: "index_users_on_reputation"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
@@ -1302,7 +1291,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
-  add_foreign_key "submission_ai_help_records", "submissions"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"

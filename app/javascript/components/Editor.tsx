@@ -321,8 +321,6 @@ export default ({
 
   useEditorFocus({ editor: editorRef.current, isProcessing })
 
-  /* eslint-disable @typescript-eslint/no-non-null-assertion */
-  // pokeChatGpt will be triggerable only after submission is present
   const {
     mutation: pokeChatGpt,
     status: chatGptFetchingStatus,
@@ -330,15 +328,18 @@ export default ({
     setStatus: setChatGptFetchingStatus,
     setSubmissionUuid,
     submissionUuid,
-  } = ChatGPT.Hook({ submission: submission! })
+  } = ChatGPT.Hook({
+    submission: submission ?? null,
+    defaultRecord: panels.aiHelp,
+  })
 
   const invokeChatGpt = useCallback(() => {
     const status = chatGptFetchingStatus
     setTab('chatgpt')
-    if (status === 'unfetched' || submissionUuid !== submission!.uuid) {
+    if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
       pokeChatGpt()
       setChatGptFetchingStatus('fetching')
-      setSubmissionUuid(submission!.uuid)
+      setSubmissionUuid(submission?.uuid)
     }
   }, [
     chatGptFetchingStatus,
@@ -348,7 +349,6 @@ export default ({
     submission,
     submissionUuid,
   ])
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
     <FeaturesContext.Provider value={features}>
@@ -406,6 +406,7 @@ export default ({
                     <ChatGPT.Button
                       sameSubmission={submission.uuid === submissionUuid}
                       isProcessing={isProcessing}
+                      passingTests={testRunStatus === TestRunStatus.PASS}
                       chatGptFetchingStatus={chatGptFetchingStatus}
                       onClick={invokeChatGpt}
                     />
@@ -440,11 +441,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  {isInsider &&
-                  submission &&
-                  chatGptFetchingStatus !== 'unfetched' ? (
-                    <ChatGPT.Tab />
-                  ) : null}
+                  {isInsider ? <ChatGPT.Tab /> : null}
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -478,11 +475,10 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {submission && isInsider && (
+                {isInsider && (
                   <ChatGPT.Panel
                     helpRecord={helpRecord}
                     status={chatGptFetchingStatus}
-                    submission={submission}
                   />
                 )}
               </TasksContext.Provider>

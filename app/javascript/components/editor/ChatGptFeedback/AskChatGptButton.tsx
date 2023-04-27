@@ -1,37 +1,32 @@
 import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '@/components/common'
-import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { FetchingStatus } from './useChatGptFeedback'
 
 type Props = {
   isProcessing: boolean
   sameSubmission: boolean
   chatGptFetchingStatus: FetchingStatus
+  passingTests: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-const TOOLTIP_TEXT = [
-  'Please rerun the tests to continue.',
-  'Tests are currently running.',
-  'Awaiting response from ChatGPT. Please stand by.',
-]
-
 export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
-  ({ sameSubmission, isProcessing, chatGptFetchingStatus, ...props }, ref) => {
+  (
+    {
+      sameSubmission,
+      isProcessing,
+      chatGptFetchingStatus,
+      passingTests,
+      ...props
+    },
+    ref
+  ) => {
     const isDisabled =
-      isProcessing || chatGptFetchingStatus === 'fetching' || sameSubmission
-
-    const tooltipTextIndex =
-      Math.max(
-        Number(sameSubmission) * 1,
-        Number(isProcessing) * 2,
-        Number(chatGptFetchingStatus === 'fetching') * 3
-      ) - 1
+      isProcessing ||
+      chatGptFetchingStatus === 'fetching' ||
+      sameSubmission ||
+      passingTests
 
     return (
-      // <GenericTooltip
-      //   disabled={isDisabled}
-      //   content={TOOLTIP_TEXT[tooltipTextIndex]}
-      // >
       <button
         type="button"
         className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
@@ -42,7 +37,6 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
         <GraphicalIcon icon="automation" />
         <span>Stuck? Ask ChatGPT</span>
       </button>
-      // </GenericTooltip>
     )
   }
 )

@@ -31,9 +31,7 @@ module ReactComponents
                 average_test_duration: track.average_test_duration
               }
             },
-            ai_help: SerializeSubmissionAIHelpRecord.(
-              submission.ai_help_records.last
-            )
+            ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil
           },
           iteration: iteration ? {
             analyzer_feedback: iteration&.analyzer_feedback,

@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react'
 import { MutateFunction, useMutation } from 'react-query'
 import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
-import { Submission } from '../types'
 import { sendRequest } from '@/utils'
+import { camelizeKeysAs } from '@/packs/application'
+import { Submission } from '../types'
 
 export type HelpRecord = {
   source: string
-  advice_html: string
+  adviceHtml: string
+}
+
+export type AIHelpRecordsChannelResponse = {
+  help_record: HelpRecord
 }
 
 export type FetchingStatus = 'unfetched' | 'fetching' | 'received'
@@ -17,26 +22,29 @@ export type useChatGptFeedbackProps = {
   mutation: MutateFunction<void, unknown, undefined, unknown>
   setStatus: React.Dispatch<React.SetStateAction<FetchingStatus>>
   status: FetchingStatus
-  submissionUuid: string
-  setSubmissionUuid: React.Dispatch<React.SetStateAction<string>>
+  submissionUuid: string | undefined
+  setSubmissionUuid: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-type Response = {
-  help_record: HelpRecord
-}
 export function useChatGptFeedback({
   submission,
+  defaultRecord,
 }: {
-  submission: Submission
+  submission: Submission | null
+  defaultRecord: HelpRecord
 }): useChatGptFeedbackProps {
   const [helpRecord, setHelpRecord] = useState<HelpRecord | undefined>(
-    undefined
+    defaultRecord
   )
-  const [status, setStatus] = useState<FetchingStatus>('unfetched')
-  const [submissionUuid, setSubmissionUuid] = useState('')
+  const [status, setStatus] = useState<FetchingStatus>(
+    defaultRecord ? 'received' : 'unfetched'
+  )
+  const [submissionUuid, setSubmissionUuid] = useState<string | undefined>()
+
   const [mutation] = useMutation<void>(async () => {
+    if (!submission) return
     const { fetch } = sendRequest({
-      endpoint: submission.links.aiHelp,
+      endpoint: submission?.links.aiHelp,
       method: 'POST',
       body: null,
     })
@@ -46,10 +54,11 @@ export function useChatGptFeedback({
   })
 
   useEffect(() => {
+    if (!submission) return
     const solutionChannel = new AIHelpRecordsChannel(
-      submission.uuid,
-      (response: Response) => {
-        setHelpRecord(response.help_record)
+      submission?.uuid,
+      (response: AIHelpRecordsChannelResponse) => {
+        setHelpRecord(camelizeKeysAs<HelpRecord>(response.help_record))
         setStatus('received')
       }
     )
@@ -57,7 +66,7 @@ export function useChatGptFeedback({
     return () => {
       solutionChannel.disconnect()
     }
-  }, [mutation, submission.uuid])
+  }, [mutation, submission])
 
   return {
     helpRecord,

@@ -5,6 +5,7 @@ import {
   RepresenterFeedback,
   TestFile,
 } from '../types'
+import { HelpRecord } from './ChatGptFeedback/useChatGptFeedback'
 import { Submission, Assignment, EditorSettings } from './types'
 
 export type EditorFeatures = {
@@ -54,6 +55,7 @@ type EditorPanels = {
     assignment: Assignment
     exampleFiles: File[]
   }
+  aiHelp: HelpRecord
   tests?: {
     testFiles: readonly TestFile[]
     highlightjsLanguage: string

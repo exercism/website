@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tab } from '@/components/common'
 import { TabsContext } from '../../Editor'
-import { Submission } from '../types'
 import { FetchingStatus, useChatGptFeedbackProps } from './useChatGptFeedback'
 import { AskChatGpt } from './AskChatGpt'
 
@@ -9,7 +8,6 @@ export const ChatGptPanel = ({
   status,
   helpRecord,
 }: {
-  submission: Submission
   status: FetchingStatus
 } & Pick<useChatGptFeedbackProps, 'helpRecord'>): JSX.Element => {
   return (

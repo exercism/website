@@ -25,7 +25,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bugsnag'
 
 # Interaction gems
-gem 'rugged', '1.4.2' # Git - upgrading will break in production but not dev due to EFS issue.
+gem 'rugged'
 gem 'rest-client' # http
 gem 'octokit' # GitHub
 

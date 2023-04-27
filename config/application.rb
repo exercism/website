@@ -22,6 +22,9 @@ module Website
 
     config.exceptions_app = self.routes
 
+    # Allow rails to run queries in parallel
+    config.active_record.async_query_executor = :global_thread_pool
+
     config.generators do |g|
       g.assets false
       g.helper false

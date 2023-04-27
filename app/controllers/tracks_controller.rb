@@ -8,12 +8,12 @@ class TracksController < ApplicationController
       tags: params[:tags],
       status: params[:status],
       user: current_user
-    )
+    ).load_async
 
     @num_tracks = Track.active.count
 
     # TODO: (Optional) Change this to only select the fields needed for an icon
-    @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
+    @track_icon_urls = Track.active.order('rand()').limit(8).load_async.map(&:icon_url)
   end
 
   def about

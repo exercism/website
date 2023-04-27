@@ -1,11 +1,11 @@
 class DashboardController < ApplicationController
   def show
-    @user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3)
+    @user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).load_async
     @num_user_tracks = current_user.user_tracks.count
-    @featured_badges = current_user.revealed_badges.order('id desc').limit(4)
+    @featured_badges = current_user.revealed_badges.order('id desc').limit(4).load_async
     @num_badges = current_user.revealed_badges.count
-    @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10)
-    @blog_posts = BlogPost.published.ordered_by_recency.limit(3).includes(:author)
+    @updates = SiteUpdate.published.for_user(current_user).sorted.limit(10).load_async
+    @blog_posts = BlogPost.published.ordered_by_recency.limit(3).includes(:author).load_async
 
     @live_event = StreamingEvent.live.first
     @featured_event = StreamingEvent.next_featured unless @live_event
@@ -17,13 +17,13 @@ class DashboardController < ApplicationController
         :awaiting_mentor,
         sorted: false,
         paginated: false
-      ).limit(5)
+      ).load_async.limit(5)
 
       @mentor_queue_has_requests = Mentor::Request::Retrieve.(
         mentor: current_user,
         sorted: false,
         paginated: false
-      ).exists?
+      ).load_async.exists?
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_27_140842) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -33,7 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", charset: "utf8mb4", force: :cascade do |t|
+  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
@@ -50,22 +50,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_badges_on_name", unique: true
     t.index ["type"], name: "index_badges_on_type", unique: true
-  end
-
-  create_table "blog_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "blog_post_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "blog_comment_id"
-    t.text "content", size: :long, null: false
-    t.text "html", size: :long, null: false
-    t.boolean "edited", default: false, null: false
-    t.text "previous_content"
-    t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["blog_comment_id"], name: "fk_rails_de25ffa957"
-    t.index ["blog_post_id"], name: "fk_rails_ccd98ed6ee"
-    t.index ["user_id"], name: "fk_rails_a2e6f28c3a"
   end
 
   create_table "blog_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -86,30 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["slug"], name: "index_blog_posts_on_slug", unique: true
   end
 
-  create_table "changelog_entries", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "created_by_id", null: false
-    t.string "title", null: false
-    t.text "details_markdown"
-    t.string "referenceable_type"
-    t.bigint "referenceable_id"
-    t.string "info_url"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.datetime "published_at", precision: nil
-    t.text "details_html"
-    t.string "referenceable_key"
-    t.index ["created_by_id"], name: "index_changelog_entries_on_created_by_id"
-    t.index ["referenceable_type", "referenceable_id"], name: "index_changelog_entries_on_referenceable"
-  end
-
-  create_table "changelog_entry_tweets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "changelog_entry_id", null: false
-    t.text "copy", null: false
-    t.integer "status", default: 0, null: false
-    t.index ["changelog_entry_id"], name: "index_changelog_entry_tweets_on_changelog_entry_id"
-  end
-
-  create_table "cohort_memberships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "cohort_memberships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.text "introduction", null: false
     t.datetime "created_at", null: false
@@ -121,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_cohort_memberships_on_user_id"
   end
 
-  create_table "cohorts", charset: "utf8mb4", force: :cascade do |t|
+  create_table "cohorts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "slug", null: false
     t.string "name", null: false
@@ -134,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["track_id"], name: "index_cohorts_on_track_id"
   end
 
-  create_table "community_stories", charset: "utf8mb4", force: :cascade do |t|
+  create_table "community_stories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "interviewer_id", null: false
     t.bigint "interviewee_id", null: false
     t.string "uuid", null: false
@@ -153,7 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_community_stories_on_uuid", unique: true
   end
 
-  create_table "community_videos", charset: "utf8mb4", force: :cascade do |t|
+  create_table "community_videos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "track_id"
     t.bigint "exercise_id"
     t.bigint "author_id"
@@ -177,55 +138,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
   end
 
-  create_table "contributor_team_memberships", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "contributor_team_id", null: false
-    t.bigint "user_id", null: false
-    t.boolean "visible", default: true, null: false
-    t.integer "seniority", limit: 1, default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["contributor_team_id", "user_id"], name: "index_contributor_team_memberships_on_team_id_and_user_id", unique: true
-    t.index ["contributor_team_id"], name: "index_contributor_team_memberships_on_contributor_team_id"
-    t.index ["user_id"], name: "index_contributor_team_memberships_on_user_id"
-  end
-
-  create_table "contributor_teams", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "track_id"
-    t.string "github_name", null: false
-    t.integer "type", limit: 1, default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["github_name"], name: "index_contributor_teams_on_github_name", unique: true
-    t.index ["track_id"], name: "index_contributor_teams_on_track_id"
-  end
-
-  create_table "contributors", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "github_username", null: false
-    t.string "avatar_url", null: false
-    t.integer "num_contributions", default: 0, null: false
-    t.boolean "is_maintainer", default: false, null: false
-    t.boolean "is_core", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "github_id", null: false
-    t.index ["is_maintainer", "is_core", "num_contributions"], name: "main_find_idx"
-  end
-
-  create_table "delayed_jobs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at", precision: nil
-    t.datetime "locked_at", precision: nil
-    t.datetime "failed_at", precision: nil
-    t.string "locked_by"
-    t.string "queue"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "track_id"
@@ -243,7 +155,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
   end
 
-  create_table "donations_payments", charset: "utf8mb4", force: :cascade do |t|
+  create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "subscription_id"
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
@@ -258,7 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
   end
 
-  create_table "donations_subscriptions", charset: "utf8mb4", force: :cascade do |t|
+  create_table "donations_subscriptions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
@@ -271,7 +183,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 
-  create_table "exercise_approach_authorships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_approach_authorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_approach_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -281,7 +193,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_exercise_approach_authorships_on_user_id"
   end
 
-  create_table "exercise_approach_contributorships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_approach_contributorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_approach_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -291,7 +203,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_exercise_approach_contributorships_on_user_id"
   end
 
-  create_table "exercise_approach_introduction_authorships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_approach_introduction_authorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -301,7 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_exercise_approach_introduction_authorships_on_user_id"
   end
 
-  create_table "exercise_approach_introduction_contributorships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_approach_introduction_contributorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -311,7 +223,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
   end
 
-  create_table "exercise_approaches", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_approaches", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false
     t.string "slug", null: false
@@ -325,7 +237,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_exercise_approaches_on_uuid"
   end
 
-  create_table "exercise_article_authorships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_article_authorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_article_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -335,7 +247,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_exercise_article_authorships_on_user_id"
   end
 
-  create_table "exercise_article_contributorships", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_article_contributorships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_article_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -345,7 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_exercise_article_contributorships_on_user_id"
   end
 
-  create_table "exercise_articles", charset: "utf8mb4", force: :cascade do |t|
+  create_table "exercise_articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false
     t.string "slug", null: false
@@ -447,15 +359,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["track_concept_id"], name: "index_exercise_taught_concepts_on_track_concept_id"
   end
 
-  create_table "exercise_topics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
-    t.bigint "topic_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["exercise_id"], name: "fk_rails_0e58b87007"
-    t.index ["topic_id"], name: "fk_rails_0e642b953e"
-  end
-
   create_table "exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "uuid", null: false
@@ -478,22 +381,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.boolean "has_approaches", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "fk_rails_a796d89c21"
-  end
-
-  create_table "flipper_features", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "key", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["key"], name: "index_flipper_features_on_key", unique: true
-  end
-
-  create_table "flipper_gates", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "feature_key", null: false
-    t.string "key", null: false
-    t.string "value"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -582,40 +469,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_github_tasks_on_uuid", unique: true
   end
 
-  create_table "github_team_members", charset: "utf8mb4", force: :cascade do |t|
+  create_table "github_team_members", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "user_id", null: false
     t.string "team_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "team_name"], name: "index_github_team_members_on_user_id_and_team_name", unique: true
-  end
-
-  create_table "ignored_solution_mentorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "solution_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["solution_id"], name: "fk_rails_31331ef022"
-    t.index ["user_id"], name: "fk_rails_7b8f6c3112"
-  end
-
-  create_table "infrastructure_test_runner_versions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "test_runner_id", null: false
-    t.string "slug", null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_infrastructure_test_runner_versions_on_slug", unique: true
-    t.index ["test_runner_id"], name: "fk_rails_63c05336de"
-  end
-
-  create_table "infrastructure_test_runners", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "language_slug", null: false
-    t.integer "timeout_ms", null: false
-    t.string "version_slug"
-    t.integer "num_processors", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -635,7 +494,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "iterations_uuid"
   end
 
-  create_table "mailshots", charset: "utf8mb4", force: :cascade do |t|
+  create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "email_communication_preferences_key", null: false
     t.boolean "test_sent", default: false, null: false
@@ -649,23 +508,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_mailshots_on_slug", unique: true
-  end
-
-  create_table "maintainers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_id", null: false
-    t.bigint "user_id"
-    t.string "name", null: false
-    t.string "avatar_url", null: false
-    t.string "github_username", null: false
-    t.string "link_text"
-    t.string "link_url"
-    t.text "bio"
-    t.boolean "visible", default: true, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "alumnus"
-    t.index ["track_id"], name: "fk_rails_ed46fd11a4"
-    t.index ["user_id"], name: "fk_rails_5b1168410c"
   end
 
   create_table "mentor_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -772,20 +614,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
   end
 
-  create_table "mentors", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_id", null: false
-    t.string "name", null: false
-    t.string "avatar_url"
-    t.string "github_username", null: false
-    t.string "link_text"
-    t.string "link_url"
-    t.text "bio"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["track_id"], name: "index_mentors_on_track_id"
-  end
-
-  create_table "metric_period_days", charset: "utf8mb4", force: :cascade do |t|
+  create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "day", limit: 1, default: 0, null: false
     t.string "metric_type", null: false
     t.bigint "track_id"
@@ -796,7 +625,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["track_id"], name: "index_metric_period_days_on_track_id"
   end
 
-  create_table "metric_period_minutes", charset: "utf8mb4", force: :cascade do |t|
+  create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "minute", limit: 2, default: 0, null: false
     t.string "metric_type", null: false
     t.bigint "track_id"
@@ -807,7 +636,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
   end
 
-  create_table "metric_period_months", charset: "utf8mb4", force: :cascade do |t|
+  create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "month", limit: 1, default: 0, null: false
     t.string "metric_type", null: false
     t.bigint "track_id"
@@ -818,7 +647,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["track_id"], name: "index_metric_period_months_on_track_id"
   end
 
-  create_table "metrics", charset: "utf8mb4", force: :cascade do |t|
+  create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "type", null: false
     t.text "params", null: false
     t.bigint "track_id"
@@ -850,34 +679,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["exercise_id"], name: "index_problem_reports_on_exercise_id"
     t.index ["track_id"], name: "index_problem_reports_on_track_id"
     t.index ["user_id"], name: "index_problem_reports_on_user_id"
-  end
-
-  create_table "reactions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "solution_id", null: false
-    t.bigint "user_id", null: false
-    t.integer "emotion", null: false
-    t.text "comment"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["solution_id"], name: "fk_rails_51c7d8b8ad"
-    t.index ["user_id"], name: "fk_rails_9f02fc96a0"
-  end
-
-  create_table "repo_update_fetches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.timestamp "completed_at"
-    t.bigint "repo_update_id", null: false
-    t.string "host", limit: 190, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["repo_update_id", "host"], name: "index_repo_update_fetches_on_repo_update_id_and_host", unique: true
-    t.index ["repo_update_id"], name: "index_repo_update_fetches_on_repo_update_id"
-  end
-
-  create_table "repo_updates", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.timestamp "synced_at"
-    t.string "slug", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "research_experiment_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -968,16 +769,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
   end
 
-  create_table "solution_locks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "solution_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "locked_until", precision: nil, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["solution_id"], name: "fk_rails_d2575804da"
-    t.index ["user_id"], name: "fk_rails_7c200d25d8"
-  end
-
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "user_id", null: false
@@ -1036,7 +827,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_solutions_on_uuid"
   end
 
-  create_table "streaming_events", charset: "utf8mb4", force: :cascade do |t|
+  create_table "streaming_events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title", null: false
     t.text "description", null: false
     t.datetime "starts_at", null: false
@@ -1193,23 +984,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["token"], name: "index_teams_on_token", unique: true
   end
 
-  create_table "testimonials", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_id"
-    t.string "headline", null: false
-    t.text "content", null: false
-    t.string "byline", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["track_id"], name: "fk_rails_c5eac2171d"
-  end
-
-  create_table "topics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false
@@ -1310,14 +1084,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "fk_rails_0d66c22f4c"
   end
 
-  create_table "user_block_domains", charset: "utf8mb4", force: :cascade do |t|
+  create_table "user_block_domains", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "domain", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["domain"], name: "index_user_block_domains_on_domain", unique: true
   end
 
-  create_table "user_challenges", charset: "utf8mb4", force: :cascade do |t|
+  create_table "user_challenges", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "challenge_id", null: false
     t.datetime "created_at", null: false
@@ -1362,16 +1136,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["user_id"], name: "index_user_dismissed_introducers_on_user_id"
   end
 
-  create_table "user_email_logs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.datetime "mentor_heartbeat_sent_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.datetime "remind_about_solution_sent_at", precision: nil
-    t.index ["user_id"], name: "index_user_email_logs_on_user_id", unique: true
-  end
-
-  create_table "user_mailshots", charset: "utf8mb4", force: :cascade do |t|
+  create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "mailshot_slug"
     t.integer "email_status", limit: 1, default: 0, null: false
@@ -1408,7 +1173,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end
 
-  create_table "user_preferences", charset: "utf8mb4", force: :cascade do |t|
+  create_table "user_preferences", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.boolean "auto_update_exercises", default: true, null: false
     t.datetime "created_at", null: false
@@ -1567,79 +1332,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
-  create_table "v2_discussion_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.bigint "user_id"
-    t.text "content", size: :long, null: false
-    t.text "html", size: :long, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.boolean "edited", default: false, null: false
-    t.text "previous_content", size: :long
-    t.boolean "deleted", default: false, null: false
-    t.string "type"
-    t.index ["iteration_id"], name: "fk_rails_f58a02b68e"
-  end
-
-  create_table "v2_iteration_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "iteration_id", null: false
-    t.string "ops_status", null: false
-    t.json "analysis"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "website_error"
-    t.string "analysis_status"
-    t.index ["iteration_id"], name: "fk_rails_c60c42383b"
-  end
-
-  create_table "v2_notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "about_type"
-    t.bigint "about_id"
-    t.string "trigger_type"
-    t.bigint "trigger_id"
-    t.string "type"
-    t.text "content"
-    t.text "link"
-    t.boolean "read", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["about_type", "about_id"], name: "about"
-    t.index ["user_id", "read"], name: "index_v2_notifications_on_user_id_and_read"
-    t.index ["user_id"], name: "fk_rails_b080fb4855"
-  end
-
-  create_table "v2_submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "submission_id", null: false
-    t.string "results_status"
-    t.text "message"
-    t.json "tests"
-    t.json "results"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "ops_status", limit: 2, null: false
-    t.text "ops_message"
-    t.index ["submission_id"], name: "fk_rails_3812c45ada"
-  end
-
-  create_table "v2_submissions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "solution_id", null: false
-    t.boolean "tested", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "uuid", null: false
-    t.json "filenames", null: false
-    t.string "solution_type", null: false
-    t.index ["solution_id", "id"], name: "index_v2_submissions_on_solution_id_and_id"
-    t.index ["solution_type", "solution_id"], name: "index_v2_submissions_on_solution_type_and_solution_id"
-    t.index ["tested", "id"], name: "index_v2_submissions_on_tested_and_id"
-    t.index ["uuid"], name: "index_v2_submissions_on_uuid", unique: true
-  end
-
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "blog_comments", "blog_comments"
-  add_foreign_key "blog_comments", "blog_posts"
-  add_foreign_key "blog_comments", "users"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
@@ -1650,9 +1343,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
-  add_foreign_key "contributor_team_memberships", "contributor_teams"
-  add_foreign_key "contributor_team_memberships", "users"
-  add_foreign_key "contributor_teams", "tracks"
   add_foreign_key "documents", "tracks"
   add_foreign_key "donations_payments", "donations_subscriptions", column: "subscription_id"
   add_foreign_key "donations_payments", "users"
@@ -1686,16 +1376,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
-  add_foreign_key "exercise_topics", "topics"
   add_foreign_key "exercises", "tracks"
   add_foreign_key "github_issue_labels", "github_issues"
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "github_tasks", "tracks"
-  add_foreign_key "ignored_solution_mentorships", "solutions"
-  add_foreign_key "ignored_solution_mentorships", "users"
-  add_foreign_key "infrastructure_test_runner_versions", "infrastructure_test_runners", column: "test_runner_id"
-  add_foreign_key "maintainers", "tracks"
-  add_foreign_key "maintainers", "users"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"
@@ -1709,11 +1393,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
-  add_foreign_key "mentors", "tracks"
   add_foreign_key "problem_reports", "exercises"
   add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"
-  add_foreign_key "repo_update_fetches", "repo_updates"
   add_foreign_key "research_experiment_solutions", "exercises"
   add_foreign_key "research_experiment_solutions", "research_experiments", column: "experiment_id"
   add_foreign_key "research_user_experiments", "research_experiments", column: "experiment_id"
@@ -1739,7 +1421,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   add_foreign_key "team_memberships", "teams"
   add_foreign_key "team_solutions", "exercises"
   add_foreign_key "team_solutions", "teams"
-  add_foreign_key "testimonials", "tracks"
   add_foreign_key "track_concept_authorships", "track_concepts"
   add_foreign_key "track_concept_authorships", "users"
   add_foreign_key "track_concept_contributorships", "track_concepts"
@@ -1768,5 +1449,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   add_foreign_key "user_track_mentorships", "users"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
-  add_foreign_key "v2_submission_test_runs", "v2_submissions", column: "submission_id"
 end

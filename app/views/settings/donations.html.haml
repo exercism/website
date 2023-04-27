@@ -45,7 +45,7 @@
               %th Donation Amount
               %th Type
               %th
-            - current_user.donation_payments.each do |payment|
+            - @payments.each do |payment|
               %tr
                 %td= format_date(payment.created_at)
                 %td= number_to_currency(payment.amount_in_dollars)

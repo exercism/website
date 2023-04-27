@@ -152,7 +152,7 @@ class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   # parallelize(workers: :number_of_processors)
 
-  def setup
+  setup do
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
@@ -163,6 +163,13 @@ class ActiveSupport::TestCase
     return if @__skip_stubbing_rest_client__
 
     RestClient.define_method(:post) {}
+
+    Bullet.start_request
+  end
+
+  teardown do
+    Bullet.perform_out_of_channel_notifications if Bullet.notification?
+    Bullet.end_request
   end
 
   # Create a few models and return a random one.

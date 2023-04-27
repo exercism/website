@@ -5,7 +5,10 @@ class SerializeMentorTestimonials
 
   def call
     testimonials.
-      includes(:student, :mentor, :exercise, :track).
+      includes(
+        :mentor, :exercise, :track,
+        student: :avatar_attachment
+      ).
       map { |t| SerializeMentorTestimonial.(t) }
   end
 end

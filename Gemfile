@@ -64,8 +64,9 @@ gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 # Discourse
 gem 'discourse_api'
 
-# Reporting
+# Performance issue Reporting
 gem 'skylight'
+gem 'bullet'
 
 gem 'listen', '>= 3.0.5', '< 4.0'
 

@@ -29,7 +29,7 @@ module API
       output = {
         solution: SerializeSolution.(@solution)
       }
-      output[:iterations] = @solution.iterations.map { |iteration| SerializeIteration.(iteration) } if sideload?(:iterations)
+      output[:iterations] = SerializeIterations.(@solution.iterations) if sideload?(:iterations)
       render json: output
     end
 

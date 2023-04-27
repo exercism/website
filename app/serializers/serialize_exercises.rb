@@ -22,10 +22,12 @@ class SerializeExercises
   def eager_loaded_exercises
     includes = [:track]
 
-    if exercises.is_a?(Array)
-      Exercise.where(id: exercises.map(&:id)).includes(includes)
-    else
-      exercises.includes(includes)
-    end
+    return exercises.includes(includes) if exercises.is_a?(ActiveRecord::Relation)
+
+    ids = exercises.map(&:id)
+
+    Exercise.where(id: ids).
+      order(Arel.sql("FIND_IN_SET(id, '#{ids.join(',')}')")).
+      includes(includes)
   end
 end

@@ -19,10 +19,10 @@ class AssembleExerciseList < Assembler
   def solutions
     return [] unless user
 
-    # TODO: It's *MUCH* quicker to get all the exercises for the user and the track
-    # and then to filter out the ones we don't want, than it is to use IN (...) with ids.
-    # So refactor this to do that. And check for other places too.
-    SerializeSolutions.(user.solutions.where(exercise_id: exercises), user)
+    # It's much quicker to get solutions via the track's exercises than an
+    # exercise list generated from serialize exercises above, and it doesn't
+    # matter if we have extra solutions here as we iterated over exercises, not solutions.
+    SerializeSolutions.(user.solutions.where(exercise: user_track.track.exercises), user)
   end
 
   memoize

@@ -14,6 +14,10 @@ body.devise {
     }
 }
 
+body.namespace-.controller-about.action-impact {
+    background: var(--backgroundColorImpactPage);
+}
+
 body:not(.namespace-.controller-insiders) {
     --exercism-link-filter: var(--textColor1-filter);
 }
@@ -498,7 +502,7 @@ body.namespace-docs {
 
 body.controller-about,
 body.namespace-about {
-    @apply bg-backgroundColorA;
+    @apply bg-backgroundColorB;
 
     & #site-header {
         @apply bg-backgroundColorA;

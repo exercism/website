@@ -45,7 +45,7 @@
             using a unique blend of learning, practicing, and mentoring.
           %p.text-h5 Everything on Exercism is 100% free.
 
-      .shadow-lg.flex-grow.bg-backgroundColorA.rounded-16.py-48.px-24.relative
+      .shadow-lg.flex-grow.bg-backgroundColorB.rounded-16.py-48.px-24.relative
         .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-backgroundColorA.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
           = graphical_icon "graph-stats-gradient", css_class: 'h-[24px] w-[24px] mr-12'
           Live activity on Exercism
@@ -122,7 +122,7 @@
   .md-container.mb-64
     %h3.text-h3.text-center.mb-16 A special thanks to these organisations...
     .logos.flex.items-center.justify-center.flex-wrap.gap-64.mb-24
-      = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla h-48"
+      = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla h-48 filter-textColor1"
       = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge h-[80px]"
       = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago h-48"
       = icon "packt", "Packt Publishing", category: :partners, css_class: 'h-48'
@@ -185,6 +185,6 @@
       %h2.text-h1.text-center{ class: "max-w-[800px] mx-auto" }
         Over 85,000 students have left testimonials to thank their mentors.
 
-    .md-container.bg-backgroundColorA
+    .md-container{ class: "bg-[var(--backgroundColorImpactPage)]" }
       %article.testimonials.pt-40
         = ReactComponents::Impact::TestimonialsList.new(params)

@@ -62,6 +62,7 @@
         }
     }
     & .areas-of-collaboration {
+        background: var(--backgroundColorTracksListJoined);
         & h2 {
             max-width: 600px;
         }

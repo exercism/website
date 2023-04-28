@@ -55,7 +55,7 @@ header.c-profile-header {
                         height: 16px;
                         width: 16px;
                         @apply mr-12;
-                        filter: var(--textColor2-filter);
+                        @apply filter-textColor6;
                     }
                 }
             }

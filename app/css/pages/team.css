@@ -3,11 +3,7 @@
 #page-team {
     & > header {
         @apply relative;
-        background: linear-gradient(
-            180deg,
-            var(--backgroundColorE) 0%,
-            var(--backgroundColorA) 100%
-        );
+        background: var(--backgroundColorTeamHeader);
 
         & .lg-container {
             @apply pt-32;
@@ -36,6 +32,7 @@
         }
     }
     & .info-box {
+        background: var(--backgroundColorTeamInfoBox);
         & .c-icon {
             height: 240px;
             width: 240px;

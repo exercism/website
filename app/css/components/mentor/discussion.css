@@ -51,7 +51,7 @@
                 & .info {
                     @apply flex flex-col;
                     & .handle {
-                        @apply font-medium text-16 text-textColor3 leading-huge;
+                        @apply font-medium text-16 text-textColor1 leading-huge;
                     }
 
                     & .exercise {

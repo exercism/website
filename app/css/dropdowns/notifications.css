@@ -47,7 +47,7 @@
                 @apply flex-shrink-0 rounded-circle mr-24;
             }
             & .unread {
-                @apply bg-lightBlue;
+                background: var(--backgroundColorNotificationsUnreadDot);
             }
 
             & .action-icon {
@@ -59,6 +59,11 @@
         & .c-prominent-link {
             @apply mt-12;
             @apply px-16 py-8;
+            color: var(--backgroundColorNotificationsUnreadDot);
+
+            .c-icon {
+                filter: var(--iconFilterNotificationsProminentLink);
+            }
 
             &:hover {
                 @apply bg-backgroundColorD;

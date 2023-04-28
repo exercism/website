@@ -48,7 +48,8 @@
                 }
 
                 &.mastered {
-                    @apply border-2 border-darkGreen bg-veryLightGreen2;
+                    @apply border-2 border-darkGreen;
+                    background: var(--backgroundColorConceptMastered);
 
                     & .exercise-status-bar {
                         @apply border-darkGreen;

@@ -6,15 +6,15 @@
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
             Month 4 of #12in23
-          %h1.text-h1.mb-8 It's Analytical April! ✨
+          %h1.text-h1.mb-8 It's Mind Shifting May! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that excel at data science. We're digging into Python, Julia and R, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages that do things differently. We're digging into Ballerina, Pharo, Prolog, Red, Rust, Tcl and Unison, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Analytical April overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Mind Shifting May overview video  👉
               %p.text-p-base.mb-8
-                Our introductory video gives a quick overview to the month, explores what we mean by analyzing data, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
+                Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
                 Take a watch and leave a comment!
 
@@ -25,12 +25,12 @@
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Analytical April badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the Mind Shifting May badge for completing and publishing 5 exercises in one of the following languages.
             Consider starting with a language with a syllabus (
             = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
             ).
 
-          - tracks = Track.where(slug: %w[julia python r])
+          - tracks = Track.where(slug: %w[ballerina pharo-smalltalk prolog red rust tcl unison])
           .grid.grid-cols-8.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
@@ -44,25 +44,25 @@
             You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in analytical languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/etl.svg", class: "w-[25px] inline"
-              %strong.font-semibold ETL:
-              Reshape data into a different format
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/acronym.svg", class: "w-[25px] inline"
+              %strong.font-semibold Acronym:
+              Convert a phrase to its acronym
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/largest-series-product.svg", class: "w-[25px] inline"
-              %strong.font-semibold Largest Series Product:
-              Look for patterns in a string of digits
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/isogram.svg", class: "w-[25px] inline"
+              %strong.font-semibold Isogram:
+              Check if a phrase does not contain repeating letters
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/saddle-points.svg", class: "w-[25px] inline"
-              %strong.font-semibold Saddle Points:
-              Work with multidimensional arrays
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/roman-numerals.svg", class: "w-[25px] inline"
+              %strong.font-semibold Roman Numerals:
+              Translate a decimal number into roman numerals
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/sum-of-multiples.svg", class: "w-[25px] inline"
-              %strong.font-semibold Sum Of Multiples:
-              Practice filtering and summation of a sequence of numbers
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/raindrops.svg", class: "w-[25px] inline"
+              %strong.font-semibold Raindrops:
+              Convert a number into raindrop sounds
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/word-count.svg", class: "w-[25px] inline"
-              %strong.font-semibold Word Count:
-              Convert a string into words and count them
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/space-age.svg", class: "w-[25px] inline"
+              %strong.font-semibold Space Age:
+              Calculate how old someone would be on the planets in our solar system
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12
@@ -88,7 +88,7 @@
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4
-              We have exclusive Analytical April swag that will only be available later in the month. Keep an eye on the
+              We have exclusive Mind Shifting May swag that will only be available later in the month. Keep an eye on the
               = link_to "swag store", "https://swag.exercism.org"
               for details (and check our the Mechanical March swag before it goes too!)
 

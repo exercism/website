@@ -83,14 +83,11 @@ module ReactComponents
           comment_counts = discussion.posts.
             group(:iteration_id, :seen_by_student).
             count
+        else
+          comment_counts = {}
         end
 
-        solution.iterations.map do |iteration|
-          counts = discussion ? comment_counts.select { |(it_id, _), _| it_id == iteration.id } : nil
-          unread = discussion ? counts.reject { |(_, seen), _| seen }.present? : false
-
-          SerializeIteration.(iteration).merge(unread:)
-        end
+        SerializeIterations.(solution.iterations, comment_counts:)
       end
     end
   end

@@ -45,13 +45,13 @@
               %th Donation Amount
               %th Type
               %th
-            - current_user.donation_payments.each do |payment|
+            - @payments.each do |payment|
               %tr
                 %td= format_date(payment.created_at)
                 %td= number_to_currency(payment.amount_in_dollars)
                 %td= payment.subscription ? "Recurring donation" : "One-time donation"
                 %td
-                  = link_to payment.stripe_receipt_url, class: 'btn-enhanced btn-xs' do
+                  = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
                     = graphical_icon "download"
                     %span View Receipt
 

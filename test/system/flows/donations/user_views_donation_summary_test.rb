@@ -8,7 +8,7 @@ module Flows
 
       test "user views donation summary" do
         user = create :user, active_donation_subscription: true, total_donated_in_cents: 3200
-        subscription = create :donations_subscription, user:, active: true, amount_in_cents: 1000
+        subscription = create :donations_subscription, user:, status: :active, amount_in_cents: 1000
         create(:donations_payment, user:, amount_in_cents: 1000, subscription:)
         create :donations_payment, user:, amount_in_cents: 2200
 

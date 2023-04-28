@@ -4,7 +4,7 @@ module API
       before_action :authenticate_user!
 
       def create
-        payment_intent = ::Donations::PaymentIntent::Create.(
+        payment_intent = ::Donations::Stripe::PaymentIntent::Create.(
           current_user || params[:email],
           params[:type],
           params[:amount_in_cents]
@@ -25,13 +25,13 @@ module API
       end
 
       def succeeded
-        ::Donations::PaymentIntent::HandleSuccess.(id: params[:id])
+        ::Donations::Stripe::PaymentIntent::HandleSuccess.(id: params[:id])
 
         render json: {}
       end
 
       def failed
-        ::Donations::PaymentIntent::Cancel.(params[:id])
+        ::Donations::Stripe::PaymentIntent::Cancel.(params[:id])
 
         render json: {}
       end

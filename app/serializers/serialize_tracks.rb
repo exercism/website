@@ -27,7 +27,7 @@ class SerializeTracks
     UserTrack.
       where(user:).
       where(track: tracks).
-      includes(:track).
+      includes(:user, track: [:concepts]).
       index_by(&:track_id)
   end
 

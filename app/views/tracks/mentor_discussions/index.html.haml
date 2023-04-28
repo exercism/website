@@ -15,7 +15,7 @@
       - elsif @solution.mentoring_none?
         = render "introduction", track: @track, exercise: @exercise
 
-      = render "previous_discussions", track: @track, exercise: @exercise, discussions: @solution.mentor_discussions.finished
+      = render "previous_discussions", track: @track, exercise: @exercise, discussions: @previous_discussions
 
     .rhs
       .personal-mentoring{ class: @solution.mentoring_in_progress? ? 'locked' : nil }

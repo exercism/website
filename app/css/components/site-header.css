@@ -119,7 +119,9 @@ body.namespace-.controller-insiders {
         }
 
         .c-notification {
+
             background: theme(colors.eerieBlack);
+
             .--count {
                 @apply text-eerieBlack bg-seafoamGreen;
             }
@@ -289,7 +291,6 @@ body.namespace-.controller-insiders {
         }
         & .c-notification {
             @apply ml-8 mr-48;
-            box-shadow: none;
         }
         & .c-react-wrapper-dropdowns-reputation {
             @apply hidden xl:block lg:mr-48;

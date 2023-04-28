@@ -1,6 +1,14 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.console       = true
+    Bullet.rails_logger  = true
+    Bullet.add_footer    = true
+  end
+
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
     if AnyCable::Rails.enabled?
@@ -78,6 +86,7 @@ Rails.application.configure do
   config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
+  config.hosts << /.*.ngrok-free.app/
 end
 
 Rails.application.routes.default_url_options = {

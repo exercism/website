@@ -338,6 +338,7 @@
     --iconFilterMentorDiscussionWidget: var(--orange-filter);
     --iconFilterCommentsCount: var(--textColor6-filter);
     --iconFilterNotificationsProminentLink: var(--linkColor-filter);
+    --iconEDConcept: var(--textColor7-filter);
 
     --exercise-header-gradient: linear-gradient(
         180deg,
@@ -346,6 +347,11 @@
     );
 
     @apply text-textColor5 bg-backgroundColorB;
+
+    --c-concept-map-line-complete: #64b294;
+    --c-concept-map-line-available: #dce3ef;
+    --c-concept-map-line-locked: #c9c8d7;
+    --c-concept-map-line-faded: #d2ddf3;
 }
 
 .theme-dark {
@@ -559,8 +565,14 @@
 
     --iconFilterNotificationsProminentLink: invert(74%) sepia(71%)
         saturate(309%) hue-rotate(106deg) brightness(89%) contrast(88%);
+    --iconFilterEDConcept: var(--c-prominent-link-icon-filter);
 
     @apply text-textColor5 bg-backgroundColorB;
+
+    --c-concept-map-line-complete: #64b294;
+    --c-concept-map-line-available: #dce3ef77;
+    --c-concept-map-line-locked: #c9c8d7;
+    --c-concept-map-line-faded: #d2ddf3;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -71,7 +71,7 @@
             filter: var(--white-filter);
         }
         &.--available:after {
-            filter: var(--textColor7-filter);
+            filter: var(--iconFilterEDConcept);
         }
     }
 }

@@ -1,11 +1,6 @@
-:root {
+.c-concepts-map {
     --c-concept-map-background: var(--backgroundColorA);
     --c-concept-map-card-background: var(--backgroundColorA);
-
-    --c-concept-map-line-complete: #64b294;
-    --c-concept-map-line-available: #dce3ef;
-    --c-concept-map-line-locked: #c9c8d7;
-    --c-concept-map-line-faded: #d2ddf3;
 
     --c-concept-map-line-dasharray-dashed: 12, 5;
     --c-concept-map-line-dasharray-solid: 1, 0;
@@ -17,9 +12,6 @@
     --c-concept-map-line-width: 2;
     --c-concept-map-circle-radius: 3;
     --c-concept-map-drawing-margin: 50;
-}
-
-.c-concepts-map {
     min-width: 300px;
     margin-top: -40px; /* Compensate for the first row of cards */
 

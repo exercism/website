@@ -155,11 +155,12 @@
             @apply py-6 px-8;
             @apply border-1 border-borderColor5 rounded-5;
             @apply text-textColor6;
-            box-shadow: 0px 1px 0px 1px #cbc9d9bb;
+            box-shadow: 0px 1px 0px 1px rgba(var(--shadowColorKeystroke), 0.73);
 
             & .c-icon {
                 height: 12px;
                 width: 12px;
+                @apply filter-textColor6;
             }
         }
         & .--hint {

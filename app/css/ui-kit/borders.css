@@ -34,8 +34,8 @@
         border-style: solid;
         border-color: transparent;
         background-image: linear-gradient(
-                var(--backgroundColorF),
-                var(--backgroundColorF)
+                var(--backgroundColorBorderGradientLightPurple),
+                var(--backgroundColorBorderGradientLightPurple)
             ),
             linear-gradient(#2200ff, #9e00ff);
         background-origin: border-box;

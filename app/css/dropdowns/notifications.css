@@ -24,8 +24,7 @@
             & .c-avatar {
             }
             & .icon {
-                /* TODO: Really this color? */
-                color: #604fcd;
+                @apply filter-textColor6;
             }
             & .content {
                 @apply flex-grow mr-24;

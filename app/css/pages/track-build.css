@@ -189,6 +189,7 @@
     [tooling-status="exemplar"] {
         @apply c-build-page-tooling-status relative;
         @apply border-healthyGreen;
+        background: var(--backgroundColorBuildToolingStatus);
 
         img {
             @apply filter-healthyGreen;
@@ -207,6 +208,7 @@
     [tooling-status="healthy"] {
         @apply c-build-page-tooling-status;
         @apply border-healthyGreen;
+        background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-healthyGreen;
         }
@@ -215,6 +217,7 @@
     [tooling-status="needs_attention"] {
         @apply c-build-page-tooling-status;
         @apply border-warning;
+        background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-warning;
         }
@@ -223,6 +226,7 @@
     [tooling-status="missing"] {
         @apply c-build-page-tooling-status;
         @apply border-textColor6;
+        background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-textColor6;
         }

@@ -38,7 +38,7 @@
             /* TODO: break this out into an automation.css */
             & header.automation-header {
                 & .track-title {
-                    @apply text-biggerBolderAndMorePurpleThanEver;
+                    @apply text-textColor1;
                 }
                 & .c-track-select {
                     @apply mr-24;

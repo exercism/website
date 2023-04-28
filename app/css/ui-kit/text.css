@@ -41,7 +41,8 @@
         @apply leading-160;
 
         & a {
-            @apply text-lightBlue font-medium;
+            color: var(--c-prominent-link-color);
+            @apply font-medium;
         }
         & strong {
             @apply font-medium text-textColor2;

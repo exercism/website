@@ -64,13 +64,15 @@
         & .--comments-count {
             @apply flex items-center justify-center ml-56;
             @apply font-semibold text-14 text-textColor6 leading-code;
-            @apply py-4 px-12 border-orange border-1 rounded-5 bg-lightOrange;
+            @apply py-4 px-12 border-1 rounded-5;
+            background: var(--backgroundColorTracksListNew);
+            color: var(--textColorCommentsCount);
             width: 66px;
             & .c-icon {
                 @apply mr-6;
                 height: 16px;
                 width: 16px;
-                @apply filter-textColor6;
+                filter: var(--iconFilterCommentsCount);
             }
         }
         & .--status {

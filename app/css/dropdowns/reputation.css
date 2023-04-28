@@ -62,7 +62,7 @@
             & .action-icon {
                 height: 16px;
                 width: 16px;
-                @apply text-textColor6;
+                @apply filter-textColor6;
             }
         }
         & .c-prominent-link {

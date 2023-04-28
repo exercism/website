@@ -158,7 +158,11 @@
         /* Inline elements */
         /*******************/
         & a {
-            @apply font-semibold text-lightBlue;
+            @apply font-semibold;
+            color: var(--c-prominent-link-color);
+            .c-icon {
+                filter: var(--c-prominent-link-icon-filter);
+            }
         }
 
         & strong {

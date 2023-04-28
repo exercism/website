@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { GraphicalIcon } from './GraphicalIcon'
 
 type SearchInputProps = {
@@ -20,26 +20,10 @@ export function SearchInput({
   placeholder,
   className,
 }: SearchInputProps): JSX.Element {
-  const searchInputRef = useRef<HTMLInputElement>(null)
-  const [focused, setFocused] = useState<boolean>(false)
-
-  const focusInputElement = () => {
-    searchInputRef.current?.focus()
-  }
-
   return (
-    <div
-      className={`${WRAPPER_CLASSNAMES} ${className}`}
-      onClick={focusInputElement}
-    >
-      <GraphicalIcon
-        className={ICON_CLASSNAMES + (focused ? 'filter-none' : '')}
-        icon="search"
-      />
+    <div className={`${WRAPPER_CLASSNAMES} ${className}`}>
+      <GraphicalIcon className={ICON_CLASSNAMES} icon="search" />
       <input
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        ref={searchInputRef}
         type="text"
         className={INPUT_CLASSNAMES}
         style={{ all: 'unset' }}

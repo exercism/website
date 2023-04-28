@@ -43,6 +43,9 @@
                 & .--summary-inner {
                     @apply flex items-center py-12 px-24;
                     @apply border-b-1 border-borderLight border-opacity-50;
+                    .c-icon {
+                        @apply filter-textColor6;
+                    }
                 }
 
                 & .opener {
@@ -61,6 +64,7 @@
                     & .c-icon {
                         height: 14px;
                         width: 14px;
+                        @apply filter-textColor6;
                     }
                 }
             }
@@ -98,6 +102,10 @@
                         & .options-button {
                             @apply py-6 px-12 ml-auto;
                             @apply shadow-xsZ1 rounded-8;
+
+                            .c-icon {
+                                @apply filter-textColor6;
+                            }
                         }
                     }
                     & .panels {

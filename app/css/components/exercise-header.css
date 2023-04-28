@@ -90,6 +90,12 @@
 
             & .c-tab {
                 line-height: 40px;
+
+                &.selected {
+                    .c-icon {
+                        @apply filter-aliceBlue;
+                    }
+                }
             }
         }
     }

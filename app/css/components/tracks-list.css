@@ -166,7 +166,7 @@
                     & .c-icon {
                         height: 12px;
                         width: 12px;
-                        filter: var(--tracks-list-joined-filter);
+                        filter: var(--c-prominent-link-icon-filter);
                     }
                 }
             }

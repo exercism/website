@@ -78,7 +78,7 @@
             border: none;
             @apply font-mono;
             @apply bg-backgroundColorA;
-            @apply text-textColor3 text-15 leading-huge;
+            @apply text-textColor1 text-15 leading-huge;
             @apply pt-12 pb-0 px-16;
 
             & .CodeMirror-scroll {

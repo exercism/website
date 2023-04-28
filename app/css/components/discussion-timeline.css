@@ -122,6 +122,7 @@
 
                 & .c-icon {
                     width: 50%;
+                    @apply filter-textColor6;
                 }
             }
         }

@@ -14,6 +14,10 @@ body.devise {
     }
 }
 
+body:not(.namespace-.controller-insiders) {
+    --exercism-link-filter: var(--textColor1-filter);
+}
+
 body.namespace-.controller-insiders {
     #site-header {
         /* russianViolet is site-header background */
@@ -64,6 +68,13 @@ body.namespace-.controller-insiders {
                 }
             }
 
+            .c-prominent-link {
+                color: var(--c-prominent-link-color);
+                .c-icon {
+                    filter: var(--c-prominent-link-icon-filter);
+                }
+            }
+
             .notification {
                 .text {
                     @apply text-aliceBlue;
@@ -75,7 +86,7 @@ body.namespace-.controller-insiders {
             }
 
             .c-reputation {
-                @apply bg-[#191525] text-gray border-none shadow-none;
+                @apply bg-eerieBlack text-gray border-lightGray shadow-none;
                 .c-icon {
                     @apply filter-gray;
                 }
@@ -104,7 +115,7 @@ body.namespace-.controller-insiders {
         }
 
         .c-notification {
-            @apply bg-eerieBlack;
+            background: theme(colors.eerieBlack);
             .--count {
                 @apply text-eerieBlack bg-seafoamGreen;
             }
@@ -167,7 +178,7 @@ body.namespace-.controller-insiders {
     & .exercism-link {
         /* todo remove this */
         @apply flex items-center gap-6;
-        @apply filter-textColor1;
+        filter: var(--exercism-link-filter);
         @apply mr-32 flex-shrink-0;
         @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;

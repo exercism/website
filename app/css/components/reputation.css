@@ -1,16 +1,18 @@
 .c-reputation {
     @apply flex-shrink-0;
 
-    @apply border-1 border-lightGray rounded-100 shadow-sm bg-backgroundColorA;
+    @apply border-1 border-lightGray rounded-100 shadow-sm;
+    background: var(--backgroundColorCReputation);
+    color: var(--textColorCReputation);
 
     @apply flex px-8 items-center justify-center;
-    @apply text-13 text-textColor7 font-semibold;
+    @apply text-13 font-semibold;
     line-height: 28px;
 
     & .c-icon {
         height: 24px;
         width: 24px;
         @apply mr-6;
-        @apply filter-textColor7;
+        @apply filter-textColor6;
     }
 }

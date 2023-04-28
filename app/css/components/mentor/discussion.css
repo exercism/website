@@ -217,7 +217,8 @@
                     @apply font-medium;
                 }
                 & em {
-                    @apply text-lightBlue not-italic font-medium;
+                    @apply not-italic font-medium;
+                    color: var(--c-prominent-link-color);
                 }
             }
         }
@@ -320,6 +321,7 @@
                             height: 14px;
                             width: 14px;
                             @apply ml-12;
+                            @apply filter-textColor6;
                         }
                     }
                 }

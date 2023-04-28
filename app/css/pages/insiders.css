@@ -21,7 +21,7 @@
     }
     .get-insiders-link {
         @apply btn-l btn-primary cursor-pointer;
-        box-shadow: 0px 2px 4px rgba(79, 114, 205, 0.4);
+        box-shadow: 0px 2px 4px rgba(var(--shadowColorMain), 0.4);
     }
 
     .launching {

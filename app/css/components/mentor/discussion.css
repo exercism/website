@@ -145,7 +145,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+            box-shadow: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3);
 
             @apply bg-backgroundColorA;
 
@@ -648,7 +648,7 @@
                 }
             }
             & .direct {
-                box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+                box-shadow: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3);
 
                 @apply px-24 py-16 bg-backgroundColorA;
 

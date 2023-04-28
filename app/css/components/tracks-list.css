@@ -12,7 +12,7 @@
 
             top: 60px;
 
-            box-shadow: 0px 18px 24px rgba(79, 114, 205, 0.15);
+            box-shadow: 0px 18px 24px rgba(var(--shadowColorMain), 0.15);
 
             &:focus {
                 @apply outline-none;
@@ -49,7 +49,7 @@
                 }
 
                 & .--apply-btn {
-                    @apply text-textColor9 bg-purple border-purple;
+                    @apply text-white bg-purple border-purple;
                 }
 
                 & .--close-btn {
@@ -60,12 +60,14 @@
         & .--state {
             @apply hidden items-center;
             @apply px-20;
-            @apply bg-lightOrange dark:bg-launchingYellow rounded-5;
+            @apply rounded-5;
             @apply mr-48;
+            background: var(--backgroundColorTracksListState);
             height: 48px;
 
             & p {
-                @apply text-16 font-medium text-textColor3 dark:text-midnightBlue;
+                @apply text-16 font-medium;
+                color: var(--textColorTracksListState);
             }
             & .--reset-btn {
                 @apply ml-24;
@@ -135,14 +137,18 @@
                 }
 
                 & .--new {
-                    @apply text-orange bg-lightOrange;
+                    color: var(--textColorTracksListNew);
+                    background: var(--backgroundColorTracksListNew);
+                    border-width: 1px;
                     & .c-icon {
                         filter: var(--orange-filter);
                     }
                 }
                 & .--v3 {
                     @apply bg-purple text-white;
-                    @apply border-1 border-textColor2;
+
+                    @apply border-1;
+                    border-color: var(--borderColorTracksListV3);
                     & .c-icon {
                         filter: var(--dark-green-filter);
                     }
@@ -152,11 +158,11 @@
                     @apply flex items-center;
                     @apply flex-shrink-0;
                     @apply text-14 leading-170 font-semibold;
-                    @apply bg-veryLightBlue dark:bg-eerieBlack;
-                    @apply text-lightBlue dark:text-purple;
                     @apply ml-auto;
                     @apply py-4 px-12 rounded-5;
                     height: 32px;
+                    background: var(--backgroundColorTracksListJoined);
+                    color: var(--textColorTracksListJoined);
                     & .c-icon {
                         height: 12px;
                         width: 12px;

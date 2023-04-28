@@ -137,8 +137,8 @@ body.namespace-.controller-insiders {
     & .announcement-bar {
         @apply block;
         @apply py-8;
-        @apply bg-midnightBlue dark:bg-vividPurple;
         @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
+        background: var(--backgroundColorAnnouncementBar);
         & strong {
             @apply text-lightGold mx-4 font-semibold;
             @apply underline;
@@ -165,6 +165,9 @@ body.namespace-.controller-insiders {
     }
 
     & .exercism-link {
+        /* todo remove this */
+        @apply flex items-center gap-6;
+        @apply filter-textColor1;
         @apply mr-32 flex-shrink-0;
         @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;
@@ -288,7 +291,7 @@ body.namespace-.controller-insiders {
             width: 42px;
 
             @apply mr-16;
-            box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+            box-shadow: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3);
         }
         & .c-icon {
             height: 16px;
@@ -343,7 +346,8 @@ body.namespace-.controller-insiders {
                     width: 42px;
 
                     @apply mr-16;
-                    box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+                    box-shadow: 0px 4px 16px 0px
+                        rgba(var(--shadowColorMain), 0.3);
                 }
                 & .info {
                     @apply flex-grow;

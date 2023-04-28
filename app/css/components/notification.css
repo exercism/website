@@ -16,7 +16,7 @@
     & .--count {
         @apply absolute flex items-center justify-center;
         @apply text-textColor9 font-semibold rounded-circle;
-        @apply bg-red dark:bg-seafoamGreen;
+        background: var(--backgroundColorNotificationsCount);
         top: -7px;
         right: -10px;
         width: 25px;
@@ -24,7 +24,7 @@
     }
 
     &.--none {
-        box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+        box-shadow: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3);
 
         /* We need the bg-none to reset the gradient */
         @apply bg-none bg-backgroundColorA text-textColor5;

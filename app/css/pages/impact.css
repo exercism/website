@@ -69,7 +69,9 @@
                 impactFadeOut 0.3s linear 6s forwards;
 
             img {
-                filter: drop-shadow(0px 0px 10px rgba(79, 114, 205, 0.3));
+                filter: drop-shadow(
+                    0px 0px 10px rgba(var(--shadowColorMain), 0.3)
+                );
             }
         }
     }

@@ -1,6 +1,5 @@
 module.exports = {
   mode: 'jit',
-
   options: {
     // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
     defaultExtractor: (line) => {
@@ -64,21 +63,21 @@ module.exports = {
     },
     boxShadow: {
       none: 'none',
-      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
-      xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
+      buttonS: '0px 4px 8px rgba(var(--shadowColorMain), 0.4)',
+      xsZ1: '0px 2px 4px 0px rgba(var(--shadowColorMain), 0.3)',
       xsZ1_dark: '0px 2px 4px #0F0923',
       dark_xsZ1: '0px 2px 4px #0F0923',
-      xsZ1v2: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
-      xsZ1v3: '0px 2px 4px 0px rgba(79, 114, 205, 0.4)',
+      xsZ1v2: '0px 2px 4px 0px rgba(var(--shadowColorMain), 0.15)',
+      xsZ1v3: '0px 2px 4px 0px rgba(var(--shadowColorMain), 0.4)',
       sm: 'var(--box-shadow-sm)',
-      smZ1: '0px 4px 16px 0px rgba(79, 114, 205, 0.3)',
+      smZ1: '0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3)',
       base: 'var(--box-shadow-base)',
-      baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
+      baseZ1: '0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3)',
       lg: 'var(--box-shadow-lg)',
-      lgv2: '0px 4px 42px rgba(79, 114, 205, 0.6)',
+      lgv2: '0px 4px 42px rgba(var(--shadowColorMain), 0.6)',
       lgZ1: 'var(--box-shadow-lgZ1)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
-      keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',
+      keystroke: '0px 1px 0px 1px rgba(var(--shadowColorKeystroke), 0.6)',
       launching: '8px 8px 0px #211E28',
     },
     colors: {
@@ -155,6 +154,8 @@ module.exports = {
       lightGold: '#FFD38F',
 
       veryDarkGray: '#221E31',
+      darkBlueGray: '#211D2F',
+      smokeGray: '#26282D',
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
       borderLight: '#CBC9D9',

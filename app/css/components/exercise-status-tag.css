@@ -24,8 +24,9 @@
         @apply text-white;
     }
     &.--in-progress {
-        @apply border-lightBlue bg-veryLightBlue;
-        @apply text-lightBlue;
+        border-color: var(--borderColorExerciseStatusTagInProgress);
+        background: var(--backgroundColorExerciseStatusTagInProgress);
+        color: var(--textColorExerciseStatusTagInProgress);
     }
     &.--available {
         @apply border-buttonBorderColor2;

@@ -171,6 +171,7 @@
     --backgroundColorEDIterated: theme(colors.darkBlue);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.veryLightBlue);
     --backgroundColorConceptMastered: theme(colors.veryLightGreen2);
+    --backgroundColorCompletedHeading: theme(colors.mediumGreen);
     --backgroundColorCReputation: var(--backgroundColorA);
     --backgroundColorEditorActiveLine: theme(colors.veryLightBlue);
     --backgroundColorTeamHeader: linear-gradient(
@@ -389,6 +390,7 @@
     --backgroundColorEDIterated: theme(colors.purple);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.purpleDarker3);
     --backgroundColorConceptMastered: none;
+    --backgroundColorCompletedHeading: none;
     --backgroundColorCReputation: theme(colors.eerieBlack);
     --backgroundColorEditorActiveLine: theme(colors.russianViolet);
     --backgroundColorTeamHeader: theme(colors.darkBlueGray);

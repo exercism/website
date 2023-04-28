@@ -31,10 +31,7 @@ module ViewComponents
 
     def logo
       link_to Exercism::Routes.root_path, class: "exercism-link xl:block", "data-turbo-frame": "tf-main" do
-        safe_join([
-                    icon("exercism-with-logo-black", "Exercism"),
-                    render(ReactComponents::Common::ThemeToggleButton.new)
-                  ])
+        icon("exercism-with-logo-black", "Exercism")
       end
     end
 

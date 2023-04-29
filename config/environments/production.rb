@@ -7,7 +7,7 @@ Rails.application.configure do
 
     Bullet.enable = true
     Bullet.raise  = false
-    Bullet.bugsnag = true
+    Bullet.bugsnag = false
   end
   # Settings specified here will take precedence over those in config/application.rb.
 

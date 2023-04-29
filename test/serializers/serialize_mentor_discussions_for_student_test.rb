@@ -16,4 +16,12 @@ class SerializeMentorDiscussionsForStudentTest < ActiveSupport::TestCase
     SerializeMentorDiscussionForStudent.expects(:call).with(discussion).returns(data)
     assert_equal [data], SerializeMentorDiscussionsForStudent.(Mentor::Discussion.all)
   end
+
+  test "n+1s handled correctly" do
+    create_np1_data
+
+    Bullet.profile do
+      SerializeMentorDiscussionsForStudent.(Mentor::Discussion.all)
+    end
+  end
 end

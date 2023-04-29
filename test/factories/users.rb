@@ -4,7 +4,10 @@ FactoryBot.define do
     name { "User" }
     password { "password" }
     handle { "handle-#{SecureRandom.hex(4)}" }
-    avatar_url { "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx" }
+    accepted_terms_at { Date.new(2016, 12, 25) }
+    accepted_privacy_policy_at { Date.new(2016, 12, 25) }
+    became_mentor_at { Date.new(2016, 12, 25) }
+    avatar { Rack::Test::UploadedFile.new(Rails.root.join("app", "images", "favicon.png"), 'image/png') }
 
     after(:create) do |user, _evaluator|
       # Update the avatar if we've had a placeholder in the factory

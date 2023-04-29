@@ -4,14 +4,17 @@ class SerializeApproaches
   initialize_with :approaches
 
   def call
-    approaches_with_track.map do |approach|
+    eager_loaded_approaches.map do |approach|
       SerializeApproach.(approach, authors(approach), contributors(approach))
     end
   end
 
   private
   memoize
-  def approaches_with_track = approaches.includes(:track).to_a
+  def eager_loaded_approaches
+    approaches.to_active_relation.
+      includes(:track)
+  end
 
   def authors(approach)
     users.select { |user| approach_author_ids[approach.id]&.include?(user.id) }

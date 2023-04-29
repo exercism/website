@@ -17,6 +17,9 @@ class Tracks::MentorDiscussionsController < ApplicationController
   def use_discussion
     raise ActiveRecord::RecordNotFound unless @solution
 
-    @discussion = @solution.mentor_discussions.find_by!(uuid: params[:id])
+    @discussion = @solution.mentor_discussions.includes(
+      student: { avatar_attachment: :blob },
+      mentor: { avatar_attachment: :blob }
+    ).find_by!(uuid: params[:id])
   end
 end

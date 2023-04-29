@@ -85,4 +85,12 @@ class SerializeExerciseRepresentationsTest < ActiveSupport::TestCase
     params = { track_slug: 'ruby', page: 5 }
     assert_equal expected, SerializeExerciseRepresentations.([representation], params:)
   end
+
+  test "n+1s handled correctly" do
+    create_np1_data
+
+    Bullet.profile do
+      SerializeExerciseRepresentations.(Exercise::Representation.all, params: {})
+    end
+  end
 end

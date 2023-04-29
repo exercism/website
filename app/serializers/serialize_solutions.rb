@@ -1,8 +1,6 @@
 class SerializeSolutions
   include Mandate
 
-  NP1_INCLUDES = [:exercise, :track, { user: :avatar_attachment }].freeze
-
   initialize_with :solutions, :user
 
   def call
@@ -17,11 +15,8 @@ class SerializeSolutions
   private
   memoize
   def solutions_with_includes
-    # Some upstream callers pass in a manually constructed kaminari array that already
-    # includes the exercise and track. For the other callers, we include it here
-    return solutions unless solutions.is_a?(ActiveRecord::Relation)
-
-    solutions.includes(*NP1_INCLUDES).to_a
+    solutions.to_active_relation.
+      includes([:exercise, :track, { user: :avatar_attachment }])
   end
 
   memoize

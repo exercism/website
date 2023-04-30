@@ -3,10 +3,10 @@ require "test_helper"
 class Badges::MindShiftingMayBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :mind_shifting_may_badge
-    assert_equal "Mind-shifting May", badge.name
+    assert_equal "Mind Shifting May", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'badge-mind-shifting-may', badge.icon
-    assert_equal 'Completed and published five exercises in a Mind-shifting language in May', badge.description
+    assert_equal 'Completed and published five exercises in a Mind shifting language in May', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

@@ -311,32 +311,6 @@ class ActiveSupport::TestCase
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
   end
-
-  ###############
-  # N+1 Helpers #
-  ###############
-  def create_np1_solutions
-    Array.new(3) do
-      track = create :track, :random_slug
-      exercise = create(:practice_exercise, track:)
-      solution = create(:practice_solution, exercise:)
-      3.times do
-        ast_digest = SecureRandom.uuid
-        submission = create(:submission, solution:)
-        create(:submission_representation, submission:, ast_digest:)
-        create(:exercise_representation, exercise:, ast_digest:)
-        create(:iteration, solution:)
-      end
-    end
-  end
-
-  def create_np1_mentor_requests(mentor)
-    create_np1_solutions.each do |solution|
-      create :user_track_mentorship, user: mentor, track: solution.track
-      create(:mentor_request, solution:)
-      create :mentor_student_relationship, mentor:, student: solution.user
-    end
-  end
 end
 
 class ActionView::TestCase

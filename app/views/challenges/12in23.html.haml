@@ -8,7 +8,7 @@
             Month 4 of #12in23
           %h1.text-h1.mb-8 It's Mind Shifting May! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that do things differently. We're digging into Ballerina, Pharo, Prolog, Red, Rust, Tcl and Unison, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages that do things differently. We're digging into Ballerina, Pharo, Prolog, Red, Tcl and Unison, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
             .flex-shrink
@@ -30,7 +30,7 @@
             = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
             ).
 
-          - tracks = Track.where(slug: %w[ballerina pharo-smalltalk prolog red rust tcl unison])
+          - tracks = Track.where(slug: %w[ballerina pharo-smalltalk prolog red tcl unison])
           .grid.grid-cols-8.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do

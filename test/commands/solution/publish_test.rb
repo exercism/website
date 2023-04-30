@@ -218,7 +218,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::AnalyticalAprilBadge
   end
 
-  test "awards mind shifting may badge when published five or more exercises in a Mind Shifting May track" do
+  test "awards mind-shifting may badge when published five or more exercises in a Mind Shifting May track" do
     travel_to Time.utc(2022, 5, 12)
 
     track = create :track, slug: 'unison'

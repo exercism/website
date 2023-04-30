@@ -2,10 +2,10 @@ module Badges
   class MindShiftingMayBadge < Badge
     TRACK_SLUGS = %w[ballerina pharo-smalltalk prolog red rust tcl unison].freeze
 
-    seed "Mind Shifting May",
+    seed "Mind-shifting May",
       :rare,
       'badge-mind-shifting-may',
-      'Completed and published five exercises in a Mind Shifting language in May'
+      'Completed and published five exercises in a mind-shifting language in May'
 
     def self.worth_queuing?(exercise:)
       return false if exercise.tutorial?

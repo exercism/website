@@ -6,7 +6,7 @@ class Badges::MindShiftingMayBadgeTest < ActiveSupport::TestCase
     assert_equal "Mindshifting May", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'badge-mind-shifting-may', badge.icon
-    assert_equal 'Completed and published five exercises in a Mindshifting language in May', badge.description
+    assert_equal 'Completed and published five exercises in a mindshifting language in May', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end

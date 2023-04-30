@@ -4,5 +4,9 @@ FactoryBot.define do
     provider { :stripe }
     external_id { SecureRandom.uuid }
     amount_in_cents { 1000 }
+
+    trait :canceled do
+      status { :canceled }
+    end
   end
 end

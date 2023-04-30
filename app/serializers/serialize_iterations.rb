@@ -24,8 +24,12 @@ class SerializeIterations
     its = iterations.includes(
       :exercise,
       :track,
+      solution: :latest_iteration,
       submission: %i[
-        solution analysis submission_representation
+        analysis
+        submission_representation
+        exercise_representation
+        solution
       ]
     )
     its = its.includes(:files) if sideload.include?(:files)

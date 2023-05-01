@@ -25,7 +25,7 @@ module BodyClassConcern
   end
 
   def theme
-    "theme-system"
+    "theme-#{current_user&.preferences&.theme || 'light'}"
   end
 
   included do

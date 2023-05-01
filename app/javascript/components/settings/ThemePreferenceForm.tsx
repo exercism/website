@@ -10,8 +10,8 @@ export type ThemePreferenceLinks = {
 }
 
 type RequestBody = {
-  user: {
-    theme_preference: string
+  user_preferences: {
+    theme: string
   }
 }
 
@@ -84,7 +84,7 @@ export const ThemePreferenceForm = ({
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',
-    body: { user: { theme_preference: theme } },
+    body: { user_preferences: { theme: theme } },
   })
 
   const handleSubmit = useCallback(

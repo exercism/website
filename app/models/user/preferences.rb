@@ -6,6 +6,7 @@ class User::Preferences < ApplicationRecord
   def self.automation_keys
     %i[
       auto_update_exercises
+      theme
     ]
   end
 end

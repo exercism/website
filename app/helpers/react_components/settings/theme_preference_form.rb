@@ -6,16 +6,14 @@ module ReactComponents
           default_theme_preference:,
           insiders_status: current_user.insiders_status,
           links: {
-            # TODO: add this field too, check this update URL
-            update: Exercism::Routes.api_settings_url,
+            update: Exercism::Routes.api_settings_user_preferences_url,
             insiders_path: Exercism::Routes.insiders_path
           }
         })
       end
 
-      # TODO: add these as default values in DB
       def default_theme_preference
-        %i[active active_lifetime].include?(current_user.insiders_status) ? 'system' : 'light'
+        current_user.preferences.theme || 'light'
       end
     end
   end

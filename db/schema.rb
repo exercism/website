@@ -332,7 +332,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
     t.integer "exercise_version", limit: 2, default: 1, null: false
     t.integer "draft_feedback_type", limit: 1
     t.text "draft_feedback_markdown"
+    t.string "exercise_id_and_ast_digest_idx_cache"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
+    t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep", order: { id: :desc }
     t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
@@ -832,6 +834,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
     t.datetime "updated_at", null: false
     t.bigint "mentored_by_id"
     t.bigint "track_id"
+    t.string "exercise_id_and_ast_digest_idx_cache"
+    t.index ["exercise_id_and_ast_digest_idx_cache"], name: "index_ex_rep"
     t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"

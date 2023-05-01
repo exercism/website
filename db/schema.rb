@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
+=======
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_214536) do
+>>>>>>> edfb383f1 (Add a cache to remove three SQL calls from every request)
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -764,7 +768,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "status", "num_stars"], name: "solutions_ex_stat_stars", order: { status: :desc, num_stars: :desc }
+    t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat", order: { status: :desc, num_stars: :desc, updated_at: :desc }
+    t.index ["exercise_id", "status", "published_iteration_head_tests_status", "id"], name: "index_other_comm_solutions"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
@@ -1047,6 +1052,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
@@ -1054,6 +1060,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.index ["last_visited_on"], name: "index_user_data_last_visited_on"
     t.index ["stripe_customer_id"], name: "index_user_data_stripe_customer_id", unique: true
     t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
+=======
+    t.json "cache"
+    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
+    t.index ["insiders_status"], name: "index_users_on_insiders_status"
+    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+>>>>>>> edfb383f1 (Add a cache to remove three SQL calls from every request)
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 

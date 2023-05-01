@@ -7,6 +7,7 @@ module API
     end
 
     def reveal
+      # TODO: Move to command and call User::ResetCache
       @testimonial.update!(revealed: true)
 
       render json: {

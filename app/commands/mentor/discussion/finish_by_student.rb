@@ -64,6 +64,7 @@ class Mentor::Discussion::FinishByStudent
     ).update!(blocked_by_student: true)
   end
 
+  # TODO: Move to command and call User::ResetCache
   def create_testimonial!
     return if testimonial.blank?
 

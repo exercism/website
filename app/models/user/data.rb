@@ -18,6 +18,18 @@ class User::Data < ApplicationRecord
   def donated? = first_donated_at.present?
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
 
+  # Cache methods
+  %w[
+    has_unrevealed_testimonials?
+    has_unrevealed_badges?
+    has_unseen_reputation_tokens?
+  ].each do |meth|
+    define_method meth do
+      self.cache.presence || User::ResetCache.(user)
+      self.cache[meth]
+    end
+  end
+
   FIELDS = %w[
     bio roles insiders_status
 

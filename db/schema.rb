@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -157,26 +157,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
   create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "subscription_id"
-    t.string "stripe_id", null: false
-    t.string "stripe_receipt_url", null: false
+    t.string "external_id", null: false
+    t.string "external_receipt_url"
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
-    t.index ["stripe_id"], name: "index_donations_payments_on_stripe_id", unique: true
+    t.integer "provider", limit: 1, default: 0, null: false
+    t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
   end
 
   create_table "donations_subscriptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "stripe_id", null: false
-    t.boolean "active", default: true, null: false
+    t.string "external_id", null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
-    t.index ["stripe_id"], name: "index_donations_subscriptions_on_stripe_id", unique: true
+    t.integer "status", limit: 1, default: 0, null: false
+    t.integer "provider", limit: 1, default: 0, null: false
+    t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
 
@@ -330,11 +332,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.integer "exercise_version", limit: 2, default: 1, null: false
     t.integer "draft_feedback_type", limit: 1
     t.text "draft_feedback_markdown"
+    t.string "exercise_id_and_ast_digest_idx_cache"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
+    t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep", order: { id: :desc }
+    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
+    t.index ["feedback_type", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_type_exercise_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_type", "exercise_id", "num_submissions"], name: "index_exercise_representation_type_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
@@ -486,6 +494,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "email_communication_preferences_key", null: false
+    t.boolean "test_sent", default: false, null: false
+    t.json "sent_to_audiences"
     t.string "subject", null: false
     t.string "button_url", null: false
     t.string "button_text", null: false
@@ -494,8 +504,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.text "content_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "test_sent", default: false, null: false
-    t.json "sent_to_audiences"
     t.index ["slug"], name: "index_mailshots_on_slug", unique: true
   end
 
@@ -533,7 +541,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "external", default: false, null: false
-    t.index ["mentor_id"], name: "index_mentor_discussions_on_mentor_id"
+    t.index ["mentor_id", "status"], name: "index_mentor_discussions_on_mentor_id_and_status"
     t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
     t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
   end
@@ -596,7 +604,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
-    t.index ["mentor_id"], name: "index_mentor_testimonials_on_mentor_id"
+    t.index ["mentor_id", "revealed"], name: "index_mentor_testimonials_on_mentor_id_and_revealed"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
   end
@@ -692,9 +700,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.bigint "pull_request_id"
     t.datetime "published_at", null: false
     t.string "title"
-    t.text "description_markdown"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description_markdown"
     t.text "description_html"
     t.index ["author_id"], name: "index_site_updates_on_author_id"
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
@@ -757,13 +766,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "published_at"], name: "index_solutions_on_exercise_id_and_published_at"
+    t.index ["exercise_id", "status", "num_stars"], name: "solutions_ex_stat_stars", order: { status: :desc, num_stars: :desc }
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
     t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
-    t.index ["user_id"], name: "index_solutions_on_user_id"
+    t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id"
     t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
   end
 
@@ -778,6 +787,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["starts_at", "ends_at"], name: "index_streaming_events_on_starts_at_and_ends_at"
+  end
+
+  create_table "submission_ai_help_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "submission_id", null: false
+    t.string "source", null: false
+    t.text "advice_markdown", null: false
+    t.text "advice_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_id"], name: "fk_rails_76b9473637"
   end
 
   create_table "submission_analyses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -815,6 +834,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.datetime "updated_at", null: false
     t.bigint "mentored_by_id"
     t.bigint "track_id"
+    t.string "exercise_id_and_ast_digest_idx_cache"
+    t.index ["exercise_id_and_ast_digest_idx_cache"], name: "index_ex_rep"
     t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
@@ -1051,7 +1072,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.bigint "mailshot_id", null: false
     t.index ["email_status"], name: "index_user_mailshots_on_email_status"
     t.index ["mailshot_id"], name: "fk_rails_9ddeeadfc0"
-    t.index ["user_id", "mailshot_slug"], name: "index_user_mailshots_on_user_id_and_mailshot_slug", unique: true
+    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id"
     t.index ["user_id"], name: "index_user_mailshots_on_user_id"
   end
 
@@ -1138,13 +1159,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id", "category", "external_url"], name: "index_user_reputation_tokens_on_track_id_category_external_url"
-    t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
+    t.index ["user_id", "category"], name: "index_user_reputation_tokens_on_user_id_and_category"
     t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
+    t.index ["user_id", "seen"], name: "index_user_reputation_tokens_on_user_id_and_seen"
     t.index ["user_id", "track_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_4"
     t.index ["user_id", "track_id", "type"], name: "index_user_reputation_tokens_query_2"
     t.index ["user_id", "type"], name: "index_user_reputation_tokens_query_1"
-    t.index ["user_id"], name: "index_user_reputation_tokens_on_user_id"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
   end
 
@@ -1215,7 +1236,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.datetime "first_donated_at"
     t.string "discord_uid"
     t.integer "insiders_status", limit: 1, default: 0, null: false
+    t.string "paypal_payer_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
@@ -1223,7 +1246,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["insiders_status"], name: "index_users_on_insiders_status"
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
+    t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["reputation"], name: "index_users_on_reputation"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
@@ -1237,6 +1262,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
   add_foreign_key "cohorts", "tracks"
   add_foreign_key "community_stories", "users", column: "interviewee_id"
   add_foreign_key "community_stories", "users", column: "interviewer_id"
+  add_foreign_key "community_videos", "exercises"
+  add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "documents", "tracks"
@@ -1306,6 +1333,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_141544) do
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
+  add_foreign_key "submission_ai_help_records", "submissions"
   add_foreign_key "submission_analyses", "submissions"
   add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"

@@ -283,7 +283,10 @@ class User < ApplicationRecord
     solution.viewable_by?(self)
   end
 
-  def has_avatar_url? = avatar_url.present? || avatar.attached?
+  def onboarded?
+    accepted_privacy_policy_at.present? &&
+      accepted_terms_at.present?
+  end
 
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?

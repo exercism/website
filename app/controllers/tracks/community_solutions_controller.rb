@@ -36,7 +36,8 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @other_solutions = @exercise.solutions.published.
       where.not(id: @solution.id).
       where(published_iteration_head_tests_status: %i[not_queued queued passed]).
-      limit(3)
+      limit(3).
+      includes(:track, { user: :avatar_attachment })
     @mentor_discussions = @solution.mentor_discussions.
       finished.not_negatively_rated.includes(:mentor)
   rescue ActiveRecord::RecordNotFound

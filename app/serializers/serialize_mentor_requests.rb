@@ -4,7 +4,7 @@ class SerializeMentorRequests
   initialize_with :requests, :mentor
 
   def call
-    requests.includes(:student, :exercise, :track).
+    requests.includes(:exercise, :track, student: :avatar_attachment).
       map { |r| serialize_request(r) }
   end
 

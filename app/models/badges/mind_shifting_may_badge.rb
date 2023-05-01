@@ -1,6 +1,6 @@
 module Badges
   class MindShiftingMayBadge < Badge
-    TRACK_SLUGS = %w[ballerina pharo-smalltalk prolog red tcl unison].freeze
+    TRACK_SLUGS = %w[ballerina pharo-smalltalk prolog red rust tcl unison].freeze
 
     seed "Mindshifting May",
       :rare,

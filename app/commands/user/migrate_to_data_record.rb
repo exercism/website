@@ -9,7 +9,7 @@ class User::MigrateToDataRecord
     User::Data.connection.insert <<~SQL
       INSERT INTO user_data(user_id, #{fields}, created_at, updated_at)
       SELECT users.id, #{fields}, NOW(), NOW()
-      FROM USERS
+      FROM users
       WHERE users.id = #{user_id}
     SQL
   rescue ActiveRecord::RecordNotUnique

@@ -17,17 +17,16 @@ class Submission::Representation < ApplicationRecord
   has_one :exercise, through: :solution
 
   has_one :exercise_representation,
-    lambda { |sr|
-      where("exercise_representations.exercise_id": sr.solution.exercise_id).
-        order('exercise_representations.id desc')
-    },
-    foreign_key: :ast_digest,
-    primary_key: :ast_digest,
+    -> { order('exercise_representations.id desc') },
+    foreign_key: :exercise_id_and_ast_digest_idx_cache,
+    primary_key: :exercise_id_and_ast_digest_idx_cache,
     class_name: "Exercise::Representation",
     inverse_of: :submission_representations
 
   before_create do
     self.ast_digest = self.class.digest_ast(ast) unless self.ast_digest
+    self.exercise_id_and_ast_digest_idx_cache = "#{submission.exercise_id}|#{ast_digest}"
+
     self.ops_status = OPS_STATUS_ERRORED if self.ast_digest.blank?
   end
 

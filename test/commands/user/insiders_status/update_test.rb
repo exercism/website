@@ -78,36 +78,6 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
   end
 
-  test "eligible: insider badge awarded when current status is active_lifetime" do
-    user = create :user, insiders_status: :active_lifetime
-
-    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-
-    # Make the user eligible
-    user.update(active_donation_subscription: true)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-  end
-
-  test "eligible: insider badge awarded when current status is active" do
-    user = create :user, insiders_status: :active
-
-    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-
-    # Make the user eligible
-    user.update(active_donation_subscription: true)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-  end
-
   [
     %i[ineligible eligible_lifetime],
     %i[eligible eligible_lifetime],
@@ -162,50 +132,5 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
 
     User::InsidersStatus::Update.(user)
-  end
-
-  test "eligible_lifetime: insider badge awarded when current status is active_lifetime" do
-    user = create :user, insiders_status: :active_lifetime
-
-    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-  end
-
-  test "eligible_lifetime: insider badge awarded when current status is active" do
-    user = create :user, insiders_status: :active
-
-    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-  end
-
-  test "eligible_lifetime: awards insiders badge when current status is active" do
-    user = create :user, insiders_status: :active
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
   end
 end

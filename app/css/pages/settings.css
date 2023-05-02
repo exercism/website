@@ -219,11 +219,12 @@
     & section.github-section {
         & a.external-link {
             @apply inline-flex items-center mr-8;
-            @apply text-lightBlue font-medium;
+            @apply font-medium;
+            color: var(--c-prominent-link-color);
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                filter: var(--link-blue-filter);
+                filter: var(--c-prominent-link-icon-filter);
                 @apply ml-4;
             }
         }
@@ -232,9 +233,9 @@
         @apply grid grid-cols-2 gap-24;
         & .box {
             @apply border-2 border-alert rounded-8;
-            @apply bg-veryLightRed;
             @apply py-16 px-24;
             @apply self-start;
+            background: var(--backgroundColorDangerSection);
 
             & h2 {
                 @apply text-h4 mb-8;

@@ -2,7 +2,7 @@ module Badges
   class OriginalInsiderBadge < Badge
     seed "Original Insider",
       :legendary,
-      'original-insider',
+      'original-insiders',
       'One of the Original Insiders'
 
     def award_to?(user) = ORIGINAL_INSIDER_HANDLES.include?(user.handle.downcase)

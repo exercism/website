@@ -2,7 +2,7 @@ module Badges
   class InsiderBadge < Badge
     seed "Insider",
       :ultimate,
-      'insider',
+      'insiders',
       'Member of Exercism Insiders'
 
     def award_to?(user) = VALID_INSIDERS_STATUSES.include?(user.insiders_status)

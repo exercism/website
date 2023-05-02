@@ -4,7 +4,15 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
   test "does not raise when signature is valid" do
     stub_request(:post, "https://api-m.paypal.com/v1/notifications/verify-webhook-signature").
       with(
-        body: "{\"auth_algo\":\"AUTH-ALGO\",\"cert_url\":\"CERT-URL\",\"transmission_id\":\"TRANSMISSION-ID\",\"transmission_sig\":\"TRANSMISSION-SIG\",\"transmission_time\":\"TRANSMISSION-TIME\",\"webhook_id\":null,\"webhook_event\":{\"resource\":{\"id\":7}}}", # rubocop:disable Layout/LineLength
+        body: {
+          auth_algo: "AUTH-ALGO",
+          cert_url: "CERT-URL",
+          transmission_id: "TRANSMISSION-ID",
+          transmission_sig: "TRANSMISSION-SIG",
+          transmission_time: "TRANSMISSION-TIME",
+          webhook_id: Exercism.secrets.paypal_webhook_id,
+          webhook_event: { resource: { id: 7 } }
+        }.to_json,
         headers: { 'Content-Type' => 'application/json' }
       ).
       to_return(status: 200, body: { verification_status: "SUCCESS" }.to_json, headers: { 'Content-Type' => 'application/json' })
@@ -26,7 +34,15 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
   test "raises when signature is not valid" do
     stub_request(:post, "https://api-m.paypal.com/v1/notifications/verify-webhook-signature").
       with(
-        body: "{\"auth_algo\":\"AUTH-ALGO\",\"cert_url\":\"CERT-URL\",\"transmission_id\":\"TRANSMISSION-ID\",\"transmission_sig\":\"TRANSMISSION-SIG\",\"transmission_time\":\"TRANSMISSION-TIME\",\"webhook_id\":null,\"webhook_event\":{\"resource\":{\"id\":7}}}", # rubocop:disable Layout/LineLength
+        body: {
+          auth_algo: "AUTH-ALGO",
+          cert_url: "CERT-URL",
+          transmission_id: "TRANSMISSION-ID",
+          transmission_sig: "TRANSMISSION-SIG",
+          transmission_time: "TRANSMISSION-TIME",
+          webhook_id: Exercism.secrets.paypal_webhook_id,
+          webhook_event: { resource: { id: 7 } }
+        }.to_json,
         headers: { 'Content-Type' => 'application/json' }
       ).
       to_return(status: 200, body: { verification_status: "FAILURE" }.to_json, headers: { 'Content-Type' => 'application/json' })
@@ -50,7 +66,15 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
   test "raises when response is not success" do
     stub_request(:post, "https://api-m.paypal.com/v1/notifications/verify-webhook-signature").
       with(
-        body: "{\"auth_algo\":\"AUTH-ALGO\",\"cert_url\":\"CERT-URL\",\"transmission_id\":\"TRANSMISSION-ID\",\"transmission_sig\":\"TRANSMISSION-SIG\",\"transmission_time\":\"TRANSMISSION-TIME\",\"webhook_id\":null,\"webhook_event\":{\"resource\":{\"id\":7}}}", # rubocop:disable Layout/LineLength
+        body: {
+          auth_algo: "AUTH-ALGO",
+          cert_url: "CERT-URL",
+          transmission_id: "TRANSMISSION-ID",
+          transmission_sig: "TRANSMISSION-SIG",
+          transmission_time: "TRANSMISSION-TIME",
+          webhook_id: Exercism.secrets.paypal_webhook_id,
+          webhook_event: { resource: { id: 7 } }
+        }.to_json,
         headers: { 'Content-Type' => 'application/json' }
       ).
       to_return(status: 401, body: '', headers: {})
@@ -74,7 +98,15 @@ class Webhooks::Paypal::VerifySignatureTest < ActiveSupport::TestCase
   test "raises when response JSON is not valid" do
     stub_request(:post, "https://api-m.paypal.com/v1/notifications/verify-webhook-signature").
       with(
-        body: "{\"auth_algo\":\"AUTH-ALGO\",\"cert_url\":\"CERT-URL\",\"transmission_id\":\"TRANSMISSION-ID\",\"transmission_sig\":\"TRANSMISSION-SIG\",\"transmission_time\":\"TRANSMISSION-TIME\",\"webhook_id\":null,\"webhook_event\":{\"resource\":{\"id\":7}}}", # rubocop:disable Layout/LineLength
+        body: {
+          auth_algo: "AUTH-ALGO",
+          cert_url: "CERT-URL",
+          transmission_id: "TRANSMISSION-ID",
+          transmission_sig: "TRANSMISSION-SIG",
+          transmission_time: "TRANSMISSION-TIME",
+          webhook_id: Exercism.secrets.paypal_webhook_id,
+          webhook_event: { resource: { id: 7 } }
+        }.to_json,
         headers: { 'Content-Type' => 'application/json' }
       ).
       to_return(status: 200, body: "{ verification_stat", headers: { 'Content-Type' => 'application/json' })

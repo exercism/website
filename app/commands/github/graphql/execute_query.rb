@@ -9,7 +9,7 @@ class Github::Graphql::ExecuteQuery
 
     loop do
       body = { query:, variables: { endCursor: end_cursor } }
-      response = Exercism.octokit_client.post("https://api.github.com/graphql", body.to_json).to_h
+      response = Exercism.octokit_graphql_client.post("https://api.github.com/graphql", body.to_json).to_h
 
       data = response.dig(:data, *data_path)
       break results unless data

@@ -96,7 +96,7 @@ GEM
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-dynamodb (1.83.0)
+    aws-sdk-dynamodb (1.84.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-ecr (1.58.0)
@@ -109,7 +109,7 @@ GEM
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
-    aws-sdk-secretsmanager (1.73.0)
+    aws-sdk-secretsmanager (1.74.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
@@ -170,7 +170,7 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.88.0)
+    exercism-config (0.93.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -553,7 +553,7 @@ DEPENDENCIES
   devise (~> 4.7)
   discourse_api
   elasticsearch (= 6.8.3)
-  exercism-config (>= 0.86.0)
+  exercism-config (>= 0.93.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)

@@ -144,6 +144,11 @@
                 @screen md {
                     max-width: 450px;
                 }
+
+                & > code {
+                    display: block;
+                    overflow-x: auto;
+                }
             }
         }
     }

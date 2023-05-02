@@ -82,6 +82,7 @@
                     height: 64px;
                     width: 64px;
                     @apply mb-24;
+                    @apply filter-textColor1;
                 }
 
                 & h3 {

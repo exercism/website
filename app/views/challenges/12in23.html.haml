@@ -3,14 +3,14 @@
     .lg-container
       .flex
         .mr-auto{ class: 'max-w-[860px]' }
-          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+          .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
             Month 4 of #12in23
           %h1.text-h1.mb-8 It's Analytical April! ✨
           %p.text-p-xlarge.mb-20
             This month for #12in23 we're exploring languages that excel at data science. We're digging into Python, Julia and R, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
-          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorA
+          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
               %h2.text-h4.mb-2 Start by watching our Analytical April overview video  👉
               %p.text-p-base.mb-8
@@ -114,17 +114,17 @@
             %p.text-p-base.mb-12
               Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
-              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-12in23-feb-update.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
                 .text-center.text-h6 How's your #12in23 going?
 
-              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorA p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
                 .text-center.text-h6 The Official #12in23 Calendar
 
-            %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
+            %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
               Track your progress at the bottom of the page.
 
           .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
@@ -133,7 +133,7 @@
               We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
             = link_to "Donate now", donate_path, class: 'btn btn-primary'
 
-          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
             %h2.text-h4.mb-4 The year-long #12in23 badge
             %p.text-p-base.mb-12
               At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
@@ -166,7 +166,7 @@
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
-          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count >= 5 ? 'border-successColor' : 'border-transparent'}" do
+          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count >= 5 ? 'border-successColor' : 'border-transparent'}" do
             = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
@@ -180,5 +180,5 @@
         - num_placeholders = 12 - @track_counts.size
         - if num_placeholders.positive?
           - num_placeholders.times do
-            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center{ class: 'min-h-[175px]' }
+            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }
               .text-h0{ class: "opacity-[0.2]" } ?

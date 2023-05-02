@@ -5,7 +5,7 @@ class Badge::OriginalInsiderBadgeTest < ActiveSupport::TestCase
     badge = create :original_insider_badge
     assert_equal "Original Insider", badge.name
     assert_equal :legendary, badge.rarity
-    assert_equal :'original-insider', badge.icon
+    assert_equal :'original-insiders', badge.icon
     assert_equal "One of the Original Insiders", badge.description
     assert badge.send_email_on_acquisition?
   end

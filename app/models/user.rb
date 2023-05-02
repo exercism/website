@@ -304,4 +304,8 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def insiders_status = super.to_sym
+
+  def usages
+    super || (self.usages = {})
+  end
 end

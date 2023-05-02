@@ -31,6 +31,7 @@ en:
       file_not_found: "The file was not found"
       # TODO: Add max size to this
       file_too_large: "The submitted file was too large"
+      too_many_requests: "A rate limit has been hit"
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."

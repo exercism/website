@@ -14,6 +14,13 @@ class Submission::AI::ChatGPT::RequestHelp
       submission: formatted_submission_files
     }
 
+    # Keep this as small a lock as possible
+    user.lock! do
+      data[:chatgpt_version] = chatgpt_version
+
+      User::IncrementUsage.(user, :chatgpt, chatgpt_version)
+    end
+
     # We want to trigger this then forget about it.
     # We don't care about the result as that gets fired back
     # to the SPI when it's ready.
@@ -27,7 +34,15 @@ class Submission::AI::ChatGPT::RequestHelp
   end
 
   private
-  delegate :solution, :track, to: :submission
+  delegate :solution, :track, :user, to: :submission
+
+  def chatgpt_version
+    usages = user.usages['chatgpt'] || {}
+    return '4.0' if !usages['4.0'] || usages['4.0'] < 3
+    return '3.5' if !usages['3.5'] || usages['3.5'] < 30
+
+    raise ChatGPTTooManyRequestsError
+  end
 
   def formatted_instructions
     introduction = solution.introduction.blank? ? "" : Markdown::Render.(solution.introduction, :text)

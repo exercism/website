@@ -491,7 +491,7 @@
     /* Atom One Dark by Daniel Gamage
     Original One Dark Syntax theme from https://github& .com/atom/one-dark-syntax */
 
-    --hljs-base: #282c34;
+    --hljs-base: theme(colors.eerieBlack);
     --hljs-mono-1: #abb2bf;
     --hljs-mono-2: #818896;
     --hljs-mono-3: #5c6370;

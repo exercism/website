@@ -6,7 +6,7 @@
         @apply py-8 px-20;
 
         &:hover {
-            @apply bg-backgroundColorB;
+            @apply bg-backgroundColorE;
         }
         &:first-child {
             @apply border-t-0;

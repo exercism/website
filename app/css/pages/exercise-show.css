@@ -369,7 +369,7 @@
     }
 
     & section.instructions {
-        @apply mb-32 bg-backgroundColorB rounded-8 shadow-lg;
+        @apply mb-32 bg-backgroundColorA rounded-8 shadow-lg;
         & .source {
             @apply mt-24;
             & hr {
@@ -413,6 +413,7 @@
         }
     }
     & .action-box {
+        @apply bg-backgroundColorA;
         @apply shadow-lg py-20 px-20 rounded-8;
         @apply lg:py-24 lg:px-32;
 

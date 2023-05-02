@@ -16,8 +16,9 @@
         }
         & .box {
             @apply flex;
-            @apply border-2 border-purple rounded-12 bg-randomBlue;
+            @apply border-2 border-purple rounded-12;
             @apply py-24 px-32 mb-24;
+            background: var(--backgroundColorExternalCTA);
             width: 100%;
             max-width: 640px;
             & h4 {

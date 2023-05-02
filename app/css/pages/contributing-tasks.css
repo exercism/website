@@ -49,6 +49,7 @@
         & .c-icon {
             height: 25px;
             width: 25px;
+            @apply filter-textColor6;
         }
     }
 
@@ -134,6 +135,9 @@
 
             & .action-icon {
                 @apply mr-16 flex-shrink-0;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
             & .info {
                 & .heading {

@@ -38,7 +38,8 @@
     }
     &.--completed,
     &.--published {
-        @apply border-darkGreen bg-veryLightGreen2;
+        @apply border-darkGreen;
+        background: var(--backgroundColorConceptMastered);
         @apply text-everyoneLovesAGreen;
 
         &:before {

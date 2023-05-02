@@ -50,7 +50,7 @@
                 height: 8px;
                 width: 8px;
                 @apply flex-shrink-0 rounded-circle mr-24;
-                @apply bg-lightBlue;
+                background: var(--backgroundColorNotificationsCount);
                 opacity: 0;
                 transition: opacity 0.8s ease-out;
 
@@ -68,6 +68,10 @@
         & .c-prominent-link {
             @apply mt-12;
             @apply px-16 py-8;
+            color: var(--backgroundColorNotificationsUnreadDot);
+            .c-icon {
+                filter: var(--iconFilterNotificationsProminentLink);
+            }
 
             &:hover {
                 @apply bg-backgroundColorD;

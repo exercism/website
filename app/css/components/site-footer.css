@@ -144,7 +144,7 @@ body.namespace-.controller-insiders {
                 & .c-faux-input {
                     grid-area: e;
                     @apply py-4;
-                    @apply text-unnamed15;
+                    @apply text-textColor1;
                     @apply bg-gotToLoveAPurple border-1 border-purpleForever;
                     @apply rounded-8;
 

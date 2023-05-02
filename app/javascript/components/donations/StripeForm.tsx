@@ -10,7 +10,7 @@ const cardOptions = {
   style: {
     base: {
       backgroundColor: 'transparent',
-      color: '#130B43',
+      color: 'grey',
       fontFamily: 'Poppins, sans-serif',
       fontSmoothing: 'antialiased',
       fontSize: '16px',

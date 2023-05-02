@@ -56,6 +56,9 @@ jobs:
       - uses: actions/checkout@v2
       ###
 
+      - name: Update yarn
+        run: yarn set version stable
+
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path

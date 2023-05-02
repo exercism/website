@@ -8,4 +8,6 @@ class ApplicationJob < ActiveJob::Base
   end
   rescue_from ActiveRecord::Deadlocked, &skip_bugnag_and_raise
   rescue_from ActiveJob::DeserializationError, &skip_bugnag_and_raise
+
+  include Bullet::ActiveJob if Rails.env.development?
 end

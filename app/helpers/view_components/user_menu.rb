@@ -1,9 +1,11 @@
 module ViewComponents
   class UserMenu < ViewComponent
     def to_s
-      # TODO: (Optional) Cache this component on user.updated_at
-      # TODO: (Optional) Ensure that name/handle/avatar changes touch users.updated_at
-      ReactComponents::Dropdowns::Dropdown.new(menu_button:, menu_items:)
+      Exercism.without_bullet do
+        # TODO: (Optional) Cache this component on user.updated_at
+        # TODO: (Optional) Ensure that name/handle/avatar changes touch users.updated_at
+        ReactComponents::Dropdowns::Dropdown.new(menu_button:, menu_items:)
+      end
     end
 
     private
@@ -21,7 +23,7 @@ module ViewComponents
     end
 
     def menu_items
-      profile_path = current_user.profile ?
+      profile_path = current_user.profile? ?
         Exercism::Routes.profile_path(current_user) :
         Exercism::Routes.intro_profiles_path
 

@@ -37,10 +37,13 @@ COPY . ./
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # This compiles the assets
-# During deployment the assets are copied from this image and 
+# During deployment the assets are copied from this image and
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
 RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
+
+RUN groupadd -g 2222 exercism-git
+RUN usermod -a -G exercism-git root
 
 ENTRYPOINT bin/start_webserver

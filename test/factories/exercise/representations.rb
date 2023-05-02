@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :exercise_representation, class: 'Exercise::Representation' do
-    exercise { create :concept_exercise }
+    exercise { source_submission.exercise }
     track { exercise.track }
     source_submission { create :submission }
     mapping { { foo: 'bar' } }

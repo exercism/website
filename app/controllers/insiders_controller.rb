@@ -3,11 +3,11 @@ class InsidersController < ApplicationController
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'moon', title: 'Dark theme',
-      desc: "Our most requested feature will be available for Insiders at launch. Make Exercism even more beautiful and give your eyes a break when coding at night with our slick new dark theme.", filter: true },
+      desc: "Our most requested feature will be available for Insiders at launch. Our slick new dark theme will make Exercism even more beautiful and will give your eyes a break while coding at night.", filter: true },
     { icon: 'robot', title: 'ChatGPT',
       desc: "Our ChatGPT integration will help you get unstuck in the editor and give you tips when you submit a solution. It\'s brilliant half the time and terrible the rest, but it\'s definitely fun to use!", filter: true },
     { icon: 'insiders', title: 'Name tag flair & Badges',
-      desc: "Celebrate your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Plus get an exclusive Original Insider - only avaliable at launch." }
+      desc: "Celebrate your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Plus get an exclusive Original Insider badge - only avaliable at launch." }
   ].freeze
 
   BTS_ACCESS = [

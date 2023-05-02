@@ -9,7 +9,7 @@ class SerializeTasksTest < ActiveSupport::TestCase
       task_2 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312',
         title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'iHiD',
         action: :improve, knowledge: :none, area: :analyzer, size: :massive, type: :ci
-      tasks = [task_1, task_2]
+      tasks = Github::Task.where(id: [task_1, task_2])
 
       expected = [
         SerializeTask.(task_1),

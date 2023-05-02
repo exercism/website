@@ -737,7 +737,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     end
 
     # 3 more submissions with matching ast_digest
-    create_list(:submission_representation, 3, submission: Submission.last, ast_digest: Submission::Representation.last.ast_digest)
+    create_list(:submission_representation, 3, submission: Submission.last,
+      ast_digest: Submission::Representation.last.ast_digest)
 
     create :exercise_representation, :with_feedback, source_submission: Submission.last,
       ast_digest: Submission::Representation.last.ast_digest
@@ -745,10 +746,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       ast_digest: Submission::Representation.first.ast_digest
 
     # Sanity check: ignore representation without feedback
-    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
-
-    # Sanity check: ignore representation without feedback
-    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
+    create :exercise_representation, source_submission: create(:submission, track:), ast_digest: SecureRandom.uuid
 
     # Sanity check: ignore other tracks
     create_list(:submission_representation, 3, submission: create(:submission, track: other_track)) do |submission_representation|

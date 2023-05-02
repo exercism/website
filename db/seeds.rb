@@ -158,7 +158,22 @@ Mentor::Request.create!(solution: solution, comment_markdown: "I would like to i
 UserTrack.create_or_find_by!(user: aron, track: ruby, practice_mode: true)
 Solution::Create.(aron, ruby.practice_exercises.find_by!(slug: "hello-world")).update(completed_at: Time.current)
 
+UserTrack.create_or_find_by!(user: alice, track: ruby, practice_mode: true)
+
 ruby.practice_exercises.limit(10).each do |exercise|
+  [iHiD, erik, alice].each do |user|
+    solution = Solution::Create.(user, exercise)
+    submission = Submission.create!(solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+    submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)
+    Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 1)
+
+    submission = Submission.create!( solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
+    submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\n\nend", digest: SecureRandom.uuid)
+    Iteration.create!(uuid: SecureRandom.uuid,  submission: submission, solution: solution, idx: 2)
+
+    Solution::Publish.(solution, UserTrack.for!(user, ruby), 1)
+  end
+
   solution = Solution::Create.(aron, exercise)
   submission = Submission.create!(solution: solution, uuid: SecureRandom.uuid, submitted_via: "cli")
   submission.files.create!( filename: "lasagna.rb", content: "class Lasagna\nend", digest: SecureRandom.uuid)

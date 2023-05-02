@@ -5,7 +5,9 @@ class SettingsController < ApplicationController
 
   def communication_preferences; end
 
-  def donations; end
+  def donations
+    @payments = current_user.donation_payments.includes(:subscription)
+  end
 
   def reset_account
     User::ResetAccount.(current_user) if params[:handle] == current_user.handle

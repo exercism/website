@@ -5,18 +5,19 @@
 class Donations::Subscription::Create
   include Mandate
 
-  initialize_with :user, :stripe_data
+  initialize_with :user, :provider, :external_id, :amount_in_cents
 
   def call
     Donations::Subscription.create!(
       user:,
-      stripe_id: stripe_data.id,
-      amount_in_cents: stripe_data.items.data[0].price.unit_amount,
-      active: true
+      provider:,
+      external_id:,
+      amount_in_cents:,
+      status: :active
     ).tap do
-      User::SetActiveDonationSubscription.(user, true)
+      User::UpdateActiveDonationSubscription.(user)
     end
   rescue ActiveRecord::RecordNotUnique
-    Donations::Subscription.find_by!(stripe_id: stripe_data.id)
+    Donations::Subscription.find_by!(external_id:, provider:)
   end
 end

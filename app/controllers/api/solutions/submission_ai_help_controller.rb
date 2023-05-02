@@ -12,7 +12,7 @@ module API
       if submission.ai_help_records.exists?
         Thread.new do
           sleep(2)
-          Submission::AIHelpRecordsChannel.broadcast!(submission.ai_help_records.last, submission.uuid)
+          Submission::AIHelpRecordsChannel.broadcast!(submission.ai_help_records.last, submission.uuid, submission.user)
         end
       else
         Submission::AI::ChatGPT::RequestHelp.(submission)

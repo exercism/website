@@ -44,6 +44,7 @@ import {
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
 import * as ChatGPT from './editor/ChatGptFeedback'
+import { GPTModel } from './editor/ChatGptFeedback/ChatGptDialog'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
@@ -87,6 +88,7 @@ export default ({
   iteration,
   discussion,
   mentoringRequested,
+  chatgptUsage,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -127,6 +129,8 @@ export default ({
     testRunStatus === TestRunStatus.CANCELLED
   const cache = useQueryCache()
   const isInsider = ['active', 'active_lifetime'].includes(insidersStatus)
+  const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
+  const [selectedGPTModel, setSelectedGPTModel] = useState<GPTModel>('3.5')
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -340,6 +344,7 @@ export default ({
       pokeChatGpt()
       setChatGptFetchingStatus('fetching')
       setSubmissionUuid(submission?.uuid)
+      setChatGptDialogOpen(false)
     }
   }, [
     chatGptFetchingStatus,
@@ -403,13 +408,14 @@ export default ({
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
                   <ChatGPT.Button
+                    noSubmission={!submission}
                     sameSubmission={
                       submission ? submission.uuid === submissionUuid : false
                     }
                     isProcessing={isProcessing}
                     passingTests={testRunStatus === TestRunStatus.PASS}
                     chatGptFetchingStatus={chatGptFetchingStatus}
-                    onClick={invokeChatGpt}
+                    onClick={() => setChatGptDialogOpen(true)}
                   />
                   <RunTestsButton
                     onClick={runTests}
@@ -484,6 +490,18 @@ export default ({
               </TasksContext.Provider>
             }
           />
+
+          {submission && (
+            <ChatGPT.Dialog
+              onClose={() => setChatGptDialogOpen(false)}
+              open={chatGptDialogOpen}
+              submission={submission}
+              value={selectedGPTModel}
+              setValue={setSelectedGPTModel}
+              onGo={invokeChatGpt}
+              chatgptUsage={chatgptUsage}
+            />
+          )}
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

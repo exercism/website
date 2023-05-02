@@ -8,6 +8,7 @@ module ReactComponents
           default_submissions: submissions,
           default_files: SerializeEditorFiles.(solution.files_for_editor),
           insiders_status:,
+          chatgpt_usage:,
           default_settings: {
             tab_size: track.indent_size,
             use_soft_tabs: track.indent_style == :space
@@ -31,7 +32,8 @@ module ReactComponents
                 average_test_duration: track.average_test_duration
               }
             },
-            ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil
+            ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil,
+            chatgpt_usage:
           },
           iteration: iteration ? {
             analyzer_feedback: iteration&.analyzer_feedback,
@@ -79,6 +81,11 @@ module ReactComponents
     memoize
     def insiders_status
       User.find(solution.user_id).insiders_status
+    end
+
+    memoize
+    def chatgpt_usage
+      submission.present? ? submission.user.usages : nil
     end
 
     memoize

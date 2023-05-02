@@ -11,7 +11,7 @@ class Submission::AIHelpRecordsChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def self.broadcast!(record, submission_uuid)
+  def self.broadcast!(record, submission_uuid, user)
     broadcast_to submission_uuid,
       help_record: SerializeSubmissionAIHelpRecord.(record),
       usage: user.usages['chatgpt']

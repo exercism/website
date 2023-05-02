@@ -14,10 +14,6 @@ export const ChatGptFeedbackModal = ({
   onClose,
   submission,
 }: ChatGptFeedbackModalProps): JSX.Element => {
-  const { helpRecord } = useChatGptFeedback({
-    submission,
-  })
-
   return (
     <Modal
       open={open}
@@ -25,7 +21,6 @@ export const ChatGptFeedbackModal = ({
       onClose={onClose}
       shouldCloseOnEsc={false}
       shouldCloseOnOverlayClick
-      ReactModalClassName={`max-w-[40%] ${helpRecord && '!p-0'}`}
     ></Modal>
   )
 }

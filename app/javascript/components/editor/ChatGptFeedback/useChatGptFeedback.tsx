@@ -41,17 +41,22 @@ export function useChatGptFeedback({
   )
   const [submissionUuid, setSubmissionUuid] = useState<string | undefined>()
 
-  const [mutation] = useMutation<void>(async () => {
-    if (!submission) return
-    const { fetch } = sendRequest({
-      endpoint: submission?.links.aiHelp,
-      method: 'POST',
-      body: null,
-    })
+  const [mutation] = useMutation<void>(
+    async () => {
+      if (!submission) return
+      const { fetch } = sendRequest({
+        endpoint: submission?.links.aiHelp,
+        method: 'POST',
+        body: null,
+      })
 
-    // TODO catch errors
-    return fetch.then(() => setStatus('fetching'))
-  })
+      // TODO catch errors
+      return fetch
+        .then(() => setStatus('fetching'))
+        .catch((e) => console.log(e))
+    },
+    { onError: (err) => console.log(err) }
+  )
 
   useEffect(() => {
     if (!submission) return

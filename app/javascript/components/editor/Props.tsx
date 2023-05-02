@@ -67,10 +67,13 @@ type EditorPanels = {
   }
 }
 
+type chatgptUsage = { chatgpt: { 3.5: number; 4.0: number } }
+
 export type Props = {
   timeout?: number
   insidersStatus: string
   defaultSubmissions: Submission[]
+  chatgptUsage: chatgptUsage
   defaultFiles: File[]
   defaultSettings: Partial<EditorSettings>
   autosave: AutosaveConfig

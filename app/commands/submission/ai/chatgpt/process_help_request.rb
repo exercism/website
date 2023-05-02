@@ -9,6 +9,8 @@ class Submission::AI::ChatGPT::ProcessHelpRequest
       advice_markdown: chatgpt_response
     )
 
-    Submission::AIHelpRecordsChannel.broadcast!(record, submission.uuid)
+    user = submission.user
+
+    Submission::AIHelpRecordsChannel.broadcast!(record, submission.uuid, user)
   end
 end

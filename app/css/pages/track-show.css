@@ -57,7 +57,7 @@
         /* background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%); */
     }
     & article.summary-article {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
 
         & .container {
             @apply flex pt-32;

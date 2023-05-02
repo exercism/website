@@ -71,14 +71,16 @@
 
     .btn-secondary {
         @apply btn-i-filled;
-        @apply text-purple bg-backgroundColorF;
+        color: var(--colorPurpleToBrightPurple);
+        @apply bg-backgroundColorF;
 
-        @apply border-1 border-purple;
+        @apply border-1;
+        border-color: var(--colorPurpleToBrightPurple);
         & > .c-icon {
-            filter: var(--purple-filter);
+            filter: var(--purple-to-bright-purple-filter);
         }
         &:not(:disabled):not(.--disabled):hover {
-            @apply bg-lightPurpleDarkened;
+            background: var(--backgroundColorBtnSecondaryHover);
         }
     }
 

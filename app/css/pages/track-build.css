@@ -125,7 +125,6 @@
 
     /* --------------------------------------------------------------------- */
 
-    @apply bg-backgroundColorA;
     .track-build-header {
         z-index: 0;
         width: 100%;
@@ -235,6 +234,7 @@
     /* TOOLING STATUS DETAILS */
 
     .track-team-group {
+        @apply bg-backgroundColorA;
         @apply mb-24;
         @apply flex flex-col shadow-base px-24 py-16 rounded-8;
 

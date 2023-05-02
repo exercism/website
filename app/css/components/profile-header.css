@@ -162,6 +162,7 @@ header.c-profile-header {
                 & .c-icon {
                     height: 16px;
                     width: 16px;
+                    @apply filter-textColor1;
                 }
             }
         }

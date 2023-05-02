@@ -1,14 +1,14 @@
 @import "../styles";
 
 #page-profile {
-    @apply bg-backgroundColorA;
+    @apply bg-backgroundColorB;
 
     & article {
         & section {
             @apply pt-48 pb-64;
             background: linear-gradient(
                 180deg,
-                var(--backgroundColorA) 80%,
+                var(--backgroundColorB) 80%,
                 var(--backgroundColorJ) 100%
             );
         }

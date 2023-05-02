@@ -45,7 +45,8 @@
         & .--count {
             @apply invisible;
             &:after {
-                @apply absolute bg-red rounded-circle;
+                background: var(--backgroundColorNotificationsCount);
+                @apply absolute rounded-circle;
                 @apply visible;
 
                 content: "";

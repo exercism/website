@@ -19,6 +19,13 @@ module API
       end
 
       render json: {}
+    rescue ChatGPTTooManyRequestsError
+      render_error(
+        429,
+        :too_many_requests,
+        usage_type: :chatgpt,
+        usage: current_user.usages['chatgpt']
+      )
     end
   end
 end

@@ -99,6 +99,10 @@ module API
       render_404(:submission_not_found)
     end
 
+    def render_submission_not_accessible
+      render_403(:submission_not_accessible)
+    end
+
     def render_file_not_found
       render_404(:file_not_found)
     end

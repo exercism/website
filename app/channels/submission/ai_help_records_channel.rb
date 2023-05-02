@@ -13,6 +13,7 @@ class Submission::AIHelpRecordsChannel < ApplicationCable::Channel
 
   def self.broadcast!(record, submission_uuid)
     broadcast_to submission_uuid,
-      help_record: SerializeSubmissionAIHelpRecord.(record)
+      help_record: SerializeSubmissionAIHelpRecord.(record),
+      usage: user.usages['chatgpt']
   end
 end

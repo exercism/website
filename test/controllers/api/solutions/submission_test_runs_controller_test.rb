@@ -1,6 +1,6 @@
 require_relative '../base_test_case'
 
-class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
+class API::Solutions::SubmissionTestRunsControllerTest < API::BaseTestCase
   guard_incorrect_token! :cancel_api_solution_submission_test_run_path, args: 2, method: :patch
 
   ###

@@ -25,4 +25,29 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
 
     sleep(0.1) # Wait for the thread new
   end
+
+  test "Allows 3 4.0 requests then goes to 3.5" do
+    submission = create(:submission)
+    create(:submission_file, submission:)
+
+    # The block just doesn't excute without this!
+    User.any_instance.expects(:lock!).yields.at_least_once
+
+    allowances = (['4.0'] * 3) + (['3.5'] * 30)
+    allowances.each do |version|
+      RestClient.expects(:post).with do |_, data, _|
+        assert_equal version, data[:chatgpt_version]
+      end
+
+      Submission::AI::ChatGPT::RequestHelp.(submission)
+
+      sleep(0.01) # Wait for the thread new
+    ensure
+      RestClient.unstub(:post)
+    end
+
+    assert_raises ChatGPTTooManyRequestsError do
+      Submission::AI::ChatGPT::RequestHelp.(submission)
+    end
+  end
 end

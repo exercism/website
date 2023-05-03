@@ -25,7 +25,7 @@ class User::InsidersStatus::Activate
     User::Notification::Create.(user, @notification_key)
     AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime? && FeatureFlag::INSIDERS
-    User::SetDiscordRoles.(user)
-    User::SetDiscourseGroups.(user)
+    User::SetDiscordRoles.defer(user)
+    User::SetDiscourseGroups.defer(user)
   end
 end

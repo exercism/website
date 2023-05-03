@@ -20,7 +20,8 @@
 }
 
 #impact-page {
-    .theme-light {
+    .theme-light,
+    .theme-accessibility-dark {
         --headerBackground: linear-gradient(
                 180deg,
                 rgba(251, 251, 255, 0) 79.36%,
@@ -39,6 +40,9 @@
     .theme-dark {
         --headerBackground: #191525;
     }
+
+    background: var(--backgroundColorImpactPage);
+
     header {
         width: 100%;
         height: 501px;

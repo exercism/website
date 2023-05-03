@@ -612,6 +612,18 @@
     --c-concept-map-line-faded: #d2ddf3;
 }
 
+.theme-accessibility-dark {
+    @inline .theme-light;
+    filter: invert(100%) hue-rotate(180deg);
+    background-color: #222;
+
+    img,
+    video,
+    iframe {
+        filter: invert(100%) hue-rotate(180deg);
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .theme-system {
         @inline .theme-dark;

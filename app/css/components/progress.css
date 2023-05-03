@@ -1,6 +1,7 @@
 @import "../styles";
 
-.theme-light {
+.theme-light,
+.theme-accessibility-dark {
     /* veryLightBlue */
     --c-progress-bg: #e1ebff;
 }

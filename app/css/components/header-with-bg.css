@@ -1,4 +1,5 @@
-.theme-light {
+.theme-light,
+.theme-accessibility-dark {
     .c-header-with-bg {
         background: linear-gradient(
                 180deg,

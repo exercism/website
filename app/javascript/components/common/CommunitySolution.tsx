@@ -138,7 +138,7 @@ export const CommunitySolution = ({
             </>
           ) : (
             <>
-              <div className="--title">
+              <div className="--title flex">
                 {
                   <HandleWithFlair
                     handle={solution.author.handle}

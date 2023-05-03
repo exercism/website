@@ -44,8 +44,8 @@ module ViewComponents
     }.freeze
 
     ICONS = {
-      original_insider: :original_insiders,
-      insider: :insiders
+      original_insider: 'original-insiders',
+      insider: 'insiders'
     }.freeze
   end
 end

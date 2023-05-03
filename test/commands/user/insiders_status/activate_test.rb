@@ -52,6 +52,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "flair updated when changing status to active" do
     user = create :user, flair: nil, insiders_status: :eligible
 
+    User::SetDiscourseGroups.stubs(:call)
     User::InsidersStatus::Activate.(user)
 
     assert_equal :insider, user.flair
@@ -61,6 +62,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     test "flair not updated when insiders status is #{insiders_status} and user has founder flair" do
       user = create(:user, :founder, flair: :founder, insiders_status:)
 
+      User::SetDiscourseGroups.stubs(:call)
       User::InsidersStatus::Activate.(user)
 
       assert_equal :founder, user.flair
@@ -69,6 +71,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     test "flair not updated when insiders status is #{insiders_status} and user has staff flair" do
       user = create(:user, :staff, flair: :staff, insiders_status:)
 
+      User::SetDiscourseGroups.stubs(:call)
       User::InsidersStatus::Activate.(user)
 
       assert_equal :staff, user.flair
@@ -77,6 +80,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     test "flair not updated when insiders status is #{insiders_status} and user has original_insider flair" do
       user = create(:user, flair: :original_insider, insiders_status:)
 
+      User::SetDiscourseGroups.stubs(:call)
       User::InsidersStatus::Activate.(user)
 
       assert_equal :original_insider, user.flair
@@ -85,12 +89,13 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     test "flair set to insider when insiders status is #{insiders_status}" do
       user = create(:user, insiders_status:)
 
+      User::SetDiscourseGroups.stubs(:call)
       User::InsidersStatus::Activate.(user)
 
       assert_equal :insider, user.flair
     end
   end
-  
+
   test "set discord roles when changing status to active" do
     user = create :user
 

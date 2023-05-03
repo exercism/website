@@ -23,8 +23,7 @@
           - if @own_solution
             Your solution
           - else
-            #{render(ViewComponents::HandleWithFlair.new(@author.handle, @author.flair, size: :small))}'s solution
-
+            #{@author.handle}'s solution
 
     .content.lg-container.flex.flex-col.lg:flex-row.lg:items-center
       = track_icon @track
@@ -38,12 +37,12 @@
         %h1
           .name
             - if @own_solution
-              Your
+              Your solution
             - elsif @author.profile
               = link_to profile_path(@author), class: 'flex' do
-                #{render(ViewComponents::HandleWithFlair.new(@author.handle, @author.flair, size: :xlarge))}'s solution
+                #{@author.handle}'s solution
             - else
-              #{render(ViewComponents::HandleWithFlair.new(@author.handle, @author.flair, size: :xlarge))}'s solution
+              #{@author.handle}'s solution
             = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
           .to
             to

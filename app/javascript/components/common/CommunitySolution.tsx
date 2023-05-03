@@ -126,7 +126,7 @@ export const CommunitySolution = ({
         <div className="--info">
           {context == 'mentoring' ? (
             <>
-              <div className="--title"> Your Solution </div>
+              <div className="--title">Your Solution</div>
               <div className="--subtitle">
                 to {solution.exercise.title} in {solution.track.title}
               </div>
@@ -139,13 +139,7 @@ export const CommunitySolution = ({
           ) : (
             <>
               <div className="--title flex">
-                {
-                  <HandleWithFlair
-                    handle={solution.author.handle}
-                    flair={solution.author.flair}
-                  />
-                }
-                &apos;s solution
+                {solution.author.handle}&apos;s solution
               </div>
               <div className="--subtitle">
                 to {solution.exercise.title} in {solution.track.title}

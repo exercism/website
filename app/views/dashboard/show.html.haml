@@ -30,9 +30,7 @@
         = graphical_icon "logo"
         .content
           %h1.flex
-            Welcome back,&nbsp;
-            = render ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair, size: :xlarge)
-            !
+            Welcome back, #{current_user.handle}!
           %p.welcome
             Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.

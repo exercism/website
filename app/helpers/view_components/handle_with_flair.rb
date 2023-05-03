@@ -22,7 +22,7 @@ module ViewComponents
       icon(
         icon_name,
         flair,
-        style: "all:unset; height:#{size_in_px}; width:#{size_in_px};"
+        style: "all:unset; height:#{size_in_px}; width:#{size_in_px}; margin-left: #{ml_in_px}"
       )
     end
 
@@ -33,6 +33,11 @@ module ViewComponents
     memoize
     def size_in_px
       "#{SIZES[size.to_sym]}px"
+    end
+
+    memoize
+    def ml_in_px
+      "#{(SIZES[size.to_sym] / 4.0).ceil}px"
     end
 
     SIZES = {

@@ -4,16 +4,21 @@ class User::InsidersStatus::Activate
   initialize_with :user
 
   def call
+    return unless user.insiders_status_eligible? || user.insiders_status_eligible_lifetime?
+
     user.with_lock do
-      return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
-
-      lifetime_insider = user.insiders_status == :eligible_lifetime
-      insiders_status = lifetime_insider ? :active_lifetime : :active
-      notification_type = lifetime_insider ? :joined_lifetime_insiders : :joined_insiders
-
-      user.update(insiders_status:)
-      user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
-      User::Notification::Create.(user, notification_type) if FeatureFlag::INSIDERS
+      case user.insiders_status
+      when :eligible
+        @notification_key = :joined_insiders
+        user.update(insiders_status: :active)
+      when :eligible_lifetime
+        @notification_key = :joined_lifetime_insiders
+        user.update(insiders_status: :active_lifetime)
+      end
     end
+
+    user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
+    User::Notification::Create.(user, @notification_key) if FeatureFlag::INSIDERS
+    AwardBadgeJob.perform_later(user, :insider) if FeatureFlag::INSIDERS
   end
 end

@@ -44,6 +44,8 @@ class User::LinkWithDiscordTest < ActiveSupport::TestCase
     auth = stub(uid:)
     user = create :user, discord_uid: nil
 
+    User::SetDiscordRoles.expects(:defer).with(user)
+
     perform_enqueued_jobs do
       User::LinkWithDiscord.(user, auth)
     end

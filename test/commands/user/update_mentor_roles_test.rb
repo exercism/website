@@ -6,6 +6,8 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     user = create :user, became_mentor_at: nil, roles: []
     create(:user_track_mentorship, user:, track:)
 
+    User::SetDiscourseGroups.stubs(:call)
+
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor? # Not yet a mentor
 
@@ -55,6 +57,8 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
     create(:user_track_mentorship, user:, track:)
+
+    User::SetDiscourseGroups.stubs(:call)
 
     # Sanity check: role is not added so badge shouldn't be awarded
     User::UpdateMentorRoles.(user)

@@ -32,6 +32,9 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "change status to active_lifetime when current insiders_status is eligible_lifetime" do
     user = create :user, insiders_status: :eligible_lifetime
 
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.stubs(:call)
+
     User::InsidersStatus::Activate.(user)
 
     assert_equal :active_lifetime, user.reload.insiders_status
@@ -40,6 +43,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "create notification when current insiders_status is eligible_lifetime" do
     user = create :user, insiders_status: :eligible_lifetime
 
+    User::SetDiscourseGroups.stubs(:call)
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
 
     User::InsidersStatus::Activate.(user)
@@ -86,9 +90,50 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
       assert_equal :insider, user.flair
     end
   end
+  
+  test "set discord roles when changing status to active" do
+    user = create :user
+
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible)
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "set discord roles when changing status to active_lifetime" do
+    user = create :user, :admin
+
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible_lifetime)
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "set discourse groups when changing status to active" do
+    user = create :user
+
+    User::SetDiscourseGroups.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible)
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "set discourse groups when changing status to active_lifetime" do
+    user = create :user, :admin
+
+    User::SetDiscourseGroups.expects(:call).with(user)
+
+    user.update(insiders_status: :eligible_lifetime)
+    User::InsidersStatus::Activate.(user)
+  end
 
   test "award badge when current insiders_status is eligible_lifetime" do
     user = create :user, insiders_status: :eligible_lifetime
+
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.stubs(:call)
 
     refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
 
@@ -102,6 +147,9 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "change status to active when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
 
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.stubs(:call)
+
     User::InsidersStatus::Activate.(user)
 
     assert_equal :active, user.reload.insiders_status
@@ -110,6 +158,8 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "create notification when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
 
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.stubs(:call)
     User::Notification::Create.expects(:call).with(user, :joined_insiders).once
 
     User::InsidersStatus::Activate.(user)
@@ -117,6 +167,9 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
 
   test "award badge when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
+
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.stubs(:call)
 
     refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
 

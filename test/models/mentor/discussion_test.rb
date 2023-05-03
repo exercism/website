@@ -296,6 +296,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "recalculates mentor_satisfaction_percentage" do
     mentor = create :user
 
+    User::SetDiscourseGroups.stubs(:call)
+
     perform_enqueued_jobs do
       # Sanity check
       assert_nil mentor.mentor_satisfaction_percentage
@@ -340,6 +342,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "mentor_satisfaction_percentage is rounded up" do
     mentor = create :user
 
+    User::SetDiscourseGroups.stubs(:call)
+
     perform_enqueued_jobs do
       create :mentor_discussion, mentor:, status: :finished, rating: :great
       create :mentor_discussion, mentor:, status: :mentor_finished, rating: :problematic
@@ -352,6 +356,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "does not update num solutions mentored if status is unchanged" do
     mentor = create :user
     discussion = create(:mentor_discussion, mentor:)
+
+    User::SetDiscourseGroups.stubs(:call)
 
     perform_enqueued_jobs do
       Mentor::UpdateNumSolutionsMentored.expects(:call).never
@@ -374,6 +380,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "does not update num discussions finished if status is unchanged" do
     mentor = create :user
     discussion = create :mentor_discussion, mentor:, status: :finished
+
+    User::SetDiscourseGroups.stubs(:call)
 
     perform_enqueued_jobs do
       Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never

@@ -20,5 +20,7 @@ class User::InsidersStatus::Activate
     user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
     User::Notification::Create.(user, @notification_key) if FeatureFlag::INSIDERS
     AwardBadgeJob.perform_later(user, :insider) if FeatureFlag::INSIDERS
+    User::SetDiscordRoles.(user)
+    User::SetDiscourseGroups.(user)
   end
 end

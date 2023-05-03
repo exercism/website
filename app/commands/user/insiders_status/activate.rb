@@ -15,12 +15,11 @@ class User::InsidersStatus::Activate
         @notification_key = :joined_lifetime_insiders
         user.update(insiders_status: :active_lifetime)
       end
-
-      User::SetDiscordRoles.(user)
-      User::SetDiscourseGroups.(user)
     end
 
     User::Notification::Create.(user, @notification_key) if FeatureFlag::INSIDERS
     AwardBadgeJob.perform_later(user, :insider) if FeatureFlag::INSIDERS
+    User::SetDiscordRoles.(user)
+    User::SetDiscourseGroups.(user)
   end
 end

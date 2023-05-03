@@ -67,7 +67,7 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
         assert_text "edited by Feedback editor"
         assert_text "Good job"
       end
@@ -106,8 +106,8 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
-        refute_text "edited by \nFeedback editor"
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        refute_text "edited by Feedback editor"
         assert_text "Good job"
       end
 
@@ -147,8 +147,8 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
-        refute_text "edited by \nFeedback author"
+        assert_text "Feedback author gave this feedback on a solution very similar to yours"
+        refute_text "edited by Feedback author"
         assert_text "Good job"
       end
 
@@ -269,7 +269,7 @@ module Components
         end
 
         within(".c-discussion-timeline") { assert_text "Iteration 1" }
-        assert_text "Iteration 1was submitted\n7d ago"
+        assert_text "Iteration 1was submitted 7d ago"
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"
         assert_text "student"

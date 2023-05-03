@@ -43,7 +43,7 @@ class User::SetDiscourseGroups
   def remove_from_group!(group_name)
     client.group_remove(group_id(group_name), user_id: [discourse_user_id])
   rescue DiscourseApi::UnprocessableEntity
-    # If the user was already a member of the group,
+    # If the user was not a member of the group,
     # ignore the error
   end
 

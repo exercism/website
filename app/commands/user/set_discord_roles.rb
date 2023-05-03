@@ -13,26 +13,37 @@ class User::SetDiscordRoles
   end
 
   def set_maintainer_role!
-    return unless user.maintainer?
-
-    set_role!(MAINTAINER_ROLE_ID)
+    if user.maintainer?
+      add_role!(MAINTAINER_ROLE_ID)
+    else
+      remove_role!(MAINTAINER_ROLE_ID)
+    end
   end
 
   def set_supermentor_role!
-    return unless user.supermentor?
-
-    set_role!(SUPERMENTOR_ROLE_ID)
+    if user.supermentor?
+      add_role!(SUPERMENTOR_ROLE_ID)
+    else
+      remove_role!(SUPERMENTOR_ROLE_ID)
+    end
   end
 
   def set_insiders_role!
-    return unless user.insider?
-
-    set_role!(INSIDERS_ROLE_ID)
+    if user.insider?
+      add_role!(INSIDERS_ROLE_ID)
+    else
+      remove_role!(INSIDERS_ROLE_ID)
+    end
   end
 
-  def set_role!(role_id) # rubocop:disable Naming/AccessorMethodName
+  def add_role!(role_id)
     url = API_URL % [GUILD_ID, user.discord_uid, role_id]
     RestClient.put(url, {}, Authorization: AUTH_HEADER)
+  end
+
+  def remove_role!(role_id)
+    url = API_URL % [GUILD_ID, user.discord_uid, role_id]
+    RestClient.delete(url, Authorization: AUTH_HEADER)
   end
 
   API_URL =  "https://discord.com/api/guilds/%s/members/%s/roles/%s".freeze

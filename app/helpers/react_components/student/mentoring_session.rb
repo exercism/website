@@ -52,7 +52,7 @@ module ReactComponents
         {
           name: mentor.name,
           handle: mentor.handle,
-          flair: mentor&.flair,
+          flair: mentor.flair,
           bio: mentor.bio,
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,

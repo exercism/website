@@ -30,19 +30,19 @@ module Pages
           sign_in!(user)
 
           visit track_path(track)
-          assert_text "1\nExercise available"
-          assert_text "4\nExercises locked"
+          assert_text "1 Exercise available"
+          assert_text "4 Exercises locked"
 
           create :practice_solution, :completed, user:, exercise: hello_world
           visit track_path(track)
-          assert_text "1\nExercise completed"
-          assert_text "3\nExercises available"
+          assert_text "1 Exercise completed"
+          assert_text "3 Exercises available"
 
           create :concept_solution, :completed, user:, exercise: ce_1
           visit track_path(track)
-          assert_text "2\nExercises completed"
-          assert_text "1\nConcept learnt"
-          assert_text "1\nConcept mastered"
+          assert_text "2 Exercises completed"
+          assert_text "1 Concept learnt"
+          assert_text "1 Concept mastered"
         end
       end
 
@@ -63,18 +63,18 @@ module Pages
           sign_in!(user)
 
           visit track_path(track)
-          assert_text "1\nExercise available"
-          assert_text "2\nExercises locked"
+          assert_text "1 Exercise available"
+          assert_text "2 Exercises locked"
 
           create :practice_solution, :completed, user:, exercise: hello_world
           visit track_path(track)
-          assert_text "1\nExercise completed"
-          assert_text "2\nExercises available"
+          assert_text "1 Exercise completed"
+          assert_text "2 Exercises available"
 
           create :practice_solution, :completed, user:, exercise: pe_1
           visit track_path(track)
-          assert_text "2\nExercises completed"
-          assert_text "1\nExercise available"
+          assert_text "2 Exercises completed"
+          assert_text "1 Exercise available"
         end
       end
     end

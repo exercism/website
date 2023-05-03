@@ -1,10 +1,11 @@
 import React, { SetStateAction } from 'react'
-import { pluralizeWithNumber } from '../../../../utils/pluralizeWithNumber'
-import { RepresentationData } from '../../../types'
+import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
 import { StatusTab } from '../../inbox/StatusTab'
 import { CancelButton } from '../common/CancelButton'
 import { PrimaryButton } from '../common/PrimaryButton'
+import type { RepresentationData } from '@/components/types'
 
+type Example = Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>
 export function PreviewFooter({
   numOfSolutions,
   examples,
@@ -14,7 +15,7 @@ export function PreviewFooter({
   onSubmit,
 }: {
   numOfSolutions: number
-  examples: Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>[]
+  examples: Example[]
   selectedExample: number
   setSelectedExample: React.Dispatch<SetStateAction<number>>
   onClose: () => void
@@ -23,23 +24,18 @@ export function PreviewFooter({
   return (
     <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderColor6 px-24 flex-shrink-0">
       <div className="tabs flex flex-row child:px-12 child:py-10 child:text-14">
-        {examples.map(
-          (
-            _: Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>,
-            k: number
-          ) => {
-            return (
-              <StatusTab
-                key={`example-tab-${k}`}
-                currentStatus={selectedExample}
-                status={k}
-                setStatus={setSelectedExample}
-              >
-                Example {k + 1}
-              </StatusTab>
-            )
-          }
-        )}
+        {examples.map((_: Example, k: number) => {
+          return (
+            <StatusTab
+              key={`example-tab-${k}`}
+              currentStatus={selectedExample}
+              status={k}
+              setStatus={setSelectedExample}
+            >
+              Example {k + 1}
+            </StatusTab>
+          )
+        })}
       </div>
 
       <div className="flex flex-row items-center">

@@ -53,7 +53,10 @@ module ViewComponents
         avatar(current_user, alt: "Your uploaded avatar") +
           tag.div(class: 'info') do
             tag.div(current_user.name, class: 'name') +
-              tag.div("@#{current_user.handle}", class: 'handle')
+              tag.div(class: "handle flex") do
+                tag.span("@") + render(ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair,
+                  size: :small)).html_safe
+              end
           end +
           icon('external-link', "Open public profile")
       end

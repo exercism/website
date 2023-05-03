@@ -8,7 +8,7 @@
       %li
         = link_to profile_path(contributor), "aria-label": "View profile of #{contributor.handle}", "data-tooltip-type": "user", "data-endpoint": tooltip_profile_path(contributor.handle), "data-handle": contributor.handle, "data-placement": "left" do
           = avatar(contributor)
-          .name= contributor.name
+          .name= render ViewComponents::HandleWithFlair.new(contributor.name, contributor.flair, size: :base)
           = render ViewComponents::Reputation.new(contributor.formatted_reputation)
 
   %ol.faces{ "aria-label": "Other significant contributors" }

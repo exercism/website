@@ -118,4 +118,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     # Run the assertion
     assert_includes formatted_context, formatted_html, error_msg
   end
+
+  def assert_text(text, **options)
+    options[:normalize_ws] = true unless options.key?(:normalize_ws)
+    super(:visible, text, **options)
+  end
 end

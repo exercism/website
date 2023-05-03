@@ -18,7 +18,7 @@
         & > .--info {
             @apply flex-grow;
             & > .--title {
-                @apply text-16 font-semibold leading-150 text-textColor1;
+                @apply flex text-16 font-semibold leading-150 text-textColor1;
             }
             & > .--subtitle {
                 @apply text-14 leading-160 text-textColor6;

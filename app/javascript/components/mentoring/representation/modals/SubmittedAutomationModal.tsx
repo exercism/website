@@ -1,6 +1,6 @@
 import React from 'react'
-import { Modal } from '../../../../components/modals/Modal'
-import { GraphicalIcon, Icon, Reputation } from '../../../common'
+import { Modal } from '@/components/modals/Modal'
+import { GraphicalIcon, Icon, Reputation } from '@/components/common'
 import { PrimaryButton } from '../common/PrimaryButton'
 
 export type AutomationModalProps = {

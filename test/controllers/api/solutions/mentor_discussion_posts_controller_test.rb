@@ -33,6 +33,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           uuid: "request-comment",
           iteration_idx: 2,
           author_handle: "student",
+          author_flair: student.flair,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Request comment",
@@ -46,6 +47,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           uuid: discussion_post.uuid,
           iteration_idx: 2,
           author_handle: "student",
+          author_flair: student.flair,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Discussion post",
@@ -82,6 +84,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: "request-comment",
           author_handle: "student",
+          author_flair: student.flair,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Hello",
@@ -182,6 +185,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: post.uuid,
         author_handle: user.handle,
+        author_flair: user.flair,
         author_avatar_url: user.avatar_url,
         by_student: true,
         content_markdown: content,
@@ -299,6 +303,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "student",
+        author_flair: student.flair,
         author_avatar_url: student.avatar_url,
         by_student: true,
         content_markdown: "content",
@@ -390,6 +395,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "student",
+        author_flair: student.flair,
         author_avatar_url: student.avatar_url,
         by_student: true,
         content_markdown: "Hello",

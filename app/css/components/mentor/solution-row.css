@@ -36,6 +36,9 @@
                 & .c-icon {
                     @apply ml-8;
                 }
+                .handle-with-flair-icon {
+                    @apply m-0;
+                }
 
                 & .favorited {
                     height: 22px;

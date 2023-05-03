@@ -22,7 +22,7 @@ module Components
 
             exercise.exemplar_files.each do |filename, content|
               assert_text filename.gsub(%r{^\.meta/}, '')
-              assert_text content
+              assert_text content, normalize_ws: false
             end
           end
         end

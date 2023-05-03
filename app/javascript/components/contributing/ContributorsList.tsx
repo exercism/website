@@ -132,7 +132,7 @@ export const ContributorsList = ({
               </div>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

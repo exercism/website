@@ -31,7 +31,7 @@
             @apply mt-32 mb-16;
         }
         & .student {
-            @apply text-h4 font-medium text-textColor5 mb-4;
+            @apply flex text-h4 font-medium text-textColor5 mb-4;
             & strong {
                 @apply font-semibold text-textColor2;
             }

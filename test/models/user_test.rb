@@ -414,4 +414,13 @@ class UserTest < ActiveSupport::TestCase
     user.update(insiders_status: :active)
     assert_equal :active, user.insiders_status
   end
+
+  test "flair is symbol" do
+    user = create :user, flair: nil
+
+    assert_nil user.flair
+
+    user.update(flair: :insider)
+    assert_equal :insider, user.flair
+  end
 end

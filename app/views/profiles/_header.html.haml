@@ -39,7 +39,7 @@
                   .c-badge-medallion{ class: "--#{badge.rarity}" }
                     = icon(badge.icon, "Badge: #{badge.name}")
 
-        - if user.roles.present?
+        - if header_tags.present? || user.founder?
           .tags
             - if user.founder?
               .tag.founder

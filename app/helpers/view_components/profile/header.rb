@@ -29,7 +29,7 @@ module ViewComponents
         tags = []
         tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if @user.staff?
         tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if @user.maintainer?
-        tags << { class: "tag maintainer", icon: :insiders, title: "Insider" } if %i[eligible eligible_lifetime].include?(@user.insiders_status) # rubocop:disable Layout/LineLength
+        tags << { class: "tag insider", icon: :insiders, title: "Insider" } if @user.insider?
         tags.take(2)
       end
     end

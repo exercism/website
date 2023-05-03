@@ -106,7 +106,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def student_flair
-    anonymous_mode? ? "anonymous" : student&.flair
+    anonymous_mode? ? "anonymous" : student.flair
   end
 
   def student_name

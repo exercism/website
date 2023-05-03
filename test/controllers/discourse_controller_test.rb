@@ -44,6 +44,8 @@ class DiscourseControllerTest < ActionDispatch::IntegrationTest
     sso.expects(:to_url).returns(resulting_url)
     DiscourseApi::SingleSignOn.expects(:parse).with("who=why", Exercism.secrets.discourse_oauth_secret).returns(sso)
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: { user: { id: 123 } }.to_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://forum.exercism.org/groups/insiders.json").to_return(status: 200, body: { group: { id: 1 } }.to_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:delete, "https://forum.exercism.org/admin/groups/1/members.json?user_ids=123")
 
     sign_in!(user)
 

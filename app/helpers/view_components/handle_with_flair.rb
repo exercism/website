@@ -26,13 +26,13 @@ module ViewComponents
       )
     end
 
+    def icon_name
+      ICONS[flair.to_sym]
+    end
+
     memoize
     def size_in_px
       "#{SIZES[size.to_sym]}px"
-    end
-
-    def icon_name
-      ICONS[flair.to_sym]
     end
 
     SIZES = {

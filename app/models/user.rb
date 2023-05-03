@@ -303,5 +303,4 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def insiders_status = super.to_sym
-  def insider? = %i[active active_lifetime].include?(insiders_status)
 end

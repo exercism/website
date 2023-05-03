@@ -414,18 +414,4 @@ class UserTest < ActiveSupport::TestCase
     user.update(insiders_status: :active)
     assert_equal :active, user.insiders_status
   end
-
-  test "insider?" do
-    user = create :user
-
-    %i[unset ineligible eligible eligible_lifetime].each do |insiders_status|
-      user.update(insiders_status:)
-      refute user.insider?
-    end
-
-    %i[active active_lifetime].each do |insiders_status|
-      user.update(insiders_status:)
-      assert user.insider?
-    end
-  end
 end

@@ -13,9 +13,9 @@ class Exercise::Representation < ApplicationRecord
   enum draft_feedback_type: { essential: 0, actionable: 1, non_actionable: 2, celebratory: 3 }, _prefix: :draft_feedback
 
   has_many :submission_representations,
+    foreign_key: :exercise_id_and_ast_digest_idx_cache,
+    primary_key: :exercise_id_and_ast_digest_idx_cache,
     class_name: "Submission::Representation",
-    foreign_key: :ast_digest,
-    primary_key: :ast_digest,
     inverse_of: :exercise_representation
   # This is too inefficient. Get the representations and then their submissions instead.
   # has_many :submission_representation_submissions, through: :submission_representations, source: :submission
@@ -31,6 +31,7 @@ class Exercise::Representation < ApplicationRecord
   before_create do
     self.uuid = SecureRandom.compact_uuid
     self.track_id = exercise.track_id
+    self.exercise_id_and_ast_digest_idx_cache = "#{exercise_id}|#{ast_digest}"
   end
 
   def to_param = uuid

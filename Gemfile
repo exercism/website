@@ -25,7 +25,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bugsnag'
 
 # Interaction gems
-gem 'rugged', '1.4.2' # Git - upgrading will break in production but not dev due to EFS issue.
+gem 'rugged'
 gem 'rest-client' # http
 gem 'octokit' # GitHub
 
@@ -35,7 +35,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.86.0' # path: '../exercism_config'
+gem 'exercism-config', '>= 0.93.0' # path: '../exercism_config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
@@ -64,8 +64,9 @@ gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 # Discourse
 gem 'discourse_api'
 
-# Reporting
+# Performance issue Reporting
 gem 'skylight'
+gem 'bullet'
 
 gem 'listen', '>= 3.0.5', '< 4.0'
 

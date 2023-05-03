@@ -55,6 +55,10 @@ class ChallengesController < ApplicationController
     april_exercises = %w[etl largest-series-product saddle-points sum-of-multiples word-count]
     valid_slugs += april_tracks.product(april_exercises)
 
+    may_tracks = %w[ballerina pharo-smalltalk prolog red rust tcl unison]
+    may_exercises = %w[raindrops isogram roman-numerals space-age acronym]
+    valid_slugs += may_tracks.product(may_exercises)
+
     taken_exercises = []
     @badge_progress_exercises = current_user.solutions.where('YEAR(solutions.published_at) = 2023').published.
       joins(:track).pluck('tracks.slug', 'exercises.slug').

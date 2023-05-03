@@ -106,6 +106,7 @@ body.namespace-.controller-insiders {
 
         .c-notification {
             background: #191525;
+            box-shadow: none;
             .--count {
                 background-color: var(--reddot-dark);
                 color: #191525;
@@ -272,7 +273,6 @@ body.namespace-.controller-insiders {
         }
         & .c-notification {
             @apply ml-8 mr-48;
-            box-shadow: none;
         }
         & .c-react-wrapper-dropdowns-reputation {
             @apply hidden xl:block lg:mr-48;

@@ -161,18 +161,20 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
   test "filter: only_mentored_solutions" do
     track = create :track
+    exercise = create(:practice_exercise, track:)
     mentor_1 = create :user
     mentor_2 = create :user
     mentor_3 = create :user
     representation_1 = create(:exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 4,
-      ast_digest: 'digest_1', track:)
+      ast_digest: 'digest_1', exercise:, track:)
     representation_2 = create(:exercise_representation, feedback_author: mentor_2, feedback_type: :actionable, num_submissions: 3,
-      ast_digest: 'digest_2', track:)
+      ast_digest: 'digest_2', exercise:, track:)
     representation_3 = create(:exercise_representation, feedback_author: mentor_1, feedback_type: :actionable, num_submissions: 2,
-      ast_digest: 'digest_3', track:)
-    create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: mentor_1
-    create :submission_representation, ast_digest: representation_2.ast_digest
-    create :submission_representation, ast_digest: representation_3.ast_digest
+      ast_digest: 'digest_3', exercise:, track:)
+    create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: mentor_1,
+      submission: create(:submission, exercise:)
+    create :submission_representation, ast_digest: representation_2.ast_digest, submission: create(:submission, exercise:)
+    create :submission_representation, ast_digest: representation_3.ast_digest, submission: create(:submission, exercise:)
 
     assert_equal [representation_1],
       Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, with_feedback: true, track:)

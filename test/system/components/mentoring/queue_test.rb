@@ -182,7 +182,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_queue_path
-          within(".mentor-queue-filtering") { assert_text "C#\n1" }
+          within(".mentor-queue-filtering") { assert_text "C# 1" }
         end
       end
 

@@ -2,49 +2,46 @@ require 'test_helper'
 
 class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   %i[ineligible active active_lifetime].each do |current_status|
-    test "don't change status when current status is #{current_status}" do
+    test "don't change status when current insiders_status is #{current_status}" do
       user = create :user, insiders_status: current_status
 
       User::InsidersStatus::Activate.(user)
 
-      assert_equal current_status, user.insiders_status
+      assert_equal current_status, user.reload.insiders_status
     end
 
-    test "don't create notification when current status is #{current_status}" do
+    test "don't create notification when current insiders_status is #{current_status}" do
       user = create :user, insiders_status: current_status
 
-      User::Notification::Create.expects(:call).with(user, :joined_insiders).never
-      User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).never
+      User::Notification::Create.expects(:call).never
 
       User::InsidersStatus::Activate.(user)
     end
-  end
 
-  [%i[eligible active], %i[eligible_lifetime active_lifetime]].each do |(current, expected)|
-    test "change status to #{expected} when current status is #{current}" do
-      user = create :user, insiders_status: current
+    test "don't award badge when current insiders_status is #{current_status}" do
+      user = create :user, insiders_status: current_status
 
-      User::InsidersStatus::Activate.(user)
+      perform_enqueued_jobs do
+        User::InsidersStatus::Activate.(user)
+      end
 
-      assert_equal expected, user.insiders_status
+      refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
     end
   end
 
-  test "notification is created when changing status to active" do
-    user = create :user
+  test "change status to active_lifetime when current insiders_status is eligible_lifetime" do
+    user = create :user, insiders_status: :eligible_lifetime
 
-    User::Notification::Create.expects(:call).with(user, :joined_insiders).once
-
-    user.update(insiders_status: :eligible)
     User::InsidersStatus::Activate.(user)
+
+    assert_equal :active_lifetime, user.reload.insiders_status
   end
 
-  test "notification is created when changing status to active_lifetime" do
-    user = create :user, :admin
+  test "create notification when current insiders_status is eligible_lifetime" do
+    user = create :user, insiders_status: :eligible_lifetime
 
     User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
 
-    user.update(insiders_status: :eligible_lifetime)
     User::InsidersStatus::Activate.(user)
   end
 
@@ -56,13 +53,77 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     assert_equal :insider, user.flair
   end
 
-  %i[founder staff original_insider].each do |flair|
-    test "flair not updated when changing status to active and current flair is #{flair}" do
-      user = create :user, flair:, insiders_status: :eligible
+  %i[eligible eligible_lifetime].each do |insiders_status|
+    test "flair not updated when insiders status is #{insiders_status} and user has founder flair" do
+      user = create(:user, :founder, flair: :founder, insiders_status:)
 
       User::InsidersStatus::Activate.(user)
 
-      assert_equal flair, user.flair
+      assert_equal :founder, user.flair
     end
+
+    test "flair not updated when insiders status is #{insiders_status} and user has staff flair" do
+      user = create(:user, :staff, flair: :staff, insiders_status:)
+
+      User::InsidersStatus::Activate.(user)
+
+      assert_equal :staff, user.flair
+    end
+
+    test "flair not updated when insiders status is #{insiders_status} and user has original_insider flair" do
+      user = create(:user, flair: :original_insider, insiders_status:)
+
+      User::InsidersStatus::Activate.(user)
+
+      assert_equal :original_insider, user.flair
+    end
+
+    test "flair set to insider when insiders status is #{insiders_status}" do
+      user = create(:user, insiders_status:)
+
+      User::InsidersStatus::Activate.(user)
+
+      assert_equal :insider, user.flair
+    end
+  end
+
+  test "award badge when current insiders_status is eligible_lifetime" do
+    user = create :user, insiders_status: :eligible_lifetime
+
+    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+  end
+
+  test "change status to active when current insiders_status is eligible" do
+    user = create :user, insiders_status: :eligible
+
+    User::InsidersStatus::Activate.(user)
+
+    assert_equal :active, user.reload.insiders_status
+  end
+
+  test "create notification when current insiders_status is eligible" do
+    user = create :user, insiders_status: :eligible
+
+    User::Notification::Create.expects(:call).with(user, :joined_insiders).once
+
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "award badge when current insiders_status is eligible" do
+    user = create :user, insiders_status: :eligible
+
+    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
   end
 end

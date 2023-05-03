@@ -146,6 +146,5 @@
     "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/website.css",
     "build": "./app/javascript/esbuild.js",
     "prepare": "husky install"
-  },
-  "packageManager": "yarn@1.22.19"
+  }
 }

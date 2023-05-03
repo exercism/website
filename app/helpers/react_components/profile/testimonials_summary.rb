@@ -13,6 +13,7 @@ module ReactComponents
 
         super("profile-testimonials-summary", {
           handle: user.handle,
+          flair: user.flair,
           num_testimonials:,
           num_solutions_mentored:,
           num_students_helped:,

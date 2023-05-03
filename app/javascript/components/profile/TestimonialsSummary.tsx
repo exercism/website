@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
-import { Avatar, GraphicalIcon, ProminentLink } from '../common'
+import {
+  Avatar,
+  GraphicalIcon,
+  HandleWithFlair,
+  ProminentLink,
+} from '../common'
 import { Testimonial } from '../types'
 
 type Props = {
   handle: string
+  flair: string
   numTestimonials: number
   numSolutionsMentored: number
   numStudentsHelped: number
@@ -15,6 +21,7 @@ type Props = {
 }
 export const TestimonialsSummary = ({
   handle,
+  flair,
   numTestimonials,
   numSolutionsMentored,
   numStudentsHelped,
@@ -23,6 +30,8 @@ export const TestimonialsSummary = ({
   links,
 }: Props): JSX.Element => {
   const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0])
+
+  console.log(flair)
 
   return (
     <section className="testimonials-section">
@@ -79,8 +88,16 @@ export const TestimonialsSummary = ({
                     handle={testimonial.student.handle}
                   />
                   <div className="info">
-                    <div className="student">{testimonial.student.handle}</div>
-                    <div className="mentored-by"> Mentored by {handle}</div>
+                    <div className="student">
+                      <HandleWithFlair
+                        flair={testimonial.student.flair}
+                        handle={testimonial.student.handle}
+                      />
+                    </div>
+                    <div className="mentored-by">
+                      Mentored by&nbsp;
+                      <HandleWithFlair handle={handle} flair={flair} />
+                    </div>
                     <div className="exercise">
                       <strong>{testimonial.exercise.title}</strong> in{' '}
                       <strong>{testimonial.track.title}</strong>

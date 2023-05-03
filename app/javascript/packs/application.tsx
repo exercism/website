@@ -326,6 +326,7 @@ export const mappings = {
   'profile-testimonials-summary': (data: any) => (
     <Profile.TestimonialsSummary
       handle={data.handle}
+      flair={data.flair}
       numTestimonials={data.num_testimonials}
       numSolutionsMentored={data.num_solutions_mentored}
       numStudentsHelped={data.num_students_helped}

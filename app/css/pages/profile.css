@@ -146,7 +146,7 @@
                             @apply text-h6 leading-170;
                         }
                         & .mentored-by {
-                            @apply text-15 leading-160 text-textColor6;
+                            @apply flex text-15 leading-160 text-textColor6;
                         }
 
                         & .exercise {

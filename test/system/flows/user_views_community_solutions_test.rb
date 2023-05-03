@@ -22,7 +22,7 @@ module Flows
         visit track_exercise_solutions_path(exercise.track, exercise)
       end
 
-      assert_text "author\n's solution"
+      assert_text "author's solution"
       assert_text "to Strings in Ruby"
     end
 
@@ -49,8 +49,8 @@ module Flows
         fill_in "Search by user", with: "author2"
       end
 
-      assert_text "author2\n's solution"
-      assert_no_text "author1\n's solution"
+      assert_text "author2's solution"
+      assert_no_text "author1's solution"
     end
 
     test "filter community solutions" do
@@ -87,18 +87,18 @@ module Flows
       end
 
       # Default: head tests passed filter is on
-      assert_text "author1\n's solution"
-      assert_no_text "author2\n's solution"
-      assert_text "author3\n's solution"
+      assert_text "author1's solution"
+      assert_no_text "author2's solution"
+      assert_text "author3's solution"
 
       # Disable head tests passed filter
       use_capybara_host do
         find("img[alt='Only show solution that pass the tests of the latest version of this exercise']").click
       end
 
-      assert_text "author1\n's solution"
-      assert_text "author2\n's solution"
-      assert_text "author3\n's solution"
+      assert_text "author1's solution"
+      assert_text "author2's solution"
+      assert_text "author3's solution"
 
       # Enable up-to-date filter
       use_capybara_host do
@@ -107,9 +107,9 @@ module Flows
 
       sleep(0.1)
 
-      assert_text "author1\n's solution"
-      assert_text "author2\n's solution"
-      assert_no_text "author3\n's solution"
+      assert_text "author1's solution"
+      assert_text "author2's solution"
+      assert_no_text "author3's solution"
 
       # Enable tests passing filter
       use_capybara_host do
@@ -118,9 +118,9 @@ module Flows
 
       sleep(0.1)
 
-      assert_text "author1\n's solution"
-      assert_no_text "author2\n's solution"
-      assert_no_text "author3\n's solution"
+      assert_text "author1's solution"
+      assert_no_text "author2's solution"
+      assert_no_text "author3's solution"
     end
 
     test "paginates community solutions" do
@@ -145,13 +145,13 @@ module Flows
         sign_in!(user)
         visit track_exercise_solutions_path(exercise.track, exercise)
 
-        assert_text "author2\n's solution"
-        assert_no_text "author1\n's solution"
+        assert_text "author2's solution"
+        assert_no_text "author1's solution"
 
         click_on "2"
 
-        assert_text "author1\n's solution"
-        assert_no_text "author2\n's solution"
+        assert_text "author1's solution"
+        assert_no_text "author2's solution"
       end
     end
 
@@ -218,16 +218,16 @@ module Flows
 
         within(".other-solutions") do
           # Own solution is not shown
-          refute_text "Jane\n's solution", wait: 2
+          refute_text "Jane's solution", wait: 2
 
           # Other user's published solution with published iteration head tests status is :passed are shown
-          assert_text "John\n's solution", wait: 2
+          assert_text "John's solution", wait: 2
 
           # Other user's published solution with published iteration head tests status is :queued are shown
-          assert_text "Iko\n's solution", wait: 2
+          assert_text "Iko's solution", wait: 2
 
           # Other user's published solution with published iteration head tests status is :failed is not shown
-          refute_text "Niesha\n's solution", wait: 2
+          refute_text "Niesha's solution", wait: 2
         end
       end
     end

@@ -55,7 +55,7 @@ module ViewComponents
             tag.div(current_user.name, class: 'name') +
               tag.div(class: "handle flex") do
                 tag.span("@") + render(ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair,
-                  size: 14)).html_safe
+                  size: :small)).html_safe
               end
           end +
           icon('external-link', "Open public profile")

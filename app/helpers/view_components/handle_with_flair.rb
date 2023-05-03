@@ -32,9 +32,9 @@ module ViewComponents
     private
     def map_size_to_value(size_variant)
       size_mapping = {
-        'xsmall' => 10,
-        'small' => 13,
-        'base' => 15,
+        'small' => 10,
+        'base' => 13,
+        'medium' => 15,
         'large' => 17,
         'xlarge' => 28
       }

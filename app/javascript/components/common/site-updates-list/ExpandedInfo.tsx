@@ -31,7 +31,7 @@ export const ExpandedInfo = ({
                 <HandleWithFlair
                   handle={expanded.author.handle}
                   flair={expanded.author.flair}
-                  size={18}
+                  size="medium"
                 />
               </strong>
             </div>

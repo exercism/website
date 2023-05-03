@@ -33,7 +33,7 @@ const MakerInner = ({
     <>
       <Avatar src={maker.avatarUrl} handle={maker.handle} />
       <div className="handle">
-        <HandleWithFlair handle={maker.handle} flair={maker.flair} size={16} />
+        <HandleWithFlair handle={maker.handle} flair={maker.flair} />
       </div>
       <Reputation value={maker.reputation!} type="primary" size="small" />
       {showIcon ? (

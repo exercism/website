@@ -39,7 +39,6 @@ export const RevealedTestimonial = ({
               <HandleWithFlair
                 handle={testimonial.student.handle}
                 flair={testimonial.student.flair}
-                size={16}
               />
             </div>
             <div className="exercise">

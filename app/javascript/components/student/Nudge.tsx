@@ -381,7 +381,7 @@ const InProgressMentoringNudge = ({
               <HandleWithFlair
                 handle={discussion.mentor.handle}
                 flair={discussion.mentor.flair}
-                size={20}
+                size="large"
               />
             }
           </strong>

@@ -13,7 +13,7 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
               <HandleWithFlair
                 handle={mentor.handle}
                 flair={mentor.flair}
-                size={18}
+                size="medium"
               />
             }
           </div>

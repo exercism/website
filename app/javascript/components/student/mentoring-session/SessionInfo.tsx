@@ -29,7 +29,7 @@ export const SessionInfo = ({
                   <HandleWithFlair
                     handle={mentor.handle}
                     flair={mentor.flair}
-                    size={14}
+                    size="small"
                   />
                 }
                 &nbsp;

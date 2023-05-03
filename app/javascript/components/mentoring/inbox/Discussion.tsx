@@ -34,7 +34,6 @@ export const Discussion = ({
           <HandleWithFlair
             handle={discussion.student.handle}
             flair={discussion.student.flair}
-            size={16}
           />
           {discussion.student.isFavorited ? (
             <Icon

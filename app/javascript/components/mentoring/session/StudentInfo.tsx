@@ -21,7 +21,7 @@ export const StudentInfo = ({
             <HandleWithFlair
               handle={student.handle}
               flair={student.flair}
-              size={18}
+              size="medium"
             />
           </div>
           <Reputation

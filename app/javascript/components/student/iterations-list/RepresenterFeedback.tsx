@@ -16,7 +16,6 @@ export const RepresenterFeedback = ({
             <HandleWithFlair
               handle={author.name || author.handle}
               flair={author.flair}
-              size={15}
             />
           </strong>
           &nbsp;gave this feedback on a solution very similar to yours

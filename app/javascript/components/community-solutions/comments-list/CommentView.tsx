@@ -20,7 +20,6 @@ export const CommentView = ({
               <HandleWithFlair
                 handle={comment.author.handle}
                 flair={comment.author.flair}
-                size={16}
               />
             </div>
             <Reputation value={comment.author.reputation} size="small" />

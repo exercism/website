@@ -25,7 +25,6 @@ export const ContributorRow = ({
               <HandleWithFlair
                 handle={contributor.handle}
                 flair={contributor.flair}
-                size={16}
               />
               <span className="md:hidden text-textColor6 ml-8 text-14">
                 #{contributor.rank}

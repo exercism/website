@@ -3,19 +3,25 @@ import { GraphicalIcon } from './GraphicalIcon'
 
 const FLAIRS = ['insiders', 'original-insiders']
 
+const FLAIR_SIZE = {
+  small: 10,
+  base: 13,
+  medium: 15,
+  large: 17,
+  xlarge: 28,
+}
+
 export function HandleWithFlair({
   handle,
   flair,
-  size,
+  size = 'base',
   iconClassName,
 }: {
   handle: string
   flair: string
-  size: number
+  size?: keyof typeof FLAIR_SIZE
   iconClassName?: string
 }): JSX.Element | null {
-  size = size - 3
-
   return (
     <span className="flex items-center">
       {handle}
@@ -24,8 +30,8 @@ export function HandleWithFlair({
           &nbsp;
           <GraphicalIcon
             className={'handle-with-flair-icon ' + iconClassName}
-            height={size}
-            width={size}
+            height={FLAIR_SIZE[size]}
+            width={FLAIR_SIZE[size]}
             icon={FLAIRS[+(flair === 'original_insider')]}
           />
         </>

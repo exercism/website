@@ -33,7 +33,7 @@ export const TestimonialModal = ({
             <HandleWithFlair
               handle={testimonial.student.handle}
               flair={testimonial.student.flair}
-              size={20}
+              size="large"
             />
           </strong>
         </div>

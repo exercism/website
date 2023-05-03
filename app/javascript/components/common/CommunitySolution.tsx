@@ -143,7 +143,6 @@ export const CommunitySolution = ({
                   <HandleWithFlair
                     handle={solution.author.handle}
                     flair={solution.author.flair}
-                    size={16}
                   />
                 }
                 &apos;s solution

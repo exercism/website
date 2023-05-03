@@ -26,7 +26,6 @@ export const DiscussionPostEdit = ({
             <HandleWithFlair
               handle={post.authorHandle}
               flair={post.authorFlair}
-              size={16}
             />
           </div>
         </header>

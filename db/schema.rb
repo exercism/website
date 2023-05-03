@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -335,14 +335,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
     t.string "exercise_id_and_ast_digest_idx_cache"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep", order: { id: :desc }
-    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["feedback_type", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_type_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_type", "exercise_id", "num_submissions"], name: "index_exercise_representation_type_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
@@ -885,6 +881,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
+  create_table "supporting_organisations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "support_explanation"
+    t.text "description_markdown", null: false
+    t.text "description_html", null: false
+    t.text "insiders_offer_description"
+    t.boolean "featured", default: false, null: false
+    t.boolean "has_insiders_offer", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_supporting_organisations_on_slug", unique: true
+  end
+
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false
@@ -1077,6 +1087,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
     t.boolean "auto_update_exercises", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "theme"
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 
@@ -1210,8 +1221,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
     t.integer "insiders_status", limit: 1, default: 0, null: false
     t.integer "flair", limit: 1
     t.string "paypal_payer_id"
+    t.json "usages"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
@@ -1235,8 +1246,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_155527) do
   add_foreign_key "cohorts", "tracks"
   add_foreign_key "community_stories", "users", column: "interviewee_id"
   add_foreign_key "community_stories", "users", column: "interviewer_id"
-  add_foreign_key "community_videos", "exercises"
-  add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "documents", "tracks"

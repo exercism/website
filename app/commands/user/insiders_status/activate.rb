@@ -19,5 +19,7 @@ class User::InsidersStatus::Activate
 
     User::Notification::Create.(user, @notification_key) if FeatureFlag::INSIDERS
     AwardBadgeJob.perform_later(user, :insider) if FeatureFlag::INSIDERS
+    User::SetDiscordRoles.(user)
+    User::SetDiscourseGroups.(user)
   end
 end

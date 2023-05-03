@@ -24,6 +24,8 @@ class User::InsidersStatus::Update
       end
     end
 
+    User::SetDiscordRoles.(user)
+    User::SetDiscourseGroups.(user)
     User::Notification::Create.(user, @notification_key) if @notification_key && FeatureFlag::INSIDERS
   end
 

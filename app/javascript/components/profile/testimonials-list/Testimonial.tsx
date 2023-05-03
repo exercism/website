@@ -1,7 +1,7 @@
 import React from 'react'
 import { fromNow } from '@/utils'
 import { Testimonial as TestimonialProps } from '@/components/types'
-import { Avatar, TrackIcon } from '@/components/common'
+import { Avatar, HandleWithFlair, TrackIcon } from '@/components/common'
 import { TestimonialModal } from './TestimonialModal'
 
 export const Testimonial = ({
@@ -23,7 +23,12 @@ export const Testimonial = ({
           src={testimonial.student.avatarUrl}
         />
         <div className="content">{testimonial.content}</div>
-        <div className="student-name">{testimonial.student.handle}</div>
+        <div className="student-name">
+          <HandleWithFlair
+            handle={testimonial.student.handle}
+            flair={testimonial.student.flair}
+          />
+        </div>
         <div className="exercise">
           {testimonial.exercise.title} on{' '}
           <TrackIcon

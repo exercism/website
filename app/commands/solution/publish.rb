@@ -34,9 +34,9 @@ class Solution::Publish
   end
 
   def award_badges!
-    AwardBadgeJob.perform_later(solution.user, :functional_february)
-    AwardBadgeJob.perform_later(solution.user, :mechanical_march)
-    AwardBadgeJob.perform_later(solution.user, :analytical_april)
+    %i[functional_february mechanical_march analytical_april mind_shifting_may].each do |badge|
+      AwardBadgeJob.perform_later(solution.user, badge)
+    end
   end
 
   def record_activity!

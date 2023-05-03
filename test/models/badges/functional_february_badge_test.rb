@@ -39,7 +39,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
 
     # Publish a 5th bob, but on second of march
     exercise = create :practice_exercise, slug: 'bob', track: fsharp
-    solution = create :practice_solution, :iterated, user:, track: fsharp, exercise:,
+    solution = create :practice_solution, :published, user:, track: fsharp, exercise:,
       published_at: Time.utc(2022, 3, 2)
     refute badge.award_to?(user.reload)
 
@@ -58,7 +58,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     fsharp = create :track, slug: 'fsharp'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: fsharp
-      create :practice_solution, :iterated, user:, track: fsharp, exercise:,
+      create :practice_solution, :published, user:, track: fsharp, exercise:,
         published_at: Time.utc(2023, 1, 31)
     end
     assert badge.award_to?(user.reload)
@@ -70,7 +70,7 @@ class Badges::FunctionalFebruaryBadgeTest < ActiveSupport::TestCase
     fsharp = create :track, slug: 'fsharp'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: fsharp
-      create :practice_solution, :iterated, user:, track: fsharp, exercise:,
+      create :practice_solution, :published, user:, track: fsharp, exercise:,
         published_at: Time.utc(2023, 3, 1)
     end
     assert badge.award_to?(user.reload)

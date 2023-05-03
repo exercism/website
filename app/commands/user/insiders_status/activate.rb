@@ -4,19 +4,23 @@ class User::InsidersStatus::Activate
   initialize_with :user
 
   def call
-    user.with_lock do
-      return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
+    return unless user.insiders_status_eligible? || user.insiders_status_eligible_lifetime?
 
-      if user.insiders_status == :eligible
+    user.with_lock do
+      case user.insiders_status
+      when :eligible
+        @notification_key = :joined_insiders
         user.update(insiders_status: :active)
-        User::Notification::Create.(user, :joined_insiders) if FeatureFlag::INSIDERS
-      else
+      when :eligible_lifetime
+        @notification_key = :joined_lifetime_insiders
         user.update(insiders_status: :active_lifetime)
-        User::Notification::Create.(user, :joined_lifetime_insiders) if FeatureFlag::INSIDERS
       end
 
       User::SetDiscordRoles.(user)
       User::SetDiscourseGroups.(user)
     end
+
+    User::Notification::Create.(user, @notification_key) if FeatureFlag::INSIDERS
+    AwardBadgeJob.perform_later(user, :insider) if FeatureFlag::INSIDERS
   end
 end

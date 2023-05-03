@@ -89,6 +89,8 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     submission_representation = create(:submission_representation,
       submission: create(:submission, exercise:),
       ast_digest:)
+    p submission_representation.exercise_id_and_ast_digest_idx_cache
+    p representation.exercise_id_and_ast_digest_idx_cache
 
     assert_equal [submission_representation], representation.reload.submission_representations
 
@@ -122,16 +124,19 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
   end
 
   test "scope: mentored_by" do
+    exercise = create :practice_exercise
+    submissions = Array.new(4) { create(:submission, exercise:) }
+
     user_1 = create :user
     user_2 = create :user
     user_3 = create :user
-    representation_1 = create :exercise_representation, ast_digest: 'digest_1'
-    representation_2 = create :exercise_representation, ast_digest: 'digest_2'
-    representation_3 = create :exercise_representation, ast_digest: 'digest_3'
-    create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: user_1
-    create :submission_representation, ast_digest: representation_2.ast_digest, mentored_by: user_2
-    create :submission_representation, ast_digest: representation_3.ast_digest, mentored_by: user_1
-    create :submission_representation, ast_digest: 'another_digest', mentored_by: user_1
+    representation_1 = create(:exercise_representation, ast_digest: 'digest_1', exercise:)
+    representation_2 = create(:exercise_representation, ast_digest: 'digest_2', exercise:)
+    representation_3 = create(:exercise_representation, ast_digest: 'digest_3', exercise:)
+    create :submission_representation, ast_digest: representation_1.ast_digest, mentored_by: user_1, submission: submissions[0]
+    create :submission_representation, ast_digest: representation_2.ast_digest, mentored_by: user_2, submission: submissions[1]
+    create :submission_representation, ast_digest: representation_3.ast_digest, mentored_by: user_1, submission: submissions[2]
+    create :submission_representation, ast_digest: 'another_digest', mentored_by: user_1, submission: submissions[3]
 
     assert_equal [representation_1, representation_3],
       Exercise::Representation.mentored_by(user_1.reload).order(:id)

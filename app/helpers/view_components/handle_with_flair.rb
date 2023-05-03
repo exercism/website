@@ -1,44 +1,51 @@
 module ViewComponents
   class HandleWithFlair < ViewComponent
-    def initialize(handle, flair, size: 'base')
-      @handle = handle
-      @flair = flair
-      size_value = map_size_to_value(size)
-      @height = "#{size_value}px"
-      @width = "#{size_value}px"
+    include Mandate
 
-      super()
-    end
-
-    def icon
-      return unless @flair.present?
-
-      icon_name = @flair == "original_insider" ? :original_insiders : :insiders
-      icon_styles = "all:unset; height:#{@height}; width:#{@width};"
-      graphical_icon(icon_name, style: icon_styles).to_s
-    end
+    initialize_with :handle, :flair, size: :base
 
     def to_s
-      tag.span(
-        class: 'flex items-center',
-        title: @flair
-      ) do
-        content = @handle
-        content += "&nbsp;#{icon}" if @flair.present?
-        content.html_safe
+      tag.span(class: 'flex items-center') do
+        safe_join(
+          [
+            tag.span(handle),
+            icon_part
+          ].compact
+        )
       end
     end
 
     private
-    def map_size_to_value(size_variant)
-      size_mapping = {
-        'small' => 10,
-        'base' => 13,
-        'medium' => 15,
-        'large' => 17,
-        'xlarge' => 28
-      }
-      size_mapping[size_variant.to_s] || size_mapping['base']
+    def icon_part
+      return unless flair.present?
+
+      icon(
+        icon_name,
+        flair,
+        style: "all:unset; height:#{size_in_px}; width:#{size_in_px};"
+      )
     end
+
+    memoize
+    def size_in_px
+      "#{SIZES[size.to_sym]}px"
+    end
+
+    def icon_name
+      ICONS[flair.to_sym]
+    end
+
+    SIZES = {
+      small: 10,
+      base: 13,
+      medium: 15,
+      large: 17,
+      xlarge: 28
+    }.freeze
+
+    ICONS = {
+      original_insider: :original_insiders,
+      insider: :insiders
+    }.freeze
   end
 end

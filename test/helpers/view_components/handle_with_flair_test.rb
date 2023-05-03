@@ -18,7 +18,7 @@ class ViewComponents::HandleWithFlairTest < ActionView::TestCase
 
     expected = tag.span(class: 'flex items-center') do
       tag.span(handle) +
-        icon(:insiders, flair, style: "all:unset; height:13px; width:13px;").to_s
+        icon(:insiders, flair, style: "all:unset; height: 13px; width: 13px; margin-left: 4px").to_s
     end
 
     actual = render(ViewComponents::HandleWithFlair.new(handle, flair))

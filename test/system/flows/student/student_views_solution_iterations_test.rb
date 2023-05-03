@@ -224,7 +224,7 @@ module Flows
           sign_in!(user)
           visit track_exercise_iterations_path(track, exercise)
 
-          assert_text "Feedback author\n gave this feedback on a solution very similar to yours"
+          assert_text "Feedback author gave this feedback on a solution very similar to yours"
           assert_text "Good job"
         end
       end

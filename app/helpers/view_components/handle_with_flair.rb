@@ -22,7 +22,7 @@ module ViewComponents
       icon(
         icon_name,
         flair,
-        style: "all:unset; height:#{size_in_px}; width:#{size_in_px}; margin-left: #{ml_in_px}"
+        style: "all:unset; height: #{size_in_px}; width: #{size_in_px}; margin-left: #{ml_in_px}"
       )
     end
 

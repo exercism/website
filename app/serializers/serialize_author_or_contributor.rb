@@ -7,7 +7,7 @@ class SerializeAuthorOrContributor
     {
       name: user.name,
       handle: user.handle,
-      flair: user&.flair,
+      flair: user.flair,
       avatar_url: user.avatar_url,
       reputation: user.formatted_reputation,
       links: {

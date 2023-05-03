@@ -9,7 +9,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
     3.times { create :mentor_discussion, solution: create(:practice_solution, user: student) }
     expected = {
       handle: student.handle,
-      flair: student&.flair,
+      flair: student.flair,
       name: student.name,
       bio: nil,
       location: nil,
@@ -42,7 +42,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
     mentor = create :user
     expected = {
       handle: student.handle,
-      flair: student&.flair,
+      flair: student.flair,
       name: student.name,
       bio: nil,
       location: nil,

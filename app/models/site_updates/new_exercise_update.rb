@@ -15,7 +15,7 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
         {
           handle: maker.handle,
           avatar_url: maker.avatar_url,
-          flair: maker&.flair
+          flair: maker.flair
         }
       end
     )

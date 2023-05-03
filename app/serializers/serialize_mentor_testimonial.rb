@@ -10,7 +10,7 @@ class SerializeMentorTestimonial
       student: {
         avatar_url: testimonial.student.avatar_url,
         handle: testimonial.student.handle,
-        flair: testimonial.student&.flair
+        flair: testimonial.student.flair
       },
       exercise: {
         title: testimonial.exercise.title,

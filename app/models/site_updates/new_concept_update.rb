@@ -17,7 +17,7 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
         {
           handle: maker.handle,
           avatar_url: maker.avatar_url,
-          flair: maker&.flair
+          flair: maker.flair
         }
       end,
       concept_widget: {

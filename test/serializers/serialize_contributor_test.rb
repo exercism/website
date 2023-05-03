@@ -10,7 +10,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
       rank:,
       activity: "1 PR created",
       handle: user.handle,
-      flair: user&.flair,
+      flair: user.flair,
       reputation: "12",
       avatar_url: user.avatar_url,
       links: { profile: nil }

@@ -26,7 +26,7 @@ class SerializeMentorDiscussion
       },
       mentor: {
         handle: discussion.mentor.handle,
-        flair: discussion.mentor&.flair,
+        flair: discussion.mentor.flair,
         avatar_url: discussion.mentor.avatar_url
       },
 

@@ -49,7 +49,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
         {
           handle: maker.handle,
           avatar_url: maker.avatar_url,
-          flair: maker&.flair
+          flair: maker.flair
         }.stringify_keys
       end,
       update.rendering_data[:makers]
@@ -72,7 +72,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
         {
           handle: maker.handle,
           avatar_url: maker.avatar_url,
-          flair: maker&.flair
+          flair: maker.flair
         }.stringify_keys
       end,
       update.rendering_data[:makers]
@@ -97,7 +97,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
         {
           handle: maker.handle,
           avatar_url: maker.avatar_url,
-          flair: maker&.flair
+          flair: maker.flair
         }.stringify_keys
       end,
       update.rendering_data[:makers]
@@ -124,7 +124,7 @@ class SiteUpdates::NewConceptUpdateTest < ActiveSupport::TestCase
         {
           handle: maker.handle,
           avatar_url: maker.avatar_url,
-          flair: maker&.flair
+          flair: maker.flair
         }.stringify_keys
       end,
       update.rendering_data[:makers]

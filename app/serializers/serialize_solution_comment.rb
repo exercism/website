@@ -9,7 +9,7 @@ class SerializeSolutionComment
       author: {
         handle: comment.author.handle,
         avatar_url: comment.author.avatar_url,
-        flair: comment.author&.flair,
+        flair: comment.author.flair,
         reputation: comment.author.formatted_reputation
       },
       content_markdown: comment.content_markdown,

@@ -17,7 +17,7 @@ export const THEMES: Theme[] = [
     label: 'System',
     value: 'system',
     background:
-      'linear-gradient(135deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
+      'linear-gradient(90deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
     icon: 'exercism-face-two-tone',
   },
   // {

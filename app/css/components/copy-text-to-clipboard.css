@@ -18,7 +18,7 @@
 .c-copy-text-to-clipboard {
     @apply border-1 border-borderColor4 rounded-5;
     @apply py-12 px-20 bg-backgroundColorA text-left;
-    @apply font-mono font-normal text-14 text-textColor3;
+    @apply font-mono font-normal text-14 text-textColor2;
 
     @apply flex items-center w-100;
     @apply relative;
@@ -33,6 +33,7 @@
         height: 24px;
         width: 24px;
         @apply ml-16;
+        @apply filter-textColor3;
     }
 
     & .message {

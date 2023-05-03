@@ -46,10 +46,10 @@ export function SimpleIterationHeader({
   return (
     <header className="iteration-header">
       <div>
-        <div className="flex flex-row items-center text-15 text-primaryBtnBorder font-semibold leading-170">
+        <div className="flex flex-row items-center text-15 text-textColor1 font-semibold leading-170">
           Solution #{solutionNumber} {appearsFrequently && <MostPopularTag />}
         </div>
-        <div className="text-14 text-btnBorder font-medium leading-160">
+        <div className="text-14 text-textColor6 font-medium leading-160">
           {pluralizeWithNumber(occurrenceNumber, 'occurrence')} · Last occurred{' '}
           {lastOccurred}
         </div>

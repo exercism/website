@@ -31,10 +31,10 @@
 
             &.selected {
                 @apply bg-backgroundColorA;
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
                 @apply shadow-xsZ1;
                 @apply z-1;
-                @apply border-lightBlue;
+                @apply border-prominentLinkColor;
             }
         }
     }
@@ -84,9 +84,9 @@
                     @apply text-textColor6;
 
                     &.selected {
-                        @apply text-lightBlue;
-                        @apply bg-veryLightBlue2;
-                        @apply border-2 border-lightBlue;
+                        @apply text-prominentLinkColor;
+                        @apply border-2 border-prominentLinkColor;
+                        background: var(--backgroundColorDonationsFormSelected);
                     }
                 }
             }
@@ -104,12 +104,12 @@
                     line-height: 34px;
                 }
                 &.selected {
-                    @apply bg-veryLightBlue2;
-                    @apply border-1 border-lightBlue;
+                    background: var(--backgroundColorDonationsFormSelected);
+                    @apply border-1 border-prominentLinkColor;
                     box-shadow: 0px 0px 0px 1px #2e57e8,
                         0px 0px 2px 2px var(--inputBoxShadowColorFocus);
                     & input {
-                        @apply text-lightBlue font-semibold;
+                        @apply text-prominentLinkColor font-semibold;
                     }
                 }
             }

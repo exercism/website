@@ -24,8 +24,9 @@
         @apply text-white;
     }
     &.--in-progress {
-        @apply border-lightBlue bg-veryLightBlue;
-        @apply text-lightBlue;
+        border-color: var(--borderColorExerciseStatusTagInProgress);
+        background: var(--backgroundColorExerciseStatusTagInProgress);
+        color: var(--textColorExerciseStatusTagInProgress);
     }
     &.--available {
         @apply border-buttonBorderColor2;
@@ -37,7 +38,8 @@
     }
     &.--completed,
     &.--published {
-        @apply border-darkGreen bg-veryLightGreen2;
+        @apply border-darkGreen;
+        background: var(--backgroundColorConceptMastered);
         @apply text-everyoneLovesAGreen;
 
         &:before {

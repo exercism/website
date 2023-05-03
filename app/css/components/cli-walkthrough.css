@@ -79,7 +79,7 @@
         /* Only enhance buttons in the final p/ul */
         & > :last-child a[data-passage] {
             @apply btn-l btn-enhanced inline-flex;
-            box-shadow: 0px 4px 7px rgba(79, 114, 205, 0.4);
+            box-shadow: 0px 4px 7px rgba(var(--shadowColorMain), 0.4);
         }
     }
 }

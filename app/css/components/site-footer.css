@@ -23,13 +23,13 @@ body.namespace-.controller-insiders {
 #site-footer {
     /* Show this through JS to avoid CLS */
     display: none;
+    background: var(--backgroundColorSiteFooter);
 
     margin-top: 100px;
     @screen lg {
         margin-top: 200px;
     }
 
-    @apply bg-textColor2;
     @apply border-t-8 border-purple;
 
     & .external-section {
@@ -144,7 +144,7 @@ body.namespace-.controller-insiders {
                 & .c-faux-input {
                     grid-area: e;
                     @apply py-4;
-                    @apply text-unnamed15;
+                    @apply text-textColor1;
                     @apply bg-gotToLoveAPurple border-1 border-purpleForever;
                     @apply rounded-8;
 
@@ -190,7 +190,7 @@ body.namespace-.controller-insiders {
         & li {
             @apply mb-8;
             & a {
-                @apply text-color22 font-medium text-16 leading-150;
+                @apply text-[#c8d5ef] font-medium text-16 leading-150;
             }
         }
     }
@@ -247,10 +247,10 @@ body.namespace-.controller-insiders {
         }
     }
     & .legals {
-        @apply text-color22 text-16 leading-160;
+        @apply text-[#c8d5ef] text-16 leading-160;
         & a {
             @apply text-lightPurple font-medium;
-            @apply border-b-1 border-color22;
+            @apply border-b-1 border-[#c8d5ef];
         }
 
         & .copyright {

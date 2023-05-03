@@ -15,10 +15,10 @@ export function ApproachSnippet({
   return (
     <a
       href={approach.links.self}
-      className="bg-white shadow-base rounded-8 px-20 py-16 mb-16"
+      className="bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16"
     >
       <pre
-        className="border-1 border-lightGray rounded-8 p-16 mb-16"
+        className="border-1 border-borderColor7 rounded-8 p-16 mb-16"
         ref={codeBlockRef}
       >
         {/* 

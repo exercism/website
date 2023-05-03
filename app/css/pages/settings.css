@@ -18,7 +18,7 @@
             @apply mb-8;
         }
         & a {
-            @apply text-lightBlue;
+            @apply text-linkColor;
         }
     }
     & article {
@@ -163,8 +163,8 @@
         }
 
         & .testimonial {
-            @apply border-2 border-veryLightBlue2;
-            @apply bg-lightPurple rounded-8;
+            @apply border-2 border-backgroundColorI;
+            @apply bg-backgroundColorF rounded-8;
             @apply rounded-8;
 
             & .text {
@@ -184,7 +184,7 @@
             }
 
             & .commonly-used {
-                @apply bg-veryLightBlue2;
+                @apply bg-backgroundColorI;
                 @apply py-12 px-24;
                 @apply flex items-center justify-center;
                 & .info {
@@ -193,7 +193,7 @@
                 }
                 & button {
                     @apply text-white font-semibold;
-                    @apply bg-lightBlue rounded-100;
+                    @apply bg-linkColor rounded-100;
                     height: 28px;
                     @apply px-10;
                     white-space: nowrap;
@@ -219,11 +219,12 @@
     & section.github-section {
         & a.external-link {
             @apply inline-flex items-center mr-8;
-            @apply text-lightBlue font-medium;
+            @apply font-medium;
+            color: var(--c-prominent-link-color);
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                filter: var(--link-blue-filter);
+                filter: var(--c-prominent-link-icon-filter);
                 @apply ml-4;
             }
         }
@@ -232,9 +233,9 @@
         @apply grid grid-cols-2 gap-24;
         & .box {
             @apply border-2 border-alert rounded-8;
-            @apply bg-veryLightRed;
             @apply py-16 px-24;
             @apply self-start;
+            background: var(--backgroundColorDangerSection);
 
             & h2 {
                 @apply text-h4 mb-8;
@@ -263,15 +264,22 @@
             @apply text-16 leading-160 font-medium;
         }
     }
+
+    .--selected-theme {
+        @apply outline outline-4 outline-successColor;
+        + label {
+            @apply text-successColor text-15;
+        }
+    }
 }
 #page-settings-donations {
     & .subscription-box {
         @apply flex items-start;
         @apply border-2 rounded-8;
         @apply py-20 px-24;
-        @apply bg-lightPurple;
+        @apply bg-backgroundColorF;
         /* TODO */
-        border-color: blue;
+        @apply border-gradient;
         & > .c-icon {
             height: 128px;
             width: 128px;

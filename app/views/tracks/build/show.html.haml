@@ -1,7 +1,7 @@
 - content_for :meta_title, "#{@track.title} impact and status on Exercism"
 - content_for :meta_description, "Explore the impact and status of #{@track.title} on Exercism."
 
-#page-tracks-build.bg-white
+#page-tracks-build.bg-backgroundColorB
   = render ViewComponents::Track::Header.new(@track, :build)
 
   .track-build-header
@@ -373,7 +373,7 @@
     .hidden.xl:block.col-span-1
       %div{ class: 'h-[284px]' }
         = ReactComponents::Impact::Map.new(track: @track)
-      .rounded-8.p-24.shadow-baseZ1.bg-white
+      .rounded-8.p-24.shadow-baseZ1.bg-backgroundColorA
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
           .label-large.mr-16

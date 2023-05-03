@@ -9,7 +9,8 @@
     }
 
     & a {
-        @apply text-lightBlue font-medium;
+        color: var(--textColorTrackBreadcrumbs);
+        @apply font-medium;
         @apply mr-16;
         @apply flex items-center;
         @apply whitespace-nowrap;

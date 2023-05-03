@@ -1,6 +1,6 @@
 #page-insiders {
+    @apply bg-darkBlueViolet;
     @apply pt-20 md:pt-48 pb-64;
-    background-color: #282339;
     color: #cbc9d9;
 
     h1,
@@ -37,8 +37,7 @@
                 @apply mb-12 relative;
             }
             box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
-            background-color: #302b42;
-            @apply py-20 px-24 rounded-16;
+            @apply py-20 px-24 rounded-16 bg-russianViolet;
             @apply flex flex-col;
 
             h4 {
@@ -74,8 +73,7 @@
                 }
             }
         }
-        background: #302b42;
-        @apply py-16 px-32 rounded-16;
+        @apply py-16 px-32 rounded-16 bg-russianViolet;
         @apply text-18 font-normal leading-150;
 
         summary {

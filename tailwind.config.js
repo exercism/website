@@ -153,6 +153,9 @@ module.exports = {
       randomBlue: '#F9F8FF',
       lightGold: '#FFD38F',
 
+      blueViolet: '#9E8EFF',
+      darkBlueViolet: '#282339',
+
       veryDarkGray: '#221E31',
       darkBlueGray: '#211D2F',
       smokeGray: '#26282D',

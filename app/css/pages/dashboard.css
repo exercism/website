@@ -1,6 +1,7 @@
 @import "../styles";
 
-.theme-light {
+.theme-light,
+.theme-accessibility-dark {
     --page-dashboard-background-image: linear-gradient(
         180deg,
         #e1ebff 70px,

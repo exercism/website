@@ -14,10 +14,6 @@ body.devise {
     }
 }
 
-body.namespace-.controller-about.action-impact {
-    background: var(--backgroundColorImpactPage);
-}
-
 body:not(.namespace-.controller-insiders) {
     --exercism-link-filter: var(--textColor1-filter);
 }

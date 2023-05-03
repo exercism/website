@@ -59,7 +59,8 @@
     }
 }
 #page-tracks-build {
-    .theme-light {
+    .theme-light,
+    .theme-accessibility-dark {
         --headerBackground: linear-gradient(
                 180deg,
                 rgba(251, 251, 255, 0) 79.36%,

@@ -98,7 +98,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user.update(active_donation_subscription: true)
 
     User::SetDiscourseGroups.stubs(:call)
-    User::Notification::Create.expects(:call).with(user, :join_insiders).once
+    User::Notification::Create.expects(:call).with(user, :eligible_for_insiders).once
 
     User::InsidersStatus::Update.(user)
   end
@@ -168,7 +168,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
 
       User::SetDiscourseGroups.stubs(:call)
-      User::Notification::Create.expects(:call).with(user, :join_lifetime_insiders).once
+      User::Notification::Create.expects(:call).with(user, :eligible_for_lifetime_insiders).once
 
       User::InsidersStatus::Update.(user)
     end
@@ -181,7 +181,33 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
 
     User::SetDiscourseGroups.stubs(:call)
-    User::Notification::Create.expects(:call).with(user, :joined_lifetime_insiders).once
+    User::Notification::Create.expects(:call).with(user, :upgraded_to_lifetime_insiders).once
+
+    User::InsidersStatus::Update.(user)
+  end
+
+  test "eligible_lifetime: lifetime insider badge awarded when current status is active" do
+    user = create :user, insiders_status: :active
+    User::SetDiscourseGroups.stubs(:call)
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+    refute_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
+  end
+
+  test "eligible_lifetime: set discourse groups" do
+    user = create :user, insiders_status: :active
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    User::SetDiscourseGroups.expects(:call).with(user)
 
     User::InsidersStatus::Update.(user)
   end
@@ -194,17 +220,6 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
     User::SetDiscourseGroups.stubs(:call)
     User::SetDiscordRoles.expects(:call).with(user)
-
-    User::InsidersStatus::Update.(user)
-  end
-
-  test "eligible_lifetime: set discourse groups" do
-    user = create :user, insiders_status: :active
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    User::SetDiscourseGroups.expects(:call).with(user)
 
     User::InsidersStatus::Update.(user)
   end

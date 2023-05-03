@@ -10,16 +10,21 @@ class User::InsidersStatus::Activate
       case user.insiders_status
       when :eligible
         @notification_key = :joined_insiders
+        @badge_key = :insider
         user.update(insiders_status: :active)
       when :eligible_lifetime
         @notification_key = :joined_lifetime_insiders
+        @badge_key = :lifetime_insider
         user.update(insiders_status: :active_lifetime)
       end
     end
 
+    return unless FeatureFlag::INSIDERS
+
     user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
-    User::Notification::Create.(user, @notification_key) if FeatureFlag::INSIDERS
-    AwardBadgeJob.perform_later(user, :insider) if FeatureFlag::INSIDERS
+    User::Notification::Create.(user, @notification_key)
+    AwardBadgeJob.perform_later(user, :insider)
+    AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime? && FeatureFlag::INSIDERS
     User::SetDiscordRoles.(user)
     User::SetDiscourseGroups.(user)
   end

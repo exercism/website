@@ -24,19 +24,23 @@ class User::InsidersStatus::Update
       end
     end
 
+    return unless FeatureFlag::INSIDERS
+
     User::SetDiscordRoles.(user)
     User::SetDiscourseGroups.(user)
-    User::Notification::Create.(user, @notification_key) if @notification_key && FeatureFlag::INSIDERS
+    User::Notification::Create.(user, @notification_key) if @notification_key
+    AwardBadgeJob.perform_later(user, @badge_key) if @badge_key
   end
 
   private
   def update_eligible_lifetime
     case user.insiders_status
     when :active
-      @notification_key = :joined_lifetime_insiders
+      @notification_key = :upgraded_to_lifetime_insiders
+      @badge_key = :lifetime_insider
       user.update(insiders_status: :active_lifetime)
     else
-      @notification_key = :join_lifetime_insiders
+      @notification_key = :eligible_for_lifetime_insiders
       user.update(insiders_status: :eligible_lifetime)
     end
   end
@@ -44,7 +48,7 @@ class User::InsidersStatus::Update
   def update_eligible
     return if user.insiders_status_active?
 
-    @notification_key = :join_insiders
+    @notification_key = :eligible_for_insiders
     user.update(insiders_status: :eligible)
   end
 

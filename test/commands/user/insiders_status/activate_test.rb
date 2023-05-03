@@ -134,19 +134,22 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     User::InsidersStatus::Activate.(user)
   end
 
-  test "award badge when current insiders_status is eligible_lifetime" do
+  test "award lifetime insider badge when current insiders_status is eligible_lifetime" do
     user = create :user, insiders_status: :eligible_lifetime
 
-    User::SetDiscourseGroups.stubs(:call)
-    User::SetDiscordRoles.stubs(:call)
+    User::SetDiscourseGroups.stubs(:call).with(user)
 
-    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+    badges = user.reload.badges.map(&:class)
+    refute_includes badges, Badges::InsiderBadge
+    refute_includes badges, Badges::LifetimeInsiderBadge
 
     perform_enqueued_jobs do
       User::InsidersStatus::Activate.(user)
     end
 
-    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+    badges = user.reload.badges.map(&:class)
+    assert_includes badges, Badges::InsiderBadge
+    assert_includes badges, Badges::LifetimeInsiderBadge
   end
 
   test "change status to active when current insiders_status is eligible" do
@@ -170,7 +173,7 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     User::InsidersStatus::Activate.(user)
   end
 
-  test "award badge when current insiders_status is eligible" do
+  test "award insider badge when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
 
     User::SetDiscourseGroups.stubs(:call)

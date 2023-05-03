@@ -5,10 +5,7 @@ module Badges
       'insiders',
       'Member of Exercism Insiders'
 
-    def award_to?(user) = VALID_INSIDERS_STATUSES.include?(user.insiders_status)
+    def award_to?(user) = user.insiders_status_active? || user.insiders_status_active_lifetime?
     def send_email_on_acquisition? = true
-
-    VALID_INSIDERS_STATUSES = %i[active active_lifetime].freeze
-    private_constant :VALID_INSIDERS_STATUSES
   end
 end

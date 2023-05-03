@@ -51,14 +51,18 @@ en:
       1: >
         Welcome to Exercism Lifetime Insiders!
 
-    join_insiders:
+    eligible_for_insiders:
       1: >
         Join Exercism Insiders!
 
-    join_lifetime_insiders:
+    eligible_for_lifetime_insiders:
       1: >
         Join Exercism Lifetime Insiders!
 
     expired_insiders:
       1: >
         Your Exercism Insiders membership has expired.
+
+    upgraded_to_lifetime_insiders:
+      1: >
+        You've been upgrade to Exercism Lifetime Insiders!

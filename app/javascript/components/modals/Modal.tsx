@@ -4,7 +4,7 @@ import { Icon } from '../common/Icon'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
 
-type Theme = 'light' | 'dark'
+type Theme = 'light' | 'dark' | 'unset'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   className?: string
   closeButton?: boolean
@@ -24,7 +24,7 @@ export const Modal = ({
   closeButton = false,
   cover = false,
   celebratory = false,
-  theme = 'light',
+  theme = 'unset',
   children,
   aria,
   ReactModalClassName,

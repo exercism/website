@@ -119,6 +119,15 @@
                 @apply mr-16;
             }
         }
+
+        .--summary-inner {
+            .c-icon {
+                &.--closed-icon,
+                &.--open-icon {
+                    @apply filter-textColor6;
+                }
+            }
+        }
     }
 
     & .tests-grouped-by-task {
@@ -150,6 +159,7 @@
                         @apply ml-24;
                         height: 16px;
                         width: 16px;
+                        @apply filter-textColor6;
                     }
                 }
             }

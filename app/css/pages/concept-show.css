@@ -7,8 +7,8 @@
         }
         background: linear-gradient(
             180deg,
-            #e1ebff 0%,
-            rgba(225, 235, 255, 0) 100%
+            var(--backgroundColorI) 0%,
+            transparent 100%
         );
         & .c-concept-icon {
             @apply mr-32;
@@ -29,11 +29,12 @@
             }
         }
         & .exercises {
-            @apply flex items-center text-18;
+            @apply flex items-center text-18 text-textColor1;
             & .c-icon {
                 @apply mr-8;
                 height: 24px;
                 width: 24px;
+                @apply filter-textColor1;
             }
         }
         & .progress {
@@ -140,6 +141,7 @@
                 @apply mr-16;
                 height: 24px;
                 width: 24px;
+                @apply filter-textColor1;
             }
         }
         & .exercises {

@@ -47,7 +47,8 @@
         transition: transform 0.5s ease-out;
 
         &:after {
-            @apply rounded-circle bg-red;
+            @apply rounded-circle;
+            background: var(--backgroundColorNotificationsCount);
             content: "";
             width: 15px;
             height: 15px;

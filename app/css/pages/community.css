@@ -1,12 +1,7 @@
 #page-community {
-    header {
-        @apply absolute;
-        width: 100%;
-        height: 528px;
-        left: 0px;
-        top: 64px;
-
-        background: linear-gradient(
+    .theme-light,
+    .theme-accessibility-dark {
+        --headerBackground: linear-gradient(
                 180deg,
                 rgba(251, 251, 255, 0) 79.36%,
                 #f4f4fd 100%
@@ -19,7 +14,19 @@
                 #fafaff 100%
             ),
             url("bg-tracks-header@2x.jpg"), #fafaff;
-        background-size: 100%;
+    }
+
+    .theme-dark {
+        --headerBackground: #191525;
+    }
+    header {
+        @apply absolute;
+        width: 100%;
+        height: 501px;
+        left: 0px;
+        top: 64px;
+
+        background: var(--headerBackground);
     }
 
     .message-count {
@@ -148,6 +155,7 @@
                     height: 16px;
                     width: 16px;
                     @apply ml-96;
+                    @apply filter-textColor6;
                 }
             }
             .c-pagination {

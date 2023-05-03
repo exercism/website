@@ -24,8 +24,7 @@
             & .c-avatar {
             }
             & .icon {
-                /* TODO: Really this color? */
-                color: #604fcd;
+                @apply filter-textColor6;
             }
             & .content {
                 @apply flex-grow mr-24;
@@ -47,18 +46,23 @@
                 @apply flex-shrink-0 rounded-circle mr-24;
             }
             & .unread {
-                @apply bg-lightBlue;
+                background: var(--backgroundColorNotificationsUnreadDot);
             }
 
             & .action-icon {
                 height: 16px;
                 width: 16px;
-                @apply text-textColor6;
+                @apply filter-textColor6;
             }
         }
         & .c-prominent-link {
             @apply mt-12;
             @apply px-16 py-8;
+            color: var(--backgroundColorNotificationsUnreadDot);
+
+            .c-icon {
+                filter: var(--iconFilterNotificationsProminentLink);
+            }
 
             &:hover {
                 @apply bg-backgroundColorD;

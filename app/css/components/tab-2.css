@@ -23,13 +23,14 @@
     }
 
     &.selected {
-        @apply text-anotherPurple;
-        @apply border-anotherPurple;
+        color: var(--colorPurpleToBrightPurple);
+        border-color: var(--colorPurpleToBrightPurple);
         & .c-icon {
-            filter: var(--another-purple-filter);
+            filter: var(--purple-to-bright-purple-filter);
         }
         & .count {
-            @apply border-anotherPurple text-anotherPurple;
+            color: var(--colorPurpleToBrightPurple);
+            border-color: var(--colorPurpleToBrightPurple);
         }
     }
 

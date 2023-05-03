@@ -32,6 +32,15 @@
                 width: 48px;
                 @apply mr-16;
             }
+            .c-icon.--hex {
+                background-image: var(--backgroundImageHex);
+
+                & img,
+                & svg {
+                    width: 37%;
+                    height: 37%;
+                }
+            }
             & .info {
                 @apply flex-grow;
 
@@ -61,6 +70,15 @@
                 height: 54px;
                 width: 54px;
                 @apply mb-8;
+            }
+            .c-icon.--hex {
+                background-image: var(--backgroundImageHex);
+
+                & img,
+                & svg {
+                    width: 37%;
+                    height: 37%;
+                }
             }
             & .title {
                 @apply text-h6 mb-4;

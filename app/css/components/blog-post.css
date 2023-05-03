@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-blog-post {
-    @apply block p-16 rounded-8 shadow-base bg-white;
+    @apply block p-16 rounded-8 shadow-base bg-backgroundColorA;
     & .img {
         height: 150px;
         @apply mb-12 rounded-8;

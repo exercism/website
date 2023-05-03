@@ -31,8 +31,6 @@ export const TestimonialsSummary = ({
 }: Props): JSX.Element => {
   const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0])
 
-  console.log(flair)
-
   return (
     <section className="testimonials-section">
       <div className="md-container container">

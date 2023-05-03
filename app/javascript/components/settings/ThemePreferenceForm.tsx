@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormMessage } from './FormMessage'
 import {
   InfoMessage,
   THEMES,
@@ -7,7 +6,6 @@ import {
   isDisabled,
   useTheme,
 } from './theme-preference-form'
-import { Icon } from '../common'
 
 export type ThemePreferenceLinks = {
   update: string
@@ -21,8 +19,6 @@ export type Theme = {
   value: string
 }
 
-const DEFAULT_ERROR = new Error('Unable to update theme preference')
-
 export const ThemePreferenceForm = ({
   defaultThemePreference,
   insidersStatus,
@@ -32,10 +28,7 @@ export const ThemePreferenceForm = ({
   insidersStatus: string
   links: ThemePreferenceLinks
 }): JSX.Element => {
-  const { theme, handleThemeUpdate, status, error } = useTheme(
-    defaultThemePreference,
-    links
-  )
+  const { theme, handleThemeUpdate } = useTheme(defaultThemePreference, links)
 
   return (
     <form data-turbo="false">
@@ -55,23 +48,6 @@ export const ThemePreferenceForm = ({
           />
         ))}
       </div>
-      <div className="form-footer min-h-[80px]">
-        <FormMessage
-          status={status}
-          error={error}
-          defaultError={DEFAULT_ERROR}
-          SuccessMessage={() => <SuccessMessage />}
-        />
-      </div>
     </form>
-  )
-}
-
-const SuccessMessage = () => {
-  return (
-    <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
-      Your theme has been updated!
-    </div>
   )
 }

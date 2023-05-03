@@ -399,8 +399,7 @@ test('shows correct title if context is exercise', async () => {
 
   render(<CommunitySolution solution={solution} context="exercise" />)
 
-  expect(screen.getByText('handle')).toBeInTheDocument()
-  expect(screen.getByText("'s solution")).toBeInTheDocument()
+  expect(screen.getByText("handle's solution")).toBeInTheDocument()
   expect(screen.getByText('to Exercise in Track')).toBeInTheDocument()
 })
 

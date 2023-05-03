@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_181339) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -764,8 +764,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat", order: { status: :desc, num_stars: :desc, updated_at: :desc }
-    t.index ["exercise_id", "status", "published_iteration_head_tests_status", "id"], name: "index_other_comm_solutions"
+    t.index ["exercise_id", "status", "num_stars"], name: "solutions_ex_stat_stars", order: { status: :desc, num_stars: :desc }
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
     t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
     t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
@@ -882,20 +881,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.index ["track_id", "tests_status"], name: "index_submissions_on_track_id_and_tests_status"
     t.index ["track_id"], name: "index_submissions_on_track_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
-  end
-
-  create_table "supporting_organisations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.text "support_explanation"
-    t.text "description_markdown", null: false
-    t.text "description_html", null: false
-    t.text "insiders_offer_description"
-    t.boolean "featured", default: false, null: false
-    t.boolean "has_insiders_offer", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_supporting_organisations_on_slug", unique: true
   end
 
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1037,35 +1022,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.boolean "email_about_events", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
-  end
-
-  create_table "user_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.text "bio"
-    t.json "roles"
-    t.integer "insiders_status", limit: 1, default: 0, null: false
-    t.string "stripe_customer_id"
-    t.string "discord_uid"
-    t.datetime "accepted_privacy_policy_at"
-    t.datetime "accepted_terms_at"
-    t.datetime "became_mentor_at"
-    t.datetime "joined_research_at"
-    t.datetime "first_donated_at"
-    t.date "last_visited_on"
-    t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
-    t.integer "mentor_satisfaction_percentage", limit: 1
-    t.integer "total_donated_in_cents", default: 0
-    t.boolean "active_donation_subscription", default: false
-    t.boolean "show_on_supporters_page", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.json "cache"
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
-    t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 
   create_table "user_dismissed_introducers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1253,8 +1209,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.integer "insiders_status", limit: 1, default: 0, null: false
     t.integer "flair", limit: 1
     t.string "paypal_payer_id"
-    t.json "usages"
-    t.integer "flair", limit: 1
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

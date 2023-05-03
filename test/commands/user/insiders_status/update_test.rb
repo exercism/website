@@ -44,15 +44,16 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
     User::SetDiscordRoles.expects(:call).with(user)
 
-    User::InsidersStatus::Update.(user, :active)
+    User::InsidersStatus::Update.(user)
   end
 
   test "ineligible: set discourse groups" do
     user = create :user, insiders_status: :unset
 
     User::SetDiscourseGroups.expects(:call).with(user)
+    User::SetDiscordRoles.stubs(:call)
 
-    User::InsidersStatus::Update.(user, :active)
+    User::InsidersStatus::Update.(user)
   end
 
   [
@@ -82,7 +83,6 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       # Make the user eligible
       user.update(active_donation_subscription: true)
 
-      User::SetDiscourseGroups.stubs(:call)
       User::Notification::Create.expects(:call).never
 
       User::InsidersStatus::Update.(user)

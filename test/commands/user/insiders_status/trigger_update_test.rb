@@ -22,6 +22,9 @@ class User::InsidersStatus::TriggerUpdateTest < ActiveSupport::TestCase
   test "updates insider_status" do
     user = create :user, insiders_status: :unset
 
+    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscordRoles.stubs(:call)
+
     perform_enqueued_jobs do
       User::InsidersStatus::TriggerUpdate.(user)
     end

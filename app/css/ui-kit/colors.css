@@ -159,6 +159,7 @@
     --backgroundColorSiteFooter: theme(colors.midnightBlue);
     --backgroundColorTracksListState: theme(colors.lightOrange);
     --backgroundColorCAlert: theme(colors.lightOrange);
+    --backgroundColorTextblockCautionContent: theme(colors.superLightOrange);
     --textColorCAlert: theme(colors.caution);
     --backgroundColorTracksListJoined: theme(colors.veryLightBlue);
     --backgroundColorTracksListNew: theme(colors.lightOrange);
@@ -364,7 +365,8 @@
     --iconFilterMentorDiscussionWidget: var(--orange-filter);
     --iconFilterCommentsCount: var(--textColor6-filter);
     --iconFilterNotificationsProminentLink: var(--linkColor-filter);
-    --iconEDConcept: var(--textColor7-filter);
+    --iconFilterEDConcept: var(--textColor7-filter);
+    --iconFilterCaution: none;
 
     --exercise-header-gradient: linear-gradient(
         180deg,
@@ -402,6 +404,7 @@
     --backgroundColorSiteFooter: theme(colors.eerieBlack);
     --backgroundColorTracksListState: theme(colors.lightGold);
     --backgroundColorCAlert: none;
+    --backgroundColorTextblockCautonContent: none;
     --textColorCAlert: theme(colors.orange);
     --backgroundColorTracksListJoined: theme(colors.darkBlueGray);
     --backgroundColorTracksListNew: none;
@@ -619,6 +622,7 @@
     --iconFilterNotificationsProminentLink: invert(74%) sepia(71%)
         saturate(309%) hue-rotate(106deg) brightness(89%) contrast(88%);
     --iconFilterEDConcept: var(--c-prominent-link-icon-filter);
+    --iconFilterCaution: brightness(1.7);
 
     @apply text-textColor5 bg-backgroundColorB;
 

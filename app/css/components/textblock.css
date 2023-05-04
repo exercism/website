@@ -33,6 +33,7 @@
 
         &:before {
             background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjUgMTJIMTBDOS40NDc3MiAxMiA5IDExLjU1MjMgOSAxMVY4LjVDOSA4LjIyMzg2IDguNzc2MTQgOCA4LjUgOEg4IiBzdHJva2U9IiM1QzU1ODkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTguNzUgNS41QzguNjExOTMgNS41IDguNSA1LjYxMTkzIDguNSA1Ljc1QzguNSA1Ljg4ODA3IDguNjExOTMgNiA4Ljc1IDZDOC44ODgwNyA2IDkgNS44ODgwNyA5IDUuNzVDOSA1LjYxMTkzIDguODg4MDcgNS41IDguNzUgNS41VjUuNSIgc3Ryb2tlPSIjNUM1NTg5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNOSAxNi41QzEzLjE0MjEgMTYuNSAxNi41IDEzLjE0MjEgMTYuNSA5QzE2LjUgNC44NTc4NiAxMy4xNDIxIDEuNSA5IDEuNUM0Ljg1Nzg2IDEuNSAxLjUgNC44NTc4NiAxLjUgOUMxLjUgMTMuMTQyMSA0Ljg1Nzg2IDE2LjUgOSAxNi41WiIgc3Ryb2tlPSIjNUM1NTg5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+            filter: var(--iconFilterCaution);
         }
     }
     & .c-textblock-content {
@@ -42,28 +43,31 @@
 .c-textblock-caution {
     @apply border-warning;
     & .c-textblock-header {
-        @apply bg-lightOrange border-warning;
-        @apply text-caution;
+        @apply border-warning;
+        color: var(--textColorCAlert);
+        background: var(--backgroundColorCAlert);
 
         &:before {
             background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkgMTMuNUM4Ljg2MTkzIDEzLjUgOC43NSAxMy42MTE5IDguNzUgMTMuNzVDOC43NSAxMy44ODgxIDguODYxOTMgMTQgOSAxNEM5LjEzODA3IDE0IDkuMjUgMTMuODg4MSA5LjI1IDEzLjc1QzkuMjUgMTMuNjExOSA5LjEzODA3IDEzLjUgOSAxMy41VjEzLjUiIHN0cm9rZT0iIzk1NUQwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNOSAxMS41VjYuNSIgc3Ryb2tlPSIjOTU1RDA5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTAuMDgwNyAyLjE3MzM2QzkuODc4MjYgMS43NjEyOCA5LjQ1OTExIDEuNTAwMTggOS4wMDAwMSAxLjUwMDE4QzguNTQwOSAxLjUwMDE4IDguMTIxNzUgMS43NjEyOCA3LjkxOTM0IDIuMTczMzZMMS42MDQwMSAxNS4wMzg3QzEuNDQ5NDYgMTUuMzUzMSAxLjQ2ODE0IDE1LjcyNSAxLjY1MzQzIDE2LjAyMjNDMS44Mzg3MSAxNi4zMTk2IDIuMTY0MzQgMTYuNTAwMyAyLjUxNDY3IDE2LjVIMTUuNDg1M0MxNS44MzU3IDE2LjUwMDMgMTYuMTYxMyAxNi4zMTk2IDE2LjM0NjYgMTYuMDIyM0MxNi41MzE5IDE1LjcyNSAxNi41NTA2IDE1LjM1MzEgMTYuMzk2IDE1LjAzODdMMTAuMDgwNyAyLjE3MzM2WiIgc3Ryb2tlPSIjOTU1RDA5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+            filter: var(--iconFilterCaution);
         }
     }
     & .c-textblock-content {
-        @apply bg-superLightOrange;
+        background: var(--backgroundColorTextblockCautionContent);
     }
 }
 .c-textblock-advanced {
     @apply border-textColor2;
     & .c-textblock-header {
-        @apply bg-textColor2 border-textColor2;
-        @apply text-textColor9;
+        @apply border-textColor2;
+        background: var(--borderColorTracksListV3);
+        @apply text-textColor1;
 
         &:before {
             background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjUgMTJIMTBDOS40NDc3MiAxMiA5IDExLjU1MjMgOSAxMVY4LjVDOSA4LjIyMzg2IDguNzc2MTQgOCA4LjUgOEg4IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik04Ljc1IDUuNUM4LjYxMTkzIDUuNSA4LjUgNS42MTE5MyA4LjUgNS43NUM4LjUgNS44ODgwNyA4LjYxMTkzIDYgOC43NSA2QzguODg4MDcgNiA5IDUuODg4MDcgOSA1Ljc1QzkgNS42MTE5MyA4Ljg4ODA3IDUuNSA4Ljc1IDUuNVY1LjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik05IDE2LjVDMTMuMTQyMSAxNi41IDE2LjUgMTMuMTQyMSAxNi41IDlDMTYuNSA0Ljg1Nzg2IDEzLjE0MjEgMS41IDkgMS41QzQuODU3ODYgMS41IDEuNSA0Ljg1Nzg2IDEuNSA5QzEuNSAxMy4xNDIxIDQuODU3ODYgMTYuNSA5IDE2LjVaIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
         }
     }
     & .c-textblock-content {
-        @apply bg-superLightOrange;
+        background: var(--backgroundColorTextblockCautionContent);
     }
 }

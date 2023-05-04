@@ -30,7 +30,7 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
     sleep(0.1)
   end
 
-  test "create should return too_many_requests if rate limit is hit" do
+  test "create should return 402 if rate limit is hit" do
     setup_user
     solution = create :concept_solution, user: @current_user
     submission = create(:submission, solution:)
@@ -38,7 +38,7 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
 
     post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
-    assert_response :too_many_requests
+    assert_response 402
     expected = { error: {
       type: "too_many_requests",
       message: I18n.t('api.errors.too_many_requests'),
@@ -51,7 +51,7 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
     sleep(0.1)
   end
 
-  test "create should hit chatgpt and return 200" do
+  test "create should hit chatgpt and return 202" do
     setup_user
     solution = create :concept_solution, user: @current_user
     submission = create(:submission, solution:)
@@ -60,8 +60,21 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
 
     post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
-    assert_response :ok
+    assert_response 202
 
     sleep(0.1)
+  end
+
+  test "create return existing record if exists" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    submission = create(:submission, solution:)
+    create(:submission_ai_help_record, submission:)
+
+    stub_request(:post, "http://local.exercism.io:3026/ask_chatgpt")
+
+    post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
+
+    assert_response 200
   end
 end

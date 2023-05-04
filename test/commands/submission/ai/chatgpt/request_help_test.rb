@@ -9,10 +9,12 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     data = {
       submission_uuid: submission.uuid,
       type: :help,
+
       track_title: "Ruby",
       instructions: "Introduction for bob\n\nExtra introduction for bob\n\nInstructions for bob\n\nExtra instructions for bob",
       tests: "File: bob_test.rb\n\n```\ntest content\n\n```",
-      submission: "File: foobar.rb\n\n```\nclass Foobar\nend\n```"
+      submission: "File: foobar.rb\n\n```\nclass Foobar\nend\n```",
+      chatgpt_version: '4.0'
     }
 
     RestClient.expects(:post).with(
@@ -21,9 +23,8 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
       { content_type: :json, accept: :json }
     )
 
-    Submission::AI::ChatGPT::RequestHelp.(submission)
-
-    sleep(0.1) # Wait for the thread new
+    thread = Submission::AI::ChatGPT::RequestHelp.(submission)
+    thread.join
   end
 
   test "Allows 3 4.0 requests then goes to 3.5" do
@@ -36,9 +37,8 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
         assert_equal version, data[:chatgpt_version]
       end
 
-      Submission::AI::ChatGPT::RequestHelp.(submission)
-
-      sleep(0.01) # Wait for the thread new
+      thread = Submission::AI::ChatGPT::RequestHelp.(submission)
+      thread.join
     ensure
       RestClient.unstub(:post)
     end

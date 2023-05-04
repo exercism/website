@@ -315,7 +315,7 @@ class User < ApplicationRecord
   def usages = super || (self.usages = {})
 
   def chatgpt_usage
-    us = usages['chatgpt']
+    us = usages['chatgpt'] || {}
     {
       '3.5' => us['3.5'] || 0,
       '4.0' => us['4.0'] || 0

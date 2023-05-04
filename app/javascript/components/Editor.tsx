@@ -335,6 +335,7 @@ export default ({
     submissionUuid,
     mutationError,
     mutationStatus,
+    exceededLimit,
   } = ChatGPT.Hook({
     submission: submission ?? null,
     defaultRecord: panels.aiHelp,
@@ -508,6 +509,7 @@ export default ({
               onGo={invokeChatGpt}
               chatgptUsage={chatgptUsage}
               error={mutationError}
+              exceededLimit={exceededLimit}
             />
           )}
         </div>

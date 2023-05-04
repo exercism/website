@@ -21,6 +21,7 @@ type ChatGptDialogModalProps = {
   setValue: (v: GptModelInfo) => void
   chatgptUsage: GptUsage
   error: unknown
+  exceededLimit: boolean
 }
 
 export type GPTModel = '3.5' | '4.0'
@@ -81,7 +82,7 @@ const SelectedComponent = ({
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to hide introducer')
+const DEFAULT_ERROR = new Error('Unable to ask ChatGPT')
 export const ChatGptDialog = ({
   open,
   onClose,
@@ -90,6 +91,7 @@ export const ChatGptDialog = ({
   setValue,
   chatgptUsage,
   error,
+  exceededLimit,
 }: ChatGptDialogModalProps): JSX.Element => {
   return (
     <Modal
@@ -111,9 +113,16 @@ export const ChatGptDialog = ({
         value={value}
         setValue={setValue}
       />
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <ErrorMessage error={error} />
-      </ErrorBoundary>
+
+      {exceededLimit ? (
+        <div className="c-alert--danger text-16 font-body mt-16 normal-case">
+          You have exceeded the limit
+        </div>
+      ) : (
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <ErrorMessage error={error} />
+        </ErrorBoundary>
+      )}
       <div className="flex gap-8 mt-32 ">
         <button className="btn-s btn-primary" onClick={onGo}>
           Go

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { MutateFunction, QueryStatus, useMutation } from 'react-query'
 import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
 import { sendRequest } from '@/utils'
@@ -27,6 +27,7 @@ export type useChatGptFeedbackProps = {
   setSubmissionUuid: React.Dispatch<React.SetStateAction<string | undefined>>
   mutationStatus: QueryStatus
   mutationError: unknown
+  exceededLimit: boolean
 }
 
 export function useChatGptFeedback({
@@ -45,19 +46,28 @@ export function useChatGptFeedback({
     defaultRecord ? 'received' : 'unfetched'
   )
   const [submissionUuid, setSubmissionUuid] = useState<string | undefined>()
+  const [exceededLimit, setExceededLimit] = useState(false)
+
+  const onError = useCallback((err) => {
+    if (err.status === 402) {
+      setExceededLimit(true)
+    }
+  }, [])
 
   const [mutation, { status: mutationStatus, error: mutationError }] =
-    useMutation<void>(async () => {
-      if (!submission) return
-      const { fetch } = sendRequest({
-        endpoint: submission?.links.aiHelp,
-        method: 'POST',
-        body: JSON.stringify({ chatgpt_version: GPTModel }),
-      })
+    useMutation<void>(
+      async () => {
+        if (!submission) return
+        const { fetch } = sendRequest({
+          endpoint: submission?.links.aiHelp,
+          method: 'POST',
+          body: JSON.stringify({ chatgpt_version: GPTModel }),
+        })
 
-      // TODO catch errors
-      return fetch.then(() => setStatus('fetching'))
-    })
+        return fetch.then(() => setStatus('fetching'))
+      },
+      { onError }
+    )
 
   useEffect(() => {
     if (!submission) return
@@ -84,5 +94,6 @@ export function useChatGptFeedback({
     setSubmissionUuid,
     mutationError,
     mutationStatus,
+    exceededLimit,
   }
 }

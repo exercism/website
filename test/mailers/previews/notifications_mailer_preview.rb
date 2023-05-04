@@ -64,4 +64,16 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::AutomatedFeedbackAddedNotification.first
     ).automated_feedback_added
   end
+
+  def joined_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).joined_insiders
+  end
+
+  def joined_lifetime_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).joined_lifetime_insiders
+  end
 end

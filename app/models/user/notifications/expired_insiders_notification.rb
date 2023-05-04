@@ -8,5 +8,5 @@ class User::Notifications::ExpiredInsidersNotification < User::Notification
   def guard_params = ""
 
   # No email key for this - it must be sent.
-  def email_communication_preferences_key = nil
+  def email_communication_preferences_key = :receive_product_updates
 end

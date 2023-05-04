@@ -20,7 +20,8 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   test "ineligible: notification created when current status is active" do
     user = create :user, insiders_status: :active
 
-    User::Notification::Create.expects(:defer).with(user, :expired_insiders).once
+    # TODO: Make this Create.(...)
+    User::Notification::CreateEmailOnly.expects(:defer).with(user, :expired_insiders).once
 
     User::InsidersStatus::Update.(user)
   end
@@ -89,7 +90,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     # Make the user eligible
     user.update(active_donation_subscription: true)
 
-    User::Notification::Create.expects(:defer).with(user, :eligible_for_insiders).once
+    User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_insiders).once
 
     User::InsidersStatus::Update.(user)
   end
@@ -155,7 +156,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       # Make the user eligible
       user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
 
-      User::Notification::Create.expects(:defer).with(user, :eligible_for_lifetime_insiders).once
+      User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_lifetime_insiders).once
 
       User::InsidersStatus::Update.(user)
     end
@@ -167,7 +168,8 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     # Make the user eligible
     user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
 
-    User::Notification::Create.expects(:defer).with(user, :upgraded_to_lifetime_insiders).once
+    # TODO: Make this Create.(...)
+    User::Notification::CreateEmailOnly.expects(:defer).with(user, :upgraded_to_lifetime_insiders).once
 
     User::InsidersStatus::Update.(user)
   end

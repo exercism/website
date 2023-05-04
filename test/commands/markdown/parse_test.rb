@@ -292,6 +292,11 @@ Done')
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 
+  test "don't render exercise widget for approach link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">approach</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach](https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value)")
+  end
+
   test "copes with a bad link uri scheme" do
     # TODO: render exercise widget instead of link
     expected = %(<p><a href=\"https://exercism.org/tracks/julia/exercises/two-fer\" data-tooltip-type=\"exercise\" data-endpoint=\"/tracks/julia/exercises/two-fer/tooltip\">two-fer</a></p>\n) # rubocop:disable Layout/LineLength

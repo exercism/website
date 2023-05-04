@@ -313,6 +313,7 @@ class User < ApplicationRecord
   def flair = super&.to_sym
 
   def usages = super || (self.usages = {})
+
   def chatgpt_usage
     us = usages['chatgpt']
     {

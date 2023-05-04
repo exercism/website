@@ -84,15 +84,9 @@ module ReactComponents
     end
 
     memoize
-    # rubocop:disable Naming/VariableNumber
     def chatgpt_usage
-      usages = solution.user.usages['chatgpt'] || {}
-      {
-        '3.5': usages['3.5'] || 0,
-        '4.0': usages['4.0'] || 0
-      }
+      solution.user.chatgpt_usage
     end
-    # rubocop:enable Naming/VariableNumber
 
     memoize
     def instructions

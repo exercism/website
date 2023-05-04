@@ -69,9 +69,7 @@
         - @supporting_orgs.each do |org|
           .supporter
             = icon org.slug, org.name, category: :partners, css_class: "logo #{org.slug}"
-            %p
-              %strong= org.name
-              are a core Exercism partner, helping us develop both the fundraising and content side of the platform. They have sponsored our new Fundraising role, and we are currently developing a deeper partnership which we will launch in early 2022.
+            %p= org.support_explanation
             = render ViewComponents::ProminentLink.new("Learn more", Exercism::Routes.about_supporting_organisation_path(org.slug))
         .supporter
           = icon "chicago", "University of Chicago", category: :partners, css_class: "logo chicago"

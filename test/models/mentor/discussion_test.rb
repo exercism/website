@@ -296,7 +296,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "recalculates mentor_satisfaction_percentage" do
     mentor = create :user
 
-    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       # Sanity check
@@ -342,7 +342,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "mentor_satisfaction_percentage is rounded up" do
     mentor = create :user
 
-    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       create :mentor_discussion, mentor:, status: :finished, rating: :great
@@ -357,7 +357,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     mentor = create :user
     discussion = create(:mentor_discussion, mentor:)
 
-    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       Mentor::UpdateNumSolutionsMentored.expects(:call).never
@@ -381,7 +381,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     mentor = create :user
     discussion = create :mentor_discussion, mentor:, status: :finished
 
-    User::SetDiscourseGroups.stubs(:call)
+    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never

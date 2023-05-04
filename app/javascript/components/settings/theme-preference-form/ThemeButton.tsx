@@ -2,8 +2,8 @@ import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { ExercismTippy } from '@/components/misc/ExercismTippy'
 import { DisabledTooltip } from './DisabledTooltip'
-import type { Theme } from '../ThemePreferenceForm'
 import { isButtonDisabled } from './utils'
+import type { Theme } from '../ThemePreferenceForm'
 
 const THEME_BUTTON_SIZE = 130
 export function ThemeButton({
@@ -43,14 +43,13 @@ export function ThemeButton({
           onClick={onClick}
         >
           <GraphicalIcon
-            icon={nonInsider ? 'lock-circle' : 'logo'}
-            height={32}
-            width={32}
-            className={!nonInsider ? `filter-${theme.iconFilter}` : ''}
+            icon={nonInsider ? 'lock-circle' : theme.icon}
+            height={64}
+            width={64}
           />
         </button>
         <label
-          className={`text-p text-15`}
+          className="text-p text-15 font-semibold"
           style={{ filter: nonInsider ? 'grayscale(0.9)' : '' }}
           htmlFor={`${theme.value}-theme`}
         >

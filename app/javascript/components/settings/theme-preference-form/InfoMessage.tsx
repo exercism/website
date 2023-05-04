@@ -12,7 +12,9 @@ export function InfoMessage({
     case 'active_lifetime':
       return (
         <p className="text-p-base mb-16">
-          We hope you enjoy it. Thanks for all your support.
+          As an Exercism Insider, you have access to Dark Theme. Choose between
+          light, dark, or automatically update based on your system preferences.
+          Thank you for being part of Exercism! 💙
         </p>
       )
     case 'eligible':
@@ -32,7 +34,7 @@ export function InfoMessage({
     default:
       return (
         <p className="text-p-base mb-16">
-          [Learn more about Exercism Insiders](...).
+          <a href={insidersPath}>Learn more about Exercism Insiders.</a>
         </p>
       )
   }

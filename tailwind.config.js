@@ -251,6 +251,7 @@ module.exports = {
 
       muddy: '#6E82AA',
       caution: '#955D09',
+      cautionBright: '#F9D59F',
       cautionLabel: '#3E2705',
       color22: 'var(--color22)',
 

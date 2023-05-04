@@ -1,4 +1,4 @@
-class User::Notifications::JoinLifetimeInsidersNotification < User::Notification
+class User::Notifications::UpgradedToLifetimeInsidersNotification < User::Notification
   # TODO: determine what values to use
   def url = Exercism::Routes.dashboard_url
   def image_type; end

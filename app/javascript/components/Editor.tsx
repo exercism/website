@@ -38,6 +38,7 @@ import {
   ResultsTab,
   FeedbackTab,
   InstructionsPanel,
+  TestPanel,
   TestsPanel,
   ResultsPanel,
   FeedbackPanel,
@@ -459,13 +460,15 @@ export default ({
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
-                  <TestContentWrapper
-                    testTabGroupCss="border-t-1 border-borderColor6"
-                    tabContext={TabsContext}
-                    testFiles={panels.tests.testFiles}
-                  >
-                    <TestsPanel {...panels.tests} />
-                  </TestContentWrapper>
+                  <TestsPanel>
+                    <TestContentWrapper
+                      testTabGroupCss="border-t-1 border-borderColor6"
+                      tabContext={TabsContext}
+                      testFiles={panels.tests.testFiles}
+                    >
+                      <TestPanel {...panels.tests} />
+                    </TestContentWrapper>
+                  </TestsPanel>
                 ) : null}
                 <ResultsPanel
                   submission={submission}

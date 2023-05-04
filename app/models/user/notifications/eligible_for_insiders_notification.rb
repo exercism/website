@@ -8,5 +8,7 @@ class User::Notifications::EligibleForInsidersNotification < User::Notification
   def guard_params = ""
 
   # No email key for this - it must be sent.
-  def email_communication_preferences_key = nil
+  def email_communication_preferences_key = :receive_product_updates
+
+  def email_should_send? = false
 end

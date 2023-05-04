@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { GraphicalIcon } from '../common'
-import { ExercismTippy } from '../misc/ExercismTippy'
 import { useMutation } from 'react-query'
 import { sendRequest } from '@/utils'
 import { typecheck } from '@/utils/typecheck'
+import { redirectTo } from '@/utils/redirect-to'
 
 const STATUS_DATA = {
   eligible: {
@@ -34,6 +34,7 @@ export type InsidersStatusData = {
   status: InsiderStatus
   donate_link: string
   insiders_status_request: string
+  activate_insider_link: string
 }
 
 type Response = {
@@ -42,7 +43,12 @@ type Response = {
 }
 
 export default function Status(data: InsidersStatusData): JSX.Element {
-  const { status, donate_link, insiders_status_request } = data
+  const {
+    status,
+    donate_link,
+    insiders_status_request,
+    activate_insider_link,
+  } = data
   const [insidersStatus, setInsidersStatus] = useState(status)
 
   const [mutation] = useMutation<Response>(
@@ -57,6 +63,21 @@ export default function Status(data: InsidersStatusData): JSX.Element {
     },
     {
       onSuccess: (elem) => setInsidersStatus(elem.insidersStatus),
+    }
+  )
+
+  const [activateInsider] = useMutation(
+    async () => {
+      const { fetch } = sendRequest({
+        endpoint: activate_insider_link,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+    {
+      onSuccess: (res) => redirectTo(res.links.redirectUrl),
     }
   )
 
@@ -78,14 +99,13 @@ export default function Status(data: InsidersStatusData): JSX.Element {
       </div>
 
       {eligible && (
-        <ExercismTippy content={<ComingSoon />}>
-          <div>
-            <button className="flex get-insiders-link grow" disabled>
-              <span>{BUTTON_TEXT[+eligible]}</span>
-              <GraphicalIcon icon="arrow-right" />
-            </button>
-          </div>
-        </ExercismTippy>
+        <button
+          className="flex get-insiders-link grow"
+          onClick={() => activateInsider()}
+        >
+          <span>{BUTTON_TEXT[+eligible]}</span>
+          <GraphicalIcon icon="arrow-right" />
+        </button>
       )}
 
       {insidersStatus === 'ineligible' && (

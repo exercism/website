@@ -9,22 +9,22 @@ module API
 
       return render_submission_not_accessible unless submission.solution.user_id == current_user.id
 
-      if submission.ai_help_records.exists?
-        Thread.new do
-          sleep(0.2)
-          Submission::AIHelpRecordsChannel.broadcast!(submission.ai_help_records.last, submission.uuid, submission.user)
-        end
+      record = submission.ai_help_records.last
+      if record
+        render json: {
+          help_record: SerializeSubmissionAIHelpRecord.(record),
+          usage: current_user.chatgpt_usage
+        }, status: :ok
       else
         Submission::AI::ChatGPT::RequestHelp.(submission)
+        render json: {}, status: :accepted
       end
-
-      render json: {}
     rescue ChatGPTTooManyRequestsError
       render_error(
-        429,
+        402,
         :too_many_requests,
         usage_type: :chatgpt,
-        usage: current_user.usages['chatgpt']
+        usage: current_user.chatgpt_usage
       )
     end
   end

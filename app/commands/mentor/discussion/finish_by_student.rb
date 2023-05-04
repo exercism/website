@@ -64,16 +64,10 @@ class Mentor::Discussion::FinishByStudent
     ).update!(blocked_by_student: true)
   end
 
-  # TODO: Move to command and call User::ResetCache
   def create_testimonial!
     return if testimonial.blank?
 
-    Mentor::Testimonial.create!(
-      mentor: discussion.mentor,
-      student: discussion.student,
-      discussion:,
-      content: testimonial
-    )
+    Mentor::Testimonial::Create.(discussion, testimonial)
   end
 
   def award_reputation!

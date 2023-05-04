@@ -37,9 +37,9 @@ class Submission::AI::ChatGPT::RequestHelp
   delegate :solution, :track, :user, to: :submission
 
   def chatgpt_version
-    usages = user.usages['chatgpt'] || {}
-    return '4.0' if !usages['4.0'] || usages['4.0'] < 3
-    return '3.5' if !usages['3.5'] || usages['3.5'] < 30
+    usage = user.chatgpt_usage
+    return '4.0' if !usage['4.0'] || usage['4.0'] < 3
+    return '3.5' if !usage['3.5'] || usage['3.5'] < 30
 
     raise ChatGPTTooManyRequestsError
   end

@@ -19,12 +19,11 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
 
     RestClient.expects(:post).with(
       Exercism.config.chatgpt_proxy_url,
-      data,
+      data.to_json,
       { content_type: :json, accept: :json }
     )
 
-    thread = Submission::AI::ChatGPT::RequestHelp.(submission, '4.0')
-    thread.join
+    Submission::AI::ChatGPT::RequestHelp.(submission, '4.0', use_thread: false)
   end
 
   test "Allows 3 4.0 requests then goes to 3.5" do
@@ -34,17 +33,16 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     allowances = (['4.0'] * 3) + (['3.5'] * 30)
     allowances.each do |version|
       RestClient.expects(:post).with do |_, data, _|
-        assert_equal version, data[:chatgpt_version]
+        assert_equal version, JSON.parse(data)['chatgpt_version']
       end
 
-      thread = Submission::AI::ChatGPT::RequestHelp.(submission, '4.0')
-      thread.join
+      Submission::AI::ChatGPT::RequestHelp.(submission, '4.0', use_thread: false)
     ensure
       RestClient.unstub(:post)
     end
 
     assert_raises ChatGPTTooManyRequestsError do
-      Submission::AI::ChatGPT::RequestHelp.(submission, '4.0')
+      Submission::AI::ChatGPT::RequestHelp.(submission, '4.0', use_thread: false)
     end
   end
 
@@ -53,11 +51,10 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     create(:submission_file, submission:)
 
     RestClient.expects(:post).with do |_, data, _|
-      assert_equal '4.0', data[:chatgpt_version]
+      assert_equal '4.0', JSON.parse(data)['chatgpt_version']
     end
 
-    thread = Submission::AI::ChatGPT::RequestHelp.(submission, '4.0')
-    thread.join
+    Submission::AI::ChatGPT::RequestHelp.(submission, '4.0', use_thread: false)
   end
 
   test "Honours 3.5 request if possible" do
@@ -65,11 +62,10 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     create(:submission_file, submission:)
 
     RestClient.expects(:post).with do |_, data, _|
-      assert_equal '3.5', data[:chatgpt_version]
+      assert_equal '3.5', JSON.parse(data)['chatgpt_version']
     end
 
-    thread = Submission::AI::ChatGPT::RequestHelp.(submission, '3.5')
-    thread.join
+    Submission::AI::ChatGPT::RequestHelp.(submission, '3.5', use_thread: false)
   end
 
   test "Goes to 3.5 if 4.0 fully used" do
@@ -78,11 +74,10 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     submission.user.update!(usages: { chatgpt: { '4.0' => 100 } })
 
     RestClient.expects(:post).with do |_, data, _|
-      assert_equal '3.5', data[:chatgpt_version]
+      assert_equal '3.5', JSON.parse(data)['chatgpt_version']
     end
 
-    thread = Submission::AI::ChatGPT::RequestHelp.(submission, '4.0')
-    thread.join
+    Submission::AI::ChatGPT::RequestHelp.(submission, '4.0', use_thread: false)
   end
 
   test "Goes to 4.0 if 3.5 fully used" do
@@ -91,10 +86,9 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     submission.user.update!(usages: { chatgpt: { '3.5' => 100 } })
 
     RestClient.expects(:post).with do |_, data, _|
-      assert_equal '4.0', data[:chatgpt_version]
+      assert_equal '4.0', JSON.parse(data)['chatgpt_version']
     end
 
-    thread = Submission::AI::ChatGPT::RequestHelp.(submission, '3.5')
-    thread.join
+    Submission::AI::ChatGPT::RequestHelp.(submission, '3.5', use_thread: false)
   end
 end

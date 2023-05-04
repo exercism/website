@@ -1,5 +1,19 @@
 class InsidersController < ApplicationController
   skip_before_action :authenticate_user!
+  def index
+    return external unless current_user&.insider?
+  end
+
+  def external
+    User::InsidersStatus::TriggerUpdate.(current_user) if user_signed_in? && current_user.insiders_status_unset?
+
+    @features = FEATURES
+    @bts_access = BTS_ACCESS
+    @partners = PARTNERS
+
+    render action: :external
+  end
+
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'moon', title: 'Dark theme',
@@ -27,12 +41,4 @@ class InsidersController < ApplicationController
   ].freeze
 
   # rubocop:enable Layout/LineLength
-
-  def index
-    User::InsidersStatus::TriggerUpdate.(current_user) if user_signed_in? && current_user.insiders_status_unset?
-
-    @features = FEATURES
-    @bts_access = BTS_ACCESS
-    @partners = PARTNERS
-  end
 end

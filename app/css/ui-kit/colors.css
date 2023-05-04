@@ -170,7 +170,9 @@
     --backgroundColorEDAvailable: theme(colors.white);
     --backgroundColorEDIterated: theme(colors.darkBlue);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.veryLightBlue);
+    --backgroundColorExerciseStatusTagLocked: theme(colors.veryLightBlue);
     --backgroundColorConceptMastered: theme(colors.veryLightGreen2);
+    --backgroundColorConceptLocked: theme(colors.lightGray);
     --backgroundColorCompletedHeading: theme(colors.mediumGreen);
     --backgroundColorCReputation: var(--backgroundColorA);
     --backgroundColorEditorActiveLine: theme(colors.veryLightBlue);
@@ -242,6 +244,7 @@
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
+    --shadowColorNotificationBell: 156, 130, 38;
     --shadowColorKeystroke: 203, 201, 217;
 
     --color22: #c8d5ef;
@@ -296,6 +299,11 @@
     --hljs-hue-5-2: #c91243;
     --hljs-hue-6: #986801;
     --hljs-hue-6-2: #c18401;
+
+    --diffDarkGreen: #a9e7c8;
+    --diffLightGreen: #e5f8ee;
+    --diffDarkRed: #f5adad;
+    --diffLightRed: #fce6e6;
 
     /* https://codepen.io/sosuke/pen/Pjoqqp */
     --notifications-active-filter: invert(76%) sepia(54%) saturate(3406%)
@@ -405,7 +413,9 @@
     --backgroundColorEDAvailable: theme(colors.eerieBlack);
     --backgroundColorEDIterated: theme(colors.purple);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.purpleDarker3);
+    --backgroundColorExerciseStatusTagLocked: none;
     --backgroundColorConceptMastered: none;
+    --backgroundColorConceptLocked: var(--backgroundColorA);
     --backgroundColorCompletedHeading: none;
     --backgroundColorCReputation: theme(colors.eerieBlack);
     --backgroundColorEditorActiveLine: theme(colors.russianViolet);
@@ -473,6 +483,7 @@
 
     --shadowColorED: 40, 35, 57;
     --shadowColorMain: 0, 0, 0;
+    --shadowColorNotificationBell: 89, 210, 174;
     --shadowColorKeystroke: 40, 35, 57;
 
     --linkColor: var(--c-7097FF);
@@ -497,7 +508,7 @@
     /* Atom One Dark by Daniel Gamage
     Original One Dark Syntax theme from https://github& .com/atom/one-dark-syntax */
 
-    --hljs-base: theme(colors.eerieBlack);
+    --hljs-base: transparent;
     --hljs-mono-1: #abb2bf;
     --hljs-mono-2: #818896;
     --hljs-mono-3: #5c6370;
@@ -509,6 +520,11 @@
     --hljs-hue-5-2: #be5046;
     --hljs-hue-6: #d19a66;
     --hljs-hue-6-2: #e6c07b;
+
+    --diffDarkGreen: #4fcda7;
+    --diffLightGreen: #4fcda726;
+    --diffDarkRed: #f17070;
+    --diffLightRed: #f1707026;
 
     --commonBadge-RGB: 240, 243, 249;
     --commonBadgeFill-RGB: 80, 83, 89;

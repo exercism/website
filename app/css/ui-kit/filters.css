@@ -8,7 +8,7 @@
         filter: var(--white-filter);
     }
 
-    .filter-white-no-dark {
+    .filter-whiteNoDark {
         filter: invert(100%) sepia(0%) saturate(7484%) hue-rotate(136deg)
             brightness(99%) contrast(104%);
     }
@@ -79,14 +79,6 @@
             brightness(84%) contrast(103%);
     }
 
-    .filter-svg-darkmode {
-        filter: var(--svg-darkmode-filter);
-    }
-
-    .filter-exercism-logo-with-black {
-        filter: var(--exercism-with-logo-black-filter);
-    }
-
     /* 2E8C70 */
     .filter-greenPrompt {
         filter: invert(44%) sepia(52%) saturate(498%) hue-rotate(111deg)
@@ -106,7 +98,7 @@
     }
 
     /* #9D8DF7 */
-    .filter-notification-bell-dark {
+    .filter-notificationBellDark {
         filter: invert(40%) sepia(48%) saturate(1566%) hue-rotate(221deg)
             brightness(99%) contrast(94%);
     }
@@ -115,5 +107,9 @@
     .filter-gray {
         filter: invert(71%) sepia(14%) saturate(317%) hue-rotate(208deg)
             brightness(93%) contrast(86%);
+    }
+
+    .filter-prominentLinkColor {
+        filter: var(--c-prominent-link-icon-filter);
     }
 }

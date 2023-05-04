@@ -21,9 +21,9 @@ export const THEMES: Theme[] = [
     icon: 'exercism-face-two-tone',
   },
   // {
-  //   label: 'Accessibility Dark',
-  //   value: 'accessibility-dark',
-  //   background: 'black',
-  //   iconFilter: 'white-no-dark',
+  //  label: 'Accessibility Dark',
+  //  value: 'accessibility-dark',
+  //  background: 'black',
+  //  iconFilter: 'whiteNoDark',
   // },
 ]

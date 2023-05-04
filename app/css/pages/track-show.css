@@ -120,7 +120,7 @@
                 @apply text-20 font-medium leading-170 text-textColor2;
                 @apply mb-8;
                 & em {
-                    @apply not-italic text-anotherPurple font-semibold;
+                    @apply not-italic text-adaptivePurple font-semibold;
                 }
                 & strong {
                     @apply font-semibold;

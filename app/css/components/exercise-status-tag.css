@@ -4,8 +4,9 @@
     @apply c-tag;
 
     &.--locked {
-        @apply bg-veryLightBlue border-borderLight;
+        @apply border-borderLight;
         @apply text-textColor6;
+        background: var(--backgroundColorExerciseStatusTagLocked);
 
         &:before {
             content: "";

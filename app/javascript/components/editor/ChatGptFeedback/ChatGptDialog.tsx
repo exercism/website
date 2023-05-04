@@ -92,7 +92,7 @@ export const ChatGptDialog = ({
       <div className="text-textColor6 mt-32">Select a model:</div>
       <SingleSelect<GPTModel>
         componentClassName="mb-32 mt-8"
-        options={['3.5', '4.0']}
+        options={[{ '3.5': 10 }, { '4.0': 40 }]}
         OptionComponent={OptionComponent}
         SelectedComponent={SelectedComponent}
         value={value}

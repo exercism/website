@@ -4,11 +4,6 @@
  */
 
 .c-diff {
-    --diffDarkGreen: #a9e7c8;
-    --diffLightGreen: #e5f8ee;
-    --diffDarkRed: #f5adad;
-    --diffLightRed: #fce6e6;
-
     @apply py-12;
     & .hljs {
         background: none !important;
@@ -45,10 +40,12 @@
 
         &.d2h-ins {
             background: var(--diffDarkGreen);
+            @apply text-midnightBlue;
         }
 
         &.d2h-del {
             background: var(--diffDarkRed);
+            @apply text-midnightBlue;
         }
 
         /* Adds a null char for if there is no content */
@@ -73,6 +70,7 @@
 
         & ins,
         & del {
+            @apply text-midnightBlue;
             display: inline-block;
             margin-top: -1px;
             text-decoration: none;

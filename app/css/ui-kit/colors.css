@@ -170,7 +170,9 @@
     --backgroundColorEDAvailable: theme(colors.white);
     --backgroundColorEDIterated: theme(colors.darkBlue);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.veryLightBlue);
+    --backgroundColorExerciseStatusTagLocked: theme(colors.veryLightBlue);
     --backgroundColorConceptMastered: theme(colors.veryLightGreen2);
+    --backgroundColorConceptLocked: theme(colors.lightGray);
     --backgroundColorCompletedHeading: theme(colors.mediumGreen);
     --backgroundColorCReputation: var(--backgroundColorA);
     --backgroundColorEditorActiveLine: theme(colors.veryLightBlue);
@@ -242,6 +244,7 @@
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
+    --shadowColorNotificationBell: 156, 130, 38;
     --shadowColorKeystroke: 203, 201, 217;
 
     --color22: #c8d5ef;
@@ -405,7 +408,9 @@
     --backgroundColorEDAvailable: theme(colors.eerieBlack);
     --backgroundColorEDIterated: theme(colors.purple);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.purpleDarker3);
+    --backgroundColorExerciseStatusTagLocked: none;
     --backgroundColorConceptMastered: none;
+    --backgroundColorConceptLocked: var(--backgroundColorA);
     --backgroundColorCompletedHeading: none;
     --backgroundColorCReputation: theme(colors.eerieBlack);
     --backgroundColorEditorActiveLine: theme(colors.russianViolet);
@@ -473,6 +478,7 @@
 
     --shadowColorED: 40, 35, 57;
     --shadowColorMain: 0, 0, 0;
+    --shadowColorNotificationBell: 89, 210, 174;
     --shadowColorKeystroke: 40, 35, 57;
 
     --linkColor: var(--c-7097FF);
@@ -497,7 +503,7 @@
     /* Atom One Dark by Daniel Gamage
     Original One Dark Syntax theme from https://github& .com/atom/one-dark-syntax */
 
-    --hljs-base: theme(colors.eerieBlack);
+    --hljs-base: transparent;
     --hljs-mono-1: #abb2bf;
     --hljs-mono-2: #818896;
     --hljs-mono-3: #5c6370;

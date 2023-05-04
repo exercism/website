@@ -121,7 +121,7 @@ body.namespace-.controller-insiders {
                 @apply text-eerieBlack bg-seafoamGreen;
             }
             .c-icon {
-                @apply filter-notification-bell-dark;
+                @apply filter-notificationBellDark;
             }
         }
 

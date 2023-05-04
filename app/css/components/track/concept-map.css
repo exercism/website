@@ -49,7 +49,7 @@
 
                 &.mastered {
                     @apply border-2 border-darkGreen;
-                    background: var(--backgroundColorConceptMastered);
+                    background: var(--backgroundColorA);
 
                     & .exercise-status-bar {
                         @apply border-darkGreen;
@@ -69,7 +69,8 @@
                 }
 
                 &.locked {
-                    @apply bg-lightGray text-textColor6;
+                    @apply text-textColor6;
+                    background: var(--backgroundColorConceptLocked);
 
                     &:after {
                         content: "";

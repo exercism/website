@@ -4,7 +4,7 @@
     height: 37px;
     width: 41px;
 
-    box-shadow: 0px 4px 24px rgba(156, 130, 38, 0.4);
+    box-shadow: 0px 4px 24px rgba(var(--shadowColorNotificationBell), 0.4);
 
     background: var(--backgroundColorNotifications);
     & .c-icon {

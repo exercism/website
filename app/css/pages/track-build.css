@@ -140,7 +140,7 @@
 
     .contributor-credit-block {
         @apply flex items-center justify-between mb-8;
-        @apply border-1 border-borderLight rounded-8 px-16 py-8;
+        @apply border-1 border-textColor6 rounded-8 px-16 py-8;
 
         .contributor {
             @apply text-16 font-semibold leading-150 text-textColor1;

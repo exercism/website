@@ -24,6 +24,6 @@ export const THEMES: Theme[] = [
     label: 'Accessibility Dark',
     value: 'accessibility-dark',
     background: 'black',
-    iconFilter: 'white-no-dark',
+    iconFilter: 'whiteNoDark',
   },
 ]

@@ -6,4 +6,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
   inflect.acronym 'STI'
   inflect.acronym 'HTML'
+
+  inflect.acronym 'AI'
+  inflect.acronym 'ChatGPT'
 end

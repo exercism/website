@@ -28,3 +28,7 @@ FileUtils.chdir APP_ROOT do
   # Finally we get the actual server running
   system! "bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000"
 end
+
+Track.active.order(:slug).pluck(:slug).map{|s| system("git config --global --add safe.directory /mnt/efs/repos/#{s}}")}
+
+

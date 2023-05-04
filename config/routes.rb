@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   draw(:api)
+  draw(:spi)
 
   # #### #
   # Auth #
@@ -25,13 +26,6 @@ Rails.application.routes.draw do
   end
 
   get "discourse/sso" => "discourse/sso"
-
-  # ### #
-  # SPI #
-  # ### #
-  namespace :spi do
-    resources :tooling_jobs, only: :update
-  end
 
   # ######## #
   # Webhooks #

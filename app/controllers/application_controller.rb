@@ -59,22 +59,24 @@ class ApplicationController < ActionController::Base
   # before we send the response (which loads notifications async) so we
   # wait for the promise to finish before leaving this block.
   def mark_notifications_as_read!
-    future = Concurrent::Promises.future do
-      Rails.application.executor.wrap do
-        next if devise_controller?
-        next unless user_signed_in?
-        next unless request.get?
-        next unless is_navigational_format?
-        next if request.xhr?
+    return yield if devise_controller?
+    return yield unless user_signed_in?
+    return yield unless request.get?
+    return yield unless is_navigational_format?
+    return yield if request.xhr?
 
-        User::Notification::MarkRelevantAsRead.(current_user, request.path)
-        User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
+    begin
+      future = Concurrent::Promises.future do
+        Rails.application.executor.wrap do
+          User::Notification::MarkRelevantAsRead.(current_user, request.path)
+          User::Notification::MarkBatchAsRead.(current_user, [params[:notification_uuid]]) if params[:notification_uuid].present?
+        end
       end
-    end
 
-    yield
-  ensure
-    future.value
+      yield
+    ensure
+      future.value
+    end
   end
 
   def ensure_mentor!

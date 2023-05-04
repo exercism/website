@@ -26,7 +26,7 @@
 
     & .editor-status {
         @apply font-medium text-textColor6 text-15 leading-150;
-        @apply pr-20;
+        @apply pl-20;
         opacity: 0;
         animation: fadeIn 0.2s linear 0.3s 1 normal forwards;
     }
@@ -267,11 +267,11 @@
                 & button {
                     @apply ml-20;
                 }
-                & .run-tests-btn {
+                /* & .run-tests-btn {
                     & button {
                         @apply ml-0;
                     }
-                }
+                } */
             }
         }
         & .--split-rhs {
@@ -301,6 +301,11 @@
             & > .--tab-panel {
                 overflow-y: scroll;
                 height: 100%;
+            }
+
+            #panel-instructions,
+            #panel-chatgpt {
+                @apply border-t-1 border-borderColor7 pt-16;
             }
 
             section.feedback-pane {
@@ -355,8 +360,10 @@
                     }
                 }
                 & .instructions {
-                    @apply pt-16;
-                    @apply border-t-1 border-borderColor6;
+                    &:not-first-child {
+                        @apply pt-16;
+                        @apply border-t-1 border-borderColor6;
+                    }
                 }
                 & .debug-info {
                     @apply border-t-2 border-borderColor6;

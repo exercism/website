@@ -154,6 +154,7 @@ namespace :api do
       end
 
       resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
+        resource :ai_help, only: %i[create], controller: "solutions/submission_ai_help"
         resource :test_run, only: %i[show], controller: "solutions/submission_test_runs" do
           patch :cancel
         end

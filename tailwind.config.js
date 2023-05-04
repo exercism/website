@@ -199,6 +199,7 @@ module.exports = {
       yellowPrompt: '#FFD38F',
       launchingYellow: '#F7B000',
       greenPrompt: '#59D2AE',
+      chatGptGreen: '#74aa9d',
 
       gray: '#A9A6BD',
       // TODO: fix this - change it back to its hex value

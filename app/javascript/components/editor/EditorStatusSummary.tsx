@@ -10,9 +10,9 @@ export const EditorStatusSummary = ({
 }): JSX.Element | null => {
   switch (status) {
     case EditorStatus.CREATE_SUBMISSION_FAILED:
-      return <p className="editor-status">{error}</p>
+      return <p className="editor-status">Error: {error}</p>
     case EditorStatus.REVERT_FAILED:
-      return <p className="editor-status">{error}</p>
+      return <p className="editor-status">Error: {error}</p>
     case EditorStatus.REVERTING:
       return <p className="editor-status">Reverting files...</p>
     default:

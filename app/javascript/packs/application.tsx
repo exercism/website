@@ -69,7 +69,7 @@ import { Links as CommentsListLinks } from '../components/community-solutions/Co
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
-function camelizeKeysAs<T>(object: any): T {
+export function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
 import currency from 'currency.js'

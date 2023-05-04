@@ -58,3 +58,5 @@ class InvalidMetricPeriodError < RuntimeError; end
 class InvalidMetricTypeError < RuntimeError; end
 
 class InvalidCommunityVideoUrlError < RuntimeError; end
+
+class ChatGPTTooManyRequestsError < RuntimeError; end

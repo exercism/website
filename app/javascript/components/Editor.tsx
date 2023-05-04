@@ -331,9 +331,10 @@ export default ({
     mutation: pokeChatGpt,
     status: chatGptFetchingStatus,
     helpRecord,
-    setStatus: setChatGptFetchingStatus,
     setSubmissionUuid,
     submissionUuid,
+    mutationError,
+    mutationStatus,
   } = ChatGPT.Hook({
     submission: submission ?? null,
     defaultRecord: panels.aiHelp,
@@ -345,18 +346,21 @@ export default ({
     setTab('chatgpt')
     if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
       pokeChatGpt()
-      setChatGptFetchingStatus('fetching')
       setSubmissionUuid(submission?.uuid)
-      setChatGptDialogOpen(false)
     }
   }, [
     chatGptFetchingStatus,
     pokeChatGpt,
-    setChatGptFetchingStatus,
     setSubmissionUuid,
-    submission,
+    submission?.uuid,
     submissionUuid,
   ])
+
+  useEffect(() => {
+    if (mutationStatus === 'success') {
+      setChatGptDialogOpen(false)
+    }
+  }, [mutationStatus])
 
   return (
     <FeaturesContext.Provider value={features}>
@@ -503,6 +507,7 @@ export default ({
               setValue={setSelectedGPTModel}
               onGo={invokeChatGpt}
               chatgptUsage={chatgptUsage}
+              error={mutationError}
             />
           )}
         </div>

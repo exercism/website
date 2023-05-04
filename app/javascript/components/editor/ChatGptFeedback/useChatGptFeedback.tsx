@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MutateFunction, useMutation } from 'react-query'
+import { MutateFunction, QueryStatus, useMutation } from 'react-query'
 import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
 import { sendRequest } from '@/utils'
 import { camelizeKeysAs } from '@/packs/application'
@@ -25,6 +25,8 @@ export type useChatGptFeedbackProps = {
   status: FetchingStatus
   submissionUuid: string | undefined
   setSubmissionUuid: React.Dispatch<React.SetStateAction<string | undefined>>
+  mutationStatus: QueryStatus
+  mutationError: unknown
 }
 
 export function useChatGptFeedback({
@@ -44,8 +46,8 @@ export function useChatGptFeedback({
   )
   const [submissionUuid, setSubmissionUuid] = useState<string | undefined>()
 
-  const [mutation] = useMutation<void>(
-    async () => {
+  const [mutation, { status: mutationStatus, error: mutationError }] =
+    useMutation<void>(async () => {
       if (!submission) return
       const { fetch } = sendRequest({
         endpoint: submission?.links.aiHelp,
@@ -54,12 +56,8 @@ export function useChatGptFeedback({
       })
 
       // TODO catch errors
-      return fetch
-        .then(() => setStatus('fetching'))
-        .catch((e) => console.log(e))
-    },
-    { onError: (err) => console.log(err) }
-  )
+      return fetch.then(() => setStatus('fetching'))
+    })
 
   useEffect(() => {
     if (!submission) return
@@ -84,5 +82,7 @@ export function useChatGptFeedback({
     setStatus,
     submissionUuid,
     setSubmissionUuid,
+    mutationError,
+    mutationStatus,
   }
 }

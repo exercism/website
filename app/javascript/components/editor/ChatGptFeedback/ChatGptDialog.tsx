@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal } from '@/components/modals'
 import { Submission } from '../types'
 import { SingleSelect } from '@/components/common'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 
 export type GptModelInfo = {
   version: GPTModel
@@ -19,6 +20,7 @@ type ChatGptDialogModalProps = {
   value: GptModelInfo
   setValue: (v: GptModelInfo) => void
   chatgptUsage: GptUsage
+  error: unknown
 }
 
 export type GPTModel = '3.5' | '4.0'
@@ -79,6 +81,7 @@ const SelectedComponent = ({
   }
 }
 
+const DEFAULT_ERROR = new Error('Unable to hide introducer')
 export const ChatGptDialog = ({
   open,
   onClose,
@@ -86,6 +89,7 @@ export const ChatGptDialog = ({
   value,
   setValue,
   chatgptUsage,
+  error,
 }: ChatGptDialogModalProps): JSX.Element => {
   return (
     <Modal
@@ -100,14 +104,17 @@ export const ChatGptDialog = ({
 
       <div className="text-textColor6 mt-32">Select a model:</div>
       <SingleSelect<GptModelInfo>
-        componentClassName="mb-32 mt-8"
+        componentClassName="mt-8"
         options={gptUsageToArray(chatgptUsage)}
         OptionComponent={OptionComponent}
         SelectedComponent={SelectedComponent}
         value={value}
         setValue={setValue}
       />
-      <div className="flex gap-8">
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ErrorMessage error={error} />
+      </ErrorBoundary>
+      <div className="flex gap-8 mt-32 ">
         <button className="btn-s btn-primary" onClick={onGo}>
           Go
         </button>
@@ -116,6 +123,20 @@ export const ChatGptDialog = ({
         </button>
       </div>
     </Modal>
+  )
+}
+
+const ErrorMessage = ({ error }: { error: unknown }) => {
+  useErrorHandler(error, { defaultError: DEFAULT_ERROR })
+
+  return null
+}
+
+const ErrorFallback = ({ error }: { error: Error }) => {
+  return (
+    <div className="c-alert--danger text-16 font-body mt-16 normal-case">
+      {error.message}
+    </div>
   )
 }
 

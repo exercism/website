@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_181339) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_27_005532) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1413,7 +1413,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_181339) do
     t.boolean "auto_update_exercises", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "theme"
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 
@@ -1552,7 +1551,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_181339) do
     t.datetime "first_donated_at"
     t.string "discord_uid"
     t.integer "insiders_status", limit: 1, default: 0, null: false
-    t.integer "flair", limit: 1
     t.string "paypal_payer_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
@@ -1648,6 +1646,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_181339) do
   add_foreign_key "cohorts", "tracks"
   add_foreign_key "community_stories", "users", column: "interviewee_id"
   add_foreign_key "community_stories", "users", column: "interviewer_id"
+  add_foreign_key "community_videos", "exercises"
+  add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "contributor_team_memberships", "contributor_teams"

@@ -15,7 +15,7 @@ export type ThemePreferenceLinks = {
 export type Theme = {
   label: string
   background: string
-  iconFilter: string
+  icon: string
   value: string
 }
 

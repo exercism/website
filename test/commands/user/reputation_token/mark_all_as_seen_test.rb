@@ -27,4 +27,22 @@ class User::ReputationTokens::MarkAllAsSeenTest < ActiveSupport::TestCase
 
     User::ReputationToken::MarkAllAsSeen.(user)
   end
+
+  test "reset cache" do
+    user = create :user
+    create(:user_reputation_token, user:)
+
+    User::ResetCache.expects(:call).with(user)
+
+    User::ReputationToken::MarkAllAsSeen.(user)
+  end
+
+  test "does not reset cache if none were changed" do
+    user = create :user
+    create :user_reputation_token, user:, seen: true
+
+    User::ResetCache.expects(:call).never
+
+    User::ReputationToken::MarkAllAsSeen.(user)
+  end
 end

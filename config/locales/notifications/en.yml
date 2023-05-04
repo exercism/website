@@ -20,16 +20,6 @@ en:
       1: >
         New feedback has been added to iteration (#%{iteration_idx}) of your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>.
         We %{emphasis}recommend taking a look.
-
-    # Not actually used
-    acquired_badge:
-      1: >
-        You have unlocked a new badge. Visit your journey page to reveal what it is.
-
-    joined_exercism:
-      1: >
-        Welcome to Exercism! Explore your dashboard to learn more.
-
     nudge_to_request_mentoring:
       1: >
         <strong>It's time to get mentored!</strong>
@@ -42,14 +32,6 @@ en:
     mentor_finished_discussion:
       1: >
         %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}
-
-    joined_insiders:
-      1: >
-        Welcome to Exercism Insiders!
-
-    joined_lifetime_insiders:
-      1: >
-        Welcome to Exercism Lifetime Insiders!
 
     eligible_for_insiders:
       1: >
@@ -66,3 +48,18 @@ en:
     upgraded_to_lifetime_insiders:
       1: >
         You've been upgrade to Exercism Lifetime Insiders!
+
+    ######################################
+    # Not actually used below this point #
+    ######################################
+    acquired_badge:
+      1: Unused
+
+    joined_exercism:
+      1: Unused
+
+    joined_insiders:
+      1: Unused
+
+    joined_lifetime_insiders:
+      1: Unused

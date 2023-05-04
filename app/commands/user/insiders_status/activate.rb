@@ -22,7 +22,7 @@ class User::InsidersStatus::Activate
     return unless FeatureFlag::INSIDERS
 
     user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
-    User::Notification::Create.(user, @notification_key)
+    User::Notification::CreateEmailOnly.defer(user, @notification_key)
     AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime? && FeatureFlag::INSIDERS
     User::SetDiscordRoles.defer(user)

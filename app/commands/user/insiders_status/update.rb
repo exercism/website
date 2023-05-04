@@ -26,9 +26,9 @@ class User::InsidersStatus::Update
 
     return unless FeatureFlag::INSIDERS
 
-    User::SetDiscordRoles.(user)
-    User::SetDiscourseGroups.(user)
-    User::Notification::Create.(user, @notification_key) if @notification_key
+    User::SetDiscordRoles.defer(user)
+    User::SetDiscourseGroups.defer(user)
+    User::Notification::Create.defer(user, @notification_key) if @notification_key
     AwardBadgeJob.perform_later(user, @badge_key) if @badge_key
   end
 

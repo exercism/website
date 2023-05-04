@@ -21,6 +21,16 @@ module API
       }
     end
 
+    def activate_insiders
+      User::InsidersStatus::Activate.(current_user)
+
+      render json: {
+        links: {
+          redirect_url: insiders_url
+        }
+      }
+    end
+
     private
     def user_params
       params.require(:user).permit(:avatar)

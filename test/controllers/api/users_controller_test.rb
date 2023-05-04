@@ -3,6 +3,7 @@ require_relative './base_test_case'
 class API::UsersControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_user_path
   guard_incorrect_token! :api_user_path, method: :put, args: 1
+  guard_incorrect_token! :activate_insiders_api_user_path, method: :patch
 
   ###############
   # Get details #
@@ -30,6 +31,16 @@ class API::UsersControllerTest < API::BaseTestCase
     # TODO: Test the actual avatar gets set - work out how to upload a file.
     params = { user: { something: :else } }
     patch api_user_path, params:, headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
+  #####################
+  # Activate insiders #
+  #####################
+  test "activate_insiders" do
+    setup_user
+    patch activate_insiders_api_user_path, params: {}, headers: @headers, as: :json
 
     assert_response :ok
   end

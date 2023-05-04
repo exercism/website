@@ -9,7 +9,6 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
       solved_in_featured_tracks = solutions[exercise_slug].select { |track_slug| track_slugs.include?(track_slug) }
 
-      # Refactor to .first
       solved_in_23 = solved_in_featured_tracks.select { |_, year| year == 2023 }
       next [solved_in_23.keys.first, exercise_slug] if solved_in_23.any?
 

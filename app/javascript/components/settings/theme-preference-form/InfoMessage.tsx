@@ -34,7 +34,7 @@ export function InfoMessage({
     default:
       return (
         <p className="text-p-base mb-16">
-          [Learn more about Exercism Insiders](...).
+          <a href={insidersPath}>Learn more about Exercism Insiders.</a>
         </p>
       )
   }

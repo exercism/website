@@ -20,7 +20,7 @@
         @apply bg-tabBackgroundColorSelected text-textColor2 font-semibold;
         & .c-icon {
             @apply mr-12;
-            filter: var(--purple-filter);
+            filter: var(--selected-tab-icon-filter);
         }
     }
 

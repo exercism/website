@@ -8,6 +8,7 @@ import {
   Icon,
 } from '../../common'
 import { MentorDiscussion } from '../../types'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
 
 export const Discussion = ({
   discussion,
@@ -30,7 +31,10 @@ export const Discussion = ({
       />
       <div className="--info">
         <div className="--handle">
-          {discussion.student.handle}
+          <HandleWithFlair
+            handle={discussion.student.handle}
+            flair={discussion.student.flair}
+          />
           {discussion.student.isFavorited ? (
             <Icon
               icon="gold-star"

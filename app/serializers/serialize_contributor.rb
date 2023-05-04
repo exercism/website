@@ -8,6 +8,7 @@ class SerializeContributor
       rank:,
       activity:,
       handle: user.handle,
+      flair: user.flair,
       reputation: User::FormatReputation.(reputation),
       avatar_url: user.avatar_url,
       links: {

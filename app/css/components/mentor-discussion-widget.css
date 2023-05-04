@@ -1,7 +1,9 @@
 .c-mentor-discussion-widget {
     & .--turn {
-        @apply bg-veryLightBlue rounded-8;
-        @apply leading-150 text-lightBlue font-semibold;
+        background: var(--backgroundColorExerciseStatusTagInProgress);
+        color: var(--textColorExerciseStatusTagInProgress);
+        @apply rounded-8;
+        @apply leading-150 font-semibold;
         @apply py-6 px-12;
     }
 
@@ -12,7 +14,7 @@
             height: 16px;
             width: 16px;
             @apply mr-12;
-            filter: var(--orange-filter);
+            filter: var(--iconFilterMentorDiscussionWidget);
         }
     }
 }

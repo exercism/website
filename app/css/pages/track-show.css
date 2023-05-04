@@ -54,10 +54,10 @@
     }
     & article {
         @apply pb-80;
-        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+        /* background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%); */
     }
     & article.summary-article {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
 
         & .container {
             @apply flex pt-32;
@@ -181,9 +181,10 @@
                 height: 24px;
                 width: 24px;
                 @apply mr-24;
+                @apply filter-textColor6;
             }
             & p {
-                @apply text-17 leading-170 font-medium text-textColor7;
+                @apply text-17 leading-170 font-medium text-textColor6;
             }
         }
 
@@ -281,6 +282,7 @@
                             & > .c-icon {
                                 height: 16px;
                                 width: 16px;
+                                filter: var(--textColor5-filter);
                             }
                         }
                         & > .description {
@@ -298,7 +300,7 @@
                             height: 12px;
                             width: 12px;
                             @apply ml-32;
-                            @apply text-textColor6;
+                            @apply filter-textColor6;
                         }
                     }
                 }
@@ -344,7 +346,7 @@
 
         & section.learning-pattern,
         & .stats-box {
-            @apply border-1 border-borderColor6 bg-white rounded-8;
+            @apply border-1 border-borderColor6 bg-backgroundColorA rounded-8;
         }
         & section.learning-pattern {
             @apply py-12 px-24 mb-40;
@@ -382,6 +384,7 @@
                 height: 24px;
                 width: 24px;
                 @apply ml-auto;
+                @apply filter-textColor2;
             }
             & .icons {
                 @apply flex items-center;
@@ -436,6 +439,7 @@
                     height: 24px;
                     width: 24px;
                     @apply mr-16;
+                    @apply filter-textColor1;
                 }
             }
             & .c-heading-with-count {
@@ -474,12 +478,12 @@
                 }
                 & a.all {
                     @apply block flex-grow-0 flex-shrink-0;
-                    @apply font-semibold text-lightBlue;
+                    @apply font-semibold text-linkColor;
                 }
             }
 
             & .cta {
-                @apply bg-unnamed15 rounded-8 py-16 px-24;
+                @apply bg-backgroundColorD rounded-8 py-16 px-24;
 
                 & h3 {
                     @apply text-16 font-semibold mb-8;
@@ -488,7 +492,7 @@
                     @apply text-14 leading-paragraph mb-8;
                 }
                 & a {
-                    @apply block text-14 text-lightBlue font-semibold;
+                    @apply block text-14 text-linkColor font-semibold;
                 }
             }
         }
@@ -571,7 +575,7 @@
                             @apply mr-12;
                             height: 16px;
                             width: 16px;
-                            filter: --var(textColor6-filter);
+                            filter: var(--textColor6-filter);
                         }
                     }
                     & .next-slot {

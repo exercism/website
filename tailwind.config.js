@@ -1,4 +1,16 @@
 module.exports = {
+  mode: 'jit',
+  options: {
+    // The following extractor is the same as the default of v2, except it includes cut off points for semicolons.
+    defaultExtractor: (line) => {
+      return [
+        ...(line.match(/[^<>"'`;\s]*[^<>"'`;\s:]/g) || []),
+        ...(line.match(/[^<>"'`;\s.(){}[\]#=%]*[^<>"'`;\s.(){}[\]#=%:]/g) ||
+          []),
+      ]
+    },
+  },
+
   content: [
     './app/views/**/*.haml',
     './app/helpers/**/*.rb',
@@ -51,21 +63,21 @@ module.exports = {
     },
     boxShadow: {
       none: 'none',
-      buttonS: '0px 4px 8px rgba(79, 114, 205, 0.4)',
-      xsZ1: '0px 2px 4px 0px rgba(79, 114, 205, 0.3)',
+      buttonS: '0px 4px 8px rgba(var(--shadowColorMain), 0.4)',
+      xsZ1: '0px 2px 4px 0px rgba(var(--shadowColorMain), 0.3)',
       xsZ1_dark: '0px 2px 4px #0F0923',
       dark_xsZ1: '0px 2px 4px #0F0923',
-      xsZ1v2: '0px 2px 4px 0px rgba(79, 114, 205, 0.15)',
-      xsZ1v3: '0px 2px 4px 0px rgba(79, 114, 205, 0.4)',
+      xsZ1v2: '0px 2px 4px 0px rgba(var(--shadowColorMain), 0.15)',
+      xsZ1v3: '0px 2px 4px 0px rgba(var(--shadowColorMain), 0.4)',
       sm: 'var(--box-shadow-sm)',
-      smZ1: '0px 4px 16px 0px rgba(79, 114, 205, 0.3)',
+      smZ1: '0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3)',
       base: 'var(--box-shadow-base)',
-      baseZ1: '0px 4px 24px 0px rgba(79, 114, 205, 0.3)',
+      baseZ1: '0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3)',
       lg: 'var(--box-shadow-lg)',
-      lgv2: '0px 4px 42px rgba(79, 114, 205, 0.6)',
+      lgv2: '0px 4px 42px rgba(var(--shadowColorMain), 0.6)',
       lgZ1: 'var(--box-shadow-lgZ1)',
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
-      keystroke: '0px 1px 0px 1px rgba(203, 201, 217, 0.6)',
+      keystroke: '0px 1px 0px 1px rgba(var(--shadowColorKeystroke), 0.6)',
       launching: '8px 8px 0px #211E28',
     },
     colors: {
@@ -83,6 +95,7 @@ module.exports = {
       backgroundColorF: 'var(--backgroundColorF)',
       backgroundColorG: 'var(--backgroundColorG)',
       backgroundColorH: 'var(--backgroundColorH)',
+      backgroundColorI: 'var(--backgroundColorI)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',
@@ -91,13 +104,17 @@ module.exports = {
       borderColor7: 'var(--borderColor7)',
       borderColor9: 'var(--borderColor9)',
       textColor1: 'var(--textColor1)',
+      textColor1NoDark: 'var(--textColor1-no-dark)',
       textColor2: 'var(--textColor2)',
       textColor3: 'var(--textColor3)',
       textColor5: 'var(--textColor5)',
       textColor6: 'var(--textColor6)',
+      textColor6NoDark: '#5C5589',
       textColor7: 'var(--textColor7)',
       textColor8: 'var(--textColor8)',
       textColor9: 'var(--textColor9)',
+      textColor10: 'var(--textColor10)',
+      prominentLinkColor: 'var(--c-prominent-link-color)',
 
       linkColor: 'var(--linkColor)',
       buttonBorderColor1: 'var(--buttonBorderColor1)',
@@ -136,7 +153,12 @@ module.exports = {
       randomBlue: '#F9F8FF',
       lightGold: '#FFD38F',
 
+      blueViolet: '#9E8EFF',
+      darkBlueViolet: '#282339',
+
       veryDarkGray: '#221E31',
+      darkBlueGray: '#211D2F',
+      smokeGray: '#26282D',
       bgGray: '#FBFCFE',
       lightGray: '#EAECF3',
       borderLight: '#CBC9D9',
@@ -149,10 +171,12 @@ module.exports = {
       evenLighterBlue: '#ECF2FF',
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
+      eerieBlack: '#191525',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',
       purple: '#604FCD',
+      brightPurple: '#A9A0E4',
       purpleDarkened: '#3B2A93',
       purpleDarker3: '#453A8F',
       anotherPurple: '#604FCD' /* Remove this */,
@@ -161,19 +185,24 @@ module.exports = {
       lightPurpleDarkened: '#f2f0fc',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
+      // textColor1
+      midnightBlue: '#130B43',
       lightPurple: '#FAFAFF',
       purpleForever: '#5042AD',
+      vividPurple: '#7029F5',
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
       purpleHover: '#F2F0FC',
 
+      champagne: '#fff4e3',
       yellowPrompt: '#FFD38F',
       launchingYellow: '#F7B000',
       greenPrompt: '#59D2AE',
       chatGptGreen: '#74aa9d',
 
       gray: '#A9A6BD',
-      darkGray: '#26282D',
+      // TODO: fix this - change it back to its hex value
+      darkGray: 'var(--textColor3)',
 
       darkSuccessGreen: '#2E8C70',
       darkGreen: '#43B593',
@@ -183,6 +212,7 @@ module.exports = {
       veryLightGreen2: '#E7FDF6',
       limeGreen: '#1FA378',
       healthyGreen: '#00B500',
+      seafoamGreen: '#59D2AE',
 
       tooManyGreens: '#59D2AE',
       literallySoManyGreens: '#4FCDA7',
@@ -222,7 +252,7 @@ module.exports = {
       muddy: '#6E82AA',
       caution: '#955D09',
       cautionLabel: '#3E2705',
-      color22: '#C8D5EF',
+      color22: 'var(--color22)',
 
       commonBadge: 'rgb(var(--commonBadge-RGB))',
       commonBadgeFill: '#505359',
@@ -272,6 +302,7 @@ module.exports = {
       48: '48px',
       100: '100%',
     },
+
     lineHeight: {
       none: '1',
       tight: '125%',
@@ -358,6 +389,12 @@ module.exports = {
     },
   },
   plugins: [
+    [
+      'postcss-reuse',
+      {
+        mode: 'class',
+      },
+    ],
     function ({ addVariant }) {
       addVariant('child', '& > *'), addVariant('not-last', '&:not(:last-child)')
     },

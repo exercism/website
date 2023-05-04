@@ -156,7 +156,7 @@ export function FileEditorCodeMirror({
               language={language}
               wrap={settings.wrap !== 'off'}
               isTabCaptured={settings.tabBehavior === 'captured'}
-              theme={settings.theme}
+              theme={settings.theme || 'light'}
               readonly={
                 readonly || file.type === 'legacy' || file.type === 'readonly'
               }

@@ -3,39 +3,40 @@
     .lg-container
       .flex
         .mr-auto{ class: 'max-w-[860px]' }
-          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+          .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
             Month 4 of #12in23
-          %h1.text-h1.mb-8 It's Analytical April! ✨
+          %h1.text-h1.mb-8 It's Mindshifting May! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that excel at data science. We're digging into Python, Julia and R, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages that do things differently. We're digging into Ballerina, Pharo, Prolog, Red, Tcl and Unison, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
-          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
+          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Analytical April overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Mindshifting May overview video  👉
               %p.text-p-base.mb-8
-                Our introductory video gives a quick overview to the month, explores what we mean by analyzing data, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
+                Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
                 Take a watch and leave a comment!
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/RTWo4C1r41I", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/RpbpnmTfd8w", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Analytical April badge for completing and publishing 5 exercises in one of the following languages.
-            Consider starting with a language with a syllabus (
-            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
-            ).
+            Earn the Mindshifting May badge for completing and publishing 5 exercises in one of the following languages.
+            -#
+              Consider starting with a language with a syllabus (
+              = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+              ).
 
-          - tracks = Track.where(slug: %w[julia python r])
+          - tracks = Track.where(slug: %w[ballerina pharo-smalltalk prolog red tcl unison])
           .grid.grid-cols-8.gap-12.mb-32
             - tracks.each do |track|
-              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
+              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
                 - if track.course?
-                  .rounded-circle.bg-white.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
+                  .rounded-circle.bg-backgroundColorA.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
                     = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple'
                 = image_tag track.icon_url, class: 'mb-8'
                 .text-h6= track.title
@@ -44,25 +45,25 @@
             You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in analytical languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/etl.svg", class: "w-[25px] inline"
-              %strong.font-semibold ETL:
-              Reshape data into a different format
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/acronym.svg", class: "w-[25px] inline"
+              %strong.font-semibold Acronym:
+              Convert a phrase to its acronym
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/largest-series-product.svg", class: "w-[25px] inline"
-              %strong.font-semibold Largest Series Product:
-              Look for patterns in a string of digits
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/isogram.svg", class: "w-[25px] inline"
+              %strong.font-semibold Isogram:
+              Check if a phrase does not contain repeating letters
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/saddle-points.svg", class: "w-[25px] inline"
-              %strong.font-semibold Saddle Points:
-              Work with multidimensional arrays
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/roman-numerals.svg", class: "w-[25px] inline"
+              %strong.font-semibold Roman Numerals:
+              Translate a decimal number into roman numerals
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/sum-of-multiples.svg", class: "w-[25px] inline"
-              %strong.font-semibold Sum Of Multiples:
-              Practice filtering and summation of a sequence of numbers
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/raindrops.svg", class: "w-[25px] inline"
+              %strong.font-semibold Raindrops:
+              Convert a number into raindrop sounds
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/word-count.svg", class: "w-[25px] inline"
-              %strong.font-semibold Word Count:
-              Convert a string into words and count them
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/space-age.svg", class: "w-[25px] inline"
+              %strong.font-semibold Space Age:
+              Calculate how old someone would be on the planets in our solar system
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12
@@ -88,12 +89,12 @@
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4
-              We have exclusive Analytical April swag that will only be available later in the month. Keep an eye on the
+              We have exclusive Mindshifting May swag that will only be available later in the month. Keep an eye on the
               = link_to "swag store", "https://swag.exercism.org"
               for details (and check our the Mechanical March swag before it goes too!)
 
         .ml-80{ class: 'max-w-[450px]' }
-          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 Upcoming Streaming Schedule
             %p.text-p-base.mb-12
               This schedule is regularly updated. All events will stream on our
@@ -109,31 +110,31 @@
                   %strong.font-semibold.text-textColor2= event.title
 
 
-          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 How does #12in23 work?
             %p.text-p-base.mb-12
               Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
-              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-12in23-feb-update.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
                 .text-center.text-h6 How's your #12in23 going?
 
-              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
                 .text-center.text-h6 The Official #12in23 Calendar
 
-            %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
+            %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
               Track your progress at the bottom of the page.
 
-          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
             %p.text-p-base.mb-12
               We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
             = link_to "Donate now", donate_path, class: 'btn btn-primary'
 
-          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
             %h2.text-h4.mb-4 The year-long #12in23 badge
             %p.text-p-base.mb-12
               At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
@@ -145,7 +146,7 @@
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
                 Published Exercises
-                .inline.text-14 (#{@badge_progress_exercises.size} / 15 so far)
+                .inline.text-14 (#{@badge_progress_exercises.size} / 20 so far)
               .grid.grid-cols-6.gap-12
                 - @badge_progress_exercises.each do |track_slug, exercise_slug|
                   = link_to track_exercise_path(track_slug, exercise_slug) do
@@ -166,7 +167,7 @@
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
-          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count >= 5 ? 'border-successColor' : 'border-transparent'}" do
+          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count >= 5 ? 'border-successColor' : 'border-transparent'}" do
             = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
@@ -180,5 +181,5 @@
         - num_placeholders = 12 - @track_counts.size
         - if num_placeholders.positive?
           - num_placeholders.times do
-            .shadow-base.bg-white.rounded-8.flex.flex-col.items-center.justify-center{ class: 'min-h-[175px]' }
+            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }
               .text-h0{ class: "opacity-[0.2]" } ?

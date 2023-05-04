@@ -29,7 +29,7 @@ module Flows
           assert_text "student"
           assert_text "Great mentor!"
           assert_text "on Bob in Ruby"
-          assert_text "a day ago"
+          assert_text "yesterday"
         end
       end
 

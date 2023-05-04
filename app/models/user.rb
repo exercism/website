@@ -16,6 +16,13 @@ class User < ApplicationRecord
     active_lifetime: 5
   }, _prefix: true
 
+  enum flair: {
+    founder: 0,
+    staff: 1,
+    insider: 2,
+    original_insider: 3
+  }, _prefix: "show", _suffix: "flair"
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -259,8 +266,6 @@ class User < ApplicationRecord
       accepted_terms_at.present?
   end
 
-  def has_avatar_url? = avatar_url.present? || avatar.attached?
-
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
 
@@ -299,14 +304,15 @@ class User < ApplicationRecord
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at
   def blocked? = User::BlockDomain.blocked?(user: self)
+  def insider? = insiders_status_active? || insiders_status_active_lifetime?
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def insiders_status = super.to_sym
+  def flair = super&.to_sym
 
   def usages = super || (self.usages = {})
-
   def chatgpt_usage
     us = usages['chatgpt']
     {

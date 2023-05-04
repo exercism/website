@@ -27,7 +27,7 @@
             & .c-icon {
                 height: 24px;
                 width: 24px;
-                @apply text-anotherPurple;
+                @apply filter-textColor6;
             }
         }
         &:hover {

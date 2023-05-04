@@ -26,9 +26,9 @@
 }
 
 .c-textblock-note {
-    @apply border-veryLightBlue;
+    @apply border-backgroundColorI;
     & .c-textblock-header {
-        @apply bg-veryLightBlue border-veryLightBlue;
+        @apply bg-backgroundColorI border-backgroundColorI;
         @apply text-textColor6;
 
         &:before {
@@ -36,7 +36,7 @@
         }
     }
     & .c-textblock-content {
-        @apply bg-bgGray;
+        @apply bg-backgroundColorB;
     }
 }
 .c-textblock-caution {

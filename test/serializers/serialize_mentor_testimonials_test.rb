@@ -15,7 +15,8 @@ class SerializeMentorTestimonialsTest < ActiveSupport::TestCase
         content: "Great mentor!",
         student: {
           avatar_url: student.avatar_url,
-          handle: "student"
+          handle: "student",
+          flair: student&.flair
         },
         exercise: {
           title: exercise.title,

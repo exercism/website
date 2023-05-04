@@ -5,7 +5,7 @@
     .lg-container.container
       = avatar(current_user)
       .info
-        .handle= current_user.handle
+        .handle= render ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair, size: :medium)
         .extra= current_user.name
       / TODO: Add tests for this
       = link_to badges_journey_path(anchor: "journey-content") do
@@ -29,7 +29,8 @@
       .header-intro.mb-16
         = graphical_icon "logo"
         .content
-          %h1 Welcome back, #{current_user.handle}!
+          %h1.flex
+            Welcome back, #{current_user.handle}!
           %p.welcome
             Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.
@@ -89,10 +90,10 @@
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
             Month 4 of #12in23
-          %h2.text-h3 It's Analytical April!
+          %h2.text-h3 It's Mindshifting May!
           %p.text-p-base.mb-6
-            This month we're exploring three languages that are great for Data Science(Python, Julia and R).
-            We've got exercises, SWAG and live streaming.
+            This month we're exploring languages that will get you thinking differently - Ballerina, Pharo, Red, TCL, Unison and Prolog!
+            Have fun expanding your mind!
           = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
             %span Explore #12in23
             = graphical_icon "arrow-right"

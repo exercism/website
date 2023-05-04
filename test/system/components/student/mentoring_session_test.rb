@@ -38,7 +38,7 @@ module Components
         end
 
         within(".c-discussion-timeline") { assert_text "Iteration 1" }
-        assert_text "Iteration 1was submitted\n7d ago"
+        assert_text "Iteration 1was submitted 7d ago"
         assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"
         assert_text "student"
@@ -263,7 +263,7 @@ module Components
 
           assert_css "img[src='#{ruby.icon_url}'][alt=\"icon for Ruby track\"]"
           assert_css "img.c-exercise-icon"
-          assert_text "You're being mentored by mentor on\nRunning"
+          assert_text "You're being mentored by mentor on Running"
         end
       end
 

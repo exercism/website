@@ -14,7 +14,7 @@ module Flows
         use_capybara_host do
           visit profile_path(user.handle)
 
-          assert_text "user has\n12 Reputation"
+          assert_text "user has 12 Reputation"
           assert_text "Building"
           assert_text "1 PR accepted"
           assert_text "12 rep"

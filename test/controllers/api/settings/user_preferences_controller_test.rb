@@ -12,7 +12,7 @@ class API::Settings::UserPreferencesControllerTest < API::BaseTestCase
 
     user_preferences = { auto_update_exercises: false }
 
-    8.times do
+    20.times do
       patch api_settings_user_preferences_path(user_preferences:), headers: @headers, as: :json
       assert_response :ok
     end

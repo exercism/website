@@ -30,9 +30,6 @@ const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
 const InsiderStatus = lazy(() => import('../components/insiders/InsiderStatus'))
-const ImpactTestimonials = lazy(
-  () => import('../components/impact/Testimonials')
-)
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -319,9 +316,10 @@ export const mappings = {
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
 
-  'common-copy-to-clipboard-button': (data: any) => (
+  'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
+  'common-theme-toggle-button': (): JSX.Element => <Common.ThemeToggleButton />,
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
@@ -329,6 +327,7 @@ export const mappings = {
   'profile-testimonials-summary': (data: any) => (
     <Profile.TestimonialsSummary
       handle={data.handle}
+      flair={data.flair}
       numTestimonials={data.num_testimonials}
       numSolutionsMentored={data.num_solutions_mentored}
       numStudentsHelped={data.num_students_helped}
@@ -430,11 +429,6 @@ export const mappings = {
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <InsiderStatus {...data} />
-    </Suspense>
-  ),
-  'impact-testimonials': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <ImpactTestimonials data={data} />
     </Suspense>
   ),
   'impact-map': (data: any) => {

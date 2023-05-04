@@ -4,16 +4,28 @@ class User::InsidersStatus::Activate
   initialize_with :user
 
   def call
-    user.with_lock do
-      return unless %i[eligible eligible_lifetime].include?(user.insiders_status)
+    return unless user.insiders_status_eligible? || user.insiders_status_eligible_lifetime?
 
-      if user.insiders_status == :eligible
+    user.with_lock do
+      case user.insiders_status
+      when :eligible
+        @notification_key = :joined_insiders
+        @badge_key = :insider
         user.update(insiders_status: :active)
-        User::Notification::Create.(user, :joined_insiders) if FeatureFlag::INSIDERS
-      else
+      when :eligible_lifetime
+        @notification_key = :joined_lifetime_insiders
+        @badge_key = :lifetime_insider
         user.update(insiders_status: :active_lifetime)
-        User::Notification::Create.(user, :joined_lifetime_insiders) if FeatureFlag::INSIDERS
       end
     end
+
+    return unless FeatureFlag::INSIDERS
+
+    user.update(flair: :insider) unless %i[founder staff original_insider].include?(user.flair)
+    User::Notification::CreateEmailOnly.defer(user, @notification_key)
+    AwardBadgeJob.perform_later(user, :insider)
+    AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime?
+    User::SetDiscordRoles.defer(user)
+    User::SetDiscourseGroups.defer(user)
   end
 end

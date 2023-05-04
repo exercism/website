@@ -150,7 +150,7 @@
                             @apply px-12 py-6;
                             @apply cursor-pointer;
                             @apply border-1 border-borderLight rounded-100;
-                            @apply text-textColor6 font-mono font-bold leading-140;
+                            @apply text-textColor7 font-mono font-bold leading-140;
                         }
 
                         /* Keep it here so it's discoverable by touch
@@ -161,7 +161,7 @@
                             left: 0;
                             opacity: 0;
                             &:checked + .label {
-                                @apply bg-lightBlue;
+                                background: var(--c-prominent-link-color);
                                 @apply text-textColor9;
                             }
 
@@ -262,7 +262,7 @@
                 @apply flex items-center justify-end px-32 py-24;
                 @apply bg-backgroundColorB;
                 @apply relative;
-                box-shadow: inset 0 24px 24px -24px var(--backgroundColorA);
+                box-shadow: inset 0 24px 24px -24px var(--backgroundColorB);
 
                 & button {
                     @apply ml-20;
@@ -397,6 +397,7 @@
                                 & .c-icon {
                                     height: 11px;
                                     width: 11px;
+                                    @apply filter-textColor6;
                                 }
                             }
                         }
@@ -504,11 +505,21 @@
 #page-editor {
     & .cm-editor {
         width: 100%;
+        @apply bg-backgroundColorB;
+
+        .cm-activeLine,
+        .cm-activeLineGutter {
+            background: var(--backgroundColorEditorActiveLine);
+        }
 
         &.cm-focused,
         & .focus-visible {
             /* TODO: Find a way to set outline for a11y only */
             outline: none;
+        }
+
+        .cm-cursor {
+            borderleftcolor: theme(colors.aliceBlue);
         }
         & .cm-panels-top {
             @apply border-0;

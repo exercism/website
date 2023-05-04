@@ -138,7 +138,7 @@
     }
     & .c-donations-form {
         @apply rounded-8;
-        box-shadow: 0px 4px 32px 0px #4f72cd80;
+        box-shadow: 0px 4px 32px 0px rgba(var(--shadowColorMain), 0.5);
         max-width: none;
 
         @apply lg:ml-auto;

@@ -25,8 +25,8 @@
         }
 
         &.--practice-mode {
-            @apply border-backgroundColorH;
-            @apply text-textColor9 bg-textColor6;
+            @apply border-midnightBlue;
+            @apply text-aliceBlue bg-textColor6NoDark;
 
             & .c-icon {
                 filter: var(--white-filter);

@@ -394,10 +394,33 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
   end
 
+  test "insider?" do
+    user = create :user
+
+    %i[unset ineligible eligible eligible_lifetime].each do |insiders_status|
+      user.update(insiders_status:)
+      refute user.insider?
+    end
+
+    %i[active active_lifetime].each do |insiders_status|
+      user.update(insiders_status:)
+      assert user.insider?
+    end
+  end
+
   test "insiders_status is symbol" do
     user = create :user
 
     user.update(insiders_status: :active)
     assert_equal :active, user.insiders_status
+  end
+
+  test "flair is symbol" do
+    user = create :user, flair: nil
+
+    assert_nil user.flair
+
+    user.update(flair: :insider)
+    assert_equal :insider, user.flair
   end
 end

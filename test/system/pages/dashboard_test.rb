@@ -30,7 +30,7 @@ module Pages
 
         within "#page-dashboard" do
           assert_text "Ruby"
-          assert_text "Your Tracks\n1"
+          assert_text "Your Tracks 1"
           assert_link "Discover more tracks"
         end
       end
@@ -49,7 +49,7 @@ module Pages
         visit dashboard_path
 
         within "#page-dashboard" do
-          assert_text "Your Tracks\n3"
+          assert_text "Your Tracks 3"
           assert_link "Discover more tracks"
         end
       end
@@ -74,7 +74,7 @@ module Pages
           assert_text ut_1.track.title
           refute_text ut_2.track.title
 
-          assert_text "Your Tracks\n4"
+          assert_text "Your Tracks 4"
           assert_link "View all your tracks"
         end
       end

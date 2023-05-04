@@ -8,11 +8,14 @@ class SerializeUserPreferences
   private
   def serialize(keys)
     keys.map do |key|
+      label = I18n.t("user_preferences.#{key}", default: nil)
+      next unless label
+
       {
         key:,
         value: preferences.send(key),
-        label: I18n.t("user_preferences.#{key}")
+        label:
       }
-    end
+    end.compact
   end
 end

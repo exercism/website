@@ -1,6 +1,6 @@
 #page-insiders {
+    @apply bg-darkBlueViolet;
     @apply pt-20 md:pt-48 pb-64;
-    background-color: #282339;
     color: #cbc9d9;
 
     h1,
@@ -21,11 +21,11 @@
     }
     .get-insiders-link {
         @apply btn-l btn-primary cursor-pointer;
-        box-shadow: 0px 2px 4px rgba(79, 114, 205, 0.4);
+        box-shadow: 0px 2px 4px rgba(var(--shadowColorMain), 0.4);
     }
 
     .launching {
-        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 mr-auto inline-block mb-24 text-textColor1;
+        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 mr-auto inline-block mb-24 text-midnightBlue;
     }
 
     .features {
@@ -37,8 +37,7 @@
                 @apply mb-12 relative;
             }
             box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
-            background-color: #302b42;
-            @apply py-20 px-24 rounded-16;
+            @apply py-20 px-24 rounded-16 bg-russianViolet;
             @apply flex flex-col;
 
             h4 {
@@ -74,8 +73,7 @@
                 }
             }
         }
-        background: #302b42;
-        @apply py-16 px-32 rounded-16;
+        @apply py-16 px-32 rounded-16 bg-russianViolet;
         @apply text-18 font-normal leading-150;
 
         summary {

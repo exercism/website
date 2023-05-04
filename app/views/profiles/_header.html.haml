@@ -4,7 +4,7 @@
       = avatar(user)
       .info
         .heading
-          %h1= user.handle
+          %h1= render ViewComponents::HandleWithFlair.new(user.handle, user.flair, size: :xlarge)
           = render ViewComponents::Reputation.new(number_with_delimiter(user.reputation), flashy: true)
           .tracks
             - top_three_tracks.each do |track|
@@ -39,22 +39,18 @@
                   .c-badge-medallion{ class: "--#{badge.rarity}" }
                     = icon(badge.icon, "Badge: #{badge.name}")
 
-        - if user.roles.present?
+        - if header_tags.present? || user.founder?
           .tags
             - if user.founder?
               .tag.founder
                 = graphical_icon :logo
                 .title Exercism Founder
-
             - else
-              - if user.staff?
-                .tag.staff
-                  = graphical_icon :logo
-                  .title Exercism Staff
-              - if user.maintainer?
-                .tag.maintainer
-                  = graphical_icon :maintaining
-                  .title Maintainer
+              - header_tags.each do |tag|
+                %div{ class: tag[:class] }
+                  = graphical_icon tag[:icon]
+                  .title= tag[:title]
+
 
     .tabs-section
       = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do

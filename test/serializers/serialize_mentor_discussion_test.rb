@@ -37,12 +37,14 @@ class SerializeMentorDiscussionTest < ActiveSupport::TestCase
 
       student: {
         handle: student.handle,
+        flair: student.flair,
         avatar_url: student.avatar_url,
         is_favorited: student_favorited
       },
 
       mentor: {
         handle: mentor.handle,
+        flair: mentor.flair,
         avatar_url: mentor.avatar_url
       },
 

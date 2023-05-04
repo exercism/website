@@ -29,10 +29,12 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   memoize
   def featured_exercises
-    (FEBRUARY_EXERCISES.map { |e| [e, FEBRUARY_TRACKS] } +
-     MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
-     APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
-     MAY_EXERCISES.map { |e| [e, MAY_TRACKS] }).to_h
+    (
+      FEBRUARY_EXERCISES.map { |e| [e, FEBRUARY_TRACKS] } +
+      MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
+      APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
+      MAY_EXERCISES.map { |e| [e, MAY_TRACKS] }
+    ).to_h
   end
 
   FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze

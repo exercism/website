@@ -38,6 +38,7 @@ class Submission::AI::ChatGPT::RequestHelp
 
   def chatgpt_version
     usage = user.chatgpt_usage
+
     return '4.0' if !usage['4.0'] || usage['4.0'] < 3
     return '3.5' if !usage['3.5'] || usage['3.5'] < 30
 

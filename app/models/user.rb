@@ -307,13 +307,11 @@ class User < ApplicationRecord
 
   def usages = super || (self.usages = {})
 
-  # rubocop:disable Naming/VariableNumber
   def chatgpt_usage
     us = usages['chatgpt']
     {
-      '3.5': us['3.5'] || 0,
-      '4.0': us['4.0'] || 0
+      '3.5' => us['3.5'] || 0,
+      '4.0' => us['4.0'] || 0
     }
   end
-  # rubocop:enable Naming/VariableNumber
 end

@@ -4,6 +4,7 @@ import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
 import { sendRequest } from '@/utils'
 import { camelizeKeysAs } from '@/packs/application'
 import { Submission } from '../types'
+import { GPTModel as GPTModelType } from './ChatGptDialog'
 
 export type HelpRecord = {
   source: string
@@ -29,9 +30,11 @@ export type useChatGptFeedbackProps = {
 export function useChatGptFeedback({
   submission,
   defaultRecord,
+  GPTModel,
 }: {
   submission: Submission | null
   defaultRecord: HelpRecord
+  GPTModel: GPTModelType
 }): useChatGptFeedbackProps {
   const [helpRecord, setHelpRecord] = useState<HelpRecord | undefined>(
     defaultRecord
@@ -47,7 +50,7 @@ export function useChatGptFeedback({
       const { fetch } = sendRequest({
         endpoint: submission?.links.aiHelp,
         method: 'POST',
-        body: null,
+        body: JSON.stringify({ chatgpt_version: GPTModel }),
       })
 
       // TODO catch errors

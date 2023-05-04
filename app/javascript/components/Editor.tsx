@@ -44,7 +44,6 @@ import {
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
 import * as ChatGPT from './editor/ChatGptFeedback'
-import { GPTModel } from './editor/ChatGptFeedback/ChatGptDialog'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
@@ -130,7 +129,10 @@ export default ({
   const cache = useQueryCache()
   const isInsider = ['active', 'active_lifetime'].includes(insidersStatus)
   const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
-  const [selectedGPTModel, setSelectedGPTModel] = useState<GPTModel>('3.5')
+  const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
+    version: '3.5',
+    usage: chatgptUsage.chatgpt['3.5'],
+  })
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -335,6 +337,7 @@ export default ({
   } = ChatGPT.Hook({
     submission: submission ?? null,
     defaultRecord: panels.aiHelp,
+    GPTModel: selectedGPTModel.version,
   })
 
   const invokeChatGpt = useCallback(() => {

@@ -5,6 +5,7 @@ import {
   RepresenterFeedback,
   TestFile,
 } from '../types'
+import { GptUsage } from './ChatGptFeedback/ChatGptDialog'
 import { HelpRecord } from './ChatGptFeedback/useChatGptFeedback'
 import { Submission, Assignment, EditorSettings } from './types'
 
@@ -67,13 +68,11 @@ type EditorPanels = {
   }
 }
 
-type chatgptUsage = { chatgpt: { 3.5: number; 4.0: number } }
-
 export type Props = {
   timeout?: number
   insidersStatus: string
   defaultSubmissions: Submission[]
-  chatgptUsage: chatgptUsage
+  chatgptUsage: GptUsage
   defaultFiles: File[]
   defaultSettings: Partial<EditorSettings>
   autosave: AutosaveConfig

@@ -1,7 +1,7 @@
 class Submission::AI::ChatGPT::RequestHelp
   include Mandate
 
-  initialize_with :submission, :desired_chatgpt_version
+  initialize_with :submission, :desired_chatgpt_version, use_thread: true
 
   def call
     data = {
@@ -21,21 +21,29 @@ class Submission::AI::ChatGPT::RequestHelp
       User::IncrementUsage.(user, :chatgpt, chatgpt_version)
     end
 
-    # We want to trigger this then forget about it.
+    # Generally, we want to trigger this then forget about it.
     # We don't care about the result as that gets fired back
-    # to the SPI when it's ready.
-    Thread.new do
-      RestClient.post(
-        Exercism.config.chatgpt_proxy_url,
-        data,
-        { content_type: :json, accept: :json }
-      )
-    end
+    # to the SPI when it's ready. Either way, return the thread
+    # or the results at the end of this.
+    #
+    # Note, it's important that we calculate data OUTSIDE of the
+    # thread, which is why we pass it in here rather than materialising
+    # it as a method as we normally would.
+    use_thread ? Thread.new { ping_chatgpt!(data) } : ping_chatgpt!(data)
   end
 
   private
   delegate :solution, :track, :user, to: :submission
 
+  def ping_chatgpt!(data)
+    RestClient.post(
+      Exercism.config.chatgpt_proxy_url,
+      data.to_json,
+      { content_type: :json, accept: :json }
+    )
+  end
+
+  memoize
   def chatgpt_version
     usage = user.chatgpt_usage
     allowed_versions = []

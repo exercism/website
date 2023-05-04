@@ -1,7 +1,7 @@
 class Submission::AI::ChatGPT::RequestHelp
   include Mandate
 
-  initialize_with :submission
+  initialize_with :submission, :desired_chatgpt_version
 
   def call
     data = {
@@ -38,11 +38,18 @@ class Submission::AI::ChatGPT::RequestHelp
 
   def chatgpt_version
     usage = user.chatgpt_usage
+    allowed_versions = []
 
-    return '4.0' if !usage['4.0'] || usage['4.0'] < 3
-    return '3.5' if !usage['3.5'] || usage['3.5'] < 30
+    allowed_versions << '4.0' if !usage['4.0'] || usage['4.0'] < 3
+    allowed_versions << '3.5' if !usage['3.5'] || usage['3.5'] < 30
 
-    raise ChatGPTTooManyRequestsError
+    raise ChatGPTTooManyRequestsError if allowed_versions.empty?
+
+    if allowed_versions.include?(desired_chatgpt_version)
+      desired_chatgpt_version
+    else
+      allowed_versions.first
+    end
   end
 
   def formatted_instructions

@@ -36,9 +36,9 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="text-p-base flex items-center w-100">
-            ChatGPT 3.5{' '}
+            ChatGPT 3.5 - Less powerful but faster
             <span className="text-textColor6 font-semibold ml-auto text-14 flex items-center">
-              {model.usage}/100
+              {model.usage}/30
             </span>
           </div>
         </React.Fragment>
@@ -47,9 +47,9 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="text-p-base flex items-center w-100">
-            ChatGPT 4{' '}
+            ChatGPT 4 - The latest, most powerful model
             <span className="text-textColor6 font-semibold ml-auto text-14 flex items-center">
-              {model.usage}/10
+              {model.usage}/3
             </span>
           </div>
         </React.Fragment>
@@ -102,17 +102,26 @@ export const ChatGptDialog = ({
       shouldCloseOnOverlayClick
       ReactModalClassName={`max-w-[40%]`}
     >
-      <div className="text-h5 mb-16">Are you sure you want to ask ChatGPT?</div>
+      <h3 className="text-h5 mb-8">Are you sure you want to ask ChatGPT?</h3>
+      <p className="text-p-base mb-16">
+        ChatGPT is a powerful tool, but it can also make it too easy to get
+        unstuck and remove a lot of the learning opportunity that comes from
+        wrestling with a problem. We recommend only using it when you're too
+        stuck to continue without help.
+      </p>
 
-      <div className="text-textColor6 mt-32">Select a model:</div>
+      <div className="text-p-base text-textColor6 mb-8">Select a model:</div>
       <SingleSelect<GptModelInfo>
-        componentClassName="mt-8"
         options={gptUsageToArray(chatgptUsage)}
         OptionComponent={OptionComponent}
         SelectedComponent={SelectedComponent}
         value={value}
         setValue={setValue}
       />
+      <div className="text-textColor6 text-p-small mt-12">
+        (ChatGPT costs us so we limit requests per user. ChatGPT 4 costs 15x
+        more than ChatGPT 3.5. Quotas reset on the first of each month.)
+      </div>
 
       {exceededLimit ? (
         <div className="c-alert--danger text-16 font-body mt-16 normal-case">

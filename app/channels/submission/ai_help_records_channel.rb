@@ -1,7 +1,6 @@
 class Submission::AIHelpRecordsChannel < ApplicationCable::Channel
   def subscribed
-    # Assert that the user owns this submission
-    submission = Submission.find_by!(uuid: params[:submission_uuid])
+    submission = current_user.submissions.find_by!(uuid: params[:submission_uuid])
 
     # Don't use persisted objects for stream_for
     stream_for submission.uuid

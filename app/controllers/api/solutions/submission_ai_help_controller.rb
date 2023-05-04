@@ -16,7 +16,7 @@ module API
           usage: current_user.chatgpt_usage
         }, status: :ok
       else
-        Submission::AI::ChatGPT::RequestHelp.(submission)
+        Submission::AI::ChatGPT::RequestHelp.(submission, params[:chatgpt_version])
         render json: {}, status: :accepted
       end
     rescue ChatGPTTooManyRequestsError

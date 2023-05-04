@@ -131,7 +131,7 @@ export default ({
   const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
   const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
     version: '3.5',
-    usage: chatgptUsage.chatgpt['3.5'],
+    usage: chatgptUsage['3.5'],
   })
 
   const runTests = useCallback(() => {

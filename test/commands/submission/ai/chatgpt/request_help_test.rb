@@ -30,9 +30,6 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
     submission = create(:submission)
     create(:submission_file, submission:)
 
-    # The block just doesn't excute without this!
-    User.any_instance.expects(:lock!).yields.at_least_once
-
     allowances = (['4.0'] * 3) + (['3.5'] * 30)
     allowances.each do |version|
       RestClient.expects(:post).with do |_, data, _|

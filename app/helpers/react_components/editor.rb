@@ -84,9 +84,15 @@ module ReactComponents
     end
 
     memoize
+    # rubocop:disable Naming/VariableNumber
     def chatgpt_usage
-      submission.present? ? submission.user.usages : nil
+      usages = solution.user.usages['chatgpt'] || {}
+      {
+        '3.5': usages['3.5'] || 0,
+        '4.0': usages['4.0'] || 0
+      }
     end
+    # rubocop:enable Naming/VariableNumber
 
     memoize
     def instructions

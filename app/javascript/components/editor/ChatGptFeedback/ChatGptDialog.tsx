@@ -8,10 +8,8 @@ export type GptModelInfo = {
   usage: number
 }
 export type GptUsage = {
-  chatgpt: {
-    '3.5': number
-    '4.0': number
-  }
+  '3.5': number
+  '4.0': number
 }
 type ChatGptDialogModalProps = {
   open: boolean
@@ -122,7 +120,7 @@ export const ChatGptDialog = ({
 }
 
 function gptUsageToArray(gptUsage: GptUsage): GptModelInfo[] {
-  return Object.entries(gptUsage.chatgpt).map(([version, usage]) => ({
+  return Object.entries(gptUsage).map(([version, usage]) => ({
     version: version as GPTModel,
     usage,
   }))

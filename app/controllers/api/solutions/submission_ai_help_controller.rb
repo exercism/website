@@ -11,7 +11,7 @@ module API
 
       if submission.ai_help_records.exists?
         Thread.new do
-          sleep(2)
+          sleep(0.2)
           Submission::AIHelpRecordsChannel.broadcast!(submission.ai_help_records.last, submission.uuid, submission.user)
         end
       else

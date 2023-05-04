@@ -36,9 +36,6 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
     submission = create(:submission, solution:)
     @current_user.update!(usages: { chatgpt: { '4.0' => 10, '3.5' => 100 } })
 
-    # The block just doesn't excute without this!
-    User.any_instance.expects(:lock!).yields.at_least_once
-
     post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
     assert_response :too_many_requests

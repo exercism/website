@@ -15,7 +15,7 @@ class Submission::AI::ChatGPT::RequestHelp
     }
 
     # Keep this as small a lock as possible
-    user.lock! do
+    user.with_lock do
       data[:chatgpt_version] = chatgpt_version
 
       User::IncrementUsage.(user, :chatgpt, chatgpt_version)

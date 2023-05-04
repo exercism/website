@@ -4,6 +4,8 @@ class User::AcquiredBadge::Reveal
   initialize_with :badge
 
   def call
+    return if badge.revealed?
+
     badge.update!(revealed: true)
     User::ResetCache.(badge.user)
   end

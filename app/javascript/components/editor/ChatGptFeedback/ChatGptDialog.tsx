@@ -36,7 +36,7 @@ const OptionComponent = ({
       return (
         <React.Fragment>
           <div className="text-p-base flex items-center w-100">
-            ChatGPT 3.5 - Less powerful but faster
+            ChatGPT 3.5 - Less powerful but faster &amp; cheaper
             <span className="text-textColor6 font-semibold ml-auto text-14 flex items-center">
               {model.usage}/30
             </span>
@@ -119,8 +119,12 @@ export const ChatGptDialog = ({
         setValue={setValue}
       />
       <div className="text-textColor6 text-p-small mt-12">
-        (ChatGPT costs us so we limit requests per user. ChatGPT 4 costs 15x
-        more than ChatGPT 3.5. Quotas reset on the first of each month.)
+        Note: ChatGPT 4 is{' '}
+        <strong className="font-medium">significantly</strong> better. However,
+        ChatGPT 4 costs $0.20 per request (about 15x more than ChatGPT 3.5) so
+        we have strict limits and give both options. Quotas reset on the first
+        of each month. We suggest trying ChatGPT 3 first, then use one of your
+        v4 tokens if needed.
       </div>
 
       {exceededLimit ? (

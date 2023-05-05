@@ -31,7 +31,7 @@
     .c-build-page-stats-container {
         @apply flex flex-col;
         @apply py-12 px-24;
-        @apply border-1 border-borderLight2 rounded-8;
+        @apply border-1 border-textColor6 rounded-8;
     }
 
     .c-build-page-stats-container + .c-react-component {

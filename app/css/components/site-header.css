@@ -113,9 +113,13 @@ body.namespace-.controller-insiders {
         .new-badge {
             background-image: url("icons/new-badge-dark.svg");
         }
+        .new-testimonial {
+            background-image: url("icons/new-testimonial-dark.svg");
+        }
 
         .c-notification {
             background: theme(colors.eerieBlack);
+            box-shadow: 0px 4px 24px rgba(89, 210, 174, 0.4);
 
             .--count {
                 @apply text-eerieBlack bg-seafoamGreen;

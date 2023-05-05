@@ -52,7 +52,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
         disabled={!isDisabled}
         content={TOOLTIP_TEXT[tooltipTextIndex]}
       >
-        <div className="mr-auto">
+        <div className="mr-auto ask-chatgpt-btn-wrapper">
           <button
             type="button"
             className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
@@ -60,7 +60,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
             ref={ref}
             {...props}
           >
-            <GraphicalIcon icon="automation" />
+            <GraphicalIcon icon="automation" height={16} width={16} />
             <span>Stuck? Ask ChatGPT</span>
           </button>
         </div>

@@ -106,8 +106,8 @@ export const ChatGptDialog = ({
       <p className="text-p-base mb-16">
         ChatGPT is a powerful tool, but it can also make it too easy to get
         unstuck and remove a lot of the learning opportunity that comes from
-        wrestling with a problem. We recommend only using it when you're too
-        stuck to continue without help.
+        wrestling with a problem. We recommend only using it when you&apos;re
+        too stuck to continue without help.
       </p>
 
       <div className="text-p-base text-textColor6 mb-8">Select a model:</div>

@@ -480,6 +480,14 @@
                     width: 48px;
                     @apply mb-16;
                 }
+                .ask-chatgpt-btn-wrapper {
+                    @apply m-auto;
+                    .c-icon {
+                        height: 16px;
+                        width: 16px;
+                        @apply mb-0 mr-12;
+                    }
+                }
 
                 & h2 {
                     @apply flex items-center;

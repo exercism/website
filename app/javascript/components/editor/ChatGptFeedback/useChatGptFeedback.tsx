@@ -5,6 +5,7 @@ import { sendRequest } from '@/utils'
 import { camelizeKeysAs } from '@/packs/application'
 import { Submission } from '../types'
 import { GPTModel as GPTModelType } from './ChatGptDialog'
+import { GptUsage } from './ChatGptDialog'
 
 export type HelpRecord = {
   source: string
@@ -13,6 +14,7 @@ export type HelpRecord = {
 
 export type AIHelpRecordsChannelResponse = {
   help_record: HelpRecord
+  usage: GptUsage
 }
 
 export type FetchingStatus = 'unfetched' | 'fetching' | 'received'
@@ -28,16 +30,19 @@ export type useChatGptFeedbackProps = {
   mutationStatus: QueryStatus
   mutationError: unknown
   exceededLimit: boolean
+  chatGptUsage: GptUsage
 }
 
 export function useChatGptFeedback({
   submission,
   defaultRecord,
   GPTModel,
+  chatgptUsage,
 }: {
   submission: Submission | null
   defaultRecord: HelpRecord
   GPTModel: GPTModelType
+  chatgptUsage: GptUsage
 }): useChatGptFeedbackProps {
   const [helpRecord, setHelpRecord] = useState<HelpRecord | undefined>(
     defaultRecord
@@ -47,6 +52,7 @@ export function useChatGptFeedback({
   )
   const [submissionUuid, setSubmissionUuid] = useState<string | undefined>()
   const [exceededLimit, setExceededLimit] = useState(false)
+  const [chatGptUsage, setChatGptUsage] = useState(chatgptUsage)
 
   const onError = useCallback((err) => {
     if (err.status === 402) {
@@ -75,6 +81,7 @@ export function useChatGptFeedback({
       submission?.uuid,
       (response: AIHelpRecordsChannelResponse) => {
         setHelpRecord(camelizeKeysAs<HelpRecord>(response.help_record))
+        setChatGptUsage(response.usage)
         setStatus('received')
       }
     )
@@ -95,5 +102,6 @@ export function useChatGptFeedback({
     mutationError,
     mutationStatus,
     exceededLimit,
+    chatGptUsage,
   }
 }

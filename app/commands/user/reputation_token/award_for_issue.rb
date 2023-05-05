@@ -29,7 +29,7 @@ class User::ReputationToken::AwardForIssue
 
   memoize
   def author
-    User.with_data.find_by(data: { github_username: params[:opened_by_username] })
+    User.find_by(github_username: params[:opened_by_username])
   end
 
   def create_token!

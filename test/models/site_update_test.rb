@@ -9,7 +9,7 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
     I18n.expects(:t).with(
       "site_updates.new_exercise.",
-      user: "dangerous"
+      { user: "dangerous" }
     ).returns("")
 
     update.text

@@ -16,8 +16,7 @@ class User::BecomeMentorTest < ActiveSupport::TestCase
 
   test "skips if user is a mentor already" do
     old_time = Time.current - 1.week
-    user = create :user, reputation: User::MIN_REP_TO_MENTOR
-    user.update(became_mentor_at: old_time)
+    user = create :user, became_mentor_at: old_time, reputation: User::MIN_REP_TO_MENTOR
 
     User::BecomeMentor.(user, [create(:track).slug])
     assert user.mentor?

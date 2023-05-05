@@ -8,7 +8,7 @@ class Git::SyncConceptAuthors < Git::Sync
 
   def call
     ActiveRecord::Base.transaction do
-      authors = ::User.with_data.where(data: { github_username: authors_config })
+      authors = ::User.where(github_username: authors_config)
       authors.find_each { |author| ::Concept::Authorship::Create.(concept, author) }
 
       # This is required to remove authors that were already added

@@ -2,7 +2,7 @@ class ProcessGithubSponsorUpdateJob < ApplicationJob
   queue_as :default
 
   def perform(action, gh_username, node_id, is_one_time, monthly_price_in_cents)
-    user = User.with_data.find_by(data: { github_username: gh_username })
+    user = User.find_by(github_username: gh_username)
     return unless user
 
     case action

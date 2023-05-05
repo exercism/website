@@ -49,8 +49,10 @@ module ViewComponents
     }.freeze
 
     ICONS = {
+      insider: 'insiders',
       lifetime_insider: 'lifetime-insiders',
-      insider: 'insiders'
+      founder: 'exercism-face-gradient',
+      staff: 'exercism-face-gradient'
     }.freeze
   end
 end

@@ -20,7 +20,8 @@ this is c-alert--caution
 
 .c-alert--danger {
     @apply c-alert;
-    @apply bg-veryLightRed text-danger border-danger;
+    @apply text-danger border-danger;
+    background: var(--backgroundColorCAlert);
 }
 
 .c-alert--danger_dark {

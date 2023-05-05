@@ -416,16 +416,18 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <ChatGPT.Button
-                    noSubmission={!submission}
-                    sameSubmission={
-                      submission ? submission.uuid === submissionUuid : false
-                    }
-                    isProcessing={isProcessing}
-                    passingTests={testRunStatus === TestRunStatus.PASS}
-                    chatGptFetchingStatus={chatGptFetchingStatus}
-                    onClick={() => setChatGptDialogOpen(true)}
-                  />
+                  {isInsider ? (
+                    <ChatGPT.Button
+                      noSubmission={!submission}
+                      sameSubmission={
+                        submission ? submission.uuid === submissionUuid : false
+                      }
+                      isProcessing={isProcessing}
+                      passingTests={testRunStatus === TestRunStatus.PASS}
+                      chatGptFetchingStatus={chatGptFetchingStatus}
+                      onClick={() => setChatGptDialogOpen(true)}
+                    />
+                  ) : null}
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}

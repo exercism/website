@@ -40,6 +40,8 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
 
         <div dangerouslySetInnerHTML={{ __html: helpRecord.adviceHtml }} />
 
+        <div className="text-h5-mono">Source: {helpRecord.source}</div>
+
         <div className="c-textblock-caution mb-16">
           <div className="c-textblock-header">
             Reminder: Use this advice wisely

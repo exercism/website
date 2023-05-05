@@ -77,14 +77,6 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
 
       assert_equal :staff, user.flair
     end
-
-    test "flair not updated when insiders status is #{insiders_status} and user has lifetime_insider flair" do
-      user = create(:user, flair: :lifetime_insider, insiders_status:)
-
-      User::InsidersStatus::Activate.(user)
-
-      assert_equal :lifetime_insider, user.flair
-    end
   end
 
   test "set discord roles when changing status to active" do

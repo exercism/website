@@ -24,10 +24,11 @@ class User::InsidersStatus::Update
       end
     end
 
+    User::InsidersStatus::UpdateFlair.(user) if user.insiders_status_active_lifetime?
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
-    AwardBadgeJob.perform_later(user, @badge_key) if @badge_key
+    AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime?
   end
 
   private
@@ -35,9 +36,7 @@ class User::InsidersStatus::Update
     case user.insiders_status
     when :active
       @notification_key = :upgraded_to_lifetime_insiders
-      @badge_key = :lifetime_insider
       user.update(insiders_status: :active_lifetime)
-      user.update(flair: :lifetime_insider) unless %i[founder staff lifetime_insider].include?(user.flair)
     else
       @notification_key = :eligible_for_lifetime_insiders
       user.update(insiders_status: :eligible_lifetime)

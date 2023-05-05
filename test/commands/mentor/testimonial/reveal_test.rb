@@ -15,7 +15,7 @@ class Mentor::Testimonial::RevealTest < ActiveSupport::TestCase
   test "resets user cache" do
     testimonial = create :mentor_testimonial, :unrevealed
 
-    User::ResetCache.expects(:call).with(testimonial.mentor)
+    User::ResetCache.expects(:defer).with(testimonial.mentor)
 
     Mentor::Testimonial::Reveal.(testimonial)
   end
@@ -23,7 +23,7 @@ class Mentor::Testimonial::RevealTest < ActiveSupport::TestCase
   test "does not reset user cache if already revealed" do
     testimonial = create :mentor_testimonial, :revealed
 
-    User::ResetCache.expects(:call).never
+    User::ResetCache.expects(:defer).never
 
     Mentor::Testimonial::Reveal.(testimonial)
   end

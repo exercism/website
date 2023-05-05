@@ -20,7 +20,7 @@ class Mentor::Testimonial::CreateTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion
     content = "Such a lovely chat"
 
-    User::ResetCache.(discussion.mentor)
+    User::ResetCache.expects(:defer).with(discussion.mentor)
 
     Mentor::Testimonial::Create.(discussion, content)
   end

@@ -15,7 +15,7 @@ class User::ReputationTokens::MarkAsSeenTest < ActiveSupport::TestCase
   test "reset cache" do
     reputation_token = create :user_reputation_token
 
-    User::ResetCache.expects(:call).with(reputation_token.user)
+    User::ResetCache.expects(:defer).with(reputation_token.user)
 
     User::ReputationToken::MarkAsSeen.(reputation_token)
   end
@@ -23,7 +23,7 @@ class User::ReputationTokens::MarkAsSeenTest < ActiveSupport::TestCase
   test "does not reset cache if token was already seen" do
     reputation_token = create :user_reputation_token, seen: true
 
-    User::ResetCache.expects(:call).never
+    User::ResetCache.expects(:defer).never
 
     User::ReputationToken::MarkAsSeen.(reputation_token)
   end

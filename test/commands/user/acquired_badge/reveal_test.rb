@@ -22,7 +22,7 @@ class User::AcquiredBadge::RevealTest < ActiveSupport::TestCase
     # Sanity check
     refute acquired_badge.revealed?
 
-    User::ResetCache.expects(:call).with(user)
+    User::ResetCache.expects(:defer).with(user)
 
     User::AcquiredBadge::Reveal.(acquired_badge)
   end
@@ -32,7 +32,7 @@ class User::AcquiredBadge::RevealTest < ActiveSupport::TestCase
     badge = create :contributor_badge
     acquired_badge = create(:user_acquired_badge, revealed: true, user:, badge:)
 
-    User::ResetCache.expects(:call).never
+    User::ResetCache.expects(:defer).never
 
     User::AcquiredBadge::Reveal.(acquired_badge)
   end

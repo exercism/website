@@ -7,6 +7,6 @@ class Mentor::Testimonial::Reveal
     return if testimonial.revealed?
 
     testimonial.update!(revealed: true)
-    User::ResetCache.(testimonial.mentor)
+    User::ResetCache.defer(testimonial.mentor)
   end
 end

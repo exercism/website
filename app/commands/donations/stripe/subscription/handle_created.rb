@@ -8,7 +8,7 @@ class Donations::Stripe::Subscription::HandleCreated
     payment_intent = Stripe::PaymentIntent.retrieve(payment_intent_id)
 
     # Set the default payment method for the subscription
-    Stripe::Subscription.update!(
+    Stripe::Subscription.update(
       subscription_id,
       default_payment_method: payment_intent.payment_method
     )

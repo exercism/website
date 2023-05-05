@@ -22,7 +22,7 @@ class Donations::Stripe::Customer::CreateForUser
           email: user.email,
           metadata: { user_id: user.id }
         )
-        user.update(stripe_customer_id: customer.id)
+        user.update!(stripe_customer_id: customer.id)
       end
     end
 

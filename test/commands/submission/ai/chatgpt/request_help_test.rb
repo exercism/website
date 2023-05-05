@@ -17,8 +17,6 @@ class Submission::AI::ChatGPT::RequestHelpTest < ActiveSupport::TestCase
       chatgpt_version: '4.0'
     }
 
-    Exercism.config.stubs(:chatgpt_proxy_url).returns('http://api-for-chatgpt-proxy.com')
-
     RestClient.expects(:post).with(
       Exercism.config.chatgpt_proxy_url,
       data.to_json,

@@ -32,7 +32,7 @@ class User::ReputationTokens::MarkAllAsSeenTest < ActiveSupport::TestCase
     user = create :user
     create(:user_reputation_token, user:)
 
-    User::ResetCache.expects(:call).with(user)
+    User::ResetCache.expects(:defer).with(user)
 
     User::ReputationToken::MarkAllAsSeen.(user)
   end
@@ -41,7 +41,7 @@ class User::ReputationTokens::MarkAllAsSeenTest < ActiveSupport::TestCase
     user = create :user
     create :user_reputation_token, user:, seen: true
 
-    User::ResetCache.expects(:call).never
+    User::ResetCache.expects(:defer).never
 
     User::ReputationToken::MarkAllAsSeen.(user)
   end

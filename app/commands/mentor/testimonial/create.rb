@@ -10,6 +10,6 @@ class Mentor::Testimonial::Create
       discussion:,
       content: testimonial
     )
-    User::ResetCache.(discussion.mentor)
+    User::ResetCache.defer(discussion.mentor)
   end
 end

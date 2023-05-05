@@ -7,6 +7,6 @@ class User::ReputationToken::MarkAsSeen
     return if token.seen?
 
     token.seen!
-    User::ResetCache.(token.user)
+    User::ResetCache.defer(token.user)
   end
 end

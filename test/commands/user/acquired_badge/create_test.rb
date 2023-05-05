@@ -97,7 +97,7 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
     create :contributor_badge
     Badges::ContributorBadge.any_instance.expects(:award_to?).with(user).returns(true)
 
-    User::ResetCache.expects(:call).with(user)
+    User::ResetCache.expects(:defer).with(user)
 
     User::AcquiredBadge::Create.(user, :contributor)
   end

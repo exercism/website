@@ -156,7 +156,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     user = create :user, handle: "User22", github_username: "user22"
     contributorship = create :exercise_contributorship, contributor: user
 
-    User::ResetCache.expects(:call).with(user)
+    User::ResetCache.expects(:defer).with(user)
 
     User::ReputationToken::Create.(
       user,

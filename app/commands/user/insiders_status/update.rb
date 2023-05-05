@@ -24,11 +24,15 @@ class User::InsidersStatus::Update
       end
     end
 
-    User::InsidersStatus::UpdateFlair.(user) if user.insiders_status_active_lifetime?
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
-    AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime?
+
+    return unless user.insiders_status_active_lifetime?
+
+    User::InsidersStatus::UpdateFlair.(user)
+    AwardBadgeJob.perform_later(user, :insider)
+    AwardBadgeJob.perform_later(user, :lifetime_insider)
   end
 
   private

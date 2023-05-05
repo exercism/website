@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from './GraphicalIcon'
 
-const FLAIRS = ['insiders', 'original-insiders']
+const FLAIRS = ['insiders', 'lifetime-insiders']
 
 const FLAIR_SIZE = {
   small: 10,
@@ -32,7 +32,7 @@ export function HandleWithFlair({
             className={'handle-with-flair-icon ' + iconClassName}
             height={FLAIR_SIZE[size]}
             width={FLAIR_SIZE[size]}
-            icon={FLAIRS[+(flair === 'original_insider')]}
+            icon={FLAIRS[+(flair === 'lifetime_insider')]}
           />
         </>
       )}

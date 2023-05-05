@@ -49,7 +49,7 @@ module ViewComponents
     }.freeze
 
     ICONS = {
-      lifetime_insider: 'original-insiders',
+      lifetime_insider: 'lifetime-insiders',
       insider: 'insiders'
     }.freeze
   end

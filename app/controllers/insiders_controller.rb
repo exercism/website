@@ -21,7 +21,7 @@ class InsidersController < ApplicationController
     { icon: 'robot', title: 'ChatGPT',
       desc: "Our ChatGPT integration will help you get unstuck in the editor and give you tips when you submit a solution. It\'s brilliant half the time and terrible the rest, but it\'s definitely fun to use!", filter: true },
     { icon: 'insiders', title: 'Name tag flair & Badges',
-      desc: "Celebrate your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Plus get an exclusive Original Insider badge - only avaliable at launch." }
+      desc: "Celebrate your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Plus get an exclusive Lifetime Insider badge." }
   ].freeze
 
   BTS_ACCESS = [

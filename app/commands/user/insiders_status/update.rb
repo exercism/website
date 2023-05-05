@@ -37,6 +37,7 @@ class User::InsidersStatus::Update
       @notification_key = :upgraded_to_lifetime_insiders
       @badge_key = :lifetime_insider
       user.update(insiders_status: :active_lifetime)
+      user.update(flair: :lifetime_insider) unless %i[founder staff lifetime_insider].include?(user.flair)
     else
       @notification_key = :eligible_for_lifetime_insiders
       user.update(insiders_status: :eligible_lifetime)

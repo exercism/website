@@ -63,7 +63,7 @@ class Donations::Stripe::Subscription::SyncAll
   def update_subscription_status(subscription, stripe_subscription)
     status = SUBSCRIPTION_STATUSES.fetch(stripe_subscription&.status, :canceled)
 
-    subscription.update(status:)
+    subscription.update!(status:)
 
     Donations::Subscription::Cancel.(subscription) if subscription.canceled?
   end
@@ -73,7 +73,7 @@ class Donations::Stripe::Subscription::SyncAll
     return stripe_user if stripe_user
 
     User.find_by(email: stripe_subscription.customer.email)&.tap do |user|
-      user.update(stripe_customer_id: stripe_subscription.customer.id)
+      user.update!(stripe_customer_id: stripe_subscription.customer.id)
     end
   end
 

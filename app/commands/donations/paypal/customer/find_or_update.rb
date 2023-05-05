@@ -8,7 +8,7 @@ class Donations::Paypal::Customer::FindOrUpdate
     return paypal_user if paypal_user
 
     User.find_by(email:)&.tap do |user|
-      user.update(paypal_payer_id:)
+      user.update!(paypal_payer_id:)
     end
   end
 end

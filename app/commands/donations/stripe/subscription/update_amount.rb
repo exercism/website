@@ -8,7 +8,7 @@ class Donations::Stripe::Subscription::UpdateAmount
   def call
     stripe_data = Stripe::Subscription.retrieve(subscription.external_id)
 
-    Stripe::Subscription.update(
+    Stripe::Subscription.update!(
       subscription.external_id,
       items: [{
         id: stripe_data.items.data[0].id,

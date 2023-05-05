@@ -42,5 +42,5 @@ class Github::Issue::CreateOrUpdate
   end
 
   def track = Track.for_repo(attributes[:repo])
-  def opened_by_username = User.with_data.find_by(data: { github_username: attributes[:opened_by_username] })
+  def opened_by_username = User.find_by(github_username: attributes[:opened_by_username])
 end

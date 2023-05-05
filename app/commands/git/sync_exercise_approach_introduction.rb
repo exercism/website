@@ -12,12 +12,12 @@ class Git::SyncExerciseApproachIntroduction
 
   private
   def authorships
-    ::User.with_data.where(data: { github_username: config[:authors].to_a }).
+    ::User.where(github_username: config[:authors].to_a).
       map { |author| ::Exercise::Approach::Introduction::Authorship::Create.(exercise, author) }
   end
 
   def contributorships
-    ::User.with_data.where(data: { github_username: config[:contributors].to_a }).
+    ::User.where(github_username: config[:contributors].to_a).
       map { |contributor| ::Exercise::Approach::Introduction::Contributorship::Create.(exercise, contributor) }
   end
 end

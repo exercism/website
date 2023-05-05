@@ -31,7 +31,7 @@ class Donations::Stripe::PaymentIntent::HandleInvoiceFailure
   def user
     raise "No customer in the invoice" unless invoice.customer
 
-    User.with_data.find_by(data: { stripe_customer_id: invoice.customer })
+    User.find_by(stripe_customer_id: invoice.customer)
   end
 
   MINIMUM_FAILED_INVOICES_IN_LAST_24_HOURS = 3

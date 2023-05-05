@@ -8,7 +8,7 @@ class Git::SyncConceptContributors < Git::Sync
 
   def call
     ActiveRecord::Base.transaction do
-      contributors = ::User.where(github_username: contributors_config)
+      contributors = ::User.with_data.where(data: { github_username: contributors_config })
       contributors.find_each { |contributor| ::Concept::Contributorship::Create.(concept, contributor) }
 
       # This is required to remove contributors that were already added

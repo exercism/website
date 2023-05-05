@@ -4,9 +4,6 @@ FactoryBot.define do
     name { "User" }
     password { "password" }
     handle { "handle-#{SecureRandom.hex(4)}" }
-    accepted_terms_at { Date.new(2016, 12, 25) }
-    accepted_privacy_policy_at { Date.new(2016, 12, 25) }
-    became_mentor_at { Date.new(2016, 12, 25) }
     avatar_url { "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx" }
 
     after(:create) do |user, _evaluator|
@@ -16,19 +13,33 @@ FactoryBot.define do
           avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=#{user.id}"
         )
       end
+
+      user.reload.data.update!(
+        accepted_terms_at: Date.new(2016, 12, 25),
+        accepted_privacy_policy_at: Date.new(2016, 12, 25),
+        became_mentor_at: Date.new(2016, 12, 25)
+      )
     end
 
     trait :donor do
-      first_donated_at { Time.current }
+      after(:create) do |user, _evaluator|
+        user.data.update(first_donated_at: Time.current)
+      end
     end
 
     trait :not_mentor do
-      became_mentor_at { nil }
+      after(:create) do |user, _evaluator|
+        user.data.update(became_mentor_at: nil)
+      end
     end
 
     trait :not_onboarded do
-      accepted_terms_at { nil }
-      accepted_privacy_policy_at { nil }
+      after(:create) do |user, _evaluator|
+        user.data.update(
+          accepted_terms_at: nil,
+          accepted_privacy_policy_at: nil
+        )
+      end
     end
 
     trait :system do
@@ -42,28 +53,12 @@ FactoryBot.define do
       name { "Ghost" }
     end
 
-    trait :founder do
-      roles { [:founder] }
-    end
-
-    trait :admin do
-      roles { [:admin] }
-    end
-
-    trait :staff do
-      roles { [:staff] }
-    end
-
-    trait :maintainer do
-      roles { [:maintainer] }
-    end
-
-    trait :supermentor do
-      roles { [:supermentor] }
-    end
-
-    trait :staff do
-      roles { [:staff] }
+    %i[founder admin staff maintainer supermentor].each do |role|
+      trait role do
+        after(:create) do |user, _evaluator|
+          user.data.update(roles: [role])
+        end
+      end
     end
 
     trait :insider do

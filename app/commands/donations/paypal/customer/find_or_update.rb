@@ -4,7 +4,7 @@ class Donations::Paypal::Customer::FindOrUpdate
   initialize_with :paypal_payer_id, :email
 
   def call
-    paypal_user = User.find_by(paypal_payer_id:)
+    paypal_user = User.with_data.find_by(data: { paypal_payer_id: })
     return paypal_user if paypal_user
 
     User.find_by(email:)&.tap do |user|

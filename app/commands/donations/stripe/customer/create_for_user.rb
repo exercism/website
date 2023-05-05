@@ -6,7 +6,7 @@ class Donations::Stripe::Customer::CreateForUser
   initialize_with :user
 
   def call
-    user.with_lock do
+    user.data.with_lock do
       if user.stripe_customer_id
         begin
           Stripe::Customer.retrieve(user.stripe_customer_id)
@@ -22,7 +22,7 @@ class Donations::Stripe::Customer::CreateForUser
           email: user.email,
           metadata: { user_id: user.id }
         )
-        user.update_column(:stripe_customer_id, customer.id)
+        user.update(stripe_customer_id: customer.id)
       end
     end
 

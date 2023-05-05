@@ -19,7 +19,7 @@ class User::ReputationToken::AwardForPullRequestReviewers
     # Only award reviewer reputation to organization members
     reviewer_usernames &= ::Github::OrganizationMember.pluck(:username)
 
-    reviewers = ::User.where(github_username: reviewer_usernames)
+    reviewers = ::User.with_data.where(data: { github_username: reviewer_usernames })
     reviewers.find_each do |reviewer|
       token = User::ReputationToken::Create.(
         reviewer,

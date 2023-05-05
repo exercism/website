@@ -8,7 +8,7 @@ class Git::SyncExerciseAuthors < Git::Sync
 
   def call
     ActiveRecord::Base.transaction do
-      authors = ::User.where(github_username: authors_config)
+      authors = ::User.with_data.where(data: { github_username: authors_config })
       authors.find_each { |author| ::Exercise::Authorship::Create.(exercise, author) }
 
       # This is required to remove authors that were already added

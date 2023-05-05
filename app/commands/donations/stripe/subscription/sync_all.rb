@@ -69,7 +69,7 @@ class Donations::Stripe::Subscription::SyncAll
   end
 
   def subscription_user(stripe_subscription)
-    stripe_user = User.find_by(stripe_customer_id: stripe_subscription.customer.id)
+    stripe_user = User.with_data.find_by(data: { stripe_customer_id: stripe_subscription.customer.id })
     return stripe_user if stripe_user
 
     User.find_by(email: stripe_subscription.customer.email)&.tap do |user|

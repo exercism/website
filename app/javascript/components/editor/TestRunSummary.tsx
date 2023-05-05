@@ -191,11 +191,11 @@ const TestRunSummaryContent = ({
             <div className="success-box">
               <GraphicalIcon icon="balloons" category="graphics" />
               <div className="content">
-                <h3>Sweet. Looks like you’ve solved the exercise!</h3>
+                <h3>Sweet. Looks like you&apos;ve solved the exercise!</h3>
                 <p>
-                  Good job! You can continue to improve your code or, if you're
-                  done, submit an iteration to get automated feedback and
-                  optionally request mentoring.
+                  Good job! You can continue to improve your code or, if
+                  you&apos;re done, submit an iteration to get automated
+                  feedback and optionally request mentoring.
                 </p>
                 {onSubmit !== undefined && isSubmitDisabled !== undefined ? (
                   <SubmitButton

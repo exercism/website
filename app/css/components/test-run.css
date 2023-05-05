@@ -9,9 +9,9 @@
 
         &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed;
+            background: var(--backgroundColorSummaryStatusFailed);
             & .bar {
-                @apply bg-red;
+                background: var(--backgroundColorSummaryStatusFailedBar);
             }
         }
         &.failed.grouped-by-task {
@@ -39,7 +39,8 @@
         }
         &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed text-red uppercase;
+            background: var(--backgroundColorSummaryStatusFailed);
+            @apply text-red uppercase;
             & .--dot {
                 @apply bg-red;
             }

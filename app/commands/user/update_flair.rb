@@ -1,4 +1,4 @@
-class User::InsidersStatus::UpdateFlair
+class User::UpdateFlair
   include Mandate
 
   queue_as :default

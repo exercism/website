@@ -17,7 +17,7 @@ class User::InsidersStatus::Activate
       end
     end
 
-    User::InsidersStatus::UpdateFlair.(user)
+    User::UpdateFlair.(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key)
     AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime?

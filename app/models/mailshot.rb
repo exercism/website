@@ -18,14 +18,14 @@ class Mailshot < ApplicationRecord
   # This is pretty terribly slow and should only be used rarely.
   def audience_for_admins(_)
     [
-      User.where("JSON_CONTAINS(roles, ?, '$')", %("admin")),
+      User.joins(:data).where("JSON_CONTAINS(user_data.roles, ?, '$')", %("admin")),
       ->(user) { user }
     ]
   end
 
   def audience_for_donors(_)
     [
-      User.where.not(first_donated_at: nil),
+      User.joins(:data).where.not(data: { first_donated_at: nil }),
       ->(user) { user }
     ]
   end
@@ -39,7 +39,7 @@ class Mailshot < ApplicationRecord
 
   def audience_for_recently_active(days)
     [
-      User.where('last_visited_on >= ?', Time.current - days.days),
+      User.joins(:data).where('user_data.last_visited_on >= ?', Time.current - days.days),
       lambda do |user|
         return unless user.iterations.count >= 2
 

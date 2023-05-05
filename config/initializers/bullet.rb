@@ -16,5 +16,8 @@ Rails.application.configure do
     Bullet.counter_cache_enable = false
 
     Bullet.add_safelist type: :n_plus_one_query, class_name: "Submission", association: :exercise_representation
+
+    Bullet.add_safelist type: :n_plus_one_query, class_name: "User", association: :data
+    Bullet.add_safelist type: :n_plus_one_query, class_name: "User::Data", association: :user
   end
 end

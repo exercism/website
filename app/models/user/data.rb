@@ -25,7 +25,7 @@ class User::Data < ApplicationRecord
     has_unseen_reputation_tokens?
   ].each do |meth|
     define_method meth do
-      self.cache.presence || User::ResetCache.defer(user)
+      self.cache.presence || User::ResetCache.(user)
       self.cache[meth]
     end
   end

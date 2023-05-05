@@ -24,8 +24,6 @@ class User::InsidersStatus::Update
       end
     end
 
-    return unless FeatureFlag::INSIDERS
-
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key

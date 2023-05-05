@@ -70,12 +70,12 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
       assert_equal :staff, user.flair
     end
 
-    test "flair not updated when insiders status is #{insiders_status} and user has original_insider flair" do
-      user = create(:user, flair: :original_insider, insiders_status:)
+    test "flair not updated when insiders status is #{insiders_status} and user has lifetime_insider flair" do
+      user = create(:user, flair: :lifetime_insider, insiders_status:)
 
       User::InsidersStatus::Activate.(user)
 
-      assert_equal :original_insider, user.flair
+      assert_equal :lifetime_insider, user.flair
     end
 
     test "flair set to insider when insiders status is #{insiders_status}" do

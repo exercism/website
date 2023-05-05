@@ -1,3 +1,3 @@
 module FeatureFlag
-  INSIDERS = !Rails.env.production?
+  # INSIDERS = !Rails.env.production?
 end

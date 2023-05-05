@@ -15,7 +15,7 @@ class User::LinkWithDiscord
   def set_uid!
     user.update!(discord_uid: uid)
   rescue ActiveRecord::RecordNotUnique
-    old_user = User.find_by(discord_uid: uid)
+    old_user = User::Data.find_by(discord_uid: uid).user
     return if old_user == user
 
     old_user.update!(discord_uid: nil)

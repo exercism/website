@@ -5,107 +5,55 @@
         %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
           Exercism Insiders
           = graphical_icon "insiders", css_class: 'h-[32px] md:h-[64px] w-[32px] md:w-[64px]'
-        %h3.text-h3.mb-16 Our way of saying thank you.
-        %h5.launching Launching May 4th 2023
-        %p.text-p-xlarge.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
-        - if current_user.present?
-          = render ReactComponents::Insiders::InsidersStatus.new
+        %p.text-p-xlarge.mb-24
+          Welcome to Insiders! Thanks for being part of our journey.
+        %p.text-p-large.mb-8
+          You're joining us at the start of our Insiders story and things will be evolving rapidly over the coming months.
+          Check below for the features that have become enabled for you and watch the video on the right for a bit of an overview.
+        %p.text-p-large.mb-8
+          In the coming weeks we're going to be adding Exercism Premium (which you'll get for free), exclusive Perks from partners (once we get a few of them finalised), and some exclusive content just for you too.
+          We'll also be fleshing this section out and making it somewhat more delightful.
 
       .top-rhs
         .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/8onnSv5r9Hw", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/WDUqfCMbh_8", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-    %h2.text-h2.mb-32 Exclusive Insider Features
+    %h2.text-h2.mb-32 Your Insider Features
     .features
-      - @features.each do |feature|
-        .feature
-          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
-          %h4= feature[:title]
-          %p= feature[:desc]
-    %h2.text-h2.mb-32 Behind the scenes access
+      .feature
+        = graphical_icon :moon, css_class: "filter-yellowPrompt"
+        %h4 Dark theme
+        %p We've put together a lovely Dark Theme for you to enjoy. Give your eyes a break while coding at night and enjoy Exercism in its darkest glory. You can toggle your theme in your #{link_to 'User Preferences', user_preferences_settings_path}.
+
+      .feature
+        = graphical_icon :robot, css_class: "filter-yellowPrompt"
+        %h4 ChatGPT
+        %p Our ChatGPT integration will help you get unstuck in the editor. You get 3x v4.0 requests and 30x v3.5 requests per calendar month. Try it on any exercise and let us know how you get on.
+
+      .feature
+        = graphical_icon :insiders
+        %h4 Name tag flair &amp; Badges
+        %p
+          You'll now see a shiny little
+          = icon "insiders", "purple heart icon signifying Insiders", style: "all:unset;display:inline;width:20px;height:20px"
+          next to your name around the site and a new tag on your #{link_to 'your public profile', profile_path(current_user.handle)}.
+          You should also have a new very exclusive badge (or two!).
+
     .features
-      - @bts_access.each do |feature|
-        .feature
-          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
-          %h4= feature[:title]
-          %p= feature[:desc]
+      .feature
+        = graphical_icon :'feature-youtube', css_class: "filter-yellowPrompt"
+        %h4 Exclusive content
+        %p Keep up to date with what we're planning and building with private Insiders livestreams, vlogs, and technical deep dives. Check out the first video at the top of this page.
 
-  .gradient-container
-    .lg-container.relative
-      = graphical_icon "pixel-diamond", css_class: "left-[120px] xl:block hidden"
-      = graphical_icon "pixel-emerald", css_class: "right-[159px] top-[180px] xl:block hidden"
-      = graphical_icon "pixel-emoji", css_class: "right-[179px] -top-[16px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "top-[172px] left-[176px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "right-[28px] top-[66px] xl:block hidden"
+      .feature
+        = graphical_icon :'feature-discord', css_class: "filter-yellowPrompt"
+        %h4 Private Discord channel
+        %p You should now have access to an exclusive #{link_to '#insiders channel on Discord', 'https://discord.com/channels/854117591135027261/1103737555490447460'} where you can hang out with me and other staff and Insiders. Check the #{link_to 'integrations page', integrations_settings_path} if you don't see it.
 
-      %h2.text-h1.mb-16.relative Offers from our partners
-      %p.text-p-large.mx-auto.mb-32.relative{ class: "max-w-[800px]" }
-        We're sourcing some great free trials and deals from commercial partners. It's their way of saying thank you for your work in Open Source.
-      %p.light-green-prompt.mb-64.relative We're hoping to get several partnerships confirmed before launch and we're aiming to add 5-10 more each month.
-      -#
-        .features
-          - @partners.each do |partner|
-            .feature
-              = icon partner[:icon], partner[:name], category: :partners
-              %h4= partner[:name]
-              %p= partner[:offer]
+      .feature
+        = graphical_icon :megaphone, css_class: "filter-yellowPrompt"
+        %h4 Contribute on community calls
+        %p Our community calls are watchable by anyone, but only Insiders join in the conversation. Jump on stage and make your voice heard. Check Events on #{link_to 'Discord', 'https://exercism.org/r/discord'} for the next call.
 
-  .gradient-container.faqs
-    .lg-container
-      %h2.text-h1.mb-40 The Nitty Gritty &amp; FAQs
-      .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
-        %details{ open: true }
-          %summary What are the exact criteria for Insiders access?
-          %p.mb-12
-            You can check the exact algorithm #{link_to 'in our codebase', 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'} but it's also reproduced here.
-          %p.mb-4 To gain lifetime access you need one of the following:
-          %ul.mb-16
-            %li To be a founder or staff member
-            %li To be a supermentor (100+ solutions mentored on a track with a 95% positive rating)
-            %li To have a reputation equal or greater than 1,000
-            %li To have donated $500 before Insiders launches
 
-          %p.mb-4 For those without lifetime access, to gain access you need one of the following:
-          %ul.mb-16
-            %li To be a maintainer
-            %li To have an active recurring subscription (see note below about Paypal)
-            %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
 
-          %p
-            If you think you meet these criteria but don't have access, please open an issue #{link_to 'on the forum', 'https://forum.exercism.org'}.
-            If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
-
-        %details
-          %summary I've donated via Paypal or GitHub Sponsors but don't have access.
-          Due to technical limitations, we don't automatically get notified of recurring donors on PayPal or GitHub Sponsors.
-          We manually sync these each day, so there may be a delay between you setting up your donation and gaining Insiders access.
-          Sorry for this - we're working on improving it before launch.
-          Be assured that if you've setup a recurring donation, we'll give you access!
-
-        %details
-          %summary What does Insiders cost?
-          Insiders isn't a product that you can buy - it's a rewards program for those who contribute, mentor or donate.
-          If you'd like access, you can start contributing, mentoring, or set up a recurring donation to Exercism and then join us on our journey.
-
-        %details
-          %summary What features will Exercism Insiders contain?
-          At launch, we're releasing our Dark Mode and ChatGPT integrations exclusively to Insiders.
-          Over time, we're plan on adding other fun features to Insiders.
-
-        %details
-          %summary I need dark theme for accessiblity reasons, but I'm not an Insider.
-          We're creating a basic dark theme that's suitable for people who struggle with light themes, which will launch at the same time as Insiders.
-          It's not that pretty, but it'll mean you can use the site without issue!
-
-        %details
-          %summary How do I earn reputation?
-          Reputation is earned by mentoring or contributing to Exercism.
-          You can also earn reputation by publishing your solutions, but that does not count towards Insiders access.
-          You can check what actions result in what reputation by consulting #{link_to 'our docs', 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'}.
-          Check your #{link_to 'journey page', journey_path} to see where you're earning reputation.
-
-        %details
-          %summary I thought Exercism was free?
-          It is! You don't have to donate in order to use Exercism.
-          All our production-ready educational features are entirely free.
-          However, for those that are able and willing to support Exercism with their time or money, Insiders provides a way of us saying thank you, and taking them on our journey with us.

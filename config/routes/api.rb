@@ -15,6 +15,7 @@ namespace :api do
   end
 
   resource :user, only: %i[show update] do
+    patch :activate_insiders
     resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
   end
 

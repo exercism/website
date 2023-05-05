@@ -190,6 +190,35 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
   end
 
+  test "eligible_lifetime: insider badge awarded when current status is active" do
+    user = create :user, insiders_status: :active
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+    refute_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
+  end
+
+  test "eligible_lifetime: flair updated to lifetime_insider when current status is active" do
+    user = create :user, insiders_status: :active
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    User::InsidersStatus::Update.(user)
+
+    assert_equal :lifetime_insider, user.flair
+  end
+
   test "eligible_lifetime: set discourse groups" do
     user = create :user, insiders_status: :active
 

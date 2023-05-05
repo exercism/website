@@ -22,7 +22,7 @@ class Donations::Stripe::PaymentIntent::HandleSuccess
   def user
     raise "No customer in the payment intent" unless payment_intent.customer
 
-    User.find_by(stripe_customer_id: payment_intent.customer)
+    User.with_data.find_by(data: { stripe_customer_id: payment_intent.customer })
   end
 
   memoize

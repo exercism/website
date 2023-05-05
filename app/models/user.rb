@@ -1,20 +1,10 @@
 class User < ApplicationRecord
-  include User::Roles
   extend Mandate::Memoize
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
-
-  enum insiders_status: {
-    unset: 0,
-    ineligible: 1,
-    eligible: 2,
-    eligible_lifetime: 3,
-    active: 4,
-    active_lifetime: 5
-  }, _prefix: true
 
   enum flair: {
     founder: 0,
@@ -32,6 +22,7 @@ class User < ApplicationRecord
 
   has_many :auth_tokens, dependent: :destroy
 
+  has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
   has_one :profile, dependent: :destroy
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
@@ -138,8 +129,9 @@ class User < ApplicationRecord
 
   scope :random, -> { order('RAND()') }
 
-  scope :donor, -> { where.not(first_donated_at: nil) }
-  scope :public_supporter, -> { donor.where(show_on_supporters_page: true) }
+  scope :with_data, -> { joins(:data) }
+  scope :donor, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
+  scope :public_supporter, -> { donor.where(user_data: { show_on_supporters_page: true }) }
 
   # TODO: Validate presence of name
 
@@ -154,10 +146,47 @@ class User < ApplicationRecord
   end
 
   after_create_commit do
+    self.data_record # This is safer than creating for now
+
     create_preferences
     create_communication_preferences
 
     after_confirmation if confirmed?
+  end
+
+  def data_record
+    return data if data
+    return build_data if new_record?
+
+    User::MigrateToDataRecord.(id)
+
+    # Don't reply on the manually getting the migrated record
+    # Reload properly using Rails
+    reload_data
+  end
+
+  # If we don't know about this record, maybe the
+  # user's data record has it instead?
+  def method_missing(name, *args)
+    return unless data_record.respond_to?(name)
+
+    data_record.send(name, *args)
+  end
+
+  def respond_to_missing?(name, *_args)
+    data_record.respond_to?(name)
+  end
+
+  # TODO: This is needed until we remove the attributes
+  # directly from user, then it can be removed.
+  User::Data::FIELDS.each do |field|
+    define_method field do
+      data_record.send(field)
+    end
+
+    define_method "#{field}=" do |*args|
+      data_record.send("#{field}=", *args)
+    end
   end
 
   def after_confirmation
@@ -261,11 +290,6 @@ class User < ApplicationRecord
     solution.viewable_by?(self)
   end
 
-  def onboarded?
-    accepted_privacy_policy_at.present? &&
-      accepted_terms_at.present?
-  end
-
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
 
@@ -275,8 +299,6 @@ class User < ApplicationRecord
   def has_avatar?
     avatar.attached? || self[:avatar_url].present?
   end
-
-  def donated? = first_donated_at.present?
 
   # TODO
   def languages_spoken
@@ -304,21 +326,9 @@ class User < ApplicationRecord
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at
   def blocked? = User::BlockDomain.blocked?(user: self)
-  def insider? = insiders_status_active? || insiders_status_active_lifetime?
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
-  def insiders_status = super.to_sym
   def flair = super&.to_sym
-
-  def usages = super || (self.usages = {})
-
-  def chatgpt_usage
-    us = usages['chatgpt'] || {}
-    {
-      '3.5' => us['3.5'] || 0,
-      '4.0' => us['4.0'] || 0
-    }
-  end
 end

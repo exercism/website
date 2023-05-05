@@ -36,6 +36,6 @@ class Github::PullRequest::CreateOrUpdate
   end
 
   def track(pull_request) = Track.for_repo(pull_request.repo)
-  def author(pull_request) = User.find_by(github_username: pull_request.author_username)
-  def merged_by(pull_request) = User.find_by(github_username: pull_request.merged_by_username)
+  def author(pull_request) = User.with_data.find_by(data: { github_username: pull_request.author_username })
+  def merged_by(pull_request) = User.with_data.find_by(data: { github_username: pull_request.merged_by_username })
 end

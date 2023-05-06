@@ -24,8 +24,12 @@ class ApplicationController < ActionController::Base
   def current_user
     return super if Rails.env.production?
 
+    # Deal with things that bullet complains should be
+    # n+1'd by just loading them here.
     Exercism.without_bullet do
-      super.tap(&:avatar_url)
+      super do |u|
+        u&.avatar_url
+      end
     end
   end
 

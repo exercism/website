@@ -1250,6 +1250,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.integer "flair", limit: 1
     t.string "paypal_payer_id"
     t.json "usages"
+    t.json "cache"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

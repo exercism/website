@@ -300,6 +300,7 @@ class User < ApplicationRecord
     solution.viewable_by?(self)
   end
 
+  memoize
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
 

@@ -21,6 +21,14 @@ class ApplicationController < ActionController::Base
     render status: :bad_request, json: { errors: [e.message] }
   end
 
+  def current_user
+    return super if Rails.env.production?
+
+    Exercism.without_bullet do
+      super.tap(&:avatar_url)
+    end
+  end
+
   def ensure_onboarded!
     return unless user_signed_in?
     return if current_user.onboarded?

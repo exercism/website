@@ -49,8 +49,10 @@ class DiscourseControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
 
-    get discourse_sso_url(who: "why")
-    perform_enqueued_jobs
+    Bullet.profile do
+      get discourse_sso_url(who: "why")
+      perform_enqueued_jobs
+    end
 
     assert_includes user.reload.badges.map(&:class), Badges::DiscourserBadge
   end

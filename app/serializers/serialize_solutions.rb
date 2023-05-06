@@ -1,6 +1,8 @@
 class SerializeSolutions
   include Mandate
 
+  NP1_INCLUDES = [:exercise, :track, { user: { avatar_attachment: :blob } }].freeze
+
   initialize_with :solutions, :user
 
   def call
@@ -15,8 +17,7 @@ class SerializeSolutions
   private
   memoize
   def solutions_with_includes
-    solutions.to_active_relation.
-      includes([:exercise, :track, { user: :avatar_attachment }])
+    solutions.to_active_relation.includes(*NP1_INCLUDES)
   end
 
   memoize

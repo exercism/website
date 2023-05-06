@@ -215,7 +215,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    refute exercise.authors.where(github_username: old_author.github_username).exists?
+    refute exercise.authors.with_data.where(data: { github_username: old_author.github_username }).exists?
   end
 
   test "adds reputation token for new author" do

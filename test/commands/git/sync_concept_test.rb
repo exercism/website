@@ -81,7 +81,7 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
 
     Git::SyncConcept.(concept)
 
-    refute concept.authors.where(github_username: old_author.github_username).exists?
+    refute concept.authors.with_data.where(data: { github_username: old_author.github_username }).exists?
   end
 
   test "adds reputation token for new author" do

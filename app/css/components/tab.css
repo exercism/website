@@ -22,6 +22,10 @@
             @apply mr-12;
             filter: var(--selected-tab-icon-filter);
         }
+
+        &.locked {
+            background: var(--tabBackgroundColorSelectedLocked);
+        }
     }
 
     &.locked {

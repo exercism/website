@@ -260,7 +260,8 @@
     --inputBorderColor: var(--c-8480A0);
     --inputBorderColorFocus: var(--c-2E57E8);
     --inputBoxShadowColorFocus: rgba(46, 87, 232, 0.25);
-    --tabBackgroundColorSelected: var(--c-E1EBFF);
+    --tabBackgroundColorSelected: theme(colors.veryLightBlue);
+    --tabBackgroundColorSelectedLocked: theme(colors.veryLightBlue);
     --tabBorderColorSelected: var(--c-A7B7D6);
     --modalBackgroundColor: rgba(251, 252, 254, 0.7);
     --lockedColor: var(--c-E8EDF7);
@@ -500,7 +501,8 @@
     --buttonBorderColor2: var(--c-6A6781);
     --inputBackgroundColor: var(--c-282339);
     --inputBorderColorFocus: var(--c-8480A0);
-    --tabBackgroundColorSelected: var(--c-604FCD);
+    --tabBackgroundColorSelected: theme(colors.purple);
+    --tabBackgroundColorSelectedLocked: theme(colors.purpleDimmed);
     --successColor: var(--c-4FCDA7);
     --chartBorderColor: var(--c-6A6781);
 

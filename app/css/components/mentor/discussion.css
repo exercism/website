@@ -66,7 +66,7 @@
                     @apply font-medium text-textColor3;
                 }
                 & .exercise-title {
-                    @apply text-16 font-medium text-textColor3;
+                    @apply text-16 font-medium text-textColor1;
                 }
             }
             & .finish-button {
@@ -435,7 +435,7 @@
                     @apply mb-8;
 
                     & a {
-                        @apply text-lightBlue;
+                        @apply text-prominentLinkColor;
                     }
                 }
             }

@@ -271,11 +271,12 @@
                     }
                     & a {
                         @apply inline-flex items-center;
-                        @apply font-medium text-lightBlue;
+                        @apply font-medium text-prominentLinkColor;
                         & .c-icon {
                             height: 12px;
                             width: 12px;
                             @apply ml-8;
+                            @apply filter-textColor6;
                         }
                     }
                 }
@@ -284,6 +285,7 @@
                 @apply ml-24;
                 height: 24px;
                 width: 24px;
+                @apply filter-textColor6;
                 animation: spin 3s linear infinite;
             }
             & .status {

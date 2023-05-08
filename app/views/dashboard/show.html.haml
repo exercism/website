@@ -123,7 +123,7 @@
             Save the date!
 
           - if @featured_event.youtube?
-            = link_to "https://www.youtube.com/watch?v=#{@featured_event.youtube_id}", class: "bg-white flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
+            = link_to "https://www.youtube.com/watch?v=#{@featured_event.youtube_id}", class: "bg-backgroundColorA flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
               = image_tag @featured_event.thumbnail_url, class: 'block w-fill'
 
       - if @scheduled_events.present?

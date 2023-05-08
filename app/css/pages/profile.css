@@ -168,7 +168,7 @@
                                 filter: grayscale(1);
                             }
                             &:hover {
-                                @apply shadow-base;
+                                @apply shadow-base bg-backgroundColorA;
                                 & .c-avatar {
                                     filter: grayscale(0.5);
                                 }

@@ -150,7 +150,7 @@
                             @apply text-h6 leading-170;
                         }
                         & .mentored-by {
-                            @apply flex text-15 leading-160 text-textColor6;
+                            @apply flex text-15 leading-160 text-textColor6 flex-wrap;
                         }
 
                         & .exercise {
@@ -168,7 +168,7 @@
                                 filter: grayscale(1);
                             }
                             &:hover {
-                                @apply shadow-base;
+                                @apply shadow-base bg-backgroundColorA;
                                 & .c-avatar {
                                     filter: grayscale(0.5);
                                 }

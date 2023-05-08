@@ -13,7 +13,7 @@ export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
   }
 
   return (
-    <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
+    <div className="p-40 bg-backgroundColorA shadow-lgZ1 rounded-16 mb-64">
       <StoriesGridHeader />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
         {data.request.options.initialData.results.map((story: StoryProps) => (

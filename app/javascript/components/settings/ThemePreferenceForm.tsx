@@ -44,7 +44,7 @@ export const ThemePreferenceForm = ({
             theme={t}
             currentTheme={theme}
             disabledInfo={isDisabled(insidersStatus, t.value)}
-            onClick={() => handleThemeUpdate(t)}
+            onClick={(e) => handleThemeUpdate(t, e)}
           />
         ))}
       </div>

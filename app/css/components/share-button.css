@@ -8,10 +8,9 @@
 
     & .inner {
         @apply px-16;
-        @apply bg-white flex items-center;
-        @apply font-semibold;
+        @apply bg-backgroundColorA flex items-center;
+        @apply font-semibold text-textColor1;
         border-radius: 3px;
-        color: #2200ff;
         & .c-icon {
             height: 21px;
             width: 21px;

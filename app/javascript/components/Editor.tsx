@@ -337,10 +337,12 @@ export default ({
     mutationError,
     mutationStatus,
     exceededLimit,
+    chatGptUsage,
   } = ChatGPT.Hook({
     submission: submission ?? null,
     defaultRecord: panels.aiHelp,
     GPTModel: selectedGPTModel.version,
+    chatgptUsage,
   })
 
   const invokeChatGpt = useCallback(() => {
@@ -498,7 +500,18 @@ export default ({
                   <ChatGPT.Panel
                     helpRecord={helpRecord}
                     status={chatGptFetchingStatus}
-                  />
+                  >
+                    <ChatGPT.Button
+                      noSubmission={!submission}
+                      sameSubmission={
+                        submission ? submission.uuid === submissionUuid : false
+                      }
+                      isProcessing={isProcessing}
+                      passingTests={testRunStatus === TestRunStatus.PASS}
+                      chatGptFetchingStatus={chatGptFetchingStatus}
+                      onClick={() => setChatGptDialogOpen(true)}
+                    />
+                  </ChatGPT.Panel>
                 )}
               </TasksContext.Provider>
             }
@@ -512,7 +525,7 @@ export default ({
               value={selectedGPTModel}
               setValue={setSelectedGPTModel}
               onGo={invokeChatGpt}
-              chatgptUsage={chatgptUsage}
+              chatgptUsage={chatGptUsage}
               error={mutationError}
               exceededLimit={exceededLimit}
             />

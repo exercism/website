@@ -5,7 +5,10 @@ import type { useChatGptFeedbackProps, HelpRecord } from './useChatGptFeedback'
 export function AskChatGpt({
   helpRecord,
   status,
-}: Pick<useChatGptFeedbackProps, 'helpRecord' | 'status'>): JSX.Element {
+  children,
+}: Pick<useChatGptFeedbackProps, 'helpRecord' | 'status'> & {
+  children: React.ReactNode
+}): JSX.Element {
   let content
   switch (status) {
     case 'fetching': {
@@ -17,7 +20,7 @@ export function AskChatGpt({
       break
     }
     case 'unfetched': {
-      content = <Unfetched />
+      content = <Unfetched>{children}</Unfetched>
       break
     }
     default: {
@@ -36,6 +39,8 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
         <p>ChatGPT has the following suggestions:</p>
 
         <div dangerouslySetInnerHTML={{ __html: helpRecord.adviceHtml }} />
+
+        <div className="text-h5-mono">Source: {helpRecord.source}</div>
 
         <div className="c-textblock-caution mb-16">
           <div className="c-textblock-header">
@@ -76,15 +81,16 @@ function AskingChatGpt() {
   )
 }
 
-function Unfetched(): JSX.Element {
+function Unfetched({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <section className="run-tests-prompt">
       <GraphicalIcon className="filter-textColor6" icon="automation" />
       <h2>Get unstuck with ChatGPT</h2>
-      <p>
+      <p className="mb-32">
         If you&apos;re feeling stuck and can&apos;t seem to make progress,
         don&apos;t worry - just ask ChatGPT for help and get back on track.
       </p>
+      {children}
     </section>
   )
 }

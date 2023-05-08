@@ -11,7 +11,10 @@ type RequestBody = {
 }
 
 type useThemeReturns = {
-  handleThemeUpdate: (t: Theme) => void
+  handleThemeUpdate: (
+    t: Theme,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void
   status: QueryStatus
   error: unknown
   theme: string
@@ -29,8 +32,10 @@ export function useTheme(
   })
 
   const handleThemeUpdate = useCallback(
-    (t) => {
+    (t, e) => {
+      e.preventDefault()
       mutation()
+
       setTheme(t.value)
       setThemeClassName(t.value)
     },

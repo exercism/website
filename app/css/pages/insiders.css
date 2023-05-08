@@ -46,6 +46,9 @@
 
             p {
                 @apply text-p-base text-left;
+                a {
+                    @apply text-lightGold;
+                }
             }
         }
     }

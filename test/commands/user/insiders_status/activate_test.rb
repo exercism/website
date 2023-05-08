@@ -45,12 +45,20 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     User::InsidersStatus::Activate.(user)
   end
 
-  test "flair updated when changing status to active" do
+  test "flair set to insider updated when changing status to active" do
     user = create :user, flair: nil, insiders_status: :eligible
 
     User::InsidersStatus::Activate.(user)
 
     assert_equal :insider, user.flair
+  end
+
+  test "flair set to lifetime_insider updated when changing status to active_lifetime" do
+    user = create :user, flair: nil, insiders_status: :eligible_lifetime
+
+    User::InsidersStatus::Activate.(user)
+
+    assert_equal :lifetime_insider, user.flair
   end
 
   %i[eligible eligible_lifetime].each do |insiders_status|
@@ -68,22 +76,6 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
       User::InsidersStatus::Activate.(user)
 
       assert_equal :staff, user.flair
-    end
-
-    test "flair not updated when insiders status is #{insiders_status} and user has lifetime_insider flair" do
-      user = create(:user, flair: :lifetime_insider, insiders_status:)
-
-      User::InsidersStatus::Activate.(user)
-
-      assert_equal :lifetime_insider, user.flair
-    end
-
-    test "flair set to insider when insiders status is #{insiders_status}" do
-      user = create(:user, insiders_status:)
-
-      User::InsidersStatus::Activate.(user)
-
-      assert_equal :insider, user.flair
     end
   end
 

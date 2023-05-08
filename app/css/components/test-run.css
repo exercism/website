@@ -9,9 +9,9 @@
 
         &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed;
+            background: var(--backgroundColorSummaryStatusFailed);
             & .bar {
-                @apply bg-red;
+                background: var(--backgroundColorSummaryStatusFailedBar);
             }
         }
         &.failed.grouped-by-task {
@@ -39,13 +39,15 @@
         }
         &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed text-red uppercase;
+            background: var(--backgroundColorSummaryStatusFailed);
+            @apply text-red uppercase;
             & .--dot {
                 @apply bg-red;
             }
         }
         &.failed.grouped-by-task {
-            @apply bg-veryLightBlue text-textColor2;
+            background: var(--backgroundColorExerciseStatusTagLocked);
+            @apply text-textColor2;
 
             & .--dot {
                 @apply hidden;
@@ -210,6 +212,9 @@
             & .--summary-inner {
                 @apply flex items-center;
                 @apply py-10 px-24;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
 
             & .--status {
@@ -269,6 +274,6 @@
         }
     }
     & .instructions-btn {
-        @apply border-borderColor6 text-textColor6;
+        @apply border-borderColor6 text-textColor1;
     }
 }

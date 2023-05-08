@@ -220,6 +220,7 @@
     --borderColor5: var(--c-CBC9D9);
     --borderColor6: var(--c-D5D8E4);
     --borderColor7: var(--c-EAECF3);
+    --borderColor8: theme(colors.lightGray);
     --borderColor9: var(--c-FFFFFF);
     --borderColorExerciseStatusTagInProgress: theme(colors.lightBlue);
     --borderColorTracksListV3: var(--textColor2);
@@ -393,7 +394,7 @@
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-302B42);
     --backgroundColorD: var(--c-3A3557); /* Confirmed */
-    --backgroundColorE: var(--c-4A475F); /* Confirmed */
+    --backgroundColorE: theme(colors.englishViolet);
     --backgroundColorF: var(--c-191525);
     --backgroundColorG: var(--c-2F2943);
     --backgroundColorH: var(--c-F0F3F9);
@@ -463,6 +464,7 @@
     --borderColor5: var(--c-433F56); /* Confirmed */
     --borderColor6: var(--c-433F56);
     --borderColor7: #433f56;
+    --borderColor8: theme(colors.englishViolet);
     --borderColorExerciseStatusTagInProgress: theme(colors.purpleDarkened);
     --borderColorTracksListV3: transparent;
     /* --borderColor7: var(--c-533F56); */

@@ -13,11 +13,11 @@ jobs:
     # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
@@ -48,12 +48,12 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       ###
 
       # Caching using GitHub's caching action
@@ -63,7 +63,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -86,13 +86,13 @@ jobs:
   ruby-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - id: test-files
         env:
@@ -110,7 +110,7 @@ jobs:
       max-parallel: 15
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     services:
       mysql:
@@ -149,7 +149,7 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby
@@ -177,7 +177,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -228,7 +228,7 @@ jobs:
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: ruby-tests
     steps:
       - run: echo "Ruby tests completed"
@@ -239,13 +239,13 @@ jobs:
   system-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - id: test-files
         env:
@@ -263,7 +263,7 @@ jobs:
       max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     services:
       mysql:
@@ -301,7 +301,7 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -319,7 +319,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -367,7 +367,7 @@ jobs:
         run: bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: system-tests
     steps:
       - run: echo "System tests completed"
@@ -378,12 +378,12 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -402,7 +402,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}

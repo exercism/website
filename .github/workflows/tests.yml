@@ -13,7 +13,7 @@ jobs:
     # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
 
     steps:
@@ -48,7 +48,7 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
       ###
@@ -86,7 +86,7 @@ jobs:
   ruby-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
@@ -110,7 +110,7 @@ jobs:
       max-parallel: 15
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     services:
       mysql:
@@ -228,7 +228,7 @@ jobs:
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: ruby-tests
     steps:
       - run: echo "Ruby tests completed"
@@ -239,7 +239,7 @@ jobs:
   system-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
@@ -263,7 +263,7 @@ jobs:
       max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     services:
       mysql:
@@ -367,7 +367,7 @@ jobs:
         run: bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: system-tests
     steps:
       - run: echo "System tests completed"
@@ -378,7 +378,7 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
       ###

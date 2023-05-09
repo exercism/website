@@ -20,7 +20,7 @@ jobs:
     if: github.repository == 'exercism/website'
 
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false

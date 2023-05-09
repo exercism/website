@@ -170,11 +170,21 @@ class User < ApplicationRecord
   def method_missing(name, *args)
     return unless data_record.respond_to?(name)
 
-    data_record.send(name, *args)
+    begin
+      super
+    rescue NoMethodError
+      data_record.send(name, *args)
+    end
   end
 
-  def respond_to_missing?(name, *_args)
-    data_record.respond_to?(name)
+  # Don't rely on respond_to_missing? which n+1s a data record
+  # https://tenderlovemaking.com/2011/06/28/til-its-ok-to-return-nil-from-to_ary.html
+  def to_ary
+    nil
+  end
+
+  def respond_to_missing?(name, *args)
+    super || data_record.respond_to?(name)
   end
 
   # TODO: This is needed until we remove the attributes

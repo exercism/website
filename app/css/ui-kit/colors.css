@@ -568,6 +568,8 @@
         hue-rotate(236deg) brightness(97%) contrast(80%);
     --tracks-list-joined-filter: invert(27%) sepia(43%) saturate(4160%)
         hue-rotate(221deg) brightness(93%) contrast(96%);
+    --red-filter: invert(78%) sepia(76%) saturate(7147%) hue-rotate(332deg)
+        brightness(105%) contrast(84%);
     /* --tracks-list-joined-filter: invert(31%) sepia(64%) saturate(1659%)
         hue-rotate(228deg) brightness(89%) contrast(90%); */
 

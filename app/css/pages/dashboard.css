@@ -290,6 +290,9 @@
             @apply mb-24 flex-col;
             & .c-mentor-discussion-summary {
                 @apply mb-20;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
         }
     }

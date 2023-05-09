@@ -91,7 +91,7 @@
             @apply text-16 leading-paragraph font-medium;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
     }
@@ -273,6 +273,7 @@
                         @apply inline-flex items-center;
                         @apply font-medium text-prominentLinkColor;
                         & .c-icon {
+                            @apply filter-prominentLinkColor;
                             height: 12px;
                             width: 12px;
                             @apply ml-8;
@@ -282,7 +283,7 @@
                 }
             }
             & > .c-icon.spinner {
-                @apply ml-24;
+                @apply ml-24 filter-textColor6;
                 height: 24px;
                 width: 24px;
                 @apply filter-textColor6;
@@ -362,8 +363,7 @@
                     & .c-icon {
                         height: 14px;
                         width: 14px;
-                        @apply ml-8;
-                        filter: var(--c-prominent-link-icon-filter);
+                        @apply ml-8 filter-prominentLinkColor;
                     }
                 }
             }
@@ -431,8 +431,7 @@
             @apply text-16 leading-160 mb-16 text-textColor2;
 
             & a {
-                @apply font-medium;
-                color: var(--c-prominent-link-color);
+                @apply font-medium filter-prominentLinkColor;
             }
 
             & strong {

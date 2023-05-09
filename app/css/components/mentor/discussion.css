@@ -524,20 +524,22 @@
 
             & .status {
                 @apply flex items-center;
-                @apply bg-lightOrange rounded-8;
+                background: var(--backgroundColorMentoringRequestedStatusInfo);
+                @apply rounded-8;
                 @apply py-12 px-16 mx-24;
 
                 & .info {
                     @apply flex-grow;
                     & h3 {
-                        @apply font-semibold text-textColor3 leading-170;
+                        @apply font-semibold leading-170;
+                        color: var(--textColorMentoringRequestedStatusInfo);
                     }
                     & p {
                         @apply font-medium text-textColor6 leading-150;
                     }
                 }
                 & button {
-                    @apply text-lightBlue font-semibold;
+                    @apply text-prominentLinkColor font-semibold;
                 }
             }
             & .placeholder {
@@ -602,11 +604,11 @@
                     @apply text-p-small;
                     & a {
                         @apply inline-flex items-center;
-                        @apply text-lightBlue font-medium;
+                        @apply text-prominentLinkColor font-medium;
                         & .c-icon {
                             width: 12px;
                             height: 12px;
-                            @apply ml-8;
+                            @apply ml-8 filter-prominentLinkColor;
                         }
                     }
                 }
@@ -643,7 +645,7 @@
                         & > .c-icon {
                             height: 16px;
                             width: 16px;
-                            @apply text-textColor6;
+                            @apply filter-textColor6;
                             @apply ml-20;
                         }
                     }

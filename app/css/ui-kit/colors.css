@@ -158,6 +158,7 @@
     --backgroundColorAnnouncementBar: theme(colors.midnightBlue);
     --backgroundColorSiteFooter: theme(colors.midnightBlue);
     --backgroundColorTracksListState: theme(colors.lightOrange);
+    --backgroundColorMentoringRequestedStatusInfo: theme(colors.lightOrange);
     --backgroundColorCAlert: theme(colors.lightOrange);
     --backgroundColorTextblockCautionContent: theme(colors.superLightOrange);
     --textColorCAlert: theme(colors.caution);
@@ -170,6 +171,7 @@
     --textColorIterationActive: theme(colors.smokeGray);
     --backgroundColorEDAvailable: theme(colors.white);
     --backgroundColorEDIterated: theme(colors.darkBlue);
+    --backgroundColorMentorTrackSelectorSelected: theme(colors.darkBlue);
     --backgroundColorExerciseStatusTagInProgress: theme(colors.veryLightBlue);
     --backgroundColorExerciseStatusTagLocked: theme(colors.veryLightBlue);
     --backgroundColorConceptMastered: theme(colors.veryLightGreen2);
@@ -244,6 +246,8 @@
     --textColorLastNavElement: theme(colors.purple);
     --textColorCommentsCount: var(--textColor6);
     --textColorMentorTestimonialsNew: var(--textColor5);
+    --textColorMentoringRequestedStatusInfo: theme(colors.smokeGray);
+    --textColorMentorTrackSelectorSelected: theme(colors.smokeGray);
     --c-prominent-link-color: theme(colors.lightBlue);
 
     --shadowColorED: 0, 80, 255;
@@ -407,6 +411,7 @@
     --backgroundColorAnnouncementBar: theme(colors.vividPurple);
     --backgroundColorSiteFooter: theme(colors.eerieBlack);
     --backgroundColorTracksListState: theme(colors.lightGold);
+    --backgroundColorMentoringRequestedStatusInfo: theme(colors.purple);
     --backgroundColorCAlert: none;
     --backgroundColorTextblockCautonContent: none;
     --textColorCAlert: theme(colors.orange);
@@ -419,6 +424,7 @@
     --textColorIterationActive: theme(colors.launchingYellow);
     --backgroundColorEDAvailable: theme(colors.eerieBlack);
     --backgroundColorEDIterated: theme(colors.purple);
+    --backgroundColorMentorTrackSelectorSelected: none;
     --backgroundColorExerciseStatusTagInProgress: theme(colors.purpleDarker3);
     --backgroundColorExerciseStatusTagLocked: none;
     --backgroundColorConceptMastered: none;
@@ -487,6 +493,8 @@
     --textColorLastNavElement: theme(colors.gray);
     --textColorCommentsCount: theme(colors.orange);
     --textColorMentorTestimonialsNew: theme(colors.midnightBlue);
+    --textColorMentoringRequestedStatusInfo: theme(colors.aliceBlue);
+    --textColorMentorTrackSelectorSelected: theme(colors.aliceBlue);
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);
@@ -572,6 +580,8 @@
         hue-rotate(236deg) brightness(97%) contrast(80%);
     --tracks-list-joined-filter: invert(27%) sepia(43%) saturate(4160%)
         hue-rotate(221deg) brightness(93%) contrast(96%);
+    --red-filter: invert(78%) sepia(76%) saturate(7147%) hue-rotate(332deg)
+        brightness(105%) contrast(84%);
     /* --tracks-list-joined-filter: invert(31%) sepia(64%) saturate(1659%)
         hue-rotate(228deg) brightness(89%) contrast(90%); */
 

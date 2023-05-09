@@ -47,10 +47,10 @@ jobs:
       ###############
       ###############
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@e1e17a757e536f70e52b5a12b2e8d1d1c60e04ef
         with:
           aws-access-key-id: ${{ secrets.AWS_DEPLOY_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_DEPLOY_SECRET_ACCESS_KEY }}
@@ -58,7 +58,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login_to_ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@2f9f10ea3fa2eed41ac443fee8bfbd059af2d0a4
 
       #########################
       #########################
@@ -142,7 +142,7 @@ jobs:
 
       - name: Update website | puma container
         id: update_definition_for_website_puma
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: website-task-definition.json
           container-name: puma
@@ -150,7 +150,7 @@ jobs:
 
       - name: Update website | nginx container
         id: update_definition_for_website_nginx
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: ${{ steps.update_definition_for_website_puma.outputs.task-definition }}
           container-name: nginx
@@ -158,7 +158,7 @@ jobs:
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy Website
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
           service: ${{ env.website_service_name }}
@@ -180,7 +180,7 @@ jobs:
 
       - name: Update api | puma container
         id: update_definition_for_api_puma
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: api-task-definition.json
           container-name: puma
@@ -188,7 +188,7 @@ jobs:
 
       - name: Update api | nginx container
         id: update_definition_for_api_nginx
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: ${{ steps.update_definition_for_api_puma.outputs.task-definition }}
           container-name: nginx
@@ -196,7 +196,7 @@ jobs:
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy API
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
           service: ${{ env.api_service_name }}
@@ -218,7 +218,7 @@ jobs:
 
       - name: Update anycable | anycable_ruby container
         id: update_definition_for_anycable_ruby
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: anycable-task-definition.json
           container-name: anycable_ruby
@@ -226,7 +226,7 @@ jobs:
 
       - name: Update anycable | anycable_go container
         id: update_definition_for_anycable_go
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
           container-name: anycable_go
@@ -234,7 +234,7 @@ jobs:
 
       - name: Update anycable | nginx container
         id: update_definition_for_anycable_nginx
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
           container-name: nginx
@@ -242,7 +242,7 @@ jobs:
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy Anycable
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
           service: ${{ env.anycable_service_name }}
@@ -265,7 +265,7 @@ jobs:
       # Set puma to rails
       - name: Update the sidekiq definition
         id: update_definition_for_sidekiq
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: sidekiq-task-definition.json
           container-name: sidekiq
@@ -273,7 +273,7 @@ jobs:
 
       # Push the new definition up to ECS and deploy a new service from it.
       - name: Deploy Sidekiq
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           # Ensure this is the final step in the daisy-chain above
           task-definition: ${{ steps.update_definition_for_sidekiq.outputs.task-definition }}

@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
@@ -53,7 +53,7 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       ###
 
       # Caching using GitHub's caching action
@@ -63,7 +63,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -92,7 +92,7 @@ jobs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - id: test-files
         env:
@@ -149,7 +149,7 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby
@@ -177,7 +177,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -245,7 +245,7 @@ jobs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - id: test-files
         env:
@@ -301,7 +301,7 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -319,7 +319,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -383,7 +383,7 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -402,7 +402,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}

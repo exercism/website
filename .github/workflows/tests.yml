@@ -167,7 +167,7 @@ jobs:
       ###
       # Install graphicsmagick
       - name: Install graphicsmagick
-        run: sudo apt-get install graphicsmagick
+        run: sudo apt-get install graphicsmagick libvips
 
       ###
       # Caching using GitHub's caching action

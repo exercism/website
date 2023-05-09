@@ -1,7 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { FileViewer } from './FileViewer'
-import { TestsPanel, TestContentWrapper } from '@/components/editor/index'
+import {
+  TestContentWrapper,
+  TestPanel,
+  TestsPanel,
+} from '@/components/editor/index'
 import { File, TestFile } from '../../types'
 
 const TabsContext = createContext<TabContext>({
@@ -91,9 +95,11 @@ export const FilePanel = ({
           ) : null}
         </div>
         {testFiles ? (
-          <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
-            <TestsPanel highlightjsLanguage={language} />
-          </TestContentWrapper>
+          <TestsPanel context={TabsContext}>
+            <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
+              <TestPanel highlightjsLanguage={language} />
+            </TestContentWrapper>
+          </TestsPanel>
         ) : null}
       </div>
     </TabsContext.Provider>

@@ -7,7 +7,7 @@ class SerializeMentorTestimonials
     testimonials.
       includes(
         :mentor, :exercise, :track,
-        student: :avatar_attachment
+        student: { avatar_attachment: :blob }
       ).
       map { |t| SerializeMentorTestimonial.(t) }
   end

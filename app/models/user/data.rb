@@ -29,8 +29,20 @@ class User::Data < ApplicationRecord
     }
   end
 
+  # Cache methods
+  %w[
+    has_unrevealed_testimonials?
+    has_unrevealed_badges?
+    has_unseen_reputation_tokens?
+  ].each do |meth|
+    define_method meth do
+      self.cache.presence || User::ResetCache.(user)
+      self.cache[meth]
+    end
+  end
+
   FIELDS = %w[
-    bio roles usages insiders_status
+    bio roles usages insiders_status cache
 
     github_username
     stripe_customer_id paypal_payer_id

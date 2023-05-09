@@ -92,6 +92,16 @@ class User::AcquiredBadge::CreateTest < ActiveSupport::TestCase
     User::AcquiredBadge::Create.(user, :contributor, send_email: false)
   end
 
+  test "resets user cache" do
+    user = create :user
+    create :contributor_badge
+    Badges::ContributorBadge.any_instance.expects(:award_to?).with(user).returns(true)
+
+    User::ResetCache.expects(:defer).with(user)
+
+    User::AcquiredBadge::Create.(user, :contributor)
+  end
+
   def force_award!(user)
     Badges::ContributorBadge.any_instance.expects(:award_to?).with(user).returns(true)
   end

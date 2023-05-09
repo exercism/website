@@ -151,4 +151,17 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     refute_includes user.reload.badges.map(&:class), Badges::ContributorBadge
   end
+
+  test "resets user cache" do
+    user = create :user, handle: "User22", github_username: "user22"
+    contributorship = create :exercise_contributorship, contributor: user
+
+    User::ResetCache.expects(:defer).with(user)
+
+    User::ReputationToken::Create.(
+      user,
+      :exercise_contribution,
+      contributorship:
+    )
+  end
 end

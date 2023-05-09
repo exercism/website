@@ -9,6 +9,7 @@ class User::ReputationToken::MarkAllAsSeen
         update_all(seen: true)
 
       ReputationChannel.broadcast_changed!(user) if num_changed.positive?
+      User::ResetCache.defer(user) if num_changed.positive?
     end
   end
 end

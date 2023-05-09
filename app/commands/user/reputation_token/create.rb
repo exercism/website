@@ -18,6 +18,7 @@ class User::ReputationToken::Create
 
       AwardBadgeJob.perform_later(user, :contributor, context: token)
       User::ReputationPeriod::MarkForToken.(token)
+      User::ResetCache.defer(user)
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(user:, uniqueness_key: token.uniqueness_key)
     end

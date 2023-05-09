@@ -25,6 +25,7 @@ class User::AcquiredBadge::Create
         end
 
         User::Notification::Create.(user, badge.notification_key) if badge.notification_key.present?
+        User::ResetCache.defer(user)
       end
 
     # Guard against the race condition

@@ -135,7 +135,7 @@
     & .tests-grouped-by-task {
         @apply pb-16;
         & .tests-group {
-            @apply border-y-1 border-lightGray;
+            @apply border-y-1 border-borderColor8;
             @apply px-24 py-16;
 
             &:first-child {

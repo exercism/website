@@ -9,7 +9,7 @@ type TestPanelProps = {
 export const TestPanel = ({
   highlightjsLanguage,
 }: TestPanelProps): JSX.Element => {
-  const { testTab, tabContext } = useContext(TestContentContext)
+  const { testTab } = useContext(TestContentContext)
 
   const testRef = useRef<HTMLPreElement>(null)
   const memoTestRef = useRef<HTMLDivElement>(null)

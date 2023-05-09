@@ -464,7 +464,7 @@ export default ({
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
-                  <TestsPanel>
+                  <TestsPanel context={TabsContext}>
                     <TestContentWrapper
                       testTabGroupCss="border-t-1 border-borderColor6"
                       tabContext={TabsContext}

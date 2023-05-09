@@ -1,14 +1,15 @@
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react'
-import { TabsContext, TasksContext } from '../Editor'
-import { Tab } from '@/components/common/Tab'
+import React from 'react'
+import { Tab, TabContext } from '@/components/common/Tab'
 
 export function TestsPanel({
+  context,
   children,
 }: {
+  context: React.Context<TabContext>
   children: React.ReactNode
 }): JSX.Element {
   return (
-    <Tab.Panel id="tests" context={TabsContext}>
+    <Tab.Panel id="tests" context={context}>
       {children}
     </Tab.Panel>
   )

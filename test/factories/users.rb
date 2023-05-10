@@ -24,6 +24,11 @@ FactoryBot.define do
       )
     end
 
+    trait :external_avatar_url do
+      avatar { nil }
+      avatar_url { "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx" }
+    end
+
     trait :donor do
       after(:create) do |user, _evaluator|
         user.data.update(first_donated_at: Time.current)

@@ -77,7 +77,7 @@
             max-width: 680px;
 
             & a {
-                @apply text-lightBlue font-medium;
+                @apply text-prominentLinkColor font-medium;
             }
         }
     }

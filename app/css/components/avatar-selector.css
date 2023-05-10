@@ -61,7 +61,7 @@
         @apply text-textColor6 leading-160;
         @apply text-center;
         & button {
-            @apply text-lightBlue font-medium;
+            @apply text-prominentLinkColor font-medium;
         }
     }
 }

@@ -103,7 +103,7 @@
             @apply flex-grow;
 
             & .iteration-section {
-                @apply bg-backgroundColorA shadow-base rounded-8;
+                @apply bg-backgroundColorB shadow-base rounded-8;
                 @apply mb-32;
 
                 & .c-react-wrapper-track-iteration-summary {

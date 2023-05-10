@@ -90,7 +90,7 @@
                 }
             }
             & .more {
-                @apply text-15 text-lightBlue font-semibold;
+                @apply text-15 text-prominentLinkColor font-semibold;
                 @apply ml-24;
             }
         }

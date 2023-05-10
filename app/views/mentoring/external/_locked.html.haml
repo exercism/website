@@ -11,8 +11,8 @@
     .flex.items-center.text-14.leading-paragraph
       .font-semibold.text-textColor6
         = link_to doc_url(:using, 'product/reputation'), class: "flex items-center info-link" do
-          = graphical_icon "info-circle", css_class: "w-[15px] h-[15px] mr-12"
+          = graphical_icon "info-circle", css_class: "w-[15px] h-[15px] mr-12 filter-textColor6"
           How does this work?
-      .font-medium.text-textColor7.ml-auto
+      .font-medium.text-textColor6.ml-auto
         Ability to mentor unlocks at
         = link_to "#{profile_min_reputation} rep", doc_url(:using, 'product/reputation'), class: 'text-gradient !font-semibold'

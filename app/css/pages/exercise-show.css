@@ -431,13 +431,13 @@
             @apply text-16 leading-160 mb-16 text-textColor2;
 
             & a {
-                @apply font-medium filter-prominentLinkColor;
+                @apply font-medium text-prominentLinkColor;
             }
 
             & strong {
                 @apply font-medium;
                 & a {
-                    @apply border-b-2 border-color22 text-textColor2;
+                    @apply border-b-2 border-prominentLinkColor text-prominentLinkColor;
                 }
             }
         }

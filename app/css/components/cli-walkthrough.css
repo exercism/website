@@ -32,7 +32,7 @@
             @apply list-decimal;
         }
         & a {
-            @apply font-semibold text-lightBlue;
+            @apply font-semibold text-prominentLinkColor;
         }
 
         & strong {

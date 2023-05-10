@@ -29,7 +29,7 @@
             @apply text-18 leading-170;
 
             & a {
-                @apply text-anotherPurple font-medium;
+                @apply text-adaptivePurple font-medium;
             }
         }
         & p.unsure {
@@ -41,7 +41,7 @@
             @apply font-medium;
 
             & a {
-                @apply text-linkColor;
+                @apply text-prominentLinkColor;
             }
         }
 
@@ -67,7 +67,7 @@
                 width: 50px;
 
                 @apply mt-24;
-                @apply border-b-3 border-purple;
+                @apply border-b-3 border-adaptivePurple;
             }
         }
         & .reasons {

@@ -15,7 +15,7 @@
             max-width: 770px;
 
             & a {
-                @apply text-anotherPurple font-medium;
+                @apply text-adaptivePurple font-medium;
             }
         }
         & p.cta {
@@ -27,7 +27,7 @@
             @apply font-medium;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
     }
@@ -44,7 +44,7 @@
         }
         &[value] {
             &::-webkit-progress-value {
-                @apply bg-lightBlue;
+                @apply bg-prominentLinkColor;
             }
         }
     }

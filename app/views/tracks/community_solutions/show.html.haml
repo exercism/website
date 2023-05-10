@@ -79,7 +79,7 @@
 
 
               = link_to doc_path(:using, 'feedback'), class: 'more' do
-                = graphical_icon "info-circle"
+                = graphical_icon "info-circle", css_class: 'filter-textColor6'
                 What is this?
 
             = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)

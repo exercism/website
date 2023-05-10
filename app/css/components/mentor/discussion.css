@@ -205,7 +205,7 @@
                 & .note {
                     @apply text-p-small text-textColor6;
                     & a {
-                        @apply font-medium text-lightBlue;
+                        @apply font-medium text-prominentLinkColor;
                     }
                 }
             }

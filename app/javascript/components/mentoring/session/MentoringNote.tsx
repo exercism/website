@@ -4,7 +4,7 @@ type Links = {
   mentoringDocs: string
 }
 
-export const MentoringNote = ({ links }: { links: Links }) => {
+export const MentoringNote = ({ links }: { links: Links }): JSX.Element => {
   return (
     <div className="note">
       Check out our{' '}

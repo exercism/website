@@ -7,5 +7,7 @@ class Webhooks::Paypal::Debug
     return unless Rails.env.production?
 
     IO.write("/mnt/efs/repos/debug/paypal.txt", message, mode: 'a')
+  rescue StandardError
+    # We don't want debug logging errors to crash anything
   end
 end

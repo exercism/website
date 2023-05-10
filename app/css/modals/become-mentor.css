@@ -87,11 +87,9 @@
             & .inner {
                 @apply flex py-16 px-32 items-center justify-center;
                 @apply text-13 text-textColor7;
-                @apply flex-grow bg-darkGray rounded-8;
+                @apply flex-grow rounded-8;
+                background: var(--backgroundColorReputationInfo);
                 @apply font-semibold text-16;
-
-                /* This shouldn't change for theme */
-                color: #fff;
 
                 line-height: 28px;
 
@@ -102,20 +100,22 @@
                     filter: var(--filter-E2CB2D);
                 }
                 & h3 {
-                    @apply text-h4 text-textColor9 mb-4;
+                    @apply text-h4 text-aliceBlue mb-4;
                 }
                 & p {
-                    @apply text-16 leading-160 font-normal text-textColor8;
+                    @apply text-16 leading-160 font-normal text-veryLightBlue;
                     @apply mb-0;
 
                     & strong {
-                        @apply text-textColor9 font-medium;
+                        @apply text-aliceBlue font-medium;
                     }
                 }
             }
         }
         & .commitment {
-            --row-selected-background-color: var(--c-E1EBFF);
+            --row-selected-background-color: var(
+                --backgroundColorExerciseStatusTagLocked
+            );
             --row-selected-border-color: var(--c-6A93FF);
 
             @apply mb-24;
@@ -185,7 +185,7 @@
                     width: 32px;
                     height: 32px;
                     @apply mr-24;
-                    @apply text-textColor6;
+                    @apply filter-textColor6;
                 }
 
                 & .info {

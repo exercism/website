@@ -29,7 +29,7 @@
               = icon "unlock", "Unlocked"
         .info
           = link_to doc_path(:using, "product/reputation"), class: "explanation" do
-            = graphical_icon :'info-circle'
+            = graphical_icon "info-circle", css_class: "filter-textColor6"
             How does this work?
           - unless user_track.repo_for_next_mentoring_slot.nil?
             .next-slot

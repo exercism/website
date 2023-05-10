@@ -207,6 +207,7 @@ module.exports = {
       gray: '#A9A6BD',
       // TODO: fix this - change it back to its hex value
       darkGray: 'var(--textColor3)',
+      trueDarkGray: '#26282D',
 
       darkSuccessGreen: '#2E8C70',
       darkGreen: '#43B593',

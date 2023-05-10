@@ -124,7 +124,9 @@ class Solution::SearchCommunitySolutions
       filter_sync_status!
       sort!
 
-      @solutions.page(page).per(per)
+      @solutions.
+        includes(*SerializeSolutions::NP1_INCLUDES).
+        page(page).per(per)
     end
 
     private

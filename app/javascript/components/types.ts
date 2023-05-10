@@ -1,5 +1,6 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
+import { Flair } from './common/HandleWithFlair'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 import { Scratchpad } from './mentoring/Session'
 
@@ -58,7 +59,7 @@ export type Testimonial = {
   student: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
   }
   exercise: {
     title: string
@@ -83,7 +84,7 @@ type UserLinks = {
 }
 export type User = {
   avatarUrl: string
-  flair: string
+  flair: Flair
   name?: string
   handle: string
   hasAvatar?: boolean
@@ -103,7 +104,7 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
-  flair: string
+  flair: Flair
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
@@ -167,7 +168,7 @@ export type CommunitySolution = {
   author: {
     handle: string
     avatarUrl: string
-    flair: string
+    flair: Flair
   }
   exercise: {
     title: string
@@ -401,12 +402,12 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
-    flair: string
+    flair: Flair
   }
   mentor: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
   }
   track: {
     title: string
@@ -516,7 +517,7 @@ export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
-  flair: string
+  flair: Flair
   activity: string
   reputation: string
   links: {
@@ -731,7 +732,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
     reputation: string
   }
   updatedAt: string

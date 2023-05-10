@@ -2,28 +2,30 @@ require "test_helper"
 
 class Mentor::SupermentorTest < ActiveSupport::TestCase
   test "eligible?" do
-    track = create :track, :random_slug
+    track_1 = create :track, :random_slug
+    track_2 = create :track, :random_slug
     user = create :user
 
     # Sanity check: no mentor
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: mentor but not mentored anything
-    mentorship = create(:user_track_mentorship, user:, track:)
+    mentorship_1 = create(:user_track_mentorship, user:, track: track_1)
     user.update(roles: [:mentor])
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: ignore other user's track mentorships
     other_user = create :user
-    create(:user_track_mentorship, num_finished_discussions: 150, user: other_user, track:)
+    create(:user_track_mentorship, num_finished_discussions: 150, user: other_user, track: track_1)
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: mentored too few students
-    mentorship.update(num_finished_discussions: 80)
+    mentorship_1.update(num_finished_discussions: 80)
     refute Mentor::Supermentor.eligible?(user)
 
-    # Sanity check: satisfactiong rating too low
-    mentorship.update(num_finished_discussions: 105)
+    # Sanity check: satisfaction rating too low
+    mentorship_2 = create(:user_track_mentorship, user:, track: track_2)
+    mentorship_2.update(num_finished_discussions: 23)
     user.update(mentor_satisfaction_percentage: 80)
     refute Mentor::Supermentor.eligible?(user)
 

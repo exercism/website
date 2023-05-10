@@ -519,7 +519,7 @@
 
     --modalBackgroundColor: rgba(40, 35, 57, 0.7);
     --box-shadow-sm: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
-    --box-shadow-base: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
+    --box-shadow-base: 0px 4px 24px 0px rgba(0, 0, 0, 0.4);
     --box-shadow-lg: 0px 4px 42px 0px rgba(0, 0, 0, 0.6);
     --box-shadow-lgZ1: 0px 4px 42px 0px rgba(0, 0, 0, 0.9);
 

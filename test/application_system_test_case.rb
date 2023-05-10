@@ -124,4 +124,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options[:normalize_ws] = true unless options.key?(:normalize_ws)
     super(:visible, text, **options)
   end
+
+  def url_to_path(url)
+    url.gsub(%r{https?://[^/]+}, "")
+  end
 end

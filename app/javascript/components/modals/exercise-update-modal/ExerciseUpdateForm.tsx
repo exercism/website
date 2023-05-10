@@ -14,7 +14,7 @@ const DEFAULT_ERROR = new Error('Unable to update exercise')
 
 export const TabsContext = createContext<TabContext>({
   current: '',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const ExerciseUpdateForm = ({

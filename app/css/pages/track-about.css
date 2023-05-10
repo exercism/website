@@ -22,7 +22,7 @@
                 max-width: 780px;
 
                 & strong {
-                    @apply text-textColor3 font-semibold;
+                    @apply text-textColor1 font-semibold;
                 }
             }
         }
@@ -68,7 +68,7 @@
     }
 
     & .about-section {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
         @apply pt-40;
         & .inner {
             @apply pb-64;
@@ -98,23 +98,27 @@
                                     content: "";
                                     width: 100%;
                                     bottom: 0;
-                                    box-shadow: 0px 0px 25px 15px white;
+                                    box-shadow: 0px 0px 25px 15px
+                                        var(--backgroundColorA);
                                 }
                             }
                             & button:after {
                                 background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS13aWR0aDoxLjVweDtmaWxsLXJ1bGU6ZXZlbm9kZDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93LWRvd24tMTwvdGl0bGU+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjMuMjUsNy4zMTEsMTIuNTMsMTguMDNhLjc0OS43NDksMCwwLDEtMS4wNiwwTC43NSw3LjMxMSIvPjwvc3ZnPg==");
+                                filter: var(--c-prominent-link-icon-filter);
                             }
                         }
 
                         &.expanded {
                             & button:after {
                                 background-image: url("data:image/svg+xml;base64,CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDpub25lO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6MS41cHg7ZmlsbC1ydWxlOmV2ZW5vZGQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5hcnJvdy11cC0xPC90aXRsZT48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0uNzUsMTcuMTg5LDExLjQ3LDYuNDdhLjc0OS43NDksMCwwLDEsMS4wNiwwTDIzLjI1LDE3LjE4OSIvPjwvc3ZnPg==");
+                                filter: var(--c-prominent-link-icon-filter);
                             }
                         }
                         & button {
                             @apply flex items-center;
-                            @apply text-16 leading-170 text-lightBlue font-semibold;
-                            @apply bg-veryLightBlue rounded-100 justify-center;
+                            @apply text-16 leading-170 text-prominentLinkColor font-semibold;
+                            @apply rounded-100 justify-center;
+                            background: var(--c-prominent-link-bg);
                             @apply py-8 px-24 mt-20;
 
                             &:after {
@@ -169,7 +173,7 @@
     }
 
     & .exercises-section {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
         @apply pb-80;
 
         & .inner {
@@ -211,6 +215,7 @@
                             height: 24px;
                             width: 24px;
                             @apply ml-56;
+                            filter: var(--textColor5-filter);
                         }
                     }
                 }
@@ -219,11 +224,21 @@
                 @apply ml-80;
                 max-width: 640px;
                 width: 50%;
+                mask-image: linear-gradient(
+                    to right,
+                    rgba(0, 0, 0, 1) 10%,
+                    transparent 95%
+                );
             }
         }
     }
     & .features-section {
-        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+        background: linear-gradient(
+            180deg,
+            var(--backgroundColorB) 80%,
+            var(--backgroundColorB) 100%
+        );
+        /* background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%); */
         & .section-header {
             @apply border-t-3 border-borderColor7;
             @apply pt-48;
@@ -297,7 +312,7 @@
         }
     }
     & .concepts-section {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
         @apply py-64;
 
         & .container {
@@ -307,10 +322,18 @@
         & img.screenshot {
             @apply mb-32;
             max-width: 100%;
+            mask-image: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 1) 30%,
+                transparent 95%
+            );
         }
     }
     & .upsell-section {
-        @apply bg-backgroundColorA;
+        background: linear-gradient(
+            var(--backgroundColorB),
+            var(--backgroundColorB)
+        );
         @apply pt-64;
 
         & .container {
@@ -328,6 +351,7 @@
                     height: 48px;
                     width: 48px;
                     @apply mb-12;
+                    @apply filter-textColor1;
                 }
                 & h3 {
                     @apply text-h2 mb-12;

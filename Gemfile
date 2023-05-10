@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.1.0'
+ruby '3.2.1'
 
 # Service/framework dependencies
 gem 'rails', '~> 7.0.1'
@@ -14,6 +14,7 @@ gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'anycable-rails', '~> 1.2.0'
+gem 'grpc', '>= 1.53.0'
 
 # Serving requests
 gem 'puma', '~> 4.3'
@@ -24,17 +25,17 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bugsnag'
 
 # Interaction gems
-gem 'rugged', '1.4.2' # Git - upgrading will break in production but not dev due to EFS issue.
+gem 'rugged'
 gem 'rest-client' # http
 gem 'octokit' # GitHub
 
 # General-purpose gems
 gem 'mandate', '~> 2.0'
 gem 'kaminari'
-gem 'oj'
+gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.86.0' # path: '../exercism_config'
+gem 'exercism-config', '>= 0.94.0' # path: '../exercism_config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
@@ -45,7 +46,7 @@ gem 'sidekiq-scheduler'
 
 # View-level Dependencies
 gem 'hamlit'
-gem 'commonmarker'
+gem 'commonmarker', '>= 0.23.8'
 gem 'ansi-to-html'
 
 # Authentication
@@ -63,8 +64,9 @@ gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 # Discourse
 gem 'discourse_api'
 
-# Reporting
+# Performance issue Reporting
 gem 'skylight'
+gem 'bullet'
 
 gem 'listen', '>= 3.0.5', '< 4.0'
 

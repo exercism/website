@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+
+# Path to the application root.
+APP_ROOT = File.expand_path('..', __dir__)
+
+# We want to guard against failures at each stage of this
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+FileUtils.chdir APP_ROOT do
+  # As EFS files are owned by different users in different places
+  # we need to tell libgit to be less stressed about user conflicts.
+  # Any instance of "fatal: detected dubious ownership in repository" 
+  # means that this hasn't worked properly.
+  system! "ls -1 -d /mnt/efs/repos/* | xargs -L1 git config --global --add safe.directory"
+
+  # Finally we get the actual sidekiq running
+  system! "bundle exec sidekiq"
+end

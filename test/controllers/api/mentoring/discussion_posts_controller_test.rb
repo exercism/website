@@ -13,11 +13,11 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     setup_user(mentor)
     solution = create :concept_solution, user: student
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Welcome",
       created_at: Time.utc(2016, 12, 25)
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
-    iteration = create :iteration, idx: 2, solution: solution
+    discussion = create :mentor_discussion, solution:, mentor:, request: mentor_request
+    iteration = create(:iteration, idx: 2, solution:)
     discussion_post = create(:mentor_discussion_post,
       discussion:,
       iteration:,
@@ -33,6 +33,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: "request-comment",
           author_handle: "student",
+          author_flair: nil,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Welcome",
@@ -44,6 +45,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: discussion_post.uuid,
           author_handle: "author",
+          author_flair: nil,
           author_avatar_url: mentor.avatar_url,
           by_student: false,
           content_markdown: "Hello",
@@ -66,11 +68,11 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     setup_user(mentor)
     solution = create :concept_solution, user: student
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       created_at: Time.utc(2016, 12, 25)
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
-    create :iteration, idx: 7, solution: solution
+    discussion = create :mentor_discussion, solution:, mentor:, request: mentor_request
+    create(:iteration, idx: 7, solution:)
 
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
@@ -80,6 +82,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: "request-comment",
           author_handle: "student",
+          author_flair: nil,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Hello",
@@ -98,8 +101,8 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     sign_in!(admin)
 
     solution = create :concept_solution
-    discussion = create :mentor_discussion, solution: solution
-    create :iteration, solution: solution
+    discussion = create(:mentor_discussion, solution:)
+    create(:iteration, solution:)
     get api_mentoring_discussion_posts_path(discussion), headers: @headers, as: :json
 
     assert_response :ok
@@ -155,10 +158,10 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
     solution = create :concept_solution
-    create :iteration, solution: solution, idx: 1
-    it_2 = create :iteration, solution: solution, idx: 2
+    create :iteration, solution:, idx: 1
+    it_2 = create :iteration, solution:, idx: 2
     discussion = create :mentor_discussion,
-      solution: solution,
+      solution:,
       mentor: user
 
     # Check we're calling the correet class
@@ -186,6 +189,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: post.uuid,
         author_handle: user.handle,
+        author_flair: nil,
         author_avatar_url: user.avatar_url,
         by_student: false,
         content_markdown: content,
@@ -205,10 +209,10 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
     skip
     user = create :user
     setup_user(user)
-    solution = create :concept_solution, user: user
-    create :iteration, solution: solution, idx: 1
-    it_2 = create :iteration, solution: solution, idx: 2
-    discussion = create :mentor_discussion, solution: solution
+    solution = create(:concept_solution, user:)
+    create :iteration, solution:, idx: 1
+    it_2 = create :iteration, solution:, idx: 2
+    discussion = create(:mentor_discussion, solution:)
 
     # Check we're calling the correet class
     User::Notification::Create.expects(:call).with(
@@ -235,6 +239,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         id: post.uuid,
         author_handle: user.handle,
+        author_flair: nil,
         author_avatar_url: user.avatar_url,
         by_student: true,
         content_markdown: content,
@@ -255,7 +260,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "returns 404 error when post not found" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
 
     patch api_mentoring_discussion_post_path(discussion, 1), headers: @headers, as: :json
 
@@ -301,7 +306,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "returns 400 when validations fail" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
     discussion_post = create(:mentor_discussion_post, author: mentor, discussion:)
 
     patch api_mentoring_discussion_post_path(discussion, discussion_post),
@@ -321,7 +326,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "updates a post" do
     mentor = create(:user, handle: "mentor")
     setup_user(mentor)
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
 
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
@@ -343,6 +348,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "mentor",
+        author_flair: nil,
         author_avatar_url: mentor.avatar_url,
         by_student: false,
         content_markdown: "content",
@@ -364,7 +370,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "destroy returns 404 error when post not found" do
     mentor = create(:user)
     setup_user(mentor)
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
 
     delete api_mentoring_discussion_post_path(discussion, 1), headers: @headers, as: :json
 
@@ -410,7 +416,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
   test "destroys a post" do
     mentor = create(:user, handle: "mentor")
     setup_user(mentor)
-    discussion = create :mentor_discussion, mentor: mentor
+    discussion = create(:mentor_discussion, mentor:)
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
       discussion:,
@@ -429,6 +435,7 @@ class API::Mentoring::DiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "mentor",
+        author_flair: nil,
         author_avatar_url: mentor.avatar_url,
         by_student: false,
         content_markdown: "Hello",

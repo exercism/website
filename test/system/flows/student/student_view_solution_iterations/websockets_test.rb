@@ -11,12 +11,12 @@ module Flows
           Submission::File.any_instance.stubs(:content)
           user = create :user
           track = create :track
-          create :user_track, user: user, track: track
-          exercise = create :concept_exercise, track: track
-          solution = create :concept_solution, exercise: exercise, user: user
-          submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
-          create :iteration, idx: 2, solution: solution, submission: submission
-          create :submission_file, submission: submission
+          create(:user_track, user:, track:)
+          exercise = create(:concept_exercise, track:)
+          solution = create(:concept_solution, exercise:, user:)
+          submission = create :submission, tests_status: :queued, solution:, submitted_via: :cli
+          create(:iteration, idx: 2, solution:, submission:)
+          create(:submission_file, submission:)
 
           use_capybara_host do
             sign_in!(user)
@@ -32,7 +32,7 @@ module Flows
 
         private
         def submission_analysis_finished!(submission)
-          create :submission_analysis, submission: submission, data: {
+          create :submission_analysis, submission:, data: {
             comments: [
               { type: "essential", comment: "ruby.two-fer.splat_args" }
             ]

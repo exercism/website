@@ -31,12 +31,12 @@ class SerializeExercisesTest < ActiveSupport::TestCase
   test "with user track" do
     user = create :user
     track = create :track
-    user_track = create :user_track, user: user, track: track
-    concept_exercise = create :concept_exercise, track: track
-    practice_exercise = create :practice_exercise, track: track
+    user_track = create(:user_track, user:, track:)
+    concept_exercise = create(:concept_exercise, track:)
+    practice_exercise = create(:practice_exercise, track:)
     create :exercise_prerequisite, exercise: practice_exercise
 
-    create :hello_world_solution, :completed, track: track, user: user
+    create(:hello_world_solution, :completed, track:, user:)
 
     expected = [
       SerializeExercise.(concept_exercise, user_track:, recommended: true),

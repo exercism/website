@@ -37,7 +37,7 @@ class TracksController < ApplicationController
     @last_8_weeks_counts = ((current_week - 8)...current_week).to_a.map { |w| (w % 53) + 1 }.map { |w| data.fetch(w, 0) }
 
     @recent_solutions = UserTrack::RetrieveRecentlyActiveSolutions.(@user_track)
-    @updates = SiteUpdate.published.for_track(@track).sorted.limit(10)
+    @updates = SiteUpdate.published.for_track(@track).sorted.limit(10).includes(:author)
     @forum_threads = Forum::RetrieveThreads.(track: @track, count: 3)
   end
 

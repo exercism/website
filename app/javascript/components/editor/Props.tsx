@@ -6,6 +6,8 @@ import {
   RepresenterFeedback,
   TestFile,
 } from '../types'
+import { GptUsage } from './ChatGptFeedback/ChatGptDialog'
+import { HelpRecord } from './ChatGptFeedback/useChatGptFeedback'
 import { Submission, Assignment, EditorSettings } from './types'
 
 export type EditorFeatures = {
@@ -59,6 +61,7 @@ type EditorPanels = {
     assignment: Assignment
     exampleFiles: File[]
   }
+  aiHelp: HelpRecord
   tests?: {
     testFiles: readonly TestFile[]
     highlightjsLanguage: string
@@ -72,7 +75,9 @@ type EditorPanels = {
 
 export type Props = {
   timeout?: number
+  insidersStatus: string
   defaultSubmissions: Submission[]
+  chatgptUsage: GptUsage
   defaultFiles: File[]
   defaultSettings: Partial<EditorSettings>
   autosave: AutosaveConfig

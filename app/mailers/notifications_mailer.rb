@@ -34,7 +34,7 @@ class NotificationsMailer < ApplicationMailer
     @exercise = @discussion.exercise
     @track = @exercise.track
 
-    subject = "[Mentoring] #{@discussion.student.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    subject = "[Mentoring] #{@discussion.student.handle} has commented in your discussion on #{@track.title}/#{@exercise.title}"
     @unsubscribe_key = :email_on_student_replied_to_discussion_notification
     @title = "Your student has replied"
     mail_to_user(@user, subject)
@@ -102,7 +102,7 @@ class NotificationsMailer < ApplicationMailer
 
     @unsubscribe_key = :email_on_student_finished_discussion_notification
     @title = "Your student has finished the discussion"
-    subject = "[Mentoring] #{@discussion.student.handle} has ended your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    subject = "[Mentoring] #{@discussion.student.handle} has ended your discussion on #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
 
@@ -115,7 +115,7 @@ class NotificationsMailer < ApplicationMailer
 
     @unsubscribe_key = :email_on_mentor_finished_discussion_notification
     @title = "Your mentor has finished the discussion"
-    subject = "[Mentoring] #{@discussion.mentor.handle} has ended your discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    subject = "[Mentoring] #{@discussion.mentor.handle} has ended your discussion on #{@track.title}/#{@exercise.title}"
     mail_to_user(@user, subject)
   end
 
@@ -130,6 +130,60 @@ class NotificationsMailer < ApplicationMailer
     @unsubscribe_key = :email_on_automated_feedback_added_notification
     @title = "New automated feedback is available"
     subject = "There's new feedback on your solution to #{@track.title}/#{@exercise.title}"
+    mail_to_user(@user, subject)
+  end
+
+  def joined_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def joined_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Lifetime Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def eligible_for_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Join Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def eligible_for_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Join Exercism Lifetime Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def upgraded_to_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "You've been upgraded to Exercism Lifetime Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def expired_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Exercism Insiders membership expired"
     mail_to_user(@user, subject)
   end
 end

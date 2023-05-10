@@ -49,7 +49,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   )
 
   return (
-    <div className="p-40 bg-white shadow-lgZ1 rounded-16 mb-64">
+    <div className="p-40 bg-backgroundColorA shadow-lgZ1 rounded-16 mb-64">
       <VideoGridHeader
         tracks={data.tracks}
         handleTrackChange={handleTrackChange}
@@ -139,7 +139,7 @@ function Video({ video }: VideoProps): JSX.Element {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="grid shadow-smZ1 p-16 bg-white rounded-8 text-left"
+        className="grid shadow-smZ1 p-16 bg-backgroundColorA rounded-8 text-left"
       >
         <img
           style={{ objectFit: 'cover', width: '100%', height: '150px' }}

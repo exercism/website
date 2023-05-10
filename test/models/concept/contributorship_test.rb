@@ -5,7 +5,7 @@ class Concept::ContributorshipTest < ActiveSupport::TestCase
     concept = create :concept
     user = create :user
     contributorship = create :concept_contributorship,
-      concept: concept,
+      concept:,
       contributor: user
 
     assert_equal concept, contributorship.concept

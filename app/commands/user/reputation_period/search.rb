@@ -7,17 +7,14 @@ class User::ReputationPeriod::Search
     20
   end
 
+  def self.period_records(...)
+    new(...).period_records
+  end
+
   initialize_with period: nil, category: nil, track_id: 0, user_handle: nil, page: 1
 
   def call
-    @rows = User::ReputationPeriod.where.not(reputation: 0)
-
-    filter_period!
-    filter_category!
-    filter_about!
-    filter_user_handle!
-
-    results = @rows.
+    results = period_records.
       order(reputation: :desc, id: :asc).
       select(:user_id).
       page(page).
@@ -27,7 +24,7 @@ class User::ReputationPeriod::Search
     # TODO: (Optional) Cache this with the expiry key as the id of the last added reputation token
     # and the other keys as the composite parts of the query
     # Unless we specify a user_handle, in which case don't bother
-    total_count = @rows.count
+    total_count = period_records.count
 
     user_ids = results.map(&:user_id)
     users = User.where(id: user_ids).
@@ -40,6 +37,23 @@ class User::ReputationPeriod::Search
       page(page).per(self.class.requests_per_page)
   end
 
+  # This must be a public method as it can be called
+  # directly when retrieving period records, not user records.
+  # This should probably be refactored into two different
+  # commands at some stage as it's messy right now.
+  memoize
+  def period_records
+    @rows = User::ReputationPeriod.where.not(reputation: 0)
+
+    filter_period!
+    filter_category!
+    filter_about!
+    filter_user_handle!
+
+    @rows
+  end
+
+  private
   # This uses a little Rails magic to check the period
   # is valid and if not, default to 0 (the general one).
   # It breaks without the to_s for nil as nil is converted to NULL

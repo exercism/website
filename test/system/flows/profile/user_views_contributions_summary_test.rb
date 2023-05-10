@@ -8,13 +8,13 @@ module Flows
 
       test "shows contribution summary" do
         user = create :user, handle: "user"
-        create :user_profile, user: user
-        create :user_code_contribution_reputation_token, user: user
+        create(:user_profile, user:)
+        create(:user_code_contribution_reputation_token, user:)
 
         use_capybara_host do
           visit profile_path(user.handle)
 
-          assert_text "user has\n12 Reputation"
+          assert_text "user has 12 Reputation"
           assert_text "Building"
           assert_text "1 PR accepted"
           assert_text "12 rep"

@@ -23,9 +23,9 @@ class User::DestroyAccountTest < ActiveSupport::TestCase
     create :user, :ghost
 
     user = create :user
-    solution = create :practice_solution, user: user
-    submission = create :submission, solution: solution
-    iteration = create :iteration, solution: solution, submission: submission
+    solution = create(:practice_solution, user:)
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, solution:, submission:)
     solution.update!(published_iteration: iteration)
 
     User::DestroyAccount.(user)

@@ -1,7 +1,7 @@
 @import "../styles";
 
 #page-profile-testimonials {
-    @apply mb-80 bg-backgroundColorA;
+    @apply mb-80 bg-backgroundColorB;
     & article {
         @apply pt-32;
         & .stats {
@@ -30,7 +30,7 @@
             display: inline-block;
             margin: 24px 0;
             width: 100%;
-
+            @apply bg-backgroundColorA;
             @apply pt-36 pb-24 px-24;
             @apply border-1 border-borderColor6;
             @apply shadow-sm;
@@ -61,7 +61,7 @@
                     @apply mx-8;
                 }
                 & .track-title {
-                    @apply text-textColor3 font-medium;
+                    @apply text-textColor6 font-medium;
                 }
             }
             & time {

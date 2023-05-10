@@ -19,8 +19,8 @@ class Submission::Representation::CreateTest < ActiveSupport::TestCase
     mentor = create :user
     iteration = create :iteration
     submission = iteration.submission
-    discussion = create :mentor_discussion, mentor: mentor, solution: iteration.solution
-    create :mentor_discussion_post, discussion: discussion, iteration: iteration, author: mentor
+    discussion = create :mentor_discussion, mentor:, solution: iteration.solution
+    create :mentor_discussion_post, discussion:, iteration:, author: mentor
 
     job = create_representer_job!(submission, execution_status: 200, ast: "here(lives(an(ast)))")
     representation = Submission::Representation::Create.(submission, job, "the_digest")

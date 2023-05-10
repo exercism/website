@@ -88,6 +88,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 import { AutomationProps } from '../components/mentoring/automation/Representation'
+import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -159,6 +160,11 @@ initReact({
   ),
   'mentoring-representations-with-feedback': (data: any) => (
     <Mentoring.RepresentationsWithFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
+  'mentoring-representations-admin': (data: any) => (
+    <Mentoring.RepresentationsAdmin
       data={camelizeKeysAs<AutomationProps>(data)}
     />
   ),
@@ -259,6 +265,13 @@ initReact({
         data.preferences
       )}
       links={data.links}
+    />
+  ),
+  'settings-theme-preference-form': (data: any) => (
+    <Settings.ThemePreferenceForm
+      defaultThemePreference={data.default_theme_preference}
+      insidersStatus={data.insiders_status}
+      links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
     />
   ),
   'settings-communication-preferences-form': (data: any) => (

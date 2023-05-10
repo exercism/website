@@ -1,9 +1,8 @@
-import { pluralizeWithNumber } from '../../../utils/pluralizeWithNumber'
 import React, { useMemo } from 'react'
-import { fromNow } from '../../../utils/time'
-import { TrackIcon, ExerciseIcon, GraphicalIcon } from '../../common'
-import { Representation } from '../../types'
+import { pluralizeWithNumber, fromNow } from '@/utils'
+import { TrackIcon, ExerciseIcon, GraphicalIcon } from '@/components/common'
 import { MostPopularTag } from './MostPopularTag'
+import type { Representation } from '@/components/types'
 
 export const AutomationListElement = ({
   representation,

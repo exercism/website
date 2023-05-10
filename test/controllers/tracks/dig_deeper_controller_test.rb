@@ -4,8 +4,8 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "show: 404s when track does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -17,7 +17,7 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "show: 404s when exercise does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     sign_in!(user)
 
@@ -28,7 +28,7 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
 
   test "show: renders correctly for external" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     get track_exercise_dig_deeper_url(track, exercise)
 
@@ -37,7 +37,7 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
 
   test "show: redirects when exercise is hello-world" do
     track = create :track
-    exercise = create :hello_world_exercise, track: track
+    exercise = create(:hello_world_exercise, track:)
 
     get track_exercise_dig_deeper_url(track, exercise)
 
@@ -47,9 +47,9 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "show: redirects when not iterated and not unlocked help" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    create :concept_solution, user: user, exercise: exercise
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    create(:concept_solution, user:, exercise:)
 
     sign_in!(user)
 
@@ -61,9 +61,9 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "show: renders when not iterated but unlocked help" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    create :concept_solution, user: user, exercise: exercise, unlocked_help: true
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    create :concept_solution, user:, exercise:, unlocked_help: true
 
     sign_in!(user)
 
@@ -75,10 +75,10 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "show: renders when iterated" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    solution = create :concept_solution, user: user, exercise: exercise, unlocked_help: true
-    create :iteration, solution: solution, user: user
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    solution = create :concept_solution, user:, exercise:, unlocked_help: true
+    create(:iteration, solution:, user:)
 
     sign_in!(user)
 
@@ -89,7 +89,7 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
 
   test "tooltip_locked: renders when external" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     get tooltip_locked_track_exercise_dig_deeper_url(track, exercise)
 
@@ -99,9 +99,9 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "tooltip_locked: renders when not iterated and not unlocked help" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    create :concept_solution, user: user, exercise: exercise
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    create(:concept_solution, user:, exercise:)
 
     sign_in!(user)
 
@@ -113,8 +113,8 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "tooltip_locked: 404s when track does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -126,7 +126,7 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "tooltip_locked: 404s when exercise does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     sign_in!(user)
 
@@ -138,9 +138,9 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "tooltip_locked: renders when not iterated but unlocked help" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    create :concept_solution, user: user, exercise: exercise, unlocked_help: true
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    create :concept_solution, user:, exercise:, unlocked_help: true
 
     sign_in!(user)
 
@@ -152,10 +152,10 @@ class Tracks::DigDeeperControllerTest < ActionDispatch::IntegrationTest
   test "tooltip_locked: renders when iterated" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    solution = create :concept_solution, user: user, exercise: exercise, unlocked_help: true
-    create :iteration, solution: solution, user: user
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    solution = create :concept_solution, user:, exercise:, unlocked_help: true
+    create(:iteration, solution:, user:)
 
     sign_in!(user)
 

@@ -40,8 +40,8 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "latest should return latest iteration" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    create :iteration, solution: solution
-    it_2 = create :iteration, solution: solution
+    create(:iteration, solution:)
+    it_2 = create(:iteration, solution:)
 
     get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
     assert_response :ok
@@ -54,8 +54,8 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "latest should return latest iteration even if it was deleted" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    create :iteration, solution: solution
-    it_2 = create :iteration, solution: solution, deleted_at: Time.current
+    create(:iteration, solution:)
+    it_2 = create :iteration, solution:, deleted_at: Time.current
 
     get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
     assert_response :ok
@@ -68,18 +68,18 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "latest allows sideloading automated feedback" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    create :iteration, solution: solution
-    submission = create :submission, solution: solution,
+    create(:iteration, solution:)
+    submission = create :submission, solution:,
       tests_status: :passed,
       representation_status: :queued,
       analysis_status: :queued
-    create :submission_analysis, submission: submission, data: {
+    create :submission_analysis, submission:, data: {
       comments: [
         { type: "informative", comment: "ruby.two-fer.splat_args" },
         { type: "essential", comment: "ruby.two-fer.splat_args" }
       ]
     }
-    it_2 = create :iteration, submission: submission
+    it_2 = create(:iteration, submission:)
 
     get latest_api_solution_iterations_path(solution.uuid, sideload: [:automated_feedback]), headers: @headers, as: :json
     assert_response :ok
@@ -116,8 +116,8 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "latest_status should be correct for normal iteration" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    it_1 = create :iteration, solution: solution
-    it_2 = create :iteration, solution: solution
+    it_1 = create(:iteration, solution:)
+    it_2 = create(:iteration, solution:)
     it_1.submission.update(tests_status: :passed)
 
     # Sanity
@@ -135,7 +135,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "latest_status works with deleted iteration" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    create :iteration, solution: solution, deleted_at: Time.current
+    create :iteration, solution:, deleted_at: Time.current
 
     get latest_status_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
     assert_response :ok
@@ -175,7 +175,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
     post api_solution_iterations_path(solution.uuid, submission_id: submission.uuid), headers: @headers, as: :json
     assert_response :forbidden
     expected = { error: {
@@ -203,7 +203,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "create should return serialized iteration" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     post api_solution_iterations_path(solution.uuid, submission_uuid: submission.uuid),
       headers: @headers,
@@ -220,7 +220,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "create should create submission" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     Iteration::Create.expects(:call).with(solution, submission).returns(create(:iteration, submission:))
 
@@ -284,7 +284,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "destroy should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     delete api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
     assert_response :forbidden
     expected = { error: {
@@ -311,7 +311,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "destroy should soft delete the iteration" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
 
     Iteration::Destroy.expects(:call).with(iteration)
 
@@ -355,7 +355,7 @@ class API::IterationsControllerTest < API::BaseTestCase
   test "automated_feedback should return feedback" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
 
     get automated_feedback_api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
 

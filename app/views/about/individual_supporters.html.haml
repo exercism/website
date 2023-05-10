@@ -30,7 +30,7 @@
         .donor.flex
           = image_tag user.avatar_url, alt: "User-uploaded avatar of #{user.name}"
           .text
-            .name.text-h5.mb-2= user.name
+            .name.text-h5.mb-2= render ViewComponents::HandleWithFlair.new(user.name, user.flair, size: :medium)
             .when.text-textColor6 First supported #{time_ago_in_words(user.first_donated_at)} ago
 
     = paginate @supporting_users

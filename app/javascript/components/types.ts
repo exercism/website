@@ -58,6 +58,7 @@ export type Testimonial = {
   student: {
     avatarUrl: string
     handle: string
+    flair: string
   }
   exercise: {
     title: string
@@ -82,6 +83,7 @@ type UserLinks = {
 }
 export type User = {
   avatarUrl: string
+  flair: string
   name?: string
   handle: string
   hasAvatar?: boolean
@@ -101,6 +103,7 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
+  flair: string
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
@@ -148,7 +151,7 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
-export type AutomationStatus = 'with_feedback' | 'without_feedback'
+export type AutomationStatus = 'with_feedback' | 'without_feedback' | 'admin'
 
 export type CommunitySolution = {
   uuid: string
@@ -164,6 +167,7 @@ export type CommunitySolution = {
   author: {
     handle: string
     avatarUrl: string
+    flair: string
   }
   exercise: {
     title: string
@@ -311,14 +315,16 @@ export type Iteration = {
   }
 }
 
+type FeedbackContributor = Pick<
+  User,
+  'name' | 'avatarUrl' | 'reputation' | 'flair' | 'handle'
+> & {
+  profileUrl: string
+}
 export type RepresenterFeedback = {
   html: string
-  author: {
-    name: string
-    reputation: number
-    avatarUrl: string
-    profileUrl: string
-  }
+  author: FeedbackContributor
+  editor?: FeedbackContributor
 }
 
 export type AnalyzerFeedback = {
@@ -395,10 +401,12 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
+    flair: string
   }
   mentor: {
     avatarUrl: string
     handle: string
+    flair: string
   }
   track: {
     title: string
@@ -508,6 +516,7 @@ export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
+  flair: string
   activity: string
   reputation: string
   links: {
@@ -722,6 +731,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
+    flair: string
     reputation: string
   }
   updatedAt: string

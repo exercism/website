@@ -13,10 +13,10 @@ module Components
       test "user submits code on broadcast timeout" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
@@ -44,10 +44,10 @@ module Components
       test "user submits code via results panel" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
@@ -75,13 +75,13 @@ module Components
       test "user tries to submits code immediately" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
-          submission = create :submission, solution: solution
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
+          submission = create(:submission, solution:)
           create :submission_test_run,
-            submission: submission,
+            submission:,
             ops_status: 200,
             raw_results: {
               status: "pass",
@@ -102,10 +102,10 @@ module Components
       test "user tries to submits code after refresh" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
@@ -135,10 +135,10 @@ module Components
       test "feedback modal shows taking too long text" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
@@ -169,7 +169,7 @@ module Components
         use_capybara_host do
           user_track = create :user_track
           solution = create :concept_solution, user: user_track.user, track: user_track.track
-          submission = create :submission, solution: solution,
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :queued,
             analysis_status: :queued
@@ -206,11 +206,11 @@ module Components
         use_capybara_host do
           user_track = create :user_track
           solution = create :concept_solution, user: user_track.user, track: user_track.track
-          submission = create :submission, solution: solution,
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :queued,
             analysis_status: :queued
-          create :submission_analysis, submission: submission, data: {
+          create :submission_analysis, submission:, data: {
             comments: [
               { type: "informative", comment: "ruby.two-fer.splat_args" },
               { type: "celebratory", comment: "ruby.two-fer.splat_args" }
@@ -245,11 +245,11 @@ module Components
         use_capybara_host do
           user_track = create :user_track
           solution = create :concept_solution, user: user_track.user, track: user_track.track
-          submission = create :submission, solution: solution,
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :queued,
             analysis_status: :queued
-          create :submission_analysis, submission: submission, data: {
+          create :submission_analysis, submission:, data: {
             comments: [
               { type: "informative", comment: "ruby.two-fer.splat_args" },
               { type: "essential", comment: "ruby.two-fer.splat_args" }
@@ -285,11 +285,11 @@ module Components
         use_capybara_host do
           user_track = create :user_track
           solution = create :concept_solution, user: user_track.user, track: user_track.track
-          submission = create :submission, solution: solution,
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :queued,
             analysis_status: :queued
-          create :submission_analysis, submission: submission, data: {
+          create :submission_analysis, submission:, data: {
             comments: [
               { type: "informative", comment: "ruby.two-fer.splat_args" },
               { type: "essential", comment: "ruby.two-fer.splat_args" }

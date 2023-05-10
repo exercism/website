@@ -10,6 +10,10 @@ class Mentoring::AutomationController < ApplicationController
     @automation_params = params.permit(:order, :criteria, :page, :track_slug)
   end
 
+  def admin
+    @automation_params = params.permit(:order, :criteria, :page, :track_slug)
+  end
+
   def edit
     @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
     @source_params = params.permit(source: %i[order criteria page track_slug only_mentored_solutions])[:source] || {}

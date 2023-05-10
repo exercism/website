@@ -20,6 +20,15 @@ class UserTrack::RetrieveRecentlyActiveSolutions
       pluck(:solution_id)
 
     Solution.where(id: solution_ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')"))
+      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
+      includes(
+        :exercise, :track, :user,
+        latest_iteration: [
+          :exercise, :track,
+          { submission: %i[
+            analysis solution submission_representation
+          ] }
+        ]
+      )
   end
 end

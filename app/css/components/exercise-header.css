@@ -1,7 +1,11 @@
 @import "../styles";
 
 .c-exercise-header {
-    @apply border-t-1 border-color22;
+    /* is it necessary? it creates a 2px top border (site header has 1px bottom-border)
+    while it has a 1px bottom border
+    which looks a bit disturbing
+    */
+    /* @apply border-t-1 border-color22; */
     @apply mb-12;
 
     background: var(--exercise-header-gradient);
@@ -18,7 +22,7 @@
         @apply mb-24;
     }
     & .update-bar {
-        @apply bg-lightOrange;
+        background: var(--backgroundColorCAlert);
         @apply border-2 border-lightGold rounded-8;
         @apply py-10 px-24;
         @apply text-textColor2 text-16 leading-160 font-semibold;
@@ -31,7 +35,7 @@
         }
 
         & .faux-link {
-            @apply text-lightBlue ml-auto;
+            @apply text-prominentLinkColor ml-auto;
         }
     }
 

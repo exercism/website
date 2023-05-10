@@ -70,8 +70,8 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     # Create user and solution
     user = create :user
-    solution = create :concept_solution, user: user
-    create :iteration, solution: solution
+    solution = create(:concept_solution, user:)
+    create(:iteration, solution:)
     refute user.badges.present?
 
     Submission::Create.(solution, files, :cli)
@@ -97,7 +97,7 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
   test "does not start test run if there's no test runner" do
     exercise = create :practice_exercise, has_test_runner: false
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
 

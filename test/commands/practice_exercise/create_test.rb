@@ -4,8 +4,8 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
   test "creates practice exercise" do
     uuid = SecureRandom.uuid
     track = create :track
-    conditionals = create :concept, track: track, slug: 'conditionals'
-    basics = create :concept, track: track, slug: 'basics'
+    conditionals = create :concept, track:, slug: 'conditionals'
+    basics = create :concept, track:, slug: 'basics'
 
     PracticeExercise::Create.(
       uuid,
@@ -38,8 +38,8 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
   test "idempotent" do
     uuid = SecureRandom.uuid
     track = create :track
-    conditionals = create :concept, track: track, slug: 'conditionals'
-    basics = create :concept, track: track, slug: 'basics'
+    conditionals = create :concept, track:, slug: 'conditionals'
+    basics = create :concept, track:, slug: 'basics'
 
     assert_idempotent_command do
       PracticeExercise::Create.(

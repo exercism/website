@@ -34,6 +34,7 @@ class Submission < ApplicationRecord
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
+  has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
   # TODO: It's important that we enforce rules on these to stop things from
   # going from the success states (passed/failed/errored/generated/completed)
@@ -61,6 +62,13 @@ class Submission < ApplicationRecord
 
   def broadcast!
     SubmissionChannel.broadcast!(self)
+  end
+
+  def write_to_efs!
+    dir = [Exercism.config.efs_submissions_mount_point, uuid].join('/')
+    return if Dir.exist?(dir)
+
+    files.each(&:write_to_efs!)
   end
 
   def tests_passed?
@@ -151,15 +159,26 @@ class Submission < ApplicationRecord
     return nil unless exercise_representation&.has_feedback?
 
     author = exercise_representation.feedback_author
+    editor = exercise_representation.feedback_editor
 
     {
       html: exercise_representation.feedback_html,
       author: {
         name: author.name,
         reputation: author.reputation,
+        flair: author.flair,
         avatar_url: author.avatar_url,
         profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
-      }
+      },
+      editor: if editor.present?
+                {
+                  name: editor.name,
+                  flair: author.flair,
+                  reputation: editor.reputation,
+                  avatar_url: editor.avatar_url,
+                  profile_url: editor.profile ? Exercism::Routes.profile_url(editor) : nil
+                }
+              end
     }
   end
 

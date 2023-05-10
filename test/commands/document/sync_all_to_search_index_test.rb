@@ -17,7 +17,7 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
 
   test "indexes document linked to track" do
     track = create :track, slug: 'nim'
-    doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track
+    doc = create(:document, id: 3, title: 'Installation', blurb: 'How to install Nim', track:)
     Document.any_instance.stubs(:markdown).returns('# Installation')
     wait_for_opensearch_to_be_synced
 

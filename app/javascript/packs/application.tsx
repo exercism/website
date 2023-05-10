@@ -29,9 +29,7 @@ const CLIWalkthroughButton = lazy(
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
-const ImpactTestimonials = lazy(
-  () => import('../components/impact/Testimonials')
-)
+const InsiderStatus = lazy(() => import('../components/insiders/InsiderStatus'))
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -71,7 +69,7 @@ import { Links as CommentsListLinks } from '../components/community-solutions/Co
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
-function camelizeKeysAs<T>(object: any): T {
+export function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
 import currency from 'currency.js'
@@ -318,9 +316,10 @@ export const mappings = {
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
 
-  'common-copy-to-clipboard-button': (data: any) => (
+  'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
+  'common-theme-toggle-button': (): JSX.Element => <Common.ThemeToggleButton />,
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
@@ -328,6 +327,7 @@ export const mappings = {
   'profile-testimonials-summary': (data: any) => (
     <Profile.TestimonialsSummary
       handle={data.handle}
+      flair={data.flair}
       numTestimonials={data.num_testimonials}
       numSolutionsMentored={data.num_solutions_mentored}
       numStudentsHelped={data.num_students_helped}
@@ -426,9 +426,9 @@ export const mappings = {
       <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
-  'impact-testimonials': (data: any) => (
+  'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <ImpactTestimonials data={data} />
+      <InsiderStatus {...data} />
     </Suspense>
   ),
   'impact-map': (data: any) => {
@@ -469,6 +469,7 @@ import { highlightAll } from '../utils/highlight'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
+import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

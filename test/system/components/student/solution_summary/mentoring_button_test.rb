@@ -10,16 +10,16 @@ module Components
         test "shows discussions" do
           user = create :user
           mentor = create :user, handle: "my-mentor"
-          solution = create :practice_solution, user: user
-          request = create :mentor_request, solution: solution
-          discussion = create :mentor_discussion, request: request, solution: solution, mentor: mentor
+          solution = create(:practice_solution, user:)
+          request = create(:mentor_request, solution:)
+          discussion = create(:mentor_discussion, request:, solution:, mentor:)
           request.fulfilled!
-          submission = create :submission, solution: solution,
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :generated,
             analysis_status: :completed
-          create :iteration, idx: 1, solution: solution, submission: submission
-          create :user_track, user: user, track: solution.track
+          create(:iteration, idx: 1, solution:, submission:)
+          create :user_track, user:, track: solution.track
 
           use_capybara_host do
             sign_in!(user)
@@ -35,13 +35,13 @@ module Components
 
         test "shows links to request mentoring" do
           user = create :user
-          solution = create :practice_solution, user: user
-          submission = create :submission, solution: solution,
+          solution = create(:practice_solution, user:)
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :generated,
             analysis_status: :completed
-          create :iteration, idx: 1, solution: solution, submission: submission
-          create :user_track, user: user, track: solution.track
+          create(:iteration, idx: 1, solution:, submission:)
+          create :user_track, user:, track: solution.track
 
           use_capybara_host do
             sign_in!(user)
@@ -61,21 +61,21 @@ module Components
 
           user = create :user
           mentor = create :user, handle: "my-mentor"
-          solution = create :practice_solution, user: user
-          request = create :mentor_request, solution: solution
+          solution = create(:practice_solution, user:)
+          request = create(:mentor_request, solution:)
           discussion = create :mentor_discussion,
-            request: request,
-            solution: solution,
-            mentor: mentor,
+            request:,
+            solution:,
+            mentor:,
             finished_at: Time.current
           request.fulfilled!
-          submission = create :submission, solution: solution,
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :generated,
             analysis_status: :completed
-          create :iteration, idx: 1, solution: solution, submission: submission
+          create(:iteration, idx: 1, solution:, submission:)
           solution.update_mentoring_status!
-          create :user_track, user: user, track: solution.track
+          create :user_track, user:, track: solution.track
 
           use_capybara_host do
             sign_in!(user)
@@ -90,13 +90,13 @@ module Components
 
         test "shows links to submit for code review within nudge section" do
           user = create :user
-          solution = create :practice_solution, user: user
-          submission = create :submission, solution: solution,
+          solution = create(:practice_solution, user:)
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :generated,
             analysis_status: :completed
-          create :iteration, idx: 1, solution: solution, submission: submission
-          create :user_track, user: user, track: solution.track
+          create(:iteration, idx: 1, solution:, submission:)
+          create :user_track, user:, track: solution.track
 
           use_capybara_host do
             sign_in!(user)

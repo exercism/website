@@ -3,12 +3,12 @@ require 'test_helper'
 class Submission::TestRun::InitTest < ActiveSupport::TestCase
   test "calls to publish_message" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
-    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Don't override tests
-    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
+    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
+    create :submission_file, submission:, filename: "log_line_parser_test.rb" # Don't override tests
+    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
     Exercism::ToolingJob.expects(:create!).with(
       :test_runner,
@@ -35,12 +35,12 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     skip # TODO: Fix issue with fake git sha
 
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
-    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Don't override tests
-    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
+    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
+    create :submission_file, submission:, filename: "log_line_parser_test.rb" # Don't override tests
+    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
     Exercism::ToolingJob.expects(:create!).with(
       :test_runner,
@@ -65,13 +65,13 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
 
   test "calls to publish_message for exercise with editor files" do
     exercise = create :practice_exercise, slug: 'isogram'
-    solution = create :practice_solution, exercise: exercise
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: "isogram.rb" # Override old file
-    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission: submission, filename: "isogram_test.rb" # Don't override tests
-    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow meta
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: "isogram.rb" # Override old file
+    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
+    create :submission_file, submission:, filename: "isogram_test.rb" # Don't override tests
+    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
     Exercism::ToolingJob.expects(:create!).with(
       :test_runner,
@@ -98,9 +98,9 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     time = Time.current - 4.months
 
     solution = create :concept_solution, :published
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
-    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
     user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
     Submission::TestRun::Init.(submission, type: :solution)
@@ -114,9 +114,9 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     time = Time.current - 4.months
 
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
-    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
     user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
     Submission::TestRun::Init.(submission, type: :solution)

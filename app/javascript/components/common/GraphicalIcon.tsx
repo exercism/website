@@ -5,8 +5,8 @@ export function GraphicalIcon({
   icon,
   className = '',
   category,
-  width = null,
-  height = null,
+  width = 0,
+  height = 0,
   hex = false,
 }: {
   icon: string

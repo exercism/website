@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   draw(:api)
+  draw(:spi)
 
   # #### #
   # Auth #
@@ -26,18 +27,12 @@ Rails.application.routes.draw do
 
   get "discourse/sso" => "discourse/sso"
 
-  # ### #
-  # SPI #
-  # ### #
-  namespace :spi do
-    resources :tooling_jobs, only: :update
-  end
-
   # ######## #
   # Webhooks #
   # ######## #
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
+    resource :paypal, only: [:create], controller: "paypal"
     resource :coinbase, only: [:create], controller: "coinbase"
     resource :github_sponsors, only: [:create]
 
@@ -53,6 +48,7 @@ Rails.application.routes.draw do
   # Admin #
   # ##### #
   namespace :admin do
+    root to: "dashboard#show"
     resources :community_videos
     resources :mailshots do
       member do
@@ -62,6 +58,11 @@ Rails.application.routes.draw do
     end
     resources :streaming_events
     resources :donors, only: %i[index new create]
+    resources :users, only: %i[index] do
+      collection do
+        get :search
+      end
+    end
   end
 
   # ############ #
@@ -89,6 +90,8 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
 
   resources :impact, only: [:index]
+
+  resources :insiders, only: [:index]
 
   resources :profiles, only: %i[index show new create] do
     collection do
@@ -121,6 +124,7 @@ Rails.application.routes.draw do
     resources :automation, only: %i[index edit], param: :uuid do
       collection do
         get :with_feedback
+        get :admin
         get :tooltip_locked
       end
     end
@@ -297,7 +301,7 @@ Rails.application.routes.draw do
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
 
   %i[installation learning resources tests].each do |doc|
-    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
+    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}")
   end
 
   get "values", to: redirect("about")
@@ -321,7 +325,7 @@ Rails.application.routes.draw do
   get "my/settings", to: redirect("settings")
   get "my/tracks", to: redirect("tracks")
   get "getting-started", to: redirect("docs/using/getting-started")
-  get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
+  get '/languages/:slug', to: redirect('/tracks/%{slug}')
   get "contribute", to: redirect("contributing")
 
   get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect

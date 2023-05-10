@@ -13,6 +13,7 @@
                 & .c-icon {
                     height: 32px;
                     width: 32px;
+                    filter: none;
                 }
             }
         }
@@ -64,6 +65,9 @@
                 }
                 & .c-primary-reputation {
                     @apply flex-shrink-0;
+                }
+                .c-icon.action-button {
+                    @apply filter-textColor6;
                 }
                 & .action-button {
                     height: 24px;

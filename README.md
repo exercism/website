@@ -18,7 +18,7 @@ While you are welcome to try and follow these instructions and set up this repo 
 
 You need the following installed:
 
-- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
+- Ruby 3.2.1 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
 - MySQL
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)

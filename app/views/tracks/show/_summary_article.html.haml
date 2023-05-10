@@ -7,10 +7,10 @@
       %section.progress-chart
         %h2
           - if user_track.completed_percentage.zero?
-            You’ve just started the #{track.title} track.
+            You&apos;ve just started the #{track.title} track.
             %strong Good luck, adventurer!
           - else
-            You’re
+            You&apos;re
             %em #{user_track.completed_percentage}%
             through the #{track.title} track.
             %strong Keep it up! 🚀
@@ -89,7 +89,7 @@
         %h3.text-h4.mt-32.mb-12 From the Forum…
         .flex.flex-col.gap-8.mb-20
           - @forum_threads.each do |thread|
-            = link_to thread.url, class: 'flex items-start bg-white px-16 py-12 shadow-base hover:shadow-smZ1 rounded-5 mb-8' do
+            = link_to thread.url, class: 'flex items-start bg-backgroundColorA px-16 py-12 shadow-base hover:shadow-smZ1 rounded-5 mb-8' do
               = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'
               .flex.flex-col.mr-auto
                 %h5.text-h6= thread.title

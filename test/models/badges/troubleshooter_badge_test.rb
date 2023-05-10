@@ -22,7 +22,7 @@ class Badge::TroubleshooterBadgeTest < ActiveSupport::TestCase
       NobbZ
       SleeplessByte
     ].each do |github_username|
-      troubleshooter_user = create :user, github_username: github_username
+      troubleshooter_user = create(:user, github_username:)
       assert badge.award_to?(troubleshooter_user)
     end
   end
@@ -32,7 +32,7 @@ class Badge::TroubleshooterBadgeTest < ActiveSupport::TestCase
 
     # Checks username case-insensitive
     %w[sleeplessbyte SLEEPLESSBYTE SleeplessByte].each do |github_username|
-      user = create :user, github_username: github_username
+      user = create(:user, github_username:)
       assert badge.award_to?(user)
       user.destroy
     end

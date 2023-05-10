@@ -10,8 +10,8 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "update solution's iteration_status" do
     solution = create :practice_solution
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
 
     solution.expects(:update_iteration_status!).at_least_once
 
@@ -20,7 +20,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "does not update iteration_status if no iteration" do
     solution = create :practice_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     solution.expects(:update_iteration_status!).never
 
@@ -29,7 +29,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "submissions get their solution's git data" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_equal solution.git_sha, submission.git_sha
     assert_equal solution.git_slug, submission.git_slug
@@ -42,17 +42,17 @@ class SubmissionTest < ActiveSupport::TestCase
 
     exercise = create :practice_exercise, git_important_files_hash: exercise_hash
     submission = create :submission, git_sha: submission_sha, solution: create(:practice_solution, exercise:)
-    create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
+    create :submission_test_run, submission:, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Create two head runs to check we get the latest
-    create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
-    head_run_2 = create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid,
+    create :submission_test_run, submission:, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
+    head_run_2 = create :submission_test_run, submission:, git_sha: SecureRandom.uuid,
       git_important_files_hash: exercise_hash
     # Create two submission runs to check we get the latest
-    create :submission_test_run, submission: submission, git_sha: submission_sha, git_important_files_hash: SecureRandom.uuid
-    submission_run_2 = create :submission_test_run, submission: submission, git_sha: submission_sha,
+    create :submission_test_run, submission:, git_sha: submission_sha, git_important_files_hash: SecureRandom.uuid
+    submission_run_2 = create :submission_test_run, submission:, git_sha: submission_sha,
       git_important_files_hash: SecureRandom.uuid
-    create :submission_test_run, submission: submission, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
+    create :submission_test_run, submission:, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
 
     # Sanity
     assert_equal exercise_hash, exercise.git_important_files_hash
@@ -73,7 +73,7 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_nil submission.exercise_representation
 
     # Ops error submission rep
-    sr = create :submission_representation, submission: submission, ast: ast, ops_status: 500
+    sr = create :submission_representation, submission:, ast:, ops_status: 500
     submission = Submission.find(submission.id)
     assert_nil submission.exercise_representation
 
@@ -101,7 +101,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :generated, analysis_status: :queued
     assert submission.automated_feedback_pending?
 
-    create :submission_representation, ast_digest: "foobar", submission: submission
+    create(:submission_representation, ast_digest: "foobar", submission:)
     er = create :exercise_representation, ast_digest: "foobar", exercise: submission.exercise
     assert Submission.find(submission.id).automated_feedback_pending?
 
@@ -137,7 +137,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :queued, analysis_status: :completed
     assert submission.automated_feedback_pending?
 
-    sa = create :submission_analysis, submission: submission
+    sa = create(:submission_analysis, submission:)
     assert Submission.find(submission.id).automated_feedback_pending?
 
     sa.update(data: { comments: ['asd'] })
@@ -177,7 +177,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission.track.update!(has_representer: false, has_analyzer: true)
     refute submission.automated_feedback_pending?
 
-    sa = create :submission_analysis, submission: submission
+    sa = create(:submission_analysis, submission:)
     refute Submission.find(submission.id).automated_feedback_pending?
 
     sa.update(data: { comments: ['asd'] })
@@ -220,7 +220,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission.track.update!(has_representer: true, has_analyzer: false)
     refute submission.automated_feedback_pending?
 
-    create :submission_representation, ast_digest: "foobar", submission: submission
+    create(:submission_representation, ast_digest: "foobar", submission:)
     er = create :exercise_representation, ast_digest: "foobar", exercise: submission.exercise
     refute Submission.find(submission.id).automated_feedback_pending?
 
@@ -275,7 +275,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :generated
     assert_nil submission.representer_feedback
 
-    create :submission_representation, ast_digest: "foobar", submission: submission
+    create(:submission_representation, ast_digest: "foobar", submission:)
     submission = Submission.find(submission.id)
     assert_nil submission.representer_feedback
 
@@ -292,7 +292,7 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, analysis_status: :completed
     assert_nil submission.analyzer_feedback
 
-    sa = create :submission_analysis, submission: submission
+    sa = create(:submission_analysis, submission:)
     submission = Submission.find(submission.id)
     assert_nil submission.reload.analyzer_feedback
 
@@ -303,12 +303,12 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "representer_feedback is populated correctly" do
     reputation = 50
-    author = create :user, reputation: reputation
+    author = create(:user, reputation:)
     markdown = "foobar"
     ast_digest = "digest"
     submission = create :submission, representation_status: :generated
-    create :submission_representation, ast_digest: ast_digest, submission: submission
-    create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
+    create(:submission_representation, ast_digest:, submission:)
+    create :exercise_representation, ast_digest:, exercise: submission.exercise,
       feedback_markdown: markdown, feedback_author: author, feedback_type: :essential
 
     expected = {
@@ -316,26 +316,62 @@ class SubmissionTest < ActiveSupport::TestCase
       author: {
         name: author.name,
         reputation: 50,
+        flair: author.flair,
         avatar_url: author.avatar_url,
+        profile_url: nil
+      },
+      editor: nil
+    }
+    assert_equal expected, submission.representer_feedback
+  end
+
+  test "representer_feedback with editor" do
+    reputation = 50
+    author = create(:user, reputation:)
+    editor = create :user, reputation: 33
+    markdown = "foobar"
+    ast_digest = "digest"
+    submission = create :submission, representation_status: :generated
+    create(:submission_representation, ast_digest:, submission:)
+    exercise_representation = create :exercise_representation, ast_digest:, exercise: submission.exercise,
+      feedback_markdown: markdown, feedback_author: author, feedback_type: :essential
+
+    assert_nil submission.representer_feedback[:editor]
+
+    exercise_representation.update(feedback_editor: editor)
+    expected = {
+      html: "<p>foobar</p>\n",
+      author: {
+        name: author.name,
+        reputation: 50,
+        flair: author.flair,
+        avatar_url: author.avatar_url,
+        profile_url: nil
+      },
+      editor: {
+        name: editor.name,
+        reputation: editor.reputation,
+        flair: editor.flair,
+        avatar_url: editor.avatar_url,
         profile_url: nil
       }
     }
-    assert_equal expected, submission.representer_feedback
+    assert_equal expected, submission.reload.representer_feedback
   end
 
   test "analyzer_feedback is populated correctly" do
     TestHelpers.use_website_copy_test_repo!
 
     reputation = 50
-    author = create :user, reputation: reputation
+    author = create(:user, reputation:)
     markdown = "foobar"
     ast_digest = "digest"
     submission = create :submission, analysis_status: :completed
-    create :submission_analysis, submission: submission, data: {
+    create :submission_analysis, submission:, data: {
       summary: "Some summary",
       comments: ["ruby.two-fer.incorrect_default_param"]
     }
-    create :exercise_representation, ast_digest: ast_digest, exercise: submission.exercise,
+    create :exercise_representation, ast_digest:, exercise: submission.exercise,
       feedback_markdown: markdown, feedback_author: author
 
     expected = {
@@ -343,7 +379,7 @@ class SubmissionTest < ActiveSupport::TestCase
       comments: [
         {
           type: :informative,
-          html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n" # rubocop:disable Layout/LineLength
+          html: "<p>What could the default value of the parameter be set to in order to avoid having to use a conditional?</p>\n"
         }
       ]
     }
@@ -358,9 +394,9 @@ class SubmissionTest < ActiveSupport::TestCase
     user = create :user, :not_mentor
 
     solution = create :concept_solution, user: student
-    submission = create :submission, solution: solution
-    iteration = create :iteration, solution: solution, submission: submission
-    other_iteration = create :iteration, solution: solution
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, solution:, submission:)
+    other_iteration = create(:iteration, solution:)
 
     assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
@@ -369,7 +405,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(user)
     refute submission.viewable_by?(nil)
 
-    create :mentor_discussion, mentor: mentor_1, solution: solution
+    create(:mentor_discussion, mentor: mentor_1, solution:)
     assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
@@ -377,7 +413,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(user)
     refute submission.viewable_by?(nil)
 
-    create :mentor_request, solution: solution, status: :fulfilled
+    create :mentor_request, solution:, status: :fulfilled
     assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
@@ -385,7 +421,7 @@ class SubmissionTest < ActiveSupport::TestCase
     refute submission.viewable_by?(user)
     refute submission.viewable_by?(nil)
 
-    create :mentor_request, solution: solution, status: :pending
+    create :mentor_request, solution:, status: :pending
     assert submission.viewable_by?(admin)
     assert submission.viewable_by?(student)
     assert submission.viewable_by?(mentor_1)
@@ -425,11 +461,11 @@ class SubmissionTest < ActiveSupport::TestCase
     user = create :user, :not_mentor
 
     solution = create :concept_solution, user: student
-    submission_1 = create :submission, solution: solution
-    submission_2 = create :submission, solution: solution
-    iteration = create :iteration, submission: submission_1, solution: solution
-    create :mentor_discussion, mentor: mentor_1, solution: solution
-    create :mentor_request, solution: solution
+    submission_1 = create(:submission, solution:)
+    submission_2 = create(:submission, solution:)
+    iteration = create(:iteration, submission: submission_1, solution:)
+    create(:mentor_discussion, mentor: mentor_1, solution:)
+    create(:mentor_request, solution:)
 
     # Normal state
     assert submission_1.viewable_by?(student)
@@ -455,14 +491,14 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "valid_filepaths" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Override old file
-    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Don't override tests
-    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission: submission, filename: ".meta/config.json" # Don't allow .meta
-    create :submission_file, submission: submission, filename: ".docs/something.md" # Don't allow .docs
-    create :submission_file, submission: submission, filename: ".exercism/config.json" # Don't allow .exercism
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
+    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
+    create :submission_file, submission:, filename: "log_line_parser_test.rb" # Don't override tests
+    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow .meta
+    create :submission_file, submission:, filename: ".docs/something.md" # Don't allow .docs
+    create :submission_file, submission:, filename: ".exercism/config.json" # Don't allow .exercism
 
     assert_equal ["log_line_parser.rb", "subdir/new_file.rb"], submission.valid_filepaths
   end
@@ -471,10 +507,10 @@ class SubmissionTest < ActiveSupport::TestCase
   # The config tells us this by having solution and test be the same
   test "valid_filepaths when test is same as solution file" do
     exercise = create :practice_exercise, slug: "d-like"
-    solution = create :practice_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
 
-    create :submission_file, submission: submission, filename: "source/bob.d"
+    create :submission_file, submission:, filename: "source/bob.d"
 
     # Sanity
     repo = Git::Exercise.for_solution(solution)
@@ -486,14 +522,14 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "exercise_files" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: "log_line_parser.rb" # Exclude solution file
-    create :submission_file, submission: submission, filename: "subdir/new_file.rb" # Exclude new file
-    create :submission_file, submission: submission, filename: "log_line_parser_test.rb" # Include tests
-    create :submission_file, submission: submission, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission: submission, filename: ".meta/config.json" # Include .meta files
-    create :submission_file, submission: submission, filename: ".docs/something.md" # Exclude .docs
-    create :submission_file, submission: submission, filename: ".exercism/config.json" # Exclude .exercism
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Exclude solution file
+    create :submission_file, submission:, filename: "subdir/new_file.rb" # Exclude new file
+    create :submission_file, submission:, filename: "log_line_parser_test.rb" # Include tests
+    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
+    create :submission_file, submission:, filename: ".meta/config.json" # Include .meta files
+    create :submission_file, submission:, filename: ".docs/something.md" # Exclude .docs
+    create :submission_file, submission:, filename: ".exercism/config.json" # Exclude .exercism
 
     expected = {
       ".meta/config.json" => "{\n  \"blurb\": \"Like puppets on a...\",\n  \"authors\": [\"pvcarrera\"],\n  \"files\": {\n    \"solution\": [\"log_line_parser.rb\"],\n    \"test\": [\"log_line_parser_test.rb\"],\n    \"exemplar\": [\".meta/exemplar.rb\"]\n  }\n}\n", # rubocop:disable Layout/LineLength
@@ -508,10 +544,10 @@ class SubmissionTest < ActiveSupport::TestCase
   # The config tells us this by having solution and test be the same
   test "exercise_files when test is same as solution file" do
     exercise = create :practice_exercise, slug: "d-like"
-    solution = create :practice_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
 
-    create :submission_file, submission: submission, filename: "source/bob.d"
+    create :submission_file, submission:, filename: "source/bob.d"
 
     # Sanity
     repo = Git::Exercise.for_solution(solution)
@@ -523,14 +559,14 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "track: inferred from solution" do
     solution = create :practice_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_equal solution.track, submission.track
   end
 
   test "exercise: inferred from solution's exercise" do
     solution = create :practice_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_equal solution.exercise, submission.exercise
   end

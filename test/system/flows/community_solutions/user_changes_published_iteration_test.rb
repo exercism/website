@@ -8,17 +8,17 @@ module Flows
 
       test "views own community solution and changes published iteration" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         author = create :user, handle: "author"
-        create :user_track, user: author, track: track
-        solution = create :concept_solution, :completed, :published, user: author, exercise: exercise
-        submission_1 = create :submission, solution: solution
+        create(:user_track, user: author, track:)
+        solution = create(:concept_solution, :completed, :published, user: author, exercise:)
+        submission_1 = create(:submission, solution:)
         iteration_1 = create :iteration, idx: 1, submission: submission_1
         create :submission_file, content: "module Bob\nend", filename: "bob.rb", submission: submission_1
-        submission_2 = create :submission, solution: solution
+        submission_2 = create(:submission, solution:)
         create :iteration, idx: 2, submission: submission_2
         create :submission_file, content: "class Bob\nend", filename: "bob.rb", submission: submission_2
-        submission_3 = create :submission, solution: solution
+        submission_3 = create(:submission, solution:)
         create :iteration, :deleted, idx: 3, submission: submission_3
         create :submission_file, content: "just Bob\nend", filename: "bob.rb", submission: submission_3
 
@@ -70,17 +70,17 @@ module Flows
       test "views other community solution with single published iteration" do
         user = create :user
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         author = create :user, handle: "author"
-        create :user_track, user: author, track: track
-        solution = create :concept_solution, :completed, :published, user: author, exercise: exercise
-        submission_1 = create :submission, solution: solution
+        create(:user_track, user: author, track:)
+        solution = create(:concept_solution, :completed, :published, user: author, exercise:)
+        submission_1 = create(:submission, solution:)
         iteration_1 = create :iteration, idx: 1, submission: submission_1
         create :submission_file, content: "module Bob\nend", filename: "bob.rb", submission: submission_1
-        submission_2 = create :submission, solution: solution
+        submission_2 = create(:submission, solution:)
         create :iteration, idx: 2, submission: submission_2
         create :submission_file, content: "class Bob\nend", filename: "bob.rb", submission: submission_2
-        submission_3 = create :submission, solution: solution
+        submission_3 = create(:submission, solution:)
         create :iteration, :deleted, idx: 3, submission: submission_3
         create :submission_file, content: "just Bob\nend", filename: "bob.rb", submission: submission_3
 
@@ -103,17 +103,17 @@ module Flows
       test "views other community solution with all iterations published" do
         user = create :user
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         author = create :user, handle: "author"
-        create :user_track, user: author, track: track
-        solution = create :concept_solution, :completed, :published, user: author, exercise: exercise
-        submission_1 = create :submission, solution: solution
+        create(:user_track, user: author, track:)
+        solution = create(:concept_solution, :completed, :published, user: author, exercise:)
+        submission_1 = create(:submission, solution:)
         create :iteration, idx: 1, submission: submission_1
         create :submission_file, content: "module Bob\nend", filename: "bob.rb", submission: submission_1
-        submission_2 = create :submission, solution: solution
+        submission_2 = create(:submission, solution:)
         create :iteration, idx: 2, submission: submission_2
         create :submission_file, content: "class Bob\nend", filename: "bob.rb", submission: submission_2
-        submission_3 = create :submission, solution: solution
+        submission_3 = create(:submission, solution:)
         create :iteration, :deleted, idx: 3, submission: submission_3
         create :submission_file, content: "just Bob\nend", filename: "bob.rb", submission: submission_3
 

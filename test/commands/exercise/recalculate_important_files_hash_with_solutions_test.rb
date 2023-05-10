@@ -14,9 +14,9 @@ class Exercise::RecalculateImportantFilesHashWithSolutionsTest < ActiveSupport::
     track = create :track
     other_track = create :track, slug: 'fsharp'
 
-    exercise = create :practice_exercise, track: track
-    solution_same_hash_1 = create :practice_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash
-    solution_same_hash_2 = create :practice_solution, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash
+    exercise = create(:practice_exercise, track:)
+    solution_same_hash_1 = create :practice_solution, exercise:, git_important_files_hash: exercise.git_important_files_hash
+    solution_same_hash_2 = create :practice_solution, exercise:, git_important_files_hash: exercise.git_important_files_hash
     solution_different_hash = create :practice_solution, git_important_files_hash: "different hash"
 
     # Sanity check for different exercise, same track, same SHA

@@ -9,9 +9,9 @@ module Flows
       test "shows contributions for a user when logged out" do
         User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user, handle: "author"
-        create :user_profile, user: user
+        create(:user_profile, user:)
         create :user_code_contribution_reputation_token,
-          user: user,
+          user:,
           params: {
             repo: "exercism/ruby",
             pr_node_id: SecureRandom.uuid,
@@ -20,7 +20,7 @@ module Flows
             merged_at: Time.parse('2020-02-02T02:03:01Z').utc
           }
         create :user_code_contribution_reputation_token,
-          user: user,
+          user:,
           params: {
             repo: "exercism/ruby",
             pr_node_id: SecureRandom.uuid,
@@ -40,9 +40,9 @@ module Flows
 
       test "shows building contributions for a user" do
         user = create :user, handle: "author"
-        create :user_profile, user: user
+        create(:user_profile, user:)
         create :user_code_contribution_reputation_token,
-          user: user,
+          user:,
           params: {
             repo: "exercism/ruby",
             pr_node_id: SecureRandom.uuid,
@@ -61,9 +61,9 @@ module Flows
 
       test "shows maintaining contributions for a user" do
         user = create :user, handle: "maintainer"
-        create :user_profile, user: user
+        create(:user_profile, user:)
         create :user_code_merge_reputation_token,
-          user: user,
+          user:,
           params: {
             repo: "exercism/ruby",
             pr_node_id: SecureRandom.uuid,
@@ -83,9 +83,9 @@ module Flows
       test "shows authorship contributions for a user" do
         user = create :user, handle: "author"
         exercise = create :concept_exercise
-        create :user_profile, user: user
+        create(:user_profile, user:)
         create :user_exercise_author_reputation_token,
-          user: user,
+          user:,
           params: {
             authorship: create(:exercise_authorship, author: user, exercise:)
           }
@@ -101,9 +101,9 @@ module Flows
 
       test "shows other contributions for a user" do
         user = create :user, handle: "maintainer"
-        create :user_profile, user: user
+        create(:user_profile, user:)
         create :user_arbitrary_reputation_token,
-          user: user,
+          user:,
           params: {
             arbitrary_value: 19,
             arbitrary_reason: 'For helping troubleshoot'

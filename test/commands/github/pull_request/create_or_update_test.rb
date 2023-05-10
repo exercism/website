@@ -354,7 +354,7 @@ class Github::PullRequest::CreateOrUpdateTest < ActiveSupport::TestCase
 
   %i[open closed].each do |state|
     test "adds merge metric when pull request is updated and state changes from #{state} to merged" do
-      pr = create :github_pull_request, state: state
+      pr = create(:github_pull_request, state:)
       merged_by = create :user, github_username: 'iHiD'
       merged_at = Time.parse("2020-10-23T14:15:16Z").utc
 

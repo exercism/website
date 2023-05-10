@@ -4,13 +4,13 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
   test "index should return top 20 serialized correctly" do
     track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track_mentorship, user:, track:)
+    exercise = create(:practice_exercise, track:)
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days
+      create(:exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise:,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track:)
     end
-    params = {}
+    params = { track_slug: track.slug }
 
     paginated_representations = Kaminari.paginate_array(representations, total_count: 24).page(1).per(20)
     expected = SerializePaginatedCollection.(
@@ -47,25 +47,5 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
 
     AssembleExerciseRepresentationsWithoutFeedback.(mentor,
       { track_slug: track.slug, criteria:, order:, page:, only_mentored_solutions: })
-  end
-
-  test "should proxy correctly when track_slug is not specified" do
-    mentor = create :user
-    criteria = 'bob'
-    order = 'num_submissions'
-    page = '1'
-    only_mentored_solutions = false
-
-    Exercise::Representation::Search.expects(:call).with(
-      with_feedback: false,
-      mentor:,
-      page:,
-      order:,
-      criteria:,
-      only_mentored_solutions:,
-      track: nil
-    ).returns(Exercise::Representation.page(1).per(20))
-
-    AssembleExerciseRepresentationsWithoutFeedback.(mentor, { criteria:, order:, page:, only_mentored_solutions: })
   end
 end

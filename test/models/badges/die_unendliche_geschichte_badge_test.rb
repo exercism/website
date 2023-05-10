@@ -15,8 +15,8 @@ class Badge::DieUnendlicheGeschichteBadgeTest < ActiveSupport::TestCase
     user = create :user
     track = create :track
     badge = create :die_unendliche_geschichte_badge
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, user: user, exercise: exercise
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, user:, exercise:)
 
     # No solutions
     refute badge.award_to?(user.reload)
@@ -30,18 +30,18 @@ class Badge::DieUnendlicheGeschichteBadgeTest < ActiveSupport::TestCase
     # Ignore iteration on same exercise in different track
     other_track = create :track, slug: 'other_track'
     other_track_exercise = create :practice_exercise, slug: exercise.slug, track: other_track
-    other_solution = create :practice_solution, user: user, exercise: other_track_exercise
+    other_solution = create :practice_solution, user:, exercise: other_track_exercise
     create :iteration, solution: other_solution
     refute badge.award_to?(user.reload)
 
     # Ignore iteration on different solution in same track
-    other_exercise = create :practice_exercise, slug: 'other_exercise', track: track
-    other_solution = create :practice_solution, user: user, exercise: other_exercise
+    other_exercise = create(:practice_exercise, slug: 'other_exercise', track:)
+    other_solution = create :practice_solution, user:, exercise: other_exercise
     create :iteration, solution: other_solution
     refute badge.award_to?(user.reload)
 
     # Add a 10th iteration
-    create :iteration, solution: solution
+    create(:iteration, solution:)
     assert badge.award_to?(user.reload)
   end
 

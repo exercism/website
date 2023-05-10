@@ -15,7 +15,7 @@ class Mailshot::SendTestMailTest < ActiveSupport::TestCase
     mailshot = create :mailshot
     User::Mailshot::Send.stubs(:call)
 
-    create :user_mailshot, user: ihid, mailshot: mailshot
+    create(:user_mailshot, user: ihid, mailshot:)
     assert_equal 1, User::Mailshot.count
 
     Mailshot::SendTestMail.(mailshot)

@@ -10,6 +10,7 @@
         & .logo {
             height: 80px;
             width: 80px;
+            @apply filter-textColor1;
         }
         & p {
             max-width: 1024px;
@@ -21,7 +22,8 @@
     }
 
     & .purpose {
-        @apply bg-evenLighterBlue border-purple;
+        @apply border-purple;
+        background: var(--backgroundColorTracksListJoined);
         & h2 {
             & .c-icon {
                 height: 32px;
@@ -112,7 +114,7 @@
         }
     }
     & .donate-section {
-        @apply bg-evenLighterBlue;
+        background: var(--backgroundColorTracksListJoined);
 
         & .c-icon.icon {
             width: 48px;

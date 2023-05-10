@@ -16,8 +16,9 @@
         }
         & .box {
             @apply flex;
-            @apply border-2 border-purple rounded-12 bg-randomBlue;
+            @apply border-2 border-purple rounded-12;
             @apply py-24 px-32 mb-24;
+            background: var(--backgroundColorExternalCTA);
             width: 100%;
             max-width: 640px;
             & h4 {
@@ -43,6 +44,9 @@
                 & .--summary-inner {
                     @apply flex items-center py-12 px-24;
                     @apply border-b-1 border-borderLight border-opacity-50;
+                    .c-icon {
+                        @apply filter-textColor6;
+                    }
                 }
 
                 & .opener {
@@ -61,6 +65,7 @@
                     & .c-icon {
                         height: 14px;
                         width: 14px;
+                        @apply filter-textColor6;
                     }
                 }
             }
@@ -98,6 +103,10 @@
                         & .options-button {
                             @apply py-6 px-12 ml-auto;
                             @apply shadow-xsZ1 rounded-8;
+
+                            .c-icon {
+                                @apply filter-textColor6;
+                            }
                         }
                     }
                     & .panels {

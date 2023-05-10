@@ -9,8 +9,8 @@ import { fetchJSON } from '@/utils/fetch-json'
 const cardOptions = {
   style: {
     base: {
-      backgroundColor: '#ffffff',
-      color: '#130B43',
+      backgroundColor: 'transparent',
+      color: 'grey',
       fontFamily: 'Poppins, sans-serif',
       fontSmoothing: 'antialiased',
       fontSize: '16px',

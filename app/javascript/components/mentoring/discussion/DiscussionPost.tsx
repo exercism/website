@@ -13,6 +13,7 @@ export type DiscussionPostProps = {
   iterationIdx: number
   links: DiscussionPostLinks
   authorHandle: string
+  authorFlair: string
   authorAvatarUrl: string
   byStudent: boolean
   contentMarkdown: string

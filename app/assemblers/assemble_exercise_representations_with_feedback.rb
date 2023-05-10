@@ -29,9 +29,5 @@ class AssembleExerciseRepresentationsWithFeedback
     )
   end
 
-  def track
-    return if params[:track_slug].blank?
-
-    Track.find(params[:track_slug])
-  end
+  def track = Track.find_by(slug: params[:track_slug])
 end

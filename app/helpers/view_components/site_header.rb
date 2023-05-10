@@ -53,27 +53,32 @@ module ViewComponents
     end
 
     def signed_in_nav
+      insiders_content = tag.span(class: "flex items-center gap-6") do
+        tag.span("Insiders") +
+          graphical_icon(:insiders, css_class: "!filter-none")
+      end
+
       tag.nav(class: 'signed-in') do
         tag.ul do
           si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
             si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
             si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true) +
-            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
+            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community) +
+            si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected, new: false)
+    def si_nav_li(title, _icon_name, url, selected)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        elems = [graphical_icon(icon_name), tag.span(title)]
-        if new
-          elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
-            graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
-            tag.span("New")
-          end)
-        end
+        elems = [tag.span(title)]
+        # if new
+        #   elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
+        #     graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
+        #     tag.span("New")
+        #   end)
+        # end
         link_to(safe_join(elems), url, "data-turbo-frame": "tf-main", class: 'relative')
       end
     end
@@ -103,7 +108,8 @@ module ViewComponents
         { html: link_to("Language Tracks", Exercism::Routes.tracks_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Community", Exercism::Routes.community_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
-        { html: link_to("Donate 💜", Exercism::Routes.donate_path, "data-turbo-frame": "tf-main"), className: "opt site-link donate" }
+        { html: link_to("Insiders 💜", Exercism::Routes.insiders_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Donate", Exercism::Routes.donate_path, "data-turbo-frame": "tf-main"), className: "opt site-link donate" }
       ]
       render(ReactComponents::Dropdowns::Dropdown.new(menu_button: button, menu_items: items))
     end
@@ -115,9 +121,10 @@ module ViewComponents
             [
               si_nav_li("Home", :home, Exercism::Routes.root_path, selected_tab == :dashboard),
               si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community, new: true),
+              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community),
               si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
-              si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
+              si_nav_li("Insiders 💜", :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders),
+              si_nav_li("Donate", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
             ]
           )
         end
@@ -133,17 +140,15 @@ module ViewComponents
     end
 
     def new_testimonial_icon
-      # TODO: (Optional) Cache this?
       # TODO: (Optional) Add test coverage
-      return nil unless current_user.mentor_testimonials.unrevealed.exists?
+      return nil unless current_user.has_unrevealed_testimonials?
 
       link_to('', Exercism::Routes.mentoring_testimonials_path, class: 'new-testimonial')
     end
 
     def new_badge_icon
-      # TODO: (Optional) Cache this?
       # TODO: (Optional) Add test coverage
-      return nil unless current_user.acquired_badges.unrevealed.exists?
+      return nil unless current_user.has_unrevealed_badges?
 
       link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')
     end

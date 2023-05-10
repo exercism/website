@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Avatar, GraphicalIcon, Icon } from '../common'
+import { Avatar, GraphicalIcon, HandleWithFlair, Icon } from '../common'
 import {
   IterationStatus,
   SolutionForStudent,
@@ -148,13 +148,7 @@ export const Nudge = ({
 
   switch (nudgeType) {
     case 'mentoringRequested':
-      return (
-        <MentoringRequestedNudge
-          track={track}
-          links={links}
-          className={className}
-        />
-      )
+      return <MentoringRequestedNudge links={links} className={className} />
     case 'inProgress':
       return (
         <InProgressMentoringNudge
@@ -330,7 +324,6 @@ const MentoringRequestedNudge = ({
   links,
   className = '',
 }: {
-  track: Track
   links: {
     mentoringInfo: string
     pendingMentorRequest: string
@@ -381,9 +374,17 @@ const InProgressMentoringNudge = ({
       />
 
       <div className="info">
-        <h3>
-          You&apos;re being mentored by{' '}
-          <strong>{discussion.mentor.handle}</strong>
+        <h3 className="flex">
+          You&apos;re being mentored by&nbsp;
+          <strong>
+            {
+              <HandleWithFlair
+                handle={discussion.mentor.handle}
+                flair={discussion.mentor.flair}
+                size="large"
+              />
+            }
+          </strong>
         </h3>
         <div className="details">
           {discussion.status === 'awaiting_student' ? (

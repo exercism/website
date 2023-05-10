@@ -10,9 +10,9 @@ module API
     ##########
     test "cancel proxies correctly" do
       user = create :user
-      subscription = create :donations_subscription, user: user
+      subscription = create(:donations_subscription, user:)
 
-      ::Donations::Subscription::Cancel.expects(:call).with(subscription)
+      ::Donations::Stripe::Subscription::Cancel.expects(:call).with(subscription)
 
       setup_user(user)
       patch cancel_api_donations_subscription_path(subscription.id), headers: @headers, as: :json
@@ -27,10 +27,10 @@ module API
     #################
     test "update_amount proxies correctly" do
       user = create :user
-      subscription = create :donations_subscription, user: user
+      subscription = create(:donations_subscription, user:)
       amount_in_cents = '5000'
 
-      ::Donations::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
+      ::Donations::Stripe::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
 
       setup_user(user)
       patch update_amount_api_donations_subscription_path(subscription.id, amount_in_cents:), headers: @headers,

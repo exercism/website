@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { CommunitySolution as CommunitySolutionProps } from '../types'
+import pluralize from 'pluralize'
+import {
+  useList,
+  useHistory,
+  removeEmpty,
+  usePaginatedRequestQuery,
+  type Request,
+} from '@/hooks'
 import { CommunitySolution } from '../common/CommunitySolution'
 import { Checkbox, Icon, Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
-import pluralize from 'pluralize'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import type { CommunitySolution as CommunitySolutionProps } from '../types'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -191,7 +195,7 @@ export const ExerciseCommunitySolutionsList = ({
               </div>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

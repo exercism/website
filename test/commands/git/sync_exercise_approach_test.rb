@@ -36,7 +36,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
 
   test "updates approach from config value" do
     exercise = create :practice_exercise
-    approach = create :exercise_approach, exercise: exercise
+    approach = create(:exercise_approach, exercise:)
     config = { uuid: approach.uuid, slug: "new slug", title: "new title", blurb: "new blurb" }
 
     Git::SyncExerciseApproach.(exercise, config)
@@ -55,7 +55,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     contributor_1 = create :user, :github
     contributor_2 = create :user, :github
     exercise = create :practice_exercise
-    approach = create :exercise_approach, exercise: exercise
+    approach = create(:exercise_approach, exercise:)
     approach.update(authors: [author_1], contributors: [contributor_1])
     config = approach.slice(:uuid, :slug, :title, :blurb).merge({
       authors: [author_1.github_username, author_2.github_username],
@@ -72,7 +72,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
   test "does not change updated_at when values haven't changed" do
     updated_at = Time.zone.now - 2.days
     exercise = create :practice_exercise
-    approach = create :exercise_approach, exercise: exercise, updated_at: updated_at, synced_to_git_sha: exercise.git.head_sha
+    approach = create :exercise_approach, exercise:, updated_at:, synced_to_git_sha: exercise.git.head_sha
     config = approach.slice(:uuid, :slug, :title, :blurb)
 
     Git::SyncExerciseApproach.(exercise, config)

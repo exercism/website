@@ -254,7 +254,7 @@ class ProcessPullRequestUpdateJobTest < ActiveJob::TestCase
           { node_id: 'MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTk5ODA2NTI6', user: { login: "reviewer71" } }
         ].to_json,
         headers: {
-          'Link': "<https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?page=2&per_page=100>; rel=\"last\"", # rubocop:disable Layout/LineLength
+          'Link': "<https://api.github.com/repos/exercism/fsharp/pulls/1347/reviews?page=2&per_page=100>; rel=\"last\"",
           'Content-Type': 'application/json'
         }
       )

@@ -1,0 +1,33 @@
+require "test_helper"
+
+class ViewComponents::HandleWithFlairTest < ActionView::TestCase
+  include IconsHelper
+  include Propshaft::Helper
+
+  test "nothing with no flair" do
+    handle = "iHiD"
+
+    expected = %(<span class="flex items-center"><span>#{handle}</span></span>)
+    actual = render(ViewComponents::HandleWithFlair.new(handle, nil))
+    assert_equal expected, actual
+  end
+
+  test "defaults are correct" do
+    handle = "iHiD"
+    flair = 'insider'
+
+    expected = tag.span(class: 'flex items-center') do
+      tag.span(handle) +
+        icon(:insiders, flair, style: "all:unset; height: 13px; width: 13px; margin-left: 4px").to_s
+    end
+
+    actual = render(ViewComponents::HandleWithFlair.new(handle, flair))
+    assert_equal expected, actual
+  end
+
+  test "size changes correctly" do
+    actual = render(ViewComponents::HandleWithFlair.new('x', :insider, size: :large))
+    assert_includes actual, "17px"
+    refute_includes actual, "13px"
+  end
+end

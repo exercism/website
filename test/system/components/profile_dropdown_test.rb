@@ -7,7 +7,7 @@ module Components
 
     test "clicking on dropdown button shows links" do
       user = create :user
-      create :user_dismissed_introducer, slug: "welcome-modal", user: user
+      create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -26,7 +26,7 @@ module Components
 
     test "specific-user links show" do
       user = create :user, :maintainer
-      create :user_dismissed_introducer, slug: "welcome-modal", user: user
+      create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do
         sign_in!(user)

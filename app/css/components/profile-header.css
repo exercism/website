@@ -55,7 +55,7 @@ header.c-profile-header {
                         height: 16px;
                         width: 16px;
                         @apply mr-12;
-                        filter: var(--textColor2-filter);
+                        @apply filter-textColor6;
                     }
                 }
             }
@@ -77,7 +77,8 @@ header.c-profile-header {
                     }
                 }
                 & button {
-                    @apply text-lightBlue font-medium;
+                    @apply font-medium;
+                    color: var(--c-prominent-link-color);
                 }
             }
         }
@@ -93,6 +94,9 @@ header.c-profile-header {
                     height: 16px;
                     width: 16px;
                     @apply mr-12;
+                }
+                .c-icon:not(.c-prominent-link .c-icon) {
+                    @apply filter-textColor6;
                 }
                 & h3 {
                     @apply font-medium text-textColor2;
@@ -126,6 +130,7 @@ header.c-profile-header {
                         height: 16px;
                         width: 16px;
                         @apply mr-10;
+                        @apply filter-textColor6;
                     }
                     & .title {
                         @apply font-semibold leading-170;
@@ -157,6 +162,7 @@ header.c-profile-header {
                 & .c-icon {
                     height: 16px;
                     width: 16px;
+                    @apply filter-textColor1;
                 }
             }
         }

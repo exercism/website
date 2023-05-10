@@ -40,10 +40,10 @@ class User::InsidersStatus::Update
     case user.insiders_status
     when :active
       @notification_key = :upgraded_to_lifetime_insiders
-      user.update(insiders_status: :active_lifetime)
+      user.update!(insiders_status: :active_lifetime)
     else
       @notification_key = :eligible_for_lifetime_insiders
-      user.update(insiders_status: :eligible_lifetime)
+      user.update!(insiders_status: :eligible_lifetime)
     end
   end
 
@@ -51,11 +51,11 @@ class User::InsidersStatus::Update
     return if user.insiders_status_active?
 
     @notification_key = :eligible_for_insiders
-    user.update(insiders_status: :eligible)
+    user.update!(insiders_status: :eligible)
   end
 
   def update_ineligible
     @notification_key = :expired_insiders if user.insiders_status_active?
-    user.update(insiders_status: :ineligible)
+    user.update!(insiders_status: :ineligible)
   end
 end

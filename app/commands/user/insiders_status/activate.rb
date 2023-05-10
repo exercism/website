@@ -10,10 +10,10 @@ class User::InsidersStatus::Activate
       case user.insiders_status
       when :eligible
         @notification_key = :joined_insiders
-        user.update(insiders_status: :active)
+        user.update!(insiders_status: :active)
       when :eligible_lifetime
         @notification_key = :joined_lifetime_insiders
-        user.update(insiders_status: :active_lifetime)
+        user.update!(insiders_status: :active_lifetime)
       end
     end
 

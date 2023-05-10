@@ -13,7 +13,7 @@ class Donations::Stripe::Customer::CreateForUser
         rescue Stripe::InvalidRequestError
           # If for some reason the stripe customer_id isn't valid
           # then nil it and we'll reset it below.
-          user.update(stripe_customer_id: nil)
+          user.update!(stripe_customer_id: nil)
         end
       end
 
@@ -22,7 +22,7 @@ class Donations::Stripe::Customer::CreateForUser
           email: user.email,
           metadata: { user_id: user.id }
         )
-        user.update(stripe_customer_id: customer.id)
+        user.update!(stripe_customer_id: customer.id)
       end
     end
 

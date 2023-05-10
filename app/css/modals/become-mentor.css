@@ -144,11 +144,12 @@
 
                         & a {
                             @apply inline-flex items-center;
-                            @apply text-lightBlue font-medium;
+                            @apply text-prominentLinkColor font-medium;
                             & .c-icon {
                                 height: 16px;
                                 width: 16px;
                                 @apply ml-6;
+                                @apply filter-prominentLinkColor;
                             }
                         }
                     }

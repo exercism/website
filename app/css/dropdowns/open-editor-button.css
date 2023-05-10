@@ -13,7 +13,7 @@
         @apply text-p-base mb-8;
     }
     & a {
-        @apply text-lightBlue font-semibold;
+        @apply text-prominentLinkColor font-semibold;
     }
     & .c-copy-text-to-clipboard {
         @apply mt-8 mb-12;

@@ -62,8 +62,8 @@
             & .info-for-student {
                 @apply flex-grow;
                 @apply text-14 leading-150 text-textColor6;
-                & strong {
-                    @apply font-medium text-textColor3;
+                strong {
+                    @apply font-medium text-textColor1;
                 }
                 & .exercise-title {
                     @apply text-16 font-medium text-textColor1;

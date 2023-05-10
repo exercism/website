@@ -1,7 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from './GraphicalIcon'
 
-type Flair = 'insider' | 'lifetime_insider' | 'founder' | 'staff'
+export type Flair = 'insider' | 'lifetime_insider' | 'founder' | 'staff'
 
 type FlairIcons = 'insiders' | 'lifetime-insiders' | 'exercism-face-gradient'
 

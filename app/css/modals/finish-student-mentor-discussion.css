@@ -116,7 +116,7 @@
                     }
                     &.happy {
                         &:hover {
-                            @apply bg-veryLightGreen2;
+                            background: var(--backgroundColorConceptMastered);
                             @apply border-darkGreen;
                             & .c-icon {
                                 filter: var(--dark-green-filter);
@@ -133,7 +133,7 @@
                     }
                     &.sad {
                         &:hover {
-                            @apply bg-veryLightRed;
+                            background: var(--backgroundColorDangerSection);
                             @apply border-red;
                             & .c-icon {
                                 filter: var(--red-filter);

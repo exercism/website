@@ -110,7 +110,7 @@
             }
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
     }

@@ -158,7 +158,7 @@
                 @apply font-medium text-textColor2;
             }
             & a {
-                @apply font-semibold text-lightBlue;
+                @apply font-semibold text-prominentLinkColor;
             }
         }
 

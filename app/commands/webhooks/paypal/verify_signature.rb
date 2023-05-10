@@ -10,12 +10,44 @@ class Webhooks::Paypal::VerifySignature
 
   def call
     headers = { 'Content-Type': 'application/json', 'Authorization': "Bearer #{access_token}" }
+    Webhooks::Paypal::Debug.(
+      <<~MESSAGE
+        [Webhooks::Paypal::VerifySignature-1]
+          Headers: #{headers.to_json}
+          Body: #{body.to_json}
+          Request body: #{request_body.to_json}
+          Authorization header: #{headers['Authorization']}
+      MESSAGE
+    )
     response = Net::HTTP.post(WEBHOOK_URI, request_body.to_json, headers)
 
-    raise SignatureVerificationError unless response.is_a?(Net::HTTPSuccess)
+    unless response.is_a?(Net::HTTPSuccess)
+      Webhooks::Paypal::Debug.(
+      <<~MESSAGE
+        [Webhooks::Paypal::VerifySignature-2]
+          Invalid response: #{response.to_json}
+      MESSAGE
+    )
+      raise SignatureVerificationError
+    end
 
     response_body = JSON.parse(response.body, symbolize_names: true)
-    raise SignatureVerificationError unless response_body[:verification_status] == 'SUCCESS'
+    unless response_body[:verification_status] == 'SUCCESS'
+      Webhooks::Paypal::Debug.(
+        <<~MESSAGE
+          [Webhooks::Paypal::VerifySignature-3]
+            Not successful: #{response_body.to_json}
+        MESSAGE
+      )
+      raise SignatureVerificationError
+    end
+
+    Webhooks::Paypal::Debug.(
+        <<~MESSAGE
+          [Webhooks::Paypal::VerifySignature-4]
+            Successful
+        MESSAGE
+      )
   rescue StandardError
     raise SignatureVerificationError
   end

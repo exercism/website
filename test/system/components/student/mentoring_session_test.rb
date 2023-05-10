@@ -287,7 +287,9 @@ module Components
           assert_text mentor.handle.to_s
           assert_text mentor.bio
           assert_text mentor.formatted_reputation
-          assert_css "img[src='#{mentor.avatar_url}']"\
+
+          avatar_path = mentor.avatar_url.gsub("https://test.exercism.org", "")
+          assert_css "img[src$='#{avatar_path}']"\
             "[alt=\"Uploaded avatar of mentor\"]"
         end
       end

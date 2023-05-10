@@ -8,9 +8,7 @@ class User::Profile < ApplicationRecord
   delegate :to_param, to: :user
 
   memoize
-  def solutions_tab?
-    user.solutions.published.count > 3
-  end
+  def solutions_tab? = user.solutions.published.count > 3
 
   memoize
   def testimonials_tab? = user.mentor_testimonials.published.count.positive?

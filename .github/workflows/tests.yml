@@ -306,6 +306,12 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Update package lists
+        run: sudo apt-get update
+
+      - name: Install packages
+        run: sudo apt-get install libvips
+
       ###
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn

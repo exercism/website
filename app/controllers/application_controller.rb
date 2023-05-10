@@ -21,17 +21,21 @@ class ApplicationController < ActionController::Base
     render status: :bad_request, json: { errors: [e.message] }
   end
 
+  # rubocop:disable Naming/MemoizedInstanceVariableName
   def current_user
     return super if Rails.env.production?
 
     # Deal with things that bullet complains should be
     # n+1'd by just loading them here.
-    Exercism.without_bullet do
-      super do |u|
-        u&.avatar_url
+    @__bullet_current_user ||=
+      Exercism.without_bullet do
+        super.tap do |u|
+          u&.avatar_url
+          u&.profile?
+        end
       end
-    end
   end
+  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   def ensure_onboarded!
     return unless user_signed_in?

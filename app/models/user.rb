@@ -331,8 +331,9 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
+  memoize
   def profile? = profile.present?
+  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at

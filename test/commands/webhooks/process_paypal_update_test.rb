@@ -14,13 +14,14 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
      Donations::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment]
   ].each do |(txn_type, expected_command)|
     test "handle IPN event with txn_type #{txn_type}" do
-      payload = "txn_id=5E125564UE4492634&txn_type=#{txn_type}"
+      txn_id = SecureRandom.uuid
+      payload = "txn_id=#{txn_id}&txn_type=#{txn_type}"
 
       stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
         to_return(status: 200, body: "VERIFIED", headers: {})
 
       expected_command.expects(:call).with({
-        "txn_id" => "5E125564UE4492634",
+        "txn_id" => txn_id,
         "txn_type" => txn_type
       })
 
@@ -30,10 +31,10 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
 
   %w[
     adjustment cart express_checkout masspay merch_pmt mp_cancel new_case
-
   ].each do |txn_type|
     test "ignore IPN event with txn_type #{txn_type}" do
-      payload = "txn_id=5E125564UE4492634&txn_type=#{txn_type}"
+      txn_id = SecureRandom.uuid
+      payload = "txn_id=#{txn_id}&txn_type=#{txn_type}"
 
       stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
         to_return(status: 200, body: "VERIFIED", headers: {})
@@ -53,7 +54,7 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
   end
 
   test "bugsnag is created if IPN is invalid" do
-    payload = "txn_id=5E125564UE4492634&txn_type=web_accept"
+    payload = "txn_id=#{SecureRandom.uuid}&txn_type=web_accept"
 
     stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
       to_return(status: 200, body: "INVALID", headers: {})
@@ -64,7 +65,7 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
   end
 
   test "bugsnag is created if IPN verification has unknown result" do
-    payload = "txn_id=5E125564UE4492634&txn_type=web_accept"
+    payload = "txn_id=#{SecureRandom.uuid}&txn_type=web_accept"
 
     stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
       to_return(status: 200, body: "UNKNOWN", headers: {})
@@ -75,7 +76,7 @@ class Webhooks::ProcessPaypalUpdateTest < ActiveSupport::TestCase
   end
 
   test "bugsnag is created if error occurs in verification request" do
-    payload = "txn_id=5E125564UE4492634&txn_type=web_accept"
+    payload = "txn_id=#{SecureRandom.uuid}&txn_type=web_accept"
 
     stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
       to_return(status: 500, body: "ERROR", headers: {})

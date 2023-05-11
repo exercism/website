@@ -5,14 +5,38 @@ class Donations::Paypal::Payment::HandleWebAccept
   initialize_with :payload
 
   def call
-    payer_info = resource.dig(:payer, :payer_info)
-    user = Donations::Paypal::Customer::FindOrUpdate.(payer_info[:payer_id], payer_info[:email])
+    case payment_status
+    when "Completed"
+      handle_completed
+    end
+  end
+
+  private
+  def handle_completed
     return unless user
 
-    subscription_id = resource[:billing_agreement_id]
-    amount = resource[:transactions].first.dig(:amount, :total).to_f
-
-    subscription = Donations::Paypal::Subscription::Create.(user, subscription_id, amount) if subscription_id
-    Donations::Paypal::Payment::Create.(user, resource[:id], amount, subscription:)
+    Donations::Paypal::Payment::Create.(user, transaction_id, amount)
   end
+
+  memoize
+  def user = Donations::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
+
+  def amount = payload["mc_gross"].to_f
+  def transaction_id = payload["txn_id"]
+  def payment_status = payload["payment_status"]
+  def payer_id = payload["payer_id"]
+  def payer_email = payload["payer_email"]
+
+  # Canceled_Reversal
+  # Completed
+  # Declined
+  # Expired
+  # Failed
+  # In-Progress
+  # Partially_Refunded
+  # Pending
+  # Processed
+  # Refunded
+  # Reversed
+  # Voided
 end

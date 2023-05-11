@@ -1,6 +1,5 @@
-# This responds to a Paypal 'BILLING.SUBSCRIPTION.ACTIVATED' and
-# 'BILLING.SUBSCRIPTION.RE-ACTIVATED' webhook events
-class Donations::Paypal::Subscription::HandleActivated
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment'
+class Donations::Paypal::Subscription::HandleRecurringPayment
   include Mandate
 
   initialize_with :resource

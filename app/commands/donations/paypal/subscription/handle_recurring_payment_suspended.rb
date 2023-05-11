@@ -1,5 +1,5 @@
-# This responds to a Paypal 'BILLING.SUBSCRIPTION.PAYMENT.FAILED' webhook event
-class Donations::Paypal::Subscription::HandlePaymentFailed
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_suspended'
+class Donations::Paypal::Subscription::HandleRecurringPaymentSuspended
   include Mandate
 
   initialize_with :resource

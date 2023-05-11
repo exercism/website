@@ -1,5 +1,5 @@
-# This responds to a Paypal 'BILLING.SUBSCRIPTION.CREATED' webhook event
-class Donations::Paypal::Subscription::HandleCreated
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_profile_created'
+class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreated
   include Mandate
 
   initialize_with :resource

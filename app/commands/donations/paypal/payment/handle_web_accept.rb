@@ -1,8 +1,8 @@
-# This responds to a Paypal 'PAYMENTS.PAYMENT.CREATED' webhook event
-class Donations::Paypal::Payment::HandlePaymentCreated
+# Handle a Paypal IPN event with 'txn_type' = 'web_accept'
+class Donations::Paypal::Payment::HandleWebAccept
   include Mandate
 
-  initialize_with :resource
+  initialize_with :payload
 
   def call
     payer_info = resource.dig(:payer, :payer_info)

@@ -1,6 +1,5 @@
-# This responds to Paypal 'BILLING.SUBSCRIPTION.CANCELLED' and
-# 'BILLING.SUBSCRIPTION.EXPIRED' webhook events
-class Donations::Paypal::Subscription::HandleCancelled
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_profile_cancel'
+class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCancel
   include Mandate
 
   initialize_with :resource

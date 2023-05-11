@@ -4,7 +4,7 @@ class CommunityController < ApplicationController
   def show
     @supporter_avatar_urls = AVATAR_URLS
     @community_stories = CommunityStory.published.includes(:interviewee).ordered_by_recency.first(3)
-    @forum_threads = Forum::RetrieveThreads.(type: :top, count: 1)
+    @forum_threads = Forum::RetrieveThreads.(type: :top, count: 2)
   end
 
   # TODO: Let's cache this daily instead.

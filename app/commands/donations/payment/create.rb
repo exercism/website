@@ -17,7 +17,7 @@ class Donations::Payment::Create
       subscription:,
       amount_in_cents:
     ).tap do |payment|
-      user.update!(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
+      User::UpdateTotalDonatedInCents.(user)
       User::RegisterAsDonor.(user, Time.current)
       Donations::Payment::SendEmail.defer(payment)
     end

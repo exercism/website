@@ -26,16 +26,6 @@
           = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
           Recent forum topics
 
-        = link_to "https://forum.exercism.org/t/what-are-your-favorite-books-on-programming/187", class: 'flex items-center bg-backgroundColorA px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
-          = image_tag "team/erik.jpg", alt: "A photo of Erik Schierboom", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
-          .flex.flex-col.mr-auto
-            %h5.text-h5 What are your favorite books on programming?
-            .text-textColor6.leading-150
-              Asked by ErikSchierboom
-          .message-count
-            = graphical_icon "message-bubble-square"
-            48
-
         - @forum_threads.each do |thread|
           = link_to thread.url, class: 'flex items-center bg-backgroundColorA px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
             = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'

@@ -8,5 +8,17 @@ FactoryBot.define do
     trait :canceled do
       status { :canceled }
     end
+
+    trait :stripe do
+      provider { :stripe }
+    end
+
+    trait :github do
+      provider { :github }
+    end
+
+    trait :paypal do
+      provider { :paypal }
+    end
   end
 end

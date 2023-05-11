@@ -67,6 +67,25 @@ class Donations::Paypal::Payment::HandleWebAcceptTest < Donations::TestBase
     end
   end
 
+  %w[Canceled_Reversal Refunded Reversed].each do |payment_status|
+    test "update payment amount when payment_status is #{payment_status}" do
+      payment = create :donations_payment, :paypal, amount_in_cents: 300
+      new_amount_in_dollars = 5
+      new_amount_in_cents = new_amount_in_dollars * 100
+      payload = {
+        "txn_id" => payment.external_id,
+        "txn_type" => "web_accept",
+        "payment_status" => payment_status,
+        "mc_gross" => "#{new_amount_in_dollars}.0"
+      }
+
+      Donations::Paypal::Payment::HandleWebAccept.(payload)
+
+      assert_equal new_amount_in_cents, payment.reload.amount_in_cents
+      assert_equal new_amount_in_cents, payment.user.reload.total_donated_in_cents
+    end
+  end
+
   %w[Canceled_Reversal Completed Refunded Reversed].each do |payment_status|
     test "ignore when payment_status is #{payment_status} and paypal payer id and email are unknown" do
       payload = {

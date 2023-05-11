@@ -156,12 +156,12 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     user = create :user, handle: "User22", github_username: "user22"
     contributorship = create :exercise_contributorship, contributor: user
 
-    User::ResetCache.expects(:defer).with(user)
-
-    User::ReputationToken::Create.(
-      user,
-      :exercise_contribution,
-      contributorship:
-    )
+    assert_user_data_cache_reset(user, :has_unseen_reputation_tokens?, true) do
+      User::ReputationToken::Create.(
+        user,
+        :exercise_contribution,
+        contributorship:
+      )
+    end
   end
 end

@@ -4,7 +4,9 @@ class User::RemoveRoles
   initialize_with :user, :roles
 
   def call
-    user.update(roles: user.roles - roles)
+    user.data.with_lock do
+      user.update(roles: user.roles - roles)
+    end
     User::SetDiscordRoles.(user)
     User::InsidersStatus::TriggerUpdate.(user)
   end

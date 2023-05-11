@@ -31,12 +31,13 @@ module ViewComponents
       ICONS[flair.to_sym]
     end
 
-    def icon_title
-      TITLES[flair.to_sym]
+    def icon_alt
+      "#{icon_title}'s flair"
     end
 
-    def icon_alt
-      "#{TITLES[flair.to_sym]}'s flair"
+    memoize
+    def icon_title
+      TITLES[flair.to_sym]
     end
 
     memoize

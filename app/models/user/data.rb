@@ -3,6 +3,8 @@
 class User::Data < ApplicationRecord
   include User::Roles
 
+  scope :donor, -> { where.not(first_donated_at: nil) }
+
   belongs_to :user
 
   enum insiders_status: {

@@ -21,7 +21,7 @@
       #anchor-donate
       .summary.lg-container.hidden.md:flex.items-center
         .item
-          .value= number_with_delimiter(User.donor.count)
+          .value= number_with_delimiter(User::Data.donor.count)
           .metric Supporters
 
         .item

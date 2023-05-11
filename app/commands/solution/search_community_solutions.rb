@@ -36,7 +36,6 @@ class Solution::SearchCommunitySolutions
     solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
     solutions = solution_ids.present? ?
       Solution.where(id: solution_ids).
-        includes(*SerializeSolutions::NP1_INCLUDES).
         order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
         to_a : []
 
@@ -124,9 +123,7 @@ class Solution::SearchCommunitySolutions
       filter_sync_status!
       sort!
 
-      @solutions.
-        includes(*SerializeSolutions::NP1_INCLUDES).
-        page(page).per(per)
+      @solutions.page(page).per(per)
     end
 
     private

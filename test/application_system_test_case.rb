@@ -45,6 +45,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       next if error.to_s.include?("403 (Forbidden)")
       next if error.to_s.include?("hcaptcha")
       next if error.to_s.include?("js.stripe.com")
+      next if error.to_s.include?("https://test.exercism.org/rails/active_storage/representations/redirect")
 
       should_flunk = true
 
@@ -122,5 +123,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def assert_text(text, **options)
     options[:normalize_ws] = true unless options.key?(:normalize_ws)
     super(:visible, text, **options)
+  end
+
+  def url_to_path(url)
+    url.gsub(%r{https?://[^/]+}, "")
   end
 end

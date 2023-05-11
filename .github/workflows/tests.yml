@@ -147,27 +147,20 @@ jobs:
           - 9200
 
     steps:
-      ###
-      # Checkout using GitHub's checkout action
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - name: Checkout code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
-      ###
-      # Setup Ruby
       - name: Set up Ruby
         uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      ###
-      # Update package lists
       - name: Update package lists
         run: sudo apt-get update
 
-      ###
-      # Install graphicsmagick
-      - name: Install graphicsmagick
-        run: sudo apt-get install graphicsmagick
+      - name: Install packages
+        run: sudo apt-get install graphicsmagick libvips
 
       ###
       # Caching using GitHub's caching action
@@ -310,6 +303,12 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Update package lists
+        run: sudo apt-get update
+
+      - name: Install packages
+        run: sudo apt-get install libvips
 
       ###
       # Caching using GitHub's caching action

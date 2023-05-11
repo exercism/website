@@ -4,7 +4,17 @@ FactoryBot.define do
     name { "User" }
     password { "password" }
     handle { "handle-#{SecureRandom.hex(4)}" }
-    avatar_url { "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx" }
+    accepted_terms_at { Date.new(2016, 12, 25) }
+    accepted_privacy_policy_at { Date.new(2016, 12, 25) }
+    became_mentor_at { Date.new(2016, 12, 25) }
+    avatar do
+      # Ensure we have a file with a different filename each time
+      tempfile = Tempfile.new([SecureRandom.uuid, '.png'])
+      tempfile.write(File.read(Rails.root.join("app", "images", "favicon.png")))
+      tempfile.rewind
+
+      Rack::Test::UploadedFile.new(tempfile.path, 'image/png')
+    end
 
     after(:create) do |user, _evaluator|
       # Update the avatar if we've had a placeholder in the factory
@@ -19,6 +29,14 @@ FactoryBot.define do
         accepted_privacy_policy_at: Date.new(2016, 12, 25),
         became_mentor_at: Date.new(2016, 12, 25)
       )
+    end
+
+    trait :external_avatar_url do
+      after(:create) do |user, _evaluator|
+        user.avatar.delete
+        user.update(avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=#{user.id}")
+        user.reload
+      end
     end
 
     trait :donor do

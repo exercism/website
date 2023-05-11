@@ -11,8 +11,8 @@ module Components
       include MarkdownEditorHelpers
 
       test "shows solution information" do
-        mentor = create :user
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url, handle: "student"
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -32,9 +32,9 @@ module Components
       end
 
       test "shows representer feedback" do
-        mentor = create :user
-        student = create :user, handle: "student"
-        create :user, name: "Feedback Author", reputation: 50
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url, handle: "student"
+        create :user, :external_avatar_url, name: "Feedback Author", reputation: 50
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -46,8 +46,8 @@ module Components
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        author = create :user, name: "Feedback author"
-        editor = create :user, name: "Feedback editor"
+        author = create :user, :external_avatar_url, name: "Feedback author"
+        editor = create :user, :external_avatar_url, name: "Feedback editor"
         create :exercise_representation,
           exercise: running,
           source_submission: submission,
@@ -73,9 +73,9 @@ module Components
       end
 
       test "renders correctly if edited_by is missing" do
-        mentor = create :user
-        student = create :user, handle: "student"
-        create :user, name: "Feedback Author", reputation: 50
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url, handle: "student"
+        create :user, :external_avatar_url, name: "Feedback Author", reputation: 50
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -87,7 +87,7 @@ module Components
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        author = create :user, name: "Feedback author"
+        author = create :user, :external_avatar_url, name: "Feedback author"
         create :exercise_representation,
           exercise: running,
           source_submission: submission,
@@ -112,9 +112,9 @@ module Components
       end
 
       test "doesnt show edited by if author and editor are the same" do
-        mentor = create :user
-        student = create :user, handle: "student"
-        create :user, name: "Feedback Author", reputation: 50
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url, handle: "student"
+        create :user, :external_avatar_url, name: "Feedback Author", reputation: 50
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -126,8 +126,8 @@ module Components
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        author = create :user, name: "Feedback author"
-        editor = create :user, name: "Feedback author"
+        author = create :user, :external_avatar_url, name: "Feedback author"
+        editor = create :user, :external_avatar_url, name: "Feedback author"
         create :exercise_representation,
           exercise: running,
           source_submission: submission,
@@ -153,8 +153,8 @@ module Components
       end
 
       test "shows analyzer feedback" do
-        mentor = create :user
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url, handle: "student"
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -178,8 +178,8 @@ module Components
       end
 
       test "shows student info" do
-        mentor = create :user
-        student = create :user, name: "Apprentice", handle: "student", reputation: 1500, bio: "I love things"
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url, name: "Apprentice", handle: "student", reputation: 1500, bio: "I love things"
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -198,15 +198,14 @@ module Components
           assert_text student.bio
           assert_text student.formatted_reputation
           # assert_text "english, spanish" # TODO: Renable
-          assert_css "img[src='#{student.avatar_url}']"\
-            "[alt=\"Uploaded avatar of student\"]"
+          assert_css "img[src$='#{url_to_path(student.avatar_url)}']"
           assert_button "Add to favorites"
         end
       end
 
       test "remove student from favorites" do
-        mentor = create :user
-        student = create :user
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -227,8 +226,8 @@ module Components
       end
 
       test "add student to favorites" do
-        mentor = create :user
-        student = create :user
+        mentor = create :user, :external_avatar_url
+        student = create :user, :external_avatar_url
         ruby = create :track, title: "Ruby"
         running = create :concept_exercise, title: "Running", track: ruby
         solution = create :concept_solution, exercise: running, user: student
@@ -246,8 +245,8 @@ module Components
       end
 
       test "shows posts" do
-        mentor = create :user, handle: "author"
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url, handle: "author"
+        student = create :user, :external_avatar_url, handle: "student"
         solution = create :concept_solution, user: student
         request = create :mentor_request, solution:, comment_markdown: "Hello, Mentor",
           created_at: 5.days.ago, updated_at: 2.days.ago
@@ -270,19 +269,20 @@ module Components
 
         within(".c-discussion-timeline") { assert_text "Iteration 1" }
         assert_text "Iteration 1was submitted 7d ago"
-        assert_css "img[src='#{student.avatar_url}']"
         assert_text "Hello, Mentor"
         assert_text "student"
         assert_text "5d ago"
-        assert_css "img[src='#{mentor.avatar_url}']"
         assert_css ".comments.unread", text: "2"
         assert_text "author"
         assert_text "Hello, student"
+
+        assert_css "img[src$='#{url_to_path(mentor.avatar_url)}']"
+        assert_css "img[src$='#{url_to_path(student.avatar_url)}']"
       end
 
       test "empty mentor request comment is hidden" do
-        mentor = create :user, handle: "author"
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url, handle: "author"
+        student = create :user, :external_avatar_url, handle: "student"
         track = create :track
         exercise = create(:concept_exercise, track:)
         solution = create(:concept_solution, user: student, exercise:)
@@ -300,8 +300,8 @@ module Components
       end
 
       test "shows iteration information" do
-        mentor = create :user
-        solution = create :concept_solution
+        mentor = create :user, :external_avatar_url
+        solution = create :concept_solution, user: create(:user, :external_avatar_url)
         discussion = create(:mentor_discussion, solution:, mentor:)
         submission = create(:submission, tests_status: "failed", solution:)
         iteration = create(:iteration,
@@ -329,7 +329,7 @@ module Components
       test "shows files per iteration" do
         skip # This consistently fails in CI
 
-        mentor = create :user
+        mentor = create :user, :external_avatar_url
         ruby = create :track, slug: "ruby"
         bob = create :concept_exercise, track: ruby
         solution = create :concept_solution, exercise: bob
@@ -358,8 +358,8 @@ module Components
       end
 
       test "refetches when new post comes in" do
-        mentor = create :user, handle: "author"
-        solution = create :concept_solution
+        mentor = create :user, :external_avatar_url, handle: "author"
+        solution = create :concept_solution, user: create(:user, :external_avatar_url)
         discussion = create(:mentor_discussion, solution:, mentor:)
         submission = create(:submission, solution:)
         iteration = create(:iteration, solution:, submission:)
@@ -383,8 +383,8 @@ module Components
       end
 
       test "submit a new post" do
-        mentor = create :user, handle: "author"
-        solution = create :concept_solution
+        mentor = create :user, :external_avatar_url, handle: "author"
+        solution = create :concept_solution, user: create(:user, :external_avatar_url)
         discussion = create(:mentor_discussion, solution:, mentor:)
         submission = create(:submission, solution:)
         create(:iteration, solution:, submission:)
@@ -398,14 +398,14 @@ module Components
           click_on "Send"
         end
 
-        assert_css "img[src='#{mentor.avatar_url}']"
+        assert_css "img[src$='#{url_to_path(mentor.avatar_url)}']"
         assert_text "author"
         assert_text "Hello"
       end
 
       test "submit a new post after discussion is finished" do
-        mentor = create :user, handle: "author"
-        solution = create :concept_solution
+        mentor = create :user, :external_avatar_url, handle: "author"
+        solution = create :concept_solution, user: create(:user, :external_avatar_url)
         discussion = create :mentor_discussion, solution:, mentor:, status: :mentor_finished
         create(:iteration, solution:)
 
@@ -419,14 +419,14 @@ module Components
           click_on "Send"
         end
 
-        assert_css "img[src='#{mentor.avatar_url}']"
+        assert_css "img[src$='#{url_to_path(mentor.avatar_url)}']"
         assert_text "author"
         assert_text "Hello"
       end
 
       test "edit an existing post" do
-        mentor = create :user, handle: "author"
-        solution = create :concept_solution
+        mentor = create :user, :external_avatar_url, handle: "author"
+        solution = create :concept_solution, user: create(:user, :external_avatar_url)
         discussion = create(:mentor_discussion, solution:, mentor:)
         submission = create(:submission, solution:)
         iteration = create(:iteration, solution:, submission:)
@@ -451,8 +451,8 @@ module Components
       end
 
       test "deletes an existing post" do
-        mentor = create :user, handle: "author"
-        solution = create :concept_solution
+        mentor = create :user, :external_avatar_url, handle: "author"
+        solution = create :concept_solution, user: create(:user, :external_avatar_url)
         discussion = create(:mentor_discussion, solution:, mentor:)
         submission = create(:submission, solution:)
         iteration = create(:iteration, solution:, submission:)
@@ -476,8 +476,8 @@ module Components
       end
 
       test "user can't edit another's post" do
-        student = create :user
-        mentor = create :user, handle: "author"
+        student = create :user, :external_avatar_url
+        mentor = create :user, :external_avatar_url, handle: "author"
         solution = create :concept_solution, user: student
         discussion = create(:mentor_discussion, solution:, mentor:)
         submission = create(:submission, solution:)
@@ -497,9 +497,9 @@ module Components
       end
 
       test "mentor marks discussion as nothing to do" do
-        mentor = create :user, handle: "author"
+        mentor = create :user, :external_avatar_url, handle: "author"
         exercise = create :concept_exercise
-        solution = create(:concept_solution, exercise:)
+        solution = create(:concept_solution, exercise:, user: create(:user, :external_avatar_url))
         discussion = create(:mentor_discussion,
           :awaiting_mentor,
           solution:,
@@ -518,9 +518,9 @@ module Components
       end
 
       test "mentor is unable to remove discussion from inbox if finished" do
-        mentor = create :user, handle: "author"
+        mentor = create :user, :external_avatar_url, handle: "author"
         exercise = create :concept_exercise
-        solution = create(:concept_solution, exercise:)
+        solution = create(:concept_solution, exercise:, user: create(:user, :external_avatar_url))
         discussion = create(:mentor_discussion,
           :mentor_finished,
           solution:,
@@ -539,9 +539,9 @@ module Components
       test "mentor sees exercise guidance" do
         TestHelpers.use_website_copy_test_repo!
 
-        mentor = create :user, handle: "author"
+        mentor = create :user, :external_avatar_url, handle: "author"
         exercise = create :concept_exercise, slug: "lasagna"
-        solution = create(:concept_solution, exercise:)
+        solution = create(:concept_solution, exercise:, user: create(:user, :external_avatar_url))
         discussion = create :mentor_discussion,
           solution:,
           mentor:,
@@ -562,9 +562,9 @@ module Components
       test "mentor notes show by default on practice exercise" do
         TestHelpers.use_website_copy_test_repo!
 
-        mentor = create :user, handle: "author"
+        mentor = create :user, :external_avatar_url, handle: "author"
         exercise = create :practice_exercise
-        solution = create(:practice_solution, exercise:)
+        solution = create(:practice_solution, exercise:, user: create(:user, :external_avatar_url))
         discussion = create :mentor_discussion,
           solution:,
           mentor:,
@@ -582,9 +582,9 @@ module Components
       end
 
       test "mentor sees own solution" do
-        mentor = create :user, handle: "mentor"
+        mentor = create :user, :external_avatar_url, handle: "mentor"
         exercise = create :concept_exercise
-        solution = create(:concept_solution, exercise:)
+        solution = create(:concept_solution, exercise:, user: create(:user, :external_avatar_url))
         mentor_solution = create :concept_solution, exercise:, user: mentor
         create :iteration, solution: mentor_solution
         discussion = create :mentor_discussion,

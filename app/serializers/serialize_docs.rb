@@ -4,6 +4,12 @@ class SerializeDocs
   initialize_with :docs
 
   def call
-    docs.map { |doc| SerializeDoc.(doc) }
+    eager_loaded_docs.map { |doc| SerializeDoc.(doc) }
+  end
+
+  private
+  def eager_loaded_docs
+    docs.to_active_relation.
+      includes(:track)
   end
 end

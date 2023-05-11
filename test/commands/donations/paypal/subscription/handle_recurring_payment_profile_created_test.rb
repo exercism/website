@@ -14,7 +14,7 @@ class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest 
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "amount" => "#{amount_in_dollars}.0"
       }
 
       Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
@@ -44,7 +44,7 @@ class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest 
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "amount" => "#{amount_in_dollars}.0"
       }
 
       Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
@@ -68,7 +68,7 @@ class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest 
       "payment_status" => "Completed",
       "payer_email" => "unknown@test.org",
       "payer_id" => SecureRandom.uuid,
-      "mc_gross" => "15.0"
+      "amount" => "15.0"
     }
 
     Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)

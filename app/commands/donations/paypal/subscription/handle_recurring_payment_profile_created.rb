@@ -11,7 +11,7 @@ class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreated
     Donations::Paypal::Subscription::Create.(user, external_id, amount)
   end
 
-  def amount = payload["mc_gross"].to_f
+  def amount = payload["amount"].to_f
   def external_id = payload["recurring_payment_id"]
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]

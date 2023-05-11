@@ -2,12 +2,15 @@
 class Donations::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment
   include Mandate
 
-  initialize_with :resource
+  initialize_with :payload
 
   def call
-    subscription = Donations::Subscription.find_by(external_id: resource[:id], provider: :paypal)
+    subscription = Donations::Subscription.find_by(external_id:, provider: :paypal)
     return unless subscription
 
-    Donations::Subscription::Overdue.(subscription)
+    Donations::Subscription::Cancel.(subscription)
   end
+
+  private
+  def external_id = payload["recurring_payment_id"]
 end

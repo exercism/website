@@ -2,14 +2,17 @@
 class Donations::Paypal::Subscription::HandleRecurringPaymentProfileCreated
   include Mandate
 
-  initialize_with :resource
+  initialize_with :payload
 
   def call
-    payer_info = resource.dig(:payer, :payer_info)
-    user = Donations::Paypal::Customer::FindOrUpdate.(payer_info[:payer_id], payer_info[:email])
+    user = Donations::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
     return unless user
 
-    amount = resource.dig(:plan, :payment_definitions).first.dig(:amount, :value).to_f
-    Donations::Paypal::Subscription::Create.(user, resource[:id], amount)
+    Donations::Paypal::Subscription::Create.(user, external_id, amount)
   end
+
+  def amount = payload["mc_gross"].to_f
+  def external_id = payload["recurring_payment_id"]
+  def payer_id = payload["payer_id"]
+  def payer_email = payload["payer_email"]
 end

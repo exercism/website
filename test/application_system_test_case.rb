@@ -45,7 +45,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       next if error.to_s.include?("403 (Forbidden)")
       next if error.to_s.include?("hcaptcha")
       next if error.to_s.include?("js.stripe.com")
-      next if error.to_s.include?("favicon.png")
+      next if error.to_s.include?("https://test.exercism.org/rails/active_storage/representations/redirect")
 
       should_flunk = true
 

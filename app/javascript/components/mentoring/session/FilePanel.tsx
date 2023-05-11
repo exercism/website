@@ -33,7 +33,7 @@ export const FilePanel = ({
       return
     }
 
-    setTab(files[0].filename)
+    setTab(files[0].filename + 0)
   }, [files])
 
   if (files.length === 0) {
@@ -49,8 +49,12 @@ export const FilePanel = ({
     >
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
-          {files.map((file) => (
-            <Tab key={file.digest} id={file.filename} context={TabsContext}>
+          {files.map((file, idx) => (
+            <Tab
+              key={file.digest}
+              id={file.filename + idx}
+              context={TabsContext}
+            >
               {file.filename}
             </Tab>
           ))}
@@ -68,10 +72,10 @@ export const FilePanel = ({
           ) : null}
         </div>
         <div className="c-code-pane">
-          {files.map((file) => (
+          {files.map((file, idx) => (
             <Tab.Panel
               key={file.digest}
-              id={file.filename}
+              id={file.filename + idx}
               context={TabsContext}
             >
               <FileViewer

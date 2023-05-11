@@ -50,10 +50,11 @@ class User::Data < ApplicationRecord
     has_unseen_reputation_tokens?
   ].each do |meth|
     define_method meth do
-      self.cache.presence || User::ResetCache.(user)
+      self.cache.key?(meth) || User::ResetCache.(user, meth)
       self.cache[meth]
     end
   end
+  def cache = super || (self.cache = {})
 
   FIELDS = %w[
     bio roles usages insiders_status cache

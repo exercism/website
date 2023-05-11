@@ -1036,12 +1036,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "user_id", null: false
     t.text "bio"
     t.json "roles"
-    t.json "usages"
     t.integer "insiders_status", limit: 1, default: 0, null: false
-    t.string "github_username"
     t.string "stripe_customer_id"
-    t.string "paypal_payer_id"
     t.string "discord_uid"
+    t.string "github_username"
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
     t.datetime "became_mentor_at"
@@ -1055,21 +1053,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "usages"
     t.json "cache"
     t.datetime "premium_until"
     t.integer "email_status", limit: 1, default: 0, null: false
+    t.integer "lock_version", default: 1
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_user_data_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_user_data_stripe_customer_id", unique: true
-    t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "user-data-supporters-page", order: { first_donated_at: :desc }
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
+    t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
+    t.index ["stripe_customer_id"], name: "index_user_data_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 
@@ -1231,52 +1225,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.datetime "accepted_privacy_policy_at"
-    t.datetime "accepted_terms_at"
-    t.datetime "became_mentor_at"
     t.datetime "deleted_at"
-    t.datetime "joined_research_at"
-    t.string "github_username"
     t.integer "reputation", default: 0, null: false
-    t.json "roles"
-    t.text "bio"
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
-    t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
-    t.integer "mentor_satisfaction_percentage", limit: 1
-    t.string "stripe_customer_id"
-    t.integer "total_donated_in_cents", default: 0
-    t.boolean "active_donation_subscription", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "disabled_at"
-    t.date "last_visited_on"
-    t.datetime "first_donated_at"
-    t.string "discord_uid"
-    t.integer "insiders_status", limit: 1, default: 0, null: false
     t.integer "flair", limit: 1
-    t.string "paypal_payer_id"
-    t.json "usages"
     t.json "cache"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reputation"], name: "index_users_on_reputation"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "cohort_memberships", "cohorts"

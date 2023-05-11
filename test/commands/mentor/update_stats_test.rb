@@ -20,7 +20,7 @@ class Mentor::UpdateStatsTest < ActiveSupport::TestCase
   test "update satisfaction rating if requested" do
     mentor = create :user
 
-    Mentor::UpdateSatisfactionRating.expects(:call).with(mentor)
+    Mentor::UpdateSatisfactionPercentage.expects(:call).with(mentor)
 
     Mentor::UpdateStats.(mentor, update_satisfaction_rating: true)
   end
@@ -28,7 +28,7 @@ class Mentor::UpdateStatsTest < ActiveSupport::TestCase
   test "does not update satisfaction rating if not requested" do
     mentor = create :user
 
-    Mentor::UpdateSatisfactionRating.expects(:call).with(mentor).never
+    Mentor::UpdateSatisfactionPercentage.expects(:call).with(mentor).never
 
     Mentor::UpdateStats.(mentor, update_satisfaction_rating: false)
   end
@@ -36,8 +36,29 @@ class Mentor::UpdateStatsTest < ActiveSupport::TestCase
   test "updates num solutions mentored and satisfaction rating if requested" do
     mentor = create :user
 
-    Mentor::UpdateSatisfactionRating.expects(:call).with(mentor)
+    Mentor::UpdateSatisfactionPercentage.expects(:call).with(mentor)
 
     Mentor::UpdateStats.(mentor, update_num_solutions_mentored: true, update_satisfaction_rating: true)
+  end
+
+  test "updates supermentor role" do
+    User::InsidersStatus::Update.stubs(:defer)
+
+    mentor = create :user
+    create :user_track_mentorship, user: mentor
+
+    perform_enqueued_jobs do
+      99.times do
+        create :mentor_discussion, :finished, mentor:, rating: :great
+      end
+
+      create :mentor_discussion, :finished, mentor:, rating: :great
+    end
+
+    perform_enqueued_jobs do
+      Mentor::UpdateStats.(mentor)
+    end
+
+    assert mentor.reload.supermentor?
   end
 end

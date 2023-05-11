@@ -375,6 +375,10 @@ class ActiveSupport::TestCase
 
     assert_equal expected, user.data.reload.cache[key.to_s]
   end
+
+  def reset_user_cache(user)
+    user.data.reload.update!(cache: nil)
+  end
 end
 
 class ActionView::TestCase

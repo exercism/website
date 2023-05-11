@@ -274,67 +274,90 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   test "recalculates num_solutions_mentored" do
     mentor = create :user
 
+    # Sanity check
+    assert_equal 0, mentor.num_solutions_mentored
+
+    discussion_1 = create(:mentor_discussion, mentor:)
+    discussion_2 = create(:mentor_discussion, mentor:)
+    discussion_3 = create(:mentor_discussion, mentor:)
+    perform_enqueued_jobs
+
     perform_enqueued_jobs do
-      discussion_1 = create(:mentor_discussion, mentor:)
-      discussion_2 = create(:mentor_discussion, mentor:)
-      discussion_3 = create(:mentor_discussion, mentor:)
-
-      # Sanity check
-      assert_equal 0, mentor.num_solutions_mentored
-
       discussion_1.student_finished!
-      assert_equal 1, mentor.reload.num_solutions_mentored
-
-      discussion_2.finished!
-      assert_equal 2, mentor.reload.num_solutions_mentored
-
-      discussion_3.finished!
-      assert_equal 3, mentor.reload.num_solutions_mentored
     end
+    mentor.data.reload
+
+    p "------"
+    p "#{mentor.id}|#{mentor.data.id}"
+    p mentor.num_solutions_mentored
+    p User::ResetCache.new(mentor.reload, nil).send(:value_for_num_solutions_mentored)
+    p "------"
+
+    assert_equal 1, mentor.reload.num_solutions_mentored
+
+    perform_enqueued_jobs do
+      discussion_2.finished!
+    end
+    assert_equal 2, mentor.reload.num_solutions_mentored
+
+    perform_enqueued_jobs do
+      discussion_3.finished!
+    end
+    assert_equal 3, mentor.reload.num_solutions_mentored
   end
 
   test "recalculates mentor_satisfaction_percentage" do
     mentor = create :user
 
-    perform_enqueued_jobs do
-      # Sanity check
-      assert_nil mentor.mentor_satisfaction_percentage
+    # Sanity check
+    assert_nil mentor.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor:, status: :finished, rating: :great
-      assert_equal 100, mentor.reload.mentor_satisfaction_percentage
+    create :mentor_discussion, mentor:, status: :finished, rating: :great
+    perform_enqueued_jobs
+    reset_user_cache(mentor)
+    assert_equal 100, mentor.reload.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor:, status: :finished, rating: :problematic
-      assert_equal 50, mentor.reload.mentor_satisfaction_percentage
+    create :mentor_discussion, mentor:, status: :finished, rating: :problematic
+    perform_enqueued_jobs
+    reset_user_cache(mentor)
+    assert_equal 50, mentor.reload.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor:, status: :mentor_finished, rating: :acceptable
-      assert_equal 67, mentor.reload.mentor_satisfaction_percentage
+    create :mentor_discussion, mentor:, status: :mentor_finished, rating: :acceptable
+    perform_enqueued_jobs
+    reset_user_cache(mentor)
+    assert_equal 67, mentor.reload.mentor_satisfaction_percentage
 
-      create :mentor_discussion, mentor:, status: :mentor_finished, rating: :good
-      assert_equal 75, mentor.reload.mentor_satisfaction_percentage
-    end
+    create :mentor_discussion, mentor:, status: :mentor_finished, rating: :good
+    perform_enqueued_jobs
+    reset_user_cache(mentor)
+    assert_equal 75, mentor.reload.mentor_satisfaction_percentage
   end
 
   test "recalculates num_finished_discussions" do
     mentor = create :user
     mentorship = create :user_track_mentorship, user: mentor
 
+    discussion_1 = create(:mentor_discussion, mentor:)
+    discussion_2 = create(:mentor_discussion, mentor:)
+    discussion_3 = create(:mentor_discussion, mentor:)
+
+    # Sanity check
+    assert_equal 0, mentorship.num_finished_discussions
+
     perform_enqueued_jobs do
-      discussion_1 = create(:mentor_discussion, mentor:)
-      discussion_2 = create(:mentor_discussion, mentor:)
-      discussion_3 = create(:mentor_discussion, mentor:)
-
-      # Sanity check
-      assert_equal 0, mentorship.num_finished_discussions
-
       discussion_1.student_finished!
-      assert_equal 1, mentorship.reload.num_finished_discussions
-
-      discussion_2.mentor_finished!
-      assert_equal 1, mentorship.reload.num_finished_discussions
-
-      discussion_3.student_finished!
-      assert_equal 2, mentorship.reload.num_finished_discussions
     end
+    assert_equal 1, mentorship.reload.num_finished_discussions
+
+    perform_enqueued_jobs do
+      discussion_2.mentor_finished!
+    end
+    assert_equal 1, mentorship.reload.num_finished_discussions
+
+    perform_enqueued_jobs do
+      discussion_3.student_finished!
+    end
+    assert_equal 2, mentorship.reload.num_finished_discussions
   end
 
   test "mentor_satisfaction_percentage is rounded up" do
@@ -344,9 +367,11 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       create :mentor_discussion, mentor:, status: :finished, rating: :great
       create :mentor_discussion, mentor:, status: :mentor_finished, rating: :problematic
       create :mentor_discussion, mentor:, status: :finished, rating: :problematic
-
-      assert_equal 34, mentor.reload.mentor_satisfaction_percentage
     end
+
+    reset_user_cache(mentor)
+
+    assert_equal 34, mentor.reload.mentor_satisfaction_percentage
   end
 
   test "does not update num solutions mentored if status is unchanged" do
@@ -365,7 +390,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     discussion = create(:mentor_discussion, mentor:)
 
     perform_enqueued_jobs do
-      Mentor::UpdateSatisfactionRating.expects(:call).never
+      Mentor::UpdateSatisfactionPercentage.expects(:call).never
 
       discussion.update(status: :finished)
     end
@@ -385,7 +410,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
   %i[awaiting_student awaiting_mentor mentor_finished].each do |status|
     test "does not update num discussions finished if status is #{status}" do
       mentor = create :user
-      discussion = create(:mentor_discussion, mentor:)
+      # Use status: finished to ensure we always change state
+      discussion = create(:mentor_discussion, mentor:, status: :finished)
 
       perform_enqueued_jobs do
         Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never

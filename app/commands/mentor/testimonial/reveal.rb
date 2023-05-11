@@ -8,5 +8,6 @@ class Mentor::Testimonial::Reveal
 
     testimonial.update!(revealed: true)
     User::ResetCache.defer(testimonial.mentor, :has_unrevealed_testimonials?)
+    User::ResetCache.defer(testimonial.mentor, :num_testimonials)
   end
 end

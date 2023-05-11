@@ -12,6 +12,8 @@ class Mentor::Discussion::FinishByMentorTest < ActiveSupport::TestCase
   end
 
   test "sends notification to student" do
+    User::InsidersStatus::Update.stubs(:defer)
+
     mentor = create :user, handle: "mentor"
     student = create :user, email: "student@exercism.org"
     track = create :track, title: "Ruby"

@@ -352,4 +352,17 @@ class Solution::PublishTest < ActiveSupport::TestCase
     end
     assert_equal 1, exercise.reload.num_published_solutions
   end
+
+  test "updates user's num_published_solutions" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, :completed, user:, exercise:)
+    create(:iteration, solution:)
+
+    assert_user_data_cache_reset(user, :num_published_solutions, 1) do
+      Solution::Publish.(solution, user_track, nil)
+    end
+  end
 end

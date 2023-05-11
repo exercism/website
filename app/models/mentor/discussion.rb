@@ -54,6 +54,7 @@ class Mentor::Discussion < ApplicationRecord
   after_save_commit do
     solution.update_mentoring_status! if previous_changes.key?('status')
     update_stats! if previous_changes.key?('status') || previous_changes.key?('rating')
+    Mentor::UpdateNumSolutionsMentored.defer(mentor) if previous_changes.key?('status') && finished?
   end
 
   delegate :title, :icon_url, to: :track, prefix: :track

@@ -16,7 +16,7 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     refute user.reload.supermentor? # Mentor but criteria not met
 
     # Num finished mentoring sessions and satisfaction percentage are too low
-    user.update(mentor_satisfaction_percentage: 94)
+    user.update(cache: { 'mentor_satisfaction_percentage' => 94 })
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
 
@@ -43,12 +43,14 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     assert user.reload.supermentor?
 
     # Satisfaction percentage is not set
-    user.update(mentor_satisfaction_percentage: nil)
+    user.update(cache: { 'mentor_satisfaction_percentage' => nil })
+    perform_enqueued_jobs
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
 
     # Satisfaction percentage is too low
-    user.update(mentor_satisfaction_percentage: 94)
+    user.update(cache: { 'mentor_satisfaction_percentage' => 94 })
+    perform_enqueued_jobs
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor?
   end

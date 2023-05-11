@@ -94,4 +94,12 @@
     & .mastered {
         @apply text-textColor1 font-semibold;
     }
+
+    & > .--spinner {
+        @apply self-center mx-auto;
+        height: 30px;
+        width: 30px;
+        animation: spin 3s linear infinite;
+        filter: var(--textColor7-filter);
+    }
 }

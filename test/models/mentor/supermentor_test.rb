@@ -4,7 +4,7 @@ class Mentor::SupermentorTest < ActiveSupport::TestCase
   test "eligible?" do
     track_1 = create :track, :random_slug
     track_2 = create :track, :random_slug
-    user = create :user
+    user = create :user, cache: { 'mentor_satisfaction_percentage' => 100 }
 
     # Sanity check: no mentor
     refute Mentor::Supermentor.eligible?(user)
@@ -26,14 +26,17 @@ class Mentor::SupermentorTest < ActiveSupport::TestCase
     create_list(:mentor_discussion, 20, :awaiting_student, solution: create(:practice_solution, track: track_2), mentor: user)
     create_list(:mentor_discussion, 20, :awaiting_mentor, solution: create(:practice_solution, track: track_2), mentor: user)
     create_list(:mentor_discussion, 20, :mentor_finished, solution: create(:practice_solution, track: track_2), mentor: user)
+    refute Mentor::Supermentor.eligible?(user.reload)
 
     # Sanity check: satisfaction rating too low
     create_list(:mentor_discussion, 20, :student_finished, solution: create(:practice_solution, track: track_2), mentor: user)
-    user.update(mentor_satisfaction_percentage: 80)
+    user.update(cache: { 'mentor_satisfaction_percentage' => 80 })
+    user.save!
     refute Mentor::Supermentor.eligible?(user.reload)
 
     # Requirements met
-    user.update(mentor_satisfaction_percentage: 96)
+    user.update(cache: { 'mentor_satisfaction_percentage' => 96 })
+    user.save!
     assert Mentor::Supermentor.eligible?(user.reload)
   end
 

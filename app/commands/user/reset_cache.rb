@@ -22,15 +22,26 @@ class User::ResetCache
     #   })
     # )
 
-    User::Data.transaction do
-      data = User::Data.lock(true).find(user.data.id)
+    User::Data::SafeUpdate.(user) do |data|
       data.cache[key.to_s] = new_value
-      data.save!
     end
+
+    # Always return the new value
+    new_value
   end
 
   private
   def value_for_has_unrevealed_testimonials? = user.mentor_testimonials.unrevealed.exists?
   def value_for_has_unrevealed_badges? = user.acquired_badges.unrevealed.exists?
   def value_for_has_unseen_reputation_tokens? = user.reputation_tokens.unseen.exists?
+  def value_for_num_solutions_mentored = user.mentor_discussions.finished_for_student.count
+  def value_for_num_testimonials = user.mentor_testimonials.published.count
+  def value_for_num_published_solutions = user.solutions.published.count
+  def value_for_mentor_satisfaction_percentage = Mentor::CalculateSatisfactionPercentage.(user)
+
+  # This one is sloooooow!
+  # But quicker joining on request than on solution
+  def value_for_num_students_mentored
+    user.mentor_discussions.finished_for_student.joins(:request).distinct.count(:student_id)
+  end
 end

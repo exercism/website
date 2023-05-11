@@ -16,7 +16,7 @@ module ReactComponents
           flair: user.flair,
           num_testimonials:,
           num_solutions_mentored:,
-          num_students_helped:,
+          num_students_helped: num_students_mentored,
           num_testimonials_received: num_testimonials,
           # TODO: (Optional) Add test for published
           testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.published.limit(3)),
@@ -29,18 +29,9 @@ module ReactComponents
       private
       attr_reader :user, :profile
 
-      memoize
-      def num_testimonials
-        user.mentor_testimonials.published.count
-      end
-
-      def num_solutions_mentored
-        @user.mentor_discussions.count
-      end
-
-      def num_students_helped
-        @user.mentor_discussions.joins(:solution).distinct.count(:user_id)
-      end
+      delegate :num_students_mentored,
+        :num_solutions_mentored,
+        :num_testimonials, to: :user
     end
   end
 end

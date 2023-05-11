@@ -15,6 +15,7 @@ class Mentoring::AutomationController < ApplicationController
   end
 
   def edit
+    p 'HERE!'
     @examples = Exercise::Representation::FindExampleSubmissions.(@representation)
     @source_params = params.permit(source: %i[order criteria page track_slug only_mentored_solutions])[:source] || {}
   end

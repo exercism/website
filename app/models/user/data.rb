@@ -46,11 +46,34 @@ class User::Data < ApplicationRecord
     has_unrevealed_testimonials?
     has_unrevealed_badges?
     has_unseen_reputation_tokens?
+    num_students_mentored
+    num_solutions_mentored
+    num_testimonials
+    num_published_solutions
+    mentor_satisfaction_percentage
   ].each do |meth|
     define_method meth do
-      self.cache.key?(meth) || User::ResetCache.(user, meth)
-      self.reload.cache[meth]
+      p "#{user_id}|#{id} || Checking for #{meth}: #{self.cache.key?(meth)}: #{self.cache[meth]}"
+      return self.cache[meth] if self.cache.key?(meth)
+
+      # This returns the new value
+      User::ResetCache.(user, meth)
+    end
+  end
+  def cache = super || {}
+
+  # TODO: Remove once this has been deployed to webservers
+  # and the fields have been updated.
+  %w[
+    num_solutions_mentored
+    mentor_satisfaction_percentage
+  ].each do |meth|
+    define_method "#{meth}=" do |value|
+      p "HERE!"
+      self.cache[meth] = value
+      save!
     end
   end
   def cache = super || (self.cache = {})
+
 end

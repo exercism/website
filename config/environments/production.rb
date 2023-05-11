@@ -5,7 +5,7 @@ Rails.application.configure do
   config.after_initialize do
     config.action_cable.url = ActionCable.server.config.url = "#{Exercism.config.websockets_url}/cable" if AnyCable::Rails.enabled?
 
-    Bullet.enable = true
+    Bullet.enable = false # Also change this in config/initializers/bullet.rb
     Bullet.raise  = false
     Bullet.bugsnag = false
   end

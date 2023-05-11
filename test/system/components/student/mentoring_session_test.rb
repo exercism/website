@@ -11,8 +11,8 @@ module Components
       include MarkdownEditorHelpers
 
       test "shows posts" do
-        mentor = create :user, handle: "author"
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url, handle: "author"
+        student = create :user, :external_avatar_url, handle: "student"
         track = create :track
         exercise = create(:concept_exercise, track:)
         solution = create(:concept_solution, user: student, exercise:)

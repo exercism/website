@@ -1,6 +1,6 @@
 import React from 'react'
-import { File } from '../../types'
-import { useHighlighting } from '../../../utils/highlight'
+import { useHighlighting } from '@/utils'
+import type { File } from '@/components/types'
 
 export const FileViewer = ({
   language,

@@ -51,7 +51,7 @@ export const FilePanel = ({
         <div className="tabs" role="tablist">
           {files.map((file, idx) => (
             <Tab
-              key={file.digest}
+              key={file.filename + idx}
               id={file.filename + idx}
               context={TabsContext}
             >
@@ -74,7 +74,7 @@ export const FilePanel = ({
         <div className="c-code-pane">
           {files.map((file, idx) => (
             <Tab.Panel
-              key={file.digest}
+              key={file.filename + idx}
               id={file.filename + idx}
               context={TabsContext}
             >

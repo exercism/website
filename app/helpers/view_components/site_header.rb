@@ -60,12 +60,52 @@ module ViewComponents
 
       tag.nav(class: 'signed-in') do
         tag.ul do
-          si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
-            si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
-            si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community) +
-            si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
+          safe_join(
+            [
+              # si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard),
+              learn_nav,
+              si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
+              si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring),
+              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community),
+              si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
+            ]
+          )
         end
+      end
+    end
+
+    def learn_nav
+      tag.li class: "learn-nav" do
+        safe_join([tag.span("Learn"), learn_nav_dropdown])
+      end
+    end
+
+    def learn_nav_dropdown
+      tag.div class: 'learn-nav-dropdown' do
+        safe_join([nav_dropdown_sidebar, nav_dropdown_view])
+      end
+    end
+
+    def nav_dropdown_element(title, description)
+      tag.div class: 'nav-dropdown-element' do
+        tag.h6(title) + tag.p(description)
+      end
+    end
+
+    def nav_dropdown_view
+      tag.div class: 'nav-dropdown-view' do
+        "Something here"
+      end
+    end
+
+    def nav_dropdown_sidebar
+      tag.ul do
+        safe_join(
+          [
+            tag.li(nav_dropdown_element("Tracks", "Learn 99+ tracks for free forever")),
+            tag.li(nav_dropdown_element("Mentoring", "Get mentored by pros"))
+          ]
+        )
       end
     end
 

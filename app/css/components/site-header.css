@@ -238,7 +238,8 @@ body.namespace-.controller-insiders {
             }
         }
 
-        & a {
+        a,
+        .learn-nav {
             @apply flex items-center relative;
             @apply text-16 text-textColor6 font-semibold;
             @apply whitespace-nowrap;
@@ -248,11 +249,51 @@ body.namespace-.controller-insiders {
                 width: 16px;
             }
         }
+
+        .learn-nav {
+            @apply relative;
+            &:hover,
+            .learn-nav-dropdown:hover {
+                .learn-nav-dropdown {
+                    display: inherit;
+                }
+            }
+            .learn-nav-dropdown {
+                @apply absolute top-32;
+                @apply bg-backgroundColorB shadow-base p-8 rounded-16;
+                @apply flex;
+
+                ul {
+                    @apply flex flex-col items-baseline;
+                    @apply mr-0;
+
+                    li {
+                        @apply min-w-full;
+                        .nav-dropdown-element {
+                            @apply p-16 rounded-8;
+
+                            &:hover {
+                                @apply bg-backgroundColorA;
+                            }
+
+                            h6 {
+                                @apply text-14 text-textColor1 leading-160;
+                            }
+
+                            p {
+                                @apply text-p-base text-13;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
     & nav.signed-in {
         @apply flex-grow;
 
-        & li {
+        & li:not(.learn-nav-dropdown li) {
             @apply mr-16;
         }
         & a {

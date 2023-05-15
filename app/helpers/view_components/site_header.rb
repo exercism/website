@@ -82,19 +82,31 @@ module ViewComponents
 
     def learn_nav_dropdown
       tag.div class: 'learn-nav-dropdown' do
-        safe_join([nav_dropdown_sidebar, nav_dropdown_view])
+        safe_join([nav_dropdown_sidebar])
       end
     end
 
     def nav_dropdown_element(title, description)
-      tag.div class: 'nav-dropdown-element' do
+      tag.div class: "nav-dropdown-element #{title}" do
         tag.h6(title) + tag.p(description)
       end
     end
 
-    def nav_dropdown_view
+    def nav_dropdown_view(element)
       tag.div class: 'nav-dropdown-view' do
-        "Something here"
+        element
+      end
+    end
+
+    def nav_dropdown_tracks_view
+      tag.div class: 'nav-dropdown-view-content' do
+        "Track details"
+      end
+    end
+
+    def nav_dropdown_mentoring_view
+      tag.div class: 'nav-dropdown-view-content' do
+        "mentoring details"
       end
     end
 
@@ -102,8 +114,10 @@ module ViewComponents
       tag.ul do
         safe_join(
           [
-            tag.li(nav_dropdown_element("Tracks", "Learn 99+ tracks for free forever")),
-            tag.li(nav_dropdown_element("Mentoring", "Get mentored by pros"))
+            tag.li(safe_join([nav_dropdown_element("Tracks", "Learn 99+ tracks for free forever"),
+                              nav_dropdown_view(nav_dropdown_tracks_view)])),
+            tag.li(safe_join([nav_dropdown_element("Mentoring", "Get mentored by pros"),
+                              nav_dropdown_view(nav_dropdown_mentoring_view)]))
           ]
         )
       end

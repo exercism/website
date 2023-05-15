@@ -259,6 +259,8 @@ body.namespace-.controller-insiders {
                 }
             }
             .learn-nav-dropdown {
+                height: 380px;
+                width: 700px;
                 @apply absolute top-32;
                 @apply bg-backgroundColorB shadow-base p-8 rounded-16;
                 @apply flex;
@@ -266,8 +268,23 @@ body.namespace-.controller-insiders {
                 ul {
                     @apply flex flex-col items-baseline;
                     @apply mr-0;
+                    @apply relative;
 
                     li {
+                        .nav-dropdown-view {
+                            @apply absolute hidden bg-backgroundColorA p-32 rounded-8;
+                            height: 360px;
+                            top: 360px;
+                            width: 420px;
+                            transform: translate(100%, -100%);
+                            right: 0;
+                        }
+
+                        &:hover {
+                            .nav-dropdown-view {
+                                display: inherit;
+                            }
+                        }
                         @apply min-w-full;
                         .nav-dropdown-element {
                             @apply p-16 rounded-8;

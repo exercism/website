@@ -353,6 +353,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [user_2, user_3], User.donor.order(:id)
   end
 
+  test "scope: premium" do
+    create :user, premium_until: nil
+    create :user, premium_until: Time.current - 3.days
+    user_2 = create :user, premium_until: Time.current + 2.days
+    user_3 = create :user, premium_until: Time.current + 4.months
+
+    assert_equal [user_2, user_3], User.premium.order(:id)
+  end
+
   test "scope: public_supporter" do
     create :user, first_donated_at: nil
     create :user, first_donated_at: Time.current, show_on_supporters_page: false
@@ -427,5 +436,16 @@ class UserTest < ActiveSupport::TestCase
 
     user.update(flair: :insider)
     assert_equal :insider, user.flair
+  end
+
+  test "premium?" do
+    user = create :user, premium_until: nil
+    refute user.premium?
+
+    user.update(premium_until: Time.current - 5.seconds)
+    refute user.premium?
+
+    user.update(premium_until: Time.current + 5.seconds)
+    assert user.premium?
   end
 end

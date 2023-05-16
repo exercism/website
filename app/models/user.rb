@@ -131,6 +131,7 @@ class User < ApplicationRecord
 
   scope :with_data, -> { joins(:data) }
   scope :donor, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
+  scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
   scope :public_supporter, -> { donor.where(user_data: { show_on_supporters_page: true }) }
 
   # TODO: Validate presence of name

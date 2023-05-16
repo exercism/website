@@ -6,6 +6,9 @@ class Payments::Github::Subscription::Create
   initialize_with :user, :node_id, :amount_in_cents
 
   def call
-    Payments::Subscription::Create.(user, :github, node_id, amount_in_cents)
+    Payments::Subscription::Create.(user, :github, product, node_id, amount_in_cents)
   end
+
+  private
+  def product = :donation
 end

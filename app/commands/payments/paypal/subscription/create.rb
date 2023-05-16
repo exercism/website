@@ -5,8 +5,9 @@ class Payments::Paypal::Subscription::Create
 
   initialize_with :user, :id, :amount
 
-  def call = Payments::Subscription::Create.(user, :paypal, id, amount_in_cents)
+  def call = Payments::Subscription::Create.(user, :paypal, product, id, amount_in_cents)
 
   private
   def amount_in_cents = (amount * 100).to_i
+  def product = :donation
 end

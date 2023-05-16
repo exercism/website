@@ -7,9 +7,10 @@ class Payments::Stripe::Subscription::Create
 
   initialize_with :user, :stripe_data
 
-  def call = Payments::Subscription::Create.(user, :stripe, external_id, amount_in_cents)
+  def call = Payments::Subscription::Create.(user, :stripe, product, external_id, amount_in_cents)
 
   private
   def external_id = stripe_data.id
   def amount_in_cents = stripe_data.items.data[0].price.unit_amount
+  def product = :donation
 end

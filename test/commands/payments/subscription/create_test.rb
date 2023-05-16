@@ -6,7 +6,7 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     external_id = SecureRandom.uuid
     amount = 1500
 
-    Payments::Subscription::Create.(user, :stripe, external_id, amount)
+    Payments::Subscription::Create.(user, :stripe, :donation, external_id, amount)
 
     assert_equal 1, Payments::Subscription.count
 
@@ -16,6 +16,7 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     assert_equal user, subscription.user
     assert_equal :active, subscription.status
     assert_equal :stripe, subscription.provider
+    assert_equal :donation, subscription.product
     assert user.active_donation_subscription?
   end
 
@@ -24,8 +25,8 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     external_id = SecureRandom.uuid
     amount = 1500
 
-    sub_1 = Payments::Subscription::Create.(user, :stripe, external_id, amount)
-    sub_2 = Payments::Subscription::Create.(user, :stripe, external_id, amount)
+    sub_1 = Payments::Subscription::Create.(user, :stripe, :donation, external_id, amount)
+    sub_2 = Payments::Subscription::Create.(user, :stripe, :donation, external_id, amount)
 
     assert_equal 1, Payments::Subscription.count
     assert_equal sub_1, sub_2
@@ -37,6 +38,6 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     amount = 1500
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Payments::Subscription::Create.(user, :stripe, external_id, amount)
+    Payments::Subscription::Create.(user, :stripe, :donation, external_id, amount)
   end
 end

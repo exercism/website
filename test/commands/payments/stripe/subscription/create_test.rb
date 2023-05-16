@@ -17,6 +17,7 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
     assert_equal user, subscription.user
     assert_equal :active, subscription.status
     assert_equal :stripe, subscription.provider
+    assert_equal :donation, subscription.product
     assert user.active_donation_subscription?
   end
 

@@ -5,12 +5,13 @@
 class Payments::Subscription::Create
   include Mandate
 
-  initialize_with :user, :provider, :external_id, :amount_in_cents
+  initialize_with :user, :provider, :product, :external_id, :amount_in_cents
 
   def call
     Payments::Subscription.create!(
       user:,
       provider:,
+      product:,
       external_id:,
       amount_in_cents:,
       status: :active

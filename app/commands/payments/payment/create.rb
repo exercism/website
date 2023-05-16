@@ -6,12 +6,13 @@
 class Payments::Payment::Create
   include Mandate
 
-  initialize_with :user, :provider, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
+  initialize_with :user, :provider, :product, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
 
   def call
     Payments::Payment.create!(
       user:,
       provider:,
+      product:,
       external_id:,
       external_receipt_url:,
       subscription:,

@@ -8,7 +8,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
       amount = 1500
       receipt_url = SecureRandom.uuid
 
-      Payments::Payment::Create.(user, :stripe, id, amount, receipt_url)
+      Payments::Payment::Create.(user, :stripe, :donation, id, amount, receipt_url)
 
       assert_equal 1, Payments::Payment.count
 
@@ -18,6 +18,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
       assert_equal receipt_url, payment.external_receipt_url
       assert_equal user, payment.user
       assert_equal :stripe, payment.provider
+      assert_equal :donation, payment.product
       assert_nil payment.subscription
       assert_equal amount, user.total_donated_in_cents
       assert_equal Time.current, user.first_donated_at
@@ -30,7 +31,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
     refute user.reload.badges.present?
 
     assert_enqueued_with(job: AwardBadgeJob) do
-      Payments::Payment::Create.(user, :stripe, 1, 1, "")
+      Payments::Payment::Create.(user, :stripe, :donation, 1, 1, "")
     end
 
     perform_enqueued_jobs
@@ -41,7 +42,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
     user = create :user
 
     perform_enqueued_jobs do
-      Payments::Payment::Create.(user, :stripe, 1, 1, "")
+      Payments::Payment::Create.(user, :stripe, :donation, 1, 1, "")
     end
 
     deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Thank you for your donation" && d.to == [user.email] }
@@ -52,7 +53,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
     user = create :user
     subscription = create :donations_subscription
 
-    Payments::Payment::Create.(user, :stripe, 5, 1500, "", subscription:)
+    Payments::Payment::Create.(user, :stripe, :donation, 5, 1500, "", subscription:)
 
     assert_equal 1, Payments::Payment.count
 
@@ -65,8 +66,8 @@ class Payments::Payment::CreateTest < Payments::TestBase
     id = SecureRandom.uuid
     amount = 1500
 
-    payment_1 = Payments::Payment::Create.(user, :stripe, id, amount, "")
-    payment_2 = Payments::Payment::Create.(user, :stripe, id, amount, "")
+    payment_1 = Payments::Payment::Create.(user, :stripe, :donation, id, amount, "")
+    payment_2 = Payments::Payment::Create.(user, :stripe, :donation, id, amount, "")
 
     assert_equal 1, Payments::Payment.count
     assert_equal payment_1, payment_2

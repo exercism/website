@@ -23,12 +23,8 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_donors(_)
-    [
-      User.with_data.where.not(data: { first_donated_at: nil }),
-      ->(user) { user }
-    ]
-  end
+  def audience_for_donors(_) = [User.donor, ->(user) { user }]
+  def audience_for_premium(_) = [User.premium, ->(user) { user }]
 
   def audience_for_reputation(min_rep)
     [

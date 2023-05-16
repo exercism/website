@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_16_113856) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -164,6 +164,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
@@ -178,6 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end

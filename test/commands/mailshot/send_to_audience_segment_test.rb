@@ -61,6 +61,18 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :premium, nil, 10, 0)
   end
 
+  test "schedules audience_for_insiders" do
+    mailshot = create :mailshot
+
+    good_user = create :user, :insider
+    bad_user = create :user
+
+    User::Mailshot::Send.expects(:call).with(good_user, mailshot)
+    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :insiders, nil, 10, 0)
+  end
+
   test "schedules audience_for_challenge" do
     mailshot = create :mailshot
 

@@ -370,6 +370,17 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [user_3], User.public_supporter.order(:id)
   end
 
+  test "scope: insiders" do
+    create :user, insiders_status: :unset
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :eligible_lifetime
+    user_4 = create :user, insiders_status: :active
+    user_5 = create :user, insiders_status: :active_lifetime
+
+    assert_equal [user_4, user_5], User.insiders.order(:id)
+  end
+
   test "github_auth?" do
     user = create :user, uid: nil
     refute user.github_auth?

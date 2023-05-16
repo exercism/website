@@ -52,7 +52,7 @@ module ViewComponents
     end
 
     def signed_in_nav
-      tag.nav(class: 'signed-in') do
+      tag.nav(class: 'signed-in', role: 'navigation') do
         tag.ul do
           safe_join(
             [
@@ -63,14 +63,76 @@ module ViewComponents
               generic_nav("Premium", LEARN_SUBMENU, nil, 150)
             ]
           )
-        end
+        end + handle_focus
+      end
+    end
+
+    # this is neccessary otherwise there would be duplicate, glitchy menus
+    def handle_focus
+      tag.script do
+        <<~JS.html_safe
+          document.addEventListener('DOMContentLoaded', function() {
+            const navElements = document.querySelectorAll('.nav-element');
+            let currentMouseOverElement = null;
+
+            navElements.forEach((navElement) => {
+              navElement.addEventListener('mouseover', () => {
+                removeFocusFromOtherElements(navElement);
+                currentMouseOverElement = navElement;
+                document.body.classList.remove('keyboard-navigation');
+              });
+
+              navElement.addEventListener('mouseleave', () => {
+                currentMouseOverElement = null;
+              });
+
+              navElement.addEventListener('focus', () => {
+                if (currentMouseOverElement) {
+                  const dropdown = currentMouseOverElement.querySelector('.nav-element-dropdown');
+                  if (dropdown) {
+                    dropdown.classList.add('hidden');
+                  }
+                }
+
+                removeFocusFromOtherElements(navElement);
+              });
+
+              navElement.addEventListener('blur', () => {
+                if (currentMouseOverElement) {
+                  const dropdown = currentMouseOverElement.querySelector('.nav-element-dropdown');
+                  if (dropdown) {
+                    dropdown.classList.remove('hidden');
+                  }
+                }
+              });
+            });
+
+            function removeFocusFromOtherElements(currentElement) {
+              navElements.forEach((otherElement) => {
+                if (otherElement !== currentElement) {
+                  otherElement.blur();
+                  const focusableChildren = otherElement.querySelectorAll('[tabindex="0"]');
+                  focusableChildren.forEach((child) => {
+                    child.blur();
+                  });
+                }
+              });
+            }
+
+            document.addEventListener('keydown', function(event) {
+              if (event.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+              }
+            });
+          });
+        JS
       end
     end
 
     def generic_nav(nav_title, submenu, path = nil, offset = 0)
       conditional_link(path) do
-        tag.li class: 'nav-element' do
-          tag.span(nav_title) << nav_dropdown(submenu, offset) << css_arrow
+        tag.li class: 'nav-element', role: 'none' do
+          tag.span(nav_title, tabindex: 0) << nav_dropdown(submenu, offset) << css_arrow
         end
       end
     end
@@ -121,7 +183,7 @@ module ViewComponents
     end
 
     def nav_dropdown(submenu, offset)
-      tag.div class: 'nav-element-dropdown', style: "--dropdown-offset: -#{offset}px;" do
+      tag.div class: 'nav-element-dropdown', style: "--dropdown-offset: -#{offset}px;", role: 'menu' do
         tag.ul do
           submenu.inject(''.html_safe) do |content, tag_info|
             content << tag.li(
@@ -134,7 +196,7 @@ module ViewComponents
     end
 
     def nav_dropdown_element(title, description, icon)
-      tag.div(class: "nav-dropdown-element") do
+      tag.div(class: "nav-dropdown-element", tabindex: 0, role: 'menuitem') do
         graphical_icon(icon) <<
           tag.div do
             tag.h6(title) << tag.p(description)

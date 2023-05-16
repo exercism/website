@@ -18,6 +18,11 @@ body:not(.namespace-.controller-insiders) {
     --exercism-link-filter: var(--textColor1-filter);
 }
 
+body.keyboard-navigation .nav-element:hover .nav-element-dropdown,
+body.keyboard-navigation .nav-element:hover .arrow {
+    display: none !important;
+}
+
 body.namespace-.controller-insiders {
     #site-header {
         /* russianViolet is site-header background */
@@ -270,7 +275,8 @@ body.namespace-.controller-insiders {
 
             span {
                 @apply p-24;
-                &:hover + .nav-element-dropdown {
+                &:hover + .nav-element-dropdown,
+                &:focus-within + .nav-element-dropdown {
                     ul li {
                         &:first-child {
                             .nav-dropdown-element {
@@ -284,7 +290,7 @@ body.namespace-.controller-insiders {
                 }
             }
             &:hover,
-            .nav-element-dropdown:hover {
+            &:focus-within {
                 .nav-element-dropdown {
                     display: flex;
                 }
@@ -324,7 +330,8 @@ body.namespace-.controller-insiders {
                             right: 0;
                         }
 
-                        &:hover {
+                        &:hover,
+                        &:focus-within {
                             .nav-dropdown-view {
                                 display: inherit;
                             }

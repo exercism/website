@@ -239,10 +239,11 @@ body.namespace-.controller-insiders {
         }
 
         a,
-        .learn-nav {
+        .nav-element {
             @apply flex items-center relative;
             @apply text-16 text-textColor6 font-semibold;
             @apply whitespace-nowrap;
+            @apply cursor-pointer;
 
             & .c-icon {
                 height: 16px;
@@ -250,32 +251,75 @@ body.namespace-.controller-insiders {
             }
         }
 
-        .learn-nav {
+        .nav-element {
             @apply relative;
+
+            .arrow {
+                --a-size: 15px;
+                @apply absolute hidden -z-1;
+                width: var(--a-size);
+                height: var(--a-size);
+                bottom: 0;
+                left: 50%;
+                background-color: var(--backgroundColorB);
+                clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+                transform: translateX(-50%) rotate(45deg);
+                border-radius: 3px;
+                vertical-align: middle;
+            }
+
+            span {
+                @apply p-24;
+                &:hover + .nav-element-dropdown {
+                    ul li {
+                        &:first-child {
+                            .nav-dropdown-element {
+                                @apply bg-backgroundColorA;
+                            }
+                            .nav-dropdown-view {
+                                display: inherit;
+                            }
+                        }
+                    }
+                }
+            }
             &:hover,
-            .learn-nav-dropdown:hover {
-                .learn-nav-dropdown {
+            .nav-element-dropdown:hover {
+                .nav-element-dropdown {
+                    display: flex;
+                }
+                .arrow {
                     display: inherit;
                 }
             }
-            .learn-nav-dropdown {
-                height: 380px;
-                width: 700px;
-                @apply absolute top-32;
-                @apply bg-backgroundColorB shadow-base p-8 rounded-16;
-                @apply flex;
+            .nav-element-dropdown {
+                --nd-height: 380px;
+                --nd-width: 700px;
+                --nd-backgroundColor: var(--backgroundColorB);
+                --nd-highlightColor: var(--backgroundColorA);
+                --dropdown-offset: 0px;
+
+                height: var(--nd-height);
+                width: var(--nd-width);
+                @apply absolute hidden top-64 z-menu;
+                left: var(--dropdown-offset);
+                outline: 8px solid var(--nd-backgroundColor);
+                @apply bg-backgroundColorB shadow-base rounded-8;
 
                 ul {
                     @apply flex flex-col items-baseline;
                     @apply mr-0;
                     @apply relative;
+                    width: calc(var(--nd-width) * calc(2 / 5));
 
                     li {
+                        @apply pr-8 w-100;
                         .nav-dropdown-view {
-                            @apply absolute hidden bg-backgroundColorA p-32 rounded-8;
-                            height: 360px;
-                            top: 360px;
-                            width: 420px;
+                            @apply absolute hidden p-32 rounded-8;
+                            background: var(--nd-highlightColor);
+                            height: var(--nd-height);
+                            top: var(--nd-height);
+                            width: calc(var(--nd-width) * calc(3 / 5));
                             transform: translate(100%, -100%);
                             right: 0;
                         }
@@ -284,13 +328,18 @@ body.namespace-.controller-insiders {
                             .nav-dropdown-view {
                                 display: inherit;
                             }
-                        }
-                        @apply min-w-full;
-                        .nav-dropdown-element {
-                            @apply p-16 rounded-8;
 
-                            &:hover {
-                                @apply bg-backgroundColorA;
+                            .nav-dropdown-element {
+                                background: var(--nd-highlightColor);
+                            }
+                        }
+                        .nav-dropdown-element {
+                            @apply p-16 rounded-8 flex gap-8 items-center;
+
+                            .c-icon {
+                                @apply filter-textColor6;
+                                height: 24px;
+                                width: 24px;
                             }
 
                             h6 {
@@ -310,12 +359,9 @@ body.namespace-.controller-insiders {
     & nav.signed-in {
         @apply flex-grow;
 
-        & li:not(.learn-nav-dropdown li) {
-            @apply mr-16;
-        }
-        & a {
+        /* & a {
             @apply px-8 py-8;
-        }
+        } */
     }
 
     & nav.signed-out {

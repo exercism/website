@@ -14,7 +14,6 @@ module ViewComponents
       end
     end
 
-    private
     def announcement_bar
       return tag.span("") if current_user&.donated?
 
@@ -53,73 +52,99 @@ module ViewComponents
     end
 
     def signed_in_nav
-      insiders_content = tag.span(class: "flex items-center gap-6") do
-        tag.span("Insiders") +
-          graphical_icon(:insiders, css_class: "!filter-none")
-      end
-
       tag.nav(class: 'signed-in') do
         tag.ul do
           safe_join(
             [
-              # si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard),
-              learn_nav,
-              si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring),
-              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community),
-              si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
+              generic_nav("Learn", LEARN_SUBMENU),
+              generic_nav("Contribute", LEARN_SUBMENU, nil, 20),
+              generic_nav("Community", LEARN_SUBMENU, nil, 50),
+              generic_nav("Resources", LEARN_SUBMENU, nil, 100),
+              generic_nav("Premium", LEARN_SUBMENU, nil, 150)
             ]
           )
         end
       end
     end
 
-    def learn_nav
-      tag.li class: "learn-nav" do
-        safe_join([tag.span("Learn"), learn_nav_dropdown])
+    def generic_nav(nav_title, submenu, path = nil, offset = 0)
+      conditional_link(path) do
+        tag.li class: 'nav-element' do
+          tag.span(nav_title) << nav_dropdown(submenu, offset) << css_arrow
+        end
       end
     end
 
-    def learn_nav_dropdown
-      tag.div class: 'learn-nav-dropdown' do
-        safe_join([nav_dropdown_sidebar])
+    def conditional_link(path = nil)
+      content = yield
+
+      if path.nil?
+        content
+      else
+        link_to(path) do
+          content
+        end
       end
     end
 
-    def nav_dropdown_element(title, description)
-      tag.div class: "nav-dropdown-element #{title}" do
-        tag.h6(title) + tag.p(description)
-      end
+    LEARN_SUBMENU = [
+      {
+        title: "Tracks",
+        description: "Learn 99+ tracks for free forever",
+        path: nil,
+        icon: :tracks,
+        content: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
+      },
+      {
+        title: "Mentoring",
+        description: "Get mentored by pros",
+        path: nil,
+        icon: :mentoring,
+        content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+      }
+    ].freeze
+
+    def css_arrow
+      tag.div class: 'arrow'
     end
 
-    def nav_dropdown_view(element)
-      tag.div class: 'nav-dropdown-view' do
-        element
-      end
-    end
-
-    def nav_dropdown_tracks_view
+    def nav_dropdown_tracks_view(tag)
       tag.div class: 'nav-dropdown-view-content' do
         "Track details"
       end
     end
 
-    def nav_dropdown_mentoring_view
+    def nav_dropdown_mentoring_view(tag)
       tag.div class: 'nav-dropdown-view-content' do
         "mentoring details"
       end
     end
 
-    def nav_dropdown_sidebar
-      tag.ul do
-        safe_join(
-          [
-            tag.li(safe_join([nav_dropdown_element("Tracks", "Learn 99+ tracks for free forever"),
-                              nav_dropdown_view(nav_dropdown_tracks_view)])),
-            tag.li(safe_join([nav_dropdown_element("Mentoring", "Get mentored by pros"),
-                              nav_dropdown_view(nav_dropdown_mentoring_view)]))
-          ]
-        )
+    def nav_dropdown(submenu, offset)
+      tag.div class: 'nav-element-dropdown', style: "--dropdown-offset: -#{offset}px;" do
+        tag.ul do
+          submenu.inject(''.html_safe) do |content, tag_info|
+            content << tag.li(
+              nav_dropdown_element(tag_info[:title], tag_info[:description], tag_info[:icon]) <<
+              nav_dropdown_view(tag_info[:content].(tag, self))
+            )
+          end
+        end
+      end
+    end
+
+    def nav_dropdown_element(title, description, icon)
+      tag.div(class: "nav-dropdown-element") do
+        graphical_icon(icon) <<
+          tag.div do
+            tag.h6(title) << tag.p(description)
+          end
+      end
+    end
+
+    def nav_dropdown_view(element)
+      tag.div(class: 'nav-dropdown-view') do
+        element
       end
     end
 

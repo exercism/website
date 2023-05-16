@@ -1,7 +1,7 @@
 require_relative '../base_test_case'
 
 module API
-  class Donations::SubscriptionsControllerTest < API::BaseTestCase
+  class Payments::SubscriptionsControllerTest < API::BaseTestCase
     guard_incorrect_token! :cancel_api_donations_subscription_path, args: 1, method: :patch
     guard_incorrect_token! :update_amount_api_donations_subscription_path, args: 1, method: :patch
 
@@ -12,7 +12,7 @@ module API
       user = create :user
       subscription = create(:donations_subscription, user:)
 
-      ::Donations::Stripe::Subscription::Cancel.expects(:call).with(subscription)
+      ::Payments::Stripe::Subscription::Cancel.expects(:call).with(subscription)
 
       setup_user(user)
       patch cancel_api_donations_subscription_path(subscription.id), headers: @headers, as: :json
@@ -30,7 +30,7 @@ module API
       subscription = create(:donations_subscription, user:)
       amount_in_cents = '5000'
 
-      ::Donations::Stripe::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
+      ::Payments::Stripe::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
 
       setup_user(user)
       patch update_amount_api_donations_subscription_path(subscription.id, amount_in_cents:), headers: @headers,

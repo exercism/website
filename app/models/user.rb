@@ -112,8 +112,8 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
-  has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
-  has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
+  has_many :donation_subscriptions, class_name: "Payments::Subscription", dependent: :nullify
+  has_many :donation_payments, class_name: "Payments::Payment", dependent: :nullify
 
   has_many :problem_reports, dependent: :destroy
 

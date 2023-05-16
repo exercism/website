@@ -4,6 +4,6 @@ class AddProductToDonationsPayments < ActiveRecord::Migration[7.0]
 
     add_column :donations_payments, :product, :tinyint, null: false, default: 0
 
-    Donations::Payment.update_all(product: :donation)
+    Payments::Payment.update_all(product: :donation)
   end
 end

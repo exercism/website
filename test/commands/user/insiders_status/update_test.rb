@@ -219,6 +219,22 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     assert_equal :lifetime_insider, user.flair
   end
 
+  test "eligible_lifetime: give lifetime premium when current status is active" do
+    user = create :user, insiders_status: :active
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    # Sanity check
+    refute user.premium?
+
+    User::InsidersStatus::Update.(user)
+
+    assert user.premium?
+  end
+
   test "eligible_lifetime: set discourse groups" do
     user = create :user, insiders_status: :active
 

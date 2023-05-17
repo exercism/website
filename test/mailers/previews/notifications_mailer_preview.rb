@@ -76,4 +76,16 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::JoinedExercismNotification.first
     ).joined_lifetime_insiders
   end
+
+  def joined_premium_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedPremiumNotification.first
+    ).joined_premium
+  end
+
+  def expired_premium_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::ExpiredPremiumNotification.first
+    ).expired_premium
+  end
 end

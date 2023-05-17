@@ -31,7 +31,7 @@ class User::InsidersStatus::Update
     return unless user.insiders_status_active_lifetime?
 
     User::UpdateFlair.(user)
-    User::JoinLifetimePremium.(user)
+    User::Premium::JoinLifetime.(user)
     AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider)
   end

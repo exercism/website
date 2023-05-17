@@ -36,11 +36,11 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
 
   test "eligible_lifetime for big prelaunch donor" do
     user = create :user
-    create :donations_payment, user:, created_at: Date.new(2021, 1, 1), amount_in_cents: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_DONATIONS_THRESHOLD - 1 # rubocop:disable Layout/LineLength
-    create :donations_payment, user:, created_at: Date.new(2023, 5, 1), amount_in_cents: 1
+    create :payments_payment, user:, created_at: Date.new(2021, 1, 1), amount_in_cents: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_DONATIONS_THRESHOLD - 1 # rubocop:disable Layout/LineLength
+    create :payments_payment, user:, created_at: Date.new(2023, 5, 1), amount_in_cents: 1
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
 
-    create :donations_payment, user:, created_at: Date.new(2022, 4, 30), amount_in_cents: 1
+    create :payments_payment, user:, created_at: Date.new(2022, 4, 30), amount_in_cents: 1
     assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 

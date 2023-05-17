@@ -4,7 +4,7 @@ class Payments::Subscription::ActivateTest < Payments::TestBase
   test "activates subscription" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: false
-    subscription = create :donations_subscription, :canceled, user:, external_id: subscription_id
+    subscription = create :payments_subscription, :canceled, user:, external_id: subscription_id
 
     Payments::Subscription::Activate.(subscription)
     assert subscription.active?
@@ -14,7 +14,7 @@ class Payments::Subscription::ActivateTest < Payments::TestBase
   test "triggers insiders_status update" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: false
-    subscription = create :donations_subscription, :canceled, user:, external_id: subscription_id
+    subscription = create :payments_subscription, :canceled, user:, external_id: subscription_id
 
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 

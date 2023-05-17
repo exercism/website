@@ -3,7 +3,7 @@ require 'test_helper'
 class Payments::Payment::SendEmailTest < ActiveSupport::TestCase
   test "sends email" do
     user = create :user
-    payment = create(:donations_payment, user:)
+    payment = create(:payments_payment, user:)
 
     assert_enqueued_with(
       job: ActionMailer::MailDeliveryJob, args: [

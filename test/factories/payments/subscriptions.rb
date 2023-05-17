@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :donations_subscription, class: 'Payments::Subscription' do
+  factory :payments_subscription, class: 'Payments::Subscription' do
     user
     provider { :stripe }
     external_id { SecureRandom.uuid }

@@ -95,11 +95,11 @@ class Payments::Github::Sponsorship::SyncAllTest < Payments::TestBase
     user_1 = create :user, github_username: 'user_1', active_donation_subscription: true, show_on_supporters_page: true
     user_2 = create :user, github_username: 'user_2', active_donation_subscription: true, show_on_supporters_page: false
 
-    create :donations_payment, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github
-    create :donations_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
+    create :payments_payment, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github
+    create :payments_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
       status: :active, amount_in_cents: 500
-    create :donations_payment, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github
-    create :donations_subscription, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github,
+    create :payments_payment, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github
+    create :payments_subscription, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github,
       status: :active, amount_in_cents: 300
 
     response = {
@@ -169,9 +169,9 @@ class Payments::Github::Sponsorship::SyncAllTest < Payments::TestBase
     user_1 = create :user, github_username: 'user_1', active_donation_subscription: true, show_on_supporters_page: true
     user_2 = create :user, github_username: 'user_2', active_donation_subscription: true, show_on_supporters_page: false
 
-    create :donations_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
+    create :payments_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
       status: :active, amount_in_cents: 500
-    create :donations_subscription, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github,
+    create :payments_subscription, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github,
       status: :active, amount_in_cents: 300
 
     response = {

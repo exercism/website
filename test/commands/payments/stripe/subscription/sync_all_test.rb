@@ -234,9 +234,9 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     user_1 = create :user, stripe_customer_id: "cus_1"
     user_2 = create :user, stripe_customer_id: "cus_2"
 
-    subscription_1 = create :donations_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
+    subscription_1 = create :payments_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
       updated_at: Time.utc(2022, 3, 18), status: :active
-    subscription_2 = create :donations_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
+    subscription_2 = create :payments_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
       updated_at: Time.utc(2022, 4, 22), status: :active
 
     stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
@@ -319,9 +319,9 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     user_1 = create :user, stripe_customer_id: "cus_1"
     user_2 = create :user, stripe_customer_id: "cus_2"
 
-    subscription_1 = create :donations_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
+    subscription_1 = create :payments_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
       updated_at: Time.utc(2022, 3, 18), status: :overdue
-    subscription_2 = create :donations_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
+    subscription_2 = create :payments_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
       updated_at: Time.utc(2022, 4, 22), status: :active
 
     stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
@@ -402,9 +402,9 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     user_1 = create :user, stripe_customer_id: "cus_1"
     user_2 = create :user, stripe_customer_id: "cus_2"
 
-    subscription_1 = create :donations_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
+    subscription_1 = create :payments_subscription, user: user_1, external_id: "su_1", amount_in_cents: 999,
       updated_at: Time.utc(2022, 3, 18), status: :active
-    subscription_2 = create :donations_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
+    subscription_2 = create :payments_subscription, user: user_2, external_id: "su_2", amount_in_cents: 777,
       updated_at: Time.utc(2022, 4, 22), status: :active
 
     stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").
@@ -495,7 +495,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     test "updates subscription status to #{new_status} when Stripe status is #{stripe_status}" do
       user = create :user, stripe_customer_id: "cus_1"
 
-      subscription = create :donations_subscription, user:, external_id: "su_1", amount_in_cents: 999,
+      subscription = create :payments_subscription, user:, external_id: "su_1", amount_in_cents: 999,
         updated_at: Time.utc(2022, 3, 18), status: :active
 
       stub_request(:get, "https://api.stripe.com/v1/subscriptions/search?expand%5B%5D=data.customer&limit=100&query=status:'active'").

@@ -50,7 +50,7 @@ class Payments::Paypal::Payment::CreateTest < Payments::TestBase
 
   test "works with subscription passed manually" do
     user = create :user
-    subscription = create :donations_subscription, provider: :paypal
+    subscription = create :payments_subscription, provider: :paypal
 
     Payments::Paypal::Payment::Create.(user, 5, 1500, subscription:)
 

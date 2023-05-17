@@ -49,7 +49,7 @@ class Payments::Github::Payment::CreateTest < Payments::TestBase
 
   test "works with subscription passed manually" do
     user = create :user
-    subscription = create :donations_subscription, provider: :github
+    subscription = create :payments_subscription, provider: :github
 
     Payments::Github::Payment::Create.(user, 5, 1500, subscription:)
 

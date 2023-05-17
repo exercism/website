@@ -69,7 +69,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
 
   %w[Canceled_Reversal Refunded Reversed].each do |payment_status|
     test "update payment amount when payment_status is #{payment_status}" do
-      payment = create :donations_payment, :paypal, amount_in_cents: 300
+      payment = create :payments_payment, :paypal, amount_in_cents: 300
       new_amount_in_dollars = 5
       new_amount_in_cents = new_amount_in_dollars * 100
       payload = {

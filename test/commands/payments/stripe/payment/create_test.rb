@@ -51,7 +51,7 @@ class Payments::Stripe::Payment::CreateTest < Payments::TestBase
 
   test "works with subscription passed manually" do
     user = create :user
-    subscription = create :donations_subscription
+    subscription = create :payments_subscription
     data = mock_stripe_payment(5, 1500, "")
 
     Payments::Stripe::Payment::Create.(user, data, subscription:)
@@ -66,7 +66,7 @@ class Payments::Stripe::Payment::CreateTest < Payments::TestBase
     invoice_id = SecureRandom.uuid
     stripe_subscription_id = SecureRandom.uuid
     user = create :user
-    subscription = create :donations_subscription, user:, external_id: stripe_subscription_id
+    subscription = create :payments_subscription, user:, external_id: stripe_subscription_id
     data = mock_stripe_payment(5, 1500, "", invoice_id:)
 
     invoice = mock_stripe_invoice(nil, stripe_subscription_id)

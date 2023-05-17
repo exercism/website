@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :donations_payment, class: 'Payments::Payment' do
+  factory :payments_payment, class: 'Payments::Payment' do
     user
     external_id { SecureRandom.uuid }
     external_receipt_url { "https://#{SecureRandom.uuid}" }

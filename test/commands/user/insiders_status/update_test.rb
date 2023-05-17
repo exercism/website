@@ -55,8 +55,8 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   test "ineligible: user is premium until last payment date + 30 days if that is in the future" do
     freeze_time do
       user = create :user, insiders_status: :active, premium_until: Time.current
-      create(:donations_payment, product: :premium, created_at: Time.current - 2.months, user:)
-      last_payment = create(:donations_payment, product: :premium, created_at: Time.current - 20.days, user:)
+      create(:payments_payment, product: :premium, created_at: Time.current - 2.months, user:)
+      last_payment = create(:payments_payment, product: :premium, created_at: Time.current - 20.days, user:)
 
       User::SetDiscourseGroups.stubs(:defer)
 
@@ -71,7 +71,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
   test "ineligible: user is no longer premium when last payment date + 30 days is not in the future" do
     user = create :user, insiders_status: :active, premium_until: Time.current
-    create :donations_payment, product: :premium, created_at: Time.current - 2.months
+    create :payments_payment, product: :premium, created_at: Time.current - 2.months
 
     User::SetDiscourseGroups.stubs(:defer)
 

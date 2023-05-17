@@ -51,7 +51,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
 
   test "works with subscription passed manually" do
     user = create :user
-    subscription = create :donations_subscription
+    subscription = create :payments_subscription
 
     Payments::Payment::Create.(user, :stripe, :donation, 5, 1500, "", subscription:)
 

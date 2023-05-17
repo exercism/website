@@ -7,7 +7,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       recurring_payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
       user = create(:user, paypal_payer_id:)
-      subscription = create(:donations_subscription, :paypal, external_id: recurring_payment_id, user:)
+      subscription = create(:payments_subscription, :paypal, external_id: recurring_payment_id, user:)
       amount_in_dollars = 15
       amount_in_cents = amount_in_dollars * 100
       payload = {

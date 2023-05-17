@@ -6,7 +6,7 @@ class Payments::Github::Sponsorship::HandleTierChangedTest < Payments::TestBase
     is_one_time = false
     amount = 300
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, provider: :github,
+    subscription = create :payments_subscription, user:, provider: :github,
       external_id: sponsorship_node_id, amount_in_cents: 500
 
     Payments::Github::Sponsorship::HandleTierChanged.(user, sponsorship_node_id, is_one_time, amount)
@@ -19,7 +19,7 @@ class Payments::Github::Sponsorship::HandleTierChangedTest < Payments::TestBase
     is_one_time = true
     amount = 300
     user = create :user, active_donation_subscription: true
-    subscription = create :donations_subscription, user:, provider: :github,
+    subscription = create :payments_subscription, user:, provider: :github,
       external_id: sponsorship_node_id, amount_in_cents: 500
 
     Payments::Github::Sponsorship::HandleTierChanged.(user, sponsorship_node_id, is_one_time, amount)

@@ -59,6 +59,7 @@ module ViewComponents
     }.freeze
 
     ICONS = {
+      premium: 'premium',
       insider: 'insiders',
       lifetime_insider: 'lifetime-insiders',
       founder: 'exercism-face-gradient',

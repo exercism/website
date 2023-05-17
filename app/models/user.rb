@@ -237,7 +237,7 @@ class User < ApplicationRecord
 
   memoize
   def total_subscription_donations_in_dollars
-    payment_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
+    payment_payments.donation.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize

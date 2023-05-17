@@ -1,6 +1,7 @@
 module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
+    include ViewComponents::NavHelpers::All
 
     delegate :namespace_name, :controller_name,
       to: :view_context
@@ -57,156 +58,13 @@ module ViewComponents
           safe_join(
             [
               generic_nav("Learn", LEARN_SUBMENU),
-              generic_nav("Contribute", LEARN_SUBMENU, nil, 20),
-              generic_nav("Community", LEARN_SUBMENU, nil, 50),
+              generic_nav("Contribute", LEARN_SUBMENU, Exercism::Routes.contributing_root_path, 20),
+              generic_nav("Community", LEARN_SUBMENU, Exercism::Routes.community_path, 50),
               generic_nav("Resources", LEARN_SUBMENU, nil, 100),
-              generic_nav("Premium", LEARN_SUBMENU, nil, 150)
+              generic_nav("Premium", nil, Exercism::Routes.donate_path, 150)
             ]
           )
-        end + handle_focus
-      end
-    end
-
-    # this is neccessary otherwise there would be duplicate, glitchy menus
-    def handle_focus
-      tag.script do
-        <<~JS.html_safe
-          document.addEventListener('DOMContentLoaded', function() {
-            const navElements = document.querySelectorAll('.nav-element');
-            let currentMouseOverElement = null;
-
-            navElements.forEach((navElement) => {
-              navElement.addEventListener('mouseover', () => {
-                removeFocusFromOtherElements(navElement);
-                currentMouseOverElement = navElement;
-                document.body.classList.remove('keyboard-navigation');
-              });
-
-              navElement.addEventListener('mouseleave', () => {
-                currentMouseOverElement = null;
-              });
-
-              navElement.addEventListener('focus', () => {
-                if (currentMouseOverElement) {
-                  const dropdown = currentMouseOverElement.querySelector('.nav-element-dropdown');
-                  if (dropdown) {
-                    dropdown.classList.add('hidden');
-                  }
-                }
-
-                removeFocusFromOtherElements(navElement);
-              });
-
-              navElement.addEventListener('blur', () => {
-                if (currentMouseOverElement) {
-                  const dropdown = currentMouseOverElement.querySelector('.nav-element-dropdown');
-                  if (dropdown) {
-                    dropdown.classList.remove('hidden');
-                  }
-                }
-              });
-            });
-
-            function removeFocusFromOtherElements(currentElement) {
-              navElements.forEach((otherElement) => {
-                if (otherElement !== currentElement) {
-                  otherElement.blur();
-                  const focusableChildren = otherElement.querySelectorAll('[tabindex="0"]');
-                  focusableChildren.forEach((child) => {
-                    child.blur();
-                  });
-                }
-              });
-            }
-
-            document.addEventListener('keydown', function(event) {
-              if (event.key === 'Tab') {
-                document.body.classList.add('keyboard-navigation');
-              }
-            });
-          });
-        JS
-      end
-    end
-
-    def generic_nav(nav_title, submenu, path = nil, offset = 0)
-      conditional_link(path) do
-        tag.li class: 'nav-element', role: 'none' do
-          tag.span(nav_title, tabindex: 0) << nav_dropdown(submenu, offset) << css_arrow
         end
-      end
-    end
-
-    def conditional_link(path = nil)
-      content = yield
-
-      if path.nil?
-        content
-      else
-        link_to(path) do
-          content
-        end
-      end
-    end
-
-    LEARN_SUBMENU = [
-      {
-        title: "Tracks",
-        description: "Learn 99+ tracks for free forever",
-        path: nil,
-        icon: :tracks,
-        content: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
-      },
-      {
-        title: "Mentoring",
-        description: "Get mentored by pros",
-        path: nil,
-        icon: :mentoring,
-        content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
-      }
-    ].freeze
-
-    def css_arrow
-      tag.div class: 'arrow'
-    end
-
-    def nav_dropdown_tracks_view(tag)
-      tag.div class: 'nav-dropdown-view-content' do
-        "Track details"
-      end
-    end
-
-    def nav_dropdown_mentoring_view(tag)
-      tag.div class: 'nav-dropdown-view-content' do
-        "mentoring details"
-      end
-    end
-
-    def nav_dropdown(submenu, offset)
-      tag.div class: 'nav-element-dropdown', style: "--dropdown-offset: -#{offset}px;", role: 'menu' do
-        tag.ul do
-          submenu.inject(''.html_safe) do |content, tag_info|
-            content << tag.li(
-              nav_dropdown_element(tag_info[:title], tag_info[:description], tag_info[:icon]) <<
-              nav_dropdown_view(tag_info[:content].(tag, self))
-            )
-          end
-        end
-      end
-    end
-
-    def nav_dropdown_element(title, description, icon)
-      tag.div(class: "nav-dropdown-element", tabindex: 0, role: 'menuitem') do
-        graphical_icon(icon) <<
-          tag.div do
-            tag.h6(title) << tag.p(description)
-          end
-      end
-    end
-
-    def nav_dropdown_view(element)
-      tag.div(class: 'nav-dropdown-view') do
-        element
       end
     end
 

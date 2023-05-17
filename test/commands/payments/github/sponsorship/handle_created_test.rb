@@ -9,8 +9,8 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
 
     Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
-    assert_equal 1, user.donation_subscriptions.count
-    subscription = user.donation_subscriptions.last
+    assert_equal 1, user.payment_subscriptions.count
+    subscription = user.payment_subscriptions.last
     assert_equal :active, subscription.status
     assert_equal sponsorship_node_id, subscription.external_id
     assert_equal amount, subscription.amount_in_cents
@@ -29,12 +29,12 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
 
       Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
-      assert user.donation_subscriptions.exists?
+      assert user.payment_subscriptions.exists?
       assert user.active_donation_subscription?
-      assert_equal 1, user.donation_payments.count
-      assert_equal 1, user.donation_subscriptions.count
-      payment = user.donation_payments.last
-      subscription = user.donation_subscriptions.last
+      assert_equal 1, user.payment_payments.count
+      assert_equal 1, user.payment_subscriptions.count
+      payment = user.payment_payments.last
+      subscription = user.payment_subscriptions.last
       assert_equal sponsorship_node_id, payment.external_id
       assert_equal amount, payment.amount_in_cents
       assert_nil payment.external_receipt_url
@@ -54,7 +54,7 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
 
     Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, 300)
 
-    refute user.donation_subscriptions.exists?
+    refute user.payment_subscriptions.exists?
     refute user.active_donation_subscription?
   end
 
@@ -67,10 +67,10 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
 
       Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
-      refute user.donation_subscriptions.exists?
+      refute user.payment_subscriptions.exists?
       refute user.active_donation_subscription?
-      assert_equal 1, user.donation_payments.count
-      payment = user.donation_payments.last
+      assert_equal 1, user.payment_payments.count
+      payment = user.payment_payments.last
       assert_equal sponsorship_node_id, payment.external_id
       assert_equal amount, payment.amount_in_cents
       assert_nil payment.external_receipt_url

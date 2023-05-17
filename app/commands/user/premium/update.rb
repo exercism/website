@@ -20,7 +20,7 @@ class User::Premium::Update
   def lifetime_premium_until = Time.utc(2099, 12, 31)
 
   def last_payment_premium_until
-    last_payment_at = user.donation_payments.premium.pluck(:created_at).last
+    last_payment_at = user.payment_payments.premium.pluck(:created_at).last
     return nil unless last_payment_at
 
     last_payment_at_with_grace_period = last_payment_at + 30.days

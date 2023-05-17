@@ -76,15 +76,15 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
 
     assert_equal 2, Payments::Subscription.count
 
-    assert_equal 1, user_1.donation_subscriptions.count
-    subscription_1 = user_1.donation_subscriptions.first
+    assert_equal 1, user_1.payment_subscriptions.count
+    subscription_1 = user_1.payment_subscriptions.first
     assert_equal :active, subscription_1.status
     assert_equal :stripe, subscription_1.provider
     assert_equal "su_1", subscription_1.external_id
     assert_equal 999, subscription_1.amount_in_cents
 
-    assert_equal 1, user_2.donation_subscriptions.count
-    subscription_2 = user_2.donation_subscriptions.first
+    assert_equal 1, user_2.payment_subscriptions.count
+    subscription_2 = user_2.payment_subscriptions.first
     assert_equal :active, subscription_2.status
     assert_equal :stripe, subscription_2.provider
     assert_equal "su_2", subscription_2.external_id
@@ -167,16 +167,16 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     assert_equal 2, Payments::Subscription.count
 
     assert_equal "cus_1", user_1.reload.stripe_customer_id
-    assert_equal 1, user_1.donation_subscriptions.count
-    subscription_1 = user_1.donation_subscriptions.first
+    assert_equal 1, user_1.payment_subscriptions.count
+    subscription_1 = user_1.payment_subscriptions.first
     assert_equal :active, subscription_1.status
     assert_equal :stripe, subscription_1.provider
     assert_equal "su_1", subscription_1.external_id
     assert_equal 999, subscription_1.amount_in_cents
 
     assert_equal "cus_2", user_2.reload.stripe_customer_id
-    assert_equal 1, user_2.donation_subscriptions.count
-    subscription_2 = user_2.donation_subscriptions.first
+    assert_equal 1, user_2.payment_subscriptions.count
+    subscription_2 = user_2.payment_subscriptions.first
     assert_equal :active, subscription_2.status
     assert_equal :stripe, subscription_2.provider
     assert_equal "su_2", subscription_2.external_id

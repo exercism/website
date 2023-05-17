@@ -113,8 +113,8 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
-  has_many :donation_subscriptions, class_name: "Payments::Subscription", dependent: :nullify
-  has_many :donation_payments, class_name: "Payments::Payment", dependent: :nullify
+  has_many :payment_subscriptions, class_name: "Payments::Subscription", dependent: :nullify
+  has_many :payment_payments, class_name: "Payments::Payment", dependent: :nullify
 
   has_many :problem_reports, dependent: :destroy
 
@@ -230,14 +230,14 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
-  def active_subscription = donation_subscriptions.active.last
+  def active_subscription = payment_subscriptions.active.last
 
   memoize
-  def active_donation_subscription_amount_in_cents = donation_subscriptions.active.last&.amount_in_cents
+  def active_donation_subscription_amount_in_cents = payment_subscriptions.active.last&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars
-    donation_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
+    payment_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize

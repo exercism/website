@@ -39,11 +39,11 @@ class User::InsidersStatus::DetermineEligibilityStatus
   end
 
   def prelaunch_donation_total
-    user.donation_payments.where('created_at < ?', LAUNCH_DATE).sum(:amount_in_cents)
+    user.payment_payments.where('created_at < ?', LAUNCH_DATE).sum(:amount_in_cents)
   end
 
   def lifetime_donation?
-    user.donation_payments.where('amount_in_cents >= ?', LIFETIME_DONATION_THRESHOLD).exists?
+    user.payment_payments.where('amount_in_cents >= ?', LIFETIME_DONATION_THRESHOLD).exists?
   end
 
   # TODO: update launch date with actual launch date

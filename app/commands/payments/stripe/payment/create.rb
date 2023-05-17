@@ -33,7 +33,7 @@ class Payments::Stripe::Payment::Create
     return nil unless invoice.subscription
 
     begin
-      user.donation_subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)
+      user.payment_subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)
     rescue ActiveRecord::RecordNotFound
       raise SubscriptionNotCreatedError
     end

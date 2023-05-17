@@ -470,7 +470,7 @@ import type { AutomationLockedTooltipProps } from '../components/tooltips/Automa
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
-import { handleNavbarFocus } from '@/utils/navbar-focus-handler.js'
+import { handleNavbarFocus } from '@/utils'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

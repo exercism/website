@@ -18,6 +18,30 @@ module ViewComponents
         }
       ].freeze
 
+      CONTRIBUTE_SUBMENU = [
+        {
+          title: "Getting started",
+          description: "How you can help us build Exercism",
+          path: Exercism::Routes.contributing_root_path,
+          icon: :overview,
+          content: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
+        },
+        {
+          title: "Explore tasks",
+          description: nil,
+          path: Exercism::Routes.contributing_tasks_path,
+          icon: :tasks,
+          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+        },
+        {
+          title: "Contributors",
+          description: nil,
+          path: Exercism::Routes.contributing_contributors_path,
+          icon: :contributors,
+          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+        }
+      ].freeze
+
       def nav_dropdown_tracks_view(tag)
         tag.div class: 'nav-dropdown-view-content' do
           "Track details"

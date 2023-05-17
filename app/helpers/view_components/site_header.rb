@@ -58,7 +58,7 @@ module ViewComponents
           safe_join(
             [
               generic_nav("Learn", LEARN_SUBMENU),
-              generic_nav("Contribute", LEARN_SUBMENU, Exercism::Routes.contributing_root_path, 20),
+              generic_nav("Contribute", CONTRIBUTE_SUBMENU, Exercism::Routes.contributing_root_path, 20),
               generic_nav("Community", LEARN_SUBMENU, Exercism::Routes.community_path, 50),
               generic_nav("Resources", LEARN_SUBMENU, nil, 100),
               generic_nav("Premium", nil, Exercism::Routes.donate_path, 150)

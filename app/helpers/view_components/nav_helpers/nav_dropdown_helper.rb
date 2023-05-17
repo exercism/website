@@ -20,7 +20,9 @@ module ViewComponents
         tag.div(class: "nav-dropdown-element", tabindex: 0, role: 'menuitem') do
           graphical_icon(icon) <<
             tag.div do
-              tag.h6(title) << tag.p(description)
+              content = tag.h6(title)
+              content << tag.p(description) unless description.nil?
+              content
             end
         end
       end

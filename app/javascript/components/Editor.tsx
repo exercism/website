@@ -77,7 +77,7 @@ export const TasksContext = createContext<TaskContext>({
 export default ({
   timeout = 60000,
   defaultSubmissions,
-  insidersStatus,
+  premium,
   defaultFiles,
   defaultSettings,
   autosave,
@@ -128,7 +128,6 @@ export default ({
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
   const cache = useQueryCache()
-  const isInsider = ['active', 'active_lifetime'].includes(insidersStatus)
   const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
   const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
     version: '3.5',
@@ -418,7 +417,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  {isInsider ? (
+                  {premium ? (
                     <ChatGPT.Button
                       noSubmission={!submission}
                       sameSubmission={
@@ -460,7 +459,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  {isInsider ? <ChatGPT.Tab /> : null}
+                  {premium ? <ChatGPT.Tab /> : null}
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -496,7 +495,7 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {isInsider && (
+                {premium && (
                   <ChatGPT.Panel
                     helpRecord={helpRecord}
                     status={chatGptFetchingStatus}

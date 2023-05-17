@@ -34,6 +34,11 @@ recheck_insiders:
   class: "RecheckInsidersJob"
   queue: dribble
 
+recheck_premium:
+  cron: "2 0 * * *"
+  class: "RecheckPremiumJob"
+  queue: dribble
+
 # 5am every date (1hr after above)
 mark_outdated_reputation_year_periods:
   cron: "15 0 * * *"

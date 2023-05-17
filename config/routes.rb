@@ -93,6 +93,8 @@ Rails.application.routes.draw do
 
   resources :insiders, only: [:index]
 
+  resources :premium, only: [:index]
+
   resources :profiles, only: %i[index show new create] do
     collection do
       get :intro

@@ -1,7 +1,7 @@
 class User::Premium::Update
   include Mandate
 
-  initialize_with :user, context: nil
+  initialize_with :user
 
   def call
     return if user.premium_until == premium_until

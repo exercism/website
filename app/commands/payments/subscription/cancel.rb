@@ -5,6 +5,7 @@ class Payments::Subscription::Cancel
 
   def call
     subscription.update!(status: :canceled)
-    User::UpdateActiveDonationSubscription.(subscription.user)
+    User::UpdateActiveDonationSubscription.(subscription.user) if subscription.donation?
+    User::Premium::Update.(subscription.user) if subscription.premium?
   end
 end

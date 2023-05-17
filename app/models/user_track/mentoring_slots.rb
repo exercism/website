@@ -7,6 +7,8 @@ module UserTrack::MentoringSlots
 
   memoize
   def num_locked_mentoring_slots
+    return 0 if user.premium?
+
     MENTORING_SLOT_THRESHOLDS.count { |threshold| user.reputation < threshold }
   end
 

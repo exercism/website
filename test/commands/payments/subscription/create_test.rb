@@ -32,11 +32,38 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     assert_equal sub_1, sub_2
   end
 
-  test "triggers insiders_status update" do
+  test "updates insiders status when product is donation" do
     user = create :user
     external_id = SecureRandom.uuid
     amount = 1500
-    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).once
+
+    Payments::Subscription::Create.(user, :stripe, :donation, external_id, amount)
+  end
+
+  test "does not update insiders status when product is premium" do
+    user = create :user
+    external_id = SecureRandom.uuid
+    amount = 1500
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).never
+
+    Payments::Subscription::Create.(user, :stripe, :premium, external_id, amount)
+  end
+
+  test "updates premium status when product is premium" do
+    user = create :user
+    external_id = SecureRandom.uuid
+    amount = 1500
+    User::Premium::Update.expects(:call).with(user).once
+
+    Payments::Subscription::Create.(user, :stripe, :premium, external_id, amount)
+  end
+
+  test "does not update premium status when product is donation" do
+    user = create :user
+    external_id = SecureRandom.uuid
+    amount = 1500
+    User::Premium::Update.expects(:call).with(user).never
 
     Payments::Subscription::Create.(user, :stripe, :donation, external_id, amount)
   end

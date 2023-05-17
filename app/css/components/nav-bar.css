@@ -4,20 +4,6 @@
     .nav-element {
         @apply relative;
 
-        .arrow {
-            --a-size: 15px;
-            @apply absolute hidden -z-1;
-            width: var(--a-size);
-            height: var(--a-size);
-            bottom: 0;
-            left: 50%;
-            background-color: var(--nav-backgroundColor);
-            clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-            transform: translateX(-50%) rotate(45deg);
-            border-radius: 3px;
-            vertical-align: middle;
-        }
-
         span {
             @apply p-24;
         }
@@ -40,12 +26,39 @@
         }
         &:hover,
         &:focus-within {
-            .nav-element-dropdown {
-                display: flex;
-            }
+            .nav-element-dropdown,
             .arrow {
                 display: inherit;
+                opacity: 1;
+                visibility: visible;
             }
+            .arrow {
+                transform: translateX(-50%) translateY(0) rotate(45deg);
+            }
+            .nav-element-dropdown {
+                transform: translateY(0);
+            }
+        }
+
+        .nav-element-dropdown,
+        .arrow {
+            @apply absolute opacity-0;
+            transition: all 100ms ease-in-out;
+            visibility: hidden;
+        }
+
+        .arrow {
+            --a-size: 15px;
+            @apply -z-1;
+            width: var(--a-size);
+            height: var(--a-size);
+            bottom: 0;
+            left: 50%;
+            background-color: var(--nav-backgroundColor);
+            clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+            transform: translateX(-50%) translateY(-10px) rotate(45deg);
+            border-radius: 3px;
+            vertical-align: middle;
         }
         .nav-element-dropdown {
             --nd-height: 380px;
@@ -54,9 +67,10 @@
 
             height: var(--nd-height);
             width: var(--nd-width);
-            @apply absolute hidden top-64 z-menu;
             left: var(--dropdown-offset);
             outline: 8px solid var(--nav-backgroundColor);
+            @apply top-64 z-menu;
+            transform: translateY(-10px);
             @apply bg-backgroundColorB shadow-base rounded-8;
 
             ul {
@@ -106,6 +120,12 @@
                     }
                 }
             }
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .nav-element-dropdown,
+        .arrow {
+            transition: none !important;
         }
     }
 }

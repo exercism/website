@@ -15,24 +15,44 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
     assert user.premium?
   end
 
-  test "non-insider is premium if last payment date + grace period is in the future" do
+  %i[active overdue].each do |status|
+    test "non-insider is premium if last payment date + 45 days is in the future and linked subscription status is #{status}" do
+      user = create :user, premium_until: nil
+
+      # Sanity check
+      refute user.premium?
+
+      subscription = create(:payments_subscription, product: :premium, status:, user:)
+      create(:payments_payment, product: :premium, created_at: Time.current - 2.months, user:, subscription:)
+      last_payment = create(:payments_payment, product: :premium, created_at: Time.current - 20.days, user:, subscription:)
+
+      User::Premium::Update.(user)
+
+      assert_equal last_payment.created_at + 45.days, user.reload.premium_until
+      assert user.premium?
+    end
+  end
+
+  test "non-insider is premium if last payment date + 30 days is in the future and linked subscription status is canceled" do
     user = create :user, premium_until: nil
 
     # Sanity check
     refute user.premium?
 
-    create(:payments_payment, product: :premium, created_at: Time.current - 2.months, user:)
-    last_payment = create(:payments_payment, product: :premium, created_at: Time.current - 20.days, user:)
+    subscription = create(:payments_subscription, product: :premium, status: :canceled, user:)
+    create(:payments_payment, product: :premium, created_at: Time.current - 2.months, user:, subscription:)
+    last_payment = create(:payments_payment, product: :premium, created_at: Time.current - 20.days, user:, subscription:)
 
     User::Premium::Update.(user)
 
-    assert_equal last_payment.created_at + 45.days, user.reload.premium_until
+    assert_equal last_payment.created_at + 30.days, user.reload.premium_until
     assert user.premium?
   end
 
   test "non-insider is not premium if last payment date + grace period is in the past" do
     user = create :user, premium_until: Time.current + 2.days
-    create(:payments_payment, product: :premium, created_at: Time.current - 3.months, user:)
+    subscription = create(:payments_subscription, product: :premium, status: :canceled, user:)
+    create(:payments_payment, product: :premium, created_at: Time.current - 3.months, user:, subscription:)
 
     assert user.premium?
 

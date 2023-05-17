@@ -21,15 +21,28 @@ class User::Premium::Update
   def lifetime_premium? = user.insider?
 
   def last_payment_premium_until
-    last_payment_at = user.payment_payments.premium.order(:id).pluck(:created_at).last
-    return nil unless last_payment_at
+    return nil if last_payment.nil?
+    return nil if last_payment_grace_period.nil?
 
-    last_payment_at_with_grace_period = last_payment_at + LAST_PAYMENT_GRACE_PERIOD
-    return nil unless last_payment_at_with_grace_period > Time.current
+    new_premium_until = last_payment.created_at + last_payment_grace_period
+    return nil if new_premium_until <= Time.current
 
-    last_payment_at_with_grace_period
+    new_premium_until
+  end
+
+  memoize
+  def last_payment = user.payment_payments.premium.order(:id).last
+
+  memoize
+  def last_payment_grace_period
+    return nil if last_payment.nil?
+    return nil if last_payment.subscription.nil?
+
+    return 45.days if last_payment.subscription.active?
+    return 45.days if last_payment.subscription.overdue?
+
+    30.days
   end
 
   LIFETIME_PREMIUM_UNTIL = Time.utc(2099, 12, 31).freeze
-  LAST_PAYMENT_GRACE_PERIOD = 45.days.freeze
 end

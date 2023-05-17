@@ -172,8 +172,16 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     # Sanity check
     refute user.premium?
 
-    User::InsidersStatus::Activate.(user)
+    User::SetDiscordRoles.stubs(:defer)
+    User::SetDiscourseGroups.stubs(:defer)
 
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert user.reload.premium?
+
+    travel_to Time.current + 50.years
     assert user.reload.premium?
   end
 
@@ -184,8 +192,16 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     # Sanity check
     refute user.premium?
 
-    User::InsidersStatus::Activate.(user)
+    User::SetDiscordRoles.stubs(:defer)
+    User::SetDiscourseGroups.stubs(:defer)
 
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert user.reload.premium?
+
+    travel_to Time.current + 50.years
     assert user.reload.premium?
   end
 end

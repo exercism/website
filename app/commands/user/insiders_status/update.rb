@@ -27,11 +27,11 @@ class User::InsidersStatus::Update
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
+    User::Premium::Update.defer(user)
 
     return unless user.insiders_status_active_lifetime?
 
     User::UpdateFlair.(user)
-    User::Premium::JoinLifetime.(user)
     AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider)
   end

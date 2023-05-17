@@ -52,6 +52,50 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
   end
 
+  test "ineligible: user is premium until last payment date + 30 days if that is in the future" do
+    freeze_time do
+      user = create :user, insiders_status: :active, premium_until: Time.current
+      create(:donations_payment, product: :premium, created_at: Time.current - 2.months, user:)
+      last_payment = create(:donations_payment, product: :premium, created_at: Time.current - 20.days, user:)
+
+      User::SetDiscourseGroups.stubs(:defer)
+
+      perform_enqueued_jobs do
+        User::InsidersStatus::Update.(user.reload)
+      end
+
+      assert_equal last_payment.created_at + 30.days, user.reload.premium_until
+      assert user.premium?
+    end
+  end
+
+  test "ineligible: user is no longer premium when last payment date + 30 days is not in the future" do
+    user = create :user, insiders_status: :active, premium_until: Time.current
+    create :donations_payment, product: :premium, created_at: Time.current - 2.months
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert_nil user.reload.premium_until
+    refute user.premium?
+  end
+
+  test "ineligible: user is no longer premium when there are no payments" do
+    user = create :user, insiders_status: :active, premium_until: Time.current
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert_nil user.reload.premium_until
+    refute user.premium?
+  end
+
   [
     %i[ineligible eligible],
     %i[eligible eligible],
@@ -230,9 +274,11 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     # Sanity check
     refute user.premium?
 
-    User::InsidersStatus::Update.(user)
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
 
-    assert user.premium?
+    assert user.reload.premium?
   end
 
   test "eligible_lifetime: set discourse groups" do

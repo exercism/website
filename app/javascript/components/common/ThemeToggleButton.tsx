@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import { GraphicalIcon } from './GraphicalIcon'
 import { setThemeClassName } from '../settings/theme-preference-form/utils'
 
 export function ThemeToggleButton(): JSX.Element {
@@ -7,18 +6,17 @@ export function ThemeToggleButton(): JSX.Element {
 
   return (
     <button
+      className="toggle-button"
       onClick={(e) => {
         currentColorScheme === 'light'
           ? switchToColorMode(e, 'dark')
           : switchToColorMode(e, 'light')
       }}
     >
-      <GraphicalIcon
-        className="exercism-face"
-        icon={`exercism-face${
-          currentColorScheme === 'light' ? '-light' : '-dark'
-        }`}
-      />
+      <label className="switch">
+        <input type="checkbox" checked={currentColorScheme === 'dark'} />
+        <span className="slider round" />
+      </label>
     </button>
   )
 }

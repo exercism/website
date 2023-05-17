@@ -2,6 +2,7 @@ module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
     include ViewComponents::NavHelpers::All
+    include ViewComponents::ThemeToggleButton
 
     delegate :namespace_name, :controller_name,
       to: :view_context
@@ -61,7 +62,8 @@ module ViewComponents
               generic_nav("Contribute", CONTRIBUTE_SUBMENU, Exercism::Routes.contributing_root_path, 20),
               generic_nav("Community", LEARN_SUBMENU, Exercism::Routes.community_path, 50),
               generic_nav("Resources", LEARN_SUBMENU, nil, 100),
-              generic_nav("Premium", nil, Exercism::Routes.donate_path, 150)
+              generic_nav("Premium", nil, Exercism::Routes.donate_path, 150),
+              ReactComponents::Common::ThemeToggleButton.new
             ]
           )
         end

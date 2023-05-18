@@ -4,7 +4,7 @@ class Payments::Subscription::OverdueTest < Payments::TestBase
   test "marks subscription as overdue" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :payments_subscription, status: :active, user:, external_id: subscription_id
+    subscription = create :payments_subscription, :active, user:, external_id: subscription_id
 
     Payments::Subscription::Overdue.(subscription)
     assert subscription.overdue?
@@ -14,7 +14,7 @@ class Payments::Subscription::OverdueTest < Payments::TestBase
   test "triggers insiders_status update" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
-    subscription = create :payments_subscription, status: :active, user:, external_id: subscription_id
+    subscription = create :payments_subscription, :active, user:, external_id: subscription_id
 
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 

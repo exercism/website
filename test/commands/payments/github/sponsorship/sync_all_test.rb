@@ -95,12 +95,10 @@ class Payments::Github::Sponsorship::SyncAllTest < Payments::TestBase
     user_1 = create :user, github_username: 'user_1', active_donation_subscription: true, show_on_supporters_page: true
     user_2 = create :user, github_username: 'user_2', active_donation_subscription: true, show_on_supporters_page: false
 
-    create :payments_payment, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github
-    create :payments_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
-      status: :active, amount_in_cents: 500
-    create :payments_payment, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github
-    create :payments_subscription, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", provider: :github,
-      status: :active, amount_in_cents: 300
+    create :payments_payment, :github, user: user_1, external_id: "S_kwHOAFXRv84AASNH"
+    create :payments_subscription, :github, :active, user: user_1, external_id: "S_kwHOAFXRv84AASNH", amount_in_cents: 500
+    create :payments_payment, :github, user: user_2, external_id: "S_kwHOAFXRv84BBEEF"
+    create :payments_subscription, :github, :active, user: user_2, external_id: "S_kwHOAFXRv84BBEEF", amount_in_cents: 300
 
     response = {
       data: {

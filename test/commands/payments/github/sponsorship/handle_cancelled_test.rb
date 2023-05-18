@@ -5,7 +5,7 @@ class Payments::Github::Sponsorship::HandleCancelledTest < Payments::TestBase
     sponsorship_node_id = SecureRandom.uuid
     is_one_time = false
     user = create :user, active_donation_subscription: true
-    subscription = create :payments_subscription, user:, external_id: sponsorship_node_id, provider: :github
+    subscription = create :payments_subscription, :github, user:, external_id: sponsorship_node_id
 
     Payments::Github::Sponsorship::HandleCancelled.(user, sponsorship_node_id, is_one_time)
 

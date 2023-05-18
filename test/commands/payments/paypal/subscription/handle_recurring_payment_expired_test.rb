@@ -10,7 +10,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentExpiredTest < Paymen
   end
 
   test "changes status to canceled for known subscription" do
-    subscription = create :payments_subscription, provider: :paypal, status: :active
+    subscription = create :payments_subscription, :paypal, :active
     payload = { "recurring_payment_id" => subscription.external_id }
 
     refute subscription.canceled?

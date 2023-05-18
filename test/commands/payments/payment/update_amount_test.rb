@@ -4,7 +4,7 @@ class Payments::Payment::UpdateAmountTest < Payments::TestBase
   test "updates payment amount_in_cents" do
     new_amount_in_cents = 30
 
-    payment = create :payments_payment, provider: :github, amount_in_cents: 50
+    payment = create :payments_payment, :github, amount_in_cents: 50
 
     refute_equal new_amount_in_cents, payment.amount_in_cents
 
@@ -17,7 +17,7 @@ class Payments::Payment::UpdateAmountTest < Payments::TestBase
   test "skips unknown payment" do
     old_amount_in_cents = 30
 
-    payment = create :payments_payment, provider: :github, amount_in_cents: old_amount_in_cents
+    payment = create :payments_payment, :github, amount_in_cents: old_amount_in_cents
 
     # Both provider and external ID are different
     Payments::Payment::UpdateAmount.(:stripe, 'unknown', 100)

@@ -1,7 +1,7 @@
 require_relative '../../test_base'
 
 class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
-  test "create payment when payment_status is Completed" do
+  test "create donation payment when payment_status is Completed and item is donation product" do
     freeze_time do
       payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
@@ -14,7 +14,8 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "item_name" => "Donate+to+Exercism%21"
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -47,7 +48,8 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "payment_status" => "Completed",
         "payer_email" => "unknown@test.org",
         "payer_id" => paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "item_name" => "Donate+to+Exercism%21"
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -76,7 +78,8 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "txn_id" => payment.external_id,
         "txn_type" => "web_accept",
         "payment_status" => payment_status,
-        "mc_gross" => "#{new_amount_in_dollars}.0"
+        "mc_gross" => "#{new_amount_in_dollars}.0",
+        "item_name" => "Donate+to+Exercism%21"
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -94,7 +97,8 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "payment_status" => payment_status,
         "payer_email" => "unknown@test.org",
         "payer_id" => SecureRandom.uuid,
-        "mc_gross" => "15.0"
+        "mc_gross" => "15.0",
+        "item_name" => "Donate+to+Exercism%21"
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -109,7 +113,8 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
       payload = {
         "txn_id" => SecureRandom.uuid,
         "txn_type" => "web_accept",
-        "payment_status" => payment_status
+        "payment_status" => payment_status,
+        "item_name" => "Donate+to+Exercism%21"
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)

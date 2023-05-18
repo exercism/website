@@ -22,7 +22,7 @@ class Payments::Paypal::Payment::HandleWebAccept
     user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
     return unless user
 
-    Payments::Paypal::Payment::Create.(user, external_id, amount)
+    Payments::Paypal::Payment::Create.(user, external_id, amount, product)
   end
 
   def handle_canceled_reversal
@@ -42,4 +42,5 @@ class Payments::Paypal::Payment::HandleWebAccept
   def payment_status = payload["payment_status"]
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]
+  def product = Payments::Paypal::Product.from_name(payload["item_name"])
 end

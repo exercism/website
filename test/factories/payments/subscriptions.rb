@@ -9,6 +9,14 @@ FactoryBot.define do
       status { :canceled }
     end
 
+    trait :overdue do
+      status { :overdue }
+    end
+
+    trait :active do
+      status { :active }
+    end
+
     trait :stripe do
       provider { :stripe }
     end

@@ -22,9 +22,9 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
       # Sanity check
       refute user.premium?
 
-      subscription = create(:payments_subscription, product: :premium, status:, user:)
-      create(:payments_payment, product: :premium, created_at: Time.current - 2.months, user:, subscription:)
-      last_payment = create(:payments_payment, product: :premium, created_at: Time.current - 20.days, user:, subscription:)
+      subscription = create(:payments_subscription, :premium, status:, user:)
+      create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
+      last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
 
       User::Premium::Update.(user)
 
@@ -39,9 +39,9 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
     # Sanity check
     refute user.premium?
 
-    subscription = create(:payments_subscription, product: :premium, status: :canceled, user:)
-    create(:payments_payment, product: :premium, created_at: Time.current - 2.months, user:, subscription:)
-    last_payment = create(:payments_payment, product: :premium, created_at: Time.current - 20.days, user:, subscription:)
+    subscription = create(:payments_subscription, :premium, status: :canceled, user:)
+    create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
+    last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
 
     User::Premium::Update.(user)
 
@@ -51,8 +51,8 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
 
   test "non-insider is not premium if last payment date + grace period is in the past" do
     user = create :user, premium_until: Time.current + 2.days
-    subscription = create(:payments_subscription, product: :premium, status: :canceled, user:)
-    create(:payments_payment, product: :premium, created_at: Time.current - 3.months, user:, subscription:)
+    subscription = create(:payments_subscription, :premium, status: :canceled, user:)
+    create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
 
     assert user.premium?
 

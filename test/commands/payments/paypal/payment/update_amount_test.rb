@@ -5,7 +5,7 @@ class Payments::Paypal::Payment::UpdateAmountTest < Payments::TestBase
     new_amount = 3
     new_amount_in_cents = new_amount * 100
 
-    payment = create :payments_payment, provider: :paypal, amount_in_cents: 50
+    payment = create :payments_payment, :paypal, amount_in_cents: 50
 
     refute_equal new_amount_in_cents, payment.amount_in_cents
 

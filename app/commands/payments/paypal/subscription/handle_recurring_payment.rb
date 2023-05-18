@@ -8,10 +8,10 @@ class Payments::Paypal::Subscription::HandleRecurringPayment
     user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
     return unless user
 
-    subscription = Payments::Paypal::Subscription::Create.(user, subscription_external_id, amount)
+    subscription = Payments::Paypal::Subscription::Create.(user, subscription_external_id, amount, product)
     return unless subscription
 
-    Payments::Paypal::Payment::Create.(user, payment_external_id, amount, subscription:)
+    Payments::Paypal::Payment::Create.(user, payment_external_id, amount, product, subscription:)
   end
 
   private
@@ -20,4 +20,5 @@ class Payments::Paypal::Subscription::HandleRecurringPayment
   def payment_external_id = payload["txn_id"]
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]
+  def product = Payments::Paypal::Product.from_name(payload["product_name"])
 end

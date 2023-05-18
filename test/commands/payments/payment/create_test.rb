@@ -72,6 +72,22 @@ class Payments::Payment::CreateTest < Payments::TestBase
     assert_equal subscription, payment.subscription
   end
 
+  test "updates premium_until" do
+    freeze_time do
+      user = create :user, premium_until: Time.current - 2.days
+      id = SecureRandom.uuid
+      amount = 1500
+      receipt_url = SecureRandom.uuid
+      provider = :stripe
+
+      subscription = create(:payments_subscription, :active, user:, provider:)
+
+      payment = Payments::Payment::Create.(user, provider, :premium, id, amount, receipt_url, subscription:)
+
+      assert_equal payment.created_at + 45.days, user.premium_until
+    end
+  end
+
   test "idempotent" do
     user = create :user
     id = SecureRandom.uuid

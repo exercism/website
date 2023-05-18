@@ -18,8 +18,11 @@ class Payments::Payment::Create
       subscription:,
       amount_in_cents:
     ).tap do |payment|
-      User::UpdateTotalDonatedInCents.(user)
-      User::RegisterAsDonor.(user, Time.current)
+      User::UpdateTotalDonatedInCents.(user) if product == :donation
+
+      # TODO: the donation guard means that a premium user doesn't get the supporter badge
+      # We probably do want that, right?
+      User::RegisterAsDonor.(user, Time.current) if product == :donation
       Payments::Payment::SendEmail.defer(payment)
     end
   rescue ActiveRecord::RecordNotUnique

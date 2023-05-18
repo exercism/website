@@ -38,7 +38,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
     assert_includes user.reload.badges.map(&:class), Badges::SupporterBadge
   end
 
-  test "sends email" do
+  test "sends email for donation" do
     user = create :user
 
     perform_enqueued_jobs do
@@ -46,6 +46,17 @@ class Payments::Payment::CreateTest < Payments::TestBase
     end
 
     deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Thank you for your donation" && d.to == [user.email] }
+    assert_equal 1, deliveries.count
+  end
+
+  test "sends email for premium" do
+    user = create :user
+
+    perform_enqueued_jobs do
+      Payments::Payment::Create.(user, :stripe, :premium, 1, 1, "")
+    end
+
+    deliveries = ActionMailer::Base.deliveries.select { |d| d.subject == "Welcome to Exercism Premium!" && d.to == [user.email] }
     assert_equal 1, deliveries.count
   end
 

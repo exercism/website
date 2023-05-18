@@ -21,21 +21,31 @@ class Payments::Stripe::Payment::Create
   def external_id = stripe_data.id
   def external_receipt_url = stripe_data.charges.first.receipt_url
   def amount_in_cents = stripe_data.amount
-  def product = :donation
+
+  def product
+    # TODO: is a payment intent guaranteed to have an invoice?
+    return :donation unless invoice
+
+    Payments::Stripe::Product.from_price(invoice.lines.data.first.price)
+  end
 
   memoize
   def subscription
     return @subscription if @subscription
 
-    return nil unless stripe_data.invoice
-
-    invoice = Stripe::Invoice.retrieve(stripe_data.invoice)
-    return nil unless invoice.subscription
+    return nil unless invoice&.subscription
 
     begin
       user.payment_subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)
     rescue ActiveRecord::RecordNotFound
       raise SubscriptionNotCreatedError
     end
+  end
+
+  memoize
+  def invoice
+    return nil unless stripe_data.invoice
+
+    Stripe::Invoice.retrieve(stripe_data.invoice)
   end
 end

@@ -11,6 +11,7 @@ class Payments::Stripe::Subscription::Create
 
   private
   def external_id = stripe_data.id
-  def amount_in_cents = stripe_data.items.data[0].price.unit_amount
-  def product = :donation
+  def price = stripe_data.items.data[0].price
+  def amount_in_cents = price.unit_amount
+  def product = Payments::Stripe::Product.from_price(price)
 end

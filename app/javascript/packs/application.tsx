@@ -319,7 +319,9 @@ export const mappings = {
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
-  'common-theme-toggle-button': (): JSX.Element => <Common.ThemeToggleButton />,
+  'common-theme-toggle-button': (data: {
+    links: { update: string }
+  }): JSX.Element => <Common.ThemeToggleButton links={data.links} />,
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />

@@ -35,6 +35,10 @@
             .next-slot
               Next slot unlocks at
               %strong #{number_with_delimiter user_track.repo_for_next_mentoring_slot} rep
+        .flex.items-center.leading-160
+          Sign up to&nbsp;
+          = link_to 'Premium', premium_index_path, class: 'text-prominentLinkColor font-semibold'
+          &nbsp;to unlock all the mentoring slots
 
   .lg-container.container
     .slots

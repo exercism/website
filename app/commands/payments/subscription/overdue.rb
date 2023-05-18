@@ -3,8 +3,5 @@ class Payments::Subscription::Overdue
 
   initialize_with :subscription
 
-  def call
-    subscription.update!(status: :overdue)
-    User::UpdateActiveDonationSubscription.(subscription.user)
-  end
+  def call = Payments::Subscription::UpdateStatus.(subscription, :overdue)
 end

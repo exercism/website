@@ -3,9 +3,5 @@ class Payments::Subscription::Cancel
 
   initialize_with :subscription
 
-  def call
-    subscription.update!(status: :canceled)
-    User::UpdateActiveDonationSubscription.(subscription.user) if subscription.donation?
-    User::Premium::Update.(subscription.user) if subscription.premium?
-  end
+  def call = Payments::Subscription::UpdateStatus.(subscription, :canceled)
 end

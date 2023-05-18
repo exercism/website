@@ -23,7 +23,9 @@ class Payments::Payment::Create
       # TODO: the donation guard means that a premium user doesn't get the supporter badge
       # We probably do want that, right?
       User::RegisterAsDonor.(user, Time.current) if product == :donation
+
       Payments::Payment::SendEmail.defer(payment)
+      User::Premium::Update.(user) if product == :premium
     end
   rescue ActiveRecord::RecordNotUnique
     Payments::Payment.find_by!(external_id:, provider:)

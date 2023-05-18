@@ -190,7 +190,11 @@ class ActiveSupport::TestCase
   def assert_idempotent_command(&cmd)
     obj_1 = cmd.yield
     obj_2 = cmd.yield
-    assert_equal obj_1, obj_2
+    if obj_1.nil?
+      assert_nil obj_2
+    else
+      assert_equal obj_1, obj_2
+    end
   end
 
   def assert_html_equal(expected, actual)

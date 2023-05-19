@@ -6,7 +6,7 @@ module ReactComponents
           "donations-with-modal-form",
           {
             request: {
-              endpoint: Exercism::Routes.api_donations_active_subscription_url,
+              endpoint: Exercism::Routes.api_payments_active_subscription_url,
               options: {
                 initial_data: AssembleActiveSubscription.(current_user)
               }

@@ -82,7 +82,7 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
   end
 
   test "create notification when user was already lifetime premium" do
-    user = create :user, :insider, premium_until: Time.utc(2099, 12, 31)
+    user = create :user, :insider, premium_until: Time.utc(9999, 12, 31)
 
     User::Notification::CreateEmailOnly.expects(:defer).never
 

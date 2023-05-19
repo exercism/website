@@ -9,7 +9,7 @@ class API::Payments::ActiveSubscriptionsControllerTest < API::BaseTestCase
   test "get last active subscription" do
     user = create :user
     create(:payments_subscription, :active, user:, amount_in_cents: 100)
-    subscription = create(:payments_subscription, :active, user:, amount_in_cents: 200)
+    subscription = create(:payments_subscription, :active, :donation, :github, user:, amount_in_cents: 200)
     create(:payments_subscription, :canceled, user:, amount_in_cents: 300)
     create(:payments_subscription, :overdue, user:, amount_in_cents: 400)
 
@@ -20,6 +20,8 @@ class API::Payments::ActiveSubscriptionsControllerTest < API::BaseTestCase
 
     expected = {
       subscription: {
+        product: subscription.product,
+        provider: subscription.provider,
         amount_in_cents: subscription.amount_in_cents
       }
     }

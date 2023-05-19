@@ -116,4 +116,10 @@
             @apply text-center;
         }
     }
+
+    .price-card {
+        @apply flex flex-col p-24 rounded-16 bg-russianViolet mb-16 border-2 border-transparent;
+
+        box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
+    }
 }

@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import currency from 'currency.js'
+import { Modal } from '../modals'
 import { GraphicalIcon } from '../common'
 import { ExercismStripeElements } from '../donations/ExercismStripeElements'
 import { PaymentIntentType, StripeForm } from '../donations/StripeForm'
-import { useRequestQuery } from '@/hooks'
-import { useQueryCache } from 'react-query'
-import { Modal } from '../modals'
+import PremiumSubscriptionSuccessModal from '../donations/PremiumSubscriptionSuccessModal'
 
 export type PriceOptionsProps = {
   userSignedIn: boolean
@@ -45,12 +44,27 @@ const PRICE_OPTIONS: PriceOption[] = [
   },
 ]
 export function PriceOptions({ data }: Props): JSX.Element {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [stripeModalOpen, setStripeModalOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(PRICE_OPTIONS[0])
+  const [paymentMade, setPaymentMade] = useState(false)
+
+  // TODO: Remove this as this seems to be unused
+  const [, setPaymentType] = useState<PaymentIntentType | undefined>()
+  const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
+
+  const handleSuccess = useCallback(
+    (type: PaymentIntentType, amount: currency) => {
+      setPaymentType(type)
+      setPaymentAmount(amount)
+      setPaymentMade(true)
+      setStripeModalOpen(false)
+    },
+    []
+  )
 
   const handleModalOpen = useCallback((option) => {
     setSelectedOption(option)
-    setModalOpen(true)
+    setStripeModalOpen(true)
   }, [])
 
   return (
@@ -64,10 +78,15 @@ export function PriceOptions({ data }: Props): JSX.Element {
           />
         )
       })}
+      <PremiumSubscriptionSuccessModal
+        open={paymentMade}
+        closeLink="/donate"
+        amount={paymentAmount}
+      />
       <Modal
         className="m-premium-stripe-form"
-        onClose={() => setModalOpen(false)}
-        open={modalOpen}
+        onClose={() => setStripeModalOpen(false)}
+        open={stripeModalOpen}
         theme="dark"
       >
         <ExercismStripeElements>
@@ -75,9 +94,7 @@ export function PriceOptions({ data }: Props): JSX.Element {
             {...data}
             paymentIntentType={selectedOption.paymentIntentType}
             amount={currency(selectedOption.displayAmount)}
-            onSuccess={(t, a) => console.log(t, a)}
-            onProcessing={() => console.log('processing')}
-            onSettled={() => console.log('settled')}
+            onSuccess={handleSuccess}
           />
         </ExercismStripeElements>
       </Modal>

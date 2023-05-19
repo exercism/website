@@ -17,6 +17,12 @@ class Payments::Stripe::PaymentIntent::Create
       Payments::Stripe::Customer::CreateForEmail.(user_or_email)
 
     case type.to_sym
+    when :premium_monthly_subscription
+      Payments::Stripe::PaymentIntent::CreateForPremiumSubscription.(customer_id, :monthly)
+    when :premium_yearly_subscription
+      Payments::Stripe::PaymentIntent::CreateForPremiumSubscription.(customer_id, :yearly)
+    when :premium_lifetime_subscription
+      Payments::Stripe::PaymentIntent::CreateForPremiumSubscription.(customer_id, :lifetime)
     when :subscription
       Payments::Stripe::PaymentIntent::CreateForSubscription.(customer_id, amount_in_cents)
     else

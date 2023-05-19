@@ -3,7 +3,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
 
   LIFETIME_REPUTATION_THRESHOLD = 1_000
   LIFETIME_DONATIONS_THRESHOLD = 500_00
-  LIFETIME_DONATION_THRESHOLD = 500_00
+  LIFETIME_PREMIUM_AMOUNT = 500_00
 
   MONTHLY_REPUTATION_THRESHOLD = 30
   ANNUAL_REPUTATION_THRESHOLD = 200
@@ -16,7 +16,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
     return :eligible_lifetime if user.supermentor?
     return :eligible_lifetime if user.reputation >= LIFETIME_REPUTATION_THRESHOLD
     return :eligible_lifetime if prelaunch_donation_total >= LIFETIME_DONATIONS_THRESHOLD
-    return :eligible_lifetime if lifetime_donation?
+    return :eligible_lifetime if lifetime_premium_donation?
 
     return :eligible if user.maintainer?
     return :eligible if prelaunch_donation_total.positive?
@@ -42,8 +42,8 @@ class User::InsidersStatus::DetermineEligibilityStatus
     user.payment_payments.donation.where('created_at < ?', LAUNCH_DATE).sum(:amount_in_cents)
   end
 
-  def lifetime_donation?
-    user.payment_payments.donation.where('amount_in_cents >= ?', LIFETIME_DONATION_THRESHOLD).exists?
+  def lifetime_premium_donation?
+    user.payment_payments.where('amount_in_cents >= ?', LIFETIME_PREMIUM_AMOUNT).exists?
   end
 
   # TODO: update launch date with actual launch date

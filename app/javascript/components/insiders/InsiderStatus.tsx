@@ -117,12 +117,3 @@ export default function Status(data: InsidersStatusData): JSX.Element {
     </div>
   )
 }
-
-function ComingSoon(): JSX.Element {
-  return (
-    <div className="bg-[#191525] text-aliceBlue text-h6 py-12 px-12 rounded-8 text-center max-w-[480px]">
-      Insiders will launch on May 4th. Check back then to get access! We&apos;ll
-      also send you an email at launch 🎉
-    </div>
-  )
-}

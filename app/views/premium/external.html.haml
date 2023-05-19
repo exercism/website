@@ -49,16 +49,9 @@
               %h4= partner[:name]
               %p= partner[:offer]
 
-  .gradient-container
-    .lg-container.relative
-      = graphical_icon "pixel-diamond", css_class: "left-[120px] xl:block hidden"
-      = graphical_icon "pixel-emerald", css_class: "right-[159px] top-[180px] xl:block hidden"
-      = graphical_icon "pixel-emoji", css_class: "right-[179px] -top-[16px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "top-[172px] left-[176px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "right-[28px] top-[66px] xl:block hidden"
-
-      %h2.text-h1.mb-16.relative Price options
-      = render ReactComponents::Premium::PriceOptions.new
+  .lg-container.text-center.flex.flex-col
+    %h2.text-h1.mb-16.relative Price options
+    = render ReactComponents::Premium::PriceOptions.new
 
   .gradient-container.faqs
     .lg-container

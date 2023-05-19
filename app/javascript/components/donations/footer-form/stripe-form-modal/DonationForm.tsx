@@ -9,12 +9,18 @@ export const DonationForm = ({
   onSuccess,
   onSettled,
   onProcessing,
+  userSignedIn,
+  captchaRequired,
+  recaptchaSiteKey,
 }: {
   amount: currency
   onSuccess: () => void
   onProcessing: () => void
   onSettled: () => void
   onCancel: () => void
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
 }): JSX.Element => {
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -31,6 +37,9 @@ export const DonationForm = ({
   return (
     <ExercismStripeElements>
       <StripeForm
+        userSignedIn={userSignedIn}
+        captchaRequired={captchaRequired}
+        recaptchaSiteKey={recaptchaSiteKey}
         paymentIntentType="payment"
         amount={amount}
         onSuccess={onSuccess}

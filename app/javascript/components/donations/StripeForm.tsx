@@ -31,7 +31,12 @@ type PaymentIntent = {
   id: string
   clientSecret: string
 }
-export type PaymentIntentType = 'payment' | 'subscription'
+export type PaymentIntentType =
+  | 'payment'
+  | 'subscription'
+  | 'premium_yearly_subscription'
+  | 'premium_monthly_subscription'
+  | 'premium_lifetime_subscription'
 
 type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -237,11 +242,7 @@ export function StripeForm({
             }
           >
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
-            <span>
-              {paymentIntentType == 'payment'
-                ? `Donate ${amount.format()} to Exercism`
-                : `Donate ${amount.format()} to Exercism monthly`}
-            </span>
+            <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
           </button>
         </div>
       </div>
@@ -259,4 +260,22 @@ export function StripeForm({
       ) : null}
     </form>
   )
+}
+
+function generateStripeButtonText(
+  paymentIntent: PaymentIntentType,
+  amount: currency
+) {
+  switch (paymentIntent) {
+    case 'payment':
+      return `Donate ${amount.format()} to Exercism`
+    case 'subscription':
+      return `Donate ${amount.format()} to Exercism monthly`
+    case 'premium_lifetime_subscription':
+      return `Subscribe for Premium for lifetime for ${amount.format()}`
+    case 'premium_monthly_subscription':
+      return `Subscribe for Premium for ${amount.format()}/month`
+    case 'premium_yearly_subscription':
+      return `Subscribe for Premium for ${amount.format()}/year`
+  }
 }

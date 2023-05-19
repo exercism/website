@@ -15,7 +15,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "item_name" => "Donate+to+Exercism%21"
+        "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -49,7 +49,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "payer_email" => "unknown@test.org",
         "payer_id" => paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "item_name" => "Donate+to+Exercism%21"
+        "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -79,7 +79,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "txn_type" => "web_accept",
         "payment_status" => payment_status,
         "mc_gross" => "#{new_amount_in_dollars}.0",
-        "item_name" => "Donate+to+Exercism%21"
+        "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -98,7 +98,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "payer_email" => "unknown@test.org",
         "payer_id" => SecureRandom.uuid,
         "mc_gross" => "15.0",
-        "item_name" => "Donate+to+Exercism%21"
+        "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)
@@ -114,7 +114,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "txn_id" => SecureRandom.uuid,
         "txn_type" => "web_accept",
         "payment_status" => payment_status,
-        "item_name" => "Donate+to+Exercism%21"
+        "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Payment::HandleWebAccept.(payload)

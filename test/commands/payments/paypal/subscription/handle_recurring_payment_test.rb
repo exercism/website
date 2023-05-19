@@ -18,7 +18,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => "Donate+to+Exercism%21"
+        "product_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -54,7 +54,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => "PREMIUM_PRODUCT_NAME"
+        "product_name" => Exercism.secrets.paypal_premium_product_name
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -89,7 +89,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => "Donate+to+Exercism%21"
+        "product_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -127,7 +127,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => SecureRandom.uuid,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => "Donate+to+Exercism%21"
+        "product_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -166,7 +166,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => "Donate+to+Exercism%21"
+        "product_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -197,7 +197,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => SecureRandom.uuid,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => "Donate+to+Exercism%21"
+        "product_name" => Exercism.secrets.paypal_donation_product_name
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -221,7 +221,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       "payer_email" => "unknown@test.org",
       "payer_id" => SecureRandom.uuid,
       "mc_gross" => "15.0",
-      "product_name" => "Donate+to+Exercism%21"
+      "product_name" => Exercism.secrets.paypal_donation_product_name
     }
 
     Payments::Paypal::Subscription::HandleRecurringPayment.(payload)

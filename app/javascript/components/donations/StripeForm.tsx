@@ -63,11 +63,11 @@ export function StripeForm({
   const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
 
-  const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
+  const createPaymentIntentEndpoint = '/api/v2/payments/payment_intents'
   const paymentIntentFailedEndpoint =
-    '/api/v2/donations/payment_intents/$ID/failed'
+    '/api/v2/payments/payment_intents/$ID/failed'
   const paymentIntentSucceededEndpoint =
-    '/api/v2/donations/payment_intents/$ID/succeeded'
+    '/api/v2/payments/payment_intents/$ID/succeeded'
 
   const stripe = useStripe()
   const elements = useElements()

@@ -64,7 +64,11 @@ export function PriceOptions({ data }: Props): JSX.Element {
           />
         )
       })}
-      <Modal onClose={() => setModalOpen(false)} open={modalOpen}>
+      <Modal
+        className="m-premium-stripe-form"
+        onClose={() => setModalOpen(false)}
+        open={modalOpen}
+      >
         <ExercismStripeElements>
           <StripeForm
             {...data}

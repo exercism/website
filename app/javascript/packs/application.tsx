@@ -431,6 +431,11 @@ export const mappings = {
       <InsiderStatus {...data} />
     </Suspense>
   ),
+  'premium-price-options': (data: InsidersStatusData): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PriceOptions />
+    </Suspense>
+  ),
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -470,6 +475,7 @@ import type { AutomationLockedTooltipProps } from '../components/tooltips/Automa
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
+import { PriceOptions } from '@/components/premium/PriceOptions.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

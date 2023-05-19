@@ -44,5 +44,5 @@ class User::Premium::Update
     30.days
   end
 
-  LIFETIME_PREMIUM_UNTIL = Time.utc(2099, 12, 31).freeze
+  LIFETIME_PREMIUM_UNTIL = Time.utc(9999, 12, 31).freeze
 end

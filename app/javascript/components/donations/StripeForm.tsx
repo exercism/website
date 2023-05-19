@@ -227,7 +227,10 @@ export function StripeForm({
         </div>
       ) : null}
       <div className="card-container">
-        <div className="title">Donate with Card</div>
+        <div className="title">
+          {paymentIntentType.startsWith('premium') ? 'Subscribe' : 'Donate'}{' '}
+          with Card
+        </div>
         <div className="card-element">
           <CardElement options={cardOptions} onChange={handleCardChange} />
           <button

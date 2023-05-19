@@ -23,29 +23,25 @@ class Payments::Stripe::Payment::Create
   def amount_in_cents = stripe_data.amount
 
   def product
-    # TODO: is a payment intent guaranteed to have an invoice?
-    return :donation unless invoice
+    return subscription.product if subscription
 
-    Payments::Stripe::Product.from_price(invoice.lines.data.first.price)
+    # Premium payments are always linked to a subscription, even one-off payments
+    :donation
   end
 
   memoize
   def subscription
     return @subscription if @subscription
 
-    return nil unless invoice&.subscription
+    return nil unless stripe_data.invoice
+
+    invoice = Stripe::Invoice.retrieve(stripe_data.invoice)
+    return nil unless invoice.subscription
 
     begin
       user.payment_subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)
     rescue ActiveRecord::RecordNotFound
       raise SubscriptionNotCreatedError
     end
-  end
-
-  memoize
-  def invoice
-    return nil unless stripe_data.invoice
-
-    Stripe::Invoice.retrieve(stripe_data.invoice)
   end
 end

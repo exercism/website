@@ -9,7 +9,7 @@ class Payments::TestBase < ActiveSupport::TestCase
   end
 
   def mock_stripe_subscription(id, amount, status: 'active', item_id: SecureRandom.uuid, payment_intent: nil,
-                               product: Payments::Stripe::Product::DONATION_PRODUCT_ID)
+                               product: Exercism.secrets.stripe_recurring_product_id)
     data = RecursiveOpenStruct.new(
       id:,
       items: {
@@ -46,21 +46,12 @@ class Payments::TestBase < ActiveSupport::TestCase
     )
   end
 
-  def mock_stripe_invoice(id, subscription_id, status: 'open', customer: nil, product: Payments::Stripe::Product::DONATION_PRODUCT_ID)
+  def mock_stripe_invoice(id, subscription_id, status: 'open', customer: nil)
     OpenStruct.new(
       id:,
       subscription: subscription_id,
       status:,
-      customer:,
-      lines: OpenStruct.new(
-        data: [
-          RecursiveOpenStruct.new({
-            price: {
-              product:
-            }
-          })
-        ]
-      )
+      customer:
     )
   end
 

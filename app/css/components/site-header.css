@@ -14,11 +14,12 @@ body.devise {
     }
 }
 
-body:not(.namespace-.controller-insiders) {
+body:not(.namespace-.controller-insiders):not(.namespace-.controller-premium) {
     --exercism-link-filter: var(--textColor1-filter);
 }
 
-body.namespace-.controller-insiders {
+body.namespace-.controller-insiders,
+body.namespace-.controller-premium {
     #site-header {
         /* russianViolet is site-header background */
         @apply bg-russianViolet border-[#433F56];

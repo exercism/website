@@ -68,6 +68,7 @@ export function PriceOptions({ data }: Props): JSX.Element {
         className="m-premium-stripe-form"
         onClose={() => setModalOpen(false)}
         open={modalOpen}
+        theme="dark"
       >
         <ExercismStripeElements>
           <StripeForm
@@ -92,9 +93,7 @@ function PriceCard({
 }: PriceCardProps): JSX.Element {
   return (
     <div
-      className={`flex flex-col shadow-base p-24 rounded-16 bg-backgroundColorA mb-16 border-2 border-transparent ${
-        favorite && 'border-gradient'
-      }`}
+      className={`price-card ${favorite && 'border-gradient-russianViolet'}`}
     >
       <h2 className="text-h2 mb-32">
         ${displayAmount}/{period}

@@ -4,7 +4,7 @@ class Payments::Stripe::PaymentIntent::CreateForPremiumSubscriptionTest < Paymen
   [
     [:monthly, Exercism.secrets.stripe_premium_monthly_price_id],
     [:yearly, Exercism.secrets.stripe_premium_yearly_price_id],
-    [:one_off, Exercism.secrets.stripe_premium_one_off_price_id]
+    [:lifetime, Exercism.secrets.stripe_premium_lifetime_price_id]
   ].each do |(interval, expected_price)|
     test "creates subscription with correct price for #{interval} interval" do
       customer_id = SecureRandom.uuid

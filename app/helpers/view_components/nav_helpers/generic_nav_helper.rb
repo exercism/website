@@ -4,7 +4,7 @@ module ViewComponents
       def generic_nav(nav_title, submenu, path = nil, offset = 0)
         tag.li class: 'nav-element', role: 'none' do
           content = conditional_link(path) do
-            tag.span(nav_title, tabindex: path.present? ? -1 : 0)
+            tag.span(nav_title, tabindex: 0)
           end
           content << nav_dropdown(submenu, offset) << css_arrow if submenu.present?
           content
@@ -17,7 +17,8 @@ module ViewComponents
         if path.nil?
           content
         else
-          link_to(content, path)
+          link_to(content, path, tabindex: -1)
+
         end
       end
 

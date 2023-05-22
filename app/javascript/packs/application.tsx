@@ -319,9 +319,9 @@ export const mappings = {
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
-  'common-theme-toggle-button': (data: {
-    links: { update: string }
-  }): JSX.Element => <Common.ThemeToggleButton links={data.links} />,
+  'common-theme-toggle-button': (data: ThemeToggleButtonProps): JSX.Element => (
+    <Common.ThemeToggleButton {...data} />
+  ),
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
@@ -473,6 +473,7 @@ import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
 import { handleNavbarFocus } from '@/utils'
+import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

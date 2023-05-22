@@ -17,7 +17,7 @@ module ViewComponents
       end
 
       def nav_dropdown_element(title, description, icon)
-        tag.div(class: "nav-dropdown-element", tabindex: 0, role: 'menuitem') do
+        tag.div(class: "nav-dropdown-element", role: 'menuitem') do
           graphical_icon(icon) <<
             tag.div do
               content = tag.h6(title)

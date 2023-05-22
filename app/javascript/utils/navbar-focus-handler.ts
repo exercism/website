@@ -14,7 +14,18 @@ export function handleNavbarFocus(): void {
         currentMouseOverElement = null
       })
 
-      navElement.addEventListener('focus', () => {
+      navElement.addEventListener('focus', (event: FocusEvent) => {
+        // const target = event.target as HTMLElement
+
+        // if (target && target.matches('ul li a')) {
+        //   event.stopPropagation()
+        // } else {
+        //   const firstMenuItem = target.querySelector('ul li a') as HTMLElement
+        //   if (firstMenuItem) {
+        //     firstMenuItem.focus()
+        //   }
+        // }
+
         if (currentMouseOverElement) {
           const dropdown = currentMouseOverElement.querySelector<HTMLElement>(
             '.nav-element-dropdown'

@@ -1,5 +1,5 @@
 #site-header {
-    --nav-backgroundColor: var(--backgroundColorB);
+    --nav-backgroundColor: var(--backgroundColorNavDropdown);
     --nav-highlightColor: var(--backgroundColorA);
     .nav-element {
         @apply relative;
@@ -15,7 +15,8 @@
                 ul li {
                     &:first-child {
                         .nav-dropdown-element {
-                            @apply bg-backgroundColorA;
+                            background: var(--nav-highlightColor);
+                            visibility: visible;
                         }
                         .nav-dropdown-view {
                             display: inherit;
@@ -75,7 +76,8 @@
             outline: 8px solid var(--nav-backgroundColor);
             @apply top-64 z-menu;
             transform: translateY(-10px);
-            @apply bg-backgroundColorB shadow-base rounded-8;
+            @apply shadow-base rounded-8;
+            background: var(--nav-backgroundColor);
 
             ul {
                 @apply flex flex-col items-baseline;
@@ -120,7 +122,7 @@
                         }
 
                         p {
-                            @apply text-p-base text-13;
+                            @apply text-13;
                             /* li-width - (padding*2+icon-size*2+gap) */
                             width: calc(var(--nd-ul-width) - 72px);
                             white-space: nowrap;

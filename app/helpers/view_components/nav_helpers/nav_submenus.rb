@@ -15,6 +15,13 @@ module ViewComponents
           path: Exercism::Routes.mentoring_path,
           icon: :mentoring,
           content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+        },
+        {
+          title: "Mentoring",
+          description: "Get mentored by pros",
+          path: Exercism::Routes.mentoring_path,
+          icon: :mentoring,
+          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
         }
       ].freeze
 

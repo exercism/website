@@ -235,14 +235,6 @@ body.namespace-.controller-insiders {
             }
         }
 
-        & li:last-child a {
-            color: var(--textColorLastNavElement);
-
-            & .c-icon {
-                filter: var(--purple-filter);
-            }
-        }
-
         a,
         .nav-element {
             @apply flex items-center relative;

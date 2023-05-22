@@ -67,7 +67,7 @@ function DisabledTooltip({
   return (
     <div className="flex text-14">
       Become&nbsp;
-      <a className="text-14 text-launchingYellow" href={premiumLink}>
+      <a style={{ fontSize: '14px', color: '#F7B000' }} href={premiumLink}>
         Premium
       </a>
       &nbsp;to use this feature!

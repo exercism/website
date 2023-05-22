@@ -5,7 +5,7 @@ import { GenericTooltip } from '../misc/ExercismTippy'
 
 export type ThemeToggleButtonProps = {
   disabled: boolean
-  links: { update: string }
+  links: { update: string; premium: string }
 }
 
 export function ThemeToggleButton({
@@ -30,7 +30,9 @@ export function ThemeToggleButton({
 
   return (
     <GenericTooltip
-      content="You need to be a Premium member to use this"
+      content={<DisabledTooltip premiumLink={links.premium} />}
+      placement="bottom"
+      interactive
       disabled={!disabled}
     >
       <div>
@@ -54,5 +56,21 @@ export function ThemeToggleButton({
         </button>
       </div>
     </GenericTooltip>
+  )
+}
+
+function DisabledTooltip({
+  premiumLink,
+}: {
+  premiumLink: string
+}): JSX.Element {
+  return (
+    <div className="flex text-14">
+      Become&nbsp;
+      <a className="text-14 text-launchingYellow" href={premiumLink}>
+        Premium
+      </a>
+      &nbsp;to use this feature!
+    </div>
   )
 }

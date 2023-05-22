@@ -6,7 +6,9 @@ module ReactComponents
       def to_s
         super("common-theme-toggle-button", {
           links: {
-            update: Exercism::Routes.api_settings_user_preferences_url
+            update: Exercism::Routes.api_settings_user_preferences_url,
+            # TODO: user the correct link here
+            premium: Exercism::Routes.insiders_path
           },
           disabled:
         })

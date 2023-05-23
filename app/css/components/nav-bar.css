@@ -74,11 +74,18 @@
             height: var(--nd-height);
             width: var(--nd-width);
             left: var(--dropdown-offset);
-            outline: 8px solid var(--nav-backgroundColor);
             @apply top-64 z-menu;
             transform: translateY(-10px);
             @apply shadow-base rounded-8;
             background: var(--nav-backgroundColor);
+            outline: 8px solid var(--nav-backgroundColor);
+
+            &:before {
+                content: "";
+                @apply absolute inset-0;
+                margin: -8px;
+                left: 100px;
+            }
 
             &.has-no-view {
                 width: var(--nd-ul-width);

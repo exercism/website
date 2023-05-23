@@ -31,15 +31,16 @@ export function useThemeObserver(): ThemeData {
 
   useEffect(() => {
     const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
+      for (const mutation of mutations) {
         if (mutation.attributeName === 'class') {
           const theme = THEMES.find((theme) =>
             document.body.classList.contains(theme)
           ) as ThemeData['theme']
           const binaryTheme = getBinaryTheme(theme)
           setThemeData({ theme, binaryTheme })
+          break
         }
-      })
+      }
     })
 
     observer.observe(document.body, { attributes: true })

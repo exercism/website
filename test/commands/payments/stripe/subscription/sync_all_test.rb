@@ -29,7 +29,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_1",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_recurring_product_id
                     },
                     "subscription": "sub_1"
                   }
@@ -55,7 +56,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_2",
                       "object": "price",
-                      "unit_amount": 777
+                      "unit_amount": 777,
+                      "product": Exercism.secrets.stripe_premium_product_id
                     },
                     "subscription": "sub_2"
                   }
@@ -80,6 +82,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_1 = user_1.payment_subscriptions.first
     assert_equal :active, subscription_1.status
     assert_equal :stripe, subscription_1.provider
+    assert_equal :donation, subscription_1.product
     assert_equal "su_1", subscription_1.external_id
     assert_equal 999, subscription_1.amount_in_cents
 
@@ -87,6 +90,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_2 = user_2.payment_subscriptions.first
     assert_equal :active, subscription_2.status
     assert_equal :stripe, subscription_2.provider
+    assert_equal :premium, subscription_2.product
     assert_equal "su_2", subscription_2.external_id
     assert_equal 777, subscription_2.amount_in_cents
   end
@@ -119,7 +123,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_1",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_recurring_product_id
                     },
                     "subscription": "sub_1"
                   }
@@ -145,7 +150,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_2",
                       "object": "price",
-                      "unit_amount": 777
+                      "unit_amount": 777,
+                      "product": Exercism.secrets.stripe_premium_product_id
                     },
                     "subscription": "sub_2"
                   }
@@ -171,6 +177,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_1 = user_1.payment_subscriptions.first
     assert_equal :active, subscription_1.status
     assert_equal :stripe, subscription_1.provider
+    assert_equal :donation, subscription_1.product
     assert_equal "su_1", subscription_1.external_id
     assert_equal 999, subscription_1.amount_in_cents
 
@@ -179,6 +186,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_2 = user_2.payment_subscriptions.first
     assert_equal :active, subscription_2.status
     assert_equal :stripe, subscription_2.provider
+    assert_equal :premium, subscription_2.product
     assert_equal "su_2", subscription_2.external_id
     assert_equal 777, subscription_2.amount_in_cents
   end
@@ -208,7 +216,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_1",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_recurring_product_id
                     },
                     "subscription": "sub_1"
                   }
@@ -263,7 +272,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_1",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_recurring_product_id
                     },
                     "subscription": "sub_1"
                   }
@@ -289,7 +299,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_2",
                       "object": "price",
-                      "unit_amount": 777
+                      "unit_amount": 777,
+                      "product": Exercism.secrets.stripe_premium_product_id
                     },
                     "subscription": "sub_2"
                   }
@@ -348,7 +359,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_1",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_recurring_product_id
                     },
                     "subscription": "sub_1"
                   }
@@ -374,7 +386,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_2",
                       "object": "price",
-                      "unit_amount": 777
+                      "unit_amount": 777,
+                      "product": Exercism.secrets.stripe_premium_product_id
                     },
                     "subscription": "sub_2"
                   }
@@ -431,7 +444,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_1",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_recurring_product_id
                     },
                     "subscription": "sub_1"
                   }
@@ -457,7 +471,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                     "price": {
                       "id": "p_2",
                       "object": "price",
-                      "unit_amount": 999
+                      "unit_amount": 999,
+                      "product": Exercism.secrets.stripe_premium_product_id
                     },
                     "subscription": "sub_2"
                   }
@@ -522,7 +537,8 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                       "price": {
                         "id": "p_1",
                         "object": "price",
-                        "unit_amount": 999
+                        "unit_amount": 999,
+                        "product": Exercism.secrets.stripe_recurring_product_id
                       },
                       "subscription": "sub_1"
                     }

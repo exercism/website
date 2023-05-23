@@ -20,6 +20,7 @@ class User::Premium::Update
 
   def lifetime_premium? = user.insider?
 
+  memoize
   def last_payment_premium_until
     return nil if last_payment.nil?
     return nil if last_payment_grace_period.nil?

@@ -5,7 +5,7 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
     user = create :user
     id = SecureRandom.uuid
     amount = 1500
-    data = mock_stripe_subscription(id, amount, product: Payments::Stripe::Product::DONATION_PRODUCT_ID)
+    data = mock_stripe_subscription(id, amount, product: Exercism.secrets.stripe_recurring_product_id)
 
     Payments::Stripe::Subscription::Create.(user, data)
 
@@ -25,7 +25,7 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
     user = create :user
     id = SecureRandom.uuid
     amount = 1500
-    data = mock_stripe_subscription(id, amount, product: Payments::Stripe::Product::PREMIUM_PRODUCT_ID)
+    data = mock_stripe_subscription(id, amount, product: Exercism.secrets.stripe_premium_product_id)
 
     Payments::Stripe::Subscription::Create.(user, data)
 

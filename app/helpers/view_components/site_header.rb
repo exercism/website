@@ -59,10 +59,10 @@ module ViewComponents
           safe_join(
             [
               generic_nav("Learn", LEARN_SUBMENU),
-              generic_nav("Contribute", CONTRIBUTE_SUBMENU, Exercism::Routes.contributing_root_path, 20),
-              generic_nav("Community", LEARN_SUBMENU, Exercism::Routes.community_path, 50),
-              generic_nav("Resources", LEARN_SUBMENU, nil, 100),
-              generic_nav("Premium", nil, Exercism::Routes.donate_path, 150),
+              generic_nav("Contribute", CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
+              generic_nav("Community", COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0, has_view: false),
+              generic_nav("Resources", LEARN_SUBMENU, offset: 100),
+              generic_nav("Premium", nil, path: Exercism::Routes.donate_path, offset: 150),
               ReactComponents::Common::ThemeToggleButton.new(disabled_theme_toggle_button)
             ]
           )

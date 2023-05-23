@@ -1,15 +1,16 @@
 module ViewComponents
   module NavHelpers
     module NavDropdownHelper
-      def nav_dropdown(submenu, offset)
-        tag.div class: 'nav-element-dropdown', style: "--dropdown-offset: -#{offset}px;", role: 'menu' do
+      def nav_dropdown(submenu, offset, has_view)
+        tag.div class: "nav-element-dropdown #{!has_view ? 'has-no-view' : ''}", style: "--dropdown-offset: -#{offset}px;",
+          role: 'menu' do
           tag.ul do
-            submenu.inject(''.html_safe) do |content, tag_info|
+            submenu.inject(''.html_safe) do |content, element|
               content << tag.li(
-                conditional_link(tag_info[:path]) do
-                  nav_dropdown_element(tag_info[:title], tag_info[:description], tag_info[:icon])
+                conditional_link(element[:path]) do
+                  nav_dropdown_element(element[:title], element[:description], element[:icon])
                 end <<
-                nav_dropdown_view(tag_info[:content].(tag, self))
+                (has_view ? nav_dropdown_view(element[:content].(tag, self)) : '')
               )
             end
           end

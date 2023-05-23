@@ -49,6 +49,33 @@ module ViewComponents
         }
       ].freeze
 
+      COMMUNITY_SUBMENU = [
+        {
+          title: "Forum",
+          description: "How you can help us build Exercism",
+          path: Exercism::Routes.forum_redirect_path,
+          icon: :discourser
+        },
+        {
+          title: "Discord",
+          description: nil,
+          path: Exercism::Routes.discord_redirect_path,
+          icon: "feature-discord"
+        },
+        {
+          title: "YouTube",
+          description: nil,
+          path: Exercism::Routes.youtube_redirect_path,
+          icon: 'feature-youtube'
+        },
+        {
+          title: "Twitch",
+          description: nil,
+          path: Exercism::Routes.twitch_redirect_path,
+          icon: :contributors
+        }
+      ].freeze
+
       def nav_dropdown_tracks_view(tag)
         tag.div class: 'nav-dropdown-view-content' do
           "Track details"

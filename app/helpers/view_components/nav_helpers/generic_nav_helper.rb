@@ -1,12 +1,12 @@
 module ViewComponents
   module NavHelpers
     module GenericNavHelper
-      def generic_nav(nav_title, submenu, path = nil, offset = 0)
+      def generic_nav(nav_title, submenu, path: nil, offset: 0, has_view: true)
         tag.li class: 'nav-element', role: 'none' do
           content = conditional_link(path) do
             tag.span(nav_title, tabindex: path.nil? ? 0 : -1, class: 'nav-element-label')
           end
-          content << nav_dropdown(submenu, offset) << css_arrow if submenu.present?
+          content << nav_dropdown(submenu, offset, has_view) << css_arrow if submenu.present?
           content
         end
       end
@@ -18,7 +18,6 @@ module ViewComponents
           content
         else
           link_to(content, path, tabindex: 0, class: 'nav-element-link')
-
         end
       end
 

@@ -80,6 +80,13 @@
             @apply shadow-base rounded-8;
             background: var(--nav-backgroundColor);
 
+            &.has-no-view {
+                width: var(--nd-ul-width);
+                height: auto;
+                ul li {
+                    @apply pr-0;
+                }
+            }
             ul {
                 @apply flex flex-col items-baseline;
                 @apply mr-0;

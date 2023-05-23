@@ -28,6 +28,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       assert_equal user, subscription.user
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
+      assert_equal :donation, subscription.product
       assert user.reload.active_donation_subscription?
     end
   end
@@ -59,6 +60,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       assert_equal user, subscription.user
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
+      assert_equal :premium, subscription.product
       refute user.reload.active_donation_subscription?
     end
   end

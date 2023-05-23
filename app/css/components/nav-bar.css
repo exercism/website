@@ -45,7 +45,7 @@
         .nav-element-dropdown,
         .arrow {
             @apply absolute opacity-0;
-            transition: all 100ms ease-in-out;
+            transition: transform 100ms ease-in-out, opacity 200ms ease-in-out;
             visibility: hidden;
         }
 

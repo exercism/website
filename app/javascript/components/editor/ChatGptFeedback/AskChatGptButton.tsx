@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { FetchingStatus } from './useChatGptFeedback'
 import { GenericTooltip } from '@/components/misc/ExercismTippy'
+import { ConditionTextManager } from '@/utils/condition-text-manager'
 
 type Props = {
   isProcessing: boolean
@@ -9,15 +10,8 @@ type Props = {
   noSubmission: boolean
   chatGptFetchingStatus: FetchingStatus
   passingTests: boolean
+  premium: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
-
-const TOOLTIP_TEXT = [
-  'Please run the tests first.',
-  'Please rerun the tests to continue.',
-  'Tests are currently running.',
-  'Awaiting response from ChatGPT. Please stand by.',
-  'Congrats! The tests are passing! 🎉',
-]
 
 export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
   (
@@ -27,6 +21,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
       isProcessing,
       chatGptFetchingStatus,
       passingTests,
+      premium,
       ...props
     },
     ref
@@ -38,25 +33,26 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
       sameSubmission ||
       passingTests
 
-    const tooltipTextIndex =
-      Math.max(
-        Number(noSubmission) * 1,
-        Number(sameSubmission) * 2,
-        Number(isProcessing) * 3,
-        Number(chatGptFetchingStatus === 'fetching') * 4,
-        Number(passingTests) * 5
-      ) - 1
+    const tooltipText = new ConditionTextManager()
+    tooltipText.append(noSubmission, 'Please run the tests first.')
+    tooltipText.append(sameSubmission, 'Please rerun the tests to continue.')
+    tooltipText.append(isProcessing, 'Tests are currently running.')
+    tooltipText.append(
+      chatGptFetchingStatus === 'fetching',
+      'Awaiting response from ChatGPT. Please stand by.'
+    )
+    tooltipText.append(passingTests, 'Congrats! The tests are passing! 🎉')
 
     return (
       <GenericTooltip
-        disabled={!isDisabled}
-        content={TOOLTIP_TEXT[tooltipTextIndex]}
+        disabled={!isDisabled || !premium}
+        content={tooltipText.getLastTrueText()}
       >
         <div className="mr-auto ask-chatgpt-btn-wrapper">
           <button
             type="button"
             className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
-            disabled={isDisabled}
+            disabled={isDisabled && premium}
             ref={ref}
             {...props}
           >

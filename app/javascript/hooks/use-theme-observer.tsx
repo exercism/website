@@ -5,50 +5,39 @@ interface ThemeData {
   binaryTheme: 'theme-dark' | 'theme-light'
 }
 
-const getCurrentTheme = (): ThemeData => {
-  const classList = document.body.className.split(' ')
-  const theme = classList.find((className) =>
-    ['theme-dark', 'theme-light', 'theme-system'].includes(className)
-  ) as ThemeData['theme']
-  let binaryTheme: ThemeData['binaryTheme']
+const THEMES = ['theme-dark', 'theme-light', 'theme-system']
+
+const getBinaryTheme = (
+  theme: ThemeData['theme']
+): ThemeData['binaryTheme'] => {
   if (theme === 'theme-system') {
-    binaryTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'theme-dark'
       : 'theme-light'
-  } else {
-    binaryTheme = theme
   }
+  return theme
+}
+
+const getCurrentTheme = (): ThemeData => {
+  const theme = THEMES.find((theme) =>
+    document.body.classList.contains(theme)
+  ) as ThemeData['theme']
+  const binaryTheme = getBinaryTheme(theme)
   return { theme, binaryTheme }
 }
 
 export function useThemeObserver(): ThemeData {
   const [themeData, setThemeData] = useState<ThemeData>(getCurrentTheme())
 
-  const updateBinaryTheme = (theme: ThemeData['theme']) => {
-    let binaryTheme: ThemeData['binaryTheme']
-    if (theme === 'theme-system') {
-      binaryTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'theme-dark'
-        : 'theme-light'
-    } else {
-      binaryTheme = theme
-    }
-    setThemeData((prevThemeData) => ({ ...prevThemeData, binaryTheme }))
-  }
-
   useEffect(() => {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
-          const classList = document.body.className.split(' ')
-          const themeClass = classList.find((className) =>
-            ['theme-dark', 'theme-light', 'theme-system'].includes(className)
+          const theme = THEMES.find((theme) =>
+            document.body.classList.contains(theme)
           ) as ThemeData['theme']
-          setThemeData((prevThemeData) => ({
-            ...prevThemeData,
-            theme: themeClass,
-          }))
-          updateBinaryTheme(themeClass)
+          const binaryTheme = getBinaryTheme(theme)
+          setThemeData({ theme, binaryTheme })
         }
       })
     })
@@ -58,7 +47,8 @@ export function useThemeObserver(): ThemeData {
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
     const mediaQueryListener = () => {
       if (themeData.theme === 'theme-system') {
-        updateBinaryTheme(themeData.theme)
+        const binaryTheme = getBinaryTheme(themeData.theme)
+        setThemeData((prevThemeData) => ({ ...prevThemeData, binaryTheme }))
       }
     }
     mediaQueryList.addEventListener('change', mediaQueryListener)

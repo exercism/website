@@ -1,6 +1,9 @@
 export function handleNavbarFocus(): void {
   document.addEventListener('DOMContentLoaded', function () {
-    const navElements = document.querySelectorAll<HTMLElement>('.nav-element')
+    let shiftTabPressed = false
+    const navElements = document.querySelectorAll<HTMLElement>(
+      '.nav-element-focusable'
+    )
     let currentMouseOverElement: HTMLElement | null = null
 
     navElements.forEach((navElement) => {
@@ -15,7 +18,19 @@ export function handleNavbarFocus(): void {
       })
 
       navElement.addEventListener('focus', () => {
-        // TODO: maybe jump immediately to the first element of the nav?
+        if (navElement && navElement.nodeName === 'SPAN') {
+          const dropdown = navElement.nextElementSibling
+          if (dropdown && !shiftTabPressed) {
+            const firstLink = dropdown.querySelector(
+              'ul li a'
+            ) as HTMLAnchorElement
+            if (firstLink) {
+              setTimeout(() => firstLink.focus(), 50)
+              return
+            }
+          }
+        }
+
         if (currentMouseOverElement) {
           const dropdown = currentMouseOverElement.querySelector<HTMLElement>(
             '.nav-element-dropdown'
@@ -56,6 +71,12 @@ export function handleNavbarFocus(): void {
     document.addEventListener('keydown', function (event: KeyboardEvent) {
       if (event.key === 'Tab') {
         document.body.classList.add('keyboard-navigation')
+      }
+
+      if (event.key === 'Tab' && event.shiftKey) {
+        shiftTabPressed = true
+      } else {
+        shiftTabPressed = false
       }
     })
   })

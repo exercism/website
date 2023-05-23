@@ -3,25 +3,19 @@ module ViewComponents
     module NavSubmenus
       LEARN_SUBMENU = [
         {
-          title: "Tracks",
-          description: "Learn 99+ tracks for free forever",
+          title: "Language Tracks",
+          description: "Upskill in 65+ languages",
           path: Exercism::Routes.tracks_path,
           icon: :tracks,
-          view: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
+          view: :tracks
         },
+
         {
           title: "Mentoring",
           description: "Get mentored by pros",
           path: Exercism::Routes.mentoring_path,
           icon: :mentoring,
-          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
-        },
-        {
-          title: "Mentoring",
-          description: "Get mentored by pros",
-          path: Exercism::Routes.mentoring_path,
-          icon: :mentoring,
-          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: :mentoring
         }
       ].freeze
 
@@ -31,21 +25,28 @@ module ViewComponents
           description: "How you can help us build Exercism",
           path: Exercism::Routes.contributing_root_path,
           icon: :overview,
-          view: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
+          view: :tracks
+        },
+        {
+          title: "Mentoring",
+          description: "Help ",
+          path: Exercism::Routes.mentoring_path,
+          icon: :mentoring,
+          view: :mentoring
         },
         {
           title: "Explore tasks",
           description: nil,
           path: Exercism::Routes.contributing_tasks_path,
           icon: :tasks,
-          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: :mentoring
         },
         {
           title: "Contributors",
           description: nil,
           path: Exercism::Routes.contributing_contributors_path,
           icon: :contributors,
-          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: :mentoring
         }
       ].freeze
 

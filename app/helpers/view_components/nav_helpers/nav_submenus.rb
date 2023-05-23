@@ -11,11 +11,11 @@ module ViewComponents
         },
 
         {
-          title: "Mentoring",
-          description: "Get mentored by pros",
-          path: Exercism::Routes.mentoring_path,
+          title: "#12in23 Challenge",
+          description: "Try out 12 languages in 2023!",
+          path: Exercism::Routes.challenge_path('12in23'),
           icon: :mentoring,
-          view: :mentoring
+          view: :challenge_12in23 # rubocop:disable Naming/VariableNumber
         }
       ].freeze
 
@@ -77,15 +77,20 @@ module ViewComponents
         }
       ].freeze
 
-      def nav_dropdown_tracks_view(tag)
+      def nav_dropdown_tracks_view
         tag.div class: 'nav-dropdown-view-content' do
-          "Track details"
         end
       end
 
-      def nav_dropdown_mentoring_view(tag)
+      def nav_dropdown_mentoring_view
         tag.div class: 'nav-dropdown-view-content' do
           "mentoring details"
+        end
+      end
+
+      def nav_dropdown_challenge_12in23_view
+        tag.div class: 'nav-dropdown-view-content' do
+          render(template: "layouts/nav/12in23")
         end
       end
     end

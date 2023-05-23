@@ -96,7 +96,7 @@
                 li {
                     @apply pr-8 w-100;
                     .nav-dropdown-view {
-                        @apply absolute hidden p-32 rounded-8;
+                        @apply absolute hidden py-20 px-24 rounded-8;
                         background: var(--nav-highlightColor);
                         height: var(--nd-height);
                         top: var(--nd-height);

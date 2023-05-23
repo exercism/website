@@ -6,11 +6,12 @@ module ViewComponents
           role: 'menu' do
           tag.ul do
             submenu.inject(''.html_safe) do |content, element|
+              view = nav_dropdown_view(element[:view]) if has_view
+
               content << tag.li(
                 conditional_link(element[:path]) do
                   nav_dropdown_element(element[:title], element[:description], element[:icon])
-                end <<
-                (has_view ? nav_dropdown_view(send("nav_dropdown_#{element[:view]}_view", tag)) : '')
+                end << view
               )
             end
           end
@@ -28,9 +29,11 @@ module ViewComponents
         end
       end
 
-      def nav_dropdown_view(element)
+      def nav_dropdown_view(view)
         tag.div(class: 'nav-dropdown-view') do
-          element
+          tag.div(class: 'nav-dropdown-view-content') do
+            render(template: "layouts/nav/#{view}")
+          end
         end
       end
     end

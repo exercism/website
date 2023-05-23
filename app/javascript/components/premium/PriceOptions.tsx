@@ -55,13 +55,10 @@ export function PriceOptions({ data }: Props): JSX.Element {
   const [selectedOption, setSelectedOption] = useState(PRICE_OPTIONS[0])
   const [paymentMade, setPaymentMade] = useState(false)
 
-  // TODO: Remove this as this seems to be unused
-  const [, setPaymentType] = useState<PaymentIntentType | undefined>()
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
 
   const handleSuccess = useCallback(
-    (type: PaymentIntentType, amount: currency) => {
-      setPaymentType(type)
+    (_type: PaymentIntentType, amount: currency) => {
       setPaymentAmount(amount)
       setPaymentMade(true)
       setStripeModalOpen(false)
@@ -85,6 +82,7 @@ export function PriceOptions({ data }: Props): JSX.Element {
           />
         )
       })}
+      {/* TODO: add correct closelink here */}
       <PremiumSubscriptionSuccessModal
         open={paymentMade}
         closeLink="/donate"

@@ -21,26 +21,33 @@ type PriceOption = {
   paymentIntentType: PaymentIntentType
   period: 'month' | 'year' | 'lifetime'
   favorite?: boolean
+  paypalLink: string
 }
 
 type PriceCardProps = PriceOption & { onStripeClick: () => void }
 
 const PRICE_OPTIONS: PriceOption[] = [
   {
+    period: 'month',
     displayAmount: 9.99,
     paymentIntentType: 'premium_monthly_subscription',
-    period: 'month',
+    paypalLink:
+      'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-23J11871PJ838224HMRTXYTA',
   },
   {
+    period: 'year',
     displayAmount: 99.99,
     paymentIntentType: 'premium_yearly_subscription',
-    period: 'year',
+    paypalLink:
+      'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-23J11871PJ838224HMRTXYTA',
     favorite: true,
   },
   {
-    displayAmount: 499.99,
-    paymentIntentType: 'premium_lifetime_subscription',
     period: 'lifetime',
+    displayAmount: 500,
+    paymentIntentType: 'premium_lifetime_subscription',
+    paypalLink:
+      'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-79144942EH3169155MRTX2NI',
   },
 ]
 export function PriceOptions({ data }: Props): JSX.Element {
@@ -107,6 +114,7 @@ function PriceCard({
   displayAmount,
   period,
   favorite,
+  paypalLink,
 }: PriceCardProps): JSX.Element {
   return (
     <div
@@ -124,14 +132,14 @@ function PriceCard({
         />
         <span>Subscribe via Stripe</span>
       </button>
-      <button className="btn-m btn-primary">
+      <a href={paypalLink} className="btn-m btn-primary">
         <GraphicalIcon
           icon="paypal"
           category="graphics"
           className="!filter-none"
         />
         <span>Subscribe via PayPal</span>
-      </button>
+      </a>
     </div>
   )
 }

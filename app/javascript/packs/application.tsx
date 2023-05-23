@@ -471,14 +471,14 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
-import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
+import { InsidersStatusData } from '../components/insiders/InsiderStatus'
 import {
   PriceOptions,
   PriceOptionsProps,
-} from '@/components/premium/PriceOptions.js'
+} from '@/components/premium/PriceOptions'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

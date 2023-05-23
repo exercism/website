@@ -8,36 +8,39 @@ interface ThemeData {
 const THEMES = ['theme-dark', 'theme-light', 'theme-system']
 
 const getBinaryTheme = (
-  theme: ThemeData['theme']
+  theme: ThemeData['theme'],
+  isDarkMode: boolean
 ): ThemeData['binaryTheme'] => {
   if (theme === 'theme-system') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'theme-dark'
-      : 'theme-light'
+    return isDarkMode ? 'theme-dark' : 'theme-light'
   }
   return theme
 }
 
-const getCurrentTheme = (): ThemeData => {
-  const theme = THEMES.find((theme) =>
+const getThemeFromClassList = () => {
+  return THEMES.find((theme) =>
     document.body.classList.contains(theme)
   ) as ThemeData['theme']
-  const binaryTheme = getBinaryTheme(theme)
-  return { theme, binaryTheme }
 }
 
 export function useThemeObserver(): ThemeData {
-  const [themeData, setThemeData] = useState<ThemeData>(getCurrentTheme())
+  const [isDarkMode, setIsDarkMode] = useState(
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  )
+  const [themeData, setThemeData] = useState<ThemeData>({
+    theme: getThemeFromClassList(),
+    binaryTheme: getBinaryTheme(getThemeFromClassList(), isDarkMode),
+  })
 
   useEffect(() => {
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.attributeName === 'class') {
-          const theme = THEMES.find((theme) =>
-            document.body.classList.contains(theme)
-          ) as ThemeData['theme']
-          const binaryTheme = getBinaryTheme(theme)
-          setThemeData({ theme, binaryTheme })
+          const theme = getThemeFromClassList()
+          setThemeData({
+            theme,
+            binaryTheme: getBinaryTheme(theme, isDarkMode),
+          })
           break
         }
       }
@@ -47,9 +50,13 @@ export function useThemeObserver(): ThemeData {
 
     const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
     const mediaQueryListener = () => {
+      const isDark = mediaQueryList.matches
+      setIsDarkMode(isDark)
       if (themeData.theme === 'theme-system') {
-        const binaryTheme = getBinaryTheme(themeData.theme)
-        setThemeData((prevThemeData) => ({ ...prevThemeData, binaryTheme }))
+        setThemeData((prev) => ({
+          ...prev,
+          binaryTheme: getBinaryTheme(prev.theme, isDark),
+        }))
       }
     }
     mediaQueryList.addEventListener('change', mediaQueryListener)
@@ -58,7 +65,7 @@ export function useThemeObserver(): ThemeData {
       observer.disconnect()
       mediaQueryList.removeEventListener('change', mediaQueryListener)
     }
-  }, [themeData.theme])
+  }, [themeData.theme, isDarkMode])
 
   return themeData
 }

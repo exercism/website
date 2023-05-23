@@ -35,7 +35,8 @@ export function ThemeToggleButton({
       interactive
       disabled={!disabled}
     >
-      <div>
+      {/* 24 is the padding of nav-elements' label */}
+      <div className="ml-24">
         <button
           onClick={(e) => {
             binaryTheme === 'theme-light'

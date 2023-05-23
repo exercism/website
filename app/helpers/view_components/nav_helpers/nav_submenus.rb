@@ -7,21 +7,21 @@ module ViewComponents
           description: "Learn 99+ tracks for free forever",
           path: Exercism::Routes.tracks_path,
           icon: :tracks,
-          content: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
+          view: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
         },
         {
           title: "Mentoring",
           description: "Get mentored by pros",
           path: Exercism::Routes.mentoring_path,
           icon: :mentoring,
-          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
         },
         {
           title: "Mentoring",
           description: "Get mentored by pros",
           path: Exercism::Routes.mentoring_path,
           icon: :mentoring,
-          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
         }
       ].freeze
 
@@ -31,21 +31,21 @@ module ViewComponents
           description: "How you can help us build Exercism",
           path: Exercism::Routes.contributing_root_path,
           icon: :overview,
-          content: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
+          view: ->(tag, instance) { instance.nav_dropdown_tracks_view(tag) }
         },
         {
           title: "Explore tasks",
           description: nil,
           path: Exercism::Routes.contributing_tasks_path,
           icon: :tasks,
-          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
         },
         {
           title: "Contributors",
           description: nil,
           path: Exercism::Routes.contributing_contributors_path,
           icon: :contributors,
-          content: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
+          view: ->(tag, instance) { instance.nav_dropdown_mentoring_view(tag) }
         }
       ].freeze
 

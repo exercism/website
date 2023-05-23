@@ -10,7 +10,7 @@ module ViewComponents
                 conditional_link(element[:path]) do
                   nav_dropdown_element(element[:title], element[:description], element[:icon])
                 end <<
-                (has_view ? nav_dropdown_view(element[:content].(tag, self)) : '')
+                (has_view ? nav_dropdown_view(element[:view].(tag, self)) : '')
               )
             end
           end

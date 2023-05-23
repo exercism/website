@@ -18,18 +18,18 @@ export function handleNavbarFocus(): void {
       })
 
       navElement.addEventListener('focus', () => {
-        if (navElement && navElement.nodeName === 'SPAN') {
-          const dropdown = navElement.nextElementSibling
-          if (dropdown && !shiftTabPressed) {
-            const firstLink = dropdown.querySelector(
-              'ul li a'
-            ) as HTMLAnchorElement
-            if (firstLink) {
-              setTimeout(() => firstLink.focus(), 50)
-              return
-            }
-          }
-        }
+        // if (navElement && navElement.nodeName === 'SPAN') {
+        //   const dropdown = navElement.nextElementSibling
+        //   if (dropdown && !shiftTabPressed) {
+        //     const firstLink = dropdown.querySelector(
+        //       'ul li a'
+        //     ) as HTMLAnchorElement
+        //     if (firstLink) {
+        //       setTimeout(() => firstLink.focus(), 50)
+        //       return
+        //     }
+        //   }
+        // }
 
         if (currentMouseOverElement) {
           const dropdown = currentMouseOverElement.querySelector<HTMLElement>(

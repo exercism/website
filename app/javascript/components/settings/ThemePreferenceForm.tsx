@@ -6,6 +6,7 @@ import {
   isDisabled,
   useTheme,
 } from './theme-preference-form'
+import { useThemeObserver } from '@/hooks'
 
 export type ThemePreferenceLinks = {
   update: string
@@ -28,7 +29,8 @@ export const ThemePreferenceForm = ({
   insidersStatus: string
   links: ThemePreferenceLinks
 }): JSX.Element => {
-  const { theme, handleThemeUpdate } = useTheme(defaultThemePreference, links)
+  const { handleThemeUpdate } = useTheme(defaultThemePreference, links)
+  const { theme } = useThemeObserver()
 
   return (
     <form data-turbo="false">
@@ -42,7 +44,7 @@ export const ThemePreferenceForm = ({
           <ThemeButton
             key={t.label}
             theme={t}
-            currentTheme={theme}
+            currentTheme={theme.split('-')[1]}
             disabledInfo={isDisabled(insidersStatus, t.value)}
             onClick={(e) => handleThemeUpdate(t, e)}
           />

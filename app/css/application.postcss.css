@@ -37,6 +37,8 @@
 @import "./components/site-update";
 @import "./components/site-footer";
 @import "./components/site-header";
+@import "./components/nav-bar";
+@import "./components/theme-toggle-button";
 @import "./components/community-rank-tag";
 @import "./components/track-breadcrumbs";
 @import "./components/contributing/header";

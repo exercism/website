@@ -1,6 +1,8 @@
 module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
+    include ViewComponents::NavHelpers::All
+    include ViewComponents::ThemeToggleButton
 
     delegate :namespace_name, :controller_name,
       to: :view_context
@@ -14,7 +16,6 @@ module ViewComponents
       end
     end
 
-    private
     def announcement_bar
       return tag.span("") if current_user&.donated?
 
@@ -53,20 +54,25 @@ module ViewComponents
     end
 
     def signed_in_nav
-      insiders_content = tag.span(class: "flex items-center gap-6") do
-        tag.span("Insiders") +
-          graphical_icon(:insiders, css_class: "!filter-none")
-      end
-
-      tag.nav(class: 'signed-in') do
+      tag.nav(class: 'signed-in', role: 'navigation') do
         tag.ul do
-          si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
-            si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
-            si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community) +
-            si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
+          safe_join(
+            [
+              generic_nav("Learn", submenu: LEARN_SUBMENU),
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
+              generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0),
+              # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
+              generic_nav("Premium", path: Exercism::Routes.donate_path, offset: 150, view: :mentoring),
+              ReactComponents::Common::ThemeToggleButton.new(disabled_theme_toggle_button)
+            ]
+          )
         end
       end
+    end
+
+    # TODO: Once merged into Premium feature branch, utilize the 'user.premium?' scope/method
+    def disabled_theme_toggle_button
+      %i[active active_lifetime].exclude?(current_user.insiders_status)
     end
 
     def si_nav_li(title, _icon_name, url, selected)

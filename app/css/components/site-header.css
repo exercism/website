@@ -18,6 +18,11 @@ body:not(.namespace-.controller-insiders):not(.namespace-.controller-premium) {
     --exercism-link-filter: var(--textColor1-filter);
 }
 
+body.keyboard-navigation .nav-element:hover .nav-element-dropdown,
+body.keyboard-navigation .nav-element:hover .arrow {
+    display: none !important;
+}
+
 body.namespace-.controller-insiders,
 body.namespace-.controller-premium {
     #site-header {
@@ -230,35 +235,14 @@ body.namespace-.controller-premium {
                 }
             }
         }
-
-        & li:last-child a {
-            color: var(--textColorLastNavElement);
-
-            & .c-icon {
-                filter: var(--purple-filter);
-            }
-        }
-
-        & a {
-            @apply flex items-center relative;
-            @apply text-16 text-textColor6 font-semibold;
-            @apply whitespace-nowrap;
-
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-            }
-        }
     }
+
     & nav.signed-in {
         @apply flex-grow;
 
-        & li {
-            @apply mr-16;
-        }
-        & a {
+        /* & a {
             @apply px-8 py-8;
-        }
+        } */
     }
 
     & nav.signed-out {

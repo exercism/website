@@ -7,7 +7,7 @@ module ReactComponents
         {
           default_submissions: submissions,
           default_files: SerializeEditorFiles.(solution.files_for_editor),
-          insiders_status:,
+          premium: solution.user.premium?,
           chatgpt_usage:,
           default_settings: {
             tab_size: track.indent_size,
@@ -76,11 +76,6 @@ module ReactComponents
     memoize
     def introduction
       Markdown::Parse.(solution.introduction)
-    end
-
-    memoize
-    def insiders_status
-      User.find(solution.user_id).insiders_status
     end
 
     memoize

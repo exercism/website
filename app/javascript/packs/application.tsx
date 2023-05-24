@@ -433,6 +433,11 @@ export const mappings = {
       <InsiderStatus {...data} />
     </Suspense>
   ),
+  'premium-price-option': (data: PriceOptionProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
+    </Suspense>
+  ),
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -468,12 +473,13 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
 import { handleNavbarFocus } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton.js'
+import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

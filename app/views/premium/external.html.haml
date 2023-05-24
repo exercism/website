@@ -1,0 +1,124 @@
+#page-premium
+  .gradient-container.top
+    .lg-container
+      .grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64
+        .top-lhs.flex.flex-col
+          %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
+            Exercism Premium
+          %h3.text-h3.mb-16 Supercharge your Exercism Experience!
+          %h5.launching.rounded-8 Only $9.99/month
+          %p.text-p-xlarge.mb-8{ class: "max-w-[600px]" }
+            Enhance your learning journey with Exercism Premium!
+            %br
+            Unlock
+            = succeed(',') do
+              %strong{ class: "!text-white" } Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
+            and more.
+          %p.text-p-large.mb-24
+            (All while supporting our open-source, not-for-profit mission! 💙)
+
+          .flex.flex-row.gap-16
+            = link_to "Upgrade to Premium", "#pricing-section", class: 'btn-l btn-primary basis-1/2', data: { turbo: false }
+            = link_to "Learn more", "#features-section", class: 'btn-l btn-secondary', data: { turbo: false }
+
+        .top-rhs
+          .c-youtube-container
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/8onnSv5r9Hw", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+  #features-section
+  .gradient-container.py-64
+    .lg-container
+      %h2.text-h2.mb-32 Exclusive Premium Features
+      .features
+        - @features.each do |feature|
+          .feature
+            = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
+            %h4= feature[:title]
+            %p= feature[:desc]
+
+  #pricing-section
+  .gradient-container.text-center.py-64
+    .lg-container.flex.flex-col
+      %h2.text-h1.mb-8.relative Choose Your Subscription
+      %p.text-p-xlarge.mb-16.relative Subscribe monthly, annually, or forever!
+
+      .grid.grid-cols-3.gap-32.justify-center.my-32
+        .price-card.border-gradient-russianViolet
+          %h2.text-h2 Monthly
+          .price $9.99/month
+          %p.text-p-base.mb-auto Subscribe monthly and enjoy all our Premium features for as long as you stay subscribed. Cancel anytime or convert to an annual or Insiders membership later.
+          = render ReactComponents::Premium::PriceOption.new(:monthly)
+
+        .price-card.border-gradient-russianViolet
+          %h2.text-h2 Annually
+          .price $99/year
+          %p.text-p-base.mb-auto Subscribe annually, enjoy Premium for a whole year, plus get a month of access to Exercism Insiders exclusive behind-the-scenes videos. Membership will renew annually.
+          = render ReactComponents::Premium::PriceOption.new(:yearly)
+
+        .price-card.border-gradient-russianViolet
+          %h2.text-h2 Become an Insider
+          .price $499
+          %p.text-p-base.mb-32 Enjoy full lifetime access to both Exercism Premium and Exercism Insiders, giving you behind-the-scenes access to videos and exclusive team community spaces.
+          = render ReactComponents::Premium::PriceOption.new(:lifetime)
+
+
+  .gradient-container.text-center.py-64.faqs
+    .lg-container
+      %h2.text-h1.mb-40 The Nitty Gritty &amp; FAQs
+      .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
+        %details{ open: true }
+          %summary What are the exact criteria for Premium access?
+          %p.mb-12
+            You can check the exact algorithm #{link_to 'in our codebase', 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'} but it's also reproduced here.
+          %p.mb-4 To gain lifetime access you need one of the following:
+          %ul.mb-16
+            %li To be a founder or staff member
+            %li To be a supermentor (100+ solutions mentored on a track with a 95% positive rating)
+            %li To have a reputation equal or greater than 1,000
+            %li To have donated $500 before Premium launches
+
+          %p.mb-4 For those without lifetime access, to gain access you need one of the following:
+          %ul.mb-16
+            %li To be a maintainer
+            %li To have an active recurring subscription (see note below about Paypal)
+            %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
+
+          %p
+            If you think you meet these criteria but don't have access, please open an issue #{link_to 'on the forum', 'https://forum.exercism.org'}.
+            If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
+
+        %details
+          %summary I've donated via Paypal or GitHub Sponsors but don't have access.
+          Due to technical limitations, we don't automatically get notified of recurring donors on PayPal or GitHub Sponsors.
+          We manually sync these each day, so there may be a delay between you setting up your donation and gaining Premium access.
+          Sorry for this - we're working on improving it before launch.
+          Be assured that if you've setup a recurring donation, we'll give you access!
+
+        %details
+          %summary What does Premium cost?
+          Premium isn't a product that you can buy - it's a rewards program for those who contribute, mentor or donate.
+          If you'd like access, you can start contributing, mentoring, or set up a recurring donation to Exercism and then join us on our journey.
+
+        %details
+          %summary What features will Exercism Premium contain?
+          At launch, we're releasing our Dark Mode and ChatGPT integrations exclusively to Premium.
+          Over time, we're plan on adding other fun features to Premium.
+
+        %details
+          %summary I need dark theme for accessiblity reasons, but I'm not an Premium.
+          We're creating a basic dark theme that's suitable for people who struggle with light themes, which will launch at the same time as Premium.
+          It's not that pretty, but it'll mean you can use the site without issue!
+
+        %details
+          %summary How do I earn reputation?
+          Reputation is earned by mentoring or contributing to Exercism.
+          You can also earn reputation by publishing your solutions, but that does not count towards Premium access.
+          You can check what actions result in what reputation by consulting #{link_to 'our docs', 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'}.
+          Check your #{link_to 'journey page', journey_path} to see where you're earning reputation.
+
+        %details
+          %summary I thought Exercism was free?
+          It is! You don't have to donate in order to use Exercism.
+          All our production-ready educational features are entirely free.
+          However, for those that are able and willing to support Exercism with their time or money, Premium provides a way of us saying thank you, and taking them on our journey with us.
+

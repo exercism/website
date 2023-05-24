@@ -77,7 +77,7 @@ export const TasksContext = createContext<TaskContext>({
 export default ({
   timeout = 60000,
   defaultSubmissions,
-  insidersStatus,
+  premium,
   defaultFiles,
   defaultSettings,
   autosave,
@@ -128,7 +128,6 @@ export default ({
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
   const cache = useQueryCache()
-  const isInsider = ['active', 'active_lifetime'].includes(insidersStatus)
   const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
   const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
     version: '3.5',
@@ -418,18 +417,21 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  {isInsider ? (
-                    <ChatGPT.Button
-                      noSubmission={!submission}
-                      sameSubmission={
-                        submission ? submission.uuid === submissionUuid : false
-                      }
-                      isProcessing={isProcessing}
-                      passingTests={testRunStatus === TestRunStatus.PASS}
-                      chatGptFetchingStatus={chatGptFetchingStatus}
-                      onClick={() => setChatGptDialogOpen(true)}
-                    />
-                  ) : null}
+                  <ChatGPT.Button
+                    premium={premium}
+                    noSubmission={!submission}
+                    sameSubmission={
+                      submission ? submission.uuid === submissionUuid : false
+                    }
+                    isProcessing={isProcessing}
+                    passingTests={testRunStatus === TestRunStatus.PASS}
+                    chatGptFetchingStatus={chatGptFetchingStatus}
+                    onClick={
+                      premium
+                        ? () => setChatGptDialogOpen(true)
+                        : () => setTab('chatgpt')
+                    }
+                  />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -460,7 +462,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  {isInsider ? <ChatGPT.Tab /> : null}
+                  <ChatGPT.Tab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -496,12 +498,13 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {isInsider && (
+                {premium ? (
                   <ChatGPT.Panel
                     helpRecord={helpRecord}
                     status={chatGptFetchingStatus}
                   >
                     <ChatGPT.Button
+                      premium={premium}
                       noSubmission={!submission}
                       sameSubmission={
                         submission ? submission.uuid === submissionUuid : false
@@ -512,12 +515,14 @@ export default ({
                       onClick={() => setChatGptDialogOpen(true)}
                     />
                   </ChatGPT.Panel>
+                ) : (
+                  <ChatGPT.UpsellPanel />
                 )}
               </TasksContext.Provider>
             }
           />
 
-          {submission && (
+          {submission && premium && (
             <ChatGPT.Dialog
               onClose={() => setChatGptDialogOpen(false)}
               open={chatGptDialogOpen}

@@ -28,7 +28,7 @@ namespace :api do
     get "validate_token" => "validate_token#index"
     get "hiring/testimonials" => "hiring#testimonials"
 
-    namespace :donations do
+    namespace :payments do
       resource :active_subscription, only: [:show]
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do

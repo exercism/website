@@ -24,6 +24,14 @@ export type ExerciseStatus =
   | 'available'
   | 'locked'
 
+export type InsidersStatus =
+  | 'unset'
+  | 'ineligible'
+  | 'eligible'
+  | 'eligible_lifetime'
+  | 'active'
+  | 'active_lifetime'
+
 export type ExerciseAuthorship = {
   exercise: Exercise
   track: Track

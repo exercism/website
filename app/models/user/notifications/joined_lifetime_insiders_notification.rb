@@ -1,6 +1,5 @@
 class User::Notifications::JoinedLifetimeInsidersNotification < User::Notification
-  # TODO: determine what values to use
-  def url = Exercism::Routes.dashboard_url
+  def url = Exercism::Routes.insiders_url
   def image_type; end
   def image_url; end
 

@@ -164,4 +164,44 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
   end
+
+  test "give user lifetime of premium when changing status to active_lifetime" do
+    user = create :user
+    user.update(insiders_status: :eligible_lifetime)
+
+    # Sanity check
+    refute user.premium?
+
+    User::SetDiscordRoles.stubs(:defer)
+    User::SetDiscourseGroups.stubs(:defer)
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert user.reload.premium?
+
+    travel_to Time.current + 50.years
+    assert user.reload.premium?
+  end
+
+  test "give user lifetime of premium when changing status to active" do
+    user = create :user
+    user.update(insiders_status: :eligible)
+
+    # Sanity check
+    refute user.premium?
+
+    User::SetDiscordRoles.stubs(:defer)
+    User::SetDiscourseGroups.stubs(:defer)
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Activate.(user)
+    end
+
+    assert user.reload.premium?
+
+    travel_to Time.current + 50.years
+    assert user.reload.premium?
+  end
 end

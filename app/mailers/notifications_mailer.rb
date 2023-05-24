@@ -186,4 +186,31 @@ class NotificationsMailer < ApplicationMailer
     subject = "Exercism Insiders membership expired"
     mail_to_user(@user, subject)
   end
+
+  def joined_premium
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Premium"
+    mail_to_user(@user, subject)
+  end
+
+  def joined_lifetime_premium
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Welcome to Exercism Lifetime Premium"
+    mail_to_user(@user, subject)
+  end
+
+  def expired_premium
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "Exercism Premium membership expired"
+    mail_to_user(@user, subject)
+  end
 end

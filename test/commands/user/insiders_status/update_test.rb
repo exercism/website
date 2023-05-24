@@ -52,6 +52,52 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
   end
 
+  test "ineligible: user is premium until last payment date + 45 days if that is in the future" do
+    freeze_time do
+      user = create :user, insiders_status: :active, premium_until: Time.current
+      subscription = create(:payments_subscription, :premium, status: :active, user:)
+      create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
+      last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
+
+      User::SetDiscourseGroups.stubs(:defer)
+
+      perform_enqueued_jobs do
+        User::InsidersStatus::Update.(user.reload)
+      end
+
+      assert_equal last_payment.created_at + 45.days, user.reload.premium_until
+      assert user.premium?
+    end
+  end
+
+  test "ineligible: user is no longer premium when last payment date + 30 days is not in the future" do
+    user = create :user, insiders_status: :active, premium_until: Time.current
+    subscription = create(:payments_subscription, :premium, status: :active, user:)
+    create(:payments_payment, :premium, created_at: Time.current - 2.months, subscription:)
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert_nil user.reload.premium_until
+    refute user.premium?
+  end
+
+  test "ineligible: user is no longer premium when there are no payments" do
+    user = create :user, insiders_status: :active, premium_until: Time.current
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert_nil user.reload.premium_until
+    refute user.premium?
+  end
+
   [
     %i[ineligible eligible],
     %i[eligible eligible],
@@ -63,9 +109,9 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       user = create :user, insiders_status: current_status
 
       # Make the user eligible
-      user.update(active_donation_subscription: true)
+      create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
-      User::InsidersStatus::Update.(user)
+      User::InsidersStatus::Update.(user.reload)
 
       assert_equal expected_status, user.insiders_status
     end
@@ -76,7 +122,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       user = create :user, insiders_status: current_status
 
       # Make the user eligible
-      user.update(active_donation_subscription: true)
+      create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
       User::Notification::Create.expects(:defer).never
 
@@ -88,7 +134,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :ineligible
 
     # Make the user eligible
-    user.update(active_donation_subscription: true)
+    create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
     User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_insiders).once
 
@@ -99,7 +145,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :ineligible
 
     # Make the user eligible
-    user.update(active_donation_subscription: true)
+    create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
     User::SetDiscordRoles.expects(:defer).with(user)
 
@@ -110,7 +156,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :ineligible
 
     # Make the user eligible
-    user.update(active_donation_subscription: true)
+    create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
     User::SetDiscourseGroups.expects(:defer).with(user)
 
@@ -217,6 +263,24 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
 
     assert_equal :lifetime_insider, user.flair
+  end
+
+  test "eligible_lifetime: give lifetime premium when current status is active" do
+    user = create :user, insiders_status: :active
+
+    User::SetDiscourseGroups.stubs(:defer)
+
+    # Make the user eligible
+    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+
+    # Sanity check
+    refute user.premium?
+
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
+
+    assert user.reload.premium?
   end
 
   test "eligible_lifetime: set discourse groups" do

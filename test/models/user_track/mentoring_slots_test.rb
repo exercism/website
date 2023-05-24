@@ -35,6 +35,18 @@ class User::MentoringSlotsTest < ActiveSupport::TestCase
     assert user_track.has_available_mentoring_slot?
   end
 
+  test "premium" do
+    user = create :user, :premium
+    user_track = create(:user_track, user:)
+
+    assert_equal 0, user_track.num_locked_mentoring_slots
+    assert_equal 0, user_track.num_used_mentoring_slots
+    assert_equal 4, user_track.num_available_mentoring_slots
+    assert_nil user_track.percentage_to_next_mentoring_slot
+    assert_nil user_track.repo_for_next_mentoring_slot
+    assert user_track.has_available_mentoring_slot?
+  end
+
   test "with one used" do
     user = create :user, reputation: 0
     user_track = create(:user_track, user:)

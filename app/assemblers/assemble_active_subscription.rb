@@ -8,6 +8,8 @@ class AssembleActiveSubscription
 
     {
       subscription: {
+        product: subscription.product,
+        provider: subscription.provider,
         amount_in_cents: subscription.amount_in_cents
       }
     }

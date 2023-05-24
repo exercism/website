@@ -1,59 +1,66 @@
 #page-premium
-  .lg-container
-    .top.grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64
-      .top-lhs
-        %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
-          Exercism Premium
-          = graphical_icon "insiders", css_class: 'h-[32px] md:h-[64px] w-[32px] md:w-[64px]'
-        %h3.text-h3.mb-16 Our way of saying thank you.
-        %h5.launching Launching May 4th 2023
-        %p.text-p-xlarge.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
+  .gradient-container.top
+    .lg-container
+      .grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64
+        .top-lhs.flex.flex-col
+          %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
+            Exercism Premium
+          %h3.text-h3.mb-16 Elevate Your Experience. Support Exercism.
+          %h5.launching.rounded-8 Only $9.99/month
+          %p.text-p-xlarge.mb-24
+            Supercharge your learning journey with Exercism Premium!
+            %br
+            Unlock
+            = succeed(',') do
+              %strong{ class: "!text-white" } Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
+            and more. All while supporting our open-source, not-for-profit mission and helping us grow.
 
-      .top-rhs
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/8onnSv5r9Hw", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+          .flex.flex-row.gap-16
+            = link_to "Upgrade to Premium", "#pricing-section", class: 'btn-l btn-primary basis-1/2', data: { turbo: false }
+            = link_to "Learn more", "#features-section", class: 'btn-l btn-secondary', data: { turbo: false }
 
-    %h2.text-h2.mb-32 Exclusive Premium Features
-    .features
-      - @features.each do |feature|
-        .feature
-          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
-          %h4= feature[:title]
-          %p= feature[:desc]
+        .top-rhs
+          .c-youtube-container
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/8onnSv5r9Hw", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-    %h2.text-h2.mb-32 Behind the scenes access
-    .features
-      - @bts_access.each do |feature|
-        .feature
-          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
-          %h4= feature[:title]
-          %p= feature[:desc]
+  #features-section
+  .gradient-container.py-64
+    .lg-container
+      %h2.text-h2.mb-32 Exclusive Premium Features
+      .features
+        - @features.each do |feature|
+          .feature
+            = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
+            %h4= feature[:title]
+            %p= feature[:desc]
 
-  .gradient-container
-    .lg-container.relative
-      = graphical_icon "pixel-diamond", css_class: "left-[120px] xl:block hidden"
-      = graphical_icon "pixel-emerald", css_class: "right-[159px] top-[180px] xl:block hidden"
-      = graphical_icon "pixel-emoji", css_class: "right-[179px] -top-[16px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "top-[172px] left-[176px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "right-[28px] top-[66px] xl:block hidden"
+  #pricing-section
+  .gradient-container.text-center.py-64
+    .lg-container.flex.flex-col
+      %h2.text-h1.mb-8.relative Choose Your Subscription
+      %p.text-p-xlarge.mb-16.relative Subscribe monthly, annually, or forever!
 
-      %h2.text-h1.mb-16.relative Offers from our partners
-      %p.text-p-large.mx-auto.mb-32.relative{ class: "max-w-[800px]" }
-        We're sourcing some great free trials and deals from commercial partners. It's their way of saying thank you for your work in Open Source.
-      %p.light-green-prompt.mb-64.relative We're hoping to get several partnerships confirmed before launch and we're aiming to add 5-10 more each month.
-      -#
-        .features
-          - @partners.each do |partner|
-            .feature
-              = icon partner[:icon], partner[:name], category: :partners
-              %h4= partner[:name]
-              %p= partner[:offer]
+      .grid.grid-cols-3.gap-32.justify-center.my-32
+        .price-card.border-gradient-russianViolet
+          %h2.text-h2 Monthly
+          .price $9.99/month
+          %p.text-p-base.mb-auto Subscribe monthly and enjoy all our Premium features for as long as you stay subscribed. Cancel anytime or convert to an annual or Insiders membership later.
+          = render ReactComponents::Premium::PriceOption.new(:monthly)
 
-  .lg-container.text-center.flex.flex-col
-    %h2.text-h1.mb-16.relative Price options
-    = render ReactComponents::Premium::PriceOptions.new
+        .price-card.border-gradient-russianViolet
+          %h2.text-h2 Annually
+          .price $99/year
+          %p.text-p-base.mb-auto Subscribe annually, enjoy Premium for a whole year, plus get a month of access to Exercism Insiders exclusive behind-the-scenes videos. Membership will renew annually.
+          = render ReactComponents::Premium::PriceOption.new(:yearly)
 
-  .gradient-container.faqs
+        .price-card.border-gradient-russianViolet
+          %h2.text-h2 Become an Insider
+          .price $499
+          %p.text-p-base.mb-32 Enjoy full lifetime access to both Exercism Premium and Exercism Insiders, giving you behind-the-scenes access to videos and exclusive team community spaces.
+          = render ReactComponents::Premium::PriceOption.new(:lifetime)
+
+
+  .gradient-container.text-center.py-64.faqs
     .lg-container
       %h2.text-h1.mb-40 The Nitty Gritty &amp; FAQs
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }

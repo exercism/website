@@ -102,24 +102,24 @@
     }
 
     .gradient-container {
-        @apply py-64;
         background: linear-gradient(
             180deg,
             #221e31 0%,
             rgba(34, 30, 49, 0) 100%
         );
-        .c-icon {
-            @apply absolute;
-        }
-        h2,
-        p {
-            @apply text-center;
-        }
     }
 
     .price-card {
         @apply flex flex-col p-24 rounded-16 bg-russianViolet mb-16 border-2 border-transparent;
 
         box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
+
+        h2 {
+            @apply mb-4;
+        }
+        .price {
+            @apply text-h4 text-launchingYellow;
+            @apply mb-20;
+        }
     }
 }

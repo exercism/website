@@ -157,6 +157,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
   end
 
   test "creates subscription if not already created" do
+    skip # TODO: re-enable once we can use the API to fetch a subscription's payment cycle
     freeze_time do
       payment_id = SecureRandom.uuid
       recurring_payment_id = SecureRandom.uuid
@@ -189,6 +190,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
   end
 
   test "creates subscription for unknown paypal payer id but known email" do
+    skip # TODO: re-enable once we can use the API to fetch a subscription's payment cycle
     freeze_time do
       payment_id = SecureRandom.uuid
       recurring_payment_id = SecureRandom.uuid

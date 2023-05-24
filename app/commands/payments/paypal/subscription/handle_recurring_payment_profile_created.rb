@@ -16,4 +16,5 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]
   def product = Payments::Paypal::Product.from_name(payload["product_name"])
+  def interval = Payments::Paypal::Interval.from_payment_cycle(payload["payment_cycle"])
 end

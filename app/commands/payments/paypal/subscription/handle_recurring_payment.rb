@@ -8,7 +8,7 @@ class Payments::Paypal::Subscription::HandleRecurringPayment
     user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
     return unless user
 
-    subscription = Payments::Paypal::Subscription::Create.(user, subscription_external_id, amount, product)
+    subscription = Payments::Subscription.find_by(external_id: subscription_external_id, provider: :paypal)
     return unless subscription
 
     Payments::Paypal::Payment::Create.(user, payment_external_id, amount, product, subscription:)

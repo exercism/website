@@ -17,6 +17,7 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
     assert_equal user, subscription.user
     assert_equal :active, subscription.status
     assert_equal :github, subscription.provider
+    assert_equal :month, subscription.interval
     assert user.active_donation_subscription?
   end
 

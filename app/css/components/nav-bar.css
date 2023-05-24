@@ -83,6 +83,18 @@
             background: var(--nav-backgroundColor);
             outline: 8px solid var(--nav-backgroundColor);
 
+            &.only-view {
+                width: var(--nd-view-width);
+                .nav-dropdown-view {
+                    @apply absolute py-20 px-24 rounded-8;
+                    background: var(--nav-highlightColor);
+                    height: var(--nd-height);
+                    top: var(--nd-height);
+                    width: var(--nd-view-width);
+                    top: 0;
+                }
+            }
+
             &:before {
                 content: "";
                 @apply absolute inset-0;

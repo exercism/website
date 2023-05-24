@@ -8,7 +8,8 @@ module ViewComponents
               class: "nav-element-label #{path.nil? ? 'nav-element-focusable' : ''}")
           end
           if view.present?
-            content << tag.div(nav_dropdown_view(view), class: 'nav-element-dropdown')
+            content << tag.div(nav_dropdown_view(view), class: 'nav-element-dropdown only-view',
+              style: "--dropdown-offset: -#{offset}px;")
           elsif submenu.present?
             content << nav_dropdown(submenu, offset, has_view) << css_arrow
           end

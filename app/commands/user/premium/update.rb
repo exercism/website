@@ -7,7 +7,6 @@ class User::Premium::Update
     return if user.premium_until == premium_until
 
     user.update!(premium_until:)
-    User::Notification::CreateEmailOnly.defer(user, :joined_lifetime_premium) if lifetime_premium?
   end
 
   private

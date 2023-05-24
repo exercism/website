@@ -57,7 +57,7 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
 
   test "eligible_lifetime for big post launch donor" do
     user = create :user
-    create :payments_payment, user:, created_at: Date.new(2023, 6, 3), amount_in_cents: 500_00
+    create :payments_payment, user:, created_at: Date.new(2023, 6, 3), amount_in_cents: 499_00
     assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
   end
 

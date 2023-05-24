@@ -15,7 +15,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def mail_to_user(user, subject, **options)
-    return if user.email_status_invalid?
+    return unless user.may_receive_emails?
 
     mail(to: user_email_with_name(user), subject:, **options)
   end

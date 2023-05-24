@@ -304,6 +304,14 @@ class User < ApplicationRecord
     avatar.attached? || self[:avatar_url].present?
   end
 
+  def may_receive_emails?
+    return false if disabled?
+    return false if email.ends_with?("users.noreply.github.com")
+    return false if email_status_invalid?
+
+    true
+  end
+
   # TODO
   def languages_spoken
     %w[english spanish]

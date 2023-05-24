@@ -444,4 +444,25 @@ class UserTest < ActiveSupport::TestCase
     user.skip_reconfirmation!
     user.save!
   end
+
+  test "asset may receive email by default" do
+    user = create :user
+    assert user.may_receive_emails?
+  end
+
+  test "refute may receive email for disabled" do
+    user = create :user, disabled_at: Time.current
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for github" do
+    user = create :user, email: "foo@users.noreply.github.com"
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for invalid email" do
+    user = create :user, disabled_at: Time.current
+    user.email_status_invalid!
+    refute user.may_receive_emails?
+  end
 end

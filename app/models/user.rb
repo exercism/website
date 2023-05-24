@@ -156,6 +156,10 @@ class User < ApplicationRecord
     after_confirmation if confirmed?
   end
 
+  after_save_commit do
+    User::VerifyEmail.defer(self) if previous_changes.key?('email')
+  end
+
   # If we don't know about this record, maybe the
   # user's data record has it instead?
   def method_missing(name, *args)

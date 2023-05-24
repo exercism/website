@@ -428,4 +428,20 @@ class UserTest < ActiveSupport::TestCase
     user.update(flair: :insider)
     assert_equal :insider, user.flair
   end
+
+  test "email verified for new user" do
+    User::VerifyEmail.expects(:defer).once
+
+    create :user
+  end
+
+  test "email verified when email changes" do
+    user = create :user
+
+    User::VerifyEmail.expects(:defer).with(user).once
+
+    user.email = 'test@example.org'
+    user.skip_reconfirmation!
+    user.save!
+  end
 end

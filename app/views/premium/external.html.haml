@@ -5,15 +5,17 @@
         .top-lhs.flex.flex-col
           %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
             Exercism Premium
-          %h3.text-h3.mb-16 Elevate Your Experience. Support Exercism.
+          %h3.text-h3.mb-16 Supercharge your Exercism Experience!
           %h5.launching.rounded-8 Only $9.99/month
-          %p.text-p-xlarge.mb-24
-            Supercharge your learning journey with Exercism Premium!
+          %p.text-p-xlarge.mb-8{ class: "max-w-[600px]" }
+            Enhance your learning journey with Exercism Premium!
             %br
             Unlock
             = succeed(',') do
               %strong{ class: "!text-white" } Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
-            and more. All while supporting our open-source, not-for-profit mission and helping us grow.
+            and more.
+          %p.text-p-large.mb-24
+            (All while supporting our open-source, not-for-profit mission! 💙)
 
           .flex.flex-row.gap-16
             = link_to "Upgrade to Premium", "#pricing-section", class: 'btn-l btn-primary basis-1/2', data: { turbo: false }

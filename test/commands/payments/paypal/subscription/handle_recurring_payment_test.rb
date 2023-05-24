@@ -21,7 +21,9 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "product_name" => Exercism.secrets.paypal_donation_product_name
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      perform_enqueued_jobs do
+        Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      end
 
       assert_equal 1, Payments::Payment.count
       payment = Payments::Payment.last
@@ -34,6 +36,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       assert_equal amount_in_cents, user.reload.total_donated_in_cents
       assert_equal Time.current, user.first_donated_at
       assert user.donated?
+      refute user.premium?
     end
   end
 
@@ -57,7 +60,9 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "product_name" => Exercism.secrets.paypal_premium_product_name
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      perform_enqueued_jobs do
+        Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      end
 
       assert_equal 1, Payments::Payment.count
       payment = Payments::Payment.last
@@ -70,6 +75,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       assert_equal 0, user.reload.total_donated_in_cents
       assert_nil user.first_donated_at
       refute user.donated?
+      assert user.premium?
     end
   end
 

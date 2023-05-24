@@ -19,10 +19,19 @@ class Payments::Paypal::Payment::HandleWebAccept
 
   private
   def handle_completed
-    user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
     return unless user
 
-    Payments::Paypal::Payment::Create.(user, external_id, amount, product)
+    Payments::Paypal::Payment::Create.(user, external_id, amount, product, subscription:)
+  end
+
+  memoize
+  def user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
+
+  memoize
+  def subscription
+    return nil unless product == :premium
+
+    Payments::Paypal::Subscription::Create.(user, external_id, amount, product)
   end
 
   def handle_canceled_reversal

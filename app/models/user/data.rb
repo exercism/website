@@ -20,7 +20,7 @@ class User::Data < ApplicationRecord
   def insider? = insiders_status_active? || insiders_status_active_lifetime?
   def donated? = first_donated_at.present?
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
-  def premium? = premium_until.present? && premium_until > Time.current
+  def premium? = insider? || (premium_until.present? && premium_until > Time.current)
 
   def usages = super || (self.usages = {})
 

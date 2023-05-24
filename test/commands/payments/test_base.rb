@@ -9,7 +9,7 @@ class Payments::TestBase < ActiveSupport::TestCase
   end
 
   def mock_stripe_subscription(id, amount, status: 'active', item_id: SecureRandom.uuid, payment_intent: nil,
-                               product: Exercism.secrets.stripe_recurring_product_id)
+                               interval: 'month', product: Exercism.secrets.stripe_recurring_product_id)
     data = RecursiveOpenStruct.new(
       id:,
       items: {
@@ -18,7 +18,10 @@ class Payments::TestBase < ActiveSupport::TestCase
             id: item_id,
             price: {
               unit_amount: amount,
-              product:
+              product:,
+              recurring: {
+                interval:
+              }
             }
           )
         ]

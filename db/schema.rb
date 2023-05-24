@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_24_091753) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1049,6 +1049,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "cache"
+    t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"

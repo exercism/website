@@ -109,6 +109,10 @@
                         width: var(--nd-view-width);
                         transform: translate(100%, -100%);
                         right: 0;
+                        &:before {
+                            content: "";
+                            @apply absolute inset-0 -m-8;
+                        }
                     }
 
                     &:hover,
@@ -145,19 +149,23 @@
                             @apply leading-150;
                         }
                     }
-                    &:first-child {
-                        .nav-element-link:before {
-                            @apply absolute inset-0 mt-[-8px];
+                    .nav-element-link {
+                        &:before {
+                            @apply absolute inset-0 -m-8 mt-0;
                             content: "";
                         }
                     }
 
-                    &:last-child {
-                        flex-grow: 1;
-                        .nav-element-link:before {
-                            @apply absolute inset-0 mb-[100vh];
-                            content: "";
+                    &:first-child {
+                        .nav-element-link {
+                            &:before {
+                                @apply -mt-8;
+                            }
                         }
+                    }
+
+                    &:last-child {
+                        @apply grow;
                     }
                 }
             }

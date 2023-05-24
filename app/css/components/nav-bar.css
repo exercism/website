@@ -2,7 +2,7 @@
     --nav-backgroundColor: var(--backgroundColorNavDropdown);
     --nav-highlightColor: var(--backgroundColorA);
     .nav-element {
-        @apply relative;
+        @apply relative cursor-default;
 
         span {
             @apply p-24;
@@ -10,6 +10,9 @@
 
         .nav-element-link,
         .nav-element-label {
+            @apply text-16 text-textColor6 font-semibold;
+            @apply flex items-center relative;
+
             &:hover + .nav-element-dropdown,
             &:focus-within + .nav-element-dropdown {
                 ul li {
@@ -109,10 +112,6 @@
                         width: var(--nd-view-width);
                         transform: translate(100%, -100%);
                         right: 0;
-                        &:before {
-                            content: "";
-                            @apply absolute inset-0 -m-8;
-                        }
                     }
 
                     &:hover,
@@ -130,7 +129,6 @@
                         @apply p-16 rounded-8 flex gap-8 items-center;
                         @apply w-100;
                         .c-icon {
-                            @apply filter-textColor6;
                             height: var(--nd-element-icon-size);
                             width: var(--nd-element-icon-size);
                         }
@@ -153,6 +151,12 @@
                         &:before {
                             @apply absolute inset-0 -m-8 mt-0;
                             content: "";
+                        }
+                        @apply whitespace-nowrap;
+                        @apply cursor-pointer;
+                        & .c-icon {
+                            height: 16px;
+                            width: 16px;
                         }
                     }
 

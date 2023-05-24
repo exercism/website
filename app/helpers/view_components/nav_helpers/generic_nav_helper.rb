@@ -1,13 +1,18 @@
 module ViewComponents
   module NavHelpers
     module GenericNavHelper
-      def generic_nav(nav_title, submenu: nil, path: nil, offset: 0, has_view: true)
+      def generic_nav(nav_title, submenu: nil, view: nil, path: nil, offset: 0, has_view: true)
         tag.li class: 'nav-element' do
           content = conditional_link(path) do
             tag.span(nav_title, tabindex: path.nil? ? 0 : -1, role: 'none',
               class: "nav-element-label #{path.nil? ? 'nav-element-focusable' : ''}")
           end
-          content << nav_dropdown(submenu, offset, has_view) << css_arrow if submenu.present?
+          if view.present?
+            content << tag.div(nav_dropdown_view(view), class: 'nav-element-dropdown')
+          elsif submenu.present?
+            content << nav_dropdown(submenu, offset, has_view) << css_arrow
+          end
+          content << css_arrow if view.present? || submenu.present?
           content
         end
       end

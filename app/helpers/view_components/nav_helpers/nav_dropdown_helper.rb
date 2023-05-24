@@ -7,10 +7,11 @@ module ViewComponents
           tag.ul do
             submenu.inject(''.html_safe) do |content, element|
               view = nav_dropdown_view(element[:view]) if has_view
+              icon_filter = element[:icon_filter] || 'textColor6'
 
               content << tag.li(
                 conditional_link(element[:path]) do
-                  nav_dropdown_element(element[:title], element[:description], element[:icon])
+                  nav_dropdown_element(element[:title], element[:description], element[:icon], icon_filter)
                 end << view
               )
             end
@@ -18,9 +19,9 @@ module ViewComponents
         end
       end
 
-      def nav_dropdown_element(title, description, icon)
+      def nav_dropdown_element(title, description, icon, icon_filter)
         tag.div(class: "nav-dropdown-element", role: 'menuitem') do
-          graphical_icon(icon) <<
+          graphical_icon(icon, css_class: "filter-#{icon_filter}") <<
             tag.div do
               content = tag.h6(title)
               content << tag.p(description) unless description.nil?

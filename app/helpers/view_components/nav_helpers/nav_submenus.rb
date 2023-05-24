@@ -47,33 +47,37 @@ module ViewComponents
           path: Exercism::Routes.contributing_contributors_path,
           icon: :contributors,
           view: :mentoring
+        },
+        {
+          title: "Docs",
+          description: nil,
+          path: Exercism::Routes.docs_path,
+          icon: :docs,
+          view: :mentoring
         }
       ].freeze
 
       COMMUNITY_SUBMENU = [
         {
           title: "Forum",
-          description: "How you can help us build Exercism",
           path: Exercism::Routes.forum_redirect_path,
-          icon: :discourser
+          icon: :discourser,
+          icon_filter: 'none',
+          view: :mentoring
         },
         {
           title: "Discord",
-          description: nil,
           path: Exercism::Routes.discord_redirect_path,
-          icon: "feature-discord"
+          icon: 'external-site-discord-blue',
+          icon_filter: 'none',
+          view: :mentoring
         },
         {
-          title: "YouTube",
-          description: nil,
+          title: "Stream",
           path: Exercism::Routes.youtube_redirect_path,
-          icon: 'feature-youtube'
-        },
-        {
-          title: "Twitch",
-          description: nil,
-          path: Exercism::Routes.twitch_redirect_path,
-          icon: :contributors
+          icon: 'external-site-youtube',
+          icon_filter: 'none',
+          view: :mentoring
         }
       ].freeze
 

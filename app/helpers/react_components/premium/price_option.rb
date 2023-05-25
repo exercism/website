@@ -19,7 +19,7 @@ module ReactComponents
           period: 'month',
           display_amount: 9.99,
           payment_intent_type: 'premium_monthly_subscription',
-          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-23J11871PJ838224HMRTXYTA'
+          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-0EU999217Y297052UMRTXYEQ'
         }
       end
 
@@ -37,7 +37,7 @@ module ReactComponents
           period: 'lifetime',
           display_amount: 499,
           payment_intent_type: 'payment',
-          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-79144942EH3169155MRTX2NI'
+          paypal_link: 'https://www.paypal.com/donate/?hosted_button_id=W898BNJR5JPDJ'
         }
       end
     end

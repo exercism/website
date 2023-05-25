@@ -9,6 +9,10 @@ class SettingsController < ApplicationController
     @payments = current_user.payment_payments.donation.includes(:subscription)
   end
 
+  def premium
+    @payments = current_user.payment_payments.premium.includes(:subscription)
+  end
+
   def reset_account
     User::ResetAccount.(current_user) if params[:handle] == current_user.handle
 

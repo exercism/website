@@ -432,7 +432,12 @@ class UserTest < ActiveSupport::TestCase
   test "email verified for new user" do
     User::VerifyEmail.expects(:defer).once
 
-    create :user
+    # We need this little build/update dance as the factory for users
+    # sets the email status to :verified by default, which is different
+    # from the normal default, which is :unverified
+    user = build :user
+    user.email_status = :unverified
+    user.save
   end
 
   test "email verified when email changes" do

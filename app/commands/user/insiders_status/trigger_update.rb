@@ -11,6 +11,6 @@ class User::InsidersStatus::TriggerUpdate
       user.update!(insiders_status: :unset) if user.insiders_status_ineligible?
     end
 
-    User::InsidersStatus::Update.(user)
+    User::InsidersStatus::Update.defer(user)
   end
 end

@@ -231,6 +231,9 @@ class User < ApplicationRecord
   end
 
   memoize
+  def active_premium_subscription = payment_subscriptions.premium.active.last
+
+  memoize
   def active_donation_subscription = payment_subscriptions.donation.active.last
 
   memoize

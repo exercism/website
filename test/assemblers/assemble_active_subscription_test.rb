@@ -5,7 +5,7 @@ class AssembleActiveSubscriptionTest < ActiveSupport::TestCase
     user = create :user
     other_user = create :user
     create(:payments_subscription, :active, user:, amount_in_cents: 100)
-    subscription = create(:payments_subscription, :active, :donation, :paypal, user:, amount_in_cents: 200)
+    subscription = create(:payments_subscription, :active, :donation, :paypal, user:, amount_in_cents: 200, interval: :month)
     create(:payments_subscription, :canceled, user:, amount_in_cents: 300)
     create(:payments_subscription, :overdue, user:, amount_in_cents: 400)
     create(:payments_subscription, :active, user: other_user, amount_in_cents: 500)
@@ -14,6 +14,7 @@ class AssembleActiveSubscriptionTest < ActiveSupport::TestCase
       subscription: {
         product: :donation,
         provider: :paypal,
+        interval: :month,
         amount_in_cents: subscription.amount_in_cents
       }
     }

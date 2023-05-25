@@ -65,5 +65,6 @@ class User::Data < ApplicationRecord
     total_donated_in_cents
 
     active_donation_subscription show_on_supporters_page
+    email_status
   ].freeze
 end

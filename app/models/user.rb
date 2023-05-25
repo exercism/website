@@ -154,9 +154,10 @@ class User < ApplicationRecord
     create_communication_preferences
 
     after_confirmation if confirmed?
+    verify_email! if email_status_unverified?
   end
 
-  after_save_commit do
+  after_update_commit do
     verify_email! if previous_changes.key?('email')
   end
 

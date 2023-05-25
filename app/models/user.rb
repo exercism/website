@@ -154,11 +154,10 @@ class User < ApplicationRecord
     create_communication_preferences
 
     after_confirmation if confirmed?
-    verify_email! if email_status_unverified?
   end
 
   after_update_commit do
-    verify_email! if previous_changes.key?('email')
+    reverify_email! if previous_changes.key?('email')
   end
 
   # If we don't know about this record, maybe the
@@ -333,7 +332,7 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def verify_email!
+  def reverify_email!
     email_status_unverified!
     User::VerifyEmail.defer(self)
   end

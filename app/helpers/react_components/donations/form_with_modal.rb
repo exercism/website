@@ -8,7 +8,7 @@ module ReactComponents
             request: {
               endpoint: Exercism::Routes.api_payments_active_subscription_url,
               options: {
-                initial_data: AssembleActiveSubscription.(current_user)
+                initial_data: AssembleActiveSubscription.(current_user, :donation)
               }
             },
             user_signed_in: user_signed_in?,

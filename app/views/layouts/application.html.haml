@@ -10,7 +10,7 @@
     = render "layouts/meta_tags"
 
   %body{ class: body_class }
-    = render ViewComponents::SiteHeader.new
+    = render ViewComponents::SiteHeader.new(request_path: request.path)
 
     = render template: "layouts/turbo_frame"
 

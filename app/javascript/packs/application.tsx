@@ -483,6 +483,11 @@ import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
+
+  if (window.location.pathname === '/dashboard') {
+    const siteHeader = document.querySelector('#site-header')
+    siteHeader?.classList.remove('theme-dark')
+  }
 })
 
 handleNavbarFocus()

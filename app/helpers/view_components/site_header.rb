@@ -4,15 +4,25 @@ module ViewComponents
     include ViewComponents::NavHelpers::All
     include ViewComponents::ThemeToggleButton
 
+    initialize_with request_path: nil
+
     delegate :namespace_name, :controller_name,
       to: :view_context
 
     def to_s
-      tag.header(id: "site-header") do
+      tag.header(id: "site-header", class: site_header_class) do
         announcement_bar +
           tag.div(class: "lg-container container") do
             logo + docs_nav + contextual_section
           end
+      end
+    end
+
+    def site_header_class
+      if ['/insiders', '/premium'].include?(request_path)
+        'theme-dark'
+      else
+        ''
       end
     end
 
@@ -62,7 +72,7 @@ module ViewComponents
               generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
               generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0),
               # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
-              generic_nav("Premium", path: Exercism::Routes.donate_path, offset: 150, view: :mentoring),
+              generic_nav("Premium", path: Exercism::Routes.premium_index_path, offset: 150, view: :mentoring),
               ReactComponents::Common::ThemeToggleButton.new(disabled_theme_toggle_button)
             ]
           )

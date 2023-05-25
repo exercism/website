@@ -27,6 +27,16 @@ body.namespace-.controller-insiders,
 body.namespace-.controller-premium {
     #site-header {
         /* russianViolet is site-header background */
+
+        --nav-backgroundColor: theme(colors.russianViolet);
+        --nav-highlightColor: theme(colors.eerieBlack);
+        nav {
+            background: var(--nav-backgroundColor);
+            nav-element-label {
+                @apply text-aliceBlue;
+            }
+        }
+
         @apply bg-russianViolet border-[#433F56];
         .c-icon:not(button .c-icon),
         .user-menu .c-icon {

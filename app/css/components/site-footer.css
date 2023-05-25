@@ -1,6 +1,7 @@
 @import "../styles";
 
 body.namespace-.controller-journey,
+body.namespace-.controller-premium,
 body.namespace-.controller-insiders {
     & #site-footer {
         margin-top: 0px;

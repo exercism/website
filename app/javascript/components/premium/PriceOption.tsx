@@ -18,7 +18,7 @@ export type PriceOptionProps = {
 
 type PriceCardProps = PriceOptionProps & { onStripeClick: () => void }
 
-export function PriceOption({ data }: PriceOptionProps): JSX.Element {
+export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
   const [paymentMade, setPaymentMade] = useState(false)
 
@@ -33,7 +33,7 @@ export function PriceOption({ data }: PriceOptionProps): JSX.Element {
     []
   )
 
-  const handleModalOpen = useCallback((data) => {
+  const handleModalOpen = useCallback(() => {
     setStripeModalOpen(true)
   }, [])
 
@@ -42,7 +42,7 @@ export function PriceOption({ data }: PriceOptionProps): JSX.Element {
       <PriceCard
         key={data.paymentIntentType}
         {...data}
-        onStripeClick={() => handleModalOpen(data)}
+        onStripeClick={handleModalOpen}
       />
       {/* TODO: add correct closelink here */}
       <PremiumSubscriptionSuccessModal
@@ -59,7 +59,6 @@ export function PriceOption({ data }: PriceOptionProps): JSX.Element {
         <ExercismStripeElements>
           <StripeForm
             {...data}
-            paymentIntentType={data.paymentIntentType}
             amount={currency(data.displayAmount)}
             onSuccess={handleSuccess}
           />
@@ -69,12 +68,7 @@ export function PriceOption({ data }: PriceOptionProps): JSX.Element {
   )
 }
 
-function PriceCard({
-  onStripeClick,
-  displayAmount,
-  period,
-  paypalLink,
-}: PriceCardProps): JSX.Element {
+function PriceCard({ onStripeClick, paypalLink }: PriceCardProps): JSX.Element {
   return (
     <div className="flex flex-col">
       <button onClick={onStripeClick} className="btn-m btn-primary mb-16">

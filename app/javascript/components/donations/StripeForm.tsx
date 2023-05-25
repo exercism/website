@@ -274,8 +274,6 @@ function generateStripeButtonText(
       return `Donate ${amount.format()} to Exercism`
     case 'subscription':
       return `Donate ${amount.format()} to Exercism monthly`
-    case 'premium_lifetime_subscription':
-      return `Subscribe for Premium for lifetime for ${amount.format()}`
     case 'premium_monthly_subscription':
       return `Subscribe for Premium for ${amount.format()}/month`
     case 'premium_yearly_subscription':

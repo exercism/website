@@ -3,7 +3,7 @@ class User::VerifyEmail
 
   initialize_with :user
 
-  def call = user.update(email_status:)
+  def call = user.update!(email_status:)
 
   private
   def email_status

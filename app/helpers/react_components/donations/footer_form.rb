@@ -6,7 +6,7 @@ module ReactComponents
           "donations-footer-form",
           {
             request: {
-              endpoint: Exercism::Routes.api_payments_active_subscription_url,
+              endpoint: Exercism::Routes.api_payments_active_subscription_url(product: :donation),
               options: {
                 initial_data: AssembleActiveSubscription.(current_user, :donation)
               }

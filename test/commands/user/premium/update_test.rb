@@ -16,50 +16,101 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
   end
 
   %i[active overdue].each do |status|
-    test "non-insider is premium if last payment date + 45 days is in the future and linked subscription status is #{status}" do
+    test "non-insider with #{status} monthly subscription and last payment less than a month ago gets premium with grace period" do
       user = create :user, premium_until: nil
 
       # Sanity check
       refute user.premium?
 
-      subscription = create(:payments_subscription, :premium, status:, user:)
+      subscription = create(:payments_subscription, :premium, status:, user:, interval: :month)
       create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
       last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
 
       User::Premium::Update.(user)
 
-      assert_equal last_payment.created_at + 45.days, user.reload.premium_until
+      assert_equal last_payment.created_at + 1.month + 15.days, user.reload.premium_until
       assert user.premium?
     end
   end
 
-  test "non-insider is premium if last payment date + 30 days is in the future and linked subscription status is canceled" do
+  test "non-insider with canceled monthly subscription and last payment less than a month ago gets premium without grace period" do
     user = create :user, premium_until: nil
 
     # Sanity check
     refute user.premium?
 
-    subscription = create(:payments_subscription, :premium, status: :canceled, user:)
+    subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :month)
     create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
     last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
 
     User::Premium::Update.(user)
 
-    assert_equal last_payment.created_at + 30.days, user.reload.premium_until
+    assert_equal last_payment.created_at + 1.month, user.reload.premium_until
     assert user.premium?
   end
 
-  test "non-insider is not premium if last payment date + grace period is in the past" do
-    user = create :user, premium_until: Time.current + 2.days
-    subscription = create(:payments_subscription, :premium, status: :canceled, user:)
-    create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
+  %i[active overdue canceled].each do |status|
+    test "non-insider with #{status} monthly subscription and last payment more than a month ago does not get premium" do
+      user = create :user, premium_until: Time.current + 2.days
+      subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :month)
+      create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
 
-    assert user.premium?
+      assert user.premium?
+
+      User::Premium::Update.(user)
+
+      assert_nil user.reload.premium_until
+      refute user.premium?
+    end
+  end
+
+  %i[active overdue].each do |status|
+    test "non-insider with #{status} yearly subscription and last payment less than a year ago gets premium with grace period" do
+      user = create :user, premium_until: nil
+
+      # Sanity check
+      refute user.premium?
+
+      subscription = create(:payments_subscription, :premium, status:, user:, interval: :year)
+      create(:payments_payment, :premium, created_at: Time.current - 8.months, user:, subscription:)
+      last_payment = create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
+
+      User::Premium::Update.(user)
+
+      assert_equal last_payment.created_at + 1.year + 15.days, user.reload.premium_until
+      assert user.premium?
+    end
+  end
+
+  test "non-insider with canceled yearly subscription and last payment less than a year ago gets premium without grace period" do
+    user = create :user, premium_until: nil
+
+    # Sanity check
+    refute user.premium?
+
+    subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :year)
+    create(:payments_payment, :premium, created_at: Time.current - 8.months, user:, subscription:)
+    last_payment = create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
 
     User::Premium::Update.(user)
 
-    assert_nil user.reload.premium_until
-    refute user.premium?
+    assert_equal last_payment.created_at + 1.year, user.reload.premium_until
+    assert user.premium?
+  end
+
+  %i[active overdue canceled].each do |status|
+    test "non-insider with #{status} yearly subscription and last payment more than a year ago does not get premium" do
+      user = create :user, premium_until: Time.current + 2.days
+      subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :year)
+      create(:payments_payment, :premium, created_at: Time.current - 15.months, user:, subscription:)
+
+      assert user.premium?
+
+      User::Premium::Update.(user)
+
+      assert_nil user.reload.premium_until
+      refute user.premium?
+    end
   end
 
   test "non-insider is not premium if there are no payments" do

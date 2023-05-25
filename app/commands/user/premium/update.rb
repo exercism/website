@@ -26,7 +26,6 @@ class User::Premium::Update
 
   memoize
   def last_payment_premium_until
-    return nil if last_payment.nil?
     return nil if last_payment_grace_period.nil?
 
     new_premium_until = last_payment.created_at + last_payment_grace_period

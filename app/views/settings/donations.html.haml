@@ -60,9 +60,10 @@
                   - when :github
                     GitHub
                 %td
-                  = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
-                    = graphical_icon "download"
-                    %span View Receipt
+                  - if payment.external_receipt_url
+                    = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
+                      = graphical_icon "download"
+                      %span View Receipt
 
 
         - if current_user.total_donated_in_cents.present?

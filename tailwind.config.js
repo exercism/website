@@ -79,6 +79,8 @@ module.exports = {
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
       keystroke: '0px 1px 0px 1px rgba(var(--shadowColorKeystroke), 0.6)',
       launching: '8px 8px 0px #211E28',
+
+      navDropdown: '0px 6px 28px 4px rgba(var(--shadowColorMain), 0.5)',
     },
     colors: {
       transparent: 'transparent',

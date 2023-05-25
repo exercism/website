@@ -93,7 +93,7 @@ Rails.application.routes.draw do
 
   resources :insiders, only: [:index]
 
-  resources :premium, only: [:index]
+  resource :premium, only: [:show], controller: 'premium'
 
   resources :profiles, only: %i[index show new create] do
     collection do

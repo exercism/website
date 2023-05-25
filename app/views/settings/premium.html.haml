@@ -44,12 +44,21 @@
               %th Date
               %th Donation Amount
               %th Type
+              %th Via
               %th
             - @payments.each do |payment|
               %tr
                 %td= format_date(payment.created_at)
                 %td= number_to_currency(payment.amount_in_dollars)
                 %td= payment.subscription ? "Recurring donation" : "One-time donation"
+                %td
+                  - case payment.provider
+                  - when :stripe
+                    Stripe
+                  - when :paypal
+                    PayPal
+                  - when :github
+                    GitHub
                 %td
                   = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
                     = graphical_icon "download"

@@ -63,7 +63,7 @@ module ViewComponents
               generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0),
               # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
               generic_nav("Premium", path: Exercism::Routes.donate_path, offset: 150, view: :mentoring),
-              ReactComponents::Common::ThemeToggleButton.new(disabled_theme_toggle_button)
+              ReactComponents::Common::ThemeToggleButton.new(disabled_theme_toggle_button, toggle_button_default_theme)
             ]
           )
         end
@@ -73,6 +73,10 @@ module ViewComponents
     # TODO: Once merged into Premium feature branch, utilize the 'user.premium?' scope/method
     def disabled_theme_toggle_button
       %i[active active_lifetime].exclude?(current_user.insiders_status)
+    end
+
+    def toggle_button_default_theme
+      current_user.preferences.theme
     end
 
     def si_nav_li(title, _icon_name, url, selected)

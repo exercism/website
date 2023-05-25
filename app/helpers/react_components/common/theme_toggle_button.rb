@@ -1,7 +1,7 @@
 module ReactComponents
   module Common
     class ThemeToggleButton < ReactComponent
-      initialize_with :disabled
+      initialize_with :disabled, :default_theme
 
       def to_s
         super("common-theme-toggle-button", {
@@ -10,7 +10,8 @@ module ReactComponents
             # TODO: user the correct link here
             premium: Exercism::Routes.insiders_path
           },
-          disabled:
+          disabled:,
+          default_theme:
         })
       end
     end

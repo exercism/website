@@ -20,10 +20,10 @@ export const THEMES: Theme[] = [
       'linear-gradient(90deg, rgba(255,255,255,1) 50%, rgba(48,43,66,1) 50%)',
     icon: 'exercism-face-two-tone',
   },
-  // {
-  //  label: 'Accessibility Dark',
-  //  value: 'accessibility-dark',
-  //  background: 'black',
-  //  iconFilter: 'whiteNoDark',
-  // },
+  {
+    label: 'Sepia',
+    value: 'sepia',
+    background: 'white',
+    icon: 'exercism-face',
+  },
 ]

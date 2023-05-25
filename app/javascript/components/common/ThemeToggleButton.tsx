@@ -5,15 +5,17 @@ import { GenericTooltip } from '../misc/ExercismTippy'
 
 export type ThemeToggleButtonProps = {
   disabled: boolean
+  defaultTheme: string
   links: { update: string; premium: string }
 }
 
 export function ThemeToggleButton({
   links,
   disabled,
+  defaultTheme,
 }: ThemeToggleButtonProps): JSX.Element {
-  const { binaryTheme } = useThemeObserver()
-  const { handleThemeUpdate } = useTheme(binaryTheme?.split('-')[1], links)
+  const { explicitTheme } = useThemeObserver()
+  const { handleThemeUpdate } = useTheme(defaultTheme, links)
 
   const switchToDarkTheme = useCallback(
     (e) => {
@@ -39,7 +41,7 @@ export function ThemeToggleButton({
       <div className="ml-24">
         <button
           onClick={(e) => {
-            binaryTheme === 'theme-light'
+            explicitTheme === 'theme-light' || explicitTheme === 'theme-sepia'
               ? switchToDarkTheme(e)
               : switchToLightTheme(e)
           }}
@@ -50,7 +52,7 @@ export function ThemeToggleButton({
             <input
               type="checkbox"
               readOnly
-              checked={binaryTheme === 'theme-dark'}
+              checked={explicitTheme === 'theme-dark'}
             />
             <span className="slider round" />
           </label>

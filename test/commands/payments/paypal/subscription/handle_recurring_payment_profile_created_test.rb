@@ -15,7 +15,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
         "amount" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
@@ -29,6 +30,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
       assert_equal :donation, subscription.product
+      assert_equal :month, subscription.interval
       assert user.reload.active_donation_subscription?
     end
   end
@@ -47,7 +49,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
         "amount" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_premium_product_name
+        "product_name" => Exercism.secrets.paypal_premium_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
@@ -61,6 +64,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
       assert_equal :premium, subscription.product
+      assert_equal :month, subscription.interval
       refute user.reload.active_donation_subscription?
     end
   end
@@ -79,7 +83,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
         "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
         "amount" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Yearly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
@@ -92,6 +97,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       assert_equal user, subscription.user
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
+      assert_equal :year, subscription.interval
       assert user.reload.active_donation_subscription?
     end
   end
@@ -104,7 +110,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       "payer_email" => "unknown@test.org",
       "payer_id" => SecureRandom.uuid,
       "amount" => "15.0",
-      "product_name" => Exercism.secrets.paypal_donation_product_name
+      "product_name" => Exercism.secrets.paypal_donation_product_name,
+      "payment_cycle" => "Monthly"
     }
 
     Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)

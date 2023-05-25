@@ -8,7 +8,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated
     user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
     return unless user
 
-    Payments::Paypal::Subscription::Create.(user, external_id, amount, product)
+    Payments::Paypal::Subscription::Create.(user, external_id, amount, product, interval)
   end
 
   def amount = payload["amount"].to_f

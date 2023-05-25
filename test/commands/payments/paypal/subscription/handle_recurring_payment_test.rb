@@ -18,7 +18,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       perform_enqueued_jobs do
@@ -57,7 +58,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_premium_product_name
+        "product_name" => Exercism.secrets.paypal_premium_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       perform_enqueued_jobs do
@@ -95,7 +97,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -133,7 +136,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => SecureRandom.uuid,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -157,7 +161,6 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
   end
 
   test "creates subscription if not already created" do
-    skip # TODO: re-enable once we can use the API to fetch a subscription's payment cycle
     freeze_time do
       payment_id = SecureRandom.uuid
       recurring_payment_id = SecureRandom.uuid
@@ -173,7 +176,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -190,7 +194,6 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
   end
 
   test "creates subscription for unknown paypal payer id but known email" do
-    skip # TODO: re-enable once we can use the API to fetch a subscription's payment cycle
     freeze_time do
       payment_id = SecureRandom.uuid
       recurring_payment_id = SecureRandom.uuid
@@ -205,7 +208,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => SecureRandom.uuid,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_donation_product_name
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)

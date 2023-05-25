@@ -7,7 +7,7 @@ module Mentor::Supermentor
   def self.eligible?(mentor)
     mentor.mentor? &&
       mentor.mentor_satisfaction_percentage.to_i >= MIN_SATISFACTION_PERCENTAGE &&
-      mentor.track_mentorships.sum(:num_finished_discussions) >= MIN_FINISHED_MENTORING_SESSIONS
+      mentor.mentor_discussions.finished_for_student.count >= MIN_FINISHED_MENTORING_SESSIONS
   end
 
   def self.for_track?(mentor, track)

@@ -17,7 +17,6 @@ class AssembleActiveSubscription
   end
 
   private
-  def subscription
-    user.active_subscription
-  end
+  memoize
+  def subscription = user.active_donation_subscription
 end

@@ -49,6 +49,7 @@ export const WelcomePremiumModal = ({
       open={open}
       {...props}
       onClose={() => null}
+      theme="dark"
       className="m-community-launch"
     >
       <div className="lhs">

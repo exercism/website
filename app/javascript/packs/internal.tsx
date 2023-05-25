@@ -106,7 +106,7 @@ initReact({
   ),
 
   'modals-welcome-premium-modal': (data: any) => (
-    <Modals.WelcomeModal endpoint={data.endpoint} />
+    <Modals.WelcomePremiumModal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (

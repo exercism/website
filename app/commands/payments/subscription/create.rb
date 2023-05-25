@@ -17,8 +17,12 @@ class Payments::Subscription::Create
       amount_in_cents:,
       status: :active
     ).tap do
-      User::UpdateActiveDonationSubscription.(user) if product == :donation
-      User::Premium::Update.(user) if product == :premium
+      case product
+      when :donation
+        User::UpdateActiveDonationSubscription.(user)
+      when :premium
+        User::Premium::Update.(user)
+      end
     end
   rescue ActiveRecord::RecordNotUnique
     Payments::Subscription.find_by!(external_id:, provider:)

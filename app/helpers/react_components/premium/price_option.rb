@@ -34,8 +34,8 @@ module ReactComponents
       def data_for_lifetime
         {
           period: 'lifetime',
-          display_amount: 500,
-          payment_intent_type: 'premium_lifetime_subscription',
+          display_amount: 499,
+          payment_intent_type: 'payment',
           paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-79144942EH3169155MRTX2NI'
         }
       end

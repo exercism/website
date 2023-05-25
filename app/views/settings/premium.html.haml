@@ -8,10 +8,11 @@
         .subscription-box
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
-            - if current_user.active_donation_subscription? # TODO: use active premium subscription
+            - if current_user.active_premium_subscription
               = render ReactComponents::Donations::SubscriptionForm.new
             - else
-              %h2 Become a monthly supporter of Exercism
+              -# TODO: update copy
+              %h2 Join Exercism Premium
               %p.text-p-base
                 Exercism is a not-for-profit organisation that relies on community donations to grow.
                 Support
@@ -19,38 +20,16 @@
                 to help everyone get better at programming.
               = link_to "Find out more", donate_path, class: "btn-primary btn-s"
 
-        - if current_user.total_donated_in_cents.positive?
-          - dollars, cents = current_user.total_donated_in_dollars.to_s.split('.')
-          .summary-box.flex.flex-col.lg:flex-row.items-center
-            .values.flex.items-center
-              .total
-                .c-financial-amount
-                  .currency.text-16 $
-                  .dollars.text-32= dollars.to_s.rjust(1, '0')
-                  .cents.text-16 .#{cents.to_s.ljust(2, '0')}
-                .explanation total donated
-              .breakdown
-                .subs
-                  = number_to_currency(current_user.total_subscription_donations_in_dollars)
-                  from recurring
-                .one-off
-                  = number_to_currency(current_user.total_one_off_donations_in_dollars)
-                  from one-time
-            .show-on-supporters-page.mt-24.lg:mt-0.lg:ml-auto
-              = render ReactComponents::Settings::ShowOnSupportersPageButton.new
-
           %table.payments
             %tr
               %th Date
-              %th Donation Amount
-              %th Type
+              %th Amount
               %th Via
               %th
             - @payments.each do |payment|
               %tr
                 %td= format_date(payment.created_at)
                 %td= number_to_currency(payment.amount_in_dollars)
-                %td= payment.subscription ? "Recurring donation" : "One-time donation"
                 %td
                   - case payment.provider
                   - when :stripe
@@ -65,13 +44,12 @@
                       = graphical_icon "download"
                       %span View Receipt
 
-
-        - if current_user.total_donated_in_cents.present?
+        - if current_user.active_premium_subscription
           .summary-box
-            %h3.text-h5.mb-4 Your donations will appear here
+            %h3.text-h5.mb-4 Your premium payments will appear here
             %p.text-p-base.mb-4
-              Once you've donated, you'll be able to see a history of all donations here.
+              Once you've paid, you'll be able to see a history of all payment here.
             %p.text-p-base
-              If you've donated to Exercism, but do not see your donations here or have not been awarded the Supporter badge, please email
+              If you've paid for premium, but do not see your payments here or have not been awarded the Supporter badge, please email
               = link_to "Loretta", "mailto:loretta@exercism.org"
               and she'll sort it for you.

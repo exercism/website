@@ -15,4 +15,6 @@ class Payments::Subscription < ApplicationRecord
   def provider = super.to_sym
   def product = super.to_sym
   def interval = super.to_sym
+
+  def last_payment = payments.order(:id).last
 end

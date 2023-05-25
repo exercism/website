@@ -33,4 +33,13 @@ class Payments::SubscriptionTest < ActiveSupport::TestCase
 
     assert_equal [payment_1, payment_2], subscription.payments.order(:id)
   end
+
+  test "last_payment" do
+    subscription = create :payments_subscription
+    create(:payments_payment, subscription:)
+    create(:payments_payment, subscription:)
+    payment = create(:payments_payment, subscription:)
+
+    assert_equal payment, subscription.last_payment
+  end
 end

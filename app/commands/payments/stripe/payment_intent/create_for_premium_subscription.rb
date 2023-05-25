@@ -25,8 +25,6 @@ class Payments::Stripe::PaymentIntent::CreateForPremiumSubscription
       Exercism.secrets.stripe_premium_monthly_price_id
     when :yearly
       Exercism.secrets.stripe_premium_yearly_price_id
-    when :lifetime
-      Exercism.secrets.stripe_premium_lifetime_price_id
     else
       raise Payments::Stripe::PaymentIntentError, "Unknown premium subscription interval"
     end

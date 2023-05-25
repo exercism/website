@@ -5,11 +5,11 @@
     %article
       %h1 Premium
       %section
-        .subscription-box
+        .subscription-box.mb-16
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
             - if current_user.active_premium_subscription
-              = render ReactComponents::Donations::SubscriptionForm.new
+              = render ReactComponents::Donations::PremiumSubscriptionForm.new
             - else
               -# TODO: update copy
               %h2 Join Exercism Premium
@@ -20,6 +20,9 @@
                 to help everyone get better at programming.
               = link_to "Find out more", donate_path, class: "btn-primary btn-s"
 
+
+
+        - if current_user.active_premium_subscription
           %table.payments
             %tr
               %th Date
@@ -43,8 +46,7 @@
                     = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
                       = graphical_icon "download"
                       %span View Receipt
-
-        - if current_user.active_premium_subscription
+        - else
           .summary-box
             %h3.text-h5.mb-4 Your premium payments will appear here
             %p.text-p-base.mb-4

@@ -19,11 +19,7 @@ module ViewComponents
     end
 
     def site_header_class
-      if ['/insiders', '/premium'].include?(request_path)
-        'theme-dark'
-      else
-        ''
-      end
+      ['/insiders', '/premium'].include?(request_path) ? 'theme-dark' : ''
     end
 
     def announcement_bar

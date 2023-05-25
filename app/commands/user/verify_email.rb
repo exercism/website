@@ -3,7 +3,11 @@ class User::VerifyEmail
 
   initialize_with :user
 
-  def call = user.update!(email_status:)
+  def call
+    return unless user.email_status_unverified?
+
+    user.update!(email_status:)
+  end
 
   private
   def email_status

@@ -157,7 +157,7 @@ class User < ApplicationRecord
   end
 
   after_save_commit do
-    User::VerifyEmail.defer(self) if previous_changes.key?('email')
+    verify_email! if previous_changes.key?('email')
   end
 
   # If we don't know about this record, maybe the
@@ -330,6 +330,11 @@ class User < ApplicationRecord
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def verify_email!
+    email_status_unverified!
+    User::VerifyEmail.defer(self)
   end
 
   memoize

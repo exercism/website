@@ -1,4 +1,5 @@
 export { WelcomeModal } from './WelcomeModal'
 export { WelcomePremiumModal } from './WelcomePremiumModal'
+export { WelcomeInsidersModal } from './WelcomeInsidersModal'
 export { Modal } from './Modal'
 export { UploadVideoModal } from './upload-video'

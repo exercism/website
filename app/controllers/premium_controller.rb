@@ -10,6 +10,8 @@ class PremiumController < ApplicationController
     render action: :external
   end
 
+  def paypal_status; end
+
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'moon', title: 'Dark theme',

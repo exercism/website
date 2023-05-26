@@ -26,39 +26,17 @@ class User::Premium::Update
 
   memoize
   def last_payment_premium_until
-    return nil if next_payment_date.nil?
-    return nil if next_payment_date <= Time.current
-
-    next_payment_date + next_payment_grace_period
-  end
-
-  memoize
-  def last_payment = user.payment_payments.premium.order(:id).last
-
-  memoize
-  def next_payment_date
     return nil if last_payment.nil?
     return nil if last_payment.subscription.nil?
 
-    case last_payment.subscription.interval
-    when :month
-      last_payment.created_at + 1.month
-    when :year
-      last_payment.created_at + 1.year
-    end
+    next_payment_date = last_payment.created_at + last_payment.subscription.time_interval + last_payment.subscription.grace_period
+    return nil if next_payment_date <= Time.current
+
+    next_payment_date
   end
 
   memoize
-  def next_payment_grace_period
-    case last_payment.subscription.status
-    when :canceled
-      0.days
-    when :active
-      15.days
-    when :overdue
-      15.days
-    end
-  end
+  def last_payment = user.payments.premium.order(:id).last
 
   LIFETIME_PREMIUM_UNTIL = Time.utc(9999, 12, 31).freeze
 end

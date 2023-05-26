@@ -17,4 +17,19 @@ class Payments::Subscription < ApplicationRecord
   def interval = super.to_sym
 
   def last_payment = payments.order(:id).last
+
+  def grace_period
+    return 0.days if canceled?
+
+    15.days
+  end
+
+  def time_interval
+    case interval
+    when :month
+      1.month
+    when :year
+      1.year
+    end
+  end
 end

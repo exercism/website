@@ -79,7 +79,7 @@
                 @apply !h-auto;
                 outline: none;
                 .nav-dropdown-view {
-                    @apply !border-2 !border-gradient !p-0 !h-auto;
+                    @apply !border-2 !border-gradient !p-0 !h-auto overflow-hidden;
                     @apply !top-[-10px];
                     .nav-dropdown-view-content {
                         @apply flex flex-col;

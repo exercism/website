@@ -1,6 +1,6 @@
 import React from 'react'
 import currency from 'currency.js'
-import { FormOptions } from './subscription-form/FormOptions'
+import { PremiumFormOptions } from './subscription-form/PremiumFormOptions'
 
 type Links = {
   cancel: string
@@ -24,7 +24,7 @@ export default ({
         anticipate our cashflow and make responsible decisions about hiring and
         growing Exercism.
       </p>
-      <FormOptions amount={amount} links={links} />
+      <PremiumFormOptions amount={amount} links={links} />
     </React.Fragment>
   )
 }

@@ -4,7 +4,7 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
       "premium-subscription-form",
       {
         amount_in_cents: current_user.current_active_premium_subscription.amount_in_cents,
-        links: { cancel:, update: }
+        links: { cancel: }
       }
     )
   end
@@ -16,9 +16,5 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
     Exercism::Routes.cancel_api_payments_subscription_url(current_user.current_active_premium_subscription)
   end
 
-  def update
-    return nil unless current_user.current_active_premium_subscription.stripe?
-
-    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.current_active_premium_subscription)
-  end
+  # TODO: add update link
 end

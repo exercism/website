@@ -7,11 +7,12 @@ type Links = {
   update: string
 }
 
-type Provider = 'github' | 'paypal' | 'stripe'
+export type Provider = 'github' | 'paypal' | 'stripe'
 type ProviderInfoEntry = Record<'displayName' | 'updateLink', string>
-type ProviderInfo = Record<Provider, ProviderInfoEntry>
+type ProviderInfoKeys = Exclude<Provider, 'stripe'>
+type ProviderInfo = Record<ProviderInfoKeys, ProviderInfoEntry>
 
-const PROVIDER_INFO: Pick<ProviderInfo, 'github' | 'paypal'> = {
+export const PROVIDER_INFO: ProviderInfo = {
   github: {
     displayName: 'GitHub Sponsors',
     updateLink: 'https://github.com/settings/billing',
@@ -33,6 +34,8 @@ export default ({
   links,
   provider,
 }: SubscriptionFormProps): JSX.Element => {
+  const { displayName, updateLink } =
+    PROVIDER_INFO[provider as ProviderInfoKeys]
   return (
     <React.Fragment>
       <h2>
@@ -47,8 +50,8 @@ export default ({
         <FormOptions amount={amount} links={links} />
       ) : (
         <ExternalDonationManagement
-          displayName={PROVIDER_INFO[provider].displayName}
-          updateLink={PROVIDER_INFO[provider].updateLink}
+          displayName={displayName}
+          updateLink={updateLink}
         />
       )}
     </React.Fragment>

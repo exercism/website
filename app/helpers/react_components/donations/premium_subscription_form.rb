@@ -3,7 +3,7 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
     super(
       "premium-subscription-form",
       {
-        links: { cancel: }
+        links: { cancel:, insiders_path: Exercism::Routes.insiders_path }
       }.merge(donation_attributes)
     )
   end

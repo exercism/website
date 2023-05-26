@@ -8,7 +8,7 @@ export const InitializedOption = ({
   return (
     <div className="options">
       <button type="button" onClick={onCancelling} className="text-a-subtle">
-        Cancel your recurring donation
+        You can cancel Premium anytime.
       </button>
     </div>
   )

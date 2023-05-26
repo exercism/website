@@ -94,7 +94,9 @@ Rails.application.routes.draw do
 
   resources :insiders, only: [:index]
 
-  resource :premium, only: [:show], controller: 'premium'
+  resource :premium, only: [:show], controller: 'premium' do
+    get :paypal_pending
+  end
 
   resources :profiles, only: %i[index show new create] do
     collection do

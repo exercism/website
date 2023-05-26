@@ -19,7 +19,7 @@
                 to help everyone get better at programming.
               = link_to "Find out more", donate_path, class: "btn-primary btn-s"
 
-        - if current_user.total_donated_in_cents.positive?
+        - if current_user.current_active_donation_subscription
           - dollars, cents = current_user.total_donated_in_dollars.to_s.split('.')
           .summary-box.flex.flex-col.lg:flex-row.items-center
             .values.flex.items-center
@@ -66,7 +66,7 @@
                       %span View Receipt
 
 
-        - if current_user.total_donated_in_cents.present?
+        - else
           .summary-box
             %h3.text-h5.mb-4 Your donations will appear here
             %p.text-p-base.mb-4

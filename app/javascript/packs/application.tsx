@@ -17,7 +17,6 @@ const DonationsSubscriptionForm = lazy(
 const PremiumSubscriptionForm = lazy(
   () => import('../components/donations/PremiumSubscriptionForm')
 )
-
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
@@ -116,7 +115,7 @@ export const mappings = {
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
         amount={currency(data.amount_in_cents, { fromCents: true })}
-        links={data.links}
+        {...data}
       />
     </Suspense>
   ),

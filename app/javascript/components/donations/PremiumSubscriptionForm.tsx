@@ -1,30 +1,35 @@
 import React from 'react'
-import currency from 'currency.js'
 import { PremiumFormOptions } from './subscription-form/PremiumFormOptions'
+import { SubscriptionFormProps } from './SubscriptionForm'
 
-type Links = {
-  cancel: string
-  update: string
+const INTERVAL_INFO: Record<Intervals, string> = {
+  month: "monthly plan ($9.99/month). If you'd like to move to our annual plan",
+  year: "annual plan ($99.99/year). If you'd like to move to our monthly plan ($9.99)",
+  lifetime: '',
 }
 
+type Intervals = 'year' | 'month' | 'lifetime'
 export default ({
   amount,
   links,
-}: {
-  amount: currency
-  links: Links
-}): JSX.Element => {
+  interval,
+}: SubscriptionFormProps & { interval: Intervals }): JSX.Element => {
   return (
     <React.Fragment>
       <h2>
-        You&apos;re currently donating {amount.format()} each month to Exercism.
+        You&apos;re {interval !== 'lifetime' && 'currently'} subscribed to
+        Exercism Premium.
       </h2>
       <p className="text-p-base">
-        <strong>Thank you!</strong> Regular donations like yours allow us to
-        anticipate our cashflow and make responsible decisions about hiring and
-        growing Exercism.
+        You&apos;re currently on the {INTERVAL_INFO[interval]} please contact
+        loretta@exercism.org. to cancel your subscription, please use the
+        [paypal dashboard](....). if you&apos;d like even more features, you can
+        join [exercism insiders](...) and get premium for free forever, by
+        making a [one time donation](open $499 modal) of $499.
       </p>
       <PremiumFormOptions amount={amount} links={links} />
     </React.Fragment>
   )
 }
+
+// you're currently on the monthly plan ($9.99/month). if you'd like to move to our annual plan, please contact loretta@exercism.org. to cancel your subscription, please use the [paypal dashboard](....). if you'd like even more features, you can join [exercism insiders](...) and get premium for free forever, by making a [one time donation](open $499 modal) of $499.

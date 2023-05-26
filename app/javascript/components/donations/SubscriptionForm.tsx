@@ -7,13 +7,32 @@ type Links = {
   update: string
 }
 
+type Provider = 'github' | 'paypal' | 'stripe'
+type ProviderInfoEntry = Record<'displayName' | 'updateLink', string>
+type ProviderInfo = Record<Provider, ProviderInfoEntry>
+
+const PROVIDER_INFO: Pick<ProviderInfo, 'github' | 'paypal'> = {
+  github: {
+    displayName: 'GitHub Sponsors',
+    updateLink: 'https://github.com/settings/billing',
+  },
+  paypal: {
+    displayName: 'PayPal',
+    updateLink: 'https://github.com/settings/billing',
+  },
+}
+
+export type SubscriptionFormProps = {
+  amount: currency
+  links: Links
+  provider: Provider
+}
+
 export default ({
   amount,
   links,
-}: {
-  amount: currency
-  links: Links
-}): JSX.Element => {
+  provider,
+}: SubscriptionFormProps): JSX.Element => {
   return (
     <React.Fragment>
       <h2>
@@ -24,7 +43,29 @@ export default ({
         anticipate our cashflow and make responsible decisions about hiring and
         growing Exercism.
       </p>
-      <FormOptions amount={amount} links={links} />
+      {provider === 'stripe' ? (
+        <FormOptions amount={amount} links={links} />
+      ) : (
+        <ExternalDonationManagement
+          displayName={PROVIDER_INFO[provider].displayName}
+          updateLink={PROVIDER_INFO[provider].updateLink}
+        />
+      )}
     </React.Fragment>
+  )
+}
+
+export function ExternalDonationManagement({
+  displayName,
+  updateLink,
+}: ProviderInfoEntry): JSX.Element {
+  return (
+    <p className="text-p-base">
+      Your regular donation is managed by {displayName}. To modify or cancel
+      your recurring donation, please use{' '}
+      <a className="text-prominentLinkColor" href={updateLink}>
+        {displayName} Dashboard.
+      </a>
+    </p>
   )
 }

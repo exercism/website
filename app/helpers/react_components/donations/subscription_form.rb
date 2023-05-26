@@ -3,7 +3,7 @@ class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactCompo
     super(
       "donations-subscription-form",
       {
-        amount_in_cents: current_user.active_donation_subscription_amount_in_cents,
+        amount_in_cents: current_user.current_current_active_donation_subscription_amount_in_cents,
         links: { cancel:, update: }
       }
     )
@@ -11,14 +11,14 @@ class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactCompo
 
   private
   def cancel
-    return nil unless current_user.active_donation_subscription.stripe?
+    return nil unless current_user.current_active_donation_subscription.stripe?
 
-    Exercism::Routes.cancel_api_payments_subscription_url(current_user.active_donation_subscription)
+    Exercism::Routes.cancel_api_payments_subscription_url(current_user.current_active_donation_subscription)
   end
 
   def update
-    return nil unless current_user.active_donation_subscription.stripe?
+    return nil unless current_user.current_active_donation_subscription.stripe?
 
-    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.active_donation_subscription)
+    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.current_active_donation_subscription)
   end
 end

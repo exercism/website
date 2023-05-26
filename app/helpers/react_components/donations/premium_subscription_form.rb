@@ -3,7 +3,7 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
     super(
       "premium-subscription-form",
       {
-        amount_in_cents: current_user.active_premium_subscription.amount_in_cents,
+        amount_in_cents: current_user.current_active_premium_subscription.amount_in_cents,
         links: { cancel:, update: }
       }
     )
@@ -11,14 +11,14 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
 
   private
   def cancel
-    return nil unless current_user.active_premium_subscription.stripe?
+    return nil unless current_user.current_active_premium_subscription.stripe?
 
-    Exercism::Routes.cancel_api_payments_subscription_url(current_user.active_premium_subscription)
+    Exercism::Routes.cancel_api_payments_subscription_url(current_user.current_active_premium_subscription)
   end
 
   def update
-    return nil unless current_user.active_premium_subscription.stripe?
+    return nil unless current_user.current_active_premium_subscription.stripe?
 
-    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.active_premium_subscription)
+    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.current_active_premium_subscription)
   end
 end

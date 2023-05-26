@@ -20,9 +20,9 @@ class AssembleActiveSubscription
   def subscription
     case product.to_sym
     when :donation
-      user.active_donation_subscription
+      user.current_active_donation_subscription
     when :premium
-      user.active_premium_subscription
+      user.current_active_premium_subscription
     end
   end
 end

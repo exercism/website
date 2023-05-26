@@ -8,7 +8,7 @@
         .subscription-box.mb-16
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
-            - if current_user.active_premium_subscription
+            - if current_user.current_active_premium_subscription
               = render ReactComponents::Donations::PremiumSubscriptionForm.new
             - else
               -# TODO: update copy
@@ -22,7 +22,7 @@
 
 
 
-        - if current_user.active_premium_subscription
+        - if current_user.current_active_premium_subscription
           %table.payments
             %tr
               %th Date

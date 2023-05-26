@@ -231,13 +231,13 @@ class User < ApplicationRecord
   end
 
   memoize
-  def active_premium_subscription = payment_subscriptions.premium.active.last
+  def current_active_premium_subscription = payment_subscriptions.premium.active.last
 
   memoize
-  def active_donation_subscription = payment_subscriptions.donation.active.last
+  def current_active_donation_subscription = payment_subscriptions.donation.active.last
 
   memoize
-  def active_donation_subscription_amount_in_cents = active_donation_subscription&.amount_in_cents
+  def current_active_donation_subscription_amount_in_cents = current_active_donation_subscription&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars

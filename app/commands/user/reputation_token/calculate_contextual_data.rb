@@ -92,14 +92,20 @@ class User::ReputationToken::CalculateContextualData
   Data = Struct.new(:activity, :reputation)
   private_constant :Data
 
-  def with_cache(user)
+  def with_cache(user_id)
     redis = Exercism.redis_tooling_client
-    user_key = User::ReputationToken.cache_hash_for(user)
+    user_key = User::ReputationToken.cache_hash_for(user_id)
     value_key = ["contextual", earned_since, track_id, category].join("|")
 
     # Check for a cached version
     cached = redis.hget(user_key, value_key)
-    return JSON.parse(cached) if cached
+    if cached
+      parsed_value = JSON.parse(cached)
+
+      # Sometimes we get [] calculated/cached. I don't know why.
+      # But when that happens, let's not use the cached version!
+      return parsed_value if parsed_value.present?
+    end
 
     # Or yield and cache a new one
     yield.tap do |val|

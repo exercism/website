@@ -25,7 +25,7 @@ class Payments::Stripe::Payment::Create
   def product
     return subscription.product if subscription
 
-    # Premium payments are always linked to a subscription, even one-off payments
+    # Premium payments are always linked to a subscription
     :donation
   end
 

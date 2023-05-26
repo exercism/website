@@ -2,7 +2,7 @@ module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
     include ViewComponents::NavHelpers::All
-    include ViewComponents::ThemeToggleButton
+    # include ViewComponents::ThemeToggleButton
 
     delegate :namespace_name, :controller_name,
       to: :view_context
@@ -59,19 +59,17 @@ module ViewComponents
           safe_join(
             [
               generic_nav("Learn", submenu: LEARN_SUBMENU),
-              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
-              generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0),
-              generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150, view: :mentoring),
-              ReactComponents::Common::ThemeToggleButton.new(disabled_theme_toggle_button)
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20,
+                has_view: false),
+              generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0, has_view: false),
+              # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
+              generic_nav("Premium", path: Exercism::Routes.donate_path, offset: 150, view: (current_user&.premium? ? nil : :premium),
+                css_class: "premium"),
+              ReactComponents::Common::ThemeToggleButton.new(enabled: current_user.premium?)
             ]
           )
         end
       end
-    end
-
-    # TODO: Once merged into Premium feature branch, utilize the 'user.premium?' scope/method
-    def disabled_theme_toggle_button
-      %i[active active_lifetime].exclude?(current_user.insiders_status)
     end
 
     def si_nav_li(title, _icon_name, url, selected)

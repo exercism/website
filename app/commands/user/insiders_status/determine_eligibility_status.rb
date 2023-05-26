@@ -46,6 +46,5 @@ class User::InsidersStatus::DetermineEligibilityStatus
     user.payment_payments.where('amount_in_cents >= ?', LIFETIME_PREMIUM_AMOUNT).exists?
   end
 
-  # TODO: update launch date with actual launch date
-  LAUNCH_DATE = Date.new(2023, 5, 1).freeze
+  LAUNCH_DATE = Date.new(2023, 5, 30).freeze
 end

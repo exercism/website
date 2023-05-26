@@ -3,15 +3,28 @@
 # creation of the subscription within Stripe happens through
 # "payment intents".
 class Payments::Stripe::Subscription::Create
+  class UnknownSubscriptionIntervalError < RuntimeError; end
+
   include Mandate
 
   initialize_with :user, :stripe_data
 
-  def call = Payments::Subscription::Create.(user, :stripe, product, external_id, amount_in_cents)
+  def call = Payments::Subscription::Create.(user, :stripe, product, interval, external_id, amount_in_cents)
 
   private
   def external_id = stripe_data.id
   def price = stripe_data.items.data[0].price
   def amount_in_cents = price.unit_amount
   def product = Payments::Stripe::Product.from_product_id(price.product)
+
+  def interval
+    case price.recurring.interval.to_sym
+    when :month
+      :month
+    when :year
+      :year
+    else
+      raise UnknownSubscriptionIntervalError
+    end
+  end
 end

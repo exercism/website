@@ -1,3 +1,3 @@
 module FeatureFlag
-  # INSIDERS = !Rails.env.production?
+  PREMIUM = !Rails.env.production?
 end

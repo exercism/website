@@ -6,78 +6,101 @@ module ViewComponents
           title: "Language Tracks",
           description: "Upskill in 65+ languages",
           path: Exercism::Routes.tracks_path,
-          icon: :tracks,
+          icon: 'nav-tracks',
           view: :tracks
         },
 
         {
           title: "#12in23 Challenge",
-          description: "Try out 12 languages in 2023!",
+          description: "Try out 12 languages in 2023",
           path: Exercism::Routes.challenge_path('12in23'),
-          icon: :mentoring,
+          icon: 'nav-12in23',
           view: :challenge_12in23 # rubocop:disable Naming/VariableNumber
+        },
+
+        {
+          title: "Your Journey",
+          description: "Explore your Exercism journey",
+          path: Exercism::Routes.journey_path,
+          icon: 'nav-journey',
+          view: :journey
         }
       ].freeze
 
       CONTRIBUTE_SUBMENU = [
         {
           title: "Getting started",
-          description: "How you can help us build Exercism",
+          description: "How you can help Exercism",
           path: Exercism::Routes.contributing_root_path,
           icon: :overview,
-          view: :tracks
+          icon_filter: "textColor6"
         },
         {
           title: "Mentoring",
-          description: "Help ",
+          description: "Support others as they learn",
           path: Exercism::Routes.mentoring_path,
           icon: :mentoring,
-          view: :mentoring
+          icon_filter: "textColor6"
+        },
+        # {
+        #   title: "Explore tasks",
+        #   description: nil,
+        #   path: Exercism::Routes.contributing_tasks_path,
+        #   icon: :tasks,
+        #   view: :mentoring
+        # },
+
+        {
+          title: "Docs",
+          description: "Everything you need to help",
+          path: Exercism::Routes.docs_path,
+          icon: :docs,
+          icon_filter: "textColor6"
         },
         {
-          title: "Explore tasks",
-          description: nil,
-          path: Exercism::Routes.contributing_tasks_path,
-          icon: :tasks,
-          view: :mentoring
+          title: "Insiders",
+          description: "Our way of saying thank you",
+          path: Exercism::Routes.insiders_path,
+          icon: :insiders
         },
         {
           title: "Contributors",
-          description: nil,
+          description: "The people behind Exercism",
           path: Exercism::Routes.contributing_contributors_path,
           icon: :contributors,
-          view: :mentoring
-        },
-        {
-          title: "Docs",
-          description: nil,
-          path: Exercism::Routes.docs_path,
-          icon: :docs,
-          view: :mentoring
+          icon_filter: "textColor6"
         }
       ].freeze
 
       COMMUNITY_SUBMENU = [
         {
           title: "Forum",
+          description: "In-depth discussions",
           path: Exercism::Routes.forum_redirect_path,
           icon: :discourser,
-          icon_filter: 'none',
-          view: :mentoring
+          view: :forum
         },
         {
           title: "Discord",
+          description: "Chat live to the community",
           path: Exercism::Routes.discord_redirect_path,
           icon: 'external-site-discord-blue',
-          icon_filter: 'none',
-          view: :mentoring
+          view: :discord
         },
         {
-          title: "Stream",
+          title: "Community Content",
+          description: "1,000s of community videos",
           path: Exercism::Routes.youtube_redirect_path,
           icon: 'external-site-youtube',
-          icon_filter: 'none',
-          view: :mentoring
+          view: :community_content
+        },
+        {
+          title: "Community Stories",
+          description: "By inspired by others",
+          path: Exercism::Routes.youtube_redirect_path,
+          icon: 'megaphone',
+          icon_filter: "textColor6",
+          view: :community_stories
         }
       ].freeze
 

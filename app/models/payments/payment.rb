@@ -15,7 +15,7 @@ class Payments::Payment < ApplicationRecord
 
   def amount_in_dollars = amount_in_cents / BigDecimal(100)
   def self.total_supporters = select(:user_id).distinct.count
-  def self.total_donated_in_dollars = sum(:amount_in_cents) / BigDecimal(100)
+  def self.total_donated_in_dollars = donation.sum(:amount_in_cents) / BigDecimal(100)
 
   def provider = super.to_sym
   def product = super.to_sym

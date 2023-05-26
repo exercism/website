@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { redirectTo } from '@/utils/redirect-to'
+import { redirectTo } from '@/utils'
 
 export type PaypalStatusProps = {
   endpoint: string
@@ -29,6 +29,6 @@ export function PaypalStatus({
     }
   }, [data, premiumRedirectPath])
 
-  // TODO: makes this prettier?
-  return <div>Processing PayPal payment</div>
+  // TODO: pump up the 'p's in this processing prose!
+  return <div>Processing PayPal Payment</div>
 }

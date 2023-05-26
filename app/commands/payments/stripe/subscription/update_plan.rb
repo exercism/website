@@ -6,15 +6,13 @@ class Payments::Stripe::Subscription::UpdatePlan
   initialize_with :subscription, :interval
 
   def call
-    return if subscription.interval == interval
-
     stripe_data = Stripe::Subscription.retrieve(subscription.external_id)
 
     Stripe::Subscription.update(
       subscription.external_id,
       items: [{
         id: stripe_data.items.data[0].id,
-        price: Payments::Stripe::Price.price_id_from_interval(interval)
+        price:
       }],
       proration_behavior: 'none'
     )
@@ -22,5 +20,7 @@ class Payments::Stripe::Subscription::UpdatePlan
     Payments::Subscription::UpdateAmount.(subscription, amount_in_cents)
   end
 
-  def amount_in_cents = Payments::Stripe::Price.amount_in_cents_from_interval(interval)
+  memoize
+  def price = Payments::Stripe::Price.from_interval(interval)
+  def amount_in_cents = Payments::Stripe::Price.amount_in_cents(price)
 end

@@ -1,17 +1,26 @@
 module Payments::Stripe::Price
   class UnknownStripeIntervalError < RuntimeError; end
+  class UnknownStripePriceError < RuntimeError; end
 
-  def self.amount_in_cents_from_interval(interval)
-    case normalize_interval(interval)
-    when :month
-      999
-    when :year
-      9990
+  MONTH_AMOUNT_IN_CENTS = 999
+  YEAR_AMOUNT_IN_CENTS = 9999
+  LIFETIME_AMOUNT_IN_CENTS = 49_900
+
+  def self.amount_in_cents(price_id)
+    case price_id
+    when Exercism.secrets.stripe_premium_monthly_price_id
+      MONTH_AMOUNT_IN_CENTS
+    when Exercism.secrets.stripe_premium_yearly_price_id
+      YEAR_AMOUNT_IN_CENTS
+    when Exercism.secrets.stripe_premium_lifetime_price_id
+      LIFETIME_AMOUNT_IN_CENTS
+    else
+      raise Payments::Stripe::UnknownStripePriceError, "Unknown stripe price"
     end
   end
 
-  def self.price_id_from_interval(interval)
-    case normalize_interval(interval)
+  def self.from_interval(interval)
+    case interval
     when :month
       Exercism.secrets.stripe_premium_monthly_price_id
     when :year
@@ -20,17 +29,6 @@ module Payments::Stripe::Price
       Exercism.secrets.stripe_premium_lifetime_price_id
     else
       raise Payments::Stripe::UnknownStripeIntervalError, "Unknown subscription interval"
-    end
-  end
-
-  def normalize_interval(interval)
-    case interval
-    when :monthly
-      :month
-    when :yearly
-      :year
-    else
-      interval
     end
   end
 end

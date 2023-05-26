@@ -3,7 +3,7 @@ class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactCompo
     super(
       "donations-subscription-form",
       {
-        amount_in_cents: current_user.current_current_active_donation_subscription_amount_in_cents,
+        amount_in_cents: current_user.current_active_donation_subscription_amount_in_cents,
         links: { cancel:, update: }
       }
     )

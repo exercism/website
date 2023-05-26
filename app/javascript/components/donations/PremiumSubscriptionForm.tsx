@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { PremiumFormOptions } from './subscription-form/PremiumFormOptions'
 import {
   PROVIDER_INFO,
   Provider,
   SubscriptionFormProps,
 } from './SubscriptionForm'
-import { data } from 'autoprefixer'
 import currency from 'currency.js'
 import { Modal } from '../modals'
 import { ExercismStripeElements } from './ExercismStripeElements'
 import { StripeForm } from './StripeForm'
+import { redirectTo } from '@/utils/redirect-to'
+import { PriceOptionProps } from '../premium/PriceOption'
 
-type Links = Record<'cancel' | 'insidersPath', string>
+type Links = Record<'cancel' | 'insidersPath' | 'premiumRedirectLink', string>
 type Intervals = 'year' | 'month' | 'lifetime'
 type PremiumProviders = Exclude<Provider, 'github'>
 
@@ -21,17 +22,28 @@ export type PremiumSubscriptionProps = {
   interval: Intervals
   provider: PremiumProviders
   links: Links
-} & Pick<SubscriptionFormProps, 'amount'>
+} & Pick<SubscriptionFormProps, 'amount'> &
+  Pick<
+    PriceOptionProps,
+    'captchaRequired' | 'recaptchaSiteKey' | 'userSignedIn'
+  >
 
 export default ({
   amount,
   links,
   interval,
   provider,
+  captchaRequired,
+  recaptchaSiteKey,
+  userSignedIn,
 }: PremiumSubscriptionProps): JSX.Element => {
   const currentPlan = PLANS[interval === 'month' ? 0 : 1]
   const otherPlan = PLANS[interval === 'month' ? 1 : 0]
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
+
+  const handleSuccess = useCallback(() => {
+    redirectTo(links.premiumRedirectLink)
+  }, [links.premiumRedirectLink])
 
   return (
     <React.Fragment>
@@ -74,12 +86,18 @@ export default ({
                 Exercism Insiders
               </a>
             </strong>
-            &nbsp;and get Premium for free forever, by making a one time
-            donation of $499.
+            &nbsp;and get Premium for free forever, by making a&nbsp;
+            <button
+              className="underline"
+              onClick={() => setStripeModalOpen(true)}
+            >
+              one time donation of $499
+            </button>
+            .
           </p>
         </>
       )}
-      {/* <Modal
+      <Modal
         className="m-premium-stripe-form"
         onClose={() => setStripeModalOpen(false)}
         open={stripeModalOpen}
@@ -87,12 +105,15 @@ export default ({
       >
         <ExercismStripeElements>
           <StripeForm
-            {...data}
+            paymentIntentType="payment"
             amount={currency(499)}
-            onSuccess={()=>console.log('success!!')}
+            captchaRequired={captchaRequired}
+            recaptchaSiteKey={recaptchaSiteKey}
+            userSignedIn={userSignedIn}
+            onSuccess={handleSuccess}
           />
         </ExercismStripeElements>
-      </Modal> */}
+      </Modal>
     </React.Fragment>
   )
 }

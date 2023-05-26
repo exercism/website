@@ -36,7 +36,7 @@ class User::Premium::Update
   end
 
   memoize
-  def last_payment = user.payment_payments.premium.order(:id).last
+  def last_payment = user.payments.premium.order(:id).last
 
   LIFETIME_PREMIUM_UNTIL = Time.utc(9999, 12, 31).freeze
 end

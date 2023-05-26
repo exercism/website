@@ -4,7 +4,7 @@ import { Modal } from '../modals'
 import { GraphicalIcon } from '../common'
 import { ExercismStripeElements } from '../donations/ExercismStripeElements'
 import { PaymentIntentType, StripeForm } from '../donations/StripeForm'
-import PremiumSubscriptionSuccessModal from '../donations/PremiumSubscriptionSuccessModal'
+import { redirectTo } from '@/utils/redirect-to'
 
 export type PriceOptionProps = {
   userSignedIn: boolean
@@ -14,24 +14,17 @@ export type PriceOptionProps = {
   paymentIntentType: PaymentIntentType
   period: 'month' | 'year' | 'lifetime'
   paypalLink: string
+  premiumRedirectLink: string
 }
 
 type PriceCardProps = PriceOptionProps & { onStripeClick: () => void }
 
 export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
-  const [paymentMade, setPaymentMade] = useState(false)
 
-  const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
-
-  const handleSuccess = useCallback(
-    (_type: PaymentIntentType, amount: currency) => {
-      setPaymentAmount(amount)
-      setPaymentMade(true)
-      setStripeModalOpen(false)
-    },
-    []
-  )
+  const handleSuccess = useCallback(() => {
+    redirectTo(data.premiumRedirectLink)
+  }, [data.premiumRedirectLink])
 
   const handleModalOpen = useCallback(() => {
     setStripeModalOpen(true)
@@ -43,12 +36,6 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
         key={data.paymentIntentType}
         {...data}
         onStripeClick={handleModalOpen}
-      />
-      {/* TODO: add correct closelink here */}
-      <PremiumSubscriptionSuccessModal
-        open={paymentMade}
-        closeLink="/donate"
-        amount={paymentAmount}
       />
       <Modal
         className="m-premium-stripe-form"

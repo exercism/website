@@ -105,6 +105,14 @@ initReact({
     <Modals.WelcomeModal endpoint={data.endpoint} />
   ),
 
+  'modals-welcome-to-premium-modal': (data: any) => (
+    <Modals.WelcomeToPremiumModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-insiders-modal': (data: any) => (
+    <Modals.WelcomeToInsidersModal endpoint={data.endpoint} />
+  ),
+
   'maintaining-submissions-summary-table': (data: any) => (
     <Maintaining.SubmissionsSummaryTable
       submissions={data.submissions.map((s: any) => {

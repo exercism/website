@@ -7,7 +7,7 @@ class User::UpdateActiveDonationSubscriptionTest < ActiveSupport::TestCase
 
     User::UpdateActiveDonationSubscription.(user)
 
-    assert user.active_donation_subscription
+    assert user.active_donation_subscription?
   end
 
   test "sets active_donation_subscription to false if no active donation subscriptions exist" do
@@ -18,7 +18,7 @@ class User::UpdateActiveDonationSubscriptionTest < ActiveSupport::TestCase
 
     User::UpdateActiveDonationSubscription.(user)
 
-    refute user.active_donation_subscription
+    refute user.active_donation_subscription?
   end
 
   test "sets active_donation_subscription to false if no donation subscriptions exist" do
@@ -26,7 +26,7 @@ class User::UpdateActiveDonationSubscriptionTest < ActiveSupport::TestCase
 
     User::UpdateActiveDonationSubscription.(user)
 
-    refute user.active_donation_subscription
+    refute user.active_donation_subscription?
   end
 
   test "trigger insiders status update" do

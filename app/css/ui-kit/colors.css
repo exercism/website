@@ -670,24 +670,3 @@
         @inline .theme-light;
     }
 }
-
-/* @media (forced-colors: active) {
-    .shadow-lgZ1,
-    .shadow-base,
-    .shadow-lg,
-    .shadow-sm,
-    .shadow-lgv2,
-    .shadow-smZ1,
-    .shadow-baseZ1,
-    .shadow-dark_xsZ1,
-    .shadow-xsZ1v2,
-    .shadow-buttonS,
-    .shadow-xsZ1,
-    .shadow-xsZ1v3,
-    .shadow-launching,
-    .shadow-keystroke,
-    .\!shadow-xsZ1v2,
-    .\!shadow-none {
-        border: 2px ButtonText solid;
-    }
-} */

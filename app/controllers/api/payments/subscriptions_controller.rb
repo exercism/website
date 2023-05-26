@@ -6,7 +6,7 @@ class API::Payments::SubscriptionsController < API::BaseController
     render json: {
       subscription: {
         links: {
-          index: donations_settings_url
+          index: subscription.donation? ? donations_settings_url : premium_settings_url
         }
       }
     }

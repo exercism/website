@@ -7,9 +7,9 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
   ##########
   # Cancel #
   ##########
-  test "cancel proxies correctly" do
+  test "cancel proxies correctly for donation subscription" do
     user = create :user
-    subscription = create(:payments_subscription, user:)
+    subscription = create(:payments_subscription, :donation, user:)
 
     ::Payments::Stripe::Subscription::Cancel.expects(:call).with(subscription)
 
@@ -18,6 +18,20 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
 
     assert_response :ok
     expected = { subscription: { links: { index: donations_settings_url } } }
+    assert_equal(expected.to_json, response.body)
+  end
+
+  test "cancel proxies correctly for premium subscription" do
+    user = create :user
+    subscription = create(:payments_subscription, :premium, user:)
+
+    ::Payments::Stripe::Subscription::Cancel.expects(:call).with(subscription)
+
+    setup_user(user)
+    patch cancel_api_payments_subscription_path(subscription.id), headers: @headers, as: :json
+
+    assert_response :ok
+    expected = { subscription: { links: { index: premium_settings_url } } }
     assert_equal(expected.to_json, response.body)
   end
 

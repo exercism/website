@@ -450,6 +450,11 @@ export const mappings = {
       <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
     </Suspense>
   ),
+  'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PaypalStatus {...data} />
+    </Suspense>
+  ),
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -492,6 +497,10 @@ import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
 import { handleNavbarFocus } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton.js'
 import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
+import {
+  PaypalStatus,
+  PaypalStatusProps,
+} from '@/components/premium/PaypalStatus.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

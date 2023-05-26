@@ -10,7 +10,7 @@ class PremiumController < ApplicationController
     render action: :external
   end
 
-  def paypal_pending; end
+  def paypal_status; end
 
   # rubocop:disable Layout/LineLength
   FEATURES = [

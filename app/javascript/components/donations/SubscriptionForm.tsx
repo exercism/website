@@ -19,7 +19,7 @@ export const PROVIDER_INFO: ProviderInfo = {
   },
   paypal: {
     displayName: 'PayPal',
-    updateLink: 'https://github.com/settings/billing',
+    updateLink: 'https://www.paypal.com/myaccount/autopay/',
   },
 }
 
@@ -34,8 +34,6 @@ export default ({
   links,
   provider,
 }: SubscriptionFormProps): JSX.Element => {
-  const { displayName, updateLink } =
-    PROVIDER_INFO[provider as ProviderInfoKeys]
   return (
     <React.Fragment>
       <h2>
@@ -50,8 +48,8 @@ export default ({
         <FormOptions amount={amount} links={links} />
       ) : (
         <ExternalDonationManagement
-          displayName={displayName}
-          updateLink={updateLink}
+          displayName={PROVIDER_INFO[provider].displayName}
+          updateLink={PROVIDER_INFO[provider].updateLink}
         />
       )}
     </React.Fragment>

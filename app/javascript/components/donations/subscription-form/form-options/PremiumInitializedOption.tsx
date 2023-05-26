@@ -6,7 +6,7 @@ export const InitializedOption = ({
   onCancelling: () => void
 }): JSX.Element => {
   return (
-    <div className="options">
+    <div className="options mb-12">
       <button type="button" onClick={onCancelling} className="text-a-subtle">
         You can cancel Premium anytime.
       </button>

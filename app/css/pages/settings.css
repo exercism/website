@@ -289,7 +289,9 @@
             @apply text-h4 mb-4;
         }
         & p {
-            @apply mb-8;
+            &:not(&:last-child) {
+                @apply mb-8;
+            }
             & strong {
                 @apply font-medium text-textColor2;
             }
@@ -350,7 +352,7 @@
         }
     }
     & table.payments {
-        @apply w-100;
+        @apply w-100 table-fixed;
         & tr {
             @apply border-b-1 border-borderColor6;
         }

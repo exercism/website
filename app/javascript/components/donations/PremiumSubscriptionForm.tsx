@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PremiumFormOptions } from './subscription-form/PremiumFormOptions'
 import {
   PROVIDER_INFO,
   Provider,
   SubscriptionFormProps,
 } from './SubscriptionForm'
+import { data } from 'autoprefixer'
+import currency from 'currency.js'
+import { Modal } from '../modals'
+import { ExercismStripeElements } from './ExercismStripeElements'
+import { StripeForm } from './StripeForm'
 
 type Links = Record<'cancel' | 'insidersPath', string>
 type Intervals = 'year' | 'month' | 'lifetime'
@@ -26,6 +31,7 @@ export default ({
 }: PremiumSubscriptionProps): JSX.Element => {
   const currentPlan = PLANS[interval === 'month' ? 0 : 1]
   const otherPlan = PLANS[interval === 'month' ? 1 : 0]
+  const [stripeModalOpen, setStripeModalOpen] = useState(false)
 
   return (
     <React.Fragment>
@@ -57,12 +63,11 @@ export default ({
                 className="text-prominentLinkColor"
                 href={PROVIDER_INFO['paypal'].updateLink}
               >
-                PayPal Dashboard
+                PayPal Dashboard.
               </a>
-              .
             </p>
           )}
-          <p className="text-p-base">
+          <p className="text-p-base mt-12">
             If you&apos;d like even more features, you can join&nbsp;
             <strong>
               <a className="text-prominentLinkColor" href={links.insidersPath}>
@@ -74,6 +79,20 @@ export default ({
           </p>
         </>
       )}
+      {/* <Modal
+        className="m-premium-stripe-form"
+        onClose={() => setStripeModalOpen(false)}
+        open={stripeModalOpen}
+        theme="dark"
+      >
+        <ExercismStripeElements>
+          <StripeForm
+            {...data}
+            amount={currency(499)}
+            onSuccess={()=>console.log('success!!')}
+          />
+        </ExercismStripeElements>
+      </Modal> */}
     </React.Fragment>
   )
 }

@@ -26,7 +26,7 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
   #################
   test "update_amount proxies correctly" do
     user = create :user
-    subscription = create(:payments_subscription, user:)
+    subscription = create(:payments_subscription, :donation, user:)
     amount_in_cents = '5000'
 
     ::Payments::Stripe::Subscription::UpdateAmount.expects(:call).with(subscription, amount_in_cents)
@@ -37,5 +37,26 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
     assert_response :ok
     expected = { subscription: { links: { index: donations_settings_url } } }
     assert_equal(expected.to_json, response.body)
+  end
+
+  test "update_amount errors when subscription is premium subscription" do
+    user = create :user
+    subscription = create(:payments_subscription, :premium, user:)
+    amount_in_cents = '5000'
+
+    ::Payments::Stripe::Subscription::UpdateAmount.expects(:call).never
+
+    setup_user(user)
+    patch update_amount_api_payments_subscription_path(subscription.id, amount_in_cents:), headers: @headers, as: :json
+    assert_response :forbidden
+    assert_equal(
+      {
+        "error" => {
+          "type" => "no_donation_subscription",
+          "message" => "The subscription is not a donation subscription"
+        }
+      },
+      JSON.parse(response.body)
+    )
   end
 end

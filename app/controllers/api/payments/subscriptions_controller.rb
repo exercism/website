@@ -14,6 +14,8 @@ class API::Payments::SubscriptionsController < API::BaseController
 
   def update_amount
     subscription = current_user.payment_subscriptions.find(params[:id])
+    return render_403(:no_donation_subscription) unless subscription.donation?
+
     ::Payments::Stripe::Subscription::UpdateAmount.(subscription, params[:amount_in_cents])
 
     render json: {

@@ -452,7 +452,7 @@ export const mappings = {
   ),
   'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <PaypalStatus {...data} />
+      <PaypalStatus {...camelizeKeysAs<PaypalStatusProps>(data)} />
     </Suspense>
   ),
   'impact-map': (data: any) => {

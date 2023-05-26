@@ -26,4 +26,19 @@ class API::Payments::SubscriptionsController < API::BaseController
       }
     }
   end
+
+  def update_plan
+    subscription = current_user.payment_subscriptions.find(params[:id])
+    return render_403(:no_premium_subscription) unless subscription.premium?
+
+    ::Payments::Stripe::Subscription::UpdatePlan.(subscription, params[:interval].to_sym)
+
+    render json: {
+      subscription: {
+        links: {
+          index: premium_settings_url
+        }
+      }
+    }
+  end
 end

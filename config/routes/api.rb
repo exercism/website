@@ -41,6 +41,7 @@ namespace :api do
         member do
           patch :cancel
           patch :update_amount
+          patch :update_plan
         end
       end
     end

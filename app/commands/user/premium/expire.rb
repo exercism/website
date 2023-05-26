@@ -3,5 +3,8 @@ class User::Premium::Expire
 
   initialize_with :user
 
-  def call = User::Notification::CreateEmailOnly.defer(user, :expired_premium)
+  def call
+    user.update!(premium_until: nil)
+    User::Notification::CreateEmailOnly.defer(user, :expired_premium) if FeatureFlag::PREMIUM
+  end
 end

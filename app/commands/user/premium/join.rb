@@ -5,6 +5,6 @@ class User::Premium::Join
 
   def call
     user.update!(premium_until:)
-    User::Notification::CreateEmailOnly.defer(user, :joined_premium)
+    User::Notification::CreateEmailOnly.defer(user, :joined_premium) if FeatureFlag::PREMIUM
   end
 end

@@ -18,8 +18,8 @@ class User::InsidersStatus::Activate
     end
 
     User::UpdateFlair.(user)
+    User::Premium::Update.(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key)
-    User::Premium::Update.defer(user)
     AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime?
     User::SetDiscordRoles.defer(user)

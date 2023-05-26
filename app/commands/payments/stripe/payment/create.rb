@@ -25,7 +25,7 @@ class Payments::Stripe::Payment::Create
   def product
     return subscription.product if subscription
 
-    # Premium payments are always linked to a subscription, even one-off payments
+    # Premium payments are always linked to a subscription
     :donation
   end
 
@@ -39,7 +39,7 @@ class Payments::Stripe::Payment::Create
     return nil unless invoice.subscription
 
     begin
-      user.payment_subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)
+      user.subscriptions.find_by!(external_id: invoice.subscription, provider: :stripe)
     rescue ActiveRecord::RecordNotFound
       raise SubscriptionNotCreatedError
     end

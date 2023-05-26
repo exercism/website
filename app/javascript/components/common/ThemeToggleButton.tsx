@@ -68,12 +68,11 @@ function DisabledTooltip({
   premiumLink: string
 }): JSX.Element {
   return (
-    <div className="flex text-14">
-      Become&nbsp;
-      <a style={{ fontSize: '14px', color: '#F7B000' }} href={premiumLink}>
-        Premium
+    <div className="flex text-14 font-medium">
+      <a className="text-14 text-[#F7B000] underline" href={premiumLink}>
+        Join Premium
       </a>
-      &nbsp;to use this feature!
+      &nbsp;to enable Dark Mode
     </div>
   )
 }

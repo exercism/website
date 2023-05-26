@@ -52,7 +52,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
   end
 
-  test "ineligible: user is premium until last payment date + 45 days if that is in the future" do
+  test "ineligible: user is premium until last payment date + 1 month + 15 days if that is in the future" do
     freeze_time do
       user = create :user, insiders_status: :active, premium_until: Time.current
       subscription = create(:payments_subscription, :premium, status: :active, user:)
@@ -65,7 +65,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
         User::InsidersStatus::Update.(user.reload)
       end
 
-      assert_equal last_payment.created_at + 45.days, user.reload.premium_until
+      assert_equal last_payment.created_at + 1.month + 15.days, user.reload.premium_until
       assert user.premium?
     end
   end

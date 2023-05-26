@@ -14,6 +14,10 @@ const DonationsSubscriptionForm = lazy(
   () => import('../components/donations/SubscriptionForm')
 )
 
+const PremiumSubscriptionForm = lazy(
+  () => import('../components/donations/PremiumSubscriptionForm')
+)
+
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
@@ -111,6 +115,14 @@ export const mappings = {
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
+        amount={currency(data.amount_in_cents, { fromCents: true })}
+        links={data.links}
+      />
+    </Suspense>
+  ),
+  'premium-subscription-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <PremiumSubscriptionForm
         amount={currency(data.amount_in_cents, { fromCents: true })}
         links={data.links}
       />
@@ -442,6 +454,11 @@ export const mappings = {
       <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
     </Suspense>
   ),
+  'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PaypalStatus {...data} />
+    </Suspense>
+  ),
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -484,6 +501,10 @@ import { InsidersStatusData } from '../components/insiders/InsiderStatus'
 import { handleNavbarFocus } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
+import {
+  PaypalStatus,
+  PaypalStatusProps,
+} from '@/components/premium/PaypalStatus.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

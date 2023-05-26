@@ -6,8 +6,11 @@ class User::Premium::Update
   def call
     return if user.premium_until == premium_until
 
-    user.update!(premium_until:)
-    User::Notification::CreateEmailOnly.defer(user, :joined_lifetime_premium) if lifetime_premium?
+    if expire?
+      User::Premium::Expire.(user)
+    else
+      User::Premium::Join.(user, premium_until)
+    end
   end
 
   private
@@ -19,31 +22,21 @@ class User::Premium::Update
   end
 
   def lifetime_premium? = user.insider?
+  def expire? = premium_until.nil?
 
   memoize
   def last_payment_premium_until
     return nil if last_payment.nil?
-    return nil if last_payment_grace_period.nil?
-
-    new_premium_until = last_payment.created_at + last_payment_grace_period
-    return nil if new_premium_until <= Time.current
-
-    new_premium_until
-  end
-
-  memoize
-  def last_payment = user.payment_payments.premium.order(:id).last
-
-  memoize
-  def last_payment_grace_period
-    return nil if last_payment.nil?
     return nil if last_payment.subscription.nil?
 
-    return 45.days if last_payment.subscription.active?
-    return 45.days if last_payment.subscription.overdue?
+    next_payment_date = last_payment.created_at + last_payment.subscription.time_interval + last_payment.subscription.grace_period
+    return nil if next_payment_date <= Time.current
 
-    30.days
+    next_payment_date
   end
+
+  memoize
+  def last_payment = user.payments.premium.order(:id).last
 
   LIFETIME_PREMIUM_UNTIL = Time.utc(9999, 12, 31).freeze
 end

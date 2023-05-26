@@ -8,9 +8,12 @@
             @apply p-24;
         }
 
-        .nav-element-link,
         .nav-element-label {
             @apply text-16 text-textColor6 font-semibold;
+        }
+
+        .nav-element-link,
+        .nav-element-label {
             @apply flex items-center relative;
 
             &:hover + .nav-element-dropdown,
@@ -65,21 +68,38 @@
             border-radius: 3px;
             vertical-align: middle;
         }
+        &.premium {
+            .arrow {
+                /* bottom:-10px; */
+                z-index: 50;
+                @apply bg-darkBlueViolet;
+            }
+            .nav-element-dropdown {
+                /* @apply !visible !opacity-[1]; */
+                @apply !h-auto;
+                outline: none;
+                .nav-dropdown-view {
+                    @apply !border-2 !border-gradient !p-0 !h-auto overflow-hidden;
+                    @apply !top-[-10px];
+                    .nav-dropdown-view-content {
+                        @apply flex flex-col;
+                    }
+                }
+            }
+        }
         .nav-element-dropdown {
-            --nd-height: 380px;
-            --nd-width: 700px;
             --dropdown-offset: 0px;
-            --nd-ul-ratio: 2 / 5;
-            --nd-view-ratio: 3 / 5;
-            --nd-ul-width: calc(var(--nd-width) * var(--nd-ul-ratio));
-            --nd-view-width: calc(var(--nd-width) * var(--nd-view-ratio));
+            --nd-ul-width: 320px;
+            --nd-view-width: 420px;
+            --nd-height: 380px;
+            --nd-width: calc(var(--nd-ul-width) + var(--nd-view-width));
 
             height: var(--nd-height);
             width: var(--nd-width);
             left: var(--dropdown-offset);
             @apply top-64 z-menu;
             transform: translateY(-10px);
-            @apply shadow-base rounded-8;
+            @apply shadow-navDropdown rounded-8;
             background: var(--nav-backgroundColor);
             outline: 8px solid var(--nav-backgroundColor);
 
@@ -101,11 +121,35 @@
                 margin: -8px;
             }
 
+            &.has-view {
+                .nav-dropdown-element {
+                    @apply gap-12;
+                }
+                .nav-element-link {
+                    .c-icon {
+                        height: 48px;
+                        width: 48px;
+                    }
+                }
+            }
             &.has-no-view {
-                width: var(--nd-ul-width);
+                width: auto;
                 height: auto;
+                ul {
+                    width: auto;
+                }
                 ul li {
                     @apply pr-0;
+                }
+                .nav-dropdown-element {
+                    @apply gap-20;
+                    @apply pr-40;
+                }
+                .nav-element-link {
+                    .c-icon {
+                        height: 24px;
+                        width: 24px;
+                    }
                 }
             }
             ul {
@@ -137,26 +181,20 @@
                         }
                     }
                     .nav-dropdown-element {
-                        --nd-element-icon-size: 24px;
-                        @apply p-16 rounded-8 flex gap-8 items-center;
+                        @apply px-12 py-10 rounded-8 flex items-center;
                         @apply w-100;
-                        .c-icon {
-                            height: var(--nd-element-icon-size);
-                            width: var(--nd-element-icon-size);
-                        }
 
                         h6 {
-                            @apply text-14 text-textColor1 leading-160;
+                            @apply text-h6 text-textColor1 mb-2;
                         }
 
                         p {
-                            @apply text-13;
+                            @apply text-p-small text-textColor1;
                             /* li-width - (padding*2+icon-size*2+gap) */
-                            width: calc(var(--nd-ul-width) - 72px);
+                            /* width: calc(var(--nd-ul-width) - 72px); */
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
-                            @apply leading-150;
                         }
                     }
                     .nav-element-link {
@@ -166,10 +204,6 @@
                         }
                         @apply whitespace-nowrap;
                         @apply cursor-pointer;
-                        & .c-icon {
-                            height: 16px;
-                            width: 16px;
-                        }
                     }
 
                     &:first-child {

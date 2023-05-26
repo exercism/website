@@ -1,6 +1,6 @@
 class PremiumController < ApplicationController
   skip_before_action :authenticate_user!
-  def index
+  def show
     return external unless current_user&.premium?
   end
 
@@ -9,6 +9,8 @@ class PremiumController < ApplicationController
 
     render action: :external
   end
+
+  def paypal_status; end
 
   # rubocop:disable Layout/LineLength
   FEATURES = [

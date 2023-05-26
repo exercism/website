@@ -54,3 +54,5 @@ en:
       invalid_metric_type: "The metric type is invalid"
       profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"
       invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"
+      no_donation_subscription: "The subscription is not a donation subscription"
+      no_premium_subscription: "The subscription is not a premium subscription"

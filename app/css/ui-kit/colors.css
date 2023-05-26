@@ -335,7 +335,6 @@
         brightness(97%) contrast(80%);
     --dark-purple-filter: invert(20%) sepia(60%) saturate(1812%)
         hue-rotate(229deg) brightness(92%) contrast(89%);
-    --exercism-with-logo-black-filter: var(--textColor1-filter);
     --selected-tab-icon-filter: var(--purple-filter);
 
     /* TODO: Replace with purple-filter */
@@ -392,6 +391,8 @@
     --c-concept-map-line-faded: #d2ddf3;
 }
 
+body.namespace-.controller-insiders.theme-light,
+body.namespace-.controller-premium.theme-light,
 .theme-dark {
     color-scheme: dark;
 
@@ -628,8 +629,6 @@
     /* --purple-filter: var(--filter-FFFFFF); */
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
-
-    --exercism-with-logo-black-filter: var(--textColor6-filter);
 
     /* aliceBlue */
     --selected-tab-icon-filter: invert(94%) sepia(7%) saturate(129%)

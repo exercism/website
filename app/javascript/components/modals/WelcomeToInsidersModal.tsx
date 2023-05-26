@@ -7,7 +7,7 @@ import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export const WelcomeInsidersModal = ({
+export const WelcomeToInsidersModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {

@@ -1,11 +1,11 @@
 module ReactComponents
   module Modals
-    class WelcomePremiumModal < ReactComponent
+    class WelcomeToInsidersModal < ReactComponent
       def to_s
         return if current_user.introducer_dismissed?(slug)
 
         super(
-          "modals-welcome-premium-modal",
+          "modals-#{slug}",
           {
             endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug)
           }
@@ -13,9 +13,7 @@ module ReactComponents
       end
 
       private
-      def slug
-        "welcome-premium-modal"
-      end
+      def slug = "welcome-to-insiders-modal"
     end
   end
 end

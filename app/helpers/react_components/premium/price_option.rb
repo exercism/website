@@ -9,7 +9,7 @@ module ReactComponents
             user_signed_in: user_signed_in?,
             captcha_required: !current_user || current_user.captcha_required?,
             recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
-            premium_redirect_link: Exercism::Routes.premium_index_path
+            premium_redirect_link: Exercism::Routes.premium_path
           }.merge(send("data_for_#{type}"))
         )
       end

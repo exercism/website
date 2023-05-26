@@ -1,5 +1,5 @@
 export { WelcomeModal } from './WelcomeModal'
-export { WelcomePremiumModal } from './WelcomePremiumModal'
-export { WelcomeInsidersModal } from './WelcomeInsidersModal'
+export { WelcomeToPremiumModal } from './WelcomeToPremiumModal'
+export { WelcomeToInsidersModal } from './WelcomeToInsidersModal'
 export { Modal } from './Modal'
 export { UploadVideoModal } from './upload-video'

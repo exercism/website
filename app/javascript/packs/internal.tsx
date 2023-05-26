@@ -105,12 +105,12 @@ initReact({
     <Modals.WelcomeModal endpoint={data.endpoint} />
   ),
 
-  'modals-welcome-premium-modal': (data: any) => (
-    <Modals.WelcomePremiumModal endpoint={data.endpoint} />
+  'modals-welcome-to-premium-modal': (data: any) => (
+    <Modals.WelcomeToPremiumModal endpoint={data.endpoint} />
   ),
 
-  'modals-welcome-insiders-modal': (data: any) => (
-    <Modals.WelcomeInsidersModal endpoint={data.endpoint} />
+  'modals-welcome-to-insiders-modal': (data: any) => (
+    <Modals.WelcomeToInsidersModal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (

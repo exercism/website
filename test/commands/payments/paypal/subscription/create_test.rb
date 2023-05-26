@@ -7,7 +7,7 @@ class Payments::Paypal::Subscription::CreateTest < Payments::TestBase
     amount = 15
     amount_in_cents = 1500
 
-    Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation)
+    Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation, :year)
 
     assert_equal 1, Payments::Subscription.count
 
@@ -18,6 +18,7 @@ class Payments::Paypal::Subscription::CreateTest < Payments::TestBase
     assert_equal :active, subscription.status
     assert_equal :paypal, subscription.provider
     assert_equal :donation, subscription.product
+    assert_equal :year, subscription.interval
     assert user.active_donation_subscription?
   end
 
@@ -27,7 +28,7 @@ class Payments::Paypal::Subscription::CreateTest < Payments::TestBase
     amount = 15
     amount_in_cents = 1500
 
-    Payments::Paypal::Subscription::Create.(user, node_id, amount, :premium)
+    Payments::Paypal::Subscription::Create.(user, node_id, amount, :premium, :month)
 
     assert_equal 1, Payments::Subscription.count
 
@@ -38,6 +39,7 @@ class Payments::Paypal::Subscription::CreateTest < Payments::TestBase
     assert_equal :active, subscription.status
     assert_equal :paypal, subscription.provider
     assert_equal :premium, subscription.product
+    assert_equal :month, subscription.interval
     refute user.active_donation_subscription?
   end
 
@@ -46,8 +48,8 @@ class Payments::Paypal::Subscription::CreateTest < Payments::TestBase
     node_id = SecureRandom.uuid
     amount = 15
 
-    sub_1 = Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation)
-    sub_2 = Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation)
+    sub_1 = Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation, :month)
+    sub_2 = Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation, :month)
 
     assert_equal 1, Payments::Subscription.count
     assert_equal sub_1, sub_2
@@ -59,6 +61,6 @@ class Payments::Paypal::Subscription::CreateTest < Payments::TestBase
     amount = 15
     User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
 
-    Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation)
+    Payments::Paypal::Subscription::Create.(user, node_id, amount, :donation, :month)
   end
 end

@@ -84,7 +84,7 @@ class Payments::Payment::CreateTest < Payments::TestBase
 
       payment = Payments::Payment::Create.(user, provider, :premium, id, amount, receipt_url, subscription:)
 
-      assert_equal payment.created_at + 45.days, user.premium_until
+      assert_equal payment.created_at + 1.month + 15.days, user.premium_until
     end
   end
 

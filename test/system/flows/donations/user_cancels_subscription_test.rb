@@ -16,7 +16,7 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit donations_settings_path
-          click_on "cancel your recurring donation"
+          click_on "Cancel your recurring donation"
           click_on "Yes - please cancel it."
 
           assert_no_text "You're currently donating"

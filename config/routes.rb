@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     get :user_preferences
     get :communication_preferences
     get :donations
+    get :premium
     get :integrations
     patch :reset_account
     delete :destroy_account

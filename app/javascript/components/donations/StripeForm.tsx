@@ -77,6 +77,11 @@ export function StripeForm({
   const stripe = useStripe()
   const elements = useElements()
 
+  // Focus on the card number once the element loads
+  const handleCardReady = async (event: StripeCardElementReadyEvent) => {
+    event.focus()
+  }
+
   const handleCardChange = async (event: StripeCardElementChangeEvent) => {
     // When we've got a completed card with no errors, set the card to be valid
     setCardValid(event.complete && !event.error)
@@ -228,11 +233,18 @@ export function StripeForm({
       ) : null}
       <div className="card-container">
         <div className="title">
-          {paymentIntentType.startsWith('premium') ? 'Subscribe' : 'Donate'}{' '}
-          with Card
+          {paymentIntentType.startsWith('premium')
+            ? `You are subscribing for ${amount.format()} / ${generateIntervalText(
+                paymentIntentType
+              )}`
+            : 'Donate with Card'}
         </div>
         <div className="card-element">
-          <CardElement options={cardOptions} onChange={handleCardChange} />
+          <CardElement
+            options={cardOptions}
+            onChange={handleCardChange}
+            onReady={handleCardReady}
+          />
           <button
             className="btn-primary btn-s"
             type="submit"
@@ -275,8 +287,19 @@ function generateStripeButtonText(
     case 'subscription':
       return `Donate ${amount.format()} to Exercism monthly`
     case 'premium_monthly_subscription':
-      return `Subscribe for Premium for ${amount.format()}/month`
+      return 'Subscribe to Premium'
     case 'premium_yearly_subscription':
-      return `Subscribe for Premium for ${amount.format()}/year`
+      return 'Subscribe to Premium'
+  }
+}
+
+function generateIntervalText(paymentIntent: PaymentIntentType) {
+  switch (paymentIntent) {
+    case 'premium_monthly_subscription':
+      return `month`
+    case 'premium_yearly_subscription':
+      return `year`
+    default:
+      return ''
   }
 }

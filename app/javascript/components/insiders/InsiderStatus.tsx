@@ -12,7 +12,7 @@ const STATUS_DATA = {
   },
 
   ineligible: {
-    text: 'Insiders is available to contributors, mentors, and regular donors. Earn rep or set up up a recurring donation to get access.',
+    text: 'Insiders is available to contributors, mentors, and regular donors. Earn Exercism reputation or donate $499 or more get access.',
     css: '--ineligible',
   },
 
@@ -27,7 +27,7 @@ const STATUS_DATA = {
   },
 }
 
-const BUTTON_TEXT = ['Set up a Recurring Donation', 'Get access to Insiders']
+const BUTTON_TEXT = ['Donate to Exercism', 'Get access to Insiders']
 
 type InsiderStatus = 'eligible' | 'eligible_lifetime' | 'unset' | 'ineligible'
 export type InsidersStatusData = {

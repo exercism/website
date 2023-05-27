@@ -6,8 +6,8 @@
           Exercism Insiders
           = graphical_icon "insiders", css_class: 'h-[32px] md:h-[64px] w-[32px] md:w-[64px]'
         %h3.text-h3.mb-16 Our way of saying thank you.
-        %h5.launching Launching May 4th 2023
-        %p.text-p-xlarge.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
+        -# %h5.launching Launching May 4th 2023
+        %p.text-p-xlarge.mb-24 Insiders is our exclusive membership club for contributors, mentors, and large donors. Get behind the scenes access, exclusive badges, and Exercism Premium for free.
         - if current_user.present?
           = render ReactComponents::Insiders::InsidersStatus.new
 

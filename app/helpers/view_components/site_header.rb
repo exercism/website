@@ -59,11 +59,13 @@ module ViewComponents
         tag.ul do
           safe_join(
             [
-              generic_nav("Learn", submenu: LEARN_SUBMENU),
+              generic_nav("Learn", submenu: LEARN_SUBMENU, path: Exercism::Routes.tracks_path, has_view: true),
+              generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
               generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
-              generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0),
+              generic_nav("More", submenu: MORE_SUBMENU, offset: 0),
               # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
-              generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150, view: (current_user&.premium? ? nil : :premium),
+              generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150,
+                has_view: true, view: (current_user&.premium? ? nil : :premium),
                 css_class: "premium"),
               ReactComponents::Common::ThemeToggleButton.new(enabled: current_user.premium?)
             ]

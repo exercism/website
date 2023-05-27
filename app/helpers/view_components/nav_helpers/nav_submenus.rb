@@ -27,6 +27,46 @@ module ViewComponents
         }
       ].freeze
 
+      DISCOVER_SUBMENU = [
+        {
+          title: "Community Content",
+          description: "Streaming, walkthroughs & more",
+          path: Exercism::Routes.youtube_redirect_path,
+          icon: 'external-site-youtube',
+          view: :community_content
+        },
+
+        {
+          title: "Discord",
+          description: "Chat & hang with the community",
+          path: Exercism::Routes.discord_redirect_path,
+          icon: 'external-site-discord-blue',
+          view: :discord
+        },
+        {
+          title: "Forum",
+          description: "Dig deeper into topics",
+          path: Exercism::Routes.forum_redirect_path,
+          icon: :discourser,
+          view: :forum
+        },
+        {
+          title: "Brief Introduction Series",
+          description: "Language intro videos",
+          path: "#",
+          icon: :overview,
+          icon_filter: "textColor6"
+        },
+        {
+          title: "Community Stories",
+          description: "Get inspired by people's stories",
+          path: Exercism::Routes.youtube_redirect_path,
+          icon: 'megaphone',
+          icon_filter: "textColor6",
+          view: :community_stories
+        }
+      ].freeze
+
       CONTRIBUTE_SUBMENU = [
         {
           title: "Getting started",
@@ -57,6 +97,24 @@ module ViewComponents
           icon: :docs,
           icon_filter: "textColor6"
         },
+
+        {
+          title: "Contributors",
+          description: "Meet the people behind Exercism",
+          path: Exercism::Routes.contributing_contributors_path,
+          icon: :contributors,
+          icon_filter: "textColor6"
+        }
+      ].freeze
+
+      MORE_SUBMENU = [
+        {
+          title: "SWAG",
+          description: "Hoodies, stickers & more",
+          path: 'https://swag.exercism.org',
+          icon: :contributors,
+          icon_filter: "textColor6"
+        },
         {
           title: "Insiders",
           description: "Our way of saying thank you",
@@ -64,44 +122,20 @@ module ViewComponents
           icon: :insiders
         },
         {
-          title: "Contributors",
-          description: "The people behind Exercism",
-          path: Exercism::Routes.contributing_contributors_path,
+          title: "About Exercism",
+          description: "Our way of saying thank you",
+          path: Exercism::Routes.about_path,
+          icon: :contributors,
+          icon_filter: "textColor6"
+        },
+        {
+          title: "Donate",
+          description: "Help support our mission",
+          path: Exercism::Routes.donate_path,
           icon: :contributors,
           icon_filter: "textColor6"
         }
-      ].freeze
 
-      COMMUNITY_SUBMENU = [
-        {
-          title: "Forum",
-          description: "In-depth discussions",
-          path: Exercism::Routes.forum_redirect_path,
-          icon: :discourser,
-          view: :forum
-        },
-        {
-          title: "Discord",
-          description: "Chat live to the community",
-          path: Exercism::Routes.discord_redirect_path,
-          icon: 'external-site-discord-blue',
-          view: :discord
-        },
-        {
-          title: "Community Content",
-          description: "1,000s of community videos",
-          path: Exercism::Routes.youtube_redirect_path,
-          icon: 'external-site-youtube',
-          view: :community_content
-        },
-        {
-          title: "Community Stories",
-          description: "By inspired by others",
-          path: Exercism::Routes.youtube_redirect_path,
-          icon: 'megaphone',
-          icon_filter: "textColor6",
-          view: :community_stories
-        }
       ].freeze
 
       def nav_dropdown_tracks_view

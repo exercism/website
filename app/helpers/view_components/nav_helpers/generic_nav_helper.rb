@@ -1,7 +1,7 @@
 module ViewComponents
   module NavHelpers
     module GenericNavHelper
-      def generic_nav(nav_title, submenu: nil, view: nil, path: nil, offset: 0, has_view: true, css_class: nil)
+      def generic_nav(nav_title, submenu: nil, view: nil, path: nil, offset: 0, has_view: false, css_class: nil)
         tag.li class: "nav-element #{css_class}" do
           content = conditional_link(path) do
             tag.span(nav_title, tabindex: path.nil? ? 0 : -1, role: 'none',

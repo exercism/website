@@ -17,7 +17,6 @@ const DonationsSubscriptionForm = lazy(
 const PremiumSubscriptionForm = lazy(
   () => import('../components/donations/PremiumSubscriptionForm')
 )
-
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
@@ -115,16 +114,16 @@ export const mappings = {
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
+        {...data}
         amount={currency(data.amount_in_cents, { fromCents: true })}
-        links={data.links}
       />
     </Suspense>
   ),
   'premium-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <PremiumSubscriptionForm
+        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
         amount={currency(data.amount_in_cents, { fromCents: true })}
-        links={data.links}
       />
     </Suspense>
   ),
@@ -501,10 +500,11 @@ import { InsidersStatusData } from '../components/insiders/InsiderStatus'
 import { handleNavbarFocus } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
+import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
 import {
   PaypalStatus,
   PaypalStatusProps,
-} from '@/components/premium/PaypalStatus.js'
+} from '@/components/premium/PaypalStatus'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

@@ -39,7 +39,7 @@ export function ThemeButton({
           }}
           className={`flex items-center justify-center border-1 border-borderColor6 rounded-8 ${
             selected && '--selected-theme'
-          }`}
+          } ${theme.value === 'sepia' && 'sepia'}`}
           onClick={onClick}
         >
           <GraphicalIcon

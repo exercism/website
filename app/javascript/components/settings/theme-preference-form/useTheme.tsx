@@ -34,7 +34,7 @@ export function useTheme(
   })
 
   useEffect(() => {
-    if (debouncedTheme) {
+    if (debouncedTheme && debouncedTheme !== defaultThemePreference) {
       mutation()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

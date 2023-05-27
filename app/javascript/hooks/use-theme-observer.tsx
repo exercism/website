@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react'
 
+const THEMES = [
+  'theme-dark',
+  'theme-light',
+  'theme-system',
+  'theme-sepia',
+] as const
 interface ThemeData {
-  theme: 'theme-dark' | 'theme-light' | 'theme-system'
-  binaryTheme: 'theme-dark' | 'theme-light'
+  theme: typeof THEMES[number]
+  explicitTheme: 'theme-dark' | 'theme-light' | 'theme-sepia'
 }
 
-const THEMES = ['theme-dark', 'theme-light', 'theme-system']
-
-const getBinaryTheme = (
+const getExplicitTheme = (
   theme: ThemeData['theme'],
   isDarkMode: boolean
-): ThemeData['binaryTheme'] => {
+): ThemeData['explicitTheme'] => {
   if (theme === 'theme-system') {
     return isDarkMode ? 'theme-dark' : 'theme-light'
   }
@@ -29,7 +33,7 @@ export function useThemeObserver(): ThemeData {
   )
   const [themeData, setThemeData] = useState<ThemeData>({
     theme: getThemeFromClassList(),
-    binaryTheme: getBinaryTheme(getThemeFromClassList(), isDarkMode),
+    explicitTheme: getExplicitTheme(getThemeFromClassList(), isDarkMode),
   })
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export function useThemeObserver(): ThemeData {
           const theme = getThemeFromClassList()
           setThemeData({
             theme,
-            binaryTheme: getBinaryTheme(theme, isDarkMode),
+            explicitTheme: getExplicitTheme(theme, isDarkMode),
           })
           break
         }
@@ -55,7 +59,7 @@ export function useThemeObserver(): ThemeData {
       if (themeData.theme === 'theme-system') {
         setThemeData((prev) => ({
           ...prev,
-          binaryTheme: getBinaryTheme(prev.theme, isDark),
+          explicitTheme: getExplicitTheme(prev.theme, isDark),
         }))
       }
     }

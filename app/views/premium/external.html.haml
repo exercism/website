@@ -15,7 +15,7 @@
               %strong{ class: "!text-white" } Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
             and more.
           %p.text-p-large.mb-24
-            (All while supporting our open-source, not-for-profit mission! 💙)
+            (All while supporting our mission of equal education for all! 💙)
 
           .flex.flex-row.gap-16
             = link_to "Upgrade to Premium", "#pricing-section", class: 'btn-l btn-primary basis-1/2', data: { turbo: false }
@@ -45,19 +45,22 @@
       %p.text-p-xlarge.mb-16.relative Subscribe monthly, annually, or forever!
 
       .grid.grid-cols-3.gap-32.justify-center.my-32
-        .price-card.border-gradient-russianViolet
+        .price-card.border-purpleDarker3
           %h2.text-h2 Monthly
           .price $9.99/month
           %p.text-p-base.mb-auto Subscribe monthly and enjoy all our Premium features for as long as you stay subscribed. Cancel anytime or convert to an annual or Insiders membership later.
           = render ReactComponents::Premium::PriceOption.new(:monthly)
 
         .price-card.border-gradient-russianViolet
+          .most-popular Most popular
           %h2.text-h2 Annually
           .price $99/year
-          %p.text-p-base.mb-auto Subscribe annually, enjoy Premium for a whole year, plus get a month of access to Exercism Insiders exclusive behind-the-scenes videos. Membership will renew annually.
+          %p.text-p-base.mb-auto
+            %strong.text-white.font-semibold Save over 20%
+            by subscribing annually. Enjoy Premium for a whole year, and get access to new features as they're released. Your membership will renew annually.
           = render ReactComponents::Premium::PriceOption.new(:yearly)
 
-        .price-card.border-gradient-russianViolet
+        .price-card.border-2.border-purpleDarkened
           %h2.text-h2 Become an Insider
           .price $499
           %p.text-p-base.mb-32 Enjoy full lifetime access to both Exercism Premium and Exercism Insiders, giving you behind-the-scenes access to videos and exclusive team community spaces.

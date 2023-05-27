@@ -24,7 +24,7 @@ class PremiumController < ApplicationController
       desc: "Unlock more simultaneous mentoring slots per track without needing to earn reputation, and improve the speed at which you can work through a track with our mentors support.", filter: true },
     { icon: 'badges', title: 'Exclusive Badges',
       desc: "Immediately recieve the rare Premium Member badge for your profile. Then unlock extra exclusive badges as you use Exercism - only available to Premium members.", filter: true },
-    { icon: 'megaphone', title: 'Exclusive Perks',
+    { icon: 'perks', title: 'Exclusive Perks',
       desc: "Receive exclusive discounts and offers from our partners as part of Exercism Perks. Get cheaper products, services, books and more, all through Premium. (Perks launching soon)", filter: true }
   ].freeze
   # rubocop:enable Layout/LineLength

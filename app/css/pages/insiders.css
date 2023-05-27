@@ -29,7 +29,7 @@
     }
 
     .features {
-        @apply grid lg:grid-cols-3 grid-cols-1 gap-24 mb-56;
+        @apply grid lg:grid-cols-3 grid-cols-1 gap-24 pb-20;
         .feature {
             .c-icon {
                 height: 45px;
@@ -102,18 +102,10 @@
     }
 
     .gradient-container {
-        @apply py-64;
         background: linear-gradient(
             180deg,
             #221e31 0%,
             rgba(34, 30, 49, 0) 100%
         );
-        .c-icon {
-            @apply absolute;
-        }
-        h2,
-        p {
-            @apply text-center;
-        }
     }
 }

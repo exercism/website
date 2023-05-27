@@ -22,8 +22,6 @@ class User::Data < ApplicationRecord
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
 
   def premium?
-    return true if !FeatureFlag::PREMIUM && insider?
-
     (premium_until.present? && premium_until > Time.current)
   end
 

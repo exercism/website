@@ -12,7 +12,7 @@ const STATUS_DATA = {
   },
 
   ineligible: {
-    text: 'Insiders is available to contributors, mentors, and regular donors. Earn Exercism reputation or donate $499 or more get access.',
+    text: 'Insiders is available to contributors, mentors, and regular donors. Earn Exercism reputation or donate $499+ to gain access.',
     css: '--ineligible',
   },
 

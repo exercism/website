@@ -110,7 +110,8 @@
     }
 
     .price-card {
-        @apply flex flex-col p-24 rounded-16 bg-russianViolet mb-16 border-2 border-transparent;
+        @apply flex flex-col p-24 rounded-16 bg-russianViolet mb-16 border-2;
+        @apply relative;
 
         box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
 
@@ -120,6 +121,11 @@
         .price {
             @apply text-h4 text-launchingYellow;
             @apply mb-20;
+        }
+        .most-popular {
+            @apply px-12 py-2 rounded-16 bg-russianViolet border-2 border-[#2200ff];
+            @apply text-label !text-textColor2;
+            @apply absolute right-[20px] -top-[15px];
         }
     }
 }

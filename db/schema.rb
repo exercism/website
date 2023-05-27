@@ -1067,7 +1067,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
     t.datetime "premium_until"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "user-data-supporters-page", order: { first_donated_at: :desc }
-    t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
     t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
     t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
@@ -1077,7 +1076,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
     t.index ["insiders_status"], name: "index_users_on_insiders_status"
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
     t.index ["premium_until"], name: "index_user_data_on_premium_until"
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["stripe_customer_id"], name: "index_user_data_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 

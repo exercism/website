@@ -29,7 +29,7 @@
     }
 
     .features {
-        @apply grid lg:grid-cols-3 grid-cols-1 gap-24 mb-56;
+        @apply grid lg:grid-cols-3 grid-cols-1 gap-24;
         .feature {
             .c-icon {
                 height: 45px;

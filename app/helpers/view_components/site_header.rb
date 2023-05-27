@@ -17,13 +17,14 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") if current_user&.donated?
+      return tag.span("") if current_user&.premium?
 
-      link_to(Exercism::Routes.donate_path, class: "announcement-bar") do
+      link_to(Exercism::Routes.premium_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
-            tag.strong("Please support us if you can!") +
-            tag.span("⚠️")
+          graphical_icon(:premium, css_class: 'h-[16px] w-[16px] mr-12') +
+            tag.span("Exercism Premium has launched.") +
+            tag.strong("Supercharge your experience!") +
+            tag.div("Check it out", class: 'btn-primary btn-xs ml-4')
         end
       end
     end
@@ -59,8 +60,7 @@ module ViewComponents
           safe_join(
             [
               generic_nav("Learn", submenu: LEARN_SUBMENU),
-              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20,
-                has_view: false),
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
               generic_nav("Community", submenu: COMMUNITY_SUBMENU, path: Exercism::Routes.community_path, offset: 0),
               # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
               generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150, view: (current_user&.premium? ? nil : :premium),

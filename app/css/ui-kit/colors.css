@@ -655,6 +655,16 @@ body.namespace-.controller-premium.theme-light,
 
 .theme-sepia {
     @inline .theme-light;
+
+    /* filter: invert(100%) hue-rotate(180deg); */
+    /* /1* background-color: #222; *1/ */
+
+    /* img, */
+    /* video, */
+    /* iframe { */
+    /*     filter: invert(100%) hue-rotate(180deg); */
+    /* } */
+
     filter: sepia(1);
 }
 

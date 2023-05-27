@@ -21,9 +21,9 @@ export const THEMES: Theme[] = [
     icon: 'exercism-face-two-tone',
   },
   {
-    label: 'Sepia',
+    label: 'Low Contrast',
     value: 'sepia',
     background: 'white',
-    icon: 'exercism-face',
+    icon: 'exercism-face-sepia',
   },
 ]

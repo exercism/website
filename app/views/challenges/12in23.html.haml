@@ -5,14 +5,14 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            Month 5 of #12in23
-          %h1.text-h1.mb-8 It's Mindshifting May! ✨
+            Month 6 of #12in23
+          %h1.text-h1.mb-8 It's the Summer of Sexps! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that do things differently. We're digging into Ballerina, Pharo, Prolog, Red, Tcl and Unison, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages that are Lisp dialects. We're digging into Clojure, ClojureScript, Common Lisp, Emacs Lisp, Racket and Scheme, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Mindshifting May overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Summer of Sexps overview video  👉
               %p.text-p-base.mb-8
                 Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
@@ -25,13 +25,13 @@
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Mindshifting May badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the Summer of Sexps badge for completing and publishing 5 exercises in one of the following languages.
             -#
               Consider starting with a language with a syllabus (
               = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
               ).
 
-          - tracks = Track.where(slug: %w[ballerina pharo-smalltalk prolog red tcl unison])
+          - tracks = Track.where(slug: %w[clojure clojurescript common-lisp emacs-lisp racket scheme])
           .grid.grid-cols-8.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
@@ -42,28 +42,28 @@
                 .text-h6= track.title
 
           %p.text-p-large.mb-12
-            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in analytical languages:
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in Lisp languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/acronym.svg", class: "w-[25px] inline"
-              %strong.font-semibold Acronym:
-              Convert a phrase to its acronym
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/leap.svg", class: "w-[25px] inline"
+              %strong.font-semibold Leap:
+              Work with boolean conditions and truthiness (and optionally, lexical scoping)
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/isogram.svg", class: "w-[25px] inline"
-              %strong.font-semibold Isogram:
-              Check if a phrase does not contain repeating letters
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/two-fer.svg", class: "w-[25px] inline"
+              %strong.font-semibold Two-Fer:
+              Format a string and work with an optional parameter
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/roman-numerals.svg", class: "w-[25px] inline"
-              %strong.font-semibold Roman Numerals:
-              Translate a decimal number into roman numerals
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/difference-of-squares.svg", class: "w-[25px] inline"
+              %strong.font-semibold Difference of Squares:
+              Call user-defined functions and do math in prefix notation
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/raindrops.svg", class: "w-[25px] inline"
-              %strong.font-semibold Raindrops:
-              Convert a number into raindrop sounds
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/robot-name.svg", class: "w-[25px] inline"
+              %strong.font-semibold Robot Name:
+              Work with randomness, atoms, and structured data
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/space-age.svg", class: "w-[25px] inline"
-              %strong.font-semibold Space Age:
-              Calculate how old someone would be on the planets in our solar system
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/matching-brackets.svg", class: "w-[25px] inline"
+              %strong.font-semibold Matching Brackets:
+              Use recursion to process a string
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12
@@ -89,9 +89,9 @@
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4
-              We have exclusive Mindshifting May swag that will only be available later in the month. Keep an eye on the
+              We have exclusive Summer of Sexps swag that will only be available later in the month. Keep an eye on the
               = link_to "swag store", "https://swag.exercism.org"
-              for details (and check our the Mechanical March swag before it goes too!)
+              for details (and check out the Mindshifting May swag before it goes too!)
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7

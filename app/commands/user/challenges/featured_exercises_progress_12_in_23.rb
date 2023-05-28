@@ -33,7 +33,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       FEBRUARY_EXERCISES.map { |e| [e, FEBRUARY_TRACKS] } +
       MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
       APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
-      MAY_EXERCISES.map { |e| [e, MAY_TRACKS] }
+      MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
+      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] }
     ).to_h
   end
 
@@ -48,4 +49,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   MAY_TRACKS = %w[ballerina pharo-smalltalk prolog red rust tcl unison].freeze
   MAY_EXERCISES = %w[raindrops isogram roman-numerals space-age acronym].freeze
+
+  JUNE_TRACKS = %w[clojure clojurescript common-lisp emacs-lisp racket scheme].freeze
+  JUNE_EXERCISES = %w[leap two-fer difference-of-squares robot-name matching-brackets].freeze
 end

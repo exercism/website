@@ -142,7 +142,7 @@
                     @apply pr-0;
                 }
                 .nav-dropdown-element {
-                    @apply gap-20;
+                    @apply gap-16;
                     @apply pr-40;
                 }
                 .nav-element-link {

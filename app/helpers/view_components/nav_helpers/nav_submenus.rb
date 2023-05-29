@@ -37,6 +37,19 @@ module ViewComponents
         },
 
         {
+          title: "Brief Introduction Series",
+          description: "Erik introduces languages",
+          path: Exercism::Routes.community_brief_introductions_path,
+          icon: :'brief-introductions-gradient'
+        },
+        {
+          title: "Interviews & Stories",
+          description: "Get inspired by people's stories",
+          path: Exercism::Routes.community_interviews_path,
+          icon: 'interview-gradient'
+        },
+
+        {
           title: "Discord",
           description: "Chat & hang with the community",
           path: Exercism::Routes.discord_redirect_path,
@@ -49,18 +62,6 @@ module ViewComponents
           path: Exercism::Routes.forum_redirect_path,
           icon: :discourser,
           view: :forum
-        },
-        {
-          title: "Brief Introduction Series",
-          description: "Language intro videos",
-          path: Exercism::Routes.community_brief_introductions_path,
-          icon: :'brief-introductions-gradient'
-        },
-        {
-          title: "Interviews & Stories",
-          description: "Get inspired by people's stories",
-          path: Exercism::Routes.community_interviews_path,
-          icon: 'interview-gradient'
         }
       ].freeze
 
@@ -109,7 +110,7 @@ module ViewComponents
           title: "SWAG",
           description: "Hoodies, stickers & more",
           path: 'https://swag.exercism.org',
-          icon: :contributors,
+          icon: :swag,
           icon_filter: "textColor6"
         },
         {
@@ -122,14 +123,14 @@ module ViewComponents
           title: "About Exercism",
           description: "Learn about our organisation",
           path: Exercism::Routes.about_path,
-          icon: :contributors,
+          icon: :'exercism-face',
           icon_filter: "textColor6"
         },
         {
           title: "Donate",
           description: "Help support our mission",
           path: Exercism::Routes.donate_path,
-          icon: :contributors,
+          icon: :donate,
           icon_filter: "textColor6"
         }
 

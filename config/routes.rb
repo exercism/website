@@ -156,6 +156,8 @@ Rails.application.routes.draw do
   namespace :community do
     resources :stories, only: %i[index show]
     resources :videos, only: %i[index show]
+    resources :brief_introductions, only: %i[index]
+    resources :interviews, only: %i[index]
   end
 
   resources :tracks, only: %i[index show] do

@@ -40,8 +40,8 @@ class Git::SyncBlog
   end
 
   def create_or_update_story(data)
-    interviewer = User.find_by!(handle: data[:interviewer_handle])
-    interviewee = User.find_by!(handle: data[:interviewee_handle])
+    interviewer = User.first # User.find_by!(handle: data[:interviewer_handle])
+    interviewee = User.third # User.find_by!(handle: data[:interviewee_handle])
     attributes = {
       interviewer:,
       interviewee:,

@@ -53,17 +53,14 @@ module ViewComponents
         {
           title: "Brief Introduction Series",
           description: "Language intro videos",
-          path: "#",
-          icon: :overview,
-          icon_filter: "textColor6"
+          path: Exercism::Routes.community_brief_introductions_path,
+          icon: :'brief-introductions-gradient'
         },
         {
-          title: "Community Stories",
+          title: "Interviews & Stories",
           description: "Get inspired by people's stories",
-          path: Exercism::Routes.youtube_redirect_path,
-          icon: 'megaphone',
-          icon_filter: "textColor6",
-          view: :community_stories
+          path: Exercism::Routes.community_interviews_path,
+          icon: 'interview-gradient'
         }
       ].freeze
 

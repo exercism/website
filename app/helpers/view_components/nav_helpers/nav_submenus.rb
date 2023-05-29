@@ -29,9 +29,9 @@ module ViewComponents
 
       DISCOVER_SUBMENU = [
         {
-          title: "Community Content",
+          title: "Community Videos",
           description: "Streaming, walkthroughs & more",
-          path: Exercism::Routes.youtube_redirect_path,
+          path: Exercism::Routes.community_videos_path,
           icon: 'external-site-youtube',
           view: :community_content
         },

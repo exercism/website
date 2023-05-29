@@ -123,7 +123,7 @@ module ViewComponents
         },
         {
           title: "About Exercism",
-          description: "Our way of saying thank you",
+          description: "Learn about our organisation",
           path: Exercism::Routes.about_path,
           icon: :contributors,
           icon_filter: "textColor6"

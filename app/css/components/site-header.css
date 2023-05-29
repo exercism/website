@@ -367,10 +367,5 @@ body.namespace-about {
         & .exercism-link {
             @apply mr-32;
         }
-
-        & .signed-in,
-        & .signed-out {
-            @apply hidden;
-        }
     }
 }

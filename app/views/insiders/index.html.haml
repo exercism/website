@@ -1,6 +1,6 @@
 #page-insiders
   = render ReactComponents::Modals::WelcomeToInsidersModal.new
-  .gradient-container.pb-64
+  .gradient-container.pt-20.md:pt-48.pb-64
     .lg-container
       .top.grid.grid-cols-1.md:grid-cols-2.gap-48
         .top-lhs
@@ -14,16 +14,20 @@
           %p.text-p-xlarge.mb-8
             In the coming weeks we're going to be adding exclusive Perks from partners (once we get a few of them finalised), and some exclusive content just for you too.
             We'll also be fleshing this section out and making it somewhat more delightful.
-            Check below for the features that have become enabled for you and watch the video on the right for a bit of an overview.
+          %p.text-p-xlarge.mb-8
+            Why not start with the latest behind the scenes Insiders video 👉
 
         .top-rhs
           .c-youtube-container
-            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/WDUqfCMbh_8", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/qOijcXroPQU", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
   .gradient-container.py-64
     .lg-container
       %h2.text-h2.mb-32 Behind-the-scenes videos
       .grid.grid-cols-3.gap-32
+        .c-youtube-container
+          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/qOijcXroPQU", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
         .c-youtube-container
           %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/WDUqfCMbh_8", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 

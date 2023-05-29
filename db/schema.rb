@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -130,8 +130,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.datetime "updated_at", null: false
     t.string "channel_url", null: false
     t.string "embed_url", null: false
+    t.datetime "published_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["author_id"], name: "index_community_videos_on_author_id"
     t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
+    t.index ["published_at"], name: "index_community_videos_on_published_at"
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
     t.index ["track_id"], name: "index_community_videos_on_track_id"
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
@@ -164,6 +166,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
@@ -178,6 +181,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0, null: false
+    t.integer "interval", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
@@ -1049,6 +1054,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_172935) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "cache"
+    t.datetime "premium_until"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"

@@ -18,6 +18,7 @@ class CommunityVideo::RetrieveFromYoutubeTest < ActiveSupport::TestCase
     assert_equal "https://www.youtube.com/channel/UCY1kMZp36IQSyNx_9h4mpCg", video.channel_url
     assert_equal "https://www.youtube-nocookie.com/embed/hFZFjoX2cGg", video.embed_url
     assert_equal "https://i.ytimg.com/vi/hFZFjoX2cGg/sddefault.jpg", video.thumbnail_url
+    assert_equal Time.utc(2020, 0o5, 24, 16, 0o0, 58), video.published_at
   end
 
   test "fallback to smaller thumbnail urls" do

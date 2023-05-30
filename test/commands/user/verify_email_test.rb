@@ -7,6 +7,7 @@ class User::VerifyEmailTest < ActiveSupport::TestCase
       user.update(email_status: :unverified)
 
       stub_request(:get, "https://api.sparkpost.com/api/v1/recipient-validation/single/test@example.org").
+        with(headers: { Authorization: Exercism.secrets.sparkpost_api_key }).
         to_return(status: 200, body: { results: { result: status } }.to_json, headers: { 'Content-Type': 'application/json' })
 
       User::VerifyEmail.(user)
@@ -21,6 +22,7 @@ class User::VerifyEmailTest < ActiveSupport::TestCase
       user.update(email_status: :unverified)
 
       stub_request(:get, "https://api.sparkpost.com/api/v1/recipient-validation/single/test@example.org").
+        with(headers: { Authorization: Exercism.secrets.sparkpost_api_key }).
         to_return(status: 200, body: { results: { result: status } }.to_json, headers: { 'Content-Type': 'application/json' })
 
       User::VerifyEmail.(user)

@@ -23,8 +23,9 @@ class User::VerifyEmail
 
   memoize
   def check_email_status!
-    response = JSON.parse(RestClient.get(api_url).body, symbolize_names: true)
-    response.dig(:results, :result)
+    response = RestClient.get(api_url, authorization: Exercism.secrets.sparkpost_api_key)
+    json = JSON.parse(response.body, symbolize_names: true)
+    json.dig(:results, :result)
   end
 
   def api_url = "https://api.sparkpost.com/api/v1/recipient-validation/single/#{user.email}"

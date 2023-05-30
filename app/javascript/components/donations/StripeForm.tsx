@@ -31,7 +31,12 @@ type PaymentIntent = {
   id: string
   clientSecret: string
 }
-export type PaymentIntentType = 'payment' | 'subscription'
+export type PaymentIntentType =
+  | 'payment'
+  | 'subscription'
+  | 'premium_yearly_subscription'
+  | 'premium_monthly_subscription'
+  | 'premium_lifetime_subscription'
 
 type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -71,6 +76,11 @@ export function StripeForm({
 
   const stripe = useStripe()
   const elements = useElements()
+
+  // Focus on the card number once the element loads
+  const handleCardReady = async (event: StripeCardElementReadyEvent) => {
+    event.focus()
+  }
 
   const handleCardChange = async (event: StripeCardElementChangeEvent) => {
     // When we've got a completed card with no errors, set the card to be valid
@@ -222,9 +232,19 @@ export function StripeForm({
         </div>
       ) : null}
       <div className="card-container">
-        <div className="title">Donate with Card</div>
+        <div className="title">
+          {paymentIntentType.startsWith('premium')
+            ? `You are subscribing for ${amount.format()} / ${generateIntervalText(
+                paymentIntentType
+              )}`
+            : 'Donate with Card'}
+        </div>
         <div className="card-element">
-          <CardElement options={cardOptions} onChange={handleCardChange} />
+          <CardElement
+            options={cardOptions}
+            onChange={handleCardChange}
+            onReady={handleCardReady}
+          />
           <button
             className="btn-primary btn-s"
             type="submit"
@@ -237,11 +257,7 @@ export function StripeForm({
             }
           >
             {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
-            <span>
-              {paymentIntentType == 'payment'
-                ? `Donate ${amount.format()} to Exercism`
-                : `Donate ${amount.format()} to Exercism monthly`}
-            </span>
+            <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
           </button>
         </div>
       </div>
@@ -259,4 +275,31 @@ export function StripeForm({
       ) : null}
     </form>
   )
+}
+
+function generateStripeButtonText(
+  paymentIntent: PaymentIntentType,
+  amount: currency
+) {
+  switch (paymentIntent) {
+    case 'payment':
+      return `Donate ${amount.format()} to Exercism`
+    case 'subscription':
+      return `Donate ${amount.format()} to Exercism monthly`
+    case 'premium_monthly_subscription':
+      return 'Subscribe to Premium'
+    case 'premium_yearly_subscription':
+      return 'Subscribe to Premium'
+  }
+}
+
+function generateIntervalText(paymentIntent: PaymentIntentType) {
+  switch (paymentIntent) {
+    case 'premium_monthly_subscription':
+      return `month`
+    case 'premium_yearly_subscription':
+      return `year`
+    default:
+      return ''
+  }
 }

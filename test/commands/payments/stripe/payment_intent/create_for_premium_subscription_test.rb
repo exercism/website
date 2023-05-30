@@ -3,8 +3,7 @@ require_relative '../../test_base'
 class Payments::Stripe::PaymentIntent::CreateForPremiumSubscriptionTest < Payments::TestBase
   [
     [:monthly, Exercism.secrets.stripe_premium_monthly_price_id],
-    [:yearly, Exercism.secrets.stripe_premium_yearly_price_id],
-    [:lifetime, Exercism.secrets.stripe_premium_lifetime_price_id]
+    [:yearly, Exercism.secrets.stripe_premium_yearly_price_id]
   ].each do |(interval, expected_price)|
     test "creates subscription with correct price for #{interval} interval" do
       customer_id = SecureRandom.uuid

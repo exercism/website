@@ -87,7 +87,8 @@
         = graphical_icon "arrow-right"
 
   .lg-container
-    = render ReactComponents::Community::VideoGrid.new(params)
+    .p-40.bg-backgroundColorA.shadow-lgZ1.rounded-16.mb-64
+      = render ReactComponents::Community::VideoGrid.new(params)
 
     .flex.items-center.mb-32.justify-between
       %h2.text-h2.flex.items-center

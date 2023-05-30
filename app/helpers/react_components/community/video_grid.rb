@@ -1,9 +1,5 @@
 class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
-  def initialize(params)
-    super()
-
-    @params = params
-  end
+  initialize_with :params, items_per_row: 4, show_title: true
 
   def to_s
     super(
@@ -16,7 +12,9 @@ class ReactComponents::Community::VideoGrid < ReactComponents::ReactComponent
             initial_data:
           }
         },
-        tracks:
+        tracks:,
+        items_per_row:,
+        show_title:
       }
     )
   end

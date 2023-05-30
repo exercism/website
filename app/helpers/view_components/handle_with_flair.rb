@@ -67,6 +67,7 @@ module ViewComponents
     }.freeze
 
     TITLES = {
+      premium: 'Premium User',
       insider: 'An Insider',
       lifetime_insider: 'A lifetime Insider',
       founder: 'Founder',

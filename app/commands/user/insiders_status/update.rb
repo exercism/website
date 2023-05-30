@@ -24,6 +24,10 @@ class User::InsidersStatus::Update
       end
     end
 
+    # These things are being called for when someone
+    # LOSES Insiders access, or when they change from normal,
+    # to lifetime. This code is not called when they GAIN Insiders.
+    # Look at Activate.() for that instead.
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
@@ -31,8 +35,9 @@ class User::InsidersStatus::Update
 
     return unless user.insiders_status_active_lifetime?
 
+    # This is only called when someone is changing from
+    # normal insider to lifetime insider.
     User::UpdateFlair.(user)
-    AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider)
   end
 

@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { QueryStatus } from 'react-query'
+import { useDebounce } from '@/hooks/use-debounce'
 import { useSettingsMutation } from '../useSettingsMutation'
 import { setThemeClassName } from './utils'
 import { Theme, ThemePreferenceLinks } from '../ThemePreferenceForm'
-import { QueryStatus } from 'react-query'
 
 type RequestBody = {
   user_preferences: {
@@ -12,7 +13,7 @@ type RequestBody = {
 
 type useThemeReturns = {
   handleThemeUpdate: (
-    t: Theme,
+    t: Pick<Theme, 'value'>,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void
   status: QueryStatus
@@ -21,26 +22,29 @@ type useThemeReturns = {
 }
 export function useTheme(
   defaultThemePreference: string,
-  links: ThemePreferenceLinks
+  links: Pick<ThemePreferenceLinks, 'update'>
 ): useThemeReturns {
   const [theme, setTheme] = useState<string>(defaultThemePreference || '')
+  const debouncedTheme = useDebounce(theme, 1000)
 
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',
-    body: { user_preferences: { theme } },
+    body: { user_preferences: { theme: debouncedTheme } },
   })
 
-  const handleThemeUpdate = useCallback(
-    (t, e) => {
-      e.preventDefault()
+  useEffect(() => {
+    if (debouncedTheme && debouncedTheme !== defaultThemePreference) {
       mutation()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTheme])
 
-      setTheme(t.value)
-      setThemeClassName(t.value)
-    },
-    [mutation]
-  )
+  const handleThemeUpdate = useCallback((t, e) => {
+    e.preventDefault()
+    setTheme(t.value)
+    setThemeClassName(t.value)
+  }, [])
 
   return { handleThemeUpdate, status, error, theme }
 }

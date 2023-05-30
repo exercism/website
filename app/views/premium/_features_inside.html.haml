@@ -1,0 +1,60 @@
+%h2.text-h2.mb-32 Your Premium Features
+.features
+  .feature
+    = graphical_icon :moon, css_class: "filter-yellowPrompt"
+    %h4 Dark theme
+    %p We've put together a lovely Dark Theme for you to enjoy. Give your eyes a break while coding at night and enjoy Exercism in its darkest glory. You can toggle your theme in your #{link_to 'User Preferences', user_preferences_settings_path}.
+
+  .feature
+    = graphical_icon :robot, css_class: "filter-yellowPrompt"
+    %h4 ChatGPT
+    %p Our ChatGPT integration will help you get unstuck in the editor. You get 3x v4.0 requests and 30x v3.5 requests per calendar month. Try it on any exercise and let us know how you get on.
+
+  - if current_user.insider?
+    .feature
+      = graphical_icon :insiders
+      %h4 Name tag flair &amp; Badges
+      %p
+        You'll now see a shiny little
+        = icon "insiders", "purple heart icon signifying Insiders", style: "all:unset;display:inline;width:20px;height:20px"
+        next to your name around the site and a new tag on your #{link_to 'your public profile', profile_path(current_user.handle)}.
+
+  - else
+    .feature
+      = graphical_icon :premium
+      %h4 Name tag flair &amp; Badges
+      %p
+        You'll now see a shiny little
+        = icon "premium", "diamond icon signifying Premium", style: "all:unset;display:inline;width:20px;height:20px"
+        next to your name around the site and a new tag on your #{link_to 'your public profile', profile_path(current_user.handle)}.
+        You should also have a new very exclusive badge (or two!).
+
+  .feature
+    = graphical_icon :mentoring, css_class: "filter-yellowPrompt"
+    %h4 Extra Mentoring Slots
+    %p You now have the maximum amount of simultaneous mentoring slots available per track. Check half way down a track page to check your active sessions.
+
+  .feature
+    = graphical_icon :badges, css_class: "filter-yellowPrompt"
+    %h4 Exclusive Badges
+    %p
+      You should also have a new very exclusive badge (or two!). Check your
+      = link_to "My Journey", badges_journey_path
+      badge to reveal them. There are also new extra hidden badges for you to unlock
+      as you solve exercises.
+
+  .feature
+    = graphical_icon :perks, css_class: "filter-yellowPrompt"
+    %h4 Exclusive Perks
+    %p
+      In the next few weeks, we'll be revealing exclusive Perks from our partners.
+      As
+      - if current_user.insider?
+        an Insider,
+      - else
+        a Premium member,
+      you'll get exclusive bonuses offers and discounts.
+      We'll email you when Perks launches.
+
+
+

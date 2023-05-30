@@ -1,38 +1,78 @@
-import React, { useCallback, useState } from 'react'
-import { GraphicalIcon } from './GraphicalIcon'
-import { setThemeClassName } from '../settings/theme-preference-form/utils'
+import React, { useCallback } from 'react'
+import { useThemeObserver } from '@/hooks'
+import { useTheme } from '../settings/theme-preference-form'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
-export function ThemeToggleButton(): JSX.Element {
-  const { currentColorScheme, switchToColorMode } = useSwitchTheme()
+export type ThemeToggleButtonProps = {
+  disabled: boolean
+  defaultTheme: string
+  links: { update: string; premium: string }
+}
+
+export function ThemeToggleButton({
+  links,
+  disabled,
+  defaultTheme,
+}: ThemeToggleButtonProps): JSX.Element {
+  const { explicitTheme } = useThemeObserver()
+  const { handleThemeUpdate } = useTheme(defaultTheme, links)
+
+  const switchToDarkTheme = useCallback(
+    (e) => {
+      handleThemeUpdate({ value: 'dark' }, e)
+    },
+    [handleThemeUpdate]
+  )
+  const switchToLightTheme = useCallback(
+    (e) => {
+      handleThemeUpdate({ value: 'light' }, e)
+    },
+    [handleThemeUpdate]
+  )
 
   return (
-    <button
-      onClick={(e) => {
-        currentColorScheme === 'light'
-          ? switchToColorMode(e, 'dark')
-          : switchToColorMode(e, 'light')
-      }}
+    <GenericTooltip
+      content={<DisabledTooltip premiumLink={links.premium} />}
+      placement="bottom"
+      interactive
+      disabled={!disabled}
     >
-      <GraphicalIcon
-        className="exercism-face"
-        icon={`exercism-face${
-          currentColorScheme === 'light' ? '-light' : '-dark'
-        }`}
-      />
-    </button>
+      {/* 24 is the padding of nav-elements' label */}
+      <div className="ml-24">
+        <button
+          onClick={(e) => {
+            explicitTheme === 'theme-light' || explicitTheme === 'theme-sepia'
+              ? switchToDarkTheme(e)
+              : switchToLightTheme(e)
+          }}
+          disabled={disabled}
+          className="toggle-button"
+        >
+          <label className="switch">
+            <input
+              type="checkbox"
+              readOnly
+              checked={explicitTheme === 'theme-dark'}
+            />
+            <span className="slider round" />
+          </label>
+        </button>
+      </div>
+    </GenericTooltip>
   )
 }
 
-function useSwitchTheme() {
-  const [currentColorScheme, setCurrentColorScheme] = useState(
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+function DisabledTooltip({
+  premiumLink,
+}: {
+  premiumLink: string
+}): JSX.Element {
+  return (
+    <div className="flex text-14 font-medium">
+      <a className="text-14 text-[#F7B000] underline" href={premiumLink}>
+        Join Premium
+      </a>
+      &nbsp;to enable Dark Mode
+    </div>
   )
-
-  const switchToColorMode = useCallback((e, mode) => {
-    e.preventDefault()
-    setThemeClassName(mode)
-    setCurrentColorScheme(mode)
-  }, [])
-
-  return { currentColorScheme, switchToColorMode }
 }

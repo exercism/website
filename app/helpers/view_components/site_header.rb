@@ -1,6 +1,8 @@
 module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
+    include ViewComponents::NavHelpers::All
+    # include ViewComponents::ThemeToggleButton
 
     delegate :namespace_name, :controller_name,
       to: :view_context
@@ -14,15 +16,15 @@ module ViewComponents
       end
     end
 
-    private
     def announcement_bar
-      return tag.span("") if current_user&.donated?
+      return tag.span("") if current_user&.premium?
 
-      link_to(Exercism::Routes.donate_path, class: "announcement-bar") do
+      link_to(Exercism::Routes.premium_path, class: "announcement-bar") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
-            tag.strong("Please support us if you can!") +
-            tag.span("⚠️")
+          graphical_icon(:premium, css_class: 'h-[16px] w-[16px] mr-12') +
+            tag.span("Exercism Premium has launched.") +
+            tag.strong("Supercharge your experience!") +
+            tag.div("Check it out", class: 'btn-primary btn-xs ml-4')
         end
       end
     end
@@ -53,18 +55,21 @@ module ViewComponents
     end
 
     def signed_in_nav
-      insiders_content = tag.span(class: "flex items-center gap-6") do
-        tag.span("Insiders") +
-          graphical_icon(:insiders, css_class: "!filter-none")
-      end
-
-      tag.nav(class: 'signed-in') do
+      tag.nav(class: 'signed-in', role: 'navigation') do
         tag.ul do
-          si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
-            si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
-            si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community) +
-            si_nav_li(insiders_content, :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders)
+          safe_join(
+            [
+              generic_nav("Learn", submenu: LEARN_SUBMENU, path: Exercism::Routes.tracks_path, has_view: true),
+              generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
+              generic_nav("More", submenu: MORE_SUBMENU, offset: 0),
+              # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
+              generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150,
+                has_view: true, view: (current_user&.premium? ? nil : :premium),
+                css_class: "premium"),
+              ReactComponents::Common::ThemeToggleButton.new(enabled: current_user.premium?)
+            ]
+          )
         end
       end
     end

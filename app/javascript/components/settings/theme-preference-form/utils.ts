@@ -16,7 +16,7 @@ export function setThemeClassName(theme: string): void {
   }
 }
 
-function grabCurrentTheme():
+export function grabCurrentTheme():
   | {
       body: HTMLBodyElement
       currentTheme: string | undefined

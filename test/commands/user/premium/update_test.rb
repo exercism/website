@@ -41,12 +41,12 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
 
     subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :month)
     create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
-    last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
+    create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
 
     User::Premium::Update.(user)
 
-    assert_equal last_payment.created_at + 1.month, user.reload.premium_until
-    assert user.premium?
+    assert_nil user.reload.premium_until
+    refute user.premium?
   end
 
   %i[active overdue canceled].each do |status|
@@ -90,12 +90,12 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
 
     subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :year)
     create(:payments_payment, :premium, created_at: Time.current - 8.months, user:, subscription:)
-    last_payment = create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
+    create(:payments_payment, :premium, created_at: Time.current - 3.months, user:, subscription:)
 
     User::Premium::Update.(user)
 
-    assert_equal last_payment.created_at + 1.year, user.reload.premium_until
-    assert user.premium?
+    assert_nil user.reload.premium_until
+    refute user.premium?
   end
 
   %i[active overdue canceled].each do |status|

@@ -14,132 +14,9 @@ body.devise {
     }
 }
 
-body:not(.namespace-.controller-insiders) {
-    --exercism-link-filter: var(--textColor1-filter);
-}
-
-body.namespace-.controller-insiders {
-    #site-header {
-        /* russianViolet is site-header background */
-        @apply bg-russianViolet border-[#433F56];
-        .c-icon:not(button .c-icon),
-        .user-menu .c-icon {
-            @apply filter-aliceBlue;
-        }
-
-        a:not(a.announcement-bar) {
-            @apply text-gray;
-        }
-
-        .announcement-bar {
-            @apply bg-vividPurple;
-        }
-
-        .explore-menu {
-            @apply bg-russianViolet text-aliceBlue;
-            @apply shadow-none;
-            .c-icon {
-                @apply filter-aliceBlue;
-            }
-        }
-        .user-menu-dropdown,
-        .c-notifications-dropdown ul,
-        .c-reputation-dropdown ul,
-        .explore-menu-dropdown {
-            box-shadow: 0px 2px 4px #0f0923;
-            @apply bg-russianViolet shadow-lg rounded-8;
-
-            .info {
-                .name {
-                    @apply text-aliceBlue;
-                }
-                .handle {
-                    @apply text-gray;
-                }
-            }
-
-            li.opt a,
-            .notification,
-            .token,
-            .c-prominent-link {
-                @apply bg-russianViolet;
-                &:hover {
-                    background-color: #3a3557;
-                }
-            }
-
-            .c-prominent-link {
-                color: var(--c-prominent-link-color);
-                .c-icon {
-                    filter: var(--c-prominent-link-icon-filter);
-                }
-            }
-
-            .notification {
-                .text {
-                    @apply text-aliceBlue;
-                }
-
-                .created-at {
-                    @apply text-gray;
-                }
-            }
-
-            .c-reputation {
-                @apply bg-eerieBlack text-gray border-lightGray shadow-none;
-                .c-icon {
-                    @apply filter-gray;
-                }
-            }
-            .earned-on {
-                @apply text-gray;
-            }
-            .description {
-                @apply text-aliceBlue;
-            }
-
-            .notification .icon {
-                @apply filter-aliceBlue;
-            }
-        }
-        .auth-buttons {
-            a:first-child {
-                @apply text-aliceBlue;
-            }
-            a:last-child {
-                @apply bg-darkBlueViolet text-blueViolet border-blueViolet;
-            }
-        }
-        .new-badge {
-            background-image: url("icons/new-badge-dark.svg");
-        }
-        .new-testimonial {
-            background-image: url("icons/new-testimonial-dark.svg");
-        }
-
-        .c-notification {
-            background: theme(colors.eerieBlack);
-            box-shadow: 0px 4px 24px rgba(89, 210, 174, 0.4);
-
-            .--count {
-                @apply text-eerieBlack bg-seafoamGreen;
-            }
-            .c-icon {
-                @apply filter-notificationBellDark;
-            }
-        }
-
-        .--notification {
-            @apply bg-russianViolet;
-            &:after {
-                @apply bg-seafoamGreen;
-            }
-        }
-    }
-
-    .user-menu-dropdown li.site-link.donate:after {
-        @apply !border-textColor6;
-    }
+body.keyboard-navigation .nav-element:hover .nav-element-dropdown,
+body.keyboard-navigation .nav-element:hover .arrow {
+    @apply !hidden;
 }
 
 #site-header {
@@ -157,7 +34,7 @@ body.namespace-.controller-insiders {
         background: var(--backgroundColorAnnouncementBar);
         & strong {
             @apply text-lightGold mx-4 font-semibold;
-            @apply underline;
+            /* @apply underline; */
         }
 
         .lg-container {
@@ -183,12 +60,12 @@ body.namespace-.controller-insiders {
     & .exercism-link {
         /* todo remove this */
         @apply flex items-center gap-6;
-        filter: var(--exercism-link-filter);
         @apply mr-32 flex-shrink-0;
         @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;
 
         & .c-icon {
+            @apply filter-textColor1;
             height: 35px;
             width: 194px;
         }
@@ -229,35 +106,14 @@ body.namespace-.controller-insiders {
                 }
             }
         }
-
-        & li:last-child a {
-            color: var(--textColorLastNavElement);
-
-            & .c-icon {
-                filter: var(--purple-filter);
-            }
-        }
-
-        & a {
-            @apply flex items-center relative;
-            @apply text-16 text-textColor6 font-semibold;
-            @apply whitespace-nowrap;
-
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-            }
-        }
     }
+
     & nav.signed-in {
         @apply flex-grow;
 
-        & li {
-            @apply mr-16;
-        }
-        & a {
+        /* & a {
             @apply px-8 py-8;
-        }
+        } */
     }
 
     & nav.signed-out {
@@ -510,11 +366,6 @@ body.namespace-about {
 
         & .exercism-link {
             @apply mr-32;
-        }
-
-        & .signed-in,
-        & .signed-out {
-            @apply hidden;
         }
     }
 }

@@ -4,7 +4,7 @@
     %div See all
     = graphical_icon "arrow-right"
 
-- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(5).includes(:track)
+- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).includes(:track)
 .flex.flex-col
   - user_tracks.map do |user_track|
     - track = user_track.track

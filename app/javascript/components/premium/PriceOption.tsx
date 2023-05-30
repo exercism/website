@@ -17,6 +17,7 @@ export type PriceOptionProps = {
   period: Period
   paypalLink: string
   premiumRedirectLink: string
+  insidersRedirectLink: string
 }
 
 type PriceCardProps = PriceOptionProps & { onStripeClick: () => void }
@@ -25,8 +26,12 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
 
   const handleSuccess = useCallback(() => {
-    redirectTo(data.premiumRedirectLink)
-  }, [data.premiumRedirectLink])
+    redirectTo(
+      data.period === 'lifetime'
+        ? data.insidersRedirectLink
+        : data.premiumRedirectLink
+    )
+  }, [data.insidersRedirectLink, data.period, data.premiumRedirectLink])
 
   const handleModalOpen = useCallback(() => {
     setStripeModalOpen(true)

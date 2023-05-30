@@ -651,6 +651,8 @@ body.namespace-.controller-premium.theme-light,
     --c-concept-map-line-available: #dce3ef77;
     --c-concept-map-line-locked: #c9c8d7;
     --c-concept-map-line-faded: #d2ddf3;
+
+    --lockedColor: var(--backgroundColorEDAvailable);
 }
 
 .theme-sepia {

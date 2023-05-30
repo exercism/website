@@ -91,7 +91,7 @@
             --dropdown-offset: 0px;
             --nd-ul-width: 320px;
             --nd-view-width: 420px;
-            --nd-height: 380px;
+            --nd-height: 465px;
             --nd-width: calc(var(--nd-ul-width) + var(--nd-view-width));
 
             height: var(--nd-height);
@@ -142,8 +142,7 @@
                     @apply pr-0;
                 }
                 .nav-dropdown-element {
-                    @apply gap-20;
-                    @apply pr-40;
+                    @apply gap-16;
                 }
                 .nav-element-link {
                     .c-icon {
@@ -161,7 +160,7 @@
                 li {
                     @apply pr-8 w-100;
                     .nav-dropdown-view {
-                        @apply absolute hidden py-20 px-24 rounded-8;
+                        @apply absolute hidden rounded-8;
                         background: var(--nav-highlightColor);
                         height: var(--nd-height);
                         top: var(--nd-height);
@@ -195,6 +194,9 @@
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
+                        }
+                        .c-icon.external-icon {
+                            @apply w-[16px] h-[16px] ml-auto;
                         }
                     }
                     .nav-element-link {

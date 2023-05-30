@@ -1,7 +1,7 @@
 module ViewComponents
   module NavHelpers
     module GenericNavHelper
-      def generic_nav(nav_title, submenu: nil, view: nil, path: nil, offset: 0, has_view: true, css_class: nil)
+      def generic_nav(nav_title, submenu: nil, view: nil, path: nil, offset: 0, has_view: false, css_class: nil)
         tag.li class: "nav-element #{css_class}" do
           content = conditional_link(path) do
             tag.span(nav_title, tabindex: path.nil? ? 0 : -1, role: 'none',
@@ -18,13 +18,18 @@ module ViewComponents
         end
       end
 
-      def conditional_link(path = nil)
+      def conditional_link(path = nil, external: false)
         content = yield
 
         if path.nil?
           content
         else
-          link_to(content, path, tabindex: 0, role: 'none', class: 'nav-element-link nav-element-focusable')
+          opts = {
+            tabindex: 0, role: 'none', class: 'nav-element-link nav-element-focusable'
+          }
+          opts.merge!(target: "_blank", rel: 'noreferrer') if external # rubocop:disable Performance/RedundantMerge
+
+          link_to(content, path, **opts)
         end
       end
 

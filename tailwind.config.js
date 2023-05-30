@@ -273,6 +273,9 @@ module.exports = {
 
       white: '#fff',
       black: '#000',
+
+      fillColorProgress: 'var(--fillColorProgress)',
+      backgroundColorNavDropdown: 'var(--backgroundColorNavDropdown)',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],

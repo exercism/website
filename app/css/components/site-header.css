@@ -34,7 +34,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
         background: var(--backgroundColorAnnouncementBar);
         & strong {
             @apply text-lightGold mx-4 font-semibold;
-            @apply underline;
+            /* @apply underline; */
         }
 
         .lg-container {
@@ -366,11 +366,6 @@ body.namespace-about {
 
         & .exercism-link {
             @apply mr-32;
-        }
-
-        & .signed-in,
-        & .signed-out {
-            @apply hidden;
         }
     }
 }

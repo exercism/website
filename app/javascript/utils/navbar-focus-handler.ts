@@ -1,6 +1,5 @@
 export function handleNavbarFocus(): void {
-  document.addEventListener('DOMContentLoaded', function () {
-    let shiftTabPressed = false
+  document.addEventListener('turbo:load', function () {
     const navElements = document.querySelectorAll<HTMLElement>(
       '.nav-element-focusable'
     )
@@ -18,19 +17,6 @@ export function handleNavbarFocus(): void {
       })
 
       navElement.addEventListener('focus', () => {
-        // if (navElement && navElement.nodeName === 'SPAN') {
-        //   const dropdown = navElement.nextElementSibling
-        //   if (dropdown && !shiftTabPressed) {
-        //     const firstLink = dropdown.querySelector(
-        //       'ul li a'
-        //     ) as HTMLAnchorElement
-        //     if (firstLink) {
-        //       setTimeout(() => firstLink.focus(), 50)
-        //       return
-        //     }
-        //   }
-        // }
-
         if (currentMouseOverElement) {
           const dropdown = currentMouseOverElement.querySelector<HTMLElement>(
             '.nav-element-dropdown'
@@ -71,12 +57,6 @@ export function handleNavbarFocus(): void {
     document.addEventListener('keydown', function (event: KeyboardEvent) {
       if (event.key === 'Tab') {
         document.body.classList.add('keyboard-navigation')
-      }
-
-      if (event.key === 'Tab' && event.shiftKey) {
-        shiftTabPressed = true
-      } else {
-        shiftTabPressed = false
       }
     })
   })

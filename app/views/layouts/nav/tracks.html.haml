@@ -1,13 +1,21 @@
-.text-h4.mb-12 Your recent tracks
+.flex.flex-row.border-b-2.border-backgroundColorNavDropdown.py-12.px-20
+  .text-h5 Your recent tracks
+  = link_to tracks_path, class: 'ml-auto flex btn-link' do
+    %div See all
+    = graphical_icon "arrow-right"
 
-- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(5).includes(:track)
-.flex.flex-col.gap-12
+- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).includes(:track)
+.flex.flex-col
   - user_tracks.map do |user_track|
     - track = user_track.track
 
-    = link_to track_path(track), class: 'shadow-base hover:shadow-baseZ1 py-8 px-12 bg-backgroundColorA border-1 border-borderColor8 rounded-8' do
-      .flex.flex-row.items-center
-        = image_tag track.icon_url, class: 'w-[44px] h-[44px] mr-16'
-        .flex.flex-col
-          .text-h6= track.title
-          .text-p-small Last touched #{time_ago_in_words(user_track.last_touched_at)}
+    = link_to track_path(track), class: 'hover:shadow-base pt-10 pb-16 px-20 bg-backgroundColorA border-b-2 border-backgroundColorNavDropdown' do
+      .flex.flex-row.items-start
+        = image_tag track.icon_url, class: 'w-[48px] h-[48px] mr-16'
+        .flex.flex-col.w-fill
+          .text-h6.mb-8= track.title
+
+          .flex.flex-row.bg-backgroundColorI.rounded-8.mb-12.w-fill{ class: 'h-[6px]' }
+            .bg-fillColorProgress.rounded-8.h-fill{ class: 'min-w-[6px]', style: "width:#{user_track.completed_percentage}%" }
+
+          .text-13.leading-150.text-textColor6 Last touched #{time_ago_in_words(user_track.last_touched_at)}

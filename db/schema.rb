@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -130,8 +130,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
     t.datetime "updated_at", null: false
     t.string "channel_url", null: false
     t.string "embed_url", null: false
+    t.datetime "published_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["author_id"], name: "index_community_videos_on_author_id"
     t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
+    t.index ["published_at"], name: "index_community_videos_on_published_at"
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
     t.index ["track_id"], name: "index_community_videos_on_track_id"
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
@@ -338,6 +340,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
     t.string "exercise_id_and_ast_digest_idx_cache"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep", order: { id: :desc }
+    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
+    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
     t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
@@ -885,20 +889,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
-  create_table "supporting_organisations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.text "support_explanation"
-    t.text "description_markdown", null: false
-    t.text "description_html", null: false
-    t.text "insiders_offer_description"
-    t.boolean "featured", default: false, null: false
-    t.boolean "has_insiders_offer", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_supporting_organisations_on_slug", unique: true
-  end
-
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false
@@ -1066,17 +1056,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_133154) do
     t.json "cache"
     t.datetime "premium_until"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "user-data-supporters-page", order: { first_donated_at: :desc }
-    t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
+    t.index ["last_visited_on"], name: "index_user_data_last_visited_on"
+    t.index ["stripe_customer_id"], name: "index_user_data_stripe_customer_id", unique: true
     t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
     t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
     t.index ["insiders_status"], name: "index_users_on_insiders_status"
     t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["premium_until"], name: "index_user_data_on_premium_until"
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end

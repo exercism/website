@@ -97,8 +97,8 @@ export const WelcomeToPremiumModal = ({
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe
-            src="https://www.youtube-nocookie.com/embed/8rmbTWAncb8"
-            title="Introducing the 'Community' tab"
+            src="https://www.youtube-nocookie.com/embed/V8Ey6HNIY6U"
+            title="Welcome to Exercism Premium!"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

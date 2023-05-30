@@ -16,35 +16,40 @@ class User::InsidersStatus::Update
     user.with_lock do
       case new_status
       when :eligible_lifetime
-        update_eligible_lifetime
+        update_to_eligible_lifetime
       when :eligible
-        update_eligible
+        update_to_eligible
       when :ineligible
-        update_ineligible
+        update_to_ineligible
       end
     end
 
-    # These things are being called for when someone:
-    # - LOSES Insiders access; or
-    # - UPGRADES from normal to lifetime
-    #
-    # This code is not called when they GAIN Insiders.
+    # ##
+    # Note: This code is not called when they GAIN Insiders.
     # Look at Activate.() for that instead.
-    User::SetDiscordRoles.defer(user)
-    User::SetDiscourseGroups.defer(user)
+    # ##
+
+    # Create whatever notification we've generated
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
-    User::Premium::Update.defer(user)
 
-    return unless user.insiders_status_active_lifetime?
+    if user.insiders_status_ineligible?
+      # If someone is no longer eligible, we need to revert
+      # a load of bits
+      User::SetDiscordRoles.defer(user)
+      User::SetDiscourseGroups.defer(user)
+      User::Premium::Update.defer(user)
+      User::UpdateFlair.defer(user)
 
-    # This is only called when someone is changing from
-    # normal insider to lifetime insider.
-    User::UpdateFlair.(user)
-    AwardBadgeJob.perform_later(user, :lifetime_insider)
+    elsif user.insiders_status_active_lifetime?
+      # This is only called when someone is changing from
+      # normal insider to lifetime insider.
+      User::UpdateFlair.defer(user)
+      AwardBadgeJob.perform_later(user, :lifetime_insider)
+    end
   end
 
   private
-  def update_eligible_lifetime
+  def update_to_eligible_lifetime
     case user.insiders_status
     when :active
       @notification_key = :upgraded_to_lifetime_insiders
@@ -55,15 +60,14 @@ class User::InsidersStatus::Update
     end
   end
 
-  def update_eligible
+  def update_to_eligible
     return if user.insiders_status_active?
 
     @notification_key = :eligible_for_insiders
     user.update!(insiders_status: :eligible)
   end
 
-  def update_ineligible
-    @notification_key = :expired_insiders if user.insiders_status_active?
+  def update_to_ineligible
     user.update!(insiders_status: :ineligible)
   end
 end

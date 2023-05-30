@@ -65,6 +65,18 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).automated_feedback_added
   end
 
+  def eligible_for_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).eligible_for_insiders
+  end
+
+  def eligible_for_lifetime_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).eligible_for_lifetime_insiders
+  end
+
   def joined_insiders_notification
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first
@@ -75,6 +87,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first
     ).joined_lifetime_insiders
+  end
+
+  def upgraded_to_lifetime_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).upgraded_to_lifetime_insiders
   end
 
   def joined_premium_notification

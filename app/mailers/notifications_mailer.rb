@@ -133,6 +133,24 @@ class NotificationsMailer < ApplicationMailer
     mail_to_user(@user, subject)
   end
 
+  def eligible_for_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "You're eligible for Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
+
+  def eligible_for_lifetime_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    @hide_header = true
+    subject = "You're eligible for Exercism Insiders"
+    mail_to_user(@user, subject)
+  end
+
   def joined_insiders
     notification = params[:notification]
     @user = notification.user
@@ -148,24 +166,6 @@ class NotificationsMailer < ApplicationMailer
 
     @hide_header = true
     subject = "Welcome to Exercism Lifetime Insiders"
-    mail_to_user(@user, subject)
-  end
-
-  def eligible_for_insiders
-    notification = params[:notification]
-    @user = notification.user
-
-    @hide_header = true
-    subject = "Join Exercism Insiders"
-    mail_to_user(@user, subject)
-  end
-
-  def eligible_for_lifetime_insiders
-    notification = params[:notification]
-    @user = notification.user
-
-    @hide_header = true
-    subject = "Join Exercism Lifetime Insiders"
     mail_to_user(@user, subject)
   end
 

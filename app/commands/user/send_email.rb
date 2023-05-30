@@ -50,7 +50,7 @@ class User::SendEmail
   def guard_user_wants_email!
     conditions = [
       has_affirmative_communication_preference?,
-      !user.email.ends_with?("users.noreply.github.com")
+      user.may_receive_emails?
     ]
 
     return true if conditions.all?

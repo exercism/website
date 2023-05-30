@@ -24,10 +24,14 @@ class User::InsidersStatus::Update
       end
     end
 
-    User::Premium::Update.(user)
+    # These things are being called for when someone
+    # LOSES Insiders access, or when they change from normal,
+    # to lifetime. This code is not called when they GAIN Insiders.
+    # Look at Activate.() for that instead.
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
+    User::Premium::Update.defer(user)
 
     return unless user.insiders_status_active_lifetime?
 

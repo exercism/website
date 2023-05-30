@@ -23,7 +23,12 @@ class Payments::Payment::Create
       elsif product == :donation
         User::UpdateTotalDonatedInCents.(user)
         User::RegisterAsDonor.(user, Time.current)
-        User::InsidersStatus::Update.(user)
+
+        if amount_in_cents >= 499_00
+          User::InsidersStatus::Activate.(user, force_lifetime: true)
+        else
+          User::InsidersStatus::Update.(user)
+        end
       end
 
       Payments::Payment::SendEmail.defer(payment)

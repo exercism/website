@@ -25,6 +25,9 @@ class Payments::Payment::Create
         User::RegisterAsDonor.(user, Time.current)
 
         if amount_in_cents >= 499_00
+          # Instally activate a user that donates 499 or more, as it's
+          # likely that the reason they're doing it is to immediately
+          # get a Premium subscription.
           User::InsidersStatus::Activate.(user, force_lifetime: true)
         else
           User::InsidersStatus::Update.(user)

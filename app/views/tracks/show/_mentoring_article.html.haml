@@ -20,7 +20,7 @@
           Your current Reputation is
           = render ViewComponents::Reputation.new(number_with_delimiter(current_user.reputation), size: :small, flashy: true)
 
-        - if user_track.repo_for_next_mentoring_slot.nil?
+        - if user_track.rep_for_next_mentoring_slot.nil?
           .max You have the maximum available mentoring slots
         - else
           .c-progress
@@ -28,11 +28,11 @@
             .unlock-icon
               = icon "unlock", "Unlocked"
 
-        - unless user_track.repo_for_next_mentoring_slot.nil?
+        - unless user_track.rep_for_next_mentoring_slot.nil?
           .info
             .next-slot
               Next slot unlocks at
-              %strong #{number_with_delimiter user_track.repo_for_next_mentoring_slot} rep.
+              %strong #{number_with_delimiter user_track.rep_for_next_mentoring_slot} rep.
 
           .info
             .next-slot

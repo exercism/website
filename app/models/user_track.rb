@@ -170,7 +170,7 @@ class UserTrack < ApplicationRecord
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
-  def repo_for_next_mentoring_slot = 10
+  def rep_for_next_mentoring_slot = 10
 
   private
   # A track's summary is an efficiently created summary of all

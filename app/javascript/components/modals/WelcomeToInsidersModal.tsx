@@ -57,25 +57,25 @@ export const WelcomeToInsidersModal = ({
           <h1>Welcome to Insiders! 💙</h1>
 
           <p className="">
-            Insiders is the place to deepen your programming skills and explore
-            over 65 programming languages. It&apos;s 100% free.
+            You now have access to Exercism Premium along with behind the scenes
+            videos, new badges, and more!
           </p>
         </header>
 
-        <h2>Thanks for joining!</h2>
+        <h2>Thanks for being part of our story!</h2>
         <p className="mb-12">
-          Insiders has been made by thousands of people who want to create a
-          fun, powerful educational platform that makes it easy to learn and
-          deepen your programming skils. We&apos;re really glad you&apos;ve
-          joined us for the ride! Check our forums, Youtube and Twitch to
-          explore everything Insiders has to offer 🎉
+          Exercism relies on people like you giving up your time and money to
+          help others. Without you we wouldn't have helped the multitude of
+          people that we have. Our journey is still just beginning and we're
+          really glad to have you along with us. Thank you so much for making
+          Exercism possible 💙
         </p>
 
         <p className="mb-12">
-          To get started, watch the welcome video on the right then head to the
-          Tracks page and choose the language you want to explore first. Solve
-          the classic &quot;Hello World&quot; exercise to familiarize yourself
-          with the platform, then start solving exercises for real.
+          We hope Insiders is a fun experience. We recommend watching the video
+          on the right to get an overview of how your account has now changed,
+          and also checking out the Insiders page behind this modal to see all
+          the features you've unlocked.
         </p>
 
         <FormButton
@@ -84,7 +84,7 @@ export const WelcomeToInsidersModal = ({
           type="button"
           onClick={handleClick}
         >
-          Got it! Close this modal.
+          Great. Let's go!
         </FormButton>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
@@ -104,12 +104,12 @@ export const WelcomeToInsidersModal = ({
             allowFullScreen
           />
         </div>
-        <h2 className="text-h4 mb-4">Where can I join #12in23?</h2>
+        <h2 className="text-h4 mb-4">What should I do next?</h2>
         <p className="text-p-base mb-8">
-          Discovered Insiders because of #12in23 or one of our featured months?
-          Good stuff! Once you&apos;ve watched the video above, close this modal
-          and you&apos;ll see a big graphic on the right-hand side advertising
-          #12in23. Click on that and follow the instructions to get started!
+          Explore Dark Mode (we've enabled it by default). Check out your new
+          badge(s). Try ChatGPT in the online editor. Use one of your new
+          mentoring slots. Come and say hello on the #insiders channel on
+          Discord. Or watch some of the behind the scenes videos 🎉
         </p>
       </div>
     </Modal>

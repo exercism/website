@@ -24,7 +24,7 @@
 
     %p.text-p-large.text-center.pb-56 (And even more coming soon!)
 
-  .gradient-container.faqs
+  .gradient-container.faqs.pb-56
     .lg-container
       %h2.text-h1.mb-40 The Nitty Gritty &amp; FAQs
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
@@ -45,14 +45,19 @@
             %li To have had a recurring donation at the point that Premium launched (May 30th 2023), and it still to be active.
             %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
 
+          %p.mb-4 You can also gain access to Insiders by donating.
+          %ul.mb-16
+            %li For donations before we launched Premium, you get one month of Insiders for every $9.99 donated, from the date that Premium launched, plus one extra bonus month. So if you donated $35 before Premium launched, you'd get Insiders access through June, July, August and September 2023.
+            %li For donations after we launched Premium, you get one month of Insiders for every $25 donated. So if you donate $50 today, you'll have access for the next two months.
+
           %p
-            If you think you meet these criteria but don't have access, please open an issue #{link_to 'on the forum', 'https://forum.exercism.org'}.
+            If you think you meet these criteria but don't have access, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
             If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
 
         %details
           %summary I've donated via Paypal or GitHub Sponsors but don't have access.
           Sometimes the tech breaks down and we don't get webhook notifications from GitHub or Paypal.
-          If you had a recurring donations set up at the time of Premium launch (May 30th 2023) and it's still active, and you don't have Insiders, please let us know and we'll sort it.
+          If you have issues, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
 
         %details
           %summary What does Insiders cost?

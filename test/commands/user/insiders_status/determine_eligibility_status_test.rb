@@ -1,18 +1,9 @@
 require "test_helper"
 
 class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::TestCase
-  test "ineligible for new users" do
+  test "ineligible for basic users" do
     user = create :user
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
-  end
-
-  test "ineligible for post launch donor" do
-    user = create :user
-    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
-
-    create :payments_payment, user:, created_at: Date.new(2023, 6, 3)
-
-    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
   end
 
   test "eligible_lifetime for founder" do
@@ -43,21 +34,11 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
     assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 
-  test "eligible_lifetime for big pre launch donor" do
-    user = create :user
-    create :payments_payment, user:, created_at: Date.new(2023, 5, 30), amount_in_cents: 1
+  test "eligible_lifetime for large donor" do
+    user = create :user, total_donated_in_cents: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_DONATIONS_THRESHOLD - 1
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
 
-    create :payments_payment, user:, created_at: Date.new(2021, 1, 1), amount_in_cents: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_DONATIONS_THRESHOLD - 1 # rubocop:disable Layout/LineLength
-    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
-
-    create :payments_payment, user:, created_at: Date.new(2022, 4, 30), amount_in_cents: 1
-    assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
-  end
-
-  test "eligible_lifetime for big post launch donor" do
-    user = create :user
-    create :payments_payment, user:, created_at: Date.new(2023, 6, 3), amount_in_cents: 499_00
+    user = create :user, total_donated_in_cents: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_DONATIONS_THRESHOLD
     assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
   end
 
@@ -66,13 +47,29 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
     assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 
-  test "eligible for pre launch donor" do
-    user = create :user
-    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+  test "eligible for active_prelaunch_subscription" do
+    # Get away from any special logic that happens just after launch with old donations
+    travel_to(Date.new(2024, 1, 1)) do
+      # Newer than launch
+      user = create :user
+      create(:payments_subscription, status: :active, created_at: Date.new(2023, 6, 1), user:)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
 
-    create :payments_payment, user:, created_at: Date.new(2023, 4, 30)
+      # Prelaunch but canceled
+      user = create :user
+      create(:payments_subscription, status: :canceled, created_at: Date.new(2022, 6, 1), user:)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
 
-    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+      # Prelaunch and active
+      user = create :user
+      create(:payments_subscription, status: :active, created_at: Date.new(2022, 6, 1), user:)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+      # Prelaunch and overdue
+      user = create :user
+      create(:payments_subscription, status: :overdue, created_at: Date.new(2022, 6, 1), user:)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+    end
   end
 
   test "eligible for monthly rep" do
@@ -97,5 +94,75 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
     create :user_reputation_period, period: :year, about: :everything, category: :any,
       user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::ANNUAL_REPUTATION_THRESHOLD
     assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+  end
+
+  test "eligible for prelaunch donations" do
+    user_tiny_donation = create :user
+    create :payments_payment, amount_in_cents: 1, created_at: Date.new(2023, 5, 1), user: user_tiny_donation
+
+    user_15 = create :user
+    create :payments_payment, amount_in_cents: 15_00, created_at: Date.new(2023, 5, 1), user: user_15
+
+    user_25 = create :user
+    create :payments_payment, amount_in_cents: 25_00, created_at: Date.new(2023, 5, 1), user: user_25
+
+    travel_to(Date.new(2023, 6, 1)) do
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+    end
+
+    travel_to(Date.new(2023, 7, 1)) do
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+    end
+
+    travel_to(Date.new(2023, 8, 1)) do
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+    end
+
+    travel_to(Date.new(2023, 9, 1)) do
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+    end
+  end
+
+  test "eligible for postlaunch donations" do
+    user_tiny_donation = create :user
+    create :payments_payment, amount_in_cents: 1, created_at: Date.new(2023, 6, 1), user: user_tiny_donation
+
+    user_15 = create :user
+    create :payments_payment, amount_in_cents: 15_00, created_at: Date.new(2023, 6, 1), user: user_15
+
+    user_25 = create :user
+    create :payments_payment, amount_in_cents: 25_00, created_at: Date.new(2023, 6, 1), user: user_25
+
+    user_50 = create :user
+    create :payments_payment, amount_in_cents: 50_00, created_at: Date.new(2023, 6, 1), user: user_50
+
+    travel_to(Date.new(2023, 6, 2)) do
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_50.reload)
+    end
+
+    travel_to(Date.new(2023, 7, 2)) do
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_50.reload)
+    end
+
+    travel_to(Date.new(2023, 8, 2)) do
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_50.reload)
+    end
   end
 end

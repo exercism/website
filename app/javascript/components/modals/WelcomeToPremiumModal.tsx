@@ -54,28 +54,28 @@ export const WelcomeToPremiumModal = ({
     >
       <div className="lhs">
         <header>
-          <h1>Welcome to Premium! 💙</h1>
+          <h1>Welcome to Premium! 💎</h1>
 
-          <p className="">
-            Premium is the place to deepen your programming skills and explore
-            over 65 programming languages. It&apos;s 100% free.
+          <p>
+            Thanks for upgrading! We really hope you enjoy the new features and
+            functionality you've unlocked.
           </p>
         </header>
 
         <h2>Thanks for joining!</h2>
         <p className="mb-12">
-          Premium has been made by thousands of people who want to create a fun,
-          powerful educational platform that makes it easy to learn and deepen
-          your programming skils. We&apos;re really glad you&apos;ve joined us
-          for the ride! Check our forums, Youtube and Twitch to explore
-          everything Premium has to offer 🎉
+          We've created Premium as a way of keping the core Exercism product
+          free for everyone. By upgrading to Premium, not only have you unlocked
+          new features and functionality, you've also helped an open-source,
+          not-for-profit organisation that's determined to make access to
+          education more equal. So thank you so much for supporting us! 💙
         </p>
 
         <p className="mb-12">
-          To get started, watch the welcome video on the right then head to the
-          Tracks page and choose the language you want to explore first. Solve
-          the classic &quot;Hello World&quot; exercise to familiarize yourself
-          with the platform, then start solving exercises for real.
+          To get started with Premium, watch the welcome video on the right then
+          close this modal and explore the various features and functionality
+          you've unlocked. If you've got ideas for what you'd like to see added
+          to Premium, let us know on the forum!
         </p>
 
         <FormButton
@@ -104,12 +104,13 @@ export const WelcomeToPremiumModal = ({
             allowFullScreen
           />
         </div>
-        <h2 className="text-h4 mb-4">Where can I join #12in23?</h2>
+        <h2 className="text-h4 mb-4">What should I do next?</h2>
         <p className="text-p-base mb-8">
-          Discovered Premium because of #12in23 or one of our featured months?
-          Good stuff! Once you&apos;ve watched the video above, close this modal
-          and you&apos;ll see a big graphic on the right-hand side advertising
-          #12in23. Click on that and follow the instructions to get started!
+          Explore Dark Mode (we've enabled it by default for you). Check out
+          your new badge(s). Try ChatGPT in the online editor. Use one of your
+          new mentoring slots. And if you're feeling extra generous, post on
+          social media and tell all your friends that they should upgrade too!
+          🎉
         </p>
       </div>
     </Modal>

@@ -25,16 +25,21 @@ export function useTheme(
   links: Pick<ThemePreferenceLinks, 'update'>
 ): useThemeReturns {
   const [theme, setTheme] = useState<string>(defaultThemePreference || '')
+  const [hasBeenUpdated, setHasBeenUpdated] = useState(false)
   const debouncedTheme = useDebounce(theme, 1000)
 
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',
     body: { user_preferences: { theme: debouncedTheme } },
+    onSuccess: () => setHasBeenUpdated(true),
   })
 
   useEffect(() => {
-    if (debouncedTheme && debouncedTheme !== defaultThemePreference) {
+    if (
+      debouncedTheme &&
+      (debouncedTheme !== defaultThemePreference || hasBeenUpdated)
+    ) {
       mutation()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

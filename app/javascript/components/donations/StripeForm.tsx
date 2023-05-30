@@ -1,7 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
-import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
+import {
+  StripeCardElement,
+  StripeCardElementChangeEvent,
+} from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { fetchJSON } from '@/utils/fetch-json'
@@ -78,8 +81,8 @@ export function StripeForm({
   const elements = useElements()
 
   // Focus on the card number once the element loads
-  const handleCardReady = async (event: StripeCardElementReadyEvent) => {
-    event.focus()
+  const handleCardReady = async (element: StripeCardElement) => {
+    element.focus()
   }
 
   const handleCardChange = async (event: StripeCardElementChangeEvent) => {
@@ -100,15 +103,18 @@ export function StripeForm({
     })
   }, [])
 
-  const notifyServerOfSuccess = useCallback((paymentIntent: PaymentIntent) => {
-    const endpoint = paymentIntentSucceededEndpoint.replace(
-      '$ID',
-      paymentIntent.id
-    )
-    return fetchJSON(endpoint, {
-      method: 'PATCH',
-    })
-  }, [])
+  const notifyServerOfSuccess = useCallback(
+    async (paymentIntent: PaymentIntent) => {
+      const endpoint = paymentIntentSucceededEndpoint.replace(
+        '$ID',
+        paymentIntent.id
+      )
+      return fetchJSON(endpoint, {
+        method: 'PATCH',
+      })
+    },
+    []
+  )
 
   const getPaymentRequest = useCallback(() => {
     return fetchJSON(createPaymentIntentEndpoint, {
@@ -170,7 +176,7 @@ export function StripeForm({
         setError(undefined)
         setProcessing(false)
         setSucceeded(true)
-        notifyServerOfSuccess(paymentIntent)
+        await notifyServerOfSuccess(paymentIntent)
         onSuccess(paymentIntentType, amount)
       }
     })

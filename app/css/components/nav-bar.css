@@ -143,7 +143,6 @@
                 }
                 .nav-dropdown-element {
                     @apply gap-16;
-                    @apply pr-40;
                 }
                 .nav-element-link {
                     .c-icon {
@@ -195,6 +194,9 @@
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
+                        }
+                        .c-icon.external-icon {
+                            @apply w-[16px] h-[16px] ml-auto;
                         }
                     }
                     .nav-element-link {

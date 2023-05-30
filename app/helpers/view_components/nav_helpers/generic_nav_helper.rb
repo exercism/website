@@ -18,13 +18,18 @@ module ViewComponents
         end
       end
 
-      def conditional_link(path = nil)
+      def conditional_link(path = nil, external: false)
         content = yield
 
         if path.nil?
           content
         else
-          link_to(content, path, tabindex: 0, role: 'none', class: 'nav-element-link nav-element-focusable')
+          opts = {
+            tabindex: 0, role: 'none', class: 'nav-element-link nav-element-focusable'
+          }
+          opts.merge!(target: "_blank", rel: 'noreferrer') if external # rubocop:disable Performance/RedundantMerge
+
+          link_to(content, path, **opts)
         end
       end
 

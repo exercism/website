@@ -54,14 +54,16 @@ module ViewComponents
           description: "Chat & hang with the community",
           path: Exercism::Routes.discord_redirect_path,
           icon: 'external-site-discord-blue',
-          view: :discord
+          view: :discord,
+          external: true
         },
         {
           title: "Forum",
           description: "Dig deeper into topics",
           path: Exercism::Routes.forum_redirect_path,
           icon: :discourser,
-          view: :forum
+          view: :forum,
+          external: true
         }
       ].freeze
 
@@ -107,10 +109,25 @@ module ViewComponents
 
       MORE_SUBMENU = [
         {
-          title: "SWAG",
-          description: "Hoodies, stickers & more",
-          path: 'https://swag.exercism.org',
-          icon: :swag,
+          title: "About Exercism",
+          description: "Learn about our organisation",
+          path: Exercism::Routes.about_path,
+          icon: :'exercism-face',
+          icon_filter: "textColor6"
+        },
+        {
+          title: "Our Impact",
+          description: "Explore what we've achieved",
+          path: Exercism::Routes.impact_about_path,
+          icon: :report,
+          icon_filter: "textColor6"
+        },
+
+        {
+          title: "Donate",
+          description: "Help support our mission",
+          path: Exercism::Routes.donate_path,
+          icon: :donate,
           icon_filter: "textColor6"
         },
         {
@@ -120,18 +137,12 @@ module ViewComponents
           icon: :insiders
         },
         {
-          title: "About Exercism",
-          description: "Learn about our organisation",
-          path: Exercism::Routes.about_path,
-          icon: :'exercism-face',
-          icon_filter: "textColor6"
-        },
-        {
-          title: "Donate",
-          description: "Help support our mission",
-          path: Exercism::Routes.donate_path,
-          icon: :donate,
-          icon_filter: "textColor6"
+          title: "SWAG",
+          description: "Hoodies, stickers & more",
+          path: 'https://swag.exercism.org',
+          icon: :swag,
+          icon_filter: "textColor6",
+          external: true
         }
 
       ].freeze

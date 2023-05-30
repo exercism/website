@@ -27,7 +27,7 @@ class User::InsidersStatus::Update
     # These things are being called for when someone:
     # - LOSES Insiders access; or
     # - UPGRADES from normal to lifetime
-    # 
+    #
     # This code is not called when they GAIN Insiders.
     # Look at Activate.() for that instead.
     User::SetDiscordRoles.defer(user)

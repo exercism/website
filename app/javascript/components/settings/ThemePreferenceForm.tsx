@@ -11,6 +11,7 @@ import { useThemeObserver } from '@/hooks'
 export type ThemePreferenceLinks = {
   update: string
   insidersPath: string
+  premiumPath: string
 }
 
 export type Theme = {
@@ -23,10 +24,12 @@ export type Theme = {
 export const ThemePreferenceForm = ({
   defaultThemePreference,
   insidersStatus,
+  isPremium,
   links,
 }: {
   defaultThemePreference: string
   insidersStatus: string
+  isPremium: boolean
   links: ThemePreferenceLinks
 }): JSX.Element => {
   const { handleThemeUpdate } = useTheme(defaultThemePreference, links)
@@ -36,6 +39,8 @@ export const ThemePreferenceForm = ({
     <form data-turbo="false">
       <h2 className="!mb-4">Theme</h2>
       <InfoMessage
+        isPremium={isPremium}
+        premiumPath={links.premiumPath}
         insidersStatus={insidersStatus}
         insidersPath={links.insidersPath}
       />
@@ -43,9 +48,10 @@ export const ThemePreferenceForm = ({
         {THEMES.map((t: Theme) => (
           <ThemeButton
             key={t.label}
+            links={links}
             theme={t}
             currentTheme={theme.split('-')[1]}
-            disabledInfo={isDisabled(insidersStatus, t.value)}
+            disabledInfo={isDisabled(isPremium, t.value, theme)}
             onClick={(e) => handleThemeUpdate(t, e)}
           />
         ))}

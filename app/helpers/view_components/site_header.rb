@@ -67,7 +67,7 @@ module ViewComponents
               generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150,
                 has_view: true, view: (current_user&.premium? ? nil : :premium),
                 css_class: "premium"),
-              ReactComponents::Common::ThemeToggleButton.new(enabled: current_user.premium?)
+              ReactComponents::Common::ThemeToggleButton.new(user: current_user)
             ]
           )
         end

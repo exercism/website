@@ -1,3 +1,5 @@
+import { ConditionTextManager } from '@/utils/condition-text-manager'
+
 export function setThemeClassName(theme: string): void {
   const themeData = grabCurrentTheme()
   if (!themeData) return
@@ -29,23 +31,21 @@ export function grabCurrentTheme():
 
 export type isButtonDisabled = { level: string; disabled: boolean }
 export function isDisabled(
-  insidersStatus: string,
-  theme: string
+  isPremium: boolean,
+  theme: string,
+  currentTheme: string
 ): isButtonDisabled {
-  const active = ['active', 'active_lifetime'].includes(insidersStatus)
   const disabledTheme = ['dark', 'system'].includes(theme)
-  const themeData = grabCurrentTheme()
-  const currentTheme = themeData ? themeData.currentTheme : ''
   const selectedTheme = currentTheme === `theme-${theme}`
 
-  const disabled = (!active && disabledTheme) || selectedTheme
+  const disabled = (!isPremium && disabledTheme) || selectedTheme
 
-  const disabledIndex =
-    Math.max(Number(selectedTheme) * 1, Number(!active && disabledTheme) * 2) -
-    1
+  const disabledLevel = new ConditionTextManager()
+  disabledLevel.append(selectedTheme, 'selected')
+  disabledLevel.append(!isPremium && disabledTheme, 'non-premium')
 
   return {
-    level: ['selected', 'non-insider'][disabledIndex] || 'enabled',
+    level: disabledLevel.getLastTrueText() || 'enabled',
     disabled,
   }
 }

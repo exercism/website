@@ -90,8 +90,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
     }
 
-    & nav.signed-in,
-    & nav.signed-out {
+    & nav {
         @apply hidden;
         @apply lg:block lg:mr-16;
 
@@ -110,18 +109,10 @@ body.keyboard-navigation .nav-element:hover .arrow {
 
     & nav.signed-in {
         @apply flex-grow;
-
-        /* & a {
-            @apply px-8 py-8;
-        } */
     }
 
     & nav.signed-out {
         @apply mr-auto;
-
-        & li {
-            @apply mr-32;
-        }
     }
 
     & .user-section {

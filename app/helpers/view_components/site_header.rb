@@ -63,7 +63,6 @@ module ViewComponents
               generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
               generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
               generic_nav("More", submenu: MORE_SUBMENU, offset: 0),
-              # generic_nav("Resources", submenu: LEARN_SUBMENU, offset: 100),
               generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150,
                 has_view: true, view: (current_user&.premium? ? nil : :premium),
                 css_class: "premium"),
@@ -120,16 +119,14 @@ module ViewComponents
     end
 
     def signed_out_nav
-      tag.nav(class: 'signed-out') do
+      tag.nav(role: 'navigation') do
         tag.ul do
           safe_join(
             [
-              si_nav_li("Home", :home, Exercism::Routes.root_path, selected_tab == :dashboard),
-              si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              si_nav_li("Community", :community, Exercism::Routes.community_path, selected_tab == :community),
-              si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
-              si_nav_li("Insiders 💜", :insiders, Exercism::Routes.insiders_path, selected_tab == :insiders),
-              si_nav_li("Donate", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
+              generic_nav("Learn", submenu: LEARN_SUBMENU, path: Exercism::Routes.tracks_path),
+              generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
+              generic_nav("More", submenu: MORE_SUBMENU, offset: 0)
             ]
           )
         end

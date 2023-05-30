@@ -18,14 +18,23 @@ class Payments::Payment::Create
       subscription:,
       amount_in_cents:
     ).tap do |payment|
-      User::UpdateTotalDonatedInCents.(user) if product == :donation
+      if product == :premium
+        User::Premium::Update.(user)
+      elsif product == :donation
+        User::UpdateTotalDonatedInCents.(user)
+        User::RegisterAsDonor.(user, Time.current)
 
-      # TODO: the donation guard means that a premium user doesn't get the supporter badge
-      # We probably do want that, right?
-      User::RegisterAsDonor.(user, Time.current) if product == :donation
+        if amount_in_cents >= 499_00
+          # Instally activate a user that donates 499 or more, as it's
+          # likely that the reason they're doing it is to immediately
+          # get a Premium subscription.
+          User::InsidersStatus::Activate.(user, force_lifetime: true)
+        else
+          User::InsidersStatus::Update.(user)
+        end
+      end
 
       Payments::Payment::SendEmail.defer(payment)
-      User::Premium::Update.(user) if product == :premium
     end
   rescue ActiveRecord::RecordNotUnique
     Payments::Payment.find_by!(external_id:, provider:)

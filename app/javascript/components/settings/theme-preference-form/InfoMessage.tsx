@@ -18,15 +18,6 @@ export function InfoMessage({
   }
 
   switch (insidersStatus) {
-    case 'active':
-    case 'active_lifetime':
-      return (
-        <p className="text-p-base mb-16">
-          As an Exercism Insider, you have access to Dark Mode. Choose between
-          light, dark, or automatically update based on your system preferences.
-          Thank you for supporting Exercism! 💙
-        </p>
-      )
     case 'eligible':
     case 'eligible_lifetime':
       return (

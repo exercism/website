@@ -1,59 +1,69 @@
 require 'test_helper'
 
 class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
-  [
-    %i[ineligible ineligible],
-    %i[eligible ineligible],
-    %i[active ineligible],
-    %i[eligible_lifetime eligible_lifetime],
-    %i[active_lifetime active_lifetime]
-  ].each do |(current_status, expected_status)|
-    test "ineligible: insiders_status set to #{expected_status} when currently #{current_status}" do
-      user = create :user, insiders_status: current_status
+  %i[eligible_lifetime active_lifetime].each do |status|
+    test "#{status} is a noop" do
+      user = create :user, insiders_status: status
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).never
 
       User::InsidersStatus::Update.(user)
 
-      assert_equal expected_status, user.reload.insiders_status
+      assert_equal status, user.reload.insiders_status
     end
   end
 
-  test "ineligible: notification created when current status is active" do
-    user = create :user, insiders_status: :active
+  %i[ineligible eligible].each do |status|
+    test "#{status} -> ineligible" do
+      user = create :user, insiders_status: status
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
 
-    # TODO: Make this Create.(...)
-    User::Notification::CreateEmailOnly.expects(:defer).with(user, :expired_insiders).once
+      User::InsidersStatus::Update.(user)
 
-    User::InsidersStatus::Update.(user)
+      assert_equal :ineligible, user.reload.insiders_status
+    end
   end
 
-  %i[ineligible eligible eligible_lifetime active_lifetime].each do |current_status|
-    test "ineligible: notification not created when current status is #{current_status}" do
-      user = create :user, insiders_status: current_status
+  test "active -> ineligible" do
+    user = create :user, insiders_status: :active
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
 
+    User::SetDiscordRoles.expects(:defer).with(user)
+    User::SetDiscourseGroups.expects(:defer).with(user)
+    User::Notification::Create.expects(:defer).never
+    User::UpdateFlair.expects(:defer).with(user)
+
+    User::InsidersStatus::Update.(user)
+
+    assert_equal :ineligible, user.reload.insiders_status
+  end
+
+  %i[ineligible eligible eligible_lifetime].each do |status|
+    test "unset -> #{status}: set discord roles" do
+      user = create :user, insiders_status: :unset
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(status)
+
+      User::SetDiscordRoles.expects(:defer).with(user).never
+      User::SetDiscourseGroups.expects(:defer).with(user).never
       User::Notification::Create.expects(:defer).never
 
       User::InsidersStatus::Update.(user)
     end
   end
 
-  test "ineligible: set discord roles" do
-    user = create :user, insiders_status: :unset
+  test "active -> active_lifetime" do
+    user = create :user, insiders_status: :active
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:active_lifetime)
 
-    User::SetDiscordRoles.expects(:defer).with(user)
+    perform_enqueued_jobs do
+      User::InsidersStatus::Update.(user)
+    end
 
-    User::InsidersStatus::Update.(user)
+    assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
+    assert_equal :lifetime_insider, user.flair
   end
 
-  test "ineligible: set discourse groups" do
-    user = create :user, insiders_status: :unset
-
-    User::SetDiscourseGroups.expects(:defer).with(user)
-
-    User::InsidersStatus::Update.(user)
-  end
-
-  test "ineligible: user is premium until last payment date + 1 month + 15 days if that is in the future" do
-    freeze_time do
+  test "active -> ineligible: user is premium until last payment date + 1 month + 15 days if that is in the future" do
+    travel_to(Date.new(2025, 1, 1)) do
       user = create :user, insiders_status: :active, premium_until: Time.current
       subscription = create(:payments_subscription, :premium, status: :active, user:)
       create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
@@ -142,25 +152,13 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   end
 
   test "eligible: set discord roles" do
-    user = create :user, insiders_status: :ineligible
+    travel_to(Date.new(2025, 1, 1)) do
+      user = create :user, insiders_status: :ineligible
 
-    # Make the user eligible
-    create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible)
 
-    User::SetDiscordRoles.expects(:defer).with(user)
-
-    User::InsidersStatus::Update.(user)
-  end
-
-  test "eligible: set discourse groups" do
-    user = create :user, insiders_status: :ineligible
-
-    # Make the user eligible
-    create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
-
-    User::SetDiscourseGroups.expects(:defer).with(user)
-
-    User::InsidersStatus::Update.(user)
+      User::InsidersStatus::Update.(user)
+    end
   end
 
   [
@@ -234,58 +232,5 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     end
 
     assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
-  end
-
-  test "eligible_lifetime: flair updated to lifetime_insider when current status is active" do
-    user = create :user, insiders_status: :active
-
-    User::SetDiscourseGroups.stubs(:defer)
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    User::InsidersStatus::Update.(user)
-
-    assert_equal :lifetime_insider, user.flair
-  end
-
-  test "eligible_lifetime: give lifetime premium when current status is active" do
-    user = create :user, insiders_status: :active
-
-    User::SetDiscourseGroups.stubs(:defer)
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    # Sanity check
-    refute user.premium?
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert user.reload.premium?
-  end
-
-  test "eligible_lifetime: set discourse groups" do
-    user = create :user, insiders_status: :active
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    User::SetDiscourseGroups.expects(:defer).with(user)
-
-    User::InsidersStatus::Update.(user)
-  end
-
-  test "eligible_lifetime: set discord roles" do
-    user = create :user, insiders_status: :active
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
-    User::SetDiscordRoles.expects(:defer).with(user)
-
-    User::InsidersStatus::Update.(user)
   end
 end

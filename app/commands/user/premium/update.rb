@@ -1,6 +1,8 @@
 class User::Premium::Update
   include Mandate
 
+  LIFETIME_PREMIUM_UNTIL = Time.utc(9999, 12, 31).freeze
+
   initialize_with :user
 
   def call
@@ -38,6 +40,4 @@ class User::Premium::Update
 
   memoize
   def last_payment = user.payments.premium.order(:id).last
-
-  LIFETIME_PREMIUM_UNTIL = Time.utc(9999, 12, 31).freeze
 end

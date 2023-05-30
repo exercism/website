@@ -30,8 +30,6 @@ class Payments::Payment::CreateTest < Payments::TestBase
     user = create :user
     refute user.reload.badges.present?
 
-    User::SetDiscourseGroups.stubs(:defer)
-
     assert_enqueued_with(job: AwardBadgeJob) do
       Payments::Payment::Create.(user, :stripe, :donation, 1, 1, "")
     end
@@ -42,8 +40,6 @@ class Payments::Payment::CreateTest < Payments::TestBase
 
   test "sends email for donation" do
     user = create :user
-
-    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       Payments::Payment::Create.(user, :stripe, :donation, 1, 1, "")
@@ -102,5 +98,23 @@ class Payments::Payment::CreateTest < Payments::TestBase
 
     assert_equal 1, Payments::Payment.count
     assert_equal payment_1, payment_2
+  end
+
+  test "handles insiders status correctly" do
+    # Eligible for 498
+    user = create :user
+    Payments::Payment::Create.(user, :stripe, :donation, SecureRandom.uuid, 498_00, "")
+    assert_equal :eligible, user.reload.insiders_status
+
+    # Eligible lifetime for two payments equaling 499
+    user = create :user
+    Payments::Payment::Create.(user, :stripe, :donation, SecureRandom.uuid, 200_00, "")
+    Payments::Payment::Create.(user, :stripe, :donation, SecureRandom.uuid, 299_00, "")
+    assert_equal :eligible_lifetime, user.reload.insiders_status
+
+    # But lifetime and activated for 499
+    user = create :user
+    Payments::Payment::Create.(user, :stripe, :donation, SecureRandom.uuid, 499_00, "")
+    assert_equal :active_lifetime, user.reload.insiders_status
   end
 end

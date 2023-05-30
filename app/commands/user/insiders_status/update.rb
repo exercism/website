@@ -10,8 +10,9 @@ class User::InsidersStatus::Update
     return if user.insiders_status_active_lifetime?
     return if user.insiders_status_eligible_lifetime?
 
+    old_status = user.insiders_status
     new_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
-    return if new_status == user.insiders_status
+    return if new_status == old_status
 
     user.with_lock do
       case new_status
@@ -32,13 +33,18 @@ class User::InsidersStatus::Update
     # Create whatever notification we've generated
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
 
-    if user.insiders_status_ineligible?
-      # If someone is no longer eligible, we need to revert
-      # a load of bits
+    if user.insiders_status_ineligible? && old_status == :active
+      # If someone was an insider but they are no longer eligible,
+      # we need to revert a load of bits
       User::SetDiscordRoles.defer(user)
       User::SetDiscourseGroups.defer(user)
       User::Premium::Update.defer(user)
       User::UpdateFlair.defer(user)
+
+    # This is the case where someone's cancelled their donation
+    # but are still active for a period
+    elsif user.insiders_status_active?
+      User::Premium::Update.defer(user)
 
     elsif user.insiders_status_active_lifetime?
       # This is only called when someone is changing from

@@ -32,7 +32,9 @@ const CLIWalkthroughButton = lazy(
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
-const InsiderStatus = lazy(() => import('../components/insiders/InsiderStatus'))
+const InsidersStatus = lazy(
+  () => import('../components/insiders/InsidersStatus')
+)
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -445,7 +447,7 @@ export const mappings = {
   ),
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <InsiderStatus {...data} />
+      <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
   'premium-price-option': (data: PriceOptionProps): JSX.Element => (
@@ -496,7 +498,7 @@ import { highlightAll } from '../utils/highlight'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
-import { InsidersStatusData } from '../components/insiders/InsiderStatus'
+import { InsidersStatusData } from '../components/insiders/InsidersStatus'
 import { handleNavbarFocus } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'

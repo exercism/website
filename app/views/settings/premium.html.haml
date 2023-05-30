@@ -29,6 +29,7 @@
                 = link_to "our mission", about_path, class: "text-a-subtle"
                 to help everyone get better at programming.
               = link_to "Find out more", premium_path, class: "btn-primary btn-s"
+
         - if current_user.current_active_premium_subscription
           %table.payments
             %tr

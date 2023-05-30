@@ -54,6 +54,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
         # then act from the date of the donation, not from launch
         active_until = donation.created_at + (donation.amount_in_dollars / 25).floor.months
       end
+
       return true if active_until > Time.current
     end
 

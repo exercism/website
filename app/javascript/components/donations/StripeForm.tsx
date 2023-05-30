@@ -262,7 +262,9 @@ export function StripeForm({
               (!userSignedIn && email.length === 0)
             }
           >
-            {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
+            {processing ? (
+              <Icon icon="spinner" alt="Progressing" className="animate-spin" />
+            ) : null}
             <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
           </button>
         </div>

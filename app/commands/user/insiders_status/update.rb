@@ -24,10 +24,10 @@ class User::InsidersStatus::Update
       end
     end
 
+    User::Premium::Update.(user)
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key
-    User::Premium::Update.defer(user)
 
     return unless user.insiders_status_active_lifetime?
 

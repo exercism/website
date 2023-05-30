@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_24_091753) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -130,8 +130,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_091753) do
     t.datetime "updated_at", null: false
     t.string "channel_url", null: false
     t.string "embed_url", null: false
+    t.datetime "published_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["author_id"], name: "index_community_videos_on_author_id"
     t.index ["exercise_id"], name: "index_community_videos_on_exercise_id"
+    t.index ["published_at"], name: "index_community_videos_on_published_at"
     t.index ["submitted_by_id"], name: "index_community_videos_on_submitted_by_id"
     t.index ["track_id"], name: "index_community_videos_on_track_id"
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true

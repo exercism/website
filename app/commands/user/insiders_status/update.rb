@@ -35,8 +35,9 @@ class User::InsidersStatus::Update
 
     return unless user.insiders_status_active_lifetime?
 
+    # This is only called when someone is changing from
+    # normal insider to lifetime insider.
     User::UpdateFlair.(user)
-    AwardBadgeJob.perform_later(user, :insider)
     AwardBadgeJob.perform_later(user, :lifetime_insider)
   end
 

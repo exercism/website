@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import currency from 'currency.js'
+import { redirectTo } from '@/utils'
 import { Modal } from '../modals'
 import { GraphicalIcon } from '../common'
 import { ExercismStripeElements } from '../donations/ExercismStripeElements'
 import { PaymentIntentType, StripeForm } from '../donations/StripeForm'
-import { redirectTo } from '@/utils/redirect-to'
 
 type Period = 'month' | 'year' | 'lifetime'
 
@@ -46,7 +46,7 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
         theme="dark"
         ReactModalClassName="max-w-[570px]"
       >
-        {ModalHeader(data.period)}
+        <ModalHeader period={data.period} />
         <hr className="mb-32 border-borderColor5 -mx-48" />
         <ExercismStripeElements>
           <StripeForm
@@ -55,7 +55,7 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
             onSuccess={handleSuccess}
           />
         </ExercismStripeElements>
-        {ModalFooter(data.period)}
+        <ModalFooter period={data.period} />
       </Modal>
     </>
   )
@@ -79,7 +79,7 @@ function PriceCard({ onStripeClick, paypalLink }: PriceCardProps): JSX.Element {
   )
 }
 
-function ModalHeader(period: Period): JSX.Element {
+export function ModalHeader({ period }: { period: Period }): JSX.Element {
   if (period == 'lifetime') {
     return (
       <>
@@ -111,7 +111,7 @@ function ModalHeader(period: Period): JSX.Element {
   )
 }
 
-function ModalFooter(period: Period): JSX.Element {
+export function ModalFooter({ period }: { period: Period }): JSX.Element {
   if (period == 'lifetime') {
     return (
       <p className="text-p-small mt-20">

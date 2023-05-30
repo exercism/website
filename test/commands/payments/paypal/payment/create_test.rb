@@ -55,6 +55,8 @@ class Payments::Paypal::Payment::CreateTest < Payments::TestBase
     user = create :user
     refute user.reload.badges.present?
 
+    User::SetDiscourseGroups.stubs(:defer)
+
     assert_enqueued_with(job: AwardBadgeJob) do
       Payments::Paypal::Payment::Create.(user, 1, 1, :donation)
     end
@@ -65,6 +67,8 @@ class Payments::Paypal::Payment::CreateTest < Payments::TestBase
 
   test "sends donation email" do
     user = create :user
+
+    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       Payments::Paypal::Payment::Create.(user, 1, 1, :donation)

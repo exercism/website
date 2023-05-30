@@ -39,6 +39,8 @@ export const ThemePreferenceForm = ({
     <form data-turbo="false">
       <h2 className="!mb-4">Theme</h2>
       <InfoMessage
+        isPremium={isPremium}
+        premiumPath={links.premiumPath}
         insidersStatus={insidersStatus}
         insidersPath={links.insidersPath}
       />

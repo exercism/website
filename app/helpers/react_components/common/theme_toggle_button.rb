@@ -1,7 +1,7 @@
 module ReactComponents
   module Common
     class ThemeToggleButton < ReactComponent
-      initialize_with enabled: true, default_theme:
+      initialize_with user: nil
 
       def to_s
         super("common-theme-toggle-button", {
@@ -9,8 +9,8 @@ module ReactComponents
             update: Exercism::Routes.api_settings_user_preferences_url,
             premium: Exercism::Routes.premium_path
           },
-          disabled: !enabled,
-          default_theme:
+          disabled: !user.premium?,
+          default_theme: user.preferences.theme
         })
       end
     end

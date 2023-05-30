@@ -22,6 +22,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_cycle" => "Monthly"
       }
 
+      User::SetDiscourseGroups.stubs(:defer)
+
       perform_enqueued_jobs do
         Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
       end
@@ -47,7 +49,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       recurring_payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
       user = create(:user, paypal_payer_id:)
-      subscription = create(:payments_subscription, :paypal, external_id: recurring_payment_id, user:)
+      subscription = create(:payments_subscription, :active, :paypal, external_id: recurring_payment_id, user:)
       amount_in_dollars = 15
       amount_in_cents = amount_in_dollars * 100
       payload = {
@@ -66,6 +68,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
       end
 
+      user.reload
       assert_equal 1, Payments::Payment.count
       payment = Payments::Payment.last
       assert_equal payment_id, payment.external_id
@@ -74,7 +77,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       assert_equal user, payment.user
       assert_equal :paypal, payment.provider
       assert_equal subscription, payment.subscription
-      assert_equal 0, user.reload.total_donated_in_cents
+      assert_equal 0, user.total_donated_in_cents
       assert_nil user.first_donated_at
       refute user.donated?
       assert user.premium?

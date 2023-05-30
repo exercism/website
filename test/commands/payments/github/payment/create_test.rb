@@ -28,6 +28,8 @@ class Payments::Github::Payment::CreateTest < Payments::TestBase
     user = create :user
     refute user.reload.badges.present?
 
+    User::SetDiscourseGroups.stubs(:defer)
+
     assert_enqueued_with(job: AwardBadgeJob) do
       Payments::Github::Payment::Create.(user, 1, 1)
     end
@@ -38,6 +40,8 @@ class Payments::Github::Payment::CreateTest < Payments::TestBase
 
   test "sends email" do
     user = create :user
+
+    User::SetDiscourseGroups.stubs(:defer)
 
     perform_enqueued_jobs do
       Payments::Github::Payment::Create.(user, 1, 1)

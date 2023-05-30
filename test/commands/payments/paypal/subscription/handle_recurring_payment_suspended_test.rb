@@ -20,7 +20,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedTest < Paym
     assert subscription.reload.canceled?
   end
 
-  test "suspended premium subscription payment causes user to be premium user for grace period" do
+  test "suspended premium subscription payment causes user to no longer be premium user" do
     user = create :user, premium_until: Time.current + 2.days
     subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
     create(:payments_payment, :premium, :paypal, user:, subscription:)
@@ -32,7 +32,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedTest < Paym
       Payments::Paypal::Subscription::HandleRecurringPaymentSuspended.(payload)
     end
 
-    assert user.reload.premium?
+    refute user.reload.premium?
 
     travel_to Time.current + 50.days
     refute user.reload.premium?

@@ -223,6 +223,38 @@
             }
         }
     }
+
+    #journey-view {
+        @apply absolute overflow-hidden;
+        @apply flex justify-end;
+        @apply bg-cover rounded-8;
+        background-image: url("hero-journey.svg");
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-position: 35%;
+
+        .journey-contents {
+            background-color: rgba(106, 147, 255, 0.8);
+            @apply rounded-16 m-16;
+            height: fit-content;
+
+            .content {
+                @apply flex items-center gap-12 font-semibold text-16;
+                @apply py-8 px-16;
+                span {
+                    @apply p-0 leading-150 text-midnightBlue;
+                }
+                .c-icon {
+                    width: 20px;
+                    height: 20px;
+                    @apply filter-textColor1NoDark;
+                }
+            }
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .nav-element-dropdown,
         .arrow {

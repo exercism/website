@@ -20,7 +20,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentExpiredTest < Paymen
     assert subscription.reload.canceled?
   end
 
-  test "expiring premium subscription causes user to be premium user for grace period" do
+  test "expiring premium subscription causes user to no longer be premium user" do
     user = create :user, premium_until: Time.current + 2.days
     subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
     create(:payments_payment, :premium, :paypal, user:, subscription:)
@@ -32,7 +32,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentExpiredTest < Paymen
       Payments::Paypal::Subscription::HandleRecurringPaymentExpired.(payload)
     end
 
-    assert user.reload.premium?
+    refute user.reload.premium?
 
     travel_to Time.current + 50.days
     refute user.reload.premium?

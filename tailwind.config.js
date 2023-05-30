@@ -172,6 +172,7 @@ module.exports = {
       veryLightBlue: '#E1EBFF',
       veryLightBlue2: '#E2EBFF',
       evenLighterBlue: '#ECF2FF',
+      cornflowerBlue: '#6A93FF',
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
       eerieBlack: '#191525',

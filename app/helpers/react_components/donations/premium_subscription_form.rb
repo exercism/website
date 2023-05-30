@@ -7,7 +7,7 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
         user_signed_in: user_signed_in?,
         captcha_required: !current_user || current_user.captcha_required?,
         recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key)
-      }.merge(donation_attributes)
+      }.merge(premium_attributes)
     )
   end
 
@@ -18,7 +18,7 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
     Exercism::Routes.cancel_api_payments_subscription_url(current_user.current_active_premium_subscription)
   end
 
-  def donation_attributes = current_user.current_active_premium_subscription.attributes.slice("provider", "amount_in_cents",
+  def premium_attributes = current_user.current_active_premium_subscription.attributes.slice("provider", "amount_in_cents",
     "interval")
   # TODO: add update link
 end

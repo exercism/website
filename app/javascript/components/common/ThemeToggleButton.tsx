@@ -32,7 +32,7 @@ export function ThemeToggleButton({
 
   return (
     <GenericTooltip
-      content={<DisabledTooltip premiumLink={links.premium} />}
+      content={<DisabledThemeSelectorTooltip premiumLink={links.premium} />}
       placement="bottom"
       interactive
       disabled={!disabled}
@@ -62,7 +62,7 @@ export function ThemeToggleButton({
   )
 }
 
-function DisabledTooltip({
+export function DisabledThemeSelectorTooltip({
   premiumLink,
 }: {
   premiumLink: string

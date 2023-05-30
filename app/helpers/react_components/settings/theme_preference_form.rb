@@ -4,10 +4,11 @@ module ReactComponents
       def to_s
         super("settings-theme-preference-form", {
           default_theme_preference:,
-          insiders_status: current_user.insiders_status,
+          is_premium: current_user.premium?,
           links: {
             update: Exercism::Routes.api_settings_user_preferences_url,
-            insiders_path: Exercism::Routes.insiders_path
+            insiders_path: Exercism::Routes.insiders_path,
+            premium_path: Exercism::Routes.premium_path
           }
         })
       end

@@ -35,6 +35,8 @@ module UserTrack::MentoringSlots
 
   memoize
   def rep_for_next_mentoring_slot
+    return nil if num_locked_mentoring_slots.zero?
+
     MENTORING_SLOT_THRESHOLDS[MENTORING_SLOT_THRESHOLDS.length - num_locked_mentoring_slots]
   end
 end

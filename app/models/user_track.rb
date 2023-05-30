@@ -170,8 +170,6 @@ class UserTrack < ApplicationRecord
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
-  def rep_for_next_mentoring_slot = 10
-
   private
   # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing

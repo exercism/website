@@ -237,7 +237,7 @@
 
         .journey-contents {
             background-color: rgba(106, 147, 255, 0.8);
-            @apply rounded-16 m-16;
+            @apply rounded-16 m-16 py-8;
             height: fit-content;
 
             .content {

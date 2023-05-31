@@ -840,6 +840,7 @@ export type CommunityVideoLinks = {
 }
 
 export type CommunityVideoType = {
+  id: number
   author?: CommunityVideoAuthor
   // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
   url?: string

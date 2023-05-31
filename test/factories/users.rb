@@ -16,6 +16,10 @@ FactoryBot.define do
       Rack::Test::UploadedFile.new(tempfile.path, 'image/png')
     end
 
+    after(:build) do |user|
+      user.data.email_status = :verified
+    end
+
     after(:create) do |user, _evaluator|
       # Update the avatar if we've had a placeholder in the factory
       if user.avatar_url.ends_with?("e_uid=xxx")

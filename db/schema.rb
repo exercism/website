@@ -1057,6 +1057,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.datetime "updated_at", null: false
     t.json "cache"
     t.datetime "premium_until"
+    t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"

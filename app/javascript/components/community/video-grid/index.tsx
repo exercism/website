@@ -75,7 +75,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
         >
           {resolvedData && resolvedData.results.length > 0 ? (
             resolvedData.results.map((video) => (
-              <Video key={video.embedUrl} video={video} />
+              <Video key={video.id} video={video} />
             ))
           ) : resolvedData?.meta.unscopedTotal === 0 ? (
             <NoResultsYet />
@@ -138,6 +138,7 @@ type VideoProps = {
 }
 function Video({ video }: VideoProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+
   return (
     <>
       <button

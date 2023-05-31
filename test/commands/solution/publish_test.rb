@@ -244,6 +244,32 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::MindShiftingMayBadge
   end
 
+  test "awards summer-of-sexps badge when published five or more exercises in a Summer of Sexps track" do
+    travel_to Time.utc(2022, 6, 12)
+
+    track = create :track, slug: 'clojure'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SummerOfSexpsBadge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track

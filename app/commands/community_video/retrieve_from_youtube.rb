@@ -20,7 +20,7 @@ class CommunityVideo::RetrieveFromYoutube
 
       thumbnail_url:,
 
-      published_at: Date.parse(snippet['publishedAt'])
+      published_at: DateTime.parse(snippet['publishedAt'])
     )
   rescue StandardError
     raise InvalidCommunityVideoUrlError

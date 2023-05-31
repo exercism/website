@@ -13,6 +13,7 @@ FactoryBot.define do
     completer conceptual supermentor
     participant_in_12_in_23 functional_february mechanical_march analytical_april
     discourser chatterbox mind_shifting_may lifetime_insider insider
+    summer_of_sexps
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

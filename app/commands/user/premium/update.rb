@@ -18,6 +18,7 @@ class User::Premium::Update
   end
 
   private
+  memoize
   def premium_until
     return LIFETIME_PREMIUM_UNTIL if lifetime_premium?
     return last_payment_premium_until if last_payment_premium_until.present?

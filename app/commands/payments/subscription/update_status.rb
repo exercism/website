@@ -5,7 +5,11 @@ class Payments::Subscription::UpdateStatus
 
   def call
     subscription.update!(status:)
-    User::UpdateActiveDonationSubscription.(subscription.user) if subscription.donation?
-    User::Premium::Update.(subscription.user) if subscription.premium?
+
+    if subscription.donation?
+      User::UpdateActiveDonationSubscription.(subscription.user)
+    elsif subscription.premium?
+      User::Premium::Update.(subscription.user)
+    end
   end
 end

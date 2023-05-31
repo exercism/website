@@ -23,7 +23,7 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_donors(_) = [User.donor, ->(user) { user }]
+  def audience_for_donors(_) = [User.donors, ->(user) { user }]
   def audience_for_premium(_) = [User.premium, ->(user) { user }]
   def audience_for_insiders(_) = [User.insiders, ->(user) { user }]
 

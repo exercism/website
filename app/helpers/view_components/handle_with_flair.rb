@@ -68,7 +68,7 @@ module ViewComponents
 
     TITLES = {
       premium: 'Premium User',
-      insider: 'An Insider',
+      insider: 'An Exercism Insider',
       lifetime_insider: 'A lifetime Insider',
       founder: 'Founder',
       staff: 'Staff'

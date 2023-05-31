@@ -149,6 +149,6 @@ class AboutController < ApplicationController
 
   private
   def use_num_individual_supporters
-    @num_individual_supporters = User.donor.count
+    @num_individual_supporters = User.donors.count
   end
 end

@@ -131,10 +131,10 @@ class User < ApplicationRecord
   scope :random, -> { order('RAND()') }
 
   scope :with_data, -> { joins(:data) }
-  scope :donor, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
+  scope :donors, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
   scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
   scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
-  scope :public_supporter, -> { donor.where(user_data: { show_on_supporters_page: true }) }
+  scope :public_supporter, -> { donors.where(user_data: { show_on_supporters_page: true }) }
 
   # TODO: Validate presence of name
 

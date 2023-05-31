@@ -3,7 +3,7 @@
 class User::Data < ApplicationRecord
   include User::Roles
 
-  scope :donor, -> { where.not(first_donated_at: nil) }
+  scope :donors, -> { where.not(first_donated_at: nil) }
 
   belongs_to :user
 

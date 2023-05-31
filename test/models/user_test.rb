@@ -350,7 +350,7 @@ class UserTest < ActiveSupport::TestCase
     user_2 = create :user, first_donated_at: Time.current, show_on_supporters_page: false
     user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
 
-    assert_equal [user_2, user_3], User.donor.order(:id)
+    assert_equal [user_2, user_3], User.donors.order(:id)
   end
 
   test "scope: premium" do

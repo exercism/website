@@ -22,6 +22,7 @@ class Payments::Subscription::Create
         User::UpdateActiveDonationSubscription.(user)
       when :premium
         User::Premium::Update.(user)
+        User::InsidersStatus::Update.(user)
       end
     end
   rescue ActiveRecord::RecordNotUnique

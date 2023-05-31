@@ -139,4 +139,24 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
 
     User::Premium::Update.(user)
   end
+
+  test "update flair when user joins premium" do
+    user = create :user, premium_until: nil
+
+    subscription = create(:payments_subscription, :premium, :active, user:, interval: :month)
+    create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
+    create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
+
+    User::UpdateFlair.expects(:call).with(user)
+
+    User::Premium::Update.(user)
+  end
+
+  test "update flair when user premium expired" do
+    user = create :user, premium_until: Time.current - 1.day
+
+    User::UpdateFlair.expects(:call).with(user)
+
+    User::Premium::Update.(user)
+  end
 end

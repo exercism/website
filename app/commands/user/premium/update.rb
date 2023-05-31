@@ -13,6 +13,8 @@ class User::Premium::Update
     else
       User::Premium::Join.(user, premium_until)
     end
+
+    User::UpdateFlair.(user)
   end
 
   private

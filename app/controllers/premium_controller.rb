@@ -14,14 +14,14 @@ class PremiumController < ApplicationController
 
   # rubocop:disable Layout/LineLength
   FEATURES = [
-    { icon: 'moon', title: 'Dark theme',
+    { icon: 'moon', title: 'Dark Mode',
       desc: "Our most requested feature is available exclusive for Premium members. Our slick dark theme elevates the Exercism experience and gives your eyes an easier time while coding into the night.", filter: true },
     { icon: 'robot', title: 'ChatGPT',
-      desc: "Our ChatGPT integration will help you get unstuck in the editor and give you tips when you submit a solution. It can be brilliant and it can be terrible, but it\'s definitely fun to use!", filter: true },
-    { icon: 'premium', title: 'Name tag flair & Badges',
+      desc: "Our ChatGPT integration will help you get unstuck directly in our online editor. It's often brilliant (especially v4!), sometimes totally wrong, but always fun to experiment with!", filter: true },
+    { icon: 'premium', title: 'Name tag flair',
       desc: "Show off your Premium status with our Premium logo next to your name around the site, on Discord and our forums. Let everyone know you're supporting us!" },
     { icon: 'mentoring', title: 'Extra Mentoring Slots',
-      desc: "Unlock more simultaneous mentoring slots per track without needing to earn reputation, and improve the speed at which you can work through a track with our mentors support.", filter: true },
+      desc: "Unlock more simultaneous mentoring slots per track without needing to earn reputation, and improve the speed at which you can work through a track with our mentors' support.", filter: true },
     { icon: 'badges', title: 'Exclusive Badges',
       desc: "Immediately recieve the rare Premium Member badge for your profile. Then unlock extra exclusive badges as you use Exercism - only available to Premium members.", filter: true },
     { icon: 'perks', title: 'Exclusive Perks',

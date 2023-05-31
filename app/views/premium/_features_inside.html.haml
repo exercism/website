@@ -8,7 +8,7 @@
   .feature
     = graphical_icon :robot, css_class: "filter-yellowPrompt"
     %h4 ChatGPT
-    %p Our ChatGPT integration will help you get unstuck in the editor. You get 3x v4.0 requests and 30x v3.5 requests per calendar month. Try it on any exercise and let us know how you get on.
+    %p Our ChatGPT integration will help you get unstuck directly in our online editor. You get 3x v4.0 requests and 30x v3.5 requests per calendar month. Let us know how you get on!
 
   - if current_user.insider?
     .feature
@@ -22,12 +22,12 @@
   - else
     .feature
       = graphical_icon :premium
-      %h4 Name tag flair &amp; Badges
+      %h4 Name tag flair
       %p
         You'll now see a shiny little
         = icon "premium", "diamond icon signifying Premium", style: "all:unset;display:inline;width:20px;height:20px"
-        next to your name around the site and a new tag on your #{link_to 'your public profile', profile_path(current_user.handle)}.
-        You should also have a new very exclusive badge (or two!).
+        next to your name around the site and a new tag on your #{link_to 'your public profile', profile_path(current_user.handle)}, so
+        everyone will know you're a Premium users and supporter of Exercism!
 
   .feature
     = graphical_icon :mentoring, css_class: "filter-yellowPrompt"

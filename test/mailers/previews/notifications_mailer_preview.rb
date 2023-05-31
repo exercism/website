@@ -103,7 +103,7 @@ class NotificationsMailerPreview < ActionMailer::Preview
 
   def expired_premium_notification
     NotificationsMailer.with(
-      notification: User::Notifications::ExpiredPremiumNotification.first
+      notification: User::Notifications::JoinedPremiumNotification.first
     ).expired_premium
   end
 end

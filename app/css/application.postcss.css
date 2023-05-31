@@ -128,6 +128,7 @@
 @import "./components/mentor-discussion-widget";
 @import "./components/completed-exercise-progress";
 @import "./components/search-input";
+@import "./components/zero-section";
 
 @import "./components/widgets/exercise";
 @import "./components/mentor-discussion-post-editor";

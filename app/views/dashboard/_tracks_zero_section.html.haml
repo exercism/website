@@ -2,7 +2,7 @@
 - track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
 - num_tracks = Track.active.count
 
-%section.tracks-zero-section.zero-section
+%section.c-tracks-zero-section.c-zero-section
   .track-icons
     - track_icon_urls.each do |icon_url|
       = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon"

@@ -224,6 +224,10 @@
         }
     }
 
+    section.c-zero-section {
+        @apply shadow-none;
+    }
+
     #journey-view {
         @apply absolute overflow-hidden;
         @apply flex justify-end;

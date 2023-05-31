@@ -13,9 +13,9 @@ class Payments::Stripe::Subscription::Create
 
   private
   def external_id = stripe_data.id
-  def price = stripe_data.items.data[0].price
   def amount_in_cents = price.unit_amount
   def product = Payments::Stripe::Product.from_product_id(price.product)
+  def price = stripe_data.items.data[0].price
 
   def interval
     case price.recurring.interval.to_sym

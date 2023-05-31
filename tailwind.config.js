@@ -199,6 +199,7 @@ module.exports = {
       vividPurple: '#7029F5',
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
+      lavender: '#d5d8e4',
       purpleHover: '#F2F0FC',
 
       champagne: '#fff4e3',

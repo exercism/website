@@ -228,6 +228,9 @@
     --borderColor7: var(--c-EAECF3);
     --borderColor8: theme(colors.lightGray);
     --borderColor9: var(--c-FFFFFF);
+
+    --borderColorContributionTasksTag: theme(colors.veryLightBlue2);
+    --borderColorContributorCreditBlock: theme(colors.lavender);
     --borderColorExerciseStatusTagInProgress: theme(colors.lightBlue);
     --borderColorTracksListV3: var(--textColor2);
     /* textColor1 and textColor2 has different dark-themes */
@@ -481,6 +484,8 @@ body.namespace-.controller-premium.theme-light,
     --borderColor6: var(--c-433F56);
     --borderColor7: #433f56;
     --borderColor8: theme(colors.englishViolet);
+    --borderColorContributionTasksTag: theme(colors.gray);
+    --borderColorContributorCreditBlock: theme(colors.gray);
     --borderColorExerciseStatusTagInProgress: theme(colors.purpleDarkened);
     --borderColorTracksListV3: transparent;
     /* --borderColor7: var(--c-533F56); */

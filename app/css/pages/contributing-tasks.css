@@ -177,8 +177,9 @@
                     }
                     & .type {
                         @apply font-mono font-semibold text-textColor6 leading-130;
-                        @apply bg-veryLightBlue2;
-                        @apply border-0;
+                        background: var(--backgroundColorDonationsFormSelected);
+                        @apply border-1;
+                        border-color: var(--borderColorContributionTasksTag);
                         & .c-icon {
                             height: 15px;
                             width: 15px;

@@ -5,7 +5,7 @@ class User::Premium::Expire
 
   def call
     user.update!(premium_until: nil)
-    User::Notification::CreateEmailOnly.defer(user, :expired_premium) if FeatureFlag::PREMIUM
+    User::Notification::CreateEmailOnly.defer(user, :expired_premium)
     User::UpdateFlair.(user)
   end
 end

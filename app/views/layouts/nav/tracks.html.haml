@@ -17,7 +17,7 @@
             .text-h6.mb-8= track.title
 
             .flex.flex-row.bg-backgroundColorI.rounded-8.mb-12.w-fill{ class: 'h-[6px]' }
-              .bg-fillColorProgress.rounded-8.h-fill{ class: 'min-w-[6px]', style: "width:#{user_track.completed_percentage}%" }
+              .rounded-8.h-fill{ class: 'min-w-[6px]', style: "background:var(--fillColorProgress);width:#{user_track.completed_percentage}%" }
 
             .text-13.leading-150.text-textColor6 Last touched #{time_ago_in_words(user_track.last_touched_at)}
 

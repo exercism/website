@@ -459,7 +459,7 @@ class UserTest < ActiveSupport::TestCase
     user.update(premium_until: Time.current + 5.seconds)
     assert user.premium?
   end
-  
+
   test "email verified when email changes" do
     user = create :user
 

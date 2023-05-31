@@ -1,6 +1,6 @@
 require_relative '../../test_base'
 
-class Payments::Stripe::Subscription::CancelTest < Payments::TestBase
+class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
   test "updates amount in stripe" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true

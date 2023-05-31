@@ -2,8 +2,8 @@ module Payments::Stripe::Price
   class UnknownStripeIntervalError < RuntimeError; end
   class UnknownStripePriceError < RuntimeError; end
 
-  MONTH_AMOUNT_IN_CENTS = 999
-  YEAR_AMOUNT_IN_CENTS = 9999
+  MONTH_AMOUNT_IN_CENTS = 9_99
+  YEAR_AMOUNT_IN_CENTS = 99_99
   LIFETIME_AMOUNT_IN_CENTS = 49_900
 
   def self.amount_in_cents(price_id)

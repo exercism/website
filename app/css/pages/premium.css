@@ -1,6 +1,5 @@
 #page-premium {
     @apply bg-darkBlueViolet;
-    @apply pt-20 md:pt-48 pb-64;
     color: #cbc9d9;
 
     h1,

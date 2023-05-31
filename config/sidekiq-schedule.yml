@@ -104,6 +104,11 @@ update_month_metrics:
   class: "UpdateMonthMetricsJob"
   queue: metrics
 
+reset_chatgpt_usage:
+  cron: "0 0 1 * *"
+  class: "ResetChatGPTUsageJob"
+  queue: dribble
+
 # Every 15 minutes
 update_last_hour_metrics:
   cron: "*/15 0 * * *"

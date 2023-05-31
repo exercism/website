@@ -278,6 +278,7 @@ initReact({
   'settings-theme-preference-form': (data: any) => (
     <Settings.ThemePreferenceForm
       defaultThemePreference={data.default_theme_preference}
+      isPremium={data.is_premium}
       insidersStatus={data.insiders_status}
       links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
     />

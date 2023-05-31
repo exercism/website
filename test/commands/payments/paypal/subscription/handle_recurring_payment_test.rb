@@ -22,8 +22,6 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_cycle" => "Monthly"
       }
 
-      User::SetDiscourseGroups.stubs(:defer)
-
       perform_enqueued_jobs do
         Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
       end

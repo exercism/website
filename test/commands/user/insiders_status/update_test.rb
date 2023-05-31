@@ -52,7 +52,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
   test "active -> active_lifetime" do
     user = create :user, insiders_status: :active
-    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:active_lifetime)
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
     perform_enqueued_jobs do
       User::InsidersStatus::Update.(user)
@@ -151,28 +151,15 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
   end
 
-  test "eligible: set discord roles" do
-    travel_to(Date.new(2025, 1, 1)) do
-      user = create :user, insiders_status: :ineligible
-
-      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible)
-
-      User::InsidersStatus::Update.(user)
-    end
-  end
-
   [
     %i[ineligible eligible_lifetime],
     %i[eligible eligible_lifetime],
-    %i[active active_lifetime],
-    %i[eligible_lifetime eligible_lifetime],
-    %i[active_lifetime active_lifetime]
+    %i[active active_lifetime]
   ].each do |(current_status, expected_status)|
-    test "eligible_lifetime: insiders_status set to #{expected_status} when currently #{current_status}" do
+    test "#{current_status} -> eligible_lifetime" do
       user = create :user, insiders_status: current_status
 
-      # Make the user eligible
-      user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
       User::InsidersStatus::Update.(user)
 
@@ -180,25 +167,27 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     end
   end
 
-  %i[eligible_lifetime active_lifetime].each do |current_status|
-    test "eligible_lifetime: notification not created when current status is #{current_status}" do
+  [
+    %i[eligible_lifetime eligible_lifetime],
+    %i[active_lifetime active_lifetime]
+  ].each do |(current_status, expected_status)|
+    test "#{current_status} -> eligible_lifetime: No-op" do
       user = create :user, insiders_status: current_status
 
-      # Make the user eligible
-      user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).never
       User::Notification::Create.expects(:defer).never
 
       User::InsidersStatus::Update.(user)
+
+      assert_equal expected_status, user.insiders_status
     end
   end
 
   %i[ineligible eligible].each do |current_status|
-    test "eligible_lifetime: notification created when current status is #{current_status}" do
+    test "#{current_status} -> eligible_lifetime: notification created" do
       user = create :user, insiders_status: current_status
 
-      # Make the user eligible
-      user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
       User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_lifetime_insiders).once
 
@@ -206,11 +195,10 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     end
   end
 
-  test "eligible_lifetime: notification created when current status is active" do
+  test "active -> eligible_lifetime: notification created" do
     user = create :user, insiders_status: :active
 
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
     # TODO: Make this Create.(...)
     User::Notification::CreateEmailOnly.expects(:defer).with(user, :upgraded_to_lifetime_insiders).once
@@ -218,14 +206,11 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::InsidersStatus::Update.(user)
   end
 
-  test "eligible_lifetime: lifetime insider badge awarded when current status is active" do
+  test "active -> eligible_lifetime: lifetime insider badge awarded" do
     user = create :user, insiders_status: :active
+    refute_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge # Sanity
 
-    User::SetDiscourseGroups.stubs(:defer)
-
-    # Make the user eligible
-    user.update(reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD)
-    refute_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
 
     perform_enqueued_jobs do
       User::InsidersStatus::Update.(user)

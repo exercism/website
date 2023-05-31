@@ -63,7 +63,8 @@
 
     & section.mastered-heading {
         @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-32;
-        @apply border-2 border-darkGreen bg-mediumGreen;
+        @apply border-2 border-darkGreen;
+        background: var(--backgroundColorCompletedHeading);
 
         & .check-mark-icon {
             height: 32px;

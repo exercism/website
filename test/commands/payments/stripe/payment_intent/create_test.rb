@@ -1,7 +1,7 @@
 require_relative '../../test_base'
 
 class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
-  test "creates payment correctly" do
+  test "creates donation payment correctly" do
     customer_id = SecureRandom.uuid
     user = create :user, stripe_customer_id: customer_id
     type = 'payment'
@@ -20,7 +20,7 @@ class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
     assert_equal payment_intent, actual
   end
 
-  test "creates subscription correctly" do
+  test "creates donation subscription correctly" do
     customer_id = SecureRandom.uuid
     user = create :user, stripe_customer_id: customer_id
     type = 'subscription'
@@ -40,6 +40,50 @@ class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
             interval: 'month'
           }
         }
+      }],
+      payment_behavior: 'default_incomplete',
+      expand: ['latest_invoice.payment_intent']
+    ).returns(stripe_subscription)
+
+    actual = Payments::Stripe::PaymentIntent::Create.(user, type, amount_in_cents)
+    assert_equal payment_intent, actual
+  end
+
+  test "creates premium monthly subscription correctly" do
+    customer_id = SecureRandom.uuid
+    user = create :user, stripe_customer_id: customer_id
+    type = 'premium_monthly_subscription'
+    amount_in_cents = '1200'
+    payment_intent = mock
+    stripe_subscription = mock_stripe_subscription(nil, nil, payment_intent:)
+
+    Stripe::Customer.expects(:retrieve).with(customer_id).once
+    Stripe::Subscription.expects(:create).with(
+      customer: customer_id,
+      items: [{
+        price: Exercism.secrets.stripe_premium_monthly_price_id
+      }],
+      payment_behavior: 'default_incomplete',
+      expand: ['latest_invoice.payment_intent']
+    ).returns(stripe_subscription)
+
+    actual = Payments::Stripe::PaymentIntent::Create.(user, type, amount_in_cents)
+    assert_equal payment_intent, actual
+  end
+
+  test "creates premium yearly subscription correctly" do
+    customer_id = SecureRandom.uuid
+    user = create :user, stripe_customer_id: customer_id
+    type = 'premium_yearly_subscription'
+    amount_in_cents = '1200'
+    payment_intent = mock
+    stripe_subscription = mock_stripe_subscription(nil, nil, payment_intent:)
+
+    Stripe::Customer.expects(:retrieve).with(customer_id).once
+    Stripe::Subscription.expects(:create).with(
+      customer: customer_id,
+      items: [{
+        price: Exercism.secrets.stripe_premium_yearly_price_id
       }],
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent']

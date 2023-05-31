@@ -1,18 +1,25 @@
-module ReactComponents
-  module Donations
-    class SubscriptionForm < ReactComponent
-      def to_s
-        super(
-          "donations-subscription-form",
-          {
-            amount_in_cents: current_user.active_donation_subscription_amount_in_cents,
-            links: {
-              cancel: Exercism::Routes.cancel_api_donations_subscription_url(current_user.donation_subscriptions.active.last),
-              update: Exercism::Routes.update_amount_api_donations_subscription_url(current_user.donation_subscriptions.active.last)
-            }
-          }
-        )
-      end
-    end
+class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactComponent
+  def to_s
+    super(
+      "donations-subscription-form",
+      {
+        links: { cancel:, update: }
+      }.merge(donation_attributes)
+    )
+  end
+
+  private
+  def cancel
+    return nil unless current_user.current_active_donation_subscription.stripe?
+
+    Exercism::Routes.cancel_api_payments_subscription_url(current_user.current_active_donation_subscription)
+  end
+
+  def donation_attributes = current_user.current_active_donation_subscription.attributes.slice("provider", "amount_in_cents")
+
+  def update
+    return nil unless current_user.current_active_donation_subscription.stripe?
+
+    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.current_active_donation_subscription)
   end
 end

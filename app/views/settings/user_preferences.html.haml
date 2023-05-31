@@ -8,6 +8,5 @@
       %section
         = render ReactComponents::Settings::UserPreferencesForm.new
 
-      - if current_user.insider?
-        %section
-          = render ReactComponents::Settings::ThemePreferenceForm.new
+      %section
+        = render ReactComponents::Settings::ThemePreferenceForm.new

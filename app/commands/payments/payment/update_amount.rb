@@ -8,6 +8,11 @@ class Payments::Payment::UpdateAmount
     return unless payment
 
     payment.update!(amount_in_cents:)
-    User::UpdateTotalDonatedInCents.(payment.user)
+
+    if payment.donation?
+      User::UpdateTotalDonatedInCents.(payment.user)
+    elsif payment.premium?
+      User::Premium::Update.(user)
+    end
   end
 end

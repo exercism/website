@@ -14,6 +14,9 @@ const DonationsSubscriptionForm = lazy(
   () => import('../components/donations/SubscriptionForm')
 )
 
+const PremiumSubscriptionForm = lazy(
+  () => import('../components/donations/PremiumSubscriptionForm')
+)
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
@@ -29,7 +32,9 @@ const CLIWalkthroughButton = lazy(
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
-const InsiderStatus = lazy(() => import('../components/insiders/InsiderStatus'))
+const InsidersStatus = lazy(
+  () => import('../components/insiders/InsidersStatus')
+)
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
@@ -111,8 +116,16 @@ export const mappings = {
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
+        {...data}
         amount={currency(data.amount_in_cents, { fromCents: true })}
-        links={data.links}
+      />
+    </Suspense>
+  ),
+  'premium-subscription-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <PremiumSubscriptionForm
+        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
+        amount={currency(data.amount_in_cents, { fromCents: true })}
       />
     </Suspense>
   ),
@@ -319,7 +332,13 @@ export const mappings = {
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
   ),
-  'common-theme-toggle-button': (): JSX.Element => <Common.ThemeToggleButton />,
+  'common-theme-toggle-button': (
+    data: Omit<ThemeToggleButtonProps, 'defaultTheme'> & {
+      default_theme: string
+    }
+  ): JSX.Element => (
+    <Common.ThemeToggleButton {...data} defaultTheme={data.default_theme} />
+  ),
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
     <Common.GraphicalIcon icon={data.icon} />
@@ -428,7 +447,17 @@ export const mappings = {
   ),
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <InsiderStatus {...data} />
+      <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
+    </Suspense>
+  ),
+  'premium-price-option': (data: PriceOptionProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
+    </Suspense>
+  ),
+  'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PaypalStatus {...camelizeKeysAs<PaypalStatusProps>(data)} />
     </Suspense>
   ),
   'impact-map': (data: any) => {
@@ -466,14 +495,24 @@ document.addEventListener(
 )
 
 import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
-import { InsidersStatusData } from '../components/insiders/InsiderStatus.js'
+import { InsidersStatusData } from '../components/insiders/InsidersStatus'
+import { handleNavbarFocus } from '@/utils'
+import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
+import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
+import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
+import {
+  PaypalStatus,
+  PaypalStatusProps,
+} from '@/components/premium/PaypalStatus'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
 })
+
+handleNavbarFocus()
 
 // object.entries polyfill
 if (!Object.entries) {

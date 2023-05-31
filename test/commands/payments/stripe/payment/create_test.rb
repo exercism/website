@@ -1,15 +1,19 @@
 require_relative '../../test_base'
 
 class Payments::Stripe::Payment::CreateTest < Payments::TestBase
-  test "creates correctly" do
+  test "creates donation payment when not linked to subscription" do
     freeze_time do
-      user = create :user
       id = SecureRandom.uuid
+      invoice_id = SecureRandom.uuid
+      user = create :user
       amount = 1500
       receipt_url = SecureRandom.uuid
-      data = mock_stripe_payment(id, amount, receipt_url)
+      data = mock_stripe_payment(id, amount, receipt_url, invoice_id:)
 
-      Payments::Stripe::Payment::Create.(user, data)
+      invoice = mock_stripe_invoice(nil, nil)
+      Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
+
+      Payments::Stripe::Payment::Create.(user, data, subscription: nil)
 
       assert_equal 1, Payments::Payment.count
 
@@ -19,10 +23,67 @@ class Payments::Stripe::Payment::CreateTest < Payments::TestBase
       assert_equal receipt_url, payment.external_receipt_url
       assert_equal user, payment.user
       assert_equal :stripe, payment.provider
+      assert_equal :donation, payment.product
       assert_nil payment.subscription
       assert_equal amount, user.total_donated_in_cents
       assert_equal Time.current, user.first_donated_at
       assert user.donated?
+    end
+  end
+
+  test "creates donation payment when linked to premium subscription" do
+    freeze_time do
+      id = SecureRandom.uuid
+      invoice_id = SecureRandom.uuid
+      user = create :user
+      amount = 1500
+      receipt_url = SecureRandom.uuid
+      data = mock_stripe_payment(id, amount, receipt_url, invoice_id:)
+      subscription = create :payments_subscription, product: :donation
+
+      Payments::Stripe::Payment::Create.(user, data, subscription:)
+
+      assert_equal 1, Payments::Payment.count
+
+      payment = Payments::Payment.last
+      assert_equal id, payment.external_id
+      assert_equal amount, payment.amount_in_cents
+      assert_equal receipt_url, payment.external_receipt_url
+      assert_equal user, payment.user
+      assert_equal :stripe, payment.provider
+      assert_equal :donation, payment.product
+      assert_equal subscription, payment.subscription
+      assert_equal amount, user.total_donated_in_cents
+      assert_equal Time.current, user.first_donated_at
+      assert user.donated?
+    end
+  end
+
+  test "creates premium payment when linked to premium subscription" do
+    freeze_time do
+      id = SecureRandom.uuid
+      invoice_id = SecureRandom.uuid
+      user = create :user
+      amount = 1500
+      receipt_url = SecureRandom.uuid
+      data = mock_stripe_payment(id, amount, receipt_url, invoice_id:)
+      subscription = create :payments_subscription, product: :premium
+
+      Payments::Stripe::Payment::Create.(user, data, subscription:)
+
+      assert_equal 1, Payments::Payment.count
+
+      payment = Payments::Payment.last
+      assert_equal id, payment.external_id
+      assert_equal amount, payment.amount_in_cents
+      assert_equal receipt_url, payment.external_receipt_url
+      assert_equal user, payment.user
+      assert_equal :stripe, payment.provider
+      assert_equal :premium, payment.product
+      assert_equal subscription, payment.subscription
+      assert_equal 0, user.total_donated_in_cents
+      assert_nil user.first_donated_at
+      refute user.donated?
     end
   end
 
@@ -51,7 +112,7 @@ class Payments::Stripe::Payment::CreateTest < Payments::TestBase
 
   test "works with subscription passed manually" do
     user = create :user
-    subscription = create :donations_subscription
+    subscription = create :payments_subscription
     data = mock_stripe_payment(5, 1500, "")
 
     Payments::Stripe::Payment::Create.(user, data, subscription:)
@@ -66,7 +127,7 @@ class Payments::Stripe::Payment::CreateTest < Payments::TestBase
     invoice_id = SecureRandom.uuid
     stripe_subscription_id = SecureRandom.uuid
     user = create :user
-    subscription = create :donations_subscription, user:, external_id: stripe_subscription_id
+    subscription = create :payments_subscription, user:, external_id: stripe_subscription_id
     data = mock_stripe_payment(5, 1500, "", invoice_id:)
 
     invoice = mock_stripe_invoice(nil, stripe_subscription_id)

@@ -15,7 +15,7 @@ class ViewComponents::HandleWithFlairTest < ActionView::TestCase
   test "defaults are correct" do
     handle = "iHiD"
     flair = 'insider'
-    title = 'An Insider'
+    title = 'An Exercism Insider'
     alt = "#{title}'s flair"
 
     expected = tag.span(class: 'flex items-center') do

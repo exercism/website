@@ -6,10 +6,6 @@ import { redirectTo } from '../../../../utils/redirect-to'
 import { FormButton } from '../../../common'
 import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 
-type Links = {
-  cancel: string
-}
-
 type APIResponse = {
   links: {
     index: string
@@ -19,16 +15,16 @@ type APIResponse = {
 const DEFAULT_ERROR = new Error('Unable to cancel subscription')
 
 export const CancellingOption = ({
-  links,
+  cancelLink,
   onClose,
 }: {
-  links: Links
+  cancelLink: string
   onClose: () => void
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<APIResponse>(
     () => {
       const { fetch } = sendRequest({
-        endpoint: links.cancel,
+        endpoint: cancelLink,
         method: 'PATCH',
         body: null,
       })

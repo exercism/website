@@ -1,13 +1,13 @@
 require_relative '../../test_base'
 
 class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::TestBase
-  test "creates payment linked to existing subscription" do
+  test "creates donation payment linked to existing subscription" do
     freeze_time do
       payment_id = SecureRandom.uuid
       recurring_payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
       user = create(:user, paypal_payer_id:)
-      subscription = create(:donations_subscription, :paypal, external_id: recurring_payment_id, user:)
+      subscription = create(:payments_subscription, :paypal, external_id: recurring_payment_id, user:)
       amount_in_dollars = 15
       amount_in_cents = amount_in_dollars * 100
       payload = {
@@ -17,10 +17,14 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      perform_enqueued_jobs do
+        Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      end
 
       assert_equal 1, Payments::Payment.count
       payment = Payments::Payment.last
@@ -33,6 +37,48 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       assert_equal amount_in_cents, user.reload.total_donated_in_cents
       assert_equal Time.current, user.first_donated_at
       assert user.donated?
+      refute user.premium?
+    end
+  end
+
+  test "creates premium payment linked to existing subscription" do
+    freeze_time do
+      payment_id = SecureRandom.uuid
+      recurring_payment_id = SecureRandom.uuid
+      paypal_payer_id = SecureRandom.uuid
+      user = create(:user, paypal_payer_id:)
+      subscription = create(:payments_subscription, :active, :paypal, external_id: recurring_payment_id, user:)
+      amount_in_dollars = 15
+      amount_in_cents = amount_in_dollars * 100
+      payload = {
+        "recurring_payment_id" => recurring_payment_id,
+        "txn_id" => payment_id,
+        "txn_type" => "recurring_payment_profile_created",
+        "payment_status" => "Completed",
+        "payer_email" => user.email,
+        "payer_id" => user.paypal_payer_id,
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_premium_product_name,
+        "payment_cycle" => "Monthly"
+      }
+
+      perform_enqueued_jobs do
+        Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      end
+
+      user.reload
+      assert_equal 1, Payments::Payment.count
+      payment = Payments::Payment.last
+      assert_equal payment_id, payment.external_id
+      assert_equal amount_in_cents, payment.amount_in_cents
+      assert_nil payment.external_receipt_url
+      assert_equal user, payment.user
+      assert_equal :paypal, payment.provider
+      assert_equal subscription, payment.subscription
+      assert_equal 0, user.total_donated_in_cents
+      assert_nil user.first_donated_at
+      refute user.donated?
+      assert user.premium?
     end
   end
 
@@ -51,7 +97,9 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -88,7 +136,9 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => SecureRandom.uuid,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -126,7 +176,9 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -156,7 +208,9 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_status" => "Completed",
         "payer_email" => user.email,
         "payer_id" => SecureRandom.uuid,
-        "mc_gross" => "#{amount_in_dollars}.0"
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
       }
 
       Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
@@ -179,7 +233,8 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       "payment_status" => "Completed",
       "payer_email" => "unknown@test.org",
       "payer_id" => SecureRandom.uuid,
-      "mc_gross" => "15.0"
+      "mc_gross" => "15.0",
+      "product_name" => Exercism.secrets.paypal_donation_product_name
     }
 
     Payments::Paypal::Subscription::HandleRecurringPayment.(payload)

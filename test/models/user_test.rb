@@ -350,7 +350,16 @@ class UserTest < ActiveSupport::TestCase
     user_2 = create :user, first_donated_at: Time.current, show_on_supporters_page: false
     user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
 
-    assert_equal [user_2, user_3], User.donor.order(:id)
+    assert_equal [user_2, user_3], User.donors.order(:id)
+  end
+
+  test "scope: premium" do
+    create :user, premium_until: nil
+    create :user, premium_until: Time.current - 3.days
+    user_2 = create :user, premium_until: Time.current + 2.days
+    user_3 = create :user, premium_until: Time.current + 4.months
+
+    assert_equal [user_2, user_3], User.premium.order(:id)
   end
 
   test "scope: public_supporter" do
@@ -359,6 +368,17 @@ class UserTest < ActiveSupport::TestCase
     user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
 
     assert_equal [user_3], User.public_supporter.order(:id)
+  end
+
+  test "scope: insiders" do
+    create :user, insiders_status: :unset
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :eligible_lifetime
+    user_4 = create :user, insiders_status: :active
+    user_5 = create :user, insiders_status: :active_lifetime
+
+    assert_equal [user_4, user_5], User.insiders.order(:id)
   end
 
   test "github_auth?" do
@@ -427,5 +447,16 @@ class UserTest < ActiveSupport::TestCase
 
     user.update(flair: :insider)
     assert_equal :insider, user.flair
+  end
+
+  test "premium?" do
+    user = create :user, premium_until: nil
+    refute user.premium?
+
+    user.update(premium_until: Time.current - 5.seconds)
+    refute user.premium?
+
+    user.update(premium_until: Time.current + 5.seconds)
+    assert user.premium?
   end
 end

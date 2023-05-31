@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :donations_subscription, class: 'Payments::Subscription' do
+  factory :payments_subscription, class: 'Payments::Subscription' do
     user
     provider { :stripe }
     external_id { SecureRandom.uuid }
@@ -7,6 +7,14 @@ FactoryBot.define do
 
     trait :canceled do
       status { :canceled }
+    end
+
+    trait :overdue do
+      status { :overdue }
+    end
+
+    trait :active do
+      status { :active }
     end
 
     trait :stripe do
@@ -19,6 +27,14 @@ FactoryBot.define do
 
     trait :paypal do
       provider { :paypal }
+    end
+
+    trait :donation do
+      product { :donation }
+    end
+
+    trait :premium do
+      product { :premium }
     end
   end
 end

@@ -162,6 +162,7 @@
     --backgroundColorCAlert: theme(colors.lightOrange);
     --backgroundColorTextblockCautionContent: theme(colors.superLightOrange);
     --textColorCAlert: theme(colors.caution);
+    --textColorCAlertLabel: theme(colors.cautionLabel);
     --backgroundColorTracksListJoined: theme(colors.veryLightBlue);
     --backgroundColorTracksListNew: theme(colors.lightOrange);
     --backgroundColorIterationCommentsUnread: theme(colors.lightOrange);
@@ -200,6 +201,8 @@
     --backgroundColorSummaryStatusFailed: theme(colors.lightRed);
     --backgroundColorSummaryStatusFailedBar: theme(colors.red);
     --backgroundColorReputationInfo: theme(colors.trueDarkGray);
+    --backgroundColorNavDropdown: theme(colors.aliceBlue);
+    --backgroundColorDonationFormCover: rgba(255, 255, 255, 0.6);
 
     --backgroundImageHex: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA4MCA4MCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1IDIuODg3YTEwIDEwIDAgMCAxIDEwIDBsMjQuNjQgMTQuMjI2YTEwIDEwIDAgMCAxIDUgOC42NnYyOC40NTNhMTAgMTAgMCAwIDEtNSA4LjY2TDQ1IDc3LjExNGExMCAxMCAwIDAgMS0xMCAwTDEwLjM1OSA2Mi44ODdhMTAgMTAgMCAwIDEtNS04LjY2VjI1Ljc3NGExMCAxMCAwIDAgMSA1LTguNjZsMjQuNjQtMTQuMjI3eiIvPjxwYXRoIGZpbGw9IiMxMzBCNDMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTY3Ljc2NiAyMC4zNiA0My4xMjUgNi4xMzVhNi4yNSA2LjI1IDAgMCAwLTYuMjUgMEwxMi4yMzQgMjAuMzYxYTYuMjUgNi4yNSAwIDAgMC0zLjEyNSA1LjQxM3YyOC40NTNhNi4yNSA2LjI1IDAgMCAwIDMuMTI1IDUuNDEybDI0LjY0IDE0LjIyN2E2LjI1IDYuMjUgMCAwIDAgNi4yNSAwbDI0LjY0Mi0xNC4yMjdhNi4yNSA2LjI1IDAgMCAwIDMuMTI1LTUuNDEzVjI1Ljc3NGE2LjI1IDYuMjUgMCAwIDAtMy4xMjUtNS40MTN6TTQ1IDIuODg4YTEwIDEwIDAgMCAwLTEwIDBMMTAuMzU5IDE3LjExM2ExMCAxMCAwIDAgMC01IDguNjZ2MjguNDUzYTEwIDEwIDAgMCAwIDUgOC42NmwyNC42NCAxNC4yMjdhMTAgMTAgMCAwIDAgMTAgMGwyNC42NDItMTQuMjI2YTEwIDEwIDAgMCAwIDUtOC42NlYyNS43NzRhMTAgMTAgMCAwIDAtNS04LjY2TDQ1IDIuODg2eiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+");
     --textColorCReputation: var(--textColor7);
@@ -225,6 +228,9 @@
     --borderColor7: var(--c-EAECF3);
     --borderColor8: theme(colors.lightGray);
     --borderColor9: var(--c-FFFFFF);
+
+    --borderColorContributionTasksTag: theme(colors.veryLightBlue2);
+    --borderColorContributorCreditBlock: theme(colors.lavender);
     --borderColorExerciseStatusTagInProgress: theme(colors.lightBlue);
     --borderColorTracksListV3: var(--textColor2);
     /* textColor1 and textColor2 has different dark-themes */
@@ -275,10 +281,10 @@
     --chartBorderColor: var(--c-D5D8E4);
     --successColor: #3db591;
 
-    --box-shadow-sm: 0px 4px 16px 0px rgb(79, 114, 205, 0.1);
-    --box-shadow-base: 0px 4px 24px 0px rgba(79, 114, 205, 0.15);
-    --box-shadow-lg: 0px 4px 42px 0px rgba(79, 114, 205, 0.15);
-    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(79, 114, 205, 0.3);
+    --box-shadow-sm: 0px 4px 16px 0px rgb(var(--shadowColorMain), 0.1);
+    --box-shadow-base: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.15);
+    --box-shadow-lg: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.15);
+    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.3);
 
     --commonBadge-RGB: 240, 243, 249;
     --commonBadgeFill-RGB: 80, 83, 89;
@@ -334,7 +340,6 @@
         brightness(97%) contrast(80%);
     --dark-purple-filter: invert(20%) sepia(60%) saturate(1812%)
         hue-rotate(229deg) brightness(92%) contrast(89%);
-    --exercism-with-logo-black-filter: var(--textColor1-filter);
     --selected-tab-icon-filter: var(--purple-filter);
 
     /* TODO: Replace with purple-filter */
@@ -391,6 +396,8 @@
     --c-concept-map-line-faded: #d2ddf3;
 }
 
+body.namespace-.controller-insiders.theme-light,
+body.namespace-.controller-premium.theme-light,
 .theme-dark {
     color-scheme: dark;
 
@@ -416,6 +423,7 @@
     --backgroundColorCAlert: none;
     --backgroundColorTextblockCautonContent: none;
     --textColorCAlert: theme(colors.orange);
+    --textColorCAlertLabel: theme(colors.aliceBlue);
     --backgroundColorTracksListJoined: theme(colors.darkBlueGray);
     --backgroundColorTracksListNew: none;
     --backgroundColorIterationCommentsUnread: theme(colors.launchingYellow);
@@ -450,6 +458,8 @@
     --backgroundColorSummaryStatusFailed: #f1707026;
     --backgroundColorSummaryStatusFailedBar: #f17070;
     --backgroundColorReputationInfo: theme(colors.russianViolet);
+    --backgroundColorNavDropdown: theme(colors.eerieBlack);
+    --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
 
     --backgroundImageHex: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDkiIGhlaWdodD0iNDkiIHZpZXdCb3g9IjAgMCA0OSA0OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxLjI5MDUgMi4xMzk4QzIzLjEzMTEgMS4wNzcxIDI1LjM5ODkgMS4wNzcxIDI3LjIzOTYgMi4xMzk4TDQxLjg5ODggMTAuNjAzM0M0My43Mzk1IDExLjY2NiA0NC44NzM0IDEzLjYzIDQ0Ljg3MzQgMTUuNzU1NFYzMi42ODI0QzQ0Ljg3MzQgMzQuODA3OCA0My43Mzk1IDM2Ljc3MTggNDEuODk4OCAzNy44MzQ1TDI3LjIzOTYgNDYuMjk4QzI1LjM5ODkgNDcuMzYwNyAyMy4xMzExIDQ3LjM2MDcgMjEuMjkwNSA0Ni4yOThMNi42MzEyNCAzNy44MzQ1QzQuNzkwNTggMzYuNzcxOCAzLjY1NjY4IDM0LjgwNzggMy42NTY2OCAzMi42ODI0VjE1Ljc1NTRDMy42NTY2OCAxMy42MyA0Ljc5MDU4IDExLjY2NiA2LjYzMTI0IDEwLjYwMzNMMjEuMjkwNSAyLjEzOThaIiBmaWxsPSIjMTkxNTI1Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDAuNzgzMyAxMi41MzUzTDI2LjEyNDEgNC4wNzE4NEMyNC45NzM3IDMuNDA3NjQgMjMuNTU2MyAzLjQwNzY0IDIyLjQwNTkgNC4wNzE4M0w3Ljc0NjcgMTIuNTM1M0M2LjU5NjI5IDEzLjE5OTUgNS44ODc2IDE0LjQyNyA1Ljg4NzYgMTUuNzU1NFYzMi42ODI0QzUuODg3NiAzNC4wMTA4IDYuNTk2MjkgMzUuMjM4MyA3Ljc0NjcgMzUuOTAyNUwyMi40MDU5IDQ0LjM2NkMyMy41NTYzIDQ1LjAzMDIgMjQuOTczNyA0NS4wMzAyIDI2LjEyNDEgNDQuMzY2TDQwLjc4MzMgMzUuOTAyNUM0MS45MzM4IDM1LjIzODMgNDIuNjQyNCAzNC4wMTA4IDQyLjY0MjQgMzIuNjgyNFYxNS43NTU0QzQyLjY0MjQgMTQuNDI3IDQxLjkzMzggMTMuMTk5NSA0MC43ODMzIDEyLjUzNTNaTTI3LjIzOTYgMi4xMzk4QzI1LjM5ODkgMS4wNzcxIDIzLjEzMTEgMS4wNzcxIDIxLjI5MDUgMi4xMzk4TDYuNjMxMjQgMTAuNjAzM0M0Ljc5MDU4IDExLjY2NiAzLjY1NjY4IDEzLjYzIDMuNjU2NjggMTUuNzU1NFYzMi42ODI0QzMuNjU2NjggMzQuODA3OCA0Ljc5MDU4IDM2Ljc3MTggNi42MzEyNCAzNy44MzQ1TDIxLjI5MDUgNDYuMjk4QzIzLjEzMTEgNDcuMzYwNyAyNS4zOTg5IDQ3LjM2MDcgMjcuMjM5NiA0Ni4yOThMNDEuODk4OCAzNy44MzQ1QzQzLjczOTUgMzYuNzcxOCA0NC44NzM0IDM0LjgwNzggNDQuODczNCAzMi42ODI0VjE1Ljc1NTRDNDQuODczNCAxMy42MyA0My43Mzk1IDExLjY2NiA0MS44OTg4IDEwLjYwMzNMMjcuMjM5NiAyLjEzOThaIiBmaWxsPSIjMTkxNTI1Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzkuNTk1IDE0LjA4TDI1LjM4MDUgNS44NzMzMUMyNC42OTAyIDUuNDc0NzkgMjMuODM5OCA1LjQ3NDc5IDIzLjE0OTYgNS44NzMzMUw4LjkzNTEgMTQuMDhDOC4yNDQ4NSAxNC40Nzg2IDcuODE5NjQgMTUuMjE1IDcuODE5NjQgMTYuMDEyMVYzMi40MjU1QzcuODE5NjQgMzMuMjIyNiA4LjI0NDg1IDMzLjk1OSA4LjkzNTEgMzQuMzU3NkwyMy4xNDk2IDQyLjU2NDNDMjMuODM5OCA0Mi45NjI4IDI0LjY5MDIgNDIuOTYyOCAyNS4zODA1IDQyLjU2NDNMMzkuNTk1IDM0LjM1NzZDNDAuMjg1MiAzMy45NTkgNDAuNzEwNCAzMy4yMjI2IDQwLjcxMDQgMzIuNDI1NVYxNi4wMTIxQzQwLjcxMDQgMTUuMjE1IDQwLjI4NTIgMTQuNDc4NiAzOS41OTUgMTQuMDhaTTI2LjQ5NTkgMy45NDEyOEMyNS4xMTU0IDMuMTQ0MjUgMjMuNDE0NiAzLjE0NDI1IDIyLjAzNDEgMy45NDEyOEw3LjgxOTY0IDEyLjE0OEM2LjQzOTE0IDEyLjk0NSA1LjU4ODcyIDE0LjQxOCA1LjU4ODcyIDE2LjAxMjFWMzIuNDI1NUM1LjU4ODcyIDM0LjAxOTYgNi40MzkxNCAzNS40OTI2IDcuODE5NjQgMzYuMjg5NkwyMi4wMzQxIDQ0LjQ5NjNDMjMuNDE0NiA0NS4yOTMzIDI1LjExNTQgNDUuMjkzMyAyNi40OTU5IDQ0LjQ5NjNMNDAuNzEwNCAzNi4yODk2QzQyLjA5MDkgMzUuNDkyNiA0Mi45NDEzIDM0LjAxOTYgNDIuOTQxMyAzMi40MjU1VjE2LjAxMjFDNDIuOTQxMyAxNC40MTggNDIuMDkwOSAxMi45NDUgNDAuNzEwNCAxMi4xNDhMMjYuNDk1OSAzLjk0MTI4WiIgZmlsbD0iIzNGM0E1QSIvPgo8L3N2Zz4K");
     --textColorCReputation: theme(colors.gray);
@@ -474,6 +484,8 @@
     --borderColor6: var(--c-433F56);
     --borderColor7: #433f56;
     --borderColor8: theme(colors.englishViolet);
+    --borderColorContributionTasksTag: theme(colors.gray);
+    --borderColorContributorCreditBlock: theme(colors.gray);
     --borderColorExerciseStatusTagInProgress: theme(colors.purpleDarkened);
     --borderColorTracksListV3: transparent;
     /* --borderColor7: var(--c-533F56); */
@@ -520,10 +532,10 @@
     --paginationCurrentBackgroundColor: var(--c-403A66);
 
     --modalBackgroundColor: rgba(40, 35, 57, 0.7);
-    --box-shadow-sm: 0px 4px 16px 0px rgba(0, 0, 0, 0.2);
-    --box-shadow-base: 0px 4px 24px 0px rgba(0, 0, 0, 0.4);
-    --box-shadow-lg: 0px 4px 42px 0px rgba(0, 0, 0, 0.6);
-    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(0, 0, 0, 0.9);
+    --box-shadow-sm: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.2);
+    --box-shadow-base: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.4);
+    --box-shadow-lg: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.6);
+    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.9);
 
     /* -- HLJS dark -- */
     /* Atom One Dark by Daniel Gamage
@@ -627,8 +639,6 @@
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
 
-    --exercism-with-logo-black-filter: var(--textColor6-filter);
-
     /* aliceBlue */
     --selected-tab-icon-filter: invert(94%) sepia(7%) saturate(129%)
         hue-rotate(182deg) brightness(102%) contrast(96%);
@@ -650,18 +660,23 @@
     --c-concept-map-line-available: #dce3ef77;
     --c-concept-map-line-locked: #c9c8d7;
     --c-concept-map-line-faded: #d2ddf3;
+
+    --lockedColor: var(--backgroundColorEDAvailable);
 }
 
-.theme-accessibility-dark {
+.theme-sepia {
     @inline .theme-light;
-    filter: invert(100%) hue-rotate(180deg);
-    background-color: #222;
 
-    img,
-    video,
-    iframe {
-        filter: invert(100%) hue-rotate(180deg);
-    }
+    /* filter: invert(100%) hue-rotate(180deg); */
+    /* /1* background-color: #222; *1/ */
+
+    /* img, */
+    /* video, */
+    /* iframe { */
+    /*     filter: invert(100%) hue-rotate(180deg); */
+    /* } */
+
+    filter: sepia(1);
 }
 
 @media (prefers-color-scheme: dark) {

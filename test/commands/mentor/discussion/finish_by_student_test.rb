@@ -177,8 +177,6 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     solution = create(:concept_solution, user: student, exercise:)
     discussion = create(:mentor_discussion, mentor:, solution:)
 
-    User::SetDiscourseGroups.stubs(:defer)
-
     perform_enqueued_jobs do
       Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
     end

@@ -7,8 +7,8 @@ import currency from 'currency.js'
 type FormStatus = 'initialized' | 'cancelling' | 'updating'
 
 type Links = {
-  cancel: string
-  update: string
+  cancel?: string
+  update?: string
 }
 
 export const FormOptions = ({
@@ -17,7 +17,7 @@ export const FormOptions = ({
 }: {
   amount: currency
   links: Links
-}): JSX.Element => {
+}): JSX.Element | null => {
   const [status, setStatus] = useState<FormStatus>('initialized')
 
   const handleInitialized = useCallback(() => {
@@ -34,21 +34,26 @@ export const FormOptions = ({
 
   switch (status) {
     case 'initialized':
-      return (
+      return links.cancel || links.update ? (
         <InitializedOption
           onCancelling={handleCancelling}
           onUpdating={handleUpdating}
         />
-      )
+      ) : null
     case 'updating':
-      return (
+      return links.update ? (
         <UpdatingOption
           amount={amount}
           onClose={handleInitialized}
-          links={links}
+          updateLink={links.update}
         />
-      )
+      ) : null
     case 'cancelling':
-      return <CancellingOption links={links} onClose={handleInitialized} />
+      return links.cancel ? (
+        <CancellingOption
+          cancelLink={links.cancel}
+          onClose={handleInitialized}
+        />
+      ) : null
   }
 }

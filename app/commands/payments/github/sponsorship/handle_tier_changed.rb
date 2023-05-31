@@ -8,7 +8,7 @@ class Payments::Github::Sponsorship::HandleTierChanged
   def call
     return if is_one_time
 
-    subscription = user.donation_subscriptions.find_by(external_id: node_id, provider: :github)
+    subscription = user.subscriptions.find_by(external_id: node_id, provider: :github)
     raise unless subscription
 
     Payments::Subscription::UpdateAmount.(subscription, monthly_price_in_cents)

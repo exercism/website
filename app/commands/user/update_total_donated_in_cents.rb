@@ -3,7 +3,8 @@ class User::UpdateTotalDonatedInCents
 
   initialize_with :user
 
-  def call
-    user.update!(total_donated_in_cents: user.donation_payments.sum(:amount_in_cents))
-  end
+  def call = user.update!(total_donated_in_cents:)
+
+  private
+  def total_donated_in_cents = user.payments.donation.sum(:amount_in_cents)
 end

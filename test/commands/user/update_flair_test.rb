@@ -29,6 +29,14 @@ class User::UpdateFlairTest < ActiveSupport::TestCase
     end
   end
 
+  test "update flair to premium if user is premium user" do
+    user = create :user, premium_until: Time.current + 1.month
+
+    User::UpdateFlair.(user)
+
+    assert_equal :premium, user.flair
+  end
+
   test "update flair to insider if user is active insider" do
     user = create :user, insiders_status: :active
 

@@ -7,10 +7,6 @@ import { FormButton } from '../../../common'
 import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 import currency from 'currency.js'
 
-type Links = {
-  update: string
-}
-
 type APIResponse = {
   links: {
     index: string
@@ -21,11 +17,11 @@ const DEFAULT_ERROR = new Error('Unable to update subscription')
 
 export const UpdatingOption = ({
   amount: currentAmount,
-  links,
+  updateLink,
   onClose,
 }: {
   amount: currency
-  links: Links
+  updateLink: string
   onClose: () => void
 }): JSX.Element => {
   const [amount, setAmount] = useState<currency | ''>(currentAmount)
@@ -37,7 +33,7 @@ export const UpdatingOption = ({
       }
 
       const { fetch } = sendRequest({
-        endpoint: links.update,
+        endpoint: updateLink,
         method: 'PATCH',
         body: JSON.stringify({ amount_in_cents: amount.intValue }),
       })

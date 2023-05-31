@@ -10,7 +10,8 @@ class User < ApplicationRecord
     founder: 0,
     staff: 1,
     insider: 2,
-    lifetime_insider: 3
+    lifetime_insider: 3,
+    premium: 4
   }, _prefix: "show", _suffix: "flair"
 
   # Include default devise modules. Others available are:
@@ -112,8 +113,8 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
-  has_many :donation_subscriptions, class_name: "Payments::Subscription", dependent: :nullify
-  has_many :donation_payments, class_name: "Payments::Payment", dependent: :nullify
+  has_many :subscriptions, class_name: "Payments::Subscription", dependent: :nullify
+  has_many :payments, class_name: "Payments::Payment", dependent: :nullify
 
   has_many :problem_reports, dependent: :destroy
 
@@ -130,8 +131,10 @@ class User < ApplicationRecord
   scope :random, -> { order('RAND()') }
 
   scope :with_data, -> { joins(:data) }
-  scope :donor, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
-  scope :public_supporter, -> { donor.where(user_data: { show_on_supporters_page: true }) }
+  scope :donors, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
+  scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
+  scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
+  scope :public_supporter, -> { donors.where(user_data: { show_on_supporters_page: true }) }
 
   # TODO: Validate presence of name
 
@@ -227,14 +230,18 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
-  def active_subscription = donation_subscriptions.active.last
+  memoize
+  def current_active_premium_subscription = subscriptions.premium.active.last
 
   memoize
-  def active_donation_subscription_amount_in_cents = donation_subscriptions.active.last&.amount_in_cents
+  def current_active_donation_subscription = subscriptions.donation.active.last
+
+  memoize
+  def current_active_donation_subscription_amount_in_cents = current_active_donation_subscription&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars
-    donation_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
+    payments.donation.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize

@@ -45,9 +45,13 @@ en:
       1: >
         Your Exercism Insiders membership has expired.
 
+    expired_premium:
+      1: >
+        Your Exercism Premium membership has expired.
+
     upgraded_to_lifetime_insiders:
       1: >
-        You've been upgrade to Exercism Lifetime Insiders!
+        You've been upgraded to Exercism Lifetime Insiders!
 
     ######################################
     # Not actually used below this point #
@@ -62,4 +66,7 @@ en:
       1: Unused
 
     joined_lifetime_insiders:
+      1: Unused
+
+    joined_premium:
       1: Unused

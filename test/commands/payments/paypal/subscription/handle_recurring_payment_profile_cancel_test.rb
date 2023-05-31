@@ -10,7 +10,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancelTest < 
   end
 
   test "changes status to canceled for known subscription" do
-    subscription = create :donations_subscription, provider: :paypal, status: :active
+    subscription = create :payments_subscription, :paypal, :active
     payload = { "recurring_payment_id" => subscription.external_id }
 
     refute subscription.canceled?
@@ -18,5 +18,23 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancelTest < 
     Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.(payload)
 
     assert subscription.reload.canceled?
+  end
+
+  test "canceled premium subscription causes user to no longer be premium user" do
+    user = create :user, premium_until: Time.current + 2.days
+    subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
+    create(:payments_payment, :premium, :paypal, user:, subscription:)
+    payload = { "recurring_payment_id" => subscription.external_id }
+
+    assert user.reload.premium?
+
+    perform_enqueued_jobs do
+      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.(payload)
+    end
+
+    refute user.reload.premium?
+
+    travel_to Time.current + 50.days
+    refute user.reload.premium?
   end
 end

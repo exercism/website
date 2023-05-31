@@ -1,7 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
-import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
+import {
+  StripeCardElement,
+  StripeCardElementChangeEvent,
+} from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { fetchJSON } from '@/utils/fetch-json'
@@ -31,7 +34,12 @@ type PaymentIntent = {
   id: string
   clientSecret: string
 }
-export type PaymentIntentType = 'payment' | 'subscription'
+export type PaymentIntentType =
+  | 'payment'
+  | 'subscription'
+  | 'premium_yearly_subscription'
+  | 'premium_monthly_subscription'
+  | 'premium_lifetime_subscription'
 
 type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -63,14 +71,19 @@ export function StripeForm({
   const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
 
-  const createPaymentIntentEndpoint = '/api/v2/donations/payment_intents'
+  const createPaymentIntentEndpoint = '/api/v2/payments/payment_intents'
   const paymentIntentFailedEndpoint =
-    '/api/v2/donations/payment_intents/$ID/failed'
+    '/api/v2/payments/payment_intents/$ID/failed'
   const paymentIntentSucceededEndpoint =
-    '/api/v2/donations/payment_intents/$ID/succeeded'
+    '/api/v2/payments/payment_intents/$ID/succeeded'
 
   const stripe = useStripe()
   const elements = useElements()
+
+  // Focus on the card number once the element loads
+  const handleCardReady = async (element: StripeCardElement) => {
+    element.focus()
+  }
 
   const handleCardChange = async (event: StripeCardElementChangeEvent) => {
     // When we've got a completed card with no errors, set the card to be valid
@@ -90,15 +103,18 @@ export function StripeForm({
     })
   }, [])
 
-  const notifyServerOfSuccess = useCallback((paymentIntent: PaymentIntent) => {
-    const endpoint = paymentIntentSucceededEndpoint.replace(
-      '$ID',
-      paymentIntent.id
-    )
-    return fetchJSON(endpoint, {
-      method: 'PATCH',
-    })
-  }, [])
+  const notifyServerOfSuccess = useCallback(
+    async (paymentIntent: PaymentIntent) => {
+      const endpoint = paymentIntentSucceededEndpoint.replace(
+        '$ID',
+        paymentIntent.id
+      )
+      return fetchJSON(endpoint, {
+        method: 'PATCH',
+      })
+    },
+    []
+  )
 
   const getPaymentRequest = useCallback(() => {
     return fetchJSON(createPaymentIntentEndpoint, {
@@ -160,7 +176,7 @@ export function StripeForm({
         setError(undefined)
         setProcessing(false)
         setSucceeded(true)
-        notifyServerOfSuccess(paymentIntent)
+        await notifyServerOfSuccess(paymentIntent)
         onSuccess(paymentIntentType, amount)
       }
     })
@@ -222,9 +238,19 @@ export function StripeForm({
         </div>
       ) : null}
       <div className="card-container">
-        <div className="title">Donate with Card</div>
+        <div className="title">
+          {paymentIntentType.startsWith('premium')
+            ? `You are subscribing for ${amount.format()} / ${generateIntervalText(
+                paymentIntentType
+              )}`
+            : 'Donate with Card'}
+        </div>
         <div className="card-element">
-          <CardElement options={cardOptions} onChange={handleCardChange} />
+          <CardElement
+            options={cardOptions}
+            onChange={handleCardChange}
+            onReady={handleCardReady}
+          />
           <button
             className="btn-primary btn-s"
             type="submit"
@@ -236,12 +262,10 @@ export function StripeForm({
               (!userSignedIn && email.length === 0)
             }
           >
-            {processing ? <Icon icon="spinner" alt="Progressing" /> : null}
-            <span>
-              {paymentIntentType == 'payment'
-                ? `Donate ${amount.format()} to Exercism`
-                : `Donate ${amount.format()} to Exercism monthly`}
-            </span>
+            {processing ? (
+              <Icon icon="spinner" alt="Progressing" className="animate-spin" />
+            ) : null}
+            <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
           </button>
         </div>
       </div>
@@ -259,4 +283,31 @@ export function StripeForm({
       ) : null}
     </form>
   )
+}
+
+function generateStripeButtonText(
+  paymentIntent: PaymentIntentType,
+  amount: currency
+) {
+  switch (paymentIntent) {
+    case 'payment':
+      return `Donate ${amount.format()} to Exercism`
+    case 'subscription':
+      return `Donate ${amount.format()} to Exercism monthly`
+    case 'premium_monthly_subscription':
+      return 'Subscribe to Premium'
+    case 'premium_yearly_subscription':
+      return 'Subscribe to Premium'
+  }
+}
+
+function generateIntervalText(paymentIntent: PaymentIntentType) {
+  switch (paymentIntent) {
+    case 'premium_monthly_subscription':
+      return `month`
+    case 'premium_yearly_subscription':
+      return `year`
+    default:
+      return ''
+  }
 }

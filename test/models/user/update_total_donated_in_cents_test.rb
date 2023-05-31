@@ -7,11 +7,11 @@ class User::UpdateTotalDonatedInCentsTest < ActiveSupport::TestCase
     User::UpdateTotalDonatedInCents.(user)
     assert_equal 0, user.total_donated_in_cents
 
-    create :donations_payment, user:, amount_in_cents: 100
+    create :payments_payment, user:, amount_in_cents: 100
     User::UpdateTotalDonatedInCents.(user)
     assert_equal 100, user.total_donated_in_cents
 
-    create :donations_payment, user:, amount_in_cents: 75
+    create :payments_payment, user:, amount_in_cents: 75
     User::UpdateTotalDonatedInCents.(user)
     assert_equal 175, user.total_donated_in_cents
   end

@@ -6,7 +6,7 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     external_id = SecureRandom.uuid
     amount = 1500
 
-    Payments::Subscription::Create.(user, :stripe, external_id, amount)
+    Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
 
     assert_equal 1, Payments::Subscription.count
 
@@ -16,6 +16,8 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     assert_equal user, subscription.user
     assert_equal :active, subscription.status
     assert_equal :stripe, subscription.provider
+    assert_equal :donation, subscription.product
+    assert_equal :month, subscription.interval
     assert user.active_donation_subscription?
   end
 
@@ -24,19 +26,46 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     external_id = SecureRandom.uuid
     amount = 1500
 
-    sub_1 = Payments::Subscription::Create.(user, :stripe, external_id, amount)
-    sub_2 = Payments::Subscription::Create.(user, :stripe, external_id, amount)
+    sub_1 = Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
+    sub_2 = Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
 
     assert_equal 1, Payments::Subscription.count
     assert_equal sub_1, sub_2
   end
 
-  test "triggers insiders_status update" do
+  test "updates insiders status when product is donation" do
     user = create :user
     external_id = SecureRandom.uuid
     amount = 1500
-    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).once
 
-    Payments::Subscription::Create.(user, :stripe, external_id, amount)
+    Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
+  end
+
+  test "does not update insiders status when product is premium" do
+    user = create :user
+    external_id = SecureRandom.uuid
+    amount = 1500
+    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).never
+
+    Payments::Subscription::Create.(user, :stripe, :premium, :month, external_id, amount)
+  end
+
+  test "updates premium status when product is premium" do
+    user = create :user
+    external_id = SecureRandom.uuid
+    amount = 1500
+    User::Premium::Update.expects(:call).with(user).once
+
+    Payments::Subscription::Create.(user, :stripe, :premium, :month, external_id, amount)
+  end
+
+  test "does not update premium status when product is donation" do
+    user = create :user
+    external_id = SecureRandom.uuid
+    amount = 1500
+    User::Premium::Update.expects(:call).with(user).never
+
+    Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
   end
 end

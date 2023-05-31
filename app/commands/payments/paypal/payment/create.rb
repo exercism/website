@@ -3,9 +3,9 @@
 class Payments::Paypal::Payment::Create
   include Mandate
 
-  initialize_with :user, :id, :amount, subscription: nil
+  initialize_with :user, :id, :amount, :product, subscription: nil
 
-  def call = Payments::Payment::Create.(user, :paypal, id, amount_in_cents, nil, subscription:)
+  def call = Payments::Payment::Create.(user, :paypal, product, id, amount_in_cents, nil, subscription:)
 
   private
   def amount_in_cents = (amount * 100).to_i

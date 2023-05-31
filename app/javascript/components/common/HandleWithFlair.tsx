@@ -1,17 +1,32 @@
 import React from 'react'
 import { Icon } from './Icon'
 
-export type Flair = 'insider' | 'lifetime_insider' | 'founder' | 'staff'
+export type Flair =
+  | 'premium'
+  | 'insider'
+  | 'lifetime_insider'
+  | 'founder'
+  | 'staff'
 
-type FlairIcons = 'insiders' | 'lifetime-insiders' | 'exercism-face-gradient'
+type FlairIcons =
+  | 'premium'
+  | 'insiders'
+  | 'lifetime-insiders'
+  | 'exercism-face-gradient'
 
-type FlairTitle = 'An Insider' | 'A lifetime Insider' | 'Founder' | 'Staff'
+type FlairTitle =
+  | 'Premium User'
+  | 'An Insider'
+  | 'A lifetime Insider'
+  | 'Founder'
+  | 'Staff'
 
 type Flairs = Record<Flair, FlairIcons>
 
 type FlairTitles = Record<Flair, FlairTitle>
 
 const FLAIRS: Flairs = {
+  premium: 'premium',
   insider: 'insiders',
   lifetime_insider: 'lifetime-insiders',
   founder: 'exercism-face-gradient',
@@ -19,6 +34,7 @@ const FLAIRS: Flairs = {
 }
 
 const FLAIR_TITLES: FlairTitles = {
+  premium: 'Premium User',
   founder: 'Founder',
   staff: 'Staff',
   insider: 'An Insider',

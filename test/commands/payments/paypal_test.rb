@@ -1,4 +1,4 @@
-require_relative '../test_base'
+require_relative './test_base'
 
 class Payments::Paypal::ProductTest < Payments::TestBase
   test "identifies donation product" do

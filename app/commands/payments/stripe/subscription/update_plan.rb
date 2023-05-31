@@ -21,6 +21,6 @@ class Payments::Stripe::Subscription::UpdatePlan
   end
 
   memoize
-  def price = Payments::Stripe::Price.from_interval(interval)
-  def amount_in_cents = Payments::Stripe::Price.amount_in_cents(price)
+  def price = Payments::Stripe.price_id_from_interval(interval)
+  def amount_in_cents = Payments::Stripe.amount_in_cents_from_price_id(price)
 end

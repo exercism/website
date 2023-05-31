@@ -21,7 +21,7 @@ class Payments::Stripe::Subscription::CancelTest < Payments::TestBase
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :year)
   end
 
-  test "updates subscription amount" do
+  test "updates subscription amount to yearly amount" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
     subscription = create :payments_subscription, user:, external_id: subscription_id
@@ -32,6 +32,20 @@ class Payments::Stripe::Subscription::CancelTest < Payments::TestBase
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :year)
 
-    assert_equal Payments::Stripe::Price::YEAR_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal Payment::Stripe::YEAR_AMOUNT_IN_CENTS, subscription.amount_in_cents
+  end
+
+  test "updates subscription amount to monthly amount" do
+    subscription_id = SecureRandom.uuid
+    user = create :user, active_donation_subscription: true
+    subscription = create :payments_subscription, user:, interval: :month, external_id: subscription_id
+
+    subscription_data = mock_stripe_subscription(subscription_id, 1000)
+    Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
+    Stripe::Subscription.stubs(:update)
+
+    Payments::Stripe::Subscription::UpdatePlan.(subscription, :month)
+
+    assert_equal Payment::Stripe::MONTH_AMOUNT_IN_CENTS, subscription.amount_in_cents
   end
 end

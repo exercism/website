@@ -64,7 +64,7 @@ export const WelcomeToPremiumModal = ({
 
         <h2>Thanks for joining!</h2>
         <p className="mb-12">
-          We've created Premium as a way of keping the core Exercism product
+          We've created Premium as a way of keeping the core Exercism product
           free for everyone. By upgrading to Premium, not only have you unlocked
           new features and functionality, you've also helped an open-source,
           not-for-profit organisation that's determined to make access to

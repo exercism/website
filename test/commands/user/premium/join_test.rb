@@ -23,4 +23,31 @@ class User::Premium::JoinTest < ActiveSupport::TestCase
 
     User::Premium::Join.(user, Time.current + 1.month)
   end
+
+  test "don't change existing, non-light theme" do
+    user = create :user
+    user.preferences.update!(theme: :system)
+
+    User::Premium::Join.(user.reload, Time.current + 1.month)
+
+    assert_equal 'system', user.preferences.theme
+  end
+
+  test "change light theme to dark" do
+    user = create :user
+    user.preferences.update!(theme: :light)
+
+    User::Premium::Join.(user.reload, Time.current + 1.month)
+
+    assert_equal 'dark', user.preferences.theme
+  end
+
+  test "change theme to dark if no theme was specified" do
+    user = create :user
+    user.preferences.update!(theme: nil)
+
+    User::Premium::Join.(user.reload, Time.current + 1.month)
+
+    assert_equal 'dark', user.preferences.theme
+  end
 end

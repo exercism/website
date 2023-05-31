@@ -8,9 +8,9 @@ module Payments::Paypal
       :donation
     when Exercism.secrets.paypal_premium_product_name
       :premium
-    when "Monthly+Premium"
+    when "Monthly Premium"
       :premium
-    when "Yearly+Premium"
+    when "Yearly Premium"
       :premium
     else
       raise UnknownPaypalProductError

@@ -58,7 +58,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payer_email" => user.email,
         "payer_id" => user.paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
-        "product_name" => Exercism.secrets.paypal_premium_product_name,
+        "product_name" => "Monthly Premium",
         "payment_cycle" => "Monthly"
       }
 

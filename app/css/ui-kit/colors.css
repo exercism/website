@@ -162,6 +162,7 @@
     --backgroundColorCAlert: theme(colors.lightOrange);
     --backgroundColorTextblockCautionContent: theme(colors.superLightOrange);
     --textColorCAlert: theme(colors.caution);
+    --textColorCAlertLabel: theme(colors.cautionLabel);
     --backgroundColorTracksListJoined: theme(colors.veryLightBlue);
     --backgroundColorTracksListNew: theme(colors.lightOrange);
     --backgroundColorIterationCommentsUnread: theme(colors.lightOrange);
@@ -419,6 +420,7 @@ body.namespace-.controller-premium.theme-light,
     --backgroundColorCAlert: none;
     --backgroundColorTextblockCautonContent: none;
     --textColorCAlert: theme(colors.orange);
+    --textColorCAlertLabel: theme(colors.aliceBlue);
     --backgroundColorTracksListJoined: theme(colors.darkBlueGray);
     --backgroundColorTracksListNew: none;
     --backgroundColorIterationCommentsUnread: theme(colors.launchingYellow);

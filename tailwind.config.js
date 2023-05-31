@@ -255,6 +255,10 @@ module.exports = {
       bgDanger_dark: '#2F2121',
       alertBtnBorder: '#873333',
 
+      textCAlert: 'var(--textColorCAlert)',
+      textCAlertLabel: 'var(--textColorCAlertLabel)',
+      bgCAlert: 'var(--backgroundColorCAlert)',
+
       anotherGold: '#FAE54D',
 
       muddy: '#6E82AA',

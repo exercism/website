@@ -8,5 +8,5 @@ class User::Notifications::JoinedPremiumNotification < User::Notification
   def guard_params = ""
 
   # No email key for this - it must be sent.
-  def email_communication_preferences_key = :receive_product_updates
+  def email_communication_preferences_key = :email_about_premium
 end

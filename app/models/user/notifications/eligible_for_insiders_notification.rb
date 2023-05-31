@@ -6,8 +6,5 @@ class User::Notifications::EligibleForInsidersNotification < User::Notification
   # Users should only have this notification once
   def guard_params = ""
 
-  # No email key for this - it must be sent.
-  def email_communication_preferences_key = :receive_product_updates
-
-  def email_should_send? = false
+  def email_communication_preferences_key = :email_about_insiders
 end

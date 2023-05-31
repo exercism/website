@@ -38,6 +38,7 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn 0.2s forwards',
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
     borderRadius: {

@@ -29,6 +29,5 @@ export function PaypalStatus({
     }
   }, [data, premiumRedirectPath])
 
-  // TODO: pump up the 'p's in this processing prose!
-  return <div>Processing PayPal Payment</div>
+  return <div className="hidden"></div>
 }

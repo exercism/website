@@ -49,7 +49,8 @@
           %h2.text-h2 Monthly
           .price $9.99/month
           %p.text-p-base.mb-auto Subscribe monthly and enjoy all our Premium features for as long as you stay subscribed. Cancel anytime or convert to an annual or Insiders membership later.
-          = render ReactComponents::Premium::PriceOption.new(:monthly)
+          - if user_signed_in?
+            = render ReactComponents::Premium::PriceOption.new(:monthly)
 
         .price-card.border-gradient-russianViolet
           .most-popular Most popular
@@ -58,10 +59,12 @@
           %p.text-p-base.mb-auto
             %strong.text-white.font-semibold Save over 20%
             by subscribing annually. Enjoy Premium for a whole year, and get access to new features as they're released. Your membership will renew annually.
-          = render ReactComponents::Premium::PriceOption.new(:yearly)
+          - if user_signed_in?
+            = render ReactComponents::Premium::PriceOption.new(:yearly)
 
         .price-card.border-2.border-purpleDarkened
           %h2.text-h2 Become an Insider
           .price $499
           %p.text-p-base.mb-32 Enjoy full lifetime access to both Exercism Premium and Exercism Insiders, giving you behind-the-scenes access to videos and exclusive team community spaces.
-          = render ReactComponents::Premium::PriceOption.new(:lifetime)
+          - if user_signed_in?
+            = render ReactComponents::Premium::PriceOption.new(:lifetime)

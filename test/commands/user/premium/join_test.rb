@@ -24,6 +24,14 @@ class User::Premium::JoinTest < ActiveSupport::TestCase
     User::Premium::Join.(user, Time.current + 1.month)
   end
 
+  test "update flair" do
+    user = create :user
+
+    User::UpdateFlair.expects(:call).with(user)
+
+    User::Premium::Join.(user, Time.current + 1.month)
+  end
+
   test "don't change existing, non-light theme" do
     user = create :user
     user.preferences.update!(theme: :system)

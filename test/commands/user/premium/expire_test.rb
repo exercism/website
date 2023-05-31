@@ -18,4 +18,12 @@ class User::Premium::ExpireTest < ActiveSupport::TestCase
 
     User::Premium::Expire.(user)
   end
+
+  test "update flair" do
+    user = create :user
+
+    User::UpdateFlair.expects(:call).with(user)
+
+    User::Premium::Expire.(user)
+  end
 end

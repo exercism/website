@@ -10,11 +10,11 @@ class User::Premium::Update
 
     if expire?
       User::Premium::Expire.(user)
-    else
+    elsif join?
       User::Premium::Join.(user, premium_until)
+    else
+      user.update(premium_until:)
     end
-
-    User::UpdateFlair.(user)
   end
 
   private
@@ -28,6 +28,7 @@ class User::Premium::Update
 
   def lifetime_premium? = user.insider?
   def expire? = premium_until.nil?
+  def join? = user.premium_until.nil?
 
   memoize
   def last_payment_premium_until

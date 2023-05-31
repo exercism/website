@@ -7,6 +7,7 @@ class User::Premium::Join
     user.update!(premium_until:)
     update_theme!
     User::Notification::CreateEmailOnly.defer(user, :joined_premium) if FeatureFlag::PREMIUM
+    User::UpdateFlair.(user)
   end
 
   def update_theme!

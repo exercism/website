@@ -4,7 +4,7 @@ class SyncSponsorsJob < ApplicationJob
   queue_as :dribble
 
   def perform
-    Donations::Github::Sponsorship::SyncAll.()
-    Donations::Stripe::Subscription::SyncAll.()
+    Payments::Github::Sponsorship::SyncAll.()
+    Payments::Stripe::Subscription::SyncAll.()
   end
 end

@@ -17,6 +17,7 @@ import type { CommunityVideoType } from '@/components/types'
 type VideoGridProps = {
   data: {
     tracks: VideoTrack[]
+    itemsPerRow: number
     request: Request
   }
 }
@@ -49,7 +50,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   )
 
   return (
-    <div className="p-40 bg-backgroundColorA shadow-lgZ1 rounded-16 mb-64">
+    <>
       <VideoGridHeader
         tracks={data.tracks}
         handleTrackChange={handleTrackChange}
@@ -59,7 +60,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
       <div className="flex mb-32 c-search-bar">
         <input
           className="grow --search --right"
-          placeholder="Search community walkthroughs"
+          placeholder="Search community content"
           value={criteria}
           onChange={(e) => {
             setCriteria(e.target.value)
@@ -69,7 +70,9 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
       </div>
 
       <ResultsZone isFetching={isFetching}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
+        <div
+          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${data.itemsPerRow} gap-16`}
+        >
           {resolvedData && resolvedData.results.length > 0 ? (
             resolvedData.results.map((video) => (
               <Video key={video.id} video={video} />
@@ -88,7 +91,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
           />
         )}
       </ResultsZone>
-    </div>
+    </>
   )
 }
 
@@ -110,9 +113,9 @@ function VideoGridHeader({
         className="mr-24 self-start"
       />
       <div className="mr-auto">
-        <h2 className="text-h2 mb-4">Learn from our community</h2>
+        <h2 className="text-h2 mb-4">Learn with our community</h2>
         <p className="text-p-large">
-          Walkthroughs from our community using Exercism
+          Walkthroughs, tutorials and livestreams from our community.
         </p>
       </div>
 
@@ -140,7 +143,7 @@ function Video({ video }: VideoProps): JSX.Element {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="grid shadow-smZ1 p-16 bg-backgroundColorA rounded-8 text-left"
+        className="flex flex-col shadow-smZ1 p-16 bg-backgroundColorA rounded-8 text-left"
       >
         <img
           style={{ objectFit: 'cover', width: '100%', height: '150px' }}

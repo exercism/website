@@ -1,21 +1,20 @@
 #page-insiders
   .lg-container
-    .top.grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64
+    .top.grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64.pt-20.md:pt-48.pb-64
       .top-lhs
-        %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
+        %h1.text-h1.flex.items-center.gap-12.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
           Exercism Insiders
-          = graphical_icon "insiders", css_class: 'h-[32px] md:h-[64px] w-[32px] md:w-[64px]'
+          = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
         %h3.text-h3.mb-16 Our way of saying thank you.
-        %h5.launching Launching May 4th 2023
-        %p.text-p-xlarge.mb-24 Get behind the scenes access, Dark Mode, ChatGPT integration, offers from our partners, exclusive badges, and more.
+        %p.text-p-xlarge.mb-24 Insiders is our exclusive reward program for contributors, mentors, and large donors. Get behind the scenes access, exclusive badges, and Exercism Premium for free.
         - if current_user.present?
           = render ReactComponents::Insiders::InsidersStatus.new
 
       .top-rhs
         .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/8onnSv5r9Hw", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/iwhahd41h0A", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-    %h2.text-h2.mb-32 Exclusive Insider Features
+    %h2.text-h2.mb-32 Insider Features
     .features
       - @features.each do |feature|
         .feature
@@ -23,37 +22,11 @@
           %h4= feature[:title]
           %p= feature[:desc]
 
-    %h2.text-h2.mb-32 Behind the scenes access
-    .features
-      - @bts_access.each do |feature|
-        .feature
-          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
-          %h4= feature[:title]
-          %p= feature[:desc]
+    %p.text-p-large.text-center.pb-56 (And even more coming soon!)
 
-  .gradient-container
-    .lg-container.relative
-      = graphical_icon "pixel-diamond", css_class: "left-[120px] xl:block hidden"
-      = graphical_icon "pixel-emerald", css_class: "right-[159px] top-[180px] xl:block hidden"
-      = graphical_icon "pixel-emoji", css_class: "right-[179px] -top-[16px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "top-[172px] left-[176px] xl:block hidden"
-      = graphical_icon "pixel-coin", css_class: "right-[28px] top-[66px] xl:block hidden"
-
-      %h2.text-h1.mb-16.relative Offers from our partners
-      %p.text-p-large.mx-auto.mb-32.relative{ class: "max-w-[800px]" }
-        We're sourcing some great free trials and deals from commercial partners. It's their way of saying thank you for your work in Open Source.
-      %p.light-green-prompt.mb-64.relative We're hoping to get several partnerships confirmed before launch and we're aiming to add 5-10 more each month.
-      -#
-        .features
-          - @partners.each do |partner|
-            .feature
-              = icon partner[:icon], partner[:name], category: :partners
-              %h4= partner[:name]
-              %p= partner[:offer]
-
-  .gradient-container.faqs
+  .gradient-container.faqs.py-56
     .lg-container
-      %h2.text-h1.mb-40 The Nitty Gritty &amp; FAQs
+      %h2.text-h1.mb-40.text-center The Nitty Gritty &amp; FAQs
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
         %details{ open: true }
           %summary What are the exact criteria for Insiders access?
@@ -64,39 +37,32 @@
             %li To be a founder or staff member
             %li To be a supermentor (100+ solutions mentored on a track with a 95% positive rating)
             %li To have a reputation equal or greater than 1,000
-            %li To have donated $500 before Insiders launches
+            %li To have donated $499 (in one or many parts)
 
           %p.mb-4 For those without lifetime access, to gain access you need one of the following:
           %ul.mb-16
             %li To be a maintainer
-            %li To have an active recurring subscription (see note below about Paypal)
+            %li To have had a recurring donation at the point that Premium launched (May 30th 2023), and it still to be active.
             %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
 
+          %p.mb-4 You can also gain access to Insiders by donating.
+          %ul.mb-16
+            %li For donations before we launched Premium, you get one month of Insiders for every $9.99 donated, from the date that Premium launched, plus one extra bonus month. So if you donated $35 before Premium launched, you'd get Insiders access through June, July, August and September 2023.
+            %li For donations after we launched Premium, you get one month of Insiders for every $25 donated. So if you donate $50 today, you'll have access for the next two months.
+
           %p
-            If you think you meet these criteria but don't have access, please open an issue #{link_to 'on the forum', 'https://forum.exercism.org'}.
+            If you think you meet these criteria but don't have access, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
             If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
 
         %details
           %summary I've donated via Paypal or GitHub Sponsors but don't have access.
-          Due to technical limitations, we don't automatically get notified of recurring donors on PayPal or GitHub Sponsors.
-          We manually sync these each day, so there may be a delay between you setting up your donation and gaining Insiders access.
-          Sorry for this - we're working on improving it before launch.
-          Be assured that if you've setup a recurring donation, we'll give you access!
+          Sometimes the tech breaks down and we don't get webhook notifications from GitHub or Paypal.
+          If you have issues, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
 
         %details
           %summary What does Insiders cost?
           Insiders isn't a product that you can buy - it's a rewards program for those who contribute, mentor or donate.
-          If you'd like access, you can start contributing, mentoring, or set up a recurring donation to Exercism and then join us on our journey.
-
-        %details
-          %summary What features will Exercism Insiders contain?
-          At launch, we're releasing our Dark Mode and ChatGPT integrations exclusively to Insiders.
-          Over time, we're plan on adding other fun features to Insiders.
-
-        %details
-          %summary I need dark theme for accessiblity reasons, but I'm not an Insider.
-          We're creating a basic dark theme that's suitable for people who struggle with light themes, which will launch at the same time as Insiders.
-          It's not that pretty, but it'll mean you can use the site without issue!
+          If you'd like access, you can start contributing, mentoring, or donate $499 or more to Exercism.
 
         %details
           %summary How do I earn reputation?
@@ -104,10 +70,4 @@
           You can also earn reputation by publishing your solutions, but that does not count towards Insiders access.
           You can check what actions result in what reputation by consulting #{link_to 'our docs', 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'}.
           Check your #{link_to 'journey page', journey_path} to see where you're earning reputation.
-
-        %details
-          %summary I thought Exercism was free?
-          It is! You don't have to donate in order to use Exercism.
-          All our production-ready educational features are entirely free.
-          However, for those that are able and willing to support Exercism with their time or money, Insiders provides a way of us saying thank you, and taking them on our journey with us.
 

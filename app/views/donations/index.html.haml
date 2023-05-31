@@ -21,11 +21,11 @@
       #anchor-donate
       .summary.lg-container.hidden.md:flex.items-center
         .item
-          .value= number_with_delimiter(User::Data.donor.count)
+          .value= number_with_delimiter(User::Data.donors.count)
           .metric Supporters
 
         .item
-          - parts = Donations::Subscription.active_total_per_month_in_dollars.to_s.split(".")
+          - parts = Payments::Subscription.donation.active_total_per_month_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
             .dollars.text-32.leading-130= number_with_delimiter(parts[0])
@@ -33,7 +33,7 @@
           .metric Total Monthly Pledges
 
         .item
-          - parts = Donations::Payment.total_donated_in_dollars.to_s.split(".")
+          - parts = Payments::Payment.donation.total_donated_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
             .dollars.text-32.leading-130= number_with_delimiter(parts[0])

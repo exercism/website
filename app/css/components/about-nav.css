@@ -26,7 +26,7 @@
             & .c-icon {
                 height: 24px;
                 width: 24px;
-                @apply text-anotherPurple;
+                filter: var(--purple-filter);
             }
         }
         &:hover {
@@ -35,10 +35,10 @@
             }
         }
         &.selected {
-            @apply border-anotherPurple;
+            @apply border-adaptivePurple;
 
             & a {
-                @apply text-anotherPurple;
+                @apply text-adaptivePurple;
             }
         }
     }

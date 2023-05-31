@@ -8,7 +8,7 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
     monthly_price_in_cents = 300
     user = create(:user, github_username:)
 
-    Donations::Github::Sponsorship::HandleCancelled.expects(:call).
+    Payments::Github::Sponsorship::HandleCancelled.expects(:call).
       with(user, node_id, is_one_time).
       once
 
@@ -24,7 +24,7 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
     monthly_price_in_cents = 300
     user = create(:user, github_username:)
 
-    Donations::Github::Sponsorship::HandleCreated.expects(:call).
+    Payments::Github::Sponsorship::HandleCreated.expects(:call).
       with(user, node_id, is_one_time, monthly_price_in_cents).
       once
 
@@ -40,7 +40,7 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
     monthly_price_in_cents = 300
     user = create(:user, github_username:)
 
-    Donations::Github::Sponsorship::HandleTierChanged.expects(:call).
+    Payments::Github::Sponsorship::HandleTierChanged.expects(:call).
       with(user, node_id, is_one_time, monthly_price_in_cents).
       once
 
@@ -55,9 +55,9 @@ class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
     is_one_time = true
     monthly_price_in_cents = 300
 
-    Donations::Github::Sponsorship::HandleCancelled.expects(:call).never
-    Donations::Github::Sponsorship::HandleCreated.expects(:call).never
-    Donations::Github::Sponsorship::HandleTierChanged.expects(:call).never
+    Payments::Github::Sponsorship::HandleCancelled.expects(:call).never
+    Payments::Github::Sponsorship::HandleCreated.expects(:call).never
+    Payments::Github::Sponsorship::HandleTierChanged.expects(:call).never
 
     ProcessGithubSponsorUpdateJob.perform_now(
       'cancelled', github_username, node_id, is_one_time, monthly_price_in_cents

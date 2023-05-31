@@ -39,7 +39,7 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
             mutation()
           }}
           type="button"
-          className="btn-keyboard-shortcut"
+          className="btn-xs btn-enhanced"
         >
           <div className="--hint">Remove from Inbox</div>
         </button>

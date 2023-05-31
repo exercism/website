@@ -15,7 +15,8 @@ class API::UsersControllerTest < API::BaseTestCase
     expected = {
       user: {
         handle: @current_user.handle,
-        insiders_status: @current_user.insiders_status
+        insiders_status: @current_user.insiders_status,
+        premium: @current_user.premium?
       }
     }
 

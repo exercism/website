@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -166,6 +166,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
@@ -180,6 +181,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0, null: false
+    t.integer "interval", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
   end
@@ -1023,6 +1026,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
+    t.boolean "email_about_premium", default: true, null: false
+    t.boolean "email_about_insiders", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
     t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
   end
@@ -1051,6 +1056,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_130106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "cache"
+    t.datetime "premium_until"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }

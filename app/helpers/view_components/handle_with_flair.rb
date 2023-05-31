@@ -59,6 +59,7 @@ module ViewComponents
     }.freeze
 
     ICONS = {
+      premium: 'premium',
       insider: 'insiders',
       lifetime_insider: 'lifetime-insiders',
       founder: 'exercism-face-gradient',
@@ -66,7 +67,8 @@ module ViewComponents
     }.freeze
 
     TITLES = {
-      insider: 'An Insider',
+      premium: 'Premium User',
+      insider: 'An Exercism Insider',
       lifetime_insider: 'A lifetime Insider',
       founder: 'Founder',
       staff: 'Staff'

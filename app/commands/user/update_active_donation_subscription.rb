@@ -9,5 +9,5 @@ class User::UpdateActiveDonationSubscription
   end
 
   private
-  def active_donation_subscription = user.donation_subscriptions.active.exists?
+  def active_donation_subscription = user.subscriptions.donation.active.exists?
 end

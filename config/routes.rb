@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     get :user_preferences
     get :communication_preferences
     get :donations
+    get :premium
     get :integrations
     patch :reset_account
     delete :destroy_account
@@ -92,6 +93,10 @@ Rails.application.routes.draw do
   resources :impact, only: [:index]
 
   resources :insiders, only: [:index]
+
+  resource :premium, only: [:show], controller: 'premium' do
+    get :paypal_pending
+  end
 
   resources :profiles, only: %i[index show new create] do
     collection do
@@ -150,6 +155,9 @@ Rails.application.routes.draw do
 
   namespace :community do
     resources :stories, only: %i[index show]
+    resources :videos, only: %i[index show]
+    resources :brief_introductions, only: %i[index]
+    resources :interviews, only: %i[index]
   end
 
   resources :tracks, only: %i[index show] do

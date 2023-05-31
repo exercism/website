@@ -40,7 +40,7 @@
     .text--p {
         @apply leading-160;
 
-        & a {
+        & a.not(".btn-primary") {
             color: var(--c-prominent-link-color);
             @apply font-medium;
         }

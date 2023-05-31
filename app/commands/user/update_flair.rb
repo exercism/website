@@ -14,6 +14,7 @@ class User::UpdateFlair
     return :staff if user.staff?
     return :lifetime_insider if user.insiders_status_active_lifetime?
     return :insider if user.insiders_status_active?
+    return :premium if user.premium?
 
     nil
   end

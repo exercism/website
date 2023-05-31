@@ -1,5 +1,6 @@
 class User::IncrementUsage
   include Mandate
+
   initialize_with :user, :group, :metric
 
   def call

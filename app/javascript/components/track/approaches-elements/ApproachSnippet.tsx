@@ -8,7 +8,7 @@ export function ApproachSnippet({
 }: {
   approach: Approach
 }): JSX.Element {
-  const codeBlockRef = useHighlighting<HTMLPreElement>()
+  const codeBlockRef = useHighlighting<HTMLPreElement>(approach.snippet)
 
   const { track } = useContext(DigDeeperDataContext)
 

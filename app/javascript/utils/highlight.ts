@@ -107,14 +107,20 @@ const highlightBlock = (block: HTMLElement): void => {
 
 export const highlightAll = (parent: ParentNode = document): void => {
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
-    // TODO: find better optimalisation that doesn't break highlighting
-    // if (block.dataset.highlighted === 'true') {
-    //   return
-    // }
+    if (block.dataset.highlighted === 'true') {
+      return
+    }
 
     highlightBlock(block)
   })
 }
+
+export const highlightAllAlways = (parent: ParentNode = document): void => {
+  parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    highlightBlock(block)
+  })
+}
+
 // this will be replaced by the one in @/hooks. after all conflicts are resolved
 // and is missing 'html' dependency which is needed so it actually highlights code block when parsed html arrives
 export const useHighlighting = <T>(): React.MutableRefObject<T | null> => {

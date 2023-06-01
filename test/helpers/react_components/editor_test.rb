@@ -59,6 +59,22 @@ class ReactComponents::EditorTest < ReactComponentTestCase
     assert_component component, "editor", { graph: data }
   end
 
+  test "uses latest iteration" do
+    solution = create(:practice_solution)
+    submission = create(:submission, solution:)
+    actual = ReactComponents::Editor.new(solution).data
+    assert_nil actual[:iteration]
+
+    create(:iteration, submission:)
+    actual = ReactComponents::Editor.new(solution.reload).data
+    refute_nil actual[:iteration]
+
+    # Create an extra submission without an iteration
+    create(:submission, solution:)
+    actual = ReactComponents::Editor.new(solution.reload).data
+    refute_nil actual[:iteration]
+  end
+
   test "no tests for concept exercises" do
     track = create :track
     solution = create(:practice_solution, track:)

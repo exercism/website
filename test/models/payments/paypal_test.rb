@@ -1,6 +1,6 @@
-require_relative './test_base'
+require "test_helper"
 
-class Payments::Paypal::ProductTest < Payments::TestBase
+class Payments::PaypalTest < ActiveSupport::TestCase
   test "identifies donation product" do
     product_name = Exercism.secrets.paypal_donation_product_name
     assert_equal :donation, Payments::Paypal.product_from_name(product_name)

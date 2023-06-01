@@ -1,6 +1,6 @@
-require_relative './test_base'
+require "test_helper"
 
-class Payments::StripeTest < Payments::TestBase
+class Payments::StripeTest < ActiveSupport::TestCase
   test "identifies donation product" do
     product_id = Exercism.secrets.stripe_recurring_product_id
     assert_equal :donation, Payments::Stripe.product_from_id(product_id)

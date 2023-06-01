@@ -9,29 +9,32 @@ class Mentor::SupermentorTest < ActiveSupport::TestCase
     # Sanity check: no mentor
     refute Mentor::Supermentor.eligible?(user)
 
-    # Sanity check: mentor but not mentored anything
-    mentorship_1 = create(:user_track_mentorship, user:, track: track_1)
+    # Sanity check: mentor role but not mentored anything
     user.update(roles: [:mentor])
     refute Mentor::Supermentor.eligible?(user)
 
-    # Sanity check: ignore other user's track mentorships
+    # Sanity check: ignore other user's mentor discussions
     other_user = create :user
-    create(:user_track_mentorship, num_finished_discussions: 150, user: other_user, track: track_1)
+    create_list(:mentor_discussion, 101, :student_finished, solution: create(:practice_solution, track: track_1), mentor: other_user)
     refute Mentor::Supermentor.eligible?(user)
 
     # Sanity check: mentored too few students
-    mentorship_1.update(num_finished_discussions: 80)
+    create_list(:mentor_discussion, 80, :student_finished, solution: create(:practice_solution, track: track_1), mentor: user)
     refute Mentor::Supermentor.eligible?(user)
 
+    # Sanity check: only discussions finished by student count rating too low
+    create_list(:mentor_discussion, 20, :awaiting_student, solution: create(:practice_solution, track: track_2), mentor: user)
+    create_list(:mentor_discussion, 20, :awaiting_mentor, solution: create(:practice_solution, track: track_2), mentor: user)
+    create_list(:mentor_discussion, 20, :mentor_finished, solution: create(:practice_solution, track: track_2), mentor: user)
+
     # Sanity check: satisfaction rating too low
-    mentorship_2 = create(:user_track_mentorship, user:, track: track_2)
-    mentorship_2.update(num_finished_discussions: 23)
+    create_list(:mentor_discussion, 20, :student_finished, solution: create(:practice_solution, track: track_2), mentor: user)
     user.update(mentor_satisfaction_percentage: 80)
-    refute Mentor::Supermentor.eligible?(user)
+    refute Mentor::Supermentor.eligible?(user.reload)
 
     # Requirements met
     user.update(mentor_satisfaction_percentage: 96)
-    assert Mentor::Supermentor.eligible?(user)
+    assert Mentor::Supermentor.eligible?(user.reload)
   end
 
   test "for_track?" do

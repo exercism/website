@@ -11,8 +11,8 @@ module Components
       include MarkdownEditorHelpers
 
       test "shows posts" do
-        mentor = create :user, handle: "author"
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url, handle: "author"
+        student = create :user, :external_avatar_url, handle: "student"
         track = create :track
         exercise = create(:concept_exercise, track:)
         solution = create(:concept_solution, user: student, exercise:)
@@ -77,8 +77,8 @@ module Components
       end
 
       test "refetches when new post comes in" do
-        mentor = create :user, handle: "author"
-        student = create :user, handle: "student"
+        mentor = create :user, :external_avatar_url, handle: "author"
+        student = create :user, :external_avatar_url, handle: "student"
         track = create :track
         exercise = create(:concept_exercise, track:)
         solution = create(:concept_solution, user: student, exercise:)
@@ -287,7 +287,9 @@ module Components
           assert_text mentor.handle.to_s
           assert_text mentor.bio
           assert_text mentor.formatted_reputation
-          assert_css "img[src='#{mentor.avatar_url}']"\
+
+          avatar_path = mentor.avatar_url.gsub("https://test.exercism.org", "")
+          assert_css "img[src$='#{avatar_path}']"\
             "[alt=\"Uploaded avatar of mentor\"]"
         end
       end

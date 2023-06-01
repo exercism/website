@@ -30,4 +30,11 @@ class User::BootstrapTest < ActiveSupport::TestCase
     assert_equal user.created_at, metric.occurred_at
     assert_equal user, metric.user
   end
+
+  test "email verified for new user" do
+    user = create :user
+
+    User::VerifyEmail.expects(:defer).with(user).once
+    User::Bootstrap.(user)
+  end
 end

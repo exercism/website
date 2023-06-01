@@ -6,11 +6,17 @@ export function Icon({
   alt,
   className,
   category = 'icons',
+  width = 0,
+  height = 0,
+  title,
 }: {
   icon: string
   alt: string
   className?: string
   category?: string
+  width?: number
+  height?: number
+  title?: string
 }): JSX.Element {
   const classNames = ['c-icon']
   if (className !== undefined) {
@@ -18,5 +24,14 @@ export function Icon({
   }
   const iconFile = assetUrl(`${category}/${icon}.svg`)
 
-  return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
+  return (
+    <img
+      src={iconFile}
+      alt={alt}
+      height={height}
+      width={width}
+      title={title}
+      className={classNames.join(' ')}
+    />
+  )
 }

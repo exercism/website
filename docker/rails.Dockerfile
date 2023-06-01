@@ -19,10 +19,14 @@ RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Ci
 
 WORKDIR /opt/exercism/website
 
+RUN gem install nokogiri -v 1.14.2 && \
+    gem install propshaft -v 0.4.0 && \
+    gem install anycable -v 1.2.5 && \
+    gem install bundler -v 2.4.13
+
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler && \
-    bundle config set deployment 'true' && \
+RUN bundle config set deployment 'true' && \
     bundle config set without 'development test' && \
     bundle install
 

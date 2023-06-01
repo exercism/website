@@ -1,0 +1,27 @@
+#page-premium
+  = render ReactComponents::Modals::WelcomeToPremiumModal.new
+  .gradient-container.top.pt-20.md:pt-48.pb-64
+    .lg-container
+      .top.grid.grid-cols-1.md:grid-cols-2.gap-48
+        .top-lhs
+          %h1.text-h1.flex.items-center.gap-20.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
+            Exercism Premium
+            = graphical_icon "premium", css_class: 'h-[32px] md:h-[64px] w-[32px] md:w-[64px]'
+          %p.text-h3.mb-24
+            Enjoy your enhanced experience!
+          %p.text-p-xlarge.mb-12
+            Premium is brand new at Exercism, and we couldn't be more excited for all that's to come.
+            Over the next few months, we're going to be adding more features and benefits to make Exercism, and your learning journey, more fun than ever!
+          %p.text-p-xlarge
+            If you've got ideas for extra fun things we could add to Premium, let us know!
+            We're always excited to hear your ideas.
+            Check out details of the features you've unlocked below.
+
+        .top-rhs
+          .c-youtube-container
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/6BTwBNmmxzs", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+  .gradient-container.py-64
+    .lg-container
+      = render "premium/features_inside"
+

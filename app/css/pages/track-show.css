@@ -567,7 +567,6 @@
                     @apply mb-12;
                 }
                 & .info {
-                    @apply flex;
                     & .explanation {
                         @apply flex items-center;
                         @apply text-14 leading-150 text-textColor6 font-semibold;
@@ -579,13 +578,10 @@
                         }
                     }
                     & .next-slot {
-                        @apply ml-auto;
-                        @apply mr-56;
-                        @apply flex items-center;
                         @apply leading-160 text-textColor6 font-medium;
 
                         & strong {
-                            @apply font-semibold ml-4;
+                            @apply font-semibold;
                             color: #7029f5;
                             background: -webkit-linear-gradient(
                                 #9e00ff,
@@ -593,6 +589,9 @@
                             );
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
+                        }
+                        a {
+                            @apply underline;
                         }
                     }
                 }

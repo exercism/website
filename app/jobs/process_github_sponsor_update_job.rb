@@ -7,11 +7,11 @@ class ProcessGithubSponsorUpdateJob < ApplicationJob
 
     case action
     when 'cancelled'
-      Donations::Github::Sponsorship::HandleCancelled.(user, node_id, is_one_time)
+      Payments::Github::Sponsorship::HandleCancelled.(user, node_id, is_one_time)
     when 'created'
-      Donations::Github::Sponsorship::HandleCreated.(user, node_id, is_one_time, monthly_price_in_cents)
+      Payments::Github::Sponsorship::HandleCreated.(user, node_id, is_one_time, monthly_price_in_cents)
     when 'tier_changed'
-      Donations::Github::Sponsorship::HandleTierChanged.(user, node_id, is_one_time, monthly_price_in_cents)
+      Payments::Github::Sponsorship::HandleTierChanged.(user, node_id, is_one_time, monthly_price_in_cents)
     end
   end
 end

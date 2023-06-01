@@ -15,10 +15,12 @@ class ViewComponents::HandleWithFlairTest < ActionView::TestCase
   test "defaults are correct" do
     handle = "iHiD"
     flair = 'insider'
+    title = 'An Exercism Insider'
+    alt = "#{title}'s flair"
 
     expected = tag.span(class: 'flex items-center') do
       tag.span(handle) +
-        icon(:insiders, flair, style: "all:unset; height: 13px; width: 13px; margin-left: 4px").to_s
+        icon(:insiders, alt, style: "all:unset; height: 13px; width: 13px; margin-left: 4px", title:).to_s
     end
 
     actual = render(ViewComponents::HandleWithFlair.new(handle, flair))

@@ -34,7 +34,8 @@ class Solution::Publish
   end
 
   def award_badges!
-    %i[functional_february mechanical_march analytical_april mind_shifting_may].each do |badge|
+    %i[functional_february mechanical_march analytical_april
+       mind_shifting_may summer_of_sexps].each do |badge|
       AwardBadgeJob.perform_later(solution.user, badge)
     end
   end

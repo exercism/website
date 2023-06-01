@@ -4,7 +4,12 @@ class SerializeExerciseRepresentations
   initialize_with :representations, params: Mandate::NO_DEFAULT
 
   def call
-    representations.map { |representation| SerializeRepresentation.(representation, params) }
+    eager_loaded_representations.
+      map { |representation| SerializeRepresentation.(representation, params) }
+  end
+
+  def eager_loaded_representations
+    representations.to_active_relation.includes(:exercise, :track)
   end
 
   class SerializeRepresentation

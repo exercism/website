@@ -1,17 +1,44 @@
 import React from 'react'
-import { GraphicalIcon } from './GraphicalIcon'
+import { Icon } from './Icon'
 
-export type Flair = 'insider' | 'lifetime_insider' | 'founder' | 'staff'
+export type Flair =
+  | 'premium'
+  | 'insider'
+  | 'lifetime_insider'
+  | 'founder'
+  | 'staff'
 
-type FlairIcons = 'insiders' | 'lifetime-insiders' | 'exercism-face-gradient'
+type FlairIcons =
+  | 'premium'
+  | 'insiders'
+  | 'lifetime-insiders'
+  | 'exercism-face-gradient'
+
+type FlairTitle =
+  | 'Premium User'
+  | 'An Insider'
+  | 'A lifetime Insider'
+  | 'Founder'
+  | 'Staff'
 
 type Flairs = Record<Flair, FlairIcons>
 
+type FlairTitles = Record<Flair, FlairTitle>
+
 const FLAIRS: Flairs = {
+  premium: 'premium',
   insider: 'insiders',
   lifetime_insider: 'lifetime-insiders',
   founder: 'exercism-face-gradient',
   staff: 'exercism-face-gradient',
+}
+
+const FLAIR_TITLES: FlairTitles = {
+  premium: 'Premium User',
+  founder: 'Founder',
+  staff: 'Staff',
+  insider: 'An Insider',
+  lifetime_insider: 'A lifetime Insider',
 }
 
 const FLAIR_SIZE = {
@@ -39,11 +66,13 @@ export function HandleWithFlair({
       {Object.prototype.hasOwnProperty.call(FLAIRS, flair) && (
         <>
           &nbsp;
-          <GraphicalIcon
+          <Icon
             className={'handle-with-flair-icon ' + iconClassName}
             height={FLAIR_SIZE[size]}
             width={FLAIR_SIZE[size]}
             icon={FLAIRS[flair]}
+            title={FLAIR_TITLES[flair]}
+            alt={`${FLAIR_TITLES[flair]}'s flair`}
           />
         </>
       )}

@@ -350,7 +350,16 @@ class UserTest < ActiveSupport::TestCase
     user_2 = create :user, first_donated_at: Time.current, show_on_supporters_page: false
     user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
 
-    assert_equal [user_2, user_3], User.donor.order(:id)
+    assert_equal [user_2, user_3], User.donors.order(:id)
+  end
+
+  test "scope: premium" do
+    create :user, premium_until: nil
+    create :user, premium_until: Time.current - 3.days
+    user_2 = create :user, premium_until: Time.current + 2.days
+    user_3 = create :user, premium_until: Time.current + 4.months
+
+    assert_equal [user_2, user_3], User.premium.order(:id)
   end
 
   test "scope: public_supporter" do
@@ -359,6 +368,17 @@ class UserTest < ActiveSupport::TestCase
     user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
 
     assert_equal [user_3], User.public_supporter.order(:id)
+  end
+
+  test "scope: insiders" do
+    create :user, insiders_status: :unset
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :eligible_lifetime
+    user_4 = create :user, insiders_status: :active
+    user_5 = create :user, insiders_status: :active_lifetime
+
+    assert_equal [user_4, user_5], User.insiders.order(:id)
   end
 
   test "github_auth?" do
@@ -427,5 +447,47 @@ class UserTest < ActiveSupport::TestCase
 
     user.update(flair: :insider)
     assert_equal :insider, user.flair
+  end
+
+  test "premium?" do
+    user = create :user, premium_until: nil
+    refute user.premium?
+
+    user.update(premium_until: Time.current - 5.seconds)
+    refute user.premium?
+
+    user.update(premium_until: Time.current + 5.seconds)
+    assert user.premium?
+  end
+
+  test "email verified when email changes" do
+    user = create :user
+
+    User::VerifyEmail.expects(:defer).with(user).once
+
+    user.email = 'test@example.org'
+    user.skip_reconfirmation!
+    user.save!
+  end
+
+  test "asset may receive email by default" do
+    user = create :user
+    assert user.may_receive_emails?
+  end
+
+  test "refute may receive email for disabled" do
+    user = create :user, disabled_at: Time.current
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for github" do
+    user = create :user, email: "foo@users.noreply.github.com"
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for invalid email" do
+    user = create :user, disabled_at: Time.current
+    user.email_status_invalid!
+    refute user.may_receive_emails?
   end
 end

@@ -9,7 +9,7 @@ export function TestsPanel({
   children: React.ReactNode
 }): JSX.Element {
   return (
-    <Tab.Panel id="tests" context={context}>
+    <Tab.Panel id="tests" className="overflow-auto" context={context}>
       {children}
     </Tab.Panel>
   )

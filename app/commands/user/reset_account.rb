@@ -19,6 +19,7 @@ class User::ResetAccount
       became_mentor_at: nil
     )
 
+    user.avatar&.destroy
     User::RemoveRoles.(user, user.roles)
   end
 

@@ -107,8 +107,6 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
     token = create(:user_code_contribution_reputation_token, level: :large, user:)
     period = create(:user_reputation_period, :dirty, user:, period: :month, category: :any)
 
-    User::SetDiscourseGroups.stubs(:defer)
-
     perform_enqueued_jobs do
       User::ReputationPeriod::UpdateReputation.(period)
       assert_equal :eligible, user.reload.insiders_status

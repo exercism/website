@@ -30,10 +30,12 @@ class UserTrack < ApplicationRecord
   # Add some caching inside here for the duration
   # of the request cycle.
   def self.for!(user_param, track_param)
-    UserTrack.find_by!(
-      user: User.for!(user_param),
-      track: Track.for!(track_param)
-    )
+    Current.user_track_for(user_param, track_param) do
+      UserTrack.find_by!(
+        user: User.for!(user_param),
+        track: Track.for!(track_param)
+      )
+    end
   end
 
   def self.for(user_param, track_param)

@@ -1,7 +1,7 @@
 class Admin::DonorsController < Admin::BaseController
   # GET /admin/donors
   def index
-    @donors = User.donor.
+    @donors = User.donors.
       order(first_donated_at: :desc).
       page(params[:page]).
       per(30)

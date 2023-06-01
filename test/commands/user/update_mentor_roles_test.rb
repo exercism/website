@@ -1,12 +1,12 @@
 require "test_helper"
 
+# TODO: These tests are horrifically slow.
+# Use the cached user_data values rather than creating 1000s of records.
 class User::UpdateMentorRolesTest < ActiveSupport::TestCase
   test "adds or removes supermentor role depending on criteria being met" do
     track = create :track
     user = create :user, became_mentor_at: nil, roles: []
     create(:user_track_mentorship, user:, track:)
-
-    User::SetDiscourseGroups.stubs(:defer)
 
     User::UpdateMentorRoles.(user)
     refute user.reload.supermentor? # Not yet a mentor
@@ -57,8 +57,6 @@ class User::UpdateMentorRolesTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
     create(:user_track_mentorship, user:, track:)
-
-    User::SetDiscourseGroups.stubs(:defer)
 
     # Sanity check: role is not added so badge shouldn't be awarded
     User::UpdateMentorRoles.(user)

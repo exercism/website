@@ -10,7 +10,6 @@ class Tracks::CommunitySolutionsController < ApplicationController
 
     # Use same logic as in exercise_header: !user_track.external? && !solution&.unlocked_help?
 
-    @solutions = Solution::SearchCommunitySolutions.(@exercise)
     @endpoint = Exercism::Routes.api_track_exercise_community_solutions_url(@track, @exercise)
     @unscoped_total = @exercise.num_published_solutions
   end
@@ -37,7 +36,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
       where.not(id: @solution.id).
       where(published_iteration_head_tests_status: %i[not_queued queued passed]).
       limit(3).
-      includes(:track, { user: :avatar_attachment })
+      includes(*SerializeSolutions::NP1_INCLUDES)
     @mentor_discussions = @solution.mentor_discussions.
       finished.not_negatively_rated.includes(:mentor)
   rescue ActiveRecord::RecordNotFound

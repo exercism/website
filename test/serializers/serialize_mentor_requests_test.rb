@@ -62,4 +62,13 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
     result = SerializeMentorRequests.(Mentor::Request.all, mentor)
     assert_nil result[0][:status]
   end
+
+  test "n+1s handled correctly" do
+    mentor = create :user
+    create_np1_data(mentor:)
+
+    Bullet.profile do
+      SerializeMentorRequests.(Mentor::Request.all, mentor)
+    end
+  end
 end

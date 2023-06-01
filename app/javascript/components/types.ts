@@ -25,6 +25,14 @@ export type ExerciseStatus =
   | 'available'
   | 'locked'
 
+export type InsidersStatus =
+  | 'unset'
+  | 'ineligible'
+  | 'eligible'
+  | 'eligible_lifetime'
+  | 'active'
+  | 'active_lifetime'
+
 export type ExerciseAuthorship = {
   exercise: Exercise
   track: Track
@@ -833,6 +841,7 @@ export type CommunityVideoLinks = {
 }
 
 export type CommunityVideoType = {
+  id: number
   author?: CommunityVideoAuthor
   // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
   url?: string

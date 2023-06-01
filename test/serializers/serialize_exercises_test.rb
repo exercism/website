@@ -48,4 +48,12 @@ class SerializeExercisesTest < ActiveSupport::TestCase
       user_track:
     )
   end
+
+  test "n+1s handled correctly" do
+    create_np1_data
+
+    Bullet.profile do
+      SerializeExercises.(Exercise.all)
+    end
+  end
 end

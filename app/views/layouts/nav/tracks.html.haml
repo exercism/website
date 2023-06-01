@@ -1,0 +1,25 @@
+- user_tracks = current_user.user_tracks.order(last_touched_at: :desc).limit(3).includes(:track)
+- if user_tracks.present?
+  .flex.flex-row.border-b-2.border-backgroundColorNavDropdown.py-12.px-20
+    .text-h5 Your recent tracks
+    = link_to tracks_path, class: 'ml-auto flex btn-link' do
+      %div See all
+      = graphical_icon "arrow-right"
+
+  .flex.flex-col
+    - user_tracks.map do |user_track|
+      - track = user_track.track
+
+      = link_to track_path(track), class: 'hover:shadow-base pt-10 pb-16 px-20 bg-backgroundColorA border-b-2 border-backgroundColorNavDropdown' do
+        .flex.flex-row.items-start
+          = image_tag track.icon_url, class: 'w-[48px] h-[48px] mr-16'
+          .flex.flex-col.w-fill
+            .text-h6.mb-8= track.title
+
+            .flex.flex-row.bg-backgroundColorI.rounded-8.mb-12.w-fill{ class: 'h-[6px]' }
+              .rounded-8.h-fill{ class: 'min-w-[6px]', style: "background:var(--fillColorProgress);width:#{user_track.completed_percentage}%" }
+
+            .text-13.leading-150.text-textColor6 Last touched #{time_ago_in_words(user_track.last_touched_at)}
+
+- else
+  = render "dashboard/tracks_zero_section"

@@ -2,7 +2,7 @@ def Exercism.without_bullet
   Bullet.enable = false
   yield
 ensure
-  Bullet.enable = true
+  Bullet.enable = !Rails.env.production?
 
   # This is reset whenever enable is set
   # See https://github.com/flyerhzm/bullet/issues/481

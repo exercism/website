@@ -39,6 +39,7 @@ module.exports = {
       animation: {
         fadeIn: 'fadeIn 0.2s forwards',
         spin: 'spin 2s linear infinite',
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
     borderRadius: {
@@ -80,6 +81,8 @@ module.exports = {
       inputSelected: '0px 0px 2px 2px var(--inputBoxShadowColorFocus)',
       keystroke: '0px 1px 0px 1px rgba(var(--shadowColorKeystroke), 0.6)',
       launching: '8px 8px 0px #211E28',
+
+      navDropdown: '0px 6px 28px 4px rgba(var(--shadowColorMain), 0.5)',
     },
     colors: {
       transparent: 'transparent',
@@ -171,6 +174,7 @@ module.exports = {
       veryLightBlue: '#E1EBFF',
       veryLightBlue2: '#E2EBFF',
       evenLighterBlue: '#ECF2FF',
+      cornflowerBlue: '#6A93FF',
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
       eerieBlack: '#191525',
@@ -197,6 +201,7 @@ module.exports = {
       vividPurple: '#7029F5',
       darkPlaceholder: '#9D94DA',
       lightLavender: 'rgba(35, 0, 255, 0.3)',
+      lavender: '#d5d8e4',
       purpleHover: '#F2F0FC',
 
       champagne: '#fff4e3',
@@ -208,6 +213,7 @@ module.exports = {
       gray: '#A9A6BD',
       // TODO: fix this - change it back to its hex value
       darkGray: 'var(--textColor3)',
+      trueDarkGray: '#26282D',
 
       darkSuccessGreen: '#2E8C70',
       darkGreen: '#43B593',
@@ -252,6 +258,10 @@ module.exports = {
       bgDanger_dark: '#2F2121',
       alertBtnBorder: '#873333',
 
+      textCAlert: 'var(--textColorCAlert)',
+      textCAlertLabel: 'var(--textColorCAlertLabel)',
+      bgCAlert: 'var(--backgroundColorCAlert)',
+
       anotherGold: '#FAE54D',
 
       muddy: '#6E82AA',
@@ -271,6 +281,9 @@ module.exports = {
 
       white: '#fff',
       black: '#000',
+
+      fillColorProgress: 'var(--fillColorProgress)',
+      backgroundColorNavDropdown: 'var(--backgroundColorNavDropdown)',
     },
     fontFamily: {
       body: ['Poppins', 'sans-serif'],

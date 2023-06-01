@@ -4,8 +4,7 @@ class SerializeMentorRequests
   initialize_with :requests, :mentor
 
   def call
-    requests.includes(:exercise, :track, student: :avatar_attachment).
-      map { |r| serialize_request(r) }
+    eager_loaded_requests.map { |r| serialize_request(r) }
   end
 
   private
@@ -39,6 +38,11 @@ class SerializeMentorRequests
   end
 
   memoize
+  def eager_loaded_requests
+    requests.includes(:exercise, :track, student: { avatar_attachment: :blob }).to_a
+  end
+
+  memoize
   def relationships
     Mentor::StudentRelationship.where(mentor:, student_id: requests.map(&:student_id)).
       index_by(&:student_id)
@@ -46,6 +50,8 @@ class SerializeMentorRequests
 
   memoize
   def students_who_have_had_mentoring
-    Mentor::Discussion.joins(:solution).where('solutions.user_id': requests.map(&:student_id)).distinct.pluck(:user_id)
+    Mentor::Discussion.joins(:solution).
+      where('solutions.user_id': requests.map(&:student_id)).
+      distinct.pluck(:user_id)
   end
 end

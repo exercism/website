@@ -82,7 +82,8 @@ module ReactComponents
       end
 
       def exercises_data(track_slug)
-        ::Mentor::Request::RetrieveExercises.(mentor, track_slug)
+        @exercises_data ||= {}
+        @exercises_data[track_slug] ||= ::Mentor::Request::RetrieveExercises.(mentor, track_slug)
       end
 
       memoize

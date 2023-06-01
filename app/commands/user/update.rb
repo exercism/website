@@ -5,9 +5,11 @@ class User::Update
   initialize_with :user, :params
 
   def call
-    ApplicationRecord.transaction do
-      @user.update(user_params)
-      @user.profile.update(profile_params) if has_profile?
+    Exercism.without_bullet do
+      ApplicationRecord.transaction do
+        @user.update(user_params)
+        @user.profile.update(profile_params) if has_profile?
+      end
     end
 
     abort!(errors) if errors.present?

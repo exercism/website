@@ -6,9 +6,12 @@ module ReactComponents
           "insiders-status",
           {
             status: current_user.insiders_status,
-            donate_link: Exercism::Routes.donate_path(anchor: "anchor-donate"),
             insiders_status_request: Exercism::Routes.api_user_url(current_user),
-            activate_insider_link: Exercism::Routes.activate_insiders_api_user_path
+            activate_insider_link: Exercism::Routes.activate_insiders_api_user_path,
+            user_signed_in: user_signed_in?,
+            captcha_required: !current_user || current_user.captcha_required?,
+            recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+            links: { insiders_path: Exercism::Routes.insiders_path, premium_redirect_link: Exercism::Routes.premium_path }
           }
         )
       end

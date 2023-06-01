@@ -23,6 +23,22 @@
         width: 100%;
     }
 
+    .d2h-diff-tbody {
+        tr {
+            @apply flex items-center;
+
+            td.d2h-del:not(.d2h-code-linenumber),
+            td.d2h-ins:not(.d2h-code-linenumber) {
+                @apply grow;
+            }
+
+            td.d2h-del,
+            td.d2h-ins {
+                @apply p-0;
+            }
+        }
+    }
+
     & .d2h-code-linenumber {
         @apply text-textColor6;
         text-align: right;

@@ -163,7 +163,6 @@ class ActiveSupport::TestCase
     return if @__skip_stubbing_rest_client__
 
     RestClient.define_method(:post) {}
-
     Bullet.start_request
   end
 
@@ -191,7 +190,11 @@ class ActiveSupport::TestCase
   def assert_idempotent_command(&cmd)
     obj_1 = cmd.yield
     obj_2 = cmd.yield
-    assert_equal obj_1, obj_2
+    if obj_1.nil?
+      assert_nil obj_2
+    else
+      assert_equal obj_1, obj_2
+    end
   end
 
   def assert_html_equal(expected, actual)
@@ -311,6 +314,47 @@ class ActiveSupport::TestCase
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
   end
+
+  ###############
+  # N+1 Helpers #
+  ###############
+  def create_np1_data(mentor: nil)
+    mentor ||= create :user
+
+    2.times do
+      user = create :user
+      create(:user_profile, user:)
+
+      # Reputation things
+      create(:user_reputation_token, user:)
+
+      # Relationships
+      create :mentor_student_relationship, mentor:, student: user
+
+      3.times do
+        track = create :track, :random_slug
+        exercise = create(:practice_exercise, track:)
+        create(:user_track, track:, user:)
+
+        # Submission things
+        solution = create(:practice_solution, exercise:, user:)
+
+        3.times do
+          ast_digest = SecureRandom.uuid
+          submission = create(:submission, solution:)
+          create(:submission_representation, submission:, ast_digest:)
+          create(:exercise_representation, exercise:, ast_digest:)
+          create(:iteration, solution:)
+          create :solution_comment, solution:
+        end
+
+        # Mentor things
+        create(:user_track_mentorship, user: mentor, track:)
+        create(:mentor_request, solution:)
+        create :mentor_discussion, solution:
+      end
+    end
+  end
 end
 
 class ActionView::TestCase
@@ -329,10 +373,8 @@ class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   include TurboAssertionsHelper
 
-  def setup
+  setup do
     host! URI(Rails.application.routes.default_url_options[:host]).host
-
-    super
   end
 
   def sign_in!(user = nil)

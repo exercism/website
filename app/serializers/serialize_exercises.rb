@@ -20,14 +20,6 @@ class SerializeExercises
   end
 
   def eager_loaded_exercises
-    includes = [:track]
-
-    return exercises.includes(includes) if exercises.is_a?(ActiveRecord::Relation)
-
-    ids = exercises.map(&:id)
-
-    Exercise.where(id: ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{ids.join(',')}')")).
-      includes(includes)
+    exercises.to_active_relation.includes(:track)
   end
 end

@@ -45,8 +45,10 @@
 
         & .existing-subscription {
             @apply bg-lightOrange;
+            background: var(--backgroundColorCAlert);
+            color: var(--textColorCAlert);
             @apply border-2 border-orange rounded-8;
-            @apply text-brown text-15 leading-150;
+            @apply text-15 leading-150;
             @apply py-12 px-24 mx-24 mt-24 mb-16;
             & strong {
                 @apply font-medium text-15;
@@ -56,7 +58,8 @@
             }
         }
         & .extra-cta {
-            @apply bg-lightPurple rounded-8;
+            @apply rounded-8;
+            background: var(--backgroundColorBorderGradientLightPurple);
             @apply text-textColor6 font-medium text-center leading-150;
             @apply py-4 px-24 mx-24;
             & button {
@@ -69,7 +72,7 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.6);
+            background: var(--backgroundColorDonationFormCover);
             @apply z-overlay;
             @apply cursor-not-allowed;
         }

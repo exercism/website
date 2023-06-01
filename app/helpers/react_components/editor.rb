@@ -68,7 +68,7 @@ module ReactComponents
     def submission = solution.latest_submission
 
     memoize
-    def iteration = submission&.iteration
+    def iteration = solution.latest_iteration
 
     memoize
     def discussion = solution.mentor_discussions.last

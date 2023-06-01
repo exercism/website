@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHighlighting } from '@/utils'
+import { useHighlighting } from '@/hooks'
 import type { File } from '@/components/types'
 
 export const FileViewer = ({
@@ -11,7 +11,7 @@ export const FileViewer = ({
   indentSize: number
   file: File
 }): JSX.Element => {
-  const parentRef = useHighlighting<HTMLPreElement>()
+  const parentRef = useHighlighting<HTMLPreElement>(file.content)
 
   return (
     <pre ref={parentRef}>

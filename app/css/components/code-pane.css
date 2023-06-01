@@ -5,7 +5,7 @@
         @apply flex;
         @apply py-8;
         ul {
-            @apply w-fill;
+            width: fit-content;
         }
         & li {
             @apply flex;

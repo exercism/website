@@ -24,7 +24,7 @@ class Payments::Payment::Create
         User::UpdateTotalDonatedInCents.(user)
         User::RegisterAsDonor.(user, Time.current)
 
-        if amount_in_cents >= 499_00
+        if amount_in_cents >= Premium::LIFETIME_AMOUNT_IN_CENTS
           # Immediately activate a user that donates 499 or more, as it's
           # likely that the reason they're doing it is to immediately
           # get a Premium subscription.

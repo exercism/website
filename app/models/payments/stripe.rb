@@ -3,10 +3,6 @@ module Payments::Stripe
   class UnknownStripeIntervalError < RuntimeError; end
   class UnknownStripePriceError < RuntimeError; end
 
-  MONTH_AMOUNT_IN_CENTS = 9_99
-  YEAR_AMOUNT_IN_CENTS = 99_99
-  LIFETIME_AMOUNT_IN_CENTS = 49_900
-
   def self.product_from_id(product_id)
     case product_id
     when Exercism.secrets.stripe_recurring_product_id
@@ -21,11 +17,11 @@ module Payments::Stripe
   def self.amount_in_cents_from_price_id(price_id)
     case price_id
     when Exercism.secrets.stripe_premium_monthly_price_id
-      MONTH_AMOUNT_IN_CENTS
+      Premium::MONTH_AMOUNT_IN_CENTS
     when Exercism.secrets.stripe_premium_yearly_price_id
-      YEAR_AMOUNT_IN_CENTS
+      Premium::YEAR_AMOUNT_IN_CENTS
     when Exercism.secrets.stripe_premium_lifetime_price_id
-      LIFETIME_AMOUNT_IN_CENTS
+      Premium::LIFETIME_AMOUNT_IN_CENTS
     else
       raise Payments::Stripe::UnknownStripePriceError, "Unknown stripe price"
     end

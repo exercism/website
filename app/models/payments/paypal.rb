@@ -27,4 +27,17 @@ module Payments::Paypal
       raise UnsupportedPaypalIntervalError
     end
   end
+
+  def self.plan_id_from_interval(interval)
+    case interval
+    when :monthly
+      # Exercism.secrets.paypal_premium_monthly_plan_id
+      1 # TODO: use secret
+    when :yearly
+      # Exercism.secrets.paypal_premium_yearly_plan_id
+      2 # TODO: use secret
+    else
+      raise UnsupportedPaypalIntervalError
+    end
+  end
 end

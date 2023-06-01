@@ -26,4 +26,26 @@ class User::Premium::ExpireTest < ActiveSupport::TestCase
 
     User::Premium::Expire.(user)
   end
+
+  %w[nil light sepia].each do |theme|
+    test "don't change theme when current theme is #{theme}" do
+      user = create :user
+      user.preferences.update!(theme:)
+
+      User::Premium::Expire.(user)
+
+      assert_equal theme, user.reload.preferences.theme
+    end
+  end
+
+  %w[dark system].each do |theme|
+    test "clear theme when current theme is #{theme}" do
+      user = create :user
+      user.preferences.update!(theme:)
+
+      User::Premium::Expire.(user)
+
+      assert_nil user.reload.preferences.theme
+    end
+  end
 end

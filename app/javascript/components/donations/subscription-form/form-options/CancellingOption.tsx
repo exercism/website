@@ -1,10 +1,8 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { typecheck } from '../../../../utils/typecheck'
-import { redirectTo } from '../../../../utils/redirect-to'
-import { FormButton } from '../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { sendRequest, typecheck, redirectTo } from '@/utils'
+import { FormButton } from '@/components/common'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 type APIResponse = {
   links: {
@@ -17,12 +15,14 @@ const DEFAULT_ERROR = new Error('Unable to cancel subscription')
 export const CancellingOption = ({
   cancelLink,
   onClose,
+  subscriptionType,
 }: {
   cancelLink: string
   onClose: () => void
+  subscriptionType: 'premium' | 'donation'
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
         endpoint: cancelLink,
         method: 'PATCH',
@@ -50,7 +50,11 @@ export const CancellingOption = ({
   return (
     <div className="expanded-option">
       <p className="text-p-base">
-        Are you sure you want to cancel your recurring donation?
+        Are you sure you want to cancel your{' '}
+        {subscriptionType === 'donation'
+          ? 'recurring donation'
+          : 'premium subscription'}
+        ?
       </p>
       <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="flex">

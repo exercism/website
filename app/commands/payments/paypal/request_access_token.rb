@@ -8,8 +8,8 @@ class Payments::Paypal::RequestAccessToken
     return access_token if access_token.present?
 
     token = request_token!
-    access_token = token["access_token"]
-    expires_in = token["expires_in"].to_i
+    access_token = token[:access_token]
+    expires_in = token[:expires_in].to_i
 
     Rails.cache.write(CACHE_KEY, access_token, expires_in:)
     access_token
@@ -18,7 +18,7 @@ class Payments::Paypal::RequestAccessToken
   private
   def request_token!
     response = RestClient.post(url, payload, headers)
-    JSON.parse(response.body)
+    JSON.parse(response.body, symbolize_names: true)
   end
 
   def url = "#{Exercism.config.paypal_api_url}/v1/oauth2/token"

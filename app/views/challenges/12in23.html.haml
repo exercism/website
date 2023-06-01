@@ -8,7 +8,7 @@
             Month 6 of #12in23
           %h1.text-h1.mb-8 It's the Summer of Sexps! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that are Lisp dialects. We're digging into Clojure, ClojureScript, Common Lisp, Emacs Lisp, Racket and Scheme, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages that are Lisp dialects. We're digging into Clojure, Common Lisp, Emacs Lisp, Racket and Scheme, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
@@ -31,7 +31,7 @@
               = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
               ).
 
-          - tracks = Track.where(slug: %w[clojure clojurescript common-lisp emacs-lisp racket scheme])
+          - tracks = Track.where(slug: %w[clojure common-lisp emacs-lisp racket scheme])
           .grid.grid-cols-8.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do

@@ -50,6 +50,6 @@ class User::Challenges::FeaturedExercisesProgress12In23
   MAY_TRACKS = %w[ballerina pharo-smalltalk prolog red rust tcl unison].freeze
   MAY_EXERCISES = %w[raindrops isogram roman-numerals space-age acronym].freeze
 
-  JUNE_TRACKS = %w[clojure clojurescript common-lisp emacs-lisp racket scheme].freeze
+  JUNE_TRACKS = %w[clojure common-lisp emacs-lisp racket scheme].freeze
   JUNE_EXERCISES = %w[leap two-fer difference-of-squares robot-name matching-brackets].freeze
 end

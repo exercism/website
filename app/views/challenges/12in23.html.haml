@@ -21,15 +21,14 @@
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/RpbpnmTfd8w", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/5Kg7gC1YcWs", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
             Earn the Summer of Sexps badge for completing and publishing 5 exercises in one of the following languages.
-            -#
-              Consider starting with a language with a syllabus (
-              = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
-              ).
+            Consider starting with a language with a syllabus (
+            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+            ).
 
           - tracks = Track.where(slug: %w[clojure common-lisp emacs-lisp racket scheme])
           .grid.grid-cols-8.gap-12.mb-32

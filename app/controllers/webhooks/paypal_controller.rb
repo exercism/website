@@ -1,7 +1,7 @@
 # This controller listens for webhooks and IPNs from PayPal.
 class Webhooks::PaypalController < Webhooks::BaseController
   def create
-    Webhooks::ProcessPaypalWebhookEvent.defer(payload_body, webhook_headers)
+    Webhooks::ProcessPaypalAPIEvent.defer(payload_body, webhook_headers)
     head :ok
   end
 

@@ -1,28 +1,28 @@
-class Payments::Paypal::InvalidWebhookError < RuntimeError; end
-class Payments::Paypal::WebhookVerificationError < RuntimeError; end
+class Payments::Paypal::InvalidAPIEventError < RuntimeError; end
+class Payments::Paypal::APIEventVerificationError < RuntimeError; end
 
-class Payments::Paypal::VerifyWebhookEvent
+class Payments::Paypal::VerifyAPIEvent
   include Mandate
 
   initialize_with :payload, :headers
 
   def call
-    case request_webhook_event_verification_status!
+    case request_api_event_verification_status!
     when "SUCCESS"
-      Payments::Paypal::Debug.("[WEBHOOK] VERIFIED")
+      Payments::Paypal::Debug.("[API] VERIFIED")
       nil
     when "FAILURE"
-      Payments::Paypal::Debug.("[WEBHOOK] INVALID")
-      raise Payments::Paypal::InvalidWebhookError
+      Payments::Paypal::Debug.("[API] INVALID")
+      raise Payments::Paypal::InvalidAPIEventError
     else
-      Payments::Paypal::Debug.("[WEBHOOK] ERROR")
-      raise Payments::Paypal::WebhookVerificationError
+      Payments::Paypal::Debug.("[API] ERROR")
+      raise Payments::Paypal::APIEventVerificationError
     end
   end
 
   private
-  def request_webhook_event_verification_status!
-    response = RestClient.post(WEBHOOK_VERIFICATION_URL, verification_body)
+  def request_api_event_verification_status!
+    response = RestClient.post(API_EVENT_VERIFICATION_URL, verification_body)
     json = JSON.parse(response.body, symbolize_names: true)
     json[:verification_status]
   end
@@ -49,6 +49,6 @@ class Payments::Paypal::VerifyWebhookEvent
     }
   end
 
-  WEBHOOK_VERIFICATION_URL = "#{Exercism.config.paypal_api_url}/v1/notifications/verify-webhook-signature".freeze
-  private_constant :WEBHOOK_VERIFICATION_URL
+  API_EVENT_VERIFICATION_URL = "#{Exercism.config.paypal_api_url}/v1/notifications/verify-webhook-signature".freeze
+  private_constant :API_EVENT_VERIFICATION_URL
 end

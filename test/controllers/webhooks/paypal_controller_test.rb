@@ -22,7 +22,7 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
     }
     headers = paypal_headers.merge({ 'CONTENT_TYPE' => 'application/json' })
 
-    Webhooks::ProcessPaypalWebhookEvent.expects(:defer).with(payload.to_json, paypal_headers)
+    Webhooks::ProcessPaypalAPIEvent.expects(:defer).with(payload.to_json, paypal_headers)
 
     post webhooks_paypal_path, headers:, as: :json, params: payload
   end

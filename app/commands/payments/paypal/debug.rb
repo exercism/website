@@ -1,4 +1,4 @@
-class Webhooks::Paypal::Debug
+class Payments::Paypal::Debug
   include Mandate
 
   initialize_with :message

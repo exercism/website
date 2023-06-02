@@ -18,9 +18,9 @@ class Webhooks::ProcessPaypalAPIEvent
     params = Rack::Utils.parse_nested_query(payload)
     case params["event_type"]
     when "PAYMENT.SALE.COMPLETED"
-      Payments::Paypal::Payment::API::HandleSaleCompleted.(params)
-    when "PAYMENT.SALE.REFUNDED"
       Payments::Paypal::Payment::API::HandlePaymentSaleCompleted.(params)
+    when "PAYMENT.SALE.REFUNDED"
+      Payments::Paypal::Payment::API::HandlePaymentSaleRefunded.(params)
     when "PAYMENT.SALE.REVERSED"
       Payments::Paypal::Payment::API::HandlePaymentSaleReversed.(params)
     when "BILLING.SUBSCRIPTION.CREATED"

@@ -25,7 +25,11 @@ class Payments::Paypal::Payment::HandleWebAccept
   end
 
   memoize
-  def user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
+  def user
+    return Payments::Paypal::Customer::FindOrUpdate.(payer_id, user_email) if user_email
+
+    Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
+  end
 
   def handle_canceled_reversal
     Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
@@ -44,5 +48,6 @@ class Payments::Paypal::Payment::HandleWebAccept
   def payment_status = payload["payment_status"]
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]
+  def user_email = payload["custom"]
   def product = :donation
 end

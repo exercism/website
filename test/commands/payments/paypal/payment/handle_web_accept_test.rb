@@ -72,6 +72,41 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
     end
   end
 
+  test "create payment for unknown paypal payer id but user email specified in custom field" do
+    freeze_time do
+      payment_id = SecureRandom.uuid
+      paypal_payer_id = SecureRandom.uuid
+      user = create(:user)
+      amount_in_dollars = 15
+      amount_in_cents = amount_in_dollars * 100
+      payload = {
+        "txn_id" => payment_id,
+        "txn_type" => "web_accept",
+        "payment_status" => "Completed",
+        "payer_email" => "unknown@test.org",
+        "payer_id" => paypal_payer_id,
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "item_name" => Exercism.secrets.paypal_donation_product_name,
+        "custom" => user.email
+      }
+
+      Payments::Paypal::Payment::HandleWebAccept.(payload)
+
+      assert_equal 1, Payments::Payment.count
+
+      payment = Payments::Payment.last
+      assert_equal payment_id, payment.external_id
+      assert_equal amount_in_cents, payment.amount_in_cents
+      assert_nil payment.external_receipt_url
+      assert_equal user, payment.user
+      assert_equal :paypal, payment.provider
+      assert_nil payment.subscription
+      assert_equal amount_in_cents, user.reload.total_donated_in_cents
+      assert_equal Time.current, user.first_donated_at
+      assert user.donated?
+    end
+  end
+
   %w[Canceled_Reversal Refunded Reversed].each do |payment_status|
     test "update payment amount when payment_status is #{payment_status}" do
       payment = create :payments_payment, :paypal, amount_in_cents: 300

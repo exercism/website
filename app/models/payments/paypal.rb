@@ -31,13 +31,24 @@ module Payments::Paypal
   def self.plan_id_from_interval(interval)
     case interval
     when :monthly
-      # Exercism.secrets.paypal_premium_monthly_plan_id
-      1 # TODO: use secret
+      # TODO: Exercism.secrets.paypal_premium_monthly_plan_id
+      'P-0TT41792VT226690TMR43JAQ'
     when :yearly
-      # Exercism.secrets.paypal_premium_yearly_plan_id
-      2 # TODO: use secret
+      # TODO: Exercism.secrets.paypal_premium_yearly_plan_id
+      'P-7TW18726BH9867209MR43JIA'
     else
       raise UnsupportedPaypalIntervalError
+    end
+  end
+
+  def self.amount_in_dollars_from_interval(interval)
+    case interval
+    when :monthly
+      Premium::MONTH_AMOUNT_IN_CENTS / 100.0
+    when :yearly
+      Premium::YEAR_AMOUNT_IN_CENTS / 100.0
+    when :lifetime
+      Premium::LIFETIME_AMOUNT_IN_CENTS / 100.0
     end
   end
 end

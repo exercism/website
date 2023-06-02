@@ -3,6 +3,7 @@ require_relative '../base_test_case'
 class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
   guard_incorrect_token! :cancel_api_payments_subscription_path, args: 1, method: :patch
   guard_incorrect_token! :update_amount_api_payments_subscription_path, args: 1, method: :patch
+  guard_incorrect_token! :create_paypal_premium_api_payments_subscriptions_path, method: :post
 
   ##########
   # Cancel #
@@ -110,5 +111,28 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
       },
       JSON.parse(response.body)
     )
+  end
+
+  ###############################################
+  # Create PayPal Exercism Premium Subscription #
+  ###############################################
+  test "create_paypal_premium returns approval link" do
+    user = create :user
+    interval = 'month'
+    approval_link = "https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=#{SecureRandom.compact_uuid}"
+
+    api_response = {
+      status: "APPROVAL_PENDING",
+      id: SecureRandom.compact_uuid,
+      links: [{ href: approval_link, rel: "approve", method: "GET" }]
+    }
+
+    ::Payments::Paypal::Subscription::CreateForPremium.expects(:call).with(user, interval).returns(api_response)
+
+    setup_user(user)
+    post create_paypal_premium_api_payments_subscriptions_path(interval:), headers: @headers, as: :json
+    assert_response :ok
+    expected = { subscription: { links: { approve: approval_link } } }
+    assert_equal(expected.to_json, response.body)
   end
 end

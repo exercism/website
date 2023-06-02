@@ -41,4 +41,16 @@ class API::Payments::SubscriptionsController < API::BaseController
       }
     }
   end
+
+  def create_paypal_premium
+    subscription = ::Payments::Paypal::Subscription::CreateForPremium.(current_user, params[:interval])
+
+    render json: {
+      subscription: {
+        links: {
+          approve: subscription[:links].find { |link| link[:rel] == 'approve' }[:href]
+        }
+      }
+    }
+  end
 end

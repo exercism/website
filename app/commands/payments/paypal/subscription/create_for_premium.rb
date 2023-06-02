@@ -4,7 +4,8 @@ class Payments::Paypal::Subscription::CreateForPremium
   initialize_with :user, :interval
 
   def call
-    RestClient.post(url, body, headers)
+    response = RestClient.post(url, body.to_json, headers)
+    JSON.parse(response.body, symbolize_names: true)
   rescue StandardError => e
     Bugsnag.notify(e)
   end
@@ -25,10 +26,10 @@ class Payments::Paypal::Subscription::CreateForPremium
         currency_code: "USD",
         value: amount
       },
+      custom_id: user.email,
       application_context: {
-        user_action: "Exercism Premium",
-        return_url: Exercism::Routes.paypal_pending_premium_path,
-        cancel_url: Exercism::Routes.paypal_cancelled_premium_path
+        return_url: Exercism::Routes.paypal_pending_premium_url,
+        cancel_url: Exercism::Routes.paypal_cancelled_premium_url
       }
     }
   end
@@ -37,12 +38,14 @@ class Payments::Paypal::Subscription::CreateForPremium
     {
       authorization:,
       content_type: :json,
-      accept: :json
+      accept: :json,
+      prefer: 'return=minimal'
     }
   end
 
   def authorization = "Bearer #{access_token}"
   def access_token = Payments::Paypal::RequestAccessToken.()
   def product = :premium
-  def amount = Premium.amount_in_dollars_from_interval(interval).to_s
+  def amount = Payments::Paypal.amount_in_dollars_from_interval(interval).to_s
+  def plan_id = Payments::Paypal.plan_id_from_interval(interval)
 end

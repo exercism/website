@@ -18,14 +18,10 @@ module Payments::Paypal
   end
 
   def self.interval_from_payment_cycle(payment_cycle)
-    case payment_cycle
-    when 'Monthly'
-      :month
-    when 'Yearly'
-      :year
-    else
-      raise UnsupportedPaypalIntervalError
-    end
+    return :month if %w[Monthly Month].include?(payment_cycle)
+    return :year if %w[Yearly Year].include?(payment_cycle)
+
+    raise UnsupportedPaypalIntervalError
   end
 
   def self.plan_id_from_interval(interval)

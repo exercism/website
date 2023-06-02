@@ -4,5 +4,13 @@ class Payments::Paypal::Subscription::API::HandleBillingSubscriptionActivated
 
   initialize_with :payload
 
-  def call; end
+  def call
+    subscription = Donations::Subscription.find_by(external_id:, provider: :paypal)
+    return unless subscription
+
+    Payments::Subscription::Activate.(subscription)
+  end
+
+  private
+  def external_id = payload["resource"]["id"]
 end

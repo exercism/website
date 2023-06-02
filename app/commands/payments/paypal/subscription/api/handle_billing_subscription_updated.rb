@@ -4,5 +4,7 @@ class Payments::Paypal::Subscription::API::HandleBillingSubscriptionUpdated
 
   initialize_with :payload
 
-  def call; end
+  def call
+    # TODO: decide what to do here
+  end
 end

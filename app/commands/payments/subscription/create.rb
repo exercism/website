@@ -5,7 +5,7 @@
 class Payments::Subscription::Create
   include Mandate
 
-  initialize_with :user, :provider, :product, :interval, :external_id, :amount_in_cents
+  initialize_with :user, :provider, :product, :interval, :external_id, :amount_in_cents, status: :active
 
   def call
     Payments::Subscription.create!(
@@ -15,7 +15,7 @@ class Payments::Subscription::Create
       interval:,
       external_id:,
       amount_in_cents:,
-      status: :active
+      status:
     ).tap do
       case product
       when :donation

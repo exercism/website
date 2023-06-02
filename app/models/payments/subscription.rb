@@ -3,7 +3,7 @@ class Payments::Subscription < ApplicationRecord
 
   has_many :payments, dependent: :destroy
 
-  enum status: { canceled: 0, overdue: 1, active: 2 }
+  enum status: { canceled: 0, overdue: 1, active: 2, pending: 3 }
   enum provider: { stripe: 0, github: 1, paypal: 2 }
   enum product: { donation: 0, premium: 1 }
   enum interval: { month: 0, year: 1 }

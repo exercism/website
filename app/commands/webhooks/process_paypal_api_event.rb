@@ -23,16 +23,16 @@ class Webhooks::ProcessPaypalAPIEvent
       Payments::Paypal::Payment::API::HandlePaymentSaleRefunded.(params)
     when "PAYMENT.SALE.REVERSED"
       Payments::Paypal::Payment::API::HandlePaymentSaleReversed.(params)
-    when "BILLING.SUBSCRIPTION.CREATED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionCreated.(params)
     when "BILLING.SUBSCRIPTION.ACTIVATED"
       Payments::Paypal::Subscription::HandleBillingSubscriptionActivated.(params)
-    when "BILLING.SUBSCRIPTION.UPDATED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionUpdated.(params)
-    when "BILLING.SUBSCRIPTION.EXPIRED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionExpired.(params)
     when "BILLING.SUBSCRIPTION.CANCELLED"
       Payments::Paypal::Subscription::HandleBillingSubscriptionCancelled.(params)
+    when "BILLING.SUBSCRIPTION.EXPIRED"
+      Payments::Paypal::Subscription::HandleBillingSubscriptionExpired.(params)
+    when "BILLING.SUBSCRIPTION.CREATED"
+      Payments::Paypal::Subscription::HandleBillingSubscriptionCreated.(params)
+    when "BILLING.SUBSCRIPTION.UPDATED"
+      Payments::Paypal::Subscription::HandleBillingSubscriptionUpdated.(params)
     when "BILLING.SUBSCRIPTION.SUSPENDED"
       Payments::Paypal::Subscription::HandleBillingSubscriptionSuspended.(params)
     when "BILLING.SUBSCRIPTION.PAYMENT.FAILED"

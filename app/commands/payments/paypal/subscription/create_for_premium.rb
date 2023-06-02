@@ -5,12 +5,18 @@ class Payments::Paypal::Subscription::CreateForPremium
 
   def call
     response = RestClient.post(url, body.to_json, headers)
-    JSON.parse(response.body, symbolize_names: true)
+    JSON.parse(response.body, symbolize_names: true).tap do |paypal_subscription|
+      create_subscription!(paypal_subscription)
+    end
   rescue StandardError => e
     Bugsnag.notify(e)
   end
 
   private
+  def create_subscription!(paypal_subscription)
+    Payments::Paypal::Subscription::Create.(user, paypal_subscription[:id], amount_in_dollars, :premium, interval, status: :pending)
+  end
+
   def url = "#{Exercism.config.paypal_api_url}/v1/billing/subscriptions"
 
   def body
@@ -46,6 +52,7 @@ class Payments::Paypal::Subscription::CreateForPremium
   def authorization = "Bearer #{access_token}"
   def access_token = Payments::Paypal::RequestAccessToken.()
   def product = :premium
-  def amount = Payments::Paypal.amount_in_dollars_from_interval(interval).to_s
+  def amount_in_dollars = Payments::Paypal.amount_in_dollars_from_interval(interval)
+  def amount = amount_in_dollars.to_s
   def plan_id = Payments::Paypal.plan_id_from_interval(interval)
 end

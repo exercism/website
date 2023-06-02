@@ -30,7 +30,7 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
       txn_type: "web_accept"
     }
 
-    Webhooks::ProcessPaypalIpn.expects(:defer).with(payload.to_json)
+    Webhooks::ProcessPaypalIPN.expects(:defer).with(payload.to_json)
 
     post ipn_webhooks_paypal_path, headers: headers(payload), as: :json, params: payload
   end

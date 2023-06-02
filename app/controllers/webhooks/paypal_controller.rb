@@ -6,7 +6,7 @@ class Webhooks::PaypalController < Webhooks::BaseController
   end
 
   def ipn
-    Webhooks::ProcessPaypalIpn.defer(payload_body)
+    Webhooks::ProcessPaypalIPN.defer(payload_body)
     head :ok
   end
 end

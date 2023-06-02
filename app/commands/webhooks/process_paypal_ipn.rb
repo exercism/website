@@ -1,8 +1,8 @@
-class Webhooks::ProcessPaypalIpn
+class Webhooks::ProcessPaypalIPN
   include Mandate
 
-  class PaypalInvalidIpnError < RuntimeError; end
-  class PaypalIpnVerificationError < RuntimeError; end
+  class PaypalInvalidIPNError < RuntimeError; end
+  class PaypalIPNVerificationError < RuntimeError; end
 
   initialize_with :payload
 
@@ -56,12 +56,12 @@ class Webhooks::ProcessPaypalIpn
 
   def handle_invalid
     Webhooks::Paypal::Debug.("[IPN] INVALID")
-    raise PaypalInvalidIpnError
+    raise PaypalInvalidIPNError
   end
 
   def handle_error
     Webhooks::Paypal::Debug.("[IPN] ERROR")
-    raise PaypalIpnVerificationError
+    raise PaypalIPNVerificationError
   end
 
   def ipn_verification_body = "cmd=_notify-validate&#{payload}"

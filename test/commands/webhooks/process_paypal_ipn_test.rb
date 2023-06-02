@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
+class Webhooks::ProcessPaypalIPNTest < ActiveSupport::TestCase
   [
     ["web_accept", Payments::Paypal::Payment::IPN::HandleWebAccept],
     ["recurring_payment", Payments::Paypal::Subscription::IPN::HandleRecurringPayment],
@@ -25,7 +25,7 @@ class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
         "txn_type" => txn_type
       })
 
-      Webhooks::ProcessPaypalIpn.(payload)
+      Webhooks::ProcessPaypalIPN.(payload)
     end
   end
 
@@ -49,7 +49,7 @@ class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspended.expects(:call).never
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.expects(:call).never
 
-      Webhooks::ProcessPaypalIpn.(payload)
+      Webhooks::ProcessPaypalIPN.(payload)
     end
   end
 
@@ -61,7 +61,7 @@ class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
 
     Bugsnag.expects(:notify).once
 
-    Webhooks::ProcessPaypalIpn.(payload)
+    Webhooks::ProcessPaypalIPN.(payload)
   end
 
   test "bugsnag is created if IPN verification has unknown result" do
@@ -72,7 +72,7 @@ class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
 
     Bugsnag.expects(:notify).once
 
-    Webhooks::ProcessPaypalIpn.(payload)
+    Webhooks::ProcessPaypalIPN.(payload)
   end
 
   test "bugsnag is created if error occurs in verification request" do
@@ -83,6 +83,6 @@ class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
 
     Bugsnag.expects(:notify).once
 
-    Webhooks::ProcessPaypalIpn.(payload)
+    Webhooks::ProcessPaypalIPN.(payload)
   end
 end

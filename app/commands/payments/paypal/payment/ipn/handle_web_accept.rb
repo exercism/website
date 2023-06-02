@@ -26,9 +26,7 @@ class Payments::Paypal::Payment::IPN::HandleWebAccept
 
   memoize
   def user
-    return Payments::Paypal::Customer::FindOrUpdate.(payer_id, user_email) if user_email
-
-    Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
+    Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email, user_email:)
   end
 
   def handle_canceled_reversal

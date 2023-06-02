@@ -66,6 +66,12 @@
         @apply border-2 border-darkGreen;
         background: var(--backgroundColorCompletedHeading);
 
+        .c-prominent-link {
+            color: var(--backgroundColorNotificationsUnreadDot);
+            .c-icon {
+                filter: var(--iconFilterNotificationsProminentLink);
+            }
+        }
         & .check-mark-icon {
             height: 32px;
             width: 32px;

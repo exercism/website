@@ -1,4 +1,4 @@
-class Webhooks::ProcessPaypalUpdate
+class Webhooks::ProcessPaypalIpnUpdate
   include Mandate
 
   class PaypalInvalidIpnError < RuntimeError; end

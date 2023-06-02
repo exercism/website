@@ -18,8 +18,6 @@ class Payments::Paypal::VerifyIPN
       Payments::Paypal::Debug.("[IPN] ERROR")
       raise Payments::Paypal::IPNVerificationError
     end
-  rescue StandardError => e
-    Bugsnag.notify(e)
   end
 
   private

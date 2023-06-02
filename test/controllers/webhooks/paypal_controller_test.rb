@@ -13,10 +13,18 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
         quantity: "20"
       }
     }
+    paypal_headers = {
+      'PAYPAL-AUTH-ALGO' => SecureRandom.compact_uuid,
+      'PAYPAL-CERT-URL' => SecureRandom.compact_uuid,
+      'PAYPAL-TRANSMISSION-ID' => SecureRandom.compact_uuid,
+      'PAYPAL-TRANSMISSION-SIG' => SecureRandom.compact_uuid,
+      'PAYPAL-TRANSMISSION-TIME' => SecureRandom.compact_uuid
+    }
+    headers = paypal_headers.merge({ 'CONTENT_TYPE' => 'application/json' })
 
-    Webhooks::ProcessPaypalWebhookEvent.expects(:defer).with(payload.to_json)
+    Webhooks::ProcessPaypalWebhookEvent.expects(:defer).with(payload.to_json, paypal_headers)
 
-    post webhooks_paypal_path, headers: headers(payload), as: :json, params: payload
+    post webhooks_paypal_path, headers:, as: :json, params: payload
   end
 
   test "ipn should return 200" do

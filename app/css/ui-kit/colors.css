@@ -554,10 +554,10 @@ body.namespace-.controller-premium.theme-light,
     --hljs-hue-6: #d19a66;
     --hljs-hue-6-2: #e6c07b;
 
-    --diffDarkGreen: #4fcda736;
-    --diffLightGreen: #4fcda736;
-    --diffDarkRed: #f1707036;
-    --diffLightRed: #f1707036;
+    --diffDarkGreen: #4fcda730;
+    --diffLightGreen: #4fcda730;
+    --diffDarkRed: #f1707030;
+    --diffLightRed: #f1707030;
 
     --commonBadge-RGB: 240, 243, 249;
     --commonBadgeFill-RGB: 80, 83, 89;

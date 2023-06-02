@@ -1,10 +1,10 @@
-require_relative '../../test_base'
+require_relative '../../../test_base'
 
-class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPaymentTest < Payments::TestBase
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPaymentTest < Payments::TestBase
   test "ignores unknown subscription" do
     payload = { "recurring_payment_id" => SecureRandom.uuid }
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(payload)
 
     refute Payments::Subscription.exists?
   end
@@ -15,7 +15,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFai
 
     refute subscription.canceled?
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(payload)
 
     assert subscription.reload.canceled?
   end
@@ -29,7 +29,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFai
     assert user.reload.premium?
 
     perform_enqueued_jobs do
-      Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(payload)
     end
 
     refute user.reload.premium?

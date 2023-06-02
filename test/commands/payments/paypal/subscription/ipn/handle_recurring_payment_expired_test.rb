@@ -1,10 +1,10 @@
-require_relative '../../test_base'
+require_relative '../../../test_base'
 
-class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancelTest < Payments::TestBase
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpiredTest < Payments::TestBase
   test "ignores unknown subscription" do
     payload = { "recurring_payment_id" => SecureRandom.uuid }
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.(payload)
 
     refute Payments::Subscription.exists?
   end
@@ -15,12 +15,12 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancelTest < 
 
     refute subscription.canceled?
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.(payload)
 
     assert subscription.reload.canceled?
   end
 
-  test "canceled premium subscription causes user to no longer be premium user" do
+  test "expiring premium subscription causes user to no longer be premium user" do
     user = create :user, premium_until: Time.current + 2.days
     subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
     create(:payments_payment, :premium, :paypal, user:, subscription:)
@@ -29,7 +29,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancelTest < 
     assert user.reload.premium?
 
     perform_enqueued_jobs do
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.(payload)
     end
 
     refute user.reload.premium?

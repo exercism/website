@@ -1,5 +1,5 @@
-# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_suspended_due_to_max_failed_payment'
-class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_skipped'
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped
   include Mandate
 
   initialize_with :payload
@@ -8,7 +8,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFai
     subscription = Payments::Subscription.find_by(external_id:, provider: :paypal)
     return unless subscription
 
-    Payments::Subscription::Cancel.(subscription)
+    Payments::Subscription::Overdue.(subscription)
   end
 
   private

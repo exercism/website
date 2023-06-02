@@ -1,5 +1,5 @@
 # Handle a Paypal IPN event with 'txn_type' = 'web_accept'
-class Payments::Paypal::Payment::HandleWebAccept
+class Payments::Paypal::Payment::IPN::HandleWebAccept
   include Mandate
 
   initialize_with :payload

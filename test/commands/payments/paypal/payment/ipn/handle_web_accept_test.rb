@@ -1,6 +1,6 @@
-require_relative '../../test_base'
+require_relative '../../../test_base'
 
-class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
+class Payments::Paypal::Payment::IPN::HandleWebAcceptTest < Payments::TestBase
   test "create donation payment when payment_status is Completed" do
     freeze_time do
       payment_id = SecureRandom.uuid
@@ -18,7 +18,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
-      Payments::Paypal::Payment::HandleWebAccept.(payload)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)
 
       assert_equal 1, Payments::Payment.count
       refute Payments::Subscription.exists?
@@ -55,7 +55,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
-      Payments::Paypal::Payment::HandleWebAccept.(payload)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)
 
       assert_equal 1, Payments::Payment.count
 
@@ -90,7 +90,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "custom" => user.email
       }
 
-      Payments::Paypal::Payment::HandleWebAccept.(payload)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)
 
       assert_equal 1, Payments::Payment.count
 
@@ -120,7 +120,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
-      Payments::Paypal::Payment::HandleWebAccept.(payload)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)
 
       assert_equal new_amount_in_cents, payment.reload.amount_in_cents
       assert_equal new_amount_in_cents, payment.user.reload.total_donated_in_cents
@@ -139,7 +139,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
-      Payments::Paypal::Payment::HandleWebAccept.(payload)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)
 
       refute Payments::Payment.exists?
       refute Payments::Subscription.exists?
@@ -155,7 +155,7 @@ class Payments::Paypal::Payment::HandleWebAcceptTest < Payments::TestBase
         "item_name" => Exercism.secrets.paypal_donation_product_name
       }
 
-      Payments::Paypal::Payment::HandleWebAccept.(payload)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)
 
       refute Payments::Payment.exists?
       refute Payments::Subscription.exists?

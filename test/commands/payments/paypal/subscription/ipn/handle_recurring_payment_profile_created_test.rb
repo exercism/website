@@ -1,6 +1,6 @@
-require_relative '../../test_base'
+require_relative '../../../test_base'
 
-class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest < Payments::TestBase
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedTest < Payments::TestBase
   test "creates donation subscription" do
     freeze_time do
       recurring_payment_id = SecureRandom.uuid
@@ -19,7 +19,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
         "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(payload)
 
       refute Payments::Payment.exists?
       assert_equal 1, Payments::Subscription.count
@@ -53,7 +53,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
         "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(payload)
 
       refute Payments::Payment.exists?
       assert_equal 1, Payments::Subscription.count
@@ -87,7 +87,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
         "payment_cycle" => "Yearly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(payload)
 
       refute Payments::Payment.exists?
       assert_equal 1, Payments::Subscription.count
@@ -114,7 +114,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreatedTest <
       "payment_cycle" => "Monthly"
     }
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(payload)
 
     refute Payments::Payment.exists?
     refute Payments::Subscription.exists?

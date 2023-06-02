@@ -2,16 +2,16 @@ require "test_helper"
 
 class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
   [
-    ["web_accept", Payments::Paypal::Payment::HandleWebAccept],
-    ["recurring_payment", Payments::Paypal::Subscription::HandleRecurringPayment],
-    ["recurring_payment_expired", Payments::Paypal::Subscription::HandleRecurringPaymentExpired],
-    ["recurring_payment_failed", Payments::Paypal::Subscription::HandleRecurringPaymentFailed],
-    ["recurring_payment_profile_cancel", Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel],
-    ["recurring_payment_profile_created", Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated],
-    ["recurring_payment_skipped", Payments::Paypal::Subscription::HandleRecurringPaymentSkipped],
-    ["recurring_payment_suspended", Payments::Paypal::Subscription::HandleRecurringPaymentSuspended],
+    ["web_accept", Payments::Paypal::Payment::IPN::HandleWebAccept],
+    ["recurring_payment", Payments::Paypal::Subscription::IPN::HandleRecurringPayment],
+    ["recurring_payment_expired", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired],
+    ["recurring_payment_failed", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentFailed],
+    ["recurring_payment_profile_cancel", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel],
+    ["recurring_payment_profile_created", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated],
+    ["recurring_payment_skipped", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped],
+    ["recurring_payment_suspended", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspended],
     ["recurring_payment_suspended_due_to_max_failed_payment",
-     Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment]
+     Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment]
   ].each do |(txn_type, expected_command)|
     test "handle IPN event with txn_type #{txn_type}" do
       txn_id = SecureRandom.uuid
@@ -39,15 +39,15 @@ class Webhooks::ProcessPaypalIpnTest < ActiveSupport::TestCase
       stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
         to_return(status: 200, body: "VERIFIED", headers: {})
 
-      Payments::Paypal::Payment::HandleWebAccept.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPayment.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentExpired.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentFailed.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentSkipped.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentSuspended.expects(:call).never
-      Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.expects(:call).never
+      Payments::Paypal::Payment::IPN::HandleWebAccept.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentFailed.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspended.expects(:call).never
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.expects(:call).never
 
       Webhooks::ProcessPaypalIpn.(payload)
     end

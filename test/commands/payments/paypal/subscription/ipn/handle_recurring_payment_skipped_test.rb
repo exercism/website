@@ -1,10 +1,10 @@
-require_relative '../../test_base'
+require_relative '../../../test_base'
 
-class Payments::Paypal::Subscription::HandleRecurringPaymentFailedTest < Payments::TestBase
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkippedTest < Payments::TestBase
   test "ignores unknown subscription" do
     payload = { "recurring_payment_id" => SecureRandom.uuid }
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentFailed.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.(payload)
 
     refute Payments::Subscription.exists?
   end
@@ -15,12 +15,12 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentFailedTest < Payment
 
     refute subscription.overdue?
 
-    Payments::Paypal::Subscription::HandleRecurringPaymentFailed.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.(payload)
 
     assert subscription.reload.overdue?
   end
 
-  test "failed premium subscription payment causes user to be premium user for grace period" do
+  test "skipped premium subscription payment causes user to be premium user for grace period" do
     user = create :user, premium_until: Time.current + 2.days
     subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
     create(:payments_payment, :premium, :paypal, user:, subscription:)
@@ -29,7 +29,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentFailedTest < Payment
     assert user.reload.premium?
 
     perform_enqueued_jobs do
-      Payments::Paypal::Subscription::HandleRecurringPaymentFailed.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.(payload)
     end
 
     assert user.reload.premium?

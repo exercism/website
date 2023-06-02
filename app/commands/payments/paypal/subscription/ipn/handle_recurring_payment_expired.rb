@@ -1,5 +1,5 @@
-# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_profile_cancel'
-class Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_expired'
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired
   include Mandate
 
   initialize_with :payload

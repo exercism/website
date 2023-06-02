@@ -34,23 +34,23 @@ class Webhooks::ProcessPaypalIpn
     params = Rack::Utils.parse_nested_query(payload)
     case params["txn_type"]
     when "web_accept"
-      Payments::Paypal::Payment::HandleWebAccept.(params)
+      Payments::Paypal::Payment::IPN::HandleWebAccept.(params)
     when "recurring_payment"
-      Payments::Paypal::Subscription::HandleRecurringPayment.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(params)
     when "recurring_payment_expired"
-      Payments::Paypal::Subscription::HandleRecurringPaymentExpired.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.(params)
     when "recurring_payment_failed"
-      Payments::Paypal::Subscription::HandleRecurringPaymentFailed.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentFailed.(params)
     when "recurring_payment_profile_cancel"
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCancel.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel.(params)
     when "recurring_payment_profile_created"
-      Payments::Paypal::Subscription::HandleRecurringPaymentProfileCreated.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(params)
     when "recurring_payment_skipped"
-      Payments::Paypal::Subscription::HandleRecurringPaymentSkipped.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.(params)
     when "recurring_payment_suspended"
-      Payments::Paypal::Subscription::HandleRecurringPaymentSuspended.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspended.(params)
     when "recurring_payment_suspended_due_to_max_failed_payment"
-      Payments::Paypal::Subscription::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(params)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.(params)
     end
   end
 

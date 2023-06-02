@@ -1,5 +1,5 @@
-# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_skipped'
-class Payments::Paypal::Subscription::HandleRecurringPaymentSkipped
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_profile_cancel'
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel
   include Mandate
 
   initialize_with :payload
@@ -8,7 +8,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentSkipped
     subscription = Payments::Subscription.find_by(external_id:, provider: :paypal)
     return unless subscription
 
-    Payments::Subscription::Overdue.(subscription)
+    Payments::Subscription::Cancel.(subscription)
   end
 
   private

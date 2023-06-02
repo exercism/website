@@ -1,5 +1,5 @@
 # Handle a Paypal IPN event with 'txn_type' = 'recurring_payment'
-class Payments::Paypal::Subscription::HandleRecurringPayment
+class Payments::Paypal::Subscription::IPN::HandleRecurringPayment
   include Mandate
 
   initialize_with :payload

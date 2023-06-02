@@ -1,5 +1,5 @@
-# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_suspended'
-class Payments::Paypal::Subscription::HandleRecurringPaymentSuspended
+# Handle a Paypal IPN event with 'txn_type' = 'recurring_payment_suspended_due_to_max_failed_payment'
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment
   include Mandate
 
   initialize_with :payload

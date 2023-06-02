@@ -1,6 +1,6 @@
-require_relative '../../test_base'
+require_relative '../../../test_base'
 
-class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::TestBase
+class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentTest < Payments::TestBase
   test "creates donation payment linked to existing subscription" do
     freeze_time do
       payment_id = SecureRandom.uuid
@@ -23,7 +23,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       }
 
       perform_enqueued_jobs do
-        Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+        Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
       end
 
       assert_equal 1, Payments::Payment.count
@@ -63,7 +63,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       }
 
       perform_enqueued_jobs do
-        Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+        Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
       end
 
       user.reload
@@ -102,7 +102,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
 
       assert_equal 1, Payments::Subscription.count
       subscription = Payments::Subscription.last
@@ -141,7 +141,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
 
       assert_equal 1, Payments::Subscription.count
       subscription = Payments::Subscription.last
@@ -181,7 +181,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
 
       assert_equal 1, Payments::Subscription.count
       subscription = Payments::Subscription.last
@@ -213,7 +213,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
         "payment_cycle" => "Monthly"
       }
 
-      Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
 
       assert_equal 1, Payments::Subscription.count
       subscription = Payments::Subscription.last
@@ -237,7 +237,7 @@ class Payments::Paypal::Subscription::HandleRecurringPaymentTest < Payments::Tes
       "product_name" => Exercism.secrets.paypal_donation_product_name
     }
 
-    Payments::Paypal::Subscription::HandleRecurringPayment.(payload)
+    Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
 
     refute Payments::Payment.exists?
     refute Payments::Subscription.exists?

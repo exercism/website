@@ -13,8 +13,7 @@ class Payments::Stripe::Subscription::UpdatePlan
       items: [{
         id: stripe_data.items.data[0].id,
         price:
-      }],
-      proration_behavior: 'none'
+      }]
     )
 
     Payments::Subscription::UpdateAmount.(subscription, amount_in_cents)

@@ -6,8 +6,8 @@ export function Icon({
   alt,
   className,
   category = 'icons',
-  width = 0,
-  height = 0,
+  width = undefined,
+  height = undefined,
   title,
 }: {
   icon: string

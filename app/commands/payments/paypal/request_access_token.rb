@@ -9,7 +9,7 @@ class Payments::Paypal::RequestAccessToken
 
     token = request_token!
     access_token = token[:access_token]
-    expires_in = token[:expires_in].to_i
+    expires_in = token[:expires_in].to_i - 10.seconds
 
     Rails.cache.write(CACHE_KEY, access_token, expires_in:)
     access_token

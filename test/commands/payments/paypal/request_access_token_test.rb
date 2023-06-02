@@ -24,7 +24,7 @@ class Payments::Paypal::RequestAccessTokenTest < Payments::TestBase
     end
   end
 
-  test "caches access token until expiry time" do
+  test "caches access token until just before expiry time" do
     freeze_time do
       access_token = SecureRandom.uuid
       expires_in = 90.seconds
@@ -54,9 +54,16 @@ class Payments::Paypal::RequestAccessTokenTest < Payments::TestBase
 
       assert_equal access_token, Payments::Paypal::RequestAccessToken.()
 
+      travel_to Time.current + expires_in - 11.seconds
+      assert_equal access_token, Payments::Paypal::RequestAccessToken.()
+
+      travel_to Time.current + expires_in - 10.seconds
+      assert_equal new_access_token, Payments::Paypal::RequestAccessToken.()
+
       travel_to Time.current + expires_in
       assert_equal new_access_token, Payments::Paypal::RequestAccessToken.()
 
+      travel_to Time.current + expires_in + 1.second
       assert_equal new_access_token, Payments::Paypal::RequestAccessToken.()
     end
   end

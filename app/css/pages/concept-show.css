@@ -46,7 +46,8 @@
                 @apply mb-12;
 
                 &.completed {
-                    @apply text-darkSuccessGreen font-semibold;
+                    @apply font-semibold;
+                    color: var(--textColorProgressTextCompleted);
                     & .c-icon {
                         @apply block;
                     }

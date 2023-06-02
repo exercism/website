@@ -255,6 +255,7 @@
     --textColorMentorTestimonialsNew: var(--textColor5);
     --textColorMentoringRequestedStatusInfo: theme(colors.smokeGray);
     --textColorMentorTrackSelectorSelected: theme(colors.smokeGray);
+    --textColorProgressTextCompleted: theme(colors.darkSuccessGreen);
     --c-prominent-link-color: theme(colors.lightBlue);
 
     --shadowColorED: 0, 80, 255;
@@ -509,6 +510,7 @@ body.namespace-.controller-premium.theme-light,
     --textColorMentorTestimonialsNew: theme(colors.midnightBlue);
     --textColorMentoringRequestedStatusInfo: theme(colors.aliceBlue);
     --textColorMentorTrackSelectorSelected: theme(colors.aliceBlue);
+    --textColorProgressTextCompleted: theme(colors.greenPrompt);
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);

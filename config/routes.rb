@@ -96,6 +96,7 @@ Rails.application.routes.draw do
 
   resource :premium, only: [:show], controller: 'premium' do
     get :paypal_pending
+    get :paypal_cancelled
   end
 
   resources :profiles, only: %i[index show new create] do

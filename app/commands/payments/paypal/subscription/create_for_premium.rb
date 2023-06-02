@@ -26,13 +26,9 @@ class Payments::Paypal::Subscription::CreateForPremium
         value: amount
       },
       application_context: {
-        user_action: "Join Exercism Premium",
-
-        # TODO: set the URL to which the user is redirect when the payment was successful
-        return_url: "https://example.com/returnUrl",
-
-        # TODO: set the URL to which the user is redirect when the payment was cancelled
-        cancel_url: "https://example.com/cancelUrl"
+        user_action: "Exercism Premium",
+        return_url: Exercism::Routes.paypal_pending_premium_path,
+        cancel_url: Exercism::Routes.paypal_cancelled_premium_path
       }
     }
   end

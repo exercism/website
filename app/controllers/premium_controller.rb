@@ -12,6 +12,8 @@ class PremiumController < ApplicationController
 
   def paypal_pending; end
 
+  def paypal_cancelled; end
+
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'moon', title: 'Dark Mode',

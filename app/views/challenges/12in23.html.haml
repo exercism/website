@@ -140,7 +140,7 @@
 
               Each valid exercise will be shown below.
               Find the full list of rules and exercises in
-              #{link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183'}.
+              #{link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'}.
 
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
@@ -151,7 +151,7 @@
                   = link_to track_exercise_path(track_slug, exercise_slug) do
                     = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-[48px]"
             - else
-              %h2.text-h6.mt-20 No valid exercises found.
+              %h2.text-h6.mt-20 You've not yet submitted any valid solutions.
 
   %article
     .md-container

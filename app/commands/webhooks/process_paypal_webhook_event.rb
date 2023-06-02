@@ -1,13 +1,13 @@
-class Webhooks::ProcessPaypalIpnUpdate
+class Webhooks::ProcessPaypalWebhookEvent
   include Mandate
 
-  class PaypalInvalidIpnError < RuntimeError; end
-  class PaypalIpnVerificationError < RuntimeError; end
+  class PaypalInvalidWebhookEvent < RuntimeError; end
+  class PaypalWebhookEventVerificationError < RuntimeError; end
 
   initialize_with :payload
 
   def call
-    Webhooks::Paypal::Debug.("PAYLOAD: #{payload}")
+    Webhooks::Paypal::Debug.("[WEBHOOK] PAYLOAD\n#{payload}")
 
     case ipn_verification_status
     when "VERIFIED"
@@ -29,7 +29,7 @@ class Webhooks::ProcessPaypalIpnUpdate
   end
 
   def handle_verified
-    Webhooks::Paypal::Debug.("VERIFIED")
+    Webhooks::Paypal::Debug.("[WEBHOOK] VERIFIED")
 
     params = Rack::Utils.parse_nested_query(payload)
     case params["txn_type"]
@@ -55,13 +55,13 @@ class Webhooks::ProcessPaypalIpnUpdate
   end
 
   def handle_invalid
-    Webhooks::Paypal::Debug.("INVALID")
-    raise PaypalInvalidIpnError
+    Webhooks::Paypal::Debug.("[WEBHOOK] INVALID")
+    raise PaypalInvalidWebhookEvent
   end
 
   def handle_error
-    Webhooks::Paypal::Debug.("ERROR")
-    raise PaypalIpnVerificationError
+    Webhooks::Paypal::Debug.("[WEBHOOK] ERROR")
+    raise PaypalWebhookEventVerificationError
   end
 
   def ipn_verification_body = "cmd=_notify-validate&#{payload}"

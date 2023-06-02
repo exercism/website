@@ -6,18 +6,7 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
     assert_response :ok
   end
 
-  test "create should process IPN event payload" do
-    payload = {
-      ipn_track_id: SecureRandom.compact_uuid,
-      txn_type: "web_accept"
-    }
-
-    Webhooks::ProcessPaypalIpnUpdate.expects(:defer).with(payload.to_json)
-
-    post webhooks_paypal_path, headers: headers(payload), as: :json, params: payload
-  end
-
-  test "create should process API event payload" do
+  test "create should process webhook event payload" do
     payload = {
       event_type: "BILLING.SUBSCRIPTION.ACTIVATED",
       resource: {
@@ -25,8 +14,24 @@ class Webhooks::PaypalControllerTest < Webhooks::BaseTestCase
       }
     }
 
-    Webhooks::ProcessPaypalIpnUpdate.expects(:defer).never
+    Webhooks::ProcessPaypalWebhookEvent.expects(:defer).with(payload.to_json)
 
     post webhooks_paypal_path, headers: headers(payload), as: :json, params: payload
+  end
+
+  test "ipn should return 200" do
+    post ipn_webhooks_paypal_path, as: :json
+    assert_response :ok
+  end
+
+  test "ipn should process IPN event payload" do
+    payload = {
+      ipn_track_id: SecureRandom.compact_uuid,
+      txn_type: "web_accept"
+    }
+
+    Webhooks::ProcessPaypalIpn.expects(:defer).with(payload.to_json)
+
+    post ipn_webhooks_paypal_path, headers: headers(payload), as: :json, params: payload
   end
 end

@@ -81,7 +81,7 @@ const Tab = ({
   return (
     <button type="button" className={classNames.join(' ')} onClick={onClick}>
       {filter.id ? <div className={`c-ed --${filter.id}`} /> : null}
-      {filter.title}
+      <span data-text={filter.title}>{filter.title}</span>
       <div className="count">{filter.apply(results).length}</div>
     </button>
   )

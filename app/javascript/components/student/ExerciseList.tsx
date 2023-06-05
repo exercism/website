@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import {
+  usePaginatedRequestQuery,
+  Request,
+  useList,
+  useHistory,
+  removeEmpty,
+} from '@/hooks'
 import { ExerciseWidget } from '../common'
-import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import { Exercise, SolutionForStudent } from '../types'
-import { useList } from '../../hooks/use-list'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 
@@ -48,15 +52,16 @@ class StatusFilter {
   }
 
   apply(results: Result[] | undefined) {
-    if (results === undefined) {
+    if (!results) {
       return []
     }
 
-    if (this.values === undefined || this.values === null) {
+    const { values } = this
+    if (!values) {
       return results
     }
 
-    return results.filter((result) => this.values!.includes(result.status))
+    return results.filter((result) => values.includes(result.status))
   }
 }
 

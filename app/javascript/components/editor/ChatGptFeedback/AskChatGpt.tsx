@@ -64,7 +64,7 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
 function AskingChatGpt() {
   return (
     <div role="status" className="running">
-      <GraphicalIcon icon="spinner" />
+      <GraphicalIcon icon="spinner" className="animate-spin-slow" />
       <div className="progress">
         <div
           className="bar"

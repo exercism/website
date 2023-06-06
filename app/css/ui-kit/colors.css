@@ -232,6 +232,7 @@
     --borderColorContributionTasksTag: theme(colors.veryLightBlue2);
     --borderColorContributorCreditBlock: theme(colors.lavender);
     --borderColorExerciseStatusTagInProgress: theme(colors.lightBlue);
+    --borderColorDocsDashed: theme(colors.lavender);
     --borderColorTracksListV3: var(--textColor2);
     /* textColor1 and textColor2 has different dark-themes */
     --textColor1: var(--c-130B43);
@@ -255,6 +256,7 @@
     --textColorMentorTestimonialsNew: var(--textColor5);
     --textColorMentoringRequestedStatusInfo: theme(colors.smokeGray);
     --textColorMentorTrackSelectorSelected: theme(colors.smokeGray);
+    --textColorProgressTextCompleted: theme(colors.darkSuccessGreen);
     --c-prominent-link-color: theme(colors.lightBlue);
 
     --shadowColorED: 0, 80, 255;
@@ -487,6 +489,7 @@ body.namespace-.controller-premium.theme-light,
     --borderColorContributionTasksTag: theme(colors.gray);
     --borderColorContributorCreditBlock: theme(colors.gray);
     --borderColorExerciseStatusTagInProgress: theme(colors.purpleDarkened);
+    --borderColorDocsDashed: theme(colors.aliceBlue);
     --borderColorTracksListV3: transparent;
     /* --borderColor7: var(--c-533F56); */
     --textColor1: #f0f3f9;
@@ -509,6 +512,7 @@ body.namespace-.controller-premium.theme-light,
     --textColorMentorTestimonialsNew: theme(colors.midnightBlue);
     --textColorMentoringRequestedStatusInfo: theme(colors.aliceBlue);
     --textColorMentorTrackSelectorSelected: theme(colors.aliceBlue);
+    --textColorProgressTextCompleted: theme(colors.greenPrompt);
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);

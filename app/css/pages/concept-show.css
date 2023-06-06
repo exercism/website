@@ -46,7 +46,8 @@
                 @apply mb-12;
 
                 &.completed {
-                    @apply text-darkSuccessGreen font-semibold;
+                    @apply font-semibold;
+                    color: var(--textColorProgressTextCompleted);
                     & .c-icon {
                         @apply block;
                     }
@@ -66,6 +67,12 @@
         @apply border-2 border-darkGreen;
         background: var(--backgroundColorCompletedHeading);
 
+        .c-prominent-link {
+            color: var(--backgroundColorNotificationsUnreadDot);
+            .c-icon {
+                filter: var(--iconFilterNotificationsProminentLink);
+            }
+        }
         & .check-mark-icon {
             height: 32px;
             width: 32px;

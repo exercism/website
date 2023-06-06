@@ -8,10 +8,14 @@ module Premium
   LIFETIME_AMOUNT_IN_DOLLARS = LIFETIME_AMOUNT_IN_CENTS / 100.0
 
   def self.amount_in_cents_from_interval(interval)
-    case interval
+    case interval.to_sym
     when :month
       MONTH_AMOUNT_IN_CENTS
+    when :monthly
+      MONTH_AMOUNT_IN_CENTS
     when :year
+      YEAR_AMOUNT_IN_CENTS
+    when :yearly
       YEAR_AMOUNT_IN_CENTS
     when :lifetime
       LIFETIME_AMOUNT_IN_CENTS
@@ -19,9 +23,13 @@ module Premium
   end
 
   def self.amount_in_dollars_from_interval(interval)
-    case interval
+    case interval.to_sym
+    when :month
+      MONTH_AMOUNT_IN_DOLLARS
     when :monthly
       MONTH_AMOUNT_IN_DOLLARS
+    when :year
+      YEAR_AMOUNT_IN_DOLLARS
     when :yearly
       YEAR_AMOUNT_IN_DOLLARS
     when :lifetime

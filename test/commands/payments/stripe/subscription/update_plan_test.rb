@@ -14,8 +14,7 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
       items: [{
         id: subscription_data.items.data[0].id,
         price: Exercism.secrets.stripe_premium_yearly_price_id
-      }],
-      proration_behavior: 'none'
+      }]
     )
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :year)

@@ -51,7 +51,7 @@ class User::Data < ApplicationRecord
   ].each do |meth|
     define_method meth do
       self.cache.key?(meth) || User::ResetCache.(user, meth)
-      self.cache[meth]
+      self.reload.cache[meth]
     end
   end
   def cache = super || (self.cache = {})

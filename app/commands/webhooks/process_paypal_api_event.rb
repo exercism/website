@@ -4,7 +4,7 @@ class Webhooks::ProcessPaypalAPIEvent
   initialize_with :payload, :headers
 
   def call
-    Payments::Paypal::Debug.("[Webhook] Headers:\n#{headers}")
+    Payments::Paypal::Debug.("\n[Webhook] Headers:\n#{headers}")
     Payments::Paypal::Debug.("[Webhook] Payload:\n#{payload}")
     Payments::Paypal::VerifyAPIEvent.(payload, headers)
 

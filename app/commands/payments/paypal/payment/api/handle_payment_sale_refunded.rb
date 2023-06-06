@@ -4,5 +4,8 @@ class Payments::Paypal::Payment::API::HandlePaymentSaleRefunded
 
   initialize_with :payload
 
-  def call; end
+  def call
+    # We're ignoring this event as this event is already processed as
+    # the IPN event with 'txn_type' = 'recurring_payment'
+  end
 end

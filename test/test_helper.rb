@@ -355,6 +355,14 @@ class ActiveSupport::TestCase
       end
     end
   end
+
+  def assert_user_data_cache_reset(user, key, expected, &block)
+    assert_nil user.data.reload.cache[key.to_s]
+
+    perform_enqueued_jobs(&block)
+
+    assert_equal expected, user.data.reload.cache[key.to_s]
+  end
 end
 
 class ActionView::TestCase

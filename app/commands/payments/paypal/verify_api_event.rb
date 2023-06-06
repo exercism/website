@@ -4,30 +4,33 @@ class Payments::Paypal::APIEventVerificationError < RuntimeError; end
 class Payments::Paypal::VerifyAPIEvent
   include Mandate
 
-  initialize_with :payload, :headers
+  initialize_with :event, :headers
 
   def call
     case request_api_event_verification_status!
     when "SUCCESS"
-      Payments::Paypal::Debug.("[API] VERIFIED")
+      Payments::Paypal::Debug.("[Webhook] VERIFIED")
       nil
     when "FAILURE"
-      Payments::Paypal::Debug.("[API] INVALID")
+      Payments::Paypal::Debug.("[Webhook] INVALID")
       raise Payments::Paypal::InvalidAPIEventError
     else
-      Payments::Paypal::Debug.("[API] ERROR")
+      Payments::Paypal::Debug.("[Webhook] ERROR")
       raise Payments::Paypal::APIEventVerificationError
     end
+  rescue StandardError
+    Payments::Paypal::Debug.("[Webhook] ERROR")
+    raise Payments::Paypal::APIEventVerificationError
   end
 
   private
   def request_api_event_verification_status!
-    response = RestClient.post(API_EVENT_VERIFICATION_URL, verification_body)
+    response = RestClient.post(API_EVENT_VERIFICATION_URL, verification_body.to_json, verification_headers)
     json = JSON.parse(response.body, symbolize_names: true)
     json[:verification_status]
   end
 
-  def headers
+  def verification_headers
     {
       authorization:,
       content_type: :json
@@ -39,13 +42,13 @@ class Payments::Paypal::VerifyAPIEvent
 
   def verification_body
     {
-      auth_algo: headers['PAYPAL-AUTH-ALGO'],
-      cert_url: headers['PAYPAL-CERT-URL'],
       transmission_id: headers['PAYPAL-TRANSMISSION-ID'],
-      transmission_sig: headers['PAYPAL-TRANSMISSION-SIG'],
       transmission_time: headers['PAYPAL-TRANSMISSION-TIME'],
+      cert_url: headers['PAYPAL-CERT-URL'],
+      auth_algo: headers['PAYPAL-AUTH-ALGO'],
+      transmission_sig: headers['PAYPAL-TRANSMISSION-SIG'],
       webhook_id: Exercism.secrets.paypal_webhook_id,
-      webhook_event: payload
+      webhook_event: event
     }
   end
 

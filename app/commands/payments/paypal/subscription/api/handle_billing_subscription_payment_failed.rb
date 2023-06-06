@@ -5,7 +5,7 @@ class Payments::Paypal::Subscription::API::HandleBillingSubscriptionPaymentFaile
   initialize_with :payload
 
   def call
-    subscription = Donations::Subscription.find_by(external_id:, provider: :paypal)
+    subscription = Payments::Subscription.find_by(external_id:, provider: :paypal)
     return unless subscription
 
     Payments::Subscription::Overdue.(subscription)

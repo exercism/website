@@ -6,37 +6,41 @@ class Webhooks::ProcessPaypalAPIEvent
   def call
     Payments::Paypal::Debug.("\n[Webhook] Headers:\n#{headers}")
     Payments::Paypal::Debug.("[Webhook] Payload:\n#{payload}")
-    Payments::Paypal::VerifyAPIEvent.(payload, headers)
+    Payments::Paypal::VerifyAPIEvent.(event, headers)
 
     handle!
   rescue StandardError => e
+    Payments::Paypal::Debug.("[Webhook] Error:\n#{e.message}")
     Bugsnag.notify(e)
   end
 
   private
+  memoize
+  def event = JSON.parse(payload)
+
   def handle!
-    params = Rack::Utils.parse_nested_query(payload)
-    case params["event_type"]
+    Payments::Paypal::Debug.("[Webhook] Parsed:\n#{event}")
+    case event["event_type"]
     when "PAYMENT.SALE.COMPLETED"
-      Payments::Paypal::Payment::API::HandlePaymentSaleCompleted.(params)
+      Payments::Paypal::Payment::API::HandlePaymentSaleCompleted.(event)
     when "PAYMENT.SALE.REFUNDED"
-      Payments::Paypal::Payment::API::HandlePaymentSaleRefunded.(params)
+      Payments::Paypal::Payment::API::HandlePaymentSaleRefunded.(event)
     when "PAYMENT.SALE.REVERSED"
-      Payments::Paypal::Payment::API::HandlePaymentSaleReversed.(params)
+      Payments::Paypal::Payment::API::HandlePaymentSaleReversed.(event)
     when "BILLING.SUBSCRIPTION.ACTIVATED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionActivated.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionActivated.(event)
     when "BILLING.SUBSCRIPTION.CANCELLED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionCancelled.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionCancelled.(event)
     when "BILLING.SUBSCRIPTION.EXPIRED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionExpired.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionExpired.(event)
     when "BILLING.SUBSCRIPTION.CREATED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionCreated.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionCreated.(event)
     when "BILLING.SUBSCRIPTION.UPDATED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionUpdated.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionUpdated.(event)
     when "BILLING.SUBSCRIPTION.SUSPENDED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionSuspended.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionSuspended.(event)
     when "BILLING.SUBSCRIPTION.PAYMENT.FAILED"
-      Payments::Paypal::Subscription::HandleBillingSubscriptionPaymentFailed.(params)
+      Payments::Paypal::Subscription::API::HandleBillingSubscriptionPaymentFailed.(event)
     end
   end
 end

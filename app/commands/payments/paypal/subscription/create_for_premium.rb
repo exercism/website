@@ -52,7 +52,7 @@ class Payments::Paypal::Subscription::CreateForPremium
   def authorization = "Bearer #{access_token}"
   def access_token = Payments::Paypal::RequestAccessToken.()
   def product = :premium
-  def amount_in_dollars = Payments::Paypal.amount_in_dollars_from_interval(interval)
+  def amount_in_dollars = Premium.amount_in_dollars_from_interval(interval)
   def amount = amount_in_dollars.to_s
   def plan_id = Payments::Paypal.plan_id_from_interval(interval)
 end

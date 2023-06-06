@@ -36,15 +36,4 @@ module Payments::Paypal
       raise UnsupportedPaypalIntervalError
     end
   end
-
-  def self.amount_in_dollars_from_interval(interval)
-    case interval
-    when :monthly
-      Premium::MONTH_AMOUNT_IN_CENTS / 100.0
-    when :yearly
-      Premium::YEAR_AMOUNT_IN_CENTS / 100.0
-    when :lifetime
-      Premium::LIFETIME_AMOUNT_IN_CENTS / 100.0
-    end
-  end
 end

@@ -4,9 +4,8 @@ class User::AddRoles
   initialize_with :user, :roles
 
   def call
-    user.data.with_lock do
-      user.update(roles: user.roles + roles)
-    end
+    user.update(roles: user.roles + roles)
+
     User::SetDiscordRoles.(user)
     User::InsidersStatus::TriggerUpdate.(user)
   end

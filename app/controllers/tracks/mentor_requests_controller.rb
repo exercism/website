@@ -11,8 +11,10 @@ class Tracks::MentorRequestsController < ApplicationController
     #
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
     return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
-    return redirect_to action: :get_more_slots unless @user_track.has_available_mentoring_slot?
-    return redirect_to action: :no_slots_remaining if @user_track.rep_for_next_mentoring_slot.nil?
+    return redirect_to action: :no_slots_remaining unless @user_track.has_available_mentoring_slot?
+
+    # return redirect_to action: :get_more_slots unless @user_track.has_available_mentoring_slot?
+    # return redirect_to action: :no_slots_remaining if @user_track.rep_for_next_mentoring_slot.nil?
   end
 
   def no_slots_remaining; end

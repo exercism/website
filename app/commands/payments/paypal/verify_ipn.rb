@@ -7,6 +7,9 @@ class Payments::Paypal::VerifyIPN
   initialize_with :payload
 
   def call
+    # Development/sandbox IPNs cannot be verified
+    return nil if Rails.env.development?
+
     case request_ipn_verification_status!
     when "VERIFIED"
       Payments::Paypal::Debug.("[IPN] VERIFIED")

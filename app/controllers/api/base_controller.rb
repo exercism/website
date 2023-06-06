@@ -8,6 +8,7 @@ module API
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
     skip_after_action :set_body_class_header
+    skip_around_action :mark_notifications_as_read!
 
     rescue_from ActionController::RoutingError, with: -> { render_404 }
 

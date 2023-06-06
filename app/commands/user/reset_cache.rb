@@ -11,14 +11,20 @@ class User::ResetCache
     # Just update the single cache value, rather than
     # overriding the whole thing
     new_value = send("value_for_#{key}")
-    User::Data.where(id: user.data.id).update_all(
-      cache: Arel.sql(%{
-         JSON_MERGE_PATCH(
-          COALESCE(`cache`, "{}"),
-          '{"#{key}": #{new_value}}'
-         )
-      })
-    )
+
+    # Change the lines below this once we move to Mysql 8
+    # User::Data.where(id: user.data.id).update_all(
+    #   cache: Arel.sql(%{
+    #      JSON_MERGE_PATCH(
+    #       COALESCE(`cache`, "{}"),
+    #       '{"#{key}": #{new_value}}'
+    #      )
+    #   })
+    # )
+
+    user.data.reload
+    user.data.cache[key] = new_value
+    user.data.save!
   end
 
   private

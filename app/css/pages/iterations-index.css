@@ -125,9 +125,6 @@
                         @apply flex flex-col items-center;
                         @apply py-24;
 
-                        & .c-icon {
-                        }
-
                         & h3 {
                             @apply text-18 leading-regular font-semibold text-textColor1;
                             @apply mb-12 text-center;
@@ -153,7 +150,6 @@
                             height: 24px;
                             width: 24px;
                             @apply mb-16 text-orange;
-                            animation: spin 3s linear infinite;
                         }
                     }
 

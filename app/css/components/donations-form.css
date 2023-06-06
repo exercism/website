@@ -148,9 +148,6 @@
 
                 & button {
                     @apply mt-12 w-100;
-                    & .c-icon {
-                        animation: spin 3s linear infinite;
-                    }
                 }
             }
         }

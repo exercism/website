@@ -9,6 +9,7 @@ class Webhooks::ProcessPaypalIPN
 
     handle!
   rescue StandardError => e
+    Payments::Paypal::Debug.("[IPN] Error:\n#{e.message}")
     Bugsnag.notify(e)
   end
 

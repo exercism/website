@@ -20,7 +20,7 @@ module ReactComponents
           period: 'month',
           display_amount: ::Premium::MONTH_AMOUNT_IN_DOLLARS,
           payment_intent_type: 'premium_monthly_subscription',
-          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-0EU999217Y297052UMRTXYEQ'
+          paypal_link: Exercism::Routes.create_paypal_premium_api_payments_subscriptions_path(interval: :monthly)
         }
       end
 
@@ -29,7 +29,7 @@ module ReactComponents
           period: 'year',
           display_amount: ::Premium::YEAR_AMOUNT_IN_DOLLARS,
           payment_intent_type: 'premium_yearly_subscription',
-          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-23J11871PJ838224HMRTXYTA'
+          paypal_link: Exercism::Routes.create_paypal_premium_api_payments_subscriptions_path(interval: :yearly)
         }
       end
 

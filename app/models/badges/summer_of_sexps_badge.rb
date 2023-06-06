@@ -1,5 +1,5 @@
 class Badges::SummerOfSexpsBadge < Badge
-  TRACK_SLUGS = %w[clojure clojurescript common-lisp emacs-lisp racket scheme].freeze
+  TRACK_SLUGS = %w[clojure clojurescript common-lisp emacs-lisp lfe racket scheme].freeze
 
   seed "Summer of Sexps",
     :rare,

@@ -62,6 +62,7 @@
             & .c-icon {
                 width: 12px;
                 height: 12px;
+                @apply filter-textColor6;
             }
         }
     }
@@ -71,7 +72,7 @@
         & .icon {
             @apply bg-lockedColor;
             & .c-icon {
-                filter: var(--textColor3-gray-filter);
+                @apply filter-textColor6;
             }
         }
     }

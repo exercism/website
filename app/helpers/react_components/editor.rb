@@ -85,7 +85,7 @@ module ReactComponents
     def submission = solution.latest_submission
 
     memoize
-    def iteration = submission&.iteration
+    def iteration = solution.latest_iteration
 
     memoize
     def latest_iteration = SerializeIteration.(solution.iterations.includes(:track, :exercise, :files, :submission).last,

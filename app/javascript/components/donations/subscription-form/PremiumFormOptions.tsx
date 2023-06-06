@@ -34,6 +34,7 @@ export const PremiumFormOptions = ({
     case 'cancelling':
       return links.cancel ? (
         <CancellingOption
+          subscriptionType="premium"
           cancelLink={links.cancel}
           onClose={handleInitialized}
         />

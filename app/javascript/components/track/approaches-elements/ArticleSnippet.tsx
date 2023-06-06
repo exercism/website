@@ -4,7 +4,7 @@ import { Credits } from '@/components/common'
 import { Article } from '../DigDeeper'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
-  const codeBlockRef = useHighlighting<HTMLPreElement>()
+  const codeBlockRef = useHighlighting<HTMLPreElement>(article.snippetHtml)
 
   return (
     <a

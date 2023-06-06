@@ -82,7 +82,7 @@ declare module 'highlightjs-zig' {
   export default setup
 }
 
-declare module 'highlightjs-gleam' {
+declare module '@gleam-lang/highlight.js-gleam' {
   import { LanguageFn } from 'highlight.js'
   const setup: LanguageFn
 

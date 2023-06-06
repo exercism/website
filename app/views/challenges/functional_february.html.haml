@@ -26,9 +26,6 @@
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
             Earn the Functional February badge for completing and publishing 5 exercises in one of the following languages.
-            Consider starting with a language with a syllabus (
-            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
-            ).
 
           - tracks = Track.where(slug: %w[elixir fsharp clojure erlang haskell ocaml scala sml gleam])
           .grid.grid-cols-9.gap-12.mb-32

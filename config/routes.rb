@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     root to: "dashboard#show"
+    resources :premium, controller: 'premium'
     resources :community_videos
     resources :mailshots do
       member do
@@ -185,6 +186,7 @@ Rails.application.routes.draw do
 
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests" do
         get :no_slots_remaining
+        get :get_more_slots
       end
       resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions" do
         collection do

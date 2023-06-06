@@ -476,10 +476,15 @@ export type Representation = {
   draftFeedbackMarkdown: string | null
   feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
+  feedbackAddedAt: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   links: { edit?: string; update?: string; self?: string }
+} & Record<'editor' | 'author', RepresentationContributor>
+
+type RepresentationContributor = {
+  id: number
+  handle: string
 }
 
 export type RepresentationData = Representation & {

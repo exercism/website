@@ -182,6 +182,7 @@ export function Representations({
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
             withFeedback={withFeedback}
+            selectedTab={selectedTab}
             error={error}
             latestData={latestData}
             page={page}

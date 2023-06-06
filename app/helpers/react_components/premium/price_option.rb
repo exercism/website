@@ -38,7 +38,7 @@ module ReactComponents
           period: 'lifetime',
           display_amount: ::Premium::LIFETIME_AMOUNT_IN_DOLLARS.to_i,
           payment_intent_type: 'payment',
-          paypal_link: "https://www.paypal.com/donate/?hosted_button_id=W898BNJR5JPDJ&custom=#{current_user.email}"
+          paypal_link: "#{Exercism.config.paypal_url}/donate/?hosted_button_id=W898BNJR5JPDJ&custom=#{current_user.email}"
         }
       end
     end

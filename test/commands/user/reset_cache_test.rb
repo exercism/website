@@ -11,7 +11,7 @@ class User::ResetCacheTest < ActiveSupport::TestCase
     User::ResetCache.(user, :has_unrevealed_badges?)
 
     assert user.data.reload.cache['has_unrevealed_badges?']
-    assert_equal 'bar', user.data.reload.cache['foo'] # Sanity
+    assert_equal 'bar', user.data.reload.cache['foo']
   end
 
   test "sets has_unrevealed_badges correctly" do

@@ -16,5 +16,9 @@ class Payments::Paypal::Customer::FindOrUpdate
   def user_by_paypal_id = User.with_data.find_by(data: { paypal_payer_id: })
 
   memoize
-  def user_by_email = User.find_by(email: user_email) || User.find_by(email: paypal_payer_email)
+  def user_by_email
+    return User.find_by(email: user_email) if user_email
+
+    User.find_by(email: paypal_payer_email)
+  end
 end

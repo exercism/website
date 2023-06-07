@@ -72,6 +72,7 @@ export const Concept = ({
         <ExercismTippy
           content={<ConceptTooltip endpoint={tooltipUrl} />}
           duration={[null, 0]}
+          interactive
         >
           <a
             className="display"

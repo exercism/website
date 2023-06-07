@@ -63,9 +63,13 @@
         }
         & time,
         .--occurencies {
-            @apply font-medium text-14 text-textColor6 leading-code mr-32;
+            @apply font-medium text-14 text-textColor6 leading-code;
             @apply text-right;
             width: 140px;
+        }
+
+        .--occurencies {
+            @apply mr-32;
         }
 
         & .--feedback-glimpse {

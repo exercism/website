@@ -11,10 +11,7 @@ class Payments::Paypal::RequestAccessTokenTest < Payments::TestBase
       stub_request(:post, "https://api-m.sandbox.paypal.com/v1/oauth2/token").
         with(
           body: { "grant_type" => "client_credentials" },
-          headers: {
-            'Authorization' => 'Basic QVc5RHFSck1xQlhmS0F0OGphcXc1dDMwVVJVOGhpZ3NrYnhGVTFacHp4ZVJFYXppMmZKZnpNaTRyV2RuMVc2cC10YWk1UVlMdlluMUx6TWs6RUpfak95ekl0ZU1meXQ0VlBoNTN2dGg1RlpHNFQ1MEg1SXhTaUtTTFllenlJOXZPdmZsVG5lZ3dvVzhmV2owOEh3cnNiSzAyc1ViaEhFMi0=', # rubocop:disable Layout/LineLength
-            'Content-Type' => 'application/x-www-form-urlencoded'
-          }
+          headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
         ).
         to_return(status: 200, body: { access_token:, expires_in: }.to_json, headers: {})
 

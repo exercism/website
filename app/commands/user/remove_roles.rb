@@ -5,6 +5,7 @@ class User::RemoveRoles
 
   def call
     user.update(roles: user.roles - roles)
+
     User::SetDiscordRoles.(user)
     User::InsidersStatus::TriggerUpdate.(user)
   end

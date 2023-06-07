@@ -326,10 +326,10 @@ body.keyboard-navigation .nav-element:hover .arrow {
 
 body.controller-docs,
 body.namespace-docs {
-    @apply bg-backgroundColorA;
+    @apply bg-backgroundColorB;
 
     & #site-header {
-        @apply bg-backgroundColorE;
+        @apply bg-backgroundColorA;
         @apply border-0;
 
         & .exercism-link {
@@ -339,10 +339,6 @@ body.namespace-docs {
         & .docs-search {
             /* TODO: Readd once implemented */
             /* @apply block; */
-        }
-        & .signed-in,
-        & .signed-out {
-            @apply hidden;
         }
     }
 }

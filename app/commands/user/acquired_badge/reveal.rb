@@ -7,6 +7,6 @@ class User::AcquiredBadge::Reveal
     return if badge.revealed?
 
     badge.update!(revealed: true)
-    User::ResetCache.defer(badge.user)
+    User::ResetCache.defer(badge.user, :has_unrevealed_badges?)
   end
 end

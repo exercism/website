@@ -36,7 +36,7 @@
             }
             &.selected {
                 & a {
-                    @apply text-anotherPurple font-semibold;
+                    @apply text-adaptivePurple font-semibold;
                 }
             }
         }

@@ -25,7 +25,7 @@
 
     .d2h-diff-tbody {
         tr {
-            @apply flex items-center;
+            @apply flex;
 
             td.d2h-del:not(.d2h-code-linenumber),
             td.d2h-ins:not(.d2h-code-linenumber) {
@@ -56,12 +56,10 @@
 
         &.d2h-ins {
             background: var(--diffDarkGreen);
-            @apply text-midnightBlue;
         }
 
         &.d2h-del {
             background: var(--diffDarkRed);
-            @apply text-midnightBlue;
         }
 
         /* Adds a null char for if there is no content */
@@ -86,7 +84,6 @@
 
         & ins,
         & del {
-            @apply text-midnightBlue;
             display: inline-block;
             margin-top: -1px;
             text-decoration: none;

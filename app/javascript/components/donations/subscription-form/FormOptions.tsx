@@ -51,6 +51,7 @@ export const FormOptions = ({
     case 'cancelling':
       return links.cancel ? (
         <CancellingOption
+          subscriptionType="donation"
           cancelLink={links.cancel}
           onClose={handleInitialized}
         />

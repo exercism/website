@@ -339,6 +339,7 @@
                                 .c-icon {
                                     height: 11px;
                                     width: 11px;
+                                    @apply filter-textColor6;
                                 }
                             }
                         }

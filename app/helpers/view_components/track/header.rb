@@ -18,7 +18,8 @@ module ViewComponents
             tabs:,
             selected_tab:,
             practice_mode:,
-            external: user_track.external?
+            external:,
+            course:
           )
         end
       end
@@ -47,9 +48,9 @@ module ViewComponents
           )
         end
 
-        tabs << concepts_tab if user_track.course? && !user_track.practice_mode?
+        tabs << concepts_tab if course && !practice_mode
         tabs << exercises_tab
-        tabs << about_tab(:about_track_path) unless user_track.external?
+        tabs << about_tab(:about_track_path) unless external
         tabs << build_tab
 
         safe_join(tabs)
@@ -96,11 +97,11 @@ module ViewComponents
       end
 
       def practice_mode = !!user_track&.practice_mode?
+      def external = !!user_track&.external?
+      def course = !!user_track&.course?
 
       memoize
-      def user_track
-        UserTrack.for(current_user, track)
-      end
+      def user_track = UserTrack.for(current_user, track)
     end
   end
 end

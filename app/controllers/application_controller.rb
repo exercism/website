@@ -175,7 +175,9 @@ class ApplicationController < ActionController::Base
     return unless request.format == :html
     return if current_user.last_visited_on == Time.zone.today
 
-    current_user.update(last_visited_on: Time.zone.today)
+    current_user.data.with_lock do
+      current_user.update(last_visited_on: Time.zone.today)
+    end
   end
 
   def render_template_as_json

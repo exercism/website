@@ -22,9 +22,9 @@ class User::AcquiredBadge::RevealTest < ActiveSupport::TestCase
     # Sanity check
     refute acquired_badge.revealed?
 
-    User::ResetCache.expects(:defer).with(user)
-
-    User::AcquiredBadge::Reveal.(acquired_badge)
+    assert_user_data_cache_reset(user, :has_unrevealed_badges?, false) do
+      User::AcquiredBadge::Reveal.(acquired_badge)
+    end
   end
 
   test "does not reset user cache if already revealed" do

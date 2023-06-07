@@ -479,12 +479,9 @@ export type Representation = {
   feedbackAddedAt: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean
+  author: string
+  editor: string
   links: { edit?: string; update?: string; self?: string }
-} & Record<'editor' | 'author', RepresentationContributor>
-
-type RepresentationContributor = {
-  id: number
-  handle: string
 }
 
 export type RepresentationData = Representation & {

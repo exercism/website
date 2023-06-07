@@ -84,7 +84,7 @@ export const AutomationListElement = ({
                   icon="authoring"
                   className="filter-textColor6"
                 />
-                <span>{representation.author.handle}</span>
+                <span>{representation.author}</span>
               </>
             )}
           </div>
@@ -97,7 +97,7 @@ export const AutomationListElement = ({
                   icon="edit"
                   className="filter-textColor6"
                 />
-                <span>{representation.editor.handle}</span>
+                <span>{representation.editor}</span>
               </>
             )}
           </div>

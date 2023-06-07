@@ -1,6 +1,3 @@
-class Payments::Paypal::InvalidIPNError < RuntimeError; end
-class Payments::Paypal::IPNVerificationError < RuntimeError; end
-
 class Payments::Paypal::VerifyIPN
   include Mandate
 
@@ -8,12 +5,11 @@ class Payments::Paypal::VerifyIPN
 
   def call
     # Development/sandbox IPNs cannot be verified
-    return nil if Rails.env.development?
+    return if Rails.env.development?
 
     case request_ipn_verification_status!
     when "VERIFIED"
       Payments::Paypal::Debug.("[IPN] VERIFIED")
-      nil
     when "INVALID"
       Payments::Paypal::Debug.("[IPN] INVALID")
       raise Payments::Paypal::InvalidIPNError
@@ -27,6 +23,9 @@ class Payments::Paypal::VerifyIPN
   def request_ipn_verification_status!
     response = RestClient.post(IPN_VERIFICATION_URL, ipn_verification_body)
     response.body
+  rescue StandardError => e
+    Payments::Paypal::Debug.("[IPN] ERROR: #{e.message}")
+    raise Payments::Paypal::IPNVerificationError
   end
 
   def ipn_verification_body = "cmd=_notify-validate&#{payload}"

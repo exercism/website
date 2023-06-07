@@ -1,6 +1,10 @@
 module Payments::Paypal
   class UnknownPaypalProductError < RuntimeError; end
   class UnsupportedPaypalIntervalError < RuntimeError; end
+  class InvalidIPNError < RuntimeError; end
+  class IPNVerificationError < RuntimeError; end
+  class InvalidAPIEventError < RuntimeError; end
+  class APIEventVerificationError < RuntimeError; end
 
   def self.product_from_name(name)
     case name

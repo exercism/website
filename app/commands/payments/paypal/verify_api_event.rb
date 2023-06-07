@@ -1,6 +1,3 @@
-class Payments::Paypal::InvalidAPIEventError < RuntimeError; end
-class Payments::Paypal::APIEventVerificationError < RuntimeError; end
-
 class Payments::Paypal::VerifyAPIEvent
   include Mandate
 
@@ -10,7 +7,6 @@ class Payments::Paypal::VerifyAPIEvent
     case request_api_event_verification_status!
     when "SUCCESS"
       Payments::Paypal::Debug.("[Webhook] VERIFIED")
-      nil
     when "FAILURE"
       Payments::Paypal::Debug.("[Webhook] INVALID")
       raise Payments::Paypal::InvalidAPIEventError
@@ -18,9 +14,6 @@ class Payments::Paypal::VerifyAPIEvent
       Payments::Paypal::Debug.("[Webhook] ERROR")
       raise Payments::Paypal::APIEventVerificationError
     end
-  rescue StandardError
-    Payments::Paypal::Debug.("[Webhook] ERROR")
-    raise Payments::Paypal::APIEventVerificationError
   end
 
   private
@@ -28,6 +21,9 @@ class Payments::Paypal::VerifyAPIEvent
     response = RestClient.post(API_EVENT_VERIFICATION_URL, verification_body.to_json, verification_headers)
     json = JSON.parse(response.body, symbolize_names: true)
     json[:verification_status]
+  rescue StandardError => e
+    Payments::Paypal::Debug.("[Webhook] ERROR: #{e.message}")
+    raise Payments::Paypal::APIEventVerificationError
   end
 
   def verification_headers

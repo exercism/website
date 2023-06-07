@@ -34,7 +34,8 @@ class SerializeExerciseRepresentations
         appears_frequently: representation.appears_frequently?,
         author: User.where(id: representation.feedback_author_id).pick(:handle),
         editor: User.where(id: representation.feedback_editor_id).pick(:handle),
-        feedback_added_at: representation.created_at,
+        updated_at: representation.updated_at,
+        feedback_added_at: representation.feedback_added_at,
         feedback_html: representation.feedback_html,
         last_submitted_at: representation.last_submitted_at,
         links: {

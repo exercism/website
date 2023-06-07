@@ -19,7 +19,7 @@ class Payments::Paypal::Payment::IPN::HandleWebAccept
 
   private
   memoize
-  def user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email, user_email:)
+  def user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email, user_id:)
 
   def handle_completed
     return unless user
@@ -36,6 +36,6 @@ class Payments::Paypal::Payment::IPN::HandleWebAccept
   def payment_status = payload["payment_status"]
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]
-  def user_email = payload["custom"]
+  def user_id = payload["custom"]
   def product = :donation
 end

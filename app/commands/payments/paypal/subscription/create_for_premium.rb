@@ -32,7 +32,7 @@ class Payments::Paypal::Subscription::CreateForPremium
         currency_code: "USD",
         value: amount
       },
-      custom_id: user.email,
+      custom_id: user.id,
       application_context: {
         return_url: Exercism::Routes.paypal_pending_premium_url,
         cancel_url: Exercism::Routes.paypal_cancelled_premium_url

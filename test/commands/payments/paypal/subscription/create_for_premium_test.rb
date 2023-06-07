@@ -2,8 +2,8 @@ require_relative '../../test_base'
 
 class Payments::Paypal::Subscription::CreateForPremiumTest < Payments::TestBase
   [
-    [:monthly, '9.99', 'P-0TT41792VT226690TMR43JAQ'],
-    [:yearly, '99.99', 'P-7TW18726BH9867209MR43JIA']
+    [:month, '9.99', 'P-0TT41792VT226690TMR43JAQ'],
+    [:year, '99.99', 'P-7TW18726BH9867209MR43JIA']
   ].each do |(interval, amount_in_dollars, plan_id)|
     test "correctly creates #{interval} premium subscription" do
       user = create :user

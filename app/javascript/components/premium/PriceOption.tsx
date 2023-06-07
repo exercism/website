@@ -67,7 +67,11 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
   )
 }
 
-function PriceCard({ onStripeClick, paypalLink }: PriceCardProps): JSX.Element {
+function PriceCard({
+  onStripeClick,
+  paypalLink,
+  period,
+}: PriceCardProps): JSX.Element {
   type Subscription = {
     links: { approve: string }
   }
@@ -105,19 +109,31 @@ function PriceCard({ onStripeClick, paypalLink }: PriceCardProps): JSX.Element {
     },
     [mutation]
   )
+
   return (
     <div className="flex flex-row items-center justify-center gap-12">
       <button onClick={onStripeClick} className="btn-m btn-primary">
         <span>Debit/Credit Card</span>
       </button>
-      <button onClick={handlePaypalPayment} className="btn-m btn-secondary">
-        <GraphicalIcon
-          icon="paypal-light"
-          category="graphics"
-          className="!filter-none"
-        />
-        <span>PayPal</span>
-      </button>
+      {period === 'lifetime' ? (
+        <a href={paypalLink} className="btn-m btn-secondary">
+          <GraphicalIcon
+            icon="paypal-light"
+            category="graphics"
+            className="!filter-none"
+          />
+          <span>PayPal</span>
+        </a>
+      ) : (
+        <button onClick={handlePaypalPayment} className="btn-m btn-secondary">
+          <GraphicalIcon
+            icon="paypal-light"
+            category="graphics"
+            className="!filter-none"
+          />
+          <span>PayPal</span>
+        </button>
+      )}
     </div>
   )
 }

@@ -18,28 +18,18 @@ class Payments::Paypal::Payment::IPN::HandleWebAccept
   end
 
   private
+  memoize
+  def user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email, user_email:)
+
   def handle_completed
     return unless user
 
     Payments::Paypal::Payment::Create.(user, external_id, amount, product)
   end
 
-  memoize
-  def user
-    Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email, user_email:)
-  end
-
-  def handle_canceled_reversal
-    Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
-  end
-
-  def handle_refunded
-    Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
-  end
-
-  def handle_reversed
-    Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
-  end
+  def handle_canceled_reversal = Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
+  def handle_refunded = Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
+  def handle_reversed = Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
 
   def amount = payload["mc_gross"].to_f
   def external_id = payload["txn_id"]

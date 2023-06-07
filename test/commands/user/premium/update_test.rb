@@ -33,23 +33,25 @@ class User::Premium::UpdateTest < ActiveSupport::TestCase
     end
   end
 
-  test "non-insider with canceled monthly subscription and last payment less than a month ago gets premium without grace period" do
-    user = create :user, premium_until: nil
+  %i[canceled pending].each do |status|
+    test "non-insider with #{status} monthly subscription and last payment less than a month ago does not get premium" do
+      user = create :user, premium_until: nil
 
-    # Sanity check
-    refute user.premium?
+      # Sanity check
+      refute user.premium?
 
-    subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :month)
-    create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
-    create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
+      subscription = create(:payments_subscription, :premium, status:, user:, interval: :month)
+      create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
+      create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
 
-    User::Premium::Update.(user)
+      User::Premium::Update.(user)
 
-    assert_nil user.reload.premium_until
-    refute user.premium?
+      assert_nil user.reload.premium_until
+      refute user.premium?
+    end
   end
 
-  %i[active overdue canceled].each do |status|
+  %i[active overdue canceled pending].each do |status|
     test "non-insider with #{status} monthly subscription and last payment more than a month ago does not get premium" do
       user = create :user, premium_until: Time.current + 2.days
       subscription = create(:payments_subscription, :premium, status: :canceled, user:, interval: :month)

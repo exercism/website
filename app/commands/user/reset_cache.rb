@@ -22,9 +22,10 @@ class User::ResetCache
     #   })
     # )
 
-    user.data.reload
-    user.data.cache[key] = new_value
-    user.data.save!
+    user.data.with_lock do
+      user.data.cache[key] = new_value
+      user.data.save!
+    end
   end
 
   private

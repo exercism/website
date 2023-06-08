@@ -1,0 +1,49 @@
+#page-partners
+  %nav.c-header-with-bg.mb-32
+    .lg-container.flex.mt-24.mb-24
+      .content{ class: "max-w-[820px]" }
+        = graphical_icon "contributing-header", css_class: 'w-[64px] h-[64px] mb-16'
+        %h1.text-h1.mb-12 Exercism Perks: Offers from our Partners
+        %p.text-p-large.mb-16
+          As part of supporting Exercism's mission for equal access to education, organisations provide offers and perks to support our community. Explore and enjoy them below!
+        %p.text-p-large
+          = link_to "Upgrade to Premium", premium_path, class: 'font-semibold text-linkColor'
+          for even better Perks.
+      = graphical_icon "contributing-header", css_class: "w-[280px] h-[280px] ml-auto hidden md:block", category: :graphics
+      .decorations
+
+  .lg-container.mt-24.mb-24
+    .grid.grid-cols-3.gap-24
+      .offer
+        = image_tag "partners/packt.svg", alt: "Logo of Packt Publishing", class: 'logo'
+        %p.about Packt is the online library and learning platform for professional developers. Learn Python, JavaScript, Angular and more with eBooks, videos and courses.
+        %p.details
+          Get
+          %strong 50% off a Packt annual membership
+          with your Exercism account.
+        .flex.gap-12
+          = link_to "Claim 50% discount", "#", class: 'btn-m btn-primary'
+          = link_to "Learn more", "#", class: 'btn-m btn-enhanced'
+
+      .offer
+        = image_tag "partners/config-cat.svg", alt: "Logo of Config Cat", class: 'logo'
+        %p.about ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a reasonable price tag.
+        %p.details
+          Explore ConfigCat with
+          %strong a 3 month free trial
+          with your Exercism account.
+        .flex.gap-12
+          = link_to "Claim 3 month trial", "#", class: 'btn-m btn-primary'
+          = link_to "Learn more", "#", class: 'btn-m btn-enhanced'
+
+      .offer
+        = image_tag "partners/honeybadger.svg", alt: "Logo of Config Cat", class: 'logo'
+        %p.about Honeybadger is an application health monitoring tool built by developers for developers. Everything you need to keep production happy.
+        %p.details
+          Try Honeybadger
+          %strong for free for 2 months
+          with your Exercism account.
+        .flex.gap-12
+          = link_to "Claim 2 month trial", "#", class: 'btn-m btn-primary'
+          = link_to "Learn more", "#", class: 'btn-m btn-enhanced'
+

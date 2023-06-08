@@ -38,7 +38,7 @@ module ReactComponents
           period: 'lifetime',
           display_amount: ::Premium::LIFETIME_AMOUNT_IN_DOLLARS.to_i,
           payment_intent_type: 'payment',
-          paypal_link: "#{Exercism.config.paypal_url}/donate/?hosted_button_id=#{Exercism.secrets.paypal_lifetime_insiders_hosted_button_id}&custom=#{current_user&.email}" # rubocop:disable Layout/LineLength
+          paypal_link: "#{Exercism.config.paypal_url}/donate/?hosted_button_id=#{Exercism.secrets.paypal_lifetime_insiders_hosted_button_id}&custom=#{current_user&.id}" # rubocop:disable Layout/LineLength
         }
       end
     end

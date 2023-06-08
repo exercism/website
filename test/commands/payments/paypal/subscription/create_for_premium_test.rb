@@ -21,7 +21,7 @@ class Payments::Paypal::Subscription::CreateForPremiumTest < Payments::TestBase
           currency_code: "USD",
           value: amount_in_dollars
         },
-        custom_id: user.email,
+        custom_id: user.id,
         application_context: {
           return_url: "https://test.exercism.org/premium/paypal_pending",
           cancel_url: "https://test.exercism.org/premium/paypal_cancelled"

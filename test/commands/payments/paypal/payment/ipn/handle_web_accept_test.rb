@@ -12,7 +12,7 @@ class Payments::Paypal::Payment::IPN::HandleWebAcceptTest < Payments::TestBase
         "txn_id" => payment_id,
         "txn_type" => "web_accept",
         "payment_status" => "Completed",
-        "payer_email" => user.email,
+        "payer_email" => "unknown@test.org",
         "payer_id" => paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
         "item_name" => Exercism.secrets.paypal_donation_product_name
@@ -42,14 +42,14 @@ class Payments::Paypal::Payment::IPN::HandleWebAcceptTest < Payments::TestBase
     freeze_time do
       payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
-      user = create(:user, paypal_payer_id:)
+      user = create(:user)
       amount_in_dollars = 15
       amount_in_cents = amount_in_dollars * 100
       payload = {
         "txn_id" => payment_id,
         "txn_type" => "web_accept",
         "payment_status" => "Completed",
-        "payer_email" => "unknown@test.org",
+        "payer_email" => user.email,
         "payer_id" => paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
         "item_name" => Exercism.secrets.paypal_donation_product_name
@@ -87,7 +87,7 @@ class Payments::Paypal::Payment::IPN::HandleWebAcceptTest < Payments::TestBase
         "payer_id" => paypal_payer_id,
         "mc_gross" => "#{amount_in_dollars}.0",
         "item_name" => Exercism.secrets.paypal_donation_product_name,
-        "custom" => user.email
+        "custom" => user.id
       }
 
       Payments::Paypal::Payment::IPN::HandleWebAccept.(payload)

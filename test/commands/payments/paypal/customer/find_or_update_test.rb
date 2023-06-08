@@ -12,13 +12,11 @@ class Payments::Paypal::Customer::FindOrUpdateTest < Payments::TestBase
   end
 
   test "updates existing user with matching user email" do
-    email = "#{SecureRandom.uuid}@bar.com"
     paypal_payer_id = SecureRandom.uuid
-    paypal_email = "#{SecureRandom.uuid}@foo.com"
 
-    user = create(:user, email:)
+    user = create(:user)
 
-    found_user = Payments::Paypal::Customer::FindOrUpdate.(paypal_payer_id, paypal_email, user_email: email)
+    found_user = Payments::Paypal::Customer::FindOrUpdate.(paypal_payer_id, nil, user_id: user.id)
 
     assert_equal user, found_user
     assert_equal paypal_payer_id, found_user.paypal_payer_id

@@ -1,8 +1,6 @@
 require_relative '../test_base'
 
 class Payments::Paypal::RequestAccessTokenTest < Payments::TestBase
-  def setup = Rails.cache.clear(Payments::Paypal::RequestAccessToken::CACHE_KEY)
-
   test "gets access token" do
     freeze_time do
       access_token = SecureRandom.uuid
@@ -18,44 +16,6 @@ class Payments::Paypal::RequestAccessTokenTest < Payments::TestBase
       token = Payments::Paypal::RequestAccessToken.()
 
       assert_equal access_token, token
-    end
-  end
-
-  test "caches access token until just before expiry time" do
-    freeze_time do
-      access_token = SecureRandom.uuid
-      expires_in = 90.seconds
-
-      stub_request(:post, "https://api-m.sandbox.paypal.com/v1/oauth2/token").
-        with(
-          body: { "grant_type" => "client_credentials" },
-          headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
-        ).
-        to_return(status: 200, body: { access_token:, expires_in: }.to_json, headers: {})
-
-      Payments::Paypal::RequestAccessToken.()
-
-      new_access_token = SecureRandom.uuid
-      stub_request(:post, "https://api-m.sandbox.paypal.com/v1/oauth2/token").
-        with(
-          body: { "grant_type" => "client_credentials" },
-          headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
-        ).
-        to_return(status: 200, body: { access_token: new_access_token, expires_in: }.to_json, headers: {})
-
-      assert_equal access_token, Payments::Paypal::RequestAccessToken.()
-
-      travel_to Time.current + expires_in - 11.seconds
-      assert_equal access_token, Payments::Paypal::RequestAccessToken.()
-
-      travel_to Time.current + expires_in - 10.seconds
-      assert_equal new_access_token, Payments::Paypal::RequestAccessToken.()
-
-      travel_to Time.current + expires_in
-      assert_equal new_access_token, Payments::Paypal::RequestAccessToken.()
-
-      travel_to Time.current + expires_in + 1.second
-      assert_equal new_access_token, Payments::Paypal::RequestAccessToken.()
     end
   end
 end

@@ -1,17 +1,9 @@
 class Payments::Paypal::RequestAccessToken
   include Mandate
 
-  CACHE_KEY = :paypal_access_token
-
   def call
-    access_token = Rails.cache.read(CACHE_KEY)
-    return access_token if access_token.present?
-
     token = request_token!
-    token[:access_token].tap do |new_access_token|
-      expires_in = token[:expires_in].to_i - EXPIRY_TIME_OFFSET
-      Rails.cache.write(CACHE_KEY, new_access_token, expires_in:)
-    end
+    token[:access_token]
   end
 
   private
@@ -31,7 +23,4 @@ class Payments::Paypal::RequestAccessToken
   end
 
   def basic_credentials = Base64.strict_encode64("#{Exercism.secrets.paypal_client_id}:#{Exercism.secrets.paypal_client_secret}")
-
-  EXPIRY_TIME_OFFSET = 10.seconds
-  private_constant :EXPIRY_TIME_OFFSET
 end

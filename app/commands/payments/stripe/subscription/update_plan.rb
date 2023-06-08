@@ -16,6 +16,7 @@ class Payments::Stripe::Subscription::UpdatePlan
       }]
     )
 
+    subscription.update(interval:)
     Payments::Subscription::UpdateAmount.(subscription, amount_in_cents)
   end
 

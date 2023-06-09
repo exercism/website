@@ -34,10 +34,7 @@ class Solution::Publish
   end
 
   def award_badges!
-    %i[functional_february mechanical_march analytical_april
-       mind_shifting_may summer_of_sexps].each do |badge|
-      AwardBadgeJob.perform_later(solution.user, badge)
-    end
+    BADGES.each { |badge| AwardBadgeJob.perform_later(solution.user, badge) }
   end
 
   def record_activity!
@@ -61,4 +58,8 @@ class Solution::Publish
   end
 
   delegate :exercise, to: :solution
+
+  BADGES = %i[functional_february mechanical_march analytical_april
+              mind_shifting_may summer_of_sexps jurassic_july].freeze
+  private_constant :BADGES
 end

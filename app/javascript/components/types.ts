@@ -479,8 +479,8 @@ export type Representation = {
   feedbackAddedAt: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean
-  author: string
-  editor: string
+  feedbackAuthor: { handle: string }
+  feedbackEditor: { handle: string }
   links: { edit?: string; update?: string; self?: string }
 }
 

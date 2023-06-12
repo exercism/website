@@ -20,6 +20,8 @@ class SerializeExerciseRepresentations
     delegate :exercise, :track, to: :representation
 
     def call
+      user_ids = [representation.feedback_author_id, representation.feedback_editor_id].compact
+      user_handles = user_ids.present? ? User.where(id: user_ids).pluck(:id, :handle).to_h : {}
       {
         id: representation.id,
         exercise: {
@@ -32,8 +34,8 @@ class SerializeExerciseRepresentations
         },
         num_submissions: representation.num_submissions,
         appears_frequently: representation.appears_frequently?,
-        author: User.where(id: representation.feedback_author_id).pick(:handle),
-        editor: User.where(id: representation.feedback_editor_id).pick(:handle),
+        author: user_handles[representation.feedback_author_id],
+        editor: user_handles[representation.feedback_editor_id],
         feedback_added_at: representation.feedback_added_at,
         feedback_html: representation.feedback_html,
         last_submitted_at: representation.last_submitted_at,

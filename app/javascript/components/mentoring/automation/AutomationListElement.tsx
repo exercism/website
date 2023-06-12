@@ -76,7 +76,7 @@ export const AutomationListElement = ({
       {isAdminTab && (
         <>
           <div className="flex w-[100px] gap-8">
-            {representation.feedbackAuthor && (
+            {representation.feedbackAuthor?.handle && (
               <>
                 <GraphicalIcon
                   height={14}
@@ -84,12 +84,12 @@ export const AutomationListElement = ({
                   icon="authoring"
                   className="filter-textColor6"
                 />
-                <span>{representation.feedbackAuthor.handle}</span>
+                <span>{representation.feedbackAuthor?.handle}</span>
               </>
             )}
           </div>
           <div className="flex w-[100px] gap-8 mr-60">
-            {representation.feedbackEditor && (
+            {representation.feedbackEditor?.handle && (
               <>
                 <GraphicalIcon
                   height={14}
@@ -97,7 +97,7 @@ export const AutomationListElement = ({
                   icon="edit"
                   className="filter-textColor6"
                 />
-                <span>{representation.feedbackEditor.handle}</span>
+                <span>{representation.feedbackEditor?.handle}</span>
               </>
             )}
           </div>

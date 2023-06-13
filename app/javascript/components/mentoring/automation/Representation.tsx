@@ -26,11 +26,9 @@ export type AutomationProps = {
   representationsRequest: Request
   sortOptions: SortOption[]
   selectedTab: SelectedTab
-  representationsWithoutFeedbackCount?: number
-  representationsWithFeedbackCount?: number
-  allRepresentationsWithFeedbackCount?: number
   trackCacheKey: string
   isIntroducerHidden: boolean
+  counts: Record<'admin' | 'withFeedback' | 'withoutFeedback', number>
 }
 
 export function Representations({
@@ -39,9 +37,7 @@ export function Representations({
   links,
   representationsRequest,
   selectedTab,
-  allRepresentationsWithFeedbackCount,
-  representationsWithoutFeedbackCount,
-  representationsWithFeedbackCount,
+  counts,
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
@@ -50,7 +46,6 @@ export function Representations({
     ? 'submission'
     : 'request'
   const {
-    feedbackCount,
     checked,
     handleTrackChange,
     isFetching,
@@ -69,15 +64,7 @@ export function Representations({
     trackListStatus,
     tracks,
     criteria,
-  } = useAutomation(
-    representationsRequest,
-    allRepresentationsWithFeedbackCount,
-    representationsWithFeedbackCount,
-    representationsWithoutFeedbackCount,
-    tracksRequest,
-    trackCacheKey,
-    selectedTab
-  )
+  } = useAutomation(representationsRequest, tracksRequest, trackCacheKey)
 
   // timeout is stored in a useRef, so it can be cancelled
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,9 +96,7 @@ export function Representations({
           >
             <a href={links.withoutFeedback}>Need feedback</a>
             {resolvedData ? (
-              <div className="count">
-                {feedbackCount['without_feedback']?.toLocaleString()}
-              </div>
+              <div className="count">{counts.withoutFeedback}</div>
             ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
@@ -121,9 +106,7 @@ export function Representations({
           >
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
-              <div className="count">
-                {feedbackCount['with_feedback']?.toLocaleString()}
-              </div>
+              <div className="count">{counts.withFeedback}</div>
             ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
@@ -132,11 +115,7 @@ export function Representations({
             setStatus={() => null}
           >
             <a href={links.admin}>Admin</a>
-            {resolvedData ? (
-              <div className="count">
-                {feedbackCount['all_with_feedback']?.toLocaleString()}
-              </div>
-            ) : null}
+            {resolvedData ? <div className="count">{counts.admin}</div> : null}
           </StatusTab>
         </div>
         {!withFeedback && (

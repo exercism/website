@@ -1,10 +1,4 @@
-import {
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { SetStateAction, useCallback, useEffect, useState } from 'react'
 import {
   ListState,
   useList,
@@ -14,7 +8,6 @@ import {
   removeEmpty,
 } from '@/hooks'
 import { useTrackList } from '../queue/useTrackList'
-import { SelectedTab } from './Representation'
 import type { QueryStatus } from 'react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
 
@@ -49,11 +42,6 @@ type returnMentoringAutomation = {
   trackListStatus: QueryStatus
   trackListError: unknown
   isTrackListFetching: boolean
-  feedbackCount: {
-    all_with_feedback: number | undefined
-    with_feedback: number | undefined
-    without_feedback: number | undefined
-  }
 }
 
 const initialTrackData: AutomationTrack = {
@@ -65,12 +53,8 @@ const initialTrackData: AutomationTrack = {
 
 export function useAutomation(
   representationsRequest: Request,
-  allRepresentationsWithFeedbackCount: number | undefined,
-  representationsWithFeedbackCount: number | undefined,
-  representationsWithoutFeedbackCount: number | undefined,
   tracksRequest: Request,
-  cacheKey: string,
-  selectedTab: SelectedTab
+  cacheKey: string
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
@@ -133,7 +117,7 @@ export function useAutomation(
   // Automatically set a selected track based on query or the lack of it
   useEffect(() => {
     // don't repeat `find` on track change, only when page loads
-    if (tracks.length > 0 && selectedTrack === initialTrackData) {
+    if (tracks?.length > 0 && selectedTrack === initialTrackData) {
       const foundTrack = tracks.find(
         (t: AutomationTrack) => t.slug == request.query.trackSlug
       )
@@ -156,50 +140,6 @@ export function useAutomation(
     [request.query, setPage, setQuery]
   )
 
-  // Get the proper count number of automation requests for tabs
-  const getFeedbackCount = useCallback(
-    (selectedTab: SelectedTab) => {
-      if (resolvedData) {
-        switch (selectedTab) {
-          case 'with_feedback':
-            return {
-              all_with_feedback: allRepresentationsWithFeedbackCount,
-              with_feedback: resolvedData.meta.totalCount,
-              without_feedback: representationsWithoutFeedbackCount,
-            }
-          case 'without_feedback':
-            return {
-              all_with_feedback: allRepresentationsWithFeedbackCount,
-              with_feedback: representationsWithFeedbackCount,
-              without_feedback: resolvedData.meta.totalCount,
-            }
-          case 'admin':
-            return {
-              all_with_feedback: resolvedData.meta.totalCount,
-              with_feedback: representationsWithFeedbackCount,
-              without_feedback: representationsWithoutFeedbackCount,
-            }
-        }
-      } else
-        return {
-          all_with_feedback: 0,
-          with_feedback: 0,
-          without_feedback: 0,
-        }
-    },
-    [
-      allRepresentationsWithFeedbackCount,
-      representationsWithFeedbackCount,
-      representationsWithoutFeedbackCount,
-      resolvedData,
-    ]
-  )
-
-  const feedbackCount = useMemo(
-    () => getFeedbackCount(selectedTab),
-    [getFeedbackCount, selectedTab]
-  )
-
   return {
     handleTrackChange,
     handleOnlyMentoredSolutions,
@@ -220,7 +160,6 @@ export function useAutomation(
     isTrackListFetching,
     criteria,
     setCriteria,
-    feedbackCount,
     request,
   }
 }

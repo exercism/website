@@ -12,8 +12,7 @@ module ReactComponents
               tracks_request:,
               links:,
               sort_options: SORT_OPTIONS,
-              representations_without_feedback_count:,
-              representations_with_feedback_count:,
+              counts:,
               is_introducer_hidden:
             }
           )
@@ -44,15 +43,7 @@ module ReactComponents
 
         def representations = AssembleExerciseRepresentationsAdmin.(mentor, representations_request_params)
 
-        def representations_without_feedback_count
-          Exercise::Representation::Search.(mentor:, mode: :without_feedback, sorted: false, paginated: false,
-            track: ::Track.where(slug: track_slugs)).count
-        end
-
-        def representations_with_feedback_count
-          Exercise::Representation::Search.(mentor:, mode: :with_feedback, sorted: false, paginated: false,
-            track: ::Track.where(slug: track_slugs)).count
-        end
+        def counts = Exercise::Representation::CalculateCounts.(mentor, track_ids)
 
         def tracks_request
           {
@@ -69,6 +60,9 @@ module ReactComponents
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }
+
+        memoize
+        def track_ids = tracks.map { |track| track[:id] }
 
         def links
           {

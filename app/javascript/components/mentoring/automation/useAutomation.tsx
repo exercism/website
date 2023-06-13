@@ -144,19 +144,11 @@ export function useAutomation(
   // If only_mentored_solutions === null or undefined remove it completely from query obj and query string
   const handleOnlyMentoredSolutions = useCallback(
     (checked) => {
-      const queryObject: { onlyMentoredSolutions?: true } = {}
+      const queryObject = { ...request.query }
       if (checked) {
-        Object.assign(queryObject, {
-          ...request.query,
-          onlyMentoredSolutions: true,
-        })
-      } else {
-        Object.assign(queryObject, {
-          ...request.query,
-          onlyMentoredSolutions: false,
-        })
-        delete queryObject.onlyMentoredSolutions
-      }
+        queryObject.onlyMentoredSolutions = true
+      } else delete queryObject.onlyMentoredSolutions
+
       setQuery(queryObject)
       setPage(1)
       setChecked((checked) => !checked)

@@ -34,6 +34,7 @@ module ReactComponents
         memoize
         def representations_request_params
           {
+            only_mentored_solutions: params[:only_mentored_solutions],
             criteria: params.fetch(:criteria, ''),
             track_slug: params.fetch(:track_slug, track_slugs.first),
             order: params[:order],
@@ -41,7 +42,7 @@ module ReactComponents
           }.compact
         end
 
-        def representations = AssembleExerciseRepresentationsAdmin.(representations_request_params)
+        def representations = AssembleExerciseRepresentationsAdmin.(mentor, representations_request_params)
 
         def representations_without_feedback_count
           Exercise::Representation::Search.(mentor:, with_feedback: false, sorted: false, paginated: false,
@@ -64,7 +65,7 @@ module ReactComponents
         end
 
         memoize
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true)
+        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: true, is_admin: true)
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }

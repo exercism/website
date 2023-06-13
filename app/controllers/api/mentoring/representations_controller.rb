@@ -21,7 +21,7 @@ module API
     end
 
     def admin
-      render json: AssembleExerciseRepresentationsAdmin.(admin_params)
+      render json: AssembleExerciseRepresentationsAdmin.(current_user, admin_params)
     end
 
     def tracks_without_feedback

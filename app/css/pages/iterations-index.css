@@ -75,7 +75,7 @@
             & .content {
                 @apply flex-grow;
                 @apply flex items-stretch;
-                @apply border-t-1 border-borderLight border-opacity-40;
+                @apply border-t-1 border-borderColor7;
                 @apply mb-32;
                 max-height: calc(95vh - 80px);
 

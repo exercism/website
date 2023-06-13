@@ -43,7 +43,7 @@ module ReactComponents
 
         def representations = AssembleExerciseRepresentationsAdmin.(mentor, representations_request_params)
 
-        def counts = Exercise::Representation::CalculateCounts.(mentor, Track.where(slug: track_slugs))
+        def counts = Exercise::Representation::CalculateCounts.(mentor, ::Track.where(slug: track_slugs))
 
         def tracks_request
           {

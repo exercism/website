@@ -25,7 +25,7 @@ class AssembleExerciseRepresentationsAdmin
       with_feedback: true,
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
-      order: params.fetch(:order, :feedback_added_at_desc)
+      order: params.fetch(:order, :most_recent_feedback)
     )
   end
 

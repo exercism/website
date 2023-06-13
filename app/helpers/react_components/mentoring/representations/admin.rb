@@ -81,8 +81,8 @@ module ReactComponents
         def is_introducer_hidden = mentor.introducer_dismissed?(INTRODUCER_SLUG)
 
         SORT_OPTIONS = [
-          { value: :feedback_added_at_desc, label: 'Most recent feedbacks' },
-          { value: :feedback_added_at_asc, label: 'Least recent feedbacks' }
+          { value: :most_recent_feedback, label: 'Most recent feedbacks' },
+          { value: :least_recent_feedback, label: 'Least recent feedbacks' }
         ].freeze
         INTRODUCER_SLUG = 'feedback_automation'.freeze
         private_constant :SORT_OPTIONS, :INTRODUCER_SLUG

@@ -65,9 +65,9 @@ class Exercise::Representation::Search
       @representations = @representations.order(last_submitted_at: :desc)
     when :most_submissions
       @representations = @representations.order(num_submissions: :desc)
-    when :feedback_added_at_desc
+    when :most_recent_feedback
       @representations = @representations.order(feedback_added_at: :desc)
-    when :feedback_added_at_asc
+    when :least_recent_feedback
       @representations = @representations.order(feedback_added_at: :asc)
     end
   end

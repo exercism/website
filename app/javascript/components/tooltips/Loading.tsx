@@ -7,7 +7,7 @@ export const Loading = ({ alt }: { alt: string }): JSX.Element | null => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsShowing(true)
-    }, 200)
+    }, 50)
 
     return () => clearTimeout(timer)
   }, [])

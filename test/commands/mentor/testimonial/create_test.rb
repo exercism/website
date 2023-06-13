@@ -17,11 +17,12 @@ class Mentor::Testimonial::CreateTest < ActiveSupport::TestCase
   end
 
   test "resets cache" do
-    discussion = create :mentor_discussion
+    mentor = create :user
+    discussion = create(:mentor_discussion, mentor:)
     content = "Such a lovely chat"
 
-    User::ResetCache.expects(:defer).with(discussion.mentor)
-
-    Mentor::Testimonial::Create.(discussion, content)
+    assert_user_data_cache_reset(mentor, :has_unrevealed_testimonials?, true) do
+      Mentor::Testimonial::Create.(discussion, content)
+    end
   end
 end

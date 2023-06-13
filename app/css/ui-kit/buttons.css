@@ -72,7 +72,7 @@
     .btn-secondary {
         @apply btn-i-filled;
         color: var(--colorPurpleToBrightPurple);
-        @apply bg-backgroundColorF;
+        background: var(--backgroundColorBtnSecondary);
 
         @apply border-1;
         border-color: var(--colorPurpleToBrightPurple);

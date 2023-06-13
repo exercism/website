@@ -5,7 +5,7 @@
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
     @apply relative z-tooltip;
 
-    max-width: 460px;
+    width: 460px;
 
     /* TODO: add fade in transition for opacity */
 
@@ -43,7 +43,7 @@
         }
     }
     & .blurb {
-        @apply text-15 leading-160;
+        @apply text-15 leading-160 text-textColor6;
     }
 
     & .info {
@@ -62,6 +62,7 @@
             & .c-icon {
                 width: 12px;
                 height: 12px;
+                @apply filter-textColor6;
             }
         }
     }
@@ -71,12 +72,12 @@
         & .icon {
             @apply bg-lockedColor;
             & .c-icon {
-                filter: var(--textColor3-gray-filter);
+                @apply filter-textColor6;
             }
         }
     }
     & .available {
-        @apply text-textColor1 font-semibold;
+        @apply text-textColor1 font-semibold whitespace-nowrap;
         & .icon {
             @apply shadow-none;
         }

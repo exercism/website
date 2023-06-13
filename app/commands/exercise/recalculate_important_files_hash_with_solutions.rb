@@ -13,17 +13,27 @@ class Exercise
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
         exercise.update!(git_important_files_hash: new_git_important_files_hash)
 
-        Solution.
-          where(exercise:, git_important_files_hash: old_git_important_files_hash).
-          update_all(git_important_files_hash: new_git_important_files_hash)
+        loop do
+          num_results = Solution.where(exercise:, git_important_files_hash: old_git_important_files_hash).
+            limit(BATCH_UPDATE_SIZE).
+            update_all(git_important_files_hash: new_git_important_files_hash)
+          break if num_results < BATCH_UPDATE_SIZE
+        end
 
-        Submission.
-          where(exercise:, git_important_files_hash: old_git_important_files_hash).
-          update_all(git_important_files_hash: new_git_important_files_hash)
+        loop do
+          num_results = Submission.where(exercise:, git_important_files_hash: old_git_important_files_hash).
+            limit(BATCH_UPDATE_SIZE).
+            update_all(git_important_files_hash: new_git_important_files_hash)
+          break if num_results < BATCH_UPDATE_SIZE
+        end
 
-        Submission::TestRun.joins(:submission).
-          where(submissions: { exercise: }, git_important_files_hash: old_git_important_files_hash).
-          update_all(git_important_files_hash: new_git_important_files_hash)
+        loop do
+          num_results = Submission::TestRun.joins(:submission).where(submissions: { exercise: },
+            git_important_files_hash: old_git_important_files_hash).
+            limit(BATCH_UPDATE_SIZE).
+            update_all(git_important_files_hash: new_git_important_files_hash)
+          break if num_results < BATCH_UPDATE_SIZE
+        end
       end
     end
 
@@ -37,5 +47,8 @@ class Exercise
     def old_git_important_files_hash
       exercise.git_important_files_hash
     end
+
+    BATCH_UPDATE_SIZE = 1000
+    private_constant :BATCH_UPDATE_SIZE
   end
 end

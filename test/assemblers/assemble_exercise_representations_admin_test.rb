@@ -20,23 +20,26 @@ class AssembleExerciseRepresentationsAdminTest < ActiveSupport::TestCase
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsAdmin.(params)
+    assert_equal expected, AssembleExerciseRepresentationsAdmin.(user, params)
   end
 
   test "should proxy correctly" do
     track = create :track
+    user = create :user
     criteria = 'bob'
-    order = 'num_submissions'
+    order = 'most_recent_feedback'
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
-      mode: :with_feedback,
+      mentor: user,
       track:,
+      mode: :admin,
+      only_mentored_solutions: nil,
+      criteria:,
       page:,
-      order:,
-      criteria:
+      order:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsAdmin.({ track_slug: track.slug, criteria:, order:, page: })
+    AssembleExerciseRepresentationsAdmin.(user, { track_slug: track.slug, criteria:, order:, page: })
   end
 end

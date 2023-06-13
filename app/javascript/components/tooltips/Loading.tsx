@@ -13,6 +13,6 @@ export const Loading = ({ alt }: { alt: string }): JSX.Element | null => {
   }, [])
 
   return isShowing ? (
-    <Icon icon="spinner" alt={alt} className="--spinner" />
+    <Icon icon="spinner" alt={alt} className="c-tooltip-spinner" />
   ) : null
 }

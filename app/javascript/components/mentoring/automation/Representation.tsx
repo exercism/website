@@ -46,6 +46,9 @@ export function Representations({
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
   const withFeedback = selectedTab === 'with_feedback'
+  const trackCountText = ['with_feedback', 'admin'].includes(selectedTab)
+    ? 'submission'
+    : 'request'
   const {
     feedbackCount,
     checked,
@@ -152,7 +155,7 @@ export function Representations({
             status={trackListStatus}
             error={trackListError}
             tracks={tracks}
-            countText={withFeedback ? 'submission' : 'request'}
+            countText={trackCountText}
             isFetching={isTrackListFetching}
             cacheKey={trackCacheKey}
             value={selectedTrack}

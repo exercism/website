@@ -23,7 +23,7 @@ class AssembleExerciseRepresentationsWithoutFeedback
     Exercise::Representation::Search.(
       mentor:,
       track:,
-      with_feedback: false,
+      mode: :without_feedback,
       only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),

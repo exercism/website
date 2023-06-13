@@ -1,7 +1,7 @@
 class AssembleRepresentationTracksForSelect
   include Mandate
 
-  initialize_with :mentor, with_feedback: Mandate::NO_DEFAULT, is_admin: false
+  initialize_with :mentor, mode: Mandate::NO_DEFAULT
 
   def call
     tracks.map do |track|
@@ -22,8 +22,7 @@ class AssembleRepresentationTracksForSelect
 
   memoize
   def track_num_representations
-    num_representations_mentor = is_admin ? nil : mentor
-    Exercise::Representation::Search.(mentor: num_representations_mentor, with_feedback:, sorted: false, paginated: false,
+    Exercise::Representation::Search.(mentor:, mode:, sorted: false, paginated: false,
       track: supermentored_tracks).
       group(:track_id).
       count

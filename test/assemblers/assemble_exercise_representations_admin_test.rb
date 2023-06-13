@@ -30,7 +30,7 @@ class AssembleExerciseRepresentationsAdminTest < ActiveSupport::TestCase
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
-      with_feedback: true,
+      mode: :with_feedback,
       track:,
       page:,
       order:,

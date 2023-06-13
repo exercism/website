@@ -22,7 +22,7 @@ class AssembleExerciseRepresentationsAdmin
     Exercise::Representation::Search.(
       mentor: nil,
       track:,
-      with_feedback: true,
+      mode: :admin,
       only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),

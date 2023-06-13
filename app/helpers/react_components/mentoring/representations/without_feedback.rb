@@ -47,12 +47,12 @@ module ReactComponents
         end
 
         def representations_with_feedback_count
-          Exercise::Representation::Search.(mentor:, with_feedback: true, sorted: false, paginated: false,
+          Exercise::Representation::Search.(mentor:, mode: :with_feedback, sorted: false, paginated: false,
             track: ::Track.where(slug: track_slugs)).count
         end
 
         def all_representations_with_feedback_count
-          Exercise::Representation::Search.(mentor: nil, with_feedback: true, sorted: false, paginated: false,
+          Exercise::Representation::Search.(mentor:, mode: :admin, sorted: false, paginated: false,
             track: ::Track.where(slug: track_slugs)).count
         end
 
@@ -67,7 +67,7 @@ module ReactComponents
         end
 
         memoize
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, with_feedback: false)
+        def tracks = AssembleRepresentationTracksForSelect.(mentor, mode: :without_feedback)
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }

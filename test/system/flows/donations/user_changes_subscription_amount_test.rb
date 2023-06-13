@@ -21,8 +21,7 @@ module Flows
                 product: Exercism.secrets.stripe_recurring_product_id,
                 recurring: { interval: "month" }
               }
-            }],
-            proration_behavior: "none"
+            }]
           }).
           to_return(status: 200, body: {}.to_json)
         user = create :user, active_donation_subscription: true

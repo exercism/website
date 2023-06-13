@@ -22,8 +22,7 @@ class Payments::Stripe::Subscription::UpdateAmountTest < Payments::TestBase
             interval: 'month'
           }
         }
-      }],
-      proration_behavior: 'none'
+      }]
     )
 
     Payments::Stripe::Subscription::UpdateAmount.(subscription, amount_in_cents)

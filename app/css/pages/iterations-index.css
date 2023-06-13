@@ -43,7 +43,6 @@
             & .header {
                 & .--summary-inner {
                     @apply flex items-center py-12 px-24;
-                    @apply border-b-1 border-borderLight border-opacity-50;
                     .c-icon {
                         @apply filter-textColor6;
                     }
@@ -76,6 +75,7 @@
             & .content {
                 @apply flex-grow;
                 @apply flex items-stretch;
+                @apply border-t-1 border-borderLight border-opacity-40;
                 @apply mb-32;
                 max-height: calc(95vh - 80px);
 
@@ -90,7 +90,7 @@
 
                 & .information {
                     @apply w-1-3 flex-grow-0 flex-shrink-0;
-                    @apply border-l-1 border-borderLight;
+                    @apply border-l-1 border-borderColor7;
                     @apply flex flex-col;
 
                     & .tabs {

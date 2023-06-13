@@ -1,7 +1,7 @@
 class AssembleExerciseRepresentationsAdmin
   include Mandate
 
-  def self.keys = %i[page order criteria track_slug]
+  def self.keys = %i[page order criteria track_slug only_mentored_solutions]
 
   initialize_with :mentor, :params
 
@@ -23,6 +23,7 @@ class AssembleExerciseRepresentationsAdmin
       mentor: nil,
       track:,
       with_feedback: true,
+      only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_recent_feedback)

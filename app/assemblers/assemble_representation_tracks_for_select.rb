@@ -20,15 +20,10 @@ class AssembleRepresentationTracksForSelect
     Track.where(id: mentor.track_mentorships.supermentor_frequency.select(:track_id)).order(title: :asc)
   end
 
-  def current_mentor
-    return nil if is_admin
-
-    mentor
-  end
-
   memoize
   def track_num_representations
-    Exercise::Representation::Search.(mentor: current_mentor, with_feedback:, sorted: false, paginated: false,
+    num_representations_mentor = is_admin ? nil : mentor
+    Exercise::Representation::Search.(mentor: num_representations_mentor, with_feedback:, sorted: false, paginated: false,
       track: supermentored_tracks).
       group(:track_id).
       count

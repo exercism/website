@@ -151,6 +151,10 @@ export function useAutomation(
           onlyMentoredSolutions: true,
         })
       } else {
+        Object.assign(queryObject, {
+          ...request.query,
+          onlyMentoredSolutions: false,
+        })
         delete queryObject.onlyMentoredSolutions
       }
       setQuery(queryObject)

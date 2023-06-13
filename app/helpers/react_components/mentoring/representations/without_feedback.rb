@@ -45,7 +45,7 @@ module ReactComponents
           AssembleExerciseRepresentationsWithoutFeedback.(mentor, representations_request_params)
         end
 
-        def counts = Exercise::Representation::CalculateCounts.(mentor, track_ids)
+        def counts = Exercise::Representation::CalculateCounts.(mentor, Track.where(slug: track_slugs))
 
         def tracks_request
           {
@@ -62,9 +62,6 @@ module ReactComponents
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }
-
-        memoize
-        def track_ids = tracks.map { |track| track[:id] }
 
         def links
           {

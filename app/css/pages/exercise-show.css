@@ -306,7 +306,7 @@
         }
 
         & a.iteration {
-            @apply rounded-8 shadow-sm border-1 border-borderLight;
+            @apply rounded-8 shadow-sm border-1 border-borderColor5;
             @apply py-8 px-24 mb-16;
             @apply flex items-center;
 
@@ -449,11 +449,15 @@
             }
         }
         & h4 {
-            @apply text-label-code-caps mb-12;
+            @apply text-label-code-caps mb-12 text-textColor6;
         }
 
         & .editor-btn {
             @apply mb-16;
+        }
+
+        .c-copy-text-to-clipboard {
+            @apply border-btnBorder;
         }
 
         & .c-cli-walkthrough-button {
@@ -467,7 +471,7 @@
         }
 
         & .complete {
-            @apply mb-24 pb-20 border-b-1 border-borderLight;
+            @apply mb-24 pb-20 border-b-1 border-borderColor5;
 
             & button {
                 @apply w-100;

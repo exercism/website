@@ -28,16 +28,19 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     create :user_track_mentorship, user:, track: javascript, num_finished_discussions: 100
     create :user_track_mentorship, user:, track: ruby, num_finished_discussions: 100
 
-    expected = [
-      { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
-      { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 },
-      { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
-      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(user, mode: :with_feedback)
+    expected = {
+      tracks: [
+        { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
+        { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 },
+        { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
+        { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
+      ],
+      representation_count: 7
+    }
+    assert_equal expected, AssembleRepresentationContext.(user)[:with_feedback]
   end
 
-  test "mode: without_feedback" do
+  test "without_feedback" do
     user = create :user
     track = create :track, :random_slug
     exercise = create(:practice_exercise, track:)
@@ -48,13 +51,16 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
 
     create :user_track_mentorship, user:, track:, num_finished_discussions: 100
 
-    expected = [
-      { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(user, mode: :without_feedback)
+    expected = {
+      tracks: [
+        { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
+      ],
+      representation_count: 2
+    }
+    assert_equal expected, AssembleRepresentationContext.(user)[:without_feedback]
   end
 
-  test "mode: with_feedback" do
+  test "with_feedback" do
     user_1 = create :user
     user_2 = create :user
     track = create :track, :random_slug
@@ -67,13 +73,16 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
 
     create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
 
-    expected = [
-      { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(user_1, mode: :with_feedback)
+    expected = {
+      tracks: [
+        { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
+      ],
+      representation_count: 2
+    }
+    assert_equal expected, AssembleRepresentationContext.(user_1)[:with_feedback]
   end
 
-  test "mode: admin" do
+  test "admin" do
     user_1 = create :user
     user_2 = create :user
     track = create :track, :random_slug
@@ -86,10 +95,13 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
 
     create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
 
-    expected = [
-      { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 3 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(user_1, mode: :admin)
+    expected = {
+      tracks: [
+        { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 3 }
+      ],
+      representation_count: 3
+    }
+    assert_equal expected, AssembleRepresentationContext.(user_1)[:admin]
   end
 
   test "only considers representations with > 1 submissions" do
@@ -104,10 +116,13 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
 
     create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
 
-    expected = [
-      { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(user_1, mode: :with_feedback)
+    expected = {
+      tracks: [
+        { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
+      ],
+      representation_count: 2
+    }
+    assert_equal expected, AssembleRepresentationContext.(user_1)[:with_feedback]
   end
 
   test "only considers tracks where user has mentored 100 or more solutions" do
@@ -145,18 +160,24 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     # Sanity check: ignore track with enough finished discussion but by other user
     create :user_track_mentorship, user: other_user, track: javascript, num_finished_discussions: 222
 
-    expected = [
-      { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
-      { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(mentor, mode: :with_feedback)
+    expected = {
+      tracks: [
+        { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
+        { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
+      ],
+      representation_count: 4
+    }
+    assert_equal expected, AssembleRepresentationContext.(mentor)[:with_feedback]
 
-    expected = [
-      { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
-      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 },
-      { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
-      { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
-    ]
-    assert_equal expected, AssembleRepresentationContext.(staff, mode: :with_feedback)
+    expected = {
+      tracks: [
+        { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
+        { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 },
+        { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
+        { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
+      ],
+      representation_count: 7
+    }
+    assert_equal expected, AssembleRepresentationContext.(staff)[:with_feedback]
   end
 end

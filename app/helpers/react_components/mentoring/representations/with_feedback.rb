@@ -58,7 +58,7 @@ module ReactComponents
         def is_introducer_hidden = mentor.introducer_dismissed?(INTRODUCER_SLUG)
 
         SORT_OPTIONS = [
-          { value: :most_submissions, label: 'Sort by highest occurance' },
+          { value: :most_submissions, label: 'Sort by highest occurence' },
           { value: :most_recent, label: 'Sort by recent first' }
         ].freeze
         INTRODUCER_SLUG = 'feedback_automation'.freeze

@@ -9,10 +9,10 @@ module ReactComponents
             "mentoring-representations-with-feedback",
             {
               representations_request:,
-              tracks:,
+              tracks: context[:with_feedback][:tracks],
+              counts: context.transform_values { |v| v[:representation_count] }.to_h,
               links:,
               sort_options: SORT_OPTIONS,
-              counts:,
               is_introducer_hidden:
             }
           )
@@ -34,7 +34,7 @@ module ReactComponents
         def representations_request_params
           {
             criteria: params.fetch(:criteria, ''),
-            track_slug: params.fetch(:track_slug, track_slugs.first),
+            track_slug: params.fetch(:track_slug, first_track_slug),
             order: params[:order],
             page: params[:page]
           }.compact
@@ -42,16 +42,10 @@ module ReactComponents
 
         def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, representations_request_params)
 
-        def counts = Exercise::Representation::CalculateCounts.(mentor, ::Track.where(slug: track_slugs))
-
         memoize
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, mode: :with_feedback)
+        def context = AssembleRepresentationContext.(mentor)
 
-        memoize
-        def track_slugs = tracks.map { |track| track[:slug] }
-
-        memoize
-        def track_ids = tracks.map { |track| track[:id] }
+        def first_track_slug = context[:without_feedback][:tracks].map { |track| track[:slug] }.first
 
         def links
           {

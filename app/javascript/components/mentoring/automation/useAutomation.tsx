@@ -39,6 +39,13 @@ type returnMentoringAutomation = {
   handlePageResetOnInputChange: (input: string) => void
 }
 
+const BLANK_TRACK_DATA: AutomationTrack = {
+  slug: '',
+  title: '',
+  iconUrl: '',
+  numSubmissions: 0,
+}
+
 export function useAutomation(
   representationsRequest: Request,
   tracks: AutomationTrack[]
@@ -58,7 +65,8 @@ export function useAutomation(
 
   const [selectedTrack, setSelectedTrack] = useState<AutomationTrack>(
     tracks.find((t: AutomationTrack) => t.slug == request.query.trackSlug) ||
-      tracks[0]
+      tracks[0] ||
+      BLANK_TRACK_DATA
   )
 
   const { status, error, resolvedData, latestData, isFetching } =

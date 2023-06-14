@@ -45,7 +45,7 @@ module ReactComponents
         memoize
         def context = AssembleRepresentationContext.(mentor)
 
-        def first_track_slug = context[:without_feedback][:tracks].map { |track| track[:slug] }.first
+        def first_track_slug = context[:with_feedback][:tracks].map { |track| track[:slug] }.first
 
         def links
           {

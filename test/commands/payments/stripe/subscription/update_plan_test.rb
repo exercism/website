@@ -31,7 +31,7 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :year)
 
-    assert_equal Payments::Stripe::YEAR_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal Premium::YEAR_AMOUNT_IN_CENTS, subscription.amount_in_cents
     assert_equal :year, subscription.interval
   end
 
@@ -46,7 +46,7 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :month)
 
-    assert_equal Payments::Stripe::MONTH_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal Premium::MONTH_AMOUNT_IN_CENTS, subscription.amount_in_cents
     assert_equal :month, subscription.interval
   end
 end

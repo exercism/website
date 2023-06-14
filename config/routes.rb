@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   # ######## #
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
-    resource :paypal, only: [:create], controller: "paypal"
+    resource :paypal, only: [:create], controller: "paypal" do
+      post :ipn
+    end
     resource :coinbase, only: [:create], controller: "coinbase"
     resource :github_sponsors, only: [:create]
 
@@ -97,6 +99,7 @@ Rails.application.routes.draw do
 
   resource :premium, only: [:show], controller: 'premium' do
     get :paypal_pending
+    get :paypal_cancelled
   end
 
   resources :profiles, only: %i[index show new create] do

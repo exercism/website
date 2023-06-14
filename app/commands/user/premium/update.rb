@@ -35,6 +35,7 @@ class User::Premium::Update
     return nil if last_payment.nil?
     return nil if last_payment.subscription.nil?
     return nil if last_payment.subscription.canceled?
+    return nil if last_payment.subscription.pending?
 
     next_payment_date = last_payment.created_at + last_payment.subscription.time_interval + last_payment.subscription.grace_period
     return nil if next_payment_date <= Time.current

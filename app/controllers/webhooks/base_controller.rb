@@ -11,6 +11,7 @@ module Webhooks
     skip_before_action :authenticate_user!
     skip_after_action :set_body_class_header
     skip_around_action :mark_notifications_as_read!
+    skip_after_action :updated_last_visited_on!
 
     layout false
 

@@ -18,27 +18,27 @@ module ReactComponents
       def data_for_monthly
         {
           period: 'month',
-          display_amount: 9.99,
+          display_amount: ::Premium::MONTH_AMOUNT_IN_DOLLARS,
           payment_intent_type: 'premium_monthly_subscription',
-          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-0EU999217Y297052UMRTXYEQ'
+          paypal_link: Exercism::Routes.create_paypal_premium_api_payments_subscriptions_path(interval: :month)
         }
       end
 
       def data_for_yearly
         {
           period: 'year',
-          display_amount: 99.99,
+          display_amount: ::Premium::YEAR_AMOUNT_IN_DOLLARS,
           payment_intent_type: 'premium_yearly_subscription',
-          paypal_link: 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-23J11871PJ838224HMRTXYTA'
+          paypal_link: Exercism::Routes.create_paypal_premium_api_payments_subscriptions_path(interval: :year)
         }
       end
 
       def data_for_lifetime
         {
           period: 'lifetime',
-          display_amount: 499,
+          display_amount: ::Premium::LIFETIME_AMOUNT_IN_DOLLARS.to_i,
           payment_intent_type: 'payment',
-          paypal_link: 'https://www.paypal.com/donate/?hosted_button_id=W898BNJR5JPDJ'
+          paypal_link: "#{Exercism.config.paypal_url}/donate/?hosted_button_id=#{Exercism.secrets.paypal_lifetime_insiders_hosted_button_id}&custom=#{current_user&.id}" # rubocop:disable Layout/LineLength
         }
       end
     end

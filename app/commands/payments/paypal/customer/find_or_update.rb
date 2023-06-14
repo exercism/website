@@ -1,14 +1,19 @@
 class Payments::Paypal::Customer::FindOrUpdate
   include Mandate
 
-  initialize_with :paypal_payer_id, :email
+  initialize_with :paypal_payer_id, :paypal_payer_email, user_id: nil
 
   def call
-    paypal_user = User.with_data.find_by(data: { paypal_payer_id: })
-    return paypal_user if paypal_user
+    return user_by_paypal_id if user_by_paypal_id
 
-    User.find_by(email:)&.tap do |user|
-      user.update!(paypal_payer_id:)
-    end
+    user&.tap { |u| u.update!(paypal_payer_id:) }
   end
+
+  private
+  memoize
+  def user_by_paypal_id = User.with_data.find_by(data: { paypal_payer_id: })
+
+  def user = user_by_id || user_by_email
+  def user_by_id = User.find_by(id: user_id)
+  def user_by_email = User.find_by(email: paypal_payer_email)
 end

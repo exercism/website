@@ -9,4 +9,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
 
   inflect.acronym 'AI'
   inflect.acronym 'ChatGPT'
+  inflect.acronym 'IPN'
 end

@@ -30,7 +30,9 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
     user = create :user, reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD - 1
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
 
-    user = create :user, reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD
+    user = create :user
+    create :user_reputation_period, period: :forever, about: :everything, category: :any,
+      user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD
     assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 

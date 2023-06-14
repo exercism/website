@@ -1,10 +1,17 @@
-import { SetStateAction, useCallback, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type SetStateAction,
+} from 'react'
 import {
   useList,
   usePaginatedRequestQuery,
   Request,
   useHistory,
   removeEmpty,
+  useDebounce,
 } from '@/hooks'
 import type { QueryStatus } from 'react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
@@ -20,9 +27,9 @@ export type APIResponse = {
 }
 
 type returnMentoringAutomation = {
-  isFetching: boolean
   status: QueryStatus
   error: unknown
+  isFetching: boolean
   resolvedData: APIResponse | undefined
   latestData: APIResponse | undefined
   criteria?: string
@@ -67,18 +74,13 @@ export function useAutomation(
       request
     )
 
-  // TODO: refactor this and probably all query with the debounce hook
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      if (criteria.length > 2 || criteria === '') {
-        setRequestCriteria(criteria)
-      }
-    }, 500)
+  const debouncedCriteria = useDebounce(criteria, 500)
 
-    return () => {
-      clearTimeout(handler)
+  useEffect(() => {
+    if (debouncedCriteria.length > 2 || debouncedCriteria === '') {
+      setRequestCriteria(debouncedCriteria)
     }
-  }, [setRequestCriteria, criteria])
+  }, [debouncedCriteria, setRequestCriteria])
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
@@ -129,14 +131,14 @@ export function useAutomation(
     isFetching,
     resolvedData,
     latestData,
-    checked,
-    setChecked,
+    criteria,
+    setCriteria,
     order: request.query.order,
     setOrder,
     page: request.query.page || 1,
     setPage,
-    criteria,
-    setCriteria,
+    checked,
+    setChecked,
     selectedTrack,
     handleTrackChange,
     handleOnlyMentoredSolutions,

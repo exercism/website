@@ -1,16 +1,16 @@
-import React, { useCallback, useRef } from 'react'
+import React from 'react'
+import { QueryStatus } from 'react-query'
+import { Checkbox, SearchInput } from '@/components/common'
+import { ResultsZone } from '@/components/ResultsZone'
+import { useAutomation } from './useAutomation'
 import { TrackFilterList } from './TrackFilterList'
-import { Request } from '../../../hooks/request-query'
-import { AutomationStatus } from '../../types'
+import { AutomationIntroducer } from './AutomationIntroducer'
+import { RepresentationList } from './RepresentationList'
 import { Sorter } from '../Sorter'
 import { StatusTab } from '../inbox/StatusTab'
-import { Checkbox, SearchInput } from '../../common'
-import { AutomationIntroducer } from './AutomationIntroducer'
-import { ResultsZone } from '../../ResultsZone'
-import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
-import { error } from 'jquery'
-import { useAutomation } from './useAutomation'
+import type { Request } from '@/hooks'
+import type { AutomationStatus, AutomationTrack } from '@/components/types'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -20,24 +20,26 @@ export type AutomationLinks = {
 }
 
 export type SelectedTab = 'admin' | 'with_feedback' | 'without_feedback'
+type TabCounts = Record<'admin' | 'withFeedback' | 'withoutFeedback', number>
+
 export type AutomationProps = {
-  tracksRequest: Request
+  tracks: AutomationTrack[]
+  counts: TabCounts
   links: AutomationLinks
   representationsRequest: Request
   sortOptions: SortOption[]
   selectedTab: SelectedTab
   trackCacheKey: string
   isIntroducerHidden: boolean
-  counts: Record<'admin' | 'withFeedback' | 'withoutFeedback', number>
 }
 
 export function Representations({
-  tracksRequest,
-  sortOptions,
+  tracks,
+  counts,
   links,
   representationsRequest,
+  sortOptions,
   selectedTab,
-  counts,
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
@@ -46,41 +48,23 @@ export function Representations({
     ? 'submission'
     : 'request'
   const {
-    checked,
     handleTrackChange,
+    handleOnlyMentoredSolutions,
+    handlePageResetOnInputChange,
+    checked,
     isFetching,
-    isTrackListFetching,
     latestData,
     order,
     page,
     resolvedData,
     selectedTrack,
-    handleOnlyMentoredSolutions,
     setCriteria,
     setOrder,
     setPage,
     status,
-    trackListError,
-    trackListStatus,
-    tracks,
+    error,
     criteria,
-  } = useAutomation(representationsRequest, tracksRequest, trackCacheKey)
-
-  // timeout is stored in a useRef, so it can be cancelled
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const timer = useRef<any>()
-
-  const handlePageResetOnInputChange = useCallback(
-    (input: string) => {
-      //clears it on any input
-      clearTimeout(timer.current)
-      if (criteria && (input.length > 2 || input.length === 0)) {
-        timer.current = setTimeout(() => setPage(1), 500)
-      }
-    },
-
-    [criteria, setPage]
-  )
+  } = useAutomation(representationsRequest, tracks)
 
   return (
     <div className="c-mentor-inbox">
@@ -131,11 +115,11 @@ export function Representations({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
-            status={trackListStatus}
-            error={trackListError}
+            status={QueryStatus.Success}
+            error={''}
             tracks={tracks}
             countText={trackCountText}
-            isFetching={isTrackListFetching}
+            isFetching={false}
             cacheKey={trackCacheKey}
             value={selectedTrack}
             setValue={handleTrackChange}
@@ -163,14 +147,14 @@ export function Representations({
         </header>
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
+            status={status}
+            error={error}
             withFeedback={withFeedback}
             selectedTab={selectedTab}
-            error={error}
             latestData={latestData}
             page={page}
             setPage={setPage}
             resolvedData={resolvedData}
-            status={status}
           />
         </ResultsZone>
       </div>

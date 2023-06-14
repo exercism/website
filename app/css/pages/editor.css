@@ -428,7 +428,6 @@
                     & .c-icon {
                         height: 24px;
                         width: 24px;
-                        animation: spin 3s linear infinite;
                         filter: var(--textColor6-filter);
                         @apply mb-20;
                     }

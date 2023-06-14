@@ -56,7 +56,7 @@ export const TestRunSummary = ({
 
   return (
     <div className="automated-feedback-pending">
-      <GraphicalIcon icon="spinner" />
+      <GraphicalIcon icon="spinner" className="animate-spin-slow" />
       <h3>We&apos;re testing your code to check it works</h3>
       <p>
         This usually takes {testRunner.averageTestDuration}-
@@ -255,7 +255,7 @@ const TestRunSummaryContent = ({
     case TestRunStatus.QUEUED: {
       return (
         <div role="status" className="running">
-          <GraphicalIcon icon="spinner" />
+          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
           <div className="progress">
             <div
               className="bar"

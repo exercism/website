@@ -9,7 +9,7 @@ module ReactComponents
             "mentoring-representations-without-feedback",
             {
               representations_request:,
-              tracks_request:,
+              tracks:,
               links:,
               sort_options: SORT_OPTIONS,
               counts:,
@@ -46,16 +46,6 @@ module ReactComponents
         end
 
         def counts = Exercise::Representation::CalculateCounts.(mentor, ::Track.where(slug: track_slugs))
-
-        def tracks_request
-          {
-            endpoint: Exercism::Routes.tracks_without_feedback_api_mentoring_representations_url,
-            options: {
-              initial_data: tracks,
-              stale_time: 5000 # milliseconds
-            }
-          }
-        end
 
         memoize
         def tracks = AssembleRepresentationTracksForSelect.(mentor, mode: :without_feedback)

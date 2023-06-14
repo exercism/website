@@ -9,7 +9,7 @@ module ReactComponents
             "mentoring-representations-with-feedback",
             {
               representations_request:,
-              tracks_request:,
+              tracks:,
               links:,
               sort_options: SORT_OPTIONS,
               counts:,
@@ -43,16 +43,6 @@ module ReactComponents
         def representations = AssembleExerciseRepresentationsWithFeedback.(mentor, representations_request_params)
 
         def counts = Exercise::Representation::CalculateCounts.(mentor, ::Track.where(slug: track_slugs))
-
-        def tracks_request
-          {
-            endpoint: Exercism::Routes.tracks_with_feedback_api_mentoring_representations_url,
-            options: {
-              initial_data: tracks,
-              stale_time: 5000 # milliseconds
-            }
-          }
-        end
 
         memoize
         def tracks = AssembleRepresentationTracksForSelect.(mentor, mode: :with_feedback)

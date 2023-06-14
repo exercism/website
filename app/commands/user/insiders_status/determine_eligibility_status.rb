@@ -13,7 +13,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
     return :eligible_lifetime if user.founder?
     return :eligible_lifetime if user.staff?
     return :eligible_lifetime if user.supermentor?
-    return :eligible_lifetime if user.reputation >= LIFETIME_REPUTATION_THRESHOLD
+    return :eligible_lifetime if forever_reputation >= LIFETIME_REPUTATION_THRESHOLD
     return :eligible_lifetime if user.total_donated_in_cents >= LIFETIME_DONATIONS_THRESHOLD
 
     return :eligible if user.maintainer?
@@ -29,6 +29,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
   private
   def monthly_reputation = period_reputation(:month)
   def annual_reputation = period_reputation(:year)
+  def forever_reputation = period_reputation(:forever)
 
   def period_reputation(period)
     User::ReputationPeriod::Search.new(

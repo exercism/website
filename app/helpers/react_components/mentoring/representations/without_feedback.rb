@@ -9,7 +9,8 @@ module ReactComponents
             "mentoring-representations-without-feedback",
             {
               representations_request:,
-              context:,
+              tracks: context[:without_feedback][:tracks],
+              counts: context.transform_values { |v| v[:representation_count] }.to_h,
               links:,
               sort_options: SORT_OPTIONS,
               is_introducer_hidden:

@@ -56,7 +56,10 @@ export function useAutomation(
     setQuery,
   } = useList(representationsRequest)
 
-  const [selectedTrack, setSelectedTrack] = useState<AutomationTrack>(tracks[0])
+  const [selectedTrack, setSelectedTrack] = useState<AutomationTrack>(
+    tracks.find((t: AutomationTrack) => t.slug == request.query.trackSlug) ||
+      tracks[0]
+  )
 
   const { status, error, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
@@ -89,15 +92,6 @@ export function useAutomation(
     },
     [setPage, setQuery, request.query]
   )
-
-  // Automatically set a selected track based on query or the lack of it
-  useEffect(() => {
-    // don't repeat `find` on track change, only when page loads
-    const foundTrack = tracks.find(
-      (t: AutomationTrack) => t.slug == request.query.trackSlug
-    )
-    setSelectedTrack(foundTrack || tracks[0])
-  }, [request.query.trackSlug, selectedTrack, tracks])
 
   // If only_mentored_solutions === null or undefined remove it completely from query obj and query string
   const handleOnlyMentoredSolutions = useCallback(

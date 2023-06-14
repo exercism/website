@@ -48,22 +48,22 @@ export function Representations({
     ? 'submission'
     : 'request'
   const {
+    status,
+    error,
+    isFetching,
+    resolvedData,
+    latestData,
+    criteria,
+    setCriteria,
+    order,
+    setOrder,
+    page,
+    setPage,
+    checked,
+    selectedTrack,
     handleTrackChange,
     handleOnlyMentoredSolutions,
     handlePageResetOnInputChange,
-    checked,
-    isFetching,
-    latestData,
-    order,
-    page,
-    resolvedData,
-    selectedTrack,
-    setCriteria,
-    setOrder,
-    setPage,
-    status,
-    error,
-    criteria,
   } = useAutomation(representationsRequest, tracks)
 
   return (

@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type SetStateAction,
-} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   useList,
   usePaginatedRequestQuery,
@@ -39,7 +33,6 @@ type returnMentoringAutomation = {
   page: number
   setPage: (page: number) => void
   checked: boolean
-  setChecked: React.Dispatch<SetStateAction<boolean>>
   selectedTrack: AutomationTrack
   handleTrackChange: (track: AutomationTrack) => void
   handleOnlyMentoredSolutions: (checked: boolean) => void
@@ -138,7 +131,6 @@ export function useAutomation(
     page: request.query.page || 1,
     setPage,
     checked,
-    setChecked,
     selectedTrack,
     handleTrackChange,
     handleOnlyMentoredSolutions,

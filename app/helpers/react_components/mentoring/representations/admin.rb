@@ -46,7 +46,7 @@ module ReactComponents
         def counts = Exercise::Representation::CalculateCounts.(mentor, ::Track.where(slug: track_slugs))
 
         memoize
-        def tracks = AssembleRepresentationTracksForSelect.(mentor, mode: :admin)
+        def tracks = AssembleRepresentationContext.(mentor, mode: :admin)
 
         memoize
         def track_slugs = tracks.map { |track| track[:slug] }

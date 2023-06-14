@@ -1,4 +1,4 @@
-class AssembleRepresentationTracksForSelect
+class AssembleRepresentationContext
   include Mandate
 
   initialize_with :mentor, mode: Mandate::NO_DEFAULT

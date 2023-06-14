@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
+class AssembleRepresentationContextTest < ActiveSupport::TestCase
   test "ordered by title ascending" do
     user = create :user
     csharp = create :track, slug: :csharp, title: 'C#'
@@ -34,7 +34,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user, mode: :with_feedback)
+    assert_equal expected, AssembleRepresentationContext.(user, mode: :with_feedback)
   end
 
   test "mode: without_feedback" do
@@ -51,7 +51,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user, mode: :without_feedback)
+    assert_equal expected, AssembleRepresentationContext.(user, mode: :without_feedback)
   end
 
   test "mode: with_feedback" do
@@ -70,7 +70,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, mode: :with_feedback)
+    assert_equal expected, AssembleRepresentationContext.(user_1, mode: :with_feedback)
   end
 
   test "mode: admin" do
@@ -89,7 +89,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 3 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, mode: :admin)
+    assert_equal expected, AssembleRepresentationContext.(user_1, mode: :admin)
   end
 
   test "only considers representations with > 1 submissions" do
@@ -107,7 +107,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
     expected = [
       { slug: track.slug, title: track.title, icon_url: track.icon_url, num_submissions: 2 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(user_1, mode: :with_feedback)
+    assert_equal expected, AssembleRepresentationContext.(user_1, mode: :with_feedback)
   end
 
   test "only considers tracks where user has mentored 100 or more solutions" do
@@ -149,7 +149,7 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
       { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(mentor, mode: :with_feedback)
+    assert_equal expected, AssembleRepresentationContext.(mentor, mode: :with_feedback)
 
     expected = [
       { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
@@ -157,6 +157,6 @@ class AssembleRepresentationTracksForSelectTest < ActiveSupport::TestCase
       { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
       { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
     ]
-    assert_equal expected, AssembleRepresentationTracksForSelect.(staff, mode: :with_feedback)
+    assert_equal expected, AssembleRepresentationContext.(staff, mode: :with_feedback)
   end
 end

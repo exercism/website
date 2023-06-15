@@ -1,5 +1,5 @@
 #page-premium
-  .gradient-container.top.pt-20.md:pt-48.pb-64
+  .gradient-container.top.pt-20.md:pt-48.md:pb-64.pb-0
     .lg-container
       .grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64
         .top-lhs.flex.flex-col
@@ -17,9 +17,9 @@
           %p.text-p-large.mb-24
             (All while supporting our mission of equal education for all! 💙)
 
-          .flex.flex-row.gap-16
-            = link_to "Upgrade to Premium", "#pricing-section", class: 'btn-l btn-primary basis-1/2', data: { turbo: false }
-            = link_to "Learn more", "#features-section", class: 'btn-l btn-secondary', data: { turbo: false }
+          .flex.sm:flex-row.flex-col.gap-16
+            = link_to "Upgrade to Premium", "#pricing-section", class: 'lg:btn-l btn-m btn-primary lg:basis-1/2 basis-1', data: { turbo: false }
+            = link_to "Learn more", "#features-section", class: 'lg:btn-l btn-m btn-secondary', data: { turbo: false }
 
         .top-rhs
           .c-youtube-container
@@ -44,7 +44,7 @@
       %h2.text-h1.mb-8.relative Choose Your Subscription
       %p.text-p-xlarge.mb-16.relative Subscribe monthly, annually, or forever!
 
-      .grid.grid-cols-3.gap-32.justify-center.my-32
+      .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-32.justify-center.my-32
         .price-card.border-purpleDarker3
           %h2.text-h2 Monthly
           .price $9.99/month

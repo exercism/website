@@ -76,7 +76,7 @@ module Flows
         end
       end
 
-      test "mentor filters for only mentored solutions" do
+      test "mentor filters for only mentored solutions on admin page" do
         mentor_1 = create :user, :supermentor, mentor_satisfaction_percentage: 96.5
         mentor_2 = create :user, :supermentor, mentor_satisfaction_percentage: 96.5
         track = create :track, slug: :csharp, title: 'C#'

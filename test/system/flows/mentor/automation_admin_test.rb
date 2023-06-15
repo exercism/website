@@ -35,7 +35,7 @@ module Flows
         end
       end
 
-      test "mentor changes orders" do
+      test "mentor changes orders on admin page" do
         mentor = create :user, :supermentor
         other_mentor = create :user, :supermentor
 

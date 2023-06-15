@@ -1,9 +1,9 @@
 class AssembleExerciseRepresentationsAdmin
   include Mandate
 
-  def self.keys = %i[page order criteria track_slug]
+  def self.keys = %i[page order criteria track_slug only_mentored_solutions]
 
-  initialize_with :params
+  initialize_with :mentor, :params
 
   def call
     SerializePaginatedCollection.(
@@ -20,11 +20,13 @@ class AssembleExerciseRepresentationsAdmin
   memoize
   def representations
     Exercise::Representation::Search.(
+      mentor:,
       track:,
-      with_feedback: true,
+      mode: :admin,
+      only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
-      order: params.fetch(:order, :most_submissions)
+      order: params.fetch(:order, :most_recent_feedback)
     )
   end
 

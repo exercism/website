@@ -4,6 +4,7 @@ import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
 import type { APIResponse } from './useMentoringAutomation'
+import { SelectedTab } from './Representation'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -13,6 +14,7 @@ type Props = {
   page: number
   setPage: (page: number) => void
   withFeedback: boolean
+  selectedTab: SelectedTab
 }
 
 export const RepresentationList = ({
@@ -36,7 +38,7 @@ function Component({
   latestData,
   page,
   setPage,
-  withFeedback,
+  selectedTab,
 }: Props) {
   return (
     <>
@@ -46,7 +48,7 @@ function Component({
             {resolvedData.results.length > 0 ? (
               resolvedData.results.map((representation, key) => (
                 <AutomationListElement
-                  withFeedback={withFeedback}
+                  selectedTab={selectedTab}
                   key={key}
                   representation={representation}
                 />

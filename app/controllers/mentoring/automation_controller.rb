@@ -11,7 +11,7 @@ class Mentoring::AutomationController < ApplicationController
   end
 
   def admin
-    @automation_params = params.permit(:order, :criteria, :page, :track_slug)
+    @automation_params = params.permit(:order, :criteria, :page, :track_slug, :only_mentored_solutions)
   end
 
   def edit

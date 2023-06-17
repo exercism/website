@@ -14,7 +14,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def transactional_mail(*args, **kwargs)
-    delivery_options = {
+    delivery_method_options = {
       user_name: Exercism.secrets.transactional_smtp_username,
       password: Exercism.secrets.transactional_smtp_password,
       address: Exercism.secrets.transactional_smtp_address,
@@ -24,15 +24,14 @@ class ApplicationMailer < ActionMailer::Base
     }
     mail_to_user(
       *args,
-      **kwargs.merge(
-        from: "Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
-        delivery_options:
-      )
+      from: "Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
+      delivery_method_options:,
+      **kwargs
     )
   end
 
   def bulk_mail(*args, **kwargs)
-    delivery_options = {
+    delivery_method_options = {
       user_name: Exercism.secrets.bulk_smtp_username,
       password: Exercism.secrets.bulk_smtp_password,
       address: Exercism.secrets.bulk_smtp_address,
@@ -42,17 +41,22 @@ class ApplicationMailer < ActionMailer::Base
     }
     mail_to_user(
       *args,
-      **kwargs.merge(
-        from: "Jeremy from Exercism <hello@#{Exercism.secrets.bulk_smtp_sending_domain}>",
-        delivery_options:
-      )
+      from: "Jeremy from Exercism <hello@#{Exercism.secrets.bulk_smtp_sending_domain}>",
+      delivery_method_options:,
+      **kwargs
     )
   end
 
   private
-  def mail_to_user(user, subject, **options)
+  def mail_to_user(user, subject, from:, delivery_method_options:, **options)
     return unless user.may_receive_emails?
 
-    mail(to: user_email_with_name(user), subject:, **options)
+    mail(
+      to: user_email_with_name(user),
+      subject:,
+      from:,
+      delivery_method_options:,
+      **options
+    )
   end
 end

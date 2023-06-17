@@ -28,11 +28,11 @@ class ApplicationMailerTest < ActionMailer::TestCase
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       ApplicationMailer.any_instance.expects(:mail_to_user).with(
         user, "Welcome to Exercism",
+        from: "Exercism <hello@mail.exercism.org>",
         delivery_options: {
           user_name: Exercism.secrets.transactional_smtp_username,
           password: Exercism.secrets.transactional_smtp_password,
           address: Exercism.secrets.transactional_smtp_address,
-          domain: Exercism.secrets.transactional_smtp_address,
           port: Exercism.secrets.transactional_smtp_port,
           authentication: Exercism.secrets.transactional_smtp_authentication,
           enable_starttls_auto: true
@@ -49,6 +49,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       ApplicationMailer.any_instance.expects(:mail_to_user).with(
         user, "Be a badass",
+        from: "Jeremy from Exercism <hello@mail.exercism.io>",
         delivery_options: {
           user_name: Exercism.secrets.bulk_smtp_username,
           password: Exercism.secrets.bulk_smtp_password,

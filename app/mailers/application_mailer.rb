@@ -1,7 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   prepend_view_path "app/views/mailers"
-  # TODO: Change to exercism.org when moving to AWS SES
-  default from: "The Exercism Team <hello@mail.exercism.io>", reply_to: "hello@exercism.io"
+  default reply_to: "jonathan@exercism.org"
 
   layout "mailer"
   helper :email
@@ -19,12 +18,17 @@ class ApplicationMailer < ActionMailer::Base
       user_name: Exercism.secrets.transactional_smtp_username,
       password: Exercism.secrets.transactional_smtp_password,
       address: Exercism.secrets.transactional_smtp_address,
-      domain: Exercism.secrets.transactional_smtp_address,
       port: Exercism.secrets.transactional_smtp_port,
       authentication: Exercism.secrets.transactional_smtp_authentication,
       enable_starttls_auto: true
     }
-    mail_to_user(*args, **kwargs.merge(delivery_options:))
+    mail_to_user(
+      *args,
+      **kwargs.merge(
+        from: "Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
+        delivery_options:
+      )
+    )
   end
 
   def bulk_mail(*args, **kwargs)
@@ -36,7 +40,13 @@ class ApplicationMailer < ActionMailer::Base
       port: Exercism.secrets.bulk_smtp_port,
       authentication: Exercism.secrets.bulk_smtp_authentication
     }
-    mail_to_user(*args, **kwargs.merge(delivery_options:))
+    mail_to_user(
+      *args,
+      **kwargs.merge(
+        from: "Jeremy from Exercism <hello@#{Exercism.secrets.bulk_smtp_sending_domain}>",
+        delivery_options:
+      )
+    )
   end
 
   private

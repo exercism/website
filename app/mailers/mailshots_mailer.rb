@@ -7,6 +7,6 @@ class MailshotsMailer < ApplicationMailer
     @user = params[:user]
     @mailshot = params[:mailshot]
 
-    mail_to_user(@user, @mailshot.subject)
+    bulk_mail(@user, @mailshot.subject)
   end
 end

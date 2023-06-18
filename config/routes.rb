@@ -270,7 +270,8 @@ Rails.application.routes.draw do
   # About Pages #
   ###############
   resource :about, controller: 'about', only: [:show] do
-    resources :supporting_organisations, only: %i[index show], path: "supporters/organisations", controller: "about/supporting_organisations"
+    resources :partners, only: %i[index show], path: "supporters/organisations", controller: "about/partners"
+
     get :impact
     get :team
     get :hiring

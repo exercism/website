@@ -35,7 +35,7 @@ class SitemapsController < ApplicationController
       [about_url, Date.new(2022, 3, 1), :monthly, 0.95],
       [team_about_url, Date.new(2022, 3, 1), :monthly, 0.9],
       [hiring_about_url, Date.new(2022, 3, 1), :monthly, 0.7],
-      [about_organisation_supporters_url, Date.new(2022, 3, 1), :monthly, 0.9],
+      [about_partners_url, Date.new(2022, 3, 1), :monthly, 0.9],
       [individual_supporters_about_url, Date.new(2022, 3, 1), :monthly, 0.9],
 
       [contributing_root_url, Date.new(2022, 3, 1), :monthly, 0.9],

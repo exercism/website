@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_18_121542) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_adverts_on_partner_id"
   end
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -662,6 +669,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
+  create_table "partners", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "support_explanation"
+    t.text "description_markdown", null: false
+    t.text "description_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_partners_on_slug", unique: true
+  end
+
   create_table "problem_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id"
@@ -889,20 +907,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
-  create_table "supporting_organisations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.text "support_explanation"
-    t.text "description_markdown", null: false
-    t.text "description_html", null: false
-    t.text "insiders_offer_description"
-    t.boolean "featured", default: false, null: false
-    t.boolean "has_insiders_offer", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_supporting_organisations_on_slug", unique: true
-  end
-
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_concept_id", null: false
     t.bigint "user_id", null: false
@@ -1050,12 +1054,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "user_id", null: false
     t.text "bio"
     t.json "roles"
-    t.json "usages"
     t.integer "insiders_status", limit: 1, default: 0, null: false
-    t.string "github_username"
     t.string "stripe_customer_id"
-    t.string "paypal_payer_id"
     t.string "discord_uid"
+    t.string "github_username"
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
     t.datetime "became_mentor_at"
@@ -1069,21 +1071,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "usages"
     t.json "cache"
     t.datetime "premium_until"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_user_data_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_user_data_stripe_customer_id", unique: true
-    t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "user-data-supporters-page", order: { first_donated_at: :desc }
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
+    t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
+    t.index ["premium_until"], name: "index_user_data_on_premium_until"
+    t.index ["stripe_customer_id"], name: "index_user_data_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 
@@ -1254,6 +1252,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "disabled_at"
+    t.json "cache"
+>>>>>>> a5dacb0aa (Add initial advert and rename supporting-orgs to partners)
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
@@ -1263,8 +1263,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "adverts", "partners"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"

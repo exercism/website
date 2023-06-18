@@ -1,0 +1,34 @@
+- if perk.errors.any?
+  %div{ style: "color: red" }
+    %h2
+      = pluralize(perk.errors.count, "error")
+      prohibited this perk from being saved:
+    %ul
+      - perk.errors.each do |error|
+        %li= error.full_message
+
+.mt-20
+  .flex.flex-col.mb-16
+    = f.label :status, class: 'text-h6 mb-4'
+    .c-select
+      = f.select :status, (Partner::Perk.statuses.map { |s, _| [s.titleize, s] })
+  .flex.flex-col.mb-16
+    = f.label :audience, class: 'text-h6 mb-4'
+    .c-select
+      = f.select :audience, (Partner::Perk.audiences.map { |a, _| [a.titleize, a] })
+  .flex.flex-col.mb-16
+    = f.label :url, class: 'text-h6 mb-4'
+    = f.text_field :url
+  .flex.flex-col.mb-16
+    = f.label :about_text, class: 'text-h6 mb-4'
+    = f.text_field :about_text
+  .flex.flex-col.mb-16
+    = f.label :offer_markdown, class: 'text-h6 mb-4'
+    = f.text_field :offer_markdown
+  .flex.flex-col.mb-16
+    = f.label :button_text, class: 'text-h6 mb-4'
+    = f.text_field :button_text
+
+%div
+  = f.submit class: 'btn btn-primary btn-base'
+

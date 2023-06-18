@@ -2,12 +2,20 @@ module ViewComponents
   class Advert < ViewComponent
     include Mandate
 
-    initialize_with track: Mandate::NO_DEFAULT
+    initialize_with advert: nil, track: nil, preview: false
 
     def to_s
-      advert = ::Advert.first
+      render(
+        template: "components/advert",
+        locals: { advert: }
+      ).tap do |output|
+        # Advert::LogImpression.(advert)
+      end
+    end
 
-      render(template: "components/advert", locals: { advert: })
+    private
+    def advert
+      @advert || Advert.first
     end
   end
 end

@@ -53,6 +53,10 @@ Rails.application.routes.draw do
     root to: "dashboard#show"
     resources :premium, controller: 'premium'
     resources :community_videos
+    resources :partners do
+      resources :adverts
+      resources :perks
+    end
     resources :mailshots do
       member do
         patch :send_test
@@ -95,6 +99,7 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
+  resources :perks, only: [:index]
   resources :insiders, only: [:index]
 
   resource :premium, only: [:show], controller: 'premium' do

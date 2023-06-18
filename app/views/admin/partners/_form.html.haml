@@ -1,0 +1,17 @@
+= form_with(model: [:admin, partner]) do |f|
+  - if partner.errors.any?
+    %div{ style: "color: red" }
+      %h2
+        = pluralize(partner.errors.count, "error")
+        prohibited this partner from being saved:
+      %ul
+        - partner.errors.each do |error|
+          %li= error.full_message
+  %div
+    .flex.flex-col.mb-16
+      = f.label :name, class: 'text-h6 mb-4'
+      = f.text_field :name
+
+  %div
+    = f.submit class: 'btn btn-primary btn-base'
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_121542) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,13 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_121542) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "partner_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["partner_id"], name: "index_adverts_on_partner_id"
   end
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -669,6 +662,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_121542) do
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
+  create_table "partner_adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "partner_id"
+    t.integer "status", default: 0, null: false
+    t.integer "num_impressions", default: 0, null: false
+    t.integer "num_clicks", default: 0, null: false
+    t.string "url", null: false
+    t.string "base_text", null: false
+    t.string "emphasised_text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_partner_adverts_on_partner_id"
+  end
+
+  create_table "partner_perks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "partner_id"
+    t.integer "status", default: 0, null: false
+    t.integer "audience", default: 0, null: false
+    t.integer "num_clicks", default: 0, null: false
+    t.string "url", null: false
+    t.string "about_text", null: false
+    t.string "offer_markdown", null: false
+    t.string "offer_html", null: false
+    t.string "button_text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_partner_perks_on_partner_id"
+  end
+
   create_table "partners", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
@@ -1264,7 +1285,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_121542) do
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "adverts", "partners"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
@@ -1325,6 +1345,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_121542) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
+  add_foreign_key "partner_adverts", "partners"
+  add_foreign_key "partner_perks", "partners"
   add_foreign_key "problem_reports", "exercises"
   add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"

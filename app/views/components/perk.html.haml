@@ -1,0 +1,7 @@
+.c-perk
+  = image_tag perk.logo.presence || perk.partner.logo, alt: "Logo of #{perk.partner.name}", class: 'logo'
+  %p.about= perk.about_text
+  .details= raw perk.offer_html
+  .flex.gap-12
+    = link_to perk.button_text, "#", class: 'btn-m btn-primary'
+    = link_to "Learn more", "#", class: 'btn-m btn-enhanced'

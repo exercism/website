@@ -1,0 +1,17 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-16 Perk #{@partner.name}##{@perk.id}
+    %div{ class: 'max-w-[443px]' }= render ViewComponents::Perk.new(@perk)
+    %hr.my-32.border-borderColor5
+
+    .text-h6.mb-8 Status: #{@perk.status.titleize}
+    .text-h6.mb-8 Audience: #{@perk.audience.titleize}
+    .text-h6.mb-8 URL: #{@perk.url}
+    .text-h6.mb-8 Num Clicks: #{@perk.num_clicks}
+
+    %hr.my-32.border-borderColor5
+
+    .flex
+      = link_to "Back to partner", [:admin, @partner], class: 'btn btn-m'
+
+

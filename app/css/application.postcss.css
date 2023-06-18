@@ -24,6 +24,7 @@
 @import "./tooltips/student";
 @import "./tooltips/task";
 
+@import "./components/perk";
 @import "./components/textblock";
 @import "./components/spinner";
 @import "./components/tooltip-spinner";
@@ -235,8 +236,9 @@
 @import "./pages/mentoring/testimonials";
 @import "./pages/maintaining/dashboard";
 @import "./pages/maintaining/track";
-@import "./pages/maintaining/admin-index";
 @import "./pages/maintaining/site-updates-form";
+@import "./pages/admin/page";
+@import "./pages/admin/table";
 @import "./pages/journey";
 @import "./pages/journey/overview";
 @import "./pages/journey/solutions";
@@ -247,6 +249,7 @@
 @import "./pages/community-story";
 @import "./pages/challenges/external";
 @import "./pages/challenges/12in23";
+@import "./pages/perks";
 
 /* @import "./highlighters/highlightjs-light";
 @import "./highlighters/highlightjs-dark"; */

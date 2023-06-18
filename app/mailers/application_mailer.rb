@@ -51,6 +51,15 @@ class ApplicationMailer < ActionMailer::Base
   def mail_to_user(user, subject, from:, delivery_method_options:, **options)
     return unless user.may_receive_emails?
 
+    begin
+      @preview_text = render_to_string(template: "#{mailer_name}/#{action_name}", formats: [:text]). # rubocop:disable Style/StringConcatenation
+        tr("\n", " ").squeeze(" ")[0, 150] + "..."
+    rescue StandardError => e
+      # We're fine with @preview_text being nil if it has to be
+      # but we should never get here.
+      Bugsnag.notify(e)
+    end
+
     mail(
       to: user_email_with_name(user),
       subject:,

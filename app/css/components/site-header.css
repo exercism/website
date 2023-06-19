@@ -38,7 +38,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
 
         .lg-container {
-            @apply flex justify-center items-center;
+            @apply flex md:flex-row flex-col justify-center items-center;
             .text-container {
                 @apply sm:flex flex-row;
             }

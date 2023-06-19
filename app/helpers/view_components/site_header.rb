@@ -23,8 +23,8 @@ module ViewComponents
         tag.div(class: "lg-container") do
           graphical_icon(:premium, css_class: 'h-[16px] w-[16px] mr-12') +
             tag.span("Exercism Premium has launched.") +
-            tag.strong("Supercharge your experience!") +
-            tag.div("Check it out", class: 'btn-primary btn-xs ml-4')
+            tag.strong("Click here to learn more.") +
+            tag.div("Check it out", class: 'btn-primary btn-xs ml-4 hidden md:block')
         end
       end
     end

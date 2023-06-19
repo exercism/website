@@ -1,5 +1,6 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
+import { Flair } from './common/HandleWithFlair'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 import { Scratchpad } from './mentoring/Session'
 
@@ -91,7 +92,7 @@ type UserLinks = {
 }
 export type User = {
   avatarUrl: string
-  flair: string
+  flair: Flair
   name?: string
   handle: string
   hasAvatar?: boolean
@@ -526,7 +527,7 @@ export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
-  flair: string
+  flair: Flair
   activity: string
   reputation: string
   links: {

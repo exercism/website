@@ -41,7 +41,7 @@
   #pricing-section
   .gradient-container.text-center.md:py-64.py-24
     .lg-container.flex.flex-col
-      %h2.text-h1.mb-8.relative Choose Your Subscription
+      %h2.text-h2.mb-8.relative Choose Your Subscription
       %p.text-p-xlarge.mb-16.relative Subscribe monthly, annually, or forever!
 
       .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-32.justify-center.my-32
@@ -65,6 +65,6 @@
         .price-card.border-2.border-purpleDarkened
           %h2.text-h2 Become an Insider
           .price $499
-          %p.text-p-base.mb-32 Enjoy full lifetime access to both Exercism Premium and Exercism Insiders, giving you behind-the-scenes access to videos and exclusive team community spaces.
+          %p.text-p-base Enjoy full lifetime access to both Exercism Premium and Exercism Insiders, giving you behind-the-scenes access to videos and exclusive team community spaces.
           - if user_signed_in?
             = render ReactComponents::Premium::PriceOption.new(:lifetime)

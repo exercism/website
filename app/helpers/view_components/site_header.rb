@@ -17,7 +17,7 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") if current_user&.premium? || !user_signed_in?
+      return tag.span("") unless user_signed_in? && !current_user.premium?
 
       link_to(Exercism::Routes.premium_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do

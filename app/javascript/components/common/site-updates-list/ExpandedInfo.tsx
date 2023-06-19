@@ -40,7 +40,7 @@ export const ExpandedInfo = ({
       </div>
       {expanded.descriptionHtml && (
         <div
-          className="description"
+          className="description c-highlight-links"
           dangerouslySetInnerHTML={{ __html: expanded.descriptionHtml }}
         />
       )}

@@ -35,9 +35,9 @@ const MakerInner = ({
       <div className="handle">
         <HandleWithFlair handle={maker.handle} flair={maker.flair} />
       </div>
-      <Reputation value={maker.reputation!} type="primary" size="small" />
+      <Reputation value={maker.reputation || '0'} type="primary" size="small" />
       {showIcon ? (
-        <GraphicalIcon icon="chevron-right" />
+        <GraphicalIcon icon="chevron-right" className="filter-textColor6" />
       ) : (
         <div className="faux-icon" />
       )}

@@ -47,7 +47,7 @@
             - else
               Explore the #{external_link_to 'source of this exercise', source_url}.
       %section.extra-info
-        .updated-at Last updated #{@exercise.updated_at.strftime('%e %B %Y')}
+        = render ReactComponents::Track::ExerciseMakersButton.new(@exercise)
 
         = link_to "https://github.com/exercism/#{@track.slug}/tree/main/exercises/#{@exercise.git_type}/#{@exercise.slug}", target: "_blank", rel: 'noreferrer' do
           = graphical_icon "external-site-github", css_class: "github-icon"

@@ -527,7 +527,7 @@ export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
-  flair: string
+  flair: Flair
   activity: string
   reputation: string
   links: {

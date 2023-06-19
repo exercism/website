@@ -2,8 +2,7 @@
   %h1.text-h1.mb-16 Editing #{@partner.name}
   = render "form", partner: @partner
   %br/
-  %div
+  .flex.gap-16
     = link_to "Show this partner", [:admin, @partner]
-    |
     = link_to "Back to partners", admin_partners_path
 

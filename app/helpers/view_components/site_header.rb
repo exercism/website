@@ -19,12 +19,12 @@ module ViewComponents
     def announcement_bar
       return tag.span("") if current_user&.premium? || !user_signed_in?
 
-      link_to(Exercism::Routes.premium_path, class: "announcement-bar") do
+      link_to(Exercism::Routes.premium_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           graphical_icon(:premium, css_class: 'h-[16px] w-[16px] mr-12') +
             tag.span("Exercism Premium has launched.") +
-            tag.strong("Click here to learn more.") +
-            tag.div("Check it out", class: 'btn-primary btn-xs ml-4 hidden md:block')
+            tag.strong("Supercharge your experience!") +
+            tag.div("Check it out", class: 'btn-primary btn-xs ml-4')
         end
       end
     end

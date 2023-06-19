@@ -28,7 +28,6 @@ body.keyboard-navigation .nav-element:hover .arrow {
     @apply z-menu;
 
     & .announcement-bar {
-        @apply block;
         @apply py-8;
         @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         background: var(--backgroundColorAnnouncementBar);

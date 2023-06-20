@@ -111,7 +111,7 @@ function PriceCard({
   )
 
   return (
-    <div className="flex flex-row items-center justify-center gap-12">
+    <div className="flex md:flex-row flex-col items-center justify-center gap-12">
       <button onClick={onStripeClick} className="btn-m btn-primary">
         <span>Debit/Credit Card</span>
       </button>

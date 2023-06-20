@@ -111,12 +111,15 @@ function PriceCard({
   )
 
   return (
-    <div className="flex md:flex-row flex-col items-center justify-center gap-12">
-      <button onClick={onStripeClick} className="btn-m btn-primary">
+    <div className="flex lg:flex-row flex-col items-center justify-center gap-12">
+      <button
+        onClick={onStripeClick}
+        className="btn-m btn-primary w-100 lg:w-auto"
+      >
         <span>Debit/Credit Card</span>
       </button>
       {period === 'lifetime' ? (
-        <a href={paypalLink} className="btn-m btn-secondary">
+        <a href={paypalLink} className="btn-m btn-secondary w-100 lg:w-auto">
           <GraphicalIcon
             icon="paypal-light"
             category="graphics"
@@ -125,7 +128,10 @@ function PriceCard({
           <span>PayPal</span>
         </a>
       ) : (
-        <button onClick={handlePaypalPayment} className="btn-m btn-secondary">
+        <button
+          onClick={handlePaypalPayment}
+          className="btn-m btn-secondary w-100 lg:w-auto"
+        >
           <GraphicalIcon
             icon="paypal-light"
             category="graphics"

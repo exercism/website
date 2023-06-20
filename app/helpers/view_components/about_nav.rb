@@ -10,10 +10,7 @@ module ViewComponents
 
     def to_s
       tag.div(class: "c-about-nav") do
-        safe_join([
-                    tag.div(lhs, class: "lg-container container"),
-                    scroll_into_view_script.html_safe
-                  ])
+        tag.div(lhs, class: "lg-container container")
       end
     end
 
@@ -45,17 +42,4 @@ module ViewComponents
     private
     attr_reader :selected_section
   end
-end
-
-def scroll_into_view_script
-  <<~JS
-      <script type="text/javascript">
-      document.addEventListener("turbo:load", function() {
-        var element = document.getElementById("selected-item");
-        if(element){
-          element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
-        }
-      });
-    </script>
-  JS
 end

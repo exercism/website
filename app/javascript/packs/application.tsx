@@ -489,17 +489,16 @@ export const mappings = {
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-document.addEventListener(
-  'turbo:load',
-  () => (document.getElementById('site-footer').style.display = 'block')
-)
-
 import { highlightAll } from '../utils/highlight'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsidersStatus'
-import { handleNavbarFocus } from '@/utils'
+import {
+  handleNavbarFocus,
+  scrollToSelectedAdminMenuElement,
+  showSiteFooterOnTurboLoad,
+} from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
 import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
@@ -512,7 +511,9 @@ document.addEventListener('turbo:load', () => {
   highlightAll()
 })
 
+showSiteFooterOnTurboLoad()
 handleNavbarFocus()
+scrollToSelectedAdminMenuElement()
 
 // object.entries polyfill
 if (!Object.entries) {

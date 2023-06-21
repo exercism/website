@@ -34,8 +34,9 @@ module ViewComponents
 
     def li_link(title, section = nil)
       css_class = section == selected_section ? "selected" : nil
+      id = section == selected_section ? "scroll-into-view-item" : nil
       url = Exercism::Routes.send([section, "about_path"].compact.join("_"))
-      tag.li(link_to(title, url), class: css_class)
+      tag.li(link_to(title, url), class: css_class, id:)
     end
 
     private

@@ -53,7 +53,7 @@
 
 
     .tabs-section.scroll-x-hidden
-      = link_to profile_path(user), id: (selected_tab == :contributions ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do
+      = link_to profile_path(user), id: (selected_tab == :summary ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do
         = graphical_icon :overview
         %span Summary
 

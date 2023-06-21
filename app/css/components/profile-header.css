@@ -152,7 +152,6 @@ header.c-profile-header {
     & .tabs-section {
         @apply mt-4;
         @apply flex items-center;
-        @apply overflow-scroll;
 
         & .external-links {
             @apply ml-auto mb-10; /* Bottom margin accounts border tab border */

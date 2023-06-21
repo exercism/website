@@ -17,7 +17,7 @@
         & .c-tab {
             @apply py-20;
             @apply w-1-2;
-            @apply text-18 leading-160 text-textColor6 font-semibold;
+            @apply md:text-18 text-16 leading-160 text-textColor6 font-semibold;
             @apply bg-backgroundColorG;
             @apply border-b-3 border-borderColor6;
 

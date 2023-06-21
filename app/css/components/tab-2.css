@@ -53,6 +53,7 @@
     }
     & span {
         @apply inline-flex flex-col items-center justify-between;
+        @apply whitespace-nowrap;
         &:after {
             content: attr(data-text);
             content: attr(data-text) / "";

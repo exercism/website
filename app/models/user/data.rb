@@ -53,7 +53,6 @@ class User::Data < ApplicationRecord
     mentor_satisfaction_percentage
   ].each do |meth|
     define_method meth do
-      p "#{user_id}|#{id} || Checking for #{meth}: #{self.cache.key?(meth)}: #{self.cache[meth]}"
       return self.cache[meth] if self.cache.key?(meth)
 
       # This returns the new value
@@ -69,7 +68,6 @@ class User::Data < ApplicationRecord
     mentor_satisfaction_percentage
   ].each do |meth|
     define_method "#{meth}=" do |value|
-      p "HERE!"
       self.cache[meth] = value
       save!
     end

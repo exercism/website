@@ -4,7 +4,6 @@ class Mentor::CalculateSatisfactionPercentage
   initialize_with :mentor
 
   def call
-    p mentor_satisfaction_percentage_sql
     User.connection.select_value(mentor_satisfaction_percentage_sql)
   end
 

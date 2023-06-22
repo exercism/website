@@ -52,7 +52,7 @@ export const BuildingContributionsList = ({
             </div>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />
@@ -110,11 +110,16 @@ const Contribution = ({
           ) : (
             <div className="generic">Generic</div>
           )}
-          <time dateTime={createdAt}>{fromNow(createdAt)}</time>
+          <time className="sm:block hidden" dateTime={createdAt}>
+            {fromNow(createdAt)}
+          </time>
         </div>
       </div>
       <Reputation value={`+ ${value}`} type="primary" size="small" />
-      <GraphicalIcon icon={linkIcon} className="action-button" />
+      <GraphicalIcon
+        icon={linkIcon}
+        className="action-button sm:block hidden"
+      />
     </a>
   )
 }

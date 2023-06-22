@@ -32,9 +32,9 @@
                     @apply mr-24;
                 }
                 & .info {
-                    @apply flex-grow;
+                    @apply flex-grow sm:mr-0 mr-8;
                     & .title {
-                        @apply text-h5 mb-6;
+                        @apply sm:text-h5 text-h6 mb-6;
                         @apply font-medium;
                         & strong {
                             @apply font-semibold;

@@ -1,15 +1,14 @@
 @import "../styles";
 
 .c-react-wrapper-common-introducer {
-    min-height: 130px;
-    @apply mt-8 mb-40;
-
     /* We get rid of this parent container when
      * things are hidden, rather than the child */
     transition: min-height 0.2s ease-in, max-height 0.2s ease-in,
         margin 0.2s ease-in, opacity 0.15s ease-in;
-    max-height: 160px;
     overflow: hidden;
+
+    @apply md:min-h-[130px] md:max-h-[160px];
+    @apply mt-8 mb-40;
 
     &.hidden {
         min-height: 0;
@@ -28,8 +27,8 @@
 .c-introducer {
     @apply bg-randomBlue border-2 border-gradient rounded-12;
     @apply shadow-baseZ1;
-    @apply py-12 px-48;
-    @apply flex items-center;
+    @apply px-20 md:px-48 py-16 md:py-12;
+    @apply md:flex flex-row items-center;
 
     &.hidden {
         display: none;
@@ -39,8 +38,7 @@
         @apply py-16 px-24;
 
         & .visual-icon {
-            height: 48px;
-            width: 48px;
+            @apply h-[20px] md:h-[48px] w-[20px] md:w-[48px];
             @apply mr-24;
         }
         & .info {
@@ -63,9 +61,9 @@
     }
 
     & .visual-icon {
-        height: 102px;
-        width: 102px;
-        @apply mr-32;
+        @apply h-[48px] md:h-[102px] w-[48px] md:w-[102px];
+        @apply mb-8 ml-32 md:mb-0 md:ml-0 md:mr-32;
+        @apply float-right md:float-none;
     }
     & .info {
         & h2,
@@ -74,7 +72,8 @@
         }
         & p {
             @apply text-p-base;
-            max-width: 680px;
+            @apply md:max-w-[680px];
+            @apply mb-8 md:mb-0;
 
             & a {
                 @apply text-prominentLinkColor font-medium;
@@ -82,8 +81,8 @@
         }
     }
     & .close {
-        @apply ml-auto flex-shrink-0 p-12;
-        filter: var(--textColor6-filter);
+        @apply md:ml-auto md:flex-shrink-0 md:p-12;
+        /* filter: var(--textColor6-filter); */
         & .c-icon {
             width: 24px;
             height: 24px;

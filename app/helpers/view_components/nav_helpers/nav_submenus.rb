@@ -38,7 +38,7 @@ module ViewComponents
 
         {
           title: "Brief Introduction Series",
-          description: "Erik introduces languages",
+          description: "Short language overviews",
           path: Exercism::Routes.community_brief_introductions_path,
           icon: :'brief-introductions-gradient'
         },

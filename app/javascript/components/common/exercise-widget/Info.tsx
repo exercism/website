@@ -25,7 +25,7 @@ export const Info = ({
   return (
     <div className="--info">
       <div className="--title">
-        <span>{exercise.title}</span>
+        {exercise.title}
         {track && !isSkinny ? (
           <div className="--track">
             in <TrackIcon iconUrl={track.iconUrl} title={track.title} />

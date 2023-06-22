@@ -14,11 +14,11 @@ header.c-profile-header {
             @apply lg:max-h-[128px] lg:max-w-[128px];
 
             @apply shadow-xsZ1;
-            @apply ml-32 sm:ml-0 sm:mr-20 md:mr-32;
+            @apply md:ml-32 ml-0 sm:mr-20 md:mr-32;
         }
 
         & .info {
-            @apply flex-grow mr-20 md:mr-40;
+            @apply flex-grow mr-0 sm:mr-20 md:mr-40;
 
             & .heading {
                 @apply flex items-center;
@@ -27,7 +27,7 @@ header.c-profile-header {
                     @apply text-h2 mr-20;
                 }
                 & .c-primary-reputation {
-                    @apply mr-24;
+                    @apply mr-24 sm:flex hidden;
                 }
                 & .tracks {
                     @apply hidden md:flex;

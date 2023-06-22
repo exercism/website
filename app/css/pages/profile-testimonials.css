@@ -5,7 +5,7 @@
     & article {
         @apply pt-32;
         & .stats {
-            @apply grid grid-cols-3;
+            @apply grid md:grid-cols-3 grid-cols-1 justify-items-center;
             @apply mx-auto mb-48;
             max-width: 690px;
             & .stat {

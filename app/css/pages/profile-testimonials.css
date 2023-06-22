@@ -23,8 +23,7 @@
         }
 
         & .testimonials {
-            column-count: 3;
-            column-gap: 24px;
+            @apply columns-1 sm:columns-2 md:columns-3 gap-24;
         }
         & .testimonial {
             display: inline-block;

@@ -70,11 +70,11 @@ export const Introducer = ({
             onClick={() => mutation()}
             status={status}
           >
-            <div className="md:hidden btn-s btn-enhanced">Got it 👍</div>
+            <div className="lg:hidden btn-s btn-enhanced">Got it 👍</div>
             <Icon
               icon="close"
               alt="Permanently hide this introducer"
-              className="hidden md:block"
+              className="hidden lg:block"
             />
           </FormButton>
           <ErrorBoundary resetKeys={[status]}>

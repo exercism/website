@@ -101,7 +101,10 @@ const ReferenceElement = forwardRef<
         >
           <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
           {info}
-          <GraphicalIcon icon="chevron-right" className="--action-icon" />
+          <GraphicalIcon
+            icon="chevron-right"
+            className="--action-icon sm:block hidden"
+          />
         </a>
       ) : (
         <div

@@ -6,18 +6,19 @@ header.c-profile-header {
     @apply pt-24;
 
     & .info-section {
-        @apply flex;
+        @apply flex flex-row-reverse sm:flex-row;
 
         & .c-avatar {
-            height: 128px;
-            width: 128px;
+            @apply h-[20vw] w-[20vw];
+            @apply max-h-[100px] max-w-[100px];
+            @apply lg:max-h-[128px] lg:max-w-[128px];
 
             @apply shadow-xsZ1;
-            @apply mr-32;
+            @apply md:ml-32 ml-0 sm:mr-20 md:mr-32;
         }
 
         & .info {
-            @apply flex-grow mr-40;
+            @apply flex-grow mr-0 sm:mr-20 md:mr-40;
 
             & .heading {
                 @apply flex items-center;
@@ -26,10 +27,10 @@ header.c-profile-header {
                     @apply text-h2 mr-20;
                 }
                 & .c-primary-reputation {
-                    @apply mr-24;
+                    @apply mr-24 sm:flex hidden;
                 }
                 & .tracks {
-                    @apply flex;
+                    @apply hidden md:flex;
 
                     & .c-track-icon {
                         height: 40px;
@@ -43,7 +44,7 @@ header.c-profile-header {
                 @apply mb-12;
             }
             & .details {
-                @apply flex items-center mb-12;
+                @apply flex flex-col gap-y-4 md:flex-row md:items-center mb-12;
 
                 & .location,
                 & .pronouns,
@@ -83,7 +84,7 @@ header.c-profile-header {
             }
         }
         & .badges-and-tags {
-            @apply flex flex-col items-end;
+            @apply hidden lg:flex flex-col items-end;
             @apply whitespace-nowrap;
 
             & .header {
@@ -151,10 +152,11 @@ header.c-profile-header {
     & .tabs-section {
         @apply mt-4;
         @apply flex items-center;
+
         & .external-links {
             @apply ml-auto mb-10; /* Bottom margin accounts border tab border */
 
-            @apply flex items-center;
+            @apply hidden md:flex items-center;
 
             & a {
                 @apply px-16 py-12;

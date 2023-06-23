@@ -1,12 +1,11 @@
 @import "../styles";
 
 .c-contributions-summary {
-    @apply flex items-center;
+    @apply flex flex-col lg:flex-row items-center gap-80;
 
     & .summary {
         @apply flex-grow;
-        @apply mr-80;
-        max-width: 650px;
+        @apply lg:max-w-[650px] w-100;
 
         & .c-primary-reputation {
             @apply mb-32;
@@ -24,8 +23,7 @@
             @apply mb-16;
 
             /* This aligns it to the select box above */
-            padding-left: 20px;
-            padding-right: 89px;
+            @apply md:pl-20 md:pr-[89px] px-6;
 
             & .c-icon {
                 height: 48px;
@@ -57,6 +55,7 @@
         }
     }
     & .chart-container {
+        @apply hidden lg:block;
         width: 600px;
         @apply relative ml-auto;
         padding: 150px 100px;

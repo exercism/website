@@ -52,28 +52,28 @@
                   .title= tag[:title]
 
 
-    .tabs-section
-      = link_to profile_path(user), class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do
+    .tabs-section.scroll-x-hidden
+      = link_to profile_path(user), id: (selected_tab == :summary ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :summary ? 'selected' : ''}" do
         = graphical_icon :overview
         %span Summary
 
       - if profile.contributions_tab?
-        = link_to contributions_profile_path(user), class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
+        = link_to contributions_profile_path(user), id: (selected_tab == :contributions ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :contributions ? 'selected' : ''}" do
           = graphical_icon :contribute
           %span Contributions
 
       - if profile.solutions_tab?
-        = link_to solutions_profile_path(user), class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
+        = link_to solutions_profile_path(user), id: (selected_tab == :solutions ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :solutions ? 'selected' : ''}" do
           = graphical_icon 'community-solutions'
           %span Published Solutions
 
       - if profile.testimonials_tab?
-        = link_to testimonials_profile_path(user), class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
+        = link_to testimonials_profile_path(user), id: (selected_tab == :testimonials ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :testimonials ? 'selected' : ''}" do
           = graphical_icon 'testimonials'
           %span Testimonials
 
       - if profile.badges_tab?
-        = link_to badges_profile_path(user), class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
+        = link_to badges_profile_path(user), id: (selected_tab == :badges ? 'scroll-into-view-item' : '').to_s, class: "c-tab-2 #{selected_tab == :badges ? 'selected' : ''}" do
           = graphical_icon 'badges'
           %span Badges
 

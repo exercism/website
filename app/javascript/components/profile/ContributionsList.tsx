@@ -22,7 +22,7 @@ export const ContributionsList = ({
 
   return (
     <React.Fragment>
-      <div className="tabs">
+      <div className="tabs scroll-x-hidden">
         {categories.map((category) => {
           const classNames = [
             'c-tab',

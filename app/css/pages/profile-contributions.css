@@ -23,7 +23,7 @@
             & .reputation-token {
                 @apply flex items-center;
                 @apply mb-16 rounded-8;
-                @apply py-16 pl-20 pr-40;
+                @apply py-16 pl-20 sm:pr-40 pr-20;
                 @apply shadow-base;
 
                 & .primary-icon {

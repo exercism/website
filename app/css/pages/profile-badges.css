@@ -6,7 +6,8 @@
         @apply pt-32;
         & .summary {
             @apply shadow-base bg-backgroundColorA py-16 mb-40 rounded-8;
-            @apply flex flex-wrap justify-center gap-64;
+            @apply lg:flex grid sm:grid-cols-2 grid-cols-1;
+            @apply gap-x-64 gap-y-32 place-items-center justify-center;
 
             & .section {
                 @apply flex items-center justify-items-center;

@@ -24,7 +24,7 @@ class User::ResetCache
 
     User::Data.transaction do
       data = User::Data.lock(true).find(user.data.id)
-      data.cache[key] = new_value
+      data.cache[key.to_s] = new_value
       data.save!
     end
   end

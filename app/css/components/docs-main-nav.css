@@ -12,7 +12,8 @@
         @apply flex-grow;
     }
     & ul {
-        @apply flex;
+        @apply flex items-center;
+        @apply whitespace-nowrap;
     }
     & li {
         @apply mr-40;

@@ -67,7 +67,7 @@ export type Testimonial = {
   student: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
   }
   exercise: {
     title: string

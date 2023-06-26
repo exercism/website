@@ -24,4 +24,11 @@
         );
         @apply pl-20 pr-[5%];
     }
+
+    @screen md {
+        .scroll-x-hidden {
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+    }
 }

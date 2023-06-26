@@ -6,10 +6,11 @@ import {
   ProminentLink,
 } from '../common'
 import { Testimonial } from '../types'
+import { Flair } from '../common/HandleWithFlair'
 
 type Props = {
   handle: string
-  flair: string
+  flair: Flair
   numTestimonials: number
   numSolutionsMentored: number
   numStudentsHelped: number
@@ -22,7 +23,6 @@ type Props = {
 export const TestimonialsSummary = ({
   handle,
   flair,
-  numTestimonials,
   numSolutionsMentored,
   numStudentsHelped,
   numTestimonialsReceived,

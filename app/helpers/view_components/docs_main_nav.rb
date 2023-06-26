@@ -16,10 +16,10 @@ module ViewComponents
 
     def lhs
       tag.nav(class: 'lhs') do
-        tag.ul do
+        tag.ul(class: 'scroll-x-hidden') do
           safe_join(
             [
-              tag.li(class: !selected_section ? "selected" : nil) do
+              tag.li(id: !selected_section ? "scroll-into-view-item" : nil, class: !selected_section ? "selected" : nil) do
                 link_to Exercism::Routes.docs_url do
                   icon :home, "Docs home"
                 end
@@ -56,9 +56,10 @@ module ViewComponents
     end
 
     def li_link(title, section)
+      selected_id = section == selected_section ? "scroll-into-view-item" : nil
       css_class = section == selected_section ? "selected" : nil
       url = Exercism::Routes.docs_section_path(section)
-      tag.li(link_to(title, url), class: css_class)
+      tag.li(link_to(title, url), id: selected_id, class: css_class)
     end
 
     private

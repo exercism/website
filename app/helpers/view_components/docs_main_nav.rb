@@ -9,14 +9,14 @@ module ViewComponents
     end
 
     def to_s
-      tag.div(class: "c-docs-nav scroll-x-hidden") do
+      tag.div(class: "c-docs-nav") do
         tag.div(lhs + rhs, class: "lg-container container")
       end
     end
 
     def lhs
       tag.nav(class: 'lhs') do
-        tag.ul do
+        tag.ul(class: 'scroll-x-hidden') do
           safe_join(
             [
               tag.li(id: !selected_section ? "scroll-into-view-item" : nil, class: !selected_section ? "selected" : nil) do

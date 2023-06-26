@@ -10,6 +10,7 @@
 
     & nav.lhs {
         @apply flex-grow;
+        @apply overflow-auto;
     }
     & ul {
         @apply flex items-center;

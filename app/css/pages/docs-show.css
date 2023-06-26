@@ -1,5 +1,10 @@
 @import "../styles";
 
+body.controller-docs.action-section,
+body.controller-docs.action-show {
+    padding-left:66px;
+}
+
 #page-docs-show {
     & .container {
         @apply flex;

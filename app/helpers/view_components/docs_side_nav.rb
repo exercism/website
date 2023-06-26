@@ -81,7 +81,7 @@ module ViewComponents
       css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc&.slug }
 
       tag.li(class: css_classes.join(" ")) do
-        link_to doc.nav_title, url
+        link_to tag.span(doc.nav_title), url
       end
     end
 

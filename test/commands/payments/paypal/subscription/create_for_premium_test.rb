@@ -4,7 +4,7 @@ class Payments::Paypal::Subscription::CreateForPremiumTest < Payments::TestBase
   [
     [:month, '9.99', 'P-0TT41792VT226690TMR43JAQ'],
     [:year, '99.99', 'P-7TW18726BH9867209MR43JIA']
-  ].each do |(interval, amount_in_dollars, plan_id)|
+  ].each do |(interval, _amount_in_dollars, plan_id)|
     test "correctly creates #{interval} premium subscription" do
       user = create :user
       access_token = SecureRandom.compact_uuid
@@ -16,10 +16,6 @@ class Payments::Paypal::Subscription::CreateForPremiumTest < Payments::TestBase
             given_name: user.name
           },
           email_address: user.email
-        },
-        shipping_amount: {
-          currency_code: "USD",
-          value: amount_in_dollars
         },
         custom_id: user.id,
         application_context: {

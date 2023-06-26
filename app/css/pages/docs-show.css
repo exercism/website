@@ -2,7 +2,19 @@
 
 body.controller-docs.action-section,
 body.controller-docs.action-show {
-    padding-left:66px;
+    padding-left: 66px;
+    .auth-buttons {
+        a:nth-child(1) {
+            @apply sm:flex hidden;
+        }
+    }
+}
+
+@screen md {
+    body.controller-docs.action-section,
+    body.controller-docs.action-show {
+        padding-left: unset;
+    }
 }
 
 #page-docs-show {

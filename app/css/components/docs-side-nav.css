@@ -1,20 +1,17 @@
 @import "../styles";
 
 .c-docs-side-nav {
-    @apply md:static absolute left-0;
+    @apply md:static fixed;
     @apply bg-backgroundColorA z-1;
     @apply md:border-r-1 border-borderColor6;
     @apply md:pt-32 md:pr-32 md:pl-0 p-16 pb-0;
 
-    position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     background: white;
-    @apply shadow-lgZ1;
-    box-shadow: 0 0 10px 10px rgba(0,0,0,0.2);
-    z-index: 100000000000000;
-    padding: 16px;
+    @apply shadow-[0_0_10px_10px_rgba(0,0,0,0.2)] md:shadow-none;
+    z-index: 100;
 
     .trigger-label {
         @apply cursor-pointer md:hidden block;
@@ -73,7 +70,9 @@
                 a {
                     @apply flex-grow flex;
                     @apply text-textColor2 font-semibold;
-                    span { @apply mr-12; }
+                    span {
+                        @apply mr-12;
+                    }
                     &:after {
                         content: "+";
                         width: 17px;

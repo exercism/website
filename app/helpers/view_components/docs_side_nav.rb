@@ -14,6 +14,8 @@ module ViewComponents
       tag.nav(class: "c-docs-side-nav") do
         tags = []
         tags << tag.h2(@track.title) if track
+        tags << tag.input(class: 'side-menu-trigger', id: 'side-menu-trigger', type: 'checkbox', style: 'display: none')
+        tags << hamburger
         tags << tag.ul do
           safe_join(
             structured_docs.map do |node, children|
@@ -22,6 +24,16 @@ module ViewComponents
           )
         end
         safe_join(tags.compact)
+      end
+    end
+
+    def hamburger
+      tag.label(for: 'side-menu-trigger', class: 'trigger-label') do
+        safe_join([
+                    tag.span(class: 'icon-bar top-bar'),
+                    tag.span(class: 'icon-bar middle-bar'),
+                    tag.span(class: 'icon-bar bottom-bar')
+                  ])
       end
     end
 

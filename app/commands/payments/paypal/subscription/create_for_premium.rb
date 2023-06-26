@@ -28,10 +28,6 @@ class Payments::Paypal::Subscription::CreateForPremium
         },
         email_address: user.email
       },
-      shipping_amount: {
-        currency_code: "USD",
-        value: amount
-      },
       custom_id: user.id,
       application_context: {
         return_url: Exercism::Routes.paypal_pending_premium_url,

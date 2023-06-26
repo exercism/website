@@ -8,7 +8,8 @@
     @apply md:pt-32 md:pr-32 md:pl-0 p-16 pb-0;
 
     .trigger-label {
-        @apply cursor-pointer md:hidden block w-fit;
+        @apply cursor-pointer md:hidden block;
+        width: fit-content;
         .icon-bar {
             @apply block bg-textColor1 m-4;
             width: 22px;
@@ -39,6 +40,9 @@
         }
         & ~ ul {
             @apply block;
+            ul {
+                @apply block;
+            }
         }
     }
 

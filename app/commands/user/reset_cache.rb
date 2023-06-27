@@ -23,7 +23,9 @@ class User::ResetCache
     # )
 
     User::Data::SafeUpdate.(user) do |data|
-      data.cache[key.to_s] = new_value
+      # data.cache might be a hash returned when cache is
+      # empty. We have to excplitely set it. Don't use merge!
+      data.cache = data.cache.merge(key.to_s => new_value)
     end
 
     # Always return the new value

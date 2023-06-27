@@ -369,6 +369,7 @@ class ActiveSupport::TestCase
   end
 
   def assert_user_data_cache_reset(user, key, expected, &block)
+    p user.data.reload.cache
     assert_nil user.data.reload.cache[key.to_s]
 
     perform_enqueued_jobs(&block)
@@ -378,6 +379,7 @@ class ActiveSupport::TestCase
 
   def reset_user_cache(user)
     user.data.reload.update!(cache: nil)
+    user.reload
   end
 end
 

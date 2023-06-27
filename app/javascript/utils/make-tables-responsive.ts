@@ -1,5 +1,6 @@
 import { debounce } from './debounce'
 
+const LG_BREAKPOINT = 1023
 export function makeTablesResponsive(): void {
   let originalParents = new Map()
 
@@ -9,23 +10,16 @@ export function makeTablesResponsive(): void {
     ) as HTMLTableElement[]
 
     tables.forEach((table) => {
-      if (!table) {
-        return
-      }
-
-      // skip if table is already wrapped
-      if (table.parentElement?.classList.contains('responsive-wrapper')) {
+      // skip if !table / table is already wrapped
+      if (
+        !table ||
+        table.parentElement?.classList.contains('c-responsive-table-wrapper')
+      ) {
         return
       }
 
       const div = document.createElement('div')
-      div.classList.add('responsive-wrapper')
-      div.style.overflowX = 'auto'
-      div.style.maxWidth = '100%'
-
-      // shadow-base spread and compensation
-      div.style.padding = '24px'
-      div.style.margin = '-12px -24px'
+      div.classList.add('c-responsive-table-wrapper')
 
       const parent = table.parentNode
 
@@ -53,7 +47,7 @@ export function makeTablesResponsive(): void {
   }
 
   const resizeFunc = debounce(() => {
-    if (window.innerWidth <= 1023) {
+    if (window.innerWidth <= LG_BREAKPOINT) {
       applyTableStyles()
     } else {
       removeTableStyles()

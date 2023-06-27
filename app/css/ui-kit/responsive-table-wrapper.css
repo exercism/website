@@ -1,0 +1,4 @@
+.c-responsive-table-wrapper {
+    /* shadow-base spread and compensation */
+    @apply overflow-x-auto max-w-[100%] p-24 -mx-24 -my-12;
+}

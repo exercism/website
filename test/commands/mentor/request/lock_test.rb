@@ -10,7 +10,7 @@ class Mentor::Request::LockTest < ActiveSupport::TestCase
 
       assert request.reload.locked?
       lock = request.locks.last
-      assert_equal Time.current + 30.minutes, lock.locked_until
+      assert_equal Time.current + 60.minutes, lock.locked_until
       assert_equal mentor, lock.locked_by
     end
   end
@@ -25,7 +25,7 @@ class Mentor::Request::LockTest < ActiveSupport::TestCase
 
       assert request.reload.locked?
       lock = request.locks.last
-      assert_equal Time.current + 30.minutes, lock.locked_until
+      assert_equal Time.current + 60.minutes, lock.locked_until
       assert_equal mentor, lock.locked_by
     end
   end
@@ -40,7 +40,7 @@ class Mentor::Request::LockTest < ActiveSupport::TestCase
 
       assert request.reload.locked?
       lock = request.locks.last
-      assert_equal Time.current + 30.minutes, lock.locked_until
+      assert_equal Time.current + 60.minutes, lock.locked_until
       assert_equal mentor, lock.locked_by
     end
   end

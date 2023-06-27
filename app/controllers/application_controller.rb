@@ -176,7 +176,7 @@ class ApplicationController < ActionController::Base
     return if current_user.last_visited_on == Time.zone.today
 
     User::Data::SafeUpdate.(current_user) do |data|
-      data.update!(last_visited_on: Time.zone.today)
+      data.last_visited_on = Time.zone.today
     end
   end
 

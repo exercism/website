@@ -217,6 +217,12 @@
             background: var(--backgroundColorI);
         }
 
+        a {
+            &:not(pre) > code {
+                @apply text-prominentLinkColor;
+            }
+        }
+
         & table {
             @apply shadow-base bg-backgroundColorA;
             @apply rounded-5 overflow-hidden;

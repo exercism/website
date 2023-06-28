@@ -134,6 +134,8 @@
     &.--small {
         & * {
             @apply leading-160;
+            overflow-wrap: anywhere;
+            hyphens: auto;
         }
 
         /******************/

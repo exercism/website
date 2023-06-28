@@ -359,6 +359,10 @@
                     & .content {
                         @apply mt-0;
                     }
+
+                    h4 {
+                        @apply mt-20;
+                    }
                 }
                 & .instructions {
                     &:not-first-child {

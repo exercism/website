@@ -218,6 +218,7 @@
         }
 
         & table {
+            @apply my-16;
             @apply shadow-base bg-backgroundColorA;
             @apply rounded-5 overflow-hidden;
 

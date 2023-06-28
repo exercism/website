@@ -2,7 +2,6 @@
     /* Makes element scrollable on the x-axis but hides the scrollbar */
     .scroll-x-hidden {
         @apply overflow-x-auto;
-        @apply -ml-[15px];
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
         &::-webkit-scrollbar {

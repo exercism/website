@@ -10,7 +10,7 @@ body.controller-docs.action-show {
     }
 }
 
-@screen md {
+@screen xl {
     body.controller-docs.action-section,
     body.controller-docs.action-show {
         padding-left: unset;
@@ -22,9 +22,9 @@ body.controller-docs.action-show {
         @apply flex;
     }
     & .docs-content {
-        @apply pt-48 pb-48 md:px-80 px-16;
+        @apply pt-48 pb-48 xl:px-80 px-16;
         @apply flex-grow;
-        @apply lg:max-w-[940px] max-w-[100%];
+        @apply max-w-[100%] xl:max-w-[940px];
 
         & h1 {
             @apply text-h1 mb-4;

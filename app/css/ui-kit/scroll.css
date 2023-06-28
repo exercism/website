@@ -63,10 +63,11 @@
 
         &::-webkit-scrollbar-thumb {
             @apply rounded-8 bg-gray;
+            --tw-bg-opacity: 0.5;
         }
 
         &::-webkit-scrollbar-thumb:hover {
-            @apply bg-textColor6NoDark !cursor-pointer;
+            --tw-bg-opacity: 1;
         }
     }
 }

@@ -496,6 +496,7 @@ import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsidersStatus'
 import {
   handleNavbarFocus,
+  makeTablesResponsive,
   scrollToSelectedAdminMenuElement,
   showSiteFooterOnTurboLoad,
 } from '@/utils'
@@ -514,6 +515,7 @@ document.addEventListener('turbo:load', () => {
 showSiteFooterOnTurboLoad()
 handleNavbarFocus()
 scrollToSelectedAdminMenuElement()
+makeTablesResponsive()
 
 // object.entries polyfill
 if (!Object.entries) {

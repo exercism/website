@@ -24,7 +24,7 @@ body.controller-docs.action-show {
     & .docs-content {
         @apply pt-48 pb-48 md:px-80 px-16;
         @apply flex-grow;
-        max-width: 940px;
+        @apply lg:max-w-[940px] max-w-[100%];
 
         & h1 {
             @apply text-h1 mb-4;

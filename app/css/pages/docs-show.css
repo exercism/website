@@ -28,6 +28,8 @@ body.controller-docs.action-show {
 
         & h1 {
             @apply text-h1 mb-4;
+            overflow-wrap: anywhere;
+            hyphens: auto;
         }
         & .h1-subtitle {
             @apply text-23 leading-170 text-textColor6;

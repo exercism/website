@@ -138,6 +138,11 @@
             hyphens: auto;
         }
 
+        table * {
+            overflow-wrap: initial;
+            hyphens: initial;
+        }
+
         /******************/
         /* Block elements */
         /*****************/

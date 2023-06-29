@@ -113,7 +113,7 @@ export const ExerciseCommunitySolutionsList = ({
           solutions
         </h2>
       ) : null}
-      <div className="c-search-bar">
+      <div className="c-search-bar md:flex-row flex-col">
         <input
           className="--search"
           onChange={(e) => {
@@ -122,57 +122,62 @@ export const ExerciseCommunitySolutionsList = ({
           value={criteria}
           placeholder="Search by user"
         />
-        <GenericTooltip
-          content={
-            <>
-              Only show solutions that pass the <strong>latest</strong> tests.
-            </>
-          }
-        >
-          <div>
-            <Checkbox
-              checked={!request.query.notPassedHeadTests}
-              setChecked={setPassedHeadTests}
-            >
-              <Icon
-                icon="golden-check"
-                alt="Only show solution that pass the tests of the latest version of this exercise"
-              />
-            </Checkbox>
-          </div>
-        </GenericTooltip>
-        <GenericTooltip content="Only show solutions that pass the tests as they were at the time when the student solved the exercise.">
-          <div>
-            <Checkbox
-              checked={request.query.passedTests}
-              setChecked={setPassedTests}
-            >
-              <div
-                className={`c-iteration-processing-status --passed`}
-                role="status"
-                aria-label="Only show solutions that pass the tests"
+        <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
+          <GenericTooltip
+            content={
+              <>
+                Only show solutions that pass the <strong>latest</strong> tests.
+              </>
+            }
+          >
+            <div>
+              <Checkbox
+                checked={!request.query.notPassedHeadTests}
+                setChecked={setPassedHeadTests}
               >
-                <div role="presentation" className="--dot"></div>
-                <div className="--status">Passed</div>
-              </div>
-            </Checkbox>
-          </div>
-        </GenericTooltip>
+                <Icon
+                  icon="golden-check"
+                  alt="Only show solution that pass the tests of the latest version of this exercise"
+                />
+              </Checkbox>
+            </div>
+          </GenericTooltip>
+          <GenericTooltip content="Only show solutions that pass the tests as they were at the time when the student solved the exercise.">
+            <div>
+              <Checkbox
+                checked={request.query.passedTests}
+                setChecked={setPassedTests}
+              >
+                <div
+                  className={`c-iteration-processing-status --passed`}
+                  role="status"
+                  aria-label="Only show solutions that pass the tests"
+                >
+                  <div role="presentation" className="--dot"></div>
+                  <div className="--status">Passed</div>
+                </div>
+              </Checkbox>
+            </div>
+          </GenericTooltip>
 
-        <GenericTooltip content="Only show solutions that are up to date.">
-          <div>
-            <Checkbox checked={request.query.upToDate} setChecked={setUpToDate}>
-              <Icon
-                icon="up-to-date"
-                alt="Only show solutions that are up-to-date with the latest version of this exercise"
-              />
-            </Checkbox>
-          </div>
-        </GenericTooltip>
-        <OrderSelect
-          value={request.query.order || DEFAULT_ORDER}
-          setValue={setOrder}
-        />
+          <GenericTooltip content="Only show solutions that are up to date.">
+            <div>
+              <Checkbox
+                checked={request.query.upToDate}
+                setChecked={setUpToDate}
+              >
+                <Icon
+                  icon="up-to-date"
+                  alt="Only show solutions that are up-to-date with the latest version of this exercise"
+                />
+              </Checkbox>
+            </div>
+          </GenericTooltip>
+          <OrderSelect
+            value={request.query.order || DEFAULT_ORDER}
+            setValue={setOrder}
+          />
+        </div>
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

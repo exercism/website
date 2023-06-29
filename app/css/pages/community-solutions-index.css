@@ -8,7 +8,8 @@
         @apply mb-32;
 
         & .--search {
-            width: 450px;
+            @apply md:w-[450px] w-100;
+            @apply md:mr-24 mr-0 md:mb-0 mb-24;
         }
     }
     & .solutions {

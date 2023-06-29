@@ -13,6 +13,7 @@
 @import "./ui-kit/tracks";
 @import "./ui-kit/filters";
 @import "./ui-kit/scroll";
+@import "./ui-kit/responsive-table-wrapper";
 
 @import "./tooltips/generic";
 @import "./tooltips/base";

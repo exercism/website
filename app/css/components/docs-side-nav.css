@@ -1,26 +1,74 @@
 @import "../styles";
 
 .c-docs-side-nav {
-    width: 350px;
-    @apply border-r-1 border-borderColor6;
-    @apply pt-32 pr-32;
+    @apply xl:static fixed top-0 left-0 bottom-0;
+    @apply bg-backgroundColorA xl:bg-backgroundColorB z-[100];
+    @apply xl:border-r-1 border-borderColor6;
+    @apply xl:pt-32 xl:pr-32 xl:pl-0 p-16 pb-0;
+    @apply overflow-auto;
 
-    & h2 {
+    @apply shadow-[0_0_10px_10px_rgba(0,0,0,0.2)] xl:shadow-none;
+
+    .trigger-label {
+        @apply cursor-pointer xl:hidden block;
+        width: fit-content;
+        .icon-bar {
+            @apply block bg-textColor1 m-4;
+            width: 22px;
+            height: 2px;
+            transition: transform 0.2s;
+        }
+        .top-bar {
+            transform: rotate(0);
+        }
+        .middle-bar {
+            opacity: 1;
+        }
+    }
+
+    .side-menu-trigger:checked {
+        & + label {
+            .top-bar {
+                transform: rotate(45deg);
+                transform-origin: 10% 10%;
+            }
+            .middle-bar {
+                opacity: 0;
+            }
+            .bottom-bar {
+                transform: rotate(-45deg);
+                transform-origin: 10% 90%;
+            }
+        }
+        & ~ ul {
+            @apply block;
+            ul {
+                @apply block;
+            }
+        }
+    }
+
+    h2 {
         @apply text-h4 mb-16;
     }
 
-    & ul {
-        & li {
+    ul {
+        @apply xl:block hidden xl:m-0 mt-16;
+
+        li {
             @apply mb-16;
-            & a {
+            a {
                 @apply block;
                 @apply text-16 leading-140 font-medium;
             }
             &.header {
                 @apply flex items-center;
-                & a {
+                a {
                     @apply flex-grow flex;
                     @apply text-textColor2 font-semibold;
+                    span {
+                        @apply mr-12;
+                    }
                     &:after {
                         content: "+";
                         width: 17px;
@@ -35,12 +83,12 @@
                 }
             }
             &.selected {
-                & a {
+                a {
                     @apply text-adaptivePurple font-semibold;
                 }
             }
         }
-        & ul {
+        ul {
             @apply border-l-2 border-borderColor6 pl-24;
             @apply mb-12;
         }

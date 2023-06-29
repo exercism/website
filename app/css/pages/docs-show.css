@@ -1,16 +1,35 @@
 @import "../styles";
 
+body.controller-docs.action-section,
+body.controller-docs.action-show {
+    padding-left: 66px;
+    .auth-buttons {
+        a:nth-child(1) {
+            @apply sm:flex hidden;
+        }
+    }
+}
+
+@screen xl {
+    body.controller-docs.action-section,
+    body.controller-docs.action-show {
+        padding-left: unset;
+    }
+}
+
 #page-docs-show {
     & .container {
         @apply flex;
     }
     & .docs-content {
-        @apply pt-48 px-80 pb-48;
+        @apply pt-48 pb-48 xl:px-80 px-16;
         @apply flex-grow;
-        max-width: 940px;
+        @apply max-w-[100%] xl:max-w-[940px];
 
         & h1 {
             @apply text-h1 mb-4;
+            overflow-wrap: anywhere;
+            hyphens: auto;
         }
         & .h1-subtitle {
             @apply text-23 leading-170 text-textColor6;

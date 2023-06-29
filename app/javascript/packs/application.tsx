@@ -496,7 +496,8 @@ import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsidersStatus'
 import {
   handleNavbarFocus,
-  scrollToSelectedAdminMenuElement,
+  scrollIntoView,
+  makeTablesResponsive,
   showSiteFooterOnTurboLoad,
 } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
@@ -513,7 +514,8 @@ document.addEventListener('turbo:load', () => {
 
 showSiteFooterOnTurboLoad()
 handleNavbarFocus()
-scrollToSelectedAdminMenuElement()
+scrollIntoView()
+makeTablesResponsive()
 
 // object.entries polyfill
 if (!Object.entries) {

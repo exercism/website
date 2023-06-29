@@ -14,6 +14,8 @@ module ViewComponents
       tag.nav(class: "c-docs-side-nav") do
         tags = []
         tags << tag.h2(@track.title) if track
+        tags << tag.input(class: 'side-menu-trigger', id: 'side-menu-trigger', type: 'checkbox', style: 'display: none')
+        tags << hamburger
         tags << tag.ul do
           safe_join(
             structured_docs.map do |node, children|
@@ -22,6 +24,16 @@ module ViewComponents
           )
         end
         safe_join(tags.compact)
+      end
+    end
+
+    def hamburger
+      tag.label(for: 'side-menu-trigger', class: 'trigger-label') do
+        safe_join([
+                    tag.span(class: 'icon-bar top-bar'),
+                    tag.span(class: 'icon-bar middle-bar'),
+                    tag.span(class: 'icon-bar bottom-bar')
+                  ])
       end
     end
 
@@ -65,11 +77,12 @@ module ViewComponents
 
       css_classes = []
       css_classes << "selected expanded" if doc.slug == selected_doc&.slug
+      scroll_into_view = true if doc.slug == selected_doc&.slug
       css_classes << "header" if slugs_with_children.include?(doc.slug)
       css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc&.slug }
 
-      tag.li(class: css_classes.join(" ")) do
-        link_to doc.nav_title, url
+      tag.li(class: css_classes.join(" "), data: { scroll_into_view: }) do
+        link_to tag.span(doc.nav_title), url
       end
     end
 

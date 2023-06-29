@@ -134,6 +134,13 @@
     &.--small {
         & * {
             @apply leading-160;
+            overflow-wrap: anywhere;
+            hyphens: auto;
+        }
+
+        table * {
+            overflow-wrap: initial;
+            hyphens: initial;
         }
 
         /******************/

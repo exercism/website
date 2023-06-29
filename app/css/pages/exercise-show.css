@@ -388,10 +388,15 @@
         }
     }
     & section.extra-info {
-        @apply flex items-center mb-40;
+        @apply flex md:flex-row flex-col md:items-center items-center md:w-[unset] w-fit mb-40 md:gap-[unset] gap-24;
         & .updated-at,
         & a {
             @apply text-15 text-textColor6 font-medium;
+        }
+
+        & > * {
+            @apply w-100 md:w-[unset];
+            @apply md:mr-[unset] mr-auto;
         }
 
         & a {

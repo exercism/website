@@ -1,11 +1,11 @@
 .c-track-breadcrumbs {
     @apply border-b-1 border-color22;
-    @apply overflow-x-auto;
 
     & .container {
         @apply flex items-center;
         @apply py-8;
         @apply text-14 text-textColor3 leading-150;
+        @apply overflow-x-auto;
     }
 
     & a {

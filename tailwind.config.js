@@ -380,6 +380,7 @@ module.exports = {
       '1-3': '33.3%',
       '1-2': '50%',
       100: '100%',
+      fit: 'fit-content',
     },
     maxWidth: {
       '1-2': '50%',

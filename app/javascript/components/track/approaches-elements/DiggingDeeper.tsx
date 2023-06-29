@@ -47,8 +47,8 @@ function DiggingDeeperFooter({
   introduction: ApproachIntroduction
 }): JSX.Element {
   return (
-    <footer className="flex items-center justify-between text-textColor6 py-12 mb-48">
-      <div className="flex items-center">
+    <footer className="flex md:flex-row flex-col md:gap-[unset] gap-24 items-center justify-between text-textColor6 py-12 mb-48">
+      <div className="flex items-center md:mr-[unset] mr-auto">
         <Credits
           topCount={introduction.numAuthors}
           topLabel="author"
@@ -67,7 +67,7 @@ function DiggingDeeperFooter({
         href={introduction.links.edit}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center text-black filter-textColor6 leading-160 font-medium"
+        className="flex items-center text-black filter-textColor6 leading-160 font-medium md:mr-[unset] mr-auto"
       >
         <GraphicalIcon
           height={24}

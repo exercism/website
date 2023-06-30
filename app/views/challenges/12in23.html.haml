@@ -145,7 +145,7 @@
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
                 Published Exercises
-                .inline.text-14 (#{@badge_progress_exercises.size} / 25 so far)
+                .inline.text-14 (#{@badge_progress_exercises.size} / 30 so far)
               .grid.grid-cols-6.gap-12
                 - @badge_progress_exercises.each do |track_slug, exercise_slug|
                   = link_to track_exercise_path(track_slug, exercise_slug) do

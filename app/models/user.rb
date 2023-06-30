@@ -167,8 +167,8 @@ class User < ApplicationRecord
   # user's data record has it instead?
   def method_missing(name, *args)
     super
-  rescue NoMethodError => e
-    raise e unless data.respond_to?(name)
+  rescue NameError
+    raise unless data.respond_to?(name)
 
     data.send(name, *args)
   end

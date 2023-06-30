@@ -15,7 +15,7 @@ class Git::SyncExerciseContributors < Git::Sync
       exercise.reload.update!(contributors:)
 
       # TODO: (Optional) consider what to do with missing contributors
-      missing_contributors = contributors_config - contributors.pluck(:github_username)
+      missing_contributors = contributors_config - contributors.map(&:github_username)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
     end
   end

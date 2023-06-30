@@ -37,7 +37,7 @@ class User::ReputationToken::AwardForPullRequestReviewers
     end
 
     # TODO: (Optional) consider what to do with missing reviewers
-    missing_reviewers = reviewer_usernames - reviewers.pluck(:github_username)
+    missing_reviewers = reviewer_usernames - reviewers.map(&:github_username)
     Rails.logger.error "Missing reviewers: #{missing_reviewers.join(', ')}" if missing_reviewers.present?
   end
 

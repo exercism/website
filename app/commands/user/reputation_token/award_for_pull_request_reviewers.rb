@@ -17,7 +17,7 @@ class User::ReputationToken::AwardForPullRequestReviewers
     reviewer_usernames.delete(params[:author_username])
 
     # Only award reviewer reputation to organization members
-    reviewer_usernames &= ::Github::OrganizationMember.pluck(:username)
+    reviewer_usernames &= ::Github::OrganizationMember.map(&:username)
 
     reviewers = ::User.with_data.where(data: { github_username: reviewer_usernames })
     reviewers.find_each do |reviewer|
@@ -37,7 +37,7 @@ class User::ReputationToken::AwardForPullRequestReviewers
     end
 
     # TODO: (Optional) consider what to do with missing reviewers
-    missing_reviewers = reviewer_usernames - reviewers.pluck(:github_username)
+    missing_reviewers = reviewer_usernames - reviewers.map(&:github_username)
     Rails.logger.error "Missing reviewers: #{missing_reviewers.join(', ')}" if missing_reviewers.present?
   end
 

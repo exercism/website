@@ -17,14 +17,8 @@
 
 body.namespace-tracks {
     .auth-buttons {
-        a {
-            &:first-child {
-                @apply sm:mr-8 !mr-0;
-            }
-
-            &:nth-child(2) {
-                @apply sm:flex hidden;
-            }
+        a:nth-child(2) {
+            @apply sm:flex hidden;
         }
     }
 }

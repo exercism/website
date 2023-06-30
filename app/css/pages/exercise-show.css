@@ -396,31 +396,22 @@ body.namespace-tracks {
         }
     }
     & section.extra-info {
-        @apply flex md:flex-row flex-col md:items-center items-center md:w-[unset] w-fit mb-40 md:gap-[unset] gap-24;
-        & .updated-at,
-        & a {
+        @apply flex flex-row items-center mb-40;
+        a {
+            @apply xs:flex hidden items-center;
             @apply text-15 text-textColor6 font-medium;
-        }
-
-        & > * {
-            @apply w-100 md:w-[unset];
-            @apply md:mr-[unset] mr-auto;
-        }
-
-        & a {
-            @apply flex items-center;
             @apply ml-auto;
 
-            & .c-icon {
+            .c-icon {
                 filter: var(--textColor6-filter);
             }
 
-            & .github-icon {
+            .github-icon {
                 height: 22px;
                 width: 22px;
                 @apply mr-16;
             }
-            & .action-icon {
+            .action-icon {
                 height: 12px;
                 width: 12px;
                 @apply ml-12;

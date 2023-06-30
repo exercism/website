@@ -41,7 +41,6 @@ class User::Data < ApplicationRecord
     }
   end
 
-  # Cache methods
   %w[
     has_unrevealed_testimonials?
     has_unrevealed_badges?

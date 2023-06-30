@@ -285,7 +285,7 @@
             & .tabs {
                 @apply flex flex-shrink-0 flex-grow-0;
                 @apply py-16 px-24;
-                @apply scroll-x-hidden;
+                @apply scroll-x-editor-rhs;
 
                 & .c-tab {
                     height: 36px;
@@ -358,6 +358,10 @@
                     }
                     & .content {
                         @apply mt-0;
+                    }
+
+                    h4 {
+                        @apply mt-20;
                     }
                 }
                 & .instructions {

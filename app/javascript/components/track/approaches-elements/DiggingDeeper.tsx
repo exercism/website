@@ -47,7 +47,7 @@ function DiggingDeeperFooter({
   introduction: ApproachIntroduction
 }): JSX.Element {
   return (
-    <footer className="flex lg:flex-row flex-col lg:gap-[unset] gap-24 items-center justify-between text-textColor6 py-12 mb-48">
+    <footer className="flex lg:flex-row flex-col lg:gap-[unset] gap-12 items-center justify-between text-textColor6 py-12 mb-48">
       <div className="flex items-center lg:mr-[unset] mr-auto">
         <Credits
           topCount={introduction.numAuthors}

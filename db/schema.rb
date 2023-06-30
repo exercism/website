@@ -1236,7 +1236,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
-    t.integer "flair", limit: 4, null: true
+    t.integer "flair", limit: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "disabled_at"

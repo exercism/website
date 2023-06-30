@@ -15,7 +15,8 @@
     }
 }
 
-body.namespace-tracks {
+body.namespace-tracks,
+body.namespace-.controller-tracks {
     .auth-buttons {
         a:nth-child(2) {
             @apply sm:flex hidden;

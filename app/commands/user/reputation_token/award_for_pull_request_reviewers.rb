@@ -17,7 +17,7 @@ class User::ReputationToken::AwardForPullRequestReviewers
     reviewer_usernames.delete(params[:author_username])
 
     # Only award reviewer reputation to organization members
-    reviewer_usernames &= ::Github::OrganizationMember.map(&:username)
+    reviewer_usernames &= ::Github::OrganizationMember.pluck(:username)
 
     reviewers = ::User.with_data.where(data: { github_username: reviewer_usernames })
     reviewers.find_each do |reviewer|

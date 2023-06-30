@@ -4,8 +4,14 @@ body.controller-docs.action-section,
 body.controller-docs.action-show {
     padding-left: 66px;
     .auth-buttons {
-        a:nth-child(1) {
-            @apply sm:flex hidden;
+        a {
+            &:first-child {
+                @apply sm:mr-8 !mr-0;
+            }
+
+            &:nth-child(2) {
+                @apply sm:flex hidden;
+            }
         }
     }
 }

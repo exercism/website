@@ -10,14 +10,10 @@ class Mentor::UpdateStats
       mentor.num_solutions_mentored,
       mentor.mentor_satisfaction_percentage
     ]
+    new_values = old_values.clone
 
-    Mentor::UpdateNumSolutionsMentored.(mentor) if update_num_solutions_mentored
-    Mentor::UpdateSatisfactionPercentage.(mentor) if update_satisfaction_rating
-
-    new_values = [
-      mentor.num_solutions_mentored,
-      mentor.mentor_satisfaction_percentage
-    ]
+    new_values[0] = Mentor::UpdateNumSolutionsMentored.(mentor) if update_num_solutions_mentored
+    new_values[1] = Mentor::UpdateSatisfactionPercentage.(mentor) if update_satisfaction_rating
 
     User::UpdateMentorRoles.defer(mentor) if old_values != new_values
   end

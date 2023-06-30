@@ -47,18 +47,15 @@ class Mentor::UpdateStatsTest < ActiveSupport::TestCase
     mentor = create :user
     create :user_track_mentorship, user: mentor
 
-    perform_enqueued_jobs do
-      99.times do
-        create :mentor_discussion, :finished, mentor:, rating: :great
-      end
-
+    99.times do
       create :mentor_discussion, :finished, mentor:, rating: :great
     end
 
-    perform_enqueued_jobs do
-      Mentor::UpdateStats.(mentor)
-    end
+    perform_enqueued_jobs { Mentor::UpdateStats.(mentor, update_num_solutions_mentored: true) }
+    refute mentor.reload.supermentor?
 
+    create :mentor_discussion, :finished, mentor:, rating: :great
+    perform_enqueued_jobs { Mentor::UpdateStats.(mentor, update_num_solutions_mentored: true) }
     assert mentor.reload.supermentor?
   end
 end

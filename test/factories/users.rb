@@ -96,7 +96,7 @@ FactoryBot.define do
         data = user.data
         data.update!(
           roles: (data.roles + [:supermentor]),
-          cache: (data.cache || {}).merge({'mentor_satisfaction_percentage' => 98})
+          cache: (data.cache || {}).merge({ 'mentor_satisfaction_percentage' => 98 })
         )
       end
     end

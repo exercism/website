@@ -17,7 +17,7 @@ class User::ReputationTokens::ExerciseArticleContributionTokenTest < ActiveSuppo
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseArticleContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseArticleContributionToken, rt
     assert_equal "You contributed to the <strong>Performance</strong> article for <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

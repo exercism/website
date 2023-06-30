@@ -39,7 +39,7 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
     )
     assert_equal 1, user.notifications.size
     notification = User::Notification.where(user:).first
-    assert_equal User::Notifications::MentorRepliedToDiscussionNotification, notification.class
+    assert_instance_of User::Notifications::MentorRepliedToDiscussionNotification, notification
     assert_equal(
       { discussion_post: Mentor::DiscussionPost.first.to_global_id.to_s }.with_indifferent_access,
       notification.send(:params)

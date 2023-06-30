@@ -10,7 +10,7 @@ class Metrics::MergePullRequestTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:merge_pull_request, occurred_at, pull_request:, track:, user:)
 
-      assert_equal Metrics::MergePullRequestMetric, metric.class
+      assert_instance_of Metrics::MergePullRequestMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track

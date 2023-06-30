@@ -16,7 +16,7 @@ class User::ReputationTokens::ExerciseApproachIntroductionAuthorTokenTest < Acti
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseApproachIntroductionAuthorToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseApproachIntroductionAuthorToken, rt
     assert_equal "You authored the approach of <strong>Bob</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

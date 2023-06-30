@@ -104,7 +104,7 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::SubmitSubmissionMetric, metric.class
+    assert_instance_of Metrics::SubmitSubmissionMetric, metric
     assert_equal submission.created_at, metric.occurred_at
     assert_equal submission, metric.submission
     assert_equal solution.track, metric.track

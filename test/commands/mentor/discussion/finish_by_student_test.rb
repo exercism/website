@@ -163,7 +163,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::FinishMentoringMetric, metric.class
+    assert_instance_of Metrics::FinishMentoringMetric, metric
     assert_equal discussion.finished_at, metric.occurred_at
     assert_equal discussion.track, metric.track
     assert_equal discussion.student, metric.user

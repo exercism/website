@@ -332,7 +332,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::PublishSolutionMetric, metric.class
+    assert_instance_of Metrics::PublishSolutionMetric, metric
     assert_equal solution.published_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal user, metric.user

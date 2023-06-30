@@ -52,4 +52,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   JUNE_TRACKS = %w[clojure common-lisp emacs-lisp lfe racket scheme].freeze
   JUNE_EXERCISES = %w[leap two-fer difference-of-squares robot-name matching-brackets].freeze
+
+  JULY_TRACKS = %w[c cpp cobol fortran vbnet].freeze
+  JULY_EXERCISES = %w[bob allergies reverse-string high-scores armstrong-numbers].freeze
 end

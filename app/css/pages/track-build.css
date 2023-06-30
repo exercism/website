@@ -180,7 +180,8 @@
         @apply label-large text-16 mb-8;
     }
     .tooling-status-group {
-        @apply flex flex-row;
+        @apply flex flex-row sm:flex-nowrap flex-wrap sm:gap-[unset] gap-12;
+        @apply sm:justify-start justify-center;
     }
 
     .track-status {

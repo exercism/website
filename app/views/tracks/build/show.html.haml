@@ -10,7 +10,7 @@
       %h1.text-h1.mb-16.text-40.font-bold.z-1
         .highlight-text= number_with_delimiter(@status.students.num_students)
         students have developed their #{@track.title} skills on Exercism.
-      .grid.grid-cols-3.mb-32.gap-16
+      .grid.md:grid-cols-3.sm:grid-cols-2.grid-cols-1.mb-32.gap-16
         .report-stat
           .stat-name
             Students
@@ -37,7 +37,7 @@
           = render ViewComponents::Track::Build::Health.new(@status.health)
 
         .flex
-          .flex.flex-col.mr-40
+          .flex.flex-col.sm:mr-40.mr-0
             .tooling-status-label Building
             .tooling-status-group
               - if @track.course?

@@ -17,7 +17,7 @@
         .tabs.overflow-x-auto= raw tabs
       .mr-84.hidden.lg:flex.items-center.ml-auto
         .tags.mr-32= raw tags
-        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex ") do
+        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex whitespace-nowrap") do
           .c-faces
             - track.top_contributors[0, 3].map do |author|
               .face= avatar(author)

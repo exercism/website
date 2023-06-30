@@ -15,7 +15,9 @@ export function NoContentYet({
       <div className="text-label-timestamp text-16 mb-4 font-semibold">
         There are no {contentType} for {exerciseTitle}.
       </div>
-      <div className="flex flex-row text-15 leading-150">{children}</div>
+      <div className="flex md:flex-row flex-col text-15 leading-150">
+        {children}
+      </div>
     </div>
   )
 }

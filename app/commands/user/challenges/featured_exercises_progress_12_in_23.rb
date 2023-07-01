@@ -34,7 +34,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
       APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
       MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
-      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] }
+      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
+      JULY_EXERCISES.map { |e| [e, JULY_TRACKS] }
     ).to_h
   end
 

@@ -28,7 +28,7 @@
           = pluralize @user_track.num_exercises_for_concept(@concept), "exercise"
 
       .absolute{ style: 'right: var(--container-padding-x)', class: 'z-[10] top-[-31px]' }
-        = render ViewComponents::Advert.new(track: @track, exercise: @exercise)
+        = render ViewComponents::Partner::Advert.new(track: @track, exercise: @exercise)
       -#
         - unless @user_track.external?
           .rhs.progress

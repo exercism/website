@@ -1,7 +1,7 @@
 .c-admin-page
   .lg-container
     %h1.text-h1.mb-16 Advert #{@partner.name}##{@advert.id}
-    = render ViewComponents::Advert.new(advert: @advert, preview: true)
+    = render ViewComponents::Partner::Advert.new(advert: @advert, preview: true)
     %hr.my-32.border-borderColor5
 
     .text-h6.mb-8 Status: #{@advert.status.titleize}

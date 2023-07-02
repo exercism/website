@@ -15,5 +15,5 @@
   .lg-container.mt-24.mb-24
     .grid.grid-cols-3.gap-24
       - @perks.each do |perk|
-        = render ViewComponents::Perk.new(perk)
+        = render ViewComponents::Partner::Perk.new(perk)
 

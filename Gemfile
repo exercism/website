@@ -16,6 +16,7 @@ gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'anycable-rails', '~> 1.2.0'
 gem 'grpc', '>= 1.53.0'
+gem 'crawler_detect'
 
 # Serving requests
 gem 'puma', '~> 4.3'
@@ -36,7 +37,8 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.101.0' # path: '../exercism_config'
+#gem 'exercism-config', '>= 0.101.0'
+gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'

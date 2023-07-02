@@ -15,7 +15,7 @@
       - @partner.perks.each do |perk|
         %tr
           %td
-            %div{ class: 'max-w-[443px]' }= render ViewComponents::Perk.new(perk)
+            %div{ class: 'max-w-[443px]' }= render ViewComponents::Partner::Perk.new(perk)
           %td.w-arbitary= perk.status.titleize
           %td.w-arbitary= perk.audience.titleize
           %td.w-arbitary= perk.num_clicks
@@ -36,7 +36,7 @@
         %th{ colspan: 2 }
       - @partner.adverts.each do |advert|
         %tr
-          %td= render ViewComponents::Advert.new(advert:, preview: true)
+          %td= render ViewComponents::Partner::Advert.new(advert:, preview: true)
           %td.w-arbitary= advert.status.titleize
           %td.w-arbitary= advert.num_impressions
           %td.w-arbitary= advert.num_clicks

@@ -14,7 +14,7 @@
 
 .lg-container.relative
   .absolute{ style: 'right: var(--container-padding-x)', class: 'z-[10] top-[-55px]' }
-    = render ViewComponents::Advert.new(track)
+    = render ViewComponents::Partner::Advert.new(track:)
 
 - if solution&.out_of_date?
   .lg-container

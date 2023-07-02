@@ -27,6 +27,8 @@ module Website
       g.helper false
     end
 
+    config.middleware.use Rack::CrawlerDetect
+
     Rails.autoloaders.main.ignore(Rails.root.join('app', 'css'))
   end
 end

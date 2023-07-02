@@ -3,5 +3,5 @@
   %p.about= perk.about_text
   .details= raw perk.offer_html
   .flex.gap-12
-    = link_to perk.button_text, "#", class: 'btn-m btn-primary'
+    = link_to perk.button_text, redirect_perk_path(perk), class: 'btn-m btn-primary'
     = link_to "Learn more", "#", class: 'btn-m btn-enhanced'

@@ -5,6 +5,7 @@ module ViewComponents
     initialize_with advert: nil, track: nil, preview: false
 
     def to_s
+      # Don't show adverts at all for crawlers
       return nil if request.is_crawler?
 
       uuid = SecureRandom.hex
@@ -12,7 +13,7 @@ module ViewComponents
       render(
         template: "components/advert",
         locals: { advert:, uuid: }
-      ).tap do |_output|
+      ).tap do
         ::Partner::LogAdvertImpression.defer(
           uuid,
           advert, current_user, request.remote_ip,

@@ -2,7 +2,7 @@ class Partner
   class LogPerkClick
     include Mandate
 
-    initialize_with :perk, :user, :clicked_at, :impression_uuid
+    initialize_with :perk, :user, :clicked_at
 
     def call
       return unless valid_click?
@@ -21,7 +21,6 @@ class Partner
     def doc
       {
         perk_id: perk.id,
-        impression_uuid:,
         clicked_at:
       }
     end

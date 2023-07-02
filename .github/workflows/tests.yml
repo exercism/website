@@ -191,6 +191,11 @@ jobs:
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: latest
+
       ###
       # Precompile JS
       - name: Precompile JS
@@ -212,6 +217,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          MONGODB_URL: "127.0.0.1:27017"
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
@@ -310,6 +316,11 @@ jobs:
       - name: Install packages
         run: sudo apt-get install libvips
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: latest
+
       ###
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
@@ -360,6 +371,7 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          MONGODB_URL: "127.0.0.1:27017"
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false

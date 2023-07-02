@@ -276,7 +276,9 @@ Rails.application.routes.draw do
   resources :adverts, controller: "partner/adverts", only: [] do
     get :redirect, on: :member
   end
-  resources :perks, only: [:index]
+  resources :perks, only: [:index] do
+    get :redirect, on: :member
+  end
 
   ###############
   # About Pages #

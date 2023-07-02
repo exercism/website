@@ -4,7 +4,6 @@ class CreatePartnerPerks < ActiveRecord::Migration[7.0]
       t.belongs_to :partner, foreign_key: true
       t.integer :status, null: false, default: 0, size: 1
       t.integer :audience, null: false, default: 0, size: 1
-      t.integer :num_impressions, null: false, default:0
       t.integer :num_clicks, null: false, default:0
 
       t.string :url, null: false

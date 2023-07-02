@@ -44,6 +44,11 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
+# We just want one copy of mongodb client for the whole test_suite
+Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
+client = Exercism.mongodb_client
+Exercism.define_singleton_method(:mongodb_client) { client }
+
 # This "fixes" reload in Madnate.
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
@@ -216,8 +221,7 @@ class ActiveSupport::TestCase
   end
 
   def reset_mongodb!
-    Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
-    Exercism.mongodb_client.database.drop
+    Exercism.mongodb_client.collections.each(&:drop)
   end
 
   ###################

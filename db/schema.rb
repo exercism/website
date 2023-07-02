@@ -680,6 +680,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.bigint "partner_id"
     t.integer "status", default: 0, null: false
     t.integer "audience", default: 0, null: false
+    t.integer "num_impressions", default: 0, null: false
     t.integer "num_clicks", default: 0, null: false
     t.string "url", null: false
     t.string "about_text", null: false

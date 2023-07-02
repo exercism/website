@@ -1269,12 +1269,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
-    t.integer "flair", limit: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "disabled_at"
+    t.integer "flair", limit: 1
     t.json "cache"
->>>>>>> a5dacb0aa (Add initial advert and rename supporting-orgs to partners)
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

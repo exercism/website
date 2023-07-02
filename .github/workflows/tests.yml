@@ -205,7 +205,6 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          MONGODB_URL: "127.0.0.1:27017"
         run: |
           bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare
@@ -218,7 +217,6 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          MONGODB_URL: "127.0.0.1:27017"
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
@@ -360,7 +358,6 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          MONGODB_URL: "127.0.0.1:27017"
         run: |
           bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare
@@ -373,7 +370,6 @@ jobs:
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          MONGODB_URL: "127.0.0.1:27017"
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
@@ -439,6 +435,5 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-          MONGODB_URL: "127.0.0.1:27017"
         run: bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare

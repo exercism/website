@@ -11,6 +11,7 @@ gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
 gem 'mysql2', '~> 0.5.4'
 gem 'redis', '~> 4.0'
+gem 'mongo'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'anycable-rails', '~> 1.2.0'

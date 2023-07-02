@@ -20,6 +20,7 @@ You need the following installed:
 
 - Ruby 3.2.1 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
 - MySQL
+- MongoDB
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
 - [Docker](https://www.docker.com/)

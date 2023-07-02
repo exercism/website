@@ -663,6 +663,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
   end
 
   create_table "partner_adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
     t.bigint "partner_id"
     t.integer "status", default: 0, null: false
     t.integer "num_impressions", default: 0, null: false

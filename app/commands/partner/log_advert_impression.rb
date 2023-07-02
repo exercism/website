@@ -2,7 +2,7 @@ class Partner
   class LogAdvertImpression
     include Mandate
 
-    initialize_with :advert, :user, :ip_address, :shown_at, :request_path
+    initialize_with :uuid, :advert, :user, :ip_address, :shown_at, :request_path
 
     def call
       return unless valid_impression?
@@ -21,6 +21,7 @@ class Partner
 
     def doc
       {
+        _id: uuid,
         advert_id: advert.id,
         user_id: user&.id,
         ip_address:,

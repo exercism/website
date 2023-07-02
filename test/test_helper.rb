@@ -156,6 +156,7 @@ class ActiveSupport::TestCase
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
+    reset_mongodb!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -212,6 +213,11 @@ class ActiveSupport::TestCase
 
   def reset_rack_attack!
     Rack::Attack.reset!
+  end
+
+  def reset_mongodb!
+    Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
+    Exercism.mongodb_client.database.drop
   end
 
   ###################

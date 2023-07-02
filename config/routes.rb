@@ -99,7 +99,6 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
-  resources :perks, only: [:index]
   resources :insiders, only: [:index]
 
   resource :premium, only: [:show], controller: 'premium' do
@@ -270,6 +269,14 @@ Rails.application.routes.draw do
   get "/422", to: "errors#unacceptable"
   get "/500", to: "errors#internal_error"
   get "/503", to: "errors#internal_error"
+
+  ###################
+  # Adverts & Perks #
+  ###################
+  resources :adverts, controller: "partner/adverts", only: [] do
+    get :redirect, on: :member
+  end
+  resources :perks, only: [:index]
 
   ###############
   # About Pages #

@@ -7,11 +7,14 @@ module ViewComponents
     def to_s
       return nil if request.is_crawler?
 
+      uuid = SecureRandom.hex
+
       render(
         template: "components/advert",
-        locals: { advert: }
+        locals: { advert:, uuid: }
       ).tap do |_output|
         ::Partner::LogAdvertImpression.defer(
+          uuid,
           advert, current_user, request.remote_ip,
           Time.current, request.path
         )

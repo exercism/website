@@ -247,10 +247,8 @@
             .record-row {
                 @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
 
-                &:has([data-record-label]) {
-                    &:nth-child(3) {
-                        @apply md:mt-0 mt-16;
-                    }
+                &:has(.external-link) {
+                    @apply md:flex-row flex-col md:items-center items-start;
                 }
             }
             @apply select-none;
@@ -326,14 +324,20 @@
     .record-row {
         &.sticky {
             @apply md:flex hidden;
+            @apply lg:flex-row flex-col lg:items-center items-start;
         }
-        @apply flex justify-between lg:items-center;
-        @apply lg:flex-row flex-col;
-        &:has(.external-link) {
-            @apply md:flex-row flex-col md:items-center items-start;
-        }
+        @apply flex justify-between md:items-center;
+        @apply md:flex-row flex-col;
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
+
+        &:has([data-record-label]) {
+            @apply lg:flex-row flex-col lg:items-center md:items-start;
+            &:nth-child(3) {
+                @apply md:mt-0 mt-16;
+            }
+        }
         .record-name {
+            @apply md:mb-0 mb-8;
             @apply label-large text-16;
             @apply flex items-center;
             .c-concept-icon,

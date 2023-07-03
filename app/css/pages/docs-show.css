@@ -35,6 +35,13 @@ body.controller-docs.action-track_index {
             overflow-wrap: anywhere;
             hyphens: auto;
         }
+
+        @screen md {
+            h1 {
+                overflow-wrap: initial;
+                hyphens: initial;
+            }
+        }
         & .h1-subtitle {
             @apply text-23 leading-170 text-textColor6;
         }

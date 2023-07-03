@@ -256,3 +256,18 @@
         }
     }
 }
+
+@screen md {
+    .c-textual-content {
+        /* This is necessary else the rules above override
+     * the ones below */
+        &.--large,
+        &.--base,
+        &.--small {
+            & * {
+                overflow-wrap: initial;
+                hyphens: initial;
+            }
+        }
+    }
+}

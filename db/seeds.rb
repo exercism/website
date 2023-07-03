@@ -329,3 +329,87 @@ update.update!(
 update.update(pull_request: Github::PullRequest.first)
 
 User::AcquiredBadge::Create.(iHiD, :rookie)
+
+# Clean up
+Partner::Advert.destroy_all
+Partner::Perk.destroy_all
+Partner.destroy_all
+
+packt = Partner.create!(
+  name: "Packt Publishing",
+  slug: :packt,
+  website_url: "https://www.packtpub.com",
+  headline: "Access the most comprehensive eBook library in Tech",
+  description_markdown: <<~MARKDOWN,
+- Get unlimited access to 6,500+ expert-authored eBooks and video courses covering every tech area you can think of
+- Master the latest advancements before anyone else with our exclusive early access program (heaps of new content added every month)
+- Solve problems as you work with our advanced search and reference features
+
+### A Packt Subscription will help you...
+- **Save time and stay focused on work:** Packt’s advanced search helps you get exactly what you need from our expansive library of over 7500+ books and videos.
+- **Stay ahead of the curve:** Be first on new and emerging tech with early access to unpublished books and 50 new titles every month.
+- **Save money and get perks:** Not only is a Packt subscription the best value for money tech library in pure content terms, but you can also earn free DRM-free eBook downloads and other discounts.
+- **Advance your knowledge in tech from the experts:** Our books are written by developers, for developers – we unlock expert knowledge that you won't find anywhere else online.
+- **Read whatever, wherever, whenever:** You can access our library on any device, and even read offline with our mobile app.
+- **Learn your way:** Manage your learning with customisable playlists, notes in books, and personalised recommendations.
+MARKDOWN
+
+  support_markdown: <<~MARKDOWN,
+  Packt has supported Exercism since 2022, generously donating over $150k to support free education equal access to opportunity.
+  MARKDOWN
+)
+packt.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
+packt.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
+
+configcat = Partner.create!(name: "ConfigCat", slug: :configcat, description_markdown: "")
+configcat.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-light.svg')), filename: "configcat.svg")
+configcat.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-dark.svg')), filename: "configcat.svg")
+
+codecapsules = Partner.create!(name: "Code Capsules", slug: :code_capsules, description_markdown: "")
+codecapsules.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-light.svg')), filename: "code-capsules.svg")
+codecapsules.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-dark.svg')), filename: "code-capsules.svg")
+
+packt.perks.create!(
+  preview_text: "Packt is the online library and learning platform for professional developers. Learn Python, JavaScript, Angular and more with eBooks, videos and courses.",
+
+  general_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
+  general_offer_markdown: "Get **25% off a Packt annual membership** with your Exercism account.",
+  general_button_text: "Claim 25% discount",
+
+  premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-25-7h3kf",
+  premium_offer_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
+  premium_button_text: "Claim 50% discount",
+
+  offer_details: <<~TEXT,
+  Packt are offering 50% off their annual subscription for all Exercism Premium users and Exercism Insiders.
+  Simply click the button below to checkout with the discount already applied.
+  TEXT
+)
+
+configcat.perks.create!(
+  about_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
+
+  general_url: "https://configcat.com/",
+  general_offer_markdown: "Get ConfigCat Pro **entirely free** for one year with your Exercism account.",
+  general_button_text: "Claim 100% discount"
+)
+
+codecapsules.perks.create!(
+  about_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
+
+  general_url: "https://configcat.com/",
+  general_offer_markdown: "Get ConfigCat Pro **entirely free** for one year with your Exercism account.",
+  general_button_text: "Claim free hosting"
+)
+
+
+
+
+=begin
+    advert = Partner.first.adverts.create!(
+      url: "#",
+      base_text: "Cross-platform, developer-centric feature flags.",
+      emphasised_text: "Get 20% off through Exercism Perks."
+    )
+    advert.logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'config-cat.png')), filename: "config-cat.png")
+=end

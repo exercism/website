@@ -19,3 +19,18 @@
         }
     }
 }
+
+.theme-light {
+    .c-perk {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    .c-perk {
+        .logo-light {
+            @apply hidden;
+        }
+    }
+}

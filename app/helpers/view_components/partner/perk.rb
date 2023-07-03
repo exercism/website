@@ -9,7 +9,9 @@ module ViewComponents
         template: "components/perk",
         locals: {
           perk:,
-          button_tag: preview ? :div : :a
+          offer_html: perk.offer_html_for_user(current_user),
+          button_tag: preview ? :div : :a,
+          button_text: perk.button_text_for_user(current_user)
         }
       )
     end

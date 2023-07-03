@@ -16,14 +16,7 @@ class CreateAdverts < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-
-    advert = Partner.first.adverts.create!(
-      url: "#",
-      base_text: "Cross-platform, developer-centric feature flags.",
-      emphasised_text: "Get 20% off through Exercism Perks."
-    )
-    advert.logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'config-cat.png')), filename: "config-cat.png")
-  end
+ end
 
   def down
     drop_table :partner_adverts

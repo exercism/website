@@ -51,6 +51,7 @@ gem 'sidekiq-scheduler'
 gem 'hamlit'
 gem 'commonmarker', '>= 0.23.8'
 gem 'ansi-to-html'
+gem 'public_suffix'
 
 # Authentication
 gem 'devise', '~> 4.7'

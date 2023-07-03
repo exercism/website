@@ -585,6 +585,7 @@ DEPENDENCIES
   omniauth-github
   omniauth-rails_csrf_protection
   propshaft (= 0.4.0)
+  public_suffix
   puma (~> 4.3)
   rack-attack (~> 6.6)
   rack-cors

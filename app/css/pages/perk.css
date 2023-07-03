@@ -1,0 +1,31 @@
+@import "../styles";
+
+#page-perk {
+    @apply bg-backgroundColorA;
+    .logo {
+        @apply h-[40px];
+    }
+    & .lhs {
+        max-width: 720px;
+        @apply mr-auto;
+    }
+    & .rhs {
+        @apply md:flex-shrink-0;
+
+        @apply max-w-[500px];
+    }
+}
+.theme-light {
+    #page-perk {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    #page-perk {
+        .logo-light {
+            @apply hidden;
+        }
+    }
+}

@@ -44,7 +44,8 @@ module ViewComponents
           tabs << link_to(
             graphical_icon(:overview) + tag.span("Overview"),
             Exercism::Routes.track_path(track),
-            class: tab_class(:overview)
+            class: tab_class(:overview),
+            data: scroll_into_view(:overview)
           )
         end
 
@@ -60,7 +61,8 @@ module ViewComponents
         link_to(
           graphical_icon('info-circle') + tag.span("About"),
           Exercism::Routes.send(url, track),
-          class: tab_class(:about)
+          class: tab_class(:about),
+          data: scroll_into_view(:about)
         )
       end
 
@@ -68,7 +70,8 @@ module ViewComponents
         link_to(
           graphical_icon(:concepts) + tag.span("Syllabus"),
           Exercism::Routes.track_concepts_path(track),
-          class: tab_class(:concepts)
+          class: tab_class(:concepts),
+          data: scroll_into_view(:concepts)
         )
       end
 
@@ -76,7 +79,8 @@ module ViewComponents
         link_to(
           graphical_icon(:exercises) + tag.span("Exercises"),
           Exercism::Routes.track_exercises_path(track),
-          class: tab_class(:exercises)
+          class: tab_class(:exercises),
+          data: scroll_into_view(:exercises)
         )
       end
 
@@ -84,12 +88,17 @@ module ViewComponents
         link_to(
           graphical_icon(:building) + tag.span("Build Status"),
           Exercism::Routes.track_build_path(track),
-          class: tab_class(:build)
+          class: tab_class(:build),
+          data: scroll_into_view(:build)
         )
       end
 
       def tab_class(tab)
         "c-tab-2 #{'selected' if tab == selected_tab}"
+      end
+
+      def scroll_into_view(tab)
+        { scroll_into_view: (tab == selected_tab ? 'true' : 'false') }
       end
 
       def guard!

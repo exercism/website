@@ -7,12 +7,10 @@
     }
     & .lhs {
         max-width: 720px;
-        @apply mr-auto;
     }
     & .rhs {
-        @apply md:flex-shrink-0;
-
-        @apply max-w-[500px];
+        @apply ml-auto;
+        @apply min-w-[400px] max-w-[500px];
     }
 }
 .theme-light {

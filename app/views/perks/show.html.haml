@@ -3,13 +3,13 @@
     .lg-container
       = link_to perks_path, class: "c-prominent-link mt-20 mb-24" do
         = graphical_icon "arrow-left"
-        See all Exercism Perks
+        %span See all Exercism Perks
 
       = image_tag @partner.light_logo, alt: "Logo of #{@partner.name}", class: 'logo logo-light'
       = image_tag @partner.dark_logo, alt: "Logo of #{@partner.name}", class: 'logo logo-dark'
 
 
-  .lg-container.flex
+  .lg-container.flex.flex-col.gap-x-40.gap-y-32.lg:flex-row
     .lhs
       %h1.text-h1.mb-20
         Access the most comprehensive eBook library in Tech

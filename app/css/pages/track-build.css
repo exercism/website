@@ -246,6 +246,12 @@
         details {
             .record-row {
                 @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
+
+                &:has([data-record-label]) {
+                    &:nth-child(3) {
+                        @apply md:mt-0 mt-16;
+                    }
+                }
             }
             @apply select-none;
             @apply c-build-page-stats-container;
@@ -324,11 +330,11 @@
         @apply flex justify-between lg:items-center;
         @apply lg:flex-row flex-col;
         &:has(.external-link) {
-            @apply flex-row;
+            @apply md:flex-row flex-col md:items-center items-start;
         }
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
         .record-name {
-            @apply label-large text-16 md:my-0 my-12;
+            @apply label-large text-16;
             @apply flex items-center;
             .c-concept-icon,
             img {
@@ -344,12 +350,18 @@
         .record-value {
             @apply text-label-timestamp flex md:flex-row flex-col font-semibold;
             .record-element {
+                &[data-record-label="Started"] {
+                    @apply flex-row xs:justify-between justify-start;
+                }
                 @apply md:grid flex xs:flex-row flex-col;
                 @apply md:justify-start justify-between md:w-[128px] md:gap-2;
                 @apply text-14 font-normal md:items-center items-baseline;
-                &:before {
-                    @apply block md:hidden;
-                    content: attr(data-record-label) ":";
+                &[data-record-label] {
+                    &:before {
+                        @apply block md:hidden;
+                        @apply mr-8;
+                        content: attr(data-record-label) ":";
+                    }
                 }
                 strong {
                     @apply font-semibold;

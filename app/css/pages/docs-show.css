@@ -1,7 +1,9 @@
 @import "../styles";
 
 body.controller-docs.action-section,
-body.controller-docs.action-show {
+body.controller-docs.action-show,
+body.controller-docs.action-track_show,
+body.controller-docs.action-track_index {
     padding-left: 66px;
     .auth-buttons {
         a:nth-child(1) {
@@ -12,7 +14,9 @@ body.controller-docs.action-show {
 
 @screen xl {
     body.controller-docs.action-section,
-    body.controller-docs.action-show {
+    body.controller-docs.action-show,
+    body.controller-docs.action-track_show,
+    body.controller-docs.action-track_index {
         padding-left: unset;
     }
 }

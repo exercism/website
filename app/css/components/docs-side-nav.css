@@ -49,7 +49,7 @@
     }
 
     h2 {
-        @apply text-h4 mb-16;
+        @apply text-h4 mb-16 xl:block hidden;
     }
 
     ul {

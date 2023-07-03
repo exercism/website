@@ -2,7 +2,7 @@
 
 @layer components {
     .c-build-page-tooling-status {
-        @apply flex items-center border-2 border-black rounded-circle mr-16;
+        @apply flex items-center border-2 border-black rounded-circle sm:mr-16 mr-0;
         @apply bg-lightPurple;
         height: 48px;
         width: 48px;
@@ -15,7 +15,7 @@
     }
 
     .c-build-page-usage-summary {
-        @apply flex items-center;
+        @apply flex items-center xs:gap-x-0 gap-x-4;
         @apply label-large leading-150;
         @apply cursor-pointer;
         @apply c-build-page-before-icon;
@@ -39,10 +39,12 @@
     }
 
     .c-build-page-track-leader {
-        @apply text-h3 font-bold flex text-center items-center;
+        @apply flex md:flex-row flex-row-reverse text-h3 font-bold;
+        @apply md:text-center text-left items-center;
+        @apply justify-between md:justify-start;
 
         &:before {
-            @apply block mr-16;
+            @apply block md:mr-16 mr-0;
             height: 32px;
             width: 32px;
         }
@@ -53,7 +55,7 @@
         &:before {
             height: 24px;
             width: 24px;
-            @apply block mr-16;
+            @apply xs:block hidden mr-16;
             @apply filter-textColor1;
         }
     }
@@ -311,11 +313,14 @@
 
     .record-value {
         strong {
-            @apply mt-8 xl:mt-0;
+            @apply mt-0 xs:mt-8 xl:mt-0;
         }
     }
 
     .record-row {
+        &.sticky {
+            @apply md:flex hidden;
+        }
         @apply flex justify-between lg:items-center;
         @apply lg:flex-row flex-col;
         &:has(.external-link) {
@@ -323,7 +328,7 @@
         }
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
         .record-name {
-            @apply label-large text-16;
+            @apply label-large text-16 md:my-0 my-12;
             @apply flex items-center;
             .c-concept-icon,
             img {
@@ -337,10 +342,15 @@
         }
 
         .record-value {
-            @apply text-label-timestamp flex font-semibold;
+            @apply text-label-timestamp flex md:flex-row flex-col font-semibold;
             .record-element {
-                @apply grid w-[128px] gap-2;
-                @apply text-14 font-normal;
+                @apply md:grid flex xs:flex-row flex-col;
+                @apply md:justify-start justify-between md:w-[128px] md:gap-2;
+                @apply text-14 font-normal md:items-center items-baseline;
+                &:before {
+                    @apply block md:hidden;
+                    content: attr(data-record-label) ":";
+                }
                 strong {
                     @apply font-semibold;
                 }

@@ -46,7 +46,8 @@ module ViewComponents
         [
           link_to(
             Exercism::Routes.contributing_root_path,
-            class: tab_class(:dashboard)
+            class: tab_class(:dashboard),
+            data: scroll_into_view(:dashboard)
           ) do
             graphical_icon(:overview) +
               tag.span("Getting Started")
@@ -54,7 +55,8 @@ module ViewComponents
 
           link_to(
             Exercism::Routes.contributing_tasks_path,
-            class: tab_class(:tasks)
+            class: tab_class(:tasks),
+            data: scroll_into_view(:tasks)
           ) do
             graphical_icon(:tasks) +
               tag.span("Explore tasks") +
@@ -63,7 +65,8 @@ module ViewComponents
 
           link_to(
             Exercism::Routes.contributing_contributors_path(period: :week),
-            class: tab_class(:contributors)
+            class: tab_class(:contributors),
+            data: scroll_into_view(:contributors)
           ) do
             graphical_icon(:contributors) +
               tag.span("Contributors") +
@@ -75,6 +78,10 @@ module ViewComponents
 
       def tab_class(tab)
         "c-tab-2 #{'selected' if tab == selected_tab}"
+      end
+
+      def scroll_into_view(tab)
+        { scroll_into_view: tab == selected_tab }
       end
 
       def guard!

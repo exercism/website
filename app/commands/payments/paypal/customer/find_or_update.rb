@@ -20,6 +20,6 @@ class Payments::Paypal::Customer::FindOrUpdate
   def user_by_paypal_subscription_id
     return nil unless paypal_subscription_id
 
-    User.find_by(id: Payments::Subscription.paypal.where(external_id: paypal_subscription_id).pick(:user_id))
+    Payments::Subscription.paypal.find_by(external_id: paypal_subscription_id)&.user
   end
 end

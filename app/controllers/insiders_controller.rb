@@ -21,6 +21,5 @@ class InsidersController < ApplicationController
     { icon: 'feature-discord', title: 'Private Discord channel',
       desc: "Hang out with our staff and other Insiders in our private Discord channel. Get inside-access on what we\'re working on and bounce ideas in realtime with us.", filter: true }
   ].freeze
-
   # rubocop:enable Layout/LineLength
 end

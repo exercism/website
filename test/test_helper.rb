@@ -44,6 +44,11 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
+# We just want one copy of mongodb client for the whole test_suite
+Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
+client = Exercism.mongodb_client
+Exercism.define_singleton_method(:mongodb_client) { client }
+
 # This "fixes" reload in Madnate.
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
@@ -156,6 +161,7 @@ class ActiveSupport::TestCase
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
+    reset_mongodb!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -212,6 +218,10 @@ class ActiveSupport::TestCase
 
   def reset_rack_attack!
     Rack::Attack.reset!
+  end
+
+  def reset_mongodb!
+    Exercism.mongodb_client.collections.each(&:drop)
   end
 
   ###################

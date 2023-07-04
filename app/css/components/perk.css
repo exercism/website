@@ -1,0 +1,36 @@
+.c-perk {
+    @apply bg-backgroundColorA shadow-smZ1 rounded-8;
+    @apply py-24 px-16;
+    @apply flex flex-col items-center;
+    @apply text-center;
+    .logo {
+        @apply h-[40px];
+        @apply mb-20;
+    }
+    .about {
+        @apply text-p-base;
+        @apply mb-12;
+    }
+    .details {
+        @apply text-p-base font-medium;
+        @apply mt-auto mb-20;
+        strong {
+            @apply font-semibold text-textColor2;
+        }
+    }
+}
+
+.theme-light {
+    .c-perk {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    .c-perk {
+        .logo-light {
+            @apply hidden;
+        }
+    }
+}

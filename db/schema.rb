@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -662,6 +662,57 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
+  create_table "partner_adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "partner_id"
+    t.integer "status", default: 0, null: false
+    t.integer "num_impressions", default: 0, null: false
+    t.integer "num_clicks", default: 0, null: false
+    t.string "url", null: false
+    t.string "base_text", null: false
+    t.string "emphasised_text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_partner_adverts_on_partner_id"
+  end
+
+  create_table "partner_perks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "partner_id"
+    t.integer "status", default: 0, null: false
+    t.integer "num_clicks", default: 0, null: false
+    t.string "preview_text", null: false
+    t.string "general_url", null: false
+    t.string "general_offer_summary_markdown", null: false
+    t.string "general_offer_summary_html", null: false
+    t.string "general_button_text", null: false
+    t.string "general_offer_details", null: false
+    t.string "general_voucher_code"
+    t.string "premium_url"
+    t.string "premium_offer_summary_markdown"
+    t.string "premium_offer_summary_html"
+    t.string "premium_button_text"
+    t.string "premium_offer_details"
+    t.string "premium_voucher_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_partner_perks_on_partner_id"
+  end
+
+  create_table "partners", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "headline"
+    t.text "support_markdown"
+    t.text "support_html"
+    t.text "description_markdown", null: false
+    t.text "description_html", null: false
+    t.string "website_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_partners_on_slug", unique: true
+  end
+
   create_table "problem_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id"
@@ -1249,7 +1300,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "cohort_memberships", "cohorts"
@@ -1311,6 +1361,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
+  add_foreign_key "partner_adverts", "partners"
+  add_foreign_key "partner_perks", "partners"
   add_foreign_key "problem_reports", "exercises"
   add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"

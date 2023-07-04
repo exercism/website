@@ -191,6 +191,11 @@ jobs:
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: latest
+
       ###
       # Precompile JS
       - name: Precompile JS
@@ -309,6 +314,11 @@ jobs:
 
       - name: Install packages
         run: sudo apt-get install libvips
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: latest
 
       ###
       # Caching using GitHub's caching action

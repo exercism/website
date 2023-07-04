@@ -1,22 +1,11 @@
-.c-admin-index {
-    padding: 25px 0%;
-    font-size: 16px;
-    line-height: 1.5;
-    @apply text-textColor1;
-
-    h2 {
-        font-size: 20px;
-        margin-bottom: 16px;
-    }
-    table {
-        @apply shadow-lg;
-        @apply rounded-8;
-        width: 100%;
-        border-collapse: collapse;
-        tr:last-child {
-            td {
-                border-bottom: none;
-            }
+table.c-admin-table {
+    @apply shadow-lg;
+    @apply rounded-8;
+    width: 100%;
+    border-collapse: collapse;
+    tr:last-child {
+        td {
+            border-bottom: none;
         }
     }
     th {
@@ -37,7 +26,7 @@
             border-right: none;
         }
 
-        a {
+        a:not(".btn-primary") {
             @apply btn-link;
         }
     }

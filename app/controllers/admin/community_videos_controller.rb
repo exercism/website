@@ -1,6 +1,5 @@
 class Admin::CommunityVideosController < Admin::BaseController
   before_action :set_community_video, only: %i[show edit update destroy]
-  before_action :ensure_admin!
 
   # GET /admin/community_videos
   def index

@@ -9,7 +9,7 @@ module ViewComponents
       :time_ago_in_words, :pluralize, :number_with_delimiter,
       :graphical_icon, :icon, :track_icon, :exercise_icon, :avatar,
       :capture_haml,
-      :javascript_include_tag,
+      :javascript_include_tag, :request,
       to: :view_context
 
     # This is called when you called `render SomeComponent.new(...)`

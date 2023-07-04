@@ -1,0 +1,28 @@
+@import "../styles";
+
+#page-perk {
+    .logo {
+        @apply h-[60px];
+    }
+    & .lhs {
+        max-width: 720px;
+    }
+    & .rhs {
+        @apply ml-auto;
+        @apply min-w-[400px] max-w-[500px];
+    }
+}
+.theme-light {
+    #page-perk {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    #page-perk {
+        .logo-light {
+            @apply hidden;
+        }
+    }
+}

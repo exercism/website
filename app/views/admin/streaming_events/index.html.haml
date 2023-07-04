@@ -1,7 +1,7 @@
-.c-admin-index
+.c-admin-page
   .lg-container
     %h1.text-h1.mb-8 Streaming events
-    %table.mb-8
+    %table.c-admin-table.mb-8
       - @streaming_events.each do |streaming_event|
         %tr
           %td= streaming_event.title

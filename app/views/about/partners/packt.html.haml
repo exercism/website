@@ -3,7 +3,7 @@
 #page-organisation-supporter
   %header.pb-60
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
-      = link_to organisation_supporters_about_path, class: "c-prominent-link mt-48 mb-24" do
+      = link_to about_partners_path, class: "c-prominent-link mt-48 mb-24" do
         = graphical_icon "arrow-left"
         See all our supporters
 
@@ -15,7 +15,7 @@
   .md-container
     %article
       .lhs
-        %h2.text-h2 How Packt Publishing supports Exercism
+        %h2.text-h2 #{@org.name} supports Exercism
         %hr.c-divider.mt-20.mb-28
         %p.text-p-xlarge.mb-40 Packt Publishing are a core Exercism partner, helping us develop both the fundraising and content side of the platform. They have sponsored our new Fundraising role, and we are currently developing a deeper partnership which we will launch in early 2022.
 

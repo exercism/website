@@ -111,6 +111,9 @@ Naming/VariableNumber:
 Style/LambdaCall:
   EnforcedStyle: braces
 
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
 Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"

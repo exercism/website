@@ -120,6 +120,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
+    bson (4.15.0)
     bugsnag (6.25.2)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
@@ -142,6 +143,8 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    crawler_detect (1.2.2)
+      qonfig (~> 0.24)
     cssbundling-rails (1.1.2)
       railties (>= 6.0.0)
     date (3.3.3)
@@ -170,7 +173,7 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.101.0)
+    exercism-config (0.104.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -293,6 +296,8 @@ GEM
       minitest (>= 5.0)
     mocha (2.0.2)
       ruby2_keywords (>= 0.0.5)
+    mongo (2.19.0)
+      bson (>= 4.14.1, < 5.0.0)
     msgpack (1.7.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -349,6 +354,7 @@ GEM
     public_suffix (5.0.1)
     puma (4.3.12)
       nio4r (~> 2.0)
+    qonfig (0.28.0)
     raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.6.4)
@@ -549,11 +555,12 @@ DEPENDENCIES
   capybara (>= 2.15)
   coinbase_commerce!
   commonmarker (>= 0.23.8)
+  crawler_detect
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
   elasticsearch (= 6.8.3)
-  exercism-config (>= 0.101.0)
+  exercism-config (>= 0.104.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)
@@ -570,6 +577,7 @@ DEPENDENCIES
   minitest
   minitest-retry
   mocha
+  mongo
   mysql2 (~> 0.5.4)
   octokit
   oj (~> 3.14.0)
@@ -577,6 +585,7 @@ DEPENDENCIES
   omniauth-github
   omniauth-rails_csrf_protection
   propshaft (= 0.4.0)
+  public_suffix
   puma (~> 4.3)
   rack-attack (~> 6.6)
   rack-cors

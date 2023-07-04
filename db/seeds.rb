@@ -329,3 +329,191 @@ update.update!(
 update.update(pull_request: Github::PullRequest.first)
 
 User::AcquiredBadge::Create.(iHiD, :rookie)
+
+# Clean up
+Partner::Advert.destroy_all
+Partner::Perk.destroy_all
+Partner.destroy_all
+
+packt = Partner.create!(
+  name: "Packt Publishing",
+  slug: :packt,
+  website_url: "https://www.packtpub.com",
+  headline: "Access the most comprehensive eBook library in Tech",
+  description_markdown: <<~MARKDOWN,
+- Get unlimited access to 6,500+ expert-authored eBooks and video courses covering every tech area you can think of
+- Master the latest advancements before anyone else with our exclusive early access program (heaps of new content added every month)
+- Solve problems as you work with our advanced search and reference features
+
+### A Packt Subscription will help you...
+- **Save time and stay focused on work:** Packt’s advanced search helps you get exactly what you need from our expansive library of over 7500+ books and videos.
+- **Stay ahead of the curve:** Be first on new and emerging tech with early access to unpublished books and 50 new titles every month.
+- **Save money and get perks:** Not only is a Packt subscription the best value for money tech library in pure content terms, but you can also earn free DRM-free eBook downloads and other discounts.
+- **Advance your knowledge in tech from the experts:** Our books are written by developers, for developers – we unlock expert knowledge that you won't find anywhere else online.
+- **Read whatever, wherever, whenever:** You can access our library on any device, and even read offline with our mobile app.
+- **Learn your way:** Manage your learning with customisable playlists, notes in books, and personalised recommendations.
+MARKDOWN
+
+  support_markdown: <<~MARKDOWN,
+Packt has supported Exercism since 2022, generously donating over $150k to support free education equal access to opportunity.
+  MARKDOWN
+)
+packt.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
+packt.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
+
+configcat = Partner.create!(
+  name: "ConfigCat", 
+  slug: :configcat, 
+  website_url: 'https://configcat.com',
+  description_markdown: <<-MARKDOWN,
+ConfigCat is a feature flag and remote configuration service that allows developers to quickly and easily control the functionality of their applications. With ConfigCat, you can turn features on and off, alter their configurations, and roll out updates gradually to specific users or groups.  Targeting is supported through attributes, percentage-based rollouts, and segmentation, allowing you to tailor the experience for your users. ConfigCat is available for all major programming languages and frameworks and can be accessed as a SaaS or self-hosted service.
+
+In addition to its powerful feature flag capabilities, ConfigCat also offers a range of benefits for developers and teams. With unlimited team size, you can collaborate with as many team members as you need without worrying about limitations or additional costs. Our team is dedicated to providing exceptional support, so you can always count on us to help you troubleshoot any issues or answer any questions you may have.
+
+### Cross-platform feature flag service
+
+- Turn your features ON/OFF using ConfigCat's Dashboard even after your code is deployed.
+- ConfigCat lets you target user segments based on region, email, subscription or any other custom user attribute. We support % rollouts, A/B testing and variations.
+- ConfigCat is a hosted service for feature flag and configuration management. It lets you decouple feature releases from code deployments.
+- We provide open source SDKs to support easy integration with your Mobile, Desktop application, Website or any Backend system.
+
+ConfigCat supports over 20 platforms and also has dozens of integrations including GitHub, GitLab, DataDog, Jira and Slack.
+  MARKDOWN
+)
+configcat.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-light.svg')), filename: "configcat.svg")
+configcat.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-dark.svg')), filename: "configcat.svg")
+
+codecapsules = Partner.create!(
+  name: "Code Capsules", 
+  slug: :code_capsules, 
+  website_url: 'https://codecapsules.io/',
+  headline: "The simplest way to deploy your code.",
+  description_markdown: <<-MARKDOWN, 
+Code Capsules is a platform-as-a-service geared towards easing the pain of MEAN dev teams.
+
+They offer a full-scope development environment that allows MEAN developers to focus on building, deploying and scaling their apps.
+
+With Code Capsules, there’s no need for a host of software solutions like Heroku, Netlify and Atlas. You bring your MEAN stack, they take care of the underlying architecture.
+
+Code Capsules is the easy, quick and secure way to get your app running, and running smoothly.
+
+Because their pricing is not based on per-seat billing, Code Capsules is an affordable solution for MEAN teams, whether it’s a two-man show or a behemoth of a dev house
+  MARKDOWN
+  support_markdown: <<~MARKDOWN,
+In 2023 Code Capsules became Exercism's first ever end-to-end advert/marketing sponsor partner.
+  MARKDOWN
+)
+
+codecapsules.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-light.svg')), filename: "code-capsules.svg")
+codecapsules.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-dark.svg')), filename: "code-capsules.svg")
+
+kaido = Partner.create!(
+  name: "Kaido", 
+  slug: :kaido, 
+  description_markdown: "",
+  website_url: 'https://kaido.org/challenge',
+  description_markdown: <<-MARKDOWN,
+  MARKDOWN
+)
+kaido.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'kaido-light.svg')), filename: "kaido.svg")
+kaido.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'kaido-dark.svg')), filename: "kaido.svg")
+
+stoplight = Partner.create!(
+  name: "Stoplight", 
+  slug: :stoplight, 
+  website_url: 'https://stoplight.io',
+  headline: "Design, document, and build APIs faster.",
+  description_markdown: <<-MARKDOWN,
+Stoplight is a global API technology company offering a SaaS platform for high-quality API development at any scale. As an industry leader with patented technology in API design, Stoplight’s solution brings together editing, documentation, and governance into one powerful API enablement platform. 
+
+Stoplight's company mission is to power an intuitive and frictionless experience to scale business with effective API programs through API innovation, collaboration, and delightful developer experiences. Stoplight values being an owner, building together, practicing mindfulness, and delighting customers.
+
+Stoplight is remote-first and based in the United States. 
+  MARKDOWN
+)
+stoplight.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'stoplight-light.svg')), filename: "stoplight.svg")
+stoplight.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'stoplight-dark.svg')), filename: "stoplight.svg")
+
+packt.perks.create!(
+  status: :active,
+  preview_text: "Packt is the online library and learning platform for professional developers. Learn Python, JavaScript, Angular and more with eBooks, videos and courses.",
+
+  general_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
+  general_offer_summary_markdown: "Get **25% off a Packt annual membership** with your Exercism account.",
+  general_button_text: "Claim 25% discount",
+
+  general_offer_details: <<~TEXT,
+Packt are offering 25% off their annual subscription for all users. Exercism Premium users and Insiders get a further 25% off too.
+Simply click the button below to checkout with the discount already applied.
+  TEXT
+
+  premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-25-7h3kf",
+  premium_offer_summary_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
+  premium_button_text: "Claim 50% discount",
+
+  premium_offer_details: <<~TEXT,
+Packt are offering 50% off their annual subscription for all Exercism Premium users and Exercism Insiders.
+Simply click the button below to checkout with the discount already applied.
+  TEXT
+)
+
+configcat.perks.create!(
+  status: :active,
+  preview_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
+
+  general_url: "https://app.configcat.com/auth/signup",
+  general_offer_summary_markdown: "Get ConfigCat Pro **entirely free** for one year and save >$1,000!",
+  general_offer_details: "Get 100% off of the ConfigCat Pro plan for the first year and unlock the full power of feature flagging and configuration management. Simply use the provided coupon code during checkout",
+  general_button_text: "Claim 100% discount",
+  general_voucher_code: "CONFIGCAT-LOVES-EXERCISM"
+)
+
+codecapsules.perks.create!(
+  status: :active,
+  preview_text: "The PaaS that offers you a simple way to deploy your code. Build, push, deploy and scale your apps quickly, easily, and securely.",
+  general_url: "https://codecapsules.io/auth/registration",
+  general_offer_summary_markdown: "Get a $5 credit (worth 1 month of free hosting) with your Exercism account.",
+  general_offer_details: "Deploy a frontend or backend app free for a month with a $5 credit. Simply use the voucher code below at checkout.",
+  general_button_text: "Claim $5 credit",
+  general_voucher_code: "PENDING",
+
+  premium_url: "https://codecapsules.io/auth/registration",
+  premium_offer_summary_markdown: "Get a $10 credit (worth 2 months of free hosting) with your Premium account.",
+  premium_offer_details: "Deploy a frontend or backend app free for two months with a $10 credit. Simply use the voucher code below at checkout.",
+  premium_button_text: "Claim $10 credit",
+  premium_voucher_code: "PENDING"
+)
+
+
+stoplight.perks.create!(
+  status: :active,
+  preview_text: "Stoplight offers a SaaS platform for high-quality, standards-based APIs, bringing together design, editing, documentation & governance at scale.",
+
+  general_url: "https://stoplight.io/welcome",
+  general_offer_summary_markdown: "Get **30% off any Stoplight self-serve plan** with your Exercism account.",
+  general_offer_details: "Design, document, and build APIs faster with 30% off any Stoplight self-serve plan (annual or monthly). Use the code below at checkout.",
+  general_button_text: "Claim 30% discount",
+  general_voucher_code: "NotMyEx30"
+)
+
+kaido.perks.create!(
+  status: :active,
+  preview_text: "Kaido is the leading wellbeing challenge platform, supporting teams' mental and physical health and helping them have fun together.",
+
+  general_url: "https://kaido.org",
+  general_offer_summary_markdown: "Get 20% off your first team Kaido Challenge with your Exercism account.",
+  general_offer_details: "Get 20% off your first Kaido Challenge with your Exercism account.",
+  general_button_text: "Claim 20% discount",
+)
+
+
+
+
+=begin
+    advert = Partner.first.adverts.create!(
+      url: "#",
+      base_text: "Cross-platform, developer-centric feature flags.",
+      emphasised_text: "Get 20% off through Exercism Perks."
+    )
+    advert.logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'config-cat.png')), filename: "config-cat.png")
+=end

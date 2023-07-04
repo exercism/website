@@ -10,7 +10,6 @@ class InsidersController < ApplicationController
     @features = FEATURES
 
     render action: :external
-    @bts_access = BTS_ACCESS
   end
 
   # rubocop:disable Layout/LineLength

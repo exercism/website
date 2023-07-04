@@ -7,6 +7,7 @@ module ViewComponents
     def to_s
       # Don't show adverts at all for crawlers
       return nil if request.is_crawler?
+      return nil unless advert
 
       uuid = SecureRandom.hex
 
@@ -23,8 +24,9 @@ module ViewComponents
     end
 
     private
+    memoize
     def advert
-      @advert || ::Partner::Advert.first
+      @advert || ::Partner::Advert.active.first
     end
   end
 end

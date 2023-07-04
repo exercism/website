@@ -24,6 +24,7 @@
 @import "./tooltips/student";
 @import "./tooltips/task";
 
+@import "./components/advert";
 @import "./components/perk";
 @import "./components/textblock";
 @import "./components/spinner";

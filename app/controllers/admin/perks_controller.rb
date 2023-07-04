@@ -53,8 +53,10 @@ class Admin::PerksController < ApplicationController
     params.require(:partner_perk).permit(
       *%i[
         status preview_text
-        general_url general_offer_summary_markdown general_button_text general_offer_details
-        premium_url premium_offer_summary_markdown premium_button_text premium_offer_details
+        light_logo dark_logo
+        general_url general_offer_summary_markdown general_button_text general_offer_details general_voucher_code
+        premium_url premium_offer_summary_markdown premium_button_text premium_offer_details premium_voucher_code
+
       ]
     )
   end

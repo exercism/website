@@ -33,5 +33,5 @@
       .border-1.border-borderColor8.p-20.rounded-8.shadow-base
         %h2.text-p-xlarge.font-semibold.mb-8 Want to learn more about #{@partner.name}?
         %p.text-p-base.mb-20 Visit #{@partner.website_domain} to learn more and explore how #{@partner.name} can help you.
-        = link_to "Visit #{@partner.website_domain}", @partner.website_url, class: 'btn-m btn-default'
+        = link_to "Visit #{@partner.website_domain}", claim_perk_path(@perk, partner_url: true), class: 'btn-m btn-default', data: { turbo: false }
 

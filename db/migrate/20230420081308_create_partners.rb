@@ -17,6 +17,6 @@ class CreatePartners < ActiveRecord::Migration[7.0]
   end
 
   def down
-    drop_table :supporting_organisations
+    drop_table :partners
   end
 end

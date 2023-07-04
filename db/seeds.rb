@@ -410,7 +410,6 @@ codecapsules.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'pa
 kaido = Partner.create!(
   name: "Kaido", 
   slug: :kaido, 
-  description_markdown: "",
   website_url: 'https://kaido.org/challenge',
   description_markdown: <<-MARKDOWN,
   MARKDOWN
@@ -438,7 +437,7 @@ packt.perks.create!(
   status: :active,
   preview_text: "Packt is the online library and learning platform for professional developers. Learn Python, JavaScript, Angular and more with eBooks, videos and courses.",
 
-  general_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
+  general_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-25-7h3kf",
   general_offer_summary_markdown: "Get **25% off a Packt annual membership** with your Exercism account.",
   general_button_text: "Claim 25% discount",
 
@@ -447,7 +446,7 @@ Packt are offering 25% off their annual subscription for all users. Exercism Pre
 Simply click the button below to checkout with the discount already applied.
   TEXT
 
-  premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-25-7h3kf",
+  premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
   premium_offer_summary_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
   premium_button_text: "Claim 50% discount",
 
@@ -500,13 +499,11 @@ kaido.perks.create!(
   status: :active,
   preview_text: "Kaido is the leading wellbeing challenge platform, supporting teams' mental and physical health and helping them have fun together.",
 
-  general_url: "https://kaido.org",
+  general_url: "https://kaido.org/challenge",
   general_offer_summary_markdown: "Get 20% off your first team Kaido Challenge with your Exercism account.",
   general_offer_details: "Get 20% off your first Kaido Challenge with your Exercism account.",
   general_button_text: "Claim 20% discount",
 )
-
-
 
 
 =begin

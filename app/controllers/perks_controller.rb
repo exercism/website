@@ -20,6 +20,7 @@ class PerksController < ApplicationController
 
     Partner::LogPerkClick.defer(perk, current_user, Time.current)
 
-    redirect_to perk.url_for_user(current_user), allow_other_host: true
+    url = params[:partner_url] ? perk.partner.website_url : perk.url_for_user(current_user)
+    redirect_to url, allow_other_host: true
   end
 end

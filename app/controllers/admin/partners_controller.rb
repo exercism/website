@@ -12,7 +12,6 @@ class Admin::PartnersController < ApplicationController
   # GET /admin/partners/new
   def new
     @partner = Partner.new
-    @partner.submitted_by = current_user
   end
 
   # GET /admin/partners/1/edit
@@ -53,7 +52,8 @@ class Admin::PartnersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def partner_params
     params.require(:partner).permit(
-      :name, :slug, :website_url, :headline, :description_markdown, :support_markdown
+      :name, :slug, :website_url, :headline, :description_markdown, :support_markdown,
+      :light_logo, :dark_logo
     )
   end
 end

@@ -1,6 +1,6 @@
 .c-perk
-  = image_tag url_for(perk.light_logo.presence || perk.partner.light_logo), alt: "Logo of #{perk.partner.name}", class: 'logo logo-light'
-  = image_tag url_for(perk.dark_logo.presence || perk.partner.dark_logo), alt: "Logo of #{perk.partner.name}", class: 'logo logo-dark'
+  = image_tag (perk.light_logo.presence || perk.partner.light_logo.presence || 'blank.png'), alt: "Logo of #{perk.partner.name}", class: 'logo logo-light'
+  = image_tag (perk.dark_logo.presence || perk.partner.dark_logo.presence || 'blank.png'), alt: "Logo of #{perk.partner.name}", class: 'logo logo-dark'
   %p.about= perk.preview_text
   .details= raw offer_summary_html
   .flex.gap-12

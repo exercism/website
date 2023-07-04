@@ -6,6 +6,6 @@ class Partner::AdvertsController < ApplicationController
       advert, current_user, Time.current, params[:impression_uuid]
     )
 
-    redirect_to advert.url
+    redirect_to advert.url, allow_other_host: true
   end
 end

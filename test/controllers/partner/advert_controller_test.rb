@@ -7,15 +7,14 @@ class Partner::AdvertControllerTest < ActionDispatch::IntegrationTest
       advert = create :advert
       impression_uuid = SecureRandom.uuid
 
-      sign_in!(user)
-      get partner_advert_click_url(advert.id)
-
       Partner::LogAdvertClick.expects(:defer).with(
-        advert, user, '127.0.0.1',
-        Time.current, impression_uuid
+        advert, user, Time.current, impression_uuid
       )
 
-      assert_response :ok
+      sign_in!(user)
+      get redirect_advert_url(advert.uuid, impression_uuid:)
+
+      assert_redirected_to advert.url
     end
   end
 end

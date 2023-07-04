@@ -44,5 +44,5 @@ class User::Premium::Update
   end
 
   memoize
-  def last_payment = user.payments.premium.order(:id).last
+  def last_payment = user.payments.premium.order(:created_at).last
 end

@@ -2,7 +2,7 @@ class About::PartnersController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    @partners = Partner.select(:name, :slug, :support_explanation)
+    @partners = Partner.where.not(support_markdown: '')
   end
 
   def show

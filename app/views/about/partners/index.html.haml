@@ -66,11 +66,14 @@
       %hr.c-divider.mt-20.mb-32
 
       .grid.grid-cols-1.md:grid-cols-2.gap-24
-        - @partners.each do |org|
+        - @partners.each do |partner|
           .supporter
-            = icon org.slug, org.name, category: :partners, css_class: "logo #{org.slug}"
-            %p= org.support_explanation
-            = render ViewComponents::ProminentLink.new("Learn more", Exercism::Routes.about_partner_path(org.slug))
+            = image_tag partner.light_logo, alt: partner.name, class: "logo logo-light #{partner.slug}"
+            = image_tag partner.dark_logo, alt: partner.name, class: "logo logo-dark #{partner.slug}"
+            %p= raw partner.support_html
+            - perk = partner.perks.active.first
+            - if perk
+              = render ViewComponents::ProminentLink.new("Learn more", perk_path(perk))
         .supporter
           = icon "chicago", "University of Chicago", category: :partners, css_class: "logo chicago"
           %p

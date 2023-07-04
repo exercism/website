@@ -13,4 +13,8 @@ class Partner < ApplicationRecord
   rescue StandardError
     ""
   end
+
+  def to_param
+    slug
+  end
 end

@@ -47,11 +47,13 @@ class Admin::PartnersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_partner
-    @partner = Partner.find(params[:id])
+    @partner = Partner.find_by(slug: params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def partner_params
-    params.require(:partner).permit(:title, :status)
+    params.require(:partner).permit(
+      :name, :slug, :website_url, :headline, :description_markdown, :support_markdown
+    )
   end
 end

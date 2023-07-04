@@ -9,7 +9,6 @@
       %tr
         %th Perk
         %th Status
-        %th Audience
         %th Clicks
         %th{ colspan: 2 }
       - @partner.perks.each do |perk|
@@ -17,7 +16,6 @@
           %td
             %div{ class: 'max-w-[443px]' }= render ViewComponents::Partner::Perk.new(perk)
           %td.w-arbitary= perk.status.titleize
-          %td.w-arbitary= perk.audience.titleize
           %td.w-arbitary= perk.num_clicks
           %td.w-arbitary= link_to "Details", admin_partner_perk_path(@partner, perk)
           %td.w-arbitary= link_to "Edit", edit_admin_partner_perk_path(@partner, perk)

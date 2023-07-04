@@ -13,4 +13,8 @@ class CreatePartners < ActiveRecord::Migration[7.0]
       t.timestamps
     end
   end
+
+  def down
+    drop_table :supporting_organisations
+  end
 end

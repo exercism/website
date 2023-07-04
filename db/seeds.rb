@@ -355,7 +355,7 @@ packt = Partner.create!(
 MARKDOWN
 
   support_markdown: <<~MARKDOWN,
-  Packt has supported Exercism since 2022, generously donating over $150k to support free education equal access to opportunity.
+Packt has supported Exercism since 2022, generously donating over $150k to support free education equal access to opportunity.
   MARKDOWN
 )
 packt.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
@@ -383,7 +383,27 @@ ConfigCat supports over 20 platforms and also has dozens of integrations includi
 configcat.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-light.svg')), filename: "configcat.svg")
 configcat.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-dark.svg')), filename: "configcat.svg")
 
-codecapsules = Partner.create!(name: "Code Capsules", slug: :code_capsules, description_markdown: "")
+codecapsules = Partner.create!(
+  name: "Code Capsules", 
+  slug: :code_capsules, 
+  website_url: 'https://codecapsules.io/',
+  headline: "The simplest way to deploy your code.",
+  description_markdown: <<-MARKDOWN, 
+Code Capsules is a platform-as-a-service geared towards easing the pain of MEAN dev teams.
+
+They offer a full-scope development environment that allows MEAN developers to focus on building, deploying and scaling their apps.
+
+With Code Capsules, there’s no need for a host of software solutions like Heroku, Netlify and Atlas. You bring your MEAN stack, they take care of the underlying architecture.
+
+Code Capsules is the easy, quick and secure way to get your app running, and running smoothly.
+
+Because their pricing is not based on per-seat billing, Code Capsules is an affordable solution for MEAN teams, whether it’s a two-man show or a behemoth of a dev house
+  MARKDOWN
+  support_markdown: <<~MARKDOWN,
+In 2023 Code Capsules became Exercism's first ever end-to-end advert/marketing sponsor partner.
+  MARKDOWN
+)
+
 codecapsules.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-light.svg')), filename: "code-capsules.svg")
 codecapsules.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-dark.svg')), filename: "code-capsules.svg")
 
@@ -398,7 +418,24 @@ kaido = Partner.create!(
 kaido.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'kaido-light.svg')), filename: "kaido.svg")
 kaido.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'kaido-dark.svg')), filename: "kaido.svg")
 
+stoplight = Partner.create!(
+  name: "Stoplight", 
+  slug: :stoplight, 
+  website_url: 'https://stoplight.io',
+  headline: "Design, document, and build APIs faster.",
+  description_markdown: <<-MARKDOWN,
+Stoplight is a global API technology company offering a SaaS platform for high-quality API development at any scale. As an industry leader with patented technology in API design, Stoplight’s solution brings together editing, documentation, and governance into one powerful API enablement platform. 
+
+Stoplight's company mission is to power an intuitive and frictionless experience to scale business with effective API programs through API innovation, collaboration, and delightful developer experiences. Stoplight values being an owner, building together, practicing mindfulness, and delighting customers.
+
+Stoplight is remote-first and based in the United States. 
+  MARKDOWN
+)
+stoplight.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'stoplight-light.svg')), filename: "stoplight.svg")
+stoplight.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'stoplight-dark.svg')), filename: "stoplight.svg")
+
 packt.perks.create!(
+  status: :active,
   preview_text: "Packt is the online library and learning platform for professional developers. Learn Python, JavaScript, Angular and more with eBooks, videos and courses.",
 
   general_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
@@ -406,8 +443,8 @@ packt.perks.create!(
   general_button_text: "Claim 25% discount",
 
   general_offer_details: <<~TEXT,
-  Packt are offering 25% off their annual subscription for all users. Exercism Premium users and Insiders get a further 25% off too.
-  Simply click the button below to checkout with the discount already applied.
+Packt are offering 25% off their annual subscription for all users. Exercism Premium users and Insiders get a further 25% off too.
+Simply click the button below to checkout with the discount already applied.
   TEXT
 
   premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-25-7h3kf",
@@ -415,12 +452,13 @@ packt.perks.create!(
   premium_button_text: "Claim 50% discount",
 
   premium_offer_details: <<~TEXT,
-  Packt are offering 50% off their annual subscription for all Exercism Premium users and Exercism Insiders.
-  Simply click the button below to checkout with the discount already applied.
+Packt are offering 50% off their annual subscription for all Exercism Premium users and Exercism Insiders.
+Simply click the button below to checkout with the discount already applied.
   TEXT
 )
 
 configcat.perks.create!(
+  status: :active,
   preview_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
 
   general_url: "https://app.configcat.com/auth/signup",
@@ -430,22 +468,42 @@ configcat.perks.create!(
   general_voucher_code: "CONFIGCAT-LOVES-EXERCISM"
 )
 
-kaido.perks.create!(
-  preview_text: "Kaido is the leading wellbeing challenge platform, supporting teams' mental and physical health and helping them have fun together.",
+codecapsules.perks.create!(
+  status: :active,
+  preview_text: "The PaaS that offers you a simple way to deploy your code. Build, push, deploy and scale your apps quickly, easily, and securely.",
+  general_url: "https://codecapsules.io/auth/registration",
+  general_offer_summary_markdown: "Get a $5 credit (worth 1 month of free hosting) with your Exercism account.",
+  general_offer_details: "Deploy a frontend or backend app free for a month with a $5 credit. Simply use the voucher code below at checkout.",
+  general_button_text: "Claim $5 credit",
+  general_voucher_code: "PENDING",
 
-  general_url: "https://kaido.org",
-  general_offer_summary_markdown: "Get 20% off a Kaido Challenge with your Exercism account.",
-  general_offer_details: "Get 20% off your first Kaido Challenge with your Exercism account.",
-  general_button_text: "Claim 20% discount",
+  premium_url: "https://codecapsules.io/auth/registration",
+  premium_offer_summary_markdown: "Get a $10 credit (worth 2 months of free hosting) with your Premium account.",
+  premium_offer_details: "Deploy a frontend or backend app free for two months with a $10 credit. Simply use the voucher code below at checkout.",
+  premium_button_text: "Claim $10 credit",
+  premium_voucher_code: "PENDING"
 )
 
 
-codecapsules.perks.create!(
-  about_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
+stoplight.perks.create!(
+  status: :active,
+  preview_text: "Stoplight offers a SaaS platform for high-quality, standards-based APIs, bringing together design, editing, documentation & governance at scale.",
 
-  general_url: "https://configcat.com/",
-  general_offer_summary_markdown: "Get ConfigCat Pro **entirely free** for one year with your Exercism account.",
-  general_button_text: "Claim free hosting",
+  general_url: "https://stoplight.io/welcome",
+  general_offer_summary_markdown: "Get **30% off any Stoplight self-serve plan** with your Exercism account.",
+  general_offer_details: "Design, document, and build APIs faster with 30% off any Stoplight self-serve plan (annual or monthly). Use the code below at checkout.",
+  general_button_text: "Claim 30% discount",
+  general_voucher_code: "NotMyEx30"
+)
+
+kaido.perks.create!(
+  status: :active,
+  preview_text: "Kaido is the leading wellbeing challenge platform, supporting teams' mental and physical health and helping them have fun together.",
+
+  general_url: "https://kaido.org",
+  general_offer_summary_markdown: "Get 20% off your first team Kaido Challenge with your Exercism account.",
+  general_offer_details: "Get 20% off your first Kaido Challenge with your Exercism account.",
+  general_button_text: "Claim 20% discount",
 )
 
 

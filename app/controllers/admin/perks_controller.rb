@@ -41,17 +41,21 @@ class Admin::PerksController < ApplicationController
 
   private
   def set_partner
-    @partner = Partner.find(params[:partner_id])
+    @partner = Partner.find_by(slug: params[:partner_id])
   end
 
   def set_perk
-    @perk = @partner.perks.find(params[:id])
+    @perk = @partner.perks.find_by(uuid: params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def perk_params
     params.require(:partner_perk).permit(
-      *%i[status audience url about_text offer_markdown button_text]
+      *%i[
+        status preview_text
+        general_url general_offer_summary_markdown general_button_text general_offer_details
+        premium_url premium_offer_summary_markdown premium_button_text premium_offer_details
+      ]
     )
   end
 end

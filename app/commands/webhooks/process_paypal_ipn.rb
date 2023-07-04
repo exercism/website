@@ -4,7 +4,8 @@ class Webhooks::ProcessPaypalIPN
   initialize_with :payload
 
   def call
-    Payments::Paypal::Debug.("\n[IPN] Payload:\n#{payload}")
+    Payments::Paypal::Debug.("")
+    Payments::Paypal::Debug.("[IPN] Payload:\n#{payload}")
     Payments::Paypal::VerifyIPN.(payload)
 
     handle!

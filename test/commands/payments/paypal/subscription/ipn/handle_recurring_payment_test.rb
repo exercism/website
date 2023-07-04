@@ -161,6 +161,51 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentTest < Payments
     end
   end
 
+  test "creates payment for unknown paypal payer id and email but known subscription" do
+    freeze_time do
+      payment_id = SecureRandom.uuid
+      recurring_payment_id = SecureRandom.uuid
+      paypal_payer_id = SecureRandom.uuid
+      user = create :user
+      amount_in_dollars = 15
+      amount_in_cents = amount_in_dollars * 100
+      payload = {
+        "recurring_payment_id" => recurring_payment_id,
+        "txn_id" => payment_id,
+        "txn_type" => "recurring_payment_profile_created",
+        "payment_status" => "Completed",
+        "payer_email" => "unknown@test.org",
+        "payer_id" => paypal_payer_id,
+        "mc_gross" => "#{amount_in_dollars}.0",
+        "product_name" => Exercism.secrets.paypal_donation_product_name,
+        "payment_cycle" => "Monthly"
+      }
+
+      create(:payments_subscription, :paypal, :active, interval: :year, user:, external_id: recurring_payment_id,
+        amount_in_cents:)
+      user.update(active_donation_subscription: true)
+
+      Payments::Paypal::Subscription::IPN::HandleRecurringPayment.(payload)
+
+      assert_equal 1, Payments::Subscription.count
+      subscription = Payments::Subscription.last
+      assert_equal recurring_payment_id, subscription.external_id
+
+      assert_equal 1, Payments::Payment.count
+      payment = Payments::Payment.last
+      assert_equal payment_id, payment.external_id
+      assert_equal amount_in_cents, payment.amount_in_cents
+      assert_nil payment.external_receipt_url
+      assert_equal user, payment.user
+      assert_equal paypal_payer_id, subscription.user.paypal_payer_id
+      assert_equal :paypal, payment.provider
+      assert_equal subscription, payment.subscription
+      assert_equal amount_in_cents, user.reload.total_donated_in_cents
+      assert_equal Time.current, user.first_donated_at
+      assert user.donated?
+    end
+  end
+
   test "creates subscription if not already created" do
     freeze_time do
       payment_id = SecureRandom.uuid

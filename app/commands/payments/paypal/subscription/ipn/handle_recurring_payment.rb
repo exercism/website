@@ -5,7 +5,7 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPayment
   initialize_with :payload
 
   def call
-    user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email)
+    user = Payments::Paypal::Customer::FindOrUpdate.(payer_id, payer_email, paypal_subscription_id: subscription_external_id)
     return unless user
 
     subscription = Payments::Paypal::Subscription::Create.(user, subscription_external_id, amount, product, interval)

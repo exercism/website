@@ -682,15 +682,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.integer "status", default: 0, null: false
     t.integer "num_clicks", default: 0, null: false
     t.string "preview_text", null: false
-    t.string "offer_details", null: false
     t.string "general_url", null: false
-    t.string "general_offer_markdown", null: false
-    t.string "general_offer_html", null: false
+    t.string "general_offer_summary_markdown", null: false
+    t.string "general_offer_summary_html", null: false
     t.string "general_button_text", null: false
+    t.string "general_offer_details", null: false
+    t.string "general_voucher_code"
     t.string "premium_url"
-    t.string "premium_offer_markdown"
-    t.string "premium_offer_html"
+    t.string "premium_offer_summary_markdown"
+    t.string "premium_offer_summary_html"
     t.string "premium_button_text"
+    t.string "premium_offer_details"
+    t.string "premium_voucher_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["partner_id"], name: "index_partner_perks_on_partner_id"

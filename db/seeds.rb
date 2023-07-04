@@ -361,7 +361,25 @@ MARKDOWN
 packt.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
 packt.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'packt.svg')), filename: "packt.svg")
 
-configcat = Partner.create!(name: "ConfigCat", slug: :configcat, description_markdown: "")
+configcat = Partner.create!(
+  name: "ConfigCat", 
+  slug: :configcat, 
+  website_url: 'https://configcat.com',
+  description_markdown: <<-MARKDOWN,
+ConfigCat is a feature flag and remote configuration service that allows developers to quickly and easily control the functionality of their applications. With ConfigCat, you can turn features on and off, alter their configurations, and roll out updates gradually to specific users or groups.  Targeting is supported through attributes, percentage-based rollouts, and segmentation, allowing you to tailor the experience for your users. ConfigCat is available for all major programming languages and frameworks and can be accessed as a SaaS or self-hosted service.
+
+In addition to its powerful feature flag capabilities, ConfigCat also offers a range of benefits for developers and teams. With unlimited team size, you can collaborate with as many team members as you need without worrying about limitations or additional costs. Our team is dedicated to providing exceptional support, so you can always count on us to help you troubleshoot any issues or answer any questions you may have.
+
+### Cross-platform feature flag service
+
+- Turn your features ON/OFF using ConfigCat's Dashboard even after your code is deployed.
+- ConfigCat lets you target user segments based on region, email, subscription or any other custom user attribute. We support % rollouts, A/B testing and variations.
+- ConfigCat is a hosted service for feature flag and configuration management. It lets you decouple feature releases from code deployments.
+- We provide open source SDKs to support easy integration with your Mobile, Desktop application, Website or any Backend system.
+
+ConfigCat supports over 20 platforms and also has dozens of integrations including GitHub, GitLab, DataDog, Jira and Slack.
+  MARKDOWN
+)
 configcat.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-light.svg')), filename: "configcat.svg")
 configcat.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'configcat-dark.svg')), filename: "configcat.svg")
 
@@ -369,37 +387,65 @@ codecapsules = Partner.create!(name: "Code Capsules", slug: :code_capsules, desc
 codecapsules.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-light.svg')), filename: "code-capsules.svg")
 codecapsules.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'code-capsules-dark.svg')), filename: "code-capsules.svg")
 
+kaido = Partner.create!(
+  name: "Kaido", 
+  slug: :kaido, 
+  description_markdown: "",
+  website_url: 'https://kaido.org/challenge',
+  description_markdown: <<-MARKDOWN,
+  MARKDOWN
+)
+kaido.light_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'kaido-light.svg')), filename: "kaido.svg")
+kaido.dark_logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'kaido-dark.svg')), filename: "kaido.svg")
+
 packt.perks.create!(
   preview_text: "Packt is the online library and learning platform for professional developers. Learn Python, JavaScript, Angular and more with eBooks, videos and courses.",
 
   general_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
-  general_offer_markdown: "Get **25% off a Packt annual membership** with your Exercism account.",
+  general_offer_summary_markdown: "Get **25% off a Packt annual membership** with your Exercism account.",
   general_button_text: "Claim 25% discount",
 
+  general_offer_details: <<~TEXT,
+  Packt are offering 25% off their annual subscription for all users. Exercism Premium users and Insiders get a further 25% off too.
+  Simply click the button below to checkout with the discount already applied.
+  TEXT
+
   premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-25-7h3kf",
-  premium_offer_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
+  premium_offer_summary_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
   premium_button_text: "Claim 50% discount",
 
-  offer_details: <<~TEXT,
+  premium_offer_details: <<~TEXT,
   Packt are offering 50% off their annual subscription for all Exercism Premium users and Exercism Insiders.
   Simply click the button below to checkout with the discount already applied.
   TEXT
 )
 
 configcat.perks.create!(
-  about_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
+  preview_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
 
-  general_url: "https://configcat.com/",
-  general_offer_markdown: "Get ConfigCat Pro **entirely free** for one year with your Exercism account.",
-  general_button_text: "Claim 100% discount"
+  general_url: "https://app.configcat.com/auth/signup",
+  general_offer_summary_markdown: "Get ConfigCat Pro **entirely free** for one year and save >$1,000!",
+  general_offer_details: "Get 100% off of the ConfigCat Pro plan for the first year and unlock the full power of feature flagging and configuration management. Simply use the provided coupon code during checkout",
+  general_button_text: "Claim 100% discount",
+  general_voucher_code: "CONFIGCAT-LOVES-EXERCISM"
 )
+
+kaido.perks.create!(
+  preview_text: "Kaido is the leading wellbeing challenge platform, supporting teams' mental and physical health and helping them have fun together.",
+
+  general_url: "https://kaido.org",
+  general_offer_summary_markdown: "Get 20% off a Kaido Challenge with your Exercism account.",
+  general_offer_details: "Get 20% off your first Kaido Challenge with your Exercism account.",
+  general_button_text: "Claim 20% discount",
+)
+
 
 codecapsules.perks.create!(
   about_text: "ConfigCat is a developer-centric feature flag service with unlimited team size, awesome support, and a forever free plan.",
 
   general_url: "https://configcat.com/",
-  general_offer_markdown: "Get ConfigCat Pro **entirely free** for one year with your Exercism account.",
-  general_button_text: "Claim free hosting"
+  general_offer_summary_markdown: "Get ConfigCat Pro **entirely free** for one year with your Exercism account.",
+  general_button_text: "Claim free hosting",
 )
 
 

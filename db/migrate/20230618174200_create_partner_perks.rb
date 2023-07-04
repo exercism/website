@@ -10,17 +10,20 @@ class CreatePartnerPerks < ActiveRecord::Migration[7.0]
       t.integer :num_clicks, null: false, default:0
 
       t.string :preview_text, null: false
-      t.string :offer_details, null: false
 
       t.string :general_url, null: false
-      t.string :general_offer_markdown, null: false
-      t.string :general_offer_html, null: false
+      t.string :general_offer_summary_markdown, null: false
+      t.string :general_offer_summary_html, null: false
       t.string :general_button_text, null: false
+      t.string :general_offer_details, null: false
+      t.string :general_voucher_code
 
       t.string :premium_url
-      t.string :premium_offer_markdown
-      t.string :premium_offer_html
+      t.string :premium_offer_summary_markdown
+      t.string :premium_offer_summary_html
       t.string :premium_button_text
+      t.string :premium_offer_details
+      t.string :premium_voucher_code
 
       t.timestamps
     end

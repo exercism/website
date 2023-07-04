@@ -1,6 +1,13 @@
 class PerksController < ApplicationController
   def index
-    @perks = Partner::Perk.all
+    @perks = Partner::Perk.includes(
+      partner: {
+        light_logo_attachment: :blob,
+        dark_logo_attachment: :blob
+      },
+      light_logo_attachment: :blob,
+      dark_logo_attachment: :blob
+    )
   end
 
   def show

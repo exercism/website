@@ -1,9 +1,8 @@
 @import "../styles";
 
 #page-perk {
-    @apply bg-backgroundColorA;
     .logo {
-        @apply h-[40px];
+        @apply h-[60px];
     }
     & .lhs {
         max-width: 720px;

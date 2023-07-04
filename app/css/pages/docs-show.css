@@ -6,7 +6,7 @@ body.controller-docs.action-track_show,
 body.controller-docs.action-track_index {
     padding-left: 66px;
     .auth-buttons {
-        a:nth-child(1) {
+        a:nth-child(2) {
             @apply sm:flex hidden;
         }
     }

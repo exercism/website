@@ -3,7 +3,7 @@
 #page-exercise-show
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
 
-  .lg-container.flex.flex-col-reverse.md:flex-row
+  .lg-container.flex.flex-col-reverse.lg:flex-row
     .flex-grow.lg:w-arbitary
       - if @solution&.completed?
         %section.completed-heading

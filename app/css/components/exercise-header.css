@@ -82,11 +82,12 @@
     }
     & .navbar {
         @apply flex items-center;
-        @apply overflow-x-auto pb-12;
+        @apply pb-12;
 
         & .tabs {
             @apply flex items-center;
             @apply flex-grow;
+            @apply overflow-x-auto;
 
             & .c-tab {
                 line-height: 40px;

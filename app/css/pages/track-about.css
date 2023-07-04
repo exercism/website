@@ -212,6 +212,7 @@
                             }
                         }
                         & .c-icon.action-icon {
+                            @apply sm:block hidden;
                             height: 24px;
                             width: 24px;
                             @apply ml-56;

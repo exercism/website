@@ -58,7 +58,7 @@ function DiggingDeeperFooter({
           users={introduction.users}
         />
         {introduction.updatedAt && (
-          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">
+          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium hidden sm:block">
             Last updated {dayjs(introduction.updatedAt).format('D MMM YYYY')}
           </div>
         )}
@@ -67,7 +67,7 @@ function DiggingDeeperFooter({
         href={introduction.links.edit}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center text-black filter-textColor6 leading-160 font-medium"
+        className="xs:flex hidden items-center text-black filter-textColor6 leading-160 font-medium"
       >
         <GraphicalIcon
           height={24}

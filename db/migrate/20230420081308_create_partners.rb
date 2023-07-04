@@ -1,6 +1,8 @@
 class CreatePartners < ActiveRecord::Migration[7.0]
   def change
     create_table :partners do |t|
+        return if Rails.env.production?
+        
       t.string :name, null: false
       t.string :slug, null: false, index: { unique: true }
       t.text :headline, null: true

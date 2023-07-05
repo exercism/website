@@ -12,7 +12,7 @@ export const ResultsZone = (
   const [isFetching, setIsFetching] = useState(false)
   const timerRef = useRef<number | null>(null)
   const classNames = `c-results-zone ${isFetching ? '--fetching' : ''} ${
-    props.className
+    props.className ?? ''
   }`
 
   useEffect(() => {

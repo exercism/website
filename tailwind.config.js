@@ -381,6 +381,7 @@ module.exports = {
       '1-2': '50%',
       100: '100%',
       fit: 'fit-content',
+      unset: 'unset',
     },
     maxWidth: {
       '1-2': '50%',

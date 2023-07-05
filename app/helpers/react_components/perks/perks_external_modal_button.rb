@@ -1,21 +1,20 @@
 module ReactComponents
   module Perks
-    class PerksModalButton < ReactComponent
+    class PerksExternalModalButton < ReactComponent
       initialize_with :perk
 
       def to_s
         super(
-          "perks-modal-button",
+          "perks-external-modal-button",
           {
             text: perk.button_text_for_user(current_user),
             perk: {
               offer_summary_html: perk.offer_summary_html_for_user(current_user),
-              offer_details: perk.offer_details_for_user(current_user),
-              voucher_code: perk.voucher_code_for_user(current_user),
-              claim_url: Exercism::Routes.claim_perk_path(perk)
+              offer_details: perk.offer_details_for_user(current_user)
             },
-            partner: {
-              website_domain: partner.website_domain
+            links: {
+              log_in: Exercism::Routes.new_user_session_path,
+              sign_up: Exercism::Routes.new_user_registration_path
             }
           }
         )

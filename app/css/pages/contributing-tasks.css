@@ -149,7 +149,7 @@
                         @apply text-16 leading-160 font-medium text-textColor2;
                     }
                     & .new {
-                        @apply flex items-center;
+                        @apply md:flex hidden items-center;
                         @apply text-orange font-semibold;
                         & .c-icon {
                             filter: var(--orange-filter);

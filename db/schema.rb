@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_142231) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1087,12 +1087,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.bigint "user_id", null: false
     t.text "bio"
     t.json "roles"
-    t.json "usages"
     t.integer "insiders_status", limit: 1, default: 0, null: false
-    t.string "github_username"
     t.string "stripe_customer_id"
-    t.string "paypal_payer_id"
     t.string "discord_uid"
+    t.string "github_username"
     t.datetime "accepted_privacy_policy_at"
     t.datetime "accepted_terms_at"
     t.datetime "became_mentor_at"
@@ -1106,21 +1104,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.boolean "show_on_supporters_page", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "usages"
     t.json "cache"
     t.datetime "premium_until"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_user_data_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_user_data_stripe_customer_id", unique: true
-    t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page"], name: "user-data-supporters-page", order: { first_donated_at: :desc }
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
+    t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
+    t.index ["premium_until"], name: "index_user_data_on_premium_until"
+    t.index ["stripe_customer_id"], name: "index_user_data_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 
@@ -1287,10 +1281,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.string "avatar_url"
     t.string "location"
     t.string "pronouns"
-    t.integer "flair", limit: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "disabled_at"
+    t.integer "flair", limit: 1
+    t.json "cache"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

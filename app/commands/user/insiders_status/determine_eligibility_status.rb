@@ -32,11 +32,12 @@ class User::InsidersStatus::DetermineEligibilityStatus
   def forever_reputation = period_reputation(:forever)
 
   def period_reputation(period)
-    User::ReputationPeriod::Search.new(
+    user.reputation_periods.where(
       period:,
-      category: :any, # Auto-excludes publishing
-      user_handle: user.handle
-    ).period_records.to_a.sum(&:reputation)
+      category: %i[building maintaining authoring mentoring],
+      about: :everything,
+      track_id: 0
+    ).sum(:reputation)
   end
 
   def active_prelaunch_subscription?

@@ -105,7 +105,7 @@ class User::ReputationPeriod::UpdateReputationTest < ActiveSupport::TestCase
     user = create :user, reputation: 0
 
     token = create(:user_code_contribution_reputation_token, level: :large, user:)
-    period = create(:user_reputation_period, :dirty, user:, period: :month, category: :any)
+    period = create(:user_reputation_period, :dirty, user:, period: :month, category: :building)
 
     perform_enqueued_jobs do
       User::ReputationPeriod::UpdateReputation.(period)

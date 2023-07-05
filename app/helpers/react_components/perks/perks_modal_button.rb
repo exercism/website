@@ -1,17 +1,18 @@
 module ReactComponents
   module Perks
     class PerksModalButton < ReactComponent
-      initialize_with text: nil, perk: nil, claim_perk_path: nil, partner: nil, current_user: nil
+      initialize_with :perk
+
       def to_s
         super(
           "perks-modal-button",
           {
-            text:,
+            text: perk.button_text_for_user(current_user),
             perk: {
               offer_summary_html: perk.offer_summary_html_for_user(current_user),
               offer_details: perk.offer_details_for_user(current_user),
               voucher_code: perk.voucher_code_for_user(current_user),
-              claim_url: claim_perk_path
+              claim_url: Exercism::Routes.claim_perk_path(perk)
             },
             partner: {
               website_domain: partner.website_domain
@@ -19,6 +20,8 @@ module ReactComponents
           }
         )
       end
+
+      delegate :partner, to: :perk
     end
   end
 end

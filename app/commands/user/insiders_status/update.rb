@@ -6,6 +6,10 @@ class User::InsidersStatus::Update
   initialize_with :user
 
   def call
+    # As we sometimes do bulk updates on this, there's
+    # a chance a user gets deleted before this gets run.
+    return unless user
+
     # Lifetime statuses would not change
     return if user.insiders_status_active_lifetime?
     return if user.insiders_status_eligible_lifetime?

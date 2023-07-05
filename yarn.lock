@@ -1375,6 +1375,15 @@
   resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.6.2.tgz#8f7333adcc37401dac0c2af0e94a9d2a87311666"
   integrity sha512-oRSlD9o2twN+AwoL8XSYgbxggt8+rgH+n6y84mjXpuC/MsJoQQGG0Y6gkzuJcloLgB1SuBUt87qJunm4lYQzCA==
 
+"@exercism/codemirror-lang-gleam@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-gleam/-/codemirror-lang-gleam-1.0.1.tgz#bbcec94450f53e896186f811f65d0784243245c4"
+  integrity sha512-30iLMDhVYPg5IrJeqf5HLVKcR20LeWqSCSN86nezJChWheARmS3in4ta6exg0ETyX2kbV2+xjc1PgHV1ZHz9Bw==
+  dependencies:
+    "@codemirror/autocomplete" "^0.19.4"
+    "@codemirror/highlight" "^0.19.6"
+    "@codemirror/language" "^0.19.3"
+
 "@exercism/codemirror-lang-wren@https://github.com/exercism/codemirror-lang-wren":
   version "0.7.2"
   resolved "https://github.com/exercism/codemirror-lang-wren#d512d2a0cbc9156c861e6860d7f8379bea38f838"

@@ -461,11 +461,18 @@ export const mappings = {
     </Suspense>
   ),
 
+  'perks-external-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksExternalModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
   'perks-modal-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <PerksModalButton data={camelizeKeys(data)} />
     </Suspense>
   ),
+
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -514,6 +521,7 @@ import {
   PaypalStatusProps,
 } from '@/components/premium/PaypalStatus'
 import { PerksModalButton } from '@/components/perks'
+import { PerksExternalModalButton } from '@/components/perks'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

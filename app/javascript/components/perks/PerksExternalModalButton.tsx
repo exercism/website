@@ -1,13 +1,12 @@
 import React, { useCallback, useState } from 'react'
 import { Modal } from '../modals'
-import { CopyToClipboardButton } from '../common'
 
 type PerkKeys = 'offerSummaryHtml' | 'offerDetails'
 type Links = 'logIn' | 'signUp'
 type PerksExternalModalButtonProps = {
   text: string
   perk: Record<PerkKeys, string>
-  links: Record<PerkKeys, string>
+  links: Record<Links, string>
 }
 export function PerksExternalModalButton({
   data,
@@ -39,11 +38,14 @@ export function PerksExternalModalButton({
   )
 }
 
-type PerkExternalModalProps = Pick<PerksModalButtonProps, 'perk' | 'links'> & {
+type PerkExternalModalProps = Pick<
+  PerksExternalModalButtonProps,
+  'perk' | 'links'
+> & {
   onClose: () => void
 }
 
-function PerkExternalModal({ perk, links, onClose }: PerkExternalModalProps) {
+function PerkExternalModal({ links }: PerkExternalModalProps) {
   return (
     <div className="max-w-[500px] flex flex-col items-center text-center">
       <h2 className="text-p-xlarge font-semibold mb-8">
@@ -52,7 +54,7 @@ function PerkExternalModal({ perk, links, onClose }: PerkExternalModalProps) {
       <p className="text-p-base mb-20">
         Exercism is a not-for-profit organisation. We provide world-class
         education, a great community, and Perks from our partners. Join Exercism
-        today. It's free!
+        today. It&apos;s free!
       </p>
       <div className="flex gap-12">
         <a href={links.signUp} className="btn-m btn-primary">

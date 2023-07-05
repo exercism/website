@@ -520,8 +520,7 @@ import {
   PaypalStatus,
   PaypalStatusProps,
 } from '@/components/premium/PaypalStatus'
-import { PerksModalButton } from '@/components/perks'
-import { PerksExternalModalButton } from '@/components/perks'
+import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

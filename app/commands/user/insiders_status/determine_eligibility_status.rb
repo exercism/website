@@ -35,7 +35,8 @@ class User::InsidersStatus::DetermineEligibilityStatus
     user.reputation_periods.where(
       period:,
       category: %i[building maintaining authoring mentoring],
-      about: :everything
+      about: :everything,
+      track_id: 0
     ).sum(:reputation)
   end
 

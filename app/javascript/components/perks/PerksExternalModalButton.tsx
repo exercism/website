@@ -4,15 +4,15 @@ import { CopyToClipboardButton } from '../common'
 
 type PerkKeys = 'offerSummaryHtml' | 'offerDetails'
 type Links = 'logIn' | 'signUp'
-type PerksModalButtonProps = {
+type PerksExternalModalButtonProps = {
   text: string
   perk: Record<PerkKeys, string>
   links: Record<PerkKeys, string>
 }
-export function PerksModalButton({
+export function PerksExternalModalButton({
   data,
 }: {
-  data: PerksModalButtonProps
+  data: PerksExternalModalButtonProps
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -24,7 +24,7 @@ export function PerksModalButton({
     setIsModalOpen(true)
   }, [])
 
-  const { text, perk, partner } = data
+  const { text, perk, links } = data
 
   return (
     <>
@@ -33,7 +33,7 @@ export function PerksModalButton({
       </button>
 
       <Modal open={isModalOpen} onClose={closeModal}>
-        <PerkExternalModal perk={perk} partner={partner} onClose={closeModal} />
+        <PerkExternalModal perk={perk} links={links} onClose={closeModal} />
       </Modal>
     </>
   )
@@ -43,15 +43,16 @@ type PerkExternalModalProps = Pick<PerksModalButtonProps, 'perk' | 'links'> & {
   onClose: () => void
 }
 
-function PerkExternalModal({ perk, partner, onClose }: PerkExternalModalProps) {
+function PerkExternalModal({ perk, links, onClose }: PerkExternalModalProps) {
   return (
-    <div className="max-w-[500px]">
+    <div className="max-w-[500px] flex flex-col items-center text-center">
       <h2 className="text-p-xlarge font-semibold mb-8">
-        Claim this and other Perks with an Exercism account
+        Claim this Perk with an Exercism account!
       </h2>
       <p className="text-p-base mb-20">
-        World-class education, a great community, and Perks from our partners.
-        Join Exercism today. It's free!
+        Exercism is a not-for-profit organisation. We provide world-class
+        education, a great community, and Perks from our partners. Join Exercism
+        today. It's free!
       </p>
       <div className="flex gap-12">
         <a href={links.signUp} className="btn-m btn-primary">

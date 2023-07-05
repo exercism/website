@@ -115,7 +115,7 @@ const Component = ({
 
   return (
     <div
-      className={`flex items-end c-single-select c-track-select --size-${sizeVariant}`}
+      className={`flex items-end sm:ml-24 ml-0 c-single-select c-track-select --size-${sizeVariant}`}
     >
       <ResultsZone isFetching={isFetching} className="sm:grow-0 grow">
         <button

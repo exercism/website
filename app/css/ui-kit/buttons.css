@@ -208,7 +208,7 @@
         @apply btn-i-base;
         height: 48px;
         @apply px-20 rounded-5;
-        @apply text-16;
+        @apply sm:text-16 text-14;
 
         & > .c-icon {
             height: 18px;

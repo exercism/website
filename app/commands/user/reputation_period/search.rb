@@ -84,6 +84,6 @@ class User::ReputationPeriod::Search
   def filter_user_handle!
     return if user_handle.blank?
 
-    @rows = @rows.where('user_handle LIKE ?', "#{user_handle}%")
+    @rows = @rows.where(user_handle:)
   end
 end

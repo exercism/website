@@ -105,14 +105,14 @@ function VideoGridHeader({
   selectedTrack: VideoTrack
 }): JSX.Element {
   return (
-    <div className="flex mb-24">
+    <div className="flex mb-24 sm:flex-row flex-col">
       <GraphicalIcon
         icon="community-video-gradient"
         height={48}
         width={48}
         className="mr-24 self-start"
       />
-      <div className="mr-auto">
+      <div className="mr-auto sm:mb-0 mb-24">
         <h2 className="text-h2 mb-4">Learn with our community</h2>
         <p className="text-p-large">
           Walkthroughs, tutorials and livestreams from our community.

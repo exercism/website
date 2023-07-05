@@ -4,20 +4,25 @@ import { Icon } from './common'
 const DELAY_MS = 250
 
 export const ResultsZone = (
-  props: React.PropsWithChildren<{ isFetching: boolean }>
+  props: React.PropsWithChildren<{
+    isFetching: boolean
+    className?: string | null
+  }>
 ): JSX.Element => {
   const [isFetching, setIsFetching] = useState(false)
   const timerRef = useRef<number | null>(null)
-  const classNames = `c-results-zone ${isFetching ? '--fetching' : ''}`
+  const classNames = `c-results-zone ${isFetching ? '--fetching' : ''} ${
+    props.className
+  }`
 
   useEffect(() => {
     if (props.isFetching) {
-      timerRef.current = setTimeout(() => setIsFetching(true), DELAY_MS)
+      timerRef.current = window.setTimeout(() => setIsFetching(true), DELAY_MS)
     } else {
       setIsFetching(false)
 
       if (timerRef.current) {
-        clearTimeout(timerRef.current)
+        window.clearTimeout(timerRef.current)
       }
     }
 

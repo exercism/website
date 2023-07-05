@@ -31,9 +31,34 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
 
     user = create :user
-    create :user_reputation_period, period: :forever, about: :everything, category: :any,
+    create :user_reputation_period, period: :forever, about: :everything, category: :building,
       user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD
     assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user)
+  end
+
+  test "eligible_lifetime for lifetime rep counts reputation for all non-any category" do
+    user = create :user
+
+    create(:user_reputation_period, reputation: 5, period: :forever, about: :everything, category: :building, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+
+    create(:user_reputation_period, reputation: 170, period: :forever, about: :everything, category: :maintaining, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+
+    create(:user_reputation_period, reputation: 290, period: :forever, about: :everything, category: :authoring, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+
+    create(:user_reputation_period, reputation: 600, period: :forever, about: :everything, category: :mentoring, user:)
+    assert_equal :eligible_lifetime, User::InsidersStatus::DetermineEligibilityStatus.(user)
+  end
+
+  test "eligible_lifetime for lifetime rep ignores publishing reputation" do
+    user = create :user
+
+    # The 'any' category includes publishing reputation
+    create :user_reputation_period, period: :forever, about: :everything, category: :any,
+      user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::LIFETIME_REPUTATION_THRESHOLD
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 
   test "eligible_lifetime for large donor" do
@@ -76,26 +101,51 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
 
   test "eligible for monthly rep" do
     user = create :user
-    create :user_reputation_period, period: :month, about: :everything, category: :any,
+    create :user_reputation_period, period: :month, about: :everything, category: :building,
       user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::MONTHLY_REPUTATION_THRESHOLD - 1
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
 
     user = create :user
-    create :user_reputation_period, period: :month, about: :everything, category: :any,
+    create :user_reputation_period, period: :month, about: :everything, category: :building,
       user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::MONTHLY_REPUTATION_THRESHOLD
+    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+  end
+
+  test "eligible for monthly rep counts reputation for all non-any category" do
+    user = create :user
+
+    create(:user_reputation_period, reputation: 5, period: :month, about: :everything, category: :building, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+
+    create(:user_reputation_period, reputation: 7, period: :month, about: :everything, category: :maintaining, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+
+    create(:user_reputation_period, reputation: 9, period: :month, about: :everything, category: :authoring, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+
+    create(:user_reputation_period, reputation: 11, period: :month, about: :everything, category: :mentoring, user:)
     assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 
   test "eligible for annual rep" do
     user = create :user
-    create :user_reputation_period, period: :year, about: :everything, category: :any,
+    create :user_reputation_period, period: :year, about: :everything, category: :building,
       user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::ANNUAL_REPUTATION_THRESHOLD - 1
     assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
 
     user = create :user
-    create :user_reputation_period, period: :year, about: :everything, category: :any,
+    create :user_reputation_period, period: :year, about: :everything, category: :building,
       user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::ANNUAL_REPUTATION_THRESHOLD
     assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
+  end
+
+  test "eligible ignores publishing reputation" do
+    user = create :user
+
+    # The 'any' category includes publishing reputation
+    create :user_reputation_period, period: :year, about: :everything, category: :any,
+      user:, reputation: User::InsidersStatus::DetermineEligibilityStatus::ANNUAL_REPUTATION_THRESHOLD
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user)
   end
 
   test "eligible for prelaunch donations" do

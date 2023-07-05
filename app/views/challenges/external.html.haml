@@ -25,9 +25,9 @@
       - if user_signed_in?
         = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-m btn-primary'
       - else
-        .flex.items-center
-          = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary'
-          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary ml-24'
+        .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
+          = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary sm:w-unset w-100'
+          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary sm:w-unset w-100'
 
   %article.lg-container
     %section.video-section
@@ -56,8 +56,8 @@
         - if user_signed_in?
           = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
         - else
-          .flex.items-center
-            = link_to "Sign up to get started", new_user_registration_path, class: 'btn-l btn-primary'
-            = link_to "Log in", new_user_session_path, class: 'btn-l btn-secondary ml-24'
+          .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
+            = link_to "Sign up to get started", new_user_registration_path, class: 'btn-l btn-primary sm:w-unset w-100'
+            = link_to "Log in", new_user_session_path, class: 'btn-l btn-secondary sm:w-unset w-100'
 
 

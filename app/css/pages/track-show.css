@@ -613,7 +613,7 @@
             & .request {
                 @apply py-16 px-24;
                 @apply flex flex-col items-start;
-                @apply shadow-baseZ1;
+                @apply shadow-baseZ1v2;
 
                 & .c-exercise-icon {
                     height: 54px;

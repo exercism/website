@@ -20,7 +20,7 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpiredTest < P
     assert subscription.reload.canceled?
   end
 
-  test "expiring premium subscription causes user to no longer be premium user" do
+  test "expiring premium subscription causes user to only be premium user for remainder of interval" do
     user = create :user, premium_until: Time.current + 2.days
     subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
     create(:payments_payment, :premium, :paypal, user:, subscription:)
@@ -32,7 +32,7 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpiredTest < P
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.(payload)
     end
 
-    refute user.reload.premium?
+    assert user.reload.premium?
 
     travel_to Time.current + 50.days
     refute user.reload.premium?

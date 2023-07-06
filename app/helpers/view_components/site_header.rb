@@ -17,14 +17,13 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") unless user_signed_in? && !current_user.premium?
+      return tag.span("") if current_user&.donated?
 
-      link_to(Exercism::Routes.premium_path, class: "announcement-bar md:block hidden") do
+      link_to(Exercism::Routes.donate_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
-          graphical_icon(:premium, css_class: 'h-[16px] w-[16px] mr-12') +
-            tag.span("Exercism Premium has launched.") +
-            tag.strong("Supercharge your experience!") +
-            tag.div("Check it out", class: 'btn-primary btn-xs ml-4')
+          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
+            tag.strong("Please support us if you can!") +
+            tag.span("⚠️")
         end
       end
     end

@@ -108,6 +108,14 @@ module ViewComponents
       ].freeze
 
       MORE_SUBMENU = [
+
+        {
+          title: "Donate",
+          description: "Help support our mission",
+          path: Exercism::Routes.donate_path,
+          icon: :donate,
+          icon_filter: "textColor6"
+        },
         {
           title: "About Exercism",
           description: "Learn about our organisation",
@@ -123,13 +131,6 @@ module ViewComponents
           icon_filter: "textColor6"
         },
 
-        {
-          title: "Donate",
-          description: "Help support our mission",
-          path: Exercism::Routes.donate_path,
-          icon: :donate,
-          icon_filter: "textColor6"
-        },
         {
           title: "Insiders",
           description: "Our way of saying thank you",

@@ -178,7 +178,7 @@ module.exports = {
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
       eerieBlack: '#191525',
-      richBlack: '#121019',
+      richBlack: '#09080C',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',

@@ -10,7 +10,7 @@
         width: 24px;
         @apply grid place-items-center;
         @apply font-mono leading-150 font-semibold;
-        @apply border-1 border-textColor2 rounded-3;
+        @apply border-1 border-textColor6 rounded-3;
         &.blank {
             @apply border-transparent;
         }
@@ -23,17 +23,16 @@
         & .c-icon {
             height: 24px;
             width: 24px;
-            filter: var(--textColor2-filter);
-            @apply mr-12;
+            @apply mr-12 filter-textColor6;
         }
         & .dot {
-            @apply border-2 border-textColor2 rounded-circle;
+            @apply border-2 border-textColor6 rounded-circle;
             @apply ml-4;
             height: 12px;
             width: 12px;
 
             &.filled {
-                @apply bg-textColor2;
+                @apply bg-textColor6;
             }
         }
         &.blank {
@@ -56,7 +55,7 @@
     & .module {
         height: 24px;
         width: 24px;
-        filter: var(--textColor2-filter);
+        @apply filter-textColor6;
     }
 }
 
@@ -149,7 +148,7 @@
                         @apply text-16 leading-160 font-medium text-textColor2;
                     }
                     & .new {
-                        @apply flex items-center;
+                        @apply md:flex hidden items-center;
                         @apply text-orange font-semibold;
                         & .c-icon {
                             filter: var(--orange-filter);
@@ -185,14 +184,14 @@
                         & .c-icon {
                             height: 15px;
                             width: 15px;
-                            filter: var(--textColor5-filter);
-                            @apply mr-6;
+
+                            @apply mr-6 filter-textColor6;
                         }
                     }
                 }
             }
             & .tags {
-                @apply flex items-center;
+                @apply md:flex hidden items-center;
                 @apply ml-auto;
 
                 & > .knowledge-tag {

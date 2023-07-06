@@ -276,7 +276,8 @@
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
-    --shadowColorMain: rgba(var(--shadowColorMain), 0.3);
+    /* applied only on tracks/[track] Your mentoring slots (.slots .discussion) */
+    --shadowColorSecondary: rgba(var(--shadowColorMain), 0.3);
     --shadowColorNotificationBell: 156, 130, 38;
     --shadowColorKeystroke: 203, 201, 217;
 

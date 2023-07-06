@@ -70,7 +70,7 @@ export const ContributorsList = ({
   return (
     <div>
       <div className="c-search-bar">
-        <div className="tabs">
+        <div className="tabs overflow-x-auto">
           <PeriodButton
             period="week"
             setPeriod={setPeriod}

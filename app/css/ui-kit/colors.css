@@ -276,6 +276,7 @@
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
+    --shadowColorMain: rgba(var(--shadowColorMain), 0.3);
     --shadowColorNotificationBell: 156, 130, 38;
     --shadowColorKeystroke: 203, 201, 217;
 
@@ -537,6 +538,7 @@ body.namespace-.controller-premium.theme-light,
 
     --shadowColorED: 40, 35, 57;
     --shadowColorMain: 0, 0, 0;
+    --shadowColorSecondary: theme(colors.richBlack);
     --shadowColorNotificationBell: 89, 210, 174;
     --shadowColorKeystroke: 40, 35, 57;
 

@@ -74,6 +74,7 @@ module.exports = {
       smZ1: '0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3)',
       base: 'var(--box-shadow-base)',
       baseZ1: '0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3)',
+      baseZ1v2: '0px 4px 24px 0px var(--shadowColorSecondary)',
       lg: 'var(--box-shadow-lg)',
       lgv2: '0px 4px 42px rgba(var(--shadowColorMain), 0.6)',
       lgZ1: 'var(--box-shadow-lgZ1)',
@@ -177,6 +178,7 @@ module.exports = {
       wildBlueYonder: '#A7B7D6',
       crayola: '#C8D5EF',
       eerieBlack: '#191525',
+      richBlack: '#121019',
 
       btnBorder: '#5C5589',
       primaryBtnBorder: '#130B43',

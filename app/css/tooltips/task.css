@@ -25,6 +25,10 @@
             @apply mr-24;
             width: 45px;
 
+            .c-icon {
+                @apply filter-textColor6;
+            }
+
             & .action-icon {
                 @apply border-none;
                 .c-icon {

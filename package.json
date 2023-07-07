@@ -15,6 +15,7 @@
     "@codemirror/theme-one-dark": "^0.19.0",
     "@codemirror/view": "^0.19.0",
     "@exercism/active-background": "^0.6.2",
+    "@exercism/codemirror-lang-gleam": "^1.0.1",
     "@exercism/codemirror-lang-wren": "https://github.com/exercism/codemirror-lang-wren",
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@gleam-lang/highlight.js-gleam": "^1.0.0",

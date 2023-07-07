@@ -19,6 +19,10 @@ export const loadLanguageCompartment = async (
       const { javascript: cfml } = await import('@codemirror/lang-javascript')
       return compartment.of(cfml())
     }
+    case 'gleam': {
+      const { gleam } = await import('@exercism/codemirror-lang-gleam')
+      return compartment.of(gleam())
+    }
     case 'javascript':
     case 'typescript': {
       const { javascript } = await import('@codemirror/lang-javascript')

@@ -39,7 +39,7 @@ class Markdown::Preprocess
   end
 
   def wrap_tables!
-    doc.each do |node|
+    doc.walk do |node|
       next unless node.type == :table
 
       mutations << { type: :wrap_table, node: }

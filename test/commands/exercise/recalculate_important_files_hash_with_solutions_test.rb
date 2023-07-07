@@ -42,9 +42,9 @@ class Exercise::RecalculateImportantFilesHashWithSolutionsTest < ActiveSupport::
     track = create :track
     other_track = create :track, slug: 'fsharp'
 
-    exercise = create :practice_exercise, track: track
-    submission_same_hash_1 = create :submission, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash
-    submission_same_hash_2 = create :submission, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash
+    exercise = create(:practice_exercise, track:)
+    submission_same_hash_1 = create :submission, exercise:, git_important_files_hash: exercise.git_important_files_hash
+    submission_same_hash_2 = create :submission, exercise:, git_important_files_hash: exercise.git_important_files_hash
     submission_different_hash = create :submission, git_important_files_hash: "different hash"
 
     # Sanity check for different exercise, same track, same SHA
@@ -70,11 +70,11 @@ class Exercise::RecalculateImportantFilesHashWithSolutionsTest < ActiveSupport::
     track = create :track
     other_track = create :track, slug: 'fsharp'
 
-    exercise = create :practice_exercise, track: track
-    submission_same_hash_1 = create :submission, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash
+    exercise = create(:practice_exercise, track:)
+    submission_same_hash_1 = create :submission, exercise:, git_important_files_hash: exercise.git_important_files_hash
     submission_test_run_same_hash_1 = create :submission_test_run, submission: submission_same_hash_1,
       git_important_files_hash: exercise.git_important_files_hash
-    submission_same_hash_2 = create :submission, exercise: exercise, git_important_files_hash: exercise.git_important_files_hash
+    submission_same_hash_2 = create :submission, exercise:, git_important_files_hash: exercise.git_important_files_hash
     submission_test_run_same_hash_2 = create :submission_test_run, submission: submission_same_hash_2,
       git_important_files_hash: exercise.git_important_files_hash
     submission_different_hash = create :submission, git_important_files_hash: "different hash"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_142231) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1416,4 +1416,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
   add_foreign_key "user_track_mentorships", "users"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
-end
+endt 

@@ -529,7 +529,7 @@ document.addEventListener('turbo:load', () => {
 showSiteFooterOnTurboLoad()
 handleNavbarFocus()
 scrollIntoView()
-makeTablesResponsive()
+// makeTablesResponsive()
 
 // object.entries polyfill
 if (!Object.entries) {

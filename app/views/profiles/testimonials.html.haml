@@ -13,13 +13,13 @@
       / TODO: Real values - same as profile page
       .stats
         .stat
-          .number= number_with_delimiter @num_solutions_mentored
+          .number= number_with_delimiter @user.num_solutions_mentored
           .metric Solutions mentored
         .stat
-          .number= number_with_delimiter @num_students_helped
-          .metric #{'Student'.pluralize(@num_students_helped)} helped
+          .number= number_with_delimiter @user.num_students_mentored
+          .metric #{'Student'.pluralize(@user.num_students_mentored)} helped
         .stat
-          .number= number_with_delimiter @num_testimonials
+          .number= number_with_delimiter @user.num_num_published_testimonials
           .metric Testimonials received
 
       = render ReactComponents::Profile::TestimonialsList.new(@user, params)

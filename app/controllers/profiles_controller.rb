@@ -13,11 +13,8 @@ class ProfilesController < ApplicationController
       includes(:exercise, :track).
       first(3)
 
-    # TODO: (Required) Order by most prominent first (what is the most prominent testimonial?)
+    # TODO: Order by most prominent first (what is the most prominent testimonial?)
     @testimonials = @user.mentor_testimonials.published.first(3)
-
-    @num_total_solutions = @user.num_published_solutions
-    @num_testimonials = @user.num_testimonials
   end
 
   def solutions
@@ -36,10 +33,6 @@ class ProfilesController < ApplicationController
   # TODO: (Optional) Add tests for published scope
   def testimonials
     redirect_to profile_path(@user) unless @profile.testimonials_tab?
-
-    @num_solutions_mentored = @user.num_solutions_mentored
-    @num_students_helped = @user.num_students_mentored
-    @num_testimonials = @user.num_testimonials
   end
 
   def badges

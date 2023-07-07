@@ -9,15 +9,14 @@ module ReactComponents
       end
 
       def to_s
-        return nil if num_testimonials.zero?
+        return nil if num_published_testimonials.zero?
 
         super("profile-testimonials-summary", {
           handle: user.handle,
           flair: user.flair,
-          num_testimonials:,
+          num_testimonials: num_published_testimonials,
           num_solutions_mentored:,
           num_students_helped: num_students_mentored,
-          num_testimonials_received: num_testimonials,
           # TODO: (Optional) Add test for published
           testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.published.limit(3)),
           links: {
@@ -31,7 +30,7 @@ module ReactComponents
 
       delegate :num_students_mentored,
         :num_solutions_mentored,
-        :num_testimonials, to: :user
+        :num_published_testimonials, to: :user
     end
   end
 end

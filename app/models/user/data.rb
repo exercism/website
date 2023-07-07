@@ -48,6 +48,7 @@ class User::Data < ApplicationRecord
     num_students_mentored
     num_solutions_mentored
     num_testimonials
+    num_published_testimonials
     num_published_solutions
     mentor_satisfaction_percentage
   ].each do |meth|

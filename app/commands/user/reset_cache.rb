@@ -37,7 +37,8 @@ class User::ResetCache
   def value_for_has_unrevealed_badges? = user.acquired_badges.unrevealed.exists?
   def value_for_has_unseen_reputation_tokens? = user.reputation_tokens.unseen.exists?
   def value_for_num_solutions_mentored = user.mentor_discussions.finished_for_student.count
-  def value_for_num_testimonials = user.mentor_testimonials.published.count
+  def value_for_num_testimonials = user.mentor_testimonials.not_deleted.count
+  def value_for_num_published_testimonials = user.mentor_testimonials.published.count
   def value_for_num_published_solutions = user.solutions.published.count
   def value_for_mentor_satisfaction_percentage = Mentor::CalculateSatisfactionPercentage.(user)
 

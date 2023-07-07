@@ -11,5 +11,6 @@ class Mentor::Testimonial::Create
       content: testimonial
     )
     User::ResetCache.defer(discussion.mentor, :has_unrevealed_testimonials?)
+    User::ResetCache.defer(discussion.mentor, :num_testimonials)
   end
 end

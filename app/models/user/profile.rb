@@ -11,7 +11,7 @@ class User::Profile < ApplicationRecord
   def solutions_tab? = user.num_published_solutions > 3
 
   memoize
-  def testimonials_tab? = user.num_testimonials.positive?
+  def testimonials_tab? = user.num_published_testimonials.positive?
 
   memoize
   def contributions_tab?

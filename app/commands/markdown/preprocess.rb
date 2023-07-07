@@ -11,7 +11,6 @@ class Markdown::Preprocess
 
   def call
     convert_inline_links!
-    wrap_tables!
     strip_h1_headings! if strip_h1
     lower_heading_levels! if lower_heading_levels_by.positive?
     apply_mutations! if mutations.present?
@@ -35,14 +34,6 @@ class Markdown::Preprocess
       next unless node.type == :header && (node.header_level > 1 || !strip_h1)
 
       mutations << { type: :lower_header_level, node: }
-    end
-  end
-
-  def wrap_tables!
-    doc.walk do |node|
-      next unless node.type == :table
-
-      mutations << { type: :wrap_table, node: }
     end
   end
 
@@ -84,11 +75,6 @@ class Markdown::Preprocess
 
         new_level = mutation[:node].header_level + lower_heading_levels_by
         mutation[:node].header_level = [new_level, 6].min
-      when :wrap_table
-        line_idx_start = mutation[:node].sourcepos[:start_line] - 1
-        line_idx_end = mutation[:node].sourcepos[:end_line] - 1
-        lines.insert(line_idx_end + 1, "</div>")
-        lines.insert(line_idx_start - 1, "<div class='c-responsive-table-wrapper'>")
       end
     end
 

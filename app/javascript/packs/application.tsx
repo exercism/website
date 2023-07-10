@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'focus-visible'
 import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
@@ -94,7 +95,7 @@ window.queryCache = new QueryCache()
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 export const mappings = {
-  'share-link': (data: any) => (
+  'share-link': (data: any): JSX.Element => (
     <Common.ShareLink
       title={data.title}
       shareTitle={data.share_title}
@@ -102,7 +103,7 @@ export const mappings = {
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
-  'donations-with-modal-form': (data: any) => (
+  'donations-with-modal-form': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
@@ -113,7 +114,7 @@ export const mappings = {
       />
     </Suspense>
   ),
-  'donations-subscription-form': (data: any) => (
+  'donations-subscription-form': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
         {...data}
@@ -121,7 +122,7 @@ export const mappings = {
       />
     </Suspense>
   ),
-  'premium-subscription-form': (data: any) => (
+  'premium-subscription-form': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <PremiumSubscriptionForm
         {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
@@ -129,16 +130,16 @@ export const mappings = {
       />
     </Suspense>
   ),
-  editor: (data: any) => (
+  editor: (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <Editor {...camelizeKeysAs<EditorProps>(data)} />
     </Suspense>
   ),
-  'common-concept-widget': (data: any) => (
+  'common-concept-widget': (data: any): JSX.Element => (
     <Common.ConceptWidget concept={data.concept} />
   ),
-  'common-modal': (data: any) => <Common.Modal html={data.html} />,
-  'common-solution-view': (data: any) => (
+  'common-modal': (data: any): JSX.Element => <Common.Modal html={data.html} />,
+  'common-solution-view': (data: any): JSX.Element => (
     <Common.SolutionView
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       language={data.language}
@@ -149,7 +150,7 @@ export const mappings = {
       links={camelizeKeysAs<SolutionViewLinks>(data.links)}
     />
   ),
-  'common-expander': (data: any) => (
+  'common-expander': (data: any): JSX.Element => (
     <Common.Expander
       contentIsSafe={data.content_is_safe}
       content={data.content}
@@ -158,44 +159,44 @@ export const mappings = {
       className={data.class_name}
     />
   ),
-  'common-community-solution': (data: any) => (
+  'common-community-solution': (data: any): JSX.Element => (
     <Common.CommunitySolution
       solution={camelizeKeysAs<CommunitySolution>(data.solution)}
       context={data.context}
     />
   ),
-  'common-introducer': (data: any) => (
+  'common-introducer': (data: any): JSX.Element => (
     <Common.Introducer
       icon={data.icon}
       content={data.content}
       endpoint={data.endpoint}
     />
   ),
-  'common-cli-walkthrough': (data: any) => (
+  'common-cli-walkthrough': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <CLIWalkthrough html={data.html} />
     </Suspense>
   ),
-  'common-cli-walkthrough-button': (data: any) => (
+  'common-cli-walkthrough-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <CLIWalkthroughButton html={data.html} />
     </Suspense>
   ),
 
-  'community-video-grid': (data: any) => (
-    <Community.VideoGrid data={camelizeKeys(data)} />
+  'community-video-grid': (data: any): JSX.Element => (
+    <Community.VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
   ),
-  'community-stories-grid': (data: any) => (
+  'community-stories-grid': (data: any): JSX.Element => (
     <Community.StoriesGrid data={camelizeKeys(data)} />
   ),
 
-  'track-exercise-community-solutions-list': (data: any) => (
+  'track-exercise-community-solutions-list': (data: any): JSX.Element => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
 
-  'track-dig-deeper': (data: DigDeeperProps) => (
+  'track-dig-deeper': (data: DigDeeperProps): JSX.Element => (
     <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
   ),
 
@@ -203,7 +204,7 @@ export const mappings = {
     <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
   ),
 
-  'track-exercise-makers-button': (data: any) => (
+  'track-exercise-makers-button': (data: any): JSX.Element => (
     <TrackComponents.ExerciseMakersButton
       avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
       numAuthors={data.num_authors}
@@ -211,7 +212,7 @@ export const mappings = {
       links={data.links}
     />
   ),
-  'track-concept-makers-button': (data: any) => (
+  'track-concept-makers-button': (data: any): JSX.Element => (
     <TrackComponents.ConceptMakersButton
       avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
       numAuthors={data.num_authors}
@@ -219,7 +220,7 @@ export const mappings = {
       links={data.links}
     />
   ),
-  'common-credits': (data: any) => (
+  'common-credits': (data: any): JSX.Element => (
     <Common.Credits
       users={camelizeKeysAs<User[]>(data.users)}
       topCount={data.top_count}
@@ -228,7 +229,7 @@ export const mappings = {
       bottomLabel={data.bottom_label}
     />
   ),
-  'common-exercise-widget': (data: any) => (
+  'common-exercise-widget': (data: any): JSX.Element => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}
       track={camelizeKeysAs<Track>(data.track)}
@@ -239,7 +240,7 @@ export const mappings = {
       isSkinny={data.skinny}
     />
   ),
-  'common-share-button': (data: any) => (
+  'common-share-button': (data: any): JSX.Element => (
     <Common.ShareButton
       title={data.title}
       shareTitle={data.share_title}
@@ -247,47 +248,47 @@ export const mappings = {
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
-  'common-site-updates-list': (data: any) => (
+  'common-site-updates-list': (data: any): JSX.Element => (
     <Common.SiteUpdatesList
       updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}
       context={data.context}
     />
   ),
-  'contributing-contributors-list': (data: any) => (
+  'contributing-contributors-list': (data: any): JSX.Element => (
     <Contributing.ContributorsList
       request={camelizeKeysAs<Request>(data.request)}
       tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
     />
   ),
-  'contributing-tasks-list': (data: any) => (
+  'contributing-tasks-list': (data: any): JSX.Element => (
     <Contributing.TasksList
       request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
       tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
     />
   ),
-  'student-tracks-list': (data: any) => (
+  'student-tracks-list': (data: any): JSX.Element => (
     <StudentTracksList request={data.request} tagOptions={data.tag_options} />
   ),
-  'student-exercise-list': (data: any) => (
+  'student-exercise-list': (data: any): JSX.Element => (
     <StudentExerciseList
       request={camelizeKeysAs<Request>(data.request)}
       defaultStatus={data.status}
     />
   ),
-  'student-exercise-status-chart': (data: any) => (
+  'student-exercise-status-chart': (data: any): JSX.Element => (
     <Student.ExerciseStatusChart
       exercisesData={data.exercises_data}
       links={data.links}
     />
   ),
-  'student-exercise-status-dot': (data: any) => (
+  'student-exercise-status-dot': (data: any): JSX.Element => (
     <Student.ExerciseStatusDot
       exerciseStatus={data.exercise_status}
       type={data.type}
       links={data.links}
     />
   ),
-  'student-open-editor-button': (data: any) => (
+  'student-open-editor-button': (data: any): JSX.Element => (
     <Student.OpenEditorButton
       editorEnabled={data.editor_enabled}
       status={data.status}
@@ -295,37 +296,39 @@ export const mappings = {
       command={data.command}
     />
   ),
-  'student-complete-exercise-button': (data: any) => (
+  'student-complete-exercise-button': (data: any): JSX.Element => (
     <Student.CompleteExerciseButton
       endpoint={data.endpoint}
       iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
     />
   ),
-  'concept-map': (data: any) => (
+  'concept-map': (data: any): JSX.Element => (
     <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
   ),
 
-  'mentored-student-tooltip': (data: any) => (
+  'mentored-student-tooltip': (data: any): JSX.Element => (
     <Tooltips.StudentTooltip endpoint={data.endpoint} />
   ),
-  'user-tooltip': (data: any) => (
+  'user-tooltip': (data: any): JSX.Element => (
     <Tooltips.UserTooltip endpoint={data.endpoint} />
   ),
-  'exercise-tooltip': (data: any) => (
+  'exercise-tooltip': (data: any): JSX.Element => (
     <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
   ),
 
-  'tooling-tooltip': (data: any) => (
+  'tooling-tooltip': (data: any): JSX.Element => (
     <Tooltips.ToolingTooltip endpoint={data.endpoint} />
   ),
 
-  'concept-tooltip': (data: any) => (
+  'concept-tooltip': (data: any): JSX.Element => (
     <Tooltips.ConceptTooltip endpoint={data.endpoint} />
   ),
-  'automation-locked-tooltip': (data: AutomationLockedTooltipProps) => (
+  'automation-locked-tooltip': (
+    data: AutomationLockedTooltipProps
+  ): JSX.Element => (
     <Tooltips.AutomationLockedTooltip endpoint={data.endpoint} />
   ),
-  'dropdowns-dropdown': (data: any) => (
+  'dropdowns-dropdown': (data: any): JSX.Element => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
 
@@ -339,11 +342,13 @@ export const mappings = {
   ): JSX.Element => (
     <Common.ThemeToggleButton {...data} defaultTheme={data.default_theme} />
   ),
-  'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
-  'common-graphical-icon': (data: any) => (
+  'common-icon': (data: any): JSX.Element => (
+    <Common.Icon icon={data.icon} alt={data.alt} />
+  ),
+  'common-graphical-icon': (data: any): JSX.Element => (
     <Common.GraphicalIcon icon={data.icon} />
   ),
-  'profile-testimonials-summary': (data: any) => (
+  'profile-testimonials-summary': (data: any): JSX.Element => (
     <Profile.TestimonialsSummary
       handle={data.handle}
       flair={data.flair}
@@ -355,7 +360,7 @@ export const mappings = {
       links={data.links}
     />
   ),
-  'profile-community-solutions-list': (data: any) => (
+  'profile-community-solutions-list': (data: any): JSX.Element => (
     <Profile.CommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
       tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
@@ -363,20 +368,20 @@ export const mappings = {
       )}
     />
   ),
-  'profile-testimonials-list': (data: any) => (
+  'profile-testimonials-list': (data: any): JSX.Element => (
     <Profile.TestimonialsList
       request={camelizeKeysAs<Request>(data.request)}
       defaultSelected={data.default_selected || null}
     />
   ),
-  'profile-contributions-list': (data: any) => (
+  'profile-contributions-list': (data: any): JSX.Element => (
     <Profile.ContributionsList
       categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(
         data.categories
       )}
     />
   ),
-  'profile-contributions-summary': (data: any) => {
+  'profile-contributions-summary': (data: any): JSX.Element => {
     const tracks = data.tracks.map(
       (track: any) =>
         new TrackContribution(camelizeKeysAs<TrackContribution>(track))
@@ -390,10 +395,10 @@ export const mappings = {
       />
     )
   },
-  'profile-first-time-modal': (data: any) => (
+  'profile-first-time-modal': (data: any): JSX.Element => (
     <Profile.FirstTimeModal links={data.links} />
   ),
-  'community-solutions-star-button': (data: any) => (
+  'community-solutions-star-button': (data: any): JSX.Element => (
     <CommunitySolutions.StarButton
       userSignedIn={data.user_signed_in}
       defaultNumStars={data.num_stars}
@@ -401,7 +406,7 @@ export const mappings = {
       links={data.links}
     />
   ),
-  'community-solutions-comments-list': (data: any) => (
+  'community-solutions-comments-list': (data: any): JSX.Element => (
     <CommunitySolutions.CommentsList
       isAuthor={data.is_author}
       userSignedIn={data.user_signed_in}
@@ -410,13 +415,13 @@ export const mappings = {
       links={camelizeKeysAs<CommentsListLinks>(data.links)}
     />
   ),
-  'profile-avatar-selector': (data: any) => (
+  'profile-avatar-selector': (data: any): JSX.Element => (
     <Profile.AvatarSelector
       defaultUser={camelizeKeysAs<User>(data.user)}
       links={data.links}
     />
   ),
-  'profile-new-profile-form': (data: any) => (
+  'profile-new-profile-form': (data: any): JSX.Element => (
     <Profile.NewProfileForm
       user={camelizeKeysAs<User>(data.user)}
       defaultFields={data.fields}
@@ -427,7 +432,7 @@ export const mappings = {
     values: Array<number>
     width: number
     height: number
-  }) => (
+  }): JSX.Element => (
     <Common.ProgressGraph
       data={data.values}
       height={data.height}
@@ -435,19 +440,19 @@ export const mappings = {
     />
   ),
 
-  'impact-stat': (data: any) => (
+  'impact-stat': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <ImpactStat metricType={data.type} initialValue={data.value} />
     </Suspense>
   ),
-  'impact-chart': (data: any) => (
+  'impact-chart': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
+      <InsidersStatus {...camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
   'premium-price-option': (data: PriceOptionProps): JSX.Element => (
@@ -463,17 +468,19 @@ export const mappings = {
 
   'perks-external-modal-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <PerksExternalModalButton data={camelizeKeys(data)} />
+      <PerksExternalModalButton
+        data={camelizeKeysAs<PerksExternalModalButtonProps>(data)}
+      />
     </Suspense>
   ),
 
   'perks-modal-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <PerksModalButton data={camelizeKeys(data)} />
+      <PerksModalButton data={camelizeKeysAs<PerksModalButtonProps>(data)} />
     </Suspense>
   ),
 
-  'impact-map': (data: any) => {
+  'impact-map': (data: any): JSX.Element => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
     )
@@ -485,15 +492,9 @@ export const mappings = {
     )
   },
   // Slow things at the end
-  'donations-footer-form': (data: any) => (
+  'donations-footer-form': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
+      <DonationsFooterForm {...camelizeKeysAs<FooterFormProps>(data)} />
     </Suspense>
   ),
 }
@@ -520,6 +521,10 @@ import {
   PaypalStatusProps,
 } from '@/components/premium/PaypalStatus'
 import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
+import { FooterFormProps } from '../components/donations/FooterForm'
+import { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
+import { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
+import { VideoGridProps } from '@/components/community/video-grid/index.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

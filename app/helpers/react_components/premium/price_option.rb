@@ -10,6 +10,7 @@ module ReactComponents
             captcha_required: !current_user || current_user.captcha_required?,
             recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
             premium_redirect_link: Exercism::Routes.premium_path,
+            premium_redirect_url: Exercism::Routes.premium_url,
             insiders_redirect_link: Exercism::Routes.insiders_path
           }.merge(send("data_for_#{type}"))
         )

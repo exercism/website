@@ -3,7 +3,7 @@ import { Modal } from '../modals'
 import { CopyToClipboardButton } from '../common'
 
 type PerkKeys = 'claimUrl' | 'offerSummaryHtml' | 'offerDetails' | 'voucherCode'
-type PerksModalButtonProps = {
+export type PerksModalButtonProps = {
   text: string
   perk: Record<PerkKeys, string>
   partner: Record<'websiteDomain', string>

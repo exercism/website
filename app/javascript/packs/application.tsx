@@ -510,7 +510,6 @@ import { InsidersStatusData } from '../components/insiders/InsidersStatus'
 import {
   handleNavbarFocus,
   scrollIntoView,
-  makeTablesResponsive,
   showSiteFooterOnTurboLoad,
 } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
@@ -529,7 +528,6 @@ document.addEventListener('turbo:load', () => {
 showSiteFooterOnTurboLoad()
 handleNavbarFocus()
 scrollIntoView()
-makeTablesResponsive()
 
 // object.entries polyfill
 if (!Object.entries) {

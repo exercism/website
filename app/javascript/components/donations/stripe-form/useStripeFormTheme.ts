@@ -1,0 +1,23 @@
+import { useState, useEffect } from 'react'
+import { useThemeObserver } from '@/hooks'
+import { bodyHasClassName } from '@/utils'
+
+export function useStripeFormTheme(): 'light' | 'dark' {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const { explicitTheme } = useThemeObserver()
+
+  const alwaysDark =
+    bodyHasClassName('controller-insiders') ||
+    bodyHasClassName('controller-premium')
+
+  useEffect(() => {
+    if (
+      (explicitTheme === 'theme-light' || explicitTheme === 'theme-sepia') &&
+      !alwaysDark
+    ) {
+      setTheme('light')
+    } else setTheme('dark')
+  }, [alwaysDark, explicitTheme])
+
+  return theme
+}

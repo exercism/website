@@ -35,6 +35,7 @@ export type InsidersStatusData = {
   status: InsidersStatus
   insidersStatusRequest: string
   activateInsiderLink: string
+  amount: number
   userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
@@ -47,17 +48,21 @@ type Response = {
 }
 
 export default function Status({
-  data,
-}: {
-  data: InsidersStatusData
-}): JSX.Element {
-  const { status, insidersStatusRequest, activateInsiderLink } = data
+  activateInsiderLink,
+  captchaRequired,
+  insidersStatusRequest,
+  links,
+  recaptchaSiteKey,
+  status,
+  userSignedIn,
+  amount,
+}: InsidersStatusData): JSX.Element {
   const [insidersStatus, setInsidersStatus] = useState(status)
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
 
   const handleSuccess = useCallback(() => {
-    redirectTo(data.links.insidersPath)
-  }, [data.links.insidersPath])
+    redirectTo(links.insidersPath)
+  }, [links.insidersPath])
 
   const handleModalOpen = useCallback(() => {
     setStripeModalOpen(true)
@@ -170,11 +175,12 @@ export default function Status({
             </div>
           )}
         </div>
-        <ExercismStripeElements>
+        <ExercismStripeElements amount={amount} mode={subscription}>
           <StripeForm
-            captchaRequired={data.captchaRequired}
-            userSignedIn={data.userSignedIn}
-            recaptchaSiteKey={data.recaptchaSiteKey}
+            confirmParamsReturnUrl={links.insidersPath}
+            captchaRequired={captchaRequired}
+            userSignedIn={userSignedIn}
+            recaptchaSiteKey={recaptchaSiteKey}
             paymentIntentType="payment"
             amount={isNaN(amount.value) ? currency(0) : amount}
             onSuccess={handleSuccess}

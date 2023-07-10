@@ -8,7 +8,9 @@ class Payments::Stripe::PaymentIntent::CreateForPayment
       customer: customer_id,
       amount: amount_in_cents,
       currency: 'usd',
-      setup_future_usage: 'off_session'
+      automatic_payment_methods: {
+        enabled: true
+      }
     )
   end
 end

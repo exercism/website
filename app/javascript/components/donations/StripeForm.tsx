@@ -5,7 +5,7 @@ import {
   StripeCardElement,
   StripeCardElementChangeEvent,
 } from '@stripe/stripe-js'
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { fetchJSON } from '@/utils/fetch-json'
 
@@ -116,7 +116,7 @@ export function StripeForm({
     []
   )
 
-  const getPaymentRequest = useCallback(() => {
+  const getPaymentRequest = useCallback(async () => {
     return fetchJSON(createPaymentIntentEndpoint, {
       method: 'POST',
       body: JSON.stringify({
@@ -146,6 +146,13 @@ export function StripeForm({
     setProcessing(true)
     setError(undefined)
 
+    // Trigger form validation and wallet collection
+    const { error: submitError } = await elements.submit()
+    if (submitError) {
+      setError(submitError)
+      return
+    }
+
     getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
       // If we've failed to get a payment intent get out of here
       if (paymentIntent === undefined || paymentIntent === null) {
@@ -156,19 +163,20 @@ export function StripeForm({
       // Get a reference to a mounted CardElement. Elements knows how
       // to find the CardElement because there can only ever be one of
       // each type of element. We could maybe use a ref here instead?
-      const cardElement = elements.getElement(CardElement)!
-      const payload = await stripe.confirmCardPayment(
-        paymentIntent.clientSecret,
-        {
-          payment_method: {
-            card: cardElement,
-          },
-        }
-      )
+      // const cardElement = elements.getElement(CardElement)!
 
-      if (payload.error) {
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret: paymentIntent.clientSecret,
+        confirmParams: {
+          return_url: 'http://local.exercism.io:3020/donate',
+        },
+        redirect: 'if_required',
+      })
+
+      if (error) {
         setError(
-          `Your payment failed. The message we got back from your bank was "${payload.error.message}"`
+          `Your payment failed. The message we got back from your bank was "${error.message}"`
         )
         setProcessing(false)
         cancelPaymentIntent(paymentIntent)
@@ -246,22 +254,13 @@ export function StripeForm({
             : 'Donate with Card'}
         </div>
         <div className="card-element">
-          <CardElement
+          <PaymentElement />
+          {/* <CardElement
             options={cardOptions}
             onChange={handleCardChange}
             onReady={handleCardReady}
-          />
-          <button
-            className="btn-primary btn-s"
-            type="submit"
-            disabled={
-              !notARobot ||
-              processing ||
-              !cardValid ||
-              succeeded ||
-              (!userSignedIn && email.length === 0)
-            }
-          >
+          /> */}
+          <button className="btn-primary btn-s" type="submit">
             {processing ? (
               <Icon icon="spinner" alt="Progressing" className="animate-spin" />
             ) : null}

@@ -2,7 +2,7 @@
 
 .c-docs-side-nav {
     @apply xl:static fixed top-0 left-0 bottom-0;
-    @apply bg-backgroundColorA xl:bg-backgroundColorB z-[100];
+    @apply bg-backgroundColorA xl:bg-backgroundColorB xl:z-1 z-[100];
     @apply xl:border-r-1 border-borderColor6;
     @apply xl:pt-32 xl:pr-32 xl:pl-0 p-16 pb-0;
     @apply overflow-auto;

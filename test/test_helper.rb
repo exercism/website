@@ -309,6 +309,8 @@ class ActiveSupport::TestCase
 
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index:, id:)
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    nil
   end
 
   def wait_for_opensearch_to_be_synced

@@ -35,6 +35,7 @@
 @import "./components/social-icon";
 @import "./components/blog-post";
 @import "./components/donations-form";
+@import "./components/donation-card-error";
 @import "./components/toast";
 @import "./components/contributions-summary";
 @import "./components/progress";

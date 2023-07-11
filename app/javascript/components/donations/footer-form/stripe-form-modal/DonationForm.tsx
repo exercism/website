@@ -3,6 +3,7 @@ import { StripeForm } from '../../StripeForm'
 import { ExercismStripeElements } from '../../ExercismStripeElements'
 import currency from 'currency.js'
 
+// This element seems to be unused
 export const DonationForm = ({
   amount,
   onCancel,
@@ -35,7 +36,7 @@ export const DonationForm = ({
   }, [onSettled])
 
   return (
-    <ExercismStripeElements>
+    <ExercismStripeElements amount={amount.intValue}>
       <StripeForm
         userSignedIn={userSignedIn}
         captchaRequired={captchaRequired}

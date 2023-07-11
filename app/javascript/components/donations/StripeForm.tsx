@@ -50,6 +50,7 @@ type StripeFormProps = {
   captchaRequired: boolean
   recaptchaSiteKey: string
   amount: currency
+  confirmParamsReturnUrl: string
 }
 
 export function StripeForm({
@@ -60,6 +61,7 @@ export function StripeForm({
   userSignedIn,
   recaptchaSiteKey,
   captchaRequired,
+  confirmParamsReturnUrl,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
   const [succeeded, setSucceeded] = useState(false)
@@ -149,7 +151,7 @@ export function StripeForm({
     // Trigger form validation and wallet collection
     const { error: submitError } = await elements.submit()
     if (submitError) {
-      setError(submitError)
+      setError(submitError ? submitError.message : undefined)
       return
     }
 
@@ -169,7 +171,7 @@ export function StripeForm({
         elements,
         clientSecret: paymentIntent.clientSecret,
         confirmParams: {
-          return_url: 'http://local.exercism.io:3020/donate',
+          return_url: confirmParamsReturnUrl,
         },
         redirect: 'if_required',
       })
@@ -255,12 +257,17 @@ export function StripeForm({
         </div>
         <div className="card-element">
           <PaymentElement />
-          {/* <CardElement
-            options={cardOptions}
-            onChange={handleCardChange}
-            onReady={handleCardReady}
-          /> */}
-          <button className="btn-primary btn-s" type="submit">
+          <button
+            className="btn-primary btn-s"
+            type="submit"
+            // disabled={
+            //   !notARobot ||
+            //   processing ||
+            //   !cardValid ||
+            //   succeeded ||
+            //   (!userSignedIn && email.length === 0)
+            // }
+          >
             {processing ? (
               <Icon icon="spinner" alt="Progressing" className="animate-spin" />
             ) : null}
@@ -269,7 +276,7 @@ export function StripeForm({
         </div>
       </div>
       {error && (
-        <div className="card-error" role="alert">
+        <div className="c-donation-card-error" role="alert">
           {error}
         </div>
       )}

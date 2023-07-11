@@ -10,8 +10,7 @@ class Payments::Stripe::PaymentIntent::CreateForPaymentTest < Payments::TestBase
     Stripe::PaymentIntent.expects(:create).with(
       customer: customer_id,
       amount: amount_in_cents,
-      currency: 'usd',
-      setup_future_usage: 'off_session'
+      currency: 'usd'
     ).returns(payment_intent)
 
     actual = Payments::Stripe::PaymentIntent::CreateForPayment.(customer_id, amount_in_cents)

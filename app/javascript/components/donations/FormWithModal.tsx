@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react'
+import currency from 'currency.js'
+import { Request } from '@/hooks'
 import { Form } from './Form'
 import { PaymentIntentType } from './StripeForm'
 import SuccessModal from './SuccessModal'
-import currency from 'currency.js'
-import { Request } from '../../hooks/request-query'
 
-type Links = {
+export type FormWithModalLinks = {
   donate: string
   settings: string
 }
@@ -13,7 +13,7 @@ type Links = {
 type FormWithModalProps = {
   request: Request
   userSignedIn: boolean
-  links: Links
+  links: FormWithModalLinks
   captchaRequired: boolean
   recaptchaSiteKey: string
 }

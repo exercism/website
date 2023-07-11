@@ -18,6 +18,7 @@ export type PriceOptionProps = {
   period: Period
   paypalLink: string
   premiumRedirectLink: string
+  premiumRedirectUrl: string
   insidersRedirectLink: string
 }
 
@@ -54,9 +55,10 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
       >
         <ModalHeader period={data.period} />
         <hr className="mb-32 border-borderColor5 -mx-48" />
-        <ExercismStripeElements>
+        <ExercismStripeElements amount={Math.round(data.displayAmount) * 100}>
           <StripeForm
             {...data}
+            confirmParamsReturnUrl={data.premiumRedirectUrl}
             amount={currency(data.displayAmount)}
             onSuccess={handleSuccess}
           />

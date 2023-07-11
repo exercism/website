@@ -4,7 +4,8 @@ class ReactComponents::Donations::PremiumSubscriptionForm < ReactComponents::Rea
       "premium-subscription-form",
       {
         links: { cancel:, update_to_monthly: update_to_plan(:month), update_to_annual: update_to_plan(:year),
-                 insiders_path: Exercism::Routes.insiders_path, premium_redirect_link: Exercism::Routes.premium_path },
+                 insiders_path: Exercism::Routes.insiders_path, premium_redirect_link: Exercism::Routes.premium_path,
+                 premium_redirect_url: Exercism::Routes.premium_url },
         user_signed_in: user_signed_in?,
         captcha_required: !current_user || current_user.captcha_required?,
         recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key)

@@ -137,8 +137,9 @@ export default function Status({
       >
         <ModalHeader period={'lifetime'} />
         <hr className="mb-32 border-borderColor5 -mx-48" />
-        <ExercismStripeElements>
+        <ExercismStripeElements amount={499}>
           <StripeForm
+            confirmParamsReturnUrl={data.links.insidersPath}
             captchaRequired={data.captchaRequired}
             userSignedIn={data.userSignedIn}
             recaptchaSiteKey={data.recaptchaSiteKey}

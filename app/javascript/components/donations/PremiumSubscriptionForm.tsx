@@ -17,7 +17,8 @@ export type Links = Record<
   | 'updateToMonthly'
   | 'updateToAnnual'
   | 'insidersPath'
-  | 'premiumRedirectLink',
+  | 'premiumRedirectLink'
+  | 'premiumRedirectUrl',
   string
 >
 type Intervals = 'year' | 'month' | 'lifetime'
@@ -113,8 +114,9 @@ export default ({
         open={stripeModalOpen}
         theme="dark"
       >
-        <ExercismStripeElements>
+        <ExercismStripeElements amount={499}>
           <StripeForm
+            confirmParamsReturnUrl={links.premiumRedirectUrl}
             paymentIntentType="payment"
             amount={currency(499)}
             captchaRequired={captchaRequired}

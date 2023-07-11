@@ -10,15 +10,12 @@ import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { useQueryCache } from 'react-query'
+import { FormWithModalLinks } from './FormWithModal'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
   switchToTab: () => null,
 })
-
-type Links = {
-  settings: string
-}
 
 type FormAmount = {
   subscription: currency
@@ -44,7 +41,7 @@ type Props = {
   recaptchaSiteKey: string
   onProcessing?: () => void
   onSettled?: () => void
-  links: Links
+  links: FormWithModalLinks
   id?: string
 }
 
@@ -194,13 +191,16 @@ export const Form = ({
               ]}
             />
           </Tab.Panel>
-          <ExercismStripeElements>
+          <ExercismStripeElements
+            amount={currentAmount?.intValue || PAYMENT_DEFAULT_AMOUNT.intValue}
+          >
             <StripeForm
+              confirmParamsReturnUrl={links.donate}
               paymentIntentType={transactionType}
               userSignedIn={userSignedIn}
               captchaRequired={captchaRequired}
               recaptchaSiteKey={recaptchaSiteKey}
-              amount={currentAmount}
+              amount={currentAmount || currency(0)}
               onSuccess={handleSuccess}
               onProcessing={onProcessing}
               onSettled={onSettled}

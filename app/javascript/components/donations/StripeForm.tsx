@@ -1,34 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
-import {
-  StripeCardElement,
-  StripeCardElementChangeEvent,
-} from '@stripe/stripe-js'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { fetchJSON } from '@/utils/fetch-json'
-
-const cardOptions = {
-  style: {
-    base: {
-      backgroundColor: 'transparent',
-      color: 'grey',
-      fontFamily: 'Poppins, sans-serif',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
-      lineHeight: '32px',
-      fontWeight: '500',
-      '::placeholder': {
-        color: '#76709F',
-      },
-    },
-    invalid: {
-      color: '#D03B3B',
-      iconColor: '#D03B3B',
-    },
-  },
-}
+import { StripePaymentElementChangeEvent } from '@stripe/stripe-js'
 
 type PaymentIntent = {
   id: string
@@ -69,8 +45,6 @@ export function StripeForm({
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
   const [notARobot, setNotARobot] = useState(!captchaRequired)
-  // this can be passed to the backend
-  const [captchaToken, setCaptchaToken] = useState('')
   const [email, setEmail] = useState('')
 
   const createPaymentIntentEndpoint = '/api/v2/payments/payment_intents'
@@ -82,17 +56,9 @@ export function StripeForm({
   const stripe = useStripe()
   const elements = useElements()
 
-  // Focus on the card number once the element loads
-  const handleCardReady = async (element: StripeCardElement) => {
-    element.focus()
-  }
-
-  const handleCardChange = async (event: StripeCardElementChangeEvent) => {
+  const handleCardChange = async (event: StripePaymentElementChangeEvent) => {
     // When we've got a completed card with no errors, set the card to be valid
-    setCardValid(event.complete && !event.error)
-
-    // If there are errors, display them.
-    setError(event.error ? event.error.message : undefined)
+    setCardValid(event.complete)
   }
 
   const cancelPaymentIntent = useCallback((paymentIntent: PaymentIntent) => {
@@ -200,14 +166,12 @@ export function StripeForm({
     setEmail(e.target.value)
   }, [])
 
-  const handleCaptchaSuccess = useCallback((token) => {
+  const handleCaptchaSuccess = useCallback(() => {
     setNotARobot(true)
-    setCaptchaToken(token)
   }, [])
 
   const handleCaptchaFailure = useCallback(() => {
     setNotARobot(false)
-    setCaptchaToken('')
   }, [])
 
   return (
@@ -256,17 +220,17 @@ export function StripeForm({
             : 'Donate with Card'}
         </div>
         <div className="card-element">
-          <PaymentElement />
+          <PaymentElement onChange={handleCardChange} />
           <button
             className="btn-primary btn-s"
             type="submit"
-            // disabled={
-            //   !notARobot ||
-            //   processing ||
-            //   !cardValid ||
-            //   succeeded ||
-            //   (!userSignedIn && email.length === 0)
-            // }
+            disabled={
+              !notARobot ||
+              processing ||
+              !cardValid ||
+              succeeded ||
+              (!userSignedIn && email.length === 0)
+            }
           >
             {processing ? (
               <Icon icon="spinner" alt="Progressing" className="animate-spin" />

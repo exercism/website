@@ -23,6 +23,7 @@ const OPTIONS: StripeElementsOptions = {
   mode: 'payment',
   amount: 3200,
   currency: 'usd',
+  setup_future_usage: 'off_session',
   fonts: [
     {
       cssSrc:

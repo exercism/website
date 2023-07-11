@@ -24,29 +24,22 @@ function load() {
   return loadStripe(publishableKey)
 }
 
-const lightAppearance: BaseStripeElementsOptions['appearance'] = {
-  theme: 'none',
-  variables: {
-    fontSizeBase: '16px',
-    colorPrimary: '#130B43',
-    colorText: '#130B43',
-    colorBackground: '#FBFCFE',
-    fontFamily: 'Poppins, sans-serif',
-    fontSmooth: 'antialiased',
-    fontLineHeight: '32px',
-    fontWeightNormal: '500',
-    colorDanger: '#D03B3B',
-    colorTextPlaceholder: '#76709F',
-  },
+const lightColors = {
+  colorPrimary: '#130B43',
+  colorText: '#130B43',
+  colorBackground: '#FBFCFE',
 }
 
-const darkAppearance: BaseStripeElementsOptions['appearance'] = {
+const darkColors = {
+  colorPrimary: '#f0f3f9',
+  colorText: '#f0f3f9',
+  colorBackground: '#211D2F',
+}
+
+const appearance: BaseStripeElementsOptions['appearance'] = {
   theme: 'none',
   variables: {
     fontSizeBase: '16px',
-    colorPrimary: '#f0f3f9',
-    colorText: '#f0f3f9',
-    colorBackground: '#211D2F',
     fontFamily: 'Poppins, sans-serif',
     fontSmooth: 'antialiased',
     fontLineHeight: '32px',
@@ -81,8 +74,13 @@ export const ExercismStripeElements = ({
     return null
   }
 
-  OPTIONS.appearance =
-    explicitTheme === 'theme-light' ? lightAppearance : darkAppearance
+  OPTIONS.appearance = {
+    ...appearance,
+    variables:
+      explicitTheme === 'theme-light'
+        ? { ...lightColors, ...appearance.variables }
+        : { ...darkColors, ...appearance.variables },
+  }
   OPTIONS.amount = amount
 
   return (

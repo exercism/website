@@ -60,7 +60,7 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
       context: {}
     )
 
-    Submission::TestRun::Init.(submission, type: :solution, git_sha: "foobar", run_in_background: true)
+    Submission::TestRun::Init.(submission, git_sha: "foobar", run_in_background: true)
   end
 
   test "calls to publish_message for exercise with editor files" do
@@ -94,7 +94,42 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     Submission::TestRun::Init.(submission)
   end
 
-  test "queues search index job but does not touch user_track solution run for both submission types" do
+  test "update statuses" do
+    solution = create :concept_solution, :published
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
+    create :user_track, user: submission.user, track: submission.track
+
+    Submission::TestRun::Init.(submission)
+
+    solution.reload
+
+    assert submission.tests_queued?
+    assert solution.latest_iteration_head_tests_status_queued?
+    assert solution.published_iteration_head_tests_status_queued?
+  end
+
+  test "does not update statuses for different git sha" do
+    # Stub this as we're using a fake git sha
+    ToolingJob::Create.stubs(:call)
+
+    solution = create :concept_solution, :published
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
+    create :user_track, user: submission.user, track: submission.track
+
+    Submission::TestRun::Init.(submission, git_sha: "123")
+
+    solution.reload
+
+    assert submission.tests_not_queued?
+    assert solution.latest_iteration_head_tests_status_not_queued?
+    assert solution.published_iteration_head_tests_status_not_queued?
+  end
+
+  test "does not touch user_track solution run for both submission types" do
     time = Time.current - 4.months
 
     solution = create :concept_solution, :published
@@ -103,26 +138,46 @@ class Submission::TestRun::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
     user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
-    Submission::TestRun::Init.(submission, type: :solution)
+    Submission::TestRun::Init.(submission)
+
+    solution.reload
 
     assert_equal time.to_i, user_track.reload.last_touched_at.to_i
     assert solution.latest_iteration_head_tests_status_queued?
     assert solution.published_iteration_head_tests_status_queued?
   end
 
-  test "queues search index job but does not touch user_track solution run for latest_submission" do
+  test "does not change status if solution is not published" do
     time = Time.current - 4.months
 
     solution = create :concept_solution
     submission = create(:submission, solution:)
     create(:iteration, submission:)
     create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
-    user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
+    create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
-    Submission::TestRun::Init.(submission, type: :solution)
+    Submission::TestRun::Init.(submission)
 
-    assert_equal time.to_i, user_track.reload.last_touched_at.to_i
+    solution.reload
     assert solution.latest_iteration_head_tests_status_queued?
     assert solution.published_iteration_head_tests_status_not_queued?
+  end
+
+  test "does not change status if solution is not latest" do
+    time = Time.current - 4.months
+
+    solution = create :concept_solution, :published
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, submission:)
+    create(:iteration, solution:) # Add another iteration afterwards
+    solution.update(published_iteration: iteration)
+    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
+    create :user_track, user: submission.user, track: submission.track, last_touched_at: time
+
+    Submission::TestRun::Init.(submission)
+
+    solution.reload
+    assert solution.latest_iteration_head_tests_status_not_queued?
+    assert solution.published_iteration_head_tests_status_queued?
   end
 end

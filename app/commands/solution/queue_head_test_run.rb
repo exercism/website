@@ -69,7 +69,6 @@ class Solution::QueueHeadTestRun
 
     Submission::TestRun::Init.(
       submission,
-      type: :solution,
       git_sha: exercise.git_sha,
       run_in_background: true
     )

@@ -94,7 +94,13 @@ class Exercise < ApplicationRecord
   end
 
   after_update_commit do
-    Exercise::ProcessGitImportantFilesChanged.(self) if saved_changes.include?(:git_important_files_hash)
+    if saved_changes.include?(:git_important_files_hash)
+      Exercise::ProcessGitImportantFilesChanged.(
+        self,
+        previous_changes['git_important_files_hash'][0],
+        previous_changes['git_important_files_hash'][1]
+      )
+    end
   end
 
   after_commit do

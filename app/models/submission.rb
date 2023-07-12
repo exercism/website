@@ -137,17 +137,20 @@ class Submission < ApplicationRecord
     end
   end
 
-  memoize
-  def valid_filepaths
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def valid_filepaths(repo = exercise_repo)
+    repo ||= exercise_repo
     files.map(&:filename).select do |filepath|
-      exercise_repo.valid_submission_filepath?(filepath)
+      repo.valid_submission_filepath?(filepath)
     end
   end
 
-  memoize
-  def exercise_files
-    exercise_repo.tooling_files.reject do |filepath, _|
-      valid_filepaths.include?(filepath)
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def exercise_files(repo = exercise_repo)
+    repo.tooling_files.reject do |filepath, _|
+      valid_filepaths(repo).include?(filepath)
     end
   end
 

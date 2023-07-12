@@ -20,7 +20,7 @@ class ToolingJob::Create
       run_in_background:,
       source: {
         submission_efs_root: submission.uuid,
-        submission_filepaths: submission.valid_filepaths,
+        submission_filepaths: valid_filepaths,
         exercise_git_repo: solution.track.slug,
         exercise_git_sha: git_sha,
         exercise_git_dir: exercise_repo.dir,
@@ -38,8 +38,12 @@ class ToolingJob::Create
 
   def exercise_filepaths
     exercise_repo.tooling_filepaths.reject do |filepath|
-      submission.valid_filepaths.include?(filepath)
+      valid_filepaths.include?(filepath)
     end
+  end
+
+  def valid_filepaths
+    submission.valid_filepaths(exercise_repo)
   end
 
   memoize

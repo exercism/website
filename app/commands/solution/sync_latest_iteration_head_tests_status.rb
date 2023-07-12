@@ -1,3 +1,5 @@
+# This syncs solution.latest_iteration_head_tests_status to be
+# the same as the solution's actual latest_iteration status
 class Solution::SyncLatestIterationHeadTestsStatus
   include Mandate
 
@@ -17,13 +19,15 @@ class Solution::SyncLatestIterationHeadTestsStatus
     end
 
     # Only update it if we need to.
-    solution.update_latest_iteration_head_tests_status!(status) unless solution.latest_iteration_head_tests_status == status
+    unless solution.latest_iteration_head_tests_status == status # rubocop:disable Style/IfUnlessModifier
+      solution.update_latest_iteration_head_tests_status!(status)
+    end
 
     true
   end
 
   memoize
   def test_run
-    solution.latest_iteration&.submission&.head_test_run
+    solution.latest_iteration_submission&.head_test_run
   end
 end

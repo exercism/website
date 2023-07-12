@@ -102,22 +102,6 @@ class ExerciseTest < ActiveSupport::TestCase
     refute exercise.has_test_runner?
   end
 
-  test "enqueues job to mark solutions as out-of-date in index when git_important_files_hash changes" do
-    exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
-
-    assert_enqueued_with(job: MandateJob, args: [Exercise::MarkSolutionsAsOutOfDateInIndex.name, exercise]) do
-      exercise.update!(git_important_files_hash: 'new-hash')
-    end
-  end
-
-  test "does not enqueue job to mark solutions as out-of-date in index when git_important_files_hash changes when exercise's synced commit contains magic marker" do # rubocop:disable Layout/LineLength
-    exercise = create :practice_exercise, slug: 'satellite', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
-
-    assert_no_enqueued_jobs do
-      exercise.update!(git_important_files_hash: 'new-hash')
-    end
-  end
-
   test "enqueues head test runs job when git_important_files_hash changes" do
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
 
@@ -145,7 +129,7 @@ class ExerciseTest < ActiveSupport::TestCase
   test "recalculates important files hash with solutions when git_important_files_hash changes" do
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
 
-    Exercise::RecalculateImportantFilesHashWithSolutions.expects(:call).with(exercise).once
+    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
   end
@@ -153,7 +137,7 @@ class ExerciseTest < ActiveSupport::TestCase
   test "recalculates important files hash with solutions when git_important_files_hash changes when exercise's synced commit contains magic marker" do # rubocop:disable Layout/LineLength
     exercise = create :practice_exercise, slug: 'satellite', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
 
-    Exercise::RecalculateImportantFilesHashWithSolutions.expects(:call).with(exercise).once
+    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
   end

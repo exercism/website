@@ -1,5 +1,5 @@
 class Exercise
-  # This command should only be called manually when the important files hash
+  # This command should be called manually when the important files hash
   # calculation algorithm has been updated and the important files hash thus
   # must be re-calculated
   class RecalculateImportantFilesHashWithSolutions

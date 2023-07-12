@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_12_120326) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -820,6 +820,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
+    t.index ["exercise_id", "git_important_files_hash"], name: "index_solutions_on_exercise_id_and_git_important_files_hash"
     t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat", order: { status: :desc, num_stars: :desc, updated_at: :desc }
     t.index ["exercise_id", "status", "published_iteration_head_tests_status", "id"], name: "index_other_comm_solutions"
     t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
@@ -913,6 +914,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.string "git_important_files_hash", limit: 50
     t.string "git_sha", limit: 50
     t.bigint "track_id"
+    t.index ["git_important_files_hash"], name: "index_submission_test_runs_on_git_important_files_hash"
+    t.index ["submission_id", "git_important_files_hash"], name: "index_submission_test_run_on_submission_id_and_gifh"
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
     t.index ["track_id", "id"], name: "index_submission_test_runs_on_track_id_and_id", order: { id: :desc }
     t.index ["track_id"], name: "index_submission_test_runs_on_track_id"
@@ -933,6 +936,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_174200) do
     t.string "git_important_files_hash", limit: 50
     t.integer "track_id", limit: 2
     t.integer "exercise_id", limit: 3
+    t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
     t.index ["track_id", "exercise_id"], name: "index_submissions_on_track_id_and_exercise_id"
     t.index ["track_id", "tests_status"], name: "index_submissions_on_track_id_and_tests_status"

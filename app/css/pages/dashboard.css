@@ -152,7 +152,7 @@
             }
 
             &:hover {
-                @apply shadow-lgZ1;
+                box-shadow: var(--box-shadow-lgZ1);
                 @apply rounded-5;
                 @apply z-shadow border-transparent;
             }

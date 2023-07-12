@@ -704,6 +704,73 @@ body.namespace-.controller-premium.theme-light,
     filter: sepia(1);
 }
 
+@media (prefers-contrast: more) {
+    @inline .theme-light;
+
+    body {
+        filter: invert(100%) hue-rotate(180deg);
+
+        /* negate the filter */
+        img,
+        video,
+        iframe,
+        .img,
+        .c-badge-medallion,
+        .c-primary-reputation,
+        #site-footer,
+        #page-journey {
+            filter: invert(100%) hue-rotate(180deg);
+        }
+
+        &.namespace-.controller-insiders {
+            filter: none;
+
+            /* don't override the existing filters - TODO: needs refinement */
+            /* e.g. heart gets inverted on Insiders page */
+            img:not(.c-icon),
+            video,
+            iframe,
+            .img,
+            .c-badge-medallion,
+            .c-primary-reputation,
+            #site-footer {
+                filter: none;
+            }
+        }
+    }
+
+    /* this one overrides tailwind regardless of the `prefers-contrast` value */
+    .shadow-buttonS,
+    .shadow-xsZ1,
+    .shadow-xsZ1_dark,
+    .shadow-dark_xsZ1,
+    .shadow-xsZ1v2,
+    .shadow-xsZ1v3,
+    .shadow-sm,
+    .shadow-smZ1,
+    .shadow-base,
+    .shadow-baseZ1,
+    .shadow-baseZ1v2,
+    .shadow-lg,
+    .shadow-lgv2,
+    .shadow-lgZ1,
+    .shadow-inputSelected,
+    .shadow-keystroke,
+    .shadow-launching,
+    .shadow-navDropdown {
+        box-shadow: 0 0 0 2px #000;
+    }
+
+    /* this one works, and is adaptive */
+    .c-ed.--available:not(.disabled) {
+        box-shadow: 0 0 0 2px #000;
+    }
+
+    html {
+        background-color: #222;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .theme-system {
         @inline .theme-dark;

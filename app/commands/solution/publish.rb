@@ -1,7 +1,7 @@
 class Solution::Publish
   include Mandate
 
-  initialize_with :solution, :user_track, :iteration_idx
+  initialize_with :solution, :user_track, :user_preferences, :iteration_idx
 
   def call
     Solution::Complete.(solution, user_track) unless solution.completed?
@@ -10,7 +10,10 @@ class Solution::Publish
       return if solution.published?
 
       ActiveRecord::Base.transaction do
-        solution.update(published_at: Time.current)
+        solution.update(
+          published_at: Time.current,
+          allow_comments: user_preferences.allow_comments_by_default
+        )
         Solution::PublishIteration.(solution, iteration_idx)
       end
     end

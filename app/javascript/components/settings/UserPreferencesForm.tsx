@@ -79,6 +79,22 @@ export const UserPreferencesForm = ({
           </div>
         </label>
       ))}
+      <h2>Comments</h2>
+      {preferences.comments.map((p) => (
+        <label className="c-checkbox-wrapper" key={p.key}>
+          <input
+            type="checkbox"
+            checked={p.value}
+            onChange={handlePreferenceChange(p, 'comments')}
+          />
+          <div className="row">
+            <div className="c-checkbox">
+              <GraphicalIcon icon="checkmark" />
+            </div>
+            {p.label}
+          </div>
+        </label>
+      ))}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
           Change preferences

@@ -15,7 +15,11 @@ class Solution::UpdateToLatestExerciseVersion
   def update_latest_iteration!
     return unless submission
 
-    submission.update!(git_sha: solution.git_sha, git_slug: solution.git_slug)
+    submission.update!(
+      git_sha: solution.git_sha,
+      git_slug: solution.git_slug,
+      git_important_files_hash: solution.git_important_files_hash
+    )
 
     # We run this in submission mode (the default) so as to set the last
     # iteration to look like it's reprocessing in the UI.

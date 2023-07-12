@@ -2,7 +2,7 @@ class Exercise
   class ProcessGitImportantFilesChanged
     include Mandate
 
-    initialize_with :exercise, :old_hash, :new_hash
+    initialize_with :exercise, :old_git_important_files_hash
 
     # We are calling this file because the git important hash of an exercise has changed.
     # That means that some important files have changed. Depending on which files, and
@@ -22,7 +22,7 @@ class Exercise
       # In thse scenearios, we want to update all the solution files to just have the
       # new hash and do nothing else. The user will never know anything has happened.
       unless tests_need_rerunning?
-        UpdateSolutionsImportantFilesHashes.(exercise, old_hash, new_hash)
+        UpdateSolutionGitData.(exercise, old_git_important_files_hash)
         return
       end
 
@@ -40,7 +40,7 @@ class Exercise
 
     private
     def tests_need_rerunning?
-      return false if old_hash == new_hash
+      return false if old_git_important_files_hash == exercise.git_important_files_hash
 
       # If the maintainer has used the manual flag, then
       # don't run anything here

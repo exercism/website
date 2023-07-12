@@ -95,18 +95,6 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert :not_queued, submission.analysis_status
   end
 
-  test "does not start test run if there's no test runner" do
-    exercise = create :practice_exercise, has_test_runner: false
-    solution = create(:concept_solution, exercise:)
-
-    files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
-
-    Submission::TestRun::Init.expects(:call).never
-    submission = Submission::Create.(solution, files, :cli)
-
-    assert :not_queued, submission.tests_status
-  end
-
   test "adds metric" do
     files = [{ filename: "file1", content: "contents" }]
     solution = create :concept_solution

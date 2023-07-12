@@ -42,4 +42,16 @@ This process is triggered via a `after_update_commit` in Exercise, which calls `
 This command acts in a couple of different ways.
 The first is to look at whether the tests needs rerunning.
 By default, they always do as the `git_important_files_hash` has changed.
-However, sometimes they don't - for example if the only changes are docs or the a maintainer has specifically said that they don't want to reurn the tests using the `[no important files changed]` flag in the commit.
+(However, sometimes they don't - for example if the only changes are docs or the a maintainer has specifically said that they don't want to reurn the tests using the `[no important files changed]` flag in the commit.
+See the next section for details on this).
+
+Presuming we're ploughing ahead, firstly, all solutions are marked out of date in the search index.
+We then enqueue test runs (via Sidekiq) for all test solutions for this exercise.
+The big difference here is that we pass the new `git_sha` into the `Submission::TestRun::Init` command.
+This causes the test runs to be associated with the latest version of the exercise not the original one.
+
+When a test run comes back, it goes through the normal `Submission::TestRun::Process` process.
+If the tests still pass, then we update the latest iteration and processed iteration.
+This also has the side effect (via `Solution::SyncLatestIterationHeadTestsStatus`) of calling `Solution::AutoUpdateToLatestExerciseVersion`, which updates the `git_sha` and `git_important_files_hash` on the submission.
+
+# Skipping head test runs

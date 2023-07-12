@@ -6,6 +6,7 @@ class Solution::SyncLatestIterationHeadTestsStatus
   initialize_with :solution
 
   def call
+    p test_run
     return false unless test_run
 
     if test_run.ops_errored?
@@ -18,10 +19,11 @@ class Solution::SyncLatestIterationHeadTestsStatus
       status = :errored
     end
 
-    # Only update it if we need to.
-    unless solution.latest_iteration_head_tests_status == status # rubocop:disable Style/IfUnlessModifier
-      solution.update_latest_iteration_head_tests_status!(status)
-    end
+    # Always call this as it also updates the git_sha
+    # and git_important_files_hash
+    solution.update_latest_iteration_head_tests_status!(status)
+
+    Solution::AutoUpdateToLatestExerciseVersion.(solution)
 
     true
   end

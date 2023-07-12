@@ -128,7 +128,11 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     submission_3 = create :submission, solution: solution_3, tests_status: :failed
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+    perform_enqueued_jobs
+    p "----"
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+    perform_enqueued_jobs
+    p "====="
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
@@ -136,7 +140,12 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     # A different user
     create :concept_solution
 
+    perform_enqueued_jobs
+
     wait_for_opensearch_to_be_synced
+
+    p submission_2.tests_status
+    p solution_2.published_iteration_head_tests_status
 
     assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: nil)
     assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: :passed)

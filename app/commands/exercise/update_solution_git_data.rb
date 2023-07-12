@@ -25,7 +25,8 @@ class Exercise
             update_all(
               git_sha: new_git_sha,
               git_slug: new_git_slug,
-              git_important_files_hash: new_git_important_files_hash)
+              git_important_files_hash: new_git_important_files_hash
+            )
           break if num_results < BATCH_UPDATE_SIZE
         end
 
@@ -35,7 +36,8 @@ class Exercise
             limit(BATCH_UPDATE_SIZE).
             update_all(
               git_sha: new_git_sha,
-              git_important_files_hash: new_git_important_files_hash)
+              git_important_files_hash: new_git_important_files_hash
+            )
           break if num_results < BATCH_UPDATE_SIZE
         end
       end

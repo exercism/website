@@ -6,7 +6,6 @@ class Solution::SyncLatestIterationHeadTestsStatus
   initialize_with :solution
 
   def call
-    p test_run
     return false unless test_run
 
     if test_run.ops_errored?

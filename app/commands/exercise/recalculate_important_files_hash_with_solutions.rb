@@ -13,6 +13,8 @@ class Exercise
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
         exercise.update!(git_important_files_hash: new_git_important_files_hash)
 
+        # We use loop here and for the things below to avoid locking millions of records
+        # We just keep going until we run out of records to update.
         loop do
           num_results = Solution.where(exercise:, git_important_files_hash: old_git_important_files_hash).
             limit(BATCH_UPDATE_SIZE).
@@ -48,7 +50,7 @@ class Exercise
       exercise.git_important_files_hash
     end
 
-    BATCH_UPDATE_SIZE = 1000
+    BATCH_UPDATE_SIZE = 1_000
     private_constant :BATCH_UPDATE_SIZE
   end
 end

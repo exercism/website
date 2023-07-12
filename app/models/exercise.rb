@@ -94,14 +94,7 @@ class Exercise < ApplicationRecord
   end
 
   after_update_commit do
-    if saved_changes.include?(:git_important_files_hash)
-      Exercise::RecalculateImportantFilesHashWithSolutions.(self)
-
-      unless git_no_important_files_changed?
-        Exercise::MarkSolutionsAsOutOfDateInIndex.defer(self)
-        Exercise::QueueSolutionHeadTestRuns.defer(self)
-      end
-    end
+    Exercise::ProcessGitImportantFilesChanged.(self) if saved_changes.include?(:git_important_files_hash)
   end
 
   after_commit do

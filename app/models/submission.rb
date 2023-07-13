@@ -22,13 +22,13 @@ class Submission < ApplicationRecord
     },
     class_name: "Submission::TestRun", dependent: :destroy
 
-  # The "normal" one is the one run against the same git_sha as the submission
+  # The "normal" one is the one run against the same git_important_files_hash as the submission
   # We again use order id desc to get the latest
   has_one :test_run, # rubocop:disable Rails/InverseOf
     lambda {
       order(id: :desc).
         joins(:submission).
-        where('submission_test_runs.git_sha = submissions.git_sha')
+        where('submission_test_runs.git_important_files_hash = submissions.git_important_files_hash')
     },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy

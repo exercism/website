@@ -25,7 +25,5 @@ class Git::Exercise::CheckForTestableChangesBetweenVersions
   end
 
   memoize
-  def git_exercise
-    exercise.git
-  end
+  def git_exercise = exercise.git
 end

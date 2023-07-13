@@ -24,7 +24,7 @@ class Submission::TestRun < ApplicationRecord
     self.git_sha = submission.git_sha if self.git_sha.blank?
 
     # We don't want to just copy this from the submission as we
-    # migth be creating a HEAD run.
+    # might be creating a HEAD run.
     if self.git_important_files_hash.blank?
       self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(
         exercise, git_sha: self.git_sha

@@ -80,10 +80,6 @@ class Submission::TestRun::Process
   end
 
   def update_solution_status!
-    # If this is the latest head version then let's check whether
-    # it affects the published status too.
-    return unless submission.exercise.git_important_files_hash == git_important_files_hash
-
     # All the logic about whether we should do this etc is encapsulated
     # into the two downstream commands, so we can just proxy to them and
     # leave them to work it all out.
@@ -122,6 +118,9 @@ class Submission::TestRun::Process
     Submission.find_by!(uuid: tooling_job.submission_uuid)
   end
 
+  # This method determines whether this test run is actually
+  # relevant to this submission, or if we've just run other tests against
+  # this submission.
   memoize
   def submission_test_run?
     submission.git_sha == git_sha

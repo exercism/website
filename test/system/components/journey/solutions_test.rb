@@ -217,11 +217,15 @@ module Components
           user:,
           completed_at: Time.current,
           published_at: Time.current
-        submission_1 = create :submission, solution: solution_1, tests_status: :failed
-        submission_2 = create :submission, solution: solution_2, tests_status: :passed
+        submission_1 = create :submission, solution: solution_1
+        submission_2 = create :submission, solution: solution_2
         solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
         solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
 
+        perform_enqueued_jobs
+        submission_1.reload.update_column(:tests_status, :failed)
+        submission_2.reload.update_column(:tests_status, :passed)
+        perform_enqueued_jobs
         wait_for_opensearch_to_be_synced
 
         use_capybara_host do

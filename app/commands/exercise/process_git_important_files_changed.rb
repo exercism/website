@@ -45,10 +45,9 @@ class Exercise::ProcessGitImportantFilesChanged
     # don't run anything here
     return false if exercise.git_no_important_files_changed?
 
-    # If the only changes were documentation or irrelevant files
-    # then we don't need to rerun the tests.
-    return false unless Git::Exercise::CheckForTestableChangesBetweenVersions.(exercise, old_slug, old_sha)
-
-    true
+    # We only re-run the tests if any testable files were changed.
+    # If only documentation or irrelevant files were changed, we don't
+    # need to re-run the tests as their end result would be the same
+    Git::Exercise::CheckForTestableChangesBetweenVersions.(exercise, old_slug, old_sha)
   end
 end

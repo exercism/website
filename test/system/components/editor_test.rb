@@ -309,6 +309,7 @@ module Components
 
         sleep 0.5
         click_on "Feedback"
+        sleep 0.1
         assert_text "Code Review"
         assert_text "Automated Feedback"
         refute_text "Our Ruby Analyzer has some comments"

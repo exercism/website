@@ -99,7 +99,7 @@ class Exercise < ApplicationRecord
         self,
         previous_changes['git_important_files_hash'][0],
         (previous_changes.dig('git_sha', 0) || git_sha),
-        (previous_changes.dig('git_slug', 0) || git_slug)
+        (previous_changes.dig('slug', 0) || slug)
       )
     end
   end

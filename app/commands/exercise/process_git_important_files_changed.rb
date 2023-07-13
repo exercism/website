@@ -34,10 +34,12 @@ class Exercise::ProcessGitImportantFilesChanged
       # Then we queue up all the solution head test runs, which could
       # potentially take a long time
       Exercise::QueueSolutionHeadTestRuns.defer(exercise)
-      return
+    else
+      # If the tests don't need rerunning, we want to update everything that
+      # had the old hash to have the new one. Effectively we say the old hash
+      # never existed and that it's always been the new one!
+      Exercise::UpdateSolutionGitData.(exercise, old_git_important_files_hash)
     end
-
-    Exercise::UpdateSolutionGitData.(exercise, old_git_important_files_hash)
   end
 
   private

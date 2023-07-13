@@ -102,7 +102,10 @@ class ExerciseTest < ActiveSupport::TestCase
     refute exercise.has_test_runner?
   end
 
-  test "enqueues head test runs job when git_important_files_hash changes" do
+  test "enqueues head test runs job when there are testable files" do
+    # Simulate testable files
+    Git::Exercise::CheckForTestableChangesBetweenVersions.expects(:call).returns(true)
+
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
 
     assert_enqueued_with(job: MandateJob, args: [Exercise::QueueSolutionHeadTestRuns.name, exercise]) do
@@ -127,17 +130,21 @@ class ExerciseTest < ActiveSupport::TestCase
   end
 
   test "recalculates important files hash with solutions when git_important_files_hash changes" do
-    exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
+    git_sha = '0b04b8976650d993ecf4603cf7413f3c6b898eff'
+    exercise = create(:practice_exercise, git_sha:)
 
-    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash).once
+    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash, git_sha,
+      exercise.slug).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
   end
 
   test "recalculates important files hash with solutions when git_important_files_hash changes when exercise's synced commit contains magic marker" do # rubocop:disable Layout/LineLength
-    exercise = create :practice_exercise, slug: 'satellite', git_sha: 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
+    git_sha = 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
+    exercise = create(:practice_exercise, slug: 'satellite', git_sha:)
 
-    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash).once
+    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash, git_sha,
+      exercise.slug).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
   end

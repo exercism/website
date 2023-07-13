@@ -21,7 +21,7 @@ class Exercise
 
       loop do
         ids = Submission.where(exercise:, git_important_files_hash: old_git_important_files_hash).
-          limit(BATCH_UPDATE_SIZE)
+          limit(BATCH_UPDATE_SIZE).pluck(:id)
 
         Submission.where(id: ids).update_all(
           git_sha: new_git_sha,
@@ -34,7 +34,7 @@ class Exercise
       loop do
         ids = Submission::TestRun.joins(:submission).where(submissions: { exercise: },
           git_important_files_hash: old_git_important_files_hash).
-          limit(BATCH_UPDATE_SIZE)
+          limit(BATCH_UPDATE_SIZE).pluck(:id)
 
         Submission::TestRun.where(id: ids).update_all(
           git_sha: new_git_sha,

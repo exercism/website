@@ -1,10 +1,10 @@
 require "test_helper"
 
-class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
+class Git::Exercise::GenerateDiffBetweenVersionsTest < ActiveSupport::TestCase
   test "diff for added file" do
     exercise = create :practice_exercise, slug: 'tournament', git_sha: '7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', '23fc26dad93968db3da774cbcc3fc8bb929762c7')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'tournament', '23fc26dad93968db3da774cbcc3fc8bb929762c7')
 
     hints_diff = <<~DIFF
       diff --git a/exercises/practice/tournament/.docs/hints.md b/exercises/practice/tournament/.docs/hints.md
@@ -24,7 +24,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for added file that is not interesting" do
     exercise = create :practice_exercise, slug: 'leap', git_sha: '16308d8a109b952e87ca6198c13589b89c2eeab9'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '719afc21a32801f9c7e75ce75ebb5bbcdd025019')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'leap', '719afc21a32801f9c7e75ce75ebb5bbcdd025019')
 
     assert_empty diff
   end
@@ -32,7 +32,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for modified file" do
     exercise = create :practice_exercise, slug: 'space-age', git_sha: '9aba0406b02303efe9542e48ab6f4eee0b00e6f1'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'space-age', '6f169b92d8500d9ec5f6e69d6927bf732ab5274a')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'space-age', '6f169b92d8500d9ec5f6e69d6927bf732ab5274a')
 
     instructions_diff = <<~DIFF
       diff --git a/exercises/practice/space-age/.docs/instructions.md b/exercises/practice/space-age/.docs/instructions.md
@@ -52,7 +52,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for modified file that is not interesting" do
     exercise = create :practice_exercise, slug: 'leap', git_sha: '31673dc5c3cde7ecc932f795d9810e71c1a1c86d'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '16308d8a109b952e87ca6198c13589b89c2eeab9')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'leap', '16308d8a109b952e87ca6198c13589b89c2eeab9')
 
     assert_empty diff
   end
@@ -60,7 +60,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for deleted file" do
     exercise = create :practice_exercise, slug: 'satellite', git_sha: '719afc21a32801f9c7e75ce75ebb5bbcdd025019'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'satellite', 'b25b9ac3c9dff32189807dd5ed1e68a65a928f89')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'satellite', 'b25b9ac3c9dff32189807dd5ed1e68a65a928f89')
 
     rubocop_diff = <<~DIFF
       diff --git a/exercises/practice/satellite/rubocop.yml b/exercises/practice/satellite/rubocop.yml
@@ -80,7 +80,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for deleted file that is not interesting" do
     exercise = create :practice_exercise, slug: 'bob', git_sha: '68c557317e59e5b81cf60736e40a87251b4e441f'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'bob', 'e5fb35abbc5b2ae24dcfaafba429f8c46a0102b1')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'bob', 'e5fb35abbc5b2ae24dcfaafba429f8c46a0102b1')
 
     assert_empty diff
   end
@@ -88,7 +88,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for modified config includes file as interesting that was added to git previously" do
     exercise = create :practice_exercise, slug: 'leap', git_sha: '7ab5c2dfc18b9d63529c4a96197d7ad4c4976e93'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '31673dc5c3cde7ecc932f795d9810e71c1a1c86d')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'leap', '31673dc5c3cde7ecc932f795d9810e71c1a1c86d')
 
     rubocop_diff = <<~DIFF
       diff --git a/exercises/practice/leap/rubocop.yml b/exercises/practice/leap/rubocop.yml
@@ -107,7 +107,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for modified config excludes file as interesting that was added to git previously" do
     exercise = create :practice_exercise, slug: 'leap', git_sha: '3213d5c55b71d33f4bedbe36116cea8188f34d0a'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'leap', '7ab5c2dfc18b9d63529c4a96197d7ad4c4976e93')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'leap', '7ab5c2dfc18b9d63529c4a96197d7ad4c4976e93')
 
     # Excluding a file as interesting but with the file not removed from git,
     # doesn't have any real consequences for the student.
@@ -121,7 +121,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "diff for combination of added/updated/removed files" do
     exercise = create :practice_exercise, slug: 'tournament', git_sha: '9378b6f648d840fa6f99d568d43483c95c08789f'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', 'dd3dda8ddb502aec82042e1544dc071279413f66')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'tournament', 'dd3dda8ddb502aec82042e1544dc071279413f66')
 
     helper_diff = <<~DIFF
       diff --git a/exercises/practice/tournament/helper.rb b/exercises/practice/tournament/helper.rb
@@ -165,7 +165,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "relative path is returned" do
     exercise = create :practice_exercise, slug: 'tournament', git_sha: '7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', '23fc26dad93968db3da774cbcc3fc8bb929762c7')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'tournament', '23fc26dad93968db3da774cbcc3fc8bb929762c7')
 
     assert_equal ".docs/hints.md", diff.first[:relative_path]
   end
@@ -173,7 +173,7 @@ class Git::GenerateDiffBetweenExerciseVersionsTest < ActiveSupport::TestCase
   test "file that changes in both git and interesting file paths is returned only once" do
     exercise = create :practice_exercise, slug: 'tournament', git_sha: 'dd3dda8ddb502aec82042e1544dc071279413f66'
 
-    diff = Git::GenerateDiffBetweenExerciseVersions.(exercise, 'tournament', '3213d5c55b71d33f4bedbe36116cea8188f34d0a')
+    diff = Git::Exercise::GenerateDiffBetweenVersions.(exercise, 'tournament', '3213d5c55b71d33f4bedbe36116cea8188f34d0a')
 
     relative_filepaths = diff.map { |d| d[:relative_path] }
     assert_equal relative_filepaths.uniq, relative_filepaths

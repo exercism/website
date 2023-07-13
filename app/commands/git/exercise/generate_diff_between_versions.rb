@@ -1,4 +1,4 @@
-class Git::GenerateDiffBetweenExerciseVersions
+class Git::Exercise::GenerateDiffBetweenVersions
   include Mandate
 
   initialize_with :exercise, :old_slug, :old_sha

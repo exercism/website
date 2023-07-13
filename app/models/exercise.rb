@@ -97,7 +97,9 @@ class Exercise < ApplicationRecord
     if saved_changes.include?('git_important_files_hash')
       Exercise::ProcessGitImportantFilesChanged.(
         self,
-        previous_changes['git_important_files_hash'][0]
+        previous_changes['git_important_files_hash'][0],
+        (previous_changes.dig('git_sha', 0) || git_sha),
+        (previous_changes.dig('slug', 0) || slug)
       )
     end
   end

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { QueryStatus } from 'react-query'
-import { useDebounce } from '@/hooks/use-debounce'
+import { useDebounce } from '@/hooks'
 import { useSettingsMutation } from '../useSettingsMutation'
 import { setThemeClassName } from './utils'
 import { Theme, ThemePreferenceLinks } from '../ThemePreferenceForm'

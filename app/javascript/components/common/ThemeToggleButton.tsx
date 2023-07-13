@@ -52,7 +52,10 @@ export function ThemeToggleButton({
             <input
               type="checkbox"
               readOnly
-              checked={explicitTheme === 'theme-dark'}
+              checked={
+                explicitTheme === 'theme-dark' ||
+                explicitTheme === 'theme-accessibility-dark'
+              }
             />
             <span className="slider round" />
           </label>

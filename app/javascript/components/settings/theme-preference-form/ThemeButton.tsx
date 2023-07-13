@@ -34,7 +34,7 @@ export function ThemeButton({
         )
       }
     >
-      <div className="flex flex-col gap-16 items-center">
+      <div className="theme-preference-form-button flex flex-col gap-16 items-center">
         <button
           type="submit"
           disabled={disabled}

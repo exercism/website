@@ -32,6 +32,16 @@ const getThemeFromClassList = () => {
   ) as ThemeData['theme']
 }
 
+function replaceThemeWith(theme: ThemeData['theme']): void {
+  const classNames = Array.from(document.body.classList)
+
+  classNames.forEach((className: string) => {
+    if (className.startsWith('theme-')) {
+      document.body.classList.replace(className, theme)
+    }
+  })
+}
+
 export function useThemeObserver(): ThemeData {
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -57,9 +67,9 @@ export function useThemeObserver(): ThemeData {
 
     observer.observe(document.body, { attributes: true })
 
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
-    const mediaQueryListener = () => {
-      const isDark = mediaQueryList.matches
+    const mediaQueryListDark = window.matchMedia('(prefers-color-scheme: dark)')
+    const mediaQueryListenerDark = () => {
+      const isDark = mediaQueryListDark.matches
       setIsDarkMode(isDark)
       if (themeData.theme === 'theme-system') {
         setThemeData((prev) => ({
@@ -68,11 +78,31 @@ export function useThemeObserver(): ThemeData {
         }))
       }
     }
-    mediaQueryList.addEventListener('change', mediaQueryListener)
+
+    const mediaQueryListAccessibility = window.matchMedia(
+      '(prefers-contrast: more)'
+    )
+    const mediaQueryListenerAccessibility = () => {
+      if (mediaQueryListAccessibility.matches) {
+        replaceThemeWith('theme-accessibility-dark')
+      } else {
+        replaceThemeWith('theme-light')
+      }
+    }
+
+    mediaQueryListDark.addEventListener('change', mediaQueryListenerDark)
+    mediaQueryListAccessibility.addEventListener(
+      'change',
+      mediaQueryListenerAccessibility
+    )
 
     return () => {
       observer.disconnect()
-      mediaQueryList.removeEventListener('change', mediaQueryListener)
+      mediaQueryListDark.removeEventListener('change', mediaQueryListenerDark)
+      mediaQueryListAccessibility.removeEventListener(
+        'change',
+        mediaQueryListenerAccessibility
+      )
     }
   }, [themeData.theme, isDarkMode])
 

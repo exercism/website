@@ -28,6 +28,10 @@ export const loadLanguageCompartment = async (
       const { javascript } = await import('@codemirror/lang-javascript')
       return compartment.of(javascript())
     }
+    case 'php': {
+      const { php } = await import('@codemirror/lang-php')
+      return compartment.of(php())
+    }
     case 'python': {
       const { python } = await import('@codemirror/lang-python')
       return compartment.of(python())

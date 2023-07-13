@@ -5,10 +5,15 @@ const THEMES = [
   'theme-light',
   'theme-system',
   'theme-sepia',
+  'theme-accessibility-dark',
 ] as const
 interface ThemeData {
   theme: typeof THEMES[number]
-  explicitTheme: 'theme-dark' | 'theme-light' | 'theme-sepia'
+  explicitTheme:
+    | 'theme-dark'
+    | 'theme-light'
+    | 'theme-sepia'
+    | 'theme-accessibility-dark'
 }
 
 const getExplicitTheme = (

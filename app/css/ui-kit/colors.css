@@ -691,52 +691,29 @@ body.namespace-.controller-premium.theme-light,
 
 .theme-sepia {
     @inline .theme-light;
-
-    /* filter: invert(100%) hue-rotate(180deg); */
-    /* /1* background-color: #222; *1/ */
-
-    /* img, */
-    /* video, */
-    /* iframe { */
-    /*     filter: invert(100%) hue-rotate(180deg); */
-    /* } */
-
     filter: sepia(1);
 }
 
-@media (prefers-contrast: more) {
+html {
+    &:has(body.theme-accessibility-dark) {
+        background: #222;
+    }
+}
+.theme-accessibility-dark:not(.namespace-.controller-insiders):not(.namespace-.controller-premium) {
     @inline .theme-light;
 
-    body {
+    filter: invert(100%) hue-rotate(180deg);
+
+    /* negate the filter */
+    img:not(.c-icon),
+    video,
+    iframe,
+    .img,
+    .c-badge-medallion,
+    .c-primary-reputation,
+    #site-footer,
+    #page-journey {
         filter: invert(100%) hue-rotate(180deg);
-
-        /* negate the filter */
-        img,
-        video,
-        iframe,
-        .img,
-        .c-badge-medallion,
-        .c-primary-reputation,
-        #site-footer,
-        #page-journey {
-            filter: invert(100%) hue-rotate(180deg);
-        }
-
-        &.namespace-.controller-insiders {
-            filter: none;
-
-            /* don't override the existing filters - TODO: needs refinement */
-            /* e.g. heart gets inverted on Insiders page */
-            img:not(.c-icon),
-            video,
-            iframe,
-            .img,
-            .c-badge-medallion,
-            .c-primary-reputation,
-            #site-footer {
-                filter: none;
-            }
-        }
     }
 
     /* this one overrides tailwind regardless of the `prefers-contrast` value */
@@ -761,13 +738,8 @@ body.namespace-.controller-premium.theme-light,
         box-shadow: 0 0 0 2px #000;
     }
 
-    /* this one works, and is adaptive */
-    .c-ed.--available:not(.disabled) {
-        box-shadow: 0 0 0 2px #000;
-    }
-
-    html {
-        background-color: #222;
+    #site-header .nav-element .nav-element-dropdown {
+        outline: none;
     }
 }
 

@@ -10,7 +10,7 @@ export const THEMES: Theme[] = [
   {
     label: 'Dark',
     value: 'dark',
-    background: '#302b42', //russianViolet
+    background: '#302b42',
     icon: 'exercism-face-light',
   },
   {
@@ -25,5 +25,11 @@ export const THEMES: Theme[] = [
     value: 'sepia',
     background: 'white',
     icon: 'exercism-face-sepia',
+  },
+  {
+    label: 'Accessibility dark',
+    value: 'accessibility-dark',
+    background: '#222',
+    icon: 'exercism-face-light',
   },
 ]

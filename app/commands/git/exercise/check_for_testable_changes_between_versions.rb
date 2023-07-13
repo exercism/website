@@ -7,6 +7,10 @@ class Git::Exercise::CheckForTestableChangesBetweenVersions
     diff_files = diff.map { |di| di[:relative_path] }
     testable_files = (diff_files & git_exercise.important_filepaths) - docs_filepaths
     testable_files.present?
+  rescue Git::MissingCommitError, Rugged::TreeError
+    # If we can't find the old commit, then we presume that things have
+    # changed so dramatically that they definitely need testing!
+    true
   end
 
   private

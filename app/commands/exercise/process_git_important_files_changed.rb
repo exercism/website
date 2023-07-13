@@ -1,7 +1,7 @@
 class Exercise::ProcessGitImportantFilesChanged
   include Mandate
 
-  initialize_with :exercise, :old_git_important_files_hash
+  initialize_with :exercise, :old_git_important_files_hash, :old_sha, :old_slug
 
   # We are calling this file because the git important hash of an exercise has changed.
   # That means that some important files have changed. Depending on which files, and
@@ -45,7 +45,9 @@ class Exercise::ProcessGitImportantFilesChanged
     # don't run anything here
     return false if exercise.git_no_important_files_changed?
 
-    # TODO: Guard against just documentation changes
+    # If the only changes were documentation or irrelevant files
+    # then we don't need to rerun the tests.
+    return false unless Git::Exercise::CheckForTestableChangesBetweenVersions.(exercise, old_slug, old_sha)
 
     true
   end

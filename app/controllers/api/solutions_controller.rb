@@ -95,7 +95,7 @@ module API
     end
 
     def diff
-      files = Git::GenerateDiffBetweenExerciseVersions.(@solution.exercise, @solution.git_slug, @solution.git_sha)
+      files = Git::Exercise::GenerateDiffBetweenVersions.(@solution.exercise, @solution.git_slug, @solution.git_sha)
 
       # TODO: (Optional): Change this to always be a 200 and handle the empty files in React
       if files.present?

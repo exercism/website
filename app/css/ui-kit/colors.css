@@ -699,13 +699,20 @@ html {
         background: #222;
     }
 }
-.theme-accessibility-dark:not(.namespace-.controller-insiders):not(.namespace-.controller-premium) {
+.theme-accessibility-dark {
     @inline .theme-light;
 
     filter: invert(100%) hue-rotate(180deg);
 
+    /* .c-icon{
+        filter: hue-rotate(45deg);
+    } */
+
     /* negate the filter */
-    img:not(.c-icon),
+    img:not(#site-header .c-icon),
+    .c-icon.graphic,
+    .c-icon.c-exercise-icon,
+    .c-icon.c-track-icon,
     video,
     iframe,
     .img,
@@ -716,7 +723,10 @@ html {
         filter: invert(100%) hue-rotate(180deg);
     }
 
-    /* this one overrides tailwind regardless of the `prefers-contrast` value */
+    .theme-preference-form-button {
+        filter: none;
+    }
+
     .shadow-buttonS,
     .shadow-xsZ1,
     .shadow-xsZ1_dark,
@@ -736,6 +746,44 @@ html {
     .shadow-launching,
     .shadow-navDropdown {
         box-shadow: 0 0 0 2px #000;
+    }
+
+    .c-concepts-map .track .layer .card:not(.locked) {
+        box-shadow: 0 0 0 2px #000;
+        &:hover {
+            box-shadow: 0 0 0 4px #000;
+        }
+    }
+
+    .c-ed {
+        &.--completed,
+        &.--published {
+            &:hover {
+                box-shadow: 0 0 0 2px #000;
+            }
+        }
+        &.--in_progress,
+        &.--iterated,
+        &.--started {
+            &:not(.disabled) {
+                box-shadow: 0 0 0 2px #000;
+                &:hover {
+                    box-shadow: 0 0 0 4px #000;
+                }
+            }
+        }
+        &.--available {
+            &.disabled {
+                box-shadow: 0 0 0 2px #000;
+            }
+            &:not(.disabled) {
+                box-shadow: 0 0 0 2px #000;
+
+                &:hover {
+                    box-shadow: 0 0 0 4px #000;
+                }
+            }
+        }
     }
 
     #site-header .nav-element .nav-element-dropdown {

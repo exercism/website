@@ -722,22 +722,43 @@ html {
     @inline .theme-light;
 
     --c-prominent-link-color: #f0f;
+    --c-prominent-link-icon-filter: invert(18%) sepia(100%) saturate(2923%)
+        hue-rotate(293deg) brightness(120%) contrast(134%);
+    --box-shadow-sm: 0 0 0 2px #000;
+    --box-shadow-base: 0 0 0 2px #000;
+    --box-shadow-lg: 0 0 0 2px #000;
+    --box-shadow-lgZ1: 0 0 0 2px #000;
+    --nav-backgroundColor: #e2e8f3;
 
     /* negate the filter */
     /* img:not(#site-header .c-icon):not(.theme-preference-form-button
             .c-icon):not(#page-premium .feature .c-icon), */
-    img:not(.c-icon) .c-icon.graphic,
-    .c-icon.c-exercise-icon,
-    .c-icon.c-track-icon,
+    img:not(.c-icon):not(.logo):not(.c-icon.graphic),
+    /* .c-icon.graphic, */
+    img[src^="/assets/graphics"],
     video,
     iframe,
     .img,
+    .c-avatar,
+    .c-notification,
+    .c-icon.c-exercise-icon:not(#page-journey .c-exercise-icon),
+    .c-track-icon:not(#page-journey .c-track-icon),
+    .c-primary-reputation:not(#page-journey .c-primary-reputation),
+    .andre-swag,
+    .impact-chart-container,
     .theme-preference-form-button,
     .c-badge-medallion,
-    .c-primary-reputation,
     #site-footer,
-    #page-journey {
+    #page-journey,
+    #journey-view, 
+    #impact-page .logos .gobridge, 
+    #page-organisation-supporters .logos .gobridge, 
+    .emoji {
         filter: invert(100%) hue-rotate(180deg);
+    }
+
+    #page-journey article.overview-tab header.section-header .c-icon img {
+        filter: none !important;
     }
 
     .theme-preference-form-button {
@@ -765,10 +786,16 @@ html {
     .shadow-launching,
     .shadow-navDropdown,
     #page-premium .feature,
-    #page-insiders .feature {
+    #page-insiders .feature,
+    #page-dashboard section.actions-section {
         box-shadow: 0 0 0 2px #000 !important;
     }
 
+    #page-dashboard section.actions-section {
+        border-radius: 0px;
+    }
+
+    /* Refactoring these, and putting them next to the ones above creates circular dependency */
     .c-concepts-map .track .layer .card:not(.locked) {
         box-shadow: 0 0 0 2px #000;
         &:hover {

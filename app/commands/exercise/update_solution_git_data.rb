@@ -14,7 +14,8 @@ class Exercise
         Solution.where(id: ids).update_all(
           git_sha: new_git_sha,
           git_slug: new_git_slug,
-          git_important_files_hash: new_git_important_files_hash
+          git_important_files_hash: new_git_important_files_hash,
+          updated_at: Time.current
         )
         break if ids.length < BATCH_UPDATE_SIZE
       end
@@ -26,7 +27,8 @@ class Exercise
         Submission.where(id: ids).update_all(
           git_sha: new_git_sha,
           git_slug: new_git_slug,
-          git_important_files_hash: new_git_important_files_hash
+          git_important_files_hash: new_git_important_files_hash,
+          updated_at: Time.current
         )
         break if ids.length < BATCH_UPDATE_SIZE
       end
@@ -38,7 +40,8 @@ class Exercise
 
         Submission::TestRun.where(id: ids).update_all(
           git_sha: new_git_sha,
-          git_important_files_hash: new_git_important_files_hash
+          git_important_files_hash: new_git_important_files_hash,
+          updated_at: Time.current
         )
         break if ids.length < BATCH_UPDATE_SIZE
       end

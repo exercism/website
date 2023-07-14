@@ -715,16 +715,18 @@ body.namespace-.controller-premium.theme-light,
 html {
     &:has(body.theme-accessibility-dark) {
         background: #222;
+        filter: invert(100%) hue-rotate(180deg);
     }
 }
 .theme-accessibility-dark {
     @inline .theme-light;
 
-    filter: invert(100%) hue-rotate(180deg);
+    --c-prominent-link-color: #f0f;
 
     /* negate the filter */
-    img:not(#site-header .c-icon):not(.theme-preference-form-button .c-icon),
-    .c-icon.graphic,
+    /* img:not(#site-header .c-icon):not(.theme-preference-form-button
+            .c-icon):not(#page-premium .feature .c-icon), */
+    img:not(.c-icon) .c-icon.graphic,
     .c-icon.c-exercise-icon,
     .c-icon.c-track-icon,
     video,
@@ -761,8 +763,10 @@ html {
     .shadow-inputSelected,
     .shadow-keystroke,
     .shadow-launching,
-    .shadow-navDropdown {
-        box-shadow: 0 0 0 2px #000;
+    .shadow-navDropdown,
+    #page-premium .feature,
+    #page-insiders .feature {
+        box-shadow: 0 0 0 2px #000 !important;
     }
 
     .c-concepts-map .track .layer .card:not(.locked) {
@@ -805,5 +809,30 @@ html {
 
     #site-header .nav-element .nav-element-dropdown {
         outline: none;
+    }
+
+    #page-premium,
+    #page-insiders {
+        color: var(--textColor1);
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: var(--textColor1) !important;
+        }
+        .gradient-container,
+        .feature {
+            background: var(--backgroundColorA) !important;
+            .c-icon {
+                filter: hue-rotate(45deg);
+            }
+        }
+
+        .feature {
+            a {
+                @apply !text-prominentLinkColor;
+            }
+        }
     }
 }

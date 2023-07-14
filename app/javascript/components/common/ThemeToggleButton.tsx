@@ -14,7 +14,7 @@ export function ThemeToggleButton({
   disabled,
   defaultTheme,
 }: ThemeToggleButtonProps): JSX.Element {
-  const { explicitTheme } = useThemeObserver()
+  const { explicitTheme } = useThemeObserver(links.update)
   const { handleThemeUpdate } = useTheme(defaultTheme, links)
 
   const switchToDarkTheme = useCallback(

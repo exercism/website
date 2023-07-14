@@ -1,3 +1,4 @@
+import { debounce } from '@/utils/debounce'
 import { useState, useEffect } from 'react'
 
 const THEMES = [
@@ -42,7 +43,27 @@ function replaceThemeWith(theme: ThemeData['theme']): void {
   })
 }
 
-export function useThemeObserver(): ThemeData {
+function patchTheme(theme: string, updateEndpoint?: string) {
+  if (!updateEndpoint) return
+  return fetch(updateEndpoint, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user_preferences: { theme },
+    }),
+  })
+    .then((res) => res.json())
+    .catch((e) =>
+      // eslint-disable-next-line no-console
+      console.error('Failed to update to accessibility-dark theme: ', e)
+    )
+}
+
+const patchThemeDebounced = debounce(patchTheme, 1000)
+
+export function useThemeObserver(updateEndpoint?: string): ThemeData {
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia('(prefers-color-scheme: dark)').matches
   )
@@ -78,33 +99,34 @@ export function useThemeObserver(): ThemeData {
         }))
       }
     }
-
-    const mediaQueryListAccessibility = window.matchMedia(
+    const mediaQueryListAccessibilityDark = window.matchMedia(
       '(prefers-contrast: more)'
     )
-    const mediaQueryListenerAccessibility = () => {
-      if (mediaQueryListAccessibility.matches) {
+    const mediaQueryListenerAccessibilityDark = () => {
+      if (mediaQueryListAccessibilityDark.matches) {
         replaceThemeWith('theme-accessibility-dark')
+        patchThemeDebounced('accessibility-dark', updateEndpoint)
       } else {
         replaceThemeWith('theme-light')
+        patchThemeDebounced('light', updateEndpoint)
       }
     }
 
     mediaQueryListDark.addEventListener('change', mediaQueryListenerDark)
-    mediaQueryListAccessibility.addEventListener(
+    mediaQueryListAccessibilityDark.addEventListener(
       'change',
-      mediaQueryListenerAccessibility
+      mediaQueryListenerAccessibilityDark
     )
 
     return () => {
       observer.disconnect()
       mediaQueryListDark.removeEventListener('change', mediaQueryListenerDark)
-      mediaQueryListAccessibility.removeEventListener(
+      mediaQueryListAccessibilityDark.removeEventListener(
         'change',
-        mediaQueryListenerAccessibility
+        mediaQueryListenerAccessibilityDark
       )
     }
-  }, [themeData.theme, isDarkMode])
+  }, [themeData.theme, isDarkMode, updateEndpoint])
 
   return themeData
 }

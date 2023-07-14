@@ -374,34 +374,12 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal 34, mentor.reload.mentor_satisfaction_percentage
   end
 
-  test "does not update num solutions mentored if status is unchanged" do
+  test "does not update mentor stats if status is unchanged" do
     mentor = create :user
     discussion = create(:mentor_discussion, mentor:)
 
     perform_enqueued_jobs do
-      Mentor::UpdateNumSolutionsMentored.expects(:call).never
-
-      discussion.update(rating: :great)
-    end
-  end
-
-  test "does not update satisfaction rating if rating is unchanged" do
-    mentor = create :user
-    discussion = create(:mentor_discussion, mentor:)
-
-    perform_enqueued_jobs do
-      Mentor::UpdateSatisfactionPercentage.expects(:call).never
-
-      discussion.update(status: :finished)
-    end
-  end
-
-  test "does not update num discussions finished if status is unchanged" do
-    mentor = create :user
-    discussion = create :mentor_discussion, mentor:, status: :finished
-
-    perform_enqueued_jobs do
-      Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never
+      Mentor::UpdateStats.expects(:call).never
 
       discussion.update(rating: :great)
     end

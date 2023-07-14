@@ -19,7 +19,7 @@
           .number= number_with_delimiter @user.num_students_mentored
           .metric #{'Student'.pluralize(@user.num_students_mentored)} helped
         .stat
-          .number= number_with_delimiter @user.num_num_published_testimonials
+          .number= number_with_delimiter @user.num_published_testimonials
           .metric Testimonials received
 
       = render ReactComponents::Profile::TestimonialsList.new(@user, params)

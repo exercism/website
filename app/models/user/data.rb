@@ -59,21 +59,5 @@ class User::Data < ApplicationRecord
       User::ResetCache.(user, meth)
     end
   end
-  def cache = super || {}
-
-  # TODO: Remove once this has been deployed to webservers
-  # and the fields have been updated.
-
-  %w[
-    num_solutions_mentored
-    mentor_satisfaction_percentage
-  ].each do |meth|
-    define_method "#{meth}=" do |value|
-      User::Data::SafeUpdate.(user) do
-        self.cache = self.cache.merge(meth => value)
-      end
-    end
-  end
   def cache = super || (self.cache = {})
-
 end

@@ -22,6 +22,6 @@ class Mentor::Testimonial < ApplicationRecord
   # TODO: Move to command
   def soft_destroy!(time: Time.current)
     update!(deleted_at: time)
-    User::ResetCache.defer(testimonial.mentor, :num_testimonials)
+    User::ResetCache.defer(mentor, :num_testimonials)
   end
 end

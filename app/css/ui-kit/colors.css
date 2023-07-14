@@ -689,10 +689,28 @@ body.namespace-.controller-premium.theme-light,
     --lockedColor: var(--backgroundColorEDAvailable);
 }
 
+/* =============== SYSTEM =============== */
+
+@media (prefers-color-scheme: dark) {
+    .theme-system {
+        @inline .theme-dark;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .theme-system {
+        @inline .theme-light;
+    }
+}
+
+/* =============== SEPIA =============== */
+
 .theme-sepia {
     @inline .theme-light;
     filter: sepia(1);
 }
+
+/* =============== ACCESSIBILITY DARK =============== */
 
 html {
     &:has(body.theme-accessibility-dark) {
@@ -704,18 +722,15 @@ html {
 
     filter: invert(100%) hue-rotate(180deg);
 
-    /* .c-icon{
-        filter: hue-rotate(45deg);
-    } */
-
     /* negate the filter */
-    img:not(#site-header .c-icon),
+    img:not(#site-header .c-icon):not(.theme-preference-form-button .c-icon),
     .c-icon.graphic,
     .c-icon.c-exercise-icon,
     .c-icon.c-track-icon,
     video,
     iframe,
     .img,
+    .theme-preference-form-button,
     .c-badge-medallion,
     .c-primary-reputation,
     #site-footer,
@@ -724,7 +739,9 @@ html {
     }
 
     .theme-preference-form-button {
-        filter: none;
+        .c-icon {
+            filter: contrast(1);
+        }
     }
 
     .shadow-buttonS,
@@ -788,17 +805,5 @@ html {
 
     #site-header .nav-element .nav-element-dropdown {
         outline: none;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .theme-system {
-        @inline .theme-dark;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    .theme-system {
-        @inline .theme-light;
     }
 }

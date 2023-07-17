@@ -795,6 +795,12 @@ html {
         border-radius: 0px;
     }
 
+    #page-donate {
+        .c-donations-form {
+            box-shadow: 0 0 0 2px #000 !important;
+        }
+    }
+
     /* Refactoring these, and putting them next to the ones above creates circular dependency */
     .c-concepts-map .track .layer .card:not(.locked) {
         box-shadow: 0 0 0 2px #000;
@@ -838,6 +844,23 @@ html {
         outline: none;
     }
 
+    #page-insiders {
+        .c-insiders-prompt {
+            color: var(--textColor1);
+        }
+        .lg-container {
+            background: var(--backgroundColorA);
+        }
+        details {
+            background: var(--backgroundColorB);
+            summary::after {
+                filter: invert(100%);
+            }
+            a {
+                color: #f0f;
+            }
+        }
+    }
     #page-premium,
     #page-insiders {
         color: var(--textColor1);

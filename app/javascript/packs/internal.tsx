@@ -1,6 +1,7 @@
 import 'easymde/dist/easymde.min.css'
 
 import React, { lazy, Suspense } from 'react'
+import currency from 'currency.js'
 import { initReact } from '../utils/react-bootloader.jsx'
 
 import {

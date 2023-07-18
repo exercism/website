@@ -6,14 +6,28 @@ class Solution::SyncToSearchIndex
   initialize_with :solution
 
   def call
-    # p solution.id
-    # p Solution::CreateSearchIndexDocument.(solution)
+    if solution.user.ghost?
+      delete_document!
+    else
+      create_document!
+    end
+  end
 
+  private
+  def create_document!
     Exercism.opensearch_client.index(
       index: Solution::OPENSEARCH_INDEX,
       type: 'solution',
       id: solution.id,
       body: Solution::CreateSearchIndexDocument.(solution)
+    )
+  end
+
+  def delete_document!
+    Exercism.opensearch_client.delete(
+      index: Solution::OPENSEARCH_INDEX,
+      type: 'solution',
+      id: solution.id
     )
   end
 end

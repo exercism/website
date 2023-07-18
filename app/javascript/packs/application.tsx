@@ -59,7 +59,6 @@ import { camelizeKeys } from 'humps'
 export function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
-import currency from 'currency.js'
 
 const renderLoader = () => <div className="c-loading-suspense" />
 

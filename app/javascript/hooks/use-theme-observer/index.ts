@@ -51,15 +51,11 @@ export function useThemeObserver(updateEndpoint?: string): ThemeData {
     const mediaQueryPrefersContrastMore = window.matchMedia(
       '(prefers-contrast: more)'
     )
-    if (mediaQueryPrefersContrastMore.matches) {
-      replaceThemeWith('theme-accessibility-dark')
-      patchThemeDebounced('accessibility-dark', updateEndpoint)
-    }
     const mediaQueryListenerPrefersContrastMore = () => {
       if (mediaQueryPrefersContrastMore.matches) {
         replaceThemeWith('theme-accessibility-dark')
         patchThemeDebounced('accessibility-dark', updateEndpoint)
-      } else {
+      } else if (getThemeFromClassList() === 'theme-accessibility-dark') {
         replaceThemeWith('theme-light')
         patchThemeDebounced('light', updateEndpoint)
       }

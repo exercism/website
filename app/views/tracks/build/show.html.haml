@@ -8,14 +8,14 @@
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-3.xl:col-span-2
       %h1.text-h1.mb-16.text-40.font-bold.z-1
-        .highlight-text= number_with_delimiter(@status.students.num_students)
+        .highlight-text= number_with_delimiter(@track.num_students)
         students have developed their #{@track.title} skills on Exercism.
       .grid.md:grid-cols-3.sm:grid-cols-2.grid-cols-1.mb-32.gap-16
         .report-stat
           .stat-name
             Students
             = graphical_icon "info-circle"
-          .current-number= number_with_delimiter(@status.students.num_students)
+          .current-number= number_with_delimiter(@track.num_student)
         .report-stat
           .stat-name
             Submissions

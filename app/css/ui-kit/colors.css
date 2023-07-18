@@ -721,6 +721,14 @@ html {
 .theme-accessibility-dark {
     @inline .theme-light;
 
+    button,
+    a {
+        &:hover {
+            outline: 1px dashed;
+            outline-offset: 4px;
+        }
+    }
+
     --c-prominent-link-color: #f0f;
     --c-prominent-link-icon-filter: invert(18%) sepia(100%) saturate(2923%)
         hue-rotate(293deg) brightness(120%) contrast(134%);
@@ -884,5 +892,9 @@ html {
                 @apply !text-prominentLinkColor;
             }
         }
+    }
+
+    .nav-dropdown-track-list {
+        @apply gap-8;
     }
 }

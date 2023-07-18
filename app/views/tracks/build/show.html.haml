@@ -16,20 +16,17 @@
             Students
             = graphical_icon "info-circle"
           .current-number= number_with_delimiter(@status.students.num_students)
-          -# .growth +#{@status.students.num_students_per_day} per day
         .report-stat
           .stat-name
             Submissions
             = graphical_icon "info-circle"
           .current-number= number_with_delimiter(@status.submissions.num_submissions)
-          -# .growth +#{@status.submissions.num_submissions_per_day} per day
         .report-stat
           .stat-name
             Mentoring Discussions
             = graphical_icon "info-circle"
           .current-number
             = number_with_delimiter(@status.mentor_discussions.num_discussions)
-          -# .growth +10 per day
 
       .track-status
         %h3.text-h3.font-bold.mb-12

@@ -1,7 +1,7 @@
 class Solution::Publish
   include Mandate
 
-  initialize_with :solution, :user_track, :user_preferences, :iteration_idx
+  initialize_with :solution, :user_track, :iteration_idx
 
   def call
     Solution::Complete.(solution, user_track) unless solution.completed?
@@ -12,7 +12,7 @@ class Solution::Publish
       ActiveRecord::Base.transaction do
         solution.update(
           published_at: Time.current,
-          allow_comments: user_preferences.allow_comments_by_default
+          allow_comments: user.preferences.allow_comments_by_default
         )
         Solution::PublishIteration.(solution, iteration_idx)
       end
@@ -63,7 +63,7 @@ class Solution::Publish
     Exercise::CacheNumPublishedSolutions.defer(exercise)
   end
 
-  delegate :exercise, to: :solution
+  delegate :exercise, :user, to: :solution
 
   BADGES = %i[functional_february mechanical_march analytical_april
               mind_shifting_may summer_of_sexps jurassic_july].freeze

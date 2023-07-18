@@ -112,7 +112,6 @@
         }
 
         & section.progress-chart {
-            background: #fff;
             @apply shadow-lg bg-backgroundColorA rounded-8;
             @apply pt-20 pb-28 px-32;
 

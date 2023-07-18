@@ -4,7 +4,7 @@
       - unless user_track.tutorial_exercise_completed?
         = render "tracks/show/start_track_section", track:
 
-      %section.progress-chart
+      %section.progress-chart.mb-24
         %h2
           - if user_track.completed_percentage.zero?
             You&apos;ve just started the #{track.title} track.
@@ -45,14 +45,16 @@
             .status Total Exercises
             .count= user_track.num_exercises
 
-      - if user_track.tutorial_exercise_completed?
-        %section.activities
-          - recent_solutions.each do |solution|
-            = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
-          = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercises_path(track), with_bg: true)
+      .shadow-lg.bg-backgroundColorA.rounded-8.pt-24.pb-28.px-32
+        %h2.text-h3.mb-2.text-center
+          #{track.title} Trophy Cabinet
+        %p.text-p-large.text-textColor6.mb-20.text-center
+          Hover to explore the different trophies you can achieve!
 
-      - else
-        = render "tracks/show/activities_zero_state_section"
+        .flex.flex-row.gap-16
+          - 6.times do
+            .border-1.border-borderColor7.rounded-8.p-16.bg-backgroundColorB
+              = graphical_icon 'medal-placeholder', css_class: 'h-[96px] w-[96px] filter-textColor7 opacity-[0.3]'
 
     .rhs
       - if last_8_weeks_counts.any?(&:positive?)

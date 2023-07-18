@@ -12,7 +12,7 @@ class API::Settings::UserPreferencesControllerTest < API::BaseTestCase
 
     user_preferences = {
       auto_update_exercises: false,
-      allow_comments_by_default: false,
+      allow_comments_by_default: false
     }
 
     20.times do

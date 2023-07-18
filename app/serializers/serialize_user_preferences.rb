@@ -5,7 +5,7 @@ class SerializeUserPreferences
 
   def call = {
     automation: serialize(User::Preferences.automation_keys),
-    comments: serialize(User::Preferences.comments_keys),
+    comments: serialize(User::Preferences.comments_keys)
   }
 
   private

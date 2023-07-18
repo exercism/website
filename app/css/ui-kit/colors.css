@@ -741,7 +741,7 @@ html {
     /* negate the filter */
     /* img:not(#site-header .c-icon):not(.theme-preference-form-button
             .c-icon):not(#page-premium .feature .c-icon), */
-    img:not(.c-icon):not(.logo):not(.c-icon.graphic):not(.c-icon.--hex img),
+    img:not(.c-icon):not(.logo):not(.c-icon.graphic):not(.c-icon.--hex img):not(#page-journey .c-track-icon),
     /* .c-icon.graphic, */
     img[src^="/assets/graphics"],
     video,
@@ -750,6 +750,7 @@ html {
     .c-avatar,
     .c-notification,
     .c-icon.c-exercise-icon:not(#page-journey .c-exercise-icon),
+    .c-icon.filter-none,
     .c-track-icon:not(#page-journey .c-track-icon),
     .c-primary-reputation:not(#page-journey .c-primary-reputation),
     .andre-swag,
@@ -760,13 +761,10 @@ html {
     #page-journey,
     #journey-view, 
     #impact-page .logos .gobridge, 
+    #page-journey article.overview-tab header.section-header .c-icon img,
     #page-organisation-supporters .logos .gobridge, 
     .emoji {
         filter: invert(100%) hue-rotate(180deg);
-    }
-
-    #page-journey article.overview-tab header.section-header .c-icon img {
-        filter: none !important;
     }
 
     .theme-preference-form-button {

@@ -64,11 +64,11 @@ class Mentor::SupermentorTest < ActiveSupport::TestCase
 
     # Sanity check: satisfactiong rating too low
     mentorship.update(num_finished_discussions: 105)
-    mentor.update(mentor_satisfaction_percentage: 80)
+    mentor.data.update!(cache: { 'mentor_satisfaction_percentage' => 80 })
     refute Mentor::Supermentor.for_track?(mentor, track)
 
     # Requirements met
-    mentor.update(mentor_satisfaction_percentage: 96)
+    mentor.data.update!(cache: { 'mentor_satisfaction_percentage' => 96 })
     assert Mentor::Supermentor.for_track?(mentor, track)
   end
 

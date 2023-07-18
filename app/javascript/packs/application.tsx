@@ -6,24 +6,6 @@ import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
-const DonationsFormWithModal = lazy(
-  () => import('../components/donations/FormWithModal')
-)
-
-const DonationsSubscriptionForm = lazy(
-  () => import('../components/donations/SubscriptionForm')
-)
-
-const PremiumSubscriptionForm = lazy(
-  () => import('../components/donations/PremiumSubscriptionForm')
-)
-const Editor = lazy(() => import('../components/Editor'))
-import { Props as EditorProps } from '../components/editor/Props'
-
-const DonationsFooterForm = lazy(
-  () => import('../components/donations/FooterForm')
-)
-
 const CLIWalkthrough = lazy(() => import('../components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
   () => import('../components/common/CLIWalkthroughButton')
@@ -77,7 +59,6 @@ import { camelizeKeys } from 'humps'
 export function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
-import currency from 'currency.js'
 
 const renderLoader = () => <div className="c-loading-suspense" />
 
@@ -102,38 +83,7 @@ export const mappings = {
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
-  'donations-with-modal-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFormWithModal
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
-    </Suspense>
-  ),
-  'donations-subscription-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsSubscriptionForm
-        {...data}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  'premium-subscription-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <PremiumSubscriptionForm
-        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  editor: (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
-    </Suspense>
-  ),
+
   'common-concept-widget': (data: any) => (
     <Common.ConceptWidget concept={data.concept} />
   ),
@@ -484,18 +434,6 @@ export const mappings = {
       </Suspense>
     )
   },
-  // Slow things at the end
-  'donations-footer-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
-    </Suspense>
-  ),
 }
 
 // Add all react components here.
@@ -513,8 +451,6 @@ import {
   showSiteFooterOnTurboLoad,
 } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
-import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
-import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
 import {
   PaypalStatus,
   PaypalStatusProps,

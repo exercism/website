@@ -46,7 +46,7 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     track = create :track
     user_track = create(:user_track, user:, track:)
 
-    Solution::RemoveUserSolutionsForTrackFromSearchIndex.expects(:defer).with(user_track)
+    Solution::RemoveUserSolutionsForTrackFromSearchIndex.expects(:defer).with(user, track)
 
     UserTrack::Reset.(user_track)
   end

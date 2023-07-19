@@ -18,14 +18,7 @@ class Solution::QueueHeadTestRun
 
   def handle_latest!
     return unless latest_submission
-
-    # Get out of here if:
-    # - we don't want to force run things
-    # - and the current head sync works fine
-    # - and the previous version didn't exception
-    return if !force &&
-              Solution::SyncLatestIterationHeadTestsStatus.(solution) &&
-              !solution.latest_iteration_head_tests_status_exceptioned?
+    return unless should_run_latest?
 
     # If we don't have a test runner then we shouldn't run anything so get out of here
     return solution.update_latest_iteration_head_tests_status!(:not_queued) unless exercise.has_test_runner?
@@ -37,16 +30,28 @@ class Solution::QueueHeadTestRun
     end
   end
 
+  def should_run_latest?
+    # Always run if we force
+    return true if force
+
+    # Don't run if we're already running this
+    return false if
+      latest_submission.tests_queued? &&
+      latest_submission.git_important_files_hash == exercise.git_important_files_hash
+
+    # Do run if the latest head sync doesn't work
+    return true unless Solution::SyncLatestIterationHeadTestsStatus.(solution)
+
+    # Do run if that head sync exceptioned
+    return true if solution.latest_iteration_head_tests_status_exceptioned?
+
+    # Otherwise don't run
+    false
+  end
+
   def handle_latest_published!
     return unless latest_published_submission
-
-    # Get out of here if:
-    # - we don't want to force run things
-    # - and the current head sync works fine
-    # - and the previous version didn't exception
-    return if !force &&
-              Solution::SyncPublishedIterationHeadTestsStatus.(solution) &&
-              !solution.published_iteration_head_tests_status_exceptioned?
+    return unless should_run_published?
 
     # If we don't have a test runner then we shouldn't run anything so get out of here
     return solution.update_published_iteration_head_tests_status!(:not_queued) unless exercise.has_test_runner?
@@ -61,6 +66,25 @@ class Solution::QueueHeadTestRun
     rescue Rugged::TreeError
       solution.update_published_iteration_head_tests_status!(:exceptioned)
     end
+  end
+
+  def should_run_published?
+    # Always run if we force
+    return true if force
+
+    # Don't run if we're already running this
+    return false if
+      latest_published_submission.tests_queued? &&
+      latest_published_submission.git_important_files_hash == exercise.git_important_files_hash
+
+    # Do run if the latest head sync doesn't work
+    return true unless Solution::SyncPublishedIterationHeadTestsStatus.(solution)
+
+    # Do run if that head sync exceptioned
+    return true if solution.published_iteration_head_tests_status_exceptioned?
+
+    # Otherwise don't run
+    false
   end
 
   def process_submission!(submission)

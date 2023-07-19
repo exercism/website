@@ -34,7 +34,8 @@ class Solution::QueueHeadTestRun
     # Always run if we force
     return true if force
 
-    # Don't run if we're already running this
+    # Don't run if we're already running the tests for this same git_important_files_hash
+    # (ie the submission considers itself being retested and it's already at HEAD)
     return false if
       latest_submission.tests_queued? &&
       latest_submission.git_important_files_hash == exercise.git_important_files_hash
@@ -72,7 +73,8 @@ class Solution::QueueHeadTestRun
     # Always run if we force
     return true if force
 
-    # Don't run if we're already running this
+    # Don't run if we're already running the tests for this same git_important_files_hash
+    # (ie the submission considers itself being retested and it's already at HEAD)
     return false if
       latest_published_submission.tests_queued? &&
       latest_published_submission.git_important_files_hash == exercise.git_important_files_hash

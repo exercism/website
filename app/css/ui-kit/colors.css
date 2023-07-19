@@ -743,7 +743,7 @@ html {
             .c-icon):not(#page-premium .feature .c-icon), */
     img:not(.c-icon):not(.logo):not(.c-icon.graphic):not(.c-icon.--hex img):not(#page-journey .c-track-icon),
     /* .c-icon.graphic, */
-    img[src^="/assets/graphics"],
+    img[src*="/assets/graphics"],
     video,
     iframe,
     .img,

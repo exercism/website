@@ -52,9 +52,9 @@
           Hover to explore the different trophies you can achieve!
 
         .flex.flex-row.gap-16
-          - 6.times do
-            .border-1.border-borderColor7.rounded-8.p-16.bg-backgroundColorB
-              = graphical_icon 'medal-placeholder', css_class: 'h-[96px] w-[96px] filter-textColor7 opacity-[0.3]'
+          - @track.trophies.each do |trophy|
+            .border-1.border-borderColor7.rounded-8.p-8.bg-backgroundColorB
+              = graphical_icon trophy.icon, category: :graphics, css_class: 'h-[128px] w-[128px] grayscale opacity-[0.15]'
 
     .rhs
       - if last_8_weeks_counts.any?(&:positive?)

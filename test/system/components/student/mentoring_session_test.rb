@@ -95,13 +95,14 @@ module Components
             author: mentor,
             content_markdown: "Hello",
             updated_at: Time.current)
-          wait_for_websockets
-          DiscussionPostListChannel.notify!(discussion)
-        end
 
-        assert_css "img[src='#{mentor.avatar_url}']"
-        assert_text "author"
-        assert_text "Hello"
+          DiscussionPostListChannel.notify!(discussion)
+          wait_for_websockets
+
+          assert_css "img[src='#{mentor.avatar_url}']"
+          assert_text "author"
+          assert_text "Hello"
+        end
       end
 
       test "submit a new post" do

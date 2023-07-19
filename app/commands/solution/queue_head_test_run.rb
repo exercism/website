@@ -18,10 +18,11 @@ class Solution::QueueHeadTestRun
 
   def handle_latest!
     return unless latest_submission
-    return unless should_run_latest?
 
     # If we don't have a test runner then we shouldn't run anything so get out of here
     return solution.update_latest_iteration_head_tests_status!(:not_queued) unless exercise.has_test_runner?
+
+    return unless should_run_latest?
 
     begin
       process_submission!(latest_submission)
@@ -36,10 +37,13 @@ class Solution::QueueHeadTestRun
 
     # Don't run if we're already running the tests for this same git_important_files_hash
     # (ie the submission considers itself being retested and it's already at HEAD)
-    return false if
-      latest_submission.tests_queued? &&
-      latest_submission.git_important_files_hash == exercise.git_important_files_hash
+    # But ensure we've actually set the flag
+    if latest_submission.tests_queued? &&
+       latest_submission.git_important_files_hash == exercise.git_important_files_hash
 
+      solution.update_latest_iteration_head_tests_status!(:queued)
+      return false
+    end
     # Do run if the latest head sync doesn't work
     return true unless Solution::SyncLatestIterationHeadTestsStatus.(solution)
 
@@ -52,10 +56,11 @@ class Solution::QueueHeadTestRun
 
   def handle_latest_published!
     return unless latest_published_submission
-    return unless should_run_published?
 
     # If we don't have a test runner then we shouldn't run anything so get out of here
     return solution.update_published_iteration_head_tests_status!(:not_queued) unless exercise.has_test_runner?
+
+    return unless should_run_published?
 
     # We don't want to generate two test runs, so we exit before that
     # happens. All the stuff above should happen even if they're the
@@ -75,9 +80,13 @@ class Solution::QueueHeadTestRun
 
     # Don't run if we're already running the tests for this same git_important_files_hash
     # (ie the submission considers itself being retested and it's already at HEAD)
-    return false if
-      latest_published_submission.tests_queued? &&
-      latest_published_submission.git_important_files_hash == exercise.git_important_files_hash
+    # But ensure we've actually set the flag
+    if latest_published_submission.tests_queued? &&
+       latest_published_submission.git_important_files_hash == exercise.git_important_files_hash
+
+      solution.update_published_iteration_head_tests_status!(:queued)
+      return false
+    end
 
     # Do run if the latest head sync doesn't work
     return true unless Solution::SyncPublishedIterationHeadTestsStatus.(solution)

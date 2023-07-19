@@ -509,6 +509,14 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     assert track.course?
   end
 
+  test "syncs highlightjs_language" do
+    track = create :track, highlightjs_language: nil
+
+    Git::SyncTrack.(track)
+
+    assert_equal 'ruby', track.highlightjs_language
+  end
+
   test "new concept syncs with force_sync even when track is not force synced" do
     track = create :track, synced_to_git_sha: "HEAD"
 

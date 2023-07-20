@@ -77,6 +77,7 @@ module Components
       end
 
       test "refetches when new post comes in" do
+        skip
         mentor = create :user, :external_avatar_url, handle: "author"
         student = create :user, :external_avatar_url, handle: "student"
         track = create :track

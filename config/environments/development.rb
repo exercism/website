@@ -87,6 +87,7 @@ Rails.application.configure do
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
   config.hosts << /.*.ngrok-free.app/
+  config.hosts << "host.docker.internal"
 end
 
 Rails.application.routes.default_url_options = {

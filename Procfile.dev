@@ -1,7 +1,7 @@
 server: bin/rails server -p 3020
-anycable: bundle exec anycable
-sidekiq: bundle exec sidekiq
-ws: anycable-go --host='local.exercism.io' --rpc_host='local.exercism.io:50051' --port=3334
+#anycable: bundle exec anycable
+#sidekiq: bundle exec sidekiq
+#ws: anycable-go --host='local.exercism.io' --rpc_host='local.exercism.io:50051' --port=3334
 css: yarn build:css --watch
 js: yarn build --watch
 manifest: bin/rails r bin/monitor-manifest

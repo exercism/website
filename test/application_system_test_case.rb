@@ -60,14 +60,19 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     flunk("JS Errors") if should_flunk
   end
 
-  # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
-  driven_by :selenium, using: :headless_chrome do |driver_option|
+  Capybara.register_driver :selenium_chrome_headless do |app|
+    options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless window-size=1400,1000])
+
     # Specify the download directory to allow retrieving files in system tests
-    driver_option.add_preference("download.default_directory", TestHelpers.download_dir.to_s)
+    options.add_preference("download.default_directory", TestHelpers.download_dir.to_s)
 
     # Without this argument, Chrome cannot be started in Docker
-    driver_option.add_argument('no-sandbox')
+    options.add_argument('no-sandbox')
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
   end
+
+  driven_by(:selenium_chrome_headless)
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

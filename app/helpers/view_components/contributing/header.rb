@@ -17,7 +17,7 @@ module ViewComponents
         tag.div(class: 'lg-container top-container') do
           tag.div(class: 'content') do
             graphical_icon("contributing-header") +
-              tag.h1("Let’s build the best free code learning platform, together") +
+              tag.h1("Let’s build the best coding education platform, together") +
               tag.p do
                 safe_join(
                   [

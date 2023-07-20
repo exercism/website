@@ -49,7 +49,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = (ENV['RAILS_LOG_LEVEL'].presence || :error).to_sym
+  config.log_level = (ENV['RAILS_LOG_LEVEL'].presence || :info).to_sym
   config.colorize_logging = false
 
   # This uses too much memory in production

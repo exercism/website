@@ -155,17 +155,21 @@ class ApplicationController < ActionController::Base
   end
 
   def set_log_level
-    return yield if devise_controller?
-    return yield unless user_signed_in?
-    return yield unless current_user.admin? || current_user.handle == "bobahop"
+    return yield unless Rails.env.production?
 
-    Rails.application.config.active_record.verbose_query_logs = true
-    Rails.logger.level = :debug
+    begin
+      return yield if devise_controller?
+      return yield unless user_signed_in?
+      return yield unless current_user.admin? || current_user.handle == "bobahop"
 
-    yield
-  ensure
-    Rails.application.config.active_record.verbose_query_logs = false
-    Rails.logger.level = :error
+      ActiveRecord.verbose_query_logs = true
+      Rails.logger.level = :debug
+
+      yield
+    ensure
+      ActiveRecord.verbose_query_logs = false
+      Rails.logger.level = :info
+    end
   end
 
   def set_csp_header

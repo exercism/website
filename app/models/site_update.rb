@@ -7,7 +7,11 @@ class SiteUpdate < ApplicationRecord
 
   scope :published, -> { where('published_at < ?', Time.current) }
   scope :for_track, ->(track) { where(track:) }
-  scope :for_user, ->(user) { for_track(user.tracks) }
+
+  # This is optimised. Don't naively rely on user.tracks or select as both are slow
+  scope :for_user, ->(user) { where(track_id: user.user_tracks.pluck(:track_id)) }
+
+  # TODO: Add a desc index when we switch to mysql8
   scope :sorted, -> { order(published_at: :desc, id: :desc) }
 
   belongs_to :author, optional: true, class_name: "User"

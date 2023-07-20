@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include Turbo::CustomFrameRequest
   include BodyClassConcern
 
+  before_action :set_log_level
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -151,6 +152,13 @@ class ApplicationController < ActionController::Base
   private
   def set_body_class_header
     response.set_header("Exercism-Body-Class", body_class)
+  end
+
+  def set_log_level
+    detailed_logs = !!current_user&.admin?
+
+    Rails.application.config.active_record.verbose_query_logs = detailed_logs
+    Rails.logger.level = detailed_logs ? :debug : :error
   end
 
   def set_csp_header

@@ -41,15 +41,22 @@ class User::Data < ApplicationRecord
     }
   end
 
-  # Cache methods
   %w[
     has_unrevealed_testimonials?
     has_unrevealed_badges?
     has_unseen_reputation_tokens?
+    num_students_mentored
+    num_solutions_mentored
+    num_testimonials
+    num_published_testimonials
+    num_published_solutions
+    mentor_satisfaction_percentage
   ].each do |meth|
     define_method meth do
-      self.cache.key?(meth) || User::ResetCache.(user, meth)
-      self.reload.cache[meth]
+      return self.cache[meth] if self.cache.key?(meth)
+
+      # This returns the new value
+      User::ResetCache.(user, meth)
     end
   end
   def cache = super || (self.cache = {})

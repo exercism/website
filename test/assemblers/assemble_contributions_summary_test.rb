@@ -35,8 +35,8 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
     1.times { create :practice_solution, :published, user: } # rubocop:disable Lint/UselessTimes
 
     # Mentoring discussions
-    4.times { create :mentor_discussion, solution: create(:practice_solution, track: js), mentor: user }
-    5.times { create :mentor_discussion, solution: create(:practice_solution, track: elixir), mentor: user }
+    4.times { create :mentor_discussion, :student_finished, solution: create(:practice_solution, track: js), mentor: user }
+    5.times { create :mentor_discussion, :student_finished, solution: create(:practice_solution, track: elixir), mentor: user }
 
     expected = {
       tracks: [

@@ -20,13 +20,16 @@ class Solution::Publish
     record_activity!
     log_metric!
     update_num_published_solutions_on_exercise!
+    User::ResetCache.defer(user, :num_published_solutions)
   end
 
   private
+  delegate :user, to: :solution
+
   def award_reputation!
     level = exercise.concept_exercise? ? :concept : exercise.difficulty_category
     User::ReputationToken::Create.defer(
-      solution.user,
+      user,
       :published_solution,
       solution:,
       level:
@@ -34,13 +37,13 @@ class Solution::Publish
   end
 
   def award_badges!
-    BADGES.each { |badge| AwardBadgeJob.perform_later(solution.user, badge) }
+    BADGES.each { |badge| AwardBadgeJob.perform_later(user, badge) }
   end
 
   def record_activity!
     User::Activity::Create.(
       :published_exercise,
-      solution.user,
+      user,
       track: solution.track,
       solution:
     )

@@ -87,7 +87,7 @@ class AssembleContributionsSummary
   end
 
   def mentoring_metrics(track_id = nil)
-    c = track_id ? mentored_students[track_id] : mentored_students.values.sum
+    c = track_id ? mentored_students[track_id] : user.num_students_mentored
 
     return ["No students mentored", "No students"] if c.to_i.zero?
 
@@ -146,7 +146,9 @@ class AssembleContributionsSummary
 
   memoize
   def mentored_students
-    user.mentor_discussions.joins(solution: :exercise).group('exercises.track_id').
+    user.mentor_discussions.joins(solution: :exercise).
+      finished_for_student.
+      group('exercises.track_id').
       select('solutions.user_id').distinct.count
   end
 

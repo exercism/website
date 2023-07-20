@@ -17,7 +17,7 @@ class User::ReputationTokens::ExerciseApproachAuthorTokenTest < ActiveSupport::T
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseApproachAuthorToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseApproachAuthorToken, rt
     assert_equal "You authored the <strong>Readability</strong> approach of <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

@@ -1,23 +1,17 @@
-class Mentor::UpdateSatisfactionRating
+class Mentor::CalculateSatisfactionPercentage
   include Mandate
 
   initialize_with :mentor
 
   def call
-    # We're updating in a single query instead of two queries to avoid race-conditions
-    # and using read_committed to avoid deadlocks
-    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
-      User::Data.where(user_id: mentor.id).update_all("mentor_satisfaction_percentage = #{mentor_satisfaction_percentage_sql}")
-    end
-
-    User::UpdateMentorRoles.(mentor.reload)
+    User.connection.select_value(mentor_satisfaction_percentage_sql)
   end
 
   private
   def mentor_satisfaction_percentage_sql
     # Dividing by zero explodes, but dividing by null returns null, so we guard
     # using nullif, which is fine for our purposes here.
-    "CEIL((#{rated_acceptable_or_better_count_sql}) / NULLIF((#{rated_count_sql}),0) * 100)"
+    "SELECT CEIL((#{rated_acceptable_or_better_count_sql}) / NULLIF((#{rated_count_sql}),0) * 100) as val"
   end
 
   def rated_acceptable_or_better_count_sql

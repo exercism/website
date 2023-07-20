@@ -66,7 +66,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates a representation" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
+    user = create :user, :supermentor
     create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
@@ -129,7 +129,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to editor if representation already had author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
+    user = create :user, :supermentor
     create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     author = create :user
     setup_user(user)
@@ -155,7 +155,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to author if representation doesn't have author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
+    user = create :user, :supermentor
     create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
@@ -185,7 +185,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     travel_to beginning_of_minute
 
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
+    user = create :user, :supermentor
     create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 

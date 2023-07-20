@@ -60,7 +60,8 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
 
   test "edit: renders correct for supermentors" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
+    user = create :user, :supermentor
+    # user.data.update!(cache: {'mentor_satisfaction_percentage' => 98})
     create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     sign_in!(user)
 

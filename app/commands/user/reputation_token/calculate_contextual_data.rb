@@ -11,23 +11,22 @@ class User::ReputationToken::CalculateContextualData
   # end of the range (~0.5s sum for all the queries)
   # 2. We cache the values per user and invalidate the cache when a new reputation token is
   # added, so although this is n queries in the worst case - we're never really actually there.
-  def initialize(user_ids, period: nil, earned_since: nil, track_id: nil, category: nil)
+  def initialize(user_ids, period: :forever, track_id: nil, category: nil)
     @single_user = user_ids.is_a?(Integer)
     @user_ids = Array(user_ids)
     @track_id = track_id
     @category = category
+    @period = period
 
-    if earned_since
-      @earned_since = earned_since
-    elsif period
-      case period.to_sym
-      when :week
-        @earned_since = Time.zone.today - 6.days
-      when :month
-        @earned_since = Time.zone.today - 29.days
-      when :year
-        @earned_since = Time.zone.today - 364.days
-      end
+    case period.to_sym
+    when :week
+      @earned_since = Time.zone.today - 6.days
+    when :month
+      @earned_since = Time.zone.today - 29.days
+    when :year
+      @earned_since = Time.zone.today - 364.days
+    else
+      @earned_at = nil
     end
   end
 
@@ -37,29 +36,24 @@ class User::ReputationToken::CalculateContextualData
 
   memoize
   def data
-    tuples.each.with_object({}) do |(user_id, user_tuples), data|
-      user_tuples = user_tuples.index_by { |t| t['type'] }.transform_keys { |k| k.split("::").last }
-
-      code_contributions = user_tuples.dig("CodeContributionToken", 'num')
-      code_reviews = user_tuples.dig("CodeReviewToken", 'num')
-      code_merges = user_tuples.dig("CodeMergeToken", 'num')
-      exercises_authored = user_tuples.dig("ExerciseAuthorToken", 'num')
-      exercises_contributed = user_tuples.dig("ExerciseContributionToken", 'num')
-      solutions_mentored = user_tuples.dig("MentoredToken", 'num')
-      solutions_published = user_tuples.dig("PublishedSolutionToken", 'num')
+    user_ids.each_with_object({}) do |user_id, res|
+      occs = reputation_occurrences(user_id)
+      code_contributions = occs['building']
+      maintenance = occs['maintaining']
+      exercises_contributed = occs['authoring']
+      solutions_mentored = occs['mentoring']
+      solutions_published = occs['publishing']
 
       parts = []
       parts << format(code_contributions, "PR", "created") if code_contributions
-      parts << format(code_reviews, "PR", "reviewed") if code_reviews
-      parts << format(code_merges, "PR", "merged") if code_merges
-      parts << format(exercises_authored, "exercise", "authored") if exercises_authored
+      parts << format(maintenance, "PR", "reviewed and/or merged") if maintenance
       parts << format(exercises_contributed, "exercise contribution") if exercises_contributed
       parts << format(solutions_mentored, "solution", "mentored") if solutions_mentored
-      parts << format(solutions_published, "solution", "published") if solutions_published
+      parts << format(solutions_published, "solution", "published") if solutions_published.to_i.positive?
 
-      data[user_id] = Data.new(
+      res[user_id] = Data.new(
         parts.join(" • "),
-        user_tuples.sum { |_k, v| v['total'] }
+        total_reputation(user_id)
       )
     end
   end
@@ -69,33 +63,47 @@ class User::ReputationToken::CalculateContextualData
     "#{number_with_delimiter(value)} #{thing.pluralize(value)}#{suffix}"
   end
 
-  memoize
-  def tuples
-    base = User::ReputationToken
-    base = base.where(category:) if category
-    base = base.where('earned_on >= ?', earned_since) if earned_since
-    base = base.where(track_id:) if track_id
-    base = base.group(:type)
-    base = base.select('type, COUNT(value) AS num, SUM(value) AS total')
+  def total_reputation(user_id)
+    with_cache(user_id, :total) do
+      User::ReputationPeriod.
+        where(user_id:).
+        where(track_id: track_id.to_i).
+        where(period:).
+        where(category: category || :any).
+        sum(:reputation)
+    end
+  end
 
-    user_ids.index_with do |user_id|
-      with_cache(user_id) do
-        query = base.where(user_id:)
-        ActiveRecord::Base.connection.select_all(query)
+  def reputation_occurrences(user_id)
+    with_cache(user_id, :details) do
+      data = User::ReputationPeriod.
+        where(user_id:).
+        where(track_id: track_id.to_i).
+        where(period:)
+      data = data.where(category:) if category
+      data = data.group(:category).sum(:num_tokens)
+
+      unless category
+        publishing_tokens = User::ReputationToken.where(user_id:, category: :publishing)
+        publishing_tokens = publishing_tokens.where(track_id:) if track_id
+        publishing_tokens = publishing_tokens.where('earned_on >= ?', earned_since) if earned_since
+        data["publishing"] = publishing_tokens.count
       end
+
+      data
     end
   end
 
   private
-  attr_reader :user_ids, :single_user, :earned_since, :track_id, :category
+  attr_reader :user_ids, :single_user, :earned_since, :track_id, :category, :period
 
   Data = Struct.new(:activity, :reputation)
   private_constant :Data
 
-  def with_cache(user_id)
+  def with_cache(user_id, key)
     redis = Exercism.redis_tooling_client
     user_key = User::ReputationToken.cache_hash_for(user_id)
-    value_key = ["contextual", earned_since, track_id, category].join("|")
+    value_key = ["contextual/#{key}", period, track_id, category].join("|")
 
     # Check for a cached version
     cached = redis.hget(user_key, value_key)

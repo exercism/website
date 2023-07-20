@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include Turbo::CustomFrameRequest
   include BodyClassConcern
 
-  before_action :set_log_level
+  around_action :set_log_level
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -155,10 +155,17 @@ class ApplicationController < ActionController::Base
   end
 
   def set_log_level
-    detailed_logs = !!current_user&.admin?
+    return yield if devise_controller?
+    return yield unless user_signed_in?
+    return yield unless current_user.admin?
 
-    Rails.application.config.active_record.verbose_query_logs = detailed_logs
-    Rails.logger.level = detailed_logs ? :debug : :error
+    Rails.application.config.active_record.verbose_query_logs = true
+    Rails.logger.level = :debug
+
+    yield
+  ensure
+    Rails.application.config.active_record.verbose_query_logs = false
+    Rails.logger.level = :error
   end
 
   def set_csp_header

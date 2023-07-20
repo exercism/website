@@ -155,7 +155,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_log_level
-    return yield unless Rails.env.production?
+    return yield if Rails.env.development?
 
     begin
       return yield if devise_controller?

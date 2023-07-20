@@ -12,6 +12,7 @@ class User::ReputationToken::CalculateContextualData
   # 2. We cache the values per user and invalidate the cache when a new reputation token is
   # added, so although this is n queries in the worst case - we're never really actually there.
   initialize_with :user_ids, period: nil, track_id: nil, category: nil do
+    @single_user = user_ids.is_a?(Integer)
     @period = period || :forever
     @user_ids = Array(user_ids)
   end
@@ -93,10 +94,7 @@ class User::ReputationToken::CalculateContextualData
     end
   end
 
-  memoize
-  def single_user?
-    user_ids.length == 1
-  end
+  def single_user? = @single_user
 
   Data = Struct.new(:activity, :reputation)
   private_constant :Data

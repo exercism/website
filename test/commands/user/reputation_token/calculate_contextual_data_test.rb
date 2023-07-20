@@ -152,11 +152,4 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
       assert_equal 24, data.reputation
     end
   end
-
-  def generate_reputation_periods!
-    # We use reputation periods for the calculation
-    # This command should generate them all.
-    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
-    User::ReputationPeriod::Sweep.()
-  end
 end

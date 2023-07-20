@@ -49,10 +49,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
       create :user_mentored_reputation_token, params: { discussion: }, user:
     end
 
-    # We use reputation periods for the calculation
-    # This command should generate them all.
-    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
-    User::ReputationPeriod::Sweep.()
+    generate_reputation_periods!
 
     expected = {
       tracks: [

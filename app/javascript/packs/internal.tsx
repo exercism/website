@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'easymde/dist/easymde.min.css'
 
-import React, { lazy, Suspense } from 'react'
-import currency from 'currency.js'
+import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
 import {
   Iteration,
+  // Track,
+  // Exercise,
   MentorSessionRequest,
   MentorSessionTrack,
   MentorSessionExercise,
@@ -14,13 +14,18 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
+  Testimonial,
   MentoredTrackExercise,
+  // User,
+  // SiteUpdate,
+  UserPreferences,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
   SharePlatform,
   CompleteRepresentationData,
   Guidance,
+  // TrackContribution,
 } from '../components/types'
 
 import * as Maintaining from '../components/maintaining'
@@ -50,26 +55,6 @@ import * as JourneyComponents from '../components/journey'
 import { Category as JourneyPageCategory } from '../components/journey/JourneyPage'
 import * as Settings from '../components/settings'
 import { MarkdownEditor } from '../components/common/MarkdownEditor'
-
-const Editor = lazy(() => import('../components/Editor'))
-import { Props as EditorProps } from '../components/editor/Props'
-
-import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
-
-const DonationsFormWithModal = lazy(
-  () => import('../components/donations/FormWithModal')
-)
-
-const DonationsSubscriptionForm = lazy(
-  () => import('../components/donations/SubscriptionForm')
-)
-
-const PremiumSubscriptionForm = lazy(
-  () => import('../components/donations/PremiumSubscriptionForm')
-)
-const DonationsFooterForm = lazy(
-  () => import('../components/donations/FooterForm')
-)
 
 import { Notifications as NotificationsDropdown } from '../components/dropdowns/Notifications'
 import { Reputation as ReputationDropdown } from '../components/dropdowns/Reputation'
@@ -104,12 +89,9 @@ import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 import { AutomationProps } from '../components/mentoring/automation/Representation'
 import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
-import { UserPreferences } from '@/components/settings/UserPreferencesForm'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
-
-const renderLoader = () => <div className="c-loading-suspense" />
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -117,12 +99,6 @@ const renderLoader = () => <div className="c-loading-suspense" />
 initReact({
   'common-markdown-editor': (data: any) => (
     <MarkdownEditor contextId={data.context_id} />
-  ),
-
-  editor: (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
-    </Suspense>
   ),
 
   'modals-welcome-modal': (data: any) => (
@@ -183,7 +159,7 @@ initReact({
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track' | 'links'>>(
+      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track'>>(
         data.guidance
       )}
       outOfDate={data.out_of_date}
@@ -293,7 +269,9 @@ initReact({
   ),
   'settings-user-preferences-form': (data: any) => (
     <Settings.UserPreferencesForm
-      defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
+      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
+        data.preferences
+      )}
       links={data.links}
     />
   ),
@@ -406,44 +384,5 @@ initReact({
   ),
   'student-update-exercise-notice': (data: any) => (
     <Student.UpdateExerciseNotice links={data.links} />
-  ),
-  'donations-with-modal-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFormWithModal
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
-    </Suspense>
-  ),
-  'donations-subscription-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsSubscriptionForm
-        {...data}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  'premium-subscription-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <PremiumSubscriptionForm
-        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  // Slow things at the end
-  'donations-footer-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
-    </Suspense>
   ),
 })

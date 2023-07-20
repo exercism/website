@@ -11,29 +11,16 @@ class User::ReputationToken::CalculateContextualData
   # end of the range (~0.5s sum for all the queries)
   # 2. We cache the values per user and invalidate the cache when a new reputation token is
   # added, so although this is n queries in the worst case - we're never really actually there.
-  def initialize(user_ids, period: :forever, track_id: nil, category: nil)
-    @single_user = user_ids.is_a?(Integer)
+  initialize_with :user_ids, period: nil, track_id: nil, category: nil do
+    @period = period || :forever
     @user_ids = Array(user_ids)
-    @track_id = track_id
-    @category = category
-    @period = period
-
-    case period.to_sym
-    when :week
-      @earned_since = Time.zone.today - 6.days
-    when :month
-      @earned_since = Time.zone.today - 29.days
-    when :year
-      @earned_since = Time.zone.today - 364.days
-    else
-      @earned_at = nil
-    end
   end
 
   def call
-    single_user ? data.values.first : data
+    single_user? ? data.values.first : data
   end
 
+  private
   memoize
   def data
     user_ids.each_with_object({}) do |user_id, res|
@@ -94,8 +81,22 @@ class User::ReputationToken::CalculateContextualData
     end
   end
 
-  private
-  attr_reader :user_ids, :single_user, :earned_since, :track_id, :category, :period
+  memoize
+  def earned_since
+    case period.to_sym
+    when :week
+      Time.zone.today - 6.days
+    when :month
+      Time.zone.today - 29.days
+    when :year
+      Time.zone.today - 364.days
+    end
+  end
+
+  memoize
+  def single_user?
+    user_ids.length == 1
+  end
 
   Data = Struct.new(:activity, :reputation)
   private_constant :Data

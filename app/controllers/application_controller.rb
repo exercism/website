@@ -157,7 +157,7 @@ class ApplicationController < ActionController::Base
   def set_log_level
     return yield if devise_controller?
     return yield unless user_signed_in?
-    return yield unless current_user.admin?
+    return yield unless current_user.admin? || current_user.handle == "bobahop"
 
     Rails.application.config.active_record.verbose_query_logs = true
     Rails.logger.level = :debug

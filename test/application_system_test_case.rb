@@ -60,7 +60,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     flunk("JS Errors") if should_flunk
   end
 
-  Capybara.register_driver :headless_chrome do |app|
+  Capybara.register_driver :selenium_chrome_headless do |app|
     options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless window-size=1400,1000])
 
     # Specify the download directory to allow retrieving files in system tests
@@ -72,7 +72,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
   end
 
-  driven_by(:headless_chrome)
+  driven_by(:selenium_chrome_headless)
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

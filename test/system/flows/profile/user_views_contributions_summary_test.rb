@@ -10,6 +10,7 @@ module Flows
         user = create :user, handle: "user"
         create(:user_profile, user:)
         create(:user_code_contribution_reputation_token, user:)
+        generate_reputation_periods!
 
         use_capybara_host do
           visit profile_path(user.handle)

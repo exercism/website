@@ -48,7 +48,7 @@ module Flows
           click_on "All categories"
           find("label", text: "Maintaining").click
 
-          assert_text "1 reviewed and/or merged"
+          assert_text "1 PR reviewed and/or merged"
           assert_no_text "1 PR created"
         end
       end

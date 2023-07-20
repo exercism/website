@@ -34,9 +34,8 @@ class Solution::SearchUserSolutions
 
     solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
     solutions = solution_ids.present? ?
-      Solution.where(id: solution_ids).
-        order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
-        to_a : []
+      Solution.where(id: solution_ids).sort_by { |s| solution_ids.index(s.id) }
+        : []
 
     total_count = results["hits"]["total"]["value"].to_i
     Kaminari.paginate_array(solutions, total_count:).

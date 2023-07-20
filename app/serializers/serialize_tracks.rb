@@ -2,6 +2,7 @@ class SerializeTracks
   include Mandate
 
   initialize_with :tracks, :user do
+    # Materialise this so we're not ending up with nested queries
     @tracks = tracks.to_a if tracks.is_a?(ActiveRecord::Relation)
   end
 

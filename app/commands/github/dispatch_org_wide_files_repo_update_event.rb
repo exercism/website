@@ -1,4 +1,4 @@
-class Github::DispatchEventToOrgWideFilesRepo
+class Github::DispatchOrgWideFilesRepoUpdateEvent
   include Mandate
 
   initialize_with :event_type, :repos, :pusher_github_username

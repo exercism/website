@@ -37,6 +37,8 @@ class User::ResetAccount
     user.user_tracks.each do |user_track|
       UserTrack::Destroy.(user_track)
     end
+
+    Solution::RemoveUserSolutionsFromSearchIndex.defer(user)
   end
 
   def reset_mentoring!

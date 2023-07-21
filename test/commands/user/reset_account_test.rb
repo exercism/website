@@ -43,6 +43,8 @@ class User::ResetAccountTest < ActiveSupport::TestCase
         ut.track == orphaned_solution.track && ut.user == user
       end
 
+      Solution::RemoveUserSolutionsFromSearchIndex.expects(:defer).with(user)
+
       User::ResetAccount.(user)
 
       assert_raises ActiveRecord::RecordNotFound do

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include Turbo::CustomFrameRequest
   include BodyClassConcern
 
-  around_action :set_log_level
+  # around_action :set_log_level
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -154,10 +154,7 @@ class ApplicationController < ActionController::Base
     response.set_header("Exercism-Body-Class", body_class)
   end
 
-  # rubocop:disable Lint/UnreachableCode
   def set_log_level
-    return
-
     return yield if Rails.env.development?
 
     begin
@@ -174,7 +171,6 @@ class ApplicationController < ActionController::Base
       Rails.logger.level = :info
     end
   end
-  # rubocop:enable Lint/UnreachableCode
 
   def set_csp_header
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)

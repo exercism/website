@@ -38,9 +38,15 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   test "should not enqueue sync track job when pushing to non-track repo" do
     create :track, slug: :ruby
 
-    assert_no_enqueued_jobs only: MandateJob do
-      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'problem-specs', 'user17', [], false)
-    end
+    Git::SyncTrack.expects(:defer).never
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'problem-specs', 'user17', [], false)
+  end
+
+  test "should dispatch backup repo event" do
+    Github::DispatchBackupRepoEvent.expects(:defer).with('exercism/ruby')
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [], false)
   end
 
   test "should dispatch org-wide-files event when commit contains added file in .appends directory" do

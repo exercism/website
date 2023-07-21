@@ -6,7 +6,7 @@ class Github::DispatchBackupRepoEvent
   def call = Github::DispatchEvent.(REPO, EVENT_TYPE, client_payload)
 
   private
-  def client_payload = { repos: [repo] }
+  def client_payload = { repo: }
 
   REPO = 'backup'.freeze
   EVENT_TYPE = 'backup_repo'.freeze

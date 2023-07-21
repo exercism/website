@@ -16,7 +16,7 @@ class Webhooks::ProcessPushUpdate
     else
       track = Track.find_by(slug: repo_name)
       Git::SyncTrack.defer(track) if track
-      Github::DispatchOrgWideFilesRepoUpdateEvent.(repo, pusher_username) if trigger_repo_update?
+      Github::DispatchOrgWideFilesRepoUpdateEvent.defer(repo, pusher_username) if trigger_repo_update?
     end
 
     Github::DispatchBackupRepoEvent.defer(repo)

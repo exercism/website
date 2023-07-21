@@ -419,4 +419,15 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
 
     assert_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
   end
+
+  test "remove solution from index gracefully handles missing document" do
+    user = create :user
+    ghost_user = create :user, :ghost
+    solution = create(:practice_solution, user:)
+
+    solution.update(user: ghost_user)
+    Solution::SyncToSearchIndex.(solution)
+
+    assert_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
+  end
 end

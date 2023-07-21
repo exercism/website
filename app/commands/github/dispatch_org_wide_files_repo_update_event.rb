@@ -3,18 +3,12 @@ class Github::DispatchOrgWideFilesRepoUpdateEvent
 
   initialize_with :repo, :pusher_github_username
 
-  def call
-    Exercism.octokit_client.post("https://api.github.com/repos/exercism/org-wide-files/dispatches", body)
-  end
+  def call = Github::DispatchEvent.(REPO, EVENT_TYPE, client_payload)
 
   private
-  def body
-    {
-      event_type: :repo_update,
-      client_payload: {
-        repos: [repo],
-        pusher: pusher_github_username
-      }
-    }.to_json
-  end
+  def client_payload = { repos: [repo], pusher: pusher_github_username }
+
+  REPO = 'org-wide-files'.freeze
+  EVENT_TYPE = 'repo_update'.freeze
+  private_constant :REPO, :EVENT_TYPE
 end

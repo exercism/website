@@ -3,18 +3,12 @@ class Github::DispatchBackupRepoEvent
 
   initialize_with :repo
 
-  def call = Exercism.octokit_client.post(API_URL, body)
+  def call = Github::DispatchEvent.(REPO, EVENT_TYPE, client_payload)
 
   private
-  def body
-    {
-      event_type: :backup_repo,
-      client_payload: {
-        repos: [repo]
-      }
-    }.to_json
-  end
+  def client_payload = { repos: [repo] }
 
-  API_URL = "https://api.github.com/repos/exercism/backup/dispatches".freeze
-  private_constant :API_URL
+  REPO = 'backup'.freeze
+  EVENT_TYPE = 'backup_repo'.freeze
+  private_constant :REPO, :EVENT_TYPE
 end

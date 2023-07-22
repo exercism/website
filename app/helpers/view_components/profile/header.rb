@@ -20,8 +20,7 @@ module ViewComponents
           category: :any
         ).order(reputation: :desc).limit(3).pluck(:track_id)
 
-        ::Track.where(id: track_ids).where(active: true)
-        order(Arel.sql("FIND_IN_SET(id, '#{track_ids.join(',')}')"))
+        ::Track.active.where(id: track_ids).sort_by { |t| track_ids.index(t.id) }
       end
 
       def header_tags

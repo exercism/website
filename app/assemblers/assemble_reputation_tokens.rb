@@ -30,8 +30,27 @@ class AssembleReputationTokens
     )
   end
 
+  private
   memoize
   def tokens
+    params[:for_header] ? header_tokens : page_tokens
+  end
+
+  # This is much more efficient than the page_tokens version below
+  def header_tokens
+    ids = user.reputation_tokens.unseen.limit(5).pluck(:id)
+
+    # TODO: This needs a desc index adding
+    ids += user.reputation_tokens.seen.limit(5 - ids.length).
+      where.not(id: ids).order(id: :desc).pluck(:id)
+
+    tokens = User::ReputationToken.where(id: ids).
+      sort_by { |s| ids.index(s.id) }
+    Kaminari.paginate_array(tokens, total_count: tokens.size).page(1).per(5)
+  end
+
+  # This needs a descending index adding and performance testing against a major user
+  def page_tokens
     User::ReputationToken::Search.(
       user,
       criteria: params[:criteria],

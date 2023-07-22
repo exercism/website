@@ -16,14 +16,10 @@ module API
       )
 
       if sideload?(:all_discussion_counts)
-        all_discussions = Mentor::Discussion.
-          joins(solution: :exercise).
-          where(mentor: current_user)
-
         meta = {
-          awaiting_mentor_total: all_discussions.awaiting_mentor.count,
-          awaiting_student_total: all_discussions.awaiting_student.count,
-          finished_total: all_discussions.finished_for_mentor.count
+          awaiting_mentor_total: current_user.mentor_discussions.awaiting_mentor.count,
+          awaiting_student_total: current_user.mentor_discussions.awaiting_student.count,
+          finished_total: current_user.mentor_discussions.finished_for_mentor.count
         }
       end
 

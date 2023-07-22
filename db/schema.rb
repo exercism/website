@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_19_104509) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_20_125540) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1205,6 +1205,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_104509) do
     t.integer "reputation", default: 0, null: false
     t.string "user_handle"
     t.boolean "dirty", default: true, null: false
+    t.integer "num_tokens", default: 0, null: false
     t.index ["dirty"], name: "sweeper"
     t.index ["period", "category", "about", "reputation"], name: "search-2"
     t.index ["period", "category", "about", "track_id", "reputation"], name: "search-1"

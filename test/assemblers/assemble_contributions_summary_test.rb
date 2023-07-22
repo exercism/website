@@ -30,13 +30,26 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
     end
 
     # Published solutions tokens
-    2.times { create :practice_solution, :published, track: js, user: }
-    3.times { create :practice_solution, :published, track: elixir, user: }
-    1.times { create :practice_solution, :published, user: } # rubocop:disable Lint/UselessTimes
+    2.times do
+      solution = create(:practice_solution, :published, track: js, user:)
+      create :user_published_solution_reputation_token, params: { solution: }, user:
+    end
+    3.times do
+      solution = create(:practice_solution, :published, track: elixir, user:)
+      create :user_published_solution_reputation_token, params: { solution: }, user:
+    end
 
     # Mentoring discussions
-    4.times { create :mentor_discussion, :student_finished, solution: create(:practice_solution, track: js), mentor: user }
-    5.times { create :mentor_discussion, :student_finished, solution: create(:practice_solution, track: elixir), mentor: user }
+    4.times do
+      discussion = create(:mentor_discussion, :student_finished, mentor: user, track: js)
+      create :user_mentored_reputation_token, params: { discussion: }, user:
+    end
+    5.times do
+      discussion = create(:mentor_discussion, :student_finished, mentor: user, track: elixir)
+      create :user_mentored_reputation_token, params: { discussion: }, user:
+    end
+
+    generate_reputation_periods!
 
     expected = {
       tracks: [
@@ -45,10 +58,8 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           title: "All Tracks",
           icon_url: "ICON",
           categories: [
-            # TODO: Reputation
-            { id: :publishing, reputation: 0, metric_full: "6 solutions published", metric_short: "6 solutions" },
-            # TODO: Reputation
-            { id: :mentoring, reputation: 0, metric_full: "9 students mentored", metric_short: "9 students" },
+            { id: :publishing, reputation: 10, metric_full: "5 solutions published", metric_short: "5 solutions" },
+            { id: :mentoring, reputation: 45, metric_full: "9 students mentored", metric_short: "9 students" },
             { id: :authoring, reputation: 110, metric_full: "11 exercises contributed", metric_short: "11 exercises" },
             { id: :building, reputation: 72, metric_full: "6 PRs accepted", metric_short: "6 PRs accepted" },
             { id: :maintaining, reputation: 45, metric_full: "9 PRs reviewed", metric_short: "9 PRs reviewed" },
@@ -57,10 +68,8 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
         },
         {
           slug: "elixir", title: "Elixir", icon_url: elixir.icon_url, categories: [
-            # TODO: Reputation
-            { id: :publishing, reputation: 0, metric_full: "3 solutions published", metric_short: "3 solutions" },
-            # TODO: Reputation
-            { id: :mentoring, reputation: 0, metric_full: "5 students mentored", metric_short: "5 students" },
+            { id: :publishing, reputation: 6, metric_full: "3 solutions published", metric_short: "3 solutions" },
+            { id: :mentoring, reputation: 25, metric_full: "5 students mentored", metric_short: "5 students" },
             { id: :authoring, reputation: 50, metric_full: "5 exercises contributed", metric_short: "5 exercises" },
             { id: :building, reputation: 36, metric_full: "3 PRs accepted", metric_short: "3 PRs accepted" },
             { id: :maintaining, reputation: 20, metric_full: "4 PRs reviewed", metric_short: "4 PRs reviewed" },
@@ -69,10 +78,8 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
         },
         {
           slug: "js", title: "JavaScript", icon_url: js.icon_url, categories: [
-            # TODO: Reputation
-            { id: :publishing, reputation: 0, metric_full: "2 solutions published", metric_short: "2 solutions" },
-            # TODO: Reputation
-            { id: :mentoring, reputation: 0, metric_full: "4 students mentored", metric_short: "4 students" },
+            { id: :publishing, reputation: 4, metric_full: "2 solutions published", metric_short: "2 solutions" },
+            { id: :mentoring, reputation: 20, metric_full: "4 students mentored", metric_short: "4 students" },
             { id: :authoring, reputation: 60, metric_full: "6 exercises contributed", metric_short: "6 exercises" },
             { id: :building, reputation: 24, metric_full: "2 PRs accepted", metric_short: "2 PRs accepted" },
             { id: :maintaining, reputation: 15, metric_full: "3 PRs reviewed", metric_short: "3 PRs reviewed" },

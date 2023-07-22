@@ -14,7 +14,7 @@ module ReactComponents
         super("profile-testimonials-summary", {
           handle: user.handle,
           flair: user.flair,
-          num_testimonials: num_published_testimonials,
+          num_testimonials_received: num_published_testimonials,
           num_solutions_mentored:,
           num_students_helped: num_students_mentored,
           # TODO: (Optional) Add test for published

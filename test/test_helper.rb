@@ -327,6 +327,13 @@ class ActiveSupport::TestCase
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
   end
 
+  def generate_reputation_periods!
+    # We use reputation periods for the calculation
+    # This command should generate them all.
+    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationPeriod::Sweep.()
+  end
+
   ###############
   # N+1 Helpers #
   ###############
@@ -369,7 +376,6 @@ class ActiveSupport::TestCase
   end
 
   def assert_user_data_cache_reset(user, key, expected, &block)
-    p user.data.reload.cache
     assert_nil user.data.reload.cache[key.to_s]
 
     perform_enqueued_jobs(&block)

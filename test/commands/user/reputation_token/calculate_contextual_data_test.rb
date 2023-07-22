@@ -17,8 +17,11 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     5.times { create :user_exercise_contribution_reputation_token, user: }
     6.times { create :user_mentored_reputation_token, user: }
     7.times { create :user_published_solution_reputation_token, user: }
+
+    generate_reputation_periods!
+
     data = User::ReputationToken::CalculateContextualData.(user.id)
-    expected_activity = "1 PR created • 3 PRs reviewed • 2 PRs merged • 4 exercises authored • 5 exercise contributions • 6 solutions mentored • 7 solutions published" # rubocop:disable Layout/LineLength
+    expected_activity = "1 PR created • 5 PRs reviewed and/or merged • 9 exercise contributions • 6 solutions mentored • 7 solutions published" # rubocop:disable Layout/LineLength
     assert_equal expected_activity, data.activity
     assert_equal 203, data.reputation
   end
@@ -31,27 +34,11 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     create :user_code_contribution_reputation_token, user:, track: create(:track)
     create :user_code_contribution_reputation_token, user:, track: nil
 
+    generate_reputation_periods!
+
     data = User::ReputationToken::CalculateContextualData.(user.id, track_id: track.id)
     assert_equal "2 PRs created", data.activity
     assert_equal 24, data.reputation
-  end
-
-  test "filters earned_since correctly" do
-    freeze_time do
-      user = create :user
-      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
-      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 1.day
-      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 2.days
-      create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 3.days
-
-      data = User::ReputationToken::CalculateContextualData.(user.id, earned_since: Time.zone.today)
-      assert_equal "1 PR created", data.activity
-      assert_equal 12, data.reputation
-
-      data = User::ReputationToken::CalculateContextualData.(user.id, earned_since: Time.zone.today - 2.days)
-      assert_equal "3 PRs created", data.activity
-      assert_equal 36, data.reputation
-    end
   end
 
   test "filters period correctly" do
@@ -65,6 +52,8 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 31.days
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 364.days
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today - 365.days
+
+      generate_reputation_periods!
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "2 PRs created", data.activity
@@ -83,8 +72,8 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
       assert_equal "7 PRs created", data.activity
       assert_equal 84, data.reputation
 
-      # Check unexpected period returns everything
-      data = User::ReputationToken::CalculateContextualData.(user.id, period: :misc)
+      # Check missing period returns everything
+      data = User::ReputationToken::CalculateContextualData.(user.id)
       assert_equal "8 PRs created", data.activity
       assert_equal 96, data.reputation
     end
@@ -100,6 +89,8 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     create(:user_published_solution_reputation_token, user:)
     3.times { create :user_mentored_reputation_token, user: }
 
+    generate_reputation_periods!
+
     data = User::ReputationToken::CalculateContextualData.(user.id, category: :building)
     assert_equal "1 PR created", data.activity
     assert_equal 12, data.reputation
@@ -113,8 +104,11 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     freeze_time do
       user = create :user
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
+      generate_reputation_periods!
 
-      ActiveRecord::Base.connection.expects(:select_all).once.returns([])
+      # Check we call this normally
+      User::ReputationPeriod.expects(:where).at_least_once.returns(User::ReputationPeriod)
+
       User::ReputationToken::CalculateContextualData.(user.id, period: :week)
     end
   end
@@ -124,11 +118,14 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
       user = create :user
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
 
+      generate_reputation_periods!
+
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "1 PR created", data.activity
       assert_equal 12, data.reputation
 
-      ActiveRecord::Base.connection.expects(:select_all).never
+      # Check this isn't called again!
+      User::ReputationPeriod.expects(:where).never
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "1 PR created", data.activity
@@ -140,6 +137,7 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     freeze_time do
       user = create :user
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
+      generate_reputation_periods!
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "1 PR created", data.activity
@@ -147,6 +145,7 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
 
       # Create a second token
       create :user_code_contribution_reputation_token, user:, earned_on: Time.zone.today
+      generate_reputation_periods!
 
       data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
       assert_equal "2 PRs created", data.activity

@@ -8,10 +8,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @solutions = @user.solutions.published.
-      order(num_stars: :desc, updated_at: :desc).
-      includes(:exercise, :track).
-      first(3)
+    @solutions = Solution::SearchUserSolutions.(@user, status: :published, per: 3)
 
     # TODO: Order by most prominent first (what is the most prominent testimonial?)
     @testimonials = @user.mentor_testimonials.published.first(3)

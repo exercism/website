@@ -36,13 +36,18 @@ class User::ReputationPeriod::UpdateReputation
 
     # Update the period row. We do this all in one SQL command
     # to avoid any race conditions caused by a new token being added.
-    update_sql = tokens.select("SUM(value)").to_sql
+    update_reputation_sql = tokens.select("SUM(value)").to_sql
+    update_num_tokens_sql = tokens.select("COUNT(*)").to_sql
 
     # Use a read_committed transaction to free non-matching rows
     # and avoid deadlocks
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
       User::ReputationPeriod.where(id: period.id).
-        update_all("dirty = false, reputation = IFNULL((#{update_sql}), 0)")
+        update_all(%{
+          dirty = false,
+          reputation = IFNULL((#{update_reputation_sql}), 0),
+          num_tokens = IFNULL((#{update_num_tokens_sql}), 0)
+        })
     end
 
     # Delete any rows that have been taken down to zero

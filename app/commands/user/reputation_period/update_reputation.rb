@@ -1,6 +1,8 @@
 class User::ReputationPeriod::UpdateReputation
   include Mandate
 
+  queue_as :reputation
+
   initialize_with :period
 
   def call

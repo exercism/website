@@ -28,10 +28,9 @@ class User::ReputationPeriod::Search
 
     user_ids = results.map(&:user_id)
     users = User.where(id: user_ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{user_ids.join(',')}')")).
       includes(:profile).
       with_attached_avatar.
-      to_a
+      sort_by { |u| user_ids.index(u.id) }
 
     Kaminari.paginate_array(users, total_count:).
       page(page).per(self.class.requests_per_page)

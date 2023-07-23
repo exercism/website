@@ -13,16 +13,14 @@ module ViewComponents
       end
 
       def top_three_tracks
-        track_ids = @user.reputation_tokens.
-          joins(:track).
-          where("tracks.active": true).
-          group(:track_id).
-          select("track_id, COUNT(*) as c").
-          order("c DESC").
-          limit(3).map(&:track_id)
+        track_ids = User::ReputationPeriod.where(
+          user: @user,
+          period: :forever,
+          about: :track,
+          category: :any
+        ).order(reputation: :desc).limit(3).pluck(:track_id)
 
-        ::Track.where(id: track_ids).
-          order(Arel.sql("FIND_IN_SET(id, '#{track_ids.join(',')}')"))
+        ::Track.active.where(id: track_ids).sort_by { |t| track_ids.index(t.id) }
       end
 
       def header_tags

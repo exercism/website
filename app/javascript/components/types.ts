@@ -759,6 +759,7 @@ export type Notification = {
   url: string
   imageType: NotificationImageType
   imageUrl: string
+  iconFilter: string
   text: string
   createdAt: string
   isRead: boolean

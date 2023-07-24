@@ -21,11 +21,6 @@
                 @apply mr-20;
                 @apply self-start;
             }
-            & .c-avatar {
-            }
-            & .icon {
-                @apply filter-textColor6;
-            }
             & .content {
                 @apply flex-grow mr-24;
                 & .text {

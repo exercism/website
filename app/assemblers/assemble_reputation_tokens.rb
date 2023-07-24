@@ -4,7 +4,7 @@ class AssembleReputationTokens
   initialize_with :user, :params
 
   def self.keys
-    %w[criteria category order per_page page]
+    %i[criteria category order per_page page for_header]
   end
 
   def call

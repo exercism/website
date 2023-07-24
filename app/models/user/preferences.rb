@@ -1,7 +1,7 @@
 class User::Preferences < ApplicationRecord
   belongs_to :user
 
-  def self.keys = self.automation_keys + self.comments_keys + self.general_keys
+  def self.keys = self.automation_keys + self.general_keys
 
   def self.automation_keys
     %i[
@@ -9,15 +9,10 @@ class User::Preferences < ApplicationRecord
     ]
   end
 
-  def self.comments_keys
-    %i[
-      allow_comments_by_default
-    ]
-  end
-
   def self.general_keys
     %i[
       theme
+      allow_comments_by_default
     ]
   end
 end

@@ -14,11 +14,9 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
-  Testimonial,
   MentoredTrackExercise,
   // User,
   // SiteUpdate,
-  UserPreferences,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
@@ -89,6 +87,7 @@ import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 import { AutomationProps } from '../components/mentoring/automation/Representation'
 import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
+import { UserPreferences } from '@/components/settings/UserPreferencesForm'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -269,9 +268,7 @@ initReact({
   ),
   'settings-user-preferences-form': (data: any) => (
     <Settings.UserPreferencesForm
-      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
-        data.preferences
-      )}
+      defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
       links={data.links}
     />
   ),

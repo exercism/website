@@ -3,6 +3,7 @@ import { useSettingsMutation } from './useSettingsMutation'
 import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
 import { UserPreference } from '../types'
+import { useLogger } from '@/hooks'
 
 type Links = {
   update: string
@@ -30,7 +31,6 @@ export const UserPreferencesForm = ({
         Record<string, boolean>
       >((data, p) => {
         data[p.key] = p.value
-
         return data
       }, {}),
     },
@@ -79,6 +79,7 @@ export const UserPreferencesForm = ({
           </div>
         </label>
       ))}
+      {/* TODO: move this from here */}
       <h2>Comments</h2>
       {preferences.comments.map((p) => (
         <label className="c-checkbox-wrapper" key={p.key}>

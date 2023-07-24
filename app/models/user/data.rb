@@ -2,6 +2,7 @@ class User::Data < ApplicationRecord
   include User::Roles
 
   scope :donors, -> { where.not(first_donated_at: nil) }
+  scope :public_supporter, -> { donors.where(show_on_supporters_page: true) }
 
   belongs_to :user
 

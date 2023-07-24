@@ -8,7 +8,7 @@ class CommunityController < ApplicationController
   end
 
   # TODO: Let's cache this daily instead.
-  #
+  # TOOD: This has moved to user_data now
   # Generated with
   #  User.public_supporter.
   #    with_attached_avatar.

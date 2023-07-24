@@ -32,7 +32,8 @@ class API::NotificationsControllerTest < API::BaseTestCase
         is_read: false,
         created_at: notification.created_at.iso8601,
         image_type: 'avatar',
-        image_url: mentor.avatar_url
+        image_url: mentor.avatar_url,
+        icon_filter: 'textColor6'
       }],
       meta: {
         current_page: 1,

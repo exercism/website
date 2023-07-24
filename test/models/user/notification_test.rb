@@ -41,7 +41,7 @@ class NotificationTest < ActiveSupport::TestCase
 
     I18n.expects(:t).with(
       "notifications.notification.",
-      { user: "dangerous" }
+      user: "dangerous"
     ).returns("")
 
     notification.text
@@ -61,7 +61,8 @@ class NotificationTest < ActiveSupport::TestCase
       is_read: false,
       created_at: notification.created_at.iso8601,
       image_type: 'avatar',
-      image_url: mentor.avatar_url
+      image_url: mentor.avatar_url,
+      icon_filter: "textColor6"
     }.with_indifferent_access
 
     assert_equal expected, notification.rendering_data

@@ -6,7 +6,8 @@ import { GraphicalIcon } from '../../common'
 const NotificationImage = ({
   imageType,
   imageUrl,
-}: Pick<NotificationType, 'imageType' | 'imageUrl'>) => {
+  iconFilter,
+}: Pick<NotificationType, 'imageType' | 'imageUrl' | 'iconFilter'>) => {
   switch (imageType) {
     case 'avatar':
       return (
@@ -16,7 +17,14 @@ const NotificationImage = ({
         />
       )
     default:
-      return <img alt="" role="presentation" src={imageUrl} className="icon" />
+      return (
+        <img
+          alt=""
+          role="presentation"
+          src={imageUrl}
+          className={`icon filter={iconFilter}`}
+        />
+      )
   }
 }
 

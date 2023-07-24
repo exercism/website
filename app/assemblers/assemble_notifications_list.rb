@@ -4,7 +4,7 @@ class AssembleNotificationsList
   initialize_with :user, :params
 
   def self.keys
-    %i[page per_page order]
+    %i[page per_page order for_header]
   end
 
   def call
@@ -32,10 +32,10 @@ class AssembleNotificationsList
   # then fill with the most recent first 5 (regardless of status).
   # Then we just look at the first 5 things in the set.
   def header_notifications
-    ids = Set.new(user.notifications.unread.limit(5).pluck(:id))
+    ids = Set.new(user.notifications.unread.order(id: :desc).limit(5).pluck(:id))
 
     # TODO: This needs a desc index adding
-    ids += user.notifications.limit(10).order(id: :desc).pluck(:id) unless ids.size == 5
+    ids += user.notifications.limit(10).read.order(id: :desc).pluck(:id) unless ids.size == 5
 
     ids = ids.to_a # Sets don't have `.index`
 

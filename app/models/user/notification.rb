@@ -58,11 +58,16 @@ class User::Notification < ApplicationRecord
 
   def non_cacheable_rendering_data
     {
-      is_read: read?
+      is_read: read?,
+      # This could go into cacheable but I don't want to have
+      # to recache everything just for this, so I'm putting it here.
+      icon_filter:
+
     }
   end
 
   def image_url = "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(image_path)}"
+  def icon_filter = "textColor6"
 
   private
   memoize

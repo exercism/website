@@ -1397,7 +1397,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_20_125540) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "summary_key"
     t.text "summary_data"
-    t.datetime "last_touched_at", precision: 6, null: false
+    t.datetime "last_touched_at", null: false
     t.boolean "practice_mode", default: false, null: false
     t.text "objectives"
     t.index ["track_id", "user_id"], name: "index_user_tracks_on_track_id_and_user_id", unique: true

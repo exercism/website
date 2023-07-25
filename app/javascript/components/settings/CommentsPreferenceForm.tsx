@@ -49,14 +49,24 @@ export const CommentsPreferenceForm = ({
     setAllowCommentsByDefault(e.target.checked)
   }, [])
 
+  var currentPhrase
+  if (numSolutionsWithCommentsEnabled == 0) {
+    currentPhrase = 'none'
+  } else if (numSolutionsWithCommentsEnabled == numPublishedSolutions) {
+    currentPhrase = 'all'
+  } else {
+    currentPhrase = `{numSolutionsWithCommentsEnabled} / {numPublishedSolutions}`
+  }
+
   return (
     <>
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h2 className="!mb-8">Comments</h2>
+        <h2 className="!mb-8">Comments on your solutions</h2>
         <p className="text-p-base mb-12">
-          Use these settings to control whether people can post comments on your
-          solution or not. These settings change the default behavour for new
-          solutions but can be overriden on a per-solution basis.
+          Use these settings to control whether or not people can post comments
+          on your published solutions. These settings change the default
+          behavour for new solutions but can be overriden on a per-solution
+          basis.
         </p>
         <label className="c-checkbox-wrapper">
           <input
@@ -84,20 +94,32 @@ export const CommentsPreferenceForm = ({
           />
         </div>
       </form>
-      <div className="form-footer">
-        <div className="flex flex-col items-start">
-          <h3 className="text-h5 mb-4">Existing solutions</h3>
-          <p className="text-p-base mb-12">
-            Currently, people can comment on {numSolutionsWithCommentsEnabled} /{' '}
-            {numPublishedSolutions} of your published solutions. You can choose
-            to update this in line with your general preference to allow future
-            commenting.
-          </p>
-          <button className="btn-m btn-enhanced">
-            Allow comments on all existing solutions
-          </button>
+      {numPublishedSolutions > 0 ? (
+        <div className="form-footer">
+          <div className="flex flex-col items-start">
+            <h3 className="text-h5 mb-4">Existing solutions</h3>
+            <p className="text-p-base mb-12">
+              Currently, people can comment on {currentPhrase} of your published
+              solutions. Use the buttons below to{' '}
+              <span className="font-semibold">
+                update all your existing solutions
+              </span>
+              .
+            </p>
+            <div className="flex gap-12">
+              <button className="btn-m btn-enhanced">
+                Allow comments on all existing solutions
+              </button>
+
+              <button className="btn-m btn-enhanced">
+                Disable comments on all existing solutions
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        {}
+      )}
     </>
   )
 }

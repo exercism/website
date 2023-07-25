@@ -41,7 +41,7 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
     solution = create(:concept_solution, :published, user:, exercise:)
     create(:iteration, solution:)
 
-    CacheNumPublishedSolutionsOnExerciseJob.perform_now(exercise)
+    Exercise::CacheNumPublishedSolutions.defer(exercise)
     assert_equal 1, exercise.reload.num_published_solutions
 
     perform_enqueued_jobs do

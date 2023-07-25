@@ -1,8 +1,8 @@
 import React from 'react'
 import { useMutation } from 'react-query'
-import { Loading } from '../../common'
-import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
-import { sendRequest } from '../../../utils/send-request'
+import { sendRequest } from '@/utils'
+import { Loading } from '@/components/common'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 
 type ComponentProps = {
   endpoint: string

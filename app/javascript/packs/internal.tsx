@@ -25,6 +25,7 @@ import {
   SharePlatform,
   CompleteRepresentationData,
   Guidance,
+  Track,
   // TrackContribution,
 } from '../components/types'
 
@@ -103,6 +104,13 @@ initReact({
 
   'modals-welcome-modal': (data: any) => (
     <Modals.WelcomeModal endpoint={data.endpoint} />
+  ),
+
+  'modals-track-welcome-modal': (data: any) => (
+    <Modals.TrackWelcomeModal
+      endpoint={data.endpoint}
+      track={camelizeKeysAs<Track>(data.track)}
+    />
   ),
 
   'modals-welcome-to-premium-modal': (data: any) => (

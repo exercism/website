@@ -166,6 +166,7 @@
 @import "./modals/confirm-finish-student-mentor-discussion";
 @import "./modals/finish-student-mentor-discussion";
 @import "./modals/community-launch";
+@import "./modals/track-welcome-modal";
 @import "./modals/become-mentor";
 @import "./modals/change-mentor-tracks";
 @import "./modals/select-exercise-for-mentoring";

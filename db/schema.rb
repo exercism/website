@@ -1643,7 +1643,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_20_125540) do
     t.string "name", null: false
     t.string "handle", limit: 190, null: false
     t.string "avatar_url"
-    t.text "_bio"
     t.string "email", limit: 190, default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token", limit: 190
@@ -1657,39 +1656,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_20_125540) do
     t.string "uid"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.datetime "_accepted_privacy_policy_at", precision: nil
-    t.datetime "_accepted_terms_at", precision: nil
     t.boolean "dark_code_theme", default: false, null: false
     t.boolean "default_allow_comments"
     t.datetime "deleted_at", precision: nil
-    t.datetime "_joined_research_at", precision: nil
-    t.string "_github_username"
     t.string "location"
     t.string "pronouns"
     t.integer "reputation", default: 0, null: false
-    t.string "_stripe_customer_id"
-    t.integer "_total_donated_in_cents", default: 0
-    t.boolean "_active_donation_subscription", default: false
-    t.json "_roles"
-    t.integer "_num_solutions_mentored", limit: 3, default: 0, null: false
-    t.integer "_mentor_satisfaction_percentage", limit: 1
-    t.datetime "_became_mentor_at", precision: nil
-    t.boolean "_show_on_supporters_page", default: true, null: false
     t.datetime "disabled_at"
-    t.date "_last_visited_on"
-    t.datetime "_first_donated_at"
-    t.string "_discord_uid"
-    t.integer "_insiders_status", limit: 1, default: 0, null: false
-    t.string "_paypal_payer_id"
-    t.json "_usages"
     t.integer "flair", limit: 1
-    t.json "_cache"
-    t.index ["_discord_uid"], name: "index_users_on__discord_uid", unique: true
-    t.index ["_first_donated_at", "_show_on_supporters_page"], name: "users-supporters-page"
-    t.index ["_github_username"], name: "index_users_on__github_username", unique: true
-    t.index ["_insiders_status"], name: "index_users_on__insiders_status"
-    t.index ["_last_visited_on"], name: "index_users_on__last_visited_on"
-    t.index ["_stripe_customer_id"], name: "index_users_on__stripe_customer_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

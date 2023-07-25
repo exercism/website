@@ -3,13 +3,12 @@ import { useSettingsMutation } from './useSettingsMutation'
 import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
 import { UserPreference } from '../types'
-import { useLogger } from '@/hooks'
 
 type Links = {
   update: string
 }
 
-type UserPreferences = {
+export type UserPreferences = {
   automation: readonly UserPreference[]
 }
 
@@ -70,23 +69,6 @@ export const UserPreferencesForm = ({
             type="checkbox"
             checked={p.value}
             onChange={handlePreferenceChange(p, 'automation')}
-          />
-          <div className="row">
-            <div className="c-checkbox">
-              <GraphicalIcon icon="checkmark" />
-            </div>
-            {p.label}
-          </div>
-        </label>
-      ))}
-      {/* TODO: move this from here */}
-      <h2>Comments</h2>
-      {preferences.comments.map((p) => (
-        <label className="c-checkbox-wrapper" key={p.key}>
-          <input
-            type="checkbox"
-            checked={p.value}
-            onChange={handlePreferenceChange(p, 'comments')}
           />
           <div className="row">
             <div className="c-checkbox">

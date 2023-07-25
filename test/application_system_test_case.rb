@@ -7,6 +7,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include CapybaraHelpers
   include Devise::Test::IntegrationHelpers
 
+  # Temporary fix: https://github.com/titusfortner/webdrivers/issues/247
+  Webdrivers::Chromedriver.required_version = "114.0.5735.90"
   Capybara.default_max_wait_time = 7
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false

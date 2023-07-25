@@ -3,7 +3,7 @@ module ReactComponents
     class CommentsPreferenceForm < ReactComponent
       def to_s
         super("settings-comments-preference-form", {
-          current_preference: allow_comments_by_default,
+          current_preference:,
           label:,
           links: {
             update: Exercism::Routes.api_settings_user_preferences_url
@@ -11,11 +11,11 @@ module ReactComponents
         })
       end
 
-      def allow_comments_by_default
-        current_user.preferences.allow_comments_by_default || false
+      def current_preference
+        current_user.preferences.allow_comments_on_published_solutions
       end
 
-      def label = I18n.t("user_preferences.allow_comments_by_default")
+      def label = I18n.t("user_preferences.allow_comments_on_published_solutions")
     end
   end
 end

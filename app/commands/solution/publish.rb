@@ -12,7 +12,7 @@ class Solution::Publish
       ActiveRecord::Base.transaction do
         solution.update(
           published_at: Time.current,
-          allow_comments: user.preferences.allow_comments_by_default
+          allow_comments: user.preferences.allow_comments_on_published_solutions
         )
         Solution::PublishIteration.(solution, iteration_idx)
       end

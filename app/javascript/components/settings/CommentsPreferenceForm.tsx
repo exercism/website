@@ -27,7 +27,7 @@ export const CommentsPreferenceForm = ({
     method: 'PATCH',
     body: {
       user_preferences: {
-        allow_comments_by_default: allowCommentsByDefault,
+        allow_comments_on_published_solutions: allowCommentsByDefault,
       },
     },
   })

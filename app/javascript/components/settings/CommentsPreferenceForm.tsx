@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton, Icon, GraphicalIcon } from '../common'
+import { FormButton, Icon, GraphicalIcon, ToggleButton } from '../common'
 import { FormMessage } from './FormMessage'
 
 type Links = {
@@ -22,6 +22,8 @@ export const CommentsPreferenceForm = ({
 }: CommentsPreferenceFormProps): JSX.Element => {
   const [allowCommentsByDefault, setAllowCommentsByDefault] =
     useState(currentPreference)
+  const [applyChangesToAllSolutions, setApplyChangesToAllSolutions] =
+    useState(false)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,
     method: 'PATCH',
@@ -41,8 +43,12 @@ export const CommentsPreferenceForm = ({
     [mutation]
   )
 
-  const handleChange = useCallback((e) => {
+  const handleCommentsPreferenceChange = useCallback((e) => {
     setAllowCommentsByDefault(e.target.checked)
+  }, [])
+
+  const handleApplyChangesToAllSolutionsToggle = useCallback(() => {
+    setApplyChangesToAllSolutions((s) => !s)
   }, [])
 
   return (
@@ -52,7 +58,7 @@ export const CommentsPreferenceForm = ({
         <input
           type="checkbox"
           checked={allowCommentsByDefault}
-          onChange={handleChange}
+          onChange={handleCommentsPreferenceChange}
         />
         <div className="row">
           <div className="c-checkbox">
@@ -61,6 +67,18 @@ export const CommentsPreferenceForm = ({
           {label}
         </div>
       </label>
+
+      <div className="flex items-center mt-32">
+        <ToggleButton
+          checked={applyChangesToAllSolutions}
+          onToggle={handleApplyChangesToAllSolutionsToggle}
+          className="mr-8"
+        />
+        <span className="text-14 leading-160 font-medium">
+          Apply changes to all solutions
+        </span>
+      </div>
+
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
           Change preferences

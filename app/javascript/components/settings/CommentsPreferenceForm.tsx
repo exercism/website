@@ -55,7 +55,7 @@ export const CommentsPreferenceForm = ({
   } else if (numSolutionsWithCommentsEnabled == numPublishedSolutions) {
     currentPhrase = 'all'
   } else {
-    currentPhrase = `{numSolutionsWithCommentsEnabled} / {numPublishedSolutions}`
+    currentPhrase = `${numSolutionsWithCommentsEnabled} / ${numPublishedSolutions}`
   }
 
   return (
@@ -63,10 +63,10 @@ export const CommentsPreferenceForm = ({
       <form data-turbo="false" onSubmit={handleSubmit}>
         <h2 className="!mb-8">Comments on your solutions</h2>
         <p className="text-p-base mb-12">
-          Use these settings to control whether or not people can post comments
-          on your published solutions. These settings change the default
-          behavour for new solutions but can be overriden on a per-solution
-          basis.
+          Use this setting to control whether or not people can post comments on{' '}
+          <span className="font-medium">future solutions that you publish</span>
+          . This can be overriden on a per-solution basis and you can update all
+          existing solutions below.
         </p>
         <label className="c-checkbox-wrapper">
           <input
@@ -97,12 +97,12 @@ export const CommentsPreferenceForm = ({
       {numPublishedSolutions > 0 ? (
         <div className="form-footer">
           <div className="flex flex-col items-start">
-            <h3 className="text-h5 mb-4">Existing solutions</h3>
+            <h3 className="text-h5 mb-4">Manage existing solutions</h3>
             <p className="text-p-base mb-12">
               Currently, people can comment on {currentPhrase} of your published
               solutions. Use the buttons below to{' '}
-              <span className="font-semibold">
-                update all your existing solutions
+              <span className="font-medium">
+                enable or disable comments on all your existing solutions.
               </span>
               .
             </p>

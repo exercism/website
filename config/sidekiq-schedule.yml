@@ -86,6 +86,12 @@ nudge_users_to_request_mentoring:
   class: "NudgeUsersToRequestMentoringJob"
   queue: dribble
 
+# At 5 past every hour
+delete_old_metrics:
+  cron: "5 * * * *"
+  class: "DeleteOldMetrics"
+  queue: metrics
+
 # At start of every minute
 update_minute_metrics:
   cron: "* * * * *"

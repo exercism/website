@@ -10,8 +10,10 @@ module Flows
         test "student activates practice mode" do
           user = create :user
           track = create :track, title: "Ruby"
-          create :concept_exercise, track: track
-          create :user_track, user: user, track: track
+          create(:concept_exercise, track:)
+          create(:user_track, user:, track:)
+
+          stub_latest_track_forum_threads(track)
 
           use_capybara_host do
             sign_in!(user)

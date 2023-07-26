@@ -35,7 +35,9 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     user = create :user, roles: [:maintainer]
     sign_in!(user)
     track = create :track, active: false
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
+
+    stub_latest_track_forum_threads(track)
 
     get track_url(track)
 
@@ -46,7 +48,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     user = create :user, roles: []
     sign_in!(user)
     track = create :track, active: false
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     get track_url(track)
 
@@ -56,8 +58,8 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
   test "about shows for joined member" do
     user = create :user
     track = create :track
-    create :practice_exercise, track: track
-    create :user_track, user: user, track: track
+    create(:practice_exercise, track:)
+    create(:user_track, user:, track:)
 
     sign_in!(user)
     get about_track_url(track)

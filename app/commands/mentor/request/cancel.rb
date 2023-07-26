@@ -1,13 +1,9 @@
-module Mentor
-  class Request
-    class Cancel
-      include Mandate
+class Mentor::Request::Cancel
+  include Mandate
 
-      initialize_with :request
+  initialize_with :request
 
-      def call
-        request.cancelled!
-      end
-    end
+  def call
+    request.cancelled!
   end
 end

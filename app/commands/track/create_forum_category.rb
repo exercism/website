@@ -4,6 +4,8 @@ class Track::CreateForumCategory
   initialize_with :track
 
   def call
+    return if Rails.env.development?
+
     category = create_category!
     edit_first_post!(category)
   end

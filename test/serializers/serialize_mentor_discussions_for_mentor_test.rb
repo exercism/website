@@ -5,13 +5,13 @@ class SerializeMentorDiscussionsForMentorTest < ActiveSupport::TestCase
     student = create :user
     mentor = create :user
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise, user: student
-    discussion = create :mentor_discussion,
+    exercise = create(:concept_exercise, track:)
+    solution = create :concept_solution, exercise:, user: student
+    discussion = create(:mentor_discussion,
       :awaiting_mentor,
-      solution: solution,
-      mentor: mentor
-    relationship = create :mentor_student_relationship, mentor: mentor, student: student
+      solution:,
+      mentor:)
+    relationship = create(:mentor_student_relationship, mentor:, student:)
 
     data = mock
     SerializeMentorDiscussionForMentor.expects(:call).with(discussion, relationship:).returns(data)

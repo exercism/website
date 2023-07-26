@@ -2,9 +2,6 @@ module ViewComponents
   class SiteFooter < ViewComponent
     extend Mandate::Memoize
 
-    delegate :namespace_name, :controller_name,
-      to: :view_context
-
     def to_s
       Rails.cache.fetch(cache_key) do
         tag.footer(id: "site-footer") do

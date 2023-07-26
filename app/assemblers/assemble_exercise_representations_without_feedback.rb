@@ -23,7 +23,7 @@ class AssembleExerciseRepresentationsWithoutFeedback
     Exercise::Representation::Search.(
       mentor:,
       track:,
-      with_feedback: false,
+      mode: :without_feedback,
       only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
@@ -31,9 +31,5 @@ class AssembleExerciseRepresentationsWithoutFeedback
     )
   end
 
-  def track
-    return if params[:track_slug].blank?
-
-    Track.find(params[:track_slug])
-  end
+  def track = Track.find_by(slug: params[:track_slug])
 end

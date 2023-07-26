@@ -5,7 +5,11 @@ class SerializeMentorDiscussionsForMentor
 
   def call
     discussions.
-      includes(:solution, :exercise, :track, :student, :mentor).
+      includes(
+        :solution, :exercise, :track,
+        mentor: { avatar_attachment: :blob },
+        student: { avatar_attachment: :blob }
+      ).
       map { |d| SerializeMentorDiscussionForMentor.(d, relationship: relationships[d.student.id]) }
   end
 

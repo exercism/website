@@ -53,7 +53,7 @@ module Git
 
       # We don't want to let students override the test files. However, some languages
       # have solutions and tests in the same file so we need the second guard for that.
-      return false if test_filepaths.include?(filepath) && !solution_filepaths.include?(filepath)
+      return false if test_filepaths.include?(filepath) && solution_filepaths.exclude?(filepath)
 
       true
     end
@@ -235,6 +235,7 @@ module Git
         next if filepath.start_with?('.docs/')
         next if filepath.start_with?('.meta/')
         next if filepath.start_with?('.approaches/')
+        next if filepath.start_with?('.articles/')
         next if example_filepaths.include?(filepath)
         next if exemplar_filepaths.include?(filepath)
 
@@ -256,6 +257,9 @@ module Git
 
     memoize
     def articles = Git::Exercise::Articles.new(exercise_slug, exercise_type, git_sha, repo:)
+
+    memoize
+    def no_important_files_changed? = commit.message.downcase.include?(NO_IMPORTANT_FILES_CHANGED)
 
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
@@ -284,5 +288,8 @@ module Git
 
     memoize
     def track = Track.new(repo:)
+
+    NO_IMPORTANT_FILES_CHANGED = "[no important files changed]".freeze
+    private_constant :NO_IMPORTANT_FILES_CHANGED
   end
 end

@@ -28,7 +28,7 @@ api_non_get_limit_proc = proc do |req|
   next 30 if req.post? && req.routed_to == 'api/markdown#parse'
   next 30 if req.patch? && req.routed_to == 'api/mentoring/testimonials#reveal'
   next 20 if req.patch? && req.routed_to == 'api/reputation#mark_as_seen'
-  next 8 if req.patch? && req.routed_to == 'api/settings/user_preferences#update'
+  next 20 if req.patch? && req.routed_to == 'api/settings/user_preferences#update'
   next 8 if req.patch? && req.routed_to == 'api/settings/communication_preferences#update'
   next 8 if req.patch? && req.routed_to == 'api/settings#sudo_update'
   next 10 if req.patch? && req.routed_to == 'api/mentoring/representations#update'

@@ -5,9 +5,9 @@ class User::Notifications::StudentFinishedDiscussionNotificationTest < ActiveSup
     student = create :user, handle: "student"
     mentor = create :user
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Strings", track: track
-    solution = create :concept_solution, user: student, exercise: exercise
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor
+    exercise = create(:concept_exercise, title: "Strings", track:)
+    solution = create(:concept_solution, user: student, exercise:)
+    discussion = create(:mentor_discussion, solution:, mentor:)
 
     notification = User::Notifications::StudentFinishedDiscussionNotification.create!(
       user: mentor,
@@ -15,7 +15,7 @@ class User::Notifications::StudentFinishedDiscussionNotificationTest < ActiveSup
     )
 
     assert_equal "#{mentor.id}|student_finished_discussion|Discussion##{discussion.id}", notification.uniqueness_key
-    assert_equal "student has finished the discussion on the solution you are mentoring for Ruby:Strings", notification.text  # rubocop:disable Layout/LineLength
+    assert_equal "student has finished the discussion on the solution you are mentoring for Ruby:Strings", notification.text
     assert_equal :avatar, notification.image_type
     assert_equal student.avatar_url, notification.image_url
     assert_equal discussion.mentor_url, notification.url

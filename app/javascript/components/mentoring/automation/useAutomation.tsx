@@ -1,16 +1,14 @@
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import { QueryStatus } from 'react-query'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useHistory, removeEmpty } from '../../../hooks/use-history'
-import { ListState, useList } from '../../../hooks/use-list'
-import { AutomationTrack, Representation } from '../../types'
-import { useTrackList } from '../queue/useTrackList'
+  useList,
+  usePaginatedRequestQuery,
+  Request,
+  useHistory,
+  removeEmpty,
+  useDebounce,
+} from '@/hooks'
+import type { QueryStatus } from 'react-query'
+import type { AutomationTrack, Representation } from '@/components/types'
 
 export type APIResponse = {
   results: Representation[]
@@ -23,33 +21,25 @@ export type APIResponse = {
 }
 
 type returnMentoringAutomation = {
-  request: ListState
+  status: QueryStatus
+  error: unknown
+  isFetching: boolean
+  resolvedData: APIResponse | undefined
+  latestData: APIResponse | undefined
   criteria?: string
   setCriteria: (criteria: string) => void
   order: string
   setOrder: (order: string) => void
   page: number
   setPage: (page: number) => void
+  checked: boolean
+  selectedTrack: AutomationTrack
   handleTrackChange: (track: AutomationTrack) => void
   handleOnlyMentoredSolutions: (checked: boolean) => void
-  selectedTrack: AutomationTrack
-  status: QueryStatus
-  resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
-  isFetching: boolean
-  checked: boolean
-  setChecked: React.Dispatch<SetStateAction<boolean>>
-  tracks: AutomationTrack[]
-  trackListStatus: QueryStatus
-  trackListError: unknown
-  isTrackListFetching: boolean
-  feedbackCount: {
-    with_feedback: number | undefined
-    without_feedback: number | undefined
-  }
+  handlePageResetOnInputChange: (input: string) => void
 }
 
-const initialTrackData: AutomationTrack = {
+const BLANK_TRACK_DATA: AutomationTrack = {
   slug: '',
   title: '',
   iconUrl: '',
@@ -58,11 +48,7 @@ const initialTrackData: AutomationTrack = {
 
 export function useAutomation(
   representationsRequest: Request,
-  representationsWithFeedbackCount: number | undefined,
-  representationsWithoutFeedbackCount: number | undefined,
-  tracksRequest: Request,
-  cacheKey: string,
-  withFeedback: boolean
+  tracks: AutomationTrack[]
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
@@ -77,37 +63,25 @@ export function useAutomation(
     setQuery,
   } = useList(representationsRequest)
 
-  const {
-    resolvedData: tracks,
-    status: trackListStatus,
-    error: trackListError,
-    isFetching: isTrackListFetching,
-  } = useTrackList({
-    cacheKey: cacheKey,
-    request: tracksRequest,
-  })
+  const [selectedTrack, setSelectedTrack] = useState<AutomationTrack>(
+    tracks.find((t: AutomationTrack) => t.slug == request.query.trackSlug) ||
+      tracks[0] ||
+      BLANK_TRACK_DATA
+  )
 
-  const [selectedTrack, setSelectedTrack] =
-    useState<AutomationTrack>(initialTrackData)
-
-  const { status, resolvedData, latestData, isFetching } =
+  const { status, error, resolvedData, latestData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
       ['mentor-representations-list', request],
       request
     )
 
-  // TODO: refactor this and probably all query with the debounce hook
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      if (criteria.length > 2 || criteria === '') {
-        setRequestCriteria(criteria)
-      }
-    }, 500)
+  const debouncedCriteria = useDebounce(criteria, 500)
 
-    return () => {
-      clearTimeout(handler)
+  useEffect(() => {
+    if (debouncedCriteria.length > 2 || debouncedCriteria === '') {
+      setRequestCriteria(debouncedCriteria)
     }
-  }, [setRequestCriteria, criteria])
+  }, [debouncedCriteria, setRequestCriteria])
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
@@ -122,29 +96,14 @@ export function useAutomation(
     [setPage, setQuery, request.query]
   )
 
-  // Automatically set a selected track based on query or the lack of it
-  useEffect(() => {
-    // don't repeat `find` on track change, only when page loads
-    if (tracks.length > 0 && selectedTrack === initialTrackData) {
-      const foundTrack = tracks.find(
-        (t: AutomationTrack) => t.slug == request.query.trackSlug
-      )
-      setSelectedTrack(foundTrack || tracks[0])
-    }
-  }, [request.query.trackSlug, selectedTrack, tracks])
-
   // If only_mentored_solutions === null or undefined remove it completely from query obj and query string
   const handleOnlyMentoredSolutions = useCallback(
     (checked) => {
-      const queryObject: { onlyMentoredSolutions?: true } = {}
+      const queryObject = { ...request.query }
       if (checked) {
-        Object.assign(queryObject, {
-          ...request.query,
-          onlyMentoredSolutions: true,
-        })
-      } else {
-        delete queryObject.onlyMentoredSolutions
-      }
+        queryObject.onlyMentoredSolutions = true
+      } else delete queryObject.onlyMentoredSolutions
+
       setQuery(queryObject)
       setPage(1)
       setChecked((checked) => !checked)
@@ -152,59 +111,37 @@ export function useAutomation(
     [request.query, setPage, setQuery]
   )
 
-  // Get the proper count number of automation requests for tabs
-  const getFeedbackCount = useCallback(
-    (withFeedback) => {
-      if (withFeedback && resolvedData) {
-        return {
-          with_feedback: resolvedData.meta.totalCount,
-          without_feedback: representationsWithoutFeedbackCount,
-        }
-      } else if (resolvedData) {
-        return {
-          with_feedback: representationsWithFeedbackCount,
-          without_feedback: resolvedData.meta.totalCount,
-        }
-      } else {
-        return {
-          with_feedback: 0,
-          without_feedback: 0,
-        }
+  // timeout is stored in a useRef, so it can be cancelled
+  const timer = useRef<number>()
+
+  const handlePageResetOnInputChange = useCallback(
+    (input: string) => {
+      // clears it on any input
+      window.clearTimeout(timer.current)
+      if (criteria && (input.length > 2 || input.length === 0)) {
+        timer.current = window.setTimeout(() => setPage(1), 500)
       }
     },
-    [
-      representationsWithFeedbackCount,
-      representationsWithoutFeedbackCount,
-      resolvedData,
-    ]
-  )
 
-  const feedbackCount = useMemo(
-    () => getFeedbackCount(withFeedback),
-    [getFeedbackCount, withFeedback]
+    [criteria, setPage]
   )
 
   return {
-    handleTrackChange,
-    handleOnlyMentoredSolutions,
-    selectedTrack,
     status,
+    error,
+    isFetching,
     resolvedData,
     latestData,
-    isFetching,
-    checked,
-    setChecked,
-    order: request.query.order,
-    setOrder,
-    page: request.query.page,
-    setPage,
-    tracks,
-    trackListStatus,
-    trackListError,
-    isTrackListFetching,
     criteria,
     setCriteria,
-    feedbackCount,
-    request,
+    order: request.query.order,
+    setOrder,
+    page: request.query.page || 1,
+    setPage,
+    checked,
+    selectedTrack,
+    handleTrackChange,
+    handleOnlyMentoredSolutions,
+    handlePageResetOnInputChange,
   }
 }

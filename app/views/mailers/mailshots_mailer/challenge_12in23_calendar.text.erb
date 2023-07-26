@@ -1,0 +1,26 @@
+Hi <%= @user.handle %>,
+
+<% if @signed_up %>
+Thanks for joining #12in23. You're joining thousands of others in exploring new ideas and concepts throughout the year. We're really excited about how the year is going to play out!
+<% else %>
+Thousands of people have already signed up for #12in23. It's going to be a really fun journey expanding our programming skills and trying out different languages, so don't miss out! As with all of Exercism, it's totally free!
+
+>> Sign up at https://exercism.org/challenges/12in23
+<% end %>
+
+We've now finalized the calendar for the year. Each month is going to have a different theme, with interviews from langauge experts (and even language creators!), live streaming of walkthroughs and solving exercises, themed swag, and all sorts of goodies. I've put together a video talking through the different themes - have a watch and let us know which you're most excited for!
+
+>> Watch the video calendar introduction at https://www.youtube.com/watch?v=2refhxXqePI
+
+The first theme is Functional February, and we're still planning how to make it as fun and useful as possible. Please let us know your thoughts in the forum. All ideas are welcome - the wackier the better!
+
+Have a great day!
+
+Jeremy Walker
+Exercism Co-founder
+
+---
+
+You're receiving this because you've previously signed up to Exercism (the free, not-for-profit programming education platform) and are subscribed to our site update emails, where we send occasional updates when we add improvements to the platform.
+
+You can unsubscribe from this email (<%= unsubscribe_url(token: @user.communication_preferences.token, key: :receive_product_updates) %>) or change your notification settings (<%= unsubscribe_url(token: @user.communication_preferences.token) %>) to opt out of some or all emails.

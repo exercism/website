@@ -22,6 +22,9 @@ en:
 
     email_on_nudge_notification: "Email me prompts about how to get the most out of Exercism"
     email_about_fundraising_campaigns: "Email me about fundraising campaigns"
+    email_about_events: "Email me about events (e.g. Functional February) or interviews."
+    email_about_premium: "Email me about my Exercism Premium membership"
+    email_about_insiders: "Email me about my Exercism Insiders membership"
 
     email_on_general_update_notification: "Email me about other non-essential updates to my account"
     email_on_acquired_badge_notification: "Email me when I unlock a new badge"

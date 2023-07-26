@@ -1,0 +1,57 @@
+#challenge-12in23-page {
+    & .top-section {
+        @apply pt-32 pb-40;
+        @apply bg-backgroundColorA;
+        background: linear-gradient(
+            180deg,
+            var(--backgroundColorA) 80%,
+            var(--backgroundColorC) 100%
+        );
+    }
+    & article {
+        @apply pt-48 pb-48;
+
+        & p {
+            max-width: 770px;
+
+            & a {
+                @apply text-adaptivePurple font-medium;
+            }
+        }
+        & p.cta {
+            max-width: none;
+            @apply mt-24 mb-48;
+
+            @apply py-8 px-24 rounded-8;
+            @apply bg-backgroundColorI;
+            @apply font-medium;
+
+            & a {
+                @apply text-prominentLinkColor;
+            }
+        }
+    }
+
+    progress,
+    .progress {
+        @apply appearance-none w-100 rounded-8 overflow-hidden;
+        @apply mt-auto mb-8;
+        height: 8px;
+    }
+    progress {
+        &::-webkit-progress-bar {
+            @apply bg-backgroundColorI;
+        }
+        &[value] {
+            &::-webkit-progress-value {
+                @apply bg-prominentLinkColor;
+            }
+        }
+    }
+    .progress {
+        @apply bg-successColor;
+    }
+    .count {
+        @apply font-medium mt-8;
+    }
+}

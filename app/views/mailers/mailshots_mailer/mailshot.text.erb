@@ -1,0 +1,15 @@
+Hi <%= @user.handle %>,
+
+<%= raw @mailshot.text_content %>
+
+Jeremy Walker
+Exercism Co-founder
+
+---
+
+You're receiving this because you've previously signed up to Exercism (the free, not-for-profit programming education platform) and are subscribed to our site update emails, where we send occasional updates when we add improvements to the platform.
+
+You can unsubscribe from this email (<%= unsubscribe_url(token: @user.communication_preferences.token, key: @email_communication_preferences_key) %>) or change your notification settings (<%= unsubscribe_url(token: @user.communication_preferences.token) %>) to opt out of some or all emails.
+
+
+

@@ -1,13 +1,11 @@
-class User::Profile
-  class Create
-    include Mandate
+class User::Profile::Create
+  include Mandate
 
-    initialize_with :user
+  initialize_with :user
 
-    def call
-      raise ProfileCriteriaNotFulfilledError unless user.may_create_profile?
+  def call
+    raise ProfileCriteriaNotFulfilledError unless user.may_create_profile?
 
-      user.create_profile!
-    end
+    user.create_profile!
   end
 end

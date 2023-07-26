@@ -30,10 +30,12 @@ class UserTrack < ApplicationRecord
   # Add some caching inside here for the duration
   # of the request cycle.
   def self.for!(user_param, track_param)
-    UserTrack.find_by!(
-      user: User.for!(user_param),
-      track: Track.for!(track_param)
-    )
+    Current.user_track_for(user_param, track_param) do
+      UserTrack.find_by!(
+        user: User.for!(user_param),
+        track: Track.for!(track_param)
+      )
+    end
   end
 
   def self.for(user_param, track_param)
@@ -82,8 +84,11 @@ class UserTrack < ApplicationRecord
     status << :wip if maintainer?
 
     exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
-    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id))).
+      includes(:track)
   end
+
+  def course? = track.course? || (maintainer? && track.concept_exercises.exists?)
 
   def external? = false
 

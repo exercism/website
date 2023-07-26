@@ -23,7 +23,7 @@
         & .publish-icon {
             height: 48px;
             width: 48px;
-            @apply mb-24;
+            @apply mb-24 filter-textColor6;
         }
         & .title {
             @apply text-h1 mb-16;

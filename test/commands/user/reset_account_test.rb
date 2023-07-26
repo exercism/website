@@ -30,9 +30,9 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       js = create :track, slug: :js
 
       user = create :user
-      user_track_1 = create :user_track, user: user, track: ruby
-      user_track_2 = create :user_track, user: user, track: js
-      orphaned_solution = create :practice_solution, user: user, track: create(:track, :random_slug)
+      user_track_1 = create :user_track, user:, track: ruby
+      user_track_2 = create :user_track, user:, track: js
+      orphaned_solution = create :practice_solution, user:, track: create(:track, :random_slug)
 
       pending_request = create :mentor_request, solution: create(:practice_solution, user:)
       fulfilled_request = create :mentor_request, :fulfilled, solution: create(:practice_solution, user:)
@@ -74,7 +74,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up profile" do
     user = create :user
-    profile = create :user_profile, user: user
+    profile = create(:user_profile, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       profile.reload
@@ -83,7 +83,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up activities" do
     user = create :user
-    activity = create :started_exercise_user_activity, user: user
+    activity = create(:started_exercise_user_activity, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       activity.reload
@@ -92,7 +92,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up notifications" do
     user = create :user
-    notification = create :notification, user: user
+    notification = create(:notification, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       notification.reload
@@ -101,7 +101,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up reputation_tokens" do
     user = create :user
-    reputation_token = create :user_reputation_token, user: user
+    reputation_token = create(:user_reputation_token, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       reputation_token.reload
@@ -110,7 +110,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up reputation_periods" do
     user = create :user
-    reputation_period = create :user_reputation_period, user: user
+    reputation_period = create(:user_reputation_period, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       reputation_period.reload
@@ -125,10 +125,10 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     completer_badge = create :completer_badge
     whatever_badge = create :whatever_badge
 
-    member_acquired_badge = create :user_acquired_badge, user: user, badge: member_badge
-    moss_acquired_badge = create :user_acquired_badge, user: user, badge: moss_badge
-    completer_acquired_badge = create :user_acquired_badge, user: user, badge: completer_badge
-    whatever_acquired_badge = create :user_acquired_badge, user: user, badge: whatever_badge
+    member_acquired_badge = create :user_acquired_badge, user:, badge: member_badge
+    moss_acquired_badge = create :user_acquired_badge, user:, badge: moss_badge
+    completer_acquired_badge = create :user_acquired_badge, user:, badge: completer_badge
+    whatever_acquired_badge = create :user_acquired_badge, user:, badge: whatever_badge
 
     User::ResetAccount.(user)
 
@@ -148,7 +148,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up track_mentorships" do
     user = create :user
-    track_mentorship = create :user_track_mentorship, user: user
+    track_mentorship = create(:user_track_mentorship, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       track_mentorship.reload
@@ -166,7 +166,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
 
   test "cleans up solution_stars" do
     user = create :user
-    solution_star = create :solution_star, user: user
+    solution_star = create(:solution_star, user:)
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       solution_star.reload
@@ -176,10 +176,19 @@ class User::ResetAccountTest < ActiveSupport::TestCase
   test "cleans up problem reports" do
     create :user, :ghost
     user = create :user
-    pr = create :problem_report, user: user
+    pr = create(:problem_report, user:)
 
     User::ResetAccount.(user)
 
     assert_equal User::GHOST_USER_ID, pr.reload.user_id
+  end
+
+  test "cleans up challenges" do
+    user = create :user
+    challenge = create(:user_challenge, user:)
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      challenge.reload
+    end
   end
 end

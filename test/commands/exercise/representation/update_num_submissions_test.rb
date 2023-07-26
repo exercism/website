@@ -3,9 +3,9 @@ require "test_helper"
 class Exercise::Representation::UpdateNumSubmissionsTest < ActiveSupport::TestCase
   test "recalculates num_submissions" do
     exercise = create :practice_exercise
-    submission = create :submission, solution: (create :practice_solution, exercise: exercise)
-    representation = create :exercise_representation, ast_digest: 'foo', exercise: exercise, source_submission: submission
-    create :submission_representation, ast_digest: 'foo', submission: submission
+    submission = create :submission, solution: (create :practice_solution, exercise:)
+    representation = create :exercise_representation, ast_digest: 'foo', exercise:, source_submission: submission
+    create(:submission_representation, ast_digest: 'foo', submission:)
 
     # Other submissions with same digest
     create :submission_representation, ast_digest: 'foo',
@@ -27,15 +27,15 @@ class Exercise::Representation::UpdateNumSubmissionsTest < ActiveSupport::TestCa
 
   test "num_submissions is unique per submission" do
     exercise = create :practice_exercise
-    submission = create :submission, solution: (create :practice_solution, exercise: exercise)
-    representation = create :exercise_representation, ast_digest: 'foo', exercise: exercise, source_submission: submission
+    submission = create :submission, solution: (create :practice_solution, exercise:)
+    representation = create :exercise_representation, ast_digest: 'foo', exercise:, source_submission: submission
 
     # Sanity check
     assert_equal 1, representation.num_submissions
 
-    create :submission_representation, ast_digest: representation.ast_digest, submission: submission
-    create :submission_representation, ast_digest: representation.ast_digest, submission: submission
-    create :submission_representation, ast_digest: representation.ast_digest, submission: submission
+    create(:submission_representation, ast_digest: representation.ast_digest, submission:)
+    create(:submission_representation, ast_digest: representation.ast_digest, submission:)
+    create(:submission_representation, ast_digest: representation.ast_digest, submission:)
 
     # Sanity check
     assert_equal 1, representation.num_submissions

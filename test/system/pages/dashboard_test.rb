@@ -21,7 +21,7 @@ module Pages
       user = create :user
       track = create :track, title: "Ruby"
 
-      create :user_track, user: user, track: track
+      create(:user_track, user:, track:)
 
       use_capybara_host do
         sign_in!(user)
@@ -30,7 +30,7 @@ module Pages
 
         within "#page-dashboard" do
           assert_text "Ruby"
-          assert_text "Your Tracks\n1"
+          assert_text "Your Tracks 1"
           assert_link "Discover more tracks"
         end
       end
@@ -49,7 +49,7 @@ module Pages
         visit dashboard_path
 
         within "#page-dashboard" do
-          assert_text "Your Tracks\n3"
+          assert_text "Your Tracks 3"
           assert_link "Discover more tracks"
         end
       end
@@ -58,10 +58,10 @@ module Pages
     test "with four track" do
       user = create :user
 
-      ut_1 = create :user_track, last_touched_at: Time.current - 1.day, user: user, track: create(:track, :random_slug)
-      ut_2 = create :user_track, last_touched_at: Time.current - 2.days, user: user, track: create(:track, :random_slug)
-      ut_3 = create :user_track, last_touched_at: Time.current, user: user, track: create(:track, :random_slug)
-      ut_4 = create :user_track, last_touched_at: Time.current + 1.day, user: user, track: create(:track, :random_slug)
+      ut_1 = create :user_track, last_touched_at: Time.current - 1.day, user:, track: create(:track, :random_slug)
+      ut_2 = create :user_track, last_touched_at: Time.current - 2.days, user:, track: create(:track, :random_slug)
+      ut_3 = create :user_track, last_touched_at: Time.current, user:, track: create(:track, :random_slug)
+      ut_4 = create :user_track, last_touched_at: Time.current + 1.day, user:, track: create(:track, :random_slug)
 
       use_capybara_host do
         sign_in!(user)
@@ -74,7 +74,7 @@ module Pages
           assert_text ut_1.track.title
           refute_text ut_2.track.title
 
-          assert_text "Your Tracks\n4"
+          assert_text "Your Tracks 4"
           assert_link "View all your tracks"
         end
       end
@@ -94,7 +94,7 @@ module Pages
     test "with requests but no discussions" do
       user = create :user
       track = create :track
-      create :user_track_mentorship, user: user, track: track
+      create(:user_track_mentorship, user:, track:)
       create :mentor_discussion, mentor: user, status: :awaiting_student
       create :mentor_request, solution: create(:practice_solution, track:)
 
@@ -109,7 +109,7 @@ module Pages
     test "with discussion" do
       user = create :user
       track = create :track
-      create :user_track_mentorship, user: user, track: track
+      create(:user_track_mentorship, user:, track:)
       discussion = create :mentor_discussion, mentor: user, status: :awaiting_mentor
       create :mentor_request, solution: create(:practice_solution, track:)
 

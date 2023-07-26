@@ -36,13 +36,17 @@ import {
   InstructionsTab,
   TestsTab,
   ResultsTab,
+  FeedbackTab,
   InstructionsPanel,
+  TestPanel,
   TestsPanel,
   ResultsPanel,
+  FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
+import * as ChatGPT from './editor/ChatGptFeedback'
 
-type TabIndex = 'instructions' | 'tests' | 'results'
+type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -73,6 +77,7 @@ export const TasksContext = createContext<TaskContext>({
 export default ({
   timeout = 60000,
   defaultSubmissions,
+  premium,
   defaultFiles,
   defaultSettings,
   autosave,
@@ -80,6 +85,10 @@ export default ({
   track,
   exercise,
   links,
+  iteration,
+  discussion,
+  mentoringRequested,
+  chatgptUsage,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -119,6 +128,11 @@ export default ({
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
   const cache = useQueryCache()
+  const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
+  const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
+    version: '3.5',
+    usage: chatgptUsage['3.5'],
+  })
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -313,6 +327,44 @@ export default ({
 
   useEditorFocus({ editor: editorRef.current, isProcessing })
 
+  const {
+    mutation: pokeChatGpt,
+    status: chatGptFetchingStatus,
+    helpRecord,
+    setSubmissionUuid,
+    submissionUuid,
+    mutationError,
+    mutationStatus,
+    exceededLimit,
+    chatGptUsage,
+  } = ChatGPT.Hook({
+    submission: submission ?? null,
+    defaultRecord: panels.aiHelp,
+    GPTModel: selectedGPTModel.version,
+    chatgptUsage,
+  })
+
+  const invokeChatGpt = useCallback(() => {
+    const status = chatGptFetchingStatus
+    setTab('chatgpt')
+    if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
+      pokeChatGpt()
+      setSubmissionUuid(submission?.uuid)
+    }
+  }, [
+    chatGptFetchingStatus,
+    pokeChatGpt,
+    setSubmissionUuid,
+    submission?.uuid,
+    submissionUuid,
+  ])
+
+  useEffect(() => {
+    if (mutationStatus === 'success') {
+      setChatGptDialogOpen(false)
+    }
+  }, [mutationStatus])
+
   return (
     <FeaturesContext.Provider value={features}>
       <TabsContext.Provider
@@ -365,6 +417,21 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
+                  <ChatGPT.Button
+                    premium={premium}
+                    noSubmission={!submission}
+                    sameSubmission={
+                      submission ? submission.uuid === submissionUuid : false
+                    }
+                    isProcessing={isProcessing}
+                    passingTests={testRunStatus === TestRunStatus.PASS}
+                    chatGptFetchingStatus={chatGptFetchingStatus}
+                    onClick={
+                      premium
+                        ? () => setChatGptDialogOpen(true)
+                        : () => setTab('chatgpt')
+                    }
+                  />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -394,16 +461,20 @@ export default ({
                   <InstructionsTab />
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
+                  {iteration ? <FeedbackTab /> : null}
+                  <ChatGPT.Tab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
-                  <TestContentWrapper
-                    testTabGroupCss="border-t-1 border-borderColor6"
-                    tabContext={TabsContext}
-                    testFiles={panels.tests.testFiles}
-                  >
-                    <TestsPanel {...panels.tests} />
-                  </TestContentWrapper>
+                  <TestsPanel context={TabsContext}>
+                    <TestContentWrapper
+                      testTabGroupCss="border-t-1 border-borderColor6"
+                      tabContext={TabsContext}
+                      testFiles={panels.tests.testFiles}
+                    >
+                      <TestPanel {...panels.tests} />
+                    </TestContentWrapper>
+                  </TestsPanel>
                 ) : null}
                 <ResultsPanel
                   submission={submission}
@@ -415,9 +486,55 @@ export default ({
                   hasCancelled={hasCancelled}
                   {...panels.results}
                 />
+                {iteration ? (
+                  <FeedbackPanel
+                    exercise={exercise}
+                    track={track}
+                    iteration={iteration}
+                    discussion={discussion}
+                    requestedMentoring={mentoringRequested}
+                    mentoringRequestLink={links.mentoringRequest}
+                    automatedFeedbackInfoLink={links.automatedFeedbackInfo}
+                    mentorDiscussionsLink={links.mentorDiscussions}
+                  />
+                ) : null}
+                {premium ? (
+                  <ChatGPT.Panel
+                    helpRecord={helpRecord}
+                    status={chatGptFetchingStatus}
+                  >
+                    <ChatGPT.Button
+                      premium={premium}
+                      noSubmission={!submission}
+                      sameSubmission={
+                        submission ? submission.uuid === submissionUuid : false
+                      }
+                      isProcessing={isProcessing}
+                      passingTests={testRunStatus === TestRunStatus.PASS}
+                      chatGptFetchingStatus={chatGptFetchingStatus}
+                      onClick={() => setChatGptDialogOpen(true)}
+                    />
+                  </ChatGPT.Panel>
+                ) : (
+                  <ChatGPT.UpsellPanel />
+                )}
               </TasksContext.Provider>
             }
           />
+
+          {submission && premium && (
+            <ChatGPT.Dialog
+              onClose={() => setChatGptDialogOpen(false)}
+              open={chatGptDialogOpen}
+              submission={submission}
+              value={selectedGPTModel}
+              setValue={setSelectedGPTModel}
+              onGo={invokeChatGpt}
+              chatgptUsage={chatGptUsage}
+              error={mutationError}
+              exceededLimit={exceededLimit}
+            />
+          )}
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

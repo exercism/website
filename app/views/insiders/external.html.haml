@@ -1,0 +1,73 @@
+#page-insiders
+  .lg-container
+    .top.grid.grid-cols-1.md:grid-cols-2.gap-48.mb-64.pt-20.md:pt-48.pb-64
+      .top-lhs
+        %h1.text-h1.flex.items-center.gap-12.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
+          Exercism Insiders
+          = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
+        %h3.text-h3.mb-16 Our way of saying thank you.
+        %p.text-p-xlarge.mb-24 Insiders is our exclusive reward program for contributors, mentors, and large donors. Get behind the scenes access, exclusive badges, and Exercism Premium for free.
+        - if current_user.present?
+          = render ReactComponents::Insiders::InsidersStatus.new
+
+      .top-rhs
+        .c-youtube-container
+          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/iwhahd41h0A", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+    %h2.text-h2.mb-32 Insider Features
+    .features
+      - @features.each do |feature|
+        .feature
+          = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
+          %h4= feature[:title]
+          %p= feature[:desc]
+
+    %p.text-p-large.text-center.pb-56 (And even more coming soon!)
+
+  .gradient-container.faqs.py-56
+    .lg-container
+      %h2.text-h1.mb-40.text-center The Nitty Gritty &amp; FAQs
+      .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
+        %details{ open: true }
+          %summary What are the exact criteria for Insiders access?
+          %p.mb-12
+            You can check the exact algorithm #{link_to 'in our codebase', 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'} but it's also reproduced here.
+          %p.mb-4 To gain lifetime access you need one of the following:
+          %ul.mb-16
+            %li To be a founder or staff member
+            %li To be a supermentor (100+ solutions mentored on a track with a 95% positive rating)
+            %li To have a reputation equal or greater than 1,000
+            %li To have donated $499 (in one or many parts)
+
+          %p.mb-4 For those without lifetime access, to gain access you need one of the following:
+          %ul.mb-16
+            %li To be a maintainer
+            %li To have had a recurring donation at the point that Premium launched (May 30th 2023), and it still to be active.
+            %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
+
+          %p.mb-4 You can also gain access to Insiders by donating.
+          %ul.mb-16
+            %li For donations before we launched Premium, you get one month of Insiders for every $9.99 donated, from the date that Premium launched, plus one extra bonus month. So if you donated $35 before Premium launched, you'd get Insiders access through June, July, August and September 2023.
+            %li For donations after we launched Premium, you get one month of Insiders for every $25 donated. So if you donate $50 today, you'll have access for the next two months.
+
+          %p
+            If you think you meet these criteria but don't have access, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
+            If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
+
+        %details
+          %summary I've donated via Paypal or GitHub Sponsors but don't have access.
+          Sometimes the tech breaks down and we don't get webhook notifications from GitHub or Paypal.
+          If you have issues, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
+
+        %details
+          %summary What does Insiders cost?
+          Insiders isn't a product that you can buy - it's a rewards program for those who contribute, mentor or donate.
+          If you'd like access, you can start contributing, mentoring, or donate $499 or more to Exercism.
+
+        %details
+          %summary How do I earn reputation?
+          Reputation is earned by mentoring or contributing to Exercism.
+          You can also earn reputation by publishing your solutions, but that does not count towards Insiders access.
+          You can check what actions result in what reputation by consulting #{link_to 'our docs', 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'}.
+          Check your #{link_to 'journey page', journey_path} to see where you're earning reputation.
+

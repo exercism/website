@@ -24,7 +24,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
           <h3 className="--title">{track.title}</h3>
           {!track.isJoined && (
             <div className="items-center hidden md:flex">
-              {track.numConcepts > 5 ? (
+              {track.course ? (
                 <div className="--v3"> Learning Mode </div>
               ) : track.isNew ? (
                 <div className="--new">
@@ -50,13 +50,16 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
               : `${track.numCompletedExercises}/`}
             {track.numExercises} {pluralize('exercise', track.numExercises)}
           </li>
-          <li>
-            <Icon icon="concepts" alt="Number of concepts" />
-            {track.numCompletedConcepts == undefined
-              ? null
-              : `${track.numCompletedConcepts}/`}
-            {track.numConcepts} {pluralize('concept', track.numConcepts)}
-          </li>
+
+          {track.course && (
+            <li>
+              <Icon icon="concepts" alt="Number of concepts" />
+              {track.numCompletedConcepts == undefined
+                ? null
+                : `${track.numCompletedConcepts}/`}
+              {track.numConcepts} {pluralize('concept', track.numConcepts)}
+            </li>
+          )}
         </ul>
 
         {track.isJoined && (

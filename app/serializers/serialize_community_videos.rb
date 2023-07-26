@@ -16,6 +16,7 @@ class SerializeCommunityVideos
 
     def call
       {
+        id: video.id,
         title: video.title,
         thumbnail_url: video.thumbnail_url,
         embed_url: video.embed_url,

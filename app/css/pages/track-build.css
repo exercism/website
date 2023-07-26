@@ -1,6 +1,87 @@
 @import "../styles";
 
+@layer components {
+    .c-build-page-tooling-status {
+        @apply flex items-center border-2 border-black rounded-circle sm:mr-16 mr-0;
+        @apply bg-lightPurple;
+        height: 48px;
+        width: 48px;
+
+        img {
+            height: 20px;
+            width: 20px;
+            @apply mx-auto;
+        }
+    }
+
+    .c-build-page-usage-summary {
+        @apply flex items-center xs:gap-x-0 gap-x-4;
+        @apply label-large leading-150;
+        @apply cursor-pointer;
+        @apply c-build-page-before-icon;
+        .summary-chevron {
+            @apply transition-all;
+            @apply filter-textColor6;
+            height: 16px;
+            width: 16px;
+            @apply flex ml-auto;
+        }
+    }
+
+    .c-build-page-stats-container {
+        @apply flex flex-col;
+        @apply py-12 px-24;
+        @apply border-1 border-textColor6 rounded-8;
+    }
+
+    .c-build-page-stats-container + .c-react-component {
+        @apply mt-16;
+    }
+
+    .c-build-page-track-leader {
+        @apply flex md:flex-row flex-row-reverse text-h3 font-bold;
+        @apply md:text-center text-left items-center;
+        @apply justify-between md:justify-start;
+
+        &:before {
+            @apply block md:mr-16 mr-0;
+            height: 32px;
+            width: 32px;
+        }
+    }
+
+    .c-build-page-before-icon {
+        @apply flex items-center;
+        &:before {
+            height: 24px;
+            width: 24px;
+            @apply xs:block hidden mr-16;
+            @apply filter-textColor1;
+        }
+    }
+}
 #page-tracks-build {
+    .theme-light,
+    .theme-accessibility-dark {
+        --headerBackground: linear-gradient(
+                180deg,
+                rgba(251, 251, 255, 0) 79.36%,
+                #f4f4fd 100%
+            ),
+            linear-gradient(
+                180deg,
+                #fafaff 0%,
+                rgba(250, 250, 255, 0.677852) 24.48%,
+                rgba(250, 250, 255, 0) 77.6%,
+                #fafaff 100%
+            ),
+            url("bg-tracks-header@2x.jpg"), #fafaff;
+    }
+
+    .theme-dark {
+        --headerBackground: #191525;
+    }
+
     .--syllabus {
         &:before {
             content: url("icons/syllabus.svg");
@@ -45,77 +126,8 @@
         }
     }
 
-    @layer components {
-        .tooling-status {
-            @apply flex items-center border-2 border-black rounded-circle mr-16;
-            @apply bg-lightPurple;
-            height: 48px;
-            width: 48px;
-
-            img {
-                height: 20px;
-                width: 20px;
-                @apply mx-auto;
-            }
-        }
-
-        .usage-summary {
-            @apply flex items-center;
-            @apply label-large leading-150;
-            @apply cursor-pointer;
-            @apply before-icon;
-            .summary-chevron {
-                @apply transition-all;
-                @apply filter-textColor6;
-                height: 16px;
-                width: 16px;
-                @apply flex ml-auto;
-            }
-        }
-
-        .stats-container {
-            @apply flex flex-col;
-            @apply py-12 px-24;
-            @apply border-1 border-borderLight2 rounded-8;
-        }
-
-        .stats-container + .c-react-component {
-            @apply mt-16;
-        }
-
-        .track-leader {
-            @apply text-h3 font-bold flex text-center items-center;
-
-            &:before {
-                @apply block mr-16;
-                height: 32px;
-                width: 32px;
-            }
-        }
-
-        .usage-stats-header {
-            h4 {
-                @apply text-h4 mb-8;
-                @apply before-icon;
-                &:before {
-                    content: url("icons/graph-stats.svg");
-                }
-            }
-        }
-        .before-icon {
-            @apply flex items-center;
-            &:before {
-                height: 24px;
-                width: 24px;
-                @apply block mr-16;
-                @apply filter-textColor1;
-            }
-        }
-    }
-
     /* --------------------------------------------------------------------- */
 
-    @apply bg-white;
     .track-build-header {
         z-index: 0;
         width: 100%;
@@ -124,25 +136,14 @@
         top: 200px;
         @apply absolute;
 
-        background: linear-gradient(
-                180deg,
-                rgba(251, 251, 255, 0) 79.36%,
-                #f4f4fd 100%
-            ),
-            linear-gradient(
-                180deg,
-                #fafaff 0%,
-                rgba(250, 250, 255, 0.677852) 24.48%,
-                rgba(250, 250, 255, 0) 77.6%,
-                #fafaff 100%
-            ),
-            url("bg-tracks-header@2x.jpg"), #fafaff;
+        background: var(--headerBackground);
         background-size: cover;
     }
 
     .contributor-credit-block {
         @apply flex items-center justify-between mb-8;
-        @apply border-1 border-borderLight rounded-8 px-16 py-8;
+        @apply border-1 rounded-8 px-16 py-8;
+        border-color: var(--borderColorContributorCreditBlock);
 
         .contributor {
             @apply text-16 font-semibold leading-150 text-textColor1;
@@ -157,7 +158,7 @@
     }
 
     .report-stat {
-        @apply flex flex-col py-16 px-24 shadow-sm bg-white rounded-8;
+        @apply flex flex-col py-16 px-24 shadow-sm bg-backgroundColorA rounded-8;
         .stat-name {
             @apply flex items-center;
             @apply label-large;
@@ -181,16 +182,18 @@
         @apply label-large text-16 mb-8;
     }
     .tooling-status-group {
-        @apply flex flex-row;
+        @apply flex flex-row sm:flex-nowrap flex-wrap sm:gap-[unset] gap-12;
+        @apply sm:justify-start justify-center;
     }
 
     .track-status {
-        @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-white;
+        @apply rounded-16 px-32 py-24 shadow-lgZ1 text-textColor1 mb-32 bg-backgroundColorA;
     }
 
     [tooling-status="exemplar"] {
-        @apply tooling-status relative;
+        @apply c-build-page-tooling-status relative;
         @apply border-healthyGreen;
+        background: var(--backgroundColorBuildToolingStatus);
 
         img {
             @apply filter-healthyGreen;
@@ -207,24 +210,27 @@
     }
 
     [tooling-status="healthy"] {
-        @apply tooling-status;
+        @apply c-build-page-tooling-status;
         @apply border-healthyGreen;
+        background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-healthyGreen;
         }
     }
 
     [tooling-status="needs_attention"] {
-        @apply tooling-status;
+        @apply c-build-page-tooling-status;
         @apply border-warning;
+        background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-warning;
         }
     }
 
     [tooling-status="missing"] {
-        @apply tooling-status;
+        @apply c-build-page-tooling-status;
         @apply border-textColor6;
+        background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-textColor6;
         }
@@ -233,17 +239,22 @@
     /* TOOLING STATUS DETAILS */
 
     .track-team-group {
+        @apply bg-backgroundColorA;
         @apply mb-24;
         @apply flex flex-col shadow-base px-24 py-16 rounded-8;
 
         details {
             .record-row {
                 @apply first-of-type:mt-20 last-of-type:mb-6 mb-16;
+
+                &:has(.external-link) {
+                    @apply md:flex-row flex-col md:items-center items-start;
+                }
             }
             @apply select-none;
-            @apply stats-container;
+            @apply c-build-page-stats-container;
             summary {
-                @apply usage-summary;
+                @apply c-build-page-usage-summary;
             }
         }
 
@@ -258,7 +269,7 @@
 
     .track-header {
         h3 {
-            @apply track-leader;
+            @apply c-build-page-track-leader;
         }
         p {
             @apply text-16 text-textColor5 leading-150;
@@ -282,6 +293,15 @@
         }
     }
 
+    .usage-stats-header {
+        h4 {
+            @apply text-h4 mb-8;
+            @apply c-build-page-before-icon;
+            &:before {
+                content: url("icons/graph-stats.svg");
+            }
+        }
+    }
     .test-runner .record-value {
         @apply w-1-2;
     }
@@ -291,24 +311,33 @@
             @apply mb-0;
         }
         .record-element {
-            @apply bg-white items-center;
+            @apply bg-backgroundColorA items-center;
         }
     }
 
     .record-value {
         strong {
-            @apply mt-8 xl:mt-0;
+            @apply mt-0 xs:mt-8 xl:mt-0;
         }
     }
 
     .record-row {
-        @apply flex justify-between lg:items-center;
-        @apply lg:flex-row flex-col;
-        &:has(.external-link) {
-            @apply flex-row;
+        &.sticky {
+            @apply md:flex hidden;
+            @apply lg:flex-row flex-col lg:items-center items-start;
         }
+        @apply flex justify-between md:items-center;
+        @apply md:flex-row flex-col;
         @apply first-of-type:mt-4 last-of-type:mb-4 mb-8;
+
+        &:has([data-record-label]) {
+            @apply lg:flex-row flex-col lg:items-center md:items-start;
+            &:nth-child(3) {
+                @apply md:mt-0 mt-16;
+            }
+        }
         .record-name {
+            @apply md:mb-0 mb-8;
             @apply label-large text-16;
             @apply flex items-center;
             .c-concept-icon,
@@ -323,10 +352,21 @@
         }
 
         .record-value {
-            @apply text-label-timestamp flex font-semibold;
+            @apply text-label-timestamp flex md:flex-row flex-col font-semibold;
             .record-element {
-                @apply grid w-[128px] gap-2;
-                @apply text-14 font-normal;
+                &[data-record-label="Started"] {
+                    @apply flex-row xs:justify-between justify-start;
+                }
+                @apply md:grid flex xs:flex-row flex-col;
+                @apply md:justify-start justify-between md:w-[128px] md:gap-2;
+                @apply text-14 font-normal md:items-center items-baseline;
+                &[data-record-label] {
+                    &:before {
+                        @apply block md:hidden;
+                        @apply mr-8;
+                        content: attr(data-record-label) ":";
+                    }
+                }
                 strong {
                     @apply font-semibold;
                 }
@@ -343,6 +383,7 @@
 
     .highlight-text {
         @apply inline relative z-1;
+        @apply text-textColor1NoDark;
 
         background-color: transparent;
         &:before {

@@ -4,8 +4,8 @@ class SerializeMentorSessionRequestTest < ActiveSupport::TestCase
   test "serializes" do
     user = create :user
     solution = create :concept_solution
-    request = create :mentor_request, solution: solution
-    create :iteration, solution: solution
+    request = create(:mentor_request, solution:)
+    create(:iteration, solution:)
 
     expected = {
       uuid: request.uuid,

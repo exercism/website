@@ -1,4 +1,4 @@
-- content_for :meta_title, "#{@user.handle}'s profile on Exercism"
+- content_for :meta_title, "#{sanitize(@user.handle)}'s profile on Exercism".html_safe
 - content_for :meta_description, "Explore what #{@user.handle} has done on Exercism - their solutions, contributions and testimonials."
 
 - if params[:first_time]
@@ -15,7 +15,7 @@
         %header.section-header
           = graphical_icon :'community-solutions', hex: true
           %h2 Published Solutions
-          .total-count= @num_total_solutions
+          .total-count= @user.num_published_solutions
           %hr.c-divider
 
         .solutions

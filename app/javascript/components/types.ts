@@ -1,5 +1,6 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
+import { Flair } from './common/HandleWithFlair'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 import { Scratchpad } from './mentoring/Session'
 
@@ -23,6 +24,14 @@ export type ExerciseStatus =
   | 'started'
   | 'available'
   | 'locked'
+
+export type InsidersStatus =
+  | 'unset'
+  | 'ineligible'
+  | 'eligible'
+  | 'eligible_lifetime'
+  | 'active'
+  | 'active_lifetime'
 
 export type ExerciseAuthorship = {
   exercise: Exercise
@@ -58,6 +67,7 @@ export type Testimonial = {
   student: {
     avatarUrl: string
     handle: string
+    flair: Flair
   }
   exercise: {
     title: string
@@ -82,6 +92,7 @@ type UserLinks = {
 }
 export type User = {
   avatarUrl: string
+  flair: Flair
   name?: string
   handle: string
   hasAvatar?: boolean
@@ -101,6 +112,7 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
+  flair: string
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
@@ -148,7 +160,7 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
-export type AutomationStatus = 'with_feedback' | 'without_feedback'
+export type AutomationStatus = 'with_feedback' | 'without_feedback' | 'admin'
 
 export type CommunitySolution = {
   uuid: string
@@ -164,6 +176,7 @@ export type CommunitySolution = {
   author: {
     handle: string
     avatarUrl: string
+    flair: string
   }
   exercise: {
     title: string
@@ -246,6 +259,7 @@ export type MentorSessionExercise = {
 }
 
 export type StudentTrack = {
+  course: boolean
   slug: string
   webUrl: string
   iconUrl: string
@@ -310,14 +324,16 @@ export type Iteration = {
   }
 }
 
+type FeedbackContributor = Pick<
+  User,
+  'name' | 'avatarUrl' | 'reputation' | 'flair' | 'handle'
+> & {
+  profileUrl: string
+}
 export type RepresenterFeedback = {
   html: string
-  author: {
-    name: string
-    reputation: number
-    avatarUrl: string
-    profileUrl: string
-  }
+  author: FeedbackContributor
+  editor?: FeedbackContributor
 }
 
 export type AnalyzerFeedback = {
@@ -394,10 +410,12 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
+    flair: string
   }
   mentor: {
     avatarUrl: string
     handle: string
+    flair: string
   }
   track: {
     title: string
@@ -459,9 +477,11 @@ export type Representation = {
   draftFeedbackMarkdown: string | null
   feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
+  feedbackAddedAt: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  feedbackAuthor: { handle: string }
+  feedbackEditor: { handle: string }
   links: { edit?: string; update?: string; self?: string }
 }
 
@@ -507,6 +527,7 @@ export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
+  flair: Flair
   activity: string
   reputation: string
   links: {
@@ -572,7 +593,7 @@ export type SiteUpdateIconType =
 export type SiteUpdateExpandedInfo = {
   author: Contributor
   title: string
-  description: string
+  descriptionHtml: string
 }
 
 export type SiteUpdate = {
@@ -721,6 +742,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
+    flair: string
     reputation: string
   }
   updatedAt: string
@@ -737,6 +759,7 @@ export type Notification = {
   url: string
   imageType: NotificationImageType
   imageUrl: string
+  iconFilter: string
   text: string
   createdAt: string
   isRead: boolean
@@ -821,6 +844,7 @@ export type CommunityVideoLinks = {
 }
 
 export type CommunityVideoType = {
+  id: number
   author?: CommunityVideoAuthor
   // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
   url?: string

@@ -10,14 +10,14 @@ module Flows
 
       test "user unpublishes a solution" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         author = create :user, handle: "author"
-        create :user_track, user: author, track: track
-        solution = create :concept_solution, :completed, :published, user: author, exercise: exercise
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, submission: submission
-        submission = create :submission, solution: solution
-        iteration_2 = create :iteration, idx: 2, submission: submission
+        create(:user_track, user: author, track:)
+        solution = create(:concept_solution, :completed, :published, user: author, exercise:)
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, submission:)
+        submission = create(:submission, solution:)
+        iteration_2 = create(:iteration, idx: 2, submission:)
         solution.update!(published_iteration: iteration_2)
 
         use_capybara_host do

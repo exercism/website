@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks'
+import { Request, usePaginatedRequestQuery, useList } from '@/hooks'
 import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
@@ -62,7 +61,7 @@ export const TestimonialsList = ({
             </div>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />

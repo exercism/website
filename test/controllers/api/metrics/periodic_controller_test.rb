@@ -7,10 +7,10 @@ class API::Metrics::PeriodicControllerTest < API::BaseTestCase
     setup_user
 
     track = create :track, slug: 'ruby'
-    create :metric_period_day, metric_type: Metrics::OpenIssueMetric.name, day: 2, count: 13, track: track
+    create(:metric_period_day, metric_type: Metrics::OpenIssueMetric.name, day: 2, count: 13, track:)
     create :metric_period_day, metric_type: Metrics::RequestMentoringMetric.name, day: 11, count: 9, track: nil
-    create :metric_period_day, metric_type: Metrics::CompleteSolutionMetric.name, day: 22, count: 55, track: track
-    create :metric_period_minute, metric_type: Metrics::RequestMentoringMetric.name, minute: 14, count: 2, track: track
+    create(:metric_period_day, metric_type: Metrics::CompleteSolutionMetric.name, day: 22, count: 55, track:)
+    create(:metric_period_minute, metric_type: Metrics::RequestMentoringMetric.name, minute: 14, count: 2, track:)
     create :metric_period_day, metric_type: Metrics::StartSolutionMetric.name, day: 28, count: 0, track: nil
 
     get api_metrics_periodic_url(

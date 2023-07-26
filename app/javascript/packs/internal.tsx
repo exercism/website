@@ -88,6 +88,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 import { AutomationProps } from '../components/mentoring/automation/Representation'
+import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -100,11 +101,16 @@ initReact({
     <MarkdownEditor contextId={data.context_id} />
   ),
 
-  'modals-community-launch-modal': (data: any) => (
-    <Modals.CommunityLaunchModal
-      endpoint={data.endpoint}
-      jonathanImageUrl={data.jonathan_image_url}
-    />
+  'modals-welcome-modal': (data: any) => (
+    <Modals.WelcomeModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-premium-modal': (data: any) => (
+    <Modals.WelcomeToPremiumModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-insiders-modal': (data: any) => (
+    <Modals.WelcomeToInsidersModal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
@@ -162,6 +168,11 @@ initReact({
   ),
   'mentoring-representations-with-feedback': (data: any) => (
     <Mentoring.RepresentationsWithFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
+  'mentoring-representations-admin': (data: any) => (
+    <Mentoring.RepresentationsAdmin
       data={camelizeKeysAs<AutomationProps>(data)}
     />
   ),
@@ -262,6 +273,14 @@ initReact({
         data.preferences
       )}
       links={data.links}
+    />
+  ),
+  'settings-theme-preference-form': (data: any) => (
+    <Settings.ThemePreferenceForm
+      defaultThemePreference={data.default_theme_preference}
+      isPremium={data.is_premium}
+      insidersStatus={data.insiders_status}
+      links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
     />
   ),
   'settings-communication-preferences-form': (data: any) => (

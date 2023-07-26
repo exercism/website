@@ -13,5 +13,10 @@
             width: 64px;
             @apply mb-20;
         }
+
+        .badge-container {
+            @apply flex items-center rounded-5 shadow-xsZ1 py-6 px-24 mb-32 border-1 border-lightGold;
+            background: var(--backgroundColorCAlert);
+        }
     }
 }

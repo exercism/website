@@ -11,7 +11,7 @@ module Flows
       user = create :user
       external_url = "https://github.com/exercism/ruby/pulls/120"
       create :user_code_review_reputation_token,
-        user: user,
+        user:,
         seen: false,
         params: {
           external_url:,
@@ -21,7 +21,7 @@ module Flows
           pr_title: "I did something"
         },
         created_at: Time.current - 7.months
-      create :user_dismissed_introducer, slug: "community-launch-modal", user: user
+      create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -39,7 +39,7 @@ module Flows
     test "mark token as seen on hover" do
       user = create :user
       create :user_code_review_reputation_token,
-        user: user,
+        user:,
         created_at: 2.days.ago,
         value: 50,
         seen: false,
@@ -51,7 +51,7 @@ module Flows
           pr_title: "Something else",
           merged_at: 3.days.ago
         }
-      create :user_dismissed_introducer, slug: "community-launch-modal", user: user
+      create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -66,7 +66,7 @@ module Flows
     test "mark token as seen on focus" do
       user = create :user
       create :user_code_review_reputation_token,
-        user: user,
+        user:,
         created_at: 2.days.ago,
         value: 50,
         seen: false,
@@ -78,7 +78,7 @@ module Flows
           pr_title: "Something else",
           merged_at: 3.days.ago
         }
-      create :user_dismissed_introducer, slug: "community-launch-modal", user: user
+      create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -93,14 +93,14 @@ module Flows
 
     test "refetches on websocket notification" do
       user = create :user
-      create :user_dismissed_introducer, slug: "community-launch-modal", user: user
+      create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
       use_capybara_host do
         sign_in!(user)
         visit dashboard_path
         wait_for_websockets
         create :user_code_review_reputation_token,
-          user: user,
+          user:,
           created_at: 2.days.ago,
           params: {
             repo: "ruby/pulls",

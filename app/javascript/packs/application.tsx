@@ -14,6 +14,9 @@ const DonationsSubscriptionForm = lazy(
   () => import('../components/donations/SubscriptionForm')
 )
 
+const PremiumSubscriptionForm = lazy(
+  () => import('../components/donations/PremiumSubscriptionForm')
+)
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
@@ -29,8 +32,8 @@ const CLIWalkthroughButton = lazy(
 const ImpactStat = lazy(() => import('../components/impact/stat'))
 const ImpactMap = lazy(() => import('../components/impact/map'))
 const ImpactChart = lazy(() => import('../components/impact/Chart'))
-const ImpactTestimonials = lazy(
-  () => import('../components/impact/Testimonials')
+const InsidersStatus = lazy(
+  () => import('../components/insiders/InsidersStatus')
 )
 
 import StudentTracksList from '../components/student/TracksList'
@@ -71,7 +74,7 @@ import { Links as CommentsListLinks } from '../components/community-solutions/Co
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
-function camelizeKeysAs<T>(object: any): T {
+export function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
 import currency from 'currency.js'
@@ -113,8 +116,16 @@ export const mappings = {
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
+        {...data}
         amount={currency(data.amount_in_cents, { fromCents: true })}
-        links={data.links}
+      />
+    </Suspense>
+  ),
+  'premium-subscription-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <PremiumSubscriptionForm
+        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
+        amount={currency(data.amount_in_cents, { fromCents: true })}
       />
     </Suspense>
   ),
@@ -318,8 +329,15 @@ export const mappings = {
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
 
-  'common-copy-to-clipboard-button': (data: any) => (
+  'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
+  ),
+  'common-theme-toggle-button': (
+    data: Omit<ThemeToggleButtonProps, 'defaultTheme'> & {
+      default_theme: string
+    }
+  ): JSX.Element => (
+    <Common.ThemeToggleButton {...data} defaultTheme={data.default_theme} />
   ),
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
@@ -328,6 +346,7 @@ export const mappings = {
   'profile-testimonials-summary': (data: any) => (
     <Profile.TestimonialsSummary
       handle={data.handle}
+      flair={data.flair}
       numTestimonials={data.num_testimonials}
       numSolutionsMentored={data.num_solutions_mentored}
       numStudentsHelped={data.num_students_helped}
@@ -426,11 +445,34 @@ export const mappings = {
       <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
-  'impact-testimonials': (data: any) => (
+  'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <ImpactTestimonials data={data} />
+      <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
+  'premium-price-option': (data: PriceOptionProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
+    </Suspense>
+  ),
+  'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PaypalStatus {...camelizeKeysAs<PaypalStatusProps>(data)} />
+    </Suspense>
+  ),
+
+  'perks-external-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksExternalModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
+  'perks-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -460,19 +502,32 @@ export const mappings = {
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-document.addEventListener(
-  'turbo:load',
-  () => (document.getElementById('site-footer').style.display = 'block')
-)
-
 import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip.js'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
+import { InsidersStatusData } from '../components/insiders/InsidersStatus'
+import {
+  handleNavbarFocus,
+  scrollIntoView,
+  showSiteFooterOnTurboLoad,
+} from '@/utils'
+import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
+import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
+import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
+import {
+  PaypalStatus,
+  PaypalStatusProps,
+} from '@/components/premium/PaypalStatus'
+import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
 })
+
+showSiteFooterOnTurboLoad()
+handleNavbarFocus()
+scrollIntoView()
 
 // object.entries polyfill
 if (!Object.entries) {

@@ -44,7 +44,7 @@ export const FinishButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="btn-keyboard-shortcut finish-button"
+        className="btn-xs btn-enhanced finish-button ml-20"
         onClick={() => {
           setOpen(true)
         }}

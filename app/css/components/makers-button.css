@@ -6,12 +6,12 @@
 
     & .stats {
         @apply ml-16;
-        @apply flex flex-col items-start;
+        @apply flex flex-col items-start gap-8;
         & .authors {
             @apply font-semibold;
         }
         & .contributors {
-            @apply font-medium mt-8;
+            @apply font-medium;
         }
     }
 }

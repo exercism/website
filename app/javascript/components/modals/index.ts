@@ -1,3 +1,5 @@
-export { CommunityLaunchModal } from './CommunityLaunchModal'
+export { WelcomeModal } from './WelcomeModal'
+export { WelcomeToPremiumModal } from './WelcomeToPremiumModal'
+export { WelcomeToInsidersModal } from './WelcomeToInsidersModal'
 export { Modal } from './Modal'
 export { UploadVideoModal } from './upload-video'

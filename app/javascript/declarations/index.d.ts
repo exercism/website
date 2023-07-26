@@ -67,3 +67,24 @@ declare module 'highlightjs-cobol' {
 
   export default setup
 }
+
+declare module 'highlightjs-bqn' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module 'highlightjs-zig' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module '@gleam-lang/highlight.js-gleam' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}

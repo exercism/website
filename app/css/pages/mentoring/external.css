@@ -18,7 +18,7 @@
             }
         }
 
-        & .c-icon {
+        .c-icon:not(.c-primary-reputation .c-icon, .info-link .c-icon) {
             width: 160px;
             height: 160px;
             @apply mb-20;
@@ -32,7 +32,7 @@
             @apply text-18 leading-170;
 
             & a {
-                @apply text-anotherPurple font-medium;
+                @apply text-adaptivePurple font-medium;
             }
         }
         & p.unsure {
@@ -40,11 +40,11 @@
             @apply mt-24 mb-40;
 
             @apply py-8 px-24 rounded-8;
-            @apply bg-veryLightBlue;
+            @apply bg-backgroundColorI;
             @apply font-medium;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
 
@@ -70,7 +70,7 @@
                 width: 50px;
 
                 @apply mt-24;
-                @apply border-b-3 border-purple;
+                @apply border-b-3 border-adaptivePurple;
             }
         }
         & .reasons {
@@ -85,6 +85,7 @@
                     height: 64px;
                     width: 64px;
                     @apply mb-24;
+                    @apply filter-textColor1;
                 }
 
                 & h3 {

@@ -4,7 +4,7 @@ class AssembleReputationTokens
   initialize_with :user, :params
 
   def self.keys
-    %w[criteria category order per_page page]
+    %i[criteria category order per_page page for_header]
   end
 
   def call
@@ -30,8 +30,33 @@ class AssembleReputationTokens
     )
   end
 
+  private
   memoize
   def tokens
+    params[:for_header] ? header_tokens : page_tokens
+  end
+
+  # This is much more efficient than the page_tokens version below
+  # We want to order by unseed then seen but this is slow.
+  # So we create a Set, populate it with the first five unseed,
+  # then fill with the most recent first 5 (regardless of status).
+  # Then we just look at the first 5 things in the set.
+  def header_tokens
+    ids = Set.new(user.reputation_tokens.unseen.limit(5).pluck(:id))
+
+    # TODO: This needs a desc index adding
+    ids += user.reputation_tokens.seen.limit(10).order(id: :desc).pluck(:id) unless ids.size == 5
+
+    ids = ids.to_a # Sets don't have `.index`
+
+    tokens = User::ReputationToken.where(id: ids).
+      sort_by { |rt| ids.index(rt.id) }[0, 5]
+
+    Kaminari.paginate_array(tokens, total_count: tokens.size).page(1).per(5)
+  end
+
+  # This needs a descending index adding and performance testing against a major user
+  def page_tokens
     User::ReputationToken::Search.(
       user,
       criteria: params[:criteria],

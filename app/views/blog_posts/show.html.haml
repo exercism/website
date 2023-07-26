@@ -24,7 +24,7 @@
 
       .p-16.md:py-32.md:px-40.flex.flex-col
         - if @post.video?
-          .video-container
+          .c-youtube-container.mb-32
             %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@post.youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
         .c-textual-content.--large

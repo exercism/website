@@ -24,7 +24,8 @@ module ViewComponents
                   graphical_icon('overview') +
                   tag.span("Overview", "data-text": "Overview"),
                   Exercism::Routes.track_exercise_path(track, exercise),
-                  class: tab_class(:overview)
+                  class: tab_class(:overview),
+                  data: tab_scroll_into_view(:overview)
                 ),
 
                 (iterations_tab if show_iterations_tab?),
@@ -52,7 +53,8 @@ module ViewComponents
         link_to(
           safe_join(parts),
           Exercism::Routes.track_exercise_iterations_path(track, exercise),
-          class: tab_class(:iterations)
+          class: tab_class(:iterations),
+          data: tab_scroll_into_view(:iterations)
         )
       end
 
@@ -89,7 +91,7 @@ module ViewComponents
       def mentoring_tab
         parts = []
         parts << graphical_icon('mentoring')
-        parts << tag.span("Mentoring", "data-text": "Mentoring")
+        parts << tag.span("Code Review", "data-text": "Mentoring")
 
         if solution
           count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
@@ -114,7 +116,7 @@ module ViewComponents
         css_class = tab_class(class_name, locked:)
 
         locked ? tag.div(html, class: css_class, 'aria-label': 'This tab is locked', **locked_attrs) :
-          link_to(html, href, class: css_class)
+          link_to(html, href, class: css_class, data: tab_scroll_into_view(class_name))
       end
 
       def locked_tab_tooltip_attrs(endpoint, render_react_components: false)
@@ -129,6 +131,10 @@ module ViewComponents
 
       def tab_class(tab, locked: false)
         "c-tab #{'selected' if tab == selected_tab} #{'locked' if locked}"
+      end
+
+      def tab_scroll_into_view(tab)
+        { scroll_into_view: true } if tab == selected_tab
       end
 
       def guard!

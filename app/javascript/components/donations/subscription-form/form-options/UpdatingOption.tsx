@@ -1,15 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { typecheck } from '../../../../utils/typecheck'
-import { redirectTo } from '../../../../utils/redirect-to'
-import { FormButton } from '../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 import currency from 'currency.js'
-
-type Links = {
-  update: string
-}
+import { sendRequest, typecheck, redirectTo } from '@/utils'
+import { FormButton } from '@/components/common'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 type APIResponse = {
   links: {
@@ -21,23 +15,23 @@ const DEFAULT_ERROR = new Error('Unable to update subscription')
 
 export const UpdatingOption = ({
   amount: currentAmount,
-  links,
+  updateLink,
   onClose,
 }: {
   amount: currency
-  links: Links
+  updateLink: string
   onClose: () => void
 }): JSX.Element => {
   const [amount, setAmount] = useState<currency | ''>(currentAmount)
 
   const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+    async () => {
       if (amount === '') {
         throw 'cant change to empty amount'
       }
 
       const { fetch } = sendRequest({
-        endpoint: links.update,
+        endpoint: updateLink,
         method: 'PATCH',
         body: JSON.stringify({ amount_in_cents: amount.intValue }),
       })

@@ -9,9 +9,9 @@ module BodyClassConcern
     classes << "namespace-#{namespace_name}"
     classes << "controller-#{controller_name || 'none'}"
     classes << "action-#{action_name}"
-    classes << "theme-light"
+    classes << theme
     classes << (user_signed_in? ? "user-signed_in" : "user-signed_out")
-    classes.join(" ")
+    classes.compact.join(" ")
   end
 
   memoize
@@ -22,6 +22,10 @@ module BodyClassConcern
 
   def landing_page?
     namespace_name.nil? && controller_name == "pages" && action_name == "index"
+  end
+
+  def theme
+    "theme-#{current_user&.preferences&.theme || 'light'}"
   end
 
   included do

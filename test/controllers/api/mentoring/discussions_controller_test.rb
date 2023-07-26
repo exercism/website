@@ -148,10 +148,10 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
 
-    solution = create :practice_solution, user: user
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
-    mentor_request = create :mentor_request, solution: solution
+    solution = create(:practice_solution, user:)
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    mentor_request = create(:mentor_request, solution:)
 
     post api_mentoring_discussions_path(mentor_request_uuid: mentor_request), headers: @headers, as: :json
     assert_response :bad_request
@@ -167,9 +167,9 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
     solution = create :concept_solution
-    create :iteration, solution: solution, idx: 1
-    it_2 = create :iteration, solution: solution, idx: 2
-    mentor_request = create :mentor_request, solution: solution
+    create :iteration, solution:, idx: 1
+    it_2 = create :iteration, solution:, idx: 2
+    mentor_request = create(:mentor_request, solution:)
 
     content = "foo to the baaar"
 
@@ -229,7 +229,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
   test "mark_as_nothing_to_do should return 403 when the user is not the mentor" do
     setup_user
     solution = create :concept_solution, user: @current_user
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
 
     patch mark_as_nothing_to_do_api_mentoring_discussion_path(discussion), headers: @headers, as: :json
 

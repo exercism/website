@@ -68,6 +68,7 @@ img {
         & > .c-icon {
             height: 14px;
             width: 14px;
+            @apply filter-textColor6;
         }
     }
     .btn-small-secondary {
@@ -79,7 +80,11 @@ img {
 
     .btn-link-legacy {
         @apply btn-small;
-        @apply border-0 text-lightBlue p-0;
+        @apply border-0  p-0;
+        color: var(--c-prominent-link-color);
+        .c-icon {
+            filter: var(--c-prominent-link-icon-filter);
+        }
     }
 
     a.text-a-subtle,
@@ -92,8 +97,7 @@ img {
         @apply relative;
     }
 
-    /* this is pretty general purpose. has many duplicates, but I may not want to redo this again :) */
-    .count-bubble {
+    .c-count-bubble {
         @apply border-1 border-borderLight rounded-100 px-12;
         @apply text-textColor6 text-13 leading-200 font-medium;
     }

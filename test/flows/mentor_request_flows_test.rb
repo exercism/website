@@ -4,11 +4,11 @@ class MentorRequestFlowsTest < ActiveSupport::TestCase
   test "request and get a mentor" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
-    solution = create :practice_solution, user: user, track: track
-    submission = create :submission, solution: solution
-    iteration = create :iteration, submission: submission
+    solution = create(:practice_solution, user:, track:)
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, submission:)
 
     mentor = create :user
 

@@ -9,9 +9,9 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     exercises = build_list(:practice_exercise, 20, :random_slug, track:)
 
     exercises.product(users).each do |(exercise, user)|
-      solution = create :practice_solution, user: user, exercise: exercise
-      submission = create :submission, solution: solution
-      create :submission_file, submission: submission, content: "module LogLineParser"
+      solution = create(:practice_solution, user:, exercise:)
+      submission = create(:submission, solution:)
+      create :submission_file, submission:, content: "module LogLineParser"
       create :iteration, submission:
     end
 
@@ -28,19 +28,19 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
   test "indexes solution using correct information" do
     user = create :user, id: 7, handle: 'jane'
     track = create :track, id: 11, slug: 'fsharp', title: 'F#'
-    exercise = create :practice_exercise, id: 13, slug: 'bob', title: 'Bob', track: track
+    exercise = create(:practice_exercise, id: 13, slug: 'bob', title: 'Bob', track:)
     solution = create :practice_solution,
       id: 17,
       num_stars: 3,
       num_loc: 55,
       num_views: 20,
       num_comments: 2,
-      user: user,
-      exercise: exercise,
+      user:,
+      exercise:,
       published_iteration_head_tests_status: :not_queued
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, content: "module LogLineParser"
-    iteration = create :iteration, submission: submission
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, content: "module LogLineParser"
+    iteration = create(:iteration, submission:)
 
     solution.update!(
       published_iteration: iteration,

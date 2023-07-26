@@ -12,9 +12,9 @@ module Flows
         Exercism.stubs(:share_platforms).returns([:twitter])
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)

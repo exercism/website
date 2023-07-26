@@ -1,19 +1,29 @@
 class User < ApplicationRecord
-  include User::Roles
   extend Mandate::Memoize
 
   SYSTEM_USER_ID = 1
   GHOST_USER_ID = 720_036
+  IHID_USER_ID = 1530
+  MIN_REP_TO_MENTOR = 20
+
+  enum flair: {
+    founder: 0,
+    staff: 1,
+    insider: 2,
+    lifetime_insider: 3,
+    premium: 4
+  }, _prefix: "show", _suffix: "flair"
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable,
     :confirmable, :validatable,
-    :omniauthable, omniauth_providers: [:github]
+    :omniauthable, omniauth_providers: %i[github discord]
 
   has_many :auth_tokens, dependent: :destroy
 
+  has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
   has_one :profile, dependent: :destroy
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
@@ -103,8 +113,8 @@ class User < ApplicationRecord
 
   has_many :dismissed_introducers, dependent: :destroy
 
-  has_many :donation_subscriptions, class_name: "Donations::Subscription", dependent: :nullify
-  has_many :donation_payments, class_name: "Donations::Payment", dependent: :nullify
+  has_many :subscriptions, class_name: "Payments::Subscription", dependent: :nullify
+  has_many :payments, class_name: "Payments::Payment", dependent: :nullify
 
   has_many :problem_reports, dependent: :destroy
 
@@ -116,7 +126,13 @@ class User < ApplicationRecord
     inverse_of: :user,
     dependent: :destroy
 
+  has_many :challenges, dependent: :destroy
+
   scope :random, -> { order('RAND()') }
+
+  scope :with_data, -> { joins(:data) }
+  scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
+  scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
 
   # TODO: Validate presence of name
 
@@ -124,6 +140,10 @@ class User < ApplicationRecord
 
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_fill: [200, 200]
+  end
+
+  after_initialize do
+    build_data if new_record?
   end
 
   before_create do
@@ -135,6 +155,30 @@ class User < ApplicationRecord
     create_communication_preferences
 
     after_confirmation if confirmed?
+  end
+
+  after_update_commit do
+    reverify_email! if previous_changes.key?('email')
+  end
+
+  # If we don't know about this record, maybe the
+  # user's data record has it instead?
+  def method_missing(name, *args)
+    super
+  rescue NameError
+    raise unless data.respond_to?(name)
+
+    data.send(name, *args)
+  end
+
+  def respond_to_missing?(name, *args)
+    super || data.respond_to?(name)
+  end
+
+  # Don't rely on respond_to_missing? which n+1s a data record
+  # https://tenderlovemaking.com/2011/06/28/til-its-ok-to-return-nil-from-to_ary.html
+  def to_ary
+    nil
   end
 
   def after_confirmation
@@ -176,14 +220,18 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
-  def active_subscription = donation_subscriptions.active.last
+  memoize
+  def current_active_premium_subscription = subscriptions.premium.active.last
 
   memoize
-  def active_donation_subscription_amount_in_cents = donation_subscriptions.active.last&.amount_in_cents
+  def current_active_donation_subscription = subscriptions.donation.active.last
+
+  memoize
+  def current_active_donation_subscription_amount_in_cents = current_active_donation_subscription&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars
-    donation_payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
+    payments.donation.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize
@@ -238,13 +286,7 @@ class User < ApplicationRecord
     solution.viewable_by?(self)
   end
 
-  def onboarded?
-    accepted_privacy_policy_at.present? &&
-      accepted_terms_at.present?
-  end
-
-  def has_avatar_url? = avatar_url.present? || avatar.attached?
-
+  memoize
   def avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
 
@@ -253,6 +295,14 @@ class User < ApplicationRecord
 
   def has_avatar?
     avatar.attached? || self[:avatar_url].present?
+  end
+
+  def may_receive_emails?
+    return false if disabled?
+    return false if email.ends_with?("users.noreply.github.com")
+    return false if email_status_invalid?
+
+    true
   end
 
   # TODO
@@ -275,8 +325,14 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
+  def reverify_email!
+    email_status_unverified!
+    User::VerifyEmail.defer(self)
+  end
+
+  memoize
   def profile? = profile.present?
+  def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at
@@ -284,4 +340,6 @@ class User < ApplicationRecord
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
+
+  def flair = super&.to_sym
 end

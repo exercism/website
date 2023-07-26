@@ -1,14 +1,10 @@
-module Github
-  class Issue
-    class Destroy
-      include Mandate
+class Github::Issue::Destroy
+  include Mandate
 
-      initialize_with :node_id
+  initialize_with :node_id
 
-      def call
-        issue = ::Github::Issue.find_by!(node_id:)
-        issue.destroy
-      end
-    end
+  def call
+    issue = ::Github::Issue.find_by!(node_id:)
+    issue.destroy
   end
 end

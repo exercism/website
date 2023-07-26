@@ -37,7 +37,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
     create :user_code_contribution_reputation_token,
-      user: user,
+      user:,
       level: :medium,
       params: {
         repo:,
@@ -278,7 +278,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['x:rep/small']
     user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token,
-      user: user,
+      user:,
       level: :medium,
       params: {
         repo:,
@@ -313,7 +313,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = ['x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token,
-      user: user, level: :small, params: { repo:, pr_node_id: node_id, merged_at: }
+      user:, level: :small, params: { repo:, pr_node_id: node_id, merged_at: }
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action:, author_username: author, url:, html_url:, labels:,
@@ -338,7 +338,7 @@ class User::ReputationToken::AwardForPullRequestAuthorTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
     reputation_token = create :user_code_contribution_reputation_token,
-      user: user, level: :small, params: { repo:, pr_node_id: node_id, merged_at: }
+      user:, level: :small, params: { repo:, pr_node_id: node_id, merged_at: }
 
     User::ReputationToken::AwardForPullRequestAuthor.(
       action:, author_username: author, url:, html_url:, labels:,

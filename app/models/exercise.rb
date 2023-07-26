@@ -81,7 +81,7 @@ class Exercise < ApplicationRecord
   delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
     :approaches_introduction, :approaches_introduction_last_modified_at, :approaches_introduction_exists?,
     :approaches_introduction_edit_url, to: :git
-  delegate :dir, to: :git, prefix: true
+  delegate :dir, :no_important_files_changed?, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
   before_create do
@@ -94,16 +94,23 @@ class Exercise < ApplicationRecord
   end
 
   after_update_commit do
-    if saved_changes.include?(:git_important_files_hash)
-      Exercise::MarkSolutionsAsOutOfDateInIndex.defer(self)
-      Exercise::QueueSolutionHeadTestRuns.defer(self)
+    if saved_changes.include?('git_important_files_hash')
+      Exercise::ProcessGitImportantFilesChanged.(
+        self,
+        previous_changes['git_important_files_hash'][0],
+        (previous_changes.dig('git_sha', 0) || git_sha),
+        (previous_changes.dig('slug', 0) || slug)
+      )
     end
 
     Submission::Representation::TriggerRerunsForExercise.defer(self) if saved_changes.key?("representer_version")
   end
 
   after_commit do
-    track.recache_num_exercises! if (saved_changes.keys & %w[id status]).present?
+    if (saved_changes.keys & %w[id status]).present?
+      Track::UpdateNumExercises.(track)
+      Track::UpdateNumConcepts.(track)
+    end
   end
 
   def status = super.to_sym

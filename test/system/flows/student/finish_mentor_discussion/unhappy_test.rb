@@ -10,16 +10,16 @@ module Flows
         test "student is unhappy with mentor discussion and chooses to report" do
           user = create :user
           track = create :track
-          create :user_track, user: user, track: track
-          exercise = create :practice_exercise, track: track
-          solution = create :practice_solution, exercise: exercise, user: user
-          submission = create :submission, solution: solution,
+          create(:user_track, user:, track:)
+          exercise = create(:practice_exercise, track:)
+          solution = create(:practice_solution, exercise:, user:)
+          submission = create :submission, solution:,
             tests_status: :passed,
             representation_status: :generated,
             analysis_status: :completed
-          create :iteration, idx: 1, solution: solution, submission: submission
-          request = create :mentor_request, solution: solution
-          discussion = create :mentor_discussion, solution: solution, request: request
+          create(:iteration, idx: 1, solution:, submission:)
+          request = create(:mentor_request, solution:)
+          discussion = create(:mentor_discussion, solution:, request:)
 
           use_capybara_host do
             sign_in!(user)
@@ -35,7 +35,7 @@ module Flows
             click_on "Go back to your solution"
 
             assert_equal :finished, discussion.reload.status
-            assert_text "View mentoring request"
+            assert_text "View request"
           end
         end
       end

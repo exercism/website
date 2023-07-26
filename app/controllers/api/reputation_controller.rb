@@ -3,12 +3,12 @@ module API
     skip_before_action :ensure_onboarded!, only: [:index]
 
     def index
-      render json: AssembleReputationTokens.(current_user, params)
+      render json: AssembleReputationTokens.(current_user, list_params)
     end
 
     def mark_as_seen
       token = current_user.reputation_tokens.find_by!(uuid: params[:uuid])
-      token.seen!
+      User::ReputationToken::MarkAsSeen.(token)
 
       render json: { reputation: token.rendering_data }
     end

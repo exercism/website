@@ -6,10 +6,10 @@ class MetricPeriod::UpdateLastHourMetricsTest < ActiveSupport::TestCase
   test "calculate metrics for last hour" do
     freeze_time do
       track = create :track
-      create :publish_solution_metric, track: track, occurred_at: Time.current.prev_min
-      create :finish_mentoring_metric, track: track, occurred_at: Time.current.prev_min - 44.minutes
-      create :finish_mentoring_metric, track: track, occurred_at: Time.current.prev_min - 44.minutes
-      create :open_issue_metric, track: track, occurred_at: Time.current.prev_min - 59.minutes
+      create :publish_solution_metric, track:, occurred_at: Time.current.prev_min
+      create :finish_mentoring_metric, track:, occurred_at: Time.current.prev_min - 44.minutes
+      create :finish_mentoring_metric, track:, occurred_at: Time.current.prev_min - 44.minutes
+      create :open_issue_metric, track:, occurred_at: Time.current.prev_min - 59.minutes
 
       MetricPeriod::UpdateLastHourMetrics.()
 

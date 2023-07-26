@@ -7,7 +7,18 @@ FactoryBot.define do
     accepted_terms_at { Date.new(2016, 12, 25) }
     accepted_privacy_policy_at { Date.new(2016, 12, 25) }
     became_mentor_at { Date.new(2016, 12, 25) }
-    avatar_url { "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx" }
+    avatar do
+      # Ensure we have a file with a different filename each time
+      tempfile = Tempfile.new([SecureRandom.uuid, '.png'])
+      tempfile.write(File.read(Rails.root.join("app", "images", "favicon.png")))
+      tempfile.rewind
+
+      Rack::Test::UploadedFile.new(tempfile.path, 'image/png')
+    end
+
+    after(:build) do |user|
+      user.data.email_status = :verified
+    end
 
     after(:create) do |user, _evaluator|
       # Update the avatar if we've had a placeholder in the factory
@@ -16,15 +27,47 @@ FactoryBot.define do
           avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=#{user.id}"
         )
       end
+
+      user.reload.data.update!(
+        accepted_terms_at: Date.new(2016, 12, 25),
+        accepted_privacy_policy_at: Date.new(2016, 12, 25),
+        became_mentor_at: Date.new(2016, 12, 25)
+      )
+    end
+
+    trait :external_avatar_url do
+      after(:create) do |user, _evaluator|
+        user.avatar.delete
+        user.update(avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=#{user.id}")
+        user.reload
+      end
+    end
+
+    trait :donor do
+      after(:create) do |user, _evaluator|
+        user.data.update(first_donated_at: Time.current)
+      end
+    end
+
+    trait :premium do
+      after(:create) do |user, _evaluator|
+        user.data.update(premium_until: Time.current + 1.year)
+      end
     end
 
     trait :not_mentor do
-      became_mentor_at { nil }
+      after(:create) do |user, _evaluator|
+        user.data.update(became_mentor_at: nil)
+      end
     end
 
     trait :not_onboarded do
-      accepted_terms_at { nil }
-      accepted_privacy_policy_at { nil }
+      after(:create) do |user, _evaluator|
+        user.data.update(
+          accepted_terms_at: nil,
+          accepted_privacy_policy_at: nil
+        )
+      end
     end
 
     trait :system do
@@ -38,24 +81,35 @@ FactoryBot.define do
       name { "Ghost" }
     end
 
-    trait :admin do
-      roles { [:admin] }
-    end
-
-    trait :maintainer do
-      roles { [:maintainer] }
+    %i[founder admin staff maintainer].each do |role|
+      trait role do
+        after(:create) do |user, _evaluator|
+          user.data.update!(
+            roles: (user.data.roles + [role])
+          )
+        end
+      end
     end
 
     trait :supermentor do
-      roles { [:supermentor] }
+      after(:create) do |user, _evaluator|
+        data = user.data
+        data.update!(
+          roles: (data.roles + [:supermentor]),
+          cache: (data.cache || {}).merge({ 'mentor_satisfaction_percentage' => 98 })
+        )
+      end
     end
 
-    trait :staff do
-      roles { [:staff] }
+    trait :insider do
+      active_donation_subscription { true }
+      insiders_status { :active }
     end
 
     trait :github do
-      github_username { handle }
+      after(:create) do |user, _evaluator|
+        user.data.update(github_username: user.handle)
+      end
     end
   end
 end

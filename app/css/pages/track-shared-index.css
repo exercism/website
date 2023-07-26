@@ -8,8 +8,9 @@
 
     & section.external-cta {
         @apply mb-56 py-24 px-80 rounded-12;
-        @apply border-2 border-anotherPurple bg-randomBlue;
+        @apply border-2 border-anotherPurple;
         @apply flex items-center;
+        background: var(--backgroundColorExternalCTA);
 
         & .c-track-icon {
             height: 64px;

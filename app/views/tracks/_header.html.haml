@@ -1,7 +1,7 @@
-= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}" do
+= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{course}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}" do
   .lg-container.container
     .flex.items-center
-      .flex-grow
+      .flex-grow.w-100
         .flex.items-center.relative.lg:static
           = render ReactComponents::Dropdowns::TrackMenu.new(track)
           = track_icon(track, css_class: 'mr-16 lg:mr-20')
@@ -14,10 +14,10 @@
                 students
             .tags.lg:hidden.mt-8= raw tags
 
-        .tabs= raw tabs
+        .tabs.overflow-x-auto= raw tabs
       .mr-84.hidden.lg:flex.items-center.ml-auto
         .tags.mr-32= raw tags
-        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex ") do
+        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex whitespace-nowrap") do
           .c-faces
             - track.top_contributors[0, 3].map do |author|
               .face= avatar(author)

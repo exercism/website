@@ -1,0 +1,184 @@
+#challenge-12in23-page
+  %section.top-section
+    .lg-container
+      .flex
+        .mr-auto{ class: 'max-w-[860px]' }
+          .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
+            %span.emoji.mr-6 📆
+            Month 7 of #12in23
+          %h1.text-h1.mb-8 It's Jurassic July! ✨
+          %p.text-p-xlarge.mb-20
+            This month for #12in23 we're exploring established languages that have been incredibly successful. We're digging into C, C++, COBOL, Fortran and Visual Basic, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+
+          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
+            .flex-shrink
+              %h2.text-h4.mb-2 Start by watching our Jurassic July overview video  👉
+              %p.text-p-base.mb-8
+                Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
+              %p.text-p-base
+                Take a watch and leave a comment!
+
+            .rhs
+              %div{ class: 'w-[100%] max-w-[500px]' }
+                .c-youtube-container
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/TlJaw3UZVsY", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+          %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
+          %p.text-p-large.mb-20
+            Earn the Jurassic July badge for completing and publishing 5 exercises in one of the following languages.
+            Consider starting with a language with a syllabus (
+            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+            ).
+
+          - tracks = Track.where(slug: %w[c cpp cobol fortran vbnet])
+          .grid.grid-cols-8.gap-12.mb-32
+            - tracks.each do |track|
+              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
+                - if track.course?
+                  .rounded-circle.bg-backgroundColorA.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
+                    = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple'
+                = image_tag track.icon_url, class: 'mb-8'
+                .text-h6= track.title
+
+          %p.text-p-large.mb-12
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
+          %ul.text-p-large.mb-12
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/bob.svg", class: "w-[25px] inline"
+              %strong.font-semibold Bob:
+              Work with strings and conditional logic
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/allergies.svg", class: "w-[25px] inline"
+              %strong.font-semibold Allergies:
+              Work with strings, numbers and bitwise operations
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/reverse-string.svg", class: "w-[25px] inline"
+              %strong.font-semibold Reverse String:
+              Iterate over the characters in a string
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/high-scores.svg", class: "w-[25px] inline"
+              %strong.font-semibold High Scores:
+              Iterate over arrays of numbers
+            %li.mb-2
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/armstrong-numbers.svg", class: "w-[25px] inline"
+              %strong.font-semibold Armstrong Numbers:
+              Work with numbers and looping/iteration
+
+          %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
+          %p.text-p-large.mb-12.c-highlight-links
+            Throughout the month we'll have interviews, walkthroughs from Exercism track contributors, and live streams of the community solving exercises. Our streaming team is really growing so definitely check out what's on!
+            Subscribe to our
+            = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+            and
+            = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
+            to not miss out!
+            There's also a schedule at the top right of this page.
+
+          %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
+          %ul.text-p-large.list-disc.pl-16.c-highlight-links
+            %li.mb-4
+              Help us compile the
+              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-jurassicy-languages/6306"
+              for learning and mastering these old skool languages in our dedicated forum thread.
+            %li.mb-4
+              Join in the conversation by using the
+              #{link_to '#12in23 tag on our forums', 'https://forum.exercism.org/tag/12in23'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord'},
+              or using the
+              %strong.font-semibold #12in23
+              hashtag around social media!
+            %li.mb-4
+              We have exclusive Jurassic July swag that will only be available later in the month. Keep an eye on the
+              = link_to "swag store", "https://swag.exercism.org"
+              for details (and check out the Summer of Sexps swag before it goes too!)
+
+        .ml-80{ class: 'max-w-[450px]' }
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 Upcoming Streaming Schedule
+            %p.text-p-base.mb-12.c-highlight-links
+              This schedule is regularly updated. All events will stream on our
+              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+              \- subscribe so not to miss out!
+              %strong.font-semibold All times in UTC.
+
+            %ul.text-p-base.list-disc.pl-16
+              - StreamingEvent.next_5.each do |event|
+                %li.mb-4
+                  .font-medium.text-textColor6.text-14.leading-100
+                    = format_datetime(event.starts_at)
+                  %strong.font-semibold.text-textColor2= event.title
+
+
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 How does #12in23 work?
+            %p.text-p-base.mb-12
+              Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
+            .grid.grid-cols-2.gap-12
+              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
+                = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-12in23-feb-update.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
+                .text-center.text-h6 How's your #12in23 going?
+
+              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
+                = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
+                .text-center.text-h6 The Official #12in23 Calendar
+
+            %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
+              Track your progress at the bottom of the page.
+
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
+            %p.text-p-base.mb-12
+              We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
+            = link_to "Donate now", donate_path, class: 'btn btn-primary'
+
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
+            %h2.text-h4.mb-4 The year-long #12in23 badge
+            %p.text-p-base.mb-12
+              At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
+
+              Each valid exercise will be shown below.
+              Find the full list of rules and exercises in
+              #{link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'}.
+
+            - if @badge_progress_exercises.present?
+              %h2.text-h6.mt-20.mb-12
+                Published Exercises
+                .inline.text-14 (#{@badge_progress_exercises.size} / 30 so far)
+              .grid.grid-cols-6.gap-12
+                - @badge_progress_exercises.each do |track_slug, exercise_slug|
+                  = link_to track_exercise_path(track_slug, exercise_slug) do
+                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-[48px]"
+            - else
+              %h2.text-h6.mt-20 You've not yet submitted any valid solutions.
+
+  %article
+    .md-container
+      .flex.text-center.flex-col.items-center
+        %h1.text-h1.mb-16 Your #12in23 Progress
+        %p.text-p-xlarge
+          Below you'll see a list of all the languages you've used during 2023.
+          Aim to complete 12 languages by the end of the year!
+        %p.text-p-large.cta
+          Submit 5 exercises (not including "Hello World") in a track to tick off that language!
+
+      .grid.grid-cols-4.gap-32.mx-auto
+        - @track_counts.each do |track_id, count|
+          - track = @tracks[track_id]
+          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count >= 5 ? 'border-successColor' : 'border-transparent'}" do
+            = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
+            .text-h4.mb-20= track.title
+            - if count >= 5
+              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
+              .progress
+              .count #{count} exercises completed
+            - else
+              %progress.progress-bar{ value: count, max: 5 }
+              .count #{count} / 5 exercises completed
+
+        - num_placeholders = 12 - @track_counts.size
+        - if num_placeholders.positive?
+          - num_placeholders.times do
+            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }
+              .text-h0{ class: "opacity-[0.2]" } ?

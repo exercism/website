@@ -4,11 +4,11 @@ class User::Notifications::StudentRepliedToDiscussionNotificationTest < ActiveSu
   test "keys are valid" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, exercise: exercise, user: user
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, exercise:, user:)
     student = solution.user
-    submission = create :submission, solution: solution
-    iteration = create :iteration, submission: submission
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, submission:)
     mentor = create(:user)
     discussion_post = create(:mentor_discussion_post, iteration:, author: mentor)
 

@@ -8,6 +8,7 @@ class User::ReputationToken < ApplicationRecord
 
   belongs_to :user
 
+  scope :seen, -> { where(seen: true) }
   scope :unseen, -> { where(seen: false) }
 
   # Reason, category and value can be set statically in

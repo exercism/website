@@ -8,7 +8,7 @@ module Flows
 
     test "user logs in and is redirected to forum" do
       track = create :track, title: "Ruby"
-      create :concept_exercise, track: track
+      create(:concept_exercise, track:)
       user = create(:user,
         email: "user@exercism.org",
         password: "password",

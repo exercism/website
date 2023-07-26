@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
+class Badges::LackadaisicalBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :lackadaisical_badge
     assert_equal "Lackadaisical", badge.name
@@ -29,13 +29,13 @@ class Badge::LackadaisicalBadgeTest < ActiveSupport::TestCase
     # Doesn't care if we get a 5th other exercise
     another_track = create :track, slug: "irrelevant"
     another_exercise = create :practice_exercise, slug: 'leap', track: another_track
-    create :practice_solution, :completed, user: user, track: another_track, exercise: another_exercise
+    create :practice_solution, :completed, user:, track: another_track, exercise: another_exercise
     refute badge.award_to?(user.reload)
 
     # Add a 5th bob, but not completed
     track = create :track, slug: "final"
-    exercise = create :practice_exercise, slug: 'bob', track: track
-    solution = create :practice_solution, :iterated, user: user, track: track, exercise: exercise
+    exercise = create(:practice_exercise, slug: 'bob', track:)
+    solution = create(:practice_solution, :iterated, user:, track:, exercise:)
     refute badge.award_to?(user.reload)
 
     # Iterate it

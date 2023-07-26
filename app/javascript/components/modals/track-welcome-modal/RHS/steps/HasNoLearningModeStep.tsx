@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../..'
+import { WelcomeToTrack } from './components/WelcomeToTrack'
+import { StepButton } from './components/StepButton'
 export function HasNoLearningModeStep({
   onContinue,
 }: {
@@ -9,7 +11,7 @@ export function HasNoLearningModeStep({
   return (
     <>
       <header>
-        <h1 className="text-h1">Welcome to {track.title}! 💙</h1>
+        <WelcomeToTrack />
         <p>
           Welcome to the {track.title} Track. This track is designed to help you
           practicing {track.title} through. a series of&nbsp;
@@ -20,9 +22,7 @@ export function HasNoLearningModeStep({
           <a href="learning_doc path">here</a>.
         </p>
       </header>
-      <button onClick={onContinue} className="btn-primary btn-l">
-        Continue
-      </button>
+      <StepButton onClick={onContinue}>Continue</StepButton>
     </>
   )
 }

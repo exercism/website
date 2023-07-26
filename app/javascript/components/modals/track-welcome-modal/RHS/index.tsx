@@ -1,13 +1,9 @@
-import React, { useContext, useEffect } from 'react'
-import { TrackContext } from '..'
-import { HasLearningModeStep } from './steps/HasLearningModeStep'
-import { HasNoLearningModeStep } from './steps/HasNoLearningModeStep'
+import React from 'react'
 import { useMachine } from '@xstate/react'
+import * as STEPS from './steps'
 import { StateValue, machine } from './rhs.machine'
 import { useLogger } from '@/hooks'
-import { LearningEnvironmentSelectorStep } from './steps/LearningEnvironmentSelectorStep'
-import { SelectedLocalMachineStep } from './steps/SelectedLocalMachineStep'
-import { SelectedOnlineEdiorStep } from './steps/SelectedOnlineEditorStep'
+import { Choices } from './steps/components/Choices'
 
 export function TrackWelcomeModalRHS(): JSX.Element {
   return (
@@ -18,8 +14,7 @@ export function TrackWelcomeModalRHS(): JSX.Element {
 }
 
 function Steps() {
-  const track = useContext(TrackContext)
-  const [currentStep, send] = useMachine(machine, {
+  const [currentState, send] = useMachine(machine, {
     actions: {
       handleContinueToLocalMachine() {
         console.log('continue to cli hello world')
@@ -30,70 +25,57 @@ function Steps() {
     },
   })
 
-  useLogger('step', currentStep)
+  const { context } = currentState
 
-  switch (currentStep.value as StateValue) {
+  useLogger('context', context)
+  switch (currentState.value as StateValue) {
     case 'hasLearningMode':
       return (
-        <HasLearningModeStep
+        <STEPS.HasLearningModeStep
           // these should fire an action that saves preferences?
           onSelectLearningMode={() => send('SELECT_LEARNING_MODE')}
           onSelectPracticeMode={() => send('SELECT_PRACTICE_MODE')}
         />
       )
     case 'hasNoLearningMode':
-      return <HasNoLearningModeStep onContinue={() => send('CONTINUE')} />
+      return <STEPS.HasNoLearningModeStep onContinue={() => send('CONTINUE')} />
 
     case 'learningEnvironmentSelector':
       return (
-        <LearningEnvironmentSelectorStep
-          onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
-          onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
-          onGoBack={() => send('GO_BACK')}
-        />
+        <Choices context={context}>
+          <STEPS.LearningEnvironmentSelectorStep
+            onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
+            onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
+            onGoBack={() => send('GO_BACK')}
+          />
+        </Choices>
       )
 
     case 'selectedLocalMachine':
       return (
-        <SelectedLocalMachineStep
-          onContinueToLocalMachine={() => send('CONTINUE')}
-          onGoBack={() => send('GO_BACK')}
-        />
+        <Choices context={context}>
+          <STEPS.SelectedLocalMachineStep
+            onContinueToLocalMachine={() => send('CONTINUE')}
+            onGoBack={() => send('GO_BACK')}
+          />
+        </Choices>
       )
     case 'selectedOnlineEditor':
       return (
-        <SelectedOnlineEdiorStep
-          onContinueToOnlineEditor={() => send('CONTINUE')}
-          onGoBack={() => send('GO_BACK')}
-        />
+        <Choices context={context}>
+          <STEPS.SelectedOnlineEdiorStep
+            onContinueToOnlineEditor={() => send('CONTINUE')}
+            onGoBack={() => send('GO_BACK')}
+          />
+        </Choices>
       )
 
-    case 'openModal':
+    default:
       return (
-        <OpenModal
+        <STEPS.OpenModalStep
           onHasLearningMode={() => send('HAS_LEARNING_MODE')}
           onHasNoLearningMode={() => send('HAS_NO_LEARNING_MODE')}
         />
       )
-    default:
-      throw new Error('No such step')
   }
-}
-
-function OpenModal({
-  onHasLearningMode,
-  onHasNoLearningMode,
-}: Record<
-  'onHasLearningMode' | 'onHasNoLearningMode',
-  () => void
->): JSX.Element {
-  const track = useContext(TrackContext)
-
-  useEffect(() => {
-    if (track.course) {
-      onHasLearningMode()
-    } else onHasNoLearningMode()
-  }, [track])
-
-  return <div>Loading..</div>
 }

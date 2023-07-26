@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../..'
+import { StepButton } from './components/StepButton'
 
 export function LearningEnvironmentSelectorStep({
   onSelectLocalMachine,
@@ -25,15 +26,13 @@ export function LearningEnvironmentSelectorStep({
       <p>Would you like to use the track in learning mode or practice mode?</p>
 
       <div className="flex gap-12 items-center">
-        <button onClick={onGoBack} className="btn-primary btn-l">
-          Go back
-        </button>
-        <button onClick={onSelectOnlineEditor} className="btn-primary btn-l">
+        <StepButton onClick={onGoBack}>Go back</StepButton>
+        <StepButton onClick={onSelectOnlineEditor}>
           In the online editor
-        </button>
-        <button onClick={onSelectLocalMachine} className="btn-primary btn-l">
+        </StepButton>
+        <StepButton onClick={onSelectLocalMachine}>
           On my local machine
-        </button>
+        </StepButton>
       </div>
     </>
   )

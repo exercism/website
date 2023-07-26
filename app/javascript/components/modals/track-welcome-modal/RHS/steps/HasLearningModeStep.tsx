@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../..'
+import { WelcomeToTrack } from './components/WelcomeToTrack'
+import { StepButton } from './components/StepButton'
 export function HasLearningModeStep({
   onSelectLearningMode,
   onSelectPracticeMode,
@@ -11,8 +13,7 @@ export function HasLearningModeStep({
   return (
     <>
       <header>
-        <h1 className="text-h1">Welcome to {track.title}! 💙</h1>
-
+        <WelcomeToTrack />
         <p>
           This track can be used for learning {track.title} or for practicing
           your existing {track.title} knowledge. Our {track.title} syllabus
@@ -25,12 +26,8 @@ export function HasLearningModeStep({
         </p>
       </header>
       <div className="flex gap-12 items-center">
-        <button onClick={onSelectLearningMode} className="btn-primary btn-l">
-          Learning Mode
-        </button>
-        <button onClick={onSelectPracticeMode} className="btn-primary btn-l">
-          Practice Mode
-        </button>
+        <StepButton onClick={onSelectLearningMode}>Learning Mode</StepButton>
+        <StepButton onClick={onSelectPracticeMode}>Practice Mode</StepButton>
       </div>
     </>
   )

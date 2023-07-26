@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate'
+import { assign, createMachine } from 'xstate'
 
 type StateEvent =
   | 'HAS_LEARNING_MODE'
@@ -22,7 +22,11 @@ export const machine = createMachine({
   tsTypes: {} as import('./rhs.machine.typegen').Typegen0,
   id: 'trackWelcomeModalSteps',
   initial: 'openModal',
-  schema: { context: {}, events: {} as { type: StateEvent } },
+  context: { choices: [] },
+  schema: {
+    context: { choices: [] as string[] },
+    events: {} as { type: StateEvent },
+  },
   states: {
     openModal: {
       on: {
@@ -33,8 +37,18 @@ export const machine = createMachine({
     hasLearningMode: {
       id: 'hasLearningMode',
       on: {
-        SELECT_LEARNING_MODE: 'learningEnvironmentSelector',
-        SELECT_PRACTICE_MODE: 'learningEnvironmentSelector',
+        SELECT_LEARNING_MODE: {
+          target: 'learningEnvironmentSelector',
+          actions: assign({
+            choices: (context) => [...context.choices, 'Learning Mode'],
+          }),
+        },
+        SELECT_PRACTICE_MODE: {
+          target: 'learningEnvironmentSelector',
+          actions: assign({
+            choices: (context) => [...context.choices, 'Practice Mode'],
+          }),
+        },
       },
     },
     hasNoLearningMode: {
@@ -46,9 +60,22 @@ export const machine = createMachine({
     learningEnvironmentSelector: {
       id: 'learningEnvironmentSelector',
       on: {
-        SELECT_LOCAL_MACHINE: 'selectedLocalMachine',
-        SELECT_ONLINE_EDITOR: 'selectedOnlineEditor',
-        GO_BACK: 'openModal',
+        SELECT_LOCAL_MACHINE: {
+          target: 'selectedLocalMachine',
+          actions: assign({
+            choices: (context) => [...context.choices, 'Local machine'],
+          }),
+        },
+        SELECT_ONLINE_EDITOR: {
+          target: 'selectedOnlineEditor',
+          actions: assign({
+            choices: (context) => [...context.choices, 'Online editor'],
+          }),
+        },
+        GO_BACK: {
+          target: 'openModal',
+          actions: assign({ choices: () => [] }),
+        },
       },
     },
     selectedLocalMachine: {

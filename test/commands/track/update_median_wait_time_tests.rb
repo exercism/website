@@ -218,4 +218,12 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_equal 150, track_3.reload.median_wait_time
     end
   end
+
+  test "shouldn't touch track's updated_at" do
+    original_time = Time.current - 6.months
+    track = create :track, updated_at: original_time, median_wait_time: 100
+
+    Track::UpdateMedianWaitTimes.()
+    assert_equal original_time, track.reload.updated_at
+  end
 end

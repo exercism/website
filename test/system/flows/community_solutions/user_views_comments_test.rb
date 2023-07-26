@@ -11,7 +11,7 @@ module Flows
       test "user sees solution comments" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise:, user: author
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: true
         submission = create(:submission, solution:)
         create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
@@ -36,7 +36,7 @@ module Flows
         user = create :user, handle: "other-user"
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise:, user: author
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: true
         submission = create(:submission, solution:)
         create(:iteration, idx: 1, solution:, submission:)
 
@@ -58,7 +58,7 @@ module Flows
       test "user edits a comment" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise:, user: author
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: true
         submission = create(:submission, solution:)
         create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
@@ -82,7 +82,7 @@ module Flows
       test "user deletes a comment" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise:, user: author
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: true
         submission = create(:submission, solution:)
         create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,
@@ -106,7 +106,7 @@ module Flows
       test "user sees comments zero state" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise:, user: author
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: true
         submission = create(:submission, solution:)
         create(:iteration, idx: 1, solution:, submission:)
 

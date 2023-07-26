@@ -20,7 +20,6 @@ export const TrackWelcomeModal = ({
   endpoint: string
   track: Track
 }): JSX.Element => {
-  console.log(track)
   const [open, setOpen] = useState(true)
   const [mutation, { status, error }] = useMutation(
     () => {

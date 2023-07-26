@@ -17,15 +17,15 @@ class User::ReputationToken::AwardForPullRequestsForUser
 
   private
   def pull_requests
-    authored_pull_requests.or(merged_pull_requests).or(reviewed_pull_requests)
+    [authored_pull_requests, merged_pull_requests, reviewed_pull_requests].flatten.uniq
   end
 
   def authored_pull_requests
-    ::Github::PullRequest.not_open.left_joins(:reviews).where(author_username: user.github_username)
+    ::Github::PullRequest.not_open.where(author_username: user.github_username)
   end
 
   def merged_pull_requests
-    ::Github::PullRequest.not_open.left_joins(:reviews).where(merged_by_username: user.github_username)
+    ::Github::PullRequest.not_open.where(merged_by_username: user.github_username)
   end
 
   def reviewed_pull_requests

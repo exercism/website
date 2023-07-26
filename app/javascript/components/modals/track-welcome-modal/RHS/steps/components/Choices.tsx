@@ -8,10 +8,10 @@ export function Choices({
 }): JSX.Element {
   return (
     <>
-      <div className="flex gap-8 ">
+      <div className="flex gap-8 mb-8">
         {context.choices.map((choice, key) => (
           <span
-            className="px-2 py-12 bg-textColor6NoDark text-aliceBlue rounded-8"
+            className="py-6 px-12 bg-textColor6NoDark text-aliceBlue rounded-24"
             key={key}
           >
             {choice}

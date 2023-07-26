@@ -84,7 +84,12 @@ export const machine = createMachine({
         CONTINUE: {
           actions: 'handleContinueToLocalMachine',
         },
-        GO_BACK: 'learningEnvironmentSelector',
+        GO_BACK: {
+          target: 'learningEnvironmentSelector',
+          actions: assign({
+            choices: (context) => context.choices.slice(0, -1),
+          }),
+        },
       },
     },
     selectedOnlineEditor: {
@@ -93,7 +98,12 @@ export const machine = createMachine({
         CONTINUE: {
           actions: 'handleContinueToOnlineEditor',
         },
-        GO_BACK: 'learningEnvironmentSelector',
+        GO_BACK: {
+          target: 'learningEnvironmentSelector',
+          actions: assign({
+            choices: (context) => context.choices.slice(0, -1),
+          }),
+        },
       },
     },
   },

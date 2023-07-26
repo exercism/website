@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { TrackContext } from '../..'
 import { WelcomeToTrack } from './components/WelcomeToTrack'
 import { StepButton } from './components/StepButton'
+import { YouCanChangeMode } from './components/YouCanChangeMode'
+import { ButtonContainer } from './components/ButtonContainer'
 export function HasLearningModeStep({
   onSelectLearningMode,
   onSelectPracticeMode,
@@ -25,10 +27,11 @@ export function HasLearningModeStep({
           Would you like to use the track in learning mode or practice mode?
         </p>
       </header>
-      <div className="flex gap-12 items-center">
+      <ButtonContainer>
         <StepButton onClick={onSelectLearningMode}>Learning Mode</StepButton>
         <StepButton onClick={onSelectPracticeMode}>Practice Mode</StepButton>
-      </div>
+      </ButtonContainer>
+      <YouCanChangeMode />
     </>
   )
 }

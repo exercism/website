@@ -1,5 +1,6 @@
 import React from 'react'
 import { StepButton } from './components/StepButton'
+import { ButtonContainer } from './components/ButtonContainer'
 
 export function SelectedLocalMachineStep({
   onContinueToLocalMachine,
@@ -14,10 +15,10 @@ export function SelectedLocalMachineStep({
           get those links in, I&apos;ll do the rest.
         </p>
       </header>
-      <div className="flex gap-12 items-center">
+      <ButtonContainer>
         <StepButton onClick={onGoBack}>Go back</StepButton>
         <StepButton onClick={onContinueToLocalMachine}>Continue</StepButton>
-      </div>
+      </ButtonContainer>
     </>
   )
 }

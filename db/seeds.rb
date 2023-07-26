@@ -1,3 +1,13 @@
+cp data.sql data-fixed.sql
+sed -i '' '1d' data-fixed.sql
+sed -i '' -Ee "s/([0-9]{2}:[0-9]{2}:[0-9]{2})\.[0-9]{6}'/\1'/g" data-fixed.sql
+sed -i '' '1s/^/SET FOREIGN_KEY_CHECKS=0;\n/' data-fixed.sql
+sed -i '' '2s/^/DROP TABLE `schema_migrations`;\n/' data-fixed.sql
+sed -i '' '3s/^/CREATE TABLE `schema_migrations` ( `version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, PRIMARY KEY (`version`));\n/' data-fixed.sql
+echo 'SET FOREIGN_KEY_CHECKS=1' >> data-fixed.sql
+
+#
+#
 # Create system user
 User.find_by_id(User::SYSTEM_USER_ID) || User.create!(
   id: User::SYSTEM_USER_ID,

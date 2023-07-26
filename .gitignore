@@ -44,6 +44,7 @@ coverage/
 
 app/javascript/.config/*
 !app/javascript/.config/.keep
+app/**/*.typegen.ts
 
 # Redis Database Backup
 dump.rdb

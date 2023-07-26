@@ -1,5 +1,5 @@
 export { WelcomeModal } from './WelcomeModal'
-export { TrackWelcomeModal } from './TrackWelcomeModal'
+export { TrackWelcomeModal } from './track-welcome-modal'
 export { WelcomeToPremiumModal } from './WelcomeToPremiumModal'
 export { WelcomeToInsidersModal } from './WelcomeToInsidersModal'
 export { Modal } from './Modal'

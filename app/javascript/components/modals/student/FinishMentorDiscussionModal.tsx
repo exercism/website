@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { MentorDiscussion } from '../../types'
+import { redirectTo } from '@/utils'
+import { MentorDiscussion } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
 import { AddTestimonialStep } from './finish-mentor-discussion-modal/AddTestimonialStep'
@@ -9,8 +10,7 @@ import { RequeuedStep } from './finish-mentor-discussion-modal/RequeuedStep'
 import { SatisfiedStep } from './finish-mentor-discussion-modal/SatisfiedStep'
 import { ReportStep } from './finish-mentor-discussion-modal/ReportStep'
 import { useMachine } from '@xstate/react'
-import { Machine } from 'xstate'
-import { redirectTo } from '../../../utils/redirect-to'
+import { createMachine } from 'xstate'
 
 export type Links = {
   exercise: string
@@ -24,7 +24,7 @@ export type MentorReport = {
   reason: ReportReason
 }
 
-const modalStepMachine = Machine({
+const modalStepMachine = createMachine({
   id: 'modalStep',
   initial: 'rateMentor',
   states: {

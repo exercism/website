@@ -1099,6 +1099,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.index ["uuid"], name: "index_track_concepts_on_uuid", unique: true
   end
 
+  create_table "track_trophies", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "type", null: false
+    t.json "valid_track_slugs"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_track_trophies_on_type", unique: true
+  end
+
   create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title", null: false
@@ -1375,6 +1383,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.index ["user_id", "type"], name: "index_user_reputation_tokens_query_1"
     t.index ["user_id", "value"], name: "index_user_reputation_tokens_on_user_id_and_value"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
+  end
+
+  create_table "user_track_acquired_trophies", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
+    t.bigint "trophy_id", null: false
+    t.boolean "revealed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trophy_id"], name: "index_user_track_acquired_trophies_on_trophy_id"
+    t.index ["user_id", "trophy_id", "track_id"], name: "index_user_track_acquired_trophies_uniq_guard", unique: true
+    t.index ["user_id"], name: "index_user_track_acquired_trophies_on_user_id"
+    t.index ["uuid"], name: "index_user_track_acquired_trophies_on_uuid", unique: true
   end
 
   create_table "user_track_mentorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

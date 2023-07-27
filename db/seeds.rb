@@ -540,3 +540,5 @@ kaido.perks.create!(
 #       emphasised_text: "Get 20% off through Exercism Perks."
 #     )
 #     advert.logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'config-cat.png')), filename: "config-cat.png")
+
+Track::Trophies::General::MentoredTrophy.create!

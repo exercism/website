@@ -162,6 +162,37 @@
                 }
             }
         }
+        & section.trophy-cabinet {
+            @apply shadow-lg bg-backgroundColorA rounded-8 pt-24 pb-28 px-32;
+            .trophies {
+                @apply grid grid-cols-6 gap-16;
+            }
+            .trophy {
+                @apply border-1 border-borderColor7 rounded-8 bg-backgroundColorA;
+                @apply flex flex-col items-stretch;
+                flex: 1 1 20%;
+                img {
+                    @apply w-fill m-8;
+                }
+                .title {
+                    @apply border-t-1 border-borderColor7 p-8 bg-backgroundColorB bg-white;
+                    @apply text-center text-textColor6 uppercase font-semibold text-12;
+                    @apply flex flex-grow place-items-center self-center text-center;
+                    @apply leading-130;
+                }
+                &.acquired {
+                    @apply shadow-sm hover:shadow-smZ1;
+                }
+                &:not(.acquired) {
+                    img {
+                        @apply grayscale opacity-[0.15];
+                    }
+                    .title {
+                        @apply opacity-[0.7];
+                    }
+                }
+            }
+        }
 
         & section.activities-zero-state {
             @apply mt-40 py-16 px-24 items-center;

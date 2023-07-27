@@ -45,17 +45,37 @@
             .status Total Exercises
             .count= user_track.num_exercises
 
-      .shadow-lg.bg-backgroundColorA.rounded-8.pt-24.pb-28.px-32
-        %h2.text-h3.mb-2.text-center
+      %section.trophy-cabinet
+        %h2.text-h4.mb-2.text-center
           #{track.title} Trophy Cabinet
-        %p.text-p-large.text-textColor6.mb-20.text-center
-          Hover to explore the different trophies you can achieve!
+        %p.text-p-base.text-textColor6.mb-20.text-center
+          Click to explore the different trophies you can achieve!
 
-        .flex.flex-row.gap-16
+        .trophies
+          .trophy.acquired
+            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
+            .title Magnificent Mentee
+
+          .trophy
+            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
+            .title Journeyman
+
+          .trophy
+            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
+            .title Journeyman
+
+          .trophy
+            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
+            .title Ruby Rambler
+
+          .trophy
+            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
+            .title Resistance is Futile
+
           - @track.trophies.each do |trophy|
-            .border-1.border-borderColor7.rounded-8.p-8.bg-backgroundColorB
-              = graphical_icon trophy.icon, category: :graphics, css_class: 'h-[128px] w-[128px] grayscale opacity-[0.15]'
-
+            .trophy
+              = graphical_icon trophy.icon, category: :graphics, width: 128, height: 128
+              .title= trophy.name(@track)
     .rhs
       - if last_8_weeks_counts.any?(&:positive?)
         %section.weekly-count

@@ -1,9 +1,9 @@
 class Track::Trophy < ApplicationRecord
-  has_many :acquired_trophies, class_name: "UserTrack::AcquiredTrophy", dependent: :destroy
-
   class << self
-    attr_writer :valid_track_slugs
+    attr_accessor :valid_track_slugs
   end
+
+  has_many :acquired_trophies, class_name: "UserTrack::AcquiredTrophy", dependent: :destroy
 
   def self.for_track(track)
     where(%{
@@ -11,10 +11,6 @@ class Track::Trophy < ApplicationRecord
       OR
       JSON_CONTAINS(valid_track_slugs, '"#{track.slug}"')
     })
-  end
-
-  class << self
-    attr_reader :valid_track_slugs
   end
 
   def reseed!

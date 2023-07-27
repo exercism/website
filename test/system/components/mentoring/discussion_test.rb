@@ -510,11 +510,19 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_discussion_path(discussion)
-          click_on "Remove from Inbox"
-        end
+          assert_text "It's the student's turn..."
+          click_on "It's the student's turn..."
 
-        assert_text "Loading"
-        assert_no_text "Remove from Inbox"
+          assert_text "Pass this discussion back to the student?"
+          click_on "Cancel"
+
+          assert_text "It's the student's turn..."
+          click_on "It's the student's turn..."
+
+          click_on "Continue"
+
+          refute_text "It's the student's turn..."
+        end
       end
 
       test "mentor is unable to remove discussion from inbox if finished" do

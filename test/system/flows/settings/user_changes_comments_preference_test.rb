@@ -11,65 +11,86 @@ module Flows
 
         use_capybara_host do
           sign_in!(user)
-
           visit user_preferences_settings_path
-          find('label', text: I18n.t('user_preferences.allow_comments_on_published_solutions')).click
-          click_on "Change preferences"
 
+          find('label', text: I18n.t('user_preferences.allow_comments_on_published_solutions')).click
+          click_on "Update preference"
           assert_text "Your preferences have been updated"
         end
       end
 
-      test "user sees manage existing solutions bit" do
+      test "user does not see manage existing solutions section" do
+        user = create :user
+
+        use_capybara_host do
+          sign_in!(user)
+          visit user_preferences_settings_path
+
+          refute_text "Allow comments on all existing solutions"
+          refute_text "Disable comments on all existing solutions"
+        end
+      end
+
+      test "user sees manage existing solutions section" do
         solution = create :practice_solution, :published
         create :user_track, user: solution.user, track: solution.track
 
         use_capybara_host do
           sign_in!(solution.user)
-
           visit user_preferences_settings_path
 
           assert_text "Allow comments on all existing solutions"
           assert_text "Disable comments on all existing solutions"
+
+          click_on "Allow comments on all existing solutions"
+          assert_text "Your preferences have been updated"
+
+          sleep 5
+
+          click_on "Disable comments on all existing solutions"
+          assert_text "Your preferences have been updated"
         end
       end
+
       test "user sees comment status phrase none" do
-        solution = create :practice_solution, :published, allow_comments: false
-        solution = create :practice_solution, :published, allow_comments: false
-        solution = create :practice_solution, :published, allow_comments: false
+        user = create :user
+        create(:practice_solution, :published, allow_comments: false, user:)
+        create(:practice_solution, :published, allow_comments: false, user:)
+        create(:practice_solution, :published, allow_comments: false, user:)
 
         use_capybara_host do
-          sign_in!(solution.user)
-
+          sign_in!(user)
           visit user_preferences_settings_path
 
           assert_text "Currently, people can comment on none of your published solutions."
         end
       end
+
       test "user sees comment status phrase all" do
-        solution = create :practice_solution, :published, allow_comments: true
-        solution = create :practice_solution, :published, allow_comments: true
-        solution = create :practice_solution, :published, allow_comments: true
+        user = create :user
+        create(:practice_solution, :published, allow_comments: true, user:)
+        create(:practice_solution, :published, allow_comments: true, user:)
+        create(:practice_solution, :published, allow_comments: true, user:)
 
         use_capybara_host do
-          sign_in!(solution.user)
-
+          sign_in!(user)
           visit user_preferences_settings_path
 
-          assert_text "Currently, people can comment on none of your published solutions."
+          assert_text "Currently, people can comment on all of your published solutions."
         end
       end
+
       test "user sees correct fraction number as comment status phrase" do
-        solution = create :practice_solution, :published, allow_comments: true
-        solution = create :practice_solution, :published, allow_comments: false
-        solution = create :practice_solution, :published, allow_comments: false
+        user = create :user
+        create(:practice_solution, :published, allow_comments: true, user:)
+        create(:practice_solution, :published, allow_comments: true, user:)
+        create(:practice_solution, :published, allow_comments: false, user:)
 
         use_capybara_host do
-          sign_in!(solution.user)
-
+          sign_in!(user)
           visit user_preferences_settings_path
 
-          assert_text "Currently, people can comment on 1/3 of your published solutions."
+          assert_text "Currently, people can comment on 2 / 3 of your published solutions."
         end
       end
     end

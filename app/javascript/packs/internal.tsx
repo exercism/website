@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'easymde/dist/easymde.min.css'
 
 import React from 'react'
@@ -5,8 +6,6 @@ import { initReact } from '../utils/react-bootloader.jsx'
 
 import {
   Iteration,
-  // Track,
-  // Exercise,
   MentorSessionRequest,
   MentorSessionTrack,
   MentorSessionExercise,
@@ -14,18 +13,13 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
-  Testimonial,
   MentoredTrackExercise,
-  // User,
-  // SiteUpdate,
-  UserPreferences,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
   SharePlatform,
   CompleteRepresentationData,
   Guidance,
-  // TrackContribution,
 } from '../components/types'
 
 import * as Maintaining from '../components/maintaining'
@@ -159,7 +153,7 @@ initReact({
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track'>>(
+      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track' | 'links'>>(
         data.guidance
       )}
       outOfDate={data.out_of_date}
@@ -269,7 +263,7 @@ initReact({
   ),
   'settings-user-preferences-form': (data: any) => (
     <Settings.UserPreferencesForm
-      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
+      defaultPreferences={camelizeKeysAs<Settings.UserPreferences>(
         data.preferences
       )}
       links={data.links}
@@ -281,6 +275,11 @@ initReact({
       isPremium={data.is_premium}
       insidersStatus={data.insiders_status}
       links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
+    />
+  ),
+  'settings-comments-preference-form': (data: any) => (
+    <Settings.CommentsPreferenceForm
+      {...camelizeKeysAs<Settings.CommentsPreferenceFormProps>(data)}
     />
   ),
   'settings-communication-preferences-form': (data: any) => (

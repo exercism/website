@@ -10,7 +10,10 @@ class Solution::Publish
       return if solution.published?
 
       ActiveRecord::Base.transaction do
-        solution.update(published_at: Time.current)
+        solution.update(
+          published_at: Time.current,
+          allow_comments: user.preferences.allow_comments_on_published_solutions
+        )
         Solution::PublishIteration.(solution, iteration_idx)
       end
     end
@@ -60,7 +63,7 @@ class Solution::Publish
     Exercise::CacheNumPublishedSolutions.defer(exercise)
   end
 
-  delegate :exercise, to: :solution
+  delegate :exercise, :user, to: :solution
 
   BADGES = %i[functional_february mechanical_march analytical_april
               mind_shifting_may summer_of_sexps jurassic_july].freeze

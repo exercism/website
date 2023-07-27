@@ -11,7 +11,7 @@ class ApplicationJob < ActiveJob::Base
   rescue_from ActiveJob::DeserializationError do |exception|
     # We except this to be a record not found. If it's not
     # then get out of here
-    skip_bugnag_and_raise.() unless exception.cause.is_a?(ActiveRecord::RecordNotFound)
+    skip_bugnag_and_raise.(exception) unless exception.cause.is_a?(ActiveRecord::RecordNotFound)
 
     # Let any transactions finish then look up again
     # If the thing is now found, requeue the job.
@@ -22,8 +22,10 @@ class ApplicationJob < ActiveJob::Base
     begin
       exception.cause.model.constantize.find(exception.cause.id)
       retry_job
+    rescue NoMethodError
+      # The model has gone. Kill the job.
     rescue ActiveRecord::RecordNotFound
-      # The record is gone, kill the job
+      # The record is gone. Kill the job.
     end
   end
 

@@ -12,7 +12,7 @@ export { ThemePreferenceForm } from './ThemePreferenceForm'
 export {
   CommentsPreferenceForm,
   type CommentsPreferenceFormProps,
-} from './CommentsPreferenceForm'
+} from './comments-preference-form/CommentsPreferenceForm'
 export { CommunicationPreferencesForm } from './CommunicationPreferencesForm'
 export { DeleteAccountButton } from './DeleteAccountButton'
 export { ResetAccountButton } from './ResetAccountButton'

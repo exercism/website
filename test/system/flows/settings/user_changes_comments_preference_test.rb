@@ -8,12 +8,17 @@ module Flows
 
       test "user updates comments preference" do
         user = create :user
+        user.preferences.update(allow_comments_on_published_solutions: true)
 
         use_capybara_host do
           sign_in!(user)
           visit user_preferences_settings_path
 
-          find('label', text: I18n.t('user_preferences.allow_comments_on_published_solutions')).click
+          label = find('label', text: I18n.t('user_preferences.allow_comments_on_published_solutions'))
+          checkbox = find('#comments-preference-form input[type=checkbox]', visible: false)
+          assert checkbox.checked?
+          label.click
+          refute checkbox.checked?
           click_on "Update preference"
           assert_text "Your preferences have been updated"
         end

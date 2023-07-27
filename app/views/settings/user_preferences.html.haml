@@ -5,11 +5,11 @@
     %article
       %h1 General Preferences
 
-      %section
+      %section{ id: 'theme-preferences-form' }
         = render ReactComponents::Settings::ThemePreferenceForm.new
 
-      %section
+      %section{ id: 'comments-preference-form' }
         = render ReactComponents::Settings::CommentsPreferenceForm.new
 
-      %section
+      %section{ id: 'user-preferences-form' }
         = render ReactComponents::Settings::UserPreferencesForm.new

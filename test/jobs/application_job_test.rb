@@ -66,12 +66,10 @@ class ApplicationJobTest < ActiveJob::TestCase
     user = create :user
     user.destroy
 
-    # exception = ActiveRecord::RecordNotFound.new('', 'User', :id, user.id)
-    # User.expects(:find).with(user.id.to_s).raises(exception) # This is the initial lookup
-    # User.expects(:find).with(user.id).returns(user) # This is the retry
-
+    # In a seperate thread, recreate the user. This will happen in between the
+    # first deserialiation error and the second lookup check.
     Thread.new do
-      sleep(0.1)
+      sleep(0.2)
       create :user, id: user.id, name: 'old'
     end
 

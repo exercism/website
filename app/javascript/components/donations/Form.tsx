@@ -1,5 +1,5 @@
 import React, { useState, createContext, useCallback, useMemo } from 'react'
-import { PaymentIntentType } from './StripeForm'
+import { PaymentIntentType } from './stripe-form/useStripeForm'
 import { Tab, TabContext } from '../common/Tab'
 import { Icon } from '../common'
 import { TransactionForm } from './TransactionForm'

@@ -1,23 +1,16 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
+import { PaymentElement, CardElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
-import { fetchJSON } from '@/utils/fetch-json'
-import { StripePaymentElementChangeEvent } from '@stripe/stripe-js'
+import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
+import {
+  generateIntervalText,
+  generateStripeButtonText,
+} from './stripe-form/utils'
+import { CARD_OPTIONS } from './stripe-form/constants'
 
-type PaymentIntent = {
-  id: string
-  clientSecret: string
-}
-export type PaymentIntentType =
-  | 'payment'
-  | 'subscription'
-  | 'premium_yearly_subscription'
-  | 'premium_monthly_subscription'
-  | 'premium_lifetime_subscription'
-
-type StripeFormProps = {
+export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   onProcessing?: () => void
@@ -40,142 +33,38 @@ export function StripeForm({
   confirmParamsReturnUrl,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
-  const [succeeded, setSucceeded] = useState(false)
-  const [error, setError] = useState<string | undefined>()
-  const [processing, setProcessing] = useState(false)
-  const [cardValid, setCardValid] = useState(false)
-  const [notARobot, setNotARobot] = useState(!captchaRequired)
-  const [email, setEmail] = useState('')
-
-  const createPaymentIntentEndpoint = '/api/v2/payments/payment_intents'
-  const paymentIntentFailedEndpoint =
-    '/api/v2/payments/payment_intents/$ID/failed'
-  const paymentIntentSucceededEndpoint =
-    '/api/v2/payments/payment_intents/$ID/succeeded'
-
-  const stripe = useStripe()
-  const elements = useElements()
-
-  const handleCardChange = async (event: StripePaymentElementChangeEvent) => {
-    // When we've got a completed card with no errors, set the card to be valid
-    setCardValid(event.complete)
-  }
-
-  const cancelPaymentIntent = useCallback((paymentIntent: PaymentIntent) => {
-    const endpoint = paymentIntentFailedEndpoint.replace(
-      '$ID',
-      paymentIntent.id
-    )
-    return fetchJSON(endpoint, {
-      method: 'PATCH',
-    })
-  }, [])
-
-  const notifyServerOfSuccess = useCallback(
-    async (paymentIntent: PaymentIntent) => {
-      const endpoint = paymentIntentSucceededEndpoint.replace(
-        '$ID',
-        paymentIntent.id
-      )
-      return fetchJSON(endpoint, {
-        method: 'PATCH',
-      })
-    },
-    []
-  )
-
-  const getPaymentRequest = useCallback(async () => {
-    return fetchJSON(createPaymentIntentEndpoint, {
-      method: 'POST',
-      body: JSON.stringify({
-        type: paymentIntentType,
-        amount_in_cents: amount.intValue,
-        email: email,
-      }),
-    }).then((data: any) => {
-      if (data.error) {
-        setError(`Payment failed with error: ${data.error}`)
-        return null
-      }
-      return data.paymentIntent
-    })
-  }, [paymentIntentType, amount.intValue, email])
-
-  const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return
-    }
-
-    // Set as processing to disable the button
-    setProcessing(true)
-    setError(undefined)
-
-    // Trigger form validation and wallet collection
-    const { error: submitError } = await elements.submit()
-    if (submitError) {
-      setError(submitError ? submitError.message : undefined)
-      return
-    }
-
-    getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
-      // If we've failed to get a payment intent get out of here
-      if (paymentIntent === undefined || paymentIntent === null) {
-        setProcessing(false)
-        return
-      }
-
-      // Get a reference to a mounted CardElement. Elements knows how
-      // to find the CardElement because there can only ever be one of
-      // each type of element. We could maybe use a ref here instead?
-      // const cardElement = elements.getElement(CardElement)!
-
-      const { error } = await stripe.confirmPayment({
-        elements,
-        clientSecret: paymentIntent.clientSecret,
-        confirmParams: {
-          return_url: confirmParamsReturnUrl,
-        },
-        redirect: 'if_required',
-      })
-
-      if (error) {
-        setError(
-          `Your payment failed. The message we got back from your bank was "${error.message}"`
-        )
-        setProcessing(false)
-        cancelPaymentIntent(paymentIntent)
-      } else {
-        setError(undefined)
-        setProcessing(false)
-        setSucceeded(true)
-        await notifyServerOfSuccess(paymentIntent)
-        onSuccess(paymentIntentType, amount)
-      }
-    })
-  }
-
-  useEffect(() => {
-    processing ? onProcessing() : onSettled()
-  }, [onProcessing, onSettled, processing])
-
-  const handleEmailChange = useCallback((e) => {
-    setEmail(e.target.value)
-  }, [])
-
-  const handleCaptchaSuccess = useCallback(() => {
-    setNotARobot(true)
-  }, [])
-
-  const handleCaptchaFailure = useCallback(() => {
-    setNotARobot(false)
-  }, [])
+  const {
+    cardValid,
+    error,
+    email,
+    processing,
+    notARobot,
+    succeeded,
+    handleCaptchaFailure,
+    handleCaptchaSuccess,
+    handleCardChange,
+    handleCardReady,
+    handleEmailChange,
+    handlePaymentElementChange,
+    handleSubmit,
+    handlePaymentSubmit,
+  } = useStripeForm({
+    captchaRequired,
+    amount,
+    confirmParamsReturnUrl,
+    onSuccess,
+    paymentIntentType,
+    onProcessing,
+    onSettled,
+  })
 
   return (
-    <form data-turbo="false" onSubmit={handleSubmit}>
+    <form
+      data-turbo="false"
+      onSubmit={
+        paymentIntentType === 'payment' ? handlePaymentSubmit : handleSubmit
+      }
+    >
       {!userSignedIn ? (
         <div className="email-container">
           <label htmlFor="email">Your email address (for receipts):</label>
@@ -220,7 +109,15 @@ export function StripeForm({
             : 'Donate with Card'}
         </div>
         <div className="card-element">
-          <PaymentElement onChange={handleCardChange} />
+          {paymentIntentType === 'payment' ? (
+            <PaymentElement onChange={handlePaymentElementChange} />
+          ) : (
+            <CardElement
+              options={CARD_OPTIONS}
+              onChange={handleCardChange}
+              onReady={handleCardReady}
+            />
+          )}
           <button
             className="btn-primary btn-s"
             type="submit"
@@ -253,31 +150,4 @@ export function StripeForm({
       ) : null}
     </form>
   )
-}
-
-function generateStripeButtonText(
-  paymentIntent: PaymentIntentType,
-  amount: currency
-) {
-  switch (paymentIntent) {
-    case 'payment':
-      return `Donate ${amount.format()} to Exercism`
-    case 'subscription':
-      return `Donate ${amount.format()} to Exercism monthly`
-    case 'premium_monthly_subscription':
-      return 'Subscribe to Premium'
-    case 'premium_yearly_subscription':
-      return 'Subscribe to Premium'
-  }
-}
-
-function generateIntervalText(paymentIntent: PaymentIntentType) {
-  switch (paymentIntent) {
-    case 'premium_monthly_subscription':
-      return `month`
-    case 'premium_yearly_subscription':
-      return `year`
-    default:
-      return ''
-  }
 }

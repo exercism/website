@@ -29,7 +29,7 @@
                 }
             }
             & .total-count {
-                @apply absolute px-12 flex items-center;
+                @apply absolute px-12 sm:flex hidden items-center;
                 @apply font-medium text-14 text-textColor6 leading-regular;
                 @apply border-1 border-borderColor4 rounded-100;
 
@@ -55,15 +55,11 @@
             & .container {
                 @apply flex flex-col;
             }
-            & h2 {
-                @apply mr-12;
-            }
 
             & .solutions {
-                @apply flex justify-center mb-40;
+                @apply flex flex-col lg:flex-row justify-center mb-40 gap-16;
                 & > * {
-                    @apply mx-8;
-                    width: calc((100% / 3) - 16px);
+                    @apply lg:w-[33%] w-auto;
                 }
                 & .c-community-solution {
                     height: 100%;
@@ -80,6 +76,7 @@
                 @apply flex flex-col;
 
                 &:before {
+                    @apply md:block hidden;
                     @apply absolute;
                     content: "";
                     top: 20px;
@@ -89,6 +86,7 @@
                     width: 89px;
                 }
                 &:after {
+                    @apply md:block hidden;
                     @apply absolute;
                     content: "";
                     top: 20px;
@@ -103,7 +101,7 @@
                 @apply flex flex-col items-center;
 
                 & .stats {
-                    @apply grid grid-cols-3;
+                    @apply grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1;
                     @apply mb-24;
                     & .stat {
                         @apply py-12 px-24;
@@ -119,10 +117,29 @@
                 }
 
                 & .testimonial {
-                    max-width: 840px;
+                    @apply lg:max-w-[840px] max-w-[720px];
+                    @apply md:h-[unset] h-[150px] md:mb-16;
                     @apply mx-auto text-center;
-
-                    @apply text-21 leading-170 mb-16;
+                    @apply text-21 leading-170;
+                    -webkit-mask-image: linear-gradient(
+                        to bottom,
+                        white,
+                        transparent 110%
+                    );
+                    mask-image: linear-gradient(
+                        to bottom,
+                        white,
+                        transparent 110%
+                    );
+                }
+                @screen md {
+                    .testimonial {
+                        -webkit-mask-image: none;
+                        mask-image: none;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                 }
                 & .stars {
                     @apply flex mb-40;
@@ -134,10 +151,9 @@
                 }
 
                 & .bylines {
-                    @apply flex items-center mb-48;
-
+                    @apply flex lg:flex-row flex-col gap-32 items-center mb-48;
                     & .byline {
-                        @apply rounded-8 py-16 px-32 mx-16;
+                        @apply rounded-8 py-16 px-32 w-100;
                         @apply flex items-center;
                         @apply text-left;
 

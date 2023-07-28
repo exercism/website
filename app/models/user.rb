@@ -131,10 +131,8 @@ class User < ApplicationRecord
   scope :random, -> { order('RAND()') }
 
   scope :with_data, -> { joins(:data) }
-  scope :donors, -> { with_data.where.not(user_data: { first_donated_at: nil }) }
   scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
   scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
-  scope :public_supporter, -> { donors.where(user_data: { show_on_supporters_page: true }) }
 
   # TODO: Validate presence of name
 
@@ -167,8 +165,8 @@ class User < ApplicationRecord
   # user's data record has it instead?
   def method_missing(name, *args)
     super
-  rescue NoMethodError => e
-    raise e unless data.respond_to?(name)
+  rescue NameError
+    raise unless data.respond_to?(name)
 
     data.send(name, *args)
   end
@@ -181,18 +179,6 @@ class User < ApplicationRecord
   # https://tenderlovemaking.com/2011/06/28/til-its-ok-to-return-nil-from-to_ary.html
   def to_ary
     nil
-  end
-
-  # TODO: This is needed until we remove the attributes
-  # directly from user, then it can be removed.
-  User::Data::FIELDS.each do |field|
-    define_method field do
-      data.send(field)
-    end
-
-    define_method "#{field}=" do |*args|
-      data.send("#{field}=", *args)
-    end
   end
 
   def after_confirmation

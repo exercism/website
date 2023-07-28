@@ -7,7 +7,7 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create(:iteration, submission:, solution:)
 
     Submission::TestRun::Init.expects(:call).with(
-      submission, type: :solution, git_sha: solution.exercise.git_sha, run_in_background: true
+      submission, git_sha: solution.exercise.git_sha, run_in_background: true
     )
 
     Solution::QueueHeadTestRun.(solution)
@@ -50,7 +50,7 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create :submission_test_run, submission:, ops_status: 405
 
     Submission::TestRun::Init.expects(:call).with(
-      submission, type: :solution, git_sha: submission.exercise.git_sha, run_in_background: true
+      submission, git_sha: submission.exercise.git_sha, run_in_background: true
     )
 
     Solution::QueueHeadTestRun.(solution)
@@ -74,8 +74,19 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create :submission_test_run, submission:, git_important_files_hash: "foobar"
 
     Submission::TestRun::Init.expects(:call).with(
-      submission, type: :solution, git_sha: submission.exercise.git_sha, run_in_background: true
+      submission, git_sha: submission.exercise.git_sha, run_in_background: true
     )
+
+    Solution::QueueHeadTestRun.(solution)
+  end
+
+  test "published/latest: does not init if tests are already running" do
+    solution = create :practice_solution, :published
+    submission = create(:submission, solution:)
+    create(:iteration, submission:, solution:)
+    submission.update!(tests_status: :queued)
+
+    Submission::TestRun::Init.expects(:call).never
 
     Solution::QueueHeadTestRun.(solution)
   end
@@ -128,7 +139,7 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create(:iteration, submission:, solution:)
 
     Submission::TestRun::Init.expects(:call).with(
-      submission, type: :solution, git_sha: solution.exercise.git_sha, run_in_background: true
+      submission, git_sha: solution.exercise.git_sha, run_in_background: true
     )
 
     Solution::QueueHeadTestRun.(solution)
@@ -171,7 +182,7 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create :submission_test_run, submission:, ops_status: 405
 
     Submission::TestRun::Init.expects(:call).with(
-      submission, type: :solution, git_sha: submission.exercise.git_sha, run_in_background: true
+      submission, git_sha: submission.exercise.git_sha, run_in_background: true
     )
 
     Solution::QueueHeadTestRun.(solution)
@@ -195,7 +206,7 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create :submission_test_run, submission:, git_important_files_hash: "foobar"
 
     Submission::TestRun::Init.expects(:call).with(
-      submission, type: :solution, git_sha: submission.exercise.git_sha, run_in_background: true
+      submission, git_sha: submission.exercise.git_sha, run_in_background: true
     )
 
     Solution::QueueHeadTestRun.(solution)
@@ -250,11 +261,11 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     create :iteration, solution:, deleted_at: Time.current
 
     Submission::TestRun::Init.expects(:call).with(
-      published_submission, type: :solution, git_sha: solution.exercise.git_sha, run_in_background: true
+      published_submission, git_sha: solution.exercise.git_sha, run_in_background: true
     )
 
     Submission::TestRun::Init.expects(:call).with(
-      latest_submission, type: :solution, git_sha: solution.exercise.git_sha, run_in_background: true
+      latest_submission, git_sha: solution.exercise.git_sha, run_in_background: true
     )
 
     Solution::QueueHeadTestRun.(solution)

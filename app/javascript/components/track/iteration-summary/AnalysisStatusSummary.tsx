@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from '../../common/Icon'
+import { Icon } from '@/components/common'
 
 export function AnalysisStatusSummary({
   numEssentialAutomatedComments,

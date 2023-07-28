@@ -50,7 +50,7 @@ export const ThemePreferenceForm = ({
             key={t.label}
             links={links}
             theme={t}
-            currentTheme={theme.split('-')[1]}
+            currentTheme={theme.split('theme-')[1]}
             disabledInfo={isDisabled(isPremium, t.value, theme)}
             onClick={(e) => handleThemeUpdate(t, e)}
           />

@@ -46,10 +46,12 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
     profile_id = create(:user_profile, user:).id
 
     3.times { create :practice_solution, :published, user: }
+    reset_user_cache(user)
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Published Solutions"
 
     create(:practice_solution, :published, user:)
+    reset_user_cache(user)
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     assert_includes html, "Published Solutions"
   end
@@ -58,10 +60,12 @@ class ViewComponents::Profile::HeaderTest < ActionView::TestCase
     user = create :user, roles: [:must_be_present]
     profile_id = create(:user_profile, user:).id
 
+    reset_user_cache(user)
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     refute_includes html, "Testimonials"
 
     create :mentor_testimonial, :revealed, mentor: user
+    reset_user_cache(user)
     html = render(ViewComponents::Profile::Header.new(user, User::Profile.find(profile_id), nil))
     assert_includes html, "Testimonials"
   end

@@ -44,6 +44,11 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
+# We just want one copy of mongodb client for the whole test_suite
+Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
+client = Exercism.mongodb_client
+Exercism.define_singleton_method(:mongodb_client) { client }
+
 # This "fixes" reload in Madnate.
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
@@ -136,7 +141,7 @@ class ActionMailer::TestCase
     end
 
     # Test the body of the sent email contains what we expect it to
-    assert_equal ["hello@mail.exercism.io"], email.from
+    assert_equal ["hello@mail.exercism.org"], email.from
     assert_equal [to], email.to
     assert_equal subject, email.subject
     read_fixture(fixture).each do |text|
@@ -156,6 +161,7 @@ class ActiveSupport::TestCase
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
+    reset_mongodb!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -212,6 +218,10 @@ class ActiveSupport::TestCase
 
   def reset_rack_attack!
     Rack::Attack.reset!
+  end
+
+  def reset_mongodb!
+    Exercism.mongodb_client.collections.each(&:drop)
   end
 
   ###################
@@ -299,6 +309,8 @@ class ActiveSupport::TestCase
 
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index:, id:)
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    nil
   end
 
   def wait_for_opensearch_to_be_synced
@@ -313,6 +325,13 @@ class ActiveSupport::TestCase
 
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
+  end
+
+  def generate_reputation_periods!
+    # We use reputation periods for the calculation
+    # This command should generate them all.
+    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationPeriod::Sweep.()
   end
 
   ###############
@@ -354,6 +373,19 @@ class ActiveSupport::TestCase
         create :mentor_discussion, solution:
       end
     end
+  end
+
+  def assert_user_data_cache_reset(user, key, expected, &block)
+    assert_nil user.data.reload.cache[key.to_s]
+
+    perform_enqueued_jobs(&block)
+
+    assert_equal expected, user.data.reload.cache[key.to_s]
+  end
+
+  def reset_user_cache(user)
+    user.data.reload.update!(cache: nil)
+    user.reload
   end
 end
 

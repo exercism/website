@@ -283,6 +283,32 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     assert_response :created
   end
 
+  test "update should init test run" do
+    setup_user
+    exercise = create :concept_exercise
+    solution = create(:concept_solution, user: @current_user, exercise:)
+
+    http_files = [SecureRandom.uuid, SecureRandom.uuid]
+    files = []
+    Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
+
+    # Ensure representer and analyzer are called once
+    ToolingJob::Create.expects(:call).with(anything, :representer, git_sha: "HEAD", run_in_background: false, context: {})
+    ToolingJob::Create.expects(:call).with(anything, :analyzer)
+
+    # Ensure test runner is called once, in the foreground, and not again in the background
+    ToolingJob::Create.expects(:call).with(anything, :test_runner, git_sha: "HEAD", run_in_background: false)
+
+    patch api_v1_solution_path(solution.uuid),
+      params: { files: http_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :created
+
+    # Run the jobs through to make sure nothing unexpected happens
+    perform_enqueued_jobs
+  end
   test "update should catch duplicate submission" do
     setup_user
     solution = create :concept_solution, user: @current_user

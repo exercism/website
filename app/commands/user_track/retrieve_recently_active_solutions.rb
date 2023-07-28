@@ -17,10 +17,9 @@ class UserTrack::RetrieveRecentlyActiveSolutions
       order(id: :desc).
       select("solution_id, max(id) as id").
       limit(5).
-      pluck(:solution_id)
+      map(&:solution_id) # Don't use pluck else you'll override select
 
     Solution.where(id: solution_ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
       includes(
         :exercise, :track, :user,
         latest_iteration: [
@@ -29,6 +28,6 @@ class UserTrack::RetrieveRecentlyActiveSolutions
             analysis solution submission_representation
           ] }
         ]
-      )
+      ).sort_by { |s| solution_ids.index(s.id) }
   end
 end

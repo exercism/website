@@ -477,9 +477,11 @@ export type Representation = {
   draftFeedbackMarkdown: string | null
   feedbackType: RepresentationFeedbackType | null
   feedbackMarkdown: string | null
+  feedbackAddedAt: string | null
   lastSubmittedAt: string
   appearsFrequently: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  feedbackAuthor: { handle: string }
+  feedbackEditor: { handle: string }
   links: { edit?: string; update?: string; self?: string }
 }
 
@@ -757,6 +759,7 @@ export type Notification = {
   url: string
   imageType: NotificationImageType
   imageUrl: string
+  iconFilter: string
   text: string
   createdAt: string
   isRead: boolean

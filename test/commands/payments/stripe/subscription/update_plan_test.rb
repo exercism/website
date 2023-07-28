@@ -14,14 +14,13 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
       items: [{
         id: subscription_data.items.data[0].id,
         price: Exercism.secrets.stripe_premium_yearly_price_id
-      }],
-      proration_behavior: 'none'
+      }]
     )
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :year)
   end
 
-  test "updates subscription amount to yearly amount" do
+  test "update to yearly plan" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
     subscription = create :payments_subscription, user:, external_id: subscription_id
@@ -32,10 +31,11 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :year)
 
-    assert_equal Payments::Stripe::YEAR_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal Premium::YEAR_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal :year, subscription.interval
   end
 
-  test "updates subscription amount to monthly amount" do
+  test "update to monthly plan" do
     subscription_id = SecureRandom.uuid
     user = create :user, active_donation_subscription: true
     subscription = create :payments_subscription, user:, interval: :month, external_id: subscription_id
@@ -46,6 +46,7 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
 
     Payments::Stripe::Subscription::UpdatePlan.(subscription, :month)
 
-    assert_equal Payments::Stripe::MONTH_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal Premium::MONTH_AMOUNT_IN_CENTS, subscription.amount_in_cents
+    assert_equal :month, subscription.interval
   end
 end

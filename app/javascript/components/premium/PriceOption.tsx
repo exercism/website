@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
+import { useMutation } from 'react-query'
 import currency from 'currency.js'
-import { redirectTo } from '@/utils'
+import { redirectTo, sendRequest, typecheck } from '@/utils'
 import { Modal } from '../modals'
 import { GraphicalIcon } from '../common'
 import { ExercismStripeElements } from '../donations/ExercismStripeElements'
@@ -66,20 +67,79 @@ export function PriceOption({ data }: { data: PriceOptionProps }): JSX.Element {
   )
 }
 
-function PriceCard({ onStripeClick, paypalLink }: PriceCardProps): JSX.Element {
+function PriceCard({
+  onStripeClick,
+  paypalLink,
+  period,
+}: PriceCardProps): JSX.Element {
+  type Subscription = {
+    links: { approve: string }
+  }
+  const [mutation] = useMutation<Subscription | undefined>(
+    async () => {
+      const { fetch } = sendRequest({
+        endpoint: paypalLink,
+        method: 'POST',
+        body: null,
+      })
+      return fetch.then((json) => {
+        if (!json) {
+          return
+        }
+
+        return typecheck<Subscription>(json, 'subscription')
+      })
+    },
+    {
+      onSuccess: (subscription) => {
+        if (!subscription) {
+          return
+        }
+
+        redirectTo(subscription.links.approve)
+      },
+    }
+  )
+
+  const handlePaypalPayment = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
   return (
-    <div className="flex flex-row items-center justify-center gap-12">
-      <button onClick={onStripeClick} className="btn-m btn-primary">
+    <div className="flex lg:flex-row flex-col items-center justify-center gap-12">
+      <button
+        onClick={onStripeClick}
+        className="btn-m btn-primary w-100 lg:w-auto"
+      >
         <span>Debit/Credit Card</span>
       </button>
-      <a href={paypalLink} className="btn-m btn-secondary">
-        <GraphicalIcon
-          icon="paypal-light"
-          category="graphics"
-          className="!filter-none"
-        />
-        <span>PayPal</span>
-      </a>
+      {period === 'lifetime' ? (
+        <a href={paypalLink} className="btn-m btn-secondary w-100 lg:w-auto">
+          <GraphicalIcon
+            icon="paypal-light"
+            category="graphics"
+            className="!filter-none"
+          />
+          <span>PayPal</span>
+        </a>
+      ) : (
+        <button
+          onClick={handlePaypalPayment}
+          className="btn-m btn-secondary w-100 lg:w-auto"
+        >
+          <GraphicalIcon
+            icon="paypal-light"
+            category="graphics"
+            className="!filter-none"
+          />
+          <span>PayPal</span>
+        </button>
+      )}
     </div>
   )
 }

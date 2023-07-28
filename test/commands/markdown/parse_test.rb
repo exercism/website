@@ -89,6 +89,7 @@ Done')
     TABLE
 
     expected = <<~HTML
+      <div class="c-responsive-table-wrapper">
       <table>
       <thead>
       <tr>
@@ -103,6 +104,7 @@ Done')
       </tr>
       </tbody>
       </table>
+      </div>
     HTML
     assert_equal expected, Markdown::Parse.(table)
   end

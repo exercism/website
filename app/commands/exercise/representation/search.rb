@@ -4,7 +4,7 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  initialize_with with_feedback: Mandate::NO_DEFAULT, mentor: nil, criteria: nil, track: Mandate::NO_DEFAULT,
+  initialize_with mode: Mandate::NO_DEFAULT, mentor: nil, criteria: nil, track: Mandate::NO_DEFAULT,
     order: :most_submissions, page: 1, paginated: true, sorted: true, only_mentored_solutions: false do
     @order = order.try(&:to_sym)
   end
@@ -13,7 +13,7 @@ class Exercise::Representation::Search
     @representations = Exercise::Representation.
       includes(:exercise, :track).
       where('num_submissions > 1')
-    filter_with_feedback!
+    filter_mode!
     filter_track!
     filter_exercises!
     filter_only_mentored_solutions!
@@ -23,10 +23,11 @@ class Exercise::Representation::Search
   end
 
   private
-  def filter_with_feedback!
-    if with_feedback && mentor.present?
+  def filter_mode!
+    case mode
+    when :with_feedback
       @representations = @representations.with_feedback_by(mentor)
-    elsif with_feedback
+    when :admin
       @representations = @representations.with_feedback
     else
       @representations = @representations.without_feedback
@@ -65,6 +66,10 @@ class Exercise::Representation::Search
       @representations = @representations.order(last_submitted_at: :desc)
     when :most_submissions
       @representations = @representations.order(num_submissions: :desc)
+    when :most_recent_feedback
+      @representations = @representations.order(feedback_added_at: :desc)
+    when :least_recent_feedback
+      @representations = @representations.order(feedback_added_at: :asc)
     end
   end
 

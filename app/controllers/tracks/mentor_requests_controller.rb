@@ -8,11 +8,19 @@ class Tracks::MentorRequestsController < ApplicationController
     @first_time_mentoring = true
 
     # TODO: (Optional) Change to "if %i[requested in_progress].include(@solution.mentoring_status)
-    #
+
     return redirect_to action: :show if @solution.mentor_requests.pending.exists?
     return redirect_to action: :show if @solution.mentor_discussions.in_progress_for_student.exists?
-    return redirect_to action: :get_more_slots unless @user_track.has_available_mentoring_slot?
-    return redirect_to action: :no_slots_remaining if @user_track.rep_for_next_mentoring_slot.nil?
+
+    # rubocop:disable Style/GuardClause
+    unless @user_track.has_available_mentoring_slot?
+      if @user_track.num_locked_mentoring_slots.positive?
+        redirect_to action: :get_more_slots
+      else
+        redirect_to action: :no_slots_remaining
+      end
+    end
+    # rubocop:enable Style/GuardClause
   end
 
   def no_slots_remaining; end

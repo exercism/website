@@ -285,7 +285,7 @@
             & .tabs {
                 @apply flex flex-shrink-0 flex-grow-0;
                 @apply py-16 px-24;
-                @apply scroll-x-hidden;
+                @apply scroll-x-editor-rhs;
 
                 & .c-tab {
                     height: 36px;
@@ -359,6 +359,10 @@
                     & .content {
                         @apply mt-0;
                     }
+
+                    h4 {
+                        @apply mt-20;
+                    }
                 }
                 & .instructions {
                     &:not-first-child {
@@ -428,7 +432,6 @@
                     & .c-icon {
                         height: 24px;
                         width: 24px;
-                        animation: spin 3s linear infinite;
                         filter: var(--textColor6-filter);
                         @apply mb-20;
                     }

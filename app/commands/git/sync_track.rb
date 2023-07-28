@@ -48,7 +48,8 @@ class Git::SyncTrack < Git::Sync
       has_test_runner: head_git_track.has_test_runner?,
       has_analyzer: head_git_track.has_analyzer?,
       has_representer: head_git_track.has_representer?,
-      concepts:
+      concepts:,
+      highlightjs_language: head_git_track.highlightjs_language
     )
 
     Git::SyncTrackDocs.(track, force_sync:)

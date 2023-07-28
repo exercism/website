@@ -39,3 +39,6 @@
       .icon.c-ed.--available.--concept.disabled
       #{@concept.name} is available for you to learn.
 
+
+= link_to Exercism::Routes.track_concept_path(@track, @concept), class: 'btn-xs btn-secondary mt-16' do
+  Explore concept

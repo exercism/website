@@ -9,7 +9,7 @@ export function Approaches({
 }): JSX.Element {
   const { exercise } = useContext(DigDeeperDataContext)
   return (
-    <div className="flex flex-col">
+    <div className="lg:flex lg:flex-col mb-24">
       <SectionHeader
         title="Approaches"
         description={
@@ -21,10 +21,12 @@ export function Approaches({
         className="mb-16"
       />
 
-      {approaches.length > 0 &&
-        approaches.map((i) => {
-          return <ApproachSnippet key={i.title} approach={i} />
-        })}
+      <div className="lg:flex lg:flex-col grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-[unset]">
+        {approaches.length > 0 &&
+          approaches.map((i) => {
+            return <ApproachSnippet key={i.title} approach={i} />
+          })}
+      </div>
     </div>
   )
 }

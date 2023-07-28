@@ -70,14 +70,15 @@
 
         & > time,
         & .not-published {
+            @apply sm:block hidden;
             @apply mr-24 flex-grow;
             @apply leading-160 text-textColor6;
         }
         & > .--counts {
             @apply flex;
+            @apply gap-x-24;
             & > .--count {
                 @apply flex items-center;
-                @apply ml-24;
 
                 & > .c-icon {
                     height: 18px;

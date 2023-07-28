@@ -47,7 +47,7 @@ export function ThemeButton({
             filter: nonPremium ? 'grayscale(0.9)' : '',
             opacity: nonPremium ? '60%' : '100%',
           }}
-          className={`flex items-center justify-center border-1 border-borderColor6 rounded-8 ${
+          className={`theme-preference-form-button flex items-center justify-center border-1 border-borderColor6 rounded-8 ${
             selected && '--selected-theme'
           } ${theme.value === 'sepia' && 'sepia'}`}
           onClick={onClick}

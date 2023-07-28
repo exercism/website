@@ -15,16 +15,11 @@
         & .logos {
             & .c-icon {
                 @apply mx-32 my-12;
+                height: 40px;
             }
             & .mozilla {
                 height: 33px;
                 @apply filter-textColor1;
-            }
-            & .packt {
-                height: 40px;
-            }
-            & .chicago {
-                height: 48px;
             }
             & .gobridge {
                 height: 80px;
@@ -105,6 +100,20 @@
         }
         & .c-prominent-link {
             @apply text-18;
+        }
+    }
+}
+.theme-light {
+    #page-organisation-supporters {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    #page-organisation-supporters {
+        .logo-light {
+            @apply hidden;
         }
     }
 }

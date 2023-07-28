@@ -34,7 +34,7 @@ class User::Premium::Update
   def last_payment_premium_until
     return nil if last_payment.nil?
     return nil if last_payment.subscription.nil?
-    return nil if last_payment.subscription.canceled?
+    return nil if last_payment.subscription.pending?
 
     next_payment_date = last_payment.created_at + last_payment.subscription.time_interval + last_payment.subscription.grace_period
     return nil if next_payment_date <= Time.current
@@ -43,5 +43,5 @@ class User::Premium::Update
   end
 
   memoize
-  def last_payment = user.payments.premium.order(:id).last
+  def last_payment = user.payments.premium.order(:created_at).last
 end

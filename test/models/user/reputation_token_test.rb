@@ -9,7 +9,7 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
 
     I18n.expects(:t).with(
       "user_reputation_tokens.reputation.",
-      { user: "dangerous" }
+      user: "dangerous"
     ).returns("")
 
     token.text

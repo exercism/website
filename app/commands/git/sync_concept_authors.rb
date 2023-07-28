@@ -15,7 +15,7 @@ class Git::SyncConceptAuthors < Git::Sync
       concept.reload.update!(authors:)
 
       # TODO: (Optional) consider what to do with missing authors
-      missing_authors = authors_config - authors.pluck(:github_username)
+      missing_authors = authors_config - authors.map(&:github_username)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
     end
   end

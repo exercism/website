@@ -10,9 +10,11 @@
 
     & nav.lhs {
         @apply flex-grow;
+        @apply overflow-auto;
     }
     & ul {
-        @apply flex;
+        @apply flex items-center;
+        @apply whitespace-nowrap;
     }
     & li {
         @apply mr-40;

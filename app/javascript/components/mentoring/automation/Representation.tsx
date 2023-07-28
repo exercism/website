@@ -1,16 +1,16 @@
-import React, { useCallback, useRef } from 'react'
+import React from 'react'
+import { QueryStatus } from 'react-query'
+import { Checkbox, SearchInput } from '@/components/common'
+import { ResultsZone } from '@/components/ResultsZone'
+import { useAutomation } from './useAutomation'
 import { TrackFilterList } from './TrackFilterList'
-import { Request } from '../../../hooks/request-query'
-import { AutomationStatus } from '../../types'
+import { AutomationIntroducer } from './AutomationIntroducer'
+import { RepresentationList } from './RepresentationList'
 import { Sorter } from '../Sorter'
 import { StatusTab } from '../inbox/StatusTab'
-import { Checkbox, SearchInput } from '../../common'
-import { AutomationIntroducer } from './AutomationIntroducer'
-import { ResultsZone } from '../../ResultsZone'
-import { RepresentationList } from './RepresentationList'
 import { SortOption } from '../Inbox'
-import { error } from 'jquery'
-import { useAutomation } from './useAutomation'
+import type { Request } from '@/hooks'
+import type { AutomationStatus, AutomationTrack } from '@/components/types'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -20,77 +20,51 @@ export type AutomationLinks = {
 }
 
 export type SelectedTab = 'admin' | 'with_feedback' | 'without_feedback'
+type TabCounts = Record<'admin' | 'withFeedback' | 'withoutFeedback', number>
+
 export type AutomationProps = {
-  tracksRequest: Request
+  tracks: AutomationTrack[]
+  counts: TabCounts
   links: AutomationLinks
   representationsRequest: Request
   sortOptions: SortOption[]
   selectedTab: SelectedTab
-  representationsWithoutFeedbackCount?: number
-  representationsWithFeedbackCount?: number
-  allRepresentationsWithFeedbackCount?: number
   trackCacheKey: string
   isIntroducerHidden: boolean
 }
 
 export function Representations({
-  tracksRequest,
-  sortOptions,
+  tracks,
+  counts,
   links,
   representationsRequest,
+  sortOptions,
   selectedTab,
-  allRepresentationsWithFeedbackCount,
-  representationsWithoutFeedbackCount,
-  representationsWithFeedbackCount,
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
   const withFeedback = selectedTab === 'with_feedback'
+  const trackCountText = ['with_feedback', 'admin'].includes(selectedTab)
+    ? 'submission'
+    : 'request'
   const {
-    feedbackCount,
-    checked,
-    handleTrackChange,
-    isFetching,
-    isTrackListFetching,
-    latestData,
-    order,
-    page,
-    resolvedData,
-    selectedTrack,
-    handleOnlyMentoredSolutions,
-    setCriteria,
-    setOrder,
-    setPage,
     status,
-    trackListError,
-    trackListStatus,
-    tracks,
+    error,
+    isFetching,
+    resolvedData,
+    latestData,
     criteria,
-  } = useAutomation(
-    representationsRequest,
-    allRepresentationsWithFeedbackCount,
-    representationsWithFeedbackCount,
-    representationsWithoutFeedbackCount,
-    tracksRequest,
-    trackCacheKey,
-    selectedTab
-  )
-
-  // timeout is stored in a useRef, so it can be cancelled
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const timer = useRef<any>()
-
-  const handlePageResetOnInputChange = useCallback(
-    (input: string) => {
-      //clears it on any input
-      clearTimeout(timer.current)
-      if (criteria && (input.length > 2 || input.length === 0)) {
-        timer.current = setTimeout(() => setPage(1), 500)
-      }
-    },
-
-    [criteria, setPage]
-  )
+    setCriteria,
+    order,
+    setOrder,
+    page,
+    setPage,
+    checked,
+    selectedTrack,
+    handleTrackChange,
+    handleOnlyMentoredSolutions,
+    handlePageResetOnInputChange,
+  } = useAutomation(representationsRequest, tracks)
 
   return (
     <div className="c-mentor-inbox">
@@ -106,9 +80,7 @@ export function Representations({
           >
             <a href={links.withoutFeedback}>Need feedback</a>
             {resolvedData ? (
-              <div className="count">
-                {feedbackCount['without_feedback']?.toLocaleString()}
-              </div>
+              <div className="count">{counts.withoutFeedback}</div>
             ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
@@ -118,9 +90,7 @@ export function Representations({
           >
             <a href={links.withFeedback}>Feedback submitted</a>
             {resolvedData ? (
-              <div className="count">
-                {feedbackCount['with_feedback']?.toLocaleString()}
-              </div>
+              <div className="count">{counts.withFeedback}</div>
             ) : null}
           </StatusTab>
           <StatusTab<AutomationStatus>
@@ -129,11 +99,7 @@ export function Representations({
             setStatus={() => null}
           >
             <a href={links.admin}>Admin</a>
-            {resolvedData ? (
-              <div className="count">
-                {feedbackCount['all_with_feedback']?.toLocaleString()}
-              </div>
-            ) : null}
+            {resolvedData ? <div className="count">{counts.admin}</div> : null}
           </StatusTab>
         </div>
         {!withFeedback && (
@@ -149,11 +115,11 @@ export function Representations({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
-            status={trackListStatus}
-            error={trackListError}
+            status={QueryStatus.Success}
+            error={''}
             tracks={tracks}
-            countText={withFeedback ? 'submission' : 'request'}
-            isFetching={isTrackListFetching}
+            countText={trackCountText}
+            isFetching={false}
             cacheKey={trackCacheKey}
             value={selectedTrack}
             setValue={handleTrackChange}
@@ -181,13 +147,14 @@ export function Representations({
         </header>
         <ResultsZone isFetching={isFetching}>
           <RepresentationList
-            withFeedback={withFeedback}
+            status={status}
             error={error}
+            withFeedback={withFeedback}
+            selectedTab={selectedTab}
             latestData={latestData}
             page={page}
             setPage={setPage}
             resolvedData={resolvedData}
-            status={status}
           />
         </ResultsZone>
       </div>

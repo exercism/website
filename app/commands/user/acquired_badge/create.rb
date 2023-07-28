@@ -25,7 +25,7 @@ class User::AcquiredBadge::Create
         end
 
         User::Notification::Create.(user, badge.notification_key) if badge.notification_key.present?
-        User::ResetCache.defer(user)
+        User::ResetCache.defer(user, :has_unrevealed_badges?)
       end
 
     # Guard against the race condition

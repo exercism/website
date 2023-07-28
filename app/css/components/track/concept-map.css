@@ -117,9 +117,9 @@
                 }
             }
 
-            & .exercise-status-bar {
+            .exercise-status-bar {
+                @apply justify-center align-middle;
                 @apply py-10 px-24;
-                @apply flex justify-center align-middle;
                 @apply border-t-1 border-borderColor7;
 
                 & .c-ed {

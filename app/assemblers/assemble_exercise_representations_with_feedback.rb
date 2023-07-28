@@ -22,7 +22,7 @@ class AssembleExerciseRepresentationsWithFeedback
     Exercise::Representation::Search.(
       mentor:,
       track:,
-      with_feedback: true,
+      mode: :with_feedback,
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)

@@ -20,8 +20,7 @@ class Payments::Stripe::Subscription::UpdateAmount
             interval: 'month'
           }
         }
-      }],
-      proration_behavior: 'none'
+      }]
     )
 
     Payments::Subscription::UpdateAmount.(subscription, amount_in_cents)

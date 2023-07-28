@@ -9,7 +9,7 @@
         }
 
         & .emoji {
-            font-size: 80px;
+            @apply md:text-[80px] text-[42px];
             @apply mb-16;
         }
 

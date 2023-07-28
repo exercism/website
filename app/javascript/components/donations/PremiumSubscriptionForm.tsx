@@ -12,11 +12,27 @@ import { StripeForm } from './StripeForm'
 import { redirectTo } from '@/utils/redirect-to'
 import { PriceOptionProps } from '../premium/PriceOption'
 
-type Links = Record<'cancel' | 'insidersPath' | 'premiumRedirectLink', string>
+export type Links = Record<
+  | 'cancel'
+  | 'updateToMonthly'
+  | 'updateToAnnual'
+  | 'insidersPath'
+  | 'premiumRedirectLink',
+  string
+>
 type Intervals = 'year' | 'month' | 'lifetime'
 type PremiumProviders = Exclude<Provider, 'github'>
 
-const PLANS = ['monthly plan ($9.99/month)', 'annual plan ($99.99/year)']
+export type PremiumPlan = {
+  description: string
+  type: 'month' | 'year'
+  amount: number
+}
+
+const PLANS: PremiumPlan[] = [
+  { description: 'monthly plan ($9.99/month)', type: 'month', amount: 9.99 },
+  { description: 'annual plan ($99.99/year)', type: 'year', amount: 99.99 },
+]
 
 export type PremiumSubscriptionProps = {
   interval: Intervals
@@ -29,7 +45,6 @@ export type PremiumSubscriptionProps = {
   >
 
 export default ({
-  amount,
   links,
   interval,
   provider,
@@ -59,15 +74,10 @@ export default ({
       ) : (
         <>
           <p className="text-p-base">
-            You&apos;re currently on the {currentPlan}. If you&apos;d like to
-            move to our {otherPlan}, please contact&nbsp;
-            <a className="underline" href="mailto:loretta@exercism.org">
-              Loretta
-            </a>
-            .
+            You&apos;re currently on the {currentPlan.description}.
           </p>
           {provider === 'stripe' ? (
-            <PremiumFormOptions amount={amount} links={links} />
+            <PremiumFormOptions otherPlan={otherPlan} links={links} />
           ) : (
             <p className="text-p-base">
               To cancel your subscription, please use the{' '}

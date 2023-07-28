@@ -5,7 +5,7 @@
     @apply shadow-lg rounded-8 py-20 px-24 bg-backgroundColorA;
     @apply relative z-tooltip;
 
-    max-width: 460px;
+    width: 460px;
 
     /* TODO: add fade in transition for opacity */
 
@@ -43,7 +43,7 @@
         }
     }
     & .blurb {
-        @apply text-15 leading-160;
+        @apply text-15 leading-160 text-textColor6;
     }
 
     & .info {
@@ -77,7 +77,7 @@
         }
     }
     & .available {
-        @apply text-textColor1 font-semibold;
+        @apply text-textColor1 font-semibold whitespace-nowrap;
         & .icon {
             @apply shadow-none;
         }
@@ -93,13 +93,5 @@
     }
     & .mastered {
         @apply text-textColor1 font-semibold;
-    }
-
-    & > .--spinner {
-        @apply self-center;
-        height: 30px;
-        width: 30px;
-        animation: spin 3s linear infinite;
-        filter: var(--textColor7-filter);
     }
 }

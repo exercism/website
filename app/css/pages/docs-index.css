@@ -20,15 +20,14 @@
     }
 
     & .using-section {
-        @apply flex mb-40;
+        @apply flex md:flex-row flex-col-reverse mb-40;
 
         & .info {
             @apply flex-grow flex flex-col items-start;
         }
         & > .c-icon {
-            height: 300px;
-            width: 300px;
-            @apply ml-64;
+            @apply md:h-[300px] h-[200px] md:w-[300px] w-[200px];
+            @apply md:ml-64 m-auto;
         }
         & h2 {
             @apply text-h3 mb-8;
@@ -45,7 +44,7 @@
         & .section {
             @apply flex-grow-0 flex-shrink-0;
             @apply py-32;
-            width: 50%;
+            @apply md:w-[50%] w-100;
             @apply overflow-hidden relative;
             --strokeColor: var(--borderColorDocsDashed);
             --dashWeight: 1px;
@@ -69,18 +68,9 @@
                 var(--dashWeight) 100%, 100% var(--dashWeight);
             background-position: 0 0, 0 0, 100% 0, 0 100%;
             background-repeat: no-repeat;
-            &:nth-child(1) {
-                @apply pr-32;
-                background-image: repeating-linear-gradient(
-                        var(--left),
-                        var(--hiddenDash)
-                    ),
-                    repeating-linear-gradient(var(--top), var(--hiddenDash)),
-                    repeating-linear-gradient(var(--right), var(--visibleDash)),
-                    repeating-linear-gradient(var(--bottom), var(--visibleDash));
-            }
+
+            &:nth-child(1),
             &:nth-child(2) {
-                @apply pl-32;
                 background-image: repeating-linear-gradient(
                         var(--left),
                         var(--hiddenDash)
@@ -89,17 +79,56 @@
                     repeating-linear-gradient(var(--right), var(--hiddenDash)),
                     repeating-linear-gradient(var(--bottom), var(--visibleDash));
             }
-            &:nth-child(3) {
-                @apply pr-32;
-                background-image: repeating-linear-gradient(
-                        var(--left),
-                        var(--hiddenDash)
-                    ),
-                    repeating-linear-gradient(var(--top), var(--hiddenDash)),
-                    repeating-linear-gradient(var(--right), var(--visibleDash)),
-                    repeating-linear-gradient(var(--bottom), var(--hiddenDash));
+            @screen md {
+                &:nth-child(1) {
+                    @apply pr-32;
+                    background-image: repeating-linear-gradient(
+                            var(--left),
+                            var(--hiddenDash)
+                        ),
+                        repeating-linear-gradient(var(--top), var(--hiddenDash)),
+                        repeating-linear-gradient(
+                            var(--right),
+                            var(--visibleDash)
+                        ),
+                        repeating-linear-gradient(
+                            var(--bottom),
+                            var(--visibleDash)
+                        );
+                }
+                &:nth-child(2) {
+                    @apply pl-32;
+                    background-image: repeating-linear-gradient(
+                            var(--left),
+                            var(--hiddenDash)
+                        ),
+                        repeating-linear-gradient(var(--top), var(--hiddenDash)),
+                        repeating-linear-gradient(
+                            var(--right),
+                            var(--hiddenDash)
+                        ),
+                        repeating-linear-gradient(
+                            var(--bottom),
+                            var(--visibleDash)
+                        );
+                }
+                &:nth-child(3) {
+                    @apply pr-32;
+                    background-image: repeating-linear-gradient(
+                            var(--left),
+                            var(--hiddenDash)
+                        ),
+                        repeating-linear-gradient(var(--top), var(--hiddenDash)),
+                        repeating-linear-gradient(
+                            var(--right),
+                            var(--visibleDash)
+                        ),
+                        repeating-linear-gradient(
+                            var(--bottom),
+                            var(--hiddenDash)
+                        );
+                }
             }
-
             & .c-icon.header-icon {
                 height: 64px;
                 @apply mb-16;

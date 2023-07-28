@@ -22,13 +22,13 @@ class Submission < ApplicationRecord
     },
     class_name: "Submission::TestRun", dependent: :destroy
 
-  # The "normal" one is the one run against the same git_sha as the submission
+  # The "normal" one is the one run against the same git_important_files_hash as the submission
   # We again use order id desc to get the latest
   has_one :test_run, # rubocop:disable Rails/InverseOf
     lambda {
       order(id: :desc).
         joins(:submission).
-        where('submission_test_runs.git_sha = submissions.git_sha')
+        where('submission_test_runs.git_important_files_hash = submissions.git_important_files_hash')
     },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
@@ -136,17 +136,20 @@ class Submission < ApplicationRecord
     end
   end
 
-  memoize
-  def valid_filepaths
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def valid_filepaths(repo = exercise_repo)
+    repo ||= exercise_repo
     files.map(&:filename).select do |filepath|
-      exercise_repo.valid_submission_filepath?(filepath)
+      repo.valid_submission_filepath?(filepath)
     end
   end
 
-  memoize
-  def exercise_files
-    exercise_repo.tooling_files.reject do |filepath, _|
-      valid_filepaths.include?(filepath)
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def exercise_files(repo = exercise_repo)
+    repo.tooling_files.reject do |filepath, _|
+      valid_filepaths(repo).include?(filepath)
     end
   end
 

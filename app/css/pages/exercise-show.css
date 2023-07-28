@@ -15,6 +15,15 @@
     }
 }
 
+body.namespace-tracks,
+body.namespace-.controller-tracks {
+    .auth-buttons {
+        a:nth-child(2) {
+            @apply sm:flex hidden;
+        }
+    }
+}
+
 #page-exercise-show {
     & section.completed-heading {
         @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-24;
@@ -306,7 +315,7 @@
         }
 
         & a.iteration {
-            @apply rounded-8 shadow-sm border-1 border-borderLight;
+            @apply rounded-8 shadow-sm border-1 border-borderColor5;
             @apply py-8 px-24 mb-16;
             @apply flex items-center;
 
@@ -388,26 +397,22 @@
         }
     }
     & section.extra-info {
-        @apply flex items-center mb-40;
-        & .updated-at,
-        & a {
+        @apply flex flex-row items-center mb-40;
+        a {
+            @apply xs:flex hidden items-center;
             @apply text-15 text-textColor6 font-medium;
-        }
-
-        & a {
-            @apply flex items-center;
             @apply ml-auto;
 
-            & .c-icon {
+            .c-icon {
                 filter: var(--textColor6-filter);
             }
 
-            & .github-icon {
+            .github-icon {
                 height: 22px;
                 width: 22px;
                 @apply mr-16;
             }
-            & .action-icon {
+            .action-icon {
                 height: 12px;
                 width: 12px;
                 @apply ml-12;
@@ -449,11 +454,15 @@
             }
         }
         & h4 {
-            @apply text-label-code-caps mb-12;
+            @apply text-label-code-caps mb-12 text-textColor6;
         }
 
         & .editor-btn {
             @apply mb-16;
+        }
+
+        .c-copy-text-to-clipboard {
+            @apply border-btnBorder;
         }
 
         & .c-cli-walkthrough-button {
@@ -467,7 +476,7 @@
         }
 
         & .complete {
-            @apply mb-24 pb-20 border-b-1 border-borderLight;
+            @apply mb-24 pb-20 border-b-1 border-borderColor5;
 
             & button {
                 @apply w-100;

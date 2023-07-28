@@ -34,7 +34,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
       APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
       MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
-      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] }
+      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
+      JULY_EXERCISES.map { |e| [e, JULY_TRACKS] }
     ).to_h
   end
 
@@ -52,4 +53,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   JUNE_TRACKS = %w[clojure common-lisp emacs-lisp lfe racket scheme].freeze
   JUNE_EXERCISES = %w[leap two-fer difference-of-squares robot-name matching-brackets].freeze
+
+  JULY_TRACKS = %w[c cpp cobol fortran vbnet].freeze
+  JULY_EXERCISES = %w[bob allergies reverse-string high-scores armstrong-numbers].freeze
 end

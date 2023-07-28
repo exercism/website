@@ -32,13 +32,17 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @own_solution = @author == @current_user
 
     # TODO: (Required) Real algorithm here
-    @other_solutions = @exercise.solutions.published.
+    os_ids = @exercise.solutions.published.
       where.not(id: @solution.id).
       where(published_iteration_head_tests_status: %i[not_queued queued passed]).
-      limit(3).
-      includes(*SerializeSolutions::NP1_INCLUDES)
-    @mentor_discussions = @solution.mentor_discussions.
-      finished.not_negatively_rated.includes(:mentor)
+      limit(4). # Limit 1 more than we show so we can exclude the solution id after SQL
+      pluck(:id)
+
+    # We want to manually exclude (after SQL!) the solution id, and then just select 3
+    (os_ids - [@solution.id])[0, 3]
+
+    @other_solutions = Solution.where(id: os_ids).includes(*SerializeSolutions::NP1_INCLUDES)
+    @mentor_discussions = @solution.mentor_discussions.finished.not_negatively_rated.includes(:mentor)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -2,18 +2,20 @@ class AboutController < ApplicationController
   skip_before_action :authenticate_user!
 
   def organisation_supporters
-    use_num_individual_supporters
+    @num_individual_supporters = User::Data.donors.count
   end
 
   def individual_supporters
-    use_num_individual_supporters
-    @supporting_users = User.public_supporter.
+    @num_individual_supporters = User::Data.donors.count
+    user_ids = User::Data.public_supporter.
       order(first_donated_at: :asc).
-      page(params[:page]).per(30)
-  end
+      page(params[:page]).per(30).without_count.
+      pluck(:user_id)
 
-  def supporter_gobridge
-    @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
+    users = User.with_attached_avatar.
+      where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
+    @supporting_users = Kaminari.paginate_array(users, total_count: @num_individual_supporters).
+      page(params[:page]).per(30)
   end
 
   #     ips = [
@@ -148,7 +150,5 @@ class AboutController < ApplicationController
   end
 
   private
-  def use_num_individual_supporters
-    @num_individual_supporters = User.donors.count
-  end
+  def use_num_individual_supporters; end
 end

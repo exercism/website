@@ -1,9 +1,8 @@
-# Once this is in production and everything is updated
-# we can get rid of the DEFAULT_FIELDS logic
 class User::Data < ApplicationRecord
   include User::Roles
 
   scope :donors, -> { where.not(first_donated_at: nil) }
+  scope :public_supporter, -> { donors.where(show_on_supporters_page: true) }
 
   belongs_to :user
 
@@ -43,33 +42,23 @@ class User::Data < ApplicationRecord
     }
   end
 
-  # Cache methods
   %w[
     has_unrevealed_testimonials?
     has_unrevealed_badges?
     has_unseen_reputation_tokens?
+    num_students_mentored
+    num_solutions_mentored
+    num_testimonials
+    num_published_testimonials
+    num_published_solutions
+    mentor_satisfaction_percentage
   ].each do |meth|
     define_method meth do
-      self.cache.presence || User::ResetCache.(user)
-      self.cache[meth]
+      return self.cache[meth] if self.cache.key?(meth)
+
+      # This returns the new value
+      User::ResetCache.(user, meth)
     end
   end
-
-  FIELDS = %w[
-    bio roles usages insiders_status cache
-
-    github_username
-    stripe_customer_id paypal_payer_id
-    discord_uid
-
-    accepted_privacy_policy_at accepted_terms_at
-    became_mentor_at joined_research_at first_donated_at
-    last_visited_on
-
-    num_solutions_mentored mentor_satisfaction_percentage
-    total_donated_in_cents
-
-    active_donation_subscription show_on_supporters_page
-    email_status
-  ].freeze
+  def cache = super || (self.cache = {})
 end

@@ -118,12 +118,14 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     test "eligible: insiders_status set to #{expected_status} when currently #{current_status}" do
       user = create :user, insiders_status: current_status
 
-      # Make the user eligible
-      create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
+      travel_to Time.utc(2023, 6, 29) do
+        # Make the user eligible
+        create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
-      User::InsidersStatus::Update.(user.reload)
+        User::InsidersStatus::Update.(user.reload)
 
-      assert_equal expected_status, user.insiders_status
+        assert_equal expected_status, user.insiders_status
+      end
     end
   end
 
@@ -141,14 +143,16 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
   end
 
   test "eligible: notification created when current status is ineligible" do
-    user = create :user, insiders_status: :ineligible
+    travel_to Time.utc(2023, 6, 29) do
+      user = create :user, insiders_status: :ineligible
 
-    # Make the user eligible
-    create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
+      # Make the user eligible
+      create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
-    User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_insiders).once
+      User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_insiders).once
 
-    User::InsidersStatus::Update.(user)
+      User::InsidersStatus::Update.(user)
+    end
   end
 
   [

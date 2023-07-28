@@ -6,6 +6,6 @@ class Payments::Subscription::UpdateAmount
   def call
     subscription.update!(amount_in_cents:)
     User::InsidersStatus::TriggerUpdate.(subscription.user)
-    User::Premium::Update.(user) if subscription.premium?
+    User::Premium::Update.(subscription.user) if subscription.premium?
   end
 end

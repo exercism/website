@@ -1,0 +1,8 @@
+%div{ class: 'max-w-[500px]' }
+  %h2.text-p-xlarge.font-semibold.mb-8= raw strip_tags(perk.offer_summary_html_for_user(current_user))
+  %p.text-p-base.mb-20= perk.offer_details_for_user(current_user)
+  .mb-20= render ReactComponents::Common::CopyToClipboardButton.new(perk.voucher_code_for_user(current_user))
+
+  .flex.gap-12
+    = link_to "Continue to #{partner.website_domain}", claim_perk_path(perk), class: 'btn-m btn-primary', data: { turbo: false }
+    %button.btn-m.btn-enhanced{ data: { modal_close: true } } Close

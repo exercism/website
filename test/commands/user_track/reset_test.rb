@@ -40,6 +40,17 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     end
   end
 
+  test "remove solutions from search index" do
+    create :user, :ghost
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+
+    Solution::RemoveUserSolutionsForTrackFromSearchIndex.expects(:defer).with(user, track)
+
+    UserTrack::Reset.(user_track)
+  end
+
   test "removes track-specification reputation" do
     freeze_time do
       create :user, :ghost

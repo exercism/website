@@ -1,0 +1,11 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-16 Editing #{@partner.name}: Advert #{@advert.id}
+
+    = form_with(model: @advert, url: admin_partner_advert_path(@partner, @advert)) do |f|
+      = render "form", f:, partner: @partner, advert: @advert
+
+    %br/
+    %div
+      = link_to "Back to partner", [:admin, @partner]
+

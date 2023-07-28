@@ -5,6 +5,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
     rank = 5
     user = create :user
     create(:user_reputation_token, user:)
+    generate_reputation_periods!
 
     expected = {
       rank:,

@@ -460,6 +460,19 @@ export const mappings = {
       <PaypalStatus {...camelizeKeysAs<PaypalStatusProps>(data)} />
     </Suspense>
   ),
+
+  'perks-external-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksExternalModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
+  'perks-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
   'impact-map': (data: any) => {
     const metrics = data.metrics.map((metric: any) =>
       camelizeKeysAs<Metric>(metric)
@@ -489,17 +502,16 @@ export const mappings = {
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-document.addEventListener(
-  'turbo:load',
-  () => (document.getElementById('site-footer').style.display = 'block')
-)
-
 import { highlightAll } from '../utils/highlight'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsidersStatus'
-import { handleNavbarFocus } from '@/utils'
+import {
+  handleNavbarFocus,
+  scrollIntoView,
+  showSiteFooterOnTurboLoad,
+} from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
 import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
@@ -507,12 +519,15 @@ import {
   PaypalStatus,
   PaypalStatusProps,
 } from '@/components/premium/PaypalStatus'
+import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
 })
 
+showSiteFooterOnTurboLoad()
 handleNavbarFocus()
+scrollIntoView()
 
 // object.entries polyfill
 if (!Object.entries) {

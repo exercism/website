@@ -28,17 +28,16 @@ body.keyboard-navigation .nav-element:hover .arrow {
     @apply z-menu;
 
     & .announcement-bar {
-        @apply block;
         @apply py-8;
         @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
         background: var(--backgroundColorAnnouncementBar);
         & strong {
             @apply text-lightGold mx-4 font-semibold;
-            /* @apply underline; */
+            @apply underline;
         }
 
         .lg-container {
-            @apply flex justify-center items-center;
+            @apply flex md:flex-row flex-col justify-center items-center;
             .text-container {
                 @apply sm:flex flex-row;
             }
@@ -260,8 +259,8 @@ body.keyboard-navigation .nav-element:hover .arrow {
         @apply flex items-center justify-end;
         @apply ml-auto;
 
-        & a:first-child {
-            @apply mr-8;
+        & a:nth-child(2) {
+            @apply ml-8;
         }
     }
     & .auth-buttons a,

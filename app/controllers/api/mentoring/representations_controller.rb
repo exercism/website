@@ -24,14 +24,6 @@ module API
       render json: AssembleExerciseRepresentationsAdmin.(current_user, admin_params)
     end
 
-    def tracks_without_feedback
-      render json: AssembleRepresentationTracksForSelect.(current_user, with_feedback: false)
-    end
-
-    def tracks_with_feedback
-      render json: AssembleRepresentationTracksForSelect.(current_user, with_feedback: true)
-    end
-
     private
     def use_representation
       @representation = Exercise::Representation.find_by!(uuid: params[:uuid])

@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -26,10 +26,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.string "filename", null: false
     t.string "content_type"
     t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -53,20 +53,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   end
 
   create_table "blog_posts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "author_id", null: false
     t.string "uuid", null: false
     t.string "slug", null: false
     t.string "category", null: false
-    t.datetime "published_at", null: false
+    t.datetime "published_at", precision: nil, null: false
     t.string "title", null: false
-    t.text "description"
     t.string "marketing_copy", limit: 280
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "image_url"
+    t.text "description"
     t.string "youtube_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["author_id"], name: "index_blog_posts_on_author_id"
-    t.index ["uuid"], name: "index_blog_posts_on_uuid", unique: true
+    t.bigint "author_id", null: false
+    t.index ["author_id"], name: "fk_rails_b88cda424b"
+    t.index ["published_at"], name: "index_blog_posts_on_published_at"
+    t.index ["slug"], name: "index_blog_posts_on_slug", unique: true
   end
 
   create_table "cohort_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -159,13 +160,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "subscription_id"
-    t.string "external_id", null: false
-    t.string "external_receipt_url"
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.string "external_id", null: false
+    t.string "external_receipt_url"
     t.integer "product", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
@@ -174,13 +175,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
 
   create_table "donations_subscriptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "external_id", null: false
     t.decimal "amount_in_cents", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "email_status", limit: 1, default: 0, null: false
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
+    t.string "external_id", null: false
     t.integer "product", limit: 1, default: 0, null: false
     t.integer "interval", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
@@ -328,28 +329,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "feedback_editor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "num_submissions", default: 1, null: false
+    t.integer "num_submissions", limit: 3, default: 1, null: false
     t.datetime "last_submitted_at", default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
-    t.string "uuid", null: false
     t.bigint "track_id"
+    t.string "uuid"
     t.datetime "feedback_added_at"
     t.integer "representer_version", limit: 2, default: 1, null: false
     t.integer "exercise_version", limit: 2, default: 1, null: false
     t.integer "draft_feedback_type", limit: 1
     t.text "draft_feedback_markdown"
     t.string "exercise_id_and_ast_digest_idx_cache"
+    t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
-    t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep", order: { id: :desc }
-    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions", order: { num_submissions: :desc }
-    t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_author_id", "track_id", "num_submissions"], name: "index_exercise_representation_author_track_num_submissions", order: { num_submissions: :desc }
+    t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep"
+    t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at"
+    t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions"
+    t.index ["feedback_author_id", "track_id", "last_submitted_at"], name: "index_exercise_representation_author_track_last_submitted_at"
     t.index ["feedback_author_id"], name: "index_exercise_representations_on_feedback_author_id"
     t.index ["feedback_editor_id"], name: "index_exercise_representations_on_feedback_editor_id"
-    t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at", order: { last_submitted_at: :desc }
-    t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions", order: { num_submissions: :desc }
+    t.index ["feedback_type", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_type_exercise_last_submitted_at"
+    t.index ["feedback_type", "exercise_id", "num_submissions"], name: "index_exercise_representation_type_exercise_num_submissions"
+    t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at"
+    t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions"
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
     t.index ["track_id"], name: "index_exercise_representations_on_track_id"
+    t.index ["uuid"], name: "index_exercise_representations_on_uuid", unique: true
   end
 
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -365,37 +369,37 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   create_table "exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.string "uuid", null: false
-    t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
-    t.string "blurb", limit: 350, null: false
-    t.integer "difficulty", limit: 1, default: 1, null: false
-    t.integer "status", limit: 1, default: 0, null: false
+    t.text "blurb"
+    t.integer "difficulty", default: 1, null: false
+    t.integer "position"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "median_wait_time"
+    t.integer "status", limit: 1, default: 2, null: false
+    t.string "icon_name", null: false
+    t.string "type", null: false
     t.string "git_sha", null: false
     t.string "synced_to_git_sha", null: false
     t.string "git_important_files_hash", null: false
-    t.integer "position", null: false
-    t.string "icon_name", null: false
-    t.integer "median_wait_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.boolean "has_test_runner", default: false, null: false
     t.integer "num_published_solutions", default: 0, null: false
     t.boolean "has_approaches", default: false, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
-    t.index ["track_id"], name: "index_exercises_on_track_id"
-    t.index ["uuid"], name: "index_exercises_on_uuid"
+    t.index ["track_id"], name: "fk_rails_a796d89c21"
   end
 
   create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "slug", null: false
+    t.string "slug", limit: 190, null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
-    t.string "scope"
-    t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+    t.string "scope", limit: 190
+    t.datetime "created_at", precision: nil
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
   create_table "github_issue_labels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -414,7 +418,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.integer "status", limit: 1, default: 0, null: false
     t.string "repo", null: false
     t.string "opened_by_username"
-    t.datetime "opened_at", null: false
+    t.datetime "opened_at", precision: nil, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_github_issues_on_node_id", unique: true
@@ -458,7 +462,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.string "repo", null: false
     t.string "issue_url", null: false
     t.string "opened_by_username"
-    t.datetime "opened_at", null: false
+    t.datetime "opened_at", precision: nil, null: false
     t.integer "action", limit: 1, default: 0
     t.integer "knowledge", limit: 1, default: 0
     t.integer "area", limit: 1, default: 0
@@ -482,16 +486,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "solution_type", default: "Solution", null: false
+    t.string "legacy_uuid"
     t.bigint "submission_id", null: false
     t.string "uuid", null: false
+    t.datetime "deleted_at", precision: nil
     t.integer "idx", limit: 1, null: false
     t.string "snippet", limit: 1500
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "num_loc"
-    t.index ["solution_id"], name: "index_iterations_on_solution_id"
+    t.index ["solution_id"], name: "fk_rails_5d9f1bf4bd"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
+    t.index ["uuid"], name: "iterations_uuid"
   end
 
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -528,31 +535,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   end
 
   create_table "mentor_discussions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
-    t.bigint "solution_id", null: false
     t.bigint "mentor_id", null: false
-    t.bigint "request_id", null: false
-    t.integer "status", limit: 1, default: 0, null: false
-    t.integer "rating", limit: 1
+    t.bigint "solution_id", null: false
+    t.integer "rating"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "awaiting_mentor_since", precision: nil
+    t.datetime "mentor_reminder_sent_at", precision: nil
+    t.string "uuid", null: false
+    t.datetime "requires_student_action_since", precision: nil
     t.integer "num_posts", limit: 3, default: 0, null: false
     t.boolean "anonymous_mode", default: false, null: false
-    t.datetime "awaiting_student_since"
-    t.datetime "awaiting_mentor_since"
-    t.datetime "mentor_reminder_sent_at"
-    t.datetime "finished_at"
+    t.datetime "awaiting_student_since", precision: nil
+    t.bigint "request_id", null: false
+    t.integer "status", limit: 1, default: 0, null: false
+    t.datetime "finished_at", precision: nil
     t.integer "finished_by", limit: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.boolean "external", default: false, null: false
     t.index ["mentor_id", "status"], name: "index_mentor_discussions_on_mentor_id_and_status"
-    t.index ["request_id"], name: "index_mentor_discussions_on_request_id"
-    t.index ["solution_id"], name: "index_mentor_discussions_on_solution_id"
+    t.index ["request_id"], name: "fk_rails_38162d0a13"
+    t.index ["solution_id"], name: "fk_rails_704ccdde73"
+    t.index ["uuid"], name: "index_mentor_discussions_on_uuid", unique: true
   end
 
   create_table "mentor_request_locks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "request_id", null: false
     t.bigint "locked_by_id", null: false
-    t.datetime "locked_until", null: false
+    t.datetime "locked_until", precision: nil, null: false
     t.index ["request_id", "locked_by_id"], name: "index_mentor_request_locks_on_request_id_and_locked_by_id"
     t.index ["request_id"], name: "index_mentor_request_locks_on_request_id"
   end
@@ -603,10 +612,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.text "content", null: false
     t.boolean "revealed", default: false, null: false
     t.boolean "published", default: true, null: false
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["discussion_id"], name: "index_mentor_testimonials_on_discussion_id", unique: true
+    t.index ["mentor_id", "discussion_id"], name: "index_on_mentor_testimonials_track_lookup"
     t.index ["mentor_id", "revealed"], name: "index_mentor_testimonials_on_mentor_id_and_revealed"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
@@ -662,6 +672,57 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
+  create_table "partner_adverts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "partner_id"
+    t.integer "status", default: 0, null: false
+    t.integer "num_impressions", default: 0, null: false
+    t.integer "num_clicks", default: 0, null: false
+    t.string "url", null: false
+    t.string "base_text", null: false
+    t.string "emphasised_text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_partner_adverts_on_partner_id"
+  end
+
+  create_table "partner_perks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "partner_id"
+    t.integer "status", default: 0, null: false
+    t.integer "num_clicks", default: 0, null: false
+    t.string "preview_text", null: false
+    t.string "general_url", null: false
+    t.string "general_offer_summary_markdown", null: false
+    t.string "general_offer_summary_html", null: false
+    t.string "general_button_text", null: false
+    t.string "general_offer_details", null: false
+    t.string "general_voucher_code"
+    t.string "premium_url"
+    t.string "premium_offer_summary_markdown"
+    t.string "premium_offer_summary_html"
+    t.string "premium_button_text"
+    t.string "premium_offer_details"
+    t.string "premium_voucher_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_partner_perks_on_partner_id"
+  end
+
+  create_table "partners", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "headline"
+    t.text "support_markdown"
+    t.text "support_html"
+    t.text "description_markdown", null: false
+    t.text "description_html", null: false
+    t.string "website_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_partners_on_slug", unique: true
+  end
+
   create_table "problem_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id"
@@ -677,6 +738,42 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["exercise_id"], name: "index_problem_reports_on_exercise_id"
     t.index ["track_id"], name: "index_problem_reports_on_track_id"
     t.index ["user_id"], name: "index_problem_reports_on_user_id"
+  end
+
+  create_table "research_experiment_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "experiment_id", null: false
+    t.string "uuid", null: false
+    t.bigint "exercise_id", null: false
+    t.string "git_sha", null: false
+    t.string "git_slug", null: false
+    t.datetime "started_at", precision: nil
+    t.datetime "finished_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "difficulty_rating"
+    t.index ["exercise_id"], name: "fk_rails_1be696c295"
+    t.index ["experiment_id"], name: "fk_rails_8f6bde7fee"
+    t.index ["user_id", "experiment_id", "exercise_id"], name: "research_solutions_uniq", unique: true
+  end
+
+  create_table "research_experiments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "slug", null: false
+    t.string "repo_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_research_experiments_on_slug"
+  end
+
+  create_table "research_user_experiments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "experiment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "survey"
+    t.index ["experiment_id"], name: "fk_rails_809b029224"
+    t.index ["user_id", "experiment_id"], name: "index_research_user_experiments_on_user_id_and_experiment_id", unique: true
   end
 
   create_table "scratchpad_pages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -701,7 +798,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "exercise_id"
     t.bigint "author_id"
     t.bigint "pull_request_id"
-    t.datetime "published_at", null: false
+    t.datetime "published_at", precision: nil, null: false
     t.string "title"
     t.text "description"
     t.datetime "created_at", null: false
@@ -711,20 +808,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["author_id"], name: "index_site_updates_on_author_id"
     t.index ["exercise_id"], name: "index_site_updates_on_exercise_id"
     t.index ["pull_request_id"], name: "index_site_updates_on_pull_request_id"
+    t.index ["track_id", "published_at", "id"], name: "index_site_updates_on_track_id_and_published_at_and_id"
     t.index ["track_id"], name: "index_site_updates_on_track_id"
     t.index ["uniqueness_key"], name: "index_site_updates_on_uniqueness_key", unique: true
   end
 
   create_table "solution_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "uuid", null: false
     t.bigint "solution_id", null: false
     t.bigint "user_id", null: false
-    t.text "content_markdown", null: false
-    t.text "content_html", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["solution_id"], name: "index_solution_comments_on_solution_id"
+    t.text "content_markdown", size: :long, null: false
+    t.text "content_html", size: :long, null: false
+    t.boolean "edited", default: false, null: false
+    t.text "previous_content"
+    t.boolean "deleted", default: false, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "uuid", null: false
+    t.index ["solution_id"], name: "fk_rails_f34a457d42"
     t.index ["user_id"], name: "index_solution_comments_on_user_id"
     t.index ["uuid"], name: "index_solution_comments_on_uuid", unique: true
   end
@@ -732,52 +832,64 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   create_table "solution_stars", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "solution_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["solution_id", "user_id"], name: "index_solution_stars_on_solution_id_and_user_id", unique: true
-    t.index ["solution_id"], name: "index_solution_stars_on_solution_id"
     t.index ["user_id"], name: "index_solution_stars_on_user_id"
   end
 
   create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "type", null: false
-    t.string "unique_key", null: false
     t.bigint "user_id", null: false
-    t.bigint "exercise_id", null: false
-    t.bigint "published_iteration_id"
     t.string "uuid", null: false
-    t.string "public_uuid", null: false
-    t.string "git_slug", null: false
+    t.bigint "exercise_id", null: false
     t.string "git_sha", null: false
-    t.string "git_important_files_hash", null: false
+    t.string "git_slug", null: false
+    t.bigint "approved_by_id"
+    t.datetime "downloaded_at", precision: nil
+    t.datetime "completed_at", precision: nil
+    t.datetime "published_at", precision: nil
+    t.integer "num_reactions", default: 0, null: false
+    t.text "reflection"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "mentoring_requested_at", precision: nil
+    t.boolean "show_on_profile", default: false, null: false
+    t.boolean "allow_comments", default: false, null: false
+    t.integer "num_comments", limit: 2, default: 0, null: false
+    t.integer "num_stars", limit: 2, default: 0, null: false
+    t.integer "num_views", limit: 3, default: 0, null: false
+    t.integer "num_loc", limit: 3
+    t.bigint "published_iteration_id"
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
-    t.boolean "allow_comments", default: true, null: false
-    t.datetime "last_iterated_at"
-    t.integer "num_iterations", limit: 1, default: 0, null: false
-    t.string "snippet", limit: 1500
-    t.datetime "downloaded_at"
-    t.datetime "completed_at"
-    t.datetime "published_at"
     t.integer "mentoring_status", limit: 1, default: 0, null: false
-    t.integer "num_views", limit: 3, default: 0, null: false
-    t.integer "num_stars", limit: 3, default: 0, null: false
-    t.integer "num_comments", limit: 3, default: 0, null: false
-    t.integer "num_loc", limit: 3
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "snippet", limit: 1500
+    t.integer "num_iterations", limit: 1, default: 0, null: false
+    t.string "type", null: false
+    t.string "public_uuid", null: false
+    t.datetime "last_iterated_at", precision: nil
+    t.string "git_important_files_hash", null: false
+    t.string "unique_key", null: false
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
-    t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat", order: { status: :desc, num_stars: :desc, updated_at: :desc }
+    t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
+    t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_1"
+    t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_2"
+    t.index ["exercise_id", "approved_by_id", "completed_at", "mentoring_requested_at", "id"], name: "mentor_selection_idx_3"
+    t.index ["exercise_id", "git_important_files_hash"], name: "index_solutions_on_exercise_id_and_git_important_files_hash"
+    t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat"
     t.index ["exercise_id", "status", "published_iteration_head_tests_status", "id"], name: "index_other_comm_solutions"
-    t.index ["exercise_id"], name: "index_solutions_on_exercise_id"
-    t.index ["num_stars", "id"], name: "solutions_popular_new", order: :desc
-    t.index ["public_uuid"], name: "index_solutions_on_public_uuid", unique: true
-    t.index ["published_iteration_id"], name: "index_solutions_on_published_iteration_id"
+    t.index ["exercise_id", "status", "published_iteration_head_tests_status"], name: "index_solutions_other_solutions"
+    t.index ["exercise_id"], name: "fk_rails_8c0841e614"
+    t.index ["num_stars", "id"], name: "solutions_popular_new"
+    t.index ["public_uuid"], name: "solutions_public_uuid"
+    t.index ["published_iteration_id"], name: "fk_rails_16788386df"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id"
-    t.index ["uuid"], name: "index_solutions_on_uuid", unique: true
+    t.index ["user_id", "status", "exercise_id"], name: "index_solutions_on_user_id_and_status_and_exercise_id"
+    t.index ["user_id", "status"], name: "index_solutions_on_user_id_and_status"
+    t.index ["uuid"], name: "index_solutions_on_uuid"
   end
 
   create_table "streaming_events", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -813,7 +925,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.integer "num_comments", limit: 1, default: 0, null: false
     t.bigint "track_id"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
-    t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id"
     t.index ["track_id", "num_comments"], name: "index_submission_analyses_on_track_id_and_num_comments"
     t.index ["track_id"], name: "index_submission_analyses_on_track_id"
   end
@@ -821,11 +933,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   create_table "submission_files", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "submission_id", null: false
     t.string "filename", null: false
-    t.string "digest", null: false
+    t.binary "file_contents"
+    t.text "digest", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "uri", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["submission_id"], name: "index_submission_files_on_submission_id"
+    t.index ["submission_id"], name: "fk_rails_d1aca45f2f"
   end
 
   create_table "submission_representations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -837,13 +950,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "mentored_by_id"
+    t.bigint "mentor_id"
     t.bigint "track_id"
     t.string "exercise_id_and_ast_digest_idx_cache"
+    t.index ["ast_digest"], name: "index_submission_representations_on_ast_digest"
     t.index ["exercise_id_and_ast_digest_idx_cache"], name: "index_ex_rep"
+    t.index ["mentor_id"], name: "index_submission_representations_on_mentor_id"
     t.index ["mentored_by_id"], name: "index_submission_representations_on_mentored_by_id"
     t.index ["submission_id", "ast_digest"], name: "index_submission_representations_on_submission_id_and_ast_digest"
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
-    t.index ["track_id", "id"], name: "index_submission_representations_on_track_id_and_id", order: { id: :desc }
+    t.index ["track_id", "id"], name: "index_submission_representations_on_track_id_and_id"
     t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
@@ -861,10 +977,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.datetime "updated_at", null: false
     t.string "git_important_files_hash", limit: 50
     t.string "git_sha", limit: 50
-    t.bigint "track_id"
+    t.integer "track_id", limit: 2
+    t.index ["git_important_files_hash", "submission_id"], name: "submissions-test-runs-git-optimiser-2"
+    t.index ["git_sha", "submission_id"], name: "submissions-test-runs-git-optimiser-1"
+    t.index ["submission_id", "git_important_files_hash"], name: "index_submission_test_run_on_submission_id_and_gifh"
+    t.index ["submission_id", "git_sha"], name: "submissions-test-runs-git-optimiser-3"
     t.index ["submission_id"], name: "index_submission_test_runs_on_submission_id"
-    t.index ["track_id", "id"], name: "index_submission_test_runs_on_track_id_and_id", order: { id: :desc }
-    t.index ["track_id"], name: "index_submission_test_runs_on_track_id"
+    t.index ["track_id", "id"], name: "index_submission_test_runs_on_track_id_and_id"
     t.index ["uuid"], name: "index_submission_test_runs_on_uuid", unique: true
   end
 
@@ -882,11 +1001,66 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.string "git_important_files_hash", limit: 50
     t.integer "track_id", limit: 2
     t.integer "exercise_id", limit: 3
+    t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
+    t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
+    t.index ["git_sha", "solution_id", "git_important_files_hash"], name: "submissions-git-optimiser-1"
     t.index ["solution_id"], name: "index_submissions_on_solution_id"
     t.index ["track_id", "exercise_id"], name: "index_submissions_on_track_id_and_exercise_id"
     t.index ["track_id", "tests_status"], name: "index_submissions_on_track_id_and_tests_status"
     t.index ["track_id"], name: "index_submissions_on_track_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
+  end
+
+  create_table "team_invitations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "invited_by_id", null: false
+    t.string "email", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "token", null: false
+    t.index ["invited_by_id"], name: "fk_rails_654806c772"
+    t.index ["team_id", "email"], name: "index_team_invitations_on_team_id_and_email", unique: true
+  end
+
+  create_table "team_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "admin", default: false, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["team_id", "user_id"], name: "index_team_memberships_on_team_id_and_user_id", unique: true
+    t.index ["team_id"], name: "fk_rails_61c29b529e"
+    t.index ["user_id"], name: "fk_rails_5aba9331a7"
+  end
+
+  create_table "team_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "team_id", null: false
+    t.string "uuid", null: false
+    t.bigint "exercise_id", null: false
+    t.string "git_sha", null: false
+    t.string "git_slug", null: false
+    t.boolean "needs_feedback", default: false, null: false
+    t.boolean "has_unseen_feedback", default: false, null: false
+    t.integer "num_iterations", default: 0, null: false
+    t.datetime "downloaded_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["exercise_id"], name: "fk_rails_ba74ecfdce"
+    t.index ["team_id"], name: "fk_rails_1c8d2e5b15"
+    t.index ["user_id", "team_id", "exercise_id"], name: "index_team_solutions_on_user_id_and_team_id_and_exercise_id", unique: true
+  end
+
+  create_table "teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.text "description"
+    t.string "token", null: false
+    t.boolean "url_join_allowed", default: true, null: false
+    t.index ["slug"], name: "index_teams_on_slug", unique: true
+    t.index ["token"], name: "index_teams_on_token", unique: true
   end
 
   create_table "track_concept_authorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -925,23 +1099,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title", null: false
-    t.string "blurb", limit: 400, null: false
     t.string "repo_url", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "active", default: true, null: false
+    t.integer "median_wait_time"
+    t.string "blurb", limit: 400, null: false
     t.string "synced_to_git_sha", null: false
+    t.json "tags"
     t.integer "num_exercises", limit: 3, default: 0, null: false
     t.integer "num_concepts", limit: 3, default: 0, null: false
-    t.json "tags"
-    t.boolean "active", default: true, null: false
     t.integer "num_students", default: 0, null: false
-    t.integer "median_wait_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.boolean "course", default: false, null: false
     t.boolean "has_test_runner", default: false, null: false
     t.boolean "has_representer", default: false, null: false
     t.boolean "has_analyzer", default: false, null: false
     t.integer "representer_version", limit: 2, default: 1, null: false
     t.string "intro_video_youtube_slug"
+    t.string "highlightjs_language"
+    t.index ["active"], name: "index_tracks_on_active"
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
@@ -965,7 +1141,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "exercise_id"
     t.bigint "solution_id"
     t.text "params", null: false
-    t.datetime "occurred_at", null: false
+    t.datetime "occurred_at", precision: nil, null: false
     t.string "uniqueness_key", null: false
     t.integer "version", null: false
     t.text "rendering_data_cache", null: false
@@ -975,17 +1151,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["solution_id"], name: "index_user_activities_on_solution_id"
     t.index ["track_id"], name: "index_user_activities_on_track_id"
     t.index ["uniqueness_key"], name: "index_user_activities_on_uniqueness_key", unique: true
+    t.index ["user_id", "track_id", "solution_id"], name: "index_user_activities_on_user_id_and_track_id_and_solution_id"
+    t.index ["user_id", "track_id"], name: "index_user_activities_on_user_id_and_track_id"
     t.index ["user_id"], name: "index_user_activities_on_user_id"
   end
 
   create_table "user_auth_tokens", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "token", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["token"], name: "index_user_auth_tokens_on_token", unique: true
-    t.index ["user_id"], name: "index_user_auth_tokens_on_user_id"
+    t.index ["user_id", "active"], name: "index_user_auth_tokens_on_user_id_and_active"
+    t.index ["user_id"], name: "fk_rails_0d66c22f4c"
   end
 
   create_table "user_block_domains", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1006,18 +1185,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
 
   create_table "user_communication_preferences", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "token"
-    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_replied_to_discussion_notification", default: true, null: false
     t.boolean "email_on_student_replied_to_discussion_notification", default: true, null: false
     t.boolean "email_on_student_added_iteration_notification", default: true, null: false
-    t.boolean "email_on_new_solution_comment_for_solution_user_notification", default: true, null: false
-    t.boolean "email_on_new_solution_comment_for_other_commenter_notification", default: true, null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "receive_product_updates", default: true, null: false
     t.boolean "email_on_remind_mentor", default: true, null: false
+    t.boolean "email_on_new_solution_comment_for_solution_user_notification", default: true, null: false
+    t.boolean "email_on_new_solution_comment_for_other_commenter_notification", default: true, null: false
     t.boolean "email_on_mentor_heartbeat", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "token"
+    t.boolean "email_on_remind_about_solution", default: true, null: false
+    t.boolean "email_on_mentor_started_discussion_notification", default: true, null: false
     t.boolean "email_on_general_update_notification", default: true, null: false
     t.boolean "email_on_acquired_badge_notification", default: true, null: false
     t.boolean "email_on_nudge_notification", default: true, null: false
@@ -1028,8 +1208,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_premium", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
-    t.index ["token"], name: "index_user_communication_preferences_on_token", unique: true
-    t.index ["user_id"], name: "index_user_communication_preferences_on_user_id"
+    t.index ["token"], name: "index_user_communication_preferences_on_token"
+    t.index ["user_id"], name: "fk_rails_65642a5510"
   end
 
   create_table "user_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1056,20 +1236,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "cache"
-    t.datetime "premium_until"
     t.integer "email_status", limit: 1, default: 0, null: false
+    t.datetime "premium_until"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "index_user_data_show_on_supporters_page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_user_data_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_user_data_stripe_customer_id", unique: true
-    t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
+    t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
+    t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
+    t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
+    t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
+    t.index ["premium_until"], name: "index_user_data_on_premium_until"
+    t.index ["show_on_supporters_page", "first_donated_at", "user_id"], name: "index_user_data_supporters-page"
+    t.index ["stripe_customer_id"], name: "index_user_data_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
 
@@ -1091,7 +1269,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.bigint "mailshot_id", null: false
     t.index ["email_status"], name: "index_user_mailshots_on_email_status"
     t.index ["mailshot_id"], name: "fk_rails_9ddeeadfc0"
-    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id"
+    t.index ["user_id", "mailshot_id"], name: "index_user_mailshots_on_user_id_and_mailshot_id", unique: true
     t.index ["user_id"], name: "index_user_mailshots_on_user_id"
   end
 
@@ -1108,13 +1286,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.string "uniqueness_key", null: false
     t.text "rendering_data_cache", null: false
-    t.datetime "read_at"
+    t.datetime "read_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_user_notifications_on_exercise_id"
     t.index ["track_id"], name: "index_user_notifications_on_track_id"
     t.index ["type", "user_id"], name: "index_user_notifications_on_type_and_user_id"
     t.index ["uniqueness_key"], name: "index_user_notifications_on_uniqueness_key", unique: true
+    t.index ["user_id", "status"], name: "index_user_notifications_on_user_id_and_status"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
     t.index ["uuid"], name: "index_user_notifications_on_uuid", unique: true
   end
@@ -1124,19 +1303,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.boolean "auto_update_exercises", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "allow_comments_on_published_solutions", default: false, null: false
     t.string "theme"
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 
   create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.string "display_name"
     t.string "twitter"
     t.string "website"
     t.string "github"
     t.string "linkedin"
     t.string "medium"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["user_id"], name: "fk_rails_e424190865"
     t.index ["user_id"], name: "index_user_profiles_on_user_id", unique: true
   end
 
@@ -1149,8 +1331,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.integer "reputation", default: 0, null: false
     t.string "user_handle"
     t.boolean "dirty", default: true, null: false
+    t.integer "num_tokens", default: 0, null: false
     t.index ["dirty"], name: "sweeper"
     t.index ["period", "category", "about", "reputation"], name: "search-2"
+    t.index ["period", "category", "about", "track_id", "reputation", "id"], name: "search-5"
     t.index ["period", "category", "about", "track_id", "reputation"], name: "search-1"
     t.index ["period", "category", "about", "track_id", "user_handle", "reputation"], name: "search-3"
     t.index ["user_id", "period", "category", "about", "track_id"], name: "unique", unique: true
@@ -1179,104 +1363,82 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
     t.index ["earned_on"], name: "sweeper"
     t.index ["exercise_id"], name: "index_user_reputation_tokens_on_exercise_id"
     t.index ["track_id", "category", "external_url"], name: "index_user_reputation_tokens_on_track_id_category_external_url"
+    t.index ["track_id"], name: "index_user_reputation_tokens_on_track_id"
     t.index ["uniqueness_key", "user_id"], name: "index_user_reputation_tokens_on_uniqueness_key_and_user_id", unique: true
+    t.index ["user_id", "category", "track_id", "value"], name: "index_user_reputation_tokens_profile-sort-covering"
     t.index ["user_id", "category"], name: "index_user_reputation_tokens_on_user_id_and_category"
     t.index ["user_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_3"
     t.index ["user_id", "seen"], name: "index_user_reputation_tokens_on_user_id_and_seen"
     t.index ["user_id", "track_id", "earned_on", "type"], name: "index_user_reputation_tokens_query_4"
     t.index ["user_id", "track_id", "type"], name: "index_user_reputation_tokens_query_2"
     t.index ["user_id", "type"], name: "index_user_reputation_tokens_query_1"
+    t.index ["user_id", "value"], name: "index_user_reputation_tokens_on_user_id_and_value"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
   end
 
   create_table "user_track_mentorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
+    t.text "bio"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "last_viewed", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "num_finished_discussions", limit: 3, default: 0, null: false
-    t.index ["track_id"], name: "index_user_track_mentorships_on_track_id"
+    t.index ["track_id"], name: "fk_rails_4a81f96f88"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
-    t.index ["user_id"], name: "index_user_track_mentorships_on_user_id"
+    t.index ["user_id"], name: "fk_rails_283ecc719a"
   end
 
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
-    t.text "summary_data", null: false
-    t.string "summary_key"
-    t.boolean "practice_mode", default: false, null: false
     t.boolean "anonymous_during_mentoring", default: false, null: false
+    t.string "avatar_url"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "summary_key"
+    t.text "summary_data"
     t.datetime "last_touched_at", null: false
+    t.boolean "practice_mode", default: false, null: false
     t.text "objectives"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["track_id"], name: "index_user_tracks_on_track_id"
-    t.index ["user_id", "track_id"], name: "index_user_tracks_on_user_id_and_track_id", unique: true
-    t.index ["user_id"], name: "index_user_tracks_on_user_id"
+    t.index ["track_id", "user_id"], name: "index_user_tracks_on_track_id_and_user_id", unique: true
+    t.index ["user_id"], name: "fk_rails_99e944edbc"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "handle", null: false
     t.string "name", null: false
+    t.string "handle", limit: 190, null: false
+    t.string "avatar_url"
+    t.string "email", limit: 190, default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token", limit: 190
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.string "confirmation_token", limit: 190
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
+    t.string "unconfirmed_email"
     t.string "provider"
     t.string "uid"
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.datetime "accepted_privacy_policy_at"
-    t.datetime "accepted_terms_at"
-    t.datetime "became_mentor_at"
-    t.datetime "deleted_at"
-    t.datetime "joined_research_at"
-    t.string "github_username"
-    t.integer "reputation", default: 0, null: false
-    t.json "roles"
-    t.text "bio"
-    t.string "avatar_url"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "dark_code_theme", default: false, null: false
+    t.boolean "default_allow_comments"
+    t.datetime "deleted_at", precision: nil
     t.string "location"
     t.string "pronouns"
-    t.integer "num_solutions_mentored", limit: 3, default: 0, null: false
-    t.integer "mentor_satisfaction_percentage", limit: 1
-    t.string "stripe_customer_id"
-    t.integer "total_donated_in_cents", default: 0
-    t.boolean "active_donation_subscription", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "show_on_supporters_page", default: true, null: false
+    t.integer "reputation", default: 0, null: false
     t.datetime "disabled_at"
-    t.date "last_visited_on"
-    t.datetime "first_donated_at"
-    t.string "discord_uid"
-    t.integer "insiders_status", limit: 1, default: 0, null: false
     t.integer "flair", limit: 1
-    t.string "paypal_payer_id"
-    t.json "usages"
-    t.json "cache"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["discord_uid"], name: "index_users_on_discord_uid", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["first_donated_at", "show_on_supporters_page"], name: "users-supporters-page", order: { first_donated_at: :desc }
-    t.index ["github_username"], name: "index_users_on_github_username", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
-    t.index ["insiders_status"], name: "index_users_on_insiders_status"
-    t.index ["last_visited_on"], name: "index_users_on_last_visited_on"
-    t.index ["paypal_payer_id"], name: "index_users_on_paypal_payer_id", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reputation"], name: "index_users_on_reputation"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["unconfirmed_email"], name: "index_users_on_unconfirmed_email"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
   add_foreign_key "cohort_memberships", "cohorts"
@@ -1284,6 +1446,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   add_foreign_key "cohorts", "tracks"
   add_foreign_key "community_stories", "users", column: "interviewee_id"
   add_foreign_key "community_stories", "users", column: "interviewer_id"
+  add_foreign_key "community_videos", "exercises"
+  add_foreign_key "community_videos", "tracks"
   add_foreign_key "community_videos", "users", column: "author_id"
   add_foreign_key "community_videos", "users", column: "submitted_by_id"
   add_foreign_key "documents", "tracks"
@@ -1323,8 +1487,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   add_foreign_key "github_issue_labels", "github_issues"
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "github_tasks", "tracks"
-  add_foreign_key "iterations", "solutions"
-  add_foreign_key "iterations", "submissions"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"
@@ -1338,18 +1500,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   add_foreign_key "mentor_testimonials", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_testimonials", "users", column: "mentor_id"
   add_foreign_key "mentor_testimonials", "users", column: "student_id"
+  add_foreign_key "partner_adverts", "partners"
+  add_foreign_key "partner_perks", "partners"
   add_foreign_key "problem_reports", "exercises"
   add_foreign_key "problem_reports", "tracks"
   add_foreign_key "problem_reports", "users"
+  add_foreign_key "research_experiment_solutions", "exercises"
+  add_foreign_key "research_experiment_solutions", "research_experiments", column: "experiment_id"
+  add_foreign_key "research_user_experiments", "research_experiments", column: "experiment_id"
   add_foreign_key "scratchpad_pages", "users"
   add_foreign_key "site_updates", "exercises"
   add_foreign_key "site_updates", "github_pull_requests", column: "pull_request_id"
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_comments", "solutions"
-  add_foreign_key "solution_comments", "users"
-  add_foreign_key "solution_stars", "solutions"
-  add_foreign_key "solution_stars", "users"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"
@@ -1358,11 +1522,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_120146) do
   add_foreign_key "submission_analyses", "tracks"
   add_foreign_key "submission_files", "submissions"
   add_foreign_key "submission_representations", "submissions"
-  add_foreign_key "submission_representations", "tracks"
+  add_foreign_key "submission_representations", "users", column: "mentor_id"
   add_foreign_key "submission_representations", "users", column: "mentored_by_id"
   add_foreign_key "submission_test_runs", "submissions"
-  add_foreign_key "submission_test_runs", "tracks"
   add_foreign_key "submissions", "solutions"
+  add_foreign_key "team_invitations", "teams"
+  add_foreign_key "team_invitations", "users", column: "invited_by_id"
+  add_foreign_key "team_memberships", "teams"
+  add_foreign_key "team_solutions", "exercises"
+  add_foreign_key "team_solutions", "teams"
   add_foreign_key "track_concept_authorships", "track_concepts"
   add_foreign_key "track_concept_authorships", "users"
   add_foreign_key "track_concept_contributorships", "track_concepts"

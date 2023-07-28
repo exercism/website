@@ -134,6 +134,13 @@
     &.--small {
         & * {
             @apply leading-160;
+            overflow-wrap: anywhere;
+            hyphens: auto;
+        }
+
+        table * {
+            overflow-wrap: initial;
+            hyphens: initial;
         }
 
         /******************/
@@ -217,7 +224,14 @@
             background: var(--backgroundColorI);
         }
 
+        a {
+            &:not(pre) > code {
+                @apply text-prominentLinkColor;
+            }
+        }
+
         & table {
+            @apply my-16;
             @apply shadow-base bg-backgroundColorA;
             @apply rounded-5 overflow-hidden;
 
@@ -238,6 +252,21 @@
                 & td {
                     @apply border-b-0;
                 }
+            }
+        }
+    }
+}
+
+@screen md {
+    .c-textual-content {
+        /* This is necessary else the rules above override
+     * the ones below */
+        &.--large,
+        &.--base,
+        &.--small {
+            & * {
+                overflow-wrap: initial;
+                hyphens: initial;
             }
         }
     }

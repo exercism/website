@@ -9,7 +9,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     create(:exercise_representation, num_submissions: 1, track:)
     create(:exercise_representation, num_submissions: 0, track:)
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(with_feedback: false, mentor:, track:)
+    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mode: :without_feedback, mentor:, track:)
   end
 
   test "filter: criteria" do
@@ -23,10 +23,10 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_3 = create(:exercise_representation, exercise: exercise_3, num_submissions: 2, track:)
 
     assert_equal [representation_1, representation_2],
-      Exercise::Representation::Search.(criteria: 'gram', with_feedback: false, mentor:, track:)
-    assert_equal [representation_1], Exercise::Representation::Search.(criteria: 'agram', with_feedback: false, mentor:, track:)
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap', with_feedback: false, mentor:, track:)
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'fro', with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(criteria: 'gram', mode: :without_feedback, mentor:, track:)
+    assert_equal [representation_1], Exercise::Representation::Search.(criteria: 'agram', mode: :without_feedback, mentor:, track:)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'leap', mode: :without_feedback, mentor:, track:)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'fro', mode: :without_feedback, mentor:, track:)
   end
 
   test "filter: criteria does not filter if < 3 characters long (when trimmed)" do
@@ -40,16 +40,16 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_3 = create(:exercise_representation, exercise: exercise_3, num_submissions: 2, track:)
 
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(criteria: nil, with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(criteria: nil, mode: :without_feedback, mentor:, track:)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(criteria: '', with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(criteria: '', mode: :without_feedback, mentor:, track:)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(criteria: 'p', with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(criteria: 'p', mode: :without_feedback, mentor:, track:)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(criteria: '  p  ', with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(criteria: '  p  ', mode: :without_feedback, mentor:, track:)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(criteria: 'an', with_feedback: false, mentor:, track:)
-    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'lea', with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(criteria: 'an', mode: :without_feedback, mentor:, track:)
+    assert_equal [representation_3], Exercise::Representation::Search.(criteria: 'lea', mode: :without_feedback, mentor:, track:)
   end
 
   test "filter: criteria and track" do
@@ -62,11 +62,11 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     js_representation = create :exercise_representation, exercise: js_anagram, num_submissions: 3, track: javascript
 
     assert_equal [ruby_representation, js_representation],
-      Exercise::Representation::Search.(track: [ruby, javascript], criteria: 'anagram', with_feedback: false, mentor:)
+      Exercise::Representation::Search.(track: [ruby, javascript], criteria: 'anagram', mode: :without_feedback, mentor:)
     assert_equal [ruby_representation],
-      Exercise::Representation::Search.(track: ruby, criteria: 'anagram', with_feedback: false, mentor:)
+      Exercise::Representation::Search.(track: ruby, criteria: 'anagram', mode: :without_feedback, mentor:)
     assert_equal [js_representation],
-      Exercise::Representation::Search.(track: javascript, criteria: 'anagram', with_feedback: false, mentor:)
+      Exercise::Representation::Search.(track: javascript, criteria: 'anagram', mode: :without_feedback, mentor:)
   end
 
   test "filter: with_feedback" do
@@ -81,12 +81,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_4 = create(:exercise_representation, feedback_author: other_mentor, feedback_type: :essential, num_submissions: 2,
       track:)
 
-    assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor:, track:)
-    assert_equal [representation_1], Exercise::Representation::Search.(with_feedback: false, mentor: nil, track:)
+    assert_equal [representation_1], Exercise::Representation::Search.(mode: :without_feedback, mentor:, track:)
+    assert_equal [representation_1], Exercise::Representation::Search.(mode: :without_feedback, mentor: nil, track:)
 
-    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(with_feedback: true, mentor:, track:)
+    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(mode: :with_feedback, mentor:, track:)
     assert_equal [representation_2, representation_3, representation_4],
-      Exercise::Representation::Search.(with_feedback: true, mentor: nil, track:)
+      Exercise::Representation::Search.(mode: :admin, mentor:, track:)
   end
 
   test "filter: mentor when status is :without_feedback returns representations for mentored tracks" do
@@ -110,11 +110,11 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
       exercise: create(:practice_exercise, track: track_3)
 
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, with_feedback: false, track: [track_1, track_2, track_3])
+      Exercise::Representation::Search.(mentor: mentor_1.reload, mode: :without_feedback, track: [track_1, track_2, track_3])
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_2, with_feedback: false, track: [track_1, track_2, track_3])
+      Exercise::Representation::Search.(mentor: mentor_2, mode: :without_feedback, track: [track_1, track_2, track_3])
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_3, with_feedback: false, track: [track_1, track_2, track_3])
+      Exercise::Representation::Search.(mentor: mentor_3, mode: :without_feedback, track: [track_1, track_2, track_3])
   end
 
   test "filter: mentor when with_feedback is true returns representations where mentor is author or editor" do
@@ -129,9 +129,10 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_3 = create(:exercise_representation, feedback_type: :actionable, feedback_author: mentor_2, num_submissions: 2,
       track:)
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(mentor: mentor_1, with_feedback: true, track:)
-    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_2, with_feedback: true, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, with_feedback: true, track:)
+    assert_equal [representation_1, representation_2],
+      Exercise::Representation::Search.(mentor: mentor_1, mode: :with_feedback, track:)
+    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_2, mode: :with_feedback, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, mode: :with_feedback, track:)
   end
 
   test "filter: track" do
@@ -144,10 +145,11 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     representation_2 = create :exercise_representation, exercise: exercise_1, num_submissions: 3, track: track_1
     representation_3 = create :exercise_representation, exercise: exercise_2, num_submissions: 2, track: track_2
 
-    assert_equal [representation_1, representation_2], Exercise::Representation::Search.(track: track_1, with_feedback: false, mentor:)
-    assert_equal [representation_3], Exercise::Representation::Search.(track: track_2, with_feedback: false, mentor:)
+    assert_equal [representation_1, representation_2],
+      Exercise::Representation::Search.(track: track_1, mode: :without_feedback, mentor:)
+    assert_equal [representation_3], Exercise::Representation::Search.(track: track_2, mode: :without_feedback, mentor:)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(track: [track_1, track_2], with_feedback: false, mentor:)
+      Exercise::Representation::Search.(track: [track_1, track_2], mode: :without_feedback, mentor:)
   end
 
   test "filter: track is nil returns no records" do
@@ -156,7 +158,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_submissions: 4, track:)
     create(:exercise_representation, exercise:, num_submissions: 3, track:)
 
-    assert_empty Exercise::Representation::Search.(track: nil, with_feedback: false)
+    assert_empty Exercise::Representation::Search.(track: nil, mode: :without_feedback)
   end
 
   test "filter: only_mentored_solutions" do
@@ -177,14 +179,14 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     create :submission_representation, ast_digest: representation_3.ast_digest, submission: create(:submission, exercise:)
 
     assert_equal [representation_1],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, with_feedback: true, track:)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, mode: :with_feedback, track:)
     assert_equal [representation_1, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, with_feedback: true, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, with_feedback: true, track:)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, mode: :with_feedback, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, mode: :with_feedback, track:)
     assert_equal [representation_2],
-      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, with_feedback: true, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, with_feedback: true, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, with_feedback: true, track:)
+      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, mode: :with_feedback, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, mode: :with_feedback, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, mode: :with_feedback, track:)
   end
 
   test "paginates" do
@@ -192,18 +194,18 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     mentor = create :user
     25.times { create :exercise_representation, num_submissions: 3 }
 
-    first_page = Exercise::Representation::Search.(with_feedback: false, mentor:, track:)
+    first_page = Exercise::Representation::Search.(mode: :without_feedback, mentor:, track:)
     assert_equal 20, first_page.limit_value # Sanity
     assert_equal 20, first_page.length
     assert_equal 1, first_page.current_page
     assert_equal 25, first_page.total_count
 
-    second_page = Exercise::Representation::Search.(page: 2, with_feedback: false, mentor:, track:)
+    second_page = Exercise::Representation::Search.(page: 2, mode: :without_feedback, mentor:, track:)
     assert_equal 5, second_page.length
     assert_equal 2, second_page.current_page
     assert_equal 25, second_page.total_count
 
-    page = Exercise::Representation::Search.(paginated: false, with_feedback: false, mentor:, track:)
+    page = Exercise::Representation::Search.(paginated: false, mode: :without_feedback, mentor:, track:)
     assert_equal 25, page.length
   end
 
@@ -216,12 +218,12 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
 
     # Default: order by num_submissions
     assert_equal [representation_3, representation_1, representation_2],
-      Exercise::Representation::Search.(with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(mode: :without_feedback, mentor:, track:)
     assert_equal [representation_3, representation_1, representation_2],
-      Exercise::Representation::Search.(order: :most_submissions, with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(order: :most_submissions, mode: :without_feedback, mentor:, track:)
     assert_equal [representation_1, representation_3, representation_2],
-      Exercise::Representation::Search.(order: :most_recent, with_feedback: false, mentor:, track:)
+      Exercise::Representation::Search.(order: :most_recent, mode: :without_feedback, mentor:, track:)
     assert_equal [representation_1, representation_2, representation_3],
-      Exercise::Representation::Search.(sorted: false, with_feedback: false, mentor:, track:).order(:id)
+      Exercise::Representation::Search.(sorted: false, mode: :without_feedback, mentor:, track:).order(:id)
   end
 end

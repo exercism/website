@@ -13,11 +13,12 @@ class Mentor::Testimonial::RevealTest < ActiveSupport::TestCase
   end
 
   test "resets user cache" do
-    testimonial = create :mentor_testimonial, :unrevealed
+    mentor = create :user
+    testimonial = create(:mentor_testimonial, :unrevealed, mentor:)
 
-    User::ResetCache.expects(:defer).with(testimonial.mentor)
-
-    Mentor::Testimonial::Reveal.(testimonial)
+    assert_user_data_cache_reset(mentor, :has_unrevealed_testimonials?, false) do
+      Mentor::Testimonial::Reveal.(testimonial)
+    end
   end
 
   test "does not reset user cache if already revealed" do

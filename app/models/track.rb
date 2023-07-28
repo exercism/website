@@ -95,7 +95,7 @@ class Track < ApplicationRecord
   def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
-    git.highlightjs_language || slug
+    super || slug
   end
 
   def average_test_duration

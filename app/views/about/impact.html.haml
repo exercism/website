@@ -5,7 +5,7 @@
 = render ViewComponents::AboutNav.new(:impact)
 
 #impact-page
-  %header.pt-48.flex.flex-col.items-center{ class: 'mb-[-130px]' }
+  %header.pt-48.flex.flex-col.items-center{ class: 'mb-[-130px] md:h-[500px] h-[600px]' }
     .md-container.c-shapes-impact.c-shapes-1
     %h1.text-h5.text-textColor6.mb-16.flex.items-center
       = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 mr-16'
@@ -130,7 +130,7 @@
       And over
       = link_to "700 individuals donors!", individual_supporters_about_path, class: 'underline hover:text-lightBlue'
 
-  .bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
+  .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
       .pt-48.flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }
@@ -159,26 +159,26 @@
             friends.
 
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
-    .bg-backgroundColorA.flex.flex-col.text-center.justify-center.rounded-32.pt-24.pb-40.px-48.shadow-lgv2
+    .bg-backgroundColorA.flex.flex-col.text-center.justify-center.rounded-32.pt-24.md:pb-40.pb-24.md:px-48.px-24.shadow-lgv2
       .text-48.leading-130.mb-8 🚀
       %h2.text-h1.mb-12 Become rocket fuel for our mission
       %p.text-p-2xlarge.mb-36.text-center.text-textColor6.font-medium
         We&apos;ve built everything for under $500,000. Imagine what we could do with
         more significant funding! Could you be the one to make it happen?
-      .flex.flex-col.border.border-2.border-gradient.rounded-16.px-40.py-24.shadow-smZ1
-        .flex.flex-col.items-center.mx-auto.mb-24.md:flex-row
+      .flex.flex-col.border.border-2.border-gradient.rounded-16.md:px-40.px-24.py-24.shadow-smZ1
+        .flex.flex-col.gap-8.md:gap-0.items-center.mx-auto.mb-24.md:flex-row
           = image_tag "team/loretta.jpg", alt: "A photo of Loretta Bresciani Murray", class: 'w-[64px] h-[64px] md:mr-24 md:mb-4 rounded-circle'
           .flex.flex-col.text-left
-            .text-h4.mb-4
+            .md:text-h4.text-h5.mb-4
               Interested in supporting Exercism as an organisation?
-            .leading-regular.text-textColor5{ class: 'text-[19px]' }
+            .leading-regular.text-textColor5.text-18
               Get in touch with
               = succeed(',') do
                 %span.text-textColor2.font-medium Loretta Murray
               our Head of Fundraising.
-        = link_to "mailto:loretta@exercism.org", class: "btn btn-primary btn-large" do
+        = link_to "mailto:loretta@exercism.org", class: "btn btn-primary" do
           = graphical_icon "envelope", css_class: "mr-16"
-          %span loretta@exercism.org
+          %span.md:text-16.text-14 loretta@exercism.org
 
   .lg-container.mb-64
     .c-shapes-impact.c-shapes-1

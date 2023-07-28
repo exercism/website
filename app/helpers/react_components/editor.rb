@@ -34,24 +34,24 @@ module ReactComponents
               average_test_duration: track.average_test_duration
             }
           },
-          exercise: {
-            title: solution.exercise.title,
-            slug: solution.exercise.slug
-          },
-          solution: {
-            uuid: solution.uuid
-          },
-          request:,
-          mentoring_requested: solution.mentoring_requested?,
-          links: {
-            run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
-            back: Exercism::Routes.track_exercise_path(track, solution.exercise),
-            automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
-            mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
-            mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise)
-          },
           ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil,
           chatgpt_usage:
+        },
+        exercise: {
+          title: solution.exercise.title,
+          slug: solution.exercise.slug
+        },
+        solution: {
+          uuid: solution.uuid
+        },
+        request:,
+        mentoring_requested: solution.mentoring_requested?,
+        links: {
+          run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
+          back: Exercism::Routes.track_exercise_path(track, solution.exercise),
+          automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
+          mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
+          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise)
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,
@@ -62,18 +62,6 @@ module ReactComponents
           title: track.title,
           slug: track.slug,
           icon_url: track.icon_url
-        },
-        exercise: {
-          title: solution.exercise.title,
-          slug: solution.exercise.slug
-        },
-        mentoring_requested: solution.mentoring_requested?,
-        links: {
-          run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
-          back: Exercism::Routes.track_exercise_path(track, solution.exercise),
-          automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
-          mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
-          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise)
         }
       }
     end

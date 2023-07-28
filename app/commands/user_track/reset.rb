@@ -13,6 +13,6 @@ class UserTrack::Reset
     )
     user_track.reset_summary!
     User::ReputationTokens::PublishedSolutionToken.where(user:, track:).destroy_all
-    Solution::RemoveUserSolutionsForTrackFromSearchIndex.defer(user, track)
+    Solution::RemoveUserSolutionsForTrackFromSearchIndex.defer(user.id, track.id)
   end
 end

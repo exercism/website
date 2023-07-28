@@ -4,8 +4,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "sets solution and iteration as published" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution, idx: 1
-    other_iteration = create :iteration, solution: solution, idx: 2
+    iteration = create :iteration, solution:, idx: 1
+    other_iteration = create :iteration, solution:, idx: 2
 
     Solution::Publish.(solution, solution.user_track, 1)
 
@@ -17,8 +17,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "all iterations are published if none are passed" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution, idx: 1
-    other_iteration = create :iteration, solution: solution, idx: 2
+    iteration = create :iteration, solution:, idx: 1
+    other_iteration = create :iteration, solution:, idx: 2
 
     Solution::Publish.(solution, solution.user_track, nil)
 
@@ -30,8 +30,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "all iterations are published if incorrect is passed" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution, idx: 1
-    other_iteration = create :iteration, solution: solution, idx: 2
+    iteration = create :iteration, solution:, idx: 1
+    other_iteration = create :iteration, solution:, idx: 2
 
     Solution::Publish.(solution, solution.user_track, 5)
 
@@ -43,7 +43,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "only does things once" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    create :iteration, solution: solution
+    create(:iteration, solution:)
 
     User::ReputationToken::Create.expects(:defer).once
     Solution::Publish.(solution, solution.user_track, nil)
@@ -53,8 +53,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "sets solution num_loc to published iteration num_loc" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution, idx: 1, num_loc: 33
-    create :iteration, solution: solution, idx: 2, num_loc: 44
+    iteration = create :iteration, solution:, idx: 1, num_loc: 33
+    create :iteration, solution:, idx: 2, num_loc: 44
 
     Solution::Publish.(solution, solution.user_track, 1)
 
@@ -64,8 +64,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "sets solution num_loc to latest iteration num_loc if publishing all iterations" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    create :iteration, solution: solution, idx: 1, num_loc: 33
-    latest_iteration = create :iteration, solution: solution, idx: 2, num_loc: 44
+    create :iteration, solution:, idx: 1, num_loc: 33
+    latest_iteration = create :iteration, solution:, idx: 2, num_loc: 44
 
     Solution::Publish.(solution, solution.user_track, nil)
 
@@ -85,7 +85,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
       concept_solution => :concept
     }.each do |solution, level|
       create :user_track, user: solution.user, track: solution.track
-      create :iteration, solution: solution
+      create(:iteration, solution:)
 
       User::ReputationToken::Create.expects(:defer).once.with(solution.user, :published_solution, solution:, level:)
       Solution::Publish.(solution, solution.user_track, nil)
@@ -96,9 +96,9 @@ class Solution::PublishTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
 
     user = create :user
-    create :user_track, user: user, track: exercise.track
-    solution = create :practice_solution, user: user, exercise: exercise
-    iteration = create :iteration, solution: solution
+    create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
+    iteration = create(:iteration, solution:)
 
     Solution::Publish.(solution, solution.user_track, iteration.idx)
 
@@ -112,7 +112,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     freeze_time do
       solution = create :practice_solution, completed_at: nil
       create :user_track, user: solution.user, track: solution.track
-      create :iteration, solution: solution, idx: 1
+      create :iteration, solution:, idx: 1
 
       Solution::Publish.(solution, solution.user_track, 1)
 
@@ -129,9 +129,9 @@ class Solution::PublishTest < ActiveSupport::TestCase
       create :hello_world_solution, :completed, user:, track:
     end
 
-    solution = create :hello_world_solution, completed_at: nil, user: user
+    solution = create(:hello_world_solution, completed_at: nil, user:)
     create :user_track, user: solution.user, track: solution.track
-    create :iteration, solution: solution, idx: 1
+    create :iteration, solution:, idx: 1
 
     perform_enqueued_jobs do
       Solution::Publish.(solution, solution.user_track, 1)
@@ -145,19 +145,19 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     track = create :track, slug: 'fsharp'
     user = create :user
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
 
-    create :user_challenge, user: user, challenge_id: '12in23'
+    create :user_challenge, user:, challenge_id: '12in23'
 
     4.times do
-      exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :published, user: user, track: track, exercise: exercise
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
       refute user.badges.present?
     end
 
-    exercise = create :practice_exercise, :random_slug, track: track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution, idx: 1
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
     refute user.badges.present?
 
     Solution::Publish.(solution, user_track, 1)
@@ -171,19 +171,19 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     track = create :track, slug: 'rust'
     user = create :user
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
 
-    create :user_challenge, user: user, challenge_id: '12in23'
+    create :user_challenge, user:, challenge_id: '12in23'
 
     4.times do
-      exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :published, user: user, track: track, exercise: exercise
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
       refute user.badges.present?
     end
 
-    exercise = create :practice_exercise, :random_slug, track: track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution, idx: 1
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
     refute user.badges.present?
 
     Solution::Publish.(solution, user_track, 1)
@@ -197,19 +197,19 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     track = create :track, slug: 'python'
     user = create :user
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
 
-    create :user_challenge, user: user, challenge_id: '12in23'
+    create :user_challenge, user:, challenge_id: '12in23'
 
     4.times do
-      exercise = create :practice_exercise, :random_slug, track: track
-      create :practice_solution, :published, user: user, track: track, exercise: exercise
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
       refute user.badges.present?
     end
 
-    exercise = create :practice_exercise, :random_slug, track: track
-    solution = create :practice_solution, user: user, exercise: exercise
-    create :iteration, solution: solution, idx: 1
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
     refute user.badges.present?
 
     Solution::Publish.(solution, user_track, 1)
@@ -218,11 +218,89 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::AnalyticalAprilBadge
   end
 
+  test "awards mind-shifting may badge when published five or more exercises in a Mind Shifting May track" do
+    travel_to Time.utc(2022, 5, 12)
+
+    track = create :track, slug: 'unison'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::MindShiftingMayBadge
+  end
+
+  test "awards summer-of-sexps badge when published five or more exercises in a Summer of Sexps track" do
+    travel_to Time.utc(2022, 6, 12)
+
+    track = create :track, slug: 'clojure'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::SummerOfSexpsBadge
+  end
+
+  test "awards jurassic-july badge when published five or more exercises in a Jurassic July track" do
+    travel_to Time.utc(2022, 7, 12)
+
+    track = create :track, slug: 'fortran'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::JurassicJulyBadge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution, idx: 1, snippet: 'aaa'
-    create :iteration, solution: solution, idx: 2, snippet: 'bbb'
+    iteration = create :iteration, solution:, idx: 1, snippet: 'aaa'
+    create :iteration, solution:, idx: 2, snippet: 'bbb'
 
     Solution::Publish.(solution, solution.user_track, 1)
 
@@ -232,8 +310,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "solution snippet updated to latest published iteration's snippet when all iterations are published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track
-    create :iteration, solution: solution, idx: 1, snippet: 'aaa'
-    other_iteration = create :iteration, solution: solution, idx: 2, snippet: 'bbb'
+    create :iteration, solution:, idx: 1, snippet: 'aaa'
+    other_iteration = create :iteration, solution:, idx: 2, snippet: 'bbb'
 
     Solution::Publish.(solution, solution.user_track, nil)
 
@@ -243,10 +321,10 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "adds metric" do
     track = create :track
     user = create :user
-    exercise = create :concept_exercise, track: track
-    user_track = create :user_track, user: user, track: track
-    solution = create :concept_solution, :completed, user: user, exercise: exercise
-    create :iteration, solution: solution
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, :completed, user:, exercise:)
+    create(:iteration, solution:)
 
     perform_enqueued_jobs do
       Solution::Publish.(solution, user_track, nil)
@@ -254,7 +332,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::PublishSolutionMetric, metric.class
+    assert_instance_of Metrics::PublishSolutionMetric, metric
     assert_equal solution.published_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal user, metric.user
@@ -263,15 +341,28 @@ class Solution::PublishTest < ActiveSupport::TestCase
   test "updates num_published_solutions" do
     track = create :track
     user = create :user
-    exercise = create :concept_exercise, track: track
-    user_track = create :user_track, user: user, track: track
-    solution = create :concept_solution, :completed, user: user, exercise: exercise
-    create :iteration, solution: solution
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, :completed, user:, exercise:)
+    create(:iteration, solution:)
 
     assert_equal 0, exercise.num_published_solutions
     perform_enqueued_jobs do
       Solution::Publish.(solution, user_track, nil)
     end
     assert_equal 1, exercise.reload.num_published_solutions
+  end
+
+  test "updates user's num_published_solutions" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, :completed, user:, exercise:)
+    create(:iteration, solution:)
+
+    assert_user_data_cache_reset(user, :num_published_solutions, 1) do
+      Solution::Publish.(solution, user_track, nil)
+    end
   end
 end

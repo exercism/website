@@ -36,7 +36,7 @@ export function RequestMentoring({
           <a className="btn-primary btn-m mb-8" href={mentorDiscussionsLink}>
             Submit for code review
           </a>
-          <div className="ml-16 px-16 bg-lightOrange rounded-8 flex items-center justify-center text-h6 leading-120 h-[48px] text-center">
+          <div className="ml-16 px-16 text-midnightBlue bg-lightOrange rounded-8 flex items-center justify-center text-h6 leading-120 h-[48px] text-center">
             It&apos;s 100% free! 😲
           </div>
         </div>

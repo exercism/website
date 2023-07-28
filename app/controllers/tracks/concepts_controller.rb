@@ -75,7 +75,7 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   def guard_course!
-    return if @track.course?
+    return if @user_track.course?
 
     redirect_to track_path(@track)
   end

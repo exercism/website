@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseApproachIntroductionContributionTokenTest 
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     exercise = create :practice_exercise
-    contributorship = create :exercise_approach_introduction_contributorship, contributor: user, exercise: exercise
+    contributorship = create(:exercise_approach_introduction_contributorship, contributor: user, exercise:)
     track = exercise.track
 
     User::ReputationToken::Create.(
@@ -16,7 +16,7 @@ class User::ReputationTokens::ExerciseApproachIntroductionContributionTokenTest 
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseApproachIntroductionContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseApproachIntroductionContributionToken, rt
     assert_equal "You contributed to the approach of <strong>Bob</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

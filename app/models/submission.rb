@@ -22,18 +22,19 @@ class Submission < ApplicationRecord
     },
     class_name: "Submission::TestRun", dependent: :destroy
 
-  # The "normal" one is the one run against the same git_sha as the submission
+  # The "normal" one is the one run against the same git_important_files_hash as the submission
   # We again use order id desc to get the latest
   has_one :test_run, # rubocop:disable Rails/InverseOf
     lambda {
       order(id: :desc).
         joins(:submission).
-        where('submission_test_runs.git_sha = submissions.git_sha')
+        where('submission_test_runs.git_important_files_hash = submissions.git_important_files_hash')
     },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
+  has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
   # TODO: It's important that we enforce rules on these to stop things from
   # going from the success states (passed/failed/errored/generated/completed)
@@ -61,6 +62,13 @@ class Submission < ApplicationRecord
 
   def broadcast!
     SubmissionChannel.broadcast!(self)
+  end
+
+  def write_to_efs!
+    dir = [Exercism.config.efs_submissions_mount_point, uuid].join('/')
+    return if Dir.exist?(dir)
+
+    files.each(&:write_to_efs!)
   end
 
   def tests_passed?
@@ -129,17 +137,20 @@ class Submission < ApplicationRecord
     end
   end
 
-  memoize
-  def valid_filepaths
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def valid_filepaths(repo = exercise_repo)
+    repo ||= exercise_repo
     files.map(&:filename).select do |filepath|
-      exercise_repo.valid_submission_filepath?(filepath)
+      repo.valid_submission_filepath?(filepath)
     end
   end
 
-  memoize
-  def exercise_files
-    exercise_repo.tooling_files.reject do |filepath, _|
-      valid_filepaths.include?(filepath)
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def exercise_files(repo = exercise_repo)
+    repo.tooling_files.reject do |filepath, _|
+      valid_filepaths(repo).include?(filepath)
     end
   end
 
@@ -158,12 +169,14 @@ class Submission < ApplicationRecord
       author: {
         name: author.name,
         reputation: author.reputation,
+        flair: author.flair,
         avatar_url: author.avatar_url,
         profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
       },
       editor: if editor.present?
                 {
                   name: editor.name,
+                  flair: author.flair,
                   reputation: editor.reputation,
                   avatar_url: editor.avatar_url,
                   profile_url: editor.profile ? Exercism::Routes.profile_url(editor) : nil

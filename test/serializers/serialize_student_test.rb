@@ -5,10 +5,11 @@ class SerializeStudentTest < ActiveSupport::TestCase
     Mentor::StudentRelationship::ToggleFavorited.any_instance.stubs(:allowed?).returns(true)
     student = create :user
     mentor = create :user
-    relationship = create :mentor_student_relationship, student: student, num_discussions: 5, favorited: true
+    relationship = create :mentor_student_relationship, student:, num_discussions: 5, favorited: true
     3.times { create :mentor_discussion, solution: create(:practice_solution, user: student) }
     expected = {
       handle: student.handle,
+      flair: student.flair,
       name: student.name,
       bio: nil,
       location: nil,
@@ -41,6 +42,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
     mentor = create :user
     expected = {
       handle: student.handle,
+      flair: student.flair,
       name: student.name,
       bio: nil,
       location: nil,
@@ -89,7 +91,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
   test "bio, location, rep" do
     bio = "some bio"
     location = "some loc"
-    student = create :user, bio: bio, location: location, reputation: 12_345
+    student = create :user, bio:, location:, reputation: 12_345
     mentor = create :user
 
     result = SerializeStudent.(
@@ -107,7 +109,7 @@ class SerializeStudentTest < ActiveSupport::TestCase
 
   test "track_objectives" do
     objectives = "some objectives"
-    user_track = create :user_track, objectives: objectives
+    user_track = create(:user_track, objectives:)
 
     result = SerializeStudent.(
       create(:user),

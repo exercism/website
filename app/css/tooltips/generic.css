@@ -1,8 +1,9 @@
 .c-generic-tooltip {
     @apply z-tooltip;
-    @apply bg-backgroundColorH;
+    @apply bg-textColor1NoDark;
     @apply py-8 px-12;
-    @apply text-textColor9 leading-150;
+    /* this one doesn't need a dark mode */
+    @apply text-white leading-150;
     @apply rounded-8;
     box-shadow: 0px 4px 24px 0px #00000026;
 

@@ -16,7 +16,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     sign_in!(user)
     get dashboard_path
 
-    assert_equal Time.zone.today, user.last_visited_on
+    assert_equal Time.zone.today, user.reload.last_visited_on
   end
 
   test "calling API does not update last_visited_on date" do

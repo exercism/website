@@ -4,7 +4,7 @@ class SerializeDocTest < ActiveSupport::TestCase
   test "serialize track doc" do
     freeze_time do
       track = create :track, slug: 'fsharp', title: "F#"
-      doc = create :document, slug: 'ruby/install', title: 'Ruby', blurb: 'Install Ruby', track: track
+      doc = create(:document, slug: 'ruby/install', title: 'Ruby', blurb: 'Install Ruby', track:)
 
       expected = {
         uuid: doc.uuid,

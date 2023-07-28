@@ -9,9 +9,9 @@ module Components
       test "user reports a bug" do
         user = create :user
         track = create :track
-        exercise = create :concept_exercise, track: track
-        create :user_track, track: track, user: user
-        create :concept_solution, user: user, exercise: exercise
+        exercise = create(:concept_exercise, track:)
+        create(:user_track, track:, user:)
+        create(:concept_solution, user:, exercise:)
 
         use_capybara_host do
           sign_in!(user)

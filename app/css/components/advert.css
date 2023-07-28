@@ -1,0 +1,14 @@
+.theme-light {
+    .c-advert {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    .c-advert {
+        .logo-light {
+            @apply hidden;
+        }
+    }
+}

@@ -13,7 +13,7 @@ class Solution::Unpublish
 
   private
   def update_num_published_solutions_on_exercise!
-    CacheNumPublishedSolutionsOnExerciseJob.perform_later(exercise)
+    Exercise::CacheNumPublishedSolutions.defer(exercise)
   end
 
   delegate :exercise, to: :solution

@@ -64,7 +64,7 @@ module Flows
 
     test "user logs in and is redirected to the correct page" do
       track = create :track, title: "Ruby"
-      create :concept_exercise, track: track
+      create(:concept_exercise, track:)
       create(:user,
         email: "user@exercism.org",
         password: "password",
@@ -84,7 +84,7 @@ module Flows
     test "user sees errors" do
       expecting_errors do
         track = create :track, title: "Ruby"
-        create :concept_exercise, track: track
+        create(:concept_exercise, track:)
         create(:user,
           email: "user@exercism.org",
           password: "password",
@@ -102,7 +102,7 @@ module Flows
 
     test "user logs in, onboards, and is redirected to the correct page" do
       track = create :track, title: "Ruby"
-      create :concept_exercise, track: track
+      create(:concept_exercise, track:)
       create(:user,
         :not_onboarded,
         email: "user@exercism.org",

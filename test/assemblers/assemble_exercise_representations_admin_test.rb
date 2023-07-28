@@ -5,8 +5,8 @@ class AssembleExerciseRepresentationsAdminTest < ActiveSupport::TestCase
     track = create :track
     user = create :user
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track: track
+      create(:exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track:)
     end
     params = { track_slug: track.slug }
 
@@ -20,23 +20,26 @@ class AssembleExerciseRepresentationsAdminTest < ActiveSupport::TestCase
       }
     )
 
-    assert_equal expected, AssembleExerciseRepresentationsAdmin.(params)
+    assert_equal expected, AssembleExerciseRepresentationsAdmin.(user, params)
   end
 
   test "should proxy correctly" do
     track = create :track
+    user = create :user
     criteria = 'bob'
-    order = 'num_submissions'
+    order = 'most_recent_feedback'
     page = '1'
 
     Exercise::Representation::Search.expects(:call).with(
-      with_feedback: true,
+      mentor: user,
       track:,
+      mode: :admin,
+      only_mentored_solutions: nil,
+      criteria:,
       page:,
-      order:,
-      criteria:
+      order:
     ).returns(Exercise::Representation.page(1).per(20))
 
-    AssembleExerciseRepresentationsAdmin.({ track_slug: track.slug, criteria:, order:, page: })
+    AssembleExerciseRepresentationsAdmin.(user, { track_slug: track.slug, criteria:, order:, page: })
   end
 end

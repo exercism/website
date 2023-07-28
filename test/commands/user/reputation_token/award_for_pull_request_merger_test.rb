@@ -40,7 +40,7 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "Merger-22", github_username: "merger22"
     create :user_code_merge_reputation_token,
-      user: user,
+      user:,
       level: :janitorial,
       params: {
         repo:,

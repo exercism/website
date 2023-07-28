@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseArticleContributionTokenTest < ActiveSuppo
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     article = create :exercise_article
-    contributorship = create :exercise_article_contributorship, contributor: user, article: article
+    contributorship = create(:exercise_article_contributorship, contributor: user, article:)
     exercise = article.exercise
     track = article.track
 
@@ -17,7 +17,7 @@ class User::ReputationTokens::ExerciseArticleContributionTokenTest < ActiveSuppo
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseArticleContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseArticleContributionToken, rt
     assert_equal "You contributed to the <strong>Performance</strong> article for <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

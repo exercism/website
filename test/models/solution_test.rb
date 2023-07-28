@@ -19,7 +19,7 @@ class SolutionTest < ActiveSupport::TestCase
 
     test "#{solution_type}: doesn't override uuid" do
       uuid = "foobar"
-      solution = build solution_type, uuid: uuid
+      solution = build(solution_type, uuid:)
       assert_equal uuid, solution.uuid
       solution.save!
       assert_equal uuid, solution.uuid
@@ -50,7 +50,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     assert_equal :started, solution.reload.status.to_sym
 
-    create :iteration, solution: solution
+    create(:iteration, solution:)
     assert_equal :iterated, solution.reload.status.to_sym
 
     solution.update!(completed_at: Time.current)
@@ -62,9 +62,9 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "published_iterations" do
     solution = create :concept_solution
-    it_1 = create :iteration, solution: solution
-    it_2 = create :iteration, solution: solution
-    create :iteration, solution: solution, deleted_at: Time.current
+    it_1 = create(:iteration, solution:)
+    it_2 = create(:iteration, solution:)
+    create :iteration, solution:, deleted_at: Time.current
 
     assert_empty solution.published_iterations
 
@@ -77,8 +77,8 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "ignore deleted published_iterations" do
     solution = create :concept_solution, :published
-    old = create :iteration, solution: solution
-    deleted = create :iteration, solution: solution, deleted_at: Time.current
+    old = create(:iteration, solution:)
+    deleted = create :iteration, solution:, deleted_at: Time.current
     solution.update(published_iteration: deleted)
 
     assert_equal [old], solution.published_iterations
@@ -93,7 +93,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     refute solution.iterated?
 
-    create :iteration, solution: solution
+    create(:iteration, solution:)
     assert solution.reload.iterated?
   end
 
@@ -101,7 +101,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     refute solution.submitted?
 
-    create :submission, solution: solution
+    create(:submission, solution:)
     assert solution.submitted?
   end
 
@@ -133,9 +133,9 @@ class SolutionTest < ActiveSupport::TestCase
   test ".for" do
     user = create :user
     exercise = create :concept_exercise
-    create :concept_solution, user: user
-    create :concept_solution, exercise: exercise
-    solution = create :concept_solution, user: user, exercise: exercise
+    create(:concept_solution, user:)
+    create(:concept_solution, exercise:)
+    solution = create(:concept_solution, user:, exercise:)
 
     assert_equal solution, Solution.for(user, exercise)
   end
@@ -160,7 +160,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "#exercise_files_for_editor returns exercise files" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     expected_filenames = ["log_line_parser.rb"]
     assert_equal expected_filenames, solution.exercise_files_for_editor.keys
@@ -171,7 +171,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "#files_for_editor returns solution files" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     expected_filenames = ["log_line_parser.rb"]
     assert_equal expected_filenames, solution.files_for_editor.keys
@@ -180,9 +180,9 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal :exercise, file[:type]
 
     # Add a submission to override them
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: "log_line_parser.rb", content: "foobar1"
-    create :submission_file, submission: submission, filename: "something_else.rb", content: "foobar2"
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: "log_line_parser.rb", content: "foobar1"
+    create :submission_file, submission:, filename: "something_else.rb", content: "foobar2"
 
     expected_filenames = ["log_line_parser.rb", "something_else.rb"]
     assert_equal expected_filenames, solution.files_for_editor.keys
@@ -198,7 +198,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for concept exercise returns exercise file" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = solution.read_file('log_line_parser.rb')
     assert contents.start_with?('module LogLineParser')
@@ -206,7 +206,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for practice exercise returns exercise file" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = solution.read_file('bob.rb')
     assert contents.start_with?('stub content')
@@ -214,7 +214,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for concept exercise returns correct README.md file" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = solution.read_file('README.md')
     expected = <<~EXPECTED.strip
@@ -288,7 +288,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for practice exercise with hints returns correct README.md file" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = solution.read_file('README.md')
     expected = <<~EXPECTED.strip
@@ -329,7 +329,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for concept exercise returns correct HELP.md file" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = solution.read_file('HELP.md')
     expected = <<~EXPECTED.strip
@@ -366,7 +366,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for practice exercise returns correct HELP.md file" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = solution.read_file('HELP.md')
     expected = <<~EXPECTED.strip
@@ -403,7 +403,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for concept exercise returns correct HINTS.md file" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = solution.read_file('HINTS.md')
     expected = <<~EXPECTED.strip
@@ -438,7 +438,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for practice exercise returns correct HINTS.md file" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = solution.read_file('HINTS.md')
     expected = <<~EXPECTED.strip
@@ -453,7 +453,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for concept exercise returns correct .exercism/config.json file" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = JSON.parse(solution.read_file('.exercism/config.json'))
     expected = JSON.parse({
@@ -470,7 +470,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "read_file for practice exercise returns correct .exercism/config.json file" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = JSON.parse(solution.read_file('.exercism/config.json'))
     expected = JSON.parse({
@@ -497,7 +497,7 @@ class SolutionTest < ActiveSupport::TestCase
     assert_nil solution.reload.in_progress_mentor_discussion
 
     # In progress discussion
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
     assert_equal discussion, Solution.find(solution.id).in_progress_mentor_discussion
 
     # Finished discussion
@@ -513,12 +513,12 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.reload.has_locked_pending_mentoring_request?
 
     # No lock
-    request = create :mentor_request, solution: solution
+    request = create(:mentor_request, solution:)
     assert solution.reload.has_unlocked_pending_mentoring_request?
     refute solution.reload.has_locked_pending_mentoring_request?
 
     # Current Lock
-    create :mentor_request_lock, request: request
+    create(:mentor_request_lock, request:)
     refute solution.reload.has_unlocked_pending_mentoring_request?
     assert solution.reload.has_locked_pending_mentoring_request?
 
@@ -539,10 +539,10 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     assert_equal :none, solution.mentoring_status
 
-    request = create :mentor_request, solution: solution
+    request = create(:mentor_request, solution:)
     assert_equal :requested, solution.mentoring_status
 
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
     request.fulfilled!
     assert_equal :in_progress, solution.mentoring_status
 
@@ -565,9 +565,9 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "latest iteration does not include deleted" do
     solution = create :concept_solution
-    create :iteration, solution: solution
-    iteration = create :iteration, solution: solution
-    create :iteration, solution: solution, deleted_at: Time.current
+    create(:iteration, solution:)
+    iteration = create(:iteration, solution:)
+    create :iteration, solution:, deleted_at: Time.current
 
     assert_equal iteration, solution.latest_iteration
   end
@@ -591,7 +591,7 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     assert_equal 0, solution.num_iterations # Sanity
 
-    create :iteration, solution: solution
+    create(:iteration, solution:)
     assert_equal 1, solution.num_iterations
   end
 
@@ -599,13 +599,13 @@ class SolutionTest < ActiveSupport::TestCase
     solution = create :concept_solution
     assert_equal 0, solution.num_stars # Sanity
 
-    create :solution_star, solution: solution
+    create(:solution_star, solution:)
     assert_equal 1, solution.num_stars
   end
 
   test "out_of_date" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     refute solution.out_of_date?
 
@@ -624,16 +624,16 @@ class SolutionTest < ActiveSupport::TestCase
 
   test "git_important_files_sha is set to exercise's git_important_files_sha" do
     exercise = create :practice_exercise, slug: 'allergies', git_sha: '6f169b92d8500d9ec5f6e69d6927bf732ab5274a'
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
     assert_equal exercise.git_important_files_hash, solution.git_important_files_hash
   end
 
   test "latest_submission and latest_valid_submission" do
     solution = create :practice_solution
-    create :submission, solution: solution, tests_status: :failed
-    errored = create :submission, solution: solution, tests_status: :errored
-    exceptioned = create :submission, solution: solution, tests_status: :exceptioned
-    cancelled = create :submission, solution: solution, tests_status: :cancelled
+    create :submission, solution:, tests_status: :failed
+    errored = create :submission, solution:, tests_status: :errored
+    exceptioned = create :submission, solution:, tests_status: :exceptioned
+    cancelled = create :submission, solution:, tests_status: :cancelled
 
     assert_equal cancelled, solution.submissions.last
     assert_equal exceptioned, solution.latest_submission
@@ -665,21 +665,21 @@ class SolutionTest < ActiveSupport::TestCase
     refute solution.viewable_by?(user)
     refute solution.viewable_by?(nil)
 
-    create :mentor_discussion, mentor: mentor_1, solution: solution
+    create(:mentor_discussion, mentor: mentor_1, solution:)
     assert solution.viewable_by?(student)
     assert solution.viewable_by?(mentor_1)
     refute solution.viewable_by?(mentor_2)
     refute solution.viewable_by?(user)
     refute solution.viewable_by?(nil)
 
-    create :mentor_request, solution: solution, status: :fulfilled
+    create :mentor_request, solution:, status: :fulfilled
     assert solution.viewable_by?(student)
     assert solution.viewable_by?(mentor_1)
     refute solution.viewable_by?(mentor_2)
     refute solution.viewable_by?(user)
     refute solution.viewable_by?(nil)
 
-    create :mentor_request, solution: solution, status: :pending
+    create :mentor_request, solution:, status: :pending
     assert solution.viewable_by?(student)
     assert solution.viewable_by?(mentor_1)
     assert solution.viewable_by?(mentor_2)

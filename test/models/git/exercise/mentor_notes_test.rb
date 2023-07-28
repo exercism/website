@@ -3,7 +3,7 @@ require "test_helper"
 class Git::Exercise::MentorNotesTest < ActiveSupport::TestCase
   test "#edit_url returns edit url if mentoring notes is present" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     repo = TestHelpers.use_website_copy_test_repo!
     repo.expects(:mentor_notes_for_exercise).with(track.slug, exercise.slug).returns("mentor notes")
 
@@ -17,7 +17,7 @@ class Git::Exercise::MentorNotesTest < ActiveSupport::TestCase
 
   test "#edit_url returns new url if mentoring notes is blank" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     repo = TestHelpers.use_website_copy_test_repo!
     repo.expects(:mentor_notes_for_exercise).with(track.slug, exercise.slug).returns("")
 

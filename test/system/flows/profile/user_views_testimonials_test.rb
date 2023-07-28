@@ -10,7 +10,7 @@ module Flows
         # TODO: Change this stub
         User::Profile.any_instance.expects(testimonials_tab?: true).at_least_once
         user = create :user, handle: "author"
-        create :user_profile, user: user
+        create(:user_profile, user:)
         create :mentor_testimonial, mentor: user, revealed: true, content: "Best mentor!"
         create :mentor_testimonial, mentor: user, revealed: false, content: "Good mentor!"
 
@@ -25,7 +25,7 @@ module Flows
       test "shows testimonial for a user" do
         User::Profile.any_instance.expects(testimonials_tab?: true).at_least_once
         user = create :user, handle: "author"
-        create :user_profile, user: user
+        create(:user_profile, user:)
         testimonial = create :mentor_testimonial, mentor: user, revealed: true, content: "Best mentor!"
 
         use_capybara_host do

@@ -3,8 +3,8 @@ require 'test_helper'
 class User::Notifications::MarkBatchAsUnreadTest < ActiveSupport::TestCase
   test "clears all notifications for user" do
     user = create :user
-    notification = create :notification, user: user, status: :read, read_at: Time.current
-    other_notification = create :notification, user: user, status: :read
+    notification = create :notification, user:, status: :read, read_at: Time.current
+    other_notification = create :notification, user:, status: :read
     other_persons_notification = create :notification, status: :read
 
     User::Notification::MarkBatchAsUnread.(user, [notification.uuid, other_persons_notification.uuid])
@@ -18,7 +18,7 @@ class User::Notifications::MarkBatchAsUnreadTest < ActiveSupport::TestCase
 
   test "broadcasts message" do
     user = create :user
-    notification = create :notification, user: user, status: :read
+    notification = create :notification, user:, status: :read
     NotificationsChannel.expects(:broadcast_changed!).with(user)
 
     User::Notification::MarkBatchAsUnread.(user, [notification.uuid])
@@ -26,7 +26,7 @@ class User::Notifications::MarkBatchAsUnreadTest < ActiveSupport::TestCase
 
   test "does not broadcast if none were changed" do
     user = create :user
-    notification = create :notification, user: user, status: :unread
+    notification = create :notification, user:, status: :unread
     NotificationsChannel.expects(:broadcast_changed!).never
 
     User::Notification::MarkBatchAsUnread.(user, [notification.uuid])

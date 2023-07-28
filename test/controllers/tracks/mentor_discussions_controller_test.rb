@@ -12,7 +12,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: no iterations" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
@@ -21,7 +21,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: first-time" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
     create :iteration, submission: create(:submission, solution:)
 
     sign_in!(user)
@@ -34,9 +34,9 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: requested" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
     create :iteration, submission: create(:submission, solution:)
-    create :mentor_request, solution: solution
+    create(:mentor_request, solution:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
@@ -48,9 +48,9 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: in-progress" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
     create :iteration, submission: create(:submission, solution:)
-    create :mentor_discussion, solution: solution
+    create(:mentor_discussion, solution:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
@@ -62,9 +62,9 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: finished" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
     create :iteration, submission: create(:submission, solution:)
-    create :mentor_discussion, solution: solution, finished_at: Time.current - 10.days, status: :finished
+    create :mentor_discussion, solution:, finished_at: Time.current - 10.days, status: :finished
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)

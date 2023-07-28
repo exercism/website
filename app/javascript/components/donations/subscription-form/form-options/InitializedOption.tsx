@@ -14,7 +14,7 @@ export const InitializedOption = ({
       </button>{' '}
       or{' '}
       <button type="button" onClick={onCancelling} className="text-a-subtle">
-        cancel your recurring donation
+        Cancel your recurring donation
       </button>
     </div>
   )

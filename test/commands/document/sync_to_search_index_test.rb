@@ -3,7 +3,7 @@ require "test_helper"
 class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
   test "indexes document linked to track" do
     track = create :track, slug: 'nim'
-    doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track
+    doc = create(:document, id: 3, title: 'Installation', blurb: 'How to install Nim', track:)
     doc.stubs(:markdown).returns('# Installation')
 
     Document::SyncToSearchIndex.(doc)

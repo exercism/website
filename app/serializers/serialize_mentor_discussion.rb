@@ -20,11 +20,13 @@ class SerializeMentorDiscussion
       },
       student: {
         handle: discussion.student_handle,
+        flair: discussion.student_flair,
         avatar_url: discussion.student_avatar_url,
         is_favorited: student_favorited
       },
       mentor: {
         handle: discussion.mentor.handle,
+        flair: discussion.mentor.flair,
         avatar_url: discussion.mentor.avatar_url
       },
 

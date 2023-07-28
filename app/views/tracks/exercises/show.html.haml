@@ -3,7 +3,7 @@
 #page-exercise-show
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
 
-  .lg-container.flex.flex-col-reverse.md:flex-row
+  .lg-container.flex.flex-col-reverse.lg:flex-row
     .flex-grow.lg:w-arbitary
       - if @solution&.completed?
         %section.completed-heading
@@ -20,17 +20,16 @@
           “Hello, World!” will get you writing some #{@track.title} and familiarize yourself with the Exercism workflow.
           %strong Completing it unlocks the rest of the #{@track.title} Track.
 
-      - elsif @exercise.practice_exercise?
-        - introduction = @solution ? @solution.introduction : @exercise.introduction
-        - if introduction.present?
-          %section.introduction.c-textual-content.--large
-            %h2 Introduction
-            = raw Markdown::Parse.(introduction)
-
-      - else
+      - if @exercise.concept_exercise?
         = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
       %section.instructions.c-textual-content.--large.px-20.lg:px-32.py-20.lg:py-24
+        - introduction = @solution ? @solution.introduction : @exercise.introduction
+        - if introduction.present?
+          .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
+            %h2 Introduction
+            .mb-32= raw Markdown::Parse.(introduction)
+
         %h2 Instructions
         - instructions = @solution ? @solution.instructions : @exercise.instructions
         = raw Markdown::Parse.(instructions)
@@ -48,7 +47,7 @@
             - else
               Explore the #{external_link_to 'source of this exercise', source_url}.
       %section.extra-info
-        .updated-at Last updated #{@exercise.updated_at.strftime('%e %B %Y')}
+        = render ReactComponents::Track::ExerciseMakersButton.new(@exercise)
 
         = link_to "https://github.com/exercism/#{@track.slug}/tree/main/exercises/#{@exercise.git_type}/#{@exercise.slug}", target: "_blank", rel: 'noreferrer' do
           = graphical_icon "external-site-github", css_class: "github-icon"

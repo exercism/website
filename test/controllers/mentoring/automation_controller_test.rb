@@ -5,8 +5,8 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
     test "index: renders correctly for #{role}" do
       track = create :track
       user = create :user, role
-      create :exercise_representation, feedback_type: nil, num_submissions: 3, track: track
-      create :user_track_mentorship, :supermentor_frequency, user: user, track: track
+      create(:exercise_representation, feedback_type: nil, num_submissions: 3, track:)
+      create(:user_track_mentorship, :supermentor_frequency, user:, track:)
       sign_in!(user)
 
       get mentoring_automation_index_path
@@ -60,11 +60,12 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
 
   test "edit: renders correct for supermentors" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
-    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
+    user = create :user, :supermentor
+    # user.data.update!(cache: {'mentor_satisfaction_percentage' => 98})
+    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     sign_in!(user)
 
-    representation = create :exercise_representation, exercise: exercise
+    representation = create(:exercise_representation, exercise:)
     get edit_mentoring_automation_path(representation)
 
     assert_template "mentoring/automation/edit"
@@ -94,7 +95,7 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
     user = create :user, :supermentor
     sign_in!(user)
 
-    representation = create :exercise_representation, track: track
+    representation = create(:exercise_representation, track:)
 
     get edit_mentoring_automation_path(representation)
     assert_redirected_to mentoring_path

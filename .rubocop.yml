@@ -56,9 +56,6 @@ Metrics/MethodLength:
   Exclude:
     - "test/**/*"
 
-Metrics/AbcSize:
-  IgnoredMethods: ["CLI::PrepareUploadedFiles.call"]
-
 Metrics/ClassLength:
   Exclude:
     - "test/commands/solution/search_user_solutions_test.rb"
@@ -113,6 +110,9 @@ Naming/VariableNumber:
 
 Style/LambdaCall:
   EnforcedStyle: braces
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
 
 Rails/HasManyOrHasOneDependent:
   Exclude:

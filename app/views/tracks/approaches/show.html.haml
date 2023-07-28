@@ -1,5 +1,5 @@
-- content_for :meta_title, "Explore the '#{@approach.title.html_safe}' approach for #{@exercise.title} in #{@track.title} on Exercism"
-- content_for :meta_description, "Explore the '#{@approach.title.html_safe}' approach for #{@exercise.title} in #{@track.title} on Exercism. #{@approach.blurb.html_safe}"
+- content_for :meta_title, "Explore the '#{@approach.title}' approach for #{@exercise.title} in #{@track.title} on Exercism".html_safe
+- content_for :meta_description, "Explore the '#{@approach.title}' approach for #{@exercise.title} in #{@track.title} on Exercism. #{@approach.blurb}".html_safe
 -# TODO: add :meta_image
 
 #page-approaches-show.pb-80
@@ -54,8 +54,8 @@
 
       .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
         - @other_approaches.each do |other_approach|
-          = link_to Exercism::Routes.track_exercise_approach_path(@track, @exercise, other_approach[:slug]), class: "bg-white shadow-base rounded-8 px-20 py-16 flex flex-col" do
-            %pre.border-1.border-lightGray.rounded-8.p-16.mb-16
+          = link_to Exercism::Routes.track_exercise_approach_path(@track, @exercise, other_approach[:slug]), class: "bg-backgroundColorA shadow-base rounded-8 px-20 py-16 flex flex-col" do
+            %pre.border-1.border-borderColor7.rounded-8.p-16.mb-16
               %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[180px]", style: "text-overflow:ellipsis" }
                 = other_approach[:snippet]
             %h5.text-h5.mb-2

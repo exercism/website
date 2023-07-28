@@ -61,11 +61,12 @@
             }
         }
         & a {
-            @apply text-lightBlue font-medium inline-flex items-center;
+            @apply text-prominentLinkColor font-medium inline-flex items-center;
             & .c-icon {
                 height: 12px;
                 width: 12px;
                 @apply ml-6;
+                @apply filter-prominentLinkColor;
             }
         }
         & ul {

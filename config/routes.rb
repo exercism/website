@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   draw(:api)
+  draw(:spi)
 
   # #### #
   # Auth #
@@ -26,18 +27,14 @@ Rails.application.routes.draw do
 
   get "discourse/sso" => "discourse/sso"
 
-  # ### #
-  # SPI #
-  # ### #
-  namespace :spi do
-    resources :tooling_jobs, only: :update
-  end
-
   # ######## #
   # Webhooks #
   # ######## #
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
+    resource :paypal, only: [:create], controller: "paypal" do
+      post :ipn
+    end
     resource :coinbase, only: [:create], controller: "coinbase"
     resource :github_sponsors, only: [:create]
 
@@ -53,7 +50,13 @@ Rails.application.routes.draw do
   # Admin #
   # ##### #
   namespace :admin do
+    root to: "dashboard#show"
+    resources :premium, controller: 'premium'
     resources :community_videos
+    resources :partners do
+      resources :adverts
+      resources :perks
+    end
     resources :mailshots do
       member do
         patch :send_test
@@ -62,6 +65,11 @@ Rails.application.routes.draw do
     end
     resources :streaming_events
     resources :donors, only: %i[index new create]
+    resources :users, only: %i[index] do
+      collection do
+        get :search
+      end
+    end
   end
 
   # ############ #
@@ -72,6 +80,7 @@ Rails.application.routes.draw do
     get :user_preferences
     get :communication_preferences
     get :donations
+    get :premium
     get :integrations
     patch :reset_account
     delete :destroy_account
@@ -89,6 +98,13 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
 
   resources :impact, only: [:index]
+
+  resources :insiders, only: [:index]
+
+  resource :premium, only: [:show], controller: 'premium' do
+    get :paypal_pending
+    get :paypal_cancelled
+  end
 
   resources :profiles, only: %i[index show new create] do
     collection do
@@ -147,6 +163,9 @@ Rails.application.routes.draw do
 
   namespace :community do
     resources :stories, only: %i[index show]
+    resources :videos, only: %i[index show]
+    resources :brief_introductions, only: %i[index]
+    resources :interviews, only: %i[index]
   end
 
   resources :tracks, only: %i[index show] do
@@ -174,6 +193,7 @@ Rails.application.routes.draw do
 
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests" do
         get :no_slots_remaining
+        get :get_more_slots
       end
       resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions" do
         collection do
@@ -250,10 +270,22 @@ Rails.application.routes.draw do
   get "/500", to: "errors#internal_error"
   get "/503", to: "errors#internal_error"
 
+  ###################
+  # Adverts & Perks #
+  ###################
+  resources :adverts, controller: "partner/adverts", only: [] do
+    get :redirect, on: :member
+  end
+  resources :perks, only: %i[index show] do
+    get :claim, on: :member
+  end
+
   ###############
   # About Pages #
   ###############
   resource :about, controller: 'about', only: [:show] do
+    resources :partners, only: %i[index show], path: "supporters/organisations", controller: "about/partners"
+
     get :impact
     get :team
     get :hiring
@@ -262,11 +294,11 @@ Rails.application.routes.draw do
     get :hiring_front_end_developer, path: "hiring/front-end-developer-4", as: :hiring_4
     get :hiring_rails_developer, path: "hiring/rails-developer-5", as: :hiring_5
     get :individual_supporters, path: "supporters/individuals", as: :individual_supporters
-    get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
+    # get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
 
-    %w[packt gobridge].each do |supporter|
-      get "supporter_#{supporter}".to_sym, path: "supporters/organisations/#{supporter}", as: "supporter_#{supporter}"
-    end
+    # %w[packt gobridge].each do |supporter|
+    #   get "supporter_#{supporter}".to_sym, path: "supporters/organisations/#{supporter}", as: "supporter_#{supporter}"
+    # end
   end
 
   #########
@@ -298,7 +330,7 @@ Rails.application.routes.draw do
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
 
   %i[installation learning resources tests].each do |doc|
-    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
+    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}")
   end
 
   get "values", to: redirect("about")
@@ -322,7 +354,7 @@ Rails.application.routes.draw do
   get "my/settings", to: redirect("settings")
   get "my/tracks", to: redirect("tracks")
   get "getting-started", to: redirect("docs/using/getting-started")
-  get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
+  get '/languages/:slug', to: redirect('/tracks/%{slug}')
   get "contribute", to: redirect("contributing")
 
   get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect

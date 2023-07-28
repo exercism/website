@@ -130,9 +130,9 @@ test('revert to last iteration fails', async () => {
       await screen.findByRole('button', { name: /revert to last iteration/i })
     )
 
-    await waitFor(() =>
-      expect(screen.getByText('Unable to retrieve files')).toBeInTheDocument()
-    )
+    expect(
+      await screen.findByText('Error: Unable to retrieve files')
+    ).toBeInTheDocument()
   })
 })
 
@@ -170,8 +170,8 @@ test('revert to exercise start fails', async () => {
       await screen.findByRole('button', { name: /revert to exercise start/i })
     )
 
-    await waitFor(() =>
-      expect(screen.getByText('Unable to retrieve files')).toBeInTheDocument()
-    )
+    expect(
+      await screen.findByText('Error: Unable to retrieve files')
+    ).toBeInTheDocument()
   })
 })

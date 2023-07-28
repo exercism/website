@@ -42,8 +42,8 @@ class Solution < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
 
-  scope :published, -> { where.not(published_at: nil) }
-  scope :not_published, -> { where(published_at: nil) }
+  scope :published, -> { where(status: :published) }
+  scope :not_published, -> { where.not(status: :published) }
 
   delegate :files_for_editor, to: :exercise, prefix: :exercise
 
@@ -107,11 +107,10 @@ class Solution < ApplicationRecord
   end
 
   def update_latest_iteration_head_tests_status!(status)
-    unless latest_iteration_head_tests_status == status.to_sym
-      update_column(:latest_iteration_head_tests_status, status)
-      Solution::SyncToSearchIndex.defer(self)
-    end
-    Solution::AutoUpdateToLatestExerciseVersion.(self)
+    return if latest_iteration_head_tests_status == status.to_sym
+
+    update_column(:latest_iteration_head_tests_status, status)
+    Solution::SyncToSearchIndex.defer(self)
   end
 
   memoize

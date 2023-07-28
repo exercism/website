@@ -7,13 +7,67 @@
         &::-webkit-scrollbar {
             display: none; /* Chrome, Opera, Safari */
         }
+        @apply -ml-20;
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
         mask-image: linear-gradient(
             to right,
             transparent,
             white 20px,
-            white 90%,
+            white 95%,
             transparent
         );
-        padding-right: 10%;
+        @apply pl-20 pr-[5%];
+    }
+
+    @screen md {
+        .scroll-x-hidden {
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+    }
+
+    .scroll-x-editor-rhs {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        -webkit-overflow-scrolling: touch;
+
+        @apply overflow-x-auto;
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
+        @apply pl-20 pr-[5%];
+
+        &::-webkit-scrollbar {
+            @apply h-[6px];
+        }
+
+        &::-webkit-scrollbar-thumb {
+            @apply rounded-8 bg-gray;
+            --tw-bg-opacity: 0.5;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            --tw-bg-opacity: 1;
+        }
     }
 }

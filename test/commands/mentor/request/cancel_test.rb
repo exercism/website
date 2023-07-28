@@ -3,7 +3,7 @@ require "test_helper"
 class Mentor::Request::CancelTest < ActiveSupport::TestCase
   test "cancels request" do
     solution = create :practice_solution
-    request = create :mentor_request, solution: solution
+    request = create(:mentor_request, solution:)
 
     Mentor::Request::Cancel.(request)
 

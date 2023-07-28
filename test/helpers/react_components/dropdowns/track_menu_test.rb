@@ -19,7 +19,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
   test "joined course in learning mode" do
     track = create :track, course: true
     user = create :user
-    user_track = create :user_track, track: track, user: user
+    user_track = create(:user_track, track:, user:)
 
     component = ReactComponents::Dropdowns::TrackMenu.new(track)
     component.stubs(current_user: user)
@@ -43,7 +43,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
   test "joined course in practice mode" do
     track = create :track, course: true
     user = create :user
-    user_track = create :user_track, track: track, user: user, practice_mode: true
+    user_track = create :user_track, track:, user:, practice_mode: true
 
     component = ReactComponents::Dropdowns::TrackMenu.new(track)
     component.stubs(current_user: user)
@@ -67,7 +67,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
   test "joined non-course track" do
     track = create :track, course: false
     user = create :user
-    user_track = create :user_track, track: track, user: user, practice_mode: true
+    user_track = create :user_track, track:, user:, practice_mode: true
 
     component = ReactComponents::Dropdowns::TrackMenu.new(track)
     component.stubs(current_user: user)

@@ -18,7 +18,7 @@
     &.--processing {
         @apply text-orange;
         & .c-icon {
-            animation: spin 3s linear infinite;
+            filter: var(--processing-orange-filter);
         }
     }
     &.--passed {

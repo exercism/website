@@ -67,12 +67,7 @@ class Mentor::Discussion::FinishByStudent
   def create_testimonial!
     return if testimonial.blank?
 
-    Mentor::Testimonial.create!(
-      mentor: discussion.mentor,
-      student: discussion.student,
-      discussion:,
-      content: testimonial
-    )
+    Mentor::Testimonial::Create.(discussion, testimonial)
   end
 
   def award_reputation!

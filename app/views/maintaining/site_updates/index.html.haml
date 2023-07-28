@@ -1,9 +1,9 @@
-#maintaining-site-updates.c-admin-index
+#maintaining-site-updates.c-admin-page
   .lg-container
     %h1.text-h1.mb-8 Site updates
     - if flash[:site_updates_notice]
       .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
-    %table.mb-8
+    %table.mb-8.c-admin-table
       %thead
         %tr
           %th Type

@@ -1,5 +1,5 @@
 - content_for :meta_title, "The #12in23 Challenge"
-- content_for :meta_description, "Try out 12 different programming langauges during 2023. Broaden your horizons and level up your programming skills as your explore the varied paradigms and ideas that different languages embrace. It's free, fun, and useful!"
+- content_for :meta_description, "Try out 12 different programming langauges during 2023. Broaden your horizons and level up your programming skills as your explore the varied paradigms and ideas that different languages embrace. It's free, fun, and useful!".html_safe
 - content_for :meta_image, "https://i.ytimg.com/vi/Svzev-9shKs/hqdefault.jpg"
 
 
@@ -17,7 +17,7 @@
         in 2023.
       %p
         Go old-school with COBOL, cutting edge with Unison or esoteric with Prolog. Explore low-level code with Assembly, expressions with a Lisp or functional with Haskell!
-        %strong.block.font-semibold This month is Mechanical March. Join the Challenge to learn more!
+        %strong.block.font-semibold This month is Jurassic July. Join the Challenge to learn more!
 
       %p.unsure
         Expand your knowledge. Have fun. Join the community. 100% free.
@@ -25,9 +25,9 @@
       - if user_signed_in?
         = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-m btn-primary'
       - else
-        .flex.items-center
-          = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary'
-          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary ml-24'
+        .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
+          = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary sm:w-unset w-100'
+          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary sm:w-unset w-100'
 
   %article.lg-container
     %section.video-section
@@ -56,8 +56,8 @@
         - if user_signed_in?
           = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
         - else
-          .flex.items-center
-            = link_to "Sign up to get started", new_user_registration_path, class: 'btn-l btn-primary'
-            = link_to "Log in", new_user_session_path, class: 'btn-l btn-secondary ml-24'
+          .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
+            = link_to "Sign up to get started", new_user_registration_path, class: 'btn-l btn-primary sm:w-unset w-100'
+            = link_to "Log in", new_user_session_path, class: 'btn-l btn-secondary sm:w-unset w-100'
 
 

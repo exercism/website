@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar } from '../../common/Avatar'
 import { EditingComponentType } from '../../common/ListItem'
 import { SolutionComment } from '../../types'
-import { Reputation } from '../../common'
+import { HandleWithFlair, Reputation } from '../../common'
 import { fromNow } from '../../../utils/time'
 import { EditListItemForm } from '../../common/EditListItemForm'
 
@@ -20,7 +20,12 @@ export const CommentEdit = ({
         <Avatar src={comment.author.avatarUrl} handle={comment.author.handle} />
         <div className="flex flex-col">
           <div className="flex items-center">
-            <div className="text-h6 mr-8">{comment.author.handle}</div>
+            <div className="text-h6 mr-8">
+              <HandleWithFlair
+                handle={comment.author.handle}
+                flair={comment.author.flair}
+              />
+            </div>
             <Reputation value={comment.author.reputation} size="small" />
           </div>
           <div className="text-tetColor6 leading-160">

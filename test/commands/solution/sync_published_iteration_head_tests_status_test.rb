@@ -3,15 +3,15 @@ require 'test_helper'
 class Solution::SyncPublishedIterationHeadTestsStatusTest < ActiveSupport::TestCase
   test "returns status correctly" do
     solution = create :practice_solution, :published
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
 
     refute Solution::SyncPublishedIterationHeadTestsStatus.(solution.reload)
 
-    create :submission_test_run, submission: submission, git_important_files_hash: 'foobar'
+    create :submission_test_run, submission:, git_important_files_hash: 'foobar'
     refute Solution::SyncPublishedIterationHeadTestsStatus.(solution.reload)
 
-    create :submission_test_run, submission: submission
+    create(:submission_test_run, submission:)
     assert Solution::SyncPublishedIterationHeadTestsStatus.(solution.reload)
   end
 
@@ -19,9 +19,9 @@ class Solution::SyncPublishedIterationHeadTestsStatusTest < ActiveSupport::TestC
     time = Time.current - 4.months
 
     solution = create :practice_solution, :published
-    submission = create :submission, solution: solution
-    create :iteration, submission: submission
-    create :submission_test_run, submission: submission
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    create(:submission_test_run, submission:)
     user_track = create :user_track, user: submission.user, track: submission.track, last_touched_at: time
 
     Solution::SyncToSearchIndex.expects(:defer).with(submission.solution)

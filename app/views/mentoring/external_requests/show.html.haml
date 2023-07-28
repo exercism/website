@@ -3,6 +3,7 @@
     = avatar(@solution.user)
     %h1.text-h1.mb-16 Want to mentor #{@solution.user.handle}?
     %p.text-p-2xlarge.mb-32 #{@solution.user.handle} has sent you a private invitation to mentor their solution.
+    = render 'exercise_tag', solution: @solution
     .buttons.grid.grid-cols-2-auto.gap-20.mb-48
       = button_to "Accept invitation", accept_mentoring_external_request_url, method: :patch, class: 'btn-primary btn-l'
       = link_to "Decline", mentoring_path, class: 'btn-enhanced btn-l'

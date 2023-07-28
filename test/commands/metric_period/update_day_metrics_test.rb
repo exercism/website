@@ -6,10 +6,10 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
   test "metrics are counted per action" do
     freeze_time do
       track = create :track
-      create :start_solution_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day
-      create :finish_mentoring_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day + 13.hours
-      create :finish_mentoring_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day + 8.hours
-      create :open_issue_metric, track: track, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
+      create :start_solution_metric, track:, occurred_at: Time.current.beginning_of_day.prev_day
+      create :finish_mentoring_metric, track:, occurred_at: Time.current.beginning_of_day.prev_day + 13.hours
+      create :finish_mentoring_metric, track:, occurred_at: Time.current.beginning_of_day.prev_day + 8.hours
+      create :open_issue_metric, track:, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours
 
       MetricPeriod::UpdateDayMetrics.()
 
@@ -25,16 +25,16 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
   test "metrics are counted per day" do
     freeze_time do
       track = create :track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours, track:)
 
       # Sanity check: two days ago should be ignored
-      create :start_solution_metric, occurred_at: Time.current - 2.days, track: track
+      create(:start_solution_metric, occurred_at: Time.current - 2.days, track:)
 
       # Sanity check: current day should be ignored
-      create :start_solution_metric, occurred_at: Time.current, track: track
+      create(:start_solution_metric, occurred_at: Time.current, track:)
 
       MetricPeriod::UpdateDayMetrics.()
 
@@ -71,8 +71,8 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
   test "updates count of existing metric" do
     freeze_time do
       track = create :track
-      metric_period = create :metric_period_day, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day,
-        count: 13, track: track
+      metric_period = create(:metric_period_day, metric_type: Metrics::OpenIssueMetric.name, day: Time.current.prev_day.day,
+        count: 13, track:)
 
       7.times do
         create :open_issue_metric, track:, occurred_at: Time.current.prev_day
@@ -88,16 +88,16 @@ class MetricPeriod::UpdateDayMetricsTest < ActiveSupport::TestCase
     freeze_time do
       # Normally these would be counted, but they'll be ignored in this test
       track = create :track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours, track: track
-      create :start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours, track: track
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 1.hour, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 10.hours, track:)
+      create(:start_solution_metric, occurred_at: Time.current.beginning_of_day.prev_day + 5.hours, track:)
 
       # Sanity check: current day should be ignored
-      create :start_solution_metric, occurred_at: Time.current, track: track
+      create(:start_solution_metric, occurred_at: Time.current, track:)
 
-      create :start_solution_metric, occurred_at: Time.current - 2.days, track: track
-      create :start_solution_metric, occurred_at: Time.current - 2.days, track: track
+      create(:start_solution_metric, occurred_at: Time.current - 2.days, track:)
+      create(:start_solution_metric, occurred_at: Time.current - 2.days, track:)
 
       MetricPeriod::UpdateDayMetrics.(Time.current - 2.days)
 

@@ -83,9 +83,7 @@ function TabContextWrapper({ children }: { children: React.ReactNode }) {
           ))}
         </div>
       ) : null}
-      <div className="overflow-auto border-t-1 border-borderColor7">
-        {children}
-      </div>
+      <div className="border-t-1 border-borderColor7">{children}</div>
     </TestTabContext.Provider>
   )
 }

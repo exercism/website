@@ -12,8 +12,8 @@ module Pages
         ruby_2 = create :track, slug: :ruby_2, title: "Ruby #{SecureRandom.hex}"
 
         user = create :user
-        create :user_track, user: user, track: ruby_1
-        create :user_track, user: user, track: js
+        create :user_track, user:, track: ruby_1
+        create :user_track, user:, track: js
 
         use_capybara_host do
           sign_in!(user)

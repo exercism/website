@@ -16,11 +16,16 @@ module Badges
     SUPPORTERS = %w[
       andrerfcsantos
       bethanyg
+      bobahop
       erikschierboom
       ihid
+      isaacg
+      jimpjorps
       kotp
+      meatball
       nobbz
       sleeplessbyte
+      vaeng
       ynfle
     ].freeze
     private_constant :SUPPORTERS

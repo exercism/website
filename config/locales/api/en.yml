@@ -31,6 +31,7 @@ en:
       file_not_found: "The file was not found"
       # TODO: Add max size to this
       file_too_large: "The submitted file was too large"
+      too_many_requests: "A rate limit has been hit"
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."
@@ -53,3 +54,5 @@ en:
       invalid_metric_type: "The metric type is invalid"
       profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"
       invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"
+      no_donation_subscription: "The subscription is not a donation subscription"
+      no_premium_subscription: "The subscription is not a premium subscription"

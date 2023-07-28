@@ -119,7 +119,7 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "broadcast with iteration" do
     submission = create :submission
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:)
 
@@ -133,9 +133,9 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
   test "does not broadcast for solution run" do
     # see changes solution not submission for solution run for explanation of this setup
     exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
-    solution = create :practice_solution, :published, exercise: exercise
-    submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
-    create :iteration, solution: solution, submission: submission
+    solution = create(:practice_solution, :published, exercise:)
+    submission = create :submission, solution:, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    create(:iteration, solution:, submission:)
 
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(create(:submission), execution_status: 200, results:,
@@ -152,9 +152,9 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     # Set the exercise and test run to be one sha, and the solution to be a different one
     # da39a3ee5e6b4b0d3255bfef95601890afd80709 is the hash of b72b0958a135cddd775bf116c128e6e859bf11e4
     exercise = create :practice_exercise, git_important_files_hash: 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
-    solution = create :practice_solution, :published, exercise: exercise
-    submission = create :submission, solution: solution, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
-    create :iteration, solution: solution, submission: submission
+    solution = create(:practice_solution, :published, exercise:)
+    submission = create :submission, solution:, git_sha: "b72b0958a135cddd775bf116c128e6e859bf11e4"
+    create(:iteration, solution:, submission:)
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:,
       git_sha: "ae1a56deb0941ac53da22084af8eb6107d4b5c3a")
@@ -168,9 +168,9 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "changes solution and submission if they're the same" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, :published, exercise: exercise, git_sha: exercise.git_sha
-    submission = create :submission, solution: solution, git_sha: exercise.git_sha
-    create :iteration, solution: solution, submission: submission
+    solution = create :practice_solution, :published, exercise:, git_sha: exercise.git_sha
+    submission = create :submission, solution:, git_sha: exercise.git_sha
+    create(:iteration, solution:, submission:)
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:, git_sha: exercise.git_sha)
 
@@ -182,9 +182,9 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
   test "auto updates version if applicable" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, :published, exercise: exercise, git_sha: "foobar"
-    submission = create :submission, solution: solution
-    create :iteration, solution: solution, submission: submission
+    solution = create :practice_solution, :published, exercise:, git_sha: "foobar"
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:, git_sha: exercise.git_sha)
 

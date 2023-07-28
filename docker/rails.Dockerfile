@@ -1,4 +1,4 @@
-FROM ruby:3.1.0-bullseye
+FROM ruby:3.2.1-bullseye
 
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER
@@ -19,10 +19,14 @@ RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Ci
 
 WORKDIR /opt/exercism/website
 
+RUN gem install nokogiri -v 1.14.2 && \
+    gem install propshaft -v 0.4.0 && \
+    gem install anycable -v 1.2.5 && \
+    gem install bundler -v 2.4.13
+
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler && \
-    bundle config set deployment 'true' && \
+RUN bundle config set deployment 'true' && \
     bundle config set without 'development test' && \
     bundle install
 
@@ -37,10 +41,13 @@ COPY . ./
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # This compiles the assets
-# During deployment the assets are copied from this image and 
+# During deployment the assets are copied from this image and
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
 RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
+
+RUN groupadd -g 2222 exercism-git
+RUN usermod -a -G exercism-git root
 
 ENTRYPOINT bin/start_webserver

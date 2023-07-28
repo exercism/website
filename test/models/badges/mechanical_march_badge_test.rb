@@ -22,7 +22,7 @@ class Badges::MechanicalMarchBadgeTest < ActiveSupport::TestCase
 
     # hello world doesn't count
     exercise = create :practice_exercise, slug: 'hello-world', track: rust
-    create :practice_solution, :published, user: user, track: rust, exercise: exercise, published_at: Time.utc(2023, 3, 1)
+    create :practice_solution, :published, user:, track: rust, exercise:, published_at: Time.utc(2023, 3, 1)
     refute badge.award_to?(user.reload)
 
     # 4 bob's is not enough
@@ -34,12 +34,12 @@ class Badges::MechanicalMarchBadgeTest < ActiveSupport::TestCase
 
     # Doesn't care if we get a 5th exercise in csharp
     another_exercise = create :practice_exercise, slug: 'leap', track: csharp
-    create :practice_solution, :published, user: user, track: csharp, exercise: another_exercise, published_at: Time.utc(2023, 3, 6)
+    create :practice_solution, :published, user:, track: csharp, exercise: another_exercise, published_at: Time.utc(2023, 3, 6)
     refute badge.award_to?(user.reload)
 
     # Iterate a 5th bob, but in February
     exercise = create :practice_exercise, slug: 'bob', track: rust
-    solution = create :practice_solution, :iterated, user: user, track: rust, exercise: exercise,
+    solution = create :practice_solution, :published, user:, track: rust, exercise:,
       published_at: Time.utc(2023, 2, 1)
     refute badge.award_to?(user.reload)
 
@@ -58,7 +58,7 @@ class Badges::MechanicalMarchBadgeTest < ActiveSupport::TestCase
     rust = create :track, slug: 'rust'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: rust
-      create :practice_solution, :iterated, user:, track: rust, exercise:,
+      create :practice_solution, :published, user:, track: rust, exercise:,
         published_at: Time.utc(2023, 2, 28)
     end
     assert badge.award_to?(user.reload)
@@ -70,7 +70,7 @@ class Badges::MechanicalMarchBadgeTest < ActiveSupport::TestCase
     rust = create :track, slug: 'rust'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: rust
-      create :practice_solution, :iterated, user:, track: rust, exercise:,
+      create :practice_solution, :published, user:, track: rust, exercise:,
         published_at: Time.utc(2024, 2, 29)
     end
     assert badge.award_to?(user.reload)
@@ -82,7 +82,7 @@ class Badges::MechanicalMarchBadgeTest < ActiveSupport::TestCase
     rust = create :track, slug: 'rust'
     5.times do
       exercise = create :practice_exercise, slug: 'bob', track: rust
-      create :practice_solution, :iterated, user:, track: rust, exercise:,
+      create :practice_solution, :published, user:, track: rust, exercise:,
         published_at: Time.utc(2023, 4, 1)
     end
     assert badge.award_to?(user.reload)

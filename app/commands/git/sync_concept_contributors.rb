@@ -8,14 +8,14 @@ class Git::SyncConceptContributors < Git::Sync
 
   def call
     ActiveRecord::Base.transaction do
-      contributors = ::User.where(github_username: contributors_config)
+      contributors = ::User.with_data.where(data: { github_username: contributors_config })
       contributors.find_each { |contributor| ::Concept::Contributorship::Create.(concept, contributor) }
 
       # This is required to remove contributors that were already added
       concept.reload.update!(contributors:)
 
       # TODO: (Optional) consider what to do with missing contributors
-      missing_contributors = contributors_config - contributors.pluck(:github_username)
+      missing_contributors = contributors_config - contributors.map(&:github_username)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
     end
   end

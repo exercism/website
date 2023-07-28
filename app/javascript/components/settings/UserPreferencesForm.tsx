@@ -8,7 +8,7 @@ type Links = {
   update: string
 }
 
-type UserPreferences = {
+export type UserPreferences = {
   automation: readonly UserPreference[]
 }
 
@@ -30,7 +30,6 @@ export const UserPreferencesForm = ({
         Record<string, boolean>
       >((data, p) => {
         data[p.key] = p.value
-
         return data
       }, {}),
     },

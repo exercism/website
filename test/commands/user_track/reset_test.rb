@@ -9,14 +9,14 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
       track = create :track
       concept_exercise = create :concept_exercise
       practice_exercise = create :practice_exercise
-      solution_1 = create :concept_solution, exercise: concept_exercise, user: user
-      solution_2 = create :practice_solution, exercise: practice_exercise, user: user
+      solution_1 = create(:concept_solution, exercise: concept_exercise, user:)
+      solution_2 = create(:practice_solution, exercise: practice_exercise, user:)
 
       # Sanity checks
       assert_equal "#{user.id}:#{concept_exercise.id}", solution_1.unique_key
       assert_equal "#{user.id}:#{practice_exercise.id}", solution_2.unique_key
 
-      user_track = create :user_track, user: user, track: track,
+      user_track = create :user_track, user:, track:,
         objectives: "something",
         anonymous_during_mentoring: true,
         created_at: Time.current - 1.week,
@@ -40,17 +40,28 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     end
   end
 
+  test "remove solutions from search index" do
+    create :user, :ghost
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+
+    Solution::RemoveUserSolutionsForTrackFromSearchIndex.expects(:defer).with(user.id, track.id)
+
+    UserTrack::Reset.(user_track)
+  end
+
   test "removes track-specification reputation" do
     freeze_time do
       create :user, :ghost
 
       user = create :user
       track = create :track
-      concept_exercise = create :concept_exercise, track: track
-      practice_exercise = create :practice_exercise, track: track
-      user_track = create :user_track, user: user, track: track
-      solution_1 = create :concept_solution, exercise: concept_exercise, user: user
-      solution_2 = create :practice_solution, exercise: practice_exercise, user: user
+      concept_exercise = create(:concept_exercise, track:)
+      practice_exercise = create(:practice_exercise, track:)
+      user_track = create(:user_track, user:, track:)
+      solution_1 = create(:concept_solution, exercise: concept_exercise, user:)
+      solution_2 = create(:practice_solution, exercise: practice_exercise, user:)
       create :iteration, solution: solution_1
       create :iteration, solution: solution_2
 
@@ -58,8 +69,8 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
       # which should not be lost
       other_track = create :track, :random_slug
       other_exercise = create :practice_exercise, track: other_track
-      other_user_track = create :user_track, user: user, track: other_track
-      other_solution = create :concept_solution, exercise: other_exercise, user: user
+      other_user_track = create :user_track, user:, track: other_track
+      other_solution = create(:concept_solution, exercise: other_exercise, user:)
       create :iteration, solution: other_solution
 
       perform_enqueued_jobs do

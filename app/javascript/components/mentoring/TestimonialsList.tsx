@@ -2,17 +2,18 @@ import React, { useCallback, useState, useEffect } from 'react'
 import {
   Request as BaseRequest,
   usePaginatedRequestQuery,
-} from '../../hooks/request-query'
+  useHistory,
+  removeEmpty,
+  useList,
+} from '@/hooks'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { SharePlatform, Testimonial } from '../types'
 import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
 import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
-import { useList } from '../../hooks/use-list'
 import { GraphicalIcon, Pagination } from '../common'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
 import { OrderSelect } from './testimonials-list/OrderSelect'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
 
 export type PaginatedResult = {
   results: readonly Testimonial[]
@@ -63,16 +64,11 @@ export const TestimonialsList = ({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
-    ...request,
-    query: removeEmpty(request.query),
-  })
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+      ...request,
+      query: removeEmpty(request.query),
+    })
 
   const setTrack = useCallback(
     (trackSlug) => {
@@ -100,7 +96,7 @@ export const TestimonialsList = ({
         <div className="c-search-bar">
           <TrackDropdown
             tracks={tracks}
-            value={request.query.trackSlug}
+            value={request.query.trackSlug || ''}
             setValue={setTrack}
           />
           <input
@@ -171,7 +167,7 @@ export const TestimonialsList = ({
       {resolvedData ? (
         <Pagination
           disabled={latestData === undefined}
-          current={request.query.page}
+          current={request.query.page || 1}
           total={resolvedData.meta.totalPages}
           setPage={setPage}
         />

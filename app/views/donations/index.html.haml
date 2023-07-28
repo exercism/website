@@ -1,5 +1,5 @@
 #page-donate
-  - link_class = "underline hover:text-lightBlue"
+  - link_class = "underline hover:text-prominentLinkColor"
   %header.pt-24.pd:mt-40.md:shadow-lgZ1
     .lg-container.flex.flex-col.items-center.c-shapes
       = graphical_icon "community-with-exercism-logo", category: :graphics
@@ -18,13 +18,14 @@
           = succeed('.') do
             = link_to 'Team', team_about_path, class: link_class
 
+      #anchor-donate
       .summary.lg-container.hidden.md:flex.items-center
         .item
-          .value= number_with_delimiter(User.donor.count)
+          .value= number_with_delimiter(User::Data.donors.count)
           .metric Supporters
 
         .item
-          - parts = Donations::Subscription.active_total_per_month_in_dollars.to_s.split(".")
+          - parts = Payments::Subscription.donation.active_total_per_month_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
             .dollars.text-32.leading-130= number_with_delimiter(parts[0])
@@ -32,7 +33,7 @@
           .metric Total Monthly Pledges
 
         .item
-          - parts = Donations::Payment.total_donated_in_dollars.to_s.split(".")
+          - parts = Payments::Payment.donation.total_donated_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
             .dollars.text-32.leading-130= number_with_delimiter(parts[0])
@@ -48,7 +49,7 @@
           = render "alternatives"
 
       - else
-        %section.form-section.flex-shrink-0{ style: 'width:500px' }
+        %section.form-section.flex-shrink-0{ class: 'md:w-[500px] w-full' }
           .c-donations-form.p-32.text-center
             %h2.text-h4.mb-8 Please log in to donate using a debit/credit card.
             %p.text-p-base
@@ -68,36 +69,36 @@
             %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/f3EMJpVo568", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
         %h2.text-h2.mb-32 Here&apos;s what you can do to support us.
-        .flex.flex-row.shadow-baseZ1.p-24.rounded-16.bg-white.mb-16.border-2.border-gradient.relative
-          = graphical_icon "money-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+        .flex.md:flex-row.flex-col.gap-20.shadow-baseZ1.p-24.rounded-16.bg-backgroundColorA.mb-16.border-2.border-gradient.relative
+          = graphical_icon "money-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"
           .flex.flex-col
             .text-h4.mb-4 Donate
-            .text-prose.text-textColor5{ class: 'mr-[40px]' }
+            .text-prose.text-textColor5
               Support us financially using the donation box
               %span.hidden.md:inline to the right.
               %span.inline.md:hidden above.
               Every dollar helps us keep us independent, advert-free and able to grow, so please support us if you can! 💜
 
-        .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
-          = graphical_icon "organisation-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+        .flex.md:flex-row.flex-col.gap-20.shadow-base.p-24.rounded-16.bg-backgroundColorA.mb-16
+          = graphical_icon "organisation-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"
           .flex.flex-col
             .text-h4.mb-4 Get your company involved
             .text-prose.text-textColor5
               Does your company support not-for-profits or charities? Do you have a matched giving scheme at work? We&apos;d love to chat to you to understand how your company could support us. Please
               drop us an email at
-              = link_to "fundraising@exercism.org", "mailto:fundraising@exercism.org", class: "text-lightBlue font-medium underline"
+              = link_to "fundraising@exercism.org", "mailto:fundraising@exercism.org", class: "text-prominentLinkColor font-medium underline"
               and we'll explore further!
 
-        .flex.flex-row.shadow-base.p-24.rounded-16.bg-white.mb-16
-          = graphical_icon "social-contribution", category: :graphics, css_class: "h-[96px] w-[96px] mr-20"
+        .flex.md:flex-row.flex-col.gap-20.shadow-base.p-24.rounded-16.bg-backgroundColorA.mb-16
+          = graphical_icon "social-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"
           .flex.flex-col
             .text-h4.mb-4 Love Exercism? Tell others about us!
             .text-prose.text-textColor5
               Follow us on
-              = link_to 'Twitter,', 'https://twitter.com/exercism_io', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
-              = link_to 'GitHub', 'https://github.com/exercism', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
+              = link_to 'Twitter,', 'https://twitter.com/exercism_io', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"
+              = link_to 'GitHub', 'https://github.com/exercism', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"
               and
-              = link_to 'LinkedIn', 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noreferrer', class: "text-lightBlue font-medium underline"
+              = link_to 'LinkedIn', 'https://www.linkedin.com/company/exercism/', target: "_blank", rel: 'noreferrer', class: "text-prominentLinkColor font-medium underline"
               then share our posts, and create your own! We try to share everything we see 🙂
 
 

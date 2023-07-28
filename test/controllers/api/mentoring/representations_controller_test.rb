@@ -6,8 +6,6 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_mentoring_representation_path, args: 1, method: :patch
   guard_incorrect_token! :with_feedback_api_mentoring_representations_path
   guard_incorrect_token! :without_feedback_api_mentoring_representations_path
-  guard_incorrect_token! :tracks_with_feedback_api_mentoring_representations_path
-  guard_incorrect_token! :tracks_without_feedback_api_mentoring_representations_path
 
   ##########
   # update #
@@ -68,8 +66,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates a representation" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
-    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
+    user = create :user, :supermentor
+    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -131,8 +129,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to editor if representation already had author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
-    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
+    user = create :user, :supermentor
+    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     author = create :user
     setup_user(user)
 
@@ -157,8 +155,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to author if representation doesn't have author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
-    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
+    user = create :user, :supermentor
+    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
     representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
@@ -187,8 +185,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     travel_to beginning_of_minute
 
     exercise = create :practice_exercise
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
-    create :user_track_mentorship, user: user, track: exercise.track, num_finished_discussions: 100
+    user = create :user, :supermentor
+    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -220,13 +218,13 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   test "without_feedback retrieves representations" do
     track = create :track
     user = create :user, :supermentor
-    create :user_track_mentorship, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track_mentorship, user:, track:)
+    exercise = create(:practice_exercise, track:)
     setup_user(user)
 
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise: exercise,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track: track
+      create(:exercise_representation, num_submissions: 25 - idx, feedback_type: nil, exercise:,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track:)
     end
 
     params = { track_slug: track.slug }
@@ -275,8 +273,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     setup_user(user)
 
     representations = Array.new(25) do |idx|
-      create :exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user,
-        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track: track
+      create(:exercise_representation, num_submissions: 25 - idx, feedback_type: :actionable, feedback_author: user,
+        last_submitted_at: Time.utc(2022, 3, 15) - idx.days, track:)
     end
 
     params = { track_slug: track.slug }
@@ -301,104 +299,6 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     setup_user
 
     get with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
-
-    assert_response :forbidden
-    assert_equal(
-      {
-        "error" => {
-          "type" => "not_supermentor",
-          "message" => "You do not have supermentor permissions"
-        }
-      },
-      JSON.parse(response.body)
-    )
-  end
-
-  ########################
-  # tracks_with_feedback #
-  ########################
-  test "tracks_without_feedback retrieves all tracks the user has given feedback on" do
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 96
-    setup_user(user)
-
-    ruby = create :track, title: "Ruby", slug: "ruby"
-    go = create :track, title: "Go", slug: "go"
-
-    create :user_track_mentorship, user: user, track: ruby, num_finished_discussions: 100
-    create :user_track_mentorship, user: user, track: go, num_finished_discussions: 100
-
-    series = create :concept_exercise, title: "Series", track: ruby
-    tournament = create :concept_exercise, title: "Tournament", track: go
-
-    create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
-    create :exercise_representation, exercise: series, feedback_type: nil, num_submissions: 2
-    create :exercise_representation, exercise: tournament, feedback_type: nil, num_submissions: 2
-
-    # Sanity check
-    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user, num_submissions: 2 # rubocop:disable Layout/LineLength
-
-    get tracks_without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
-    assert_response :ok
-
-    expected = [
-      { slug: go.slug, title: go.title, icon_url: go.icon_url, num_submissions: 1 },
-      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
-    ]
-    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
-  end
-
-  test "tracks_without_feedback renders 403 when user is not a supermentor" do
-    setup_user
-
-    get tracks_without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
-
-    assert_response :forbidden
-    assert_equal(
-      {
-        "error" => {
-          "type" => "not_supermentor",
-          "message" => "You do not have supermentor permissions"
-        }
-      },
-      JSON.parse(response.body)
-    )
-  end
-
-  ########################
-  # tracks_with_feedback #
-  ########################
-  test "tracks_with_feedback retrieves all tracks the user has given feedback on" do
-    user = create :user, :supermentor, mentor_satisfaction_percentage: 98
-    setup_user(user)
-
-    ruby = create :track, title: "Ruby", slug: "ruby"
-    go = create :track, title: "Go", slug: "go"
-
-    create :user_track_mentorship, user: user, track: ruby, num_finished_discussions: 100
-    create :user_track_mentorship, user: user, track: go, num_finished_discussions: 100
-
-    series = create :concept_exercise, title: "Series", track: ruby
-    tournament = create :concept_exercise, title: "Tournament", track: go
-
-    create :exercise_representation, exercise: series, feedback_type: :actionable, feedback_author: user, num_submissions: 2
-    create :exercise_representation, exercise: series, feedback_type: :essential, feedback_author: user, num_submissions: 2
-    create :exercise_representation, exercise: tournament, feedback_type: :essential, feedback_author: user, num_submissions: 2
-    create :exercise_representation, exercise: tournament, feedback_type: nil, num_submissions: 2 # Sanity check
-
-    get tracks_with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
-    assert_response :ok
-
-    expected = [
-      { slug: go.slug, title: go.title, icon_url: go.icon_url, num_submissions: 1 },
-      { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
-    ]
-    assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
-  end
-
-  test "tracks_with_feedback renders 403 when user is not a supermentor" do
-    setup_user
-
-    get tracks_with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
 
     assert_response :forbidden
     assert_equal(

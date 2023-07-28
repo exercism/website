@@ -43,6 +43,7 @@ module Badges
       limm-jk
       lxmrc
       maurelio1234
+      meatball
       micuffaro
       mikedamay
       mohanrajanr
@@ -70,6 +71,7 @@ module Badges
       thelostlambda
       ticktakto
       tompradat
+      vaeng
       valentin-p
       verdammelt
       wneumann

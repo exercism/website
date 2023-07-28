@@ -17,10 +17,12 @@ export function Articles({ articles }: { articles: Article[] }): JSX.Element {
         className="mb-16"
       />
 
-      {articles.length > 0 &&
-        articles.map((i) => {
-          return <ArticleSnippet key={i.title} article={i} />
-        })}
+      <div className="lg:flex lg:flex-col grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-[unset]">
+        {articles.length > 0 &&
+          articles.map((i) => {
+            return <ArticleSnippet key={i.title} article={i} />
+          })}
+      </div>
     </div>
   )
 }

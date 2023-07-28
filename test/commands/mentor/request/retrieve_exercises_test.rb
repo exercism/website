@@ -21,8 +21,8 @@ class Mentor::Request::RetrieveExercisesTest < ActiveSupport::TestCase
     4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     # Create mentor solutions to fred and zipper, with zipper completed
-    create :concept_solution, user: user, exercise: fred
-    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+    create :concept_solution, user:, exercise: fred
+    create :concept_solution, user:, exercise: zipper, completed_at: Time.current
 
     expected = [
       {

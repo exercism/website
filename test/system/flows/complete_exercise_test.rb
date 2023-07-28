@@ -9,21 +9,21 @@ module Flows
 
     test "completes succesfully" do
       track = create :track
-      basics = create :concept, track: track, name: "Basics"
-      conditionals = create :concept, track: track, name: "Conditionals"
-      strings = create :concept, track: track, name: "Strings"
+      basics = create :concept, track:, name: "Basics"
+      conditionals = create :concept, track:, name: "Conditionals"
+      strings = create :concept, track:, name: "Strings"
 
-      boutique = create :concept_exercise, track: track, slug: 'boutique', title: "Boutique"
+      boutique = create :concept_exercise, track:, slug: 'boutique', title: "Boutique"
       boutique.taught_concepts << basics
 
-      bob = create :practice_exercise, track: track, slug: "bob", title: "Bob"
+      bob = create :practice_exercise, track:, slug: "bob", title: "Bob"
       bob.prerequisites << basics
 
-      cars = create :concept_exercise, track: track, slug: "cars-assemble", title: "Cars Assemble"
+      cars = create :concept_exercise, track:, slug: "cars-assemble", title: "Cars Assemble"
       cars.prerequisites << basics
       cars.taught_concepts << conditionals
 
-      leap = create :practice_exercise, track: track, slug: "leap", title: "Leap"
+      leap = create :practice_exercise, track:, slug: "leap", title: "Leap"
       leap.prerequisites << basics
       leap.prerequisites << conditionals
 
@@ -32,10 +32,10 @@ module Flows
       misc.prerequisites << conditionals
 
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, user: user, exercise: boutique
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, user:, exercise: boutique
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
 
       sign_in!(user)
 
@@ -75,19 +75,19 @@ module Flows
 
     test "completes succesfully via nudge section" do
       track = create :track
-      basics = create :concept, track: track, name: "Basics"
+      basics = create :concept, track:, name: "Basics"
 
-      boutique = create :concept_exercise, track: track, slug: 'boutique', title: "Boutique"
+      boutique = create :concept_exercise, track:, slug: 'boutique', title: "Boutique"
       boutique.taught_concepts << basics
 
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, user: user, exercise: boutique
-      submission = create :submission, solution: solution,
+      create(:user_track, user:, track:)
+      solution = create :concept_solution, user:, exercise: boutique
+      submission = create :submission, solution:,
         tests_status: :passed,
         representation_status: :generated,
         analysis_status: :completed
-      create :iteration, idx: 1, solution: solution, submission: submission
+      create(:iteration, idx: 1, solution:, submission:)
 
       sign_in!(user)
 

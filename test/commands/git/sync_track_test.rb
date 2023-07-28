@@ -81,7 +81,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.", track.blurb # rubocop:disable Layout/LineLength
+    assert_equal "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.", track.blurb
   end
 
   test "track is updated when tags change" do
@@ -89,7 +89,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
       title: "F#",
       active: true,
       blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
-      tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"], # rubocop:disable Layout/LineLength
+      tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"],
       synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52"
 
     Git::SyncTrack.(track)
@@ -151,7 +151,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "concept exercises use track concepts for taught concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    track_concept = create :concept, track:, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'basics'
 
@@ -173,7 +173,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "concept exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    track_concept = create :concept, track:, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'basics'
 
@@ -186,7 +186,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "practice exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
+    track_concept = create :concept, track:, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'conditionals'
 
@@ -199,7 +199,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "practice exercises use track concepts for practiced concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    track_concept = create :concept, track:, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'time'
 
@@ -370,7 +370,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "ignores concept exercise prerequisites with no concept exercise unlocking them" do
     track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
-    types = create :concept, track: track, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
+    types = create :concept, track:, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
 
     Git::SyncTrack.(track)
 
@@ -380,8 +380,8 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "ignores practice exercise prerequisites with no concept exercise unlocking them" do
     track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
-    types = create :concept, track: track, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
-    dates = create :concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    types = create :concept, track:, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
+    dates = create :concept, track:, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
 
     Git::SyncTrack.(track)
 
@@ -396,7 +396,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     skip
 
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
     Git::SyncTrack.(track)
 
@@ -408,7 +408,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     # to ensure that they're not.
     skip
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     Git::SyncTrack.(track)
 
@@ -418,7 +418,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "delete concepts no longer in config.json" do
     # TODO: invert this test (verify that concepts can't be deleted) before release
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    concept = create :concept, track: track
+    concept = create(:concept, track:)
 
     Git::SyncTrack.(track)
 
@@ -507,6 +507,14 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     assert track.course?
+  end
+
+  test "syncs highlightjs_language" do
+    track = create :track, highlightjs_language: nil
+
+    Git::SyncTrack.(track)
+
+    assert_equal 'ruby', track.highlightjs_language
   end
 
   test "new concept syncs with force_sync even when track is not force synced" do

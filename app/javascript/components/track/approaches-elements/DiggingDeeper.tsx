@@ -24,10 +24,10 @@ export function DiggingDeeper({
     <div className="mb-48">
       {introduction.html.length > 0 ? (
         <>
-          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 lg:py-24 bg-white">
+          <section className="shadow-lgZ1 py-20 mb-16 rounded-8 px-20 lg:px-32 lg:py-24 bg-backgroundColorA">
             <h2 className="mb-8 text-h2">Dig deeper</h2>
             <div
-              className="c-textual-content --small"
+              className="c-textual-content --base"
               dangerouslySetInnerHTML={{ __html: introduction.html }}
             />
           </section>
@@ -58,7 +58,7 @@ function DiggingDeeperFooter({
           users={introduction.users}
         />
         {introduction.updatedAt && (
-          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium">
+          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium hidden sm:block">
             Last updated {dayjs(introduction.updatedAt).format('D MMM YYYY')}
           </div>
         )}
@@ -67,7 +67,7 @@ function DiggingDeeperFooter({
         href={introduction.links.edit}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center text-black filter-textColor6 leading-160 font-medium"
+        className="xs:flex hidden items-center text-black filter-textColor6 leading-160 font-medium"
       >
         <GraphicalIcon
           height={24}

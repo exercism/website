@@ -18,7 +18,8 @@ module ViewComponents
             tabs:,
             selected_tab:,
             practice_mode:,
-            external: user_track.external?
+            external:,
+            course:
           )
         end
       end
@@ -43,13 +44,14 @@ module ViewComponents
           tabs << link_to(
             graphical_icon(:overview) + tag.span("Overview"),
             Exercism::Routes.track_path(track),
-            class: tab_class(:overview)
+            class: tab_class(:overview),
+            data: scroll_into_view(:overview)
           )
         end
 
-        tabs << concepts_tab if track.course? && !user_track.practice_mode?
+        tabs << concepts_tab if course && !practice_mode
         tabs << exercises_tab
-        tabs << about_tab(:about_track_path) unless user_track.external?
+        tabs << about_tab(:about_track_path) unless external
         tabs << build_tab
 
         safe_join(tabs)
@@ -59,7 +61,8 @@ module ViewComponents
         link_to(
           graphical_icon('info-circle') + tag.span("About"),
           Exercism::Routes.send(url, track),
-          class: tab_class(:about)
+          class: tab_class(:about),
+          data: scroll_into_view(:about)
         )
       end
 
@@ -67,7 +70,8 @@ module ViewComponents
         link_to(
           graphical_icon(:concepts) + tag.span("Syllabus"),
           Exercism::Routes.track_concepts_path(track),
-          class: tab_class(:concepts)
+          class: tab_class(:concepts),
+          data: scroll_into_view(:concepts)
         )
       end
 
@@ -75,7 +79,8 @@ module ViewComponents
         link_to(
           graphical_icon(:exercises) + tag.span("Exercises"),
           Exercism::Routes.track_exercises_path(track),
-          class: tab_class(:exercises)
+          class: tab_class(:exercises),
+          data: scroll_into_view(:exercises)
         )
       end
 
@@ -83,7 +88,8 @@ module ViewComponents
         link_to(
           graphical_icon(:building) + tag.span("Build Status"),
           Exercism::Routes.track_build_path(track),
-          class: tab_class(:build)
+          class: tab_class(:build),
+          data: scroll_into_view(:build)
         )
       end
 
@@ -91,16 +97,20 @@ module ViewComponents
         "c-tab-2 #{'selected' if tab == selected_tab}"
       end
 
+      def scroll_into_view(tab)
+        { scroll_into_view: (tab == selected_tab ? 'true' : 'false') }
+      end
+
       def guard!
         raise "Incorrect track nav tab" unless TABS.include?(selected_tab)
       end
 
       def practice_mode = !!user_track&.practice_mode?
+      def external = !!user_track&.external?
+      def course = !!user_track&.course?
 
       memoize
-      def user_track
-        UserTrack.for(current_user, track)
-      end
+      def user_track = UserTrack.for(current_user, track)
     end
   end
 end

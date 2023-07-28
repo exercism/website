@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'easymde/dist/easymde.min.css'
 
 import React from 'react'
@@ -5,8 +6,6 @@ import { initReact } from '../utils/react-bootloader.jsx'
 
 import {
   Iteration,
-  // Track,
-  // Exercise,
   MentorSessionRequest,
   MentorSessionTrack,
   MentorSessionExercise,
@@ -14,18 +13,13 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
-  Testimonial,
   MentoredTrackExercise,
-  // User,
-  // SiteUpdate,
-  UserPreferences,
   CommunicationPreferences,
   User,
   MentoringSessionExemplarFile,
   SharePlatform,
   CompleteRepresentationData,
   Guidance,
-  // TrackContribution,
 } from '../components/types'
 
 import * as Maintaining from '../components/maintaining'
@@ -88,6 +82,7 @@ import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
 import { AutomationProps } from '../components/mentoring/automation/Representation'
+import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
 function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
@@ -102,6 +97,14 @@ initReact({
 
   'modals-welcome-modal': (data: any) => (
     <Modals.WelcomeModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-premium-modal': (data: any) => (
+    <Modals.WelcomeToPremiumModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-insiders-modal': (data: any) => (
+    <Modals.WelcomeToInsidersModal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
@@ -150,7 +153,7 @@ initReact({
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track'>>(
+      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track' | 'links'>>(
         data.guidance
       )}
       outOfDate={data.out_of_date}
@@ -260,10 +263,23 @@ initReact({
   ),
   'settings-user-preferences-form': (data: any) => (
     <Settings.UserPreferencesForm
-      defaultPreferences={camelizeKeysAs<readonly UserPreferences[]>(
+      defaultPreferences={camelizeKeysAs<Settings.UserPreferences>(
         data.preferences
       )}
       links={data.links}
+    />
+  ),
+  'settings-theme-preference-form': (data: any) => (
+    <Settings.ThemePreferenceForm
+      defaultThemePreference={data.default_theme_preference}
+      isPremium={data.is_premium}
+      insidersStatus={data.insiders_status}
+      links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
+    />
+  ),
+  'settings-comments-preference-form': (data: any) => (
+    <Settings.CommentsPreferenceForm
+      {...camelizeKeysAs<Settings.CommentsPreferenceFormProps>(data)}
     />
   ),
   'settings-communication-preferences-form': (data: any) => (

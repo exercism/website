@@ -34,7 +34,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     setup_user(user)
 
     mentored_track = create :track
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
     solution = create :concept_solution, track: mentored_track
     50.times { create :mentor_request, solution: }
 
@@ -49,8 +49,8 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     ruby = create :track, slug: :ruby
     js = create :track, slug: :js
-    ruby_mentorship = create :user_track_mentorship, user: user, track: ruby
-    js_mentorship = create :user_track_mentorship, user: user, track: js
+    ruby_mentorship = create :user_track_mentorship, user:, track: ruby
+    js_mentorship = create :user_track_mentorship, user:, track: js
 
     refute ruby_mentorship.reload.last_viewed? # Sanity
     refute js_mentorship.reload.last_viewed? # Sanity
@@ -95,8 +95,8 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
     user = create :user
     setup_user(user)
     solution = create :concept_solution
-    request = create :mentor_request, solution: solution
-    create :iteration, solution: solution
+    request = create(:mentor_request, solution:)
+    create(:iteration, solution:)
 
     patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
@@ -118,7 +118,7 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "cancel should 404 if the request belongs to someone else" do
     setup_user
     solution = create :concept_solution
-    request = create :mentor_request, solution: solution
+    request = create(:mentor_request, solution:)
 
     patch cancel_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
@@ -128,8 +128,8 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   test "cancel should succeed" do
     user = create :user
     setup_user(user)
-    solution = create :concept_solution, user: user
-    request = create :mentor_request, solution: solution
+    solution = create(:concept_solution, user:)
+    request = create(:mentor_request, solution:)
 
     patch cancel_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 

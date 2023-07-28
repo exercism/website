@@ -107,28 +107,28 @@ class SubmissionTest < ActiveSupport::TestCase
 
     er.update!(feedback_markdown: "foobar", feedback_author: create(:user), feedback_type: :non_actionable)
     submission = Submission.find(submission.id)
-    refute submission.automated_feedback_pending?
+    assert submission.automated_feedback_pending?
     refute submission.has_essential_automated_feedback?
     refute submission.has_actionable_automated_feedback?
     assert submission.has_non_actionable_automated_feedback?
 
     er.update!(feedback_type: :actionable)
     submission = Submission.find(submission.id)
-    refute submission.automated_feedback_pending?
+    assert submission.automated_feedback_pending?
     refute submission.has_essential_automated_feedback?
     assert submission.has_actionable_automated_feedback?
     refute submission.has_non_actionable_automated_feedback?
 
     er.update!(feedback_type: :essential)
     submission = Submission.find(submission.id)
-    refute submission.automated_feedback_pending?
+    assert submission.automated_feedback_pending?
     assert submission.has_essential_automated_feedback?
     refute submission.has_actionable_automated_feedback?
     refute submission.has_non_actionable_automated_feedback?
 
     er.update!(feedback_type: :celebratory)
     submission = Submission.find(submission.id)
-    refute submission.automated_feedback_pending?
+    assert submission.automated_feedback_pending?
     refute submission.has_essential_automated_feedback?
     refute submission.has_actionable_automated_feedback?
     assert submission.has_non_actionable_automated_feedback?
@@ -142,7 +142,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
     sa.update(data: { comments: ['asd'] })
     submission = Submission.find(submission.id)
-    refute submission.automated_feedback_pending?
+    assert submission.automated_feedback_pending?
     assert submission.has_automated_feedback?
 
     # Check if they're both completed but don't have feedback

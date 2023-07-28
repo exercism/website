@@ -223,7 +223,11 @@ export function useStripeForm({
   const handlePaymentSubmit = (event: React.ChangeEvent<HTMLFormElement>) =>
     handlePayment(
       event,
-      (stripe: Stripe, elements: Elements, paymentIntent: PaymentIntent) =>
+      (
+        stripe: Stripe,
+        elements: StripeElements,
+        paymentIntent: PaymentIntent
+      ) =>
         stripe.confirmPayment({
           elements,
           clientSecret: paymentIntent.clientSecret,

@@ -1,10 +1,5 @@
 import { fetchJSON } from '@/utils/fetch-json'
-import {
-  useStripe,
-  useElements,
-  CardElement,
-  Elements,
-} from '@stripe/react-stripe-js'
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import {
   StripePaymentElementChangeEvent,
   StripeCardElementChangeEvent,

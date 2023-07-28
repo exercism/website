@@ -4,24 +4,37 @@ class SerializeMentorDiscussionsForMentor
   initialize_with :discussions, :mentor
 
   def call
-    discussions.includes(:solution, :exercise, :track, :student, :mentor).map { |d| serialize_discussion(d) }
+    materialized_discussions.map { |d| serialize_discussion(d) }
   end
 
   private
   def serialize_discussion(discussion)
-    relationship = relationships[discussion.student.id]
-    tooltip_url = Exercism::Routes.api_mentoring_student_path(discussion.student, track_slug: discussion.track.slug)
-
-    SerializeMentorDiscussionForMentor.(discussion, relationship:).tap do |hash|
-      hash.merge!(
-        tooltip_url:
-      )
-    end
+    SerializeMentorDiscussionForMentor.(
+      discussion,
+      # Explicitely pass false not nil as we check for false downstream
+      relationship: relationships[discussion.student.id] || false,
+      has_unseen_post: has_unseen_posts[discussion.id] || false
+    )
   end
 
   memoize
   def relationships
-    student_ids = discussions.map { |d| d.student.id }
-    Mentor::StudentRelationship.where(mentor:, student_id: student_ids).index_by(&:student_id)
+    Mentor::StudentRelationship.where(
+      mentor:, student_id: materialized_discussions.map { |d| d.student.id }
+    ).index_by(&:student_id)
+  end
+
+  memoize
+  def has_unseen_posts
+    Mentor::DiscussionPost.where(
+      discussion: materialized_discussions.map(&:id),
+      seen_by_mentor: false
+    ).index_by(&:discussion_id).
+      transform_values { true } # Transform to be {$discussion_id: true}
+  end
+
+  memoize
+  def materialized_discussions
+    discussions.includes(:solution, :exercise, :track, :mentor, student: { avatar_attachment: :blob }).to_a
   end
 end

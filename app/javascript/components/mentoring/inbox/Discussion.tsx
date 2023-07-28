@@ -18,7 +18,7 @@ export const Discussion = ({
 }): JSX.Element => {
   return (
     <ExercismTippy
-      content={<StudentTooltip endpoint={discussion.tooltipUrl} />}
+      content={<StudentTooltip endpoint={discussion.links.tooltipUrl} />}
     >
       <a className="--solution" href={discussion.links.self}>
         <TrackIcon

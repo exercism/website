@@ -29,5 +29,7 @@ class Solution::SyncToSearchIndex
       type: 'solution',
       id: solution.id
     )
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    # The record has already been deleted.
   end
 end

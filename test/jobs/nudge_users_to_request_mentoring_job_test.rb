@@ -32,8 +32,14 @@ class NudgeUsersToRequestMentoringJobTest < ActiveJob::TestCase
     create :iteration, created_at: 2.days.ago, solution: create(:practice_solution, user: u)
     create :nudge_to_request_mentoring_notification, user: u, track: ruby
 
-    # Only expect call with the initial correct user. This will raise if called with any other user.
-    User::Notification::Create.expects(:call).with(user, :nudge_to_request_mentoring, track: ruby)
+    # Sanity
+    assert_equal 1, User::Notifications::NudgeToRequestMentoringNotification.count
+
+    # Run the command
     NudgeUsersToRequestMentoringJob.perform_now
+
+    # Check we've just got one notification for this user
+    assert_equal 2, User::Notifications::NudgeToRequestMentoringNotification.count
+    assert user.id, User::Notification.last.user_id
   end
 end

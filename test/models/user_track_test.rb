@@ -303,12 +303,13 @@ class UserTrackTest < ActiveSupport::TestCase
     UserTrack::GenerateSummaryData.expects(:call).with(track, ut).returns(summary)
     ut.send(:summary)
 
-    ut.update_column(:updated_at, Time.current + 1.day)
+    ut.update_column(:last_touched_at, Time.current + 1.day)
     ut = UserTrack.find(ut.id)
     UserTrack::GenerateSummaryData.expects(:call).with(track, ut).returns(summary)
     ut.send(:summary)
 
     # Shouldn't require another generate user summary data
+    UserTrack::GenerateSummaryData.expects(:call).never
     ut.send(:summary)
   end
 

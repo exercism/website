@@ -11,7 +11,7 @@ class Exercise < ApplicationRecord
     deprecated: 3
   }
 
-  belongs_to :track
+  belongs_to :track, touch: true
 
   has_many :solutions, dependent: :destroy
   has_many :submissions, through: :solutions

@@ -31,7 +31,7 @@
     .c-build-page-stats-container {
         @apply flex flex-col;
         @apply py-12 px-24;
-        @apply border-1 border-textColor6 rounded-8;
+        @apply border-1 border-borderColor5 rounded-8;
     }
 
     .c-build-page-stats-container + .c-react-component {
@@ -229,7 +229,7 @@
 
     [tooling-status="missing"] {
         @apply c-build-page-tooling-status;
-        @apply border-textColor6;
+        @apply border-borderColor5;
         background: var(--backgroundColorBuildToolingStatus);
         img {
             @apply filter-textColor6;

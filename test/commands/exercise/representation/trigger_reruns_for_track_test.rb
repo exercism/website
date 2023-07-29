@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Exercise::Representation::TriggerRerunsTest < ActiveSupport::TestCase
+class Exercise::Representation::TriggerRerunsForTrackTest < ActiveSupport::TestCase
   test "runs for correct submissions" do
     git_sha = SecureRandom.uuid
     ast_digest = SecureRandom.uuid

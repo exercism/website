@@ -46,7 +46,7 @@ class Solution::UpdateToLatestExerciseVersion
     # If we do, then sync the status to it
     # (reload as submission's test run will be cached)
     if submission.reload_submission_representation
-      Submission::SyncTestsStatus.(submission)
+      Submission::SyncRepresentationStatus.(submission)
     else
       Submission::Representation::Init.(submission, run_in_background: true)
     end

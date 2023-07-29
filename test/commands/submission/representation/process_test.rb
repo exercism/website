@@ -194,4 +194,38 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
     Submission::Representation::Process.(job)
   end
+
+  test "exercise_version is 1 by default" do
+    # No version is set for hamming here
+    exercise = create :practice_exercise, slug: "hamming", git_sha: "87448759c3f447c0a20db660b278a628e299e602"
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
+    job = create_representer_job!(submission, execution_status: 200, ast: 'ast')
+    Submission::Representation::Process.(job)
+
+    representation = Exercise::Representation.last
+
+    assert_equal 1, representation.exercise_version
+  end
+
+  test "exercise_version is set from the git_sha" do
+    slug = "space-age"
+    v1_sha = "8b874172f74acad07ca880c71814a85eb883e2d7"
+    v2_sha = "9f9d8f5bdac4411d0497af0f393ae76f2ab33a97"
+    exercise = create(:practice_exercise, slug:)
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    # First test with the v1_sha
+    job = create_representer_job!(submission, execution_status: 200, ast: 'ast', git_sha: v1_sha)
+    Submission::Representation::Process.(job)
+    representation = Exercise::Representation.last
+    assert_equal 1, representation.exercise_version
+
+    # Then with the v2 sha
+    job = create_representer_job!(submission, execution_status: 200, ast: 'ast', git_sha: v2_sha)
+    Submission::Representation::Process.(job)
+    representation = Exercise::Representation.last
+    assert_equal 2, representation.exercise_version
+  end
 end

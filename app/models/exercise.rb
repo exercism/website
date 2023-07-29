@@ -14,6 +14,7 @@ class Exercise < ApplicationRecord
   belongs_to :track, touch: true
 
   has_many :solutions, dependent: :destroy
+  has_many :iterations, through: :solutions
   has_many :submissions, through: :solutions
   has_many :representations, dependent: :destroy
   has_many :community_videos, dependent: :destroy
@@ -102,6 +103,8 @@ class Exercise < ApplicationRecord
         (previous_changes.dig('slug', 0) || slug)
       )
     end
+
+    Submission::Representation::TriggerRerunsForExercise.defer(self) if saved_changes.key?("representer_version")
   end
 
   after_commit do

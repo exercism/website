@@ -35,6 +35,11 @@ class SerializeMentorDiscussionsForMentor
 
   memoize
   def materialized_discussions
-    discussions.includes(:solution, :exercise, :track, :mentor, student: { avatar_attachment: :blob }).to_a
+    discussions.
+      includes(
+        :solution, :exercise, :track,
+        mentor: { avatar_attachment: :blob },
+        student: { avatar_attachment: :blob }
+      )
   end
 end

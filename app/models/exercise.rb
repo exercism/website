@@ -127,9 +127,8 @@ class Exercise < ApplicationRecord
     slug == "hello-world"
   end
 
-  def has_test_runner?
-    super && track.has_test_runner?
-  end
+  def has_test_runner? = super && track.has_test_runner?
+  delegate :has_representer?, to: :track
 
   def to_param = slug
   def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze

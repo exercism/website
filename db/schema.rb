@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_154629) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -954,6 +954,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.bigint "mentor_id"
     t.bigint "track_id"
     t.string "exercise_id_and_ast_digest_idx_cache"
+    t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.index ["ast_digest"], name: "index_submission_representations_on_ast_digest"
     t.index ["exercise_id_and_ast_digest_idx_cache"], name: "index_ex_rep"
     t.index ["mentor_id"], name: "index_submission_representations_on_mentor_id"
@@ -1002,6 +1003,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.string "git_important_files_hash", limit: 50
     t.integer "track_id", limit: 2
     t.integer "exercise_id", limit: 3
+    t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
     t.index ["git_sha", "solution_id", "git_important_files_hash"], name: "submissions-git-optimiser-1"

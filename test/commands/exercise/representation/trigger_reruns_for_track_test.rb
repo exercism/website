@@ -13,6 +13,7 @@ class Exercise::Representation::TriggerRerunsForTrackTest < ActiveSupport::TestC
     create(:exercise_representation, :with_feedback, ast_digest:, source_submission: submission_1, exercise: submission_1.exercise)
     create(:exercise_representation, ast_digest:, source_submission: submission_2, exercise: submission_2.exercise)
 
+    # Sanity
     assert_equal submission_1.reload.track, submission_2.reload.track
 
     Submission::Representation::Init.expects(:call).with(submission_1, type: :exercise, git_sha: "HEAD", run_in_background: true)

@@ -6,8 +6,8 @@ class Submission::Representation::TriggerRerunsForExercise
   initialize_with :exercise
 
   def call
-    Submission.where(exercise:).find_each do |submission|
-      Submission::Representation::Init.(submission, type: :exercise, git_sha:, run_in_background: true)
+    exercise.iterations.includes(:submission).find_each do |iteration|
+      Submission::Representation::Init.(iteration.submission, type: :exercise, git_sha:, run_in_background: true)
     end
   end
 

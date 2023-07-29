@@ -14,6 +14,7 @@ class Exercise < ApplicationRecord
   belongs_to :track, touch: true
 
   has_many :solutions, dependent: :destroy
+  has_many :iterations, through: :solutions
   has_many :submissions, through: :solutions
   has_many :representations, dependent: :destroy
   has_many :community_videos, dependent: :destroy

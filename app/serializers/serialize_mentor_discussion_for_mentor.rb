@@ -9,7 +9,7 @@ class SerializeMentorDiscussionForMentor
 
     @relationship = relationship.nil? ?
       Mentor::StudentRelationship.where(mentor:, student:).first :
-      relationship
+      relationship.presence # We need to mutate this to be nil not false
 
     @has_unseen_post = has_unseen_post.nil? ?
       discussion.posts.where(seen_by_mentor: false).exists? :

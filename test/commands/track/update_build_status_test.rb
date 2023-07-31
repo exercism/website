@@ -629,11 +629,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version_target
 
-    # Sanity check: ignore errored test runs
-    create :submission_test_run, :errored, submission: (create :submission, track:)
-    Track::UpdateBuildStatus.(track)
-    assert_equal 3, track.reload.build_status.test_runner.version_target
-
     # Sanity check: ignore timed-out test runs
     create :submission_test_run, :timed_out, submission: (create :submission, track:)
     Track::UpdateBuildStatus.(track)

@@ -54,7 +54,6 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     expected = {
       "_index" => "test-solutions",
       "_id" => "17",
-      "_type" => "solution",
       "found" => true,
       "_source" => {
         "id" => 17,

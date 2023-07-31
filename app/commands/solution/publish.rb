@@ -66,6 +66,7 @@ class Solution::Publish
   delegate :exercise, :user, to: :solution
 
   BADGES = %i[functional_february mechanical_march analytical_april
-              mind_shifting_may summer_of_sexps jurassic_july].freeze
+              mind_shifting_may summer_of_sexps jurassic_july
+              apps_august].freeze
   private_constant :BADGES
 end

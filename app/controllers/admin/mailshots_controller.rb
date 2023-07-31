@@ -92,8 +92,11 @@ class Admin::MailshotsController < Admin::BaseController
 
   def setup_form
     @communication_preferences_keys = %i[
-      email_about_events
       receive_product_updates
+      email_about_events
+      email_about_premium
+      email_about_insiders
+      email_about_fundraising_campaigns
     ]
   end
 end

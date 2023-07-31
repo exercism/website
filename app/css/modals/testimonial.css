@@ -2,7 +2,7 @@
 
 .c-modal.m-testimonial {
     & .--modal-container {
-        @apply pt-80 pb-48 px-48;
+        @apply pt-80 pb-48 md:px-48 px-20;
         & .--modal-content {
             width: 100%;
             max-width: 780px;
@@ -21,25 +21,28 @@
         top: -40px;
         left: 50%;
         margin-left: -40px;
-        filter: drop-shadow(0px -5px 42px rgba(79, 114, 205, 0.3));
+        filter: drop-shadow(0px -5px 42px rgba(var(--shadowColorMain), 0.3));
     }
     & .testimonial-section {
         @apply px-48 py-32;
 
         & .content {
-            @apply text-31 leading-150 text-textColor2 font-medium;
+            @apply md:text-31 text-25;
+            @apply leading-150 text-textColor2 font-medium;
             @apply mt-32 mb-16;
         }
         & .student {
-            @apply text-h4 font-medium text-textColor5 mb-4;
+            @apply flex font-medium text-textColor5 mb-4;
+            @apply md:text-h4 text-h5;
             & strong {
                 @apply font-semibold text-textColor2;
             }
         }
         & .exercise {
             @apply flex items-center;
-            @apply text-17 leading-160 text-textColor6;
-            @apply mb-16;
+            @apply leading-160 text-textColor6;
+            @apply md:text-17 text-14;
+            @apply md:mb-16 mb-0;
             & strong {
                 @apply font-medium;
                 @apply mx-6;
@@ -50,10 +53,12 @@
                 @apply mx-8;
             }
             & .track-title {
+                @apply md:block hidden;
                 @apply text-textColor2 font-semibold;
             }
         }
         & time {
+            @apply md:block hidden;
             @apply text-16 leading-160 text-textColor6;
         }
     }

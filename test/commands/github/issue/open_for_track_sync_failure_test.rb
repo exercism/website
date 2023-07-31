@@ -138,7 +138,7 @@ class Github::Issue::OpenForTrackSyncFailureTest < ActiveSupport::TestCase
         json = JSON.parse(request.body)
         json["labels"].empty? &&
           json["title"] == "🤖 Sync error: Could not find main branch" &&
-          json["body"].include?("We hit an error trying to sync the latest commit (unknown) to the website.") && # rubocop:disable Layout/LineLength
+          json["body"].include?("We hit an error trying to sync the latest commit (unknown) to the website.") &&
           json["body"].include?("Please tag @exercism/maintainers-admin if you require more information.") &&
           json["body"].match?(/open_for_track_sync_failure_test\.rb:\d+:in `block in <class:OpenForTrackSyncFailureTest>/)
       end.

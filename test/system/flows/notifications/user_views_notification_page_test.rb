@@ -11,8 +11,8 @@ module Flows
       test "user views notifications" do
         user = create :user
         mentor = create :user, handle: "mr-mentor"
-        discussion = create :mentor_discussion, mentor: mentor
-        create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
+        discussion = create(:mentor_discussion, mentor:)
+        create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
 
         use_capybara_host do
           sign_in!(user)
@@ -24,8 +24,8 @@ module Flows
 
       test "user views paginated notifications" do
         user = create :user
-        create :mentor_started_discussion_notification, user: user, status: :unread
-        create :student_replied_to_discussion_notification, user: user, status: :read
+        create :mentor_started_discussion_notification, user:, status: :unread
+        create :student_replied_to_discussion_notification, user:, status: :read
 
         use_capybara_host do
           sign_in!(user)
@@ -42,8 +42,8 @@ module Flows
 
       test "user marks notifications as read" do
         user = create :user
-        unread = create :student_replied_to_discussion_notification, user: user, status: :unread
-        read = create :mentor_started_discussion_notification, user: user, status: :unread
+        unread = create :student_replied_to_discussion_notification, user:, status: :unread
+        read = create :mentor_started_discussion_notification, user:, status: :unread
 
         use_capybara_host do
           sign_in!(user)
@@ -62,8 +62,8 @@ module Flows
 
       test "marked notifications are persisted even when switching pages" do
         user = create :user
-        create :mentor_started_discussion_notification, user: user, status: :read
-        create :student_replied_to_discussion_notification, user: user, status: :unread
+        create :mentor_started_discussion_notification, user:, status: :read
+        create :student_replied_to_discussion_notification, user:, status: :unread
 
         use_capybara_host do
           sign_in!(user)
@@ -87,8 +87,8 @@ module Flows
 
       test "user marks all notifications as read" do
         user = create :user
-        create :mentor_started_discussion_notification, user: user, status: :unread
-        create :student_replied_to_discussion_notification, user: user, status: :unread
+        create :mentor_started_discussion_notification, user:, status: :unread
+        create :student_replied_to_discussion_notification, user:, status: :unread
 
         use_capybara_host do
           sign_in!(user)
@@ -105,8 +105,8 @@ module Flows
 
       test "user marks notifications as unread" do
         user = create :user
-        comment = create :mentor_started_discussion_notification, user: user, status: :read
-        started = create :student_replied_to_discussion_notification, user: user, status: :read
+        comment = create :mentor_started_discussion_notification, user:, status: :read
+        started = create :student_replied_to_discussion_notification, user:, status: :read
 
         use_capybara_host do
           sign_in!(user)
@@ -125,8 +125,8 @@ module Flows
 
       test "buttons are disabled based on status" do
         user = create :user
-        comment = create :mentor_started_discussion_notification, user: user, status: :unread
-        started = create :student_replied_to_discussion_notification, user: user, status: :read
+        comment = create :mentor_started_discussion_notification, user:, status: :unread
+        started = create :student_replied_to_discussion_notification, user:, status: :read
 
         use_capybara_host do
           sign_in!(user)

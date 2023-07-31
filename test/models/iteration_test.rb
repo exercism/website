@@ -64,8 +64,8 @@ class IterationTest < ActiveSupport::TestCase
 
   test "published?" do
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
-    other_iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
+    other_iteration = create(:iteration, solution:)
 
     refute iteration.published?
 
@@ -100,14 +100,14 @@ class IterationTest < ActiveSupport::TestCase
 
   test "status: tests not_queued" do
     submission = create :submission, tests_status: :not_queued
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.untested?
   end
 
   test "status: tests queued" do
     submission = create :submission, tests_status: :queued
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.testing?
   end
@@ -119,7 +119,7 @@ class IterationTest < ActiveSupport::TestCase
       tests_queued?: false,
       tests_passed?: false
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.tests_failed?
   end
@@ -132,7 +132,7 @@ class IterationTest < ActiveSupport::TestCase
       tests_passed?: true,
       automated_feedback_pending?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.analyzing?
   end
@@ -148,7 +148,7 @@ class IterationTest < ActiveSupport::TestCase
       has_actionable_automated_feedback?: false,
       has_non_actionable_automated_feedback?: false
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.no_automated_feedback?
   end
@@ -162,7 +162,7 @@ class IterationTest < ActiveSupport::TestCase
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.essential_automated_feedback?
   end
@@ -177,7 +177,7 @@ class IterationTest < ActiveSupport::TestCase
       has_essential_automated_feedback?: false,
       has_actionable_automated_feedback?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.actionable_automated_feedback?
   end
@@ -193,14 +193,14 @@ class IterationTest < ActiveSupport::TestCase
       has_actionable_automated_feedback?: false,
       has_non_actionable_automated_feedback?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.non_actionable_automated_feedback?
   end
 
   test "delegates to submission where appropriate" do
     submission = create :submission
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     representer_feedback = mock
     analyzer_feedback = mock
@@ -223,7 +223,7 @@ class IterationTest < ActiveSupport::TestCase
       assert_nil solution.iteration_status
       assert_nil solution.last_iterated_at
 
-      create :iteration, solution: solution
+      create(:iteration, solution:)
 
       solution.reload
       assert_equal :iterated, solution.status

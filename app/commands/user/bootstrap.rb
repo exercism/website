@@ -7,5 +7,6 @@ class User::Bootstrap
     user.auth_tokens.create!
     AwardBadgeJob.perform_later(user, :member)
     Metric::Queue.(:sign_up, user.created_at, user:)
+    User::VerifyEmail.defer(user)
   end
 end

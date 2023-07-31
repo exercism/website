@@ -6,6 +6,8 @@ export const buildEditor = build<Props>({
     timeout: 60000,
     defaultSubmissions: [],
     defaultFiles: [{ filename: 'lasagna.rb', content: 'class Lasagna' }],
+    insidersStatus: 'active',
+    chatgptUsage: { '3.5': 4, '4.0': 2 },
     defaultSettings: {},
     autosave: { saveInterval: 500000 },
     panels: {
@@ -21,6 +23,7 @@ export const buildEditor = build<Props>({
           averageTestDuration: 3,
         },
       },
+      chatgptUsage: { '3.5': 4, '4.0': 2 },
     },
     track: {},
     exercise: {},

@@ -9,9 +9,9 @@
 
         &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed;
+            background: var(--backgroundColorSummaryStatusFailed);
             & .bar {
-                @apply bg-red;
+                background: var(--backgroundColorSummaryStatusFailedBar);
             }
         }
         &.failed.grouped-by-task {
@@ -39,13 +39,15 @@
         }
         &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed text-red uppercase;
+            background: var(--backgroundColorSummaryStatusFailed);
+            @apply text-red uppercase;
             & .--dot {
                 @apply bg-red;
             }
         }
         &.failed.grouped-by-task {
-            @apply bg-veryLightBlue text-textColor2;
+            background: var(--backgroundColorExerciseStatusTagLocked);
+            @apply text-textColor2;
 
             & .--dot {
                 @apply hidden;
@@ -119,12 +121,21 @@
                 @apply mr-16;
             }
         }
+
+        .--summary-inner {
+            .c-icon {
+                &.--closed-icon,
+                &.--open-icon {
+                    @apply filter-textColor6;
+                }
+            }
+        }
     }
 
     & .tests-grouped-by-task {
         @apply pb-16;
         & .tests-group {
-            @apply border-y-1 border-lightGray;
+            @apply border-y-1 border-borderColor8;
             @apply px-24 py-16;
 
             &:first-child {
@@ -150,6 +161,7 @@
                         @apply ml-24;
                         height: 16px;
                         width: 16px;
+                        @apply filter-textColor6;
                     }
                 }
             }
@@ -200,6 +212,9 @@
             & .--summary-inner {
                 @apply flex items-center;
                 @apply py-10 px-24;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
 
             & .--status {
@@ -259,6 +274,6 @@
         }
     }
     & .instructions-btn {
-        @apply border-borderColor6 text-textColor6;
+        @apply border-borderColor6 text-textColor1;
     }
 }

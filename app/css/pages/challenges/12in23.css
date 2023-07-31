@@ -4,7 +4,7 @@
         @apply bg-backgroundColorA;
         background: linear-gradient(
             180deg,
-            #ffffff 80%,
+            var(--backgroundColorA) 80%,
             var(--backgroundColorC) 100%
         );
     }
@@ -15,7 +15,7 @@
             max-width: 770px;
 
             & a {
-                @apply text-anotherPurple font-medium;
+                @apply text-adaptivePurple font-medium;
             }
         }
         & p.cta {
@@ -23,11 +23,11 @@
             @apply mt-24 mb-48;
 
             @apply py-8 px-24 rounded-8;
-            @apply bg-veryLightBlue;
+            @apply bg-backgroundColorI;
             @apply font-medium;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
     }
@@ -40,11 +40,11 @@
     }
     progress {
         &::-webkit-progress-bar {
-            @apply bg-veryLightBlue;
+            @apply bg-backgroundColorI;
         }
         &[value] {
             &::-webkit-progress-value {
-                @apply bg-lightBlue;
+                @apply bg-prominentLinkColor;
             }
         }
     }

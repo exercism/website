@@ -28,6 +28,10 @@
                 @apply ml-16;
             }
 
+            .c-icon {
+                @apply filter-textColor6;
+            }
+
             &:hover {
                 @apply bg-backgroundColorD;
                 @apply text-textColor5;

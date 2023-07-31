@@ -7,7 +7,7 @@
 This is the website component of Exercism.
 It is Ruby on Rails app, backed by various services.
 
-**Please note: This repo is treated as an internal repo. That means the source code is public, but we do not accept Pull Requests, we do not support the app being run locally, and we do not encourage people to fork or reuse this repository.**
+**Please note: This repo is an internal repo. That means the source code is public, but we do not accept Pull Requests, we do not support the app being run locally, and we do not encourage people to fork or reuse this repository.**
 
 ## Setup
 
@@ -18,8 +18,9 @@ While you are welcome to try and follow these instructions and set up this repo 
 
 You need the following installed:
 
-- Ruby 3.1.0 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
+- Ruby 3.2.1 (For other Ruby versions, change the version in the `Gemfile` and the `.ruby-version` files)
 - MySQL
+- MongoDB
 - Redis
 - [AnyCable-Go](https://github.com/anycable/anycable-go#installation)
 - [Docker](https://www.docker.com/)

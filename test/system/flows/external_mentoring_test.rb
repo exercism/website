@@ -35,7 +35,7 @@ module Flows
 
     test "accept" do
       solution = create :concept_solution
-      create :iteration, solution: solution, idx: 1
+      create :iteration, solution:, idx: 1
 
       use_capybara_host do
         sign_in!

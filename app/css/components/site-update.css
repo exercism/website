@@ -51,7 +51,7 @@
                     @apply font-semibold;
                     @apply border-b-1 border-textColor6;
                     &:hover {
-                        @apply text-lightBlue border-lightBlue;
+                        @apply text-prominentLinkColor border-prominentLinkColor;
                     }
                 }
             }

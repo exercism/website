@@ -5,7 +5,7 @@ class Exercise::Article::AuthorshipTest < ActiveSupport::TestCase
     author = create :user
     article = create :exercise_article
 
-    authorship = create :exercise_article_authorship, article: article, author: author
+    authorship = create(:exercise_article_authorship, article:, author:)
 
     assert_equal author, authorship.author
     assert_equal article, authorship.article

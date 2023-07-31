@@ -21,7 +21,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "returns existing in case of duplicate" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     first = Iteration::Create.(solution, submission)
     second = Iteration::Create.(solution, submission)
@@ -30,7 +30,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "runs after_save hook" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     Iteration.any_instance.expects(:handle_after_save!)
     Iteration::Create.(solution, submission)
@@ -39,8 +39,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
   test "creates activity" do
     user = create :user
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise, user: user
-    submission = create :submission, solution: solution
+    solution = create(:concept_solution, exercise:, user:)
+    submission = create(:submission, solution:)
 
     iteration = Iteration::Create.(solution, submission)
 
@@ -53,7 +53,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "enqueues snippet job" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_enqueued_with job: GenerateIterationSnippetJob do
       Iteration::Create.(solution, submission)
@@ -62,7 +62,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "enqueues lines of code counter job" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_enqueued_with job: CalculateLinesOfCodeJob do
       Iteration::Create.(solution, submission)
@@ -71,7 +71,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "starts test run if untested" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     Submission::TestRun::Init.expects(:call).with(submission)
     Iteration::Create.(solution, submission)
@@ -79,7 +79,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "does not start test run if already running" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution, tests_status: :queued
+    submission = create :submission, solution:, tests_status: :queued
 
     Submission::TestRun::Init.expects(:call).never
     Iteration::Create.(solution, submission)
@@ -87,8 +87,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "do not run tests if there's no test runner" do
     exercise = create :concept_exercise, has_test_runner: false
-    solution = create :concept_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
 
     Submission::TestRun::Init.expects(:call).never
     Iteration::Create.(solution, submission)
@@ -96,9 +96,9 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "do not create representation if there's no representer" do
     track = create :track, has_representer: false
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
 
     Submission::Representation::Init.expects(:call).never
     Iteration::Create.(solution, submission)
@@ -106,9 +106,9 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "do not analyze if there's no analyzer" do
     track = create :track, has_analyzer: false
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise
-    submission = create :submission, solution: solution
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
 
     Submission::Analysis::Init.expects(:call).never
     Iteration::Create.(solution, submission)
@@ -122,9 +122,9 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     content_2 = "something = :else"
 
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, filename: filename_1, content: content_1
-    create :submission_file, submission: submission, filename: filename_2, content: content_2
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, filename: filename_1, content: content_1
+    create :submission_file, submission:, filename: filename_2, content: content_2
 
     job_id = SecureRandom.uuid
     SecureRandom.stubs(uuid: job_id)
@@ -141,7 +141,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "updates solution" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     # Sanity checks
     solution.reload
@@ -158,7 +158,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "updates solution for tested submission" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution, tests_status: :passed
+    submission = create :submission, solution:, tests_status: :passed
 
     # Sanity checks
     solution.reload
@@ -177,7 +177,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "schedules notifications" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     assert_enqueued_with(job: ProcessIterationForDiscussionsJob) do
       Iteration::Create.(solution, submission)
@@ -186,17 +186,17 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "awards die unendliche geschichte badge when submitting 10th iteration" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
 
     perform_enqueued_jobs do
       9.times do |_idx|
-        submission = create :submission, solution: solution
+        submission = create(:submission, solution:)
         Iteration::Create.(solution, submission)
       end
 
       refute user.badges.present?
 
-      submission = create :submission, solution: solution
+      submission = create(:submission, solution:)
       Iteration::Create.(solution, submission)
 
       assert_includes user.reload.badges.map(&:class), Badges::DieUnendlicheGeschichteBadge
@@ -205,8 +205,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "awards growth mindset badge when solution has mentor discussion" do
     user = create :user
-    solution = create :concept_solution, user: user
-    submission_1 = create :submission, solution: solution
+    solution = create(:concept_solution, user:)
+    submission_1 = create(:submission, solution:)
     Iteration::Create.(solution, submission_1)
     perform_enqueued_jobs
 
@@ -214,7 +214,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_empty User::AcquiredBadge.where(user: user.reload, badge: Badges::GrowthMindsetBadge)
 
     create :mentor_discussion, solution: solution.reload
-    submission_2 = create :submission, solution: solution
+    submission_2 = create(:submission, solution:)
     Iteration::Create.(solution, submission_2)
     perform_enqueued_jobs
 
@@ -222,7 +222,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_empty User::AcquiredBadge.where(user: user.reload, badge: Badges::GrowthMindsetBadge)
 
     travel 1.day do
-      submission_3 = create :submission, solution: solution
+      submission_3 = create(:submission, solution:)
       Iteration::Create.(solution.reload, submission_3)
       perform_enqueued_jobs
     end
@@ -233,29 +233,29 @@ class Iteration::CreateTest < ActiveSupport::TestCase
   test "awards 12in23 badge when iterating five or more exercises in a track after participating in 12in23 challenge" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
-    create :user_challenge, user: user, challenge_id: '12in23'
+    create :user_challenge, user:, challenge_id: '12in23'
 
     # Ignore old iteration
     travel_to Time.utc(2022, 7, 1)
-    exercise = create :practice_exercise, slug: "leap", track: track
-    solution = create :practice_solution, user: user, track: track, exercise: exercise
-    submission = create :submission, solution: solution
+    exercise = create(:practice_exercise, slug: "leap", track:)
+    solution = create(:practice_solution, user:, track:, exercise:)
+    submission = create(:submission, solution:)
     Iteration::Create.(solution, submission)
 
     travel_to Time.utc(2023, 2, 4)
     %w[allergies anagram bob hamming].each do |slug|
-      exercise = create :practice_exercise, slug: slug, track: track
-      solution = create :practice_solution, user: user, track: track, exercise: exercise
-      submission = create :submission, solution: solution
+      exercise = create(:practice_exercise, slug:, track:)
+      solution = create(:practice_solution, user:, track:, exercise:)
+      submission = create(:submission, solution:)
       Iteration::Create.(solution, submission)
       refute user.badges.present?
     end
 
-    exercise = create :practice_exercise, slug: "leap", track: track
-    solution = create :practice_solution, user: user, track: track, exercise: exercise
-    submission = create :submission, solution: solution
+    exercise = create(:practice_exercise, slug: "leap", track:)
+    solution = create(:practice_solution, user:, track:, exercise:)
+    submission = create(:submission, solution:)
     Iteration::Create.(solution, submission)
 
     perform_enqueued_jobs
@@ -264,9 +264,9 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "updates created iteration's num_loc" do
     user = create :user
-    solution = create :concept_solution, user: user
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+    create(:submission_file, submission:)
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -277,7 +277,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
           submission_filepaths: submission.valid_filepaths
         }.to_json
       ).
-      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     iteration = Iteration::Create.(solution, submission)
     perform_enqueued_jobs
@@ -287,9 +287,9 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "updates solution num_loc to created iteration's num_loc when solution is unpublished" do
     user = create :user
-    solution = create :concept_solution, user: user
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+    create(:submission_file, submission:)
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -300,7 +300,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
           submission_filepaths: submission.valid_filepaths
         }.to_json
       ).
-      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -311,9 +311,9 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "updates solution num_loc to created iteration's num_loc when all iterations are published" do
     user = create :user
-    solution = create :concept_solution, :published, user: user
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission
+    solution = create(:concept_solution, :published, user:)
+    submission = create(:submission, solution:)
+    create(:submission_file, submission:)
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -324,7 +324,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
           submission_filepaths: submission.valid_filepaths
         }.to_json
       ).
-      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+      to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -335,11 +335,11 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "does not update solution num_loc when other iteration is published" do
     user = create :user
-    solution = create :concept_solution, user: user
-    published_iteration = create :iteration, solution: solution, num_loc: 77
+    solution = create(:concept_solution, user:)
+    published_iteration = create :iteration, solution:, num_loc: 77
     solution.update!(num_loc: published_iteration.num_loc, published_iteration:, published_at: Time.current)
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission
+    submission = create(:submission, solution:)
+    create(:submission_file, submission:)
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -350,7 +350,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
           submission_filepaths: submission.valid_filepaths
         }.to_json
       ).
-      to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
+      to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -362,7 +362,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
   test "awards new years resolution badge when created on January 1st" do
     user = create :user
     track = create :track
-    solution = create :concept_solution, track: track, user: user
+    solution = create(:concept_solution, track:, user:)
 
     travel_to(Time.utc(2019, 1, 1, 0, 0, 0))
 
@@ -375,14 +375,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
   test "adds metric" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
 
     iteration = Iteration::Create.(solution, submission)
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::SubmitIterationMetric, metric.class
+    assert_instance_of Metrics::SubmitIterationMetric, metric
     assert_equal iteration.created_at, metric.occurred_at
     assert_equal iteration, metric.iteration
     assert_equal iteration.track, metric.track

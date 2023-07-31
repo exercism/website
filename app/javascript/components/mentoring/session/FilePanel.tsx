@@ -1,7 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { Tab, TabContext } from '../../common/Tab'
 import { FileViewer } from './FileViewer'
-import { TestsPanel, TestContentWrapper } from '@/components/editor/index'
+import {
+  TestContentWrapper,
+  TestPanel,
+  TestsPanel,
+} from '@/components/editor/index'
 import { File, TestFile } from '../../types'
 import { CopyButton } from './iteration-view/iteration-header/CopyButton'
 
@@ -32,7 +36,7 @@ export const FilePanel = ({
       return
     }
 
-    setTab(files[0].filename)
+    setTab(files[0].filename + 0)
   }, [files])
 
   if (files.length === 0) {
@@ -49,8 +53,12 @@ export const FilePanel = ({
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
           <div className="flex flex-grow relative">
-            {files.map((file) => (
-              <Tab key={file.digest} id={file.filename} context={TabsContext}>
+            {files.map((file, idx) => (
+              <Tab
+                key={file.filename + idx}
+                id={file.filename + idx}
+                context={TabsContext}
+              >
                 {file.filename}
               </Tab>
             ))}
@@ -71,10 +79,10 @@ export const FilePanel = ({
         </div>
 
         <div className="c-code-pane">
-          {files.map((file) => (
+          {files.map((file, idx) => (
             <Tab.Panel
-              key={file.digest}
-              id={file.filename}
+              key={file.filename + idx}
+              id={file.filename + idx}
               context={TabsContext}
             >
               <FileViewer
@@ -98,9 +106,11 @@ export const FilePanel = ({
           ) : null}
         </div>
         {testFiles ? (
-          <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
-            <TestsPanel highlightjsLanguage={language} />
-          </TestContentWrapper>
+          <TestsPanel context={TabsContext}>
+            <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>
+              <TestPanel highlightjsLanguage={language} />
+            </TestContentWrapper>
+          </TestsPanel>
         ) : null}
       </div>
     </TabsContext.Provider>

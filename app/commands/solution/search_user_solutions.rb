@@ -34,10 +34,8 @@ class Solution::SearchUserSolutions
 
     solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
     solutions = solution_ids.present? ?
-      Solution.where(id: solution_ids).
-        includes(*SerializeSolutions::NP1_INCLUDES).
-        order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
-        to_a : []
+      Solution.where(id: solution_ids).sort_by { |s| solution_ids.index(s.id) }
+        : []
 
     total_count = results["hits"]["total"]["value"].to_i
     Kaminari.paginate_array(solutions, total_count:).
@@ -77,7 +75,7 @@ class Solution::SearchUserSolutions
           mentoring_status.blank? ? nil : { terms: { 'mentoring_status.keyword': [mentoring_status].flatten } },
           sync_status.nil? ? nil : { term: { 'out_of_date': sync_status == :out_of_date } },
           tests_status.blank? ? nil : { terms: { 'published_iteration.tests_status.keyword': to_terms(tests_status) } },
-          head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status.keyword': to_terms(head_tests_status) } }, # rubocop:disable Layout/LineLength
+          head_tests_status.blank? ? nil : { terms: { 'published_iteration.head_tests_status.keyword': to_terms(head_tests_status) } },
           criteria.blank? ? nil : {
             query_string: {
               query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),

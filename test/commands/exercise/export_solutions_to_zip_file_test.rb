@@ -16,7 +16,7 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
 
     num_solutions.times do |idx|
-      iteration = create :iteration, exercise: exercise
+      iteration = create(:iteration, exercise:)
       create :submission_file, submission: iteration.submission, filename: "stub.rb", content: "Stub #{idx}"
     end
 
@@ -31,13 +31,13 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
 
   test "only exports iterations" do
     exercise = create :practice_exercise
-    solution_1 = create :practice_solution, exercise: exercise
+    solution_1 = create(:practice_solution, exercise:)
     iteration = create :iteration, solution: solution_1
     create :submission_file, submission: iteration.submission, filename: "stub.rb", content: "Stub 1"
 
     solution_2 = create :practice_solution
     submission = create :submission, solution: solution_2
-    create :submission_file, submission: submission, filename: "stub.rb", content: "Stub 2"
+    create :submission_file, submission:, filename: "stub.rb", content: "Stub 2"
 
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(exercise)
 
@@ -54,7 +54,7 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
     Exercise::ExportSolutionsToZipFile.stubs(num_submissions:)
 
     (num_submissions + 1).times do |idx|
-      iteration = create :iteration, exercise: exercise
+      iteration = create(:iteration, exercise:)
       create :submission_file, submission: iteration.submission, filename: "stub.rb", content: "Stub #{idx}"
     end
 
@@ -95,10 +95,10 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
 
   test "uses first iteration's files" do
     solution = create :practice_solution
-    submission_1 = create :submission, solution: solution
-    submission_2 = create :submission, solution: solution
-    create :iteration, solution: solution, idx: 1, submission: submission_1
-    create :iteration, solution: solution, idx: 2, submission: submission_2
+    submission_1 = create(:submission, solution:)
+    submission_2 = create(:submission, solution:)
+    create :iteration, solution:, idx: 1, submission: submission_1
+    create :iteration, solution:, idx: 2, submission: submission_2
     create :submission_file, submission: submission_1, filename: "src/stub.rb", content: "Stub v1"
     create :submission_file, submission: submission_2, filename: "src/stub.rb", content: "Stub v2"
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(solution.reload.exercise)
@@ -110,10 +110,10 @@ class Exercise::ExportSolutionsToZipFileTest < ActiveSupport::TestCase
 
   test "includes exercise files" do
     exercise = create :practice_exercise, slug: 'hamming'
-    solution = create :practice_solution, exercise: exercise
-    submission = create :submission, solution: solution
-    iteration = create :iteration, submission: submission
-    create :submission_file, submission: submission, filename: "log_line_parser.rb", content: "Impl"
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, submission:)
+    create :submission_file, submission:, filename: "log_line_parser.rb", content: "Impl"
 
     zip_file_stream = Exercise::ExportSolutionsToZipFile.(iteration.exercise)
 

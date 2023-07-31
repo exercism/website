@@ -34,8 +34,8 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
 
     # Fill up the queue
-    create :mentor_discussion, mentor: mentor, solution: solution
-    create :mentor_discussion, mentor: mentor, solution: solution
+    create(:mentor_discussion, mentor:, solution:)
+    create(:mentor_discussion, mentor:, solution:)
 
     Mentor::Request::AcceptExternal.(mentor, solution)
 
@@ -46,15 +46,15 @@ class Mentor::Request::AcceptExternalTest < ActiveSupport::TestCase
     mentor = create :user
     student = create :user
     track = create :track
-    solution = create :practice_solution, track: track, user: student
-    create :user_track, user: student, track: track
+    solution = create :practice_solution, track:, user: student
+    create(:user_track, user: student, track:)
 
     discussion = Mentor::Request::AcceptExternal.(mentor, solution)
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::RequestPrivateMentoringMetric, metric.class
+    assert_instance_of Metrics::RequestPrivateMentoringMetric, metric
     assert_equal discussion.request.created_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal student, metric.user

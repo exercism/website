@@ -70,7 +70,7 @@ export const ContributorsList = ({
   return (
     <div>
       <div className="c-search-bar">
-        <div className="tabs">
+        <div className="tabs overflow-x-auto">
           <PeriodButton
             period="week"
             setPeriod={setPeriod}
@@ -132,7 +132,7 @@ export const ContributorsList = ({
               </div>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

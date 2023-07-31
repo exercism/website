@@ -125,7 +125,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
 
     RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
+      with { |request| request.body.exclude?("after:") }.
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").
@@ -544,7 +544,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
 
     RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
+      with { |request| request.body.exclude?("after:") }.
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").
@@ -681,7 +681,7 @@ class Github::PullRequest::SyncRepoTest < ActiveSupport::TestCase
 
     RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
+      with { |request| request.body.exclude?("after:") }.
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").

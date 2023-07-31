@@ -15,27 +15,33 @@ class Mailshot < ApplicationRecord
     send("audience_for_#{type}", slug)
   end
 
-  # rubocop:disable Lint/NonLocalExitFromIterator
-
   # This is pretty terribly slow and should only be used rarely.
   def audience_for_admins(_)
     [
-      User.where("JSON_CONTAINS(roles, ?, '$')", %("admin")),
+      User.with_data.where("JSON_CONTAINS(user_data.roles, ?, '$')", %("admin")),
       ->(user) { user }
     ]
   end
 
-  def audience_for_donors(_)
-    [
-      User.where.not(first_donated_at: nil),
-      ->(user) { user }
-    ]
-  end
+  def audience_for_donors(_) = [User::Data.donors, ->(user_data) { user_data.user }]
+  def audience_for_premium(_) = [User.premium, ->(user) { user }]
+  def audience_for_insiders(_) = [User.insiders, ->(user) { user }]
 
   def audience_for_reputation(min_rep)
     [
       User.where('reputation >= ?', min_rep),
       ->(user) { user }
+    ]
+  end
+
+  def audience_for_recently_active(days)
+    [
+      User.with_data.where('user_data.last_visited_on >= ?', Time.current - days.days),
+      lambda do |user|
+        return unless user.iterations.count >= 2
+
+        user
+      end
     ]
   end
 
@@ -56,6 +62,4 @@ class Mailshot < ApplicationRecord
       ->(uc) { uc.user }
     ]
   end
-
-  # rubocop:enable Lint/NonLocalExitFromIterator
 end

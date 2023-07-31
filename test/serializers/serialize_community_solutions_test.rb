@@ -12,4 +12,12 @@ class SerializeCommunitySolutionsTest < ActiveSupport::TestCase
       Solution.all
     )
   end
+
+  test "n+1s handled correctly" do
+    create_np1_data
+
+    Bullet.profile do
+      SerializeCommunitySolutions.(Solution.all)
+    end
+  end
 end

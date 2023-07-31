@@ -28,6 +28,7 @@
                 & .c-icon {
                     height: 24px;
                     width: 24px;
+                    @apply filter-textColor6;
                 }
             }
             & .c-track-icon {
@@ -50,7 +51,7 @@
                 & .info {
                     @apply flex flex-col;
                     & .handle {
-                        @apply font-medium text-16 text-textColor3 leading-huge;
+                        @apply font-medium text-16 text-textColor1 leading-huge;
                     }
 
                     & .exercise {
@@ -61,11 +62,11 @@
             & .info-for-student {
                 @apply flex-grow;
                 @apply text-14 leading-150 text-textColor6;
-                & strong {
-                    @apply font-medium text-textColor3;
+                strong {
+                    @apply font-medium text-textColor1;
                 }
                 & .exercise-title {
-                    @apply text-16 font-medium text-textColor3;
+                    @apply text-16 font-medium text-textColor1;
                 }
             }
             & .finish-button {
@@ -144,7 +145,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+            box-shadow: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3);
 
             @apply bg-backgroundColorA;
 
@@ -204,7 +205,7 @@
                 & .note {
                     @apply text-p-small text-textColor6;
                     & a {
-                        @apply font-medium text-lightBlue;
+                        @apply font-medium text-prominentLinkColor;
                     }
                 }
             }
@@ -216,7 +217,8 @@
                     @apply font-medium;
                 }
                 & em {
-                    @apply text-lightBlue not-italic font-medium;
+                    @apply not-italic font-medium;
+                    color: var(--c-prominent-link-color);
                 }
             }
         }
@@ -319,6 +321,7 @@
                             height: 14px;
                             width: 14px;
                             @apply ml-12;
+                            @apply filter-textColor6;
                         }
                     }
                 }
@@ -432,7 +435,7 @@
                     @apply mb-8;
 
                     & a {
-                        @apply text-lightBlue;
+                        @apply text-prominentLinkColor;
                     }
                 }
             }
@@ -521,20 +524,22 @@
 
             & .status {
                 @apply flex items-center;
-                @apply bg-lightOrange rounded-8;
+                background: var(--backgroundColorMentoringRequestedStatusInfo);
+                @apply rounded-8;
                 @apply py-12 px-16 mx-24;
 
                 & .info {
                     @apply flex-grow;
                     & h3 {
-                        @apply font-semibold text-textColor3 leading-170;
+                        @apply font-semibold leading-170;
+                        color: var(--textColorMentoringRequestedStatusInfo);
                     }
                     & p {
                         @apply font-medium text-textColor6 leading-150;
                     }
                 }
                 & button {
-                    @apply text-lightBlue font-semibold;
+                    @apply text-prominentLinkColor font-semibold;
                 }
             }
             & .placeholder {
@@ -599,11 +604,11 @@
                     @apply text-p-small;
                     & a {
                         @apply inline-flex items-center;
-                        @apply text-lightBlue font-medium;
+                        @apply text-prominentLinkColor font-medium;
                         & .c-icon {
                             width: 12px;
                             height: 12px;
-                            @apply ml-8;
+                            @apply ml-8 filter-prominentLinkColor;
                         }
                     }
                 }
@@ -640,14 +645,14 @@
                         & > .c-icon {
                             height: 16px;
                             width: 16px;
-                            @apply text-textColor6;
+                            @apply filter-textColor6;
                             @apply ml-20;
                         }
                     }
                 }
             }
             & .direct {
-                box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+                box-shadow: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3);
 
                 @apply px-24 py-16 bg-backgroundColorA;
 

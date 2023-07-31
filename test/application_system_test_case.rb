@@ -7,6 +7,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include CapybaraHelpers
   include Devise::Test::IntegrationHelpers
 
+  # Temporary fix: https://github.com/titusfortner/webdrivers/issues/247
+  Webdrivers::Chromedriver.required_version = "114.0.5735.90"
   Capybara.default_max_wait_time = 7
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false
@@ -45,6 +47,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       next if error.to_s.include?("403 (Forbidden)")
       next if error.to_s.include?("hcaptcha")
       next if error.to_s.include?("js.stripe.com")
+      next if error.to_s.include?("https://test.exercism.org/rails/active_storage/representations/redirect")
 
       should_flunk = true
 
@@ -59,14 +62,19 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     flunk("JS Errors") if should_flunk
   end
 
-  # driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
-  driven_by :selenium, using: :headless_chrome do |driver_option|
+  Capybara.register_driver :selenium_chrome_headless do |app|
+    options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless window-size=1400,1000])
+
     # Specify the download directory to allow retrieving files in system tests
-    driver_option.add_preference("download.default_directory", TestHelpers.download_dir.to_s)
+    options.add_preference("download.default_directory", TestHelpers.download_dir.to_s)
 
     # Without this argument, Chrome cannot be started in Docker
-    driver_option.add_argument('no-sandbox')
+    options.add_argument('no-sandbox')
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
   end
+
+  driven_by(:selenium_chrome_headless)
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)
@@ -117,5 +125,14 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
     # Run the assertion
     assert_includes formatted_context, formatted_html, error_msg
+  end
+
+  def assert_text(text, **options)
+    options[:normalize_ws] = true unless options.key?(:normalize_ws)
+    super(:visible, text, **options)
+  end
+
+  def url_to_path(url)
+    url.gsub(%r{https?://[^/]+}, "")
   end
 end

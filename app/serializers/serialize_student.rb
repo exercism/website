@@ -9,6 +9,7 @@ class SerializeStudent
 
     {
       handle: student.handle,
+      flair: student.flair,
       name: student.name.presence, # TODO: We need a flag to protect this maybe?
       bio: student.bio.presence,
       location: student.location.presence,

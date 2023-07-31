@@ -1,0 +1,6 @@
+= link_to Exercism::Routes.track_exercise_url(solution.track, solution.exercise), class: 'flex bg-backgroundColorA shadow-lg py-16 px-24 rounded-24 mb-48 items-center' do
+  = track_icon solution.track, css_class: 'mr-24 h-[64px]'
+  .flex.flex-col.gap-8.mr-32
+    .text-h4= solution.exercise.title
+    .text-p-large.text-textColor6 in #{solution.track.title}
+  = graphical_icon "external-link", css_class: 'filter-textColor6 h-[22px]'

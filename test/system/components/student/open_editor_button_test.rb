@@ -9,9 +9,9 @@ module Components
       test "starts exercise" do
         track = create :track
         user = create :user
-        create :user_track, user: user, track: track
-        create :hello_world_solution, :completed, track: track, user: user
-        exercise = create :concept_exercise, track: track
+        create(:user_track, user:, track:)
+        create(:hello_world_solution, :completed, track:, user:)
+        exercise = create(:concept_exercise, track:)
 
         use_capybara_host do
           sign_in!(user)
@@ -26,12 +26,12 @@ module Components
 
       test "views completed exercise" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         user = create :user
-        create :user_track, user: user, track: track
-        solution = create :concept_solution, exercise: exercise, user: user, status: :completed, completed_at: 1.day.ago
-        submission = create :submission, solution: solution, tests_status: :passed
-        create :iteration, solution: solution, submission: submission
+        create(:user_track, user:, track:)
+        solution = create :concept_solution, exercise:, user:, status: :completed, completed_at: 1.day.ago
+        submission = create :submission, solution:, tests_status: :passed
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -44,12 +44,12 @@ module Components
 
       test "views published exercise" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         user = create :user
-        create :user_track, user: user, track: track
-        solution = create :concept_solution, exercise: exercise, user: user, status: :published, published_at: 1.day.ago
-        submission = create :submission, solution: solution, tests_status: :passed
-        create :iteration, solution: solution, submission: submission
+        create(:user_track, user:, track:)
+        solution = create :concept_solution, exercise:, user:, status: :published, published_at: 1.day.ago
+        submission = create :submission, solution:, tests_status: :passed
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -62,12 +62,12 @@ module Components
 
       test "continues an exercise" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         user = create :user
-        create :user_track, user: user, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution, tests_status: :passed
-        create :iteration, solution: solution, submission: submission
+        create(:user_track, user:, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:, tests_status: :passed
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -80,10 +80,10 @@ module Components
 
       test "views locked exercise" do
         track = create :track
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         exercise.prerequisites << create(:concept)
         user = create :user
-        create :user_track, user: user, track: track
+        create(:user_track, user:, track:)
 
         use_capybara_host do
           sign_in!(user)
@@ -98,9 +98,9 @@ module Components
 
       test "shows download command" do
         track = create :track
-        exercise = create :hello_world_exercise, track: track
+        exercise = create(:hello_world_exercise, track:)
         user = create :user
-        create :user_track, user: user, track: track
+        create(:user_track, user:, track:)
 
         use_capybara_host do
           sign_in!(user)

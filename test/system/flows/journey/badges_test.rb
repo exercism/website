@@ -8,7 +8,7 @@ module Flows
 
       test "user reveals a badge" do
         user = create :user
-        create :user_acquired_badge, revealed: false, user: user
+        create(:user_acquired_badge, revealed: false, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -28,7 +28,7 @@ module Flows
 
       test "user views a badge" do
         user = create :user
-        create :user_acquired_badge, revealed: true, user: user
+        create(:user_acquired_badge, revealed: true, user:)
 
         use_capybara_host do
           sign_in!(user)

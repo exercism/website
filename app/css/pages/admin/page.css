@@ -1,0 +1,6 @@
+.c-admin-page {
+    padding: 25px 0%;
+    font-size: 16px;
+    line-height: 1.5;
+    @apply text-textColor1;
+}

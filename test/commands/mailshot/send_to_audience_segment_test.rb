@@ -49,6 +49,30 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :donors, nil, 10, 0)
   end
 
+  test "schedules audience_for_premium" do
+    mailshot = create :mailshot
+
+    good_user = create :user, :premium
+    bad_user = create :user
+
+    User::Mailshot::Send.expects(:call).with(good_user, mailshot)
+    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :premium, nil, 10, 0)
+  end
+
+  test "schedules audience_for_insiders" do
+    mailshot = create :mailshot
+
+    good_user = create :user, :insider
+    bad_user = create :user
+
+    User::Mailshot::Send.expects(:call).with(good_user, mailshot)
+    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :insiders, nil, 10, 0)
+  end
+
   test "schedules audience_for_challenge" do
     mailshot = create :mailshot
 
@@ -78,6 +102,25 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :reputation, 50, 10, 0)
   end
 
+  test "schedules audience for recently active" do
+    mailshot = create :mailshot
+
+    user_20 = create :user, last_visited_on: 20.days.ago
+    user_30 = create :user, last_visited_on: 30.days.ago
+    user_40 = create :user, last_visited_on: 40.days.ago
+    user_new = create :user
+    [user_20, user_30, user_40].each do |user|
+      2.times { create :iteration, user: }
+    end
+
+    User::Mailshot::Send.expects(:call).with(user_20, mailshot)
+    User::Mailshot::Send.expects(:call).with(user_30, mailshot)
+    User::Mailshot::Send.expects(:call).with(user_40, mailshot).never
+    User::Mailshot::Send.expects(:call).with(user_new, mailshot).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :recently_active, 35, 10, 0)
+  end
+
   test "schedules audience_for_track" do
     mailshot = create :mailshot
     track = create :track
@@ -86,9 +129,9 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     # ##
     # Good user with 2 complete solutions in a track
     good_user = create(:user)
-    create :user_track, user: good_user, track: track
+    create(:user_track, user: good_user, track:)
     2.times do
-      exercise = create :practice_exercise, :random_slug, track: track
+      exercise = create(:practice_exercise, :random_slug, track:)
       create :practice_solution, exercise:, user: good_user, completed_at: Time.current
     end
 
@@ -96,29 +139,29 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     # ##
     # Only 1 completed
     bad_user_1 = create(:user)
-    create :user_track, user: bad_user_1, track: track
+    create(:user_track, user: bad_user_1, track:)
 
     # Completed
-    exercise = create :practice_exercise, :random_slug, track: track
+    exercise = create(:practice_exercise, :random_slug, track:)
     create :practice_solution, exercise:, user: bad_user_1, completed_at: Time.current
 
     # Not completed
-    exercise = create :practice_exercise, :random_slug, track: track
-    create :practice_solution, exercise: exercise, user: bad_user_1
+    exercise = create(:practice_exercise, :random_slug, track:)
+    create :practice_solution, exercise:, user: bad_user_1
 
     ###
     ##
     # Only 1 for this track, but 1 for one other
     bad_user_2 = create(:user)
-    create :user_track, user: bad_user_2, track: track
+    create(:user_track, user: bad_user_2, track:)
 
     # This track
-    exercise = create :practice_exercise, :random_slug, track: track
+    exercise = create(:practice_exercise, :random_slug, track:)
     create :practice_solution, exercise:, user: bad_user_2, completed_at: Time.current
 
     # Another track
     exercise = create :practice_exercise, :random_slug, track: create(:track, slug: SecureRandom.uuid)
-    create :practice_solution, exercise: exercise, user: bad_user_2, completed_at: Time.current
+    create :practice_solution, exercise:, user: bad_user_2, completed_at: Time.current
 
     User::Mailshot::Send.expects(:call).with(good_user, mailshot)
     User::Mailshot::Send.expects(:call).with(bad_user_1, mailshot).never

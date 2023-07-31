@@ -30,10 +30,12 @@ class UserTrack < ApplicationRecord
   # Add some caching inside here for the duration
   # of the request cycle.
   def self.for!(user_param, track_param)
-    UserTrack.find_by!(
-      user: User.for!(user_param),
-      track: Track.for!(track_param)
-    )
+    Current.user_track_for(user_param, track_param) do
+      UserTrack.find_by!(
+        user: User.for!(user_param),
+        track: Track.for!(track_param)
+      )
+    end
   end
 
   def self.for(user_param, track_param)
@@ -82,8 +84,11 @@ class UserTrack < ApplicationRecord
     status << :wip if maintainer?
 
     exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
-    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id)))
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id))).
+      includes(:track)
   end
+
+  def course? = track.course? || (maintainer? && track.concept_exercises.exists?)
 
   def external? = false
 
@@ -174,7 +179,7 @@ class UserTrack < ApplicationRecord
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
     track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
-    expected_key = "#{track_updated_at.to_f}:#{updated_at.to_f}:#{digest}"
+    expected_key = "#{track_updated_at.to_f}:#{last_touched_at.to_f}:#{digest}"
 
     if summary_key != expected_key
       # It is important to use update_columns here

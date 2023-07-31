@@ -5,7 +5,7 @@ class Github::TeamMember::DestroyTest < ActiveSupport::TestCase
     user_id = '137131'
     team_name = 'fsharp'
 
-    create :github_team_member, team_name: team_name, user_id: user_id
+    create(:github_team_member, team_name:, user_id:)
 
     # Sanity check
     assert Github::TeamMember.where(user_id:, team_name:).exists?

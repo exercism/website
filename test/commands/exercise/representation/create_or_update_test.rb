@@ -3,7 +3,7 @@ require "test_helper"
 class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
   test "creates representation" do
     exercise = create :practice_exercise
-    submission = create :submission, exercise: exercise
+    submission = create(:submission, exercise:)
     ast = 'def foo'
     ast_digest = 'hq471b'
     mapping = { 'a' => 'test' }
@@ -22,7 +22,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
 
   test "updates representation" do
     exercise = create :practice_exercise
-    submission = create :submission, exercise: exercise
+    submission = create(:submission, exercise:)
     ast = 'def foo'
     ast_digest = 'hq471b'
     mapping = { 'a' => 'test' }
@@ -41,8 +41,8 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     ast_digest = 'hq471b'
     mapping = { 'a' => 'test' }
     exercise = create :practice_exercise
-    submission = create :submission, exercise: exercise
-    create :submission_representation, ast_digest: ast_digest, submission: submission
+    submission = create(:submission, exercise:)
+    create(:submission_representation, ast_digest:, submission:)
 
     representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current,
       "some_git_sha")
@@ -57,10 +57,10 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     ast_digest = 'hq471b'
     mapping = { 'a' => 'test' }
     exercise = create :practice_exercise
-    submission = create :submission, exercise: exercise
-    create :submission_representation, ast_digest: ast_digest, submission: submission
-    create :submission_representation, ast_digest: ast_digest, submission: create(:submission, exercise:)
-    create :submission_representation, ast_digest: ast_digest, submission: create(:submission, exercise:)
+    submission = create(:submission, exercise:)
+    create(:submission_representation, ast_digest:, submission:)
+    create :submission_representation, ast_digest:, submission: create(:submission, exercise:)
+    create :submission_representation, ast_digest:, submission: create(:submission, exercise:)
 
     representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current,
       "some_git_sha")

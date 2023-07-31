@@ -10,7 +10,7 @@ module Maintaining
         wait_for_websockets
 
         solution = create :concept_solution
-        submission = create :submission, solution: solution
+        submission = create(:submission, solution:)
 
         submission.tests_passed!
         submission.broadcast!

@@ -1,3 +1,4 @@
+# rubocop:disable Layout/LineLength
 require "test_helper"
 
 class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
@@ -18,28 +19,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     # Sanity check
-    assert_equal 0, track.reload.build_status.students.num_students
+    assert_equal "needs_attention", track.reload.build_status.health
 
-    track.update(num_students: 33)
-    Track::UpdateBuildStatus.(track)
-
-    assert_equal 33, track.reload.build_status.students.num_students
-  end
-
-  test "students" do
-    track = create :track
-    other_track = create :track, :random_slug
-
-    (1..30).each do |day|
-      create_list(:user_track, day, track:)
-      create :metric_period_day, metric_type: Metrics::JoinTrackMetric.name, day:, count: day, track: track
-      create :metric_period_day, metric_type: Metrics::JoinTrackMetric.name, day:, count: 5, track: other_track
-    end
+    track.update(has_analyzer: true)
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 465, track.build_status.students.num_students
-    assert_equal 15.5, track.build_status.students.num_students_per_day
+    assert_equal "needs_attention", track.reload.build_status.health
   end
 
   test "submissions" do
@@ -51,15 +37,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create_list(:submission, 40, track:, created_at: Time.current - 5.days)
     create_list(:submission, 35, track: other_track, created_at: Time.current - 5.days)
 
-    (1..30).each do |day|
-      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: 5, track: other_track
-      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: day, track:
-    end
-
     Track::UpdateBuildStatus.(track)
 
     assert_equal 85, track.build_status.submissions.num_submissions
-    assert_equal 15.5, track.build_status.submissions.num_submissions_per_day
   end
 
   test "mentor_discussions" do
@@ -97,15 +77,15 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     assert_equal 5, track.build_status.volunteers.num_volunteers
     expected_users = [
-      { rank: 1, activity: '', handle: user_1.handle, reputation: period_1.reputation.to_s,
+      { rank: 1, activity: '', handle: user_1.handle, flair: user_1.flair, reputation: period_1.reputation.to_s,
         avatar_url: user_1.avatar_url, links: { profile: nil } },
-      { rank: 2, activity: '', handle: user_5.handle, reputation: period_5.reputation.to_s,
+      { rank: 2, activity: '', handle: user_5.handle, flair: user_5.flair, reputation: period_5.reputation.to_s,
         avatar_url: user_5.avatar_url, links: { profile: nil } },
-      { rank: 3, activity: '', handle: user_3.handle, reputation: period_3.reputation.to_s,
+      { rank: 3, activity: '', handle: user_3.handle, flair: user_3.flair, reputation: period_3.reputation.to_s,
         avatar_url: user_3.avatar_url, links: { profile: nil } },
-      { rank: 4, activity: '', handle: user_4.handle, reputation: period_4.reputation.to_s,
+      { rank: 4, activity: '', handle: user_4.handle, flair: user_4.flair, reputation: period_4.reputation.to_s,
         avatar_url: user_4.avatar_url, links: { profile: nil } },
-      { rank: 5, activity: '', handle: user_2.handle, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
+      { rank: 5, activity: '', handle: user_2.handle, flair: user_2.flair, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
         links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal expected_users, track.build_status.volunteers.users
@@ -131,11 +111,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
         reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
         reputation: users[1].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url,
+      { name: users[3].name, handle: users[3].handle, flair: users[3].flair, avatar_url: users[3].avatar_url,
         reputation: users[3].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal 5, track.build_status.syllabus.volunteers.num_users
@@ -148,22 +128,22 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "syllabus: concepts" do
     track = create :track, num_concepts: 5
 
-    c_1 = create :concept, track: track, slug: 'lists'
-    c_2 = create :concept, track: track, slug: 'basics'
-    c_3 = create :concept, track: track, slug: 'switch'
-    c_4 = create :concept, track: track, slug: 'case'
-    c_5 = create :concept, track: track, slug: 'arrays'
-    c_6 = create :concept, track: track, slug: 'finally'
+    c_1 = create :concept, track:, slug: 'lists'
+    c_2 = create :concept, track:, slug: 'basics'
+    c_3 = create :concept, track:, slug: 'switch'
+    c_4 = create :concept, track:, slug: 'case'
+    c_5 = create :concept, track:, slug: 'arrays'
+    c_6 = create :concept, track:, slug: 'finally'
 
-    ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
+    ce_1 = create :concept_exercise, track:, status: :wip # Ignore wip
     ce_1.taught_concepts << c_1 # Ignore for wip exercise
-    ce_2 = create :concept_exercise, track: track, status: :beta, position: 2
+    ce_2 = create :concept_exercise, track:, status: :beta, position: 2
     ce_2.taught_concepts << c_3
     ce_2.taught_concepts << c_4
-    ce_3 = create :concept_exercise, track: track, status: :active, position: 1
+    ce_3 = create :concept_exercise, track:, status: :active, position: 1
     ce_3.taught_concepts << c_2
     ce_3.prerequisites << c_5 # Ignore concept if not taught
-    ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
+    ce_4 = create :concept_exercise, track:, status: :deprecated # Ignore deprecated
     ce_4.taught_concepts << c_6 # Ignore for deprecated exercise
 
     users = create_list(:user, 5)
@@ -219,14 +199,14 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     concepts = create_list(:concept, 7, track:)
 
-    ce_1 = create :concept_exercise, track: track, status: :wip # Ignore wip
+    ce_1 = create :concept_exercise, track:, status: :wip # Ignore wip
     ce_1.taught_concepts << concepts[0] # Ignore for wip exercise
-    ce_2 = create :concept_exercise, track: track, status: :beta, slug: 'lasagna', position: 1
+    ce_2 = create :concept_exercise, track:, status: :beta, slug: 'lasagna', position: 1
     ce_2.taught_concepts << concepts[1]
-    ce_3 = create :concept_exercise, track: track, status: :active, slug: 'sweethearts', position: 2
+    ce_3 = create :concept_exercise, track:, status: :active, slug: 'sweethearts', position: 2
     ce_3.taught_concepts << concepts[2]
     ce_3.prerequisites << concepts[5] # Ignore concept if not taught
-    ce_4 = create :concept_exercise, track: track, status: :deprecated # Ignore deprecated
+    ce_4 = create :concept_exercise, track:, status: :deprecated # Ignore deprecated
     ce_4.taught_concepts << concepts[6] # Ignore for deprecated exercise
 
     users = create_list(:user, 5)
@@ -284,7 +264,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "syllabus: concept_exercises: deprecated" do
     track = create :track
 
-    deprecated_exercise = create :concept_exercise, track: track, status: :deprecated
+    deprecated_exercise = create :concept_exercise, track:, status: :deprecated
 
     Track::UpdateBuildStatus.(track)
 
@@ -362,10 +342,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "practice_exercises" do
     track = create :track, num_concepts: 5
 
-    create :practice_exercise, track: track, status: :wip # Ignore wip
-    pe_2 = create :practice_exercise, track: track, status: :beta, slug: 'leap', position: 2
-    pe_3 = create :practice_exercise, track: track, status: :active, slug: 'anagram', position: 1
-    create :practice_exercise, track: track, status: :deprecated # Ignore deprecated
+    create :practice_exercise, track:, status: :wip # Ignore wip
+    pe_2 = create :practice_exercise, track:, status: :beta, slug: 'leap', position: 2
+    pe_3 = create :practice_exercise, track:, status: :active, slug: 'anagram', position: 1
+    create :practice_exercise, track:, status: :deprecated # Ignore deprecated
 
     users = create_list(:user, 5)
     create :practice_solution, exercise: pe_2, user: users[0], status: :started
@@ -422,7 +402,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "practice_exercises: deprecated" do
     track = create :track
 
-    deprecated_exercise = create :practice_exercise, track: track, status: :deprecated
+    deprecated_exercise = create :practice_exercise, track:, status: :deprecated
 
     Track::UpdateBuildStatus.(track)
 
@@ -531,11 +511,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     expected_users = [
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
         reputation: users[1].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[3].name, handle: users[3].handle, avatar_url: users[3].avatar_url,
+      { name: users[3].name, handle: users[3].handle, flair: users[3].flair, avatar_url: users[3].avatar_url,
         reputation: users[3].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[4].name, handle: users[4].handle, avatar_url: users[4].avatar_url,
+      { name: users[4].name, handle: users[4].handle, flair: users[4].flair, avatar_url: users[4].avatar_url,
         reputation: users[4].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     assert_equal 4, track.build_status.practice_exercises.volunteers.num_users
@@ -674,16 +654,16 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
 
     users = create_list(:user, 7)
-    create :user_code_contribution_reputation_token, track: track, user: users[0], external_url: "#{track.test_runner_repo_url}/pull/1"
-    create :user_code_contribution_reputation_token, track: track, user: users[1], external_url: "#{track.test_runner_repo_url}/pull/1"
-    create :user_code_merge_reputation_token, track: track, user: users[2], external_url: "#{track.test_runner_repo_url}/pull/1"
-    create :user_code_review_reputation_token, track: track, user: users[3], external_url: "#{track.test_runner_repo_url}/pull/2"
-    create :user_code_review_reputation_token, track: track, user: users[4], external_url: "#{track.test_runner_repo_url}/pull/3"
+    create :user_code_contribution_reputation_token, track:, user: users[0], external_url: "#{track.test_runner_repo_url}/pull/1"
+    create :user_code_contribution_reputation_token, track:, user: users[1], external_url: "#{track.test_runner_repo_url}/pull/1"
+    create :user_code_merge_reputation_token, track:, user: users[2], external_url: "#{track.test_runner_repo_url}/pull/1"
+    create :user_code_review_reputation_token, track:, user: users[3], external_url: "#{track.test_runner_repo_url}/pull/2"
+    create :user_code_review_reputation_token, track:, user: users[4], external_url: "#{track.test_runner_repo_url}/pull/3"
 
     # Ignore tokens for track, analyzer and representers repo
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.repo_url}/pull/4"
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.representer_repo_url}/pull/6"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.repo_url}/pull/4"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.representer_repo_url}/pull/6"
 
     # Ignore other track
     create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
@@ -693,9 +673,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 5, track.build_status.test_runner.volunteers.num_users
     assert_equal 3, track.build_status.test_runner.volunteers.users.size
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
         reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
         reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     expected_users.each do |expected_user|
@@ -731,12 +711,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
 
     20.times do
-      submission = create :submission, track: track
+      submission = create(:submission, track:)
       create :submission_representation, submission:
     end
 
     # 3 more submissions with matching ast_digest
-    create_list(:submission_representation, 3, submission: Submission.last, ast_digest: Submission::Representation.last.ast_digest)
+    create_list(:submission_representation, 3, submission: Submission.last,
+      ast_digest: Submission::Representation.last.ast_digest)
 
     create :exercise_representation, :with_feedback, source_submission: Submission.last,
       ast_digest: Submission::Representation.last.ast_digest
@@ -744,10 +725,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
       ast_digest: Submission::Representation.first.ast_digest
 
     # Sanity check: ignore representation without feedback
-    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
-
-    # Sanity check: ignore representation without feedback
-    create :exercise_representation, source_submission: Submission.first, ast_digest: Submission::Representation.first.ast_digest
+    create :exercise_representation, source_submission: create(:submission, track:), ast_digest: SecureRandom.uuid
 
     # Sanity check: ignore other tracks
     create_list(:submission_representation, 3, submission: create(:submission, track: other_track)) do |submission_representation|
@@ -768,8 +746,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal "missing", track.reload.build_status.representer.health
 
     track.update(has_representer: true)
-    submission = create :submission, track: track
-    submission_representation = create :submission_representation, submission: submission
+    submission = create(:submission, track:)
+    submission_representation = create(:submission_representation, submission:)
     Track::UpdateBuildStatus.(track)
     assert_equal "needs_attention", track.reload.build_status.representer.health
 
@@ -784,16 +762,16 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
 
     users = create_list(:user, 7)
-    create :user_code_contribution_reputation_token, track: track, user: users[0], external_url: "#{track.representer_repo_url}/pull/1"
-    create :user_code_contribution_reputation_token, track: track, user: users[1], external_url: "#{track.representer_repo_url}/pull/1"
-    create :user_code_merge_reputation_token, track: track, user: users[2], external_url: "#{track.representer_repo_url}/pull/1"
-    create :user_code_review_reputation_token, track: track, user: users[3], external_url: "#{track.representer_repo_url}/pull/2"
-    create :user_code_review_reputation_token, track: track, user: users[4], external_url: "#{track.representer_repo_url}/pull/3"
+    create :user_code_contribution_reputation_token, track:, user: users[0], external_url: "#{track.representer_repo_url}/pull/1"
+    create :user_code_contribution_reputation_token, track:, user: users[1], external_url: "#{track.representer_repo_url}/pull/1"
+    create :user_code_merge_reputation_token, track:, user: users[2], external_url: "#{track.representer_repo_url}/pull/1"
+    create :user_code_review_reputation_token, track:, user: users[3], external_url: "#{track.representer_repo_url}/pull/2"
+    create :user_code_review_reputation_token, track:, user: users[4], external_url: "#{track.representer_repo_url}/pull/3"
 
     # Ignore tokens for track, analyzer and test runner repo
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.repo_url}/pull/4"
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.test_runner_repo_url}/pull/6"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.repo_url}/pull/4"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.test_runner_repo_url}/pull/6"
 
     # Ignore other track
     create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
@@ -803,9 +781,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 5, track.build_status.representer.volunteers.num_users
     assert_equal 3, track.build_status.representer.volunteers.users.size
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
         reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
         reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     expected_users.each do |expected_user|
@@ -816,11 +794,11 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "analyzer" do
     track = create :track
 
-    s_1 = create :submission, track: track
+    s_1 = create(:submission, track:)
     create :submission_analysis, :with_comments, submission: s_1
-    s_2 = create :submission, track: track
+    s_2 = create(:submission, track:)
     create :submission_analysis, :with_comments, submission: s_2
-    s_3 = create :submission, track: track
+    s_3 = create(:submission, track:)
     create :submission_analysis, submission: s_3 # No comments
     create_list(:submission, 3, track:)
     create_list(:submission, 4, track: create(:track, :random_slug))
@@ -839,16 +817,16 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
 
     users = create_list(:user, 7)
-    create :user_code_contribution_reputation_token, track: track, user: users[0], external_url: "#{track.analyzer_repo_url}/pull/1"
-    create :user_code_contribution_reputation_token, track: track, user: users[1], external_url: "#{track.analyzer_repo_url}/pull/1"
-    create :user_code_merge_reputation_token, track: track, user: users[2], external_url: "#{track.analyzer_repo_url}/pull/1"
-    create :user_code_review_reputation_token, track: track, user: users[3], external_url: "#{track.analyzer_repo_url}/pull/2"
-    create :user_code_review_reputation_token, track: track, user: users[4], external_url: "#{track.analyzer_repo_url}/pull/3"
+    create :user_code_contribution_reputation_token, track:, user: users[0], external_url: "#{track.analyzer_repo_url}/pull/1"
+    create :user_code_contribution_reputation_token, track:, user: users[1], external_url: "#{track.analyzer_repo_url}/pull/1"
+    create :user_code_merge_reputation_token, track:, user: users[2], external_url: "#{track.analyzer_repo_url}/pull/1"
+    create :user_code_review_reputation_token, track:, user: users[3], external_url: "#{track.analyzer_repo_url}/pull/2"
+    create :user_code_review_reputation_token, track:, user: users[4], external_url: "#{track.analyzer_repo_url}/pull/3"
 
     # Ignore tokens for track, representer and test runner repo
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.repo_url}/pull/4"
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.representer_repo_url}/pull/5"
-    create :user_code_merge_reputation_token, track: track, user: users[6], external_url: "#{track.test_runner_repo_url}/pull/6"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.repo_url}/pull/4"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.representer_repo_url}/pull/5"
+    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.test_runner_repo_url}/pull/6"
 
     # Ignore other track
     create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
@@ -858,9 +836,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 5, track.build_status.analyzer.volunteers.num_users
     assert_equal 3, track.build_status.analyzer.volunteers.users.size
     expected_users = [
-      { name: users[0].name, handle: users[0].handle, avatar_url: users[0].avatar_url,
+      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
         reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, avatar_url: users[1].avatar_url,
+      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
         reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
     ].map(&:to_obj)
     expected_users.each do |expected_user|
@@ -878,8 +856,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal "needs_attention", track.reload.build_status.analyzer.health
 
-    submission = create :submission, track: track
-    create :submission_analysis, :with_comments, submission: submission
+    submission = create(:submission, track:)
+    create(:submission_analysis, :with_comments, submission:)
     Track::UpdateBuildStatus.(track)
     assert_equal "healthy", track.reload.build_status.analyzer.health
 
@@ -898,17 +876,17 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     # analyzer_health: :exemplar
     track.update(has_analyzer: true)
-    submission = create :submission, track: track
-    create :submission_analysis, :with_comments, submission: submission
+    submission = create(:submission, track:)
+    create(:submission_analysis, :with_comments, submission:)
 
     # representer_health: :exemplar
     track.update(has_representer: true)
-    submission_representation = create :submission_representation, submission: submission
+    submission_representation = create(:submission_representation, submission:)
     create :exercise_representation, :with_feedback, source_submission: submission, ast_digest: submission_representation.ast_digest
 
     # test_runner_health: :exemplar
     track.update(has_representer: true)
-    create :submission_test_run, submission: submission, raw_results: { version: 3, status: 'pass' }
+    create :submission_test_run, submission:, raw_results: { version: 3, status: 'pass' }
 
     # practice_exercises_health: :exemplar
     track.update(course: false)
@@ -933,3 +911,4 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal "healthy", track.reload.build_status.health
   end
 end
+# rubocop:enable Layout/LineLength

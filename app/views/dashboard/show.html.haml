@@ -5,7 +5,7 @@
     .lg-container.container
       = avatar(current_user)
       .info
-        .handle= current_user.handle
+        .handle= render ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair, size: :medium)
         .extra= current_user.name
       / TODO: Add tests for this
       = link_to badges_journey_path(anchor: "journey-content") do
@@ -29,7 +29,8 @@
       .header-intro.mb-16
         = graphical_icon "logo"
         .content
-          %h1 Welcome back, #{current_user.handle}!
+          %h1.flex
+            Welcome back, #{current_user.handle}!
           %p.welcome
             Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.
@@ -86,14 +87,13 @@
 
       - if current_user.challenges.exists?
         .flex.flex-col.items-start.mb-28
-          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+          .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
-            Month 3 of #12in23
-          %h2.text-h3 It's Mechanical March!
+            Month 7 of #12in23
+          %h2.text-h3 It's Jurassic July
           %p.text-p-base.mb-6
-            We're exploring system languages this month (C, C++, D, Go, Nim, Rust, V and Zig).
-            We've got interviews, live-streams, badges, exclusive SWAG and more.
-            Come and join in.
+            This month we're exploring established languages that have been incredibly successful: C, C++, COBOL, Fortran and Visual Basic!
+            Have fun!
           = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
             %span Explore #12in23
             = graphical_icon "arrow-right"
@@ -123,7 +123,7 @@
             Save the date!
 
           - if @featured_event.youtube?
-            = link_to "https://www.youtube.com/watch?v=#{@featured_event.youtube_id}", class: "bg-white flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
+            = link_to "https://www.youtube.com/watch?v=#{@featured_event.youtube_id}", class: "bg-backgroundColorA flex flex-col items-center rounded-8 shadow-baseZ1 overflow-hidden" do
               = image_tag @featured_event.thumbnail_url, class: 'block w-fill'
 
       - if @scheduled_events.present?

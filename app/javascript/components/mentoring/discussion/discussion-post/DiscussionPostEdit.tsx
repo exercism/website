@@ -3,6 +3,7 @@ import { DiscussionPostProps } from '../DiscussionPost'
 import { Avatar } from '../../../common/Avatar'
 import { EditingComponentType } from '../../../common/ListItem'
 import { EditListItemForm } from '../../../common/EditListItemForm'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
 
 const DEFAULT_ERROR = new Error('Unable to edit post')
 
@@ -21,7 +22,12 @@ export const DiscussionPostEdit = ({
       />
       <div className="timeline-content">
         <header className="timeline-entry-header">
-          <div className="author">{post.authorHandle}</div>
+          <div className="author">
+            <HandleWithFlair
+              handle={post.authorHandle}
+              flair={post.authorFlair}
+            />
+          </div>
         </header>
         <EditListItemForm<DiscussionPostProps>
           item={post}

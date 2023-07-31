@@ -134,6 +134,7 @@ module Git
         cmd = [
           "git clone",
           "--bare",
+          "-c core.sharedRepository=true",
           ("--single-branch" if branch_ref == MAIN_BRANCH_REF),
           repo_url,
           repo_dir

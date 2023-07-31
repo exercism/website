@@ -11,7 +11,7 @@ export function RepresentationsWithFeedback({
     <Representations
       {...data}
       trackCacheKey="automation-with-feedback-track-cache-key"
-      withFeedback={true}
+      selectedTab="with_feedback"
     />
   )
 }

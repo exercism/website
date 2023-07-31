@@ -9,7 +9,7 @@ class Metrics::SignUpTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:sign_up, occurred_at, user:, request_context:)
 
-      assert_equal Metrics::SignUpMetric, metric.class
+      assert_instance_of Metrics::SignUpMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal 'US', metric.country_code

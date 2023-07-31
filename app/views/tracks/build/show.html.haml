@@ -1,35 +1,32 @@
 - content_for :meta_title, "#{@track.title} impact and status on Exercism"
 - content_for :meta_description, "Explore the impact and status of #{@track.title} on Exercism."
 
-#page-tracks-build.bg-white
+#page-tracks-build.bg-backgroundColorB
   = render ViewComponents::Track::Header.new(@track, :build)
 
   .track-build-header
   .lg-container.grid.grid-cols-3.gap-48.relative.mt-40
     .col-span-3.xl:col-span-2
       %h1.text-h1.mb-16.text-40.font-bold.z-1
-        .highlight-text= number_with_delimiter(@status.students.num_students)
+        .highlight-text= number_with_delimiter(@track.num_students)
         students have developed their #{@track.title} skills on Exercism.
-      .grid.grid-cols-3.mb-32.gap-16
+      .grid.md:grid-cols-3.sm:grid-cols-2.grid-cols-1.mb-32.gap-16
         .report-stat
           .stat-name
             Students
             = graphical_icon "info-circle"
-          .current-number= number_with_delimiter(@status.students.num_students)
-          -# .growth +#{@status.students.num_students_per_day} per day
+          .current-number= number_with_delimiter(@track.num_students)
         .report-stat
           .stat-name
             Submissions
             = graphical_icon "info-circle"
           .current-number= number_with_delimiter(@status.submissions.num_submissions)
-          -# .growth +#{@status.submissions.num_submissions_per_day} per day
         .report-stat
           .stat-name
             Mentoring Discussions
             = graphical_icon "info-circle"
           .current-number
             = number_with_delimiter(@status.mentor_discussions.num_discussions)
-          -# .growth +10 per day
 
       .track-status
         %h3.text-h3.font-bold.mb-12
@@ -37,7 +34,7 @@
           = render ViewComponents::Track::Build::Health.new(@status.health)
 
         .flex
-          .flex.flex-col.mr-40
+          .flex.flex-col.sm:mr-40.mr-0
             .tooling-status-label Building
             .tooling-status-group
               - if @track.course?
@@ -85,7 +82,7 @@
       - if @track.course?
         .track-team-group
           .track-header.mb-16
-            .flex.items-center.justify-between.mb-8
+            .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
               %h3.--syllabus-gradient Create the #{@track.title} syllabus
               = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
                 Learn More
@@ -116,7 +113,7 @@
               %summary.--lightbulb
                 #{@status.syllabus.concept_exercises.active.size} active learning exercises
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+              .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
                 .record-name.mb-0
                 .record-value
                   .record-element Started
@@ -129,13 +126,13 @@
                     = exercise_icon exercise
                     = exercise.title
                   .record-value
-                    .record-element
+                    .record-element{ data: { record_label: 'Started' } }
                       %strong= number_with_delimiter(exercise.num_started)
-                    .record-element
+                    .record-element{ data: { record_label: 'Attempts' } }
                       %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
-                    .record-element
+                    .record-element{ data: { record_label: 'Completions' } }
                       %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
-                    .record-element
+                    .record-element{ data: { record_label: 'Mentoring requests' } }
                       %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
             - if @status.syllabus.concept_exercises.deprecated.size.positive?
@@ -143,7 +140,7 @@
                 %summary.--lightbulb
                   #{@status.syllabus.concept_exercises.deprecated.size} deprecated learning exercises
                   = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-                .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+                .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
                   .record-name.mb-0
                   .record-value
                     .record-element Started
@@ -156,20 +153,20 @@
                       = exercise_icon exercise
                       = exercise.title
                     .record-value
-                      .record-element
+                      .record-element{ data: { record_label: 'Started' } }
                         %strong= number_with_delimiter(exercise.num_started)
-                      .record-element
+                      .record-element{ data: { record_label: 'Attempts' } }
                         %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
-                      .record-element
+                      .record-element{ data: { record_label: 'Completions' } }
                         %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
-                      .record-element
+                      .record-element{ data: { record_label: 'Mentoring requests' } }
                         %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
           = render ReactComponents::Common::Credits.new(@status.syllabus.volunteers.users, @status.syllabus.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
 
       .track-team-group
         .track-header.mb-16
-          .flex.items-center.justify-between.mb-8
+          .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
             %h3.--test-runner-gradient Build Test Runners
             = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
               Learn More
@@ -207,7 +204,7 @@
 
       .track-team-group
         .track-header.mb-16
-          .flex.items-center.justify-between.mb-8
+          .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
             %h3.--analyzer-gradient Build Analyzers
             = link_to doc_path(:building, "tooling/analyzers"), class: "learn-more-new-tab" do
               Learn More
@@ -237,7 +234,7 @@
 
       .track-team-group
         .track-header.mb-16
-          .flex.items-center.justify-between.mb-8
+          .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
             %h3.--representer-gradient Build Representers
             = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
               Learn More
@@ -269,7 +266,7 @@
 
       .track-team-group
         .track-header.mb-16
-          .flex.items-center.justify-between.mb-8
+          .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
             %h3.--practice-exercises-gradient Create Practice Exercises
             = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
               Learn More
@@ -290,7 +287,7 @@
               %summary.--practice-exercises
                 #{@status.practice_exercises.active.size} active practice exercises
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+              .record-row.sticky.z-1{ class: 'lg:top-0 top-[65px]' }
                 .record-name
                 .record-value
                   .record-element Started
@@ -303,13 +300,13 @@
                     = exercise_icon exercise
                     = exercise.title
                   .record-value
-                    .record-element
+                    .record-element{ data: { record_label: 'Started' } }
                       %strong= number_with_delimiter(exercise.num_started)
-                    .record-element
+                    .record-element{ data: { record_label: 'Attempts' } }
                       %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
-                    .record-element
+                    .record-element{ data: { record_label: 'Completions' } }
                       %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
-                    .record-element
+                    .record-element{ data: { record_label: 'Mentoring requests' } }
                       %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
 
@@ -318,7 +315,7 @@
               %summary.--practice-exercises
                 #{@status.practice_exercises.deprecated.size} deprecated practice exercises
                 = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-              .record-row.sticky{ class: 'top-[106px] z-1 lg:top-0' }
+              .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
                 .record-name
                 .record-value
                   .record-element Started
@@ -331,13 +328,13 @@
                     = exercise_icon exercise
                     = exercise.title
                   .record-value
-                    .record-element
+                    .record-element{ data: { record_label: 'Started' } }
                       %strong= number_with_delimiter(exercise.num_started)
-                    .record-element
+                    .record-element{ data: { record_label: 'Attempts' } }
                       %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
-                    .record-element
+                    .record-element{ data: { record_label: 'Completions' } }
                       %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
-                    .record-element
+                    .record-element{ data: { record_label: 'Mentoring requests' } }
                       %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
           - if @status.practice_exercises.unimplemented.size.positive?
@@ -373,7 +370,7 @@
     .hidden.xl:block.col-span-1
       %div{ class: 'h-[284px]' }
         = ReactComponents::Impact::Map.new(track: @track)
-      .rounded-8.p-24.shadow-baseZ1.bg-white
+      .rounded-8.p-24.shadow-baseZ1.bg-backgroundColorA
         .flex.items-center.mb-12
           = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
           .label-large.mr-16
@@ -400,6 +397,6 @@
           %h6.text-h6.leading-150.mb-4 We 💙 our volunteers
           %p.text-textColor5.leading-150.text-14.mb-4
             Exercism relies on open-source volunteers to build our language tracks and mentor students.
-          = link_to community_path, class: "text-lightBlue font-semibold flex items-center" do
+          = link_to community_path, class: "text-prominentLinkColor font-semibold flex items-center" do
             %span.mr-8.leading-170 Become an Exercism Volunteer
-            = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-lightBlue"
+            = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-prominentLinkColor"

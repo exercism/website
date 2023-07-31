@@ -16,6 +16,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
+  test "creates data" do
+    user = create :user
+    assert user.data
+  end
+
   test "creates preferences" do
     user = create :user
     assert user.preferences
@@ -41,10 +46,10 @@ class UserTest < ActiveSupport::TestCase
     user = create :user
     create :user_code_contribution_reputation_token # Random token for different user
 
-    create :user_exercise_contribution_reputation_token, user: user
-    create :user_exercise_author_reputation_token, user: user
-    create :user_code_contribution_reputation_token, user: user, level: :large
-    create :user_code_contribution_reputation_token, user: user, level: :medium
+    create(:user_exercise_contribution_reputation_token, user:)
+    create(:user_exercise_author_reputation_token, user:)
+    create :user_code_contribution_reputation_token, user:, level: :large
+    create :user_code_contribution_reputation_token, user:, level: :medium
 
     assert_equal 72, user.reload.reputation
     # assert_equal 20, user.reputation(track_slug: :ruby)
@@ -72,13 +77,13 @@ class UserTest < ActiveSupport::TestCase
     user = create :user
     refute user.has_badge?(:rookie)
 
-    create :user_acquired_badge, badge: badge, user: user
+    create(:user_acquired_badge, badge:, user:)
     assert user.reload.has_badge?(:rookie)
   end
 
   test "joined_track?" do
     user = create :user
-    user_track = create :user_track, user: user
+    user_track = create(:user_track, user:)
     track = create :track, :random_slug
 
     assert user.joined_track?(user_track.track)
@@ -114,9 +119,9 @@ class UserTest < ActiveSupport::TestCase
     rookie_badge = create :rookie_badge
     member_badge = create :member_badge
 
-    create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user
+    create(:user_acquired_badge, revealed: true, badge: rookie_badge, user:)
     create :user_acquired_badge, revealed: false, badge: rookie_badge
-    unrevealed = create :user_acquired_badge, revealed: false, badge: member_badge, user: user
+    unrevealed = create(:user_acquired_badge, revealed: false, badge: member_badge, user:)
 
     assert_equal [unrevealed], user.unrevealed_badges
   end
@@ -131,12 +136,12 @@ class UserTest < ActiveSupport::TestCase
     legendary_badge_1 = create :begetter_badge
     legendary_badge_2 = create :moss_badge
 
-    create :user_acquired_badge, user: user, badge: rare_badge_1, revealed: true
-    create :user_acquired_badge, user: user, badge: common_badge_1, revealed: true
-    create :user_acquired_badge, user: user, badge: legendary_badge_1, revealed: true
-    create :user_acquired_badge, user: user, badge: common_badge_2, revealed: true
-    create :user_acquired_badge, user: user, badge: legendary_badge_2, revealed: true
-    create :user_acquired_badge, user: user, badge: ultimate_badge_1, revealed: true
+    create :user_acquired_badge, user:, badge: rare_badge_1, revealed: true
+    create :user_acquired_badge, user:, badge: common_badge_1, revealed: true
+    create :user_acquired_badge, user:, badge: legendary_badge_1, revealed: true
+    create :user_acquired_badge, user:, badge: common_badge_2, revealed: true
+    create :user_acquired_badge, user:, badge: legendary_badge_2, revealed: true
+    create :user_acquired_badge, user:, badge: ultimate_badge_1, revealed: true
 
     assert_equal [legendary_badge_2, legendary_badge_1, ultimate_badge_1, rare_badge_1, common_badge_2],
       user.featured_badges.order('id desc')
@@ -150,10 +155,10 @@ class UserTest < ActiveSupport::TestCase
     ultimate_badge = create :lackadaisical_badge
     legendary_badge = create :begetter_badge
 
-    create :user_acquired_badge, revealed: true, user: user, badge: rare_badge
-    create :user_acquired_badge, revealed: false, user: user, badge: legendary_badge
-    create :user_acquired_badge, revealed: true, user: user, badge: common_badge
-    create :user_acquired_badge, revealed: false, user: user, badge: ultimate_badge
+    create :user_acquired_badge, revealed: true, user:, badge: rare_badge
+    create :user_acquired_badge, revealed: false, user:, badge: legendary_badge
+    create :user_acquired_badge, revealed: true, user:, badge: common_badge
+    create :user_acquired_badge, revealed: false, user:, badge: ultimate_badge
 
     assert_equal [common_badge, rare_badge], user.revealed_badges.sort_by(&:name)
   end
@@ -166,10 +171,10 @@ class UserTest < ActiveSupport::TestCase
     ultimate_badge = create :lackadaisical_badge
     legendary_badge = create :begetter_badge
 
-    create :user_acquired_badge, revealed: true, user: user, badge: rare_badge
-    create :user_acquired_badge, revealed: false, user: user, badge: legendary_badge
-    create :user_acquired_badge, revealed: true, user: user, badge: common_badge
-    create :user_acquired_badge, revealed: false, user: user, badge: ultimate_badge
+    create :user_acquired_badge, revealed: true, user:, badge: rare_badge
+    create :user_acquired_badge, revealed: false, user:, badge: legendary_badge
+    create :user_acquired_badge, revealed: true, user:, badge: common_badge
+    create :user_acquired_badge, revealed: false, user:, badge: ultimate_badge
 
     assert_equal [rare_badge, common_badge], user.featured_badges
   end
@@ -180,7 +185,7 @@ class UserTest < ActiveSupport::TestCase
 
       refute user.recently_used_cli?
 
-      solution = create :practice_solution, user: user
+      solution = create(:practice_solution, user:)
       refute user.recently_used_cli?
 
       solution.update(downloaded_at: Time.current - 31.days)
@@ -193,9 +198,9 @@ class UserTest < ActiveSupport::TestCase
 
   test "auth_token" do
     user = create :user
-    create :user_auth_token, user: user, active: false
-    token = create :user_auth_token, user: user, active: true
-    create :user_auth_token, user: user, active: false
+    create :user_auth_token, user:, active: false
+    token = create :user_auth_token, user:, active: true
+    create :user_auth_token, user:, active: false
 
     assert_equal token.token, user.auth_token
   end
@@ -289,7 +294,7 @@ class UserTest < ActiveSupport::TestCase
     user = create :user
     refute user.profile?
 
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     assert user.reload.profile?
   end
@@ -340,20 +345,24 @@ class UserTest < ActiveSupport::TestCase
     refute_equal User.all, User.random
   end
 
-  test "scope: donor" do
-    create :user, first_donated_at: nil
-    user_2 = create :user, first_donated_at: Time.current, show_on_supporters_page: false
-    user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
+  test "scope: premium" do
+    create :user, premium_until: nil
+    create :user, premium_until: Time.current - 3.days
+    user_2 = create :user, premium_until: Time.current + 2.days
+    user_3 = create :user, premium_until: Time.current + 4.months
 
-    assert_equal [user_2, user_3], User.donor.order(:id)
+    assert_equal [user_2, user_3], User.premium.order(:id)
   end
 
-  test "scope: public_supporter" do
-    create :user, first_donated_at: nil
-    create :user, first_donated_at: Time.current, show_on_supporters_page: false
-    user_3 = create :user, first_donated_at: Time.current, show_on_supporters_page: true
+  test "scope: insiders" do
+    create :user, insiders_status: :unset
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :ineligible
+    create :user, insiders_status: :eligible_lifetime
+    user_4 = create :user, insiders_status: :active
+    user_5 = create :user, insiders_status: :active_lifetime
 
-    assert_equal [user_3], User.public_supporter.order(:id)
+    assert_equal [user_4, user_5], User.insiders.order(:id)
   end
 
   test "github_auth?" do
@@ -392,5 +401,77 @@ class UserTest < ActiveSupport::TestCase
     # Sanity check: other user
     create :github_team_member, user_id: other_user.uid
     assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
+  end
+
+  test "insider?" do
+    user = create :user
+
+    %i[unset ineligible eligible eligible_lifetime].each do |insiders_status|
+      user.update(insiders_status:)
+      refute user.insider?
+    end
+
+    %i[active active_lifetime].each do |insiders_status|
+      user.update(insiders_status:)
+      assert user.insider?
+    end
+  end
+
+  test "insiders_status is symbol" do
+    user = create :user
+
+    user.update(insiders_status: :active)
+    assert_equal :active, user.insiders_status
+  end
+
+  test "flair is symbol" do
+    user = create :user, flair: nil
+
+    assert_nil user.flair
+
+    user.update(flair: :insider)
+    assert_equal :insider, user.flair
+  end
+
+  test "premium?" do
+    user = create :user, premium_until: nil
+    refute user.premium?
+
+    user.update(premium_until: Time.current - 5.seconds)
+    refute user.premium?
+
+    user.update(premium_until: Time.current + 5.seconds)
+    assert user.premium?
+  end
+
+  test "email verified when email changes" do
+    user = create :user
+
+    User::VerifyEmail.expects(:defer).with(user).once
+
+    user.email = 'test@example.org'
+    user.skip_reconfirmation!
+    user.save!
+  end
+
+  test "asset may receive email by default" do
+    user = create :user
+    assert user.may_receive_emails?
+  end
+
+  test "refute may receive email for disabled" do
+    user = create :user, disabled_at: Time.current
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for github" do
+    user = create :user, email: "foo@users.noreply.github.com"
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for invalid email" do
+    user = create :user, disabled_at: Time.current
+    user.email_status_invalid!
+    refute user.may_receive_emails?
   end
 end

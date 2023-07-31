@@ -103,7 +103,7 @@
             @apply flex-grow;
 
             & .iteration-section {
-                @apply bg-white shadow-base rounded-8;
+                @apply bg-backgroundColorB shadow-base rounded-8;
                 @apply mb-32;
 
                 & .c-react-wrapper-track-iteration-summary {
@@ -136,7 +136,7 @@
                     & .info {
                         @apply flex-grow;
                         & .mentors {
-                            @apply mb-4;
+                            @apply mb-4 flex;
                             @apply text-16 leading-150 text-textColor2;
                             & strong {
                                 @apply font-semibold;
@@ -181,6 +181,7 @@
                             width: 16px;
                             height: 16px;
                             @apply mr-8;
+                            @apply filter-textColor6;
                         }
                         & span {
                             @apply text-textColor6 font-medium leading-150;

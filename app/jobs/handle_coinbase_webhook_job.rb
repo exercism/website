@@ -6,7 +6,7 @@ class HandleCoinbaseWebhookJob < ApplicationJob
 
     case event.type
     when 'charge:resolved'
-      Donations::Coinbase::HandleResolvedCharge.(event.data)
+      Payments::Coinbase::HandleResolvedCharge.(event.data)
     end
   end
 end

@@ -29,6 +29,16 @@ mark_outdated_reputation_month_periods:
   queue: reputation
   args: ["month"]
 
+recheck_insiders:
+  cron: "1 0 * * *"
+  class: "RecheckInsidersJob"
+  queue: dribble
+
+recheck_premium:
+  cron: "2 0 * * *"
+  class: "RecheckPremiumJob"
+  queue: dribble
+
 # 5am every date (1hr after above)
 mark_outdated_reputation_year_periods:
   cron: "15 0 * * *"
@@ -93,6 +103,11 @@ update_month_metrics:
   cron: "0 0 1 * *"
   class: "UpdateMonthMetricsJob"
   queue: metrics
+
+reset_chatgpt_usage:
+  cron: "0 0 1 * *"
+  class: "ResetChatGPTUsageJob"
+  queue: dribble
 
 # Every 15 minutes
 update_last_hour_metrics:

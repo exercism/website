@@ -11,10 +11,10 @@ module Flows
       ruby = create :track, :random_slug, title: "Ruby"
       kotlin = create :track, :random_slug, title: "Kotlin"
       elixir = create :track, :random_slug, title: "Elixir"
-      create :user_track, track: nim, user: user, last_touched_at: 4.days.ago
-      create :user_track, track: kotlin, user: user, last_touched_at: 3.days.ago
-      create :user_track, track: ruby, user: user, last_touched_at: 2.days.ago
-      create :user_track, track: elixir, user: user, last_touched_at: 1.day.ago
+      create :user_track, track: nim, user:, last_touched_at: 4.days.ago
+      create :user_track, track: kotlin, user:, last_touched_at: 3.days.ago
+      create :user_track, track: ruby, user:, last_touched_at: 2.days.ago
+      create :user_track, track: elixir, user:, last_touched_at: 1.day.ago
 
       use_capybara_host do
         sign_in!(user)
@@ -40,8 +40,8 @@ module Flows
       end
 
       # Ignore latest unrevealed badges
-      create :user_acquired_badge, user: user, badge: create(:lackadaisical_badge), revealed: false
-      create :user_acquired_badge, user: user, badge: create(:whatever_badge), revealed: false
+      create :user_acquired_badge, user:, badge: create(:lackadaisical_badge), revealed: false
+      create :user_acquired_badge, user:, badge: create(:whatever_badge), revealed: false
 
       use_capybara_host do
         sign_in!(user)
@@ -63,7 +63,7 @@ module Flows
       user = create :user
       joined_track = create :track, :random_slug
       unjoined_track = create :track, :random_slug
-      create :user_track, user: user, track: joined_track
+      create :user_track, user:, track: joined_track
       joined_arbitrary_update = create :arbitrary_site_update, title: "Arbitrary update 1",
         description_markdown: 'Such a cool update', track: joined_track, published_at: Time.current
       joined_concept_update = create :new_concept_site_update, track: joined_track,

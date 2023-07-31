@@ -3,8 +3,8 @@ require 'test_helper'
 class SerializeSubmissionsTest < ActiveSupport::TestCase
   test "test submissions" do
     user = create :user
-    solution = create :concept_solution, user: user
-    submission = create :submission, tests_status: :failed, solution: solution
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, tests_status: :failed, solution:)
 
     expected = [SerializeSubmission.(submission)]
     actual = SerializeSubmissions.(Submission.all)

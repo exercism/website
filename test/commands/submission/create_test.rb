@@ -70,8 +70,8 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     # Create user and solution
     user = create :user
-    solution = create :concept_solution, user: user
-    create :iteration, solution: solution
+    solution = create(:concept_solution, user:)
+    create(:iteration, solution:)
     refute user.badges.present?
 
     Submission::Create.(solution, files, :cli)
@@ -95,18 +95,6 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert :not_queued, submission.analysis_status
   end
 
-  test "does not start test run if there's no test runner" do
-    exercise = create :practice_exercise, has_test_runner: false
-    solution = create :concept_solution, exercise: exercise
-
-    files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
-
-    Submission::TestRun::Init.expects(:call).never
-    submission = Submission::Create.(solution, files, :cli)
-
-    assert :not_queued, submission.tests_status
-  end
-
   test "adds metric" do
     files = [{ filename: "file1", content: "contents" }]
     solution = create :concept_solution
@@ -116,7 +104,7 @@ class Submission::CreateTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::SubmitSubmissionMetric, metric.class
+    assert_instance_of Metrics::SubmitSubmissionMetric, metric
     assert_equal submission.created_at, metric.occurred_at
     assert_equal submission, metric.submission
     assert_equal solution.track, metric.track

@@ -38,7 +38,7 @@ class ConceptTest < ActiveSupport::TestCase
   test "concept_exercises" do
     concept = create :concept
     exercise = create :concept_exercise
-    create :exercise_taught_concept, concept: concept, exercise: exercise
+    create(:exercise_taught_concept, concept:, exercise:)
 
     # Create a random different one
     create :exercise_taught_concept
@@ -49,7 +49,7 @@ class ConceptTest < ActiveSupport::TestCase
   test "practice_exercises" do
     concept = create :concept
     exercise = create :practice_exercise
-    create :exercise_practiced_concept, concept: concept, exercise: exercise
+    create(:exercise_practiced_concept, concept:, exercise:)
 
     # Create a random different one
     create :exercise_taught_concept
@@ -60,7 +60,7 @@ class ConceptTest < ActiveSupport::TestCase
   test "unlocked_exercises" do
     concept = create :concept
     exercise = create :practice_exercise
-    create :exercise_prerequisite, concept: concept, exercise: exercise
+    create(:exercise_prerequisite, concept:, exercise:)
 
     # Create a random different one
     create :exercise_taught_concept
@@ -71,11 +71,11 @@ class ConceptTest < ActiveSupport::TestCase
   test "can be deleted" do
     track = create :track
 
-    concept = create :concept, track: track
-    ce = create :concept_exercise, track: track
+    concept = create(:concept, track:)
+    ce = create(:concept_exercise, track:)
     ce.prerequisites << concept
     ce.taught_concepts << concept
-    pe = create :concept_exercise, track: track
+    pe = create(:concept_exercise, track:)
     pe.prerequisites << concept
 
     concept.destroy

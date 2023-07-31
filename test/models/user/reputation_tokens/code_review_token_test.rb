@@ -25,7 +25,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeReviewToken, rt
     assert_equal "You reviewed <strong>PR##{pr_number}</strong> on <strong>v3</strong>: #{pr_title}", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
@@ -60,7 +60,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeReviewToken, rt
     assert_equal "You reviewed <strong>PR##{pr_number}</strong> on <strong>v3</strong>: #{pr_title}", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
@@ -95,7 +95,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeReviewToken, rt
     assert_equal "You reviewed <strong>PR##{pr_number}</strong> on <strong>v3</strong>: #{pr_title}", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_review|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
@@ -130,7 +130,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeReviewToken, rt
     assert_equal merged_at.to_date, rt.earned_on
   end
 
@@ -158,7 +158,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeReviewToken, rt
     assert_equal closed_at.to_date, rt.earned_on
   end
 
@@ -187,7 +187,7 @@ class User::ReputationTokens::CodeReviewTokenTest < ActiveSupport::TestCase
       assert_equal 1, user.reputation_tokens.size
       rt = user.reputation_tokens.first
 
-      assert_equal User::ReputationTokens::CodeReviewToken, rt.class
+      assert_instance_of User::ReputationTokens::CodeReviewToken, rt
       assert_equal Time.current.to_date, rt.earned_on
     end
   end

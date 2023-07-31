@@ -1,55 +1,66 @@
 require "test_helper"
 
 class ProcessGithubSponsorUpdateJobTest < ActiveJob::TestCase
-  test "updates first_donated_at to current time" do
-    freeze_time do
-      github_username = "foobar"
-      user = create :user, github_username: github_username, first_donated_at: nil
+  test "processes 'cancelled' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    is_one_time = true
+    monthly_price_in_cents = 300
+    user = create(:user, github_username:)
 
-      perform_enqueued_jobs do
-        ProcessGithubSponsorUpdateJob.perform_now(
-          'created',
-          github_username
-        )
-      end
+    Payments::Github::Sponsorship::HandleCancelled.expects(:call).
+      with(user, node_id, is_one_time).
+      once
 
-      assert_equal Time.current, user.reload.first_donated_at
-      assert user.donated?
-    end
-  end
-
-  test "awards badge when created" do
-    github_username = "foobar"
-    user = create :user, github_username: github_username
-
-    perform_enqueued_jobs do
-      ProcessGithubSponsorUpdateJob.perform_now(
-        'created',
-        github_username
-      )
-    end
-
-    assert_includes user.reload.badges, Badges::SupporterBadge.first
-  end
-
-  test "noop when action is not created" do
-    github_username = "foobar"
-    create :user, github_username:
-
-    AwardBadgeJob.expects(:perform_later).never
-
-    refute ProcessGithubSponsorUpdateJob.perform_now(
-      'something else',
-      github_username
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'cancelled', github_username, node_id, is_one_time, monthly_price_in_cents
     )
   end
 
-  test "nooop when user does not exist" do
-    AwardBadgeJob.expects(:perform_later).never
+  test "processes 'created' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    is_one_time = true
+    monthly_price_in_cents = 300
+    user = create(:user, github_username:)
 
-    refute ProcessGithubSponsorUpdateJob.perform_now(
-      'something else',
-      "foobar"
+    Payments::Github::Sponsorship::HandleCreated.expects(:call).
+      with(user, node_id, is_one_time, monthly_price_in_cents).
+      once
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'created', github_username, node_id, is_one_time, monthly_price_in_cents
+    )
+  end
+
+  test "processes 'tier_changed' action" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    is_one_time = true
+    monthly_price_in_cents = 300
+    user = create(:user, github_username:)
+
+    Payments::Github::Sponsorship::HandleTierChanged.expects(:call).
+      with(user, node_id, is_one_time, monthly_price_in_cents).
+      once
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'tier_changed', github_username, node_id, is_one_time, monthly_price_in_cents
+    )
+  end
+
+  test "noop when user does not exist" do
+    github_username = 'jane'
+    node_id = 'abdq313'
+    is_one_time = true
+    monthly_price_in_cents = 300
+
+    Payments::Github::Sponsorship::HandleCancelled.expects(:call).never
+    Payments::Github::Sponsorship::HandleCreated.expects(:call).never
+    Payments::Github::Sponsorship::HandleTierChanged.expects(:call).never
+
+    ProcessGithubSponsorUpdateJob.perform_now(
+      'cancelled', github_username, node_id, is_one_time, monthly_price_in_cents
     )
   end
 end

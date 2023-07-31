@@ -10,7 +10,7 @@ class UserTrack
       @track = track
     end
 
-    delegate :concepts, :num_exercises, :num_concepts, :updated_at,
+    delegate :concepts, :num_exercises, :num_concepts, :updated_at, :course?,
       to: :track
     delegate :title, to: :track, prefix: true
 

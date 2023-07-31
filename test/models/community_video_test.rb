@@ -13,7 +13,7 @@ class CommunityVideoTest < ActiveSupport::TestCase
 
   test "updates has_approaches for exercise video with status changed" do
     exercise = create :practice_exercise, slug: 'leap'
-    video = create :community_video, exercise: exercise, status: :pending
+    video = create :community_video, exercise:, status: :pending
 
     # Sanity check
     refute exercise.reload.has_approaches?

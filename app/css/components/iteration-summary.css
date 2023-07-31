@@ -41,6 +41,7 @@
         height: 24px;
         width: 24px;
         @apply text-textColor5 mr-16;
+        filter: var(--textColor2-filter);
     }
     & > .--info {
         @apply flex-grow;

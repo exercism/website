@@ -14,10 +14,8 @@ namespace :api do
     resources :tracks, only: [:show]
   end
 
-  # TODO: This is just a stub
-  resources :users, only: [:update]
-
-  resource :user, only: [] do
+  resource :user, only: %i[show update] do
+    patch :activate_insiders
     resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
   end
 
@@ -30,7 +28,7 @@ namespace :api do
     get "validate_token" => "validate_token#index"
     get "hiring/testimonials" => "hiring#testimonials"
 
-    namespace :donations do
+    namespace :payments do
       resource :active_subscription, only: [:show]
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do
@@ -40,9 +38,12 @@ namespace :api do
         end
       end
       resources :subscriptions, only: [] do
+        post :create_paypal_premium, on: :collection
+
         member do
           patch :cancel
           patch :update_amount
+          patch :update_plan
         end
       end
     end
@@ -51,7 +52,10 @@ namespace :api do
       patch :sudo_update
     end
     namespace :settings do
-      resource :user_preferences, only: [:update]
+      resource :user_preferences, only: [:update] do
+        patch :enable_solution_comments
+        patch :disable_solution_comments
+      end
       resource :communication_preferences, only: [:update]
 
       resources :introducers, only: [], param: :slug do
@@ -142,6 +146,8 @@ namespace :api do
 
     resources :docs, only: [:index]
 
+    resources :streaming_events, only: [:index]
+
     resources :solutions, only: %i[index show update], param: :uuid do
       member do
         get :diff
@@ -155,6 +161,7 @@ namespace :api do
       end
 
       resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
+        resource :ai_help, only: %i[create], controller: "solutions/submission_ai_help"
         resource :test_run, only: %i[show], controller: "solutions/submission_test_runs" do
           patch :cancel
         end
@@ -185,8 +192,7 @@ namespace :api do
         collection do
           get :with_feedback
           get :without_feedback
-          get :tracks_with_feedback
-          get :tracks_without_feedback
+          get :admin
         end
       end
 

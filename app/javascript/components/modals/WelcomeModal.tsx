@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
 import { sendRequest } from '../../utils/send-request'
-import { FormButton, GraphicalIcon } from '../common'
+import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
@@ -57,7 +57,7 @@ export const WelcomeModal = ({
 
           <p className="">
             Exercism is the place to deepen your programming skills and explore
-            over 65 programming languages. It's 100% free.
+            over 65 programming languages. It&apos;s 100% free.
           </p>
         </header>
 
@@ -65,16 +65,16 @@ export const WelcomeModal = ({
         <p className="mb-12">
           Exercism has been made by thousands of people who want to create a
           fun, powerful educational platform that makes it easy to learn and
-          deepen your programming skils. We're really glad you've joined us for
-          the ride! Check our forums, Youtube and Twitch to explore everything
-          Exercism has to offer 🎉
+          deepen your programming skils. We&apos;re really glad you&apos;ve
+          joined us for the ride! Check our forums, Youtube and Twitch to
+          explore everything Exercism has to offer 🎉
         </p>
 
         <p className="mb-12">
           To get started, watch the welcome video on the right then head to the
           Tracks page and choose the language you want to explore first. Solve
-          the classic "Hello World" exercise to familiarise yourself with the
-          platform, then start solving exercises for real.
+          the classic &quot;Hello World&quot; exercise to familiarize yourself
+          with the platform, then start solving exercises for real.
         </p>
 
         <FormButton
@@ -106,9 +106,9 @@ export const WelcomeModal = ({
         <h2 className="text-h4 mb-4">Where can I join #12in23?</h2>
         <p className="text-p-base mb-8">
           Discovered Exercism because of #12in23 or one of our featured months?
-          Good stuff! Once you've watched the video above, close this modal and
-          you'll see a big graphic on the right-hand side advertising #12in23.
-          Click on that and follow the instructions to get started!
+          Good stuff! Once you&apos;ve watched the video above, close this modal
+          and you&apos;ll see a big graphic on the right-hand side advertising
+          #12in23. Click on that and follow the instructions to get started!
         </p>
       </div>
     </Modal>

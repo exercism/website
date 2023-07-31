@@ -56,7 +56,7 @@ export const DigDeeperDataContext = createContext<DigDeeperDataContext>(
 
 export function DigDeeper({ data }: { data: DigDeeperProps }): JSX.Element {
   return (
-    <div className="lg-container grid grid-cols-3 gap-40">
+    <div className="lg-container grid lg:grid-cols-3 grid-cols-2 gap-40">
       <DigDeeperDataContext.Provider
         value={{
           exercise: data.exercise,
@@ -68,7 +68,7 @@ export function DigDeeper({ data }: { data: DigDeeperProps }): JSX.Element {
           <DiggingDeeper introduction={data.introduction} />
           <CommunityVideos videos={data.videos} />
         </div>
-        <div className="col-span-1">
+        <div className="lg:col-span-1 col-span-2">
           <Approaches approaches={data.approaches} />
           <Articles articles={data.articles} />
         </div>

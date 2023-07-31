@@ -1,4 +1,4 @@
-class Admin::MailshotsController < ApplicationController
+class Admin::MailshotsController < Admin::BaseController
   before_action :ensure_iHiD!
   before_action :set_mailshot, only: %i[show edit update destroy send_test send_to_audience]
 
@@ -13,6 +13,7 @@ class Admin::MailshotsController < ApplicationController
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
     @audiences = %w[admins donors challenge#12in23]
     @audiences += [100, 10, 3, 2, 1].map { |min| "reputation##{min}" }
+    @audiences += [10, 30, 60, 90].map { |min| "recent##{min}" }
     @audiences += Track.pluck(:slug).map { |slug| "track##{slug}" }
   end
 

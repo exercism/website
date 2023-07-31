@@ -6,6 +6,7 @@ class User::LinkWithDiscord
   def call
     set_uid!
     User::SetDiscordRoles.defer(user)
+    AwardBadgeJob.perform_later(user, :chatterbox)
   end
 
   private
@@ -14,7 +15,7 @@ class User::LinkWithDiscord
   def set_uid!
     user.update!(discord_uid: uid)
   rescue ActiveRecord::RecordNotUnique
-    old_user = User.find_by(discord_uid: uid)
+    old_user = User.joins(:data).where(data: { discord_uid: uid })
     return if old_user == user
 
     old_user.update!(discord_uid: nil)

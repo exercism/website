@@ -16,7 +16,7 @@ module Flows
 
     test "student sees CLI configuration command" do
       user = create :user
-      create :user_auth_token, token: "AUTH_TOKEN", user: user
+      create(:user_auth_token, token: "AUTH_TOKEN", user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -33,9 +33,9 @@ module Flows
     test "student views walkthrough in modal" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
-      exercise = create :hello_world_exercise, track: track
-      create :practice_solution, user: user, exercise: exercise
+      create(:user_track, user:, track:)
+      exercise = create(:hello_world_exercise, track:)
+      create(:practice_solution, user:, exercise:)
 
       use_capybara_host do
         sign_in!(user)

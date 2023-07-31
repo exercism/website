@@ -47,7 +47,7 @@
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                @apply mr-16;
+                @apply mr-16 filter-textColor6;
             }
         }
     }

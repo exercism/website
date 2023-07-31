@@ -12,7 +12,7 @@ en:
       invalid_mentor_student_relationship: "There is not a valid relationship between you and this student"
       iteration_not_found: "The iteration you specified does not exist"
       profile_not_found: "This profile could not be found"
-      resource_not_found: "This URL was not recognised"
+      resource_not_found: "This URL was not recognized"
       solution_not_found: "This solution could not be found"
       solution_not_accessible: "You do not have permission to view this solution"
       solution_not_unlocked: "You have not unlocked this exercise"
@@ -31,6 +31,7 @@ en:
       file_not_found: "The file was not found"
       # TODO: Add max size to this
       file_too_large: "The submitted file was too large"
+      too_many_requests: "A rate limit has been hit"
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."
@@ -53,3 +54,5 @@ en:
       invalid_metric_type: "The metric type is invalid"
       profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"
       invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"
+      no_donation_subscription: "The subscription is not a donation subscription"
+      no_premium_subscription: "The subscription is not a premium subscription"

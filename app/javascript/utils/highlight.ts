@@ -1,5 +1,5 @@
 import * as highlighter from 'highlight.js'
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
@@ -114,12 +114,19 @@ export const highlightAll = (parent: ParentNode = document): void => {
     highlightBlock(block)
   })
 }
+
+export const highlightAllAlways = (parent: ParentNode = document): void => {
+  parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    highlightBlock(block)
+  })
+}
+
 // this will be replaced by the one in @/hooks. after all conflicts are resolved
 // and is missing 'html' dependency which is needed so it actually highlights code block when parsed html arrives
-export const useHighlighting = <T>() => {
+export const useHighlighting = <T>(): React.MutableRefObject<T | null> => {
   const parentRef = useRef<T | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!parentRef.current) {
       return
     }

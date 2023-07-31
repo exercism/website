@@ -28,7 +28,7 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
   test "create registers user as donor" do
     email = "jane@test.org"
     first_donated_at = Time.utc(2022, 4, 14)
-    user = create :user, :staff, email: email
+    user = create(:user, :staff, email:)
 
     sign_in!(user)
 
@@ -42,7 +42,7 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
   test "create ignore leading and trailing whitespace in email" do
     email = "jane@test.org"
     first_donated_at = Time.utc(2022, 4, 14)
-    user = create :user, :staff, email: email
+    user = create(:user, :staff, email:)
 
     sign_in!(user)
 

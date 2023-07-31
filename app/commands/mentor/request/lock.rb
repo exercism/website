@@ -14,7 +14,7 @@ class Mentor::Request::Lock
 
       Mentor::RequestLock.create!(
         request:,
-        locked_until: Time.zone.now + 30.minutes,
+        locked_until: Time.zone.now + 60.minutes,
         locked_by: mentor
       )
     end

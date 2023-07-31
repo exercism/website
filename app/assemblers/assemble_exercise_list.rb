@@ -19,7 +19,10 @@ class AssembleExerciseList < Assembler
   def solutions
     return [] unless user
 
-    SerializeSolutions.(user.solutions.where(exercise_id: exercises), user)
+    # It's much quicker to get solutions via the track's exercises than an
+    # exercise list generated from serialize exercises above, and it doesn't
+    # matter if we have extra solutions here as we iterated over exercises, not solutions.
+    SerializeSolutions.(user.solutions.where(exercise: user_track.track.exercises), user)
   end
 
   memoize

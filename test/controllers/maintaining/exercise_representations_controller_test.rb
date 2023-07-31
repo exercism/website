@@ -28,8 +28,8 @@ class Maintaining::ExerciseRepresentationsControllerTest < ActionDispatch::Integ
 
   test "edit - shows for maintainer" do
     submission = create :submission
-    create :iteration, submission: submission
-    create :submission_file, submission: submission, filename: "src/stub.rb", content: "Stub"
+    create(:iteration, submission:)
+    create :submission_file, submission:, filename: "src/stub.rb", content: "Stub"
     representation = create :exercise_representation, source_submission: submission
     user = create :user, :maintainer
     sign_in!(user)

@@ -52,6 +52,7 @@ module ReactComponents
           {
             name: mentor.name,
             handle: mentor.handle,
+            flair: mentor.flair,
             avatar_url: mentor.avatar_url
           }
         end

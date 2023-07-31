@@ -18,7 +18,9 @@ class CommunityVideo::RetrieveFromYoutube
       channel_name: snippet["channelTitle"],
       channel_url: "https://www.youtube.com/channel/#{snippet['channelId']}",
 
-      thumbnail_url:
+      thumbnail_url:,
+
+      published_at: DateTime.parse(snippet['publishedAt'])
     )
   rescue StandardError
     raise InvalidCommunityVideoUrlError

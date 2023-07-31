@@ -3,7 +3,7 @@ require "test_helper"
 class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
   test "creates successfully" do
     mentor = create :user
-    discussion = create :mentor_discussion, :mentor_finished, mentor: mentor
+    discussion = create(:mentor_discussion, :mentor_finished, mentor:)
     student = discussion.solution.user
     exercise = discussion.solution.exercise
 
@@ -16,7 +16,7 @@ class User::ReputationTokens::MentoredTokenTest < ActiveSupport::TestCase
     assert_equal 1, mentor.reputation_tokens.size
     rt = mentor.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::MentoredToken, rt.class
+    assert_instance_of User::ReputationTokens::MentoredToken, rt
     assert_equal "You mentored <strong>#{student.handle}</strong> on <strong>#{exercise.title}</strong> in <strong>#{exercise.track.title}</strong>", rt.text # rubocop:disable Layout/LineLength
     assert_equal "#{mentor.id}|mentored|Discussion##{discussion.id}", rt.uniqueness_key
     assert_equal :mentoring, rt.category

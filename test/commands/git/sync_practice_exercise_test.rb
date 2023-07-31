@@ -17,7 +17,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     git_sha = repo.head_commit.parents.first.oid
     strings = create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
-    exercise = create :practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', slug: 'anagram', title: 'Anagram', position: 9, difficulty: 7, git_sha: git_sha, synced_to_git_sha: git_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
+    exercise = create(:practice_exercise, uuid: 'd5644b3c-5d48-4d31-b208-b6365b10c0db', slug: 'anagram', title: 'Anagram', position: 9, difficulty: 7, git_sha:, synced_to_git_sha: git_sha, updated_at:) # rubocop:disable Layout/LineLength
     exercise.prerequisites << (create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
     exercise.prerequisites << strings
     exercise.practiced_concepts << strings
@@ -215,7 +215,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
 
     Git::SyncPracticeExercise.(exercise)
 
-    refute exercise.authors.where(github_username: old_author.github_username).exists?
+    refute exercise.authors.with_data.where(data: { github_username: old_author.github_username }).exists?
   end
 
   test "adds reputation token for new author" do
@@ -238,7 +238,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'allergies', git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a', synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a' # rubocop:disable Layout/LineLength
     existing_author = create :user, github_username: 'ErikSchierboom'
 
-    existing_author_authorship = create :exercise_authorship, exercise: exercise, author: existing_author
+    existing_author_authorship = create :exercise_authorship, exercise:, author: existing_author
     create :user_exercise_author_reputation_token, user: existing_author, params: { authorship: existing_author_authorship }
 
     perform_enqueued_jobs do
@@ -288,7 +288,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     existing_contributor = create :user, github_username: 'iHiD'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3', slug: 'bob', title: 'Bob', git_sha: '0ec511318983b7d27d6a27410509071ee7683e52', synced_to_git_sha: '0ec511318983b7d27d6a27410509071ee7683e52' # rubocop:disable Layout/LineLength
 
-    existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
+    existing_contributorship = create :exercise_contributorship, exercise:, contributor: existing_contributor
     create :user_exercise_contribution_reputation_token, user: existing_contributor,
       params: { contributorship: existing_contributorship }
 
@@ -362,6 +362,14 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     Git::SyncPracticeExercise.(exercise, force_sync: true)
   end
 
+  test "updates representer_version" do
+    exercise = create :practice_exercise, uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206'
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
+
+    assert_equal 2, exercise.representer_version
+  end
+
   test "syncs introduction authors" do
     author = create :user, github_username: 'erikschierboom'
     exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
@@ -395,7 +403,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     # Sanity check
     assert_empty exercise.approaches
 
-    create :exercise_approach, exercise: exercise
+    create(:exercise_approach, exercise:)
     assert_equal 1, exercise.reload.approaches.count
 
     Git::SyncPracticeExercise.(exercise, force_sync: true)
@@ -427,7 +435,7 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     # Sanity check
     assert_empty exercise.articles
 
-    create :exercise_article, exercise: exercise
+    create(:exercise_article, exercise:)
     assert_equal 1, exercise.reload.articles.count
 
     Git::SyncPracticeExercise.(exercise, force_sync: true)

@@ -3,7 +3,7 @@ require 'test_helper'
 class User::SendEmailTest < ActiveSupport::TestCase
   test "sends email" do
     user = create :user
-    notification = create :mentor_started_discussion_notification, :unread, user: user
+    notification = create(:mentor_started_discussion_notification, :unread, user:)
 
     assert_email_sent(notification)
   end
@@ -15,8 +15,9 @@ class User::SendEmailTest < ActiveSupport::TestCase
     assert notification.email_sent?
   end
 
-  test "does not send if user's email is github placeholder" do
-    user = create :user, email: "foo@users.noreply.github.com"
+  test "does not send if user may not receive emails" do
+    user = create :user
+    user.expects(may_receive_emails?: false)
     notification = create(:notification, :unread, user:)
 
     refute_email_sent(notification)

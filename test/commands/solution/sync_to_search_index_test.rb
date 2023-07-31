@@ -29,6 +29,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -84,6 +85,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -138,6 +140,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -198,6 +201,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -258,6 +262,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -314,6 +319,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -369,6 +375,7 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
+      "_type" => "_doc",
       "_id" => "17",
       "found" => true,
       "_source" => {

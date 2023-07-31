@@ -11,6 +11,7 @@ class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
+      "_type" => "_doc",
       "_id" => "3",
       "found" => true,
       "_source" => {
@@ -34,6 +35,7 @@ class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
+      "_type" => "_doc",
       "_id" => "4",
       "found" => true,
       "_source" => {

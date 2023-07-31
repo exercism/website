@@ -285,12 +285,12 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:0.12.3"
+        image: "localstack/localstack:2.2.0"
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:1.1.0
+        image: opensearchproject/opensearch:2.9.0
         env:
           discovery.type: single-node
         ports:

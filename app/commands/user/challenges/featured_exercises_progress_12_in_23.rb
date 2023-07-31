@@ -35,7 +35,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
       MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
       JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
-      JULY_EXERCISES.map { |e| [e, JULY_TRACKS] }
+      JULY_EXERCISES.map { |e| [e, JULY_TRACKS] } +
+      AUGUST_EXERCISES.map { |e| [e, AUGUST_TRACKS] }
     ).to_h
   end
 
@@ -56,4 +57,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   JULY_TRACKS = %w[c cpp cobol fortran vbnet].freeze
   JULY_EXERCISES = %w[bob allergies reverse-string high-scores armstrong-numbers].freeze
+
+  AUGUST_TRACKS = %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift
+                     typescript].freeze
+  AUGUST_EXERCISES = %w[anagram phone-number triangle rna-transcription scrabble-score].freeze
 end

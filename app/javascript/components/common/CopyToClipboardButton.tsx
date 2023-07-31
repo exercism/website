@@ -18,10 +18,10 @@ export function CopyToClipboardButton({
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [justCopied, setJustCopied] = useState(false)
 
-  const copyTextToClipboard = async () => {
+  const copyTextToClipboard = useCallback(async () => {
     await copyToClipboard(textToCopy)
     setJustCopied(true)
-  }
+  }, [textToCopy])
 
   const onKeyPress = useCallback(
     async (e: KeyboardEvent) => {
@@ -38,7 +38,7 @@ export function CopyToClipboardButton({
       }
     },
 
-    [textToCopy, setJustCopied]
+    [copyTextToClipboard]
   )
 
   const onClick = useCallback(
@@ -46,17 +46,17 @@ export function CopyToClipboardButton({
       e.preventDefault()
       await copyTextToClipboard()
     },
-    [textToCopy, setJustCopied]
+    [copyTextToClipboard]
   )
 
   const onFocus = useCallback(
     () => buttonRef.current?.addEventListener('keydown', onKeyPress),
-    [textToCopy, setJustCopied]
+    [onKeyPress]
   )
 
   const onBlur = useCallback(
     () => buttonRef.current?.removeEventListener('keydown', onKeyPress),
-    [textToCopy, setJustCopied]
+    [onKeyPress]
   )
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function CopyToClipboardButton({
       onClick={onClick}
       onFocus={onFocus}
       onBlur={onBlur}
-      className="c-copy-text-to-clipboard"
+      className="c-copy-text-to-clipboard center-message"
       aria-label={`Copy "${textToCopy}" to the cliboard`}
     >
       <div className="text">{textToCopy}</div>

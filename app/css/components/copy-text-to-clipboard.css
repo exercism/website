@@ -3,12 +3,12 @@
 @keyframes copiedFadeOut {
     0% {
         opacity: 1;
-        top: 50px;
+        top: 0px;
     }
 
     100% {
         opacity: 0;
-        top: 0px;
+        top: -25px;
     }
 }
 
@@ -16,6 +16,7 @@
     min-height: 50px;
 }
 .c-copy-text-to-clipboard {
+    @apply relative;
     @apply border-1 border-borderColor4 rounded-5;
     @apply py-12 px-20 bg-backgroundColorA text-left;
     @apply font-mono font-normal text-14 text-textColor2;
@@ -49,5 +50,11 @@
         background-position: 16px center;
         margin-left: -53px;
         animation: copiedFadeOut 0.7s ease-in forwards;
+    }
+
+    &.center-message {
+        .message {
+            left: 50%;
+        }
     }
 }

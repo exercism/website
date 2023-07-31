@@ -437,6 +437,7 @@ export type MentorDiscussion = {
     posts: string
     markAsNothingToDo: string
     finish: string
+    tooltipUrl: string
   }
 }
 

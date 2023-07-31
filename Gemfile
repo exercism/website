@@ -37,7 +37,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.106.0'
+gem 'exercism-config', '>= 0.107.0.beta1'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
@@ -119,7 +119,7 @@ end
 gem 'addressable', '~> 2.7'
 gem 'mini_magick'
 
-gem 'elasticsearch', '6.8.3'
+gem 'opensearch-ruby'
 
 gem 'rack-attack', '~> 6.6'
 

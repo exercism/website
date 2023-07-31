@@ -6,6 +6,7 @@ class Solution::CreateSearchIndexDocument
   def call
     {
       id: solution.id,
+      type: :solution,
       last_iterated_at: solution.last_iterated_at,
       published_at: solution.published_at,
       num_stars: solution.num_stars,

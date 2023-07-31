@@ -3,7 +3,7 @@ require "test_helper"
 class Badges::AppsAugustBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :apps_august_badge
-    assert_equal "Apps August", badge.name
+    assert_equal "Appy August", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :'badge-apps-august', badge.icon
     assert_equal 'Completed and published five exercises in an App-building language in August', badge.description

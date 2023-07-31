@@ -2,7 +2,7 @@ class Badges::AppsAugustBadge < Badge
   TRACK_SLUGS = %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift
                    typescript].freeze
 
-  seed "Apps August",
+  seed "Appy August",
     :rare,
     'badge-apps-august',
     'Completed and published five exercises in an App-building language in August'

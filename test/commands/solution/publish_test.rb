@@ -296,7 +296,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::JurassicJulyBadge
   end
 
-  test "awards apps august badge when published five or more exercises in an Apps August track" do
+  test "awards apps august badge when published five or more exercises in an Appy August track" do
     travel_to Time.utc(2022, 8, 12)
 
     track = create :track, slug: 'kotlin'

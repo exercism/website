@@ -69,7 +69,7 @@ We use localstack and opensearch, and run them via Docker.
 
 ```bash
 docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
-docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
+docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:2.9.0
 ```
 
 ### Run the setup script

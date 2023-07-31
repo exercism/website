@@ -44,7 +44,7 @@ class Submission::Representation::Process
 
   def create_submission_representation!
     @submission_representation = Submission::Representation::Create.(
-      submission, tooling_job, ast_digest
+      submission, tooling_job, ast_digest, exercise_version
     )
   end
 

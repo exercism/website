@@ -32,7 +32,7 @@
             ).
 
           - tracks = Track.where(slug: %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift typescript])
-          .grid.grid-cols-8.gap-12.mb-32
+          .grid.grid-cols-6.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
                 - if track.course?

@@ -10,16 +10,14 @@ class UserTrack
       @track = track
     end
 
-    delegate :concepts, :num_concepts, :updated_at,
+    delegate :concepts, :num_exercises, :num_concepts, :updated_at, :course?,
       to: :track
+    delegate :title, to: :track, prefix: true
 
-    def tutorial_exercise_completed?
-      false
-    end
-
-    def anonymous_during_mentoring?
-      true
-    end
+    def user = nil
+    def tutorial_exercise_completed? = false
+    def anonymous_during_mentoring? = true
+    def maintainer? = false
 
     memoize
     def exercises
@@ -44,32 +42,23 @@ class UserTrack
       enabled_exercises(concept.practice_exercises)
     end
 
-    def unlocked_concepts_for_exercise(exercise)
-      exercise.unlocked_concepts
-    end
+    def unlocked_concepts_for_exercise(exercise) = exercise.unlocked_concepts
 
     def unlocked_exercises_for_exercise(exercise)
       enabled_exercises(exercise.unlocked_exercises)
     end
 
     def enabled_exercises(exercises)
+      exercises = exercises.where(type: PracticeExercise.to_s) unless track.course?
       exercises.where(status: %i[active beta])
     end
 
     #######################
     # Non-summary methods #
     #######################
-    def external?
-      true
-    end
-
-    def practice_mode?
-      false
-    end
-
-    def last_touched_at
-      nil
-    end
+    def external? = true
+    def practice_mode? = false
+    def last_touched_at = nil
 
     memoize
     def concept_slugs
@@ -80,9 +69,7 @@ class UserTrack
       []
     end
 
-    def objectives
-      nil
-    end
+    def objectives = nil
 
     def exercise_type(obj)
       return obj.git_type if obj.is_a?(Exercise)
@@ -103,21 +90,11 @@ class UserTrack
     ####################
     # Exercise methods #
     ####################
-    def exercise_unlocked?(_)
-      true
-    end
+    def exercise_unlocked?(_) = true
+    def exercise_completed?(_) = false
 
-    def exercise_completed?(_)
-      false
-    end
-
-    def exercise_status(_)
-      :external
-    end
-
-    def exercise_has_notifications?(_)
-      false
-    end
+    def exercise_status(_) = :external
+    def exercise_has_notifications?(_) = false
 
     def exercise_position(slug)
       exercise_positions[slug]
@@ -127,13 +104,7 @@ class UserTrack
     # Exercises aggregate methods #
     ###############################
 
-    def num_exercises
-      exercises.size
-    end
-
-    def num_completed_exercises
-      0
-    end
+    def num_completed_exercises = 0
 
     def unlocked_exercise_ids
       []
@@ -142,26 +113,16 @@ class UserTrack
     ###################
     # Concept methods #
     ###################
-    def concept_unlocked?(_)
-      false
-    end
-
-    def concept_learnt?(_)
-      false
-    end
-
-    def concept_mastered?(_)
-      false
-    end
+    def concept_unlocked?(_) = false
+    def concept_learnt?(_) = false
+    def concept_mastered?(_) = false
 
     def num_exercises_for_concept(obj)
       obj.is_a?(Concept) ? slug = obj.slug : slug = obj.to_s
       concept_exercises_counts[slug]
     end
 
-    def num_completed_exercises_for_concept(_)
-      0
-    end
+    def num_completed_exercises_for_concept(_) = 0
 
     #############################
     # Concept aggregate methods #
@@ -170,13 +131,8 @@ class UserTrack
       []
     end
 
-    def num_concepts_learnt
-      0
-    end
-
-    def num_concepts_mastered
-      0
-    end
+    def num_concepts_learnt = 0
+    def num_concepts_mastered = 0
 
     ###################
     # Private methods #

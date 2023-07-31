@@ -25,17 +25,17 @@ module Git
       fetch! if keep_up_to_date?
     end
 
-    def head_commit
-      active_branch.target
-    end
-
-    def head_sha
-      head_commit.oid
-    end
+    def head_commit = active_branch.target
+    def head_sha = head_commit.oid
 
     def read_json_blob(commit, path)
       raw = read_file_blob(commit, path, "{}")
       JSON.parse(raw, symbolize_names: true)
+    end
+
+    def read_toml_blob(commit, path)
+      raw = read_file_blob(commit, path, "")
+      TOML.load(raw)
     end
 
     def read_text_blob(commit, path)
@@ -65,6 +65,22 @@ module Git
 
       fetch!
       lookup_commit(sha, update_on_failure: false)
+    end
+
+    def file_exists?(commit, path)
+      !!commit.tree.path(path)
+    rescue Rugged::TreeError
+      false
+    end
+
+    def file_last_modified_at(path)
+      walker = Rugged::Walker.new(rugged_repo)
+      walker.sorting(Rugged::SORT_DATE)
+      walker.push(head_commit.oid)
+      last_commit = walker.find do |commit|
+        commit.parents.size == 1 && commit.diff(paths: [path]).size.positive?
+      end
+      last_commit.time
     end
 
     def find_file_oid(commit, path)
@@ -118,6 +134,7 @@ module Git
         cmd = [
           "git clone",
           "--bare",
+          "-c core.sharedRepository=true",
           ("--single-branch" if branch_ref == MAIN_BRANCH_REF),
           repo_url,
           repo_dir

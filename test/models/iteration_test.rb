@@ -11,10 +11,61 @@ class IterationTest < ActiveSupport::TestCase
     assert_equal [active], Iteration.not_deleted
   end
 
+  test "latest" do
+    # Solution without iterations
+    create :practice_solution
+
+    assert_empty Iteration.latest
+
+    # Solution with one active iteration
+    solution_1 = create :practice_solution
+    iteration_1_1 = create :iteration, deleted_at: nil, idx: 1, solution: solution_1
+
+    assert_equal [iteration_1_1], Iteration.latest.all
+
+    # Solution with one deleted iteration
+    solution_2 = create :practice_solution
+    create :iteration, deleted_at: Time.current, idx: 1, solution: solution_2
+
+    assert_equal [iteration_1_1], Iteration.latest.all
+
+    # Solution with one active and one deleted iteration
+    solution_3 = create :practice_solution
+    create :iteration, deleted_at: Time.current, idx: 1, solution: solution_3
+    iteration_3_2 = create :iteration, deleted_at: nil, idx: 2, solution: solution_3
+
+    assert_equal [iteration_1_1, iteration_3_2], Iteration.latest.all
+
+    # Solution with multiple deleted iterations
+    solution_4 = create :practice_solution
+    create :iteration, deleted_at: Time.current, idx: 1, solution: solution_4
+    create :iteration, deleted_at: Time.current, idx: 2, solution: solution_4
+    create :iteration, deleted_at: Time.current, idx: 3, solution: solution_4
+
+    assert_equal [iteration_1_1, iteration_3_2], Iteration.latest.all
+
+    # Solution with multiple active iterations
+    solution_5 = create :practice_solution
+    create :iteration, deleted_at: nil, idx: 1, solution: solution_5
+    iteration_5_2 = create :iteration, deleted_at: nil, idx: 2, solution: solution_5
+
+    assert_equal [iteration_1_1, iteration_3_2, iteration_5_2], Iteration.latest.all
+
+    # Solution with multiple deleted iterations
+    solution_6 = create :practice_solution
+    create :iteration, deleted_at: nil, idx: 1, solution: solution_6
+    iteration_6_2 = create :iteration, deleted_at: nil, idx: 2, solution: solution_6
+    create :iteration, deleted_at: Time.current, idx: 3, solution: solution_6
+    create :iteration, deleted_at: Time.current, idx: 4, solution: solution_6
+    create :iteration, deleted_at: Time.current, idx: 5, solution: solution_6
+
+    assert_equal [iteration_1_1, iteration_3_2, iteration_5_2, iteration_6_2], Iteration.latest.all
+  end
+
   test "published?" do
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
-    other_iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
+    other_iteration = create(:iteration, solution:)
 
     refute iteration.published?
 
@@ -49,14 +100,14 @@ class IterationTest < ActiveSupport::TestCase
 
   test "status: tests not_queued" do
     submission = create :submission, tests_status: :not_queued
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.untested?
   end
 
   test "status: tests queued" do
     submission = create :submission, tests_status: :queued
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.testing?
   end
@@ -68,7 +119,7 @@ class IterationTest < ActiveSupport::TestCase
       tests_queued?: false,
       tests_passed?: false
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.tests_failed?
   end
@@ -81,7 +132,7 @@ class IterationTest < ActiveSupport::TestCase
       tests_passed?: true,
       automated_feedback_pending?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.analyzing?
   end
@@ -97,7 +148,7 @@ class IterationTest < ActiveSupport::TestCase
       has_actionable_automated_feedback?: false,
       has_non_actionable_automated_feedback?: false
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.no_automated_feedback?
   end
@@ -111,7 +162,7 @@ class IterationTest < ActiveSupport::TestCase
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.essential_automated_feedback?
   end
@@ -126,7 +177,7 @@ class IterationTest < ActiveSupport::TestCase
       has_essential_automated_feedback?: false,
       has_actionable_automated_feedback?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.actionable_automated_feedback?
   end
@@ -142,21 +193,21 @@ class IterationTest < ActiveSupport::TestCase
       has_actionable_automated_feedback?: false,
       has_non_actionable_automated_feedback?: true
     )
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     assert iteration.status.non_actionable_automated_feedback?
   end
 
   test "delegates to submission where appropriate" do
     submission = create :submission
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     representer_feedback = mock
     analyzer_feedback = mock
 
     submission.stubs(
-      representer_feedback: representer_feedback,
-      analyzer_feedback: analyzer_feedback
+      representer_feedback:,
+      analyzer_feedback:
     )
 
     assert_equal representer_feedback, iteration.representer_feedback
@@ -172,7 +223,7 @@ class IterationTest < ActiveSupport::TestCase
       assert_nil solution.iteration_status
       assert_nil solution.last_iterated_at
 
-      create :iteration, solution: solution
+      create(:iteration, solution:)
 
       solution.reload
       assert_equal :iterated, solution.status

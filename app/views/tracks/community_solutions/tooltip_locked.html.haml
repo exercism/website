@@ -1,0 +1,16 @@
+.c-generic-tooltip.text-16.leading-150{ class: "!py-16 !px-24 !max-w-[420px]" }
+  %p.font-semibold.mb-4
+    Struggling with this exercise?
+
+
+  - if @solution&.downloaded? || @solution&.submitted?
+    %p.mb-12.text-borderLight{ class: '!mt-0 ' }
+      Unlock Community Solutions to see how the community approached and solved #{@exercise.title}.
+
+    = ReactComponents::Track::UnlockHelpButton.new(unlock_help_api_solution_url(@solution.uuid))
+  - else
+    %p.mb-12
+      You can only view the Community Solutions tab if you've attempted this exercise at least once.
+
+  .font-semibold.text-lightGold.text-14.leading-150
+    We highly recommend you try your best without exploring the Community Solutions tab first.

@@ -30,12 +30,54 @@ default: &default # Turn on/off access logs ("Started..." and "Finished...")
   redis_url: "<%= Exercism.config.anycable_redis_url %>"
   rpc_host: "<%= Exercism.config.anycable_rpc_host %>"
 
-development: &development
-  <<: *default
+development:
+  # TODO: enable once anycable support Ruby 3.1
+  # <<: *default
+
+  access_logs_disabled: false
+  # Persist "dirty" session between RPC calls (might be required for apps using stimulus_reflex <3.0)
+  # persistent_session_enabled: true
+  # This is the host and the port to run AnyCable RPC server on.
+  # You must configure your WebSocket server to connect to it, e.g.:
+  #   $ anycable-go --rpc-host="<rpc hostname>:50051"
+
+  # Whether to enable gRPC level logging or not
   log_grpc: false
+
   debug: false
 
+  # Use Redis to broadcast messages to AnyCable server
+  broadcast_adapter: redis
+
+  # Use the same channel name for WebSocket server, e.g.:
+  #   $ anycable-go --redis-channel="__anycable__"
+  redis_channel: "__anycable__"
+
+  redis_url: "<%= Exercism.config.anycable_redis_url %>"
+  rpc_host: "<%= Exercism.config.anycable_rpc_host %>"
+
 production:
-  <<: *default
+  # TODO: enable once anycable support Ruby 3.1
+  # <<: *default
+
+  access_logs_disabled: false
+  # Persist "dirty" session between RPC calls (might be required for apps using stimulus_reflex <3.0)
+  # persistent_session_enabled: true
+  # This is the host and the port to run AnyCable RPC server on.
+  # You must configure your WebSocket server to connect to it, e.g.:
+  #   $ anycable-go --rpc-host="<rpc hostname>:50051"
+
+  # Whether to enable gRPC level logging or not
   log_grpc: false
+
   debug: false
+
+  # Use Redis to broadcast messages to AnyCable server
+  broadcast_adapter: redis
+
+  # Use the same channel name for WebSocket server, e.g.:
+  #   $ anycable-go --redis-channel="__anycable__"
+  redis_channel: "__anycable__"
+
+  redis_url: "<%= Exercism.config.anycable_redis_url %>"
+  rpc_host: "<%= Exercism.config.anycable_rpc_host %>"

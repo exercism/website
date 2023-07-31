@@ -17,12 +17,12 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
-    assert User::ReputationTokens::CodeMergeToken.where(user: user).exists?
+    assert User::ReputationTokens::CodeMergeToken.where(user:).exists?
   end
 
   test "reputation is awarded once per merger per pull request" do
@@ -40,21 +40,21 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
     user = create :user, handle: "Merger-22", github_username: "merger22"
     create :user_code_merge_reputation_token,
-      user: user,
+      user:,
       level: :janitorial,
       params: {
-        repo: repo,
+        repo:,
         pr_node_id: node_id,
-        merged_at: merged_at
+        merged_at:
       }
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
-    assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user: user).size
+    assert_equal 1, User::ReputationTokens::CodeMergeToken.where(user:).size
   end
 
   test "reputation not awarded to pull request merger if merger is exercism-bot" do
@@ -74,9 +74,9 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     create :user, :system
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
@@ -99,9 +99,9 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     create :user, :ghost
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
@@ -122,9 +122,9 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     labels = []
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
     refute User::ReputationTokens::CodeMergeToken.exists?
@@ -145,12 +145,12 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "Merger-22", github_username: "merger22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_by_username: merged_by
     )
 
-    refute User::ReputationTokens::CodeMergeToken.where(user: user).exists?
+    refute User::ReputationTokens::CodeMergeToken.where(user:).exists?
   end
 
   test "reputation not awarded to pull request merger if pull request merger is also the author" do
@@ -169,12 +169,12 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     user = create :user, handle: "User-22", github_username: "user22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
-    refute User::ReputationTokens::CodeMergeToken.where(user: user).exists?
+    refute User::ReputationTokens::CodeMergeToken.where(user:).exists?
   end
 
   test "pull request adds reputation token with janitorial level value if reviewed" do
@@ -194,9 +194,9 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     reviews = [{ reviewer_username: "reviewer71" }]
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels, reviews: reviews,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:, reviews:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
     token = user.reputation_tokens.last
@@ -221,9 +221,9 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     reviews = []
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels, reviews: reviews,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:, reviews:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
     token = user.reputation_tokens.last
@@ -247,9 +247,9 @@ class User::ReputationToken::AwardForPullRequestMergerTest < ActiveSupport::Test
     create :user, handle: "Merger-22", github_username: "merger22"
 
     User::ReputationToken::AwardForPullRequestMerger.(
-      action: action, author_username: author, url: url, html_url: html_url, labels: labels,
-      repo: repo, node_id: node_id, number: number, title: title,
-      merged: merged, merged_at: merged_at, merged_by_username: merged_by
+      action:, author_username: author, url:, html_url:, labels:,
+      repo:, node_id:, number:, title:,
+      merged:, merged_at:, merged_by_username: merged_by
     )
 
     token = User::ReputationTokens::CodeMergeToken.find { |t| t.params["pr_node_id"] == node_id }

@@ -1,17 +1,27 @@
 class Badge < ApplicationRecord
   has_many :acquired_badges, class_name: "User::AcquiredBadge", dependent: :destroy
 
-  RARIRIES = %i[common rare ultimate legendary].freeze
+  RARITIES = %i[common rare ultimate legendary].freeze
+
+  scope :ordered_by_rarity, -> { order(Arel.sql("FIND_IN_SET(rarity, 'legendary,ultimate,rare,common')")) }
 
   def self.seed(name, rarity, icon, description)
-    raise "Incorrect Rarity" unless RARIRIES.include?(rarity)
+    raise "Incorrect Rarity" unless RARITIES.include?(rarity)
 
     @seed_data = {
-      name: name,
-      rarity: rarity,
-      icon: icon,
-      description: description
+      name:,
+      rarity:,
+      icon:,
+      description:
     }
+  end
+
+  class << self
+    attr_reader :seed_data
+  end
+
+  def reseed!
+    update!(self.class.seed_data)
   end
 
   # Badges are created on-demand, so if a new badge is added
@@ -38,25 +48,18 @@ class Badge < ApplicationRecord
     self.description = seed_data[:description]
   end
 
-  def send_email_on_acquisition?
-    raise "Implement this method in the child class"
-  end
+  def send_email_on_acquisition? = raise "Implement this method in the child class"
 
   # Stub that children can override to generate
   # notifications when they are created
   def notification_key; end
 
-  def award_to?(_user)
-    raise "Implement this method in the child class"
-  end
+  # Stub to allow badges to short-circuit queueing
+  def self.worth_queuing?(**_context) = true
+  def award_to?(_user) = raise "Implement this method in the child class"
 
-  def rarity
-    super.to_sym
-  end
-
-  def icon
-    super.to_sym
-  end
+  def rarity = super.to_sym
+  def icon = super.to_sym
 
   # TODO: Cache number of users
   def percentage_awardees

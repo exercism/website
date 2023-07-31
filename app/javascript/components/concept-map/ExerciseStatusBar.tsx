@@ -12,7 +12,7 @@ export const ExerciseStatusBar = ({
   }
 
   return (
-    <div className="exercise-status-bar">
+    <div className="exercise-status-bar hidden lg:flex">
       {exercisesData.map((data, i) => statusMapper(data, i))}
     </div>
   )

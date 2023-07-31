@@ -15,10 +15,20 @@
     }
 }
 
+body.namespace-tracks,
+body.namespace-.controller-tracks {
+    .auth-buttons {
+        a:nth-child(2) {
+            @apply sm:flex hidden;
+        }
+    }
+}
+
 #page-exercise-show {
     & section.completed-heading {
         @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-24;
-        @apply border-2 border-darkGreen bg-mediumGreen;
+        @apply border-2 border-darkGreen;
+        background: var(--backgroundColorCompletedHeading);
 
         & .check-mark-icon {
             height: 32px;
@@ -27,6 +37,13 @@
         }
         & .text {
             @apply text-h5 flex-grow;
+        }
+
+        .c-prominent-link {
+            color: var(--backgroundColorNotificationsUnreadDot);
+            .c-icon {
+                filter: var(--iconFilterNotificationsProminentLink);
+            }
         }
     }
     & section.completed-info {
@@ -38,6 +55,9 @@
 
         & .progressed-concepts {
             @apply mb-16;
+            & .c-react-wrapper-student-exercise-status-dot {
+                @apply ml-8;
+            }
         }
         & .c-prominent-link {
             @apply mb-24;
@@ -52,7 +72,7 @@
         }
     }
     & section.taught-concepts {
-        @apply bg-backgroundColorA py-16 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorB py-16 px-32 shadow-lg rounded-8 mb-32;
 
         & h3 {
             @apply text-18 font-medium mb-8 leading-paragraph;
@@ -80,7 +100,7 @@
             @apply text-16 leading-paragraph font-medium;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
     }
@@ -156,18 +176,22 @@
             }
             & .options {
                 @apply flex items-center;
-                & .c-combo-button,
+                & .c-combo-button {
+                    @apply mr-24;
+                }
                 & .btn-primary {
                     @apply mr-24;
                 }
                 & a.more-info {
-                    @apply text-16 text-lightBlue leading-170 font-semibold;
+                    color: var(--c-prominent-link-color);
+                    @apply text-16  leading-170 font-semibold;
                     @apply flex items-center;
 
                     & .c-icon {
                         height: 16px;
                         width: 16px;
                         @apply ml-8;
+                        filter: var(--c-prominent-link-icon-filter);
                     }
                 }
             }
@@ -256,19 +280,22 @@
                     }
                     & a {
                         @apply inline-flex items-center;
-                        @apply font-medium text-lightBlue;
+                        @apply font-medium text-prominentLinkColor;
                         & .c-icon {
+                            @apply filter-prominentLinkColor;
                             height: 12px;
                             width: 12px;
                             @apply ml-8;
+                            @apply filter-textColor6;
                         }
                     }
                 }
             }
             & > .c-icon.spinner {
-                @apply ml-24;
+                @apply ml-24 filter-textColor6;
                 height: 24px;
                 width: 24px;
+                @apply filter-textColor6;
                 animation: spin 3s linear infinite;
             }
             & .status {
@@ -282,13 +309,13 @@
                     @apply text-darkGreen bg-darkGreen;
                 }
                 &.failed {
-                    @apply bg-darkGreen bg-red;
+                    @apply text-red bg-red;
                 }
             }
         }
 
         & a.iteration {
-            @apply rounded-8 shadow-sm border-1 border-borderLight;
+            @apply rounded-8 shadow-sm border-1 border-borderColor5;
             @apply py-8 px-24 mb-16;
             @apply flex items-center;
 
@@ -296,6 +323,7 @@
                 height: 16px;
                 width: 16px;
                 @apply ml-64;
+                @apply filter-textColor6;
             }
         }
 
@@ -340,11 +368,11 @@
                 }
                 & .learn-more {
                     @apply flex items-center;
-                    @apply font-semibold text-lightBlue text-14 leading-170;
+                    @apply font-semibold text-prominentLinkColor text-14 leading-170;
                     & .c-icon {
                         height: 14px;
                         width: 14px;
-                        @apply ml-8;
+                        @apply ml-8 filter-prominentLinkColor;
                     }
                 }
             }
@@ -369,26 +397,22 @@
         }
     }
     & section.extra-info {
-        @apply flex items-center mb-40;
-        & .updated-at,
-        & a {
+        @apply flex flex-row items-center mb-40;
+        a {
+            @apply xs:flex hidden items-center;
             @apply text-15 text-textColor6 font-medium;
-        }
-
-        & a {
-            @apply flex items-center;
             @apply ml-auto;
 
-            & .c-icon {
+            .c-icon {
                 filter: var(--textColor6-filter);
             }
 
-            & .github-icon {
+            .github-icon {
                 height: 22px;
                 width: 22px;
                 @apply mr-16;
             }
-            & .action-icon {
+            .action-icon {
                 height: 12px;
                 width: 12px;
                 @apply ml-12;
@@ -396,10 +420,9 @@
         }
     }
     & .action-box {
+        @apply bg-backgroundColorA;
         @apply shadow-lg py-20 px-20 rounded-8;
-        @screen lg {
-            @apply py-24 px-32;
-        }
+        @apply lg:py-24 lg:px-32;
 
         & h3 {
             @apply flex items-center text-h4 mb-8;
@@ -413,13 +436,13 @@
             @apply text-16 leading-160 mb-16 text-textColor2;
 
             & a {
-                @apply text-lightBlue font-medium;
+                @apply font-medium text-prominentLinkColor;
             }
 
             & strong {
                 @apply font-medium;
                 & a {
-                    @apply border-b-2 border-color22 text-textColor2;
+                    @apply border-b-2 border-prominentLinkColor text-prominentLinkColor;
                 }
             }
         }
@@ -431,11 +454,15 @@
             }
         }
         & h4 {
-            @apply text-label-code-caps mb-12;
+            @apply text-label-code-caps mb-12 text-textColor6;
         }
 
         & .editor-btn {
             @apply mb-16;
+        }
+
+        .c-copy-text-to-clipboard {
+            @apply border-btnBorder;
         }
 
         & .c-cli-walkthrough-button {
@@ -449,7 +476,7 @@
         }
 
         & .complete {
-            @apply mb-24 pb-20 border-b-1 border-borderLight;
+            @apply mb-24 pb-20 border-b-1 border-borderColor5;
 
             & button {
                 @apply w-100;

@@ -1,22 +1,37 @@
 import * as React from 'react'
+import { assetUrl } from '../../utils/assets'
 
 export function Icon({
   icon,
   alt,
   className,
   category = 'icons',
+  width = undefined,
+  height = undefined,
+  title,
 }: {
   icon: string
   alt: string
   className?: string
   category?: string
+  width?: number
+  height?: number
+  title?: string
 }): JSX.Element {
   const classNames = ['c-icon']
   if (className !== undefined) {
     classNames.push(className)
   }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const iconFile = require(`../../images/${category}/${icon}.svg`)
+  const iconFile = assetUrl(`${category}/${icon}.svg`)
 
-  return <img src={iconFile} alt={alt} className={classNames.join(' ')} />
+  return (
+    <img
+      src={iconFile}
+      alt={alt}
+      height={height}
+      width={width}
+      title={title}
+      className={classNames.join(' ')}
+    />
+  )
 }

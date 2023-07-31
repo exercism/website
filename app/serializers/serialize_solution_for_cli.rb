@@ -14,14 +14,14 @@ class SerializeSolutionForCLI
         },
         exercise: {
           id: solution.exercise.slug,
-          instructions_url: instructions_url,
+          instructions_url:,
           track: {
             id: track.slug,
             language: track.title
           }
         },
-        file_download_base_url: file_download_base_url,
-        files: files,
+        file_download_base_url:,
+        files:,
         submission: submission_hash
       }
     }
@@ -39,14 +39,12 @@ class SerializeSolutionForCLI
   end
 
   def solution_url
-    # TODO: Don't let someone download a personal_uuid and
-    # end up with the mentor_uuid here. Actively guard this.
-    #
-    # TODO: How is this actually used within the CLI and could
-    # we just have it as nil if the user isn't the requestor?
-    return nil unless solution.user == requester
+    return unless solution.viewable_by?(requester)
 
-    Exercism::Routes.private_solution_url(solution)
+    return Exercism::Routes.private_solution_url(solution) if solution.user == requester
+    return Exercism::Routes.mentoring_discussion_url(discussion) if requester.mentor? && discussion
+    return Exercism::Routes.mentoring_request_url(mentoring_request) if requester.mentor? && mentoring_request
+    return Exercism::Routes.published_solution_url(solution) if solution.published?
   end
 
   def instructions_url
@@ -72,11 +70,23 @@ class SerializeSolutionForCLI
     { submitted_at: submission.created_at }
   end
 
+  memoize
   def submission
-    @submission ||= solution.submissions.last
+    solution.submissions.last
   end
 
+  memoize
   def track
-    @track ||= solution.exercise.track
+    solution.exercise.track
+  end
+
+  memoize
+  def discussion
+    Mentor::Discussion.find_by(mentor: requester, solution:)
+  end
+
+  memoize
+  def mentoring_request
+    Mentor::Request.find_by(solution:, status: :pending)
   end
 end

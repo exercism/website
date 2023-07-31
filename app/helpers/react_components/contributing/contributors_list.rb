@@ -15,9 +15,9 @@ module ReactComponents
           {
             request: {
               endpoint: Exercism::Routes.api_contributors_url,
-              query: query,
+              query:,
               options: {
-                initial_data: initial_data
+                initial_data:
               }
             },
             tracks: AssembleTracksForSelect.()

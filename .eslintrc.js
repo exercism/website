@@ -29,11 +29,13 @@ module.exports = {
       version: 'detect',
     },
   },
+  ignorePatterns: ['**/*.config.js', '.eslintrc.js'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
       rules: {
         'react/prop-types': 'off',
+        'no-console': ['warn'],
         'react/display-name': 'off',
       },
     },

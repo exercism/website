@@ -1,27 +1,26 @@
-class User
-  class ReputationToken
-    class Create
-      include Mandate
+class User::ReputationToken::Create
+  include Mandate
 
-      initialize_with :user, :type, :params
+  queue_as :reputation
 
-      def call
-        return if user.system? || user.ghost?
+  initialize_with :user, :type, params: Mandate::KWARGS
 
-        klass = "user/reputation_tokens/#{type}_token".camelize.constantize
+  def call
+    return if user.system? || user.ghost?
 
-        klass.new(
-          user: user,
-          params: params
-        ).tap do |token|
-          token.save!
+    klass = "user/reputation_tokens/#{type}_token".camelize.constantize
 
-          AwardBadgeJob.perform_later(user, :contributor)
-          User::ReputationPeriod::MarkForNewToken.(token)
-        rescue ActiveRecord::RecordNotUnique
-          return klass.find_by!(user: user, uniqueness_key: token.uniqueness_key)
-        end
-      end
+    klass.new(
+      user:,
+      params:
+    ).tap do |token|
+      token.save!
+
+      AwardBadgeJob.perform_later(user, :contributor, context: token)
+      User::ReputationPeriod::MarkForToken.(token)
+      User::ResetCache.defer(user, :has_unseen_reputation_tokens?)
+    rescue ActiveRecord::RecordNotUnique
+      return klass.find_by!(user:, uniqueness_key: token.uniqueness_key)
     end
   end
 end

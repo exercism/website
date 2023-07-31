@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{@user.handle}'s badges to Exercism"
-- content_for :meta_description, "Explore #{@user.handle}'s badges on Exercism, and see which ones you're missing yourself"
+- content_for :meta_title, "#{sanitize(@user.handle)}'s badges to Exercism".html_safe
+- content_for :meta_description, "Explore #{sanitize(@user.handle)}'s badges on Exercism, and see which ones you're missing yourself".html_safe
 
 #page-profile-badges
   = render ViewComponents::Profile::Header.new(@user, @profile, :badges)
@@ -13,7 +13,7 @@
       .summary
         - %w[common rare ultimate legendary].each do |rarity|
           - count = @rarities[rarity].to_i
-          .block{ class: rarity }
+          .section{ class: rarity }
             = graphical_icon "badge-indicator-#{rarity}"
             .count= count
             .info

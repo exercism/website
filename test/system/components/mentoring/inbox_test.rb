@@ -14,8 +14,8 @@ module Components
         solution = create :concept_solution, exercise: series, user: student
         discussion = create :mentor_discussion,
           :awaiting_mentor,
-          solution: solution,
-          mentor: mentor,
+          solution:,
+          mentor:,
           updated_at: 1.year.ago
 
         use_capybara_host do
@@ -27,8 +27,23 @@ module Components
           assert_text "Mentee"
           assert_text "on Series"
           assert_text "0"
-          assert_text "a year ago"
+          assert_text "1 year ago"
           assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
+          refute_css "img[alt='Favorite student']"
+        end
+      end
+
+      test "shows favourites" do
+        mentor = create :user
+        student = create :user, handle: "Mentee"
+        solution = create :concept_solution, user: student
+        create(:mentor_discussion, :awaiting_mentor, solution:, mentor:)
+        create :mentor_student_relationship, mentor:, student:, favorited: true
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_inbox_url
+
           assert_css "img[alt='Favorite student']"
         end
       end
@@ -38,28 +53,28 @@ module Components
         mentor = create :user
         series = create :concept_exercise, title: "Series"
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor
+          mentor:)
         tournament = create :concept_exercise, title: "Tournament"
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: tournament_solution,
-          mentor: mentor
+          mentor:)
 
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_inbox_url
 
-          assert_text "on Series"
-          assert_no_text "on Tournament"
+          assert_text "on Tournament"
+          assert_no_text "on Series"
 
           click_on "2"
 
-          assert_text "on Tournament"
-          assert_no_text "on Series"
+          assert_text "on Series"
+          assert_no_text "on Tournament"
         end
       end
 
@@ -72,11 +87,11 @@ module Components
 
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion, :awaiting_mentor, solution: series_solution, mentor: mentor
+        create(:mentor_discussion, :awaiting_mentor, solution: series_solution, mentor:)
 
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor: mentor
+        create(:mentor_discussion, :awaiting_mentor, solution: tournament_solution, mentor:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -95,16 +110,16 @@ module Components
         go = create :track, title: "Go", slug: "go"
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor
+          mentor:)
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: tournament_solution,
-          mentor: mentor
+          mentor:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -122,21 +137,21 @@ module Components
         go = create :track, title: "Go", slug: "go"
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor
+          mentor:)
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: tournament_solution,
-          mentor: mentor
+          mentor:)
 
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_inbox_url
-          click_on "Sort by oldest first"
+          click_on "Sort by recent first"
           find("label", text: "Sort by exercise").click
 
           assert_text "on Series"
@@ -150,16 +165,16 @@ module Components
         go = create :track, title: "Go", slug: "go"
         series = create :concept_exercise, title: "Series", track: ruby
         series_solution = create :concept_solution, exercise: series
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_mentor,
           solution: series_solution,
-          mentor: mentor
+          mentor:)
         tournament = create :concept_exercise, title: "Tournament", track: go
         tournament_solution = create :concept_solution, exercise: tournament
-        create :mentor_discussion,
+        create(:mentor_discussion,
           :awaiting_student,
           solution: tournament_solution,
-          mentor: mentor
+          mentor:)
 
         use_capybara_host do
           sign_in!(mentor)

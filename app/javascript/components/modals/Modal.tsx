@@ -1,18 +1,20 @@
 import React from 'react'
-import { default as ReactModal, Props } from 'react-modal'
+import { Aria, default as ReactModal, Props } from 'react-modal'
 import { Icon } from '../common/Icon'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
 
-type Theme = 'light' | 'dark'
+type Theme = 'light' | 'dark' | 'unset'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
-  className: string
+  className?: string
   closeButton?: boolean
   open: boolean
   onClose: () => void
   cover?: boolean
   celebratory?: boolean
   theme?: Theme
+  aria?: Pick<Aria, 'describedby' | 'labelledby'>
+  ReactModalClassName?: string
 }
 
 export const Modal = ({
@@ -22,8 +24,10 @@ export const Modal = ({
   closeButton = false,
   cover = false,
   celebratory = false,
-  theme = 'light',
+  theme = 'unset',
   children,
+  aria,
+  ReactModalClassName,
   ...props
 }: React.PropsWithChildren<ModalProps>): JSX.Element => {
   const overlayClassNames = [
@@ -35,10 +39,11 @@ export const Modal = ({
 
   return (
     <ReactModal
+      aria={aria}
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
-      className={'--modal-content'}
+      className={`--modal-content ${ReactModalClassName}`}
       overlayClassName={overlayClassNames.join(' ')}
       appElement={document.querySelector('body') as HTMLElement}
       overlayElement={(props, contentElement) => (
@@ -65,15 +70,7 @@ export const Modal = ({
             )}
           >
             <div className="--modal-container">
-              {closeButton ? (
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="--close-button"
-                >
-                  <Icon icon="cross" alt="Close modal" />
-                </button>
-              ) : null}
+              {closeButton ? <CloseButton onClose={onClose} /> : null}
               {contentElement}
             </div>
           </Wrapper>
@@ -83,5 +80,15 @@ export const Modal = ({
     >
       {children}
     </ReactModal>
+  )
+}
+
+export type CloseButtonProps = Pick<ModalProps, 'onClose'>
+
+function CloseButton({ onClose }: CloseButtonProps) {
+  return (
+    <button type="button" onClick={onClose} className="--close-button">
+      <Icon icon="cross" alt="Close modal" />
+    </button>
   )
 }

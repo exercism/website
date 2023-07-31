@@ -1,18 +1,18 @@
-class User::Notification
-  class MarkBatchAsRead
-    include Mandate
+class User::Notification::MarkBatchAsRead
+  include Mandate
 
-    initialize_with :user, :uuids
+  initialize_with :user, :uuids
 
-    def call
-      return if uuids.blank?
+  def call
+    return if uuids.blank?
 
-      ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
-        num_changed = user.notifications.pending_or_unread.where(uuid: uuids).
-          update_all(status: :read, read_at: Time.current)
+    ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
+      ids = user.notifications.pending_or_unread.where(uuid: uuids).pluck(:id)
 
-        NotificationsChannel.broadcast_changed!(user) if num_changed.positive?
-      end
+      return unless ids.present?
+
+      User::Notification.where(id: ids).update_all(status: :read, read_at: Time.current)
+      NotificationsChannel.broadcast_changed!(user)
     end
   end
 end

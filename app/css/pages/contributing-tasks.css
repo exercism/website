@@ -1,10 +1,7 @@
 @import "../styles";
 
 .c-task-tooltip {
-    @apply hidden;
-    @screen md {
-        @apply block;
-    }
+    @apply hidden md:block;
 }
 .c-task-tooltip,
 #contributing-tasks .task {
@@ -13,7 +10,7 @@
         width: 24px;
         @apply grid place-items-center;
         @apply font-mono leading-150 font-semibold;
-        @apply border-1 border-textColor2 rounded-3;
+        @apply border-1 border-textColor6 rounded-3;
         &.blank {
             @apply border-transparent;
         }
@@ -26,17 +23,16 @@
         & .c-icon {
             height: 24px;
             width: 24px;
-            filter: var(--textColor2-filter);
-            @apply mr-12;
+            @apply mr-12 filter-textColor6;
         }
         & .dot {
-            @apply border-2 border-textColor2 rounded-circle;
+            @apply border-2 border-textColor6 rounded-circle;
             @apply ml-4;
             height: 12px;
             width: 12px;
 
             &.filled {
-                @apply bg-textColor2;
+                @apply bg-textColor6;
             }
         }
         &.blank {
@@ -52,13 +48,14 @@
         & .c-icon {
             height: 25px;
             width: 25px;
+            @apply filter-textColor6;
         }
     }
 
     & .module {
         height: 24px;
         width: 24px;
-        filter: var(--textColor2-filter);
+        @apply filter-textColor6;
     }
 }
 
@@ -68,9 +65,7 @@
 
     & .c-search-bar {
         @apply mb-16 hidden;
-        @screen lg {
-            @apply flex flex-wrap justify-end;
-        }
+        @apply lg:flex lg:flex-wrap lg:justify-end;
 
         & .c-track-select {
             @apply mr-auto mb-16;
@@ -111,11 +106,9 @@
         & h2 {
             @apply text-h4 text-textColor6;
             @apply mr-16;
+            @apply lg:flex lg:items-center;
             & strong {
                 @apply mr-12 text-h3;
-            }
-            @screen lg {
-                @apply flex items-center;
             }
         }
         & .reset-btn {
@@ -124,32 +117,28 @@
 
         & .c-single-select {
             @apply ml-auto;
-            @apply hidden;
-            @screen lg {
-                @apply flex;
-            }
+            @apply hidden lg:flex;
         }
     }
     & .tasks {
         @apply shadow-lg rounded-8 bg-backgroundColorA;
         & .task {
-            @apply py-10 px-16;
-            @screen sm {
-                @apply px-24;
-            }
+            overflow-wrap: anywhere;
+            hyphens: auto;
+            @apply py-10 px-16 sm:px-24;
 
             @apply items-center;
             @apply border-b-1 border-borderColor7;
             & .knowledge-tag,
             & .size-tag {
-                @apply ml-0;
-                @screen md {
-                    @apply ml-48;
-                }
+                @apply ml-0 md:ml-48;
             }
 
             & .action-icon {
                 @apply mr-16 flex-shrink-0;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
             & .info {
                 & .heading {
@@ -159,7 +148,7 @@
                         @apply text-16 leading-160 font-medium text-textColor2;
                     }
                     & .new {
-                        @apply flex items-center;
+                        @apply md:flex hidden items-center;
                         @apply text-orange font-semibold;
                         & .c-icon {
                             filter: var(--orange-filter);
@@ -189,19 +178,20 @@
                     }
                     & .type {
                         @apply font-mono font-semibold text-textColor6 leading-130;
-                        @apply bg-veryLightBlue2;
-                        @apply border-0;
+                        background: var(--backgroundColorDonationsFormSelected);
+                        @apply border-1;
+                        border-color: var(--borderColorContributionTasksTag);
                         & .c-icon {
                             height: 15px;
                             width: 15px;
-                            filter: var(--textColor5-filter);
-                            @apply mr-6;
+
+                            @apply mr-6 filter-textColor6;
                         }
                     }
                 }
             }
             & .tags {
-                @apply flex items-center;
+                @apply md:flex hidden items-center;
                 @apply ml-auto;
 
                 & > .knowledge-tag {
@@ -213,10 +203,7 @@
                 }
 
                 & > :not(.knowledge-tag):not(.size-tag) {
-                    @apply ml-16;
-                    @screen md {
-                        @apply ml-48;
-                    }
+                    @apply ml-16 md:ml-48;
                 }
             }
             & .external-link {
@@ -226,11 +213,14 @@
                 @apply ml-140;
             }
         }
+        @screen sm {
+            .task {
+                overflow-wrap: initial;
+                hyphens: initial;
+            }
+        }
     }
     & .c-pagination {
-        @apply px-16 py-16 mt-0;
-        @screen sm {
-            @apply px-24;
-        }
+        @apply px-16 sm:px-24 py-16 mt-0;
     }
 }

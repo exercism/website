@@ -6,7 +6,7 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
 
     sign_in!(user)
     get user_onboarding_path
-    assert_response 200
+    assert_response :ok
   end
 
   test "redirects onboarded user" do

@@ -1,23 +1,19 @@
-class Exercise
-  class Contributorship
-    class Create
-      include Mandate
+class Exercise::Contributorship::Create
+  include Mandate
 
-      initialize_with :exercise, :contributor
+  initialize_with :exercise, :contributor
 
-      def call
-        begin
-          contributorship = exercise.contributorships.create!(contributor: contributor)
-        rescue ActiveRecord::RecordNotUnique
-          return nil
-        end
-
-        User::ReputationToken::Create.(
-          contributor,
-          :exercise_contribution,
-          contributorship: contributorship
-        )
-      end
+  def call
+    begin
+      contributorship = exercise.contributorships.create!(contributor:)
+    rescue ActiveRecord::RecordNotUnique
+      return nil
     end
+
+    User::ReputationToken::Create.defer(
+      contributor,
+      :exercise_contribution,
+      contributorship:
+    )
   end
 end

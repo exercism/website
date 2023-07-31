@@ -11,10 +11,7 @@
                 height: 48px;
                 width: 48px;
                 @apply mr-32;
-                @apply hidden;
-                @screen lg {
-                    @apply block;
-                }
+                @apply hidden lg:block;
             }
 
             & .avatar {
@@ -25,10 +22,10 @@
                 & .c-avatar {
                     height: 48px;
                     width: 48px;
+                    @apply sm:block;
                     @screen sm {
                         height: 80px;
                         width: 80px;
-                        @apply block;
                     }
                 }
             }
@@ -47,10 +44,7 @@
                     }
                     & .c-primary-reputation {
                         @apply ml-16;
-                        @apply hidden;
-                        @screen sm {
-                            @apply flex;
-                        }
+                        @apply hidden sm:flex;
                     }
                 }
                 & .to {
@@ -69,10 +63,8 @@
                 @apply flex items-center;
 
                 & .c-react-wrapper-common-share-solution-button {
-                    @apply flex-grow;
-                    @screen sm {
-                        @apply flex-grow-0;
-                    }
+                    @apply flex-grow sm:flex-grow-0;
+
                     & .c-share-button {
                         @apply w-100;
                         & .inner {
@@ -111,7 +103,7 @@
             @apply flex-grow;
 
             & .iteration-section {
-                @apply bg-white shadow-base rounded-8;
+                @apply bg-backgroundColorB shadow-base rounded-8;
                 @apply mb-32;
 
                 & .c-react-wrapper-track-iteration-summary {
@@ -144,7 +136,7 @@
                     & .info {
                         @apply flex-grow;
                         & .mentors {
-                            @apply mb-4;
+                            @apply mb-4 flex;
                             @apply text-16 leading-150 text-textColor2;
                             & strong {
                                 @apply font-semibold;
@@ -189,6 +181,7 @@
                             width: 16px;
                             height: 16px;
                             @apply mr-8;
+                            @apply filter-textColor6;
                         }
                         & span {
                             @apply text-textColor6 font-medium leading-150;

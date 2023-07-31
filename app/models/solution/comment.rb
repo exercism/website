@@ -1,5 +1,5 @@
 class Solution::Comment < ApplicationRecord
-  belongs_to :solution
+  belongs_to :solution, counter_cache: :num_comments
   belongs_to :author, class_name: "User", foreign_key: :user_id, inverse_of: :solution_comments
 
   validates :content_markdown, presence: true
@@ -9,7 +9,5 @@ class Solution::Comment < ApplicationRecord
     self.uuid = SecureRandom.uuid
   end
 
-  def to_param
-    uuid
-  end
+  def to_param = uuid
 end

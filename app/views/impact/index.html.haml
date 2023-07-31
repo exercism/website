@@ -1,0 +1,27 @@
+#page-impact.bg-white
+  .lg-container
+    %header.py-32
+      %h1.text-h2
+        See how Exercism impacts the world
+      - if @track
+        %h2.text-h4 Track: #{@track.title}
+
+    %article
+      %section
+        %table
+          %tr
+            %th Metric
+            %th Last 24 hours
+            %th Last month
+          %tr
+            %td # Submitted solutions
+            %td= @last_24_hours[:num_solutions_submitted]
+            %td= @last_month[:num_solutions_submitted]
+          %tr
+            %td # Completed solutions
+            %td= @last_24_hours[:num_solutions_completed]
+            %td= @last_month[:num_solutions_completed]
+          %tr
+            %td # Opened PRs
+            %td= @last_24_hours[:num_opened_pull_requests]
+            %td= @last_month[:num_opened_pull_requests]

@@ -1,6 +1,10 @@
 import React from 'react'
 import { fromNow } from '../../../utils/time'
-import { imageErrorHandler, GraphicalIcon, Reputation } from '../../common'
+import {
+  missingExerciseIconErrorHandler,
+  GraphicalIcon,
+  Reputation,
+} from '../../common'
 import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({
@@ -8,7 +12,7 @@ export const ReputationMenuItem = ({
   externalUrl,
   iconUrl,
   text,
-  earnedOn,
+  createdAt,
   value,
   isSeen,
 }: ReputationToken): JSX.Element => {
@@ -26,14 +30,14 @@ export const ReputationMenuItem = ({
         role="presentation"
         src={iconUrl}
         className="reason-icon"
-        onError={imageErrorHandler}
+        onError={missingExerciseIconErrorHandler}
       />
       <div className="content">
         <div
           className="description"
           dangerouslySetInnerHTML={{ __html: text }}
         />
-        <div className="earned-on">{fromNow(earnedOn)}</div>
+        <div className="earned-on">{fromNow(createdAt)}</div>
       </div>
       <Reputation value={`+${value}`} />
       <div className={'indicator ' + (isSeen ? 'seen' : 'unseen')} />

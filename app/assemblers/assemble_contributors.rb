@@ -8,8 +8,8 @@ class AssembleContributors
       users,
       serializer: SerializeContributors,
       serializer_kwargs: {
-        starting_rank: starting_rank,
-        contextual_data: contextual_data
+        starting_rank:,
+        contextual_data:
       }
     )
   end
@@ -29,7 +29,7 @@ class AssembleContributors
     User::ReputationPeriod::Search.(
       period: params[:period],
       category: params[:category],
-      track_id: track_id,
+      track_id:,
       user_handle: params[:user_handle],
       page: params[:page]
     )
@@ -41,7 +41,7 @@ class AssembleContributors
       users.map(&:id),
       period: params[:period],
       category: params[:category],
-      track_id: track_id
+      track_id:
     )
   end
 end

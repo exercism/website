@@ -18,7 +18,7 @@ export const TryMentoringButton = ({
   size,
 }: {
   links: Links
-  text: String
+  text: string
   size: Size
 }): JSX.Element => {
   const [open, setOpen] = useState(false)

@@ -11,7 +11,7 @@ module ReactComponents
         super(
           "student-request-mentoring-button",
           {
-            request: request,
+            request:,
             links: {
               mentor_request: Exercism::Routes.new_track_exercise_mentor_request_path("$TRACK_SLUG", "$EXERCISE_SLUG")
             }

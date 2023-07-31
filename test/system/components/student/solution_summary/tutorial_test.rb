@@ -9,12 +9,12 @@ module Components
       test "shows completion nudge for no feedback" do
         user = create :user
         hello_world = create :practice_exercise, slug: "hello-world"
-        solution = create :concept_solution, user: user, exercise: hello_world
-        submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, user:, exercise: hello_world
+        submission = create :submission, solution:,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.no_automated_feedback? # Sanity
 
         use_capybara_host do
@@ -31,12 +31,12 @@ module Components
       test "shows completion nudge for non actionable feedback" do
         user = create :user
         hello_world = create :practice_exercise, slug: "hello-world"
-        solution = create :concept_solution, user: user, exercise: hello_world
-        submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, user:, exercise: hello_world
+        submission = create :submission, solution:,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.no_automated_feedback? # Sanity
 
         use_capybara_host do
@@ -54,12 +54,12 @@ module Components
         user = create :user
         ruby = create :track, title: "Ruby"
         hello_world = create :practice_exercise, slug: "hello-world", track: ruby
-        solution = create :concept_solution, user: user, exercise: hello_world
-        submission = create :submission, solution: solution,
-                                         tests_status: :passed,
-                                         representation_status: :generated,
-                                         analysis_status: :completed
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, user:, exercise: hello_world
+        submission = create :submission, solution:,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)

@@ -42,8 +42,12 @@ module ReactComponents
         def tests_data
           data = submission.tests_status
           if submission.tests_errored? || submission.tests_exceptioned?
-            job = Exercism::ToolingJob.find(submission.test_run.tooling_job_id)
-            data = append_exception_data(data, job)
+            begin
+              job = Exercism::ToolingJob.find(submission.test_run.tooling_job_id)
+              data = append_exception_data(data, job)
+            rescue StandardError
+              # Silently ignore missing tooling job data
+            end
           end
           data
         end
@@ -51,8 +55,12 @@ module ReactComponents
         def representer_data
           data = submission.representation_status
           if submission.representation_exceptioned?
-            job = Exercism::ToolingJob.find(submission.submission_representation.tooling_job_id)
-            data = append_exception_data(data, job)
+            begin
+              job = Exercism::ToolingJob.find(submission.submission_representation.tooling_job_id)
+              data = append_exception_data(data, job)
+            rescue StandardError
+              # Silently ignore missing tooling job data
+            end
           end
           data
         end
@@ -60,8 +68,12 @@ module ReactComponents
         def analyzer_data
           data = submission.analysis_status
           if submission.analysis_exceptioned?
-            job = Exercism::ToolingJob.find(submission.analysis.tooling_job_id)
-            data = append_exception_data(data, job)
+            begin
+              job = Exercism::ToolingJob.new(submission.analysis.tooling_job_id, {})
+              data = append_exception_data(data, job)
+            rescue StandardError
+              # Silently ignore missing tooling job data
+            end
           elsif submission.analysis
             data += "\n\n#{submission.analysis.send(:data)}"
           end
@@ -69,9 +81,11 @@ module ReactComponents
         end
 
         def append_exception_data(data, job)
-          data += "\n\nSTDOUT:\n------\n#{job.stdout}" if job.stdout.present?
-          data += "\n\nSTDERR:\n------\n#{job.stderr}" if job.stderr.present?
-          data += "\n\nException Details:\n------\n#{job.execution_exception}" if job.execution_exception.present?
+          stdout = job.stdout
+          stderr = job.stderr
+          data += "\n\nMetadata:\n------\n#{job.metadata}"
+          data += "\n\nSTDOUT:\n------\n#{stdout}" if stdout.present?
+          data += "\n\nSTDERR:\n------\n#{stderr}" if stderr.present?
           data
         end
       end

@@ -11,7 +11,7 @@ class Markdown::ParseTest < ActiveSupport::TestCase
 <li>Either method pairs with adjectives (which I did),</li>
 <li>Some sort of data structure (e.g. a hash might look like)</li>
 </ol>
-<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>
+<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>
 <p>Watch this:</p>
 <pre><code class="language-plain">$ go home
 </code></pre>'
@@ -47,6 +47,20 @@ Done')
     assert_equal expected.chomp, actual.chomp
   end
 
+  test "sanitizes data- attributes" do
+    expected = '<div>test</div>'
+
+    actual = Markdown::Parse.('<div data-react-id="abd" data-react-data="{}" --hydrated>test</div>')
+    assert_equal expected.chomp, actual.chomp
+  end
+
+  test "does not sanitize allowed attributes" do
+    expected = '<div id="first" href="#" target="_blank" class="button" src="test.com" alt="lovely" width="80" height="50">test</div>'
+
+    actual = Markdown::Parse.('<div id="first" href="#" target="_blank" class="button" src="test.com" alt="lovely" width="80" height="50">test</div>') # rubocop:disable Layout/LineLength
+    assert_equal expected.chomp, actual.chomp
+  end
+
   test "allows details" do
     expected = '<p>Here is a sample of what a details/summary block looks like:</p>
 <details><summary>Click the little arrow to get a hint!</summary>
@@ -75,6 +89,7 @@ Done')
     TABLE
 
     expected = <<~HTML
+      <div class="c-responsive-table-wrapper">
       <table>
       <thead>
       <tr>
@@ -89,20 +104,21 @@ Done')
       </tr>
       </tbody>
       </table>
+      </div>
     HTML
     assert_equal expected, Markdown::Parse.(table)
   end
 
   test "respects rel_nofollow" do
-    normal = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
-    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="noopener nofollow">Some link</a></p>'
+    normal = '<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>'
+    rel_nofollow = '<p><a href="http://example.com" target="_blank" rel="noreferrer nofollow">Some link</a></p>'
 
     assert_equal normal.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
     assert_equal rel_nofollow.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
   test 'adds target="blank" to external links' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
+    expected = '<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
   end
 
@@ -131,13 +147,13 @@ Done')
     end
   end
 
-  test 'adds rel="noopener" to external links' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="noopener">Some link</a></p>'
+  test 'adds rel="noreferrer" to external links' do
+    expected = '<p><a href="http://example.com" target="_blank" rel="noreferrer">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)').chomp
   end
 
-  test 'does not add rel="noopener" to external links with no_follow' do
-    expected = '<p><a href="http://example.com" target="_blank" rel="noopener nofollow">Some link</a></p>'
+  test 'does not add rel="noreferrer" to external links with no_follow' do
+    expected = '<p><a href="http://example.com" target="_blank" rel="noreferrer nofollow">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
@@ -249,7 +265,7 @@ Done')
   end
 
   test "skip unsupported internal links" do
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/contributors/iliketohelp">iliketohelp</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/contributors/iliketohelp">iliketohelp</a></p>\n)
     assert_equal expected, Markdown::Parse.("[iliketohelp](https://exercism.org/tracks/ruby/contributors/iliketohelp)")
   end
 
@@ -278,6 +294,11 @@ Done')
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 
+  test "don't render exercise widget for approach link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">approach</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach](https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value)")
+  end
+
   test "copes with a bad link uri scheme" do
     # TODO: render exercise widget instead of link
     expected = %(<p><a href=\"https://exercism.org/tracks/julia/exercises/two-fer\" data-tooltip-type=\"exercise\" data-endpoint=\"/tracks/julia/exercises/two-fer/tooltip\">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
@@ -295,23 +316,98 @@ Done')
   end
 
   test "render note code block" do
-    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">Note this\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>Note this</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")
     assert_equal expected, Markdown::Parse.("`````exercism/note\nNote this\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nNote this\n~~~~~")
   end
 
   test "render caution code block" do
-    expected = %(<div class="c-textblock-caution">\n<div class="c-textblock-header">Caution</div>\n<div class="c-textblock-content">Here be dragons\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    expected = %(<div class="c-textblock-caution">\n<div class="c-textblock-header">Caution</div>\n<div class="c-textblock-content">\n<p>Here be dragons</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/caution\nHere be dragons\n```")
     assert_equal expected, Markdown::Parse.("`````exercism/caution\nHere be dragons\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/caution\nHere be dragons\n~~~~~")
   end
 
   test "render advanced code block" do
-    expected = %(<div class="c-textblock-advanced">\n<div class="c-textblock-header">Advanced</div>\n<div class="c-textblock-content">Pointer arithmetic\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    expected = %(<div class="c-textblock-advanced">\n<div class="c-textblock-header">Advanced</div>\n<div class="c-textblock-content">\n<p>Pointer arithmetic</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/advanced\nPointer arithmetic\n```")
     assert_equal expected, Markdown::Parse.("`````exercism/advanced\nPointer arithmetic\n`````")
     assert_equal expected, Markdown::Parse.("~~~~~exercism/advanced\nPointer arithmetic\n~~~~~")
+  end
+
+  test "render note block with markdown note" do
+    expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>There is <strong>markdown</strong> within <em>these</em> notes.</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("```exercism/note\nThere is **markdown** within _these_ notes.\n```")
+    assert_equal expected, Markdown::Parse.("`````exercism/note\nThere is **markdown** within _these_ notes.\n`````")
+    assert_equal expected, Markdown::Parse.("~~~~~exercism/note\nThere is **markdown** within _these_ notes.\n~~~~~")
+  end
+
+  test "render footnote" do
+    expected = %(<p>Hello<sup class=\"footnote-ref\"><a href=\"#fn1\" id=\"fnref1\">1</a></sup>.</p>\n<section class=\"footnotes\">\n<ol>\n<li id=\"fn1\">\n<p>Hey! <a href=\"#fnref1\" class=\"footnote-backref\">↩</a></p>\n</li>\n</ol>\n</section>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected,
+      Markdown::Parse.("Hello[^hi].\n\n[^hi]: Hey!\n")
+  end
+
+  test "heading id for lowercase letters title" do
+    expected = %(<h2 id="h-lowerletters">lowerletters</h2>\n)
+    assert_equal expected, Markdown::Parse.("## lowerletters", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for uppercase letters title is converted to lowercase" do
+    expected = %(<h2 id="h-upperletters">UPPERLETTERS</h2>\n)
+    assert_equal expected, Markdown::Parse.("## UPPERLETTERS", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for mixed-case letters title is converted to lowercase" do
+    expected = %(<h2 id="h-pascalcase">PascalCase</h2>\n)
+    assert_equal expected, Markdown::Parse.("## PascalCase", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for diacritic letters title are converted to regular letters or dashes" do
+    expected = %(<h2 id="h-o-a-eeee">Òǒốáȧëèéê</h2>\n)
+    assert_equal expected, Markdown::Parse.("## Òǒốáȧëèéê", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for numbers title" do
+    expected = %(<h2 id="h-123456">123456</h2>\n)
+    assert_equal expected, Markdown::Parse.("## 123456", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id with non-letter/digit characters title are replaced with dashes" do
+    expected = %(<h2 id="h-this-is-m">this is m*</h2>\n)
+    assert_equal expected, Markdown::Parse.("## this is m*", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for code fence title" do
+    expected = %(<h2 id="h-summary"><code>summary</code></h2>\n)
+    assert_equal expected, Markdown::Parse.("## `summary`", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id for markdown title" do
+    expected = %(<h2 id="h-why-is-it-not-e-g-must">Why is it not ... (e.g. <strong>MUST</strong>)?</h2>\n)
+    assert_equal expected, Markdown::Parse.("## Why is it not ... (e.g. **MUST**)?", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading id with consecutive non-letter/digit characters title are replaced with dashes" do
+    expected = %(<h2 id="h-this-is-m">this % is @@ m</h2>\n)
+    assert_equal expected, Markdown::Parse.("## this % is @@ m", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "heading ids support all heading levels" do
+    expected = %(<h1 id="h-one">one</h1>\n<h2 id="h-two">two</h2>\n<h3 id="h-three">three</h3>\n<h4 id="h-four">four</h4>\n<h5 id="h-five">five</h5>\n<h6 id="h-six">six</h6>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected,
+      Markdown::Parse.("# one\n\n## two\n\n### three\n\n#### four\n\n##### five\n\n###### six", heading_ids: true,
+        lower_heading_levels_by: 0, strip_h1: false)
+  end
+
+  test "heading id for same titles uses sequential numbering" do
+    expected = %(<h2 id="h-my-title">my title</h2>\n<h2 id="h-my-title-1">my title</h2>\n<h2 id="h-my-title-2">my title</h2>\n)
+    assert_equal expected, Markdown::Parse.("## my title\n\n## my title\n\n## my title", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "render youtube video for mail with link" do
+    expected = %(<a href="https://www.youtube.com/watch?v=LknqlTouTKg" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/LknqlTouTKg](https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg)")
   end
 end

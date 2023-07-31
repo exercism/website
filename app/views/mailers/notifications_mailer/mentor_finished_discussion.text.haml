@@ -1,0 +1,5 @@
+Hi #{@user.handle},
+\
+Your mentor (#{@discussion.mentor.handle}) has finished the discussion for your solution on #{@exercise.title} on the #{@track.title} track.
+\
+Go to the discussion: #{track_exercise_mentor_discussion_url(@track, @exercise, @discussion)}

@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
-  test "index: no solution" do
+  test "index: no solution" do
     user = create :user
     exercise = create :practice_exercise
 
@@ -12,7 +12,7 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: no iterations" do
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
@@ -21,55 +21,55 @@ class Tracks::MentorDiscussionsControllerTest < ActionDispatch::IntegrationTest
 
   test "index: first-time" do
     user = create :user
-    solution = create :concept_solution, user: user
-    create :iteration, submission: create(:submission, solution: solution)
+    solution = create(:concept_solution, user:)
+    create :iteration, submission: create(:submission, solution:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :success
+    assert_response :ok
     assert_includes @response.body, "Take your solution to the next level"
-    assert_includes @response.body, "You have no past mentoring discussions"
+    assert_includes @response.body, "You have no past code review sessions"
   end
 
   test "index: requested" do
     user = create :user
-    solution = create :concept_solution, user: user
-    create :iteration, submission: create(:submission, solution: solution)
-    create :mentor_request, solution: solution
+    solution = create(:concept_solution, user:)
+    create :iteration, submission: create(:submission, solution:)
+    create(:mentor_request, solution:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :success
-    assert_includes @response.body, "You’ve requested mentoring"
-    assert_includes @response.body, "You have no past mentoring discussions"
+    assert_response :ok
+    assert_includes @response.body, "You&apos;ve requested mentoring"
+    assert_includes @response.body, "You have no past code review sessions"
   end
 
   test "index: in-progress" do
     user = create :user
-    solution = create :concept_solution, user: user
-    create :iteration, submission: create(:submission, solution: solution)
-    create :mentor_discussion, solution: solution
+    solution = create(:concept_solution, user:)
+    create :iteration, submission: create(:submission, solution:)
+    create(:mentor_discussion, solution:)
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :success
+    assert_response :ok
     assert_includes @response.body, "You're being mentored by"
-    assert_includes @response.body, "You have no past mentoring discussions"
+    assert_includes @response.body, "You have no past code review sessions"
   end
 
   test "index: finished" do
     user = create :user
-    solution = create :concept_solution, user: user
-    create :iteration, submission: create(:submission, solution: solution)
-    create :mentor_discussion, solution: solution, finished_at: Time.current - 10.days, status: :finished
+    solution = create(:concept_solution, user:)
+    create :iteration, submission: create(:submission, solution:)
+    create :mentor_discussion, solution:, finished_at: Time.current - 10.days, status: :finished
 
     sign_in!(user)
     get track_exercise_mentor_discussions_url(solution.track, solution.exercise)
 
-    assert_response :success
+    assert_response :ok
     assert_includes @response.body, "Want to try another mentor?"
     assert_includes @response.body, "Ended 10 days ago"
   end

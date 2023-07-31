@@ -11,7 +11,7 @@ module ReactComponents
       end
 
       def to_s
-        super("student-tracks-list", { request: request, tag_options: tag_options })
+        super("student-tracks-list", { request:, tag_options: })
       end
 
       private
@@ -22,7 +22,7 @@ module ReactComponents
           endpoint: Exercism::Routes.api_tracks_path,
           options: {
             initialData: {
-              tracks: SerializeTracks.(tracks, current_user)
+              tracks: SerializeTracks.(tracks, user)
             }
           },
           query: {
@@ -38,7 +38,7 @@ module ReactComponents
           {
             category: ::Track::CATGEORIES[category],
             options: options.map do |value, label|
-              { value: "#{category}/#{value}", label: label }
+              { value: "#{category}/#{value}", label: }
             end
           }
         end

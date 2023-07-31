@@ -8,7 +8,8 @@ class ProcessIterationForDiscussionsJob < ApplicationJob
       User::Notification::Create.(
         discussion.mentor,
         :student_added_iteration,
-        { discussion: discussion, iteration: iteration }
+        discussion:,
+        iteration:
       )
     end
   end

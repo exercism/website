@@ -1,4 +1,4 @@
-class CreateExerciseContributorships < ActiveRecord::Migration[6.1]
+class CreateExerciseContributorships < ActiveRecord::Migration[7.0]
   def change
     create_table :exercise_contributorships do |t|
       t.belongs_to :exercise, foreign_key: true, null: false

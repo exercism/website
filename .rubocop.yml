@@ -8,7 +8,7 @@ AllCops:
   Exclude:
     - "app/controllers/tmp/**/*"
     - "bin/**/*"
-    - "bin/{bundle,rails,rake,setup,webpack,webpack-dev-server,yarn}"
+    - "bin/{bundle,monitor-manifest,rails,rake,setup,yarn}"
     - "db/schema.rb"
     - "db/migrate/*"
     - "db/seeds.rb"
@@ -42,10 +42,6 @@ Layout/LineLength:
     - "test/models/notifications/*"
     - "test/helpers/react_components/maintaining/submissions_summary_table_test.rb"
 
-Layout/RescueEnsureAlignment:
-  Exclude:
-    - app/controllers/api/solutions_controller.rb # TODO: remove once Rubocop fixes https://github.com/rubocop/rubocop/pull/10017
-
 Lint/SuppressedException:
   Exclude:
     - "test/**/*"
@@ -60,8 +56,10 @@ Metrics/MethodLength:
   Exclude:
     - "test/**/*"
 
-Metrics/AbcSize:
-  IgnoredMethods: ["CLI::PrepareUploadedFiles.call"]
+Metrics/ClassLength:
+  Exclude:
+    - "test/commands/solution/search_user_solutions_test.rb"
+    - "test/serializers/serialize_submission_test_run_test.rb"
 
 Naming/PredicateName:
   Enabled: false
@@ -70,6 +68,10 @@ Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   SingleLineConditionsOnly: false
   IncludeTernaryExpressions: false
+
+Style/FormatString:
+  EnforcedStyle: percent
+  Enabled: false
 
 Style/StringLiterals:
   Enabled: false
@@ -109,6 +111,9 @@ Naming/VariableNumber:
 Style/LambdaCall:
   EnforcedStyle: braces
 
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
 Rails/HasManyOrHasOneDependent:
   Exclude:
     - "app/models/exercise/representation.rb"
@@ -116,6 +121,9 @@ Rails/HasManyOrHasOneDependent:
 
 Rails/FilePath:
   EnforcedStyle: arguments
+
+Rails/Blank:
+  Enabled: false
 
 Rails/LexicallyScopedActionFilter:
   Enabled: false

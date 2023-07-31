@@ -25,7 +25,9 @@
         grid-template-columns: repeat(4, auto);
 
         & .track {
+            @apply flex flex-col;
             & label {
+                @apply flex-grow;
                 @apply bg-backgroundColorB shadow-lg rounded-8;
                 @apply py-24;
                 @apply flex flex-col items-center;
@@ -65,12 +67,13 @@
                 }
 
                 & .title {
-                    @apply text-18 leading-140 text-textColor3 font-semibold;
+                    @apply text-18 leading-140 font-semibold;
+                    color: var(--textColorMentorTrackSelectorSelected);
                     @apply mb-6;
                 }
 
                 & .info {
-                    @apply text-14 leading-160 text-textColor6;
+                    @apply text-14 leading-160 text-textColor6 text-center;
                 }
             }
 
@@ -78,7 +81,7 @@
                 opacity: 0;
                 &:checked + label {
                     @apply border-darkBlue;
-                    @apply bg-veryLightBlue;
+                    background: var(--backgroundColorExerciseStatusTagLocked);
 
                     & .selected-icon {
                         @apply grid;

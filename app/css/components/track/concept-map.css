@@ -1,12 +1,4 @@
 :root {
-    --c-concept-map-background: #ffffff;
-    --c-concept-map-card-background: #ffffff;
-
-    --c-concept-map-line-complete: #64b294;
-    --c-concept-map-line-available: #dce3ef;
-    --c-concept-map-line-locked: #c9c8d7;
-    --c-concept-map-line-faded: #d2ddf3;
-
     --c-concept-map-line-dasharray-dashed: 12, 5;
     --c-concept-map-line-dasharray-solid: 1, 0;
     --c-concept-map-text-unlocked: #26282d;
@@ -20,6 +12,9 @@
 }
 
 .c-concepts-map {
+    --c-concept-map-background: var(--backgroundColorA);
+    --c-concept-map-card-background: var(--backgroundColorA);
+
     min-width: 300px;
     margin-top: -40px; /* Compensate for the first row of cards */
 
@@ -37,7 +32,7 @@
                 @apply text-textColor2;
                 @apply border-1 border-borderColor7;
 
-                background-color: var(--c-concept-map-card-background);
+                background-color: var(--backgroundColorA);
                 opacity: var(--c-concept-map-hover-opacity);
                 transition: opacity 200ms ease-out, box-shadow 200ms ease-out;
 
@@ -56,7 +51,8 @@
                 }
 
                 &.mastered {
-                    @apply border-2 border-darkGreen bg-veryLightGreen2;
+                    @apply border-2 border-darkGreen;
+                    background: var(--backgroundColorA);
 
                     & .exercise-status-bar {
                         @apply border-darkGreen;
@@ -76,7 +72,8 @@
                 }
 
                 &.locked {
-                    @apply bg-lightGray text-textColor6;
+                    @apply text-textColor6;
+                    background: var(--backgroundColorConceptLocked);
 
                     &:after {
                         content: "";
@@ -89,14 +86,14 @@
                     &:hover {
                         @apply shadow-lgZ1;
                     }
+
+                    & .display:hover {
+                        @apply bg-backgroundColorE;
+                    }
                 }
 
                 &.active {
                     opacity: 1;
-                }
-
-                &.hidden {
-                    visibility: hidden;
                 }
 
                 & .display {
@@ -114,19 +111,15 @@
                         width: 16px;
                         height: 16px;
                     }
-
-                    &:hover {
-                        @apply bg-backgroundColorE;
-                    }
                 }
                 &.mastered .display:hover {
                     @apply bg-veryLightGreen;
                 }
             }
 
-            & .exercise-status-bar {
+            .exercise-status-bar {
+                @apply justify-center align-middle;
                 @apply py-10 px-24;
-                @apply flex justify-center align-middle;
                 @apply border-t-1 border-borderColor7;
 
                 & .c-ed {

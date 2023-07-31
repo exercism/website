@@ -1,23 +1,19 @@
-class Exercise
-  class Authorship
-    class Create
-      include Mandate
+class Exercise::Authorship::Create
+  include Mandate
 
-      initialize_with :exercise, :author
+  initialize_with :exercise, :author
 
-      def call
-        begin
-          authorship = exercise.authorships.create!(author: author)
-        rescue ActiveRecord::RecordNotUnique
-          return nil
-        end
-
-        User::ReputationToken::Create.(
-          author,
-          :exercise_author,
-          authorship: authorship
-        )
-      end
+  def call
+    begin
+      authorship = exercise.authorships.create!(author:)
+    rescue ActiveRecord::RecordNotUnique
+      return nil
     end
+
+    User::ReputationToken::Create.defer(
+      author,
+      :exercise_author,
+      authorship:
+    )
   end
 end

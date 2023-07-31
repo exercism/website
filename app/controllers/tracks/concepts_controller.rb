@@ -4,6 +4,7 @@ class Tracks::ConceptsController < ApplicationController
   before_action :use_concept, only: %i[show tooltip start complete]
 
   before_action :guard_practice_mode!, only: [:index]
+  before_action :guard_course!, only: [:index]
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
@@ -36,9 +37,13 @@ class Tracks::ConceptsController < ApplicationController
     @locked = !@user_track.concept_unlocked?(@concept)
     @learnt = @user_track.concept_learnt?(@concept)
     @mastered = @user_track.concept_mastered?(@concept)
+
+    # TODO: This needs a test (this whole thing does!)
     @prerequisite_names = Concept.joins(:unlocked_exercises).
       where('exercise_prerequisites.exercise_id': @user_track.concept_exercises_for_concept(@concept)).
-      pluck(:name)
+      pluck(:slug, :name).
+      reject { |slug, _name| @user_track.concept_learnt?(slug) }.
+      map(&:second)
 
     render_template_as_json
   end
@@ -47,6 +52,8 @@ class Tracks::ConceptsController < ApplicationController
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)
+
+    render_404 unless @track.accessible_by?(current_user)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -63,6 +70,12 @@ class Tracks::ConceptsController < ApplicationController
 
   def guard_practice_mode!
     return unless @user_track.practice_mode?
+
+    redirect_to track_path(@track)
+  end
+
+  def guard_course!
+    return if @user_track.course?
 
     redirect_to track_path(@track)
   end

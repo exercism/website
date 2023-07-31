@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-docs-nav {
-    @apply bg-backgroundColorE;
+    @apply bg-backgroundColorA;
     @apply pt-12;
 
     & .container {
@@ -10,9 +10,11 @@
 
     & nav.lhs {
         @apply flex-grow;
+        @apply overflow-auto;
     }
     & ul {
-        @apply flex;
+        @apply flex items-center;
+        @apply whitespace-nowrap;
     }
     & li {
         @apply mr-40;
@@ -27,7 +29,7 @@
             & .c-icon {
                 height: 24px;
                 width: 24px;
-                @apply text-anotherPurple;
+                @apply filter-textColor6;
             }
         }
         &:hover {
@@ -36,15 +38,15 @@
             }
         }
         &.selected {
-            @apply border-anotherPurple;
+            @apply border-adaptivePurple;
 
             & a {
-                @apply text-anotherPurple;
+                @apply text-adaptivePurple;
             }
         }
         &.api {
             & a {
-                @apply text-anotherPurple font-semibold;
+                @apply text-adaptivePurple font-semibold;
             }
         }
     }

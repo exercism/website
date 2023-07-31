@@ -63,16 +63,11 @@ export const TasksList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['contributing-tasks', request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      ['contributing-tasks', request.endpoint, request.query],
+      request
+    )
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
   const isFiltering =

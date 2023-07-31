@@ -1,4 +1,4 @@
-class CreateSubmissionFiles < ActiveRecord::Migration[6.0]
+class CreateSubmissionFiles < ActiveRecord::Migration[7.0]
   def change
     create_table :submission_files do |t|
       t.belongs_to :submission, foreign_key: true, null: false

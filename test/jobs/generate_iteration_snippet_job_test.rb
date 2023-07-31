@@ -5,7 +5,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     code = "Some source code"
     @snippet = "Some generated snippet"
 
-    stub_request(:post, "https://g7ngvhuv5l.execute-api.eu-west-2.amazonaws.com/production/extract_snippet").
+    stub_request(:post, Exercism.config.snippet_generator_url).
       with(
         body: "{\"language\":\"ruby\",\"source_code\":\"#{code}\"}"
       ).
@@ -24,17 +24,18 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     assert_equal @snippet, iteration.solution.reload.snippet
   end
 
-  test "solution is updated if iteration is last" do
+  test "solution is updated if iteration is latest" do
     create :iteration, solution: @submission.solution
-    iteration = create :iteration, submission: @submission
+    latest_iteration = create :iteration, submission: @submission
+    create :iteration, solution: @submission.solution, deleted_at: Time.current # Last iteration
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    GenerateIterationSnippetJob.perform_now(latest_iteration)
 
-    assert_equal @snippet, iteration.reload.snippet
-    assert_equal @snippet, iteration.solution.reload.snippet
+    assert_equal @snippet, latest_iteration.reload.snippet
+    assert_equal @snippet, latest_iteration.solution.reload.snippet
   end
 
-  test "solution is not updated if iteration is not last" do
+  test "solution is not updated if iteration is not latest" do
     iteration = create :iteration, submission: @submission
     create :iteration, solution: @submission.solution
 
@@ -48,7 +49,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     create :iteration, solution: @submission.solution
     iteration = create :iteration, submission: @submission
     create :iteration, solution: @submission.solution
-    @submission.solution.update(published_iteration: iteration)
+    @submission.solution.update(published_iteration: iteration, published_at: Time.current)
 
     GenerateIterationSnippetJob.perform_now(iteration)
 

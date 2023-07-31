@@ -3,14 +3,11 @@ module Badges
     seed "Member",
       :common,
       :logo,
-      "Awarded for joining Exercism"
+      "Joined Exercism"
 
-    def award_to?(_user)
-      true
-    end
+    def award_to?(_user) = true
+    def send_email_on_acquisition? = false
 
-    def send_email_on_acquisition?
-      false
-    end
+    def percentage_awardees = 100
   end
 end

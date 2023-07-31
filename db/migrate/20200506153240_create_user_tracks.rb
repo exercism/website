@@ -1,4 +1,4 @@
-class CreateUserTracks < ActiveRecord::Migration[6.0]
+class CreateUserTracks < ActiveRecord::Migration[7.0]
   def change
     create_table :user_tracks do |t|
       t.belongs_to :user, foreign_key: true, null: false

@@ -1,7 +1,7 @@
 class SerializeMentorDiscussion
   include Mandate
 
-  initialize_with :discussion, :context
+  initialize_with :discussion, :student_favorited, :is_finished, :is_unread, :links
 
   def call
     {
@@ -20,59 +20,24 @@ class SerializeMentorDiscussion
       },
       student: {
         handle: discussion.student_handle,
+        flair: discussion.student_flair,
         avatar_url: discussion.student_avatar_url,
-        is_favorited: true # TODO: Only show this if the context is the mentor
+        is_favorited: student_favorited
       },
       mentor: {
         handle: discussion.mentor.handle,
+        flair: discussion.mentor.flair,
         avatar_url: discussion.mentor.avatar_url
       },
 
       created_at: discussion.created_at.iso8601,
       updated_at: discussion.updated_at.iso8601,
 
-      is_finished: finished?,
-      is_unread: unread?,
+      is_finished:,
+      is_unread:,
       posts_count: discussion.num_posts,
       iterations_count: discussion.solution.num_iterations,
-      links: links
+      links:
     }
-  end
-
-  private
-  delegate :mentor, to: :discussion
-
-  def finished?
-    if context == :mentor
-      discussion.finished_for_mentor?
-    else
-      discussion.finished_for_student?
-    end
-  end
-
-  # TODO: This is an n+1. Cache it on mentor_discussions
-  def unread?
-    if context == :mentor
-      discussion.posts.where(seen_by_mentor: false).exists?
-    else
-      discussion.posts.where(seen_by_student: false).exists?
-    end
-  end
-
-  def links
-    if context == :mentor
-      {
-        self: Exercism::Routes.mentoring_discussion_url(discussion),
-        posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
-        finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion),
-        mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion)
-      }
-    else
-      {
-        self: Exercism::Routes.track_exercise_mentor_discussion_url(discussion.track, discussion.exercise, discussion),
-        posts: Exercism::Routes.api_solution_discussion_posts_url(discussion.solution.uuid, discussion),
-        finish: Exercism::Routes.finish_api_solution_discussion_url(discussion.solution.uuid, discussion.uuid)
-      }
-    end
   end
 end

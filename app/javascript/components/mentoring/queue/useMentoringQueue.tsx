@@ -1,10 +1,13 @@
 import { useMemo } from 'react'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useList } from '../../../hooks/use-list'
-import { MentoredTrack, MentoredTrackExercise } from '../../types'
 import { QueryStatus } from 'react-query'
-import { useDebounce } from '../../../hooks/use-debounce'
-import { useHistory } from '../../../hooks/use-history'
+import {
+  useList,
+  usePaginatedRequestQuery,
+  Request,
+  useDebounce,
+  useHistory,
+} from '@/hooks'
+import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {
   uuid: string
@@ -41,7 +44,7 @@ export const useMentoringQueue = ({
   track: MentoredTrack | null
   exercise: MentoredTrackExercise | null
 }): {
-  criteria: string
+  criteria?: string
   setCriteria: (criteria: string) => void
   order: string
   setOrder: (order: string) => void
@@ -64,23 +67,18 @@ export const useMentoringQueue = ({
     }
   }, [exerciseSlug, request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
-  const {
-    resolvedData,
-    latestData,
-    isFetching,
-    status,
-    error,
-  } = usePaginatedRequestQuery<APIResponse>(
-    ['mentoring-request', debouncedQuery],
-    {
-      ...request,
-      query: debouncedQuery,
-      options: {
-        ...request.options,
-        enabled: !!track,
-      },
-    }
-  )
+  const { resolvedData, latestData, isFetching, status, error } =
+    usePaginatedRequestQuery<APIResponse>(
+      ['mentoring-request', debouncedQuery, request],
+      {
+        ...request,
+        query: debouncedQuery,
+        options: {
+          ...request.options,
+          enabled: !!track,
+        },
+      }
+    )
 
   useHistory({ pushOn: debouncedQuery })
 
@@ -93,7 +91,7 @@ export const useMentoringQueue = ({
     setCriteria,
     order: request.query.order,
     setOrder,
-    page: request.query.page,
+    page: request.query.page || 1,
     setPage,
     error,
   }

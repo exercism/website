@@ -15,14 +15,14 @@ class API::NotificationsControllerTest < API::BaseTestCase
 
     mentor = create :user
     notification = create :mentor_started_discussion_notification,
-      user: user,
+      user:,
       status: :unread,
       params: {
-        discussion: create(:mentor_discussion, mentor: mentor)
+        discussion: create(:mentor_discussion, mentor:)
       }
 
     get api_notifications_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = {
       results: [{
@@ -32,7 +32,8 @@ class API::NotificationsControllerTest < API::BaseTestCase
         is_read: false,
         created_at: notification.created_at.iso8601,
         image_type: 'avatar',
-        image_url: mentor.avatar_url
+        image_url: mentor.avatar_url,
+        icon_filter: 'textColor6'
       }],
       meta: {
         current_page: 1,
@@ -61,7 +62,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     User::Notification::MarkBatchAsRead.expects(:call).with(user, [uuid_1, uuid_2])
 
     patch mark_batch_as_read_api_notifications_path(uuids: [uuid_1, uuid_2]), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     assert_empty JSON.parse(response.body)
   end
@@ -76,7 +77,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     User::Notification::MarkBatchAsUnread.expects(:call).with(user, [uuid_1, uuid_2])
 
     patch mark_batch_as_unread_api_notifications_path(uuids: [uuid_1, uuid_2]), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     assert_empty JSON.parse(response.body)
   end
@@ -88,7 +89,7 @@ class API::NotificationsControllerTest < API::BaseTestCase
     User::Notification::MarkAllAsRead.expects(:call).with(user)
 
     patch mark_all_as_read_api_notifications_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     assert_equal AssembleNotificationsList.(user, {}).to_json, response.body
   end

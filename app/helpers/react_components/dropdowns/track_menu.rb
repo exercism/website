@@ -6,7 +6,7 @@ module ReactComponents
       def to_s
         super("dropdowns-track-menu", {
           track: SerializeTrack.(track, user_track),
-          links: links
+          links:
         })
       end
 
@@ -23,7 +23,7 @@ module ReactComponents
         }
         return hash if user_track.external?
 
-        if track.course?
+        if user_track.course?
           hash[:activate_practice_mode] = activate_practice_mode_url
           hash[:activate_learning_mode] = activate_learning_mode_url
         end

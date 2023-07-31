@@ -38,7 +38,7 @@ export const UnpublishSolutionModal = ({
       <h3>Do you want to unpublish your solution?</h3>
       <p>
         Unpublishing your solution will mean it no longer appears on your
-        profile and can longer be viewed under Community Solutions. All stars
+        profile and can no longer be viewed under Community Solutions. All stars
         and comments will be lost, and any associated reputation will be
         removed.
       </p>

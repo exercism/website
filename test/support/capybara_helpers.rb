@@ -8,6 +8,9 @@ module CapybaraHelpers
     Rails.application.routes.default_url_options[:host] = Capybara.current_session.server.host
     Rails.application.routes.default_url_options[:port] = Capybara.current_session.server.port
 
+    # Regenerate the summaries to avoid n+1 warnings
+    UserTrack.all.each { |ut| ut.send(:summary) }
+
     yield()
 
     Rails.application.routes.default_url_options[:host] = original_host

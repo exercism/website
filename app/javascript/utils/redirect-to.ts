@@ -24,12 +24,6 @@ class LoadingOverlay {
   }
 }
 
-declare global {
-  interface Window {
-    Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
-  }
-}
-
 export const redirectTo = (url: string): void => {
   window.Turbo.visit(url)
 

@@ -5,7 +5,7 @@ import { FilePanel } from './FilePanel'
 import { IterationHeader } from './iteration-view/IterationHeader'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
-import { File } from '../../types'
+import { File, TestFile } from '../../types'
 import { ResultsZone } from '../../ResultsZone'
 import { LinkButton } from './LinkButton'
 
@@ -14,7 +14,7 @@ const DEFAULT_ERROR = new Error('Unable to load files')
 export const IterationView = ({
   iterations,
   instructions,
-  tests,
+  testFiles,
   currentIteration,
   onClick,
   language,
@@ -27,7 +27,7 @@ export const IterationView = ({
 }: {
   iterations: readonly Iteration[]
   instructions?: string
-  tests?: string
+  testFiles?: readonly TestFile[]
   currentIteration: Iteration
   onClick: (iteration: Iteration) => void
   language: string
@@ -69,7 +69,7 @@ export const IterationView = ({
                 language={language}
                 indentSize={indentSize}
                 instructions={instructions}
-                tests={tests}
+                testFiles={testFiles}
               />
             ) : null}
           </FetchingBoundary>

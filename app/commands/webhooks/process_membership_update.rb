@@ -1,27 +1,21 @@
-module Webhooks
-  class ProcessMembershipUpdate
-    include Mandate
+class Webhooks::ProcessMembershipUpdate
+  include Mandate
 
-    initialize_with :action, :username, :organization
+  initialize_with :action, :user_id, :team_name, :organization_name
 
-    def call
-      return unless organization == 'exercism'
+  def call
+    return unless %(added removed).include?(action)
+    return unless organization_name == organization.name
 
-      case action
-      when 'member_added'
-        add_member!
-      when 'member_removed'
-        remove_member!
-      end
-    end
-
-    private
-    def add_member!
-      ::Github::OrganizationMember.create!(username: username)
-    end
-
-    def remove_member!
-      ::Github::OrganizationMember.where(username: username).update_all(alumnus: true)
+    case action
+    when 'added'
+      Github::TeamMember::Create.(user_id, team_name)
+    when 'removed'
+      Github::TeamMember::Destroy.(user_id, team_name)
     end
   end
+
+  private
+  memoize
+  def organization = Github::Organization.instance
 end

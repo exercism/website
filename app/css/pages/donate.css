@@ -11,14 +11,18 @@
             }
         }
 
+        & .c-shapes:before {
+            max-width: 7%;
+        }
+
         & .c-icon {
-            height: 128px;
-            width: 128px;
+            height: 160px;
+            width: 160px;
             @apply mb-8;
         }
         & h1 {
-            @apply text-center;
-            max-width: 790px;
+            @apply text-center mb-16;
+            max-width: 940px;
             & strong {
                 @apply font-bold;
             }
@@ -26,21 +30,26 @@
     }
     & article {
         @apply flex flex-col;
+        @apply lg:flex lg:flex-row-reverse;
 
         @screen lg {
-            @apply grid;
-            grid-template:
-                "video form" auto
-                "info form" auto / auto auto;
+            /*     grid-template: */
+            /*         "video form" auto */
+            /*         "info form" auto / auto auto; */
 
-            & section.video-section {
-                grid-area: video;
-            }
-            & section.info-section {
-                grid-area: info;
-            }
+            /*     & section.video-section { */
+            /*         grid-area: video; */
+            /*     } */
+            /*     & section.info-section { */
+            /*         grid-area: info; */
+            /*     } */
+            /*     & section.form-section { */
+            /*         grid-area: form; */
+            /*         @apply pl-48; */
+            /*     } */
+            /* } */
             & section.form-section {
-                grid-area: form;
+                /*grid-area: form;*/
                 @apply pl-48;
             }
         }
@@ -124,15 +133,16 @@
         @screen lg {
             width: 570px;
             margin-top: -138px;
+            min-height: 400px;
         }
     }
     & .c-donations-form {
         @apply rounded-8;
-        box-shadow: 0px 4px 32px 0px #4f72cd80;
+        box-shadow: 0px 4px 32px 0px rgba(var(--shadowColorMain), 0.5);
         max-width: none;
 
+        @apply lg:ml-auto;
         @screen lg {
-            @apply ml-auto;
             max-width: 570px;
         }
     }

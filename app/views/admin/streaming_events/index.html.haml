@@ -1,0 +1,12 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-8 Streaming events
+    %table.c-admin-table.mb-8
+      - @streaming_events.each do |streaming_event|
+        %tr
+          %td= streaming_event.title
+          %td= format_datetime(streaming_event.starts_at)
+          %td= link_to "Details", [:admin, streaming_event]
+          %td= link_to "Edit", edit_admin_streaming_event_path(streaming_event)
+    .flex
+      = link_to "New streaming event", new_admin_streaming_event_path, class: 'btn btn-primary btn-base'

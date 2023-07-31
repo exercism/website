@@ -3,6 +3,7 @@ import {
   CopyToClipboardButton,
   FormButton,
   GraphicalIcon,
+  MedianWaitTime,
 } from '../../../common'
 import {
   MentorSessionTrack as Track,
@@ -109,7 +110,7 @@ export const MentoringRequestForm = ({
           </label>
           <p id="request-mentoring-form-solution-description">
             Give your mentor a starting point for the conversation. This will be
-            your first comment on during the session.
+            your first comment during the session. Markdown is permitted.
           </p>
           <textarea
             ref={solutionCommentRef}
@@ -128,8 +129,8 @@ export const MentoringRequestForm = ({
         ></FetchingBoundary>
         <p className="flow-explanation">
           Once you submit, your request will be open for a mentor to join and
-          start providing feedback. The recent median wait time is ~
-          {track.medianWaitTime}
+          start providing feedback.
+          <MedianWaitTime seconds={track.medianWaitTime} />
         </p>
       </form>
     </div>

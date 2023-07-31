@@ -8,7 +8,7 @@
 
         & header {
             @apply flex items-center;
-            @apply text-20 leading-paragraph font-medium text-textColor3;
+            @apply text-20 leading-paragraph font-medium text-textColor1;
             @apply mb-20;
 
             & strong {
@@ -23,6 +23,20 @@
             & .student-name {
                 @apply flex-grow;
                 @apply font-semibold;
+            }
+
+            & button.unfavorite-button {
+                @apply border-orange;
+                @apply bg-lightOrange;
+                @apply text-orange;
+                & .c-icon {
+                    filter: var(--orange-filter);
+                }
+                &.hover {
+                    @apply text-red;
+                    @apply border-red;
+                    @apply bg-lightRed;
+                }
             }
         }
         & .discussions {
@@ -51,7 +65,7 @@
                 }
                 & .exercise-title {
                     @apply flex-grow;
-                    @apply text-18 leading-paragraph font-medium text-textColor3;
+                    @apply text-18 leading-paragraph font-medium text-textColor1;
                 }
 
                 & .num-comments,
@@ -61,7 +75,7 @@
                     @apply py-4 px-12 border-borderColor5 border-1 rounded-5 bg-backgroundColorA;
                     width: 66px;
                     & .c-icon {
-                        @apply mr-6 text-textColor6;
+                        @apply mr-6 filter-textColor6;
                         height: 16px;
                         width: 16px;
                     }
@@ -74,7 +88,7 @@
                 & .action-icon {
                     height: 16px;
                     width: 16px;
-                    @apply text-textColor6 ml-48;
+                    @apply filter-textColor6 ml-48;
                 }
             }
         }

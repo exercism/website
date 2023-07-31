@@ -13,10 +13,10 @@ jobs:
     if: github.repository == 'exercism/website'
 
     name: Replicate to exercism/website-deployer
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
           fetch-depth: 0
 

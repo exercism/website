@@ -3,12 +3,12 @@ module UserTrack::MentoringSlots
 
   MENTORING_SLOT_THRESHOLDS = [0, 0, 100, 500].freeze
 
-  def has_available_mentoring_slot?
-    num_available_mentoring_slots.positive?
-  end
+  def has_available_mentoring_slot? = num_available_mentoring_slots.positive?
 
   memoize
   def num_locked_mentoring_slots
+    return 0 if user.premium?
+
     MENTORING_SLOT_THRESHOLDS.count { |threshold| user.reputation < threshold }
   end
 
@@ -20,21 +20,23 @@ module UserTrack::MentoringSlots
 
   memoize
   def num_used_mentoring_slots
-    active_mentoring_discussions.size + pending_mentoring_requests.size
+    active_mentoring_discussions.where(external: false).count + pending_mentoring_requests.count
   end
 
   memoize
   def percentage_to_next_mentoring_slot
     return nil if num_locked_mentoring_slots.zero?
 
-    next_slot_rep = repo_for_next_mentoring_slot
+    next_slot_rep = rep_for_next_mentoring_slot
     current_slot_rep = MENTORING_SLOT_THRESHOLDS[MENTORING_SLOT_THRESHOLDS.length - num_locked_mentoring_slots - 1]
 
     (user.reputation - current_slot_rep).to_f / (next_slot_rep - current_slot_rep) * 100
   end
 
   memoize
-  def repo_for_next_mentoring_slot
+  def rep_for_next_mentoring_slot
+    return nil if num_locked_mentoring_slots.zero?
+
     MENTORING_SLOT_THRESHOLDS[MENTORING_SLOT_THRESHOLDS.length - num_locked_mentoring_slots]
   end
 end

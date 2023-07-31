@@ -1,23 +1,28 @@
 import React, { useState, useCallback } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
+import { Request, usePaginatedRequestQuery, useList } from '@/hooks'
+import { Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { Testimonial as TestimonialProps } from '../types'
+import { PaginatedResult, Testimonial as TestimonialProps } from '../types'
 import { Testimonial } from './testimonials-list/Testimonial'
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
 export const TestimonialsList = ({
-  request,
+  request: initialRequest,
   defaultSelected,
 }: {
   request: Request
   defaultSelected: string | null
 }): JSX.Element => {
   const [selected, setSelected] = useState<string | null>(defaultSelected)
-  const { resolvedData, isFetching, status, error } = usePaginatedRequestQuery<{
-    testimonials: readonly TestimonialProps[]
-  }>(request.endpoint, request)
+
+  const { request, setPage } = useList(initialRequest)
+  const { resolvedData, isFetching, status, error, latestData } =
+    usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
+      ['profile-testimonials-list-key', request.endpoint, request.query],
+      request
+    )
 
   const handleTestimonialOpen = useCallback(
     (uuid: string) => {
@@ -40,19 +45,27 @@ export const TestimonialsList = ({
         defaultError={DEFAULT_ERROR}
       >
         {resolvedData ? (
-          <div className="testimonials">
-            {resolvedData.testimonials.map((t) => {
-              return (
-                <Testimonial
-                  testimonial={t}
-                  open={t.uuid === selected}
-                  onClick={handleTestimonialOpen(t.uuid)}
-                  onClose={handleTestimonialClose}
-                  key={t.uuid}
-                />
-              )
-            })}
-          </div>
+          <>
+            <div className="testimonials">
+              {resolvedData.results.map((t) => {
+                return (
+                  <Testimonial
+                    testimonial={t}
+                    open={t.uuid === selected}
+                    onClick={handleTestimonialOpen(t.uuid)}
+                    onClose={handleTestimonialClose}
+                    key={t.uuid}
+                  />
+                )
+              })}
+            </div>
+            <Pagination
+              disabled={latestData === undefined}
+              current={request.query.page || 1}
+              total={resolvedData.meta.totalPages}
+              setPage={setPage}
+            />
+          </>
         ) : null}
       </FetchingBoundary>
     </ResultsZone>

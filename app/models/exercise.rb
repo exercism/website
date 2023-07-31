@@ -11,10 +11,23 @@ class Exercise < ApplicationRecord
     deprecated: 3
   }
 
-  belongs_to :track, counter_cache: :num_exercises
+  belongs_to :track, touch: true
 
   has_many :solutions, dependent: :destroy
+  has_many :iterations, through: :solutions
   has_many :submissions, through: :solutions
+  has_many :representations, dependent: :destroy
+  has_many :community_videos, dependent: :destroy
+
+  has_many :approaches,
+    class_name: "Exercise::Approach",
+    inverse_of: :exercise,
+    dependent: :destroy
+
+  has_many :articles,
+    class_name: "Exercise::Article",
+    inverse_of: :exercise,
+    dependent: :destroy
 
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
@@ -40,6 +53,22 @@ class Exercise < ApplicationRecord
     through: :contributorships,
     source: :contributor
 
+  has_many :approach_introduction_authorships,
+    class_name: "Exercise::Approach::Introduction::Authorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :approach_introduction_authors,
+    through: :approach_introduction_authorships,
+    source: :author
+
+  has_many :approach_introduction_contributorships,
+    class_name: "Exercise::Approach::Introduction::Contributorship",
+    inverse_of: :exercise,
+    dependent: :destroy
+  has_many :approach_introduction_contributors,
+    through: :approach_introduction_contributorships,
+    source: :contributor
+
   scope :sorted, -> { order(:position) }
 
   scope :without_prerequisites, lambda {
@@ -50,7 +79,11 @@ class Exercise < ApplicationRecord
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end
 
-  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url, to: :git
+  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
+    :approaches_introduction, :approaches_introduction_last_modified_at, :approaches_introduction_exists?,
+    :approaches_introduction_edit_url, to: :git
+  delegate :dir, :no_important_files_changed?, to: :git, prefix: true
+  delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
@@ -61,21 +94,34 @@ class Exercise < ApplicationRecord
     self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(self) if git_sha_changed?
   end
 
-  def status
-    super.to_sym
+  after_update_commit do
+    if saved_changes.include?('git_important_files_hash')
+      Exercise::ProcessGitImportantFilesChanged.(
+        self,
+        previous_changes['git_important_files_hash'][0],
+        (previous_changes.dig('git_sha', 0) || git_sha),
+        (previous_changes.dig('slug', 0) || slug)
+      )
+    end
+
+    Submission::Representation::TriggerRerunsForExercise.defer(self) if saved_changes.key?("representer_version")
   end
+
+  after_commit do
+    if (saved_changes.keys & %w[id status]).present?
+      Track::UpdateNumExercises.(track)
+      Track::UpdateNumConcepts.(track)
+    end
+  end
+
+  def status = super.to_sym
 
   def git_type
     self.class.name.sub("Exercise", "").downcase
   end
 
-  def concept_exercise?
-    is_a?(ConceptExercise)
-  end
-
-  def practice_exercise?
-    is_a?(PracticeExercise)
-  end
+  def concept_exercise? = is_a?(ConceptExercise)
+  def practice_exercise? = is_a?(PracticeExercise)
 
   def tutorial?
     slug == "hello-world"
@@ -85,13 +131,8 @@ class Exercise < ApplicationRecord
     super && track.has_test_runner?
   end
 
-  def to_param
-    slug
-  end
-
-  def download_cmd
-    "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
-  end
+  def to_param = slug
+  def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
 
   def difficulty_category
     case difficulty
@@ -104,12 +145,11 @@ class Exercise < ApplicationRecord
     end
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
 
-  def edit_mentoring_notes_url
-    "https://github.com/exercism/website-copy/edit/main/tracks/#{track.slug}/exercises/#{slug}/mentoring.md"
+  memoize
+  def mentoring_notes
+    Git::Exercise::MentorNotes.new(track.slug, slug)
   end
 
   def prerequisite_exercises

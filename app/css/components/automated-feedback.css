@@ -12,13 +12,14 @@
         & .info {
             @apply text-15 leading-160 font-medium text-textColor6;
             & strong {
-                @apply text-textColor3 font-semibold;
+                @apply text-textColor1 font-semibold;
             }
         }
     }
     & .c-textual-content {
-        @apply text-15 text-textColor3 leading-paragraph;
+        @apply text-15 text-textColor1 leading-paragraph;
         @apply mb-12;
+        max-width: 100%;
     }
     & .byline {
         @apply flex items-center;
@@ -41,12 +42,13 @@
         @apply text-15 leading-160;
         & a {
             @apply inline-flex items-center;
-            @apply text-lightBlue font-semibold;
+            @apply text-prominentLinkColor font-semibold;
             @apply mr-8;
             & .c-icon {
                 height: 12px;
                 width: 12px;
                 @apply ml-6;
+                @apply filter-prominentLinkColor;
             }
         }
     }

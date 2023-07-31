@@ -1,11 +1,12 @@
 import { useState, useCallback } from 'react'
-import { QueryKey, queryCache } from 'react-query'
+import { QueryKey, useQueryCache } from 'react-query'
 
 type ListItemType = {
   uuid: string
 }
 
 export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
+  const queryCache = useQueryCache()
   const [editingItem, setEditingItem] = useState<T | null>(null)
 
   const handleEdit = useCallback((item) => {
@@ -28,7 +29,7 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
         }
       })
     },
-    [cacheKey]
+    [cacheKey, queryCache]
   )
 
   const handleUpdate = useCallback(
@@ -45,7 +46,7 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
         }
       })
     },
-    [cacheKey]
+    [cacheKey, queryCache]
   )
 
   const getItemAction = useCallback(

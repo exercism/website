@@ -15,7 +15,7 @@ export type Track = {
   slug: string
   title: string
   iconUrl: string
-  avgWaitTime: string | null
+  medianWaitTime: number
   numSolutionsQueued: number
 }
 
@@ -34,9 +34,11 @@ export const TrackSelector = ({
     endpoint: tracksEndpoint,
     options: {},
   })
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
-    APIResponse
-  >(['tracks', request.endpoint, request.query], request)
+  const { status, resolvedData, isFetching, error } =
+    usePaginatedRequestQuery<APIResponse>(
+      ['tracks', request.endpoint, request.query],
+      request
+    )
 
   const handleContinue = useCallback(() => {
     onContinue()

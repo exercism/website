@@ -1,0 +1,22 @@
+.c-tooltip-base.sm:block.hidden
+  .flex.gap-16
+    = graphical_icon 'representer', css_class: "filter-textColor6"
+    %div
+      %h5.text-h5
+        The #{@track.title} representer
+        = render ViewComponents::Track::Build::Health.new(@status.representer.health)
+
+      %p.text-p-base
+        - case @status.representer.health.to_sym
+        - when :exemplar
+          Works exemplary!
+        - when :healthy
+          Works well.
+        - when :needs_attention
+          No feedback has been given via any representation.
+        - when :missing
+          The representer has not yet been implemented.
+
+      - if @status.representer.num_comments.positive?
+        %p.text-p-base
+          #{@status.representer.num_comments} #{'comment'.pluralize(@status.representer.num_comments)} have been made.

@@ -1,0 +1,4 @@
+en:
+  user_preferences:
+    auto_update_exercises: "Automatically update my solutions to the latest version of exercises if they pass the latest version's tests"
+    allow_comments_on_published_solutions: "Allow people to comment on future solutions I publish"

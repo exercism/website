@@ -4,6 +4,7 @@ import { GraphicalIcon } from '../common'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
 import { timeFormat } from '../../utils/time'
+import pluralize from 'pluralize'
 
 export const BadgeModal = ({
   badge,
@@ -31,15 +32,17 @@ export const BadgeModal = ({
       <div className="earned-at">
         Earned on{' '}
         <time dateTime={badge.unlockedAt}>
-          {timeFormat(badge.unlockedAt, 'DD MMM YYYY')}
+          {timeFormat(badge.unlockedAt, 'Do MMM YYYY')}
         </time>
       </div>
       <div className="num-awardees text-p-base">
         <GraphicalIcon icon="students" />
-        <strong>{badge.numAwardees}</strong> members have earned this badge.
+        <strong>{badge.numAwardees}</strong>{' '}
+        {pluralize('member', badge.numAwardees)}{' '}
+        {pluralize('has', badge.numAwardees)} earned this badge.
       </div>
       <div className="percentage-awardees">
-        That's <strong>{badge.percentageAwardees}%</strong> of all Exercism
+        That&apos;s <strong>{badge.percentageAwardees}%</strong> of all Exercism
         users
       </div>
     </Modal>

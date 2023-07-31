@@ -1,0 +1,15 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:preferences)
+
+    %article
+      %h1 General Preferences
+
+      %section{ id: 'theme-preferences-form' }
+        = render ReactComponents::Settings::ThemePreferenceForm.new
+
+      %section{ id: 'comments-preference-form' }
+        = render ReactComponents::Settings::CommentsPreferenceForm.new
+
+      %section{ id: 'user-preferences-form' }
+        = render ReactComponents::Settings::UserPreferencesForm.new

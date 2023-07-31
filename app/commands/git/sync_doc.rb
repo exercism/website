@@ -1,41 +1,32 @@
-module Git
-  class SyncDoc
-    include Mandate
+class Git::SyncDoc
+  include Mandate
 
-    def initialize(config, section, git_sha, track: nil)
-      @config = config
-      @track = track
-      @section = section
-      @git_sha = git_sha
-    end
+  initialize_with :config, :section, :git_sha, track: nil
 
-    def call
-      doc = Document.where(track: track).create_or_find_by!(
-        uuid: config[:uuid],
-        track: track
-      ) { |d| d.attributes = attributes }
+  def call
+    doc = Document.where(track:).create_or_find_by!(
+      uuid: config[:uuid],
+      track:
+    ) { |d| d.attributes = attributes }
 
-      doc.update!(attributes)
-    rescue StandardError => e
-      Github::Issue::OpenForDocSyncFailure.(config, section, e, git_sha)
-    end
+    doc.update!(attributes)
+  rescue StandardError => e
+    Github::Issue::OpenForDocSyncFailure.(config, section, e, git_sha)
+  end
 
-    private
-    attr_reader :config, :section, :track, :git_sha
+  private
+  def repo_url
+    track ? track.repo_url : Document::REPO_URL
+  end
 
-    def repo_url
-      track ? track.repo_url : Document::REPO_URL
-    end
-
-    def attributes
-      {
-        slug: config[:slug],
-        git_repo: repo_url,
-        git_path: config[:path],
-        section: section,
-        title: config[:title],
-        blurb: config[:blurb]
-      }
-    end
+  def attributes
+    {
+      slug: config[:slug],
+      git_repo: repo_url,
+      git_path: config[:path],
+      section:,
+      title: config[:title],
+      blurb: config[:blurb]
+    }
   end
 end

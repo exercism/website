@@ -6,6 +6,8 @@
         @apply flex items-center;
         @apply bg-backgroundColorB;
         @apply border-b-1 border-borderColor7;
+        @apply overflow-y-hidden overflow-x-auto;
+        @apply flex-shrink-0;
 
         & .c-tab {
             @apply grid place-items-center;

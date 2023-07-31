@@ -2,7 +2,6 @@ class Mentoring::RequestsController < ApplicationController
   before_action :ensure_mentor!
 
   before_action :use_mentor_request
-  before_action :disable_site_header!
 
   def show
     # Redirect to mentor queue if this is your own request

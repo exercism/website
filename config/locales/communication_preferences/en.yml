@@ -11,10 +11,20 @@ en:
     email_on_mentor_heartbeat: "Email me with weekly mentor summaries"
 
     email_on_mentor_started_discussion_notification: "Email me when a mentor starts mentoring my solution"
+    email_on_mentor_finished_discussion_notification: "Email me when a mentor finished a discussion on my solution"
     email_on_mentor_replied_to_discussion_notification: "Email me when a mentor replies to a discussion on my solution"
 
     email_on_student_replied_to_discussion_notification: "Email me when a student replies to a discussion I am mentoring"
+    email_on_student_finished_discussion_notification: "Email me when a student finished a discussion I am mentoring"
     email_on_student_added_iteration_notification: "Email me when a student adds an iteration to a solution I am mentoring"
 
+    email_on_automated_feedback_added_notification: "Email me when automated feedback is added to my solution"
+
+    email_on_nudge_notification: "Email me prompts about how to get the most out of Exercism"
+    email_about_fundraising_campaigns: "Email me about fundraising campaigns"
+    email_about_events: "Email me about events (e.g. Functional February) or interviews."
+    email_about_premium: "Email me about my Exercism Premium membership"
+    email_about_insiders: "Email me about my Exercism Insiders membership"
+
     email_on_general_update_notification: "Email me about other non-essential updates to my account"
-    email_on_acquired_badge_notification: "Email me when I receive a unlock a new badge"
+    email_on_acquired_badge_notification: "Email me when I unlock a new badge"

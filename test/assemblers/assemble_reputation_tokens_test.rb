@@ -3,7 +3,7 @@ require "test_helper"
 class AssembleReputationTokensTest < ActiveSupport::TestCase
   test "renders correctly with data" do
     user = create :user
-    token = create :user_reputation_token, user: user
+    token = create(:user_reputation_token, user:)
 
     data = [
       token.rendering_data.merge(
@@ -15,7 +15,7 @@ class AssembleReputationTokensTest < ActiveSupport::TestCase
 
     expected = SerializePaginatedCollection.(
       user.reputation_tokens.page(1).per(20),
-      data: data,
+      data:,
       meta: {
         links: {
           tokens: Exercism::Routes.reputation_journey_url,

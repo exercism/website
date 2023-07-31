@@ -1,4 +1,4 @@
-class MaterializeStatusColumns < ActiveRecord::Migration[6.1]
+class MaterializeStatusColumns < ActiveRecord::Migration[7.0]
   def change
     add_column :tracks, :course, :boolean, null: false, default: false
     add_column :tracks, :has_test_runner, :boolean, null: false, default: false

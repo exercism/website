@@ -1,4 +1,4 @@
-class CreateGithubIssues < ActiveRecord::Migration[6.1]
+class CreateGithubIssues < ActiveRecord::Migration[7.0]
   def change
     create_table :github_issues do |t|
       t.string :node_id, null: false, index: { unique: true }

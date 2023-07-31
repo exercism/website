@@ -1,3 +1,7 @@
+- content_for :meta_title, @post.title.html_safe
+- content_for :meta_description, @post.marketing_copy.html_safe
+- content_for :meta_image, @post.image_url
+
 #page-blog-post.pb-80
   %header.pt-24.md:pt-48.pb-64.md:pb-128
     .md-container.flex.flex-col.md:flex-row-reverse
@@ -5,8 +9,8 @@
       .block.flex-grow
         %h1.text-h0.mb-12.md:mb-18= @post.title
         = render "info_bar", post: @post
-  .md-container.mb-32.md:mb-48
-    %article.shadow-lg.bg-backgroundColorA.rounded-8
+  .md-container.mb-32.md:mb-48.flex.gap-32
+    %article.shadow-lg.bg-backgroundColorA.rounded-8{ class: 'max-w-[840px]' }
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
         = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
         .info.md:hidden
@@ -16,11 +20,11 @@
           %h3.text-h5.mb-2 Find the post interesting or useful?
           %p.text-p-base Share it around and have others benefit too!
 
-        = render ReactComponents::Common::ShareButton.new(title: "Share this blog post", share_title: @post.title, share_link: Exercism::Routes.blog_post_url(@post))
+        = render ViewComponents::Blog::SharePostButton.new(@post)
 
       .p-16.md:py-32.md:px-40.flex.flex-col
         - if @post.video?
-          .video-container
+          .c-youtube-container.mb-32
             %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@post.youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
         .c-textual-content.--large
@@ -30,7 +34,7 @@
           = format_date(@post.published_at)
           &middot;
           Found it useful?
-          %button.text-textColor2.font-medium.border-b-1.border-borderColor6 Share it.
+          = render ViewComponents::Blog::SharePostLink.new(@post)
 
         .byline.shadow-sm.rounded-8.py-16.px-24.flex.flex-col.md:flex-row.md:items-center.border-1.border-borderColor6
           .flex.items-center
@@ -41,6 +45,11 @@
                 .text-h4.mr-16 @#{@post.author.handle}
                 = render ViewComponents::Reputation.new(@post.author.formatted_reputation, flashy: true, size: :small)
               .text-16.leading-150.font-semibold.text-textColor6= @post.author.name
+
+    .hidden.mxl:flex.flex-col.pt-32.gap-20
+      %h4.text-h4 More from our blog
+      - @other_posts.each do |post|
+        = render ViewComponents::BlogPost.new(post)
 
   .sm-container.flex.flex-col
     %h2.text-h3.mb-24 Other community posts

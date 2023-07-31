@@ -13,7 +13,7 @@ FactoryBot.define do
     status { :active }
     git_sha { "HEAD" }
     synced_to_git_sha { "HEAD" }
-    git_important_files_hash { "cf784d0ca95265de9254b5abeef9456c" }
+    git_important_files_hash { "b72b0958a135cddd775bf116c128e6e859bf11e4" }
     has_test_runner { true }
 
     trait :random_slug do

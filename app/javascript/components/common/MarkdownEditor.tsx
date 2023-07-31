@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor'
-import { sendRequest } from '../../utils/send-request'
+import { sendRequest } from '@/utils'
 
 export type MarkdownEditorHandle = {
   value: (value: string | void) => string | void
@@ -9,7 +9,7 @@ export type MarkdownEditorHandle = {
 
 export const MarkdownEditor = ({
   contextId,
-  onChange = () => {},
+  onChange = () => null,
   editorDidMount,
   url = document.querySelector<HTMLMetaElement>(
     'meta[name="parse-markdown-url"]'
@@ -31,6 +31,13 @@ export const MarkdownEditor = ({
       if (!editorDidMount) {
         return
       }
+
+      // Ensure that the HOME and END keys make the cursor go to the
+      // beginning/end of the same line on which the cursor is placed
+      editor.codemirror.addKeyMap({
+        Home: 'goLineLeft',
+        End: 'goLineRight',
+      })
 
       editorDidMount({
         value: editor.value.bind(editor),

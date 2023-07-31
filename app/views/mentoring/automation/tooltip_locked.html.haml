@@ -1,0 +1,21 @@
+.c-generic-tooltip.text-14{ class: "!py-16 !px-24 !max-w-[420px]" }
+  %p.text-16.text-white.font-semibold.leading-170.mb-12
+    Requires
+    %strong.font-bold= @min_finished_mentoring_sessions
+    finished mentoring sessions on a track and an overall satisfaction rating of #{@min_satisfaction_percentage}%
+    (currently #{@satisfaction_percentage}%)
+  .bg-darkThemeBackgroundColor.flex.flex-row.rounded-8.mb-6.overflow-hidden{ class: 'h-[16px]' }
+    .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.h-100{ class: "min-w-[6px]", style: "width:#{@finished_mentoring_sessions}%" }
+
+
+  .mb-16 #{@finished_mentoring_sessions}/#{@min_finished_mentoring_sessions}
+
+  %h4.font-semibold.mb-4 What is automation?
+
+  %p.mb-4.leading-150
+    Automation allows you to submit standardized responses to code submissions that get shared as part of automated feedback on solutions.
+
+  = link_to doc_path(:using, "feedback/automated"), class: 'external-link' do
+    .font-semibold.text-lightGold.text-14.leading-170.flex.flex-row.items-center
+      Find out more on Automation
+      = graphical_icon :"arrow-right", css_class: "w-[14px] h-[14px] ml-8 filter-lightGold"

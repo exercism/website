@@ -1,6 +1,7 @@
 import React, { useState, createContext, useCallback, useMemo } from 'react'
 import { PaymentIntentType } from './StripeForm'
 import { Tab, TabContext } from '../common/Tab'
+import { Icon } from '../common'
 import { TransactionForm } from './TransactionForm'
 import { ExistingSubscriptionNotice } from './ExistingSubscriptionNotice'
 import { ExercismStripeElements } from './ExercismStripeElements'
@@ -8,11 +9,11 @@ import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 type Links = {
@@ -33,6 +34,20 @@ const SUBSCRIPTION_DEFAULT_AMOUNT = currency(32)
 
 const DEFAULT_ERROR = new Error('Unable to fetch subscription information')
 
+type Props = {
+  request: Request
+  defaultAmount?: Partial<FormAmount>
+  defaultTransactionType?: PaymentIntentType
+  onSuccess: (type: PaymentIntentType, amount: currency) => void
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
+  onProcessing?: () => void
+  onSettled?: () => void
+  links: Links
+  id?: string
+}
+
 export const Form = ({
   request,
   defaultAmount,
@@ -40,18 +55,13 @@ export const Form = ({
   onSuccess,
   links,
   userSignedIn,
+  captchaRequired,
+  recaptchaSiteKey,
   onProcessing = () => null,
   onSettled = () => null,
-}: {
-  request: Request
-  defaultAmount?: Partial<FormAmount>
-  defaultTransactionType?: PaymentIntentType
-  onSuccess: (type: PaymentIntentType, amount: currency) => void
-  userSignedIn: boolean
-  onProcessing?: () => void
-  onSettled?: () => void
-  links: Links
-}): JSX.Element => {
+  id,
+}: Props): JSX.Element => {
+  const queryCache = useQueryCache()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription
   }>('active-subscription', request)
@@ -115,7 +125,7 @@ export const Form = ({
 
       onSuccess(type, amount)
     },
-    [onSuccess]
+    [onSuccess, queryCache]
   )
 
   return (
@@ -125,10 +135,19 @@ export const Form = ({
         switchToTab: (id) => setTransactionType(id as PaymentIntentType),
       }}
     >
-      <div className="c-donations-form">
+      <div id={id} className="c-donations-form">
         <div className="--tabs">
-          <Tab id="subscription" context={TabsContext}>
-            💙 Monthly
+          <Tab
+            id="subscription"
+            context={TabsContext}
+            className="!flex justify-center"
+          >
+            <Icon
+              icon="insiders"
+              alt="Eligible for Insiders Access"
+              className="emoji mr-4 !filter-none md:block hidden"
+            ></Icon>
+            Monthly Recurring
           </Tab>
           <Tab id="payment" context={TabsContext}>
             One-off
@@ -179,6 +198,8 @@ export const Form = ({
             <StripeForm
               paymentIntentType={transactionType}
               userSignedIn={userSignedIn}
+              captchaRequired={captchaRequired}
+              recaptchaSiteKey={recaptchaSiteKey}
               amount={currentAmount}
               onSuccess={handleSuccess}
               onProcessing={onProcessing}

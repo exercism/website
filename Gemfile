@@ -1,62 +1,78 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '3.2.1'
 
 # Service/framework dependencies
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 7.0.1'
+gem 'cssbundling-rails'
+gem 'jsbundling-rails'
+gem 'turbo-rails'
+gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
-gem 'mysql2', '>= 0.4.4'
+gem 'mysql2', '~> 0.5.4'
 gem 'redis', '~> 4.0'
+gem 'mongo'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
-gem 'anycable-rails', '~> 1.0.4'
+gem 'anycable-rails', '~> 1.2.0'
+gem 'grpc', '>= 1.53.0'
+gem 'crawler_detect'
 
 # Serving requests
-gem 'puma', '~> 4.1'
+gem 'puma', '~> 4.3'
+gem 'rack-cors'
 
 # Helper gems for Rails
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bugsnag'
 
 # Interaction gems
-gem 'rugged' # Git
+gem 'rugged'
 gem 'rest-client' # http
 gem 'octokit' # GitHub
 
 # General-purpose gems
-gem 'mandate', '1.0.0.beta1'
+gem 'mandate', '~> 2.0'
 gem 'kaminari'
-gem 'oj'
+gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.75.0'
-# gem 'exercism-config', path: '../exercism_config'
+gem 'exercism-config', '>= 0.106.0'
+# gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'friendly_id', '~> 5.4.0'
-gem 'sidekiq', '~> 6.1'
+gem 'sidekiq', '~> 6.3'
 gem 'sidekiq-failures'
-gem "sidekiq-scheduler"
+gem 'sidekiq-scheduler'
 
 # View-level Dependencies
-gem 'webpacker', '~> 5.x'
-gem 'turbo-rails'
 gem 'hamlit'
-gem 'commonmarker'
+gem 'commonmarker', '>= 0.23.8'
 gem 'ansi-to-html'
+gem 'public_suffix'
 
 # Authentication
-gem 'devise', '~> 4.7.1'
+gem 'devise', '~> 4.7'
 
 # Omniauth
 gem 'omniauth-github'
+gem 'omniauth-discord'
+gem 'omniauth-rails_csrf_protection'
 
 # Payments
 gem 'stripe'
+gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
 
-# Reporting
+# Discourse
+gem 'discourse_api'
+
+# Performance issue Reporting
 gem 'skylight'
+gem 'bullet'
+
+gem 'listen', '>= 3.0.5', '< 4.0'
 
 # Let's be nice to Windows users
 platforms :mingw, :mswin, :x64_mingw, :jruby do
@@ -75,7 +91,6 @@ end
 
 group :development do
   gem 'haml_lint', require: false
-  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'solargraph'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
@@ -90,7 +105,6 @@ group :test do
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
-  gem 'simplecov', '~> 0.17.0', require: false
   gem 'webdrivers'
   gem 'webmock'
   gem 'show_me_the_cookies'
@@ -102,5 +116,16 @@ group :test do
   gem 'recursive-open-struct'
 end
 
-gem "addressable", "~> 2.7"
-gem "mini_magick"
+gem 'addressable', '~> 2.7'
+gem 'mini_magick'
+
+gem 'elasticsearch', '6.8.3'
+
+gem 'rack-attack', '~> 6.6'
+
+gem 'geocoder', '~> 1.8'
+gem 'maxminddb', '~> 0.1.22'
+
+gem 'rubyzip', '~> 2.3'
+
+gem "toml", "~> 0.3.0"

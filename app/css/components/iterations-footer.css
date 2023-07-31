@@ -1,11 +1,12 @@
 .c-iterations-footer {
     @apply flex items-center px-24 py-16;
+    @apply overflow-x-auto;
     z-index: 1;
 
     background: linear-gradient(
         180deg,
         var(--backgroundColorB) 0%,
-        var(--backgroundColorA) 50%
+        var(--backgroundColorB) 50%
     );
     box-shadow: 0px -4px 16px var(--backgroundColorB);
 
@@ -29,12 +30,16 @@
                 @apply text-darkGray text-13 font-semibold font-mono;
 
                 &.unread {
-                    @apply border-orange bg-lightOrange;
+                    color: var(--textColorIterationCommentsUnread);
+                    background: var(--backgroundColorIterationCommentsUnread);
+                    border-color: var(--borderColorIterationCommentsUnread);
                 }
             }
 
             &.active {
-                @apply text-darkGray border-lightBlue bg-veryLightBlue;
+                color: var(--textColorIterationActive);
+                border-color: var(--borderColorIterationActive);
+                background: var(--backgroundColorTeamInfoBox);
             }
         }
         & .previous {

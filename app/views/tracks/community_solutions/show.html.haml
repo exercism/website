@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{@solution.user.handle}'s solution for #{@exercise.title} in #{@track.title} on Exercism"
-- content_for :meta_description, "Learn from how #{@solution.user.handle} solved #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise."
+- content_for :meta_title, "#{sanitize(@solution.user.handle)}'s solution for #{@exercise.title} in #{@track.title} on Exercism".html_safe
+- content_for :meta_description, "Learn from how #{sanitize(@solution.user.handle)} solved #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise."
 
 #page-community-solution
   .c-exercise-header
@@ -19,7 +19,11 @@
         .seperator /
         = link_to "Community Solutions", track_exercise_solutions_path(@track, @exercise)
         .seperator /
-        .exercise-title #{@author.handle}'s solution
+        .exercise-title.flex
+          - if @own_solution
+            Your solution
+          - else
+            #{@author.handle}'s solution
 
     .content.lg-container.flex.flex-col.lg:flex-row.lg:items-center
       = track_icon @track
@@ -32,11 +36,13 @@
 
         %h1
           .name
-            - if @author.profile
-              = link_to "#{@author.handle}'s", profile_path(@author)
+            - if @own_solution
+              Your solution
+            - elsif @author.profile
+              = link_to profile_path(@author), class: 'flex' do
+                #{@author.handle}'s solution
             - else
-              #{@author.handle}'s
-            solution
+              #{@author.handle}'s solution
             = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
           .to
             to
@@ -46,7 +52,7 @@
 
       .decorations.hidden.lg:block
       .buttons.lg:ml-96.mt-24.lg:mt-0
-        = render ReactComponents::Common::ShareSolutionButton.new(@solution)
+        = render ViewComponents::CommunitySolutions::ShareSolutionButton.new(@solution)
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
 
@@ -68,10 +74,12 @@
                 .face= avatar discussion.mentor
             .info
               .mentors
-                Mentored by
-                %strong= @mentor_discussions.map { |d| d.mentor.handle }.to_sentence
+                Mentored by&nbsp;
+                %strong= @mentor_discussions.map { |d| render(ViewComponents::HandleWithFlair.new(d.mentor.handle, d.mentor.flair)) }.map(&:to_s).to_sentence.html_safe
+
+
               = link_to doc_path(:using, 'feedback'), class: 'more' do
-                = graphical_icon "info-circle"
+                = graphical_icon "info-circle", css_class: 'filter-textColor6'
                 What is this?
 
             = render ViewComponents::Reputation.new("+5", size: :small, flashy: true)

@@ -4,7 +4,10 @@ module API
 
     def index
       mentor_request_comment = @discussion.request_comment
-      posts = @discussion.posts
+      posts = @discussion.posts.includes(
+        :iteration,
+        author: { avatar_attachment: :blob }
+      )
 
       serialized_posts = [mentor_request_comment, posts].
         flatten.
@@ -58,7 +61,7 @@ module API
     def use_mentor_discussion
       @discussion = Mentor::Discussion.find_by(uuid: params[:discussion_uuid])
       return render_404(:mentor_discussion_not_found) unless @discussion
-      return render_403(:mentor_discussion_not_accessible) unless @discussion.mentor_id == current_user.id
+      return render_403(:mentor_discussion_not_accessible) unless @discussion.viewable_by_mentor?(current_user)
     end
   end
 end

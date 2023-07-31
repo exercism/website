@@ -40,7 +40,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "with learning tracks" do
     track = create :track
     user = create :user
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
     UserTrack.any_instance.expects(num_exercises: 10)
     UserTrack.any_instance.expects(num_completed_exercises: 5)
     UserTrack.any_instance.expects(num_concepts_learnt: 2)
@@ -71,7 +71,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "progress charts - year" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     dates = []
     values = [1, 3, 4, 2, 1, 3, 4, 5, 2, 3, 5, 9]
@@ -88,16 +88,18 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
   end
 
-  test "progress charts - weeks" do
+  test "progress charts - weeks (previous year has 52 weeks)" do
+    travel_to(Date.new(2022, 1, 5))
+
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     # Create a dates array containing values for each period
     dates = []
     values = [1, 3, 4, 2, 1, 3, 2, 3, 5, 9]
     values.each.with_index do |value, idx|
-      dates += value.times.map { (Time.current - ((values.size - 1 - idx) * 7).days).to_i } # rubocop:disable Performance/TimesMap
+      dates += value.times.map { (Time.current - (values.size - 1 - idx).weeks).to_i } # rubocop:disable Performance/TimesMap
     end
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 
@@ -109,10 +111,58 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
   end
 
-  test "progress charts - days" do
+  test "progress charts - weeks (previous year has 53 weeks)" do
+    travel_to(Date.new(2021, 1, 5))
+
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
+
+    # Create a dates array containing values for each period
+    dates = []
+    values = [1, 3, 4, 2, 1, 3, 2, 3, 5, 9]
+    values.each.with_index do |value, idx|
+      dates += value.times.map { (Time.current - (values.size - 1 - idx).weeks).to_i } # rubocop:disable Performance/TimesMap
+    end
+    UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
+
+    expected = {
+      period: "Last 10 weeks",
+      data: values
+    }
+
+    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
+  end
+
+  test "progress charts - days (previous year has 365 days)" do
+    travel_to(Date.new(2019, 1, 5))
+
+    track = create :track
+    user = create :user
+    create(:user_track, user:, track:)
+
+    # Create a dates array containing values for each period
+    dates = []
+    values = [1, 3, 4, 2, 1, 3, 2, 3, 5, 9, 3, 1, 2, 6]
+    values.each.with_index do |value, idx|
+      dates += value.times.map { (Time.current - (values.size - 1 - idx).days).to_i } # rubocop:disable Performance/TimesMap
+    end
+    UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
+
+    expected = {
+      period: "Last 14 days",
+      data: values
+    }
+
+    assert_equal expected, AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0][:progress_chart]
+  end
+
+  test "progress charts - days (previous year has 366 days)" do
+    travel_to(Date.new(2021, 1, 5))
+
+    track = create :track
+    user = create :user
+    create(:user_track, user:, track:)
 
     # Create a dates array containing values for each period
     dates = []
@@ -137,10 +187,10 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     mentor = create :user
     student_1 = create :user
     student_2 = create :user
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_1, track: ruby)
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_1, track: js)
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_2, track: js)
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_1, track: js)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_1, track: ruby)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_1, track: js)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_2, track: js)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_1, track: js)
 
     # Unused records to ensure they're filtered
     create :mentor_discussion, solution: create(:practice_solution, user: student_2, track: js)
@@ -177,12 +227,12 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "mentoring" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
-    create :mentor_discussion, :awaiting_student, solution: create(:practice_solution, user: user, track: track)
-    create :mentor_discussion, :awaiting_mentor, solution: create(:practice_solution, user: user, track: track)
-    create :mentor_discussion, :mentor_finished, solution: create(:practice_solution, user: user, track: track)
-    create :mentor_discussion, :student_finished, solution: create(:practice_solution, user: user, track: track)
-    5.times { create :mentor_request, solution: create(:practice_solution, user: user, track: track) }
+    create(:user_track, user:, track:)
+    create :mentor_discussion, :awaiting_student, solution: create(:practice_solution, user:, track:)
+    create :mentor_discussion, :awaiting_mentor, solution: create(:practice_solution, user:, track:)
+    create :mentor_discussion, :mentor_finished, solution: create(:practice_solution, user:, track:)
+    create :mentor_discussion, :student_finished, solution: create(:practice_solution, user:, track:)
+    5.times { create :mentor_request, solution: create(:practice_solution, user:, track:) }
 
     data = AssembleJourneyOverview.(user)[:overview][:learning][:tracks][0]
     assert_equal 1, data[:num_completed_mentoring_discussions]

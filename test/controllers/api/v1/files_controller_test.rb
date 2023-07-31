@@ -6,7 +6,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return 404 when solution is missing" do
     setup_user
     get api_v1_solution_file_path(999, "foobar"), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "solution_not_found",
       message: I18n.t('api.errors.solution_not_found')
@@ -21,7 +21,36 @@ class API::V1::FilesControllerTest < API::BaseTestCase
 
     get api_v1_solution_file_path(solution.uuid, "missing.rb"), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
+    expected = { error: {
+      type: "file_not_found",
+      message: I18n.t('api.errors.file_not_found')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "show should return 404 for different user if all iterations are deleted" do
+    setup_user
+    solution = create :practice_solution, :published
+
+    filename = "meh"
+    old_submission = create(:submission, solution:)
+    create :submission_file, submission: old_submission, filename:, content: "old-code"
+
+    deleted_iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: deleted_iteration_submission, filename:, content: "deleted-code"
+    create :iteration, solution:, submission: deleted_iteration_submission, deleted_at: Time.current
+
+    second_deleted_iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: second_deleted_iteration_submission, filename:, content: "more-deleted-code"
+    create :iteration, solution:, submission: second_deleted_iteration_submission, deleted_at: Time.current
+
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: "new-code"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response :not_found
     expected = { error: {
       type: "file_not_found",
       message: I18n.t('api.errors.file_not_found')
@@ -35,28 +64,75 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     solution = create :practice_solution, user: @current_user
 
     get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   test "show should return solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
     content = "foobar!!"
-    file = create :submission_file, submission: submission, content: content
+    file = create(:submission_file, submission:, content:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
     assert_equal response.body, content
+  end
+
+  test "show should return latest submission, not latest iteration for user" do
+    setup_user
+    solution = create :practice_solution, user: @current_user
+
+    filename = "meh"
+    old_submission = create(:submission, solution:)
+    create :submission_file, submission: old_submission, filename:, content: "old-code"
+
+    iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: iteration_submission, filename:, content: "iteration-code"
+    create :iteration, solution:, submission: iteration_submission
+
+    correct_content = "new-code"
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: correct_content
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response :ok
+    assert_equal correct_content, response.body
+  end
+
+  test "show should return latest iteration, not latest submission for different user" do
+    setup_user
+    solution = create :practice_solution, :published
+
+    filename = "meh"
+    old_submission = create(:submission, solution:)
+    create :submission_file, submission: old_submission, filename:, content: "old-code"
+
+    correct_content = "iteration-code"
+    iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: iteration_submission, filename:, content: correct_content
+    create :iteration, solution:, submission: iteration_submission
+
+    deleted_iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: deleted_iteration_submission, filename:, content: "deleted-code"
+    create :iteration, solution:, submission: deleted_iteration_submission, deleted_at: Time.current
+
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: "new-code"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response :ok
+    assert_equal correct_content, response.body
   end
 
   test "show should return special README.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    create :submission, solution: solution
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected_body = <<~EXPECTED.strip
       # Bob
@@ -97,10 +173,11 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special HELP.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    create :submission, solution: solution
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected_body = <<~EXPECTED.strip
       # Help
@@ -124,7 +201,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
@@ -137,10 +214,11 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special HINTS.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    create :submission, solution: solution
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected_body = <<~EXPECTED.strip
       # Hints
@@ -161,7 +239,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   #   solution = create :concept_solution, exercise: exercise
   #
   #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-  #   assert_response :success
+  #   assert_response :ok
   # end
 
   # test "show should return 200 if solution is published" do
@@ -172,7 +250,7 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   #   solution = create :concept_solution, exercise: exercise, published_at: DateTime.yesterday
   #
   #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-  #   assert_response :success
+  #   assert_response :ok
   # end
 
   # test "show should return 403 for a normal user when the solution is not published" do
@@ -183,6 +261,6 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   #   solution = create :concept_solution, exercise: exercise
   #
   #   get api_v1_solution_file_path(solution.uuid, "bob.rb"), headers: @headers, as: :json
-  #   assert_response 403
+  #   assert_response :forbidden
   # end
 end

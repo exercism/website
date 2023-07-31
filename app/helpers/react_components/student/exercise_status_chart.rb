@@ -7,7 +7,7 @@ module ReactComponents
         super(
           "student-exercise-status-chart",
           {
-            exercises_data: exercises_data,
+            exercises_data:,
             links: {
               exercise: Exercism::Routes.track_exercise_url(track, "$SLUG"),
               tooltip: Exercism::Routes.tooltip_track_exercise_url(track, "$SLUG")

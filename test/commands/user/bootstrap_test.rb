@@ -15,6 +15,26 @@ class User::BootstrapTest < ActiveSupport::TestCase
 
     User::Bootstrap.(user)
     perform_enqueued_jobs
-    assert_equal Badges::MemberBadge, user.reload.badges.first.class
+    assert_includes user.reload.badges.map(&:class), Badges::MemberBadge
+  end
+
+  test "adds metric" do
+    user = create :user
+
+    User::Bootstrap.(user)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_instance_of Metrics::SignUpMetric, metric
+    assert_equal user.created_at, metric.occurred_at
+    assert_equal user, metric.user
+  end
+
+  test "email verified for new user" do
+    user = create :user
+
+    User::VerifyEmail.expects(:defer).with(user).once
+    User::Bootstrap.(user)
   end
 end

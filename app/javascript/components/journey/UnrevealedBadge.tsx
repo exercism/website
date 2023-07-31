@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { Badge as BadgeProps } from '../types'
-import { useMutation, queryCache, QueryKey } from 'react-query'
+import { useMutation, QueryKey, useQueryCache } from 'react-query'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { sendRequest } from '../../utils/send-request'
@@ -17,6 +17,7 @@ export const UnrevealedBadge = ({
   badge: BadgeProps
   cacheKey: QueryKey
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [revealedBadge, setRevealedBadge] = useState<BadgeProps | null>(null)
   const [mutation, { status, error }] = useMutation<BadgeProps>(
@@ -38,9 +39,8 @@ export const UnrevealedBadge = ({
   )
 
   const updateCache = useCallback(() => {
-    const oldData = queryCache.getQueryData<PaginatedResult<BadgeProps>>(
-      cacheKey
-    )
+    const oldData =
+      queryCache.getQueryData<PaginatedResult<BadgeProps>>(cacheKey)
 
     if (!oldData || !revealedBadge) {
       return
@@ -52,7 +52,7 @@ export const UnrevealedBadge = ({
         return oldBadge.uuid === revealedBadge.uuid ? revealedBadge : oldBadge
       }),
     })
-  }, [cacheKey, revealedBadge])
+  }, [cacheKey, revealedBadge, queryCache])
 
   return (
     <React.Fragment>

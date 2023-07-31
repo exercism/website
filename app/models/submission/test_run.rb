@@ -1,9 +1,12 @@
 class Submission::TestRun < ApplicationRecord
   extend Mandate::Memoize
+  include HasToolingJob
 
   serialize :raw_results, JSON
 
+  belongs_to :track
   belongs_to :submission
+  has_one :exercise, through: :submission
 
   scope :ops_successful, -> { where(ops_status: 200) }
 
@@ -17,31 +20,29 @@ class Submission::TestRun < ApplicationRecord
     self.uuid = SecureRandom.uuid unless self.uuid
 
     self.ops_status = 400 if ops_success? && !raw_results[:status]
+
+    self.git_sha = submission.git_sha if self.git_sha.blank?
+
+    # We don't want to just copy this from the submission as we
+    # might be creating a HEAD run.
+    if self.git_important_files_hash.blank?
+      self.git_important_files_hash = Git::GenerateHashForImportantExerciseFiles.(
+        exercise, git_sha: self.git_sha
+      )
+    end
   end
 
-  def status
-    super.try(&:to_sym)
+  before_validation on: :create do
+    self.track = submission.track unless track
   end
 
-  def ops_success?
-    ops_status == 200
-  end
-
-  def ops_errored?
-    !ops_success?
-  end
-
-  def passed?
-    status == :pass
-  end
-
-  def errored?
-    status == :error
-  end
-
-  def failed?
-    status == :fail
-  end
+  def status = super.try(&:to_sym)
+  def ops_success? = ops_status == 200
+  def timed_out? = ops_status == 408
+  def ops_errored? = !ops_success?
+  def passed? = status == :pass
+  def errored? = status == :error
+  def failed? = status == :fail
 
   memoize
   def test_results
@@ -60,33 +61,27 @@ class Submission::TestRun < ApplicationRecord
   end
 
   class TestResult
-    def initialize(test)
-      @test = test
-    end
+    include Mandate
+
+    initialize_with :test
 
     def to_h
       {
-        name: test[:name],
+        name: test[:name].to_s,
         status: test[:status].try(&:to_sym),
         test_code: test[:test_code],
         message: test[:message],
         message_html: Ansi::RenderHTML.(test[:message]),
         expected: test[:expected],
         output: test[:output],
-        output_html: Ansi::RenderHTML.(test[:output])
+        output_html: Ansi::RenderHTML.(test[:output]),
+        task_id: test[:task_id]&.to_i
       }
     end
 
-    def to_json(*_args)
-      to_h.to_json
-    end
+    def to_json(*_args) = to_h.to_json
 
-    def as_json(*_args)
-      to_h
-    end
-
-    private
-    attr_reader :test
+    def as_json(*_args) = to_h
   end
   private_constant :TestResult
 end

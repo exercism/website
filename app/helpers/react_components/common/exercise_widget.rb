@@ -26,13 +26,13 @@ module ReactComponents
         data = AssembleExerciseWidget.(
           exercise,
           user_track,
-          solution: solution,
-          with_tooltip: with_tooltip,
-          render_as_link: render_as_link,
-          render_blurb: render_blurb,
-          render_track: render_track,
-          recommended: recommended,
-          skinny: skinny
+          solution:,
+          with_tooltip:,
+          render_as_link:,
+          render_blurb:,
+          render_track:,
+          recommended:,
+          skinny:
         )
 
         super("common-exercise-widget", data)

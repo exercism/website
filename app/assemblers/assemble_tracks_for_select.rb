@@ -8,14 +8,14 @@ class AssembleTracksForSelect
   def call
     [
       SerializeTrackForSelect::ALL_TRACK,
-      *tracks.map { |track| SerializeTrackForSelect.(track) }
+
+      # Don't use order here - it slows things down. Just sort in Ruby intead
+      *tracks.sort_by(&:title).map { |track| SerializeTrackForSelect.(track) }
     ]
   end
 
   private
   attr_reader :tracks
 
-  def default_tracks
-    ::Track.active
-  end
+  def default_tracks = ::Track.active
 end

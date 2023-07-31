@@ -1,7 +1,6 @@
 module API
   class Mentoring::DiscussionsController < BaseController
-    include Webpacker::Helper
-    include ActionView::Helpers::AssetUrlHelper
+    include Propshaft::Helper
 
     # TODO: (Optional) Add filters (the criteria aren't the filters?)
     def index
@@ -12,25 +11,22 @@ module API
         track_slug: params[:track_slug],
         student_handle: params[:student],
         criteria: params[:criteria],
+        exclude_uuid: params[:exclude_uuid],
         order: params[:order]
       )
 
       if sideload?(:all_discussion_counts)
-        all_discussions = Mentor::Discussion.
-          joins(solution: :exercise).
-          where(mentor: current_user)
-
         meta = {
-          awaiting_mentor_total: all_discussions.awaiting_mentor.count,
-          awaiting_student_total: all_discussions.awaiting_student.count,
-          finished_total: all_discussions.finished_for_mentor.count
+          awaiting_mentor_total: current_user.mentor_discussions.awaiting_mentor.count,
+          awaiting_student_total: current_user.mentor_discussions.awaiting_student.count,
+          finished_total: current_user.mentor_discussions.finished_for_mentor.count
         }
       end
 
       render json: SerializePaginatedCollection.(
         discussions,
-        serializer: SerializeMentorDiscussions,
-        serializer_args: :mentor,
+        serializer: SerializeMentorDiscussionsForMentor,
+        serializer_args: current_user,
         meta: meta || {}
       )
     end
@@ -40,13 +36,11 @@ module API
         current_user,
         params[:status],
         sorted: false, paginated: false
-      ).group(:track_id).count
+      ).joins(solution: { exercise: :track }).group(:track_id).count
 
-      tracks = Track.where(id: track_counts.keys).index_by(&:id)
-      data = track_counts.map do |track_id, count|
-        track = tracks[track_id]
-
-        SerializeTrackForSelect.(track).merge(count: count)
+      tracks = Track.where(id: track_counts.keys).order(:title)
+      data = tracks.map do |track|
+        SerializeTrackForSelect.(track).merge(count: track_counts[track.id])
       end
 
       render json: [
@@ -104,7 +98,7 @@ module API
     # The JSON response below is what I expect for the React component.
     def finish
       discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])
-      discussion.mentor_finished!
+      Mentor::Discussion::FinishByMentor.(discussion)
       relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
 
       render json: {
@@ -114,7 +108,7 @@ module API
             discussion.student,
             discussion.mentor,
             user_track: UserTrack.for(discussion.student, discussion.track),
-            relationship: relationship,
+            relationship:,
             anonymous_mode: discussion.anonymous_mode?
           ),
           is_finished: true,

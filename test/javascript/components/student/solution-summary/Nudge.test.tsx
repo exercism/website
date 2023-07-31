@@ -47,7 +47,7 @@ test('does not animate on initial load', async () => {
       }}
       track={{
         title: 'Ruby',
-        medianWaitTime: '7 days',
+        medianWaitTime: 120,
       }}
     />
   )

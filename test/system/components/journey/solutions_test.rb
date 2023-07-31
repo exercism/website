@@ -9,13 +9,15 @@ module Components
       test "shows solutions" do
         user = create :user
         track = create :track, title: "Ruby"
-        exercise = create :concept_exercise, title: "Lasagna", icon_name: 'lasagna', track: track, slug: :lasagna
-        solution = create :concept_solution, :completed, exercise: exercise, completed_at: Time.current, user: user,
-                                                         num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
-        create :submission, solution: solution
+        exercise = create :concept_exercise, title: "Lasagna", icon_name: 'lasagna', track:, slug: :lasagna
+        solution = create :concept_solution, :completed, exercise:, completed_at: Time.current, user:,
+          num_views: 1270, num_comments: 10, num_stars: 12, num_loc: 18
+        create(:submission, solution:)
         travel_to(Time.current - 2.days) do
-          3.times { create :iteration, solution: solution }
+          3.times { create :iteration, solution: }
         end
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
@@ -38,7 +40,9 @@ module Components
 
       test "hides last submitted for non-submitted solution" do
         user = create :user
-        solution = create :concept_solution, user: user
+        solution = create(:concept_solution, user:)
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
@@ -54,8 +58,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Bob"
         exercise_2 = create :concept_exercise, title: "Lasagna"
-        create :concept_solution, exercise: exercise, user: user
-        create :concept_solution, exercise: exercise_2, user: user
+        create :concept_solution, exercise:, user:, published_at: 2.days.ago
+        create :concept_solution, exercise: exercise_2, user:, published_at: 1.day.ago
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
@@ -77,13 +83,15 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
-        create :concept_solution, exercise: exercise_2, user: user
+        create(:concept_solution, exercise:, user:)
+        create(:concept_solution, exercise: exercise_2, user:)
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
-          fill_in "Search by exercise name", with: "Bob"
+          fill_in "Search by exercise or track name", with: "Bob"
         end
 
         assert_text "Bob"
@@ -94,20 +102,24 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user, status: :published
+        create :concept_solution, exercise:, user:, status: :published
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :requested,
           status: :started
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Exercise status"
           find("label", text: "Started").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
@@ -118,19 +130,23 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
+        create(:concept_solution, exercise:, user:)
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :requested
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Requested").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
@@ -141,42 +157,148 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
+        create(:concept_solution, exercise:, user:)
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
           mentoring_status: :finished
 
+        wait_for_opensearch_to_be_synced
+
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Mentoring Completed").click
+          click_on "Apply filters"
         end
 
         assert_text "Bob"
         assert_no_text "Lasagna"
       end
 
-      test "user resets filters" do
+      test "filters by sync status" do
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user
+        create :concept_solution, exercise:, user:, git_important_files_hash: exercise.git_important_files_hash
         create :concept_solution,
           exercise: exercise_2,
-          user: user,
+          user:,
           completed_at: Time.current,
           published_at: Time.current,
-          mentoring_status: :requested
+          git_important_files_hash: 'other-hash'
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)
           visit solutions_journey_path
+          click_on "Filter by"
+          click_on "Sync status"
+          find("label", text: "Up-to-date").click
+          click_on "Apply filters"
+        end
+
+        assert_text "Lasagna"
+        assert_no_text "Bob"
+      end
+
+      test "filters by tests status" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        solution_1 = create :concept_solution, exercise:, user:, published_at: Time.current
+        solution_2 = create :concept_solution,
+          exercise: exercise_2,
+          user:,
+          completed_at: Time.current,
+          published_at: Time.current
+        submission_1 = create :submission, solution: solution_1
+        submission_2 = create :submission, solution: solution_2
+        solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+        solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+
+        perform_enqueued_jobs
+        submission_1.reload.update_column(:tests_status, :failed)
+        submission_2.reload.update_column(:tests_status, :passed)
+        perform_enqueued_jobs
+        wait_for_opensearch_to_be_synced
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Filter by"
+          click_on "Tests status"
+          find("label", text: "Passed").click
+          click_on "Apply filters"
+        end
+
+        assert_text "Bob"
+        assert_no_text "Lasagna"
+      end
+
+      test "filters by head tests status" do
+        Solution::QueueHeadTestRun.stubs(:defer)
+
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        solution_1 = create :concept_solution,
+          exercise:,
+          user:,
+          published_at: Time.current,
+          published_iteration_head_tests_status: :passed
+        solution_2 = create :concept_solution,
+          exercise: exercise_2,
+          user:,
+          completed_at: Time.current,
+          published_at: Time.current,
+          published_iteration_head_tests_status: :errored
+        submission_1 = create :submission, solution: solution_1, tests_status: :failed
+        submission_2 = create :submission, solution: solution_2, tests_status: :passed
+        solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
+        solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
+
+        wait_for_opensearch_to_be_synced
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Filter by"
+          click_on "Latest Tests status"
+          find("label", text: "Passed").click
+          click_on "Apply filters"
+        end
+
+        assert_text "Lasagna"
+        assert_no_text "Bob"
+      end
+
+      test "user resets filters" do
+        user = create :user
+        exercise = create :concept_exercise, title: "Lasagna"
+        exercise_2 = create :concept_exercise, title: "Bob"
+        create(:concept_solution, exercise:, user:)
+        create :concept_solution,
+          exercise: exercise_2,
+          user:,
+          completed_at: Time.current,
+          published_at: Time.current,
+          mentoring_status: :requested
+
+        wait_for_opensearch_to_be_synced
+
+        use_capybara_host do
+          sign_in!(user)
+          visit solutions_journey_path
+          click_on "Filter by"
           click_on "Mentoring status"
           find("label", text: "Requested").click
+          click_on "Apply filters"
           click_on "Reset filters"
         end
 
@@ -189,8 +311,10 @@ module Components
         user = create :user
         exercise = create :concept_exercise, title: "Lasagna"
         exercise_2 = create :concept_exercise, title: "Bob"
-        create :concept_solution, exercise: exercise, user: user, created_at: 2.days.ago
-        create :concept_solution, exercise: exercise_2, user: user, created_at: 3.days.ago
+        create :concept_solution, exercise:, user:, created_at: 2.days.ago
+        create :concept_solution, exercise: exercise_2, user:, created_at: 3.days.ago
+
+        wait_for_opensearch_to_be_synced
 
         use_capybara_host do
           sign_in!(user)

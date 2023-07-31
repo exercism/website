@@ -1,0 +1,22 @@
+.c-tooltip-base.sm:block.hidden
+  .flex.gap-16
+    = graphical_icon 'test-runner', css_class: "filter-textColor6"
+    %div
+      %h5.text-h5
+        The #{@track.title} test runner
+        = render ViewComponents::Track::Build::Health.new(@status.test_runner.health)
+
+      %p.text-p-base
+        - case @status.test_runner.health.to_sym
+        - when :exemplar
+          Implements the latest version of the spec.
+        - when :healthy
+          Could be upgraded from version #{@status.test_runner.version} to #{@status.test_runner.version_target}.
+        - when :needs_attention
+          Should be upgraded from version #{@status.test_runner.version} to #{@status.test_runner.version_target}.
+        - when :missing
+          The test runner has not yet been implemented.
+
+      - if @status.test_runner.num_runs.positive?
+        %p.text-p-base
+          #{@status.test_runner.num_runs} #{'iteration'.pluralize(@status.test_runner.num_runs)} have been tested.

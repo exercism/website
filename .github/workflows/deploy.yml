@@ -2,13 +2,20 @@ name: Deploy to Amazon ECS
 
 env:
   aws_region: eu-west-2
-  webservers_task_definition_name: webservers
-  webservers_service_name: webservers
   webservers_cluster_name: webservers
+  sidekiq_cluster_name: sidekiq
+
+  website_task_definition_name: website
+  website_service_name: website
+
+  api_task_definition_name: api
+  api_service_name: api
+
+  anycable_task_definition_name: anycable
+  anycable_service_name: anycable
 
   sidekiq_task_definition_name: sidekiq
   sidekiq_service_name: sidekiq
-  sidekiq_cluster_name: sidekiq
 
   ecr_repository_rails: "webserver-rails"
   dockerfile_rails: "docker/rails.Dockerfile"
@@ -24,8 +31,7 @@ env:
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
@@ -41,10 +47,10 @@ jobs:
       ###############
       ###############
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@e1e17a757e536f70e52b5a12b2e8d1d1c60e04ef
         with:
           aws-access-key-id: ${{ secrets.AWS_DEPLOY_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_DEPLOY_SECRET_ACCESS_KEY }}
@@ -52,7 +58,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login_to_ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@2f9f10ea3fa2eed41ac443fee8bfbd059af2d0a4
 
       #########################
       #########################
@@ -66,9 +72,10 @@ jobs:
           ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
           DOCKERFILE: ${{ env.dockerfile_rails }}
+          GEOIP_LICENSE_KEY: ${{ secrets.GEOIP_LICENSE_KEY }}
         run: |
           # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker build -t $IMAGE_NAME -f $DOCKERFILE --build-arg GEOIP_LICENSE_KEY --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) .
           docker push $IMAGE_NAME
 
           # Retag this as the latest
@@ -89,12 +96,12 @@ jobs:
       - name: Copy assets from Dockerfile
         run: |
           container_id=$(docker create website)
-          docker cp ${container_id}:/opt/exercism/website/current/public/packs packs
+          docker cp ${container_id}:/opt/exercism/website/public/assets assets
           docker rm ${container_id}
 
       - name: Upload assets to s3
         run: |
-          aws s3 sync packs s3://${{ env.s3_bucket }}/packs/ --acl public-read --no-progress --cache-control max-age=31536000
+          aws s3 sync assets s3://${{ env.s3_bucket }}/assets --acl public-read --no-progress --cache-control max-age=31536000
 
       #########################
       #########################
@@ -120,100 +127,133 @@ jobs:
           # Save the output for writing to the task definiton
           echo "::set-output name=image::$IMAGE_NAME"
 
-      ############################
-      ############################
-      # Build the AnyCable image #
-      ############################
-      ############################
-      - name: Build and Push Anycable Go Docker
-        id: build_anycable_go
-        env:
-          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ecr_repository_anycable_go }}
-          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_anycable_go }}:${{ github.sha }}"
-          DOCKERFILE: ${{ env.dockerfile_anycable_go }}
+      ##################################
+      ##################################
+      # Update website Task definition #
+      ##################################
+      ##################################
+
+      # We get the existing task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
+      - name: Download website task definition
         run: |
-          # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE .
-          docker push $IMAGE_NAME
+          aws ecs describe-task-definition --task-definition ${{ env.website_task_definition_name }} --query taskDefinition > website-task-definition.json
 
-          # Retag this as the latest
-          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      - name: Update website | puma container
+        id: update_definition_for_website_puma
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
+        with:
+          task-definition: website-task-definition.json
+          container-name: puma
+          image: "${{ steps.build_rails.outputs.image }}"
 
-          # Save the output for writing to the task definiton
-          echo "::set-output name=image::$IMAGE_NAME"
+      - name: Update website | nginx container
+        id: update_definition_for_website_nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
+        with:
+          task-definition: ${{ steps.update_definition_for_website_puma.outputs.task-definition }}
+          container-name: nginx
+          image: "${{ steps.build_nginx.outputs.image }}"
+
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy Website
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
+          service: ${{ env.website_service_name }}
+          cluster: ${{ env.webservers_cluster_name }}
+          wait-for-service-stability: false
 
       ##############################
       ##############################
-      # Update the task definition #
+      # Update api Task definition #
       ##############################
       ##############################
 
       # We get the existing task definition to update
       # Note that this is passed into the first update action
       # but then chained from action to action for the others.
-      - name: Download task definition
+      - name: Download api task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.webservers_task_definition_name }} --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.api_task_definition_name }} --query taskDefinition > api-task-definition.json
 
-      # Set puma to rails
-      - name: Update the definition for puma
-        id: update_definition_for_puma
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+      - name: Update api | puma container
+        id: update_definition_for_api_puma
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
-          task-definition: task-definition.json
+          task-definition: api-task-definition.json
           container-name: puma
           image: "${{ steps.build_rails.outputs.image }}"
 
-      # Set anycable_ruby to rails
-      - name: Update the definition for anycable_ruby
-        id: update_definition_for_anycable_ruby
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+      - name: Update api | nginx container
+        id: update_definition_for_api_nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
-          task-definition: ${{ steps.update_definition_for_puma.outputs.task-definition }}
-          container-name: anycable_ruby
-          image: "${{ steps.build_rails.outputs.image }}"
-
-      # Set nginx to nginx
-      - name: Update the definition for nginx
-        id: update_definition_for_nginx
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
+          task-definition: ${{ steps.update_definition_for_api_puma.outputs.task-definition }}
           container-name: nginx
           image: "${{ steps.build_nginx.outputs.image }}"
 
-      # Set anycable_go to anycable_go
-      - name: Update the definition for anycable_go
-        id: update_definition_for_anycable_go
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy API
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
-          task-definition: ${{ steps.update_definition_for_nginx.outputs.task-definition }}
-          container-name: anycable_go
-          image: "${{ steps.build_anycable_go.outputs.image }}"
-
-      ##############################
-      ##############################
-      # Deploy the task definition #
-      ##############################
-      ##############################
-
-      # Push the new defintion up to ECS and deploy a new sevice from it.
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          # Ensure this is the final step in the daisy-chain above
-          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
-          service: ${{ env.webservers_service_name }}
+          task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
+          service: ${{ env.api_service_name }}
           cluster: ${{ env.webservers_cluster_name }}
           wait-for-service-stability: false
 
-      ##############################
-      ##############################
+      ##################################
+      ##################################
+      # Update anycable Task definition #
+      ##################################
+      ##################################
+
+      # We get the existing task definition to update
+      # Note that this is passed into the first update action
+      # but then chained from action to action for the others.
+      - name: Download anycable task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.anycable_task_definition_name }} --query taskDefinition > anycable-task-definition.json
+
+      - name: Update anycable | anycable_ruby container
+        id: update_definition_for_anycable_ruby
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
+        with:
+          task-definition: anycable-task-definition.json
+          container-name: anycable_ruby
+          image: "${{ steps.build_rails.outputs.image }}"
+
+      - name: Update anycable | anycable_go container
+        id: update_definition_for_anycable_go
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_ruby.outputs.task-definition }}
+          container-name: anycable_go
+          image: "${{ steps.login_to_ecr.outputs.registry}}/anycable-go-pro:latest"
+
+      - name: Update anycable | nginx container
+        id: update_definition_for_anycable_nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
+          container-name: nginx
+          image: "${{ steps.build_nginx.outputs.image }}"
+
+      # Push the new definition up to ECS and deploy the new service from it
+      - name: Deploy Anycable
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
+          service: ${{ env.anycable_service_name }}
+          cluster: ${{ env.webservers_cluster_name }}
+          wait-for-service-stability: false
+
+      ##################################
+      ##################################
       # Update Sidekiq Task definition #
-      ##############################
-      ##############################
+      ##################################
+      ##################################
 
       # We get the existing task definition to update
       # Note that this is passed into the first update action
@@ -225,15 +265,15 @@ jobs:
       # Set puma to rails
       - name: Update the sidekiq definition
         id: update_definition_for_sidekiq
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@61b0c00c3743b70987a73a1faf577f0d167d1574
         with:
           task-definition: sidekiq-task-definition.json
           container-name: sidekiq
           image: "${{ steps.build_rails.outputs.image }}"
 
-      # Push the new defintion up to ECS and deploy a new sevice from it.
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      # Push the new definition up to ECS and deploy a new service from it.
+      - name: Deploy Sidekiq
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           # Ensure this is the final step in the daisy-chain above
           task-definition: ${{ steps.update_definition_for_sidekiq.outputs.task-definition }}

@@ -1,4 +1,4 @@
-class CreateIterations < ActiveRecord::Migration[6.1]
+class CreateIterations < ActiveRecord::Migration[7.0]
   def change
     create_table :iterations do |t|
       t.belongs_to :solution, foreign_key: true, null: false

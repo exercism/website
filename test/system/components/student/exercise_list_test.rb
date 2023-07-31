@@ -13,8 +13,8 @@ module Components
       test "shows exercises" do
         user = create :user
         track = create :track
-        create :concept_exercise, track: track, title: "Lasagna"
-        create :user_track, track: track, user: user
+        create :concept_exercise, track:, title: "Lasagna"
+        create(:user_track, track:, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -27,9 +27,9 @@ module Components
       test "searches exercises" do
         user = create :user
         track = create :track
-        create :concept_exercise, track: track, title: "Lasagna", slug: "lasagna"
-        create :concept_exercise, track: track, title: "Running", slug: "running"
-        create :user_track, track: track, user: user
+        create :concept_exercise, track:, title: "Lasagna", slug: "lasagna"
+        create :concept_exercise, track:, title: "Running", slug: "running"
+        create(:user_track, track:, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -44,16 +44,16 @@ module Components
       test "applies url params to search" do
         user = create :user
         track = create :track
-        lasagna = create :concept_exercise, track: track, title: "Lasagna", slug: "lasagna"
-        create :concept_exercise, track: track, title: "Running", slug: "running"
-        create :user_track, track: track, user: user
-        solution = create :concept_solution, exercise: lasagna, user: user
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
-        strings = create :concept_exercise, track: track, title: "Strings", slug: "lasagna"
-        solution = create :concept_solution, exercise: strings, user: user
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
+        lasagna = create :concept_exercise, track:, title: "Lasagna", slug: "lasagna"
+        create :concept_exercise, track:, title: "Running", slug: "running"
+        create(:user_track, track:, user:)
+        solution = create(:concept_solution, exercise: lasagna, user:)
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
+        strings = create :concept_exercise, track:, title: "Strings", slug: "strings"
+        solution = create(:concept_solution, exercise: strings, user:)
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -68,12 +68,12 @@ module Components
       test "filters exercises by status" do
         user = create :user
         track = create :track
-        lasagna = create :concept_exercise, track: track, title: "Lasagna", slug: "lasagna"
-        create :concept_exercise, track: track, title: "Running", slug: "running"
-        create :user_track, track: track, user: user
-        solution = create :concept_solution, exercise: lasagna, user: user
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission
+        lasagna = create :concept_exercise, track:, title: "Lasagna", slug: "lasagna"
+        create :concept_exercise, track:, title: "Running", slug: "running"
+        create(:user_track, track:, user:)
+        solution = create(:concept_solution, exercise: lasagna, user:)
+        submission = create(:submission, solution:)
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)

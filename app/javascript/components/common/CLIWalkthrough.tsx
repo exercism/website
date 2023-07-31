@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export const CLIWalkthrough = ({ html }: { html: string }): JSX.Element => {
+export default ({ html }: { html: string }): JSX.Element => {
   useEffect(() => {
     window.story = new Story($('tw-storydata'))
     window.story.start($('#main'))

@@ -1,16 +1,24 @@
 class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include Track::BuildStatus
 
   friendly_id :slug, use: [:history]
 
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :concepts, class_name: "::Concept", dependent: :destroy
   has_many :exercises, dependent: :destroy
+  has_many :solutions, through: :exercises
+  has_many :submissions, dependent: :destroy
+  has_many :representations, class_name: "Exercise::Representation", dependent: :destroy
   has_many :user_tracks, dependent: :destroy
+  has_many :mentor_discussions, through: :solutions
+  has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy
+  has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :documents # rubocop:disable Rails/HasManyOrHasOneDependent
 
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :tasks, class_name: "Github::Task", dependent: :destroy
@@ -22,7 +30,9 @@ class Track < ApplicationRecord
     to: :git
 
   delegate :head_sha, to: :git, prefix: :git
-  delegate :debugging_instructions, to: :git
+  delegate :representations, to: :git, prefix: :mentoring
+  delegate :debugging_instructions, :representer_normalizations, to: :git
+  delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
 
   def self.for!(param)
     return param if param.is_a?(Track)
@@ -31,13 +41,16 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
-  def to_param
-    slug
+  def self.for_repo(repo)
+    slug = repo.gsub(/-(test-runner|analyzer|representer)$/, '').split('/').last
+    find_by(slug:)
   end
+
+  def to_param = slug
 
   memoize
   def git
-    Git::Track.new(synced_to_git_sha, repo_url: repo_url)
+    Git::Track.new(synced_to_git_sha, repo_url:)
   end
 
   memoize
@@ -79,28 +92,36 @@ class Track < ApplicationRecord
       count
   end
 
-  def icon_url
-    "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
-  end
+  def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
-    # TODO: remove || slug once all tracks have updated their config.json
-    git.highlightjs_language || slug
+    super || slug
   end
 
   def average_test_duration
-    git.average_test_duration + INFRASTRUCTURE_DURATION_S
+    git.average_test_duration.round + INFRASTRUCTURE_DURATION_S
   end
 
-  # TODO: Set this properly
-  def median_wait_time
-    "6 hrs"
+  def accessible_by?(user)
+    active || user&.maintainer? || user&.admin?
   end
 
-  # TODO: Set this properly
-  def avg_wait_time
-    nil
+  memoize
+  def mentoring_notes = Git::Track::MentorNotes.new(slug)
+
+  memoize
+  def representer = Git::Representer.new(repo_url: representer_repo_url)
+
+  def test_runner_repo_url = "#{repo_url}-test-runner"
+  def representer_repo_url = "#{repo_url}-representer"
+  def analyzer_repo_url = "#{repo_url}-analyzer"
+
+  memoize
+  def foregone_exercises
+    git.foregone_exercises.map { |slug| ProblemSpecifications::Exercise.new(slug) }
   end
+
+  def github_team_name = slug
 
   CATGEORIES = {
     paradigm: "Paradigm",
@@ -162,5 +183,5 @@ class Track < ApplicationRecord
     }
   }.with_indifferent_access.freeze
 
-  INFRASTRUCTURE_DURATION_S = 1.0
+  INFRASTRUCTURE_DURATION_S = 1
 end

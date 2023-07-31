@@ -1,0 +1,37 @@
+@import "../styles";
+
+#page-organisation-supporter {
+    @apply bg-backgroundColorA;
+    & h1 {
+        & .c-icon {
+            @apply mx-32 my-12;
+        }
+        & .mozilla {
+            height: 43px;
+        }
+        & .packt {
+            height: 50px;
+        }
+        & .chicago {
+            height: 58px;
+        }
+        & .gobridge {
+            height: 90px;
+        }
+    }
+    & .lhs {
+        max-width: 720px;
+        @apply mr-auto;
+    }
+    & .rhs {
+        @apply md:flex-shrink-0;
+
+        @screen md {
+            width: 380px;
+        }
+
+        & .c-blog-post {
+            @apply mb-24;
+        }
+    }
+}

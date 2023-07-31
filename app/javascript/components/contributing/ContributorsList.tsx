@@ -1,15 +1,19 @@
 import React, { useCallback } from 'react'
-import { PaginatedResult, Contributor, Track } from '../types'
-import { ContributorRow } from './contributors-list/ContributorRow'
-import { PeriodButton } from './contributors-list/PeriodButton'
-import { useList } from '../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { Pagination } from '../common'
-import { CategorySwitcher } from './contributors-list/CategorySwitcher'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { TrackSelect } from '../common/TrackSelect'
+import { Pagination, TrackSelect } from '@/components/common'
+import type { PaginatedResult, Contributor, Track } from '@/components/types'
+import { ResultsZone } from '@/components/ResultsZone'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import {
+  usePaginatedRequestQuery,
+  useQueryParams,
+  useList,
+  type Request,
+} from '@/hooks'
+import {
+  ContributorRow,
+  PeriodButton,
+  CategorySwitcher,
+} from './contributors-list'
 
 const DEFAULT_ERROR = new Error('Unable to load contributors list')
 
@@ -29,19 +33,14 @@ export const ContributorsList = ({
   tracks: readonly Track[]
 }): JSX.Element => {
   const { request, setPage, setQuery } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
-    ['contributors-list', request.endpoint, request.query],
-    {
-      ...request,
-      options: { ...request.options },
-    }
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
+      ['contributors-list', request.endpoint, request.query],
+      {
+        ...request,
+        options: { ...request.options },
+      }
+    )
 
   const setPeriod = useCallback(
     (period: Period) => {
@@ -66,18 +65,18 @@ export const ContributorsList = ({
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
 
-  useHistory({ pushOn: removeEmpty(request.query) })
+  useQueryParams(request.query)
 
   return (
     <div>
       <div className="c-search-bar">
-        <div className="tabs">
+        <div className="tabs overflow-x-auto">
           <PeriodButton
             period="week"
             setPeriod={setPeriod}
             current={request.query.period}
           >
-            <span data-text="Last 7 days">Last 7 days</span>
+            <span data-text="This week">This week</span>
           </PeriodButton>
           <PeriodButton
             period="month"
@@ -133,7 +132,7 @@ export const ContributorsList = ({
               </div>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

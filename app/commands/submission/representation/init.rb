@@ -1,41 +1,37 @@
-class Submission
-  class Representation
-    class Init
-      include Mandate
+class Submission::Representation::Init
+  include Mandate
 
-      initialize_with :submission
+  def initialize(submission, type: :submission, git_sha: nil, run_in_background: false)
+    raise unless %i[submission exercise].include?(type)
 
-      def call
-        ToolingJob::Create.(
-          :representer,
-          submission.uuid,
-          solution.track.slug,
-          solution.exercise.slug,
-          source: {
-            submission_efs_root: submission.uuid,
-            submission_filepaths: submission.valid_filepaths,
-            exercise_git_repo: solution.track.slug,
-            exercise_git_sha: solution.git_sha,
-            exercise_git_dir: exercise_repo.dir,
-            exercise_filepaths: exercise_filepaths
-          }
-        )
-        submission.representation_queued!
-      end
+    @submission = submission
+    @type = type.to_sym
+    @git_sha = git_sha || submission.git_sha
+    @run_in_background = !!run_in_background
+  end
 
-      memoize
-      delegate :solution, to: :submission
-
-      def exercise_filepaths
-        exercise_repo.tooling_filepaths.select do |filepath|
-          filepath.starts_with?(".meta")
-        end
-      end
-
-      memoize
-      def exercise_repo
-        Git::Exercise.for_solution(solution)
-      end
+  def call
+    ToolingJob::Create.(
+      submission,
+      :representer,
+      git_sha:,
+      run_in_background:,
+      context:
+    ).tap do
+      update_status!
     end
+  end
+
+  private
+  attr_reader :submission, :type, :git_sha, :run_in_background
+
+  def update_status!
+    return if type == :exercise
+
+    submission.representation_queued!
+  end
+
+  def context
+    type == :exercise ? { reason: :update } : {}
   end
 end

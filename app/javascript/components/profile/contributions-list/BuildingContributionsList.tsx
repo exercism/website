@@ -1,7 +1,7 @@
 import React from 'react'
 import { Contribution as ContributionProps } from '../../types'
 import {
-  imageErrorHandler,
+  missingExerciseIconErrorHandler,
   TrackIcon,
   Reputation,
   GraphicalIcon,
@@ -30,16 +30,11 @@ export const BuildingContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    [request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      [request.endpoint, request.query],
+      request
+    )
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -57,7 +52,7 @@ export const BuildingContributionsList = ({
             </div>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />
@@ -74,7 +69,7 @@ const Contribution = ({
   iconUrl,
   internalUrl,
   externalUrl,
-  earnedOn,
+  createdAt,
   track,
 }: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
@@ -92,7 +87,7 @@ const Contribution = ({
         role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
-        onError={imageErrorHandler}
+        onError={missingExerciseIconErrorHandler}
       />
       <div className="info">
         <div
@@ -115,11 +110,16 @@ const Contribution = ({
           ) : (
             <div className="generic">Generic</div>
           )}
-          <time dateTime={earnedOn}>{fromNow(earnedOn)}</time>
+          <time className="sm:block hidden" dateTime={createdAt}>
+            {fromNow(createdAt)}
+          </time>
         </div>
       </div>
       <Reputation value={`+ ${value}`} type="primary" size="small" />
-      <GraphicalIcon icon={linkIcon} className="action-button" />
+      <GraphicalIcon
+        icon={linkIcon}
+        className="action-button sm:block hidden"
+      />
     </a>
   )
 }

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  draw(:api)
+  draw(:spi)
+
   # #### #
   # Auth #
   # #### #
@@ -22,243 +25,51 @@ Rails.application.routes.draw do
     get "confirmations/required" => "auth/confirmations#required", as: "auth_confirmation_required"
   end
 
-  # ### #
-  # API #
-  # ### #
-  namespace :api do
-    namespace :v1 do # rubocop:disable Naming/VariableNumber
-      get "ping" => "ping#index"
-      get "validate_token" => "validate_token#index"
-
-      resources :solutions, only: %i[show update] do
-        get :latest, on: :collection
-        get 'files/*filepath', to: 'files#show', format: false, as: "file"
-      end
-
-      resources :tracks, only: [:show]
-    end
-
-    # TODO: This is just a stub
-    resources :users, only: [:update]
-
-    resource :user, only: [] do
-      resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
-    end
-
-    resource :profile, only: %i[create destroy]
-
-    resource :journey_overview, only: [:show], controller: "journey_overview"
-
-    scope :v2 do # rubocop:disable Naming/VariableNumber
-      get "ping" => "ping#index"
-      get "validate_token" => "validate_token#index"
-
-      namespace :donations do
-        resource :active_subscription, only: [:show]
-        # resources :payments, only: [:create]
-        resources :payment_intents, only: [:create] do
-          member do
-            patch :succeeded
-            patch :failed
-          end
-        end
-        resources :subscriptions, only: [] do
-          member do
-            patch :cancel
-            patch :update_amount
-          end
-        end
-      end
-
-      resource :settings, only: [:update] do
-        patch :sudo_update
-      end
-      namespace :settings do
-        resource :communication_preferences, only: [:update]
-
-        resources :introducers, only: [], param: :slug do
-          patch :hide, on: :member
-        end
-
-        resource :auth_token, only: [] do
-          patch :reset
-        end
-      end
-
-      resources :tracks, only: [], controller: "user_tracks", param: :slug do
-        resources :solutions_for_mentoring, only: %i[index], controller: "tracks/solutions_for_mentoring"
-        member do
-          patch :activate_practice_mode
-          patch :activate_learning_mode
-          patch :reset
-          patch :leave
-        end
-      end
-
-      resources :tracks, only: %i[index show], param: :slug do
-        patch 'activate_practice_mode' => "user_tracks#activate_practice_mode"
-        patch 'deactivate_practice_mode' => "user_tracks#deactivate_practice_mode"
-
-        resources :exercises, only: %i[index], controller: "exercises", param: :slug do
-          member do
-            patch :start
-          end
-
-          resources :makers, only: [:index], controller: "exercises/makers"
-          resources :community_solutions, only: [:index], controller: "community_solutions", param: :handle do
-            resource :star, only: %i[create destroy], controller: "community_solution_stars"
-            resources :comments, only: %i[index create update destroy], controller: "community_solution_comments", param: :uuid do
-              patch :enable, on: :collection
-              patch :disable, on: :collection
-            end
-          end
-        end
-        resources :concepts, only: [], param: :slug do
-          resources :makers, only: [:index], controller: "concepts/makers"
-        end
-      end
-
-      get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
-      patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
-
-      resources :bug_reports, only: %i[create]
-
-      resources :notifications, only: [:index] do
-        collection do
-          patch :mark_all_as_read
-          patch :mark_batch_as_read
-          patch :mark_batch_as_unread
-        end
-      end
-
-      resources :reputation, only: %i[index], param: :uuid do
-        patch :mark_all_as_seen, on: :collection
-        patch :mark_as_seen, on: :member
-      end
-
-      resources :badges, only: %i[index], param: :uuid do
-        member do
-          patch :reveal
-        end
-      end
-
-      resources :profiles, only: [], param: :handle do
-        get :summary, on: :member
-
-        resources :testimonials, only: %i[index], controller: "profiles/testimonials", param: :uuid
-        resources :solutions, only: [:index], controller: 'profiles/solutions'
-        resources :contributions, only: [], controller: 'profiles/contributions' do
-          collection do
-            get :building
-            get :maintaining
-            get :authoring
-          end
-        end
-      end
-
-      resources :contributors, only: [:index]
-
-      resources :tasks, only: [:index]
-
-      resources :solutions, only: %i[index show update], param: :uuid do
-        member do
-          get :diff
-
-          patch :complete
-          patch :publish
-          patch :unpublish
-          patch :published_iteration
-          patch :sync
-        end
-
-        resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
-          resource :test_run, only: %i[show], controller: "solutions/submission_test_runs" do
-            patch :cancel
-          end
-          resources :files, only: %i[index], controller: "solutions/submission_files"
-        end
-
-        resources :iterations, only: %i[create destroy], param: :uuid do
-          get :automated_feedback, on: :member
-          get :latest_status, on: :collection
-        end
-        resources :initial_files, only: %i[index], controller: "solutions/initial_files"
-        resources :last_iteration_files, only: %i[index], controller: "solutions/last_iteration_files"
-
-        resources :mentor_requests, only: %i[create update], controller: "solutions/mentor_requests", param: :uuid
-        resources :discussions, only: %i[index create], controller: "solutions/mentor_discussions", param: :uuid do
-          patch :finish, on: :member
-          resources :posts, only: %i[index create update destroy], controller: "solutions/mentor_discussion_posts", param: :uuid
-        end
-      end
-
-      namespace :mentoring do
-        resource :registration, only: %i[create], controller: 'registration'
-        resource :tracks, only: %i[show update] do
-          get :mentored
-        end
-
-        resources :requests, only: %i[index], param: :uuid do
-          collection do
-            get :tracks
-            get :exercises
-          end
-          member do
-            patch :lock
-            patch :cancel
-          end
-        end
-
-        resources :discussions, only: %i[index create], param: :uuid do
-          member do
-            patch :mark_as_nothing_to_do
-            patch :finish
-          end
-
-          collection do
-            get :tracks # TODO: Remove this
-          end
-
-          resources :posts, only: %i[index create update destroy], controller: "discussion_posts", param: :uuid
-        end
-
-        resources :testimonials, only: %i[index destroy], param: :uuid do
-          member do
-            patch :reveal
-          end
-        end
-
-        resources :students, only: [:show], param: :handle do
-          member do
-            post :block
-            delete :block, to: "students#unblock"
-            post :favorite
-            delete :favorite, to: "students#unfavorite"
-          end
-        end
-      end
-
-      post "markdown/parse" => "markdown#parse", as: "parse_markdown"
-    end
-  end
-  get "api/(*url)", to: 'api/errors#render_404'
-
-  # ### #
-  # SPI #
-  # ### #
-  namespace :spi do
-    resources :tooling_jobs, only: :update
-  end
+  get "discourse/sso" => "discourse/sso"
 
   # ######## #
   # Webhooks #
   # ######## #
   namespace :webhooks do
     resource :stripe, only: [:create], controller: "stripe"
+    resource :paypal, only: [:create], controller: "paypal" do
+      post :ipn
+    end
+    resource :coinbase, only: [:create], controller: "coinbase"
+    resource :github_sponsors, only: [:create]
+
     resource :issue_updates, only: [:create]
+    resource :membership_updates, only: [:create]
     resource :push_updates, only: [:create]
     resource :pull_request_updates, only: [:create]
     resource :organization_updates, only: [:create]
+    resource :workflow_run_updates, only: [:create]
+  end
+
+  # ##### #
+  # Admin #
+  # ##### #
+  namespace :admin do
+    root to: "dashboard#show"
+    resources :premium, controller: 'premium'
+    resources :community_videos
+    resources :partners do
+      resources :adverts
+      resources :perks
+    end
+    resources :mailshots do
+      member do
+        patch :send_test
+        patch :send_to_audience
+      end
+    end
+    resources :streaming_events
+    resources :donors, only: %i[index new create]
+    resources :users, only: %i[index] do
+      collection do
+        get :search
+      end
+    end
   end
 
   # ############ #
@@ -266,8 +77,11 @@ Rails.application.routes.draw do
   # ############ #
   resource :settings, only: %i[show] do
     get :api_cli
+    get :user_preferences
     get :communication_preferences
     get :donations
+    get :premium
+    get :integrations
     patch :reset_account
     delete :destroy_account
   end
@@ -282,6 +96,15 @@ Rails.application.routes.draw do
   get 'docs/:section', to: 'docs#section', as: :docs_section
 
   resources :notifications, only: [:index]
+
+  resources :impact, only: [:index]
+
+  resources :insiders, only: [:index]
+
+  resource :premium, only: [:show], controller: 'premium' do
+    get :paypal_pending
+    get :paypal_cancelled
+  end
 
   resources :profiles, only: %i[index show new create] do
     collection do
@@ -311,6 +134,13 @@ Rails.application.routes.draw do
     end
     resources :discussions, only: [:show]
     resources :testimonials, only: [:index]
+    resources :automation, only: %i[index edit], param: :uuid do
+      collection do
+        get :with_feedback
+        get :admin
+        get :tooltip_locked
+      end
+    end
   end
 
   namespace :maintaining do
@@ -329,8 +159,25 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :community, only: %i[show], controller: "community"
+
+  namespace :community do
+    resources :stories, only: %i[index show]
+    resources :videos, only: %i[index show]
+    resources :brief_introductions, only: %i[index]
+    resources :interviews, only: %i[index]
+  end
+
   resources :tracks, only: %i[index show] do
     get :about, on: :member
+
+    resource :build, only: %i[show], controller: "tracks/build" do
+      get :syllabus_tooltip
+      get :representer_tooltip
+      get :analyzer_tooltip
+      get :test_runner_tooltip
+      get :practice_exercises_tooltip
+    end
 
     resources :concepts, only: %i[index show], controller: "tracks/concepts" do
       get :tooltip, on: :member
@@ -346,10 +193,25 @@ Rails.application.routes.draw do
 
       resource :mentor_request, only: %i[new show], controller: "tracks/mentor_requests" do
         get :no_slots_remaining
+        get :get_more_slots
       end
-      resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions"
+      resources :mentor_discussions, only: %i[index show], controller: "tracks/mentor_discussions" do
+        collection do
+          get :tooltip_locked
+        end
+      end
+      resources :solutions, only: %i[index show], controller: "tracks/community_solutions" do
+        collection do
+          get :tooltip_locked
+        end
+      end
 
-      resources :solutions, only: %i[index show], controller: "tracks/community_solutions"
+      resources :articles, only: %i[index show], controller: "tracks/articles"
+      resources :approaches, only: %i[index show], controller: "tracks/approaches"
+
+      resource :dig_deeper, only: %i[show], controller: "tracks/dig_deeper" do
+        get :tooltip_locked
+      end
     end
 
     member do
@@ -366,10 +228,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :challenges, only: [:show] do
+    post :start, on: :member
+  end
+
   # ############ #
   # Unsubscribe  #
   # ############ #
-  resource :unsubscribe, only: %i[show update], controller: "unsubscribe"
+  resource :unsubscribe, only: %i[show update], controller: "unsubscribe" do
+    patch :all
+  end
 
   # #### #
   # Blog #
@@ -377,6 +245,15 @@ Rails.application.routes.draw do
   resources :blog_posts, only: %i[index show], path: "blog"
 
   get "donate" => "donations#index", as: :donate
+
+  # #### #
+  # SEO #
+  # #### #
+  get "robots" => "sitemaps#robots_txt", as: :robots_txt
+  get "sitemap" => "sitemaps#index", as: :sitemap
+  get "sitemap-general" => "sitemaps#general", as: :sitemap_general
+  get "sitemap-profiles" => "sitemaps#profiles", as: :sitemap_profiles
+  get "sitemap-tracks-:track_id" => "sitemaps#track", as: :sitemap_track
 
   root to: "pages#index"
 
@@ -393,12 +270,55 @@ Rails.application.routes.draw do
   get "/500", to: "errors#internal_error"
   get "/503", to: "errors#internal_error"
 
+  ###################
+  # Adverts & Perks #
+  ###################
+  resources :adverts, controller: "partner/adverts", only: [] do
+    get :redirect, on: :member
+  end
+  resources :perks, only: %i[index show] do
+    get :claim, on: :member
+  end
+
+  ###############
+  # About Pages #
+  ###############
+  resource :about, controller: 'about', only: [:show] do
+    resources :partners, only: %i[index show], path: "supporters/organisations", controller: "about/partners"
+
+    get :impact
+    get :team
+    get :hiring
+    get :hiring_content, path: "hiring/content-2", as: :hiring_2
+    get :hiring_community, path: "hiring/community-3", as: :hiring_3
+    get :hiring_front_end_developer, path: "hiring/front-end-developer-4", as: :hiring_4
+    get :hiring_rails_developer, path: "hiring/rails-developer-5", as: :hiring_5
+    get :individual_supporters, path: "supporters/individuals", as: :individual_supporters
+    # get :organisation_supporters, path: "supporters/organisations", as: :organisation_supporters
+
+    # %w[packt gobridge].each do |supporter|
+    #   get "supporter_#{supporter}".to_sym, path: "supporters/organisations/#{supporter}", as: "supporter_#{supporter}"
+    # end
+  end
+
+  #########
+  # Cohorts #
+  #########
+  resources :cohorts, only: [:show] do
+    post :join, on: :member
+  end
+
   #########
   # Pages #
   #########
   get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough
-  get "about" => "pages#about", as: :about_page
-  get "team" => "pages#team", as: :team_page
+
+  ############
+  # Partners #
+  ############
+  get "partners/gobridge" => "partners#gobridge", as: :gobridge_partner_page
+  get "partners/go-developer-network", to: redirect("partners/gobridge")
+  get "partners/gdn", to: redirect("partners/gobridge")
 
   get "site.webmanifest" => "meta#site_webmanifest"
 
@@ -410,10 +330,11 @@ Rails.application.routes.draw do
   get "mentor/solutions/:uuid" => "legacy#mentor_solution"
 
   %i[installation learning resources tests].each do |doc|
-    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}") # rubocop:disable Style/FormatStringToken
+    get "tracks/:slug/#{doc}", to: redirect("docs/tracks/%{slug}/#{doc}")
   end
 
   get "values", to: redirect("about")
+  get "team", to: redirect("about/team")
   get "team/staff", to: redirect("team")
   get "team/staff", to: redirect("contributors")
 
@@ -433,14 +354,22 @@ Rails.application.routes.draw do
   get "my/settings", to: redirect("settings")
   get "my/tracks", to: redirect("tracks")
   get "getting-started", to: redirect("docs/using/getting-started")
-  get '/languages/:slug', to: redirect('/tracks/%{slug}') # rubocop:disable Style/FormatStringToken
+  get '/languages/:slug', to: redirect('/tracks/%{slug}')
+  get "contribute", to: redirect("contributing")
+
+  get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect
+  get "r/twitter", to: redirect("https://twitter.com/exercism_io"), as: :twitter_redirect
+  get "r/youtube", to: redirect("https://youtube.com/@exercism_org"), as: :youtube_redirect
+  get "r/twitch", to: redirect("https://twitch.tv/exercismlive"), as: :twitch_redirect
+  get "r/youtube-community", to: redirect("https://youtube.com/@ExercismCommunity"), as: :youtube_community_redirect
+  get "r/forum", to: redirect("https://forum.exercism.org"), as: :forum_redirect
 
   # Licences
   %w[licence license].each do |spelling|
-    get "#{spelling}s/cc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: "cc_sa_4_#{spelling}"
-    get "#{spelling}s/cc-by-nc-sa-4" => "docs/using/licenses/cc-by-nc-sa-4", as: "cc_by_nc_sa_4_#{spelling}"
-    get "#{spelling}s/mit" => "docs/using/licenses/mit", as: "mit_#{spelling}"
-    get "#{spelling}s/agpl" => "docs/using/licenses/agpl", as: "agpl_#{spelling}"
+    get "#{spelling}s/cc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa"), as: "cc_sa_4_#{spelling}"
+    get "#{spelling}s/cc-by-nc-sa-4", to: redirect("docs/using/licenses/cc-by-nc-sa"), as: "cc_by_nc_sa_4_#{spelling}"
+    get "#{spelling}s/mit", to: redirect("docs/using/licenses/mit"), as: "mit_#{spelling}"
+    get "#{spelling}s/agpl", to: redirect("docs/using/licenses/agpl"), as: "agpl_#{spelling}"
   end
 
   # ########################### #

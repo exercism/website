@@ -8,7 +8,16 @@ module API
 
         test_run = SerializeSubmissionTestRun.(submission.test_run)
 
-        render json: { test_run: test_run }
+        render json: {
+          test_run:,
+          test_runner: {
+            average_test_duration: submission.track.average_test_duration,
+            status: {
+              exercise: submission.exercise.has_test_runner,
+              track: submission.track.has_test_runner
+            }
+          }
+        }
       end
 
       def cancel

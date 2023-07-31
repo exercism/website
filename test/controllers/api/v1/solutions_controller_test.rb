@@ -14,7 +14,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     setup_user
     exercise = create :concept_exercise
     get latest_api_v1_solutions_path(exercise_id: exercise.slug, track_id: SecureRandom.uuid), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "track_not_found",
       message: I18n.t('api.errors.track_not_found'),
@@ -29,7 +29,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     setup_user
     track = create :track
     get latest_api_v1_solutions_path(track_id: track.slug), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "exercise_not_found",
       message: I18n.t('api.errors.exercise_not_found'),
@@ -43,9 +43,9 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 403 when the track isn't joined" do
     setup_user
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     get latest_api_v1_solutions_path(exercise_id: exercise.slug, track_id: track.slug), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "track_not_joined",
       message: I18n.t('api.errors.track_not_joined')
@@ -58,14 +58,14 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 403 when solution cannot be unlocked" do
     setup_user
     track = create :track
-    create :user_track, user: @current_user, track: track
-    exercise = create :concept_exercise, track: track
+    create(:user_track, user: @current_user, track:)
+    exercise = create(:concept_exercise, track:)
 
     UserTrack.any_instance.expects(:exercise_unlocked?).returns(false)
 
     get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_unlocked",
       message: I18n.t('api.errors.solution_not_unlocked')
@@ -77,11 +77,11 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 200 if solution is unlocked" do
     setup_user
     exercise = create :concept_exercise
-    create :concept_solution, user: @current_user, exercise: exercise
+    create(:concept_solution, user: @current_user, exercise:)
     create :user_track, user: @current_user, track: exercise.track
 
     get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   test "latest should return 200 if solution is unlockable" do
@@ -92,19 +92,19 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     UserTrack.any_instance.stubs(exercise_unlocked?: true)
 
     get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
-    assert_response :success
+    assert_response :ok
   end
 
   test "latest should use solution serializer" do
     setup_user
     exercise = create :concept_exercise
     track = exercise.track
-    create :user_track, user: @current_user, track: track
-    solution = create :concept_solution, user: @current_user, exercise: exercise
+    create(:user_track, user: @current_user, track:)
+    solution = create(:concept_solution, user: @current_user, exercise:)
 
     get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     serializer = SerializeSolutionForCLI.(solution, @current_user)
     assert_equal serializer.to_json, response.body
   end
@@ -114,11 +114,11 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       setup_user
       exercise = create :concept_exercise
       track = exercise.track
-      solution = create :concept_solution, user: @current_user, exercise: exercise
-      create :user_track, user: solution.user, track: track
+      solution = create(:concept_solution, user: @current_user, exercise:)
+      create(:user_track, user: solution.user, track:)
 
       get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
 
       solution.reload
       assert_equal solution.downloaded_at.to_i, DateTime.now.to_i
@@ -164,7 +164,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     setup_user(user)
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -174,14 +174,12 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "show should return 200 if user is allowed" do
-    user = create :user
     solution = create :concept_solution
-    ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(true)
 
-    setup_user(user)
+    setup_user(solution.user)
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :ok
   end
 
   test "show should use solution serializer" do
@@ -191,7 +189,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     serializer = SerializeSolutionForCLI.(solution, @current_user)
     assert_equal serializer.to_json, response.body
   end
@@ -203,7 +201,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       create :user_track, user: solution.user, track: solution.track
 
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
 
       assert_equal solution.reload.downloaded_at.to_i, DateTime.now.to_i
     end
@@ -212,12 +210,11 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "show should not set downloaded_at for other user" do
     freeze_time do
       user = create :user
-      solution = create :concept_solution
-      ConceptSolution.any_instance.expects(:viewable_by?).with(user).returns(true)
+      solution = create :concept_solution, published_at: Time.current
 
       setup_user(user)
       get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
 
       assert_nil solution.reload.downloaded_at
     end
@@ -249,14 +246,14 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "update should 404 if the solution doesn't exist" do
     setup_user
     patch api_v1_solution_path(999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
-  test "update should 404 if the solution belongs to someone else" do
+  test "update should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     patch api_v1_solution_path(solution.uuid), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -268,9 +265,9 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "update should create submission and iteration" do
     setup_user
     exercise = create :concept_exercise
-    solution = create :concept_solution, user: @current_user, exercise: exercise
+    solution = create(:concept_solution, user: @current_user, exercise:)
 
-    created_submission = create(:submission, solution: solution)
+    created_submission = create(:submission, solution:)
 
     http_files = [SecureRandom.uuid, SecureRandom.uuid]
     files = mock
@@ -283,9 +280,35 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response :success
+    assert_response :created
   end
 
+  test "update should init test run" do
+    setup_user
+    exercise = create :concept_exercise
+    solution = create(:concept_solution, user: @current_user, exercise:)
+
+    http_files = [SecureRandom.uuid, SecureRandom.uuid]
+    files = []
+    Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
+
+    # Ensure representer and analyzer are called once
+    ToolingJob::Create.expects(:call).with(anything, :representer, git_sha: "HEAD", run_in_background: false, context: {})
+    ToolingJob::Create.expects(:call).with(anything, :analyzer)
+
+    # Ensure test runner is called once, in the foreground, and not again in the background
+    ToolingJob::Create.expects(:call).with(anything, :test_runner, git_sha: "HEAD", run_in_background: false)
+
+    patch api_v1_solution_path(solution.uuid),
+      params: { files: http_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :created
+
+    # Run the jobs through to make sure nothing unexpected happens
+    perform_enqueued_jobs
+  end
   test "update should catch duplicate submission" do
     setup_user
     solution = create :concept_solution, user: @current_user
@@ -297,7 +320,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "duplicate_submission",
       message: I18n.t('api.errors.duplicate_submission')

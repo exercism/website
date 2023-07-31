@@ -1,4 +1,4 @@
-class CreateUsers < ActiveRecord::Migration[6.0]
+class CreateUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :users do |t|
       t.string :handle, null: false, index: {unique: true}
@@ -40,6 +40,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.timestamps null: false
 
       t.index [:provider, :uid], unique: true
+      t.index :github_username, unique: true
     end
   end
 end

@@ -20,13 +20,24 @@ class PagesController < ApplicationController
       },
       {
         exercise: Exercise.new(icon_name: "zebra-puzzle", title: "Zebra Puzzle",
-          blurb: "Which of the residents drinks water? Who owns the zebra? Can you solve the Zebra Puzzle with code?"), # rubocop:disable Layout/LineLength
+          blurb: "Which of the residents drinks water? Who owns the zebra? Can you solve the Zebra Puzzle with code?"),
         num_tracks: 70
       }
     ]
   end
 
   def health_check
-    render json: { ruok: true }
+    user = User.find(User::SYSTEM_USER_ID)
+
+    render json: {
+      ruok: true,
+      sanity_data: {
+        user: user.handle
+      }
+    }
+  end
+
+  def supporter_gobridge
+    @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
   end
 end

@@ -10,13 +10,13 @@ module ReactComponents
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time
           },
-          request: request,
-          discussions: discussions,
+          request:,
+          discussions:,
           exercise: {
             title: solution.exercise.title,
             type: exercise_type
           },
-          links: links
+          links:
         })
       end
 
@@ -32,9 +32,7 @@ module ReactComponents
           endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
           options: {
             initialData: {
-              iterations: solution.
-                iterations.
-                map { |iteration| SerializeIteration.(iteration) }
+              iterations: SerializeIterations.(solution.iterations)
             }
           }
         }

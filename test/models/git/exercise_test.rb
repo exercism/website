@@ -18,6 +18,48 @@ module Git
       assert_equal "stub content\n", exercise.read_file_blob('bob.rb')
     end
 
+    test "solution_filepaths" do
+      exercise = Git::Exercise.new(:satellite, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["satellite.rb"]
+      assert_equal(expected, exercise.solution_filepaths)
+    end
+
+    test "test_filepaths" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["bob_test.rb"]
+      assert_equal(expected, exercise.test_filepaths)
+    end
+
+    test "editor_filepaths" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["helper.rb"]
+      assert_equal(expected, exercise.editor_filepaths)
+    end
+
+    test "invalidator_filepaths" do
+      exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = ["rubocop.yml"]
+      assert_equal(expected, exercise.invalidator_filepaths)
+    end
+
+    test "example_filepaths" do
+      exercise = Git::Exercise.new(:anagram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [".meta/example.rb"]
+      assert_equal(expected, exercise.example_filepaths)
+    end
+
+    test "exemplar_filepaths" do
+      exercise = Git::Exercise.new(:booleans, "concept", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = [".meta/exemplar.rb"]
+      assert_equal(expected, exercise.exemplar_filepaths)
+    end
+
     test "tooling_files" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
@@ -27,15 +69,65 @@ module Git
     end
 
     test "tooling_filepaths" do
+      exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "allergies.rb",
+        "allergies_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "helper.rb",
+        "isogram.rb",
+        "isogram_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with invalidator files" do
+      exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".meta/config.json",
+        ".meta/example.rb",
+        "hamming.rb",
+        "hamming_test.rb",
+        "rubocop.yml"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with approaches files" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
       expected_filepaths = [
-        ".docs/hints.md",
-        ".docs/instructions.append.md",
-        ".docs/instructions.md",
-        ".docs/introduction.append.md",
-        ".docs/introduction.md",
+        ".meta/config.json",
+        ".meta/example.rb",
+        "bob.rb",
+        "bob_test.rb",
+        "subdir/more_bob.rb"
+      ]
+      assert_equal expected_filepaths, exercise.tooling_filepaths
+    end
+
+    test "tooling_filepaths with articles files" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
         ".meta/config.json",
         ".meta/example.rb",
         "bob.rb",
@@ -99,7 +191,24 @@ module Git
         "README.md",
         "HELP.md",
         "leap.rb",
-        "leap_test.rb"
+        "leap_test.rb",
+        "rubocop.yml"
+      ]
+      assert_equal expected_filepaths, exercise.cli_filepaths
+    end
+
+    test "cli_filepaths with approaches" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".exercism/config.json",
+        "README.md",
+        "HELP.md",
+        "HINTS.md",
+        "bob.rb",
+        "bob_test.rb",
+        "subdir/more_bob.rb"
       ]
       assert_equal expected_filepaths, exercise.cli_filepaths
     end
@@ -130,38 +239,102 @@ module Git
       assert_equal expected_filepaths, exercise.important_filepaths
     end
 
-    test "retrieves instructions" do
+    test "important_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        "isogram_test.rb",
+        "helper.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
+    test "important_filepaths with invalidator files" do
+      exercise = Git::Exercise.new(:hamming, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        "hamming_test.rb",
+        "rubocop.yml"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
+    test "important_filepaths with approaches" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions\n\nInstructions for bob\n"
+
+      expected_filepaths = [
+        ".docs/instructions.md",
+        ".docs/instructions.append.md",
+        ".docs/introduction.md",
+        ".docs/introduction.append.md",
+        ".docs/hints.md",
+        "bob_test.rb"
+      ]
+      assert_equal expected_filepaths, exercise.important_filepaths
+    end
+
+    test "valid_filepaths" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert exercise.valid_submission_filepath?('bob.rb')
+      assert exercise.valid_submission_filepath?('subdir/more_bob.rb')
+      refute exercise.valid_submission_filepath?('bob_test.rb')
+      refute exercise.valid_submission_filepath?('.meta/config.json')
+      refute exercise.valid_submission_filepath?('.meta/example.rb')
+      refute exercise.valid_submission_filepath?('.docs/instructions.md')
+    end
+
+    test "valid_filepaths with editor files" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert exercise.valid_submission_filepath?('isogram.rb')
+      assert exercise.valid_submission_filepath?('subdir/more_isogram.rb')
+      refute exercise.valid_submission_filepath?('helper.rb')
+      refute exercise.valid_submission_filepath?('isogram_test.rb')
+      refute exercise.valid_submission_filepath?('.meta/config.json')
+      refute exercise.valid_submission_filepath?('.meta/example.rb')
+      refute exercise.valid_submission_filepath?('.docs/instructions.md')
+    end
+
+    test "retrieves instructions" do
+      exercise = Git::Exercise.new(:isogram, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = "# Instructions\n\nInstructions for isogram"
       assert_equal(expected, exercise.instructions)
     end
 
-    test "retrieves instructions_append" do
+    test "retrieves instructions with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Instructions append\n\nExtra instructions for bob\n"
-      assert_equal(expected, exercise.instructions_append)
+      expected = "# Instructions\n\nInstructions for bob\n\n# Instructions append\n\nExtra instructions for bob"
+      assert_equal(expected, exercise.instructions)
     end
 
     test "retrieves introduction" do
-      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+      exercise = Git::Exercise.new("space-age", "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction\n\nIntroduction for bob\n"
+      expected = "# Introduction\n\nIntroduction for space-age"
       assert_equal(expected, exercise.introduction)
     end
 
-    test "retrieves introduction_append" do
+    test "retrieves introduction with append" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Introduction append\n\nExtra introduction for bob\n"
-      assert_equal(expected, exercise.introduction_append)
+      expected = "# Introduction\n\nIntroduction for bob\n\n# Introduction append\n\nExtra introduction for bob"
+      assert_equal(expected, exercise.introduction)
     end
 
     test "retrieves hints" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in\n"
+      expected = "# Hints\n\n## General\n\n- There are many useful string methods built-in"
       assert_equal(expected, exercise.hints)
     end
 
@@ -191,32 +364,39 @@ module Git
       assert_equal("allergies", exercise.icon_name)
     end
 
-    test "retrieves authors" do
+    test "authors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal(["erikschierboom"], exercise.authors)
     end
 
-    test "retrieves contributors" do
+    test "contributors" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal(["ihid"], exercise.contributors)
     end
 
-    test "retrieves contributors for exercise without contributors" do
+    test "contributors for exercise without contributors" do
       exercise = Git::Exercise.new(:allergies, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_empty(exercise.contributors)
     end
 
-    test "retrieves example files" do
+    test "example files" do
       exercise = Git::Exercise.new(:bob, "practice", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = { ".meta/example.rb" => "example content for bob\n" }
       assert_equal(expected, exercise.example_files)
     end
 
-    test "retrieves exemplar files" do
+    test "test_files" do
+      exercise = Git::Exercise.new(:bob, "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = { "bob_test.rb" => "test content\n" }
+      assert_equal(expected, exercise.test_files)
+    end
+
+    test "exemplar files" do
       exercise = Git::Exercise.new(:lasagna, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       expected = { ".meta/exemplar.rb" => "class Lasagna\n  EXPECTED_MINUTES_IN_OVEN = 40\n  PREPARATION_MINUTES_PER_LAYER = 2\n\n  def remaining_minutes_in_oven(actual_minutes_in_oven)\n    EXPECTED_MINUTES_IN_OVEN - actual_minutes_in_oven\n  end\n\n  def preparation_time_in_minutes(layers)\n    layers * PREPARATION_MINUTES_PER_LAYER\n  end\n\n  def total_time_in_minutes(number_of_layers:, actual_minutes_in_oven:)\n    preparation_time_in_minutes(number_of_layers) + actual_minutes_in_oven\n  end\nend\n" } # rubocop:disable Layout/LineLength
@@ -293,6 +473,20 @@ module Git
       exercise = Git::Exercise.new(:strings, "concept", "HEAD",
         repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('exercises/concept/strings/.meta/config.json', exercise.config_absolute_filepath)
+    end
+
+    test "representer_version" do
+      exercise = Git::Exercise.new('space-age', "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert_equal 2, exercise.representer_version
+    end
+
+    test "representer_version defaults to 1 if it doesn't exist" do
+      exercise = Git::Exercise.new('bob', "practice", "HEAD",
+        repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+
+      assert_equal 1, exercise.representer_version
     end
   end
 end

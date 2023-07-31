@@ -1,25 +1,26 @@
-.lg-container.container
-  .flex.items-center
-    .flex-grow
-      .flex.items-center.relative.lg:static
-        = render ReactComponents::Dropdowns::TrackMenu.new(track)
-        = track_icon(track, css_class: 'mr-16 lg:mr-20')
-        .flex.flex-col.md:flex-row.md:items-center
-          .text-h1.md:mr-24= track.title
-          .students.hidden.lg:flex.items-center
-            = graphical_icon("students")
-            %span
-              = number_with_delimiter(track.num_students)
-              students
-          .tags.lg:hidden.mt-8= raw tags
+= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{course}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}" do
+  .lg-container.container
+    .flex.items-center
+      .flex-grow.w-100
+        .flex.items-center.relative.lg:static
+          = render ReactComponents::Dropdowns::TrackMenu.new(track)
+          = track_icon(track, css_class: 'mr-16 lg:mr-20')
+          .flex.flex-col.md:flex-row.md:items-center
+            .text-h1.md:mr-24= track.title
+            .students.hidden.lg:flex.items-center
+              = graphical_icon("students")
+              %span
+                = number_with_delimiter(track.num_students)
+                students
+            .tags.lg:hidden.mt-8= raw tags
 
-      .tabs= raw tabs
-    .mr-84.hidden.lg:flex.items-center.ml-auto
-      .tags.mr-32= raw tags
-      = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex ") do
-        .c-faces
-          - track.top_contributors[0, 3].map do |author|
-            .face= avatar(author)
-        .stats
-          .contributors= pluralize(track.num_code_contributors, "contributor")
-          .mentors= pluralize(track.num_mentors, "mentor")
+        .tabs.overflow-x-auto= raw tabs
+      .mr-84.hidden.lg:flex.items-center.ml-auto
+        .tags.mr-32= raw tags
+        = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex whitespace-nowrap") do
+          .c-faces
+            - track.top_contributors[0, 3].map do |author|
+              .face= avatar(author)
+          .stats
+            .contributors= pluralize(track.num_code_contributors, "contributor")
+            .mentors= pluralize(track.num_mentors, "mentor")

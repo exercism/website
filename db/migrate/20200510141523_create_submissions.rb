@@ -1,4 +1,4 @@
-class CreateSubmissions < ActiveRecord::Migration[6.0]
+class CreateSubmissions < ActiveRecord::Migration[7.0]
   def change
     create_table :submissions do |t|
       t.belongs_to :solution, foreign_key: true, null: false

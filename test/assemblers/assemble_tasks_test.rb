@@ -16,27 +16,27 @@ class AssembleTasksTest < ActiveSupport::TestCase
     Github::Task.expects(:count).with.returns(200)
 
     Github::Task::Search.expects(:call).with(
-      actions: actions,
-      knowledge: knowledge,
-      areas: areas,
-      sizes: sizes,
-      types: types,
-      repo_url: repo_url,
+      actions:,
+      knowledge:,
+      areas:,
+      sizes:,
+      types:,
+      repo_url:,
       track_id: track.id,
-      order: order,
-      page: page
+      order:,
+      page:
     ).returns(Github::Task.page(1).per(1))
 
     params = {
-      actions: actions,
-      knowledge: knowledge,
-      areas: areas,
-      sizes: sizes,
-      types: types,
-      repo_url: repo_url,
+      actions:,
+      knowledge:,
+      areas:,
+      sizes:,
+      types:,
+      repo_url:,
       track_slug: track.slug,
-      order: order,
-      page: page,
+      order:,
+      page:,
       sorted: false,
       paginated: false
     }

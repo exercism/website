@@ -11,7 +11,10 @@
         Some of our best mentors worried too.
 
       - if user_signed_in?
-        = ReactComponents::Mentoring::TryMentoringButton.new.to_s
+        - if current_user.reputation >= User::MIN_REP_TO_MENTOR
+          = ReactComponents::Mentoring::TryMentoringButton.new
+        - else
+          = render "locked", profile_min_reputation: User::MIN_REP_TO_MENTOR
       - else
         .flex.items-center
           = link_to "Sign up to try mentoring", new_user_registration_path, class: 'btn-m btn-primary'
@@ -19,7 +22,7 @@
 
   %article.lg-container
     %section.video-section
-      <div class="video rounded-5 overflow-hidden" style="padding:50% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885591?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;h=3d84913229" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Become an Exercism mentor"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+      <div class="video rounded-5 overflow-hidden" style="padding:57% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885591?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;h=3d84913229" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Become an Exercism mentor"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
     %section.reasons-section
       %h2 Why become a mentor?

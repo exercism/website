@@ -1,0 +1,45 @@
+#gobridge-partner-page
+  %a{ name: "register" }
+  %section.contributing-section.pb-80
+    .lg-container.flex.flex-col.items-center
+      %h2.text-h4.mb-16.flex.items-center
+        = graphical_icon "concepts"
+        .text-gradient.ml-24 Get Registered!
+
+      - if !user_signed_in?
+        %h3.text-h1.text-center.mb-16 Sign up to the #{cohort.name}
+        %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:600px;" }
+          To register for the #{cohort.name.split('(').first} please log in, or sign up to Exercism, and then come back to this page.
+
+        .buttons.flex.mb-40.flex-col.sm:flex-row
+          = link_to "Sign up for free", new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-16'
+          = link_to "Log in", new_user_session_path, class: 'btn-secondary btn-l shadow-buttonS'
+
+      - elsif membership
+        - if membership.enrolled?
+          %h3.text-h1.text-center.mb-16 You're all set!
+          %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
+            Congratulations - you're all set!
+            One of our team will email you shortly to welcome you to the #{cohort.name} and tell you how to get set up!
+        - else
+          %h3.text-h1.text-center.mb-16 You're on the waiting list
+          %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
+            Sorry - the #{cohort.name} filled up before you got here! You're currently in #{membership.position_on_waiting_list.ordinalize} place on the waiting list. If a space becomes available we'll let you know. Otherwise we'll message you about the next #{cohort.name} later in the year.
+
+      - else
+        %h3.text-h1.text-center.mb-16 Sign up to the #{cohort.name}
+        %p.text-p-xlarge.mb-32.text-center.mx-auto{ style: "max-width:800px;" }
+          Registering for the #{cohort.name.split('(').first} is easy. Simply fill out the form below.
+
+          = form_with url: join_cohort_path(cohort.slug), 'data-turbo': false, html: { 'data-turbo': false, class: "mx-auto shadow-lgZ1 py-24 px-32 rounded-12 bg-white", style: "max-width:800px;" } do |f|
+            .field.mb-12
+              = f.label :introduction, "Introduce yourself", class: 'text-p-large block text-textColor6 font-semibold', style: "margin-bottom:10px"
+              = f.text_area :introduction, autocomplete: "email", placeholder: "Tell your community team a little about yourself and what you're hoping to get from the participating in the #{cohort.name}.", style: "width:600px;height:120px", required: true
+            %label.c-checkbox-wrapper.mb-12
+              = check_box_tag :active, '', false, required: true
+              .row
+                .c-checkbox
+                  = graphical_icon :checkmark
+                %span.text-p-large.text-textColor6.font-semibold
+                  I commit to actively participating in the #{cohort.name}.
+            = button_tag "Register", class: 'btn-primary btn-l'

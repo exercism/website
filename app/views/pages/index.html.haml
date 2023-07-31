@@ -7,8 +7,8 @@
           %strong.leading-none.font-bold really
           good at programming.
         %p.text-p-xlarge.mb-24
-          Develop fluency in over
-          %em.not-italic.font-medium.text-textColor2 55 programming languages
+          Develop fluency in
+          %em.not-italic.font-medium.text-textColor2 #{@num_tracks} programming languages
           with our unique blend of learning, practice and mentoring.
           Exercism is fun, effective and
           %strong.text-textColor2 100% free, forever.
@@ -21,7 +21,7 @@
 
           .flex.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.sm:items-center.lg:items-start.xl:items-center
             %p.text-p-base.mb-8.sm:mb-0.text-left is an independent, community funded, not-for-profit organisation.
-            = link_to "Learn more", about_page_path, class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
+            = link_to "Learn more", about_path, class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
 
       .graphic.grid.md:hidden.lg:grid.lg:ml-24.mb-16.lg:mb-0
         = graphical_icon "landing-page-top", category: :graphics
@@ -49,7 +49,7 @@
   %section.exercises-section.pb-64
     .lg-container
       .flex.flex-col.lg:flex-row.lg:items-start.mb-48.lg:mb-72
-        .flex-grow
+        .flex-grow{ class: "mr-auto lg:max-w-[640px]" }
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
@@ -73,9 +73,9 @@
                     .track-icons.sm:ml-16
                       - @tracks.sort_by { rand }[0, 3].each do |track|
                         = track_icon(track)
-                    .font-semibold.text-textColor7.ml-16.whitespace-no-wrap +#{sample[:num_tracks]} more
+                    .font-semibold.text-textColor7.ml-16.whitespace-nowrap +#{sample[:num_tracks]} more
 
-        = graphical_icon "landing-page-exercise", category: :graphics, css_class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1"
+        = image_tag "screenshots/landing-page-exercise.jpg", alt: "", role: :presentation, category: :graphics, class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1 w-fill", width: '668', height: 611
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
@@ -86,12 +86,12 @@
         .feature
           = graphical_icon "features-editor"
           %h3.text-h4 Use the Exercism in-browser editor
-          %p.text-p-base Don’t spend hours installing a language locally just to try it out. We support all 70 of our programming languages in our in-browser editor.
+          %p.text-p-base Don&apos;t spend hours installing a language locally just to try it out. We support all 70 of our programming languages in our in-browser editor.
 
         .feature
           = graphical_icon "features-feedback"
           %h3.text-h4 Get automated analysis on your code
-          %p.text-p-base Not quite sure how well you’ve done? We run automatic analysis on your solutions to give you quick feedback and points of improvement.
+          %p.text-p-base Not quite sure how well you&apos;ve done? We run automatic analysis on your solutions to give you quick feedback and points of improvement.
 
   %section.mentoring-section.mb-80.pt-48.md:pt-96.pb-64
     .lg-container
@@ -105,9 +105,9 @@
           %hr.c-divider
 
           %p.text-p-xlarge
-            Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of particular programming language.
+            Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of a particular programming language.
 
-      = image_pack_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1"
+      = image_tag "screenshots/mentoring.jpg", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1", width: 2880, height: 1880
 
       .flex.flex-col.items-center
         %h3.text-h2 Why mentoring?
@@ -116,64 +116,15 @@
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
           = graphical_icon "features-do-not-know"
-          %h3.text-h4 You don’t know what you don’t know
-          %p.text-p-base When you're learning a new language, the hardest thing is discovery of knowledges. Our mentors can look at your code and immediately see the ideas you're not familiar with and give you a step up by unlocking new knowledge.
+          %h3.text-h4 You don&apos;t know what you don&apos;t know
+          %p.text-p-base When learning a new language, the hardest part is not being aware of the gaps in your knowledge. Our mentors can look at your code and immediately see the ideas you&apos;re not familiar with and give you a level-up by unlocking new knowledge.
 
         .feature
           = graphical_icon "features-fluency"
           %h3.text-h4 Learn language-specific conventions
-          %p.text-p-base Becoming fluent in a language is more than being able to write code in it - it's about being able to think in that language. Our mentors will help guide you to how to reshape your thinking to write idiomatic code.
+          %p.text-p-base Becoming fluent in a language is more than being able to write code in it - it&apos;s about being able to think in that language. Our mentors will help guide you to how to reshape your thinking to write idiomatic code.
 
         .feature
           = graphical_icon "features-feedback"
           %h3.text-h4 Learning with others is fun
           %p.text-p-base Getting feedback from real people is an amazingly exciting way to learn. And becoming a mentor and giving feedback yourself is an even bigger step forward. So complete the circle - be mentored and mentor 🎉
-
-
-<script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
-
-:javascript
-  const annotationH1 = RoughNotation.annotate(
-    document.querySelector('#page-landing h1 strong'),
-    {
-      type: 'highlight',
-      color:'#FFF176',
-      strokeWidth:6,
-      iterations: 1,
-      multiline: true,
-      animationDuration: 500,
-      padding: 4,
-    });
-
-  const annotationP = RoughNotation.annotate(
-    document.querySelector('#page-landing p strong'),
-    {
-      type: 'underline',
-      color:'#3F3A5A',
-      strokeWidth:2,
-      iterations: 1,
-      padding: -4,
-      multiline: true,
-      animationDuration: 600
-    });
-
-  const headingUnderlineStyle = {
-      type: 'underline',
-      color:'#3F3A5A',
-      strokeWidth:4,
-      iterations: 1,
-      padding: -5,
-      multiline: true
-    }
-
-  const annotationTracks = RoughNotation.annotate(document.querySelector('#page-landing .tracks-section h2 strong'),headingUnderlineStyle);
-  const annotationExercises = RoughNotation.annotate(document.querySelector('#page-landing .exercises-section h2 strong'),headingUnderlineStyle);
-  const annotationMentoring = RoughNotation.annotate(document.querySelector('#page-landing .mentoring-section h2 strong'),headingUnderlineStyle);
-
-  setTimeout(function() { annotationH1.show() }, 1000)
-  setTimeout(function() { annotationP.show() }, 1800)
-  setTimeout(function() { annotationTracks.show() }, 1800)
-  setTimeout(function() { annotationExercises.show() }, 1800)
-  setTimeout(function() { annotationMentoring.show() }, 1800)
-
-

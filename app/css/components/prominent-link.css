@@ -1,39 +1,23 @@
 .c-prominent-link {
     @apply flex items-center;
     @apply text-16 leading-170  font-semibold;
+    @apply text-prominentLinkColor;
 
     & .c-icon {
         height: 16px;
         width: 16px;
-        filter: var(--link-blue-filter);
-        @apply ml-12;
+        filter: var(--c-prominent-link-icon-filter);
+        &:first-child {
+            @apply mr-12;
+        }
+        &:last-child {
+            @apply ml-12;
+        }
     }
 
     &.--with-bg {
         @apply rounded-100 justify-center;
         @apply py-8 px-24;
-    }
-}
-.theme-light {
-    & .c-prominent-link {
-        @apply text-lightBlue;
-        & .c-icon {
-            filter: var(--link-blue-filter);
-        }
-        &.--with-bg {
-            @apply bg-veryLightBlue;
-        }
-    }
-}
-
-.theme-dark {
-    & .c-prominent-link {
-        @apply text-lightGold;
-        & .c-icon {
-            filter: var(--light-gold-filter);
-        }
-        &.--with-bg {
-            @apply bg-backgroundColorE;
-        }
+        background: var(--c-prominent-link-bg);
     }
 }

@@ -15,7 +15,7 @@ class Markdown::Preprocess
     lower_heading_levels! if lower_heading_levels_by.positive?
     apply_mutations! if mutations.present?
 
-    { doc: doc, text: text }
+    { doc:, text: }
   end
 
   private
@@ -25,7 +25,7 @@ class Markdown::Preprocess
     doc.each do |node|
       next unless node.type == :header && node.header_level == 1
 
-      mutations << { type: :delete_header, node: node }
+      mutations << { type: :delete_header, node: }
     end
   end
 
@@ -33,7 +33,7 @@ class Markdown::Preprocess
     doc.each do |node|
       next unless node.type == :header && (node.header_level > 1 || !strip_h1)
 
-      mutations << { type: :lower_header_level, node: node }
+      mutations << { type: :lower_header_level, node: }
     end
   end
 
@@ -50,6 +50,11 @@ class Markdown::Preprocess
       link_text.match(%r{^video:vimeo/(\d+)$}) do |m|
         node.url = "https://player.vimeo.com/video/#{m[1]}"
       end
+
+      link_text.match(%r{^video:youtube-mail/(\w+)$}) do |m|
+        node.each.first.string_content = node.url
+        node.url = "https://www.youtube.com/watch?v=#{m[1]}"
+      end
     end
   end
 
@@ -61,7 +66,9 @@ class Markdown::Preprocess
     mutations_in_reverse_line_order.each do |mutation|
       case mutation[:type]
       when :delete_header
-        lines.delete_at(mutation[:node].sourcepos[:start_line] - 1)
+        line_idx = mutation[:node].sourcepos[:start_line] - 1
+        lines.delete_at(line_idx)
+        lines.delete_at(line_idx) if line_idx < lines.length && lines[line_idx].blank?
         mutation[:node].delete
       when :lower_header_level
         lines[mutation[:node].sourcepos[:start_line] - 1].insert(mutation[:node].sourcepos[:start_column] - 1, '#')

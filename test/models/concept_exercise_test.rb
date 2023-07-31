@@ -26,7 +26,7 @@ class ConceptExerciseTest < ActiveSupport::TestCase
     assert_equal [ce], ConceptExercise.that_teach(ruby_bools)
   end
 
-  test "instructions is correct" do
+  test "instructions are correct" do
     exercise = create :concept_exercise
     assert exercise.instructions.starts_with?("In this exercise you'll be processing log-lines")
   end

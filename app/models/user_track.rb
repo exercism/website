@@ -10,7 +10,7 @@ class UserTrack < ApplicationRecord
   # and probably move it to a bg job as it'll be slow
   belongs_to :track, counter_cache: :num_students
 
-  has_many :solutions,
+  has_many :solutions, # rubocop:disable Rails/HasManyOrHasOneDependent
     lambda { |ut|
       joins(:exercise).
         where("exercises.track_id": ut.track_id)
@@ -20,6 +20,7 @@ class UserTrack < ApplicationRecord
     inverse_of: :user_track
 
   delegate :num_concepts, to: :track
+  delegate :title, to: :track, prefix: true
 
   before_create do
     self.last_touched_at = Time.current unless self.last_touched_at
@@ -29,10 +30,12 @@ class UserTrack < ApplicationRecord
   # Add some caching inside here for the duration
   # of the request cycle.
   def self.for!(user_param, track_param)
-    UserTrack.find_by!(
-      user: User.for!(user_param),
-      track: Track.for!(track_param)
-    )
+    Current.user_track_for(user_param, track_param) do
+      UserTrack.find_by!(
+        user: User.for!(user_param),
+        track: Track.for!(track_param)
+      )
+    end
   end
 
   def self.for(user_param, track_param)
@@ -77,22 +80,36 @@ class UserTrack < ApplicationRecord
   end
 
   def enabled_exercises(exercises)
-    exercises.where(status: %i[active beta]).or(exercises.where(id: solutions.select(:exercise_id)))
+    status = %i[active beta]
+    status << :wip if maintainer?
+
+    exercises = exercises.where(type: PracticeExercise.to_s) unless track.course? || maintainer?
+    exercises.where(status:).or(exercises.where(id: solutions.select(:exercise_id))).
+      includes(:track)
   end
 
-  def external?
-    false
-  end
+  def course? = track.course? || (maintainer? && track.concept_exercises.exists?)
+
+  def external? = false
 
   memoize
   def has_notifications?
     User::Notification.unread.
-      where(user_id: user_id, track_id: track_id).
+      where(user_id:, track_id:).
       exists?
   end
 
   def completed_percentage
+    return 100.0 if num_exercises.zero?
+
     c = (num_completed_exercises / num_exercises.to_f) * 100
+    c.denominator == 1 ? c.round : c.round(1)
+  end
+
+  def completed_concept_exercises_percentage
+    return 100.0 if num_concept_exercises.zero?
+
+    c = (num_completed_concept_exercises / num_concept_exercises.to_f) * 100
     c.denominator == 1 ? c.round : c.round(1)
   end
 
@@ -110,9 +127,7 @@ class UserTrack < ApplicationRecord
     Mentor::Request.where(solution: solutions).pending
   end
 
-  def tutorial_exercise_completed?
-    num_completed_exercises.positive?
-  end
+  def tutorial_exercise_completed? = num_completed_exercises.positive?
 
   def exercise_has_notifications?(exercise)
     # None of these can have notifications
@@ -122,7 +137,7 @@ class UserTrack < ApplicationRecord
     ].include?(exercise_status(exercise))
 
     User::Notification.unread.
-      where(user_id: user_id, exercise_id: exercise.id).
+      where(user_id:, exercise_id: exercise.id).
       exists?
   end
 
@@ -147,6 +162,13 @@ class UserTrack < ApplicationRecord
     @summary = nil
   end
 
+  memoize
+  def maintainer?
+    return true if user.staff? || user.admin?
+
+    user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
+  end
+
   private
   # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing
@@ -157,7 +179,7 @@ class UserTrack < ApplicationRecord
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
     track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
-    expected_key = "#{track_updated_at.to_f}:#{updated_at.to_f}:#{digest}"
+    expected_key = "#{track_updated_at.to_f}:#{last_touched_at.to_f}:#{digest}"
 
     if summary_key != expected_key
       # It is important to use update_columns here

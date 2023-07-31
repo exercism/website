@@ -1,9 +1,9 @@
 class SerializeTracks
   include Mandate
 
-  def initialize(tracks, user = nil)
-    @tracks = tracks
-    @user = user
+  initialize_with :tracks, :user do
+    # Materialise this so we're not ending up with nested queries
+    @tracks = tracks.to_a if tracks.is_a?(ActiveRecord::Relation)
   end
 
   def call
@@ -17,8 +17,6 @@ class SerializeTracks
   end
 
   private
-  attr_reader :tracks, :user
-
   def sorted_tracks
     tracks.sort_by do |track|
       "#{joined?(track) ? 0 : 1} | #{track.title.downcase}"
@@ -29,11 +27,13 @@ class SerializeTracks
   def user_tracks
     return {} unless user
 
-    UserTrack.
-      where(user: user).
-      where(track: tracks).
-      includes(:track).
-      index_by(&:track_id)
+    query = UserTrack.
+      where(user:).
+      includes(:user, track: [:concepts])
+
+    # Once we hit ~20 tracks, it's quicker just to get them all.
+    query = query.where(track: tracks) if tracks.size < 20
+    query.index_by(&:track_id)
   end
 
   memoize

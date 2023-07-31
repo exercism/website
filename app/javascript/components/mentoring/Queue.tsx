@@ -48,18 +48,15 @@ export const Queue = ({
     cacheKey: TRACKS_LIST_CACHE_KEY,
     request: tracksRequest,
   })
-  const [selectedTrack, setSelectedTrack] = useState<MentoredTrack>(
-    defaultTrack
-  )
+  const [selectedTrack, setSelectedTrack] =
+    useState<MentoredTrack>(defaultTrack)
   const {
     exercises,
     status: exerciseListStatus,
     error: exerciseListError,
   } = useExerciseList({ track: selectedTrack })
-  const [
-    selectedExercise,
-    setSelectedExercise,
-  ] = useState<MentoredTrackExercise | null>(defaultExercise)
+  const [selectedExercise, setSelectedExercise] =
+    useState<MentoredTrackExercise | null>(defaultExercise)
   const {
     resolvedData,
     latestData,
@@ -127,7 +124,12 @@ export const Queue = ({
             id="mentoring-queue-student-name-filter"
             placeholder="Filter by student handle"
           />
-          <Sorter sortOptions={sortOptions} order={order} setOrder={setOrder} />
+          <Sorter
+            sortOptions={sortOptions}
+            order={order}
+            setPage={setPage}
+            setOrder={setOrder}
+          />
         </header>
         <ResultsZone isFetching={isFetching}>
           <SolutionList

@@ -4,14 +4,14 @@
 module Webhooks
   class OrganizationUpdatesController < GithubBaseController
     def create
-      process_membership_update if member_added_or_removed?
+      process_member_update if member_added_or_removed?
 
       head :no_content
     end
 
     private
-    def process_membership_update
-      ::Webhooks::ProcessMembershipUpdate.(
+    def process_member_update
+      ::Webhooks::ProcessOrganizationMemberUpdate.(
         # params[:action] does not work as it is populated by Rails with the action method name
         request.request_parameters[:action],
         params[:membership][:user][:login],

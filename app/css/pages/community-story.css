@@ -1,0 +1,51 @@
+body.namespace-community.controller-stories.action-show {
+    @apply bg-backgroundColorB;
+}
+#page-community-story {
+    header {
+        background: linear-gradient(180deg, #130b43 0%, #3c097d 100%);
+        background-size: 100%;
+    }
+
+    .back-link {
+        @apply flex items-center relative py-32;
+        @apply text-white text-16 font-semibold leading-170;
+    }
+
+    .youtube-link {
+        @apply bg-youtubeRed py-16 px-32 rounded-100 flex items-center;
+        @apply text-18 font-semibold leading-150 text-white;
+        @apply whitespace-nowrap;
+    }
+    p {
+        background: none;
+    }
+
+    details {
+        @apply text-textColor2;
+        @apply mb-48 bg-purpleForever py-12 px-24 leading-150 rounded-12 text-16;
+        summary {
+            @apply flex items-center justify-between;
+            @apply font-semibold select-none;
+
+            &:after {
+                content: url("icons/chevron-right.svg");
+                @apply block filter-white;
+                width: 16px;
+                height: 16px;
+                transition: all 150ms;
+            }
+        }
+        p {
+            @apply text-p-base mt-20 mb-12;
+        }
+    }
+
+    details[open] {
+        summary {
+            &:after {
+                @apply rotate-90;
+            }
+        }
+    }
+}

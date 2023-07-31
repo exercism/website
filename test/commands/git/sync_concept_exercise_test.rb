@@ -25,7 +25,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     updated_at = Time.current - 1.week
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
     previous_head_sha = repo.head_commit.parents.first.oid
-    exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha, updated_at: updated_at # rubocop:disable Layout/LineLength
+    exercise = create(:concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", position: 3, git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha, updated_at:) # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
     Git::SyncConceptExercise.(exercise)
@@ -74,6 +74,17 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << (create :concept, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca')
     exercise.taught_concepts << (create :concept, slug: 'numbers', uuid: '162721bd-3d64-43ff-889e-6fb2eac75709')
     exercise.prerequisites << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
+
+    Git::SyncConceptExercise.(exercise)
+
+    assert_equal exercise.git.head_sha, exercise.synced_to_git_sha
+    assert_equal exercise.git.head_sha, exercise.git_sha
+  end
+
+  test "git SHA and git sync SHA change to HEAD SHA when there are changes in important files" do
+    exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa", synced_to_git_sha: "7a8bd1bbeb0d54a08c39d84d59cc7a8ed54d45aa" # rubocop:disable Layout/LineLength
+    exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
+    exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
     Git::SyncConceptExercise.(exercise)
 
@@ -185,6 +196,20 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     refute_includes exercise.prerequisites, strings_concept
   end
 
+  test "removes prerequisites that are not taught by any concept exercise" do
+    strings = create :concept, slug: 'strings', uuid: '3b1da281-7099-4c93-a109-178fc9436d68'
+    types = create :concept, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
+    exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
+    exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
+    exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
+    exercise.prerequisites << strings
+    exercise.prerequisites << types
+
+    Git::SyncConceptExercise.(exercise)
+
+    refute_includes exercise.prerequisites, types
+  end
+
   test "adds new prerequisites defined in config.json" do
     basics_concept = create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
@@ -216,7 +241,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
     Git::SyncConceptExercise.(exercise)
 
-    refute exercise.authors.where(github_username: author.github_username).exists?
+    refute exercise.authors.with_data.where(data: { github_username: author.github_username }).exists?
   end
 
   test "adds reputation token for new author" do
@@ -225,7 +250,9 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
-    Git::SyncConceptExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncConceptExercise.(exercise)
+    end
 
     new_authorship = exercise.authorships.find_by(author: new_author)
     new_author_rep_token = new_author.reputation_tokens.last
@@ -240,10 +267,12 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "0ec511318983b7d27d6a27410509071ee7683e52", synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
-    existing_author_authorship = create :exercise_authorship, exercise: exercise, author: existing_author
+    existing_author_authorship = create :exercise_authorship, exercise:, author: existing_author
     create :user_exercise_author_reputation_token, user: existing_author, params: { authorship: existing_author_authorship }
 
-    Git::SyncConceptExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncConceptExercise.(exercise)
+    end
 
     assert_equal 1, existing_author.reputation_tokens.where(category: "authoring").count
   end
@@ -281,7 +310,9 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
 
-    Git::SyncConceptExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncConceptExercise.(exercise)
+    end
 
     new_contributorship = exercise.contributorships.find_by(contributor: new_contributor)
     new_contributor_rep_token = new_contributor.reputation_tokens.last
@@ -296,11 +327,13 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     exercise = create :concept_exercise, uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17', slug: 'booleans', title: 'Booleans', git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520", synced_to_git_sha: "3fd14f32cafd9e89935bd972cecff64eb926c520" # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'booleans', uuid: '831b4db4-6b75-4a8d-a835-4c2555aacb61')
     exercise.prerequisites << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')
-    existing_contributorship = create :exercise_contributorship, exercise: exercise, contributor: existing_contributor
+    existing_contributorship = create :exercise_contributorship, exercise:, contributor: existing_contributor
     create :user_exercise_contribution_reputation_token, user: existing_contributor,
-                                                         params: { contributorship: existing_contributorship }
+      params: { contributorship: existing_contributorship }
 
-    Git::SyncConceptExercise.(exercise)
+    perform_enqueued_jobs do
+      Git::SyncConceptExercise.(exercise)
+    end
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
   end
@@ -343,5 +376,43 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
     Git::SyncConceptExercise.(exercise)
 
     assert_equal 'log-levels', exercise.slug
+  end
+
+  test "updates site_update" do
+    exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs', git_sha: "3c693834d59dbcaab3dde474a8c6b2c5d747f0f2", synced_to_git_sha: "3c693834d59dbcaab3dde474a8c6b2c5d747f0f2" # rubocop:disable Layout/LineLength
+    SiteUpdates::ProcessNewExerciseUpdate.expects(:call).with(exercise)
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+  end
+
+  test "updates has_approaches" do
+    exercise = create :concept_exercise, uuid: 'f4f7de13-a9ee-4251-8796-006ed85b3f70', slug: 'logs'
+    Exercise::UpdateHasApproaches.expects(:call).with(exercise)
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+  end
+
+  test "syncs introduction authors" do
+    author = create :user, github_username: 'erikschierboom'
+    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_authors
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+
+    assert_equal [author], exercise.reload.approach_introduction_authors
+  end
+
+  test "syncs introduction contributors" do
+    contributor = create :user, github_username: 'ihid'
+    exercise = create :concept_exercise, uuid: 'e5476046-5289-11ea-8d77-2e728ce88125'
+
+    # Sanity check
+    assert_empty exercise.approach_introduction_contributors
+
+    Git::SyncConceptExercise.(exercise, force_sync: true)
+
+    assert_equal [contributor], exercise.reload.approach_introduction_contributors
   end
 end

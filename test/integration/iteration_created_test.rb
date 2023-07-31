@@ -11,17 +11,17 @@ class IterationCreatedTest < ActionDispatch::IntegrationTest
     student = create :user, handle: "student"
     mentor = create :user
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Strings", track: track
-    solution = create :concept_solution, user: student, exercise: exercise
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor
-    submission = create :submission, solution: solution
+    exercise = create(:concept_exercise, title: "Strings", track:)
+    solution = create(:concept_solution, user: student, exercise:)
+    discussion = create(:mentor_discussion, solution:, mentor:)
+    submission = create(:submission, solution:)
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
     end
 
     assert_equal :awaiting_mentor, discussion.reload.status
-    email = ActionMailer::Base.deliveries.last
+    email = ActionMailer::Base.deliveries.first
     assert_equal(
       "[Mentoring] student has submitted a new iteration on the solution you are mentoring for Ruby/Strings",
       email.subject

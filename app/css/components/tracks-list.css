@@ -12,7 +12,7 @@
 
             top: 60px;
 
-            box-shadow: 0px 18px 24px rgba(79, 114, 205, 0.15);
+            box-shadow: 0px 18px 24px rgba(var(--shadowColorMain), 0.15);
 
             &:focus {
                 @apply outline-none;
@@ -49,7 +49,7 @@
                 }
 
                 & .--apply-btn {
-                    @apply text-textColor9 bg-purple border-purple;
+                    @apply text-white bg-purple border-purple;
                 }
 
                 & .--close-btn {
@@ -60,31 +60,25 @@
         & .--state {
             @apply hidden items-center;
             @apply px-20;
-            @apply bg-lightOrange rounded-5;
+            @apply rounded-5;
             @apply mr-48;
+            background: var(--backgroundColorTracksListState);
             height: 48px;
 
             & p {
-                @apply text-16 font-medium text-textColor3;
+                @apply text-16 font-medium;
+                color: var(--textColorTracksListState);
             }
             & .--reset-btn {
                 @apply ml-24;
             }
-            @screen lg {
-                @apply flex;
-            }
+            @apply lg:flex;
         }
         & .--filter-btn {
-            @apply mr-0;
-            @screen lg {
-                @apply mr-40;
-            }
+            @apply mr-0 lg:mr-40;
         }
         & .c-single-select {
-            @apply hidden ml-auto;
-            @screen lg {
-                @apply flex;
-            }
+            @apply hidden ml-auto lg:flex;
         }
     }
     & .joined-tracks {
@@ -95,10 +89,7 @@
     }
     & .joined-tracks,
     & .unjoined-tracks {
-        @apply grid gap-16;
-        @screen md {
-            @apply grid-cols-2;
-        }
+        @apply grid gap-16 md:grid-cols-2;
     }
 
     & .--track {
@@ -146,14 +137,18 @@
                 }
 
                 & .--new {
-                    @apply text-orange bg-lightOrange;
+                    color: var(--textColorTracksListNew);
+                    background: var(--backgroundColorTracksListNew);
+                    border-width: 1px;
                     & .c-icon {
                         filter: var(--orange-filter);
                     }
                 }
                 & .--v3 {
                     @apply bg-purple text-white;
-                    @apply border-1 border-textColor2;
+
+                    @apply border-1;
+                    border-color: var(--borderColorTracksListV3);
                     & .c-icon {
                         filter: var(--dark-green-filter);
                     }
@@ -162,15 +157,16 @@
                 & .--joined {
                     @apply flex items-center;
                     @apply flex-shrink-0;
-                    @apply text-14 leading-170 font-semibold text-lightBlue;
-                    @apply bg-veryLightBlue;
+                    @apply text-14 leading-170 font-semibold;
                     @apply ml-auto;
                     @apply py-4 px-12 rounded-5;
                     height: 32px;
+                    background: var(--backgroundColorTracksListJoined);
+                    color: var(--textColorTracksListJoined);
                     & .c-icon {
                         height: 12px;
                         width: 12px;
-                        filter: var(--link-blue-filter);
+                        filter: var(--c-prominent-link-icon-filter);
                     }
                 }
             }
@@ -189,9 +185,7 @@
                         width: 21px;
                         @apply mr-8;
                         filter: var(--textColor6-filter);
-                        @screen md {
-                            @apply mr-12;
-                        }
+                        @apply md:mr-12;
                     }
                 }
             }
@@ -200,10 +194,12 @@
                 @apply mb-16;
                 height: 6px;
                 @apply flex flex-row;
-                @apply bg-veryLightBlue rounded-8;
+                background: var(--backgroundColorI);
+                @apply rounded-8;
 
                 & .--fill {
-                    @apply bg-lightBlue rounded-8;
+                    background: var(--fillColorProgress);
+                    @apply rounded-8;
                     min-width: 6px;
                     height: 100%;
                 }
@@ -221,7 +217,7 @@
                     @apply border-borderColor7 border-1 rounded-100;
                     @apply font-medium text-13 text-textColor6 leading-200;
                     @apply px-12;
-                    @apply whitespace-no-wrap;
+                    @apply whitespace-nowrap;
                 }
             }
             & .--last-touched {

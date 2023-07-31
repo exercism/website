@@ -1,9 +1,15 @@
 import React, { useState, useCallback } from 'react'
 import { Accordion } from '../../common/Accordion'
 import { MentorNotes } from './MentorNotes'
-import { CommunitySolution as CommunitySolutionProps } from '../../types'
+import {
+  CommunitySolution as CommunitySolutionProps,
+  GuidanceLinks,
+  MentoringSessionExemplarFile,
+} from '../../types'
 import { CommunitySolution, GraphicalIcon } from '../../common'
 import { useHighlighting } from '../../../utils/highlight'
+import { ExemplarFilesList } from './guidance/ExemplarFilesList'
+import { SessionGuidance } from '../Session'
 
 const AccordionHeader = ({
   isOpen,
@@ -24,34 +30,36 @@ const AccordionHeader = ({
   )
 }
 
-type Links = {
-  improveNotes: string
+export type Props = {
+  guidance: SessionGuidance
+  mentorSolution?: CommunitySolutionProps
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
+  links: GuidanceLinks
+  language: string
+  feedback?: any
 }
 
 export const Guidance = ({
-  notes,
+  guidance,
   mentorSolution,
-  exemplarSolution,
+  exemplarFiles,
   links,
   language,
   feedback = false,
-}: {
-  notes: string
-  mentorSolution?: CommunitySolutionProps
-  exemplarSolution: string
-  links: Links
-  language: string
-  feedback?: any
-}): JSX.Element => {
+}: Props): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {
-      id: 'exemplar-solution',
-      isOpen: exemplarSolution != null,
+      id: 'exemplar-files',
+      isOpen: exemplarFiles.length !== 0,
     },
     {
-      id: 'notes',
-      isOpen: exemplarSolution == null,
+      id: 'exercise-guidance',
+      isOpen: exemplarFiles.length === 0,
+    },
+    {
+      id: 'track-guidance',
+      isOpen: false,
     },
     {
       id: 'mentor-solution',
@@ -93,14 +101,14 @@ export const Guidance = ({
 
   return (
     <div ref={ref}>
-      {exemplarSolution ? (
+      {exemplarFiles.length !== 0 ? (
         <Accordion
-          id="exemplar-solution"
-          isOpen={isOpen('exemplar-solution')}
+          id="exemplar-files"
+          isOpen={isOpen('exemplar-files')}
           onClick={handleClick}
         >
           <AccordionHeader
-            isOpen={isOpen('exemplar-solution')}
+            isOpen={isOpen('exemplar-files')}
             title="The exemplar solution"
           />
           <Accordion.Panel>
@@ -109,20 +117,43 @@ export const Guidance = ({
                 Try and guide the student towards this solution. It is the best
                 place for them to reach at this point during the Track.
               </p>
-              <pre className="overflow-auto">
-                <code
-                  className={language}
-                  dangerouslySetInnerHTML={{ __html: exemplarSolution }}
-                />
-              </pre>
+              <ExemplarFilesList files={exemplarFiles} language={language} />
             </div>
           </Accordion.Panel>
         </Accordion>
       ) : null}
-      <Accordion id="notes" isOpen={isOpen('notes')} onClick={handleClick}>
-        <AccordionHeader isOpen={isOpen('notes')} title="Mentor notes" />
+      <Accordion
+        id="exercise-guidance"
+        isOpen={isOpen('exercise-guidance')}
+        onClick={handleClick}
+      >
+        <AccordionHeader
+          isOpen={isOpen('exercise-guidance')}
+          title="Exercise notes"
+        />
         <Accordion.Panel>
-          <MentorNotes notes={notes} improveUrl={links.improveNotes} />
+          <MentorNotes
+            notes={guidance.exercise}
+            guidanceType="exercise"
+            improveUrl={links.improveExerciseGuidance}
+          />
+        </Accordion.Panel>
+      </Accordion>
+      <Accordion
+        id="track-guidance"
+        isOpen={isOpen('track-guidance')}
+        onClick={handleClick}
+      >
+        <AccordionHeader
+          isOpen={isOpen('track-guidance')}
+          title="Track notes"
+        />
+        <Accordion.Panel>
+          <MentorNotes
+            notes={guidance.track}
+            guidanceType="track"
+            improveUrl={links.improveTrackGuidance}
+          />
         </Accordion.Panel>
       </Accordion>
       {mentorSolution ? (

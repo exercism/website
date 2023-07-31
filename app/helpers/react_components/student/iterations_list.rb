@@ -8,14 +8,16 @@ module ReactComponents
           "student-iterations-list",
           {
             solution_uuid: solution.uuid,
-            request: request,
+            request:,
             exercise: {
               title: exercise.title,
+              slug: exercise.slug,
               download_cmd: exercise.download_cmd,
               has_test_runner: exercise.has_test_runner?
             },
             track: {
               title: track.title,
+              slug: track.slug,
               icon_url: track.icon_url,
               highlightjs_language: track.highlightjs_language,
               indent_size: track.indent_size
@@ -38,13 +40,10 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_solution_url(solution.uuid, sideload: [:iterations]),
           options: {
-            initialData: {
-              iterations: solution.
-                iterations.
-                includes(:track, :exercise, :files, :submission).
-                order(id: :desc).
-                map { |iteration| SerializeIteration.(iteration, sideload: %i[files automated_feedback]) }
-            }
+            initial_data: {
+              iterations: SerializeIterations.(solution.iterations.order(id: :desc), sideload: %i[files automated_feedback])
+            },
+            initial_data_updated_at: Time.current.to_i
           }
         }
       end

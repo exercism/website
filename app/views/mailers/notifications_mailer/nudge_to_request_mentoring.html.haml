@@ -1,0 +1,10 @@
+%p Hi #{@user.handle},
+%p You've completed a few exercises (nice work!) but not yet requested mentoring on any of your solutions.
+%p
+  Receiving feedback from our mentors is an amazing way of discovering your knowledge gaps and levelling up your skills.
+  It's one of Exercism's most valuable features, and like all of Exercism, it's absolutely free!
+%p
+  Choose a solution that you feel has the most room for improvement and request a mentor to take a look at it.
+  They should get back to you within a day or so with some ideas!
+
+= email_button_to "Choose a solution →", @notification.url

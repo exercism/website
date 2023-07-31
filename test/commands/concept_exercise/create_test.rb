@@ -4,9 +4,9 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   test "creates concept exercise" do
     uuid = SecureRandom.uuid
     track = create :track
-    strings = create :concept, track: track, slug: 'strings'
-    conditionals = create :concept, track: track, slug: 'conditionals'
-    basics = create :concept, track: track, slug: 'basics'
+    strings = create :concept, track:, slug: 'strings'
+    conditionals = create :concept, track:, slug: 'conditionals'
+    basics = create :concept, track:, slug: 'basics'
 
     ConceptExercise::Create.(
       uuid,
@@ -41,9 +41,9 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   test "idempotent" do
     uuid = SecureRandom.uuid
     track = create :track
-    strings = create :concept, track: track, slug: 'strings'
-    conditionals = create :concept, track: track, slug: 'conditionals'
-    basics = create :concept, track: track, slug: 'basics'
+    strings = create :concept, track:, slug: 'strings'
+    conditionals = create :concept, track:, slug: 'conditionals'
+    basics = create :concept, track:, slug: 'basics'
 
     assert_idempotent_command do
       ConceptExercise::Create.(
@@ -66,15 +66,12 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   end
 
   test "creates site_update" do
-    track = create :track
-    exercise = ConceptExercise::Create.(
-      SecureRandom.uuid,
-      track,
-      build(:concept_exercise).attributes.symbolize_keys
-    )
+    SiteUpdates::ProcessNewExerciseUpdate.expects(:call)
 
-    update = SiteUpdate.first
-    assert_equal exercise, update.exercise
-    assert_equal track, update.track
+    ConceptExercise::Create.(
+      SecureRandom.uuid,
+      create(:track),
+      **build(:concept_exercise).attributes.symbolize_keys
+    )
   end
 end

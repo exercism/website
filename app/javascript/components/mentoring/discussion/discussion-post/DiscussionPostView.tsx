@@ -1,19 +1,19 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { DiscussionPostProps } from '../DiscussionPost'
 import { shortFromNow } from '../../../../utils/time'
 import { Avatar } from '../../../common/Avatar'
 import { Icon } from '../../../common/Icon'
-import { useHighlighting } from '../../../../utils/highlight'
 import { ViewingComponentType } from '../../../common/ListItem'
+import { DiscussionPostContent } from './DiscussionPostContent'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
 
 export const DiscussionPostView = ({
   onEdit,
   item: post,
   className = '',
   itemRef,
-}: ViewingComponentType<DiscussionPostProps>) => {
+}: ViewingComponentType<DiscussionPostProps>): JSX.Element => {
   const isEditable = post.links.edit
-  const contentRef = useHighlighting<HTMLDivElement>()
 
   const classNames = [
     'post',
@@ -31,7 +31,12 @@ export const DiscussionPostView = ({
       />
       <div className="timeline-content">
         <header className="timeline-entry-header">
-          <div className="author">{post.authorHandle}</div>
+          <div className="author">
+            <HandleWithFlair
+              handle={post.authorHandle}
+              flair={post.authorFlair}
+            />
+          </div>
           <time>{shortFromNow(post.updatedAt)}</time>
 
           {isEditable ? (
@@ -40,11 +45,7 @@ export const DiscussionPostView = ({
             </button>
           ) : null}
         </header>
-        <div
-          className="post-content c-textual-content --small"
-          ref={contentRef}
-          dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-        />
+        <DiscussionPostContent contentHtml={post.contentHtml} />
       </div>
     </div>
   )

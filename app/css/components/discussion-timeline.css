@@ -1,0 +1,130 @@
+.c-discussion-timeline {
+    --header-height: 32px;
+
+    & .timeline-entry {
+        @apply flex;
+        @apply py-8 px-24;
+        @apply relative;
+
+        &:first-child {
+            @apply pt-20;
+        }
+        &.post:last-child {
+            &:before {
+                bottom: auto;
+                height: 16px;
+            }
+        }
+
+        &:before {
+            content: "";
+            @apply absolute;
+            left: 40px;
+            top: 0;
+            bottom: 0;
+            @apply border-l-1 border-borderColor6;
+        }
+
+        & .timeline-marker {
+            height: var(--header-height);
+            width: var(--header-height);
+            @apply mr-16;
+            @apply relative z-1 bg-backgroundColorA;
+            @apply flex-shrink-0;
+        }
+        & .timeline-content {
+            @apply flex-grow items-center;
+            @apply overflow-hidden;
+        }
+    }
+    & .timeline-entry-header {
+        height: var(--header-height);
+        @apply flex items-center;
+        & time {
+            @apply text-textColor6 leading-160;
+            @apply ml-auto;
+        }
+    }
+
+    & .iteration-entry {
+        & .timeline-marker {
+            @apply rounded-circle shadow-xsZ1;
+            @apply grid place-items-center;
+
+            & .c-icon {
+                width: 50%;
+                height: 50%;
+                filter: var(--textColor6-filter);
+            }
+        }
+
+        & .info {
+            @apply text-16 text-textColor6 leading-150;
+
+            & strong {
+                @apply font-medium text-textColor2 mr-6;
+            }
+        }
+    }
+
+    & .auto-feedback {
+        @apply mt-8;
+        @apply relative;
+        @apply border-1 border-borderColor6 rounded-8;
+        @apply py-8 px-16;
+        @apply flex items-center;
+
+        & .info-icon {
+            height: 16px;
+            width: 16px;
+            @apply text-orange mr-12;
+            filter: var(--textColor6-filter);
+        }
+        & .info {
+            @apply flex-grow;
+            @apply text-15 text-textColor6 font-medium leading-150;
+            @apply mr-12;
+        }
+
+        & .modal-icon {
+            height: 16px;
+            width: 16px;
+            @apply ml-auto;
+            filter: var(--textColor6-filter);
+        }
+    }
+
+    & .post {
+        &.--editable:hover {
+            @apply bg-backgroundColorE;
+            & .timeline-entry-header {
+                & .edit-button {
+                    @apply grid;
+                }
+                & time {
+                    @apply hidden;
+                }
+            }
+        }
+
+        & .timeline-entry-header {
+            @apply flex items-center;
+
+            & .author {
+                @apply font-semibold text-16 leading-150 text-textColor1;
+            }
+
+            & .edit-button {
+                width: 32px;
+                height: 32px;
+                @apply hidden ml-auto place-items-center;
+                @apply shadow-xsZ1 rounded-circle bg-backgroundColorA;
+
+                & .c-icon {
+                    width: 50%;
+                    @apply filter-textColor6;
+                }
+            }
+        }
+    }
+}

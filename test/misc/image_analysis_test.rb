@@ -10,7 +10,7 @@ class ImageAnalysisTest < ActiveSupport::TestCase
     user.avatar.analyze
 
     blob = ActiveStorage::Blob.last
-    refute_nil blob.metadata["width"]
-    refute_nil blob.metadata["height"]
+    assert blob.metadata["analyzed"]
+    assert blob.metadata["identified"]
   end
 end

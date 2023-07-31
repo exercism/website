@@ -9,7 +9,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     get api_profile_solutions_path("some-random-user"), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "profile_not_found",
       message: I18n.t('api.errors.profile_not_found')
@@ -24,7 +24,7 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
 
     get api_profile_solutions_path(user), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "profile_not_found",
       message: I18n.t('api.errors.profile_not_found')
@@ -44,32 +44,36 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
       profile_user,
       status: :published,
       criteria: "Foobar",
-      track_slug: track_slug,
+      track_slug:,
       order: "recent",
-      page: page
+      page:
     ).returns(Solution.page(1).per(1))
 
     get api_profile_solutions_path(profile_user), params: {
-      page: page,
+      page:,
       criteria: "Foobar",
       order: "recent",
-      track_slug: track_slug
+      track_slug:
     }, headers: @headers, as: :json
   end
 
   test "index retrieves solutions" do
+    Solution::SearchUserSolutions::Fallback.expects(:call).never
+
     setup_user
 
     profile_user = create(:user_profile).user
-    5.times { create :practice_solution, :published, user: profile_user }
+    5.times { |i| create :practice_solution, :published, user: profile_user, num_stars: i }
 
-    Solution.find_each { |solution| create :iteration, submission: create(:submission, solution: solution) }
+    Solution.find_each { |solution| create :iteration, submission: create(:submission, solution:) }
+
+    wait_for_opensearch_to_be_synced
 
     get api_profile_solutions_path(profile_user), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
-      Solution.order(id: :desc).page(1),
+      Solution.order(num_stars: :desc).page(1),
       serializer: SerializeCommunitySolutions,
       meta: {
         unscoped_total: 5

@@ -10,8 +10,8 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
     exercise = solution.exercise
     params = {
       track: exercise.track,
-      exercise: exercise,
-      solution: solution
+      exercise:,
+      solution:
     }
 
     User::Activity::Create.(type, user, params)
@@ -21,7 +21,7 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
     assert_equal user, activity.user
     assert_equal solution, activity.solution
     assert_equal solution.track, activity.track
-    assert_equal User::Activities::StartedExerciseActivity, activity.class
+    assert_instance_of User::Activities::StartedExerciseActivity, activity
     assert_equal 1, activity.version
     assert_equal "#{user.id}|started_exercise|Solution##{solution.id}", activity.uniqueness_key
   end
@@ -32,7 +32,7 @@ class User::Activity::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :started_exercise
     exercise = create(:concept_exercise)
-    params = { exercise: exercise }
+    params = { exercise: }
     User::ActivityChannel.expects(:broadcast_changed!).with(user)
 
     User::Activity::Create.(type, user, params)

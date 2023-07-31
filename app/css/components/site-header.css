@@ -1,6 +1,8 @@
 body.namespace-tracks.controller-exercises.action-edit,
 body.namespace-mentoring.controller-discussions.action-show,
+body.namespace-mentoring.controller-representations.action-new,
 body.namespace-mentoring.controller-requests.action-show,
+body.namespace-mentoring.controller-automation.action-edit,
 body.namespace-tracks.controller-mentor_requests.action-new,
 body.namespace-tracks.controller-mentor_requests.action-show,
 body.namespace-tracks.controller-mentor_discussions.action-show,
@@ -8,19 +10,45 @@ body.controller-user_onboarding.action-show,
 body.devise {
     & #site-header,
     & #site-footer {
-        display: none;
+        display: none !important;
     }
+}
+
+body.keyboard-navigation .nav-element:hover .nav-element-dropdown,
+body.keyboard-navigation .nav-element:hover .arrow {
+    @apply !hidden;
 }
 
 #site-header {
     @apply bg-backgroundColorA border-b-1 border-borderColor7;
     @apply sticky top-0;
-    @screen lg {
-        @apply static;
-    }
+    @apply lg:static;
 
     /* This is needed to raise the menu above other components */
     @apply z-menu;
+
+    & .announcement-bar {
+        @apply py-8;
+        @apply text-aliceBlue font-semibold text-16 leading-160 text-center;
+        background: var(--backgroundColorAnnouncementBar);
+        & strong {
+            @apply text-lightGold mx-4 font-semibold;
+            @apply underline;
+        }
+
+        .lg-container {
+            @apply flex md:flex-row flex-col justify-center items-center;
+            .text-container {
+                @apply sm:flex flex-row;
+            }
+            .c-icon {
+                @apply sm:block hidden mr-8;
+                filter: none !important;
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
 
     & .container {
         /* Should be py-12 when other components have been added */
@@ -29,19 +57,19 @@ body.devise {
     }
 
     & .exercism-link {
-        @apply mr-8 flex-shrink-0;
-        max-width: 45px;
+        /* todo remove this */
+        @apply flex items-center gap-6;
+        @apply mr-32 flex-shrink-0;
+        @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;
 
         & .c-icon {
+            @apply filter-textColor1;
             height: 35px;
             width: 194px;
         }
 
         @screen sm {
-            @apply mr-56;
-            max-width: unset;
-
             & .c-icon {
                 height: 24px;
                 width: 133px;
@@ -61,12 +89,9 @@ body.devise {
         }
     }
 
-    & nav.signed-in,
-    & nav.signed-out {
+    & nav {
         @apply hidden;
-        @screen lg {
-            @apply block mr-16;
-        }
+        @apply lg:block lg:mr-16;
 
         & ul {
             @apply flex items-center;
@@ -79,46 +104,14 @@ body.devise {
                 }
             }
         }
-
-        & li:last-child a {
-            @apply text-purple;
-
-            & .c-icon {
-                filter: var(--purple-filter);
-            }
-        }
-
-        & a {
-            @apply flex items-center relative;
-            @apply text-16 text-textColor6 font-semibold;
-            @apply whitespace-no-wrap;
-
-            & .c-icon {
-                @apply hidden;
-                height: 24px;
-                width: 24px;
-                @apply mr-12;
-                filter: var(--textColor6-filter);
-            }
-        }
     }
+
     & nav.signed-in {
         @apply flex-grow;
-
-        & li {
-            @apply mr-16;
-        }
-        & a {
-            @apply px-8 py-8;
-        }
     }
 
     & nav.signed-out {
         @apply mr-auto;
-
-        & li {
-            @apply mr-32;
-        }
     }
 
     & .user-section {
@@ -133,25 +126,19 @@ body.devise {
             background-position: center center;
             background-repeat: no-repeat;
 
-            @apply hidden;
-            @screen sm {
-                @apply block;
-            }
+            @apply hidden sm:block;
         }
         & .new-testimonial {
-            background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMjciIHZpZXdCb3g9IjAgMCAzMSAyNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMi43NSAzLjc1MDAyQzguOTM5MzMgMy43NDQ1MiA1LjQyNTY4IDUuODA2OTUgMy41NzI4IDkuMTM2ODNDMS43MTk5MSAxMi40NjY3IDEuODE5NTMgMTYuNTM5NyAzLjgzMyAxOS43NzVMMC43NSAyNi4yNUw3LjIyNSAyMy4xNjdDMTEuMDExMyAyNS41MjExIDE1Ljg3MTQgMjUuMjI3NCAxOS4zNDY2IDIyLjQzNDVDMjIuODIxOSAxOS42NDE2IDI0LjE1NDQgMTQuOTU4NSAyMi42NzAxIDEwLjc1NDRDMjEuMTg1OSA2LjU1MDI4IDE3LjIwODQgMy43NDE5MiAxMi43NSAzLjc1MDAyWiIgc3Ryb2tlPSJ1cmwoI3BhaW50MF9saW5lYXIpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTUuNzUgMTYuNUMxNS43NSAxOC4xNTY5IDE0LjQwNjkgMTkuNSAxMi43NSAxOS41QzExLjA5MzEgMTkuNSA5Ljc1IDE4LjE1NjkgOS43NSAxNi41SDE1Ljc1WiIgc3Ryb2tlPSJ1cmwoI3BhaW50MV9saW5lYXIpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik04LjI1IDEyLjM3NUM4LjA0Mjg5IDEyLjM3NSA3Ljg3NSAxMi41NDI5IDcuODc1IDEyLjc1QzcuODc1IDEyLjk1NzEgOC4wNDI4OSAxMy4xMjUgOC4yNSAxMy4xMjVDOC40NTcxMSAxMy4xMjUgOC42MjUgMTIuOTU3MSA4LjYyNSAxMi43NUM4LjYyNSAxMi41NDI5IDguNDU3MTEgMTIuMzc1IDguMjUgMTIuMzc1IiBzdHJva2U9InVybCgjcGFpbnQyX2xpbmVhcikiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTE3LjI1IDEyLjM3NUMxNy4wNDI5IDEyLjM3NSAxNi44NzUgMTIuNTQyOSAxNi44NzUgMTIuNzVDMTYuODc1IDEyLjk1NzEgMTcuMDQyOSAxMy4xMjUgMTcuMjUgMTMuMTI1QzE3LjQ1NzEgMTMuMTI1IDE3LjYyNSAxMi45NTcxIDE3LjYyNSAxMi43NUMxNy42MjUgMTIuNTQyOSAxNy40NTcxIDEyLjM3NSAxNy4yNSAxMi4zNzUiIHN0cm9rZT0idXJsKCNwYWludDNfbGluZWFyKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8Y2lyY2xlIGN4PSIyNCIgY3k9IjciIHI9IjUuNSIgZmlsbD0iI0VCNTc1NyIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSIxMi4wMDk4IiB5MT0iMy43NSIgeDI9IjEyLjAwOTgiIHkyPSIyNi4yNSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMjIwMEZGIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzlFMDBGRiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MV9saW5lYXIiIHgxPSIxMi43NSIgeTE9IjE2LjUiIHgyPSIxMi43NSIgeTI9IjE5LjUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzIyMDBGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM5RTAwRkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDJfbGluZWFyIiB4MT0iOC4zNzUiIHkxPSIxMi4zNzUiIHgyPSI4LjM3NSIgeTI9IjEzLjM3NSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjMjIwMEZGIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzlFMDBGRiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50M19saW5lYXIiIHgxPSIxNy4zNzUiIHkxPSIxMi4zNzUiIHgyPSIxNy4zNzUiIHkyPSIxMy4zNzUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzIyMDBGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM5RTAwRkYiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K");
+            background-image: var(--newTestimonialIcon);
         }
         & .new-badge {
-            background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMjciIHZpZXdCb3g9IjAgMCAzMSAyNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTExIDQuNzMyMDVDMTEuNjE4OCA0LjM3NDc5IDEyLjM4MTIgNC4zNzQ3OSAxMyA0LjczMjA1TDIwLjM5MjMgOUMyMS4wMTExIDkuMzU3MjcgMjEuMzkyMyAxMC4wMTc1IDIxLjM5MjMgMTAuNzMyMVYxOS4yNjc5QzIxLjM5MjMgMTkuOTgyNSAyMS4wMTExIDIwLjY0MjcgMjAuMzkyMyAyMUwxMyAyNS4yNjc5QzEyLjM4MTIgMjUuNjI1MiAxMS42MTg4IDI1LjYyNTIgMTEgMjUuMjY3OUwzLjYwNzcgMjFDMi45ODg4OSAyMC42NDI3IDIuNjA3NyAxOS45ODI1IDIuNjA3NyAxOS4yNjhWMTAuNzMyMUMyLjYwNzcgMTAuMDE3NSAyLjk4ODg5IDkuMzU3MjcgMy42MDc3IDlMMTEgNC43MzIwNVoiIGZpbGw9IndoaXRlIiBzdHJva2U9InVybCgjcGFpbnQwX2xpbmVhcikiIHN0cm9rZS13aWR0aD0iMiIvPgo8Y2lyY2xlIGN4PSIyNCIgY3k9IjciIHI9IjUuNSIgZmlsbD0iI0VCNTc1NyIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXIiIHgxPSIxMiIgeTE9IjMiIHgyPSIxMiIgeTI9IjI3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMyMjAwRkYiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOUUwMEZGIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg==");
+            background-image: var(--newBadgeIcon);
         }
         & .c-notification {
             @apply ml-8 mr-48;
         }
         & .c-react-wrapper-dropdowns-reputation {
-            @apply hidden;
-            @screen lg {
-                @apply block mr-48;
-            }
+            @apply hidden xl:block lg:mr-48;
         }
         & .c-react-wrapper-dropdowns-dropdown {
             min-width: 74px;
@@ -165,11 +152,12 @@ body.devise {
             width: 42px;
 
             @apply mr-16;
-            box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+            box-shadow: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3);
         }
         & .c-icon {
             height: 16px;
             width: 16px;
+            @apply filter-textColor6;
         }
     }
     & .user-menu-dropdown,
@@ -178,17 +166,27 @@ body.devise {
         @apply px-16 pb-20;
 
         & li.site-link {
-            @screen lg {
-                @apply hidden;
+            @apply xl:hidden;
+        }
+
+        & li.new {
+            & a:after {
+                /* text-14px + pt-6 + pb-6 */
+                height: 26px;
+                content: "New";
+                @apply bg-[url("icons/sparkle-warning.svg")] bg-[length:12px] bg-no-repeat bg-[8px_center];
+                /* most of this is copied from site_header.rb L70 */
+                /* pl-24 = pl-8 + bg-size 12px + mr-4 */
+                @apply ml-8 text-warning bg-lightOrange py-6 pr-8 pl-24 rounded-100 font-semibold text-[13px] flex items-center;
             }
         }
+
         & li.opt {
             & a {
                 @apply flex;
                 @apply text-textColor6 font-medium;
                 @apply text-16 leading-huge;
                 @apply bg-backgroundColorA;
-
                 &:hover {
                     @apply bg-backgroundColorD;
                     @apply text-textColor5;
@@ -209,7 +207,8 @@ body.devise {
                     width: 42px;
 
                     @apply mr-16;
-                    box-shadow: 0px 4px 16px 0px rgba(79, 114, 205, 0.3);
+                    box-shadow: 0px 4px 16px 0px
+                        rgba(var(--shadowColorMain), 0.3);
                 }
                 & .info {
                     @apply flex-grow;
@@ -224,7 +223,7 @@ body.devise {
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    @apply ml-32 text-textColor6;
+                    @apply ml-32 filter-textColor6;
                 }
             }
         }
@@ -232,10 +231,7 @@ body.devise {
         & li.opt {
             & a {
                 @apply px-12 py-4;
-
-                @screen lg {
-                    @apply px-16 py-8;
-                }
+                @apply lg:px-16 lg:py-8;
             }
         }
 
@@ -253,10 +249,7 @@ body.devise {
             @apply mb-16;
         }
         & li.reputation {
-            @apply mb-20;
-            @screen lg {
-                @apply hidden;
-            }
+            @apply mb-20 xl:hidden;
             & .c-primary-reputation {
                 @apply mr-0;
             }
@@ -266,24 +259,22 @@ body.devise {
         @apply flex items-center justify-end;
         @apply ml-auto;
 
-        & a:first-child {
-            @apply mr-8;
+        & a:nth-child(2) {
+            @apply ml-8;
         }
     }
     & .auth-buttons a,
     & .explore-menu {
         height: 40px;
-        @apply text-15;
+        @apply text-15 lg:text-14;
         @screen lg {
             height: 32px;
-            @apply text-14;
         }
     }
     & .explore-menu {
         @apply px-16 ml-20;
-        @screen lg {
-            @apply hidden;
-        }
+        @apply lg:hidden;
+
         & .c-icon {
             filter: var(--textColor2-filter);
         }
@@ -334,10 +325,10 @@ body.devise {
 
 body.controller-docs,
 body.namespace-docs {
-    @apply bg-backgroundColorA;
+    @apply bg-backgroundColorB;
 
     & #site-header {
-        @apply bg-backgroundColorE;
+        @apply bg-backgroundColorA;
         @apply border-0;
 
         & .exercism-link {
@@ -348,9 +339,19 @@ body.namespace-docs {
             /* TODO: Readd once implemented */
             /* @apply block; */
         }
-        & .signed-in,
-        & .signed-out {
-            @apply hidden;
+    }
+}
+
+body.controller-about,
+body.namespace-about {
+    @apply bg-backgroundColorB;
+
+    & #site-header {
+        @apply bg-backgroundColorA;
+        @apply border-0;
+
+        & .exercism-link {
+            @apply mr-32;
         }
     }
 }

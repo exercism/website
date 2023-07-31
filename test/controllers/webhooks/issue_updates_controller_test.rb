@@ -1,6 +1,6 @@
 require_relative './base_test_case'
 
-class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
+class Webhooks::IssueUpdatesControllerTest < Webhooks::BaseTestCase
   test "create should return 403 when signature is invalid" do
     payload = {
       action: 'opened',
@@ -28,7 +28,7 @@ class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
     invalid_headers['HTTP_X_HUB_SIGNATURE_256'] = "invalid_signature"
 
     post webhooks_issue_updates_path, headers: invalid_headers, as: :json, params: payload
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "create should return 200 when signature is valid" do
@@ -55,7 +55,7 @@ class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_issue_updates_path, headers: headers(payload), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 
   test "create should return 204 when ping event is sent" do
@@ -82,6 +82,6 @@ class Webhooks::Issue0UpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_issue_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 end

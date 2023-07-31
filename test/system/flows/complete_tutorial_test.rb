@@ -6,26 +6,26 @@ module Flows
     include CapybaraHelpers
 
     test "completes the tutorial succesfully" do
-      track = create :track
-      hello_world = create :concept_exercise, track: track, slug: "hello-world"
       user = create :user
-      create :user_track, user: user, track: track
-      solution = create :concept_solution, user: user, exercise: hello_world
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
-
-      sign_in!(user)
+      solution = create(:hello_world_solution, user:)
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
+      create :user_track, user:, track: solution.track
 
       use_capybara_host do
-        visit track_exercise_url(track, hello_world)
+        sign_in!(user)
+
+        visit track_exercise_url(solution.track, solution.exercise)
 
         click_on "Mark as complete"
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
-        assert_text "You’ve completed “Hello World”"
+        sleep(1)
+        assert_text "You’ve completed “Hello, World!”"
 
-        click_on "Return to “Hello World”"
-        assert_text "You've completed Hello World"
+        click_on "Return to “Hello, World!”"
+        sleep(1)
+        assert_text "You've completed Hello, World!"
       end
     end
   end

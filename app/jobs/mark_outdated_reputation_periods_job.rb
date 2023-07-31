@@ -13,6 +13,6 @@ class MarkOutdatedReputationPeriodsJob < ApplicationJob
       raise "Unexpected period: #{period}"
     end
 
-    User::ReputationPeriod::MarkOutdated.(earned_on: earned_on, period: period.to_sym)
+    User::ReputationPeriod::MarkOutdated.(earned_on:, period: period.to_sym)
   end
 end

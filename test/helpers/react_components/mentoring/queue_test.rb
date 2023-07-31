@@ -1,6 +1,6 @@
 require_relative "../react_component_test_case"
 
-class MentoringQueueTest < ReactComponentTestCase
+class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
   test "mentoring queue rendered correctly" do
     user = create :user
 
@@ -8,9 +8,9 @@ class MentoringQueueTest < ReactComponentTestCase
     ruby = create :track, slug: "ruby", title: "Ruby"
     csharp = create :track, slug: "csharp", title: "C#"
 
-    create :user_track_mentorship, user: user, track: fsharp
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: csharp
+    create :user_track_mentorship, user:, track: fsharp
+    create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: csharp
 
     # This shouldn't be included
     strings = create :concept_exercise, track: ruby
@@ -26,8 +26,8 @@ class MentoringQueueTest < ReactComponentTestCase
     4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     # Create mentor solutions to fred and zipper, with zipper completed
-    create :concept_solution, user: user, exercise: fred
-    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+    create :concept_solution, user:, exercise: fred
+    create :concept_solution, user:, exercise: zipper, completed_at: Time.current
 
     params = {
       criteria: "bo",
@@ -62,7 +62,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
-                  avg_wait_time: nil,
+                  median_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
                   }
@@ -72,7 +72,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "F#",
                   icon_url: fsharp.icon_url,
                   num_solutions_queued: 0,
-                  avg_wait_time: nil,
+                  median_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: fsharp.slug)
                   }
@@ -82,7 +82,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
-                  avg_wait_time: nil,
+                  median_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
                   }
@@ -98,7 +98,7 @@ class MentoringQueueTest < ReactComponentTestCase
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,
-          avg_wait_time: nil,
+          median_wait_time: nil,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
           },
@@ -151,8 +151,8 @@ class MentoringQueueTest < ReactComponentTestCase
     ruby = create :track, slug: "ruby", title: "Ruby"
     csharp = create :track, slug: "csharp", title: "C#"
 
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: csharp, last_viewed: true
+    create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: csharp, last_viewed: true
 
     # This shouldn't be included
     strings = create :concept_exercise, track: ruby
@@ -168,8 +168,8 @@ class MentoringQueueTest < ReactComponentTestCase
     4.times { create :mentor_request, solution: create(:concept_solution, exercise: bob) }
 
     # Create mentor solutions to fred and zipper, with zipper completed
-    create :concept_solution, user: user, exercise: fred
-    create :concept_solution, user: user, exercise: zipper, completed_at: Time.current
+    create :concept_solution, user:, exercise: fred
+    create :concept_solution, user:, exercise: zipper, completed_at: Time.current
 
     component = ReactComponents::Mentoring::Queue.new(user, {})
 
@@ -195,7 +195,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "C#",
                   icon_url: csharp.icon_url,
                   num_solutions_queued: 6,
-                  avg_wait_time: nil,
+                  median_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
                   }
@@ -205,7 +205,7 @@ class MentoringQueueTest < ReactComponentTestCase
                   title: "Ruby",
                   icon_url: ruby.icon_url,
                   num_solutions_queued: 3,
-                  avg_wait_time: nil,
+                  median_wait_time: nil,
                   links: {
                     exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: ruby.slug)
                   }
@@ -221,7 +221,7 @@ class MentoringQueueTest < ReactComponentTestCase
           title: "C#",
           icon_url: csharp.icon_url,
           num_solutions_queued: 6,
-          avg_wait_time: nil,
+          median_wait_time: nil,
           links: {
             exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: csharp.slug)
           },
@@ -269,9 +269,9 @@ class MentoringQueueTest < ReactComponentTestCase
     csharp = create :track, slug: "csharp", title: "C#"
     ruby = create :track, slug: "ruby", title: "Ruby"
 
-    create :user_track_mentorship, user: user, track: fsharp
-    ruby_mentorship = create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: csharp
+    create :user_track_mentorship, user:, track: fsharp
+    ruby_mentorship = create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: csharp
 
     # These are csharp and should be included
     bob = create :practice_exercise, track: fsharp, slug: :bob, title: "Bob"
@@ -292,5 +292,16 @@ class MentoringQueueTest < ReactComponentTestCase
 
     component = ReactComponents::Mentoring::Queue.new(user.reload, {})
     assert_includes component.to_s, 'zipper'
+  end
+
+  test "mentoring queue defaults to first track if there are none" do
+    user = create :user
+
+    create :track, slug: "fsharp", title: "F#"
+    create :track, slug: "csharp", title: "C#"
+    create :track, slug: "ruby", title: "Ruby"
+
+    component = ReactComponents::Mentoring::Queue.new(user.reload, {})
+    assert_includes component.to_s, "fsharp"
   end
 end

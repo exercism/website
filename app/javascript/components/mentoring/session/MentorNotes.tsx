@@ -3,9 +3,11 @@ import React from 'react'
 export const MentorNotes = ({
   notes,
   improveUrl,
+  guidanceType,
 }: {
   notes?: string
   improveUrl: string
+  guidanceType: 'track' | 'exercise' | 'representer'
 }): JSX.Element => {
   const prLink = (
     <a href={improveUrl} target="_blank" rel="noreferrer">
@@ -16,9 +18,9 @@ export const MentorNotes = ({
   if (!notes) {
     return (
       <p className="text-p-base">
-        This exercise doesn&apos;t have any mentoring notes yet. Mentoring notes
-        are written by our community. Please help get them started for this
-        exercise by sending a {prLink}.
+        This {guidanceType} doesn&apos;t have any mentoring notes yet. Mentoring
+        notes are written by our community. Please help get them started for
+        this exercise by sending a {prLink}.
       </p>
     )
   }

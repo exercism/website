@@ -62,9 +62,11 @@ export const ExerciseCompletedModal = ({
         ) : null}
 
         <div className="btns">
-          <a href={track.links.concepts} className="btn-primary btn-m">
-            Show me more concepts
-          </a>
+          {track.numConcepts > 0 ? (
+            <a href={track.links.concepts} className="btn-primary btn-m">
+              Show me more concepts
+            </a>
+          ) : null}
           <button onClick={handleContinue} className="btn">
             Return to the exercise
           </button>
@@ -93,8 +95,8 @@ export const ExerciseCompletedModal = ({
           </>
         ) : (
           <div className="info">
-            Once you've practiced some more {track.title}, come back to this
-            exercise and see if you can make it even better.
+            Once you&apos;ve practiced some more {track.title}, come back to
+            this exercise and see if you can make it even better.
           </div>
         )}
 
@@ -113,7 +115,7 @@ export const ExerciseCompletedModal = ({
       cover={true}
       open={open}
       className="m-completed-exercise c-completed-exercise-progress"
-      onClose={() => {}}
+      onClose={() => null}
       {...props}
     >
       <>

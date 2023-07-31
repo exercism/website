@@ -1,38 +1,32 @@
 class SerializeStudent
   include Mandate
 
-  def initialize(student, mentor, user_track:, relationship:, anonymous_mode:)
-    @student = student
-    @mentor = mentor
-    @user_track = user_track
-    @relationship = relationship
-    @anonymous_mode = anonymous_mode
-  end
+  initialize_with :student, :mentor, user_track: Mandate::NO_DEFAULT, relationship: Mandate::NO_DEFAULT,
+    anonymous_mode: Mandate::NO_DEFAULT, discussion: nil
 
   def call
     return anonymous_details if anonymous_mode
 
     {
       handle: student.handle,
+      flair: student.flair,
       name: student.name.presence, # TODO: We need a flag to protect this maybe?
       bio: student.bio.presence,
       location: student.location.presence,
       languages_spoken: student.languages_spoken,
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
-      pronouns: pronouns,
+      pronouns:,
       is_favorited: !!relationship&.favorited?,
       is_blocked: !!relationship&.blocked_by_mentor?,
       track_objectives: user_track&.objectives.to_s,
-      num_total_discussions: num_total_discussions,
+      num_total_discussions:,
       num_discussions_with_mentor: relationship&.num_discussions.to_i,
-      links: links
+      links:
     }
   end
 
   private
-  attr_reader :student, :mentor, :user_track, :relationship, :anonymous_mode
-
   def anonymous_details
     {
       name: "User in Anonymous mode",
@@ -56,7 +50,8 @@ class SerializeStudent
       favorite: if Mentor::StudentRelationship::ToggleFavorited.new(mentor, student, false).allowed?
                   Exercism::Routes.favorite_api_mentoring_student_path(student.handle)
                 end,
-      previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all)
+      previous_sessions: Exercism::Routes.api_mentoring_discussions_path(student: student.handle, status: :all,
+        exclude_uuid: discussion.try(:uuid))
     }.compact
   end
 end

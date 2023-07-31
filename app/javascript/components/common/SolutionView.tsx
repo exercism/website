@@ -4,7 +4,10 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { IterationsList } from '../mentoring/session/IterationsList'
 import { FilePanel } from '../mentoring/session/FilePanel'
-import { IterationSummaryWithWebsockets } from '../track/IterationSummary'
+import {
+  IterationSummary,
+  IterationSummaryWithWebsockets,
+} from '../track/IterationSummary'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'
 
@@ -13,25 +16,32 @@ export type Links = {
   unpublish?: string
 }
 
+export type Props = {
+  iterations: readonly Iteration[]
+  publishedIterationIdx: number | null
+  publishedIterationIdxs: readonly number[]
+  language: string
+  indentSize: number
+  outOfDate: boolean
+  links: Links
+}
+
 const DEFAULT_ERROR = new Error('Unable to load files')
 
 export const SolutionView = ({
   iterations,
   publishedIterationIdx,
+  publishedIterationIdxs,
   language,
   indentSize,
   outOfDate,
   links,
-}: {
-  iterations: readonly Iteration[]
-  publishedIterationIdx: number | null
-  language: string
-  indentSize: number
-  outOfDate: boolean
-  links: Links
-}): JSX.Element => {
+}: Props): JSX.Element => {
+  const publishedIterations = iterations.filter((iteration) =>
+    publishedIterationIdxs.includes(iteration.idx)
+  )
   const [currentIteration, setCurrentIteration] = useState(
-    iterations[iterations.length - 1]
+    publishedIterations[publishedIterations.length - 1]
   )
   const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
     files: File[]
@@ -44,7 +54,9 @@ export const SolutionView = ({
     <div className="c-solution-iterations">
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
-        isOutOfDate={outOfDate}
+        OutOfDateNotice={
+          outOfDate ? <IterationSummary.OutOfDateNotice /> : null
+        }
         showSubmissionMethod={true}
         showTestsStatusAsButton={true}
         showFeedbackIndicator={false}
@@ -65,9 +77,9 @@ export const SolutionView = ({
         </FetchingBoundary>
       </ResultsZone>
       <footer className="c-iterations-footer">
-        {iterations.length > 1 ? (
+        {publishedIterations.length > 1 ? (
           <IterationsList
-            iterations={iterations}
+            iterations={publishedIterations}
             onClick={setCurrentIteration}
             current={currentIteration}
           />

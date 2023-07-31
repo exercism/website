@@ -11,8 +11,19 @@ type SubmissionLinks = {
   cancel: string
   submit: string
   testRun: string
+  aiHelp: string
   initialFiles: string
   lastIterationFiles: string
+}
+
+export type TestRunnerStatus = {
+  track: boolean
+  exercise: boolean
+}
+
+export type TestRunner = {
+  averageTestDuration: number
+  status?: TestRunnerStatus
 }
 
 export type TestRun = {
@@ -26,6 +37,7 @@ export type TestRun = {
   outputHtml: string
   tests: Test[]
   highlightjsLanguage: string
+  tasks: AssignmentTask[]
   links: {
     self: string
   }
@@ -40,6 +52,7 @@ export type Test = {
   output: string
   outputHtml: string
   index?: number
+  taskId?: number
 }
 
 export enum TestStatus {
@@ -80,6 +93,7 @@ export type Assignment = {
 }
 
 export type AssignmentTask = {
+  id: number
   title: string
   text: string
   hints: string[]

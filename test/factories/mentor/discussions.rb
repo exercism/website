@@ -1,13 +1,14 @@
 FactoryBot.define do
   factory :mentor_discussion, class: 'Mentor::Discussion' do
     mentor { create :user }
-    solution { create :practice_solution, track: track }
-    request { create :mentor_request, solution: solution, status: :fulfilled }
+    solution { create :practice_solution, track:, exercise: }
+    request { create :mentor_request, solution:, status: :fulfilled }
 
     transient do
       track do
         Track.find_by(slug: 'ruby') || create(:track, slug: 'ruby')
       end
+      exercise { create :practice_exercise, track: }
     end
 
     trait :awaiting_student do
@@ -30,6 +31,11 @@ FactoryBot.define do
       status { :finished }
       finished_at { Time.current }
       finished_by { :student }
+    end
+
+    trait :external do
+      external { true }
+      request { create :mentor_request, :external, solution:, status: :fulfilled }
     end
   end
 end

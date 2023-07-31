@@ -1,6 +1,6 @@
 import React from 'react'
 import { TestRunSummaryContainer } from './TestRunSummaryContainer'
-import { Submission, TestRun } from './types'
+import { Submission, TestRun, TestRunner } from './types'
 import { GraphicalIcon, Tab } from '../common'
 import { TabsContext } from '../Editor'
 
@@ -11,7 +11,7 @@ export const ResultsPanel = ({
   onRunTests,
   onSubmit,
   isSubmitDisabled,
-  averageTestDuration,
+  testRunner,
   hasCancelled,
 }: {
   submission: Submission | null
@@ -20,7 +20,7 @@ export const ResultsPanel = ({
   onSubmit: () => void
   onRunTests: () => void
   isSubmitDisabled: boolean
-  averageTestDuration: number
+  testRunner: TestRunner
   hasCancelled: boolean
 }): JSX.Element => {
   return (
@@ -35,12 +35,12 @@ export const ResultsPanel = ({
         <section className="results">
           <TestRunSummaryContainer
             testRun={submission.testRun}
+            testRunner={testRunner}
             cancelLink={submission.links.cancel}
             timeout={timeout}
             onUpdate={onUpdate}
             onSubmit={onSubmit}
             isSubmitDisabled={isSubmitDisabled}
-            averageTestDuration={averageTestDuration}
           />
         </section>
       ) : (

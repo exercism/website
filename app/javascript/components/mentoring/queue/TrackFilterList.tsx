@@ -65,12 +65,16 @@ type Props = {
     tracks: string
     updateTracks: string
   }
+  sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
+  countText?: string
 }
 
 const Component = ({
+  sizeVariant = 'large',
   tracks,
   isFetching,
   value,
+  countText,
   setValue,
   cacheKey,
   links,
@@ -114,7 +118,7 @@ const Component = ({
   }
 
   return (
-    <div className="c-single-select c-track-select --size-large">
+    <div className={`c-single-select c-track-select --size-${sizeVariant}`}>
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"
@@ -123,7 +127,9 @@ const Component = ({
         >
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
-          <div className="count">{value.numSolutionsQueued}</div>
+          <div className="count">
+            {value.numSolutionsQueued} {countText}
+          </div>
           <Icon
             icon="chevron-down"
             alt="Click to change"

@@ -1,10 +1,7 @@
 class SerializeTracksForMentoring
   include Mandate
 
-  def initialize(tracks, mentor: nil)
-    @tracks = tracks
-    @mentor = mentor
-  end
+  initialize_with :tracks, :mentor
 
   def call
     tracks.order(title: :asc).map do |track|
@@ -18,7 +15,7 @@ class SerializeTracksForMentoring
       title: track.title,
       icon_url: track.icon_url,
       num_solutions_queued: request_counts[track.id].to_i,
-      avg_wait_time: track.avg_wait_time,
+      median_wait_time: track.median_wait_time,
       links: {
         exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: track.slug)
       }
@@ -26,8 +23,6 @@ class SerializeTracksForMentoring
   end
 
   private
-  attr_reader :tracks, :mentor
-
   memoize
   def request_counts
     mentor ? request_counts_with_mentor : request_counts_without_mentor
@@ -35,7 +30,7 @@ class SerializeTracksForMentoring
 
   def request_counts_with_mentor
     ::Mentor::Request::Retrieve.(
-      mentor: mentor,
+      mentor:,
       limit_tracks: false,
       sorted: false,
       paginated: false

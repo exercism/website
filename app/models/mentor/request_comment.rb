@@ -25,19 +25,17 @@ class Mentor::RequestComment
 
     new(
       uuid: "request-comment",
-      iteration_idx: iteration_idx,
+      iteration_idx:,
       author: request.student,
       by_student: true,
       content_markdown: request.comment_markdown,
       content_html: request.comment_html,
-      updated_at: request.updated_at,
-      request: request
+      updated_at: request.created_at,
+      request:
     )
   end
 
-  def by_student?
-    by_student
-  end
+  def by_student? = by_student
 
   def links
     {

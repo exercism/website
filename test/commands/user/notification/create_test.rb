@@ -7,14 +7,13 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
 
-    notification = User::Notification::Create.(user, type, params)
+    notification = User::Notification::Create.(user, type, discussion:)
 
     assert_equal 1, User::Notification.count
     assert notification.pending?
     assert_equal user, notification.user
-    assert_equal User::Notifications::MentorStartedDiscussionNotification, notification.class
+    assert_instance_of User::Notifications::MentorStartedDiscussionNotification, notification
     assert_equal 1, notification.version
     assert_equal "#{user.id}|mentor_started_discussion|Discussion##{discussion.id}", notification.uniqueness_key
 
@@ -29,11 +28,26 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
       user = create :user
       type = :mentor_started_discussion
       discussion = create(:mentor_discussion)
-      params = { discussion: discussion }
 
-      assert_enqueued_with job: ActivateUserNotificationJob, at: Time.current + 5.seconds do
-        User::Notification::Create.(user, type, params)
+      args_matcher = ->(job_args) { job_args[0] == User::Notification::Activate.name }
+      assert_enqueued_with job: MandateJob, at: Time.current + 5.seconds, args: args_matcher do
+        User::Notification::Create.(user, type, discussion:)
       end
+    end
+  end
+
+  test "activates activation" do
+    freeze_time do
+      user = create :user
+      type = :mentor_started_discussion
+      discussion = create(:mentor_discussion)
+
+      notification = User::Notification::Create.(user, type, discussion:)
+      assert_equal :pending, notification.status
+
+      travel(6.seconds)
+      perform_enqueued_jobs
+      assert_equal :unread, notification.reload.status
     end
   end
 
@@ -41,12 +55,21 @@ class User::Notifications::CreateTest < ActiveSupport::TestCase
     user = create :user
     type = :mentor_started_discussion
     discussion = create(:mentor_discussion)
-    params = { discussion: discussion }
     NotificationsChannel.expects(:broadcast_pending!).with do |u, n|
       assert_equal u, user
       assert n.is_a?(User::Notification)
     end
 
-    User::Notification::Create.(user, type, params)
+    User::Notification::Create.(user, type, discussion:)
+  end
+
+  test "copes with duplicates" do
+    user = create :user
+    type = :mentor_started_discussion
+    discussion = create(:mentor_discussion)
+
+    n_1 = User::Notification::Create.(user, type, discussion:)
+    n_2 = User::Notification::Create.(user, type, discussion:)
+    assert_equal n_1, n_2
   end
 end

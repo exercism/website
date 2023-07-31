@@ -1,4 +1,4 @@
-class CreateMentorDiscussionPosts < ActiveRecord::Migration[6.0]
+class CreateMentorDiscussionPosts < ActiveRecord::Migration[7.0]
   def change
     create_table :mentor_discussion_posts do |t|
       t.string :uuid, null: false

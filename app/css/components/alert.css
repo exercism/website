@@ -1,9 +1,30 @@
+/*  
+
+this could be turned into one alert, with common props, then have variants below
+- success
+- caution
+- danger
+
+this is c-alert--caution
+*/
 .c-alert {
+    background: var(--backgroundColorCAlert);
+    color: var(--textColorCAlert);
     @apply border-2 border-orange rounded-8;
-    @apply bg-lightOrange;
     @apply py-12 px-24;
-    @apply font-medium leading-150 text-caution;
+    @apply font-medium leading-150;
     & strong {
         @apply font-semibold text-textColor2;
     }
+}
+
+.c-alert--danger {
+    @apply c-alert;
+    @apply text-danger border-danger;
+    background: var(--backgroundColorCAlert);
+}
+
+.c-alert--danger_dark {
+    @apply c-alert--danger;
+    @apply bg-bgDanger_dark text-danger_dark;
 }

@@ -1,28 +1,16 @@
 import React from 'react'
-import { Tab } from '../common/Tab'
-import { TabsContext } from '../Editor'
-import { useHighlighting } from '../../utils/highlight'
+import { Tab, TabContext } from '@/components/common/Tab'
 
-export const TestsPanel = ({
-  tests,
-  highlightjsLanguage,
+export function TestsPanel({
+  context,
+  children,
 }: {
-  tests: string
-  highlightjsLanguage: string
-}): JSX.Element => {
-  const ref = useHighlighting<HTMLPreElement>()
-
+  context: React.Context<TabContext>
+  children: React.ReactNode
+}): JSX.Element {
   return (
-    <Tab.Panel id="tests" context={TabsContext} className="tests c-code-pane">
-      <pre ref={ref}>
-        <code
-          className={highlightjsLanguage}
-          data-highlight-line-numbers={true}
-          data-highlight-line-number-start={1}
-        >
-          {tests}
-        </code>
-      </pre>
+    <Tab.Panel id="tests" className="overflow-auto" context={context}>
+      {children}
     </Tab.Panel>
   )
 }

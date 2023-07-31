@@ -15,11 +15,13 @@ export const Introducer = ({
   children,
   endpoint,
   size = 'base',
+  additionalClassNames,
 }: React.PropsWithChildren<{
   icon: string
   content?: string
   endpoint: string
   size?: IntroducerSize
+  additionalClassNames?: string
 }>): JSX.Element | null => {
   const [hidden, setHidden] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -54,7 +56,7 @@ export const Introducer = ({
     .join(' ')
 
   return (
-    <div ref={ref} className={classNames}>
+    <div ref={ref} className={`${classNames} ${additionalClassNames}`}>
       <GraphicalIcon icon={icon} category="graphics" className="visual-icon" />
       {content ? (
         <div className="info" dangerouslySetInnerHTML={{ __html: content }} />
@@ -68,7 +70,12 @@ export const Introducer = ({
             onClick={() => mutation()}
             status={status}
           >
-            <Icon icon="close" alt="Permanently hide this introducer" />
+            <div className="lg:hidden btn-s btn-enhanced">Got it 👍</div>
+            <Icon
+              icon="close"
+              alt="Permanently hide this introducer"
+              className="hidden lg:block"
+            />
           </FormButton>
           <ErrorBoundary resetKeys={[status]}>
             <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

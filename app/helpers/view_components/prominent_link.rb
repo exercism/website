@@ -1,10 +1,11 @@
 module ViewComponents
   class ProminentLink < ViewComponent
-    def initialize(text, url, with_bg: false, external: false)
+    def initialize(text, url, with_bg: false, external: false, css_class: nil)
       @text = text
       @url = url
       @with_bg = with_bg
       @external = external
+      @css_class = css_class
 
       super()
     end
@@ -23,7 +24,7 @@ module ViewComponents
     attr_reader :text, :url, :with_bg, :external
 
     def css_class
-      c = ['c-prominent-link']
+      c = ['c-prominent-link', @css_class].compact
       c << '--with-bg' if with_bg
       c.join(" ")
     end

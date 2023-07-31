@@ -1,11 +1,14 @@
 class User::ReputationToken < ApplicationRecord
   include IsParamaterisedSTI
 
+  def self.cache_hash_for(user_id) = "users/#{user_id}/reputation"
+
   self.class_suffix = :token
   self.i18n_category = :user_reputation_tokens
 
   belongs_to :user
 
+  scope :seen, -> { where(seen: true) }
   scope :unseen, -> { where(seen: false) }
 
   # Reason, category and value can be set statically in
@@ -32,14 +35,14 @@ class User::ReputationToken < ApplicationRecord
     self.value = self.determine_value
   end
 
-  after_save_commit do
-    summing_sql = Arel.sql("(#{user.reputation_tokens.select('SUM(value)').to_sql})")
-
-    # We're updating in a single query instead of two queries to avoid race-conditions
-    # and using read_committed to avoid deadlocks
+  after_commit do
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
-      User.where(id: user.id).update_all(reputation: summing_sql)
+      reputation = user.reputation_tokens.sum(:value).to_i
+      User.where(id: user.id).update_all(reputation:)
     end
+
+    # Invalidate reputation cache for this user
+    Exercism.redis_tooling_client.del(self.class.cache_hash_for(user_id))
   end
 
   def params=(hash)
@@ -87,13 +90,13 @@ class User::ReputationToken < ApplicationRecord
 
   def cacheable_rendering_data
     data = {
-      uuid: uuid,
-      value: value,
-      text: text,
-      icon_url: icon_url,
-      internal_url: internal_url,
-      external_url: external_url,
-      earned_on: earned_on.iso8601
+      uuid:,
+      value:,
+      text:,
+      icon_url:,
+      internal_url:,
+      external_url:,
+      created_at: created_at.iso8601
     }
 
     if track
@@ -109,19 +112,12 @@ class User::ReputationToken < ApplicationRecord
   def icon_url
     return exercise.icon_url if exercise
 
-    asset_pack_url(
-      "media/images/graphics/#{icon_name}.svg",
-      host: Rails.application.config.action_controller.asset_host
-    )
+    "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path("graphics/#{icon_name}.svg")}"
   end
 
   # To be overriden in children classes
-  def icon_name
-    "reputation"
-  end
+  def icon_name = "reputation"
 
   # To be overriden in children classes
-  def internal_url
-    nil
-  end
+  def internal_url = nil
 end

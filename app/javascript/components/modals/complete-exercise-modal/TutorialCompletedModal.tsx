@@ -20,14 +20,13 @@ export const TutorialCompletedModal = ({
       <GraphicalIcon icon="hello-world" category="graphics" />
       <h2>You’ve completed “{completion.exercise.title}”</h2>
       <h3>
-        This is just start of your journey on the {completion.track.title} track
-        🚀
+        This is just the start of your journey on the {completion.track.title}{' '}
+        track 🚀
       </h3>
       <p>
         You’re now ready to get stuck into some{' '}
         <a href={completion.track.links.exercises}>real exercises</a>.
-        {/* TODO: Change to track.course */}
-        {completion.track.numConcepts > 0 ? (
+        {completion.track.course ? (
           <>
             <br />
             We’ve also revealed {completion.track.title}’s{' '}
@@ -42,8 +41,7 @@ export const TutorialCompletedModal = ({
         section on your track too.
       </div>
       <div className="btns">
-        {/* TODO: Change to track.course */}
-        {completion.track.numConcepts > 0 ? (
+        {completion.track.course ? (
           <a
             href={completion.track.links.concepts}
             className="btn-primary btn-m"

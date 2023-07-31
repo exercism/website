@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{@user.handle}'s solutions Exercism"
-- content_for :meta_description, "Explore #{@user.handle}'s solutions on Exercism, and see everything they've learnt."
+- content_for :meta_title, "#{sanitize(@user.handle)}'s solutions Exercism".html_safe
+- content_for :meta_description, "Explore #{sanitize(@user.handle)}'s solutions on Exercism, and see everything they've learnt.".html_safe
 
 #page-profile-solutions
   = render ViewComponents::Profile::Header.new(@user, @profile, :solutions)

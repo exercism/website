@@ -6,33 +6,38 @@ import { GraphicalIcon } from '../common'
 const Hints = ({
   heading,
   hints,
+  expanded,
+  collapsable,
 }: {
   heading: string
   hints: string[] | undefined
+  expanded: boolean
+  collapsable: boolean
 }) => {
   if (hints === undefined || hints.length === 0) {
     return null
   }
 
   return (
-    <details className="c-details">
+    <details className="c-details" open={expanded}>
       <summary className="--summary">
         <div className="--summary-inner">
           {heading}
-
-          <GraphicalIcon icon="plus-circle" className="--closed-icon" />
-          <GraphicalIcon icon="minus-circle" className="--open-icon" />
+          {collapsable ? (
+            <>
+              <GraphicalIcon icon="plus-circle" className="--closed-icon" />
+              <GraphicalIcon icon="minus-circle" className="--open-icon" />
+            </>
+          ) : null}
         </div>
       </summary>
-      <ul>
-        {hints.map((hint, idx) => (
-          <li
-            className="c-textual-content --large"
-            key={idx}
-            dangerouslySetInnerHTML={{ __html: hint }}
-          ></li>
-        ))}
-      </ul>
+      {hints.map((hint, idx) => (
+        <div
+          className="c-textual-content --large"
+          key={idx}
+          dangerouslySetInnerHTML={{ __html: hint }}
+        ></div>
+      ))}
     </details>
   )
 }
@@ -53,12 +58,19 @@ export const HintsModal = ({
         <GraphicalIcon icon="hints" category="graphics" />
         <h2>Hints and Tips</h2>
       </header>
-      <Hints hints={assignment.generalHints} heading="General" />
+      <Hints
+        hints={assignment.generalHints}
+        heading="General"
+        expanded={assignment.tasks.length === 0}
+        collapsable={assignment.tasks.length > 0}
+      />
       {assignment.tasks.map((task, idx) => (
         <Hints
           key={idx}
           hints={task.hints}
           heading={`${idx + 1}. ${task.title}`}
+          expanded={false}
+          collapsable={true}
         />
       ))}
     </Modal>

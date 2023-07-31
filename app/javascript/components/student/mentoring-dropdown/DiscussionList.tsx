@@ -10,10 +10,10 @@ export const DiscussionList = ({
   if (discussions.length === 0) {
     return (
       <div className="no-discussions">
-        <h3>Mentoring discussions</h3>
+        <h3>Code Review Sessions</h3>
         <p>
-          Your discussions with mentors for this exercise will appear here once
-          started.
+          Your code review discussions with mentors for this exercise will
+          appear here once started.
         </p>
       </div>
     )

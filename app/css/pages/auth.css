@@ -1,13 +1,16 @@
 @import "../styles";
 
+body.namespace-auth.user-signed_out {
+    turbo-frame {
+        @apply flex grow;
+    }
+}
+
 #page-auth {
     --lhs-width: 550px;
     background: linear-gradient(360deg, #5141bd 0%, #3e2ea5 100%),
         linear-gradient(0deg, #2f2768, #2f2768);
-    @apply flex flex-col flex-grow relative;
-    @screen md {
-        @apply flex-row;
-    }
+    @apply flex flex-col md:flex-row flex-grow relative;
 
     & section.form-section {
         @apply py-48 px-48;
@@ -67,6 +70,10 @@
         & .github-btn {
             @apply w-100 mb-24;
 
+            & button {
+                @apply w-100;
+            }
+
             & .c-icon {
                 height: 16px;
                 width: 16px;
@@ -98,7 +105,7 @@
             @apply w-100 mb-16;
         }
 
-        & form {
+        & form.new_user {
             @apply w-100 mb-24 mt-8;
 
             & .field {
@@ -148,10 +155,7 @@
         position: sticky;
         top: 0;
 
-        @apply hidden;
-        @screen lg {
-            @apply flex;
-        }
+        @apply hidden lg:flex;
 
         & .content {
             @apply mt-auto text-center;

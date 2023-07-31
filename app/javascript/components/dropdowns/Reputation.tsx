@@ -18,7 +18,7 @@ export type ReputationToken = {
   externalUrl?: string
   iconUrl: string
   text: string
-  earnedOn: string
+  createdAt: string
   value: string
   isSeen: boolean
   links: {
@@ -101,13 +101,12 @@ export const Reputation = ({
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
-  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
-    APIResponse
-  >(cacheKey, {
-    endpoint: endpoint,
-    query: { per_page: MAX_TOKENS },
-    options: {},
-  })
+  const { resolvedData, error, status, refetch } =
+    usePaginatedRequestQuery<APIResponse>(cacheKey, {
+      endpoint: endpoint,
+      query: { per_page: MAX_TOKENS },
+      options: {},
+    })
   const {
     buttonAttributes,
     panelAttributes,

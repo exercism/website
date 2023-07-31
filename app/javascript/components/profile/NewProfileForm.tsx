@@ -78,7 +78,7 @@ export const NewProfileForm = ({
             />
           </div>
           <div className="field">
-            <label htmlFor="location">Loation (optional)</label>
+            <label htmlFor="location">Location (optional)</label>
             <input
               id="location"
               type="text"

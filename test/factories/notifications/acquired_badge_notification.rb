@@ -3,7 +3,7 @@ FactoryBot.define do
     user
     params do
       {
-        user_acquired_badge: create(:user_acquired_badge, user: user)
+        user_acquired_badge: create(:user_acquired_badge, user:)
       }
     end
   end

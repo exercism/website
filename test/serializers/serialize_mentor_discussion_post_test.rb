@@ -5,14 +5,15 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
     author = create :user, handle: "author"
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
-      author: author,
-      iteration: iteration,
+      author:,
+      iteration:,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 
     expected = {
       uuid: discussion_post.uuid,
       author_handle: "author",
+      author_flair: author.flair,
       author_avatar_url: author.avatar_url,
       by_student: false,
       content_markdown: "Hello",
@@ -33,14 +34,15 @@ class SerializeMentorDiscussionPostTest < ActiveSupport::TestCase
     discussion = create :mentor_discussion, mentor: author
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
-      discussion: discussion,
-      iteration: iteration,
+      discussion:,
+      iteration:,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
 
     expected = {
       uuid: discussion_post.uuid,
       author_handle: "author",
+      author_flair: author.flair,
       author_avatar_url: author.avatar_url,
       by_student: false,
       content_markdown: "Hello",

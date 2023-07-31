@@ -6,7 +6,7 @@ module ReactComponents
       def to_s
         super("common-community-solution", {
           solution: SerializeCommunitySolution.(solution),
-          context: context
+          context:
         })
       end
     end

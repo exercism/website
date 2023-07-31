@@ -1,4 +1,4 @@
-class CreateUserTrackMentorships < ActiveRecord::Migration[6.1]
+class CreateUserTrackMentorships < ActiveRecord::Migration[7.0]
   def change
     create_table :user_track_mentorships do |t|
       t.belongs_to :user, null: false, foreign_key: true

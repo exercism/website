@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { CommunitySolution as CommunitySolutionProps } from '../types'
-import { CommunitySolution } from '../common/CommunitySolution'
-import { Pagination } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
+import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
+import {
+  useList,
+  useHistory,
+  removeEmpty,
+  usePaginatedRequestQuery,
+  type Request,
+} from '@/hooks'
+import { CommunitySolution } from '../common/CommunitySolution'
+import { Checkbox, Icon, Pagination } from '../common'
+import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
+import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
+import { GenericTooltip } from '../misc/ExercismTippy'
+import type { CommunitySolution as CommunitySolutionProps } from '../types'
 
 type PaginatedResult = {
   results: CommunitySolutionProps[]
@@ -19,27 +25,39 @@ type PaginatedResult = {
   }
 }
 
+export type Order = 'most_starred' | 'newest'
+export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
+export type TestsStatus =
+  | undefined
+  | 'not_queued'
+  | 'queued'
+  | 'passed'
+  | 'failed'
+  | 'errored'
+  | 'exceptioned'
+  | 'cancelled'
+
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
+const DEFAULT_ORDER = 'most_starred'
 
 export const ExerciseCommunitySolutionsList = ({
   request: initialRequest,
 }: {
   request: Request
 }): JSX.Element => {
-  const { request, setPage, setCriteria: setRequestCriteria } = useList(
-    initialRequest
-  )
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['exercise-community-solution-list', request.endpoint, request.query],
-    request
-  )
+    request,
+    setPage,
+    setOrder,
+    setQuery,
+    setCriteria: setRequestCriteria,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      ['exercise-community-solution-list', request.endpoint, request.query],
+      request
+    )
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -53,8 +71,41 @@ export const ExerciseCommunitySolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const setUpToDate = useCallback(
+    (upToDate) => {
+      setQuery({
+        ...request.query,
+        upToDate: upToDate ? true : null,
+        page: undefined,
+      })
+    },
+    [request.query, setQuery]
+  )
+
+  const setPassedTests = useCallback(
+    (passedTests) => {
+      setQuery({
+        ...request.query,
+        passedTests: passedTests ? true : null,
+        page: undefined,
+      })
+    },
+    [request.query, setQuery]
+  )
+
+  const setPassedHeadTests = useCallback(
+    (passedHeadTests) => {
+      setQuery({
+        ...request.query,
+        notPassedHeadTests: passedHeadTests === false ? true : null,
+        page: undefined,
+      })
+    },
+    [request.query, setQuery]
+  )
+
   return (
-    <div className="lg-container">
+    <div className="lg-container c-community-solutions-list">
       {resolvedData ? (
         <h2>
           {resolvedData.meta.unscopedTotal}{' '}
@@ -62,7 +113,7 @@ export const ExerciseCommunitySolutionsList = ({
           solutions
         </h2>
       ) : null}
-      <div className="c-search-bar">
+      <div className="c-search-bar md:flex-row flex-col">
         <input
           className="--search"
           onChange={(e) => {
@@ -71,6 +122,65 @@ export const ExerciseCommunitySolutionsList = ({
           value={criteria}
           placeholder="Search by user"
         />
+        <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
+          <div className="flex">
+            <GenericTooltip
+              content={
+                <>
+                  Only show solutions that pass the <strong>latest</strong>{' '}
+                  tests.
+                </>
+              }
+            >
+              <div>
+                <Checkbox
+                  checked={!request.query.notPassedHeadTests}
+                  setChecked={setPassedHeadTests}
+                >
+                  <Icon
+                    icon="golden-check"
+                    alt="Only show solution that pass the tests of the latest version of this exercise"
+                  />
+                </Checkbox>
+              </div>
+            </GenericTooltip>
+            <GenericTooltip content="Only show solutions that pass the tests as they were at the time when the student solved the exercise.">
+              <div>
+                <Checkbox
+                  checked={request.query.passedTests}
+                  setChecked={setPassedTests}
+                >
+                  <div
+                    className={`c-iteration-processing-status --passed`}
+                    role="status"
+                    aria-label="Only show solutions that pass the tests"
+                  >
+                    <div role="presentation" className="--dot"></div>
+                    <div className="--status">Passed</div>
+                  </div>
+                </Checkbox>
+              </div>
+            </GenericTooltip>
+
+            <GenericTooltip content="Only show solutions that are up to date.">
+              <div>
+                <Checkbox
+                  checked={request.query.upToDate}
+                  setChecked={setUpToDate}
+                >
+                  <Icon
+                    icon="up-to-date"
+                    alt="Only show solutions that are up-to-date with the latest version of this exercise"
+                  />
+                </Checkbox>
+              </div>
+            </GenericTooltip>
+          </div>
+          <OrderSelect
+            value={request.query.order || DEFAULT_ORDER}
+            setValue={setOrder}
+          />
+        </div>
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
@@ -93,7 +203,7 @@ export const ExerciseCommunitySolutionsList = ({
               </div>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

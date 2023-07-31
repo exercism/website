@@ -14,8 +14,8 @@ module ViewComponents
           link_to(Exercism::Routes.track_exercise_url(track, exercise), class: 'content') do
             render(
               ReactComponents::Common::ExerciseWidget.new(
-                exercise, user_track, solution: solution,
-                                      render_as_link: false, render_blurb: false, render_track: false
+                exercise, user_track, solution:,
+                render_as_link: false, render_blurb: false, render_track: false
               )
             )
           end + continue_button
@@ -53,7 +53,7 @@ module ViewComponents
         link_to(Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: solution.latest_iteration.idx),
           class: 'latest-iteration') do
           ReactComponents::Track::IterationSummary.new(solution.latest_iteration, slim: true).to_s +
-            graphical_icon('chevron-right', css_class: "action-icon")
+            graphical_icon('chevron-right', css_class: "action-icon filter-textColor6")
         end
       end
 

@@ -10,7 +10,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
 
       get send("#{action}_api_profile_contributions_path", "some-random-user"), headers: @headers, as: :json
 
-      assert_response 404
+      assert_response :not_found
       expected = { error: {
         type: "profile_not_found",
         message: I18n.t('api.errors.profile_not_found')
@@ -25,7 +25,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
 
       get send("#{action}_api_profile_contributions_path", user), headers: @headers, as: :json
 
-      assert_response 404
+      assert_response :not_found
       expected = { error: {
         type: "profile_not_found",
         message: I18n.t('api.errors.profile_not_found')
@@ -49,7 +49,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     review = create :user_code_review_reputation_token, user: profile_user
 
     get building_api_profile_contributions_path(profile_user), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       User::ReputationToken::Search.(profile_user, category: %i[building authoring]),
@@ -80,7 +80,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     author = create :user_exercise_author_reputation_token, user: profile_user
 
     get maintaining_api_profile_contributions_path(profile_user), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       User::ReputationToken::Search.(profile_user, category: :maintaining),
@@ -114,7 +114,7 @@ class API::Profiles::MentorTestimonialsControllerTest < API::BaseTestCase
     exercise_3.authors << create(:user)
 
     get authoring_api_profile_contributions_path(profile_user), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = SerializePaginatedCollection.(
       Exercise.

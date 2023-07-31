@@ -1,4 +1,4 @@
-class CreateBlogPosts < ActiveRecord::Migration[6.1]
+class CreateBlogPosts < ActiveRecord::Migration[7.0]
   def change
     create_table :blog_posts do |t|
       t.belongs_to :author, null: false, foreign_key: {to_table: :users}

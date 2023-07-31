@@ -13,15 +13,17 @@
                 & .c-icon {
                     height: 32px;
                     width: 32px;
+                    filter: none;
                 }
             }
         }
         & .building,
-        & .maintaining {
+        & .maintaining,
+        & .other {
             & .reputation-token {
                 @apply flex items-center;
                 @apply mb-16 rounded-8;
-                @apply py-16 pl-20 pr-40;
+                @apply py-16 pl-20 sm:pr-40 pr-20;
                 @apply shadow-base;
 
                 & .primary-icon {
@@ -30,9 +32,9 @@
                     @apply mr-24;
                 }
                 & .info {
-                    @apply flex-grow;
+                    @apply flex-grow sm:mr-0 mr-8;
                     & .title {
-                        @apply text-h5 mb-6;
+                        @apply sm:text-h5 text-h6 mb-6;
                         @apply font-medium;
                         & strong {
                             @apply font-semibold;
@@ -64,6 +66,9 @@
                 & .c-primary-reputation {
                     @apply flex-shrink-0;
                 }
+                .c-icon.action-button {
+                    @apply filter-textColor6;
+                }
                 & .action-button {
                     height: 24px;
                     width: 24px;
@@ -73,12 +78,23 @@
         }
         & .authoring {
             & .exercises {
-                @apply grid grid-cols-2 gap-x-16 gap-y-16;
+                @apply grid md:grid-cols-2 grid-cols-1 gap-x-16 gap-y-16;
             }
 
             & .c-exercise-widget {
                 @apply py-16 px-24 w-100;
                 height: 100%;
+                @apply flex-col sm:flex-row;
+
+                .c-exercise-icon {
+                    @apply mr-0 mb-16 sm:mr-16 sm:mb-0;
+                }
+
+                .--track {
+                    .--track-title {
+                        @apply sm:block hidden;
+                    }
+                }
 
                 & .c-exercise-status-tag {
                     display: none;

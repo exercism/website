@@ -30,7 +30,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "C#",
         icon_url: csharp.icon_url,
         num_solutions_queued: 6,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'csharp')
         }
@@ -40,7 +40,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "F#",
         icon_url: fsharp.icon_url,
         num_solutions_queued: 0,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'fsharp')
         }
@@ -50,13 +50,13 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "Ruby",
         icon_url: ruby.icon_url,
         num_solutions_queued: 3,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'ruby')
         }
       }
     ]
-    actual = SerializeTracksForMentoring.(Track.where(id: [csharp, fsharp, ruby]))
+    actual = SerializeTracksForMentoring.(Track.where(id: [csharp, fsharp, ruby]), nil)
     assert_equal expected, actual
   end
 
@@ -100,7 +100,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "C#",
         icon_url: csharp.icon_url,
         num_solutions_queued: 6,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'csharp')
         }
@@ -110,7 +110,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "Elixir",
         icon_url: elixir.icon_url,
         num_solutions_queued: 4,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'elixir')
         }
@@ -120,7 +120,7 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "F#",
         icon_url: fsharp.icon_url,
         num_solutions_queued: 0,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'fsharp')
         }
@@ -130,13 +130,13 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
         title: "Ruby",
         icon_url: ruby.icon_url,
         num_solutions_queued: 3,
-        avg_wait_time: nil,
+        median_wait_time: nil,
         links: {
           exercises: Exercism::Routes.exercises_api_mentoring_requests_url(track_slug: 'ruby')
         }
       }
     ]
-    actual = SerializeTracksForMentoring.(Track.all, mentor: mentor)
+    actual = SerializeTracksForMentoring.(Track.all, mentor)
     assert_equal expected, actual
   end
 
@@ -145,13 +145,13 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
     solution = create :practice_solution
 
     2.times { create :mentor_request, solution: create(:practice_solution) }
-    create :mentor_request, solution: solution
+    create(:mentor_request, solution:)
 
-    data = SerializeTracksForMentoring.(Track.all, mentor: mentor)
+    data = SerializeTracksForMentoring.(Track.all, mentor)
     assert_equal 3, data[0][:num_solutions_queued]
 
-    create :mentor_student_relationship, mentor: mentor, student: solution.user, blocked_by_student: true
-    data = SerializeTracksForMentoring.(Track.all, mentor: mentor)
+    create :mentor_student_relationship, mentor:, student: solution.user, blocked_by_student: true
+    data = SerializeTracksForMentoring.(Track.all, mentor)
     assert_equal 2, data[0][:num_solutions_queued]
   end
 end

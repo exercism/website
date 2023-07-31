@@ -9,14 +9,14 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   ###
   test "index returns comments for request and solution" do
     setup_user
-    solution = create :concept_solution, :published
-    comment = create(:solution_comment, solution: solution, content_markdown: "Hello", updated_at: Time.utc(2016, 12, 25))
+    solution = create :concept_solution, :published, allow_comments: true
+    comment = create(:solution_comment, solution:, content_markdown: "Hello", updated_at: Time.utc(2016, 12, 25))
 
     get api_track_exercise_community_solution_comments_path(
       solution.track, solution.exercise, solution.user.handle
     ), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :ok
     expected = {
       items: [SerializeSolutionComment.(comment, @current_user)]
     }
@@ -31,7 +31,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       solution.track, solution.exercise, "something random"
     ), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "solution_not_found",
       message: I18n.t('api.errors.solution_not_found')
@@ -48,7 +48,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       solution.track, solution.exercise, solution.user.handle
     ), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_comments_not_allowed",
       message: I18n.t('api.errors.solution_comments_not_allowed')
@@ -66,7 +66,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     post api_track_exercise_community_solution_comments_path(
       solution.track, solution.exercise, "foobar123"
     ), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "solution_not_found",
       message: I18n.t('api.errors.solution_not_found')
@@ -83,7 +83,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       solution.track, solution.exercise, solution.user.handle
     ), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_comments_not_allowed",
       message: I18n.t('api.errors.solution_comments_not_allowed')
@@ -94,9 +94,9 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
 
   test "create should create correctly for user" do
     user = create :user
-    solution = create :practice_solution, :published
+    solution = create :practice_solution, :published, allow_comments: true
     content_markdown = "foo to the baaar"
-    comment = create(:solution_comment, author: user, solution: solution, content_markdown: content_markdown)
+    comment = create(:solution_comment, author: user, solution:, content_markdown:)
 
     # Check we're calling the correet class
     Solution::Comment::Create.expects(:call).with(
@@ -112,7 +112,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       params: { content: content_markdown },
       headers: @headers, as: :json
 
-    assert_response :success
+    assert_response :ok
     comment = solution.comments.last
     assert_equal user, comment.author
     assert_equal content_markdown, comment.content_markdown
@@ -134,7 +134,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       solution.track, solution.exercise, solution.user.handle, 1
     ), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "solution_comment_not_found",
       message: I18n.t("api.errors.solution_comment_not_found")
@@ -146,13 +146,13 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create(:user)
     setup_user(user)
     solution = create :practice_solution
-    comment = create(:solution_comment, solution: solution)
+    comment = create(:solution_comment, solution:)
 
     patch api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
     ), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_comment_not_accessible",
       message: I18n.t("api.errors.solution_comment_not_accessible")
@@ -164,7 +164,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create(:user)
     setup_user(user)
     solution = create :practice_solution
-    comment = create(:solution_comment, author: user, solution: solution)
+    comment = create(:solution_comment, author: user, solution:)
 
     patch api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
@@ -173,7 +173,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "failed_validations",
       message: I18n.t("api.errors.failed_validations"),
@@ -188,7 +188,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     solution = create :practice_solution
 
     comment = create(:solution_comment,
-      solution: solution,
+      solution:,
       author: user,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
@@ -200,7 +200,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 200
+    assert_response :ok
 
     comment.reload
     expected = { item: SerializeSolutionComment.(comment, user) }
@@ -219,7 +219,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       solution.track, solution.exercise, solution.user.handle, 1
     ), headers: @headers, as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "solution_comment_not_found",
       message: I18n.t("api.errors.solution_comment_not_found")
@@ -231,13 +231,13 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     user = create(:user)
     setup_user(user)
     solution = create :practice_solution
-    comment = create(:solution_comment, solution: solution)
+    comment = create(:solution_comment, solution:)
 
     delete api_track_exercise_community_solution_comment_path(
       solution.track, solution.exercise, solution.user.handle, comment
     ), headers: @headers, as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_comment_not_accessible",
       message: I18n.t("api.errors.solution_comment_not_accessible")
@@ -250,7 +250,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     setup_user(user)
     solution = create :practice_solution
     comment = create(:solution_comment,
-      solution: solution,
+      solution:,
       author: user,
       content_markdown: "Hello",
       updated_at: Time.utc(2016, 12, 25))
@@ -262,7 +262,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 200
+    assert_response :ok
     expected = { item: SerializeSolutionComment.(comment, user) }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
     refute Solution::Comment.exists?(comment.id)

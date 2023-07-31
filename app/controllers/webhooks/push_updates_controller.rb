@@ -9,7 +9,8 @@ module Webhooks
         params[:repository][:owner][:login],
         params[:repository][:name],
         params[:pusher][:name],
-        params[:commits]
+        params[:commits],
+        params[:created]
       )
 
       head :no_content

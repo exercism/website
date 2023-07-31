@@ -1,0 +1,12 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-8 Community videos
+    %table.c-admin-table
+      - @community_videos.each do |community_video|
+        %tr
+          %td= community_video.title
+          %td= community_video.status.to_s.titleize
+          %td= link_to "Details", [:admin, community_video]
+          %td= link_to "Edit", edit_admin_community_video_path(community_video)
+    .flex
+      = link_to "New community video", new_admin_community_video_path, class: 'btn btn-primary btn-base'

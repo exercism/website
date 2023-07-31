@@ -1,8 +1,7 @@
 module ReactComponents
   module Mentoring
     class TestimonialsList < ReactComponent
-      include Webpacker::Helper
-      include ActionView::Helpers::AssetUrlHelper
+      include Propshaft::Helper
 
       initialize_with :params
 
@@ -17,7 +16,8 @@ module ReactComponents
                 initial_data: data
               }
             },
-            tracks: tracks
+            tracks:,
+            platforms: Exercism.share_platforms
           }
         )
       end
@@ -30,7 +30,7 @@ module ReactComponents
       memoize
       def tracks
         tracks = ::Track.where(id: current_user.mentor_testimonials.
-                                   joins(solution: :exercise).
+                                   joins(discussion: :request).
                                    select(:track_id))
 
         AssembleTracksForSelect.(tracks)

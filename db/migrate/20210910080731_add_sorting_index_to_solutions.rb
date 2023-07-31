@@ -1,4 +1,4 @@
-class AddSortingIndexToSolutions < ActiveRecord::Migration[6.1]
+class AddSortingIndexToSolutions < ActiveRecord::Migration[7.0]
   def up
     sql = <<-SQL
       CREATE INDEX solutions_popular_new 

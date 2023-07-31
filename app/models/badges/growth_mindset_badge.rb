@@ -1,9 +1,9 @@
 module Badges
   class GrowthMindsetBadge < Badge
-    seed "Growth Mindset",
+    seed "Growth mindset",
       :common,
       'mentoring',
-      'Awarded for iterating a solution while working with a mentor'
+      'Iterated a solution while working with a mentor'
 
     def award_to?(user)
       user.solution_mentor_discussions.joins(:solution).
@@ -11,8 +11,6 @@ module Badges
         exists?
     end
 
-    def send_email_on_acquisition?
-      true
-    end
+    def send_email_on_acquisition? = true
   end
 end

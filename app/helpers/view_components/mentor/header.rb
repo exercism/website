@@ -1,7 +1,7 @@
 module ViewComponents
   module Mentor
     class Header < ViewComponent
-      TABS = %i[workspace queue testimonials guides].freeze
+      TABS = %i[workspace queue testimonials guides automation].freeze
 
       initialize_with :selected_tab
 
@@ -37,7 +37,7 @@ module ViewComponents
         tag.div(class: "stats") do
           safe_join(
             [
-              tag.div("#{current_user.num_solutions_mentored} solutions mentored", class: "stat"),
+              tag.div("#{current_user.num_solutions_mentored} discussions completed", class: "stat"),
               (if current_user.mentor_satisfaction_percentage
                  tag.div("#{current_user.mentor_satisfaction_percentage}% satisfaction",
                    class: "stat")
@@ -47,43 +47,64 @@ module ViewComponents
         end
       end
 
-      def tabs
-        [
-          link_to(
-            Exercism::Routes.mentoring_inbox_path,
-            class: tab_class(:workspace)
-          ) do
-            graphical_icon(:overview) +
-              tag.span("Your Workspace") +
-              tag.span(number_with_delimiter(inbox_size), class: 'count')
-          end,
+      def tabs = [workspace_tab, queue_tab, testimonials_tab, automation_tab]
 
-          link_to(
-            Exercism::Routes.mentoring_queue_path,
-            class: tab_class(:queue)
-          ) do
-            graphical_icon(:queue) +
-              tag.span("Queue") +
-              tag.span(number_with_delimiter(queue_size), class: 'count')
-          end,
+      def workspace_tab
+        link_to(
+          Exercism::Routes.mentoring_inbox_path,
+          class: tab_class(:workspace)
+        ) do
+          graphical_icon(:overview) +
+            tag.span("Your Workspace") +
+            tag.span(number_with_delimiter(inbox_size), class: 'count')
+        end
+      end
 
-          link_to(
-            Exercism::Routes.mentoring_testimonials_path,
-            class: tab_class(:testimonials)
-          ) do
-            graphical_icon(:testimonials) +
-              tag.span("Testimonials") +
-              tag.span(number_with_delimiter(num_testimonials), class: 'count')
-          end,
+      def queue_tab
+        link_to(
+          Exercism::Routes.mentoring_queue_path,
+          class: tab_class(:queue)
+        ) do
+          graphical_icon(:queue) +
+            tag.span("Queue") +
+            tag.span(number_with_delimiter(queue_size), class: 'count')
+        end
+      end
 
-          tag.div(
+      def testimonials_tab
+        link_to(
+          Exercism::Routes.mentoring_testimonials_path,
+          class: tab_class(:testimonials)
+        ) do
+          graphical_icon(:testimonials) +
+            tag.span("Testimonials") +
+            tag.span(number_with_delimiter(num_testimonials), class: 'count')
+        end
+      end
+
+      def automation_tab
+        unless current_user.supermentor? || current_user.admin?
+          return tag.div(
             class: "#{tab_class(:automation)} locked",
-            'aria-label': "This tab is locked"
+            'aria-label': 'This tab is locked',
+            'data-tooltip-type': 'automation-locked',
+            'data-endpoint': Exercism::Routes.tooltip_locked_mentoring_automation_index_path,
+            'data-placement': 'bottom',
+            'data-interactive': true
           ) do
             graphical_icon(:automation) +
-              tag.span("Automation")
+            tag.span("Automation")
           end
-        ]
+        end
+
+        link_to(
+          Exercism::Routes.mentoring_automation_index_path,
+          class: tab_class(:automation)
+        ) do
+          graphical_icon(:automation) +
+            tag.span("Automation") #+
+          # tag.span(number_with_delimiter(num_representations_without_feedback), class: 'count')
+        end
       end
 
       def tab_class(tab)
@@ -114,6 +135,14 @@ module ViewComponents
       memoize
       def num_testimonials
         current_user.mentor_testimonials.count
+      end
+
+      memoize
+      def num_representations_without_feedback
+        ::Exercise::Representation.without_feedback.
+          joins(exercise: :track).
+          where(exercises: { track: current_user.mentored_tracks }).
+          count
       end
     end
   end

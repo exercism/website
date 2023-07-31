@@ -42,8 +42,26 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     assert_equal "http://some.image/avatar.jpg", user.avatar_url
   end
 
+  test "copes with duplicate gh username but unauthed" do
+    nickname = "user22"
+    create :user, github_username: nickname
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(
+        email: "user@exercism.org",
+        name: "Name",
+        nickname:,
+        image: "http://some.image/avatar.jpg"
+      )
+    )
+
+    user = User::AuthenticateFromOmniauth.(auth)
+    assert_nil user.reload.github_username
+  end
+
   test "updates email and github_username if from users.noreply.github.com" do
-    user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com"
+    user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com", avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx"
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
@@ -54,7 +72,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "updates avatar if missing" do
-    user = create :user, provider: "github", uid: "111", avatar_url: nil
+    user = create :user, provider: "github", uid: "111", avatar_url: nil, avatar: nil
     auth = stub(provider: "github", uid: "111", info: stub(image: "http://some.image/avatar.jpg", nickname: "foobar"))
 
     User::AuthenticateFromOmniauth.(auth)
@@ -63,7 +81,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "does not update avatar if present" do
-    user = create :user, provider: "github", uid: "111", avatar_url: "original.jpg"
+    user = create :user, provider: "github", uid: "111", avatar_url: "original.jpg", avatar: nil
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "foobar"))
 
     User::AuthenticateFromOmniauth.(auth)
@@ -125,28 +143,30 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "recalculate pull request reputation for uid matches that change the github_username" do
-    user = create :user, provider: "github", uid: "111", github_username: nil
+    user = create :user, provider: "github", uid: "111", github_username: nil, avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx"
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
-    assert_enqueued_with(job: AwardReputationToUserForPullRequestsJob, args: [user], queue: 'reputation') do
+    assert_enqueued_with(job: MandateJob, args: [User::ReputationToken::AwardForPullRequestsForUser.name, user],
+      queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
     end
   end
 
   test "don't recalculate pull request reputation for uid matches that don't change the github_username" do
-    create :user, provider: "github", uid: "111", github_username: "user22"
+    create :user, provider: "github", uid: "111", github_username: "user22", avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx"
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_no_enqueued_jobs(only: AwardReputationToUserForPullRequestsJob)
+    assert_no_enqueued_jobs(only: MandateJob)
   end
 
   test "recalculate pull request reputation for email matches that change the github_username" do
     user = create :user, email: "user@exercism.org", github_username: nil
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
-    assert_enqueued_with(job: AwardReputationToUserForPullRequestsJob, args: [user], queue: 'reputation') do
+    assert_enqueued_with(job: MandateJob, args: [User::ReputationToken::AwardForPullRequestsForUser.name, user],
+      queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
     end
   end
@@ -157,7 +177,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_no_enqueued_jobs(only: AwardReputationToUserForPullRequestsJob)
+    assert_no_enqueued_jobs(only: MandateJob)
   end
 
   test "calculate pull request reputation for bootstrapped user" do
@@ -172,7 +192,9 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       )
     )
 
-    assert_enqueued_jobs 1, only: AwardReputationToUserForPullRequestsJob, queue: 'reputation' do
+    assert_enqueued_with(job: MandateJob, args: lambda { |job_args|
+                                                  job_args[0] == User::ReputationToken::AwardForPullRequestsForUser.name
+                                                }, queue: 'reputation') do
       User::AuthenticateFromOmniauth.(auth)
     end
   end

@@ -12,14 +12,14 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     user = create :user
     track = create :track
     create :track, slug: :javascript
-    create :user_track_mentorship, user: user, track: track
+    create(:user_track_mentorship, user:, track:)
     setup_user(user)
 
     get api_mentoring_tracks_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.all, mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.all, user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -31,11 +31,11 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     setup_user(user)
 
     get api_mentoring_tracks_path, headers: @headers, as: :json,
-                                   params: { criteria: "ruby" }
-    assert_response 200
+      params: { criteria: "ruby" }
+    assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -47,14 +47,14 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     user = create :user
     track = create :track
     create :track, slug: :javascript
-    create :user_track_mentorship, user: user, track: track
+    create(:user_track_mentorship, user:, track:)
     setup_user(user)
 
     get mentored_api_mentoring_tracks_path, headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: track.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: track.id), user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -63,16 +63,16 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     user = create :user
     js = create :track, slug: :javascript, title: "Javascript"
     ruby = create :track, slug: :ruby, title: "Ruby"
-    create :user_track_mentorship, user: user, track: js
-    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user:, track: js
+    create :user_track_mentorship, user:, track: ruby
     setup_user(user)
 
     get mentored_api_mentoring_tracks_path, headers: @headers, as: :json,
-                                            params: { criteria: "ruby" }
-    assert_response 200
+      params: { criteria: "ruby" }
+    assert_response :ok
 
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: ruby.id), user)
     }
     assert_equal expected.to_json, response.body
   end
@@ -84,17 +84,17 @@ class API::Mentoring::TracksControllerTest < API::BaseTestCase
     user = create :user
     ruby = create :track
     javascript = create :track, slug: :javascript
-    create :user_track_mentorship, user: user, track: ruby
+    create :user_track_mentorship, user:, track: ruby
     setup_user(user)
 
     assert_equal [ruby], user.mentored_tracks # Sanity
 
     put api_mentoring_tracks_path(track_slugs: [:javascript]), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
     assert_equal [javascript], user.reload.mentored_tracks
     expected = {
-      tracks: SerializeTracksForMentoring.(Track.where(id: javascript.id), mentor: user)
+      tracks: SerializeTracksForMentoring.(Track.where(id: javascript.id), user)
     }
     assert_equal expected.to_json, response.body
   end

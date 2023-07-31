@@ -6,20 +6,23 @@
         @apply pt-32;
         & .c-search-bar {
             @apply mb-32;
+            @apply flex-col md:flex-row items-stretch md:items-center gap-y-8;
 
             & .c-track-select {
-                @apply mr-24;
+                @apply md:mr-24;
             }
 
             & .--search {
-                width: 450px;
+                @apply w-fill md:w-[450px];
+                @apply bg-[28px_center] md:bg-[12px_center];
+                @apply pl-52 md:pl-40;
             }
             & .c-single-select {
-                @apply ml-auto;
+                @apply md:ml-auto;
             }
         }
         & .solutions {
-            @apply grid grid-cols-3 gap-x-16 gap-y-24;
+            @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-24;
         }
     }
 }

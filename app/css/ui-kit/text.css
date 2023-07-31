@@ -1,0 +1,102 @@
+@layer components {
+    .text-h0 {
+        @apply text-32 font-bold text-textColor1;
+        line-height: 1.25;
+
+        @apply md:text-40 lg:text-48;
+    }
+    .text-h1 {
+        @apply text-32 font-bold text-textColor1;
+        line-height: 1.25;
+
+        @apply md:text-34 lg:text-39;
+    }
+    .text-h2 {
+        @apply text-28 font-bold text-textColor1 leading-140;
+
+        @apply md:text-31;
+    }
+    .text-h3 {
+        @apply text-20 text-textColor1 font-semibold leading-130;
+
+        @apply md:text-24;
+    }
+    .text-h3-mono {
+        @apply text-h3 font-mono font-bold;
+    }
+    .text-h4 {
+        @apply font-semibold text-textColor1 text-20 leading-140;
+    }
+    .text-h5 {
+        @apply text-18 leading-150 font-semibold text-textColor1;
+    }
+    .text-h5-mono {
+        @apply text-h5 font-mono font-bold;
+    }
+    .text-h6 {
+        @apply text-16 font-semibold text-textColor1 leading-140;
+    }
+
+    .text--p {
+        @apply leading-160;
+
+        & a.not(".btn-primary") {
+            color: var(--c-prominent-link-color);
+            @apply font-medium;
+        }
+        & strong {
+            @apply font-medium text-textColor2;
+        }
+    }
+
+    .text-p-small {
+        @apply text--p;
+        @apply text-14;
+    }
+    .text-p-base {
+        @apply text--p;
+        @apply text-16;
+    }
+    .text-p-large {
+        @apply text--p;
+        @apply text-18 leading-150;
+    }
+    .text-p-xlarge {
+        @apply text--p;
+        @apply text-18 sm:text-20;
+    }
+    .text-p-2xlarge {
+        @apply text--p;
+
+        @apply text-20 sm:text-22 md:text-24;
+    }
+    .text-p-3xlarge {
+        @apply text--p;
+        @apply text-20 sm:text-24 md:text-28;
+    }
+    .text-prose {
+        @apply text-18 leading-paragraph;
+    }
+    .text-label-code-caps {
+        @apply font-mono text-14 leading-regular uppercase text-darkGray font-bold;
+    }
+    .text-label-timestamp {
+        @apply text-14 text-textColor6 leading-150;
+    }
+
+    .text-label {
+        @apply block;
+        @apply text-13 leading-150 text-textColor2 font-mono font-bold uppercase;
+    }
+
+    .text-radio-essential {
+        @apply text-14 font-semibold text-textColor1;
+    }
+
+    .text-gradient {
+        color: #6a01ff;
+        background: -webkit-linear-gradient(#2200ff, #9e00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}

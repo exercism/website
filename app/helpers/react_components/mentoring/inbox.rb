@@ -7,8 +7,8 @@ module ReactComponents
         super(
           "mentoring-inbox",
           {
-            discussions_request: discussions_request,
-            tracks_request: tracks_request,
+            discussions_request:,
+            tracks_request:,
             sort_options: SORT_OPTIONS,
             links: {
               queue: Exercism::Routes.mentoring_queue_path
@@ -18,10 +18,10 @@ module ReactComponents
       end
 
       SORT_OPTIONS = [
-        { value: '', label: 'Sort by oldest first' },
-        { value: 'recent', label: 'Sort by recent first' },
-        { value: 'exercise', label: 'Sort by exercise' },
-        { value: 'student', label: 'Sort by student' }
+        { value: :recent, label: 'Sort by recent first' },
+        { value: :oldest, label: 'Sort by oldest first' },
+        { value: :exercise, label: 'Sort by exercise' },
+        { value: :student, label: 'Sort by student' }
       ].freeze
       private_constant :SORT_OPTIONS
 

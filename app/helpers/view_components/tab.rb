@@ -7,7 +7,7 @@ module ViewComponents
     def to_s
       link_to href, class: "c-tab #{'selected' if selected}" do
         graphical_icon(icon) +
-          tag.span(text, data: { text: text })
+          tag.span(text, data: { text: })
       end
     end
   end

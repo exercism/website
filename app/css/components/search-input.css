@@ -1,0 +1,5 @@
+@layer base {
+    .focused-input {
+        @apply bg-backgroundColorA border-linkColor shadow-inputSelected;
+    }
+}

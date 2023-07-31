@@ -11,16 +11,14 @@ class SerializeTrack
     {
       slug: track.slug,
       title: track.title,
+      course: track.course?,
       num_concepts: user_track.num_concepts,
       num_exercises: user_track.num_exercises,
       web_url: Exercism::Routes.track_url(track),
       icon_url: track.icon_url,
       tags: map_tags(track.tags),
       last_touched_at: user_track.last_touched_at&.iso8601,
-
-      # TODO: Set these
-      is_new: true,
-
+      is_new: track.created_at > Time.current - 6.months,
       links: {
         self: Exercism::Routes.track_url(track),
         exercises: Exercism::Routes.track_exercises_url(track),

@@ -58,8 +58,7 @@ module IsParamaterisedSTI
   extend ActiveSupport::Concern
 
   include ActionView::Helpers::SanitizeHelper
-  include ActionView::Helpers::AssetUrlHelper
-  include Webpacker::Helper
+  include Propshaft::Helper
   extend Mandate::Memoize
 
   included do
@@ -108,6 +107,10 @@ module IsParamaterisedSTI
     end
   end
 
+  def regenerate_rendering_data!
+    update!(rendering_data_cache: {})
+  end
+
   def rendering_data
     data = rendering_data_cache
     if data.blank?
@@ -119,9 +122,7 @@ module IsParamaterisedSTI
   end
 
   # Save each class from manually overriding this
-  def non_cacheable_rendering_data
-    {}
-  end
+  def non_cacheable_rendering_data = {}
 
   # Each class can define attributes that don't trigger
   # a recalculation of the recache on save
@@ -132,7 +133,7 @@ module IsParamaterisedSTI
   def text
     I18n.t(
       "#{i18n_category}.#{i18n_key}.#{version}",
-      i18n_params.transform_values { |v| sanitize(v.to_s) }
+      **i18n_params.transform_values { |v| sanitize(v.to_s) }
     ).strip
   end
 
@@ -185,9 +186,7 @@ module IsParamaterisedSTI
     raise "Missing i18n key for this notification"
   end
 
-  def i18n_params
-    {}
-  end
+  def i18n_params = {}
 
   def generate_uniqueness_key!
     k = [type_key, guard_params]

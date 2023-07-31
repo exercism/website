@@ -64,17 +64,20 @@ class Submission::CreateTest < ActiveSupport::TestCase
     Submission::Create.(solution.reload, files, :cli)
   end
 
-  test "award rookie badge job is enqueued" do
+  test "awards rookie badge" do
     # Generic setup
     files = [{ filename: 'foo.bar', content: "foobar" }]
 
     # Create user and solution
     user = create :user
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
+    create(:iteration, solution:)
+    refute user.badges.present?
 
-    assert_enqueued_with(job: AwardBadgeJob, args: [user, :rookie]) do
-      Submission::Create.(solution, [files.first], :cli)
-    end
+    Submission::Create.(solution, files, :cli)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::RookieBadge
   end
 
   test "starts test run" do
@@ -92,15 +95,19 @@ class Submission::CreateTest < ActiveSupport::TestCase
     assert :not_queued, submission.analysis_status
   end
 
-  test "does not start test run if there's no test runner" do
-    exercise = create :practice_exercise, has_test_runner: false
-    solution = create :concept_solution, exercise: exercise
+  test "adds metric" do
+    files = [{ filename: "file1", content: "contents" }]
+    solution = create :concept_solution
 
-    files = [{ filename: "subdir/foobar.rb", content: "'I think' = 'I am'" }]
-
-    Submission::TestRun::Init.expects(:call).never
     submission = Submission::Create.(solution, files, :cli)
+    perform_enqueued_jobs
 
-    assert :not_queued, submission.tests_status
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_instance_of Metrics::SubmitSubmissionMetric, metric
+    assert_equal submission.created_at, metric.occurred_at
+    assert_equal submission, metric.submission
+    assert_equal solution.track, metric.track
+    assert_equal solution.user, metric.user
   end
 end

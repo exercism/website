@@ -74,23 +74,23 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "track is updated when there are changes" do
     track = create :track, slug: "ruby",
-                           title: "Ruby",
-                           active: true,
-                           blurb: "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.", # rubocop:disable Layout/LineLength
-                           synced_to_git_sha: "aad630acfbbdef16d90105a205b957c138fa1b93"
+      title: "Ruby",
+      active: true,
+      blurb: "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.", # rubocop:disable Layout/LineLength
+      synced_to_git_sha: "aad630acfbbdef16d90105a205b957c138fa1b93"
 
     Git::SyncTrack.(track)
 
-    assert_equal "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.", track.blurb # rubocop:disable Layout/LineLength
+    assert_equal "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.", track.blurb
   end
 
   test "track is updated when tags change" do
     track = create :track, slug: "fsharp",
-                           title: "F#",
-                           active: true,
-                           blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
-                           tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"], # rubocop:disable Layout/LineLength
-                           synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52"
+      title: "F#",
+      active: true,
+      blurb: "F# is a strongly-typed, functional language that is part of Microsoft's .NET language stack. Although F# is great for data science problems, it can elegantly handle almost every problem you throw at it.", # rubocop:disable Layout/LineLength
+      tags: ["execution_mode/interpreted", "platform/windows", "platform/linux", "paradigm/declarative", "paradigm/object_oriented"],
+      synced_to_git_sha: "0ec511318983b7d27d6a27410509071ee7683e52"
 
     Git::SyncTrack.(track)
 
@@ -112,7 +112,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.concepts.length
+    assert_equal 10, track.concepts.length
   end
 
   test "concept exercises use position from config" do
@@ -131,7 +131,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     actual_order = track.practice_exercises.order(:position).pluck(:slug)
-    expected_order = %w[hello-world allergies anagram bob hamming isogram leap satellite space-age]
+    expected_order = %w[hello-world allergies anagram bob hamming isogram leap satellite space-age tournament]
     assert_equal expected_order, actual_order
   end
 
@@ -144,14 +144,14 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     expected_order = %w[
       hello-world
       arrays booleans lasagna log-levels numbers strings allergies
-      anagram bob hamming isogram leap satellite space-age
+      anagram bob hamming isogram leap satellite space-age tournament
     ]
     assert_equal expected_order, actual_order
   end
 
   test "concept exercises use track concepts for taught concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    track_concept = create :concept, track:, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'basics'
 
@@ -173,7 +173,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "concept exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
+    track_concept = create :concept, track:, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'basics'
 
@@ -186,20 +186,20 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
   test "practice exercises use track concepts for prerequisites" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+    track_concept = create :concept, track:, slug: 'conditionals', uuid: 'dedd9182-66b7-4fbc-bf4b-ba6603edbfca'
     other_track = create :track, slug: 'fsharp'
-    other_track_concept = create :concept, track: other_track, slug: 'dates'
+    other_track_concept = create :concept, track: other_track, slug: 'conditionals'
 
     Git::SyncTrack.(track)
 
-    track_practice_exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    track_practice_exercise = track.practice_exercises.find_by(uuid: '4f12ede3-312e-482a-b0ae-dfd29f10b5fb')
     assert_includes track_practice_exercise.prerequisites, track_concept
     refute_includes track_practice_exercise.prerequisites, other_track_concept
   end
 
   test "practice exercises use track concepts for practiced concepts" do
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    track_concept = create :concept, track: track, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
+    track_concept = create :concept, track:, slug: 'time', uuid: '4055d823-e100-4a46-89d3-dcb01dd6043f'
     other_track = create :track, slug: 'fsharp'
     other_track_concept = create :concept, track: other_track, slug: 'time'
 
@@ -227,7 +227,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
   end
 
   test "syncs all concepts" do
@@ -235,7 +235,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.concepts.length
+    assert_equal 10, track.concepts.length
     track.concepts.each do |concept|
       assert_equal track.git.head_sha, concept.synced_to_git_sha
     end
@@ -257,7 +257,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
     track.practice_exercises.each do |practice_exercise|
       assert_equal track.git.head_sha, practice_exercise.synced_to_git_sha
     end
@@ -350,7 +350,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
   end
 
   test "syncs practice exercises with nil practices" do
@@ -365,7 +365,29 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert_equal 9, track.practice_exercises.length
+    assert_equal 10, track.practice_exercises.length
+  end
+
+  test "ignores concept exercise prerequisites with no concept exercise unlocking them" do
+    track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
+    types = create :concept, track:, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
+
+    Git::SyncTrack.(track)
+
+    exercise = track.concept_exercises.find_by(uuid: '06ea7869-4907-454d-a5e5-9d5b71098b17')
+    refute_includes exercise.prerequisites, types
+  end
+
+  test "ignores practice exercise prerequisites with no concept exercise unlocking them" do
+    track = create :track, synced_to_git_sha: 'cb075456495cc4c2910ca86148024f232c659ceb'
+    types = create :concept, track:, slug: 'types', uuid: '3f1168b5-fc74-4586-94f5-20e4f60e52cf'
+    dates = create :concept, track:, slug: 'dates', uuid: '091f10d6-99aa-47f4-9eff-0e62eddbee7a'
+
+    Git::SyncTrack.(track)
+
+    exercise = track.practice_exercises.find_by(uuid: 'a0acb1ec-43cb-4c65-a279-6c165eb79206')
+    refute_includes exercise.prerequisites, types
+    refute_includes exercise.prerequisites, dates
   end
 
   test "delete concept exercises no longer in config.json" do
@@ -374,7 +396,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     skip
 
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
     Git::SyncTrack.(track)
 
@@ -386,7 +408,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     # to ensure that they're not.
     skip
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     Git::SyncTrack.(track)
 
@@ -396,7 +418,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "delete concepts no longer in config.json" do
     # TODO: invert this test (verify that concepts can't be deleted) before release
     track = create :track, synced_to_git_sha: 'ae1a56deb0941ac53da22084af8eb6107d4b5c3a'
-    concept = create :concept, track: track
+    concept = create(:concept, track:)
 
     Git::SyncTrack.(track)
 
@@ -423,7 +445,7 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
   test "syncs docs" do
     track = create :track
 
-    Git::SyncTrackDocs.expects(:call).with(track)
+    Git::SyncTrackDocs.expects(:call).with(track, force_sync: false)
 
     # Run this once to get the track cloned onto the local machine
     Git::SyncTrack.(track)
@@ -460,7 +482,23 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
 
-    assert track.has_test_runner?
+    assert track.reload.has_test_runner?
+  end
+
+  test "syncs has_analyzer" do
+    track = create :track, has_analyzer: true
+
+    Git::SyncTrack.(track)
+
+    refute track.reload.has_analyzer?
+  end
+
+  test "syncs has_representer" do
+    track = create :track, has_representer: false
+
+    Git::SyncTrack.(track)
+
+    assert track.reload.has_representer?
   end
 
   test "syncs course" do
@@ -469,6 +507,14 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
     Git::SyncTrack.(track)
 
     assert track.course?
+  end
+
+  test "syncs highlightjs_language" do
+    track = create :track, highlightjs_language: nil
+
+    Git::SyncTrack.(track)
+
+    assert_equal 'ruby', track.highlightjs_language
   end
 
   test "new concept syncs with force_sync even when track is not force synced" do

@@ -1,13 +1,11 @@
 class SiteUpdates::NewExerciseUpdate < SiteUpdate
-  def guard_params
-    "Exercise##{exercise_id}"
-  end
+  def guard_params = "Exercise##{exercise_id}"
 
   def i18n_params
     {
       exercise_title: exercise.title,
       exercise_url: Exercism::Routes.track_exercise_url(track, exercise),
-      maker_handles: maker_handles
+      maker_handles:
     }
   end
 
@@ -16,7 +14,8 @@ class SiteUpdates::NewExerciseUpdate < SiteUpdate
       makers: makers.map do |maker|
         {
           handle: maker.handle,
-          avatar_url: maker.avatar_url
+          avatar_url: maker.avatar_url,
+          flair: maker.flair
         }
       end
     )

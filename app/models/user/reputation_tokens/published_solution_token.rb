@@ -6,12 +6,12 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
   values({ concept: 1, easy: 1, medium: 2, hard: 3 })
 
   before_validation on: :create do
-    self.earned_on = self.solution.published_at unless earned_on
+    self.track = solution.track unless track
+    self.exercise = solution.exercise unless exercise
+    self.earned_on = solution.published_at unless earned_on
   end
 
-  def guard_params
-    "Solution##{solution.id}"
-  end
+  def guard_params = "Solution##{solution.id}"
 
   def i18n_params
     {

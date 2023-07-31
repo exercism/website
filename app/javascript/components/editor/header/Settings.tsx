@@ -100,7 +100,7 @@ export function Settings({
 }: {
   settings: EditorSettings
   setSettings: (settings: EditorSettings) => void
-}) {
+}): JSX.Element {
   const features = useContext(FeaturesContext)
   const [localKeybindings, setLocalKeybindings] = useState(settings.keybindings)
   const handleThemeChange = useCallback(

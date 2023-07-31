@@ -1,16 +1,5 @@
 ENV['RAILS_ENV'] ||= 'test'
 
-# This must happen above the env require below
-if ENV["CAPTURE_CODE_COVERAGE"]
-  require 'simplecov'
-  SimpleCov.start 'rails' do
-    add_filter %r{^/app/.+/test/}
-    add_filter %r{^/app/.+/tmp/}
-    add_filter "lib/solargraph-rails.rb"
-    add_filter "lib/run_migrations_with_concurrent_guard.rb"
-  end
-end
-
 require_relative '../config/environment'
 require 'rails/test_help'
 require 'mocha/minitest'
@@ -18,9 +7,27 @@ require 'minitest/pride'
 require 'webmock/minitest'
 require 'minitest/retry'
 require_relative './helpers/turbo_assertions_helper'
+require 'generate_js_config'
+
+# We need to write the manifest.json and env.json files as the
+# javascript:build rake task that is called below depends on it
+GenerateJSConfig.generate!
+
+# We need to build our JS and CSS before running tests
+# In CI, this happens through the test:prepare rake task
+# but locally when running single tests, we might need this intead
+`bundle exec rake css:build` unless File.exist?(Rails.root / '.built-assets' / 'website.css')
+`bundle exec rake javascript:build` unless File.exist?(Rails.root / '.built-assets' / 'test.js')
 
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
+
+# Have Geocoder use a fixed stub value
+Geocoder.configure(lookup: :test, ip_lookup: :test)
+Geocoder::Lookup::Test.add_stub('127.0.0.1', [{ 'country_code' => 'US' }])
+
+# use a fixed remote IP
+Exercism.request_context = { remote_ip: '127.0.0.1' }
 
 # Configure mocha to be safe
 Mocha.configure do |c|
@@ -37,6 +44,11 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
+# We just want one copy of mongodb client for the whole test_suite
+Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
+client = Exercism.mongodb_client
+Exercism.define_singleton_method(:mongodb_client) { client }
+
 # This "fixes" reload in Madnate.
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
@@ -50,8 +62,11 @@ module ActiveRecord
   end
 end
 
+class Hash
+  def to_obj = JSON.parse(to_json, object_class: OpenStruct)
+end
+
 module TestHelpers
-  extend Webpacker::Helper
   extend ActionView::Helpers::AssetUrlHelper
 
   def self.git_repo_url(slug)
@@ -60,25 +75,32 @@ module TestHelpers
 
   def self.use_website_copy_test_repo!
     repo_url = TestHelpers.git_repo_url("website-copy")
-    repo = Git::WebsiteCopy.new(repo_url: repo_url)
-    Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
+    Git::WebsiteCopy.new(repo_url:).tap do |repo|
+      Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
+    end
   end
 
   def self.use_blog_test_repo!
     repo_url = TestHelpers.git_repo_url("blog")
-    repo = Git::Blog.new(repo_url: repo_url)
+    repo = Git::Blog.new(repo_url:)
     Git::Blog.expects(:new).at_least_once.returns(repo)
   end
 
   def self.use_docs_test_repo!
     repo_url = TestHelpers.git_repo_url("docs")
-    repo = Git::Repository.new(repo_url: repo_url)
+    repo = Git::Repository.new(repo_url:)
     Git::Repository.expects(:new).at_least_once.returns(repo)
   end
 
-  def self.image_pack_url(icon_name, category: 'icons')
-    asset_pack_url("media/images/#{category}/#{icon_name}.svg")
+  def self.use_problem_specifications_test_repo!
+    repo_url = TestHelpers.git_repo_url("problem-specifications")
+    Git::ProblemSpecifications.new(repo_url:).tap do |repo|
+      Git::ProblemSpecifications.expects(:new).at_least_once.returns(repo)
+    end
   end
+
+  def self.download_dir = Rails.root / 'tmp' / 'downloads'
+  def self.download_filepath(filename) = File.join(download_dir, filename)
 end
 
 class ActiveSupport::TimeWithZone
@@ -94,7 +116,8 @@ if ENV["EXERCISM_CI"]
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "127.0.0.1:#{ENV['AWS_PORT']}"
+      "127.0.0.1:#{ENV['AWS_PORT']}",
+      "127.0.0.1:#{ENV['OPENSEARCH_PORT']}"
     ]
   )
 else
@@ -104,7 +127,8 @@ else
       # uses lots of ports on localhost for thesystem tests
       "127.0.0.1",
       "chromedriver.storage.googleapis.com",
-      "localhost:3040", "aws"
+      "localhost:3040", "localhost:9200",
+      "aws", "opensearch"
     ]
   )
 end
@@ -117,7 +141,7 @@ class ActionMailer::TestCase
     end
 
     # Test the body of the sent email contains what we expect it to
-    assert_equal ["hello@mail.exercism.io"], email.from
+    assert_equal ["hello@mail.exercism.org"], email.from
     assert_equal [to], email.to
     assert_equal subject, email.subject
     read_fixture(fixture).each do |text|
@@ -133,11 +157,11 @@ class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   # parallelize(workers: :number_of_processors)
 
-  def setup
-    # Clear out redis
-    redis = Exercism.redis_tooling_client
-    keys = redis.keys("#{Exercism.env}:*")
-    redis.del(*keys) if keys.present?
+  setup do
+    reset_opensearch!
+    reset_redis!
+    reset_rack_attack!
+    reset_mongodb!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -145,6 +169,12 @@ class ActiveSupport::TestCase
     return if @__skip_stubbing_rest_client__
 
     RestClient.define_method(:post) {}
+    Bullet.start_request
+  end
+
+  teardown do
+    Bullet.perform_out_of_channel_notifications if Bullet.notification?
+    Bullet.end_request
   end
 
   # Create a few models and return a random one.
@@ -155,10 +185,22 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
+  def assert_equal_structs(expected, actual)
+    assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
+  end
+
+  def assert_equal_arrays(expected, actual)
+    assert_equal(expected.to_ary.sort, actual.to_ary.sort)
+  end
+
   def assert_idempotent_command(&cmd)
     obj_1 = cmd.yield
     obj_2 = cmd.yield
-    assert_equal obj_1, obj_2
+    if obj_1.nil?
+      assert_nil obj_2
+    else
+      assert_equal obj_1, obj_2
+    end
   end
 
   def assert_html_equal(expected, actual)
@@ -168,29 +210,51 @@ class ActiveSupport::TestCase
     assert_equal(expected, actual)
   end
 
+  def reset_redis!
+    redis = Exercism.redis_tooling_client
+    keys = redis.keys("#{Exercism.env}:*")
+    redis.del(*keys) if keys.present?
+  end
+
+  def reset_rack_attack!
+    Rack::Attack.reset!
+  end
+
+  def reset_mongodb!
+    Exercism.mongodb_client.collections.each(&:drop)
+  end
+
   ###################
   # Tooling Helpers #
   ###################
-  def create_test_runner_job!(submission, execution_status: nil, results: nil)
+  def create_test_runner_job!(submission, execution_status: nil, results: nil, git_sha: nil)
     results ? execution_output = { "results.json" => results.to_json } : execution_output = nil
     create_tooling_job!(
       submission,
       :test_runner,
-      execution_status: execution_status,
-      execution_output: execution_output
+      execution_status:,
+      execution_output:,
+      source: {
+        'exercise_git_sha' => git_sha || submission.git_sha
+      }
     )
   end
 
-  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil)
+  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil, reason: nil, git_sha: nil)
     execution_output = {
       "representation.txt" => ast,
+      "representation.json" => metadata&.to_json,
       "mapping.json" => mapping&.to_json
     }
     create_tooling_job!(
       submission,
       :representer,
-      execution_status: execution_status,
-      execution_output: execution_output
+      execution_status:,
+      execution_output:,
+      context: { reason: },
+      source: {
+        'exercise_git_sha' => git_sha || submission.git_sha
+      }
     )
   end
 
@@ -201,35 +265,127 @@ class ActiveSupport::TestCase
     create_tooling_job!(
       submission,
       :analyzer,
-      execution_status: execution_status,
-      execution_output: execution_output
+      execution_status:,
+      execution_output:
     )
   end
 
   def create_tooling_job!(submission, type, params = {})
-    ToolingJob::Create.(
+    Exercism::ToolingJob.create!(
       type,
       submission.uuid,
       submission.track.slug,
       submission.exercise.slug,
-      params
+      **params
     )
   end
 
   def upload_to_s3(bucket, key, body) # rubocop:disable Naming/VariableNumber
     Exercism.s3_client.put_object(
-      bucket: bucket,
-      key: key,
-      body: body,
+      bucket:,
+      key:,
+      body:,
       acl: 'private'
     )
   end
 
   def download_s3_file(bucket, key)
     Exercism.s3_client.get_object(
-      bucket: bucket,
-      key: key
+      bucket:,
+      key:
     ).body.read
+  end
+
+  ######################
+  # OpenSearch Helpers #
+  ######################
+  def reset_opensearch!
+    opensearch = Exercism.opensearch_client
+    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+      opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
+      opensearch.indices.create(index:)
+    end
+  end
+
+  def get_opensearch_doc(index, id)
+    Exercism.opensearch_client.get(index:, id:)
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    nil
+  end
+
+  def wait_for_opensearch_to_be_synced
+    # Wait for enqueued jobs to finish as opensearch is always updated from within jobs
+    perform_enqueued_jobs
+
+    # Force an index refresh to ensure there are no concurrent actions in the background
+    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+      Exercism.opensearch_client.indices.refresh(index:)
+    end
+  end
+
+  def stub_latest_track_forum_threads(track)
+    stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
+  end
+
+  def generate_reputation_periods!
+    # We use reputation periods for the calculation
+    # This command should generate them all.
+    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationPeriod::Sweep.()
+  end
+
+  ###############
+  # N+1 Helpers #
+  ###############
+  def create_np1_data(mentor: nil)
+    mentor ||= create :user
+
+    2.times do
+      user = create :user
+      create(:user_profile, user:)
+
+      # Reputation things
+      create(:user_reputation_token, user:)
+
+      # Relationships
+      create :mentor_student_relationship, mentor:, student: user
+
+      3.times do
+        track = create :track, :random_slug
+        exercise = create(:practice_exercise, track:)
+        create(:user_track, track:, user:)
+
+        # Submission things
+        solution = create(:practice_solution, exercise:, user:)
+
+        3.times do
+          ast_digest = SecureRandom.uuid
+          submission = create(:submission, solution:)
+          create(:submission_representation, submission:, ast_digest:)
+          create(:exercise_representation, exercise:, ast_digest:)
+          create(:iteration, solution:)
+          create :solution_comment, solution:
+        end
+
+        # Mentor things
+        create(:user_track_mentorship, user: mentor, track:)
+        create(:mentor_request, solution:)
+        create :mentor_discussion, solution:
+      end
+    end
+  end
+
+  def assert_user_data_cache_reset(user, key, expected, &block)
+    assert_nil user.data.reload.cache[key.to_s]
+
+    perform_enqueued_jobs(&block)
+
+    assert_equal expected, user.data.reload.cache[key.to_s]
+  end
+
+  def reset_user_cache(user)
+    user.data.reload.update!(cache: nil)
+    user.reload
   end
 end
 
@@ -248,6 +404,10 @@ end
 class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   include TurboAssertionsHelper
+
+  setup do
+    host! URI(Rails.application.routes.default_url_options[:host]).host
+  end
 
   def sign_in!(user = nil)
     @current_user = user || create(:user)

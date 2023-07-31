@@ -55,6 +55,12 @@
             & .c-notification-dot {
                 @apply ml-16;
             }
+            & .--out-of-date {
+                @apply ml-16;
+                height: 16px;
+                width: 16px;
+                filter: var(--orange-filter);
+            }
 
             & .--track {
                 @apply flex-shrink-0 flex items-center;
@@ -92,6 +98,7 @@
                     @apply mr-6;
                 }
             }
+
             & .--mentoring-status {
                 @apply mr-16;
 

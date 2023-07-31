@@ -3,13 +3,7 @@ jest.mock(
 )
 
 import React from 'react'
-import {
-  waitFor,
-  screen,
-  act,
-  fireEvent,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { rest } from 'msw'
@@ -102,14 +96,10 @@ test('cancels a pending submission', async () => {
   render(<Editor {...props} />)
 
   userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
-  await waitFor(() =>
-    expect(screen.getByText('Running tests...')).toBeInTheDocument()
-  )
+  expect(await screen.findByText('Running tests...')).toBeInTheDocument()
   userEvent.click(await screen.findByRole('button', { name: /cancel/i }))
 
-  await waitFor(() =>
-    expect(screen.getByText('Test run cancelled')).toBeInTheDocument()
-  )
+  expect(await screen.findByText('Test run cancelled')).toBeInTheDocument()
 })
 test('makes editor readonly while submitting tests', async () => {
   const props = buildEditor()
@@ -145,7 +135,6 @@ test('disables submit button unless tests passed', async () => {
 })
 
 test('disables submit button when files changed', async () => {
-  jest.useFakeTimers()
   server.use(
     rest.get('https://exercism.test/test_run', (req, res, ctx) => {
       return res(
@@ -164,7 +153,7 @@ test('disables submit button when files changed', async () => {
       )
     })
   )
-  const interval = 50000
+  const interval = 1
   const props = buildEditor({
     overrides: {
       defaultSubmissions: [
@@ -195,12 +184,7 @@ test('disables submit button when files changed', async () => {
   fireEvent.change(screen.getByTestId('editor-value'), {
     target: { value: 'code' },
   })
-  act(() => {
-    jest.advanceTimersByTime(interval + 10)
-  })
   await waitFor(() => {
     expect(submitButton).toBeDisabled()
   })
-
-  jest.useRealTimers()
 })

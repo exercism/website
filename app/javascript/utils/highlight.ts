@@ -1,5 +1,20 @@
 import * as highlighter from 'highlight.js'
-import React, { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
+import setupABAP from 'highlightjs-sap-abap'
+import setupCobol from 'highlightjs-cobol'
+import setupBqn from 'highlightjs-bqn'
+import setupZig from 'highlightjs-zig'
+import setupGleam from '@gleam-lang/highlight.js-gleam'
+
+highlighter.default.registerLanguage('abap', setupABAP)
+highlighter.default.registerLanguage('cobol', setupCobol)
+highlighter.default.registerLanguage('bqn', setupBqn)
+highlighter.default.registerLanguage('zig', setupZig)
+highlighter.default.registerLanguage('gleam', setupGleam)
+
+highlighter.default.configure({
+  throwUnescapedHTML: true,
+})
 
 function duplicateMultilineNodes(element: HTMLElement) {
   element.childNodes.forEach((child) => {
@@ -100,15 +115,23 @@ export const highlightAll = (parent: ParentNode = document): void => {
   })
 }
 
-export const useHighlighting = <T>() => {
+export const highlightAllAlways = (parent: ParentNode = document): void => {
+  parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    highlightBlock(block)
+  })
+}
+
+// this will be replaced by the one in @/hooks. after all conflicts are resolved
+// and is missing 'html' dependency which is needed so it actually highlights code block when parsed html arrives
+export const useHighlighting = <T>(): React.MutableRefObject<T | null> => {
   const parentRef = useRef<T | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!parentRef.current) {
       return
     }
 
-    highlightAll((parentRef.current as unknown) as ParentNode)
+    highlightAll(parentRef.current as unknown as ParentNode)
   }, [])
 
   return parentRef

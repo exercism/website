@@ -26,7 +26,7 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
 
   test "handles empty inputs" do
     user = create :user
-    create :user_reputation_period, user: user, reputation: 1000
+    create :user_reputation_period, user:, reputation: 1000
 
     assert_search [user],
       User::ReputationPeriod::Search.(period: nil, category: nil, track_id: nil, user_handle: nil, page: nil)
@@ -60,14 +60,14 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
     create :user_reputation_period, user: small_contributor, period: :forever, reputation: 300
 
     create :user_reputation_period, user: irrelevant_contributor, period: :forever, reputation: 50, about: :track,
-                                    track_id: create(:track).id
+      track_id: create(:track).id
 
     create :user_reputation_period, user: big_contributor, period: :forever, reputation: 50, about: :track,
-                                    track_id: track.id
+      track_id: track.id
     create :user_reputation_period, user: small_contributor, period: :forever, reputation: 30, about: :track,
-                                    track_id: track.id
+      track_id: track.id
     create :user_reputation_period, user: medium_contributor, period: :forever, reputation: 40, about: :track,
-                                    track_id: track.id
+      track_id: track.id
 
     assert_search [big_contributor, medium_contributor, small_contributor],
       User::ReputationPeriod::Search.(track_id: track.id)
@@ -105,15 +105,18 @@ class User::ReputationPeriod::SearchTest < ActiveSupport::TestCase
   end
 
   test "filters user_handle correctly" do
-    massive_contributor = create :user, handle: 'massive'
-    small_contributor = create :user, handle: 'small'
-    medium_contributor = create :user, handle: 'medium'
+    mass_contributor = create :user, handle: 'mass'
+    massi_contributor = create :user, handle: 'massi'
+    amassi_contributor = create :user, handle: 'amassi'
 
-    create :user_reputation_period, user: massive_contributor, reputation: 50
-    create :user_reputation_period, user: small_contributor, reputation: 30
-    create :user_reputation_period, user: medium_contributor, reputation: 40
+    create :user_reputation_period, user: mass_contributor, reputation: 50
+    create :user_reputation_period, user: massi_contributor, reputation: 30
+    create :user_reputation_period, user: amassi_contributor, reputation: 40
 
-    assert_search [massive_contributor, medium_contributor], User::ReputationPeriod::Search.(user_handle: "m")
+    assert_empty User::ReputationPeriod::Search.(user_handle: "m")
+    assert_search [mass_contributor], User::ReputationPeriod::Search.(user_handle: "mass")
+    assert_search [massi_contributor], User::ReputationPeriod::Search.(user_handle: "massi")
+    assert_search [amassi_contributor], User::ReputationPeriod::Search.(user_handle: "amassi")
   end
 
   test "handles missing periods correctly" do

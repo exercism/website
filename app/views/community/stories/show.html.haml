@@ -1,0 +1,52 @@
+- content_for :meta_title, @story.title.html_safe
+- content_for :meta_description, @story.blurb.html_safe
+- content_for :meta_image, @story.thumbnail_url
+
+#page-community-story
+  %header.theme-dark.pb-128
+    .md-container
+      = link_to Exercism::Routes.community_path, class: "back-link" do
+        = graphical_icon "arrow-left", css_class: "w-[16px] h-[16px] mr-12 filter-white"
+        Back to Community
+      .relative
+        .grid.grid-cols-1.lg:grid-cols-2.gap-64.mb-48
+          .block
+            .flex.items-center.mb-20
+              = image_tag @story.interviewer.avatar_url, class: "w-[64px] h-[64px] rounded-circle mr-[-24px]"
+              = image_tag @story.interviewee.avatar_url, class: "w-[64px] h-[64px] rounded-circle mr-24"
+              = graphical_icon "podcast-gradient", css_class: 'h-[32px] w-[32px]'
+            %h1.text-h1.mb-12.text-white= @story.title
+            %p.text-p-large.mb-28.theme-dark= @story.blurb
+            .flex.items-center
+              = link_to @story.youtube_external_url, target: "_blank", rel: "noreferrer", class: 'youtube-link mr-32' do
+                Watch on Youtube
+                = graphical_icon "new-tab", css_class: "h-[16px] w-[16px] filter-white ml-16"
+
+              .text-label-code-caps.text-lightGold.whitespace-nowrap
+                = render ViewComponents::Community::Stories::VideoLength.new(@story)
+
+          -# = image_tag @story.image_url, class: "w-[280px] h-[280px] shadow-lg"
+          .relative.rounded-8.overflow-hidden.flex-grow{ class: 'w-fill lg:max-w-[510px]' }
+            %iframe{ width: "560", height: "315", src: @story.youtube_embed_url, title: @story.title, frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+        .c-textual-content.--large.rounded-12.py-24.px-24{ class: 'bg-[#5042AD] text-[#F0F3F9]' }
+          = raw @story.content_html
+
+  .md-container
+    .bg-backgroundColorA.shadow-lg.rounded-16.py-20.md:px-32.px-20.md:px-40{ class: 'mt-[-64px]' }
+      .flex.flex-row.mb-24
+        = graphical_icon "podcast-gradient", css_class: "h-[48px] w-[48px] mr-12"
+        .flex.flex-col
+          %h2.text-h2.mb-8 More Stories from our community
+          %p.text-p-large Listen, learn and be inspired by our community members.
+      .grid.grid-cols-1.lg:grid-cols-3.gap-16
+        - @other_stories.each do |community_story|
+          = link_to community_story_path(community_story), class: 'flex flex-col grid shadow-smZ1 p-16 bg-backgroundColorA rounded-8' do
+            = image_tag community_story.thumbnail_url, class: "bg-borderLight rounded-8 mb-12 w-[100%]", width: 243, height: 136
+            %h5.text-h5.mb-8= community_story.title
+            .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
+              - interviewee = community_story.interviewee
+              = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
+              = interviewee.name
+
+

@@ -13,9 +13,11 @@ module Components
       test "shows locked exercise tooltip" do
         user = create :user
         track = create :track
-        exercise = create :concept_exercise, track: track, title: "Lasagna"
+        exercise = create :concept_exercise, track:, title: "Lasagna"
         exercise.prerequisites << create(:concept)
-        create :user_track, track: track, user: user
+        create(:user_track, track:, user:)
+
+        stub_latest_track_forum_threads(track)
 
         use_capybara_host do
           sign_in!(user)

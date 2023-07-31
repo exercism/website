@@ -9,7 +9,7 @@ module Git
     end
 
     def initialize(repo_url: DEFAULT_REPO_URL)
-      @repo = Repository.new(repo_url: repo_url)
+      @repo = Repository.new(repo_url:)
     end
 
     def analysis_comment_for(code)
@@ -17,8 +17,13 @@ module Git
       repo.read_text_blob(head_commit, filepath)
     end
 
-    def mentor_notes_for(track_slug, exercise_slug)
+    def mentor_notes_for_exercise(track_slug, exercise_slug)
       filepath = "tracks/#{track_slug}/exercises/#{exercise_slug}/mentoring.md"
+      repo.read_text_blob(head_commit, filepath)
+    end
+
+    def mentor_notes_for_track(track_slug)
+      filepath = "tracks/#{track_slug}/mentoring.md"
       repo.read_text_blob(head_commit, filepath)
     end
 

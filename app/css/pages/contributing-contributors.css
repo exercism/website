@@ -65,10 +65,8 @@
             @apply border-b-1 border-borderColor7;
             @apply flex flex-col;
 
-            @screen md {
-                @apply px-24 py-8;
-                @apply flex-row items-center;
-            }
+            @apply md:px-24 md:py-8;
+            @apply md:flex-row md:items-center;
 
             & .rank {
                 @apply flex-shrink-0;
@@ -98,8 +96,8 @@
                 transform: scale(0.8);
                 transform-origin: 0 50%;
 
+                @apply md:ml-auto;
                 @screen md {
-                    @apply ml-auto;
                     transform: unset;
                 }
             }
@@ -107,6 +105,7 @@
                 height: 16px;
                 width: 16px;
                 @apply ml-96;
+                @apply filter-textColor6;
             }
         }
         & .c-pagination {

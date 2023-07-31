@@ -1,6 +1,8 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
+import { Flair } from './common/HandleWithFlair'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
+import { Scratchpad } from './mentoring/Session'
 
 export type Size = 'small' | 'large'
 
@@ -23,6 +25,14 @@ export type ExerciseStatus =
   | 'available'
   | 'locked'
 
+export type InsidersStatus =
+  | 'unset'
+  | 'ineligible'
+  | 'eligible'
+  | 'eligible_lifetime'
+  | 'active'
+  | 'active_lifetime'
+
 export type ExerciseAuthorship = {
   exercise: Exercise
   track: Track
@@ -44,7 +54,7 @@ export type Contribution = {
   iconUrl: string
   internalUrl?: string
   externalUrl?: string
-  earnedOn: string
+  createdAt: string
   track?: {
     title: string
     iconUrl: string
@@ -57,6 +67,7 @@ export type Testimonial = {
   student: {
     avatarUrl: string
     handle: string
+    flair: Flair
   }
   exercise: {
     title: string
@@ -77,11 +88,14 @@ export type Testimonial = {
 
 type UserLinks = {
   self?: string
+  profile?: string
 }
 export type User = {
   avatarUrl: string
+  flair: Flair
+  name?: string
   handle: string
-  hasAvatar: boolean
+  hasAvatar?: boolean
   reputation?: string
   links?: UserLinks
 }
@@ -98,6 +112,7 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
+  flair: string
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
@@ -120,6 +135,7 @@ export type SolutionForStudent = {
   mentoringStatus: SolutionMentoringStatus
   hasNotifications: boolean
   numIterations: number
+  isOutOfDate: boolean
   updatedAt: string
   exercise: {
     slug: string
@@ -145,19 +161,23 @@ export type DiscussionStatus =
   | 'awaiting_student'
   | 'finished'
 
+export type AutomationStatus = 'with_feedback' | 'without_feedback' | 'admin'
+
 export type CommunitySolution = {
   uuid: string
   snippet: string
-  numLoc: string
+  numLoc?: string
   numStars: string
   numComments: string
   publishedAt: string
   language: string
   iterationStatus: IterationStatus
+  publishedIterationHeadTestsStatus: SubmissionTestsStatus
   isOutOfDate: boolean
   author: {
     handle: string
     avatarUrl: string
+    flair: string
   }
   exercise: {
     title: string
@@ -227,7 +247,7 @@ export type MentorSessionTrack = {
   iconUrl: string
   highlightjsLanguage: string
   indentSize: number
-  medianWaitTime: string
+  medianWaitTime?: number
 }
 
 export type MentorSessionExercise = {
@@ -240,6 +260,7 @@ export type MentorSessionExercise = {
 }
 
 export type StudentTrack = {
+  course: boolean
   slug: string
   webUrl: string
   iconUrl: string
@@ -259,6 +280,7 @@ export type Track = {
   slug: string
   title: string
   iconUrl: string
+  course: boolean
   numConcepts: number
   numExercises: number
   numSolutions: number
@@ -267,6 +289,13 @@ export type Track = {
     exercises: string
     concepts: string
   }
+}
+
+export type AutomationTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
+  numSubmissions: number
+}
+export type VideoTrack = Pick<Track, 'slug' | 'iconUrl' | 'title'> & {
+  numVideos?: number
 }
 
 export type Iteration = {
@@ -296,14 +325,16 @@ export type Iteration = {
   }
 }
 
+type FeedbackContributor = Pick<
+  User,
+  'name' | 'avatarUrl' | 'reputation' | 'flair' | 'handle'
+> & {
+  profileUrl: string
+}
 export type RepresenterFeedback = {
   html: string
-  author: {
-    name: string
-    reputation: number
-    avatarUrl: string
-    profileUrl: string
-  }
+  author: FeedbackContributor
+  editor?: FeedbackContributor
 }
 
 export type AnalyzerFeedback = {
@@ -380,10 +411,12 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
+    flair: string
   }
   mentor: {
     avatarUrl: string
     handle: string
+    flair: string
   }
   track: {
     title: string
@@ -405,6 +438,7 @@ export type MentorDiscussion = {
     posts: string
     markAsNothingToDo: string
     finish: string
+    tooltipUrl: string
   }
 }
 
@@ -427,10 +461,75 @@ export type MentoredTrack = {
   }
 }
 
+export type RepresentationExercise = Pick<
+  MentorSessionExercise,
+  'title' | 'iconUrl'
+>
+export type RepresentationTrack = Pick<
+  MentorSessionTrack,
+  'title' | 'iconUrl' | 'highlightjsLanguage'
+>
+export type Representation = {
+  id: number
+  exercise: RepresentationExercise
+  track: RepresentationTrack
+  numSubmissions: number
+  feedbackHtml: string
+  draftFeedbackType: RepresentationFeedbackType | null
+  draftFeedbackMarkdown: string | null
+  feedbackType: RepresentationFeedbackType | null
+  feedbackMarkdown: string | null
+  feedbackAddedAt: string | null
+  lastSubmittedAt: string
+  appearsFrequently: boolean
+  feedbackAuthor: { handle: string }
+  feedbackEditor: { handle: string }
+  links: { edit?: string; update?: string; self?: string }
+}
+
+export type RepresentationData = Representation & {
+  files: readonly File[]
+  testFiles: readonly TestFile[]
+  instructions: string
+}
+
+export type RepresentationFeedbackType =
+  | 'essential'
+  | 'actionable'
+  | 'non_actionable'
+  | 'celebratory'
+
+export type CompleteRepresentationData = {
+  representation: RepresentationData
+  examples: Pick<RepresentationData, 'files' | 'instructions' | 'testFiles'>[]
+  mentor: Pick<User, 'avatarUrl' | 'handle'> & { name: string }
+  mentorSolution: CommunitySolution
+  links: { back: string; success: string }
+  guidance: Guidance
+  scratchpad: Scratchpad
+  analyzerFeedback?: AnalyzerFeedback
+}
+
+export type Guidance = {
+  representations: string
+  exercise: string
+  track: string
+  exemplarFiles: MentoringSessionExemplarFile[]
+  links: GuidanceLinks
+}
+
+export type GuidanceLinks = {
+  improveExerciseGuidance: string
+  improveTrackGuidance: string
+  improveRepresenterGuidance?: string
+  representationFeedbackGuide: string
+}
+
 export type Contributor = {
   rank: number
   avatarUrl: string
   handle: string
+  flair: Flair
   activity: string
   reputation: string
   links: {
@@ -496,7 +595,7 @@ export type SiteUpdateIconType =
 export type SiteUpdateExpandedInfo = {
   author: Contributor
   title: string
-  description: string
+  descriptionHtml: string
 }
 
 export type SiteUpdate = {
@@ -525,10 +624,21 @@ export type PullRequest = {
   mergedBy: string
 }
 
-export type CommunicationPreferences = {
+export type UserPreference = {
   key: string
   label: string
   value: boolean
+}
+
+export type CommunicationPreference = {
+  key: string
+  label: string
+  value: boolean
+}
+
+export type CommunicationPreferences = {
+  mentoring: readonly CommunicationPreference[]
+  product: readonly CommunicationPreference[]
 }
 
 export type ContributionCategoryId =
@@ -634,6 +744,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
+    flair: string
     reputation: string
   }
   updatedAt: string
@@ -650,9 +761,110 @@ export type Notification = {
   url: string
   imageType: NotificationImageType
   imageUrl: string
+  iconFilter: string
   text: string
   createdAt: string
   isRead: boolean
 }
 
 type NotificationImageType = 'icon' | 'avatar'
+
+export type MentoringSessionExemplarFile = {
+  filename: string
+  content: string
+}
+
+export type SharePlatform =
+  | 'facebook'
+  | 'twitter'
+  | 'reddit'
+  | 'linkedin'
+  | 'devto'
+
+export type Metric = {
+  type: string
+  coordinates: number[]
+  user?: {
+    handle: string
+    avatarUrl: string
+  }
+  track?: {
+    title: string
+    iconUrl: string
+  }
+}
+
+export type Modifier =
+  | 'hover'
+  | 'active'
+  | 'focus'
+  | 'focus-within'
+  | 'focus-visible'
+  | 'visited'
+  | 'target'
+  | 'first'
+  | 'last'
+  | 'only'
+  | 'odd'
+  | 'even'
+  | 'first-of-type'
+  | 'last-of-type'
+  | 'only-of-type'
+  | 'empty'
+  | 'disabled'
+  | 'enabled'
+  | 'checked'
+  | 'intermediate'
+  | 'default'
+  | 'required'
+  | 'valid'
+  | 'invalid'
+  | 'in-range'
+  | 'out-of-range'
+  | 'placeholder-shown'
+  | 'autofill'
+  | 'read-only'
+
+export type CommunityVideoAuthorLinks = {
+  profile?: string
+}
+
+export type CommunityVideoAuthor = {
+  name: string
+  handle: string
+  avatarUrl: string
+  links: CommunityVideoAuthorLinks
+}
+
+export type CommunityVideoPlatform = 'youtube' | 'vimeo'
+
+export type CommunityVideoLinks = {
+  watch: string
+  embed: string
+  channel: string
+  thumbnail: string
+}
+
+export type CommunityVideoType = {
+  id: number
+  author?: CommunityVideoAuthor
+  // TODO: Revisit this - check data returned by video retrieving on UploadVideoModal
+  url?: string
+  // TODO: revisit video-grid embedUrl
+  embedUrl?: string
+  submittedBy: CommunityVideoAuthor
+  thumbnailUrl?: string
+  platform: CommunityVideoPlatform
+  title: string
+  createdAt: string
+  links: CommunityVideoLinks
+}
+
+export type CommunityVideosProps = {
+  videos: CommunityVideoType[]
+}
+
+export type TestFile = {
+  filename: string
+  content: string
+}

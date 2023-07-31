@@ -1,4 +1,4 @@
-class CreateUserCommunicationPreferences < ActiveRecord::Migration[6.1]
+class CreateUserCommunicationPreferences < ActiveRecord::Migration[7.0]
   def change
     create_table :user_communication_preferences do |t|
       t.belongs_to :user, null: false, foreign_key: true

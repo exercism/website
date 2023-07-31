@@ -1,12 +1,24 @@
-const errorIcon = require(`../../images/graphics/missing-exercise.svg`)
+import { assetUrl } from '../../utils/assets'
 
-export const imageErrorHandler = (
-  e: React.SyntheticEvent<HTMLImageElement, Event>
+const missingExerciseIcon = assetUrl('graphics/missing-exercise.svg')
+const missingTrackIcon = assetUrl('graphics/missing-track.svg')
+
+const missingImageErrorHandler = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>,
+  missingImage: string
 ) => {
   const el = e.target as HTMLImageElement
-  if ((el.src = errorIcon)) {
+  if (el.src === missingImage) {
     return
   }
   el.onerror = null
-  el.src = errorIcon
+  el.src = missingImage
 }
+
+export const missingExerciseIconErrorHandler = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>
+): void => missingImageErrorHandler(e, missingExerciseIcon)
+
+export const missingTrackIconErrorHandler = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>
+): void => missingImageErrorHandler(e, missingTrackIcon)

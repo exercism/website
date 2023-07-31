@@ -2,13 +2,18 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { CommunitySolution } from '../../../../app/javascript/components/common/CommunitySolution'
-import { IterationStatus } from '../../../../app/javascript/components/types'
+import {
+  IterationStatus,
+  SubmissionTestsStatus,
+} from '../../../../app/javascript/components/types'
 
 test('shows CTA to contribute notes when notes isnt present', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -17,6 +22,7 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -42,9 +48,11 @@ test('shows CTA to contribute notes when notes isnt present', async () => {
 
 test('links to private url if context is mentoring', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -53,6 +61,7 @@ test('links to private url if context is mentoring', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -79,9 +88,11 @@ test('links to private url if context is mentoring', async () => {
 
 test('links to public url if context is profile', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -90,6 +101,7 @@ test('links to public url if context is profile', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -116,9 +128,11 @@ test('links to public url if context is profile', async () => {
 
 test('links to public url if context is exercise', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -127,6 +141,7 @@ test('links to public url if context is exercise', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -153,9 +168,11 @@ test('links to public url if context is exercise', async () => {
 
 test('shows author avatar if context is exercise', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -164,6 +181,7 @@ test('shows author avatar if context is exercise', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -189,9 +207,11 @@ test('shows author avatar if context is exercise', async () => {
 
 test('shows author avatar if context is mentoring', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -200,6 +220,7 @@ test('shows author avatar if context is mentoring', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -228,9 +249,11 @@ test('shows author avatar if context is mentoring', async () => {
 
 test('shows exercise icon if context is profile', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -239,6 +262,7 @@ test('shows exercise icon if context is profile', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -267,9 +291,11 @@ test('shows exercise icon if context is profile', async () => {
 
 test('shows correct title if context is mentoring', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -278,6 +304,7 @@ test('shows correct title if context is mentoring', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -302,9 +329,11 @@ test('shows correct title if context is mentoring', async () => {
 
 test('shows correct title if context is profile', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -313,6 +342,7 @@ test('shows correct title if context is profile', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -337,9 +367,11 @@ test('shows correct title if context is profile', async () => {
 
 test('shows correct title if context is exercise', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -348,6 +380,7 @@ test('shows correct title if context is exercise', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -372,9 +405,11 @@ test('shows correct title if context is exercise', async () => {
 
 test('renders processing status', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -383,6 +418,7 @@ test('renders processing status', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.EXCEPTIONED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -404,11 +440,13 @@ test('renders processing status', async () => {
   expect(screen.getByText('Processing')).toBeInTheDocument()
 })
 
-test('renders warning icon when solution is out of date', async () => {
+test('renders golden check icon when published iteration passed head tests', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -417,6 +455,7 @@ test('renders warning icon when solution is out of date', async () => {
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.PASSED,
     isOutOfDate: true,
     exercise: {
       title: 'Exercise',
@@ -437,17 +476,18 @@ test('renders warning icon when solution is out of date', async () => {
 
   expect(
     screen.getByRole('img', {
-      name:
-        'This solution has not been tested against the latest version of this exercise',
+      name: 'This solution passes the tests of the latest version of this exercise',
     })
   ).toBeInTheDocument()
 })
 
-test('does not render warning icon when solution is not out of date', async () => {
+test('renders cross when published iteration fails head tests', async () => {
   const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
     author: {
       handle: 'handle',
       avatarUrl: 'url',
+      flair: 'insider',
     },
     snippet: '',
     numLoc: '1-5',
@@ -456,6 +496,89 @@ test('does not render warning icon when solution is not out of date', async () =
     publishedAt: '',
     language: 'ruby',
     iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
+    isOutOfDate: true,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    links: {
+      publicUrl: 'https://exercism.test/public',
+      privateIterationsUrl: 'https://exercism.test/private',
+    },
+  }
+
+  render(<CommunitySolution solution={solution} context="exercise" />)
+
+  expect(
+    screen.getByRole('img', {
+      name: 'This solution does not fully solve the latest version of this exercise',
+    })
+  ).toBeInTheDocument()
+})
+
+test('renders warning icon when solution is out of date', async () => {
+  const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
+    author: {
+      handle: 'handle',
+      avatarUrl: 'url',
+      flair: 'insider',
+    },
+    snippet: '',
+    numLoc: '1-5',
+    numStars: '2',
+    numComments: '2',
+    publishedAt: '',
+    language: 'ruby',
+    iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.EXCEPTIONED,
+    isOutOfDate: true,
+    exercise: {
+      title: 'Exercise',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    track: {
+      title: 'Track',
+      highlightjsLanguage: 'track',
+      iconUrl: 'https://exercism.test/icon',
+    },
+    links: {
+      publicUrl: 'https://exercism.test/public',
+      privateIterationsUrl: 'https://exercism.test/private',
+    },
+  }
+
+  render(<CommunitySolution solution={solution} context="exercise" />)
+
+  expect(
+    screen.getByRole('img', {
+      name: 'This solution was solved against an older version of this exercise',
+    })
+  ).toBeInTheDocument()
+})
+
+test('does not render warning icon when solution is not out of date', async () => {
+  const solution = {
+    uuid: '723c3ad8-3e7c-471a-99a4-2efd253d7bda',
+    author: {
+      handle: 'handle',
+      avatarUrl: 'url',
+      flair: 'insider',
+    },
+    snippet: '',
+    numLoc: '1-5',
+    numStars: '2',
+    numComments: '2',
+    publishedAt: '',
+    language: 'ruby',
+    iterationStatus: IterationStatus.ANALYZING,
+    publishedIterationHeadTestsStatus: SubmissionTestsStatus.FAILED,
     isOutOfDate: false,
     exercise: {
       title: 'Exercise',
@@ -476,8 +599,7 @@ test('does not render warning icon when solution is not out of date', async () =
 
   expect(
     screen.queryByRole('img', {
-      name:
-        'This solution has not been tested against the latest version of this exercise',
+      name: 'This solution has not been tested against the latest version of this exercise',
     })
   ).not.toBeInTheDocument()
 })

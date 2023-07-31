@@ -9,10 +9,11 @@ module API
 
       return render_403(:solution_not_accessible) unless solution.viewable_by?(current_user)
 
-      if solution.submissions.last
-        file = solution.submissions.last.files.where(filename: params[:filepath]).first
-        content = file&.content
-      end
+      submission = solution.user == current_user ?
+        solution.submissions.last :
+        solution.latest_iteration&.submission
+
+      content = submission.files.find_by(filename: params[:filepath])&.content if submission
 
       unless content
         begin

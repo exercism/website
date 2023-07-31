@@ -21,10 +21,10 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
     TestHelpers.use_docs_test_repo!
 
     create :document, uuid: "7c7139b9-a228-4691-a4e4-a0c39a6dd615",
-                      slug: "rlly",
-                      git_path: "incorrect/old.md",
-                      title: "Very wrong",
-                      blurb: "Wrong"
+      slug: "rlly",
+      git_path: "incorrect/old.md",
+      title: "Very wrong",
+      blurb: "Wrong"
 
     Git::SyncMainDocs.()
 
@@ -42,7 +42,7 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
     TestHelpers.use_docs_test_repo!
 
     repo_url = TestHelpers.git_repo_url("docs")
-    repo = Git::Repository.new(repo_url: repo_url)
+    repo = Git::Repository.new(repo_url:)
 
     error = StandardError.new "Could not find Concept X"
     Document.any_instance.stubs(:update!).raises(error)

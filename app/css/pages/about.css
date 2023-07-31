@@ -10,6 +10,7 @@
         & .logo {
             height: 80px;
             width: 80px;
+            @apply filter-textColor1;
         }
         & p {
             max-width: 1024px;
@@ -19,36 +20,10 @@
             width: 16px;
         }
     }
-    & .links {
-        & li {
-            @apply mb-20;
-            @screen md {
-                @apply mb-0 mr-40;
-            }
-        }
-        & a {
-            @apply flex items-center;
-            @apply text-18 leading-160 font-semibold text-textColor7;
-            & .c-icon {
-                filter: var(--textColor7-filter);
-            }
-            & .c-icon:first-child {
-                height: 30px;
-                width: 30px;
-                @apply mr-24;
-            }
-            & .c-icon:last-child {
-                height: 16px;
-                width: 16px;
-                @apply ml-auto;
-            }
-            & span {
-                @apply mr-20;
-            }
-        }
-    }
+
     & .purpose {
-        @apply bg-evenLighterBlue border-purple;
+        @apply border-purple;
+        background: var(--backgroundColorTracksListJoined);
         & h2 {
             & .c-icon {
                 height: 32px;
@@ -130,7 +105,7 @@
         & .c-icon.graphic {
             height: 240px;
             width: 240px;
-            @apply mr-60;
+            @apply lg:mr-60;
         }
         & .c-icon.icon {
             height: 64px;
@@ -139,7 +114,7 @@
         }
     }
     & .donate-section {
-        @apply bg-evenLighterBlue;
+        background: var(--backgroundColorTracksListJoined);
 
         & .c-icon.icon {
             width: 48px;

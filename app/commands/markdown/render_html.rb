@@ -1,21 +1,44 @@
 class Markdown::RenderHTML
   include Mandate
 
-  initialize_with :doc, :nofollow_links
+  initialize_with :doc, nofollow_links: false, heading_ids: false
 
   def call
-    renderer = Renderer.new(options: [:UNSAFE], nofollow_links: nofollow_links)
+    renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links:, heading_ids:)
     renderer.render(doc)
   end
 
   class Renderer < CommonMarker::HtmlRenderer
-    def initialize(options:, nofollow_links: false)
-      super(options: options)
+    def initialize(options:, nofollow_links: false, heading_ids: false)
+      super(options:)
       @nofollow_links = nofollow_links
+      @heading_ids = heading_ids
+      @heading_id_counts = Hash.new(0)
     end
 
     private
-    attr_reader :nofollow_links
+    attr_reader :nofollow_links, :heading_ids, :heading_id_counts
+
+    def header(node)
+      return super(node) unless heading_ids
+
+      block do
+        out("<h", node.header_level, " id=\"", header_id(node), "\">", :children, "</h", node.header_level, ">")
+      end
+    end
+
+    def header_id(node)
+      title = "h-#{header_string_content(node).join('-').parameterize}"
+      unique_title = heading_id_counts[title].zero? ? title : "#{title}-#{heading_id_counts[title]}"
+      heading_id_counts[title] = heading_id_counts[title] + 1
+      unique_title
+    end
+
+    def header_string_content(node)
+      return node.string_content if %i[text code].include?(node.type)
+
+      node.each.map { |n| header_string_content(n) }
+    end
 
     def link(node)
       # TODO: re-enable once we figure out how to do custom scrubbing
@@ -25,12 +48,20 @@ class Markdown::RenderHTML
       out(' title="', escape_html(node.title), '"') if node.title.present?
       if external_url?(node.url)
         out(' target="_blank"')
-        out(' rel="noopener', nofollow_links ? ' nofollow' : '', '"')
+        out(' rel="noreferrer', nofollow_links ? ' nofollow' : '', '"')
       elsif nofollow_links
         out(' rel="nofollow"')
       end
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
+    end
+
+    def table(node)
+      block do
+        out("<div class='c-responsive-table-wrapper'>")
+        super(node)
+        out('</div>')
+      end
     end
 
     def external_url?(url)
@@ -45,7 +76,7 @@ class Markdown::RenderHTML
     end
 
     def link_tooltip_attributes(node)
-      link_match = %r{^(?<url>https?://(?<local>local\.)?exercism\.(?<domain>io|lol|org))?/tracks/(?<track>[^/]+)/(?<type>concept|exercise)s/(?<slug>[^/#?]+)}.match(node.url) # rubocop:disable Layout/LineLength
+      link_match = %r{^(?<url>https?://(?<local>local\.)?exercism\.(?<domain>io|lol|org))?/tracks/(?<track>[^/]+)/(?<type>concept|exercise)s/(?<slug>[^/#?]+)(?:/|[#?]\w*)?$}.match(node.url) # rubocop:disable Layout/LineLength
       return unless link_match
 
       endpoint = Exercism::Routes.send("tooltip_track_#{link_match[:type]}_path", link_match[:track], link_match[:slug])
@@ -73,7 +104,7 @@ class Markdown::RenderHTML
         out(%(<div class="c-textblock-#{type}">))
         out(%(<div class="c-textblock-header">#{type.titleize}</div>))
         out('<div class="c-textblock-content">')
-        out(escape_html(node.string_content))
+        render(Markdown::Render.(node.string_content, :doc))
         out('</div>')
         out('</div>')
       end

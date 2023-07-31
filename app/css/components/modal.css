@@ -17,7 +17,7 @@
             & .--modal-content {
                 @apply py-48;
                 width: 100%;
-                min-height: 100%;
+                /* min-height: 100%; */
             }
         }
     }
@@ -32,16 +32,40 @@
 
         & .--close-button {
             @apply fixed rounded-circle shadow-smZ1 bg-purpleDarker3;
+            @apply border-2 border-transparent;
             @apply grid place-items-center;
             cursor: pointer;
             top: 48px;
             right: 48px;
             height: 64px;
             width: 64px;
+
             & .c-icon {
                 height: 32px;
                 width: 32px;
                 filter: var(--filter-FFFFFF);
+            }
+
+            &:hover {
+                @apply bg-wildBlueYonder;
+            }
+
+            &:active,
+            &:focus {
+                @apply bg-crayola;
+            }
+
+            &:focus {
+                @apply border-2 border-purpleDarker3;
+                @apply shadow-lavenderFocus;
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                & .c-icon {
+                    filter: var(--dark-purple-filter);
+                }
             }
         }
     }

@@ -2,10 +2,7 @@ class AssembleContributionsSummary
   include Mandate
   include ActionView::Helpers::NumberHelper
 
-  def initialize(user, for_self:)
-    @user = user
-    @for_self = for_self
-  end
+  initialize_with :user, for_self: Mandate::NO_DEFAULT
 
   def call
     {
@@ -23,7 +20,7 @@ class AssembleContributionsSummary
   # This should take <10ms so it doesn't need caching, which is
   # good because there's a lot of data to try and work out
   # cache invalidation for here.
-  def categories_data(track_id = nil)
+  def categories_data(track_id = 0)
     metrics = {
       publishing: publishing_metrics(track_id),
       mentoring: mentoring_metrics(track_id),
@@ -71,10 +68,8 @@ class AssembleContributionsSummary
   end
 
   private
-  attr_reader :user, :for_self
-
-  def publishing_metrics(track_id = nil)
-    c = track_id ? published_solutions[track_id] : published_solutions.values.sum
+  def publishing_metrics(track_id = 0)
+    c = num_reputation_occurrences(:publishing, track_id).to_i
 
     return ["No solutions published", "No solutions"] if c.to_i.zero?
 
@@ -82,8 +77,8 @@ class AssembleContributionsSummary
     ["#{short} published", short]
   end
 
-  def authoring_metrics(track_id = nil)
-    c = track_id ? authorships[track_id] : authorships.values.sum
+  def authoring_metrics(track_id = 0)
+    c = num_reputation_occurrences(:authoring, track_id).to_i
 
     return ["No exercises contributed", "No exercises"] if c.to_i.zero?
 
@@ -91,8 +86,8 @@ class AssembleContributionsSummary
     ["#{short} contributed", short]
   end
 
-  def mentoring_metrics(track_id = nil)
-    c = track_id ? mentored_students[track_id] : mentored_students.values.sum
+  def mentoring_metrics(track_id = 0)
+    c = num_reputation_occurrences(:mentoring, track_id).to_i
 
     return ["No students mentored", "No students"] if c.to_i.zero?
 
@@ -100,7 +95,7 @@ class AssembleContributionsSummary
     ["#{short} mentored", short]
   end
 
-  def building_metrics(track_id = nil)
+  def building_metrics(track_id = 0)
     c = num_reputation_occurrences(:building, track_id).to_i
 
     return ["No PRs accepted", "No PRs accepted"] if c.to_i.zero?
@@ -109,7 +104,7 @@ class AssembleContributionsSummary
     [short, short]
   end
 
-  def maintaining_metrics(track_id = nil)
+  def maintaining_metrics(track_id = 0)
     c = num_reputation_occurrences(:maintaining, track_id).to_i
 
     return ["No PRs reviewed", "No PRs reviewed"] if c.to_i.zero?
@@ -118,50 +113,55 @@ class AssembleContributionsSummary
     [short, short]
   end
 
-  def num_reputation_points(requested_category, requested_track_id = nil)
-    requested_category = requested_category.to_s
-    reputation_points.select do |(track_id, category), _|
-      category == requested_category && (requested_track_id ? track_id == requested_track_id : true)
-    end.values.sum
+  def num_reputation_points(requested_category, requested_track_id)
+    filter_data(requested_category, requested_track_id, reputation_points)
   end
 
   def num_reputation_occurrences(requested_category, requested_track_id)
+    filter_data(requested_category, requested_track_id, reputation_occurrences)
+  end
+
+  def filter_data(requested_category, requested_track_id, data)
     requested_category = requested_category.to_s
-    reputation_occurrences.select do |(track_id, category), _|
-      category == requested_category && (requested_track_id ? track_id == requested_track_id : true)
-    end.values.sum
+    res = data.find do |(track_id, category), _|
+      next unless track_id == requested_track_id
+      next unless category == requested_category
+
+      true
+    end
+    res ? res[1] : 0
   end
 
   memoize
   def tracks
-    ::Track.where(id: reputation_occurrences.keys.map(&:first).compact)
-  end
-
-  memoize
-  def published_solutions
-    user.solutions.published.joins(:exercise).group("exercises.track_id").count
-  end
-
-  memoize
-  def authorships
-    q_1 = Exercise.where(id: user.authorships.select(:exercise_id))
-    q_2 = Exercise.where(id: user.contributorships.select(:exercise_id))
-    q_1.or(q_2).distinct(:id).group(:track_id).count
-  end
-
-  memoize
-  def mentored_students
-    user.mentor_discussions.joins(solution: :exercise).group('exercises.track_id').
-      select('solutions.user_id').distinct.count
+    ::Track.where(id: reputation_occurrences.keys.map(&:first).compact).order(:title)
   end
 
   memoize
   def reputation_points
-    @user.reputation_tokens.group(:track_id, :category).sum(:value)
+    data = @user.reputation_periods.
+      where(period: :forever).
+      group(:track_id, :category).sum(:reputation)
+
+    grouped_sums = @user.reputation_tokens.where(category: :publishing).group(:track_id).sum(:value)
+    grouped_sums.each do |track_id, value|
+      data[[track_id, "publishing"]] = value
+    end
+    data[[0, "publishing"]] = grouped_sums.sum(&:second)
+    data
   end
 
   memoize
   def reputation_occurrences
-    @user.reputation_tokens.group(:track_id, :category).count
+    data = @user.reputation_periods.
+      where(period: :forever).
+      group(:track_id, :category).sum(:num_tokens)
+
+    grouped_counts = @user.reputation_tokens.where(category: :publishing).group(:track_id).count
+    grouped_counts.each do |track_id, value|
+      data[[track_id, "publishing"]] = value
+    end
+    data[[0, "publishing"]] = grouped_counts.sum(&:second)
+    data
   end
 end

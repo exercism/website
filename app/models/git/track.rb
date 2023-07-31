@@ -1,21 +1,23 @@
 module Git
   class Track
     extend Mandate::Memoize
-    extend Git::HasGitFilepaths
+    extend Git::HasGitFilepath
 
     delegate :head_sha, :fetch!, :lookup_commit, :head_commit, to: :repo
 
-    git_filepaths about: "docs/ABOUT.md",
-      snippet: "docs/SNIPPET.txt",
-      debugging_instructions: "exercises/shared/.docs/debug.md",
-      help: "exercises/shared/.docs/help.md",
-      tests: "exercises/shared/.docs/tests.md",
-      config: "config.json"
+    git_filepath :about, file: "docs/ABOUT.md"
+    git_filepath :snippet, file: "docs/SNIPPET.txt"
+    git_filepath :representer_normalizations, file: "docs/REPRESENTER_NORMALIZATIONS.md"
+    git_filepath :debugging_instructions, file: "exercises/shared/.docs/debug.md"
+    git_filepath :help, file: "exercises/shared/.docs/help.md"
+    git_filepath :tests, file: "exercises/shared/.docs/tests.md"
+    git_filepath :representations, file: "exercises/shared/.docs/representations.md"
+    git_filepath :config, file: "config.json"
 
     def initialize(git_sha = "HEAD", repo_url: nil, repo: nil)
       raise "One of :repo or :repo_url must be specified" unless [repo, repo_url].compact.size == 1
 
-      @repo = repo || Repository.new(repo_url: repo_url)
+      @repo = repo || Repository.new(repo_url:)
       @git_sha = git_sha
     end
 
@@ -51,32 +53,37 @@ module Git
 
     memoize
     def has_concept_exercises?
-      !!config[:status][:concept_exercises]
+      !!status[:concept_exercises]
     end
 
     memoize
     def has_test_runner?
-      !!config[:status][:test_runner]
+      !!status[:test_runner]
     end
 
     memoize
     def has_representer?
-      config[:status][:representer]
+      !!status[:representer]
     end
 
     memoize
     def has_analyzer?
-      config[:status][:analyzer]
+      !!status[:analyzer]
     end
 
     memoize
     def concept_exercises
-      config[:exercises][:concept].to_a
+      exercises[:concept].to_a
     end
 
     memoize
     def practice_exercises
-      config[:exercises][:practice].to_a
+      exercises[:practice].to_a
+    end
+
+    memoize
+    def foregone_exercises
+      exercises[:foregone].to_a
     end
 
     memoize
@@ -130,21 +137,36 @@ module Git
       concepts.find { |c| c[:uuid] == uuid }
     end
 
+    memoize
+    def taught_concept_slugs
+      concept_slugs = concepts.map { |c| c[:slug] }
+      concept_exercise_concept_slugs = concept_exercises.flat_map { |e| e[:concepts].to_a }
+      concept_exercise_concept_slugs & concept_slugs
+    end
+
     private
     attr_reader :repo, :git_sha
 
-    def absolute_filepath(filepath)
-      filepath
-    end
+    def absolute_filepath(filepath) = filepath
 
     memoize
     def online_editor
-      config[:online_editor]
+      config[:online_editor] || {}
     end
 
     memoize
     def test_runner
       config[:test_runner] || {}
+    end
+
+    memoize
+    def status
+      config[:status] || {}
+    end
+
+    memoize
+    def exercises
+      config[:exercises] || {}
     end
   end
 end

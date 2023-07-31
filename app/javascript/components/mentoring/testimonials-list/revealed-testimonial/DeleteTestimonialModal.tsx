@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import { QueryKey } from 'react-query'
+import { QueryKey, useQueryCache } from 'react-query'
 import { Modal, ModalProps } from '../../../modals/Modal'
 import { Testimonial } from '../../../types'
-import { useMutation, queryCache } from 'react-query'
+import { useMutation } from 'react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { FormButton } from '../../../common'
 import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
@@ -19,6 +19,7 @@ export const DeleteTestimonialModal = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const [mutation, { status, error }] = useMutation(
     () => {
       const { fetch } = sendRequest({

@@ -1,10 +1,7 @@
 class SerializeSiteUpdates
   include Mandate
 
-  def initialize(updates, user: nil)
-    @updates = updates
-    @user = user
-  end
+  initialize_with :updates, user: nil
 
   def call
     updates.map do |update|
@@ -38,11 +35,9 @@ class SerializeSiteUpdates
   end
 
   private
-  attr_reader :updates, :user
-
   memoize
   def user_tracks
-    UserTrack.where(user: user, track_id: updates.map(&:track_id).compact).index_by(&:track_id)
+    UserTrack.where(user:, track_id: updates.map(&:track_id).compact).index_by(&:track_id)
   end
 
   def exercises
@@ -50,6 +45,6 @@ class SerializeSiteUpdates
   end
 
   def solutions
-    Solution.where(user: user, exercise_id: updates.map(&:exercise_id).compact).index_by(&:exercise_id)
+    Solution.where(user:, exercise_id: updates.map(&:exercise_id).compact).index_by(&:exercise_id)
   end
 end

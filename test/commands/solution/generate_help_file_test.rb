@@ -3,7 +3,7 @@ require 'test_helper'
 class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
   test "generate for concept exercise" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = Solution::GenerateHelpFile.(solution)
     expected = <<~EXPECTED.strip
@@ -28,7 +28,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
@@ -40,7 +40,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
   test "generate for practice exercise" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = Solution::GenerateHelpFile.(solution)
     expected = <<~EXPECTED.strip
@@ -65,7 +65,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.
@@ -77,7 +77,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
   test "generate for exercise with multiple solution files" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
     Git::Exercise.any_instance.stubs(:solution_filepaths).returns(['bob.rb', 'lib.rb'])
 
     contents = Solution::GenerateHelpFile.(solution)
@@ -103,7 +103,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
-      - [Exercism's support channel on gitter](https://gitter.im/exercism/support)
+      - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
       Should those resources not suffice, you could submit your (incomplete) solution to request mentoring.

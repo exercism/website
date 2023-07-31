@@ -3,7 +3,7 @@ module ViewComponents
     def to_s
       # TODO: (Optional) Cache this component on user.updated_at
       # TODO: (Optional) Ensure that name/handle/avatar changes touch users.updated_at
-      ReactComponents::Dropdowns::Dropdown.new(menu_button: menu_button, menu_items: menu_items)
+      ReactComponents::Dropdowns::Dropdown.new(menu_button:, menu_items:)
     end
 
     private
@@ -21,7 +21,7 @@ module ViewComponents
     end
 
     def menu_items
-      profile_path = current_user.profile ?
+      profile_path = current_user.profile? ?
         Exercism::Routes.profile_path(current_user) :
         Exercism::Routes.intro_profiles_path
 
@@ -31,17 +31,19 @@ module ViewComponents
         { html: link_to("Dashboard", Exercism::Routes.dashboard_path), className: "opt site-link" },
         { html: link_to("Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
         { html: link_to("Mentoring", Exercism::Routes.mentoring_inbox_path), className: "opt site-link" },
-        { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
-        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" },
+        { html: link_to("Community", Exercism::Routes.community_path), className: "opt site-link" },
+        { html: link_to("Insiders 💜", Exercism::Routes.insiders_path), className: "opt site-link" },
+        { html: link_to("Donate", Exercism::Routes.donate_path), className: "opt site-link donate" },
         { html: link_to("Public Profile", profile_path), className: "opt" },
         { html: link_to("Your Journey", Exercism::Routes.journey_path), className: "opt" },
         { html: link_to("Settings", Exercism::Routes.settings_path), className: "opt" },
+        ({ html: link_to("Maintaining", Exercism::Routes.maintaining_root_path), className: "opt" } if current_user.maintainer?),
         { html: link_to("Sign out", Exercism::Routes.destroy_user_session_path, method: :delete), className: "opt" }
-      ]
+      ].compact
     end
 
     def profile_item
-      profile_path = current_user.profile ?
+      profile_path = current_user.profile? ?
         Exercism::Routes.profile_path(current_user) :
         Exercism::Routes.intro_profiles_path
 
@@ -49,7 +51,10 @@ module ViewComponents
         avatar(current_user, alt: "Your uploaded avatar") +
           tag.div(class: 'info') do
             tag.div(current_user.name, class: 'name') +
-              tag.div("@#{current_user.handle}", class: 'handle')
+              tag.div(class: "handle flex") do
+                tag.span("@") + render(ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair,
+                  size: :small)).html_safe
+              end
           end +
           icon('external-link', "Open public profile")
       end

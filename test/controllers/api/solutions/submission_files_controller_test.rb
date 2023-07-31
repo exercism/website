@@ -12,7 +12,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 404
+    assert_response :not_found
     expected = { error: {
       type: "submission_not_found",
       message: I18n.t('api.errors.submission_not_found')
@@ -21,7 +21,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "index should return 404 when submission is inaccessible" do
+  test "index should return 403 when submission is inaccessible" do
     setup_user
     submission = create :submission
 
@@ -29,7 +29,7 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
       headers: @headers,
       as: :json
 
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "submission_not_accessible",
       message: I18n.t('api.errors.submission_not_accessible')
@@ -42,17 +42,17 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     mentor = create :user
     setup_user(mentor)
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
-    create :mentor_discussion, solution: solution, mentor: mentor
-    submission = create :submission, solution: solution, iteration: iteration
-    file = create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
+    iteration = create(:iteration, solution:)
+    create(:mentor_discussion, solution:, mentor:)
+    submission = create(:submission, solution:, iteration:)
+    file = create(:submission_file, filename: "bob.rb", content: "class Bob", submission:)
 
     sign_in(mentor)
     get api_solution_submission_files_path(solution.uuid, submission),
       headers: @headers,
       as: :json
 
-    assert_response 200
+    assert_response :ok
     expected = {
       files: [
         {

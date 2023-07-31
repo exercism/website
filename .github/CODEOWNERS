@@ -1,6 +1,13 @@
 # JS files
-*.js       @erikschierboom @iHiD @kntsoriano 
-*.jsx      @erikschierboom @iHiD @kntsoriano 
+*.js       @erikschierboom @iHiD @dem4ron
+*.jsx      @erikschierboom @iHiD @dem4ron
+
+# TypeScript files
+*.ts       @erikschierboom @iHiD @dem4ron
+*.tsx      @erikschierboom @iHiD @dem4ron
+
+# CSS Files
+*.css       @iHiD
 
 # Ruby files
 *.rb      @iHiD
@@ -12,10 +19,9 @@ lib/      @iHiD
 Rakefile  @iHiD
 
 # Docker and deployment files
-docker/          @iHiD
-dev.Dockerfile   @erikschierboom @iHiD @kntsoriano
-Procfile*        @iHiD
-.github          @iHiD
+docker/   @iHiD
+Procfile* @iHiD
+.github   @iHiD
 
 # Bin files
 bin/     @iHiD

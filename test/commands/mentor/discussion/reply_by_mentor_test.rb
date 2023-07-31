@@ -6,7 +6,7 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
       iteration = create :iteration
       content_markdown = "foobar"
       mentor = create :user
-      discussion = create :mentor_discussion, mentor: mentor, solution: iteration.solution
+      discussion = create :mentor_discussion, mentor:, solution: iteration.solution
 
       discussion_post = Mentor::Discussion::ReplyByMentor.(
         discussion,
@@ -28,9 +28,9 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
 
   test "creates notification" do
     user = create :user
-    solution = create :practice_solution, user: user
-    iteration = create :iteration, solution: solution
-    discussion = create(:mentor_discussion, solution: solution)
+    solution = create(:practice_solution, user:)
+    iteration = create(:iteration, solution:)
+    discussion = create(:mentor_discussion, solution:)
 
     Mentor::Discussion::ReplyByMentor.(
       discussion,
@@ -38,11 +38,24 @@ class Mentor::Discussion::ReplyByMentorTest < ActiveSupport::TestCase
       "foobar"
     )
     assert_equal 1, user.notifications.size
-    notification = User::Notification.where(user: user).first
-    assert_equal User::Notifications::MentorRepliedToDiscussionNotification, notification.class
+    notification = User::Notification.where(user:).first
+    assert_instance_of User::Notifications::MentorRepliedToDiscussionNotification, notification
     assert_equal(
       { discussion_post: Mentor::DiscussionPost.first.to_global_id.to_s }.with_indifferent_access,
       notification.send(:params)
     )
+  end
+
+  test "sets mentor of submission representation" do
+    iteration = create :iteration
+    mentor = create :user
+    discussion = create :mentor_discussion, mentor:, solution: iteration.solution
+    submission_representation = create :submission_representation, submission: iteration.submission, mentored_by: nil
+
+    perform_enqueued_jobs do
+      Mentor::Discussion::ReplyByMentor.(discussion, iteration, "foobar")
+    end
+
+    assert_equal mentor, submission_representation.reload.mentored_by
   end
 end

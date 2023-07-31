@@ -13,7 +13,7 @@ module API
 
         files = solution.latest_iteration.files_for_editor
 
-        render json: { files: SerializeFiles.(files) }
+        render json: { files: SerializeFilesWithMetadata.(files) }
       end
     end
   end

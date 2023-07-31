@@ -27,10 +27,10 @@ type PaginatedResult = {
   }
 }
 
-export type Order = 'newest_first' | 'oldest_first'
+export type Order = 'most_starred' | 'newest_first' | 'oldest_first'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
-const DEFAULT_ORDER = 'newest_first'
+const DEFAULT_ORDER = 'most_starred'
 
 export const CommunitySolutionsList = ({
   request: initialRequest,
@@ -47,16 +47,11 @@ export const CommunitySolutionsList = ({
     setQuery,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['profile-community-solution-list', request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+      ['profile-community-solution-list', request.endpoint, request.query],
+      request
+    )
 
   const setTrack = useCallback(
     (slug) => {

@@ -19,7 +19,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
 
     solution = create :concept_solution
     create :user_track, user: solution.user, track: solution.track
-    original_request = create :mentor_request, solution: solution, comment_markdown: comment_markdown
+    original_request = create(:mentor_request, solution:, comment_markdown:)
     original_request.fulfilled!
 
     # Check it respects false
@@ -27,7 +27,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     assert_equal 1, solution.mentor_requests.size
 
     # Check it respects true
-    discussion = create :mentor_discussion, solution: solution, request: original_request
+    discussion = create :mentor_discussion, solution:, request: original_request
     Mentor::Discussion::FinishByStudent.(discussion, 5, requeue: true)
     assert_equal :finished, discussion.status
     assert_equal 2, solution.mentor_requests.size
@@ -40,7 +40,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "reports" do
     # Check it respects false
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
-    assert_equal 0, ProblemReport.count
+    refute ProblemReport.exists?
 
     # Check it respects true
     discussion = create :mentor_discussion
@@ -74,11 +74,11 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "testimonial" do
     # Check it respects nil
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
-    assert_equal 0, Mentor::Testimonial.count
+    refute Mentor::Testimonial.exists?
 
     # Check it respects empty
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5, testimonial: " \n ")
-    assert_equal 0, Mentor::Testimonial.count
+    refute Mentor::Testimonial.exists?
 
     # Check it respects true
     discussion = create :mentor_discussion
@@ -99,7 +99,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "blocking" do
     # Check it respects nil
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 5)
-    assert_equal 0, Mentor::StudentRelationship.count
+    refute Mentor::StudentRelationship.exists?
 
     # Check it respects rating: 1
     discussion = create :mentor_discussion
@@ -126,10 +126,10 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     test "reputation awarded for #{rating}" do
       discussion = create(:mentor_discussion)
 
-      AwardReputationTokenJob.expects(:perform_later).with(
+      User::ReputationToken::Create.expects(:defer).with(
         discussion.mentor,
         :mentored,
-        discussion: discussion
+        discussion:
       )
 
       Mentor::Discussion::FinishByStudent.(discussion, rating)
@@ -137,7 +137,74 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   end
 
   test "reputation not awarded for 1" do
-    AwardReputationTokenJob.expects(:perform_later).never
+    User::ReputationToken::Create.expects(:defer).never
     Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
+  end
+
+  test "awards mentor badge" do
+    mentor = create :user
+    9.times do |_idx|
+      create :mentor_discussion, :student_finished, mentor:
+    end
+
+    discussion = create(:mentor_discussion, mentor:)
+    refute mentor.badges.present?
+
+    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    perform_enqueued_jobs
+    assert_includes mentor.reload.badges.map(&:class), Badges::MentorBadge
+  end
+
+  test "adds metric" do
+    discussion = create :mentor_discussion
+
+    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_instance_of Metrics::FinishMentoringMetric, metric
+    assert_equal discussion.finished_at, metric.occurred_at
+    assert_equal discussion.track, metric.track
+    assert_equal discussion.student, metric.user
+  end
+
+  test "sends notification to mentor" do
+    student = create :user, handle: "student"
+    mentor = create :user, email: "mentor@exercism.org"
+    track = create :track, title: "Ruby"
+    exercise = create(:concept_exercise, title: "Strings", track:)
+    solution = create(:concept_solution, user: student, exercise:)
+    discussion = create(:mentor_discussion, mentor:, solution:)
+
+    perform_enqueued_jobs do
+      Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    end
+
+    email = ActionMailer::Base.deliveries.last
+    assert_equal(
+      "[Mentoring] student has ended your discussion on Ruby/Strings",
+      email.subject
+    )
+    assert_equal [mentor.email], email.to
+
+    ActionMailer::Base.deliveries.clear
+  end
+
+  test "updates supermentor role" do
+    track = create :track
+    mentor = create :user
+    create :user_track_mentorship, track:, user: mentor
+
+    99.times do
+      create :mentor_discussion, :student_finished, rating: :great, mentor:
+    end
+
+    discussion = create(:mentor_discussion, :student_finished, rating: :great, mentor:)
+
+    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+    perform_enqueued_jobs
+
+    assert mentor.reload.supermentor?
   end
 end

@@ -8,9 +8,9 @@ class SubmissionFileTest < ActiveSupport::TestCase
     submission = create :submission
 
     file = submission.files.create!(
-      filename: filename,
-      digest: digest,
-      content: content
+      filename:,
+      digest:,
+      content:
     )
 
     assert_equal submission, file.submission
@@ -35,7 +35,10 @@ class SubmissionFileTest < ActiveSupport::TestCase
     # Get a new instance from the db so that we retrieve
     # from s3, not from the local cached version
     reloaded_file = Submission::File.find(file.id)
-    assert_equal "\xC2", reloaded_file.content
     assert_equal "\xC2", File.read(reloaded_file.efs_path)
+
+    # File should be turned into empty string
+    # if it can't be turned into JSON.
+    assert_equal "[Invalid Unicode]", reloaded_file.content
   end
 end

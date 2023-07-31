@@ -10,8 +10,8 @@ module ReactComponents
 
       def to_s
         super("dropdowns-dropdown", {
-          menu_button: menu_button,
-          menu_items: menu_items
+          menu_button:,
+          menu_items:
         })
       end
 

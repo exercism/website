@@ -1,26 +1,60 @@
 @import "../styles";
 
 .c-test-run {
+    & .progress {
+        &,
+        & .bar {
+            height: 4px;
+        }
+
+        &.failed:not(.grouped-by-task),
+        &.errored {
+            background: var(--backgroundColorSummaryStatusFailed);
+            & .bar {
+                background: var(--backgroundColorSummaryStatusFailedBar);
+            }
+        }
+        &.failed.grouped-by-task {
+            @apply bg-veryLightBlue;
+            & .bar {
+                background: linear-gradient(180deg, #2200ff 0%, #9e00ff 100%);
+            }
+        }
+        &.passed {
+            @apply bg-veryLightGreen;
+
+            & .bar {
+                @apply bg-literallySoManyGreens;
+            }
+        }
+    }
     & .summary-status {
         @apply flex items-center justify-center;
-        @apply pt-6 pb-8 px-8 border-t-4 mb-24;
-        @apply font-bold font-mono uppercase leading-code;
+        @apply pt-6 pb-8 px-8 mb-24;
+        @apply font-bold font-mono leading-code;
         & .--dot {
             @apply rounded-circle mr-12;
             height: 8px;
             width: 8px;
         }
-        &.failed,
+        &.failed:not(.grouped-by-task),
         &.errored {
-            @apply bg-lightRed text-red;
-            @apply border-red;
+            background: var(--backgroundColorSummaryStatusFailed);
+            @apply text-red uppercase;
             & .--dot {
                 @apply bg-red;
             }
         }
+        &.failed.grouped-by-task {
+            background: var(--backgroundColorExerciseStatusTagLocked);
+            @apply text-textColor2;
+
+            & .--dot {
+                @apply hidden;
+            }
+        }
         &.passed {
-            @apply bg-veryLightGreen text-darkGreen;
-            @apply border-literallySoManyGreens;
+            @apply bg-veryLightGreen text-darkGreen uppercase;
             & .--dot {
                 @apply bg-darkGreen;
             }
@@ -44,7 +78,7 @@
     & .success-box {
         @apply flex;
         @apply shadow-base rounded-8;
-        @apply py-16 px-24 mt-16 mx-32;
+        @apply py-16 px-24 mt-16 mx-24 mb-40;
 
         & > .c-icon {
             height: 64px;
@@ -69,106 +103,177 @@
         white-space: pre-wrap;
     }
 
-    & .tests-list {
-        @apply px-32 pb-16;
+    & .tests-grouped-by-status {
+        @apply px-24;
 
+        & .tests-group-summary {
+            @apply inline-block;
+            & .--summary-inner {
+                @apply flex items-center;
+                @apply py-8 px-24;
+                @apply border-2 border-borderColor6 rounded-100;
+                @apply font-semibold text-14 text-textColor2;
+            }
+            @apply mb-12;
+            & .c-icon.indicator {
+                height: 24px;
+                width: 24px;
+                @apply mr-16;
+            }
+        }
+
+        .--summary-inner {
+            .c-icon {
+                &.--closed-icon,
+                &.--open-icon {
+                    @apply filter-textColor6;
+                }
+            }
+        }
+    }
+
+    & .tests-grouped-by-task {
+        @apply pb-16;
         & .tests-group {
-            & .tests-group-summary {
-                @apply inline-block;
-                & .--summary-inner {
-                    @apply flex items-center;
-                    @apply py-8 px-24;
-                    @apply border-2 border-borderColor6 rounded-100;
-                    @apply font-semibold text-14 text-textColor2;
-                }
-                @apply mb-12;
-                & .c-icon.indicator {
-                    height: 24px;
-                    width: 24px;
-                    @apply mr-16;
-                }
+            @apply border-y-1 border-borderColor8;
+            @apply px-24 py-16;
+
+            &:first-child {
+                @apply border-t-0;
+                margin-top: -16px;
+            }
+            &:last-child {
+                @apply border-b-0;
             }
         }
 
-        & .c-test-summary {
-            @apply flex items-center;
-            @apply font-mono;
-            @apply mb-12 rounded-8;
-            @apply border-1 border-borderColor6;
+        & .tests-group-summary {
+            @apply inline-block;
 
-            &[open] {
-                @apply bg-backgroundColorG;
-                & .--summary {
-                    @apply mb-6;
+            & + * {
+                @apply mt-12;
+            }
+            & .--summary-inner {
+                @apply flex items-center;
+                & .c-icon {
+                    &.--closed-icon,
+                    &.--open-icon {
+                        @apply ml-24;
+                        height: 16px;
+                        width: 16px;
+                        @apply filter-textColor6;
+                    }
                 }
             }
-            &:not([open]) {
-                @apply bg-backgroundColorA;
-                & .--summary {
+
+            & .task-marker {
+                @apply mr-20 mt-4 py-4 px-8;
+                @apply rounded-3;
+                @apply font-mono font-bold uppercase text-12 leading-120;
+                @apply flex-shrink-0 self-start;
+                &.passed {
+                    @apply bg-darkGreen text-white;
+                }
+                &.pending {
+                    @apply bg-lightGold text-unnamed13;
                 }
             }
+            & .title {
+                @apply font-semibold text-18 leading-140 text-textColor2;
+            }
+            & .c-icon.indicator {
+                @apply flex-shrink-0 self-start;
+                height: 16px;
+                width: 16px;
+                @apply mt-6 ml-8;
+            }
+        }
+    }
 
+    & .c-test-summary {
+        @apply flex items-center;
+        @apply font-mono;
+        @apply mb-12 rounded-8;
+        @apply border-1 border-borderColor6;
+
+        &[open] {
+            @apply bg-backgroundColorG;
             & .--summary {
-                & .--summary-inner {
-                    @apply flex items-center;
-                    @apply py-10 px-24;
-                }
+                @apply mb-6;
+            }
+        }
+        &:not([open]) {
+            @apply bg-backgroundColorA;
+            & .--summary {
+            }
+        }
 
+        & .--summary {
+            & .--summary-inner {
+                @apply flex items-center;
+                @apply py-10 px-24;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
+            }
+
+            & .--status {
+                @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
+                @apply font-bold uppercase text-13 leading-huge;
+                width: 70px;
+                & .--dot {
+                    height: 8px;
+                    width: 8px;
+                    @apply mr-12 rounded-circle;
+                }
+            }
+            & .--summary-details {
+                @apply flex-grow;
+                & .--summary-idx {
+                    @apply font-semibold text-textColor6 leading-140;
+                }
+                & .--summary-name {
+                    @apply font-body font-semibold text-15 leading-140;
+                }
+            }
+        }
+        & .--explanation {
+            @apply px-24 pb-8;
+
+            & .--info {
+                @apply mb-16;
+                & h3 {
+                    @apply font-bold text-darkGray uppercase leading-huge mb-8;
+                }
+                & pre {
+                    @apply bg-backgroundColorB py-16 px-20 whitespace-pre-wrap overflow-y-auto rounded-8;
+                }
+            }
+        }
+
+        &.pass {
+            & summary {
                 & .--status {
-                    @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
-                    @apply font-bold uppercase text-13 leading-huge;
-                    width: 70px;
+                    @apply text-darkGreen;
                     & .--dot {
-                        height: 8px;
-                        width: 8px;
-                        @apply mr-12 rounded-circle;
-                    }
-                }
-                & .--summary-details {
-                    @apply flex-grow;
-                    & .--summary-idx {
-                        @apply font-semibold text-textColor6 leading-140;
-                    }
-                    & .--summary-name {
-                        @apply font-body font-semibold text-15 leading-140;
-                    }
-                }
-            }
-            & .--explanation {
-                @apply px-24 pb-8;
-
-                & .--info {
-                    @apply mb-16;
-                    & h3 {
-                        @apply font-bold text-darkGray uppercase leading-huge mb-8;
-                    }
-                    & pre {
-                        @apply bg-backgroundColorB py-16 px-20 whitespace-pre-wrap rounded-8;
-                    }
-                }
-            }
-
-            &.pass {
-                & summary {
-                    & .--status {
-                        @apply text-darkGreen;
-                        & .--dot {
-                            @apply bg-darkGreen;
-                        }
-                    }
-                }
-            }
-            &.error,
-            &.fail {
-                & summary {
-                    & .--status {
-                        @apply text-red;
-                        & .--dot {
-                            @apply bg-red;
-                        }
+                        @apply bg-darkGreen;
                     }
                 }
             }
         }
+        &.error,
+        &.fail {
+            & summary {
+                & .--status {
+                    @apply text-red;
+                    & .--dot {
+                        @apply bg-red;
+                    }
+                }
+            }
+        }
+    }
+    & .instructions-btn {
+        @apply border-borderColor6 text-textColor1;
     }
 }

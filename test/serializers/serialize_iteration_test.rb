@@ -4,11 +4,11 @@ class SerializeIterationTest < ActiveSupport::TestCase
   test "basic to_hash" do
     freeze_time do
       track = create :track, slug: 'ruby'
-      exercise = create :concept_exercise, track: track, slug: 'bob'
-      solution = create :concept_solution, exercise: exercise
-      submission = create :submission, solution: solution
-      iteration = create :iteration, solution: solution, submission: submission
-      file = create :submission_file, submission: submission
+      exercise = create :concept_exercise, track:, slug: 'bob'
+      solution = create(:concept_solution, exercise:)
+      submission = create(:submission, solution:)
+      iteration = create(:iteration, solution:, submission:)
+      file = create(:submission_file, submission:)
       iteration.stubs(
         representer_feedback: "foobar",
         analyzer_feedback: "barfoo",
@@ -55,11 +55,11 @@ class SerializeIterationTest < ActiveSupport::TestCase
   test "deleted version" do
     freeze_time do
       track = create :track, slug: 'ruby'
-      exercise = create :concept_exercise, track: track, slug: 'bob'
-      solution = create :concept_solution, exercise: exercise
-      submission = create :submission, solution: solution
-      iteration = create :iteration, solution: solution, submission: submission, deleted_at: Time.current
-      create :submission_file, submission: submission
+      exercise = create :concept_exercise, track:, slug: 'bob'
+      solution = create(:concept_solution, exercise:)
+      submission = create(:submission, solution:)
+      iteration = create :iteration, solution:, submission:, deleted_at: Time.current
+      create(:submission_file, submission:)
 
       expected = {
         uuid: iteration.uuid,

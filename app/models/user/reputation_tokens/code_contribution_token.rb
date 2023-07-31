@@ -14,19 +14,15 @@ class User::ReputationTokens::CodeContributionToken < User::ReputationToken
     end
   end
 
-  def guard_params
-    "PR##{pr_node_id}"
-  end
+  def guard_params = "PR##{pr_node_id}"
 
   def i18n_params
     {
       repo: repo.split("/").last,
-      pr_number: pr_number,
-      pr_title: pr_title
+      pr_number:,
+      pr_title:
     }
   end
 
-  def icon_name
-    "pull-request-open"
-  end
+  def icon_name = "pull-request-open"
 end

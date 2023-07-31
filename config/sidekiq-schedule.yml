@@ -17,12 +17,27 @@ mark_outdated_reputation_week_periods:
   queue: reputation
   args: ["week"]
 
+update_tracks_build_status:
+  cron: "1 0 * * *"
+  class: "UpdateTracksBuildStatusJob"
+  queue: dribble
+
 # 4am every date (1hr after above)
 mark_outdated_reputation_month_periods:
   cron: "5 0 * * *"
   class: "MarkOutdatedReputationPeriodsJob"
   queue: reputation
   args: ["month"]
+
+recheck_insiders:
+  cron: "1 0 * * *"
+  class: "RecheckInsidersJob"
+  queue: dribble
+
+recheck_premium:
+  cron: "2 0 * * *"
+  class: "RecheckPremiumJob"
+  queue: dribble
 
 # 5am every date (1hr after above)
 mark_outdated_reputation_year_periods:
@@ -48,3 +63,72 @@ sync_tracks:
   cron: "0 1 * * 3"
   class: "SyncTracksJob"
   queue: dribble
+
+sync_team_members:
+  cron: "0 1 * * 3"
+  class: "SyncTeamMembersJob"
+  queue: dribble
+
+sync_sponsors:
+  cron: "0 1 * * 3"
+  class: "SyncSponsorsJob"
+  queue: dribble
+
+# 1am Thursday
+update_median_wait_times:
+  cron: "0 1 * * 4"
+  class: "UpdateMedianWaitTimesJob"
+  queue: dribble
+
+# 12mins past every hour
+nudge_users_to_request_mentoring:
+  cron: "12 * * * *"
+  class: "NudgeUsersToRequestMentoringJob"
+  queue: dribble
+
+# At start of every minute
+update_minute_metrics:
+  cron: "* * * * *"
+  class: "UpdateMinuteMetricsJob"
+  queue: metrics
+
+# At start of every day
+update_day_metrics:
+  cron: "0 0 * * *"
+  class: "UpdateDayMetricsJob"
+  queue: metrics
+
+# At start of every month
+update_month_metrics:
+  cron: "0 0 1 * *"
+  class: "UpdateMonthMetricsJob"
+  queue: metrics
+
+reset_chatgpt_usage:
+  cron: "0 0 1 * *"
+  class: "ResetChatGPTUsageJob"
+  queue: dribble
+
+# Every 15 minutes
+update_last_hour_metrics:
+  cron: "*/15 0 * * *"
+  class: "UpdateLastHourMetricsJob"
+  queue: metrics
+
+# Every day at noon
+update_last_week_metrics:
+  cron: "0 12 * * *"
+  class: "UpdateLastWeekMetricsJob"
+  queue: metrics
+
+# Every day at noon
+update_last_quarter_metrics:
+  cron: "0 12 * * *"
+  class: "UpdateLastQuarterMetricsJob"
+  queue: metrics
+
+# Every hour
+update_metric_stats:
+  cron: "0 * * * *"
+  class: "UpdateMetricStatsJob"
+  queue: metrics

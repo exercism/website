@@ -1,11 +1,7 @@
 class SerializeSolution
   include Mandate
 
-  def initialize(solution, user_track: nil, has_notifications: nil)
-    @solution = solution
-    @user_track = user_track
-    @has_notifications = has_notifications
-  end
+  initialize_with :solution, user_track: nil, has_notifications: nil
 
   def call
     {
@@ -14,12 +10,14 @@ class SerializeSolution
       public_url: Exercism::Routes.published_solution_url(solution),
       status: solution.status,
       mentoring_status: solution.mentoring_status,
+      published_iteration_head_tests_status: solution.published_iteration_head_tests_status,
       has_notifications: has_notifications?,
       num_views: solution.num_views,
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
-      num_loc: solution.num_loc,
+      num_loc: solution.num_loc.presence, # Currently this column is not-null in production
+      is_out_of_date: solution.out_of_date?,
 
       published_at: solution.published_at&.iso8601,
       completed_at: solution.completed_at&.iso8601,
@@ -41,8 +39,6 @@ class SerializeSolution
   end
 
   private
-  attr_reader :solution
-
   def has_notifications?
     return @has_notifications unless @has_notifications.nil?
 

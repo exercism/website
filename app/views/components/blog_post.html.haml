@@ -6,6 +6,6 @@
   .byline
     .by= post.author.handle
     &middot;
-    %date= time_ago_in_words post.published_at
+    %date #{time_ago_in_words(post.published_at)} ago
 
 

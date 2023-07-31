@@ -11,19 +11,25 @@ type Links = {
   settings: string
 }
 
+type Props = {
+  amount: currency
+  request: Request
+  links: Links
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
+}
+
 export const FormModal = ({
   amount,
   onClose,
   request,
   links,
   userSignedIn,
+  captchaRequired,
+  recaptchaSiteKey,
   ...props
-}: Omit<ModalProps, 'className'> & {
-  amount: currency
-  request: Request
-  links: Links
-  userSignedIn: boolean
-}): JSX.Element => {
+}: Omit<ModalProps, 'className'> & Props): JSX.Element => {
   const [step, setStep] = useState<ModalStep>('donating')
   const [paidAmount, setPaidAmount] = useState<currency | null>(null)
 
@@ -58,11 +64,13 @@ export const FormModal = ({
       return (
         <Modal
           closeButton={true}
+          aria={{ describedby: 'a11y-donations-footer-form-modal-description' }}
           className="m-donations-form"
           onClose={handleClose}
           {...props}
         >
           <Form
+            id="a11y-donations-footer-form-modal-description"
             request={request}
             defaultAmount={{ payment: amount, subscription: amount }}
             defaultTransactionType="payment"
@@ -71,6 +79,8 @@ export const FormModal = ({
             onProcessing={handleDonationProcessing}
             onSettled={handleDonationSettled}
             userSignedIn={userSignedIn}
+            captchaRequired={captchaRequired}
+            recaptchaSiteKey={recaptchaSiteKey}
           />
         </Modal>
       )

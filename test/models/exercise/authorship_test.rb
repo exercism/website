@@ -5,7 +5,7 @@ class Exercise::AuthorshipTest < ActiveSupport::TestCase
     exercise = create :concept_exercise
     user = create :user
     authorship = create :exercise_authorship,
-      exercise: exercise,
+      exercise:,
       author: user
 
     assert_equal exercise, authorship.exercise

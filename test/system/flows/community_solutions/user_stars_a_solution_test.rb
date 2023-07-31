@@ -9,10 +9,10 @@ module Flows
       test "user sees correct stars and status" do
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
-        3.times { create :solution_star, solution: solution }
+        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
+        3.times { create :solution_star, solution: }
 
         use_capybara_host do
           sign_in!
@@ -25,9 +25,9 @@ module Flows
       test "user stars a solution" do
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!
@@ -42,10 +42,10 @@ module Flows
         user = create :user
         author = create :user
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise: exercise, user: author
-        submission = create :submission, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission
-        create :solution_star, solution: solution, user: user
+        solution = create :concept_solution, :published, published_at: 2.days.ago, exercise:, user: author
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 1, solution:, submission:)
+        create(:solution_star, solution:, user:)
 
         use_capybara_host do
           sign_in!(user)

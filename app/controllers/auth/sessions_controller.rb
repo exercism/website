@@ -2,7 +2,6 @@ module Auth
   class SessionsController < Devise::SessionsController
     skip_before_action :authenticate_user!
     skip_before_action :ensure_onboarded!
-    before_action :disable_site_header!
 
     include Devise::Controllers::Rememberable
 

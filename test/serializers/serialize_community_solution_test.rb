@@ -4,7 +4,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     expected = {
       uuid: solution.uuid,
       snippet: solution.snippet,
@@ -12,13 +12,15 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
       num_iterations: solution.num_iterations,
-      num_loc: solution.num_loc,
+      num_loc: nil,
       iteration_status: iteration.status.to_s.to_sym,
+      published_iteration_head_tests_status: solution.published_iteration_head_tests_status.to_s.to_sym,
       published_at: solution.published_at,
       is_out_of_date: solution.out_of_date?,
       language: solution.track.highlightjs_language,
       author: {
         handle: solution.user.handle,
+        flair: solution.user.flair,
         avatar_url: solution.user.avatar_url
       },
       exercise: {
@@ -37,5 +39,11 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
     }
 
     assert_equal expected, SerializeCommunitySolution.(solution)
+  end
+
+  test "num_loc works" do
+    solution = create :practice_solution, num_loc: 10
+    output = SerializeCommunitySolution.(solution)
+    assert_equal 10, output[:num_loc]
   end
 end

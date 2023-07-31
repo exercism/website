@@ -32,17 +32,13 @@ export const PreviousMentoringSessionsModal = ({
 }): JSX.Element => {
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
+    options: {},
   })
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<
-    PaginatedResult<readonly MentorDiscussion[]>,
-    Error | Response
-  >([request.endpoint, request.query], request)
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<
+      PaginatedResult<readonly MentorDiscussion[]>,
+      Error | Response
+    >([request.endpoint, request.query], request)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 

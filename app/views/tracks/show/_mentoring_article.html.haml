@@ -1,4 +1,6 @@
 / TODO: This can be cached against track.updated_at and track.num_contributors
+
+%a{ name: "mentoring" }
 %article.mentoring-article
   - unless user_track.mentoring_unlocked?
     .mentoring-locked-overlay
@@ -18,21 +20,27 @@
           Your current Reputation is
           = render ViewComponents::Reputation.new(number_with_delimiter(current_user.reputation), size: :small, flashy: true)
 
-        - if user_track.repo_for_next_mentoring_slot.nil?
+        - if user_track.rep_for_next_mentoring_slot.nil?
           .max You have the maximum available mentoring slots
         - else
           .c-progress
             .bar{ style: "width: #{user_track.percentage_to_next_mentoring_slot}%" }
             .unlock-icon
               = icon "unlock", "Unlocked"
-        .info
-          = link_to doc_path(:using, "product/reputation"), class: "explanation" do
-            = graphical_icon :'info-circle'
-            How does this work?
-          - unless user_track.repo_for_next_mentoring_slot.nil?
+
+        - unless user_track.rep_for_next_mentoring_slot.nil?
+          .info
             .next-slot
               Next slot unlocks at
-              %strong #{number_with_delimiter user_track.repo_for_next_mentoring_slot} rep
+              %strong #{number_with_delimiter user_track.rep_for_next_mentoring_slot} rep.
+
+          .info
+            .next-slot
+              Or
+              = link_to 'Upgrade to Premium', premium_path, class: 'text-prominentLinkColor font-semibold'
+              to unlock all mentoring slots.
+
+              = link_to "Learn More.", doc_path(:using, "product/reputation"), class: 'font-semibold'
 
   .lg-container.container
     .slots

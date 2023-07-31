@@ -1,0 +1,11 @@
+.m-premium-stripe-form {
+    .title {
+        @apply text-aliceBlue text-16 font-semibold mb-16;
+    }
+
+    .card-element {
+        button {
+            @apply mt-16;
+        }
+    }
+}

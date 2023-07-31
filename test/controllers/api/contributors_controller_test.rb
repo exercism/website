@@ -8,12 +8,12 @@ module API
     test "index should return top 20 serialized correctly" do
       Array.new(25) do |idx|
         create(:user, handle: "handle-#{idx}").tap do |user|
-          create :user_reputation_period, user: user, period: :forever, reputation: idx
+          create :user_reputation_period, user:, period: :forever, reputation: idx
         end
       end.reverse
 
       get api_contributors_path, headers: @headers, as: :json
-      assert_response :success
+      assert_response :ok
       expected = AssembleContributors.({}).to_json
       assert_equal expected, response.body
     end
@@ -40,7 +40,7 @@ module API
 
       get api_contributors_path(params), headers: @headers, as: :json
 
-      assert_response :success
+      assert_response :ok
     end
   end
 end

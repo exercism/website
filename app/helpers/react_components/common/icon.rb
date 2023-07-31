@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :icon, :alt
 
       def to_s
-        super("common-icon", { icon: icon, alt: alt })
+        super("common-icon", { icon:, alt: })
       end
     end
   end

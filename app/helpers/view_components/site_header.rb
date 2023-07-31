@@ -1,21 +1,36 @@
 module ViewComponents
   class SiteHeader < ViewComponent
     extend Mandate::Memoize
+    include ViewComponents::NavHelpers::All
+    # include ViewComponents::ThemeToggleButton
 
     delegate :namespace_name, :controller_name,
       to: :view_context
 
     def to_s
       tag.header(id: "site-header") do
-        tag.div(class: "lg-container container") do
-          logo + docs_nav + contextual_section
+        announcement_bar +
+          tag.div(class: "lg-container container") do
+            logo + docs_nav + contextual_section
+          end
+      end
+    end
+
+    def announcement_bar
+      return tag.span("") unless user_signed_in? && !current_user&.donated?
+
+      link_to(Exercism::Routes.donate_path, class: "announcement-bar md:block hidden") do
+        tag.div(class: "lg-container") do
+          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
+            tag.strong("Please support us if you can!") +
+            tag.span("⚠️")
         end
       end
     end
 
     def logo
-      link_to Exercism::Routes.root_path, class: "exercism-link lg:hidden xl:block" do
-        icon "exercism-with-logo-black", "Exercism"
+      link_to Exercism::Routes.root_path, class: "exercism-link xl:block", "data-turbo-frame": "tf-main" do
+        icon("exercism-with-logo-black", "Exercism")
       end
     end
 
@@ -39,21 +54,35 @@ module ViewComponents
     end
 
     def signed_in_nav
-      tag.nav(class: 'signed-in') do
+      tag.nav(class: 'signed-in', role: 'navigation') do
         tag.ul do
-          si_nav_li("Dashboard", :dashboard, Exercism::Routes.dashboard_path, selected_tab == :dashboard) +
-            si_nav_li("Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks) +
-            si_nav_li("Mentoring", :mentoring, Exercism::Routes.mentoring_inbox_path, selected_tab == :mentoring) +
-            si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing) +
-            si_nav_li("Donate 💜", :contribute, Exercism::Routes.donate_path, selected_tab == :donate)
+          safe_join(
+            [
+              generic_nav("Learn", submenu: LEARN_SUBMENU, path: Exercism::Routes.tracks_path, has_view: true),
+              generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
+              generic_nav("More", submenu: MORE_SUBMENU, offset: 0),
+              generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150,
+                has_view: true, view: (current_user&.premium? ? nil : :premium),
+                css_class: "premium"),
+              ReactComponents::Common::ThemeToggleButton.new(user: current_user)
+            ]
+          )
         end
       end
     end
 
-    def si_nav_li(title, icon_name, url, selected)
+    def si_nav_li(title, _icon_name, url, selected)
       attrs = selected ? { class: "selected", "aria-current": "page" } : {}
       tag.li attrs do
-        link_to(graphical_icon(icon_name) + tag.span(title), url)
+        elems = [tag.span(title)]
+        # if new
+        #   elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
+        #     graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
+        #     tag.span("New")
+        #   end)
+        # end
+        link_to(safe_join(elems), url, "data-turbo-frame": "tf-main", class: 'relative')
       end
     end
 
@@ -78,26 +107,25 @@ module ViewComponents
         html: safe_join([graphical_icon("hamburger"), tag.span("Explore")])
       }
       items = [
-        { html: link_to("Home", Exercism::Routes.root_path), className: "opt site-link" },
-        { html: link_to("Language Tracks", Exercism::Routes.tracks_path), className: "opt site-link" },
-        { html: link_to("Contribute", Exercism::Routes.contributing_root_path), className: "opt site-link" },
-        { html: link_to("Mentoring", Exercism::Routes.mentoring_path), className: "opt site-link" },
-        { html: link_to("Donate 💜", Exercism::Routes.donate_path), className: "opt site-link donate" }
+        { html: link_to("Home", Exercism::Routes.root_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Language Tracks", Exercism::Routes.tracks_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Community", Exercism::Routes.community_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Mentoring", Exercism::Routes.mentoring_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Insiders 💜", Exercism::Routes.insiders_path, "data-turbo-frame": "tf-main"), className: "opt site-link" },
+        { html: link_to("Donate", Exercism::Routes.donate_path, "data-turbo-frame": "tf-main"), className: "opt site-link donate" }
       ]
       render(ReactComponents::Dropdowns::Dropdown.new(menu_button: button, menu_items: items))
     end
 
     def signed_out_nav
-      tag.nav(class: 'signed-out') do
+      tag.nav(role: 'navigation') do
         tag.ul do
           safe_join(
             [
-              si_nav_li("Home", :home, Exercism::Routes.root_path, selected_tab == :dashboard),
-              si_nav_li("Language Tracks", :tracks, Exercism::Routes.tracks_path, selected_tab == :tracks),
-              # tag.li { "What is Exercism?", about_page_path )
-              si_nav_li("Contribute", :contribute, Exercism::Routes.contributing_root_path, selected_tab == :contributing),
-              si_nav_li("Mentor", :mentoring, Exercism::Routes.mentoring_path, selected_tab == :mentoring),
-              si_nav_li("Donate 💜", :donate, Exercism::Routes.donate_path, selected_tab == :donate)
+              generic_nav("Learn", submenu: LEARN_SUBMENU, path: Exercism::Routes.tracks_path),
+              generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
+              generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
+              generic_nav("More", submenu: MORE_SUBMENU, offset: 0)
             ]
           )
         end
@@ -113,17 +141,15 @@ module ViewComponents
     end
 
     def new_testimonial_icon
-      # TODO: (Optional) Cache this?
       # TODO: (Optional) Add test coverage
-      return nil unless current_user.mentor_testimonials.unrevealed.exists?
+      return nil unless current_user.has_unrevealed_testimonials?
 
       link_to('', Exercism::Routes.mentoring_testimonials_path, class: 'new-testimonial')
     end
 
     def new_badge_icon
-      # TODO: (Optional) Cache this?
       # TODO: (Optional) Add test coverage
-      return nil unless current_user.acquired_badges.unrevealed.exists?
+      return nil unless current_user.has_unrevealed_badges?
 
       link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')
     end

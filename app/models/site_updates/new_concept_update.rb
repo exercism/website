@@ -1,15 +1,13 @@
 class SiteUpdates::NewConceptUpdate < SiteUpdate
   params :concept
 
-  def guard_params
-    "Concept##{concept.id}"
-  end
+  def guard_params = "Concept##{concept.id}"
 
   def i18n_params
     {
       concept_name: concept.name,
       concept_url: Exercism::Routes.track_concept_url(track, concept),
-      maker_handles: maker_handles
+      maker_handles:
     }
   end
 
@@ -18,7 +16,8 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
       makers: makers.map do |maker|
         {
           handle: maker.handle,
-          avatar_url: maker.avatar_url
+          avatar_url: maker.avatar_url,
+          flair: maker.flair
         }
       end,
       concept_widget: {
@@ -49,9 +48,5 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
   end
 
   memoize
-  def makers
-    # TODO: Readd once we have contributors
-    # concept.authors + concept.contributors
-    []
-  end
+  def makers = concept.authors + concept.contributors
 end

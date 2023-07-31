@@ -1,4 +1,4 @@
-class CreateGithubPullRequests < ActiveRecord::Migration[6.1]
+class CreateGithubPullRequests < ActiveRecord::Migration[7.0]
   def change
     create_table :github_pull_requests do |t|
       t.string :node_id, null: false, index: { unique: true }

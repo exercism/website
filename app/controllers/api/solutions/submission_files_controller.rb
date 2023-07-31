@@ -17,7 +17,7 @@ module API
           }
         end
 
-        render json: { files: files }
+        render json: { files: }
       end
     end
   end

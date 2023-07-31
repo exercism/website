@@ -19,8 +19,8 @@
             }
         }
         & a {
-            @apply font-semibold border-lightBlue border-b-1;
-            @apply text-lightBlue;
+            @apply font-semibold border-prominentLinkColor border-b-1;
+            @apply text-prominentLinkColor;
         }
     }
 

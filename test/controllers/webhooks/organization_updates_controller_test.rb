@@ -18,7 +18,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
     invalid_headers['HTTP_X_HUB_SIGNATURE_256'] = "invalid_signature"
 
     post webhooks_organization_updates_path, headers: invalid_headers, as: :json, params: payload
-    assert_response 403
+    assert_response :forbidden
   end
 
   test "create should return 200 when signature is valid" do
@@ -35,7 +35,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 
   test "create should process membership update when member was added and signature is valid" do
@@ -50,7 +50,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).with('member_added', 'member12', 'exercism')
+    Webhooks::ProcessOrganizationMemberUpdate.expects(:call).with('member_added', 'member12', 'exercism')
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -67,7 +67,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).with('member_removed', 'member12', 'exercism')
+    Webhooks::ProcessOrganizationMemberUpdate.expects(:call).with('member_removed', 'member12', 'exercism')
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -79,7 +79,7 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
         login: 'exercism'
       }
     }
-    Webhooks::ProcessMembershipUpdate.expects(:call).never
+    Webhooks::ProcessOrganizationMemberUpdate.expects(:call).never
 
     post webhooks_organization_updates_path, headers: headers(payload), as: :json, params: payload
   end
@@ -98,6 +98,6 @@ class Webhooks::OrganizationUpdatesControllerTest < Webhooks::BaseTestCase
     }
 
     post webhooks_organization_updates_path, headers: headers(payload, event: 'ping'), as: :json, params: payload
-    assert_response 204
+    assert_response :no_content
   end
 end

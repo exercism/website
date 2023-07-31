@@ -6,7 +6,7 @@ class Badge::SupporterBadgeTest < ActiveSupport::TestCase
     assert_equal "Supporter", badge.name
     assert_equal :rare, badge.rarity
     assert_equal :supporter, badge.icon
-    assert_equal "Donated to Exercism, helping fund free education for everyone", badge.description
+    assert_equal "Donated to Exercism, helping fund free education", badge.description
     refute badge.send_email_on_acquisition?
   end
 
@@ -14,11 +14,11 @@ class Badge::SupporterBadgeTest < ActiveSupport::TestCase
     user = create :user
     badge = create :supporter_badge
 
-    # No solutions
+    # Not donated
     refute badge.award_to?(user.reload)
 
-    # Solution but no submissions
-    user.update(total_donated_in_cents: 1)
+    # Donated! Yay!!
+    user.update(first_donated_at: Time.current)
     assert badge.award_to?(user)
   end
 end

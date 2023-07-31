@@ -7,6 +7,8 @@ FactoryBot.define do
     synced_to_git_sha { "HEAD" }
     course { true }
     has_test_runner { true }
+    has_representer { true }
+    has_analyzer { true }
 
     trait :random_slug do
       slug { SecureRandom.hex }

@@ -1,250 +1,48 @@
-import 'tailwindcss/base'
-import 'tailwindcss/components'
-import 'tailwindcss/utilities'
 import 'focus-visible'
-
-import '../../css/application'
-import '../../css/layout'
-
-import '../../css/ui-kit/inputs'
-import '../../css/ui-kit/shapes'
-import '../../css/ui-kit/buttons'
-import '../../css/ui-kit/tracks'
-import '../../css/ui-kit/animations'
-import '../../css/ui-kit/effects'
-
-import '../../css/tooltips/generic'
-import '../../css/tooltips/base'
-import '../../css/tooltips/mentoring-link'
-import '../../css/tooltips/concept'
-import '../../css/tooltips/user'
-import '../../css/tooltips/exercise'
-import '../../css/tooltips/student'
-import '../../css/tooltips/task'
-import '../../css/tooltips/pronouns'
-
-import '../../css/components/pronouns'
-import '../../css/components/textblock'
-import '../../css/components/settings-photo-form'
-import '../../css/components/financial-amount'
-import '../../css/components/automated-feedback'
-import '../../css/components/share-button'
-import '../../css/components/social-icon'
-import '../../css/components/blog-post'
-import '../../css/components/donations-form'
-import '../../css/components/toast'
-import '../../css/components/contributions-summary'
-import '../../css/components/progress'
-import '../../css/components/site-update'
-import '../../css/components/site-footer'
-import '../../css/components/site-header'
-import '../../css/components/community-rank-tag'
-import '../../css/components/track-breadcrumbs'
-import '../../css/components/contributing/header'
-import '../../css/components/header-with-bg'
-import '../../css/components/makers-button'
-import '../../css/components/avatar-selector'
-import '../../css/components/badge'
-import '../../css/components/bg-img'
-import '../../css/components/code-pane'
-import '../../css/components/concept'
-import '../../css/components/concept-icon'
-import '../../css/components/concept-progress-bar'
-import '../../css/components/copy-text-to-clipboard'
-import '../../css/components/details'
-import '../../css/components/combo-button'
-import '../../css/components/exercise-header'
-import '../../css/components/flash'
-import '../../css/components/icon'
-import '../../css/components/iteration-summary'
-import '../../css/components/accordion-section'
-import '../../css/components/underline'
-import '../../css/components/docs-main-nav'
-import '../../css/components/docs-side-nav'
-import '../../css/components/docs-tracks-list'
-import '../../css/components/iterations-footer'
-import '../../css/components/solution-iterations'
-import '../../css/components/loading-overlay'
-import '../../css/components/loading-suspense'
-
-import '../../css/components/share-panel'
-import '../../css/components/split-pane'
-import '../../css/components/heading-with-count'
-import '../../css/components/notification'
-import '../../css/components/prominent-link'
-import '../../css/components/reputation'
-import '../../css/components/primary-reputation'
-import '../../css/components/tab'
-import '../../css/components/tab-2'
-import '../../css/components/textual-content'
-import '../../css/components/tracks-list'
-import '../../css/components/pagination'
-import '../../css/components/modal'
-import '../../css/components/radio'
-import '../../css/components/checkbox'
-import '../../css/components/select'
-import '../../css/components/single-select'
-import '../../css/components/multiple-select'
-import '../../css/components/track-select'
-
-import '../../css/components/user_activity'
-import '../../css/components/search-bar'
-import '../../css/components/community-solution'
-import '../../css/components/iteration-processing-status'
-import '../../css/components/notification-dot'
-
-import '../../css/components/mentor/header'
-import '../../css/components/mentor/solution-row'
-import '../../css/components/mentor/discussion'
-
-import '../../css/components/track/header'
-import '../../css/components/track/concept-nav'
-import '../../css/components/track/concept-map'
-import '../../css/components/iteration-pane'
-import '../../css/components/explainer'
-import '../../css/components/markdown-editor'
-import '../../css/components/mentor-discussion-summary'
-import '../../css/components/mentor-track-selector'
-import '../../css/components/tag'
-import '../../css/components/difficulty-tag'
-import '../../css/components/exercise-status-tag'
-import '../../css/components/exercise-type-tag'
-import '../../css/components/divider'
-import '../../css/components/faces'
-import '../../css/components/exercise-dot'
-import '../../css/components/results-zone'
-import '../../css/components/introducer'
-import '../../css/components/profile-header'
-import '../../css/components/track-filter'
-import '../../css/components/mentor-discussion-widget'
-import '../../css/components/completed-exercise-progress'
-
-import '../../css/components/widgets/exercise'
-import '../../css/components/mentor-discussion-post-editor'
-import '../../css/components/test-run'
-import '../../css/components/alert'
-import '../../css/components/diff'
-import '../../css/components/cli-walkthrough'
-import '../../css/components/cli-walkthrough-button'
-
-import '../../css/modals/bug-report'
-import '../../css/modals/donations-form'
-import '../../css/modals/editor-hints'
-import '../../css/modals/automated-feedback'
-import '../../css/modals/generic-confirmation'
-import '../../css/modals/generic-destructive'
-import '../../css/modals/donation-confirmation'
-import '../../css/modals/badge'
-import '../../css/modals/update-exercise'
-import '../../css/modals/makers'
-import '../../css/modals/test-run'
-import '../../css/modals/activate-track-mode'
-import '../../css/modals/crop-avatar'
-import '../../css/modals/profile-first-time'
-import '../../css/modals/completed-tutorial-exercise'
-import '../../css/modals/completed-exercise'
-import '../../css/modals/publish-exercise'
-import '../../css/modals/mentoring-sessions'
-import '../../css/modals/confirm-finish-student-mentor-discussion'
-import '../../css/modals/finish-student-mentor-discussion'
-import '../../css/modals/welcome-to-v3'
-import '../../css/modals/become-mentor'
-import '../../css/modals/change-mentor-tracks'
-import '../../css/modals/select-exercise-for-mentoring'
-import '../../css/modals/testimonial'
-import '../../css/modals/change-published-iteration'
-import '../../css/modals/unpublish-solution'
-import '../../css/modals/cli-walkthrough'
-
-import '../../css/dropdowns/generic-menu'
-import '../../css/dropdowns/share-solution'
-import '../../css/dropdowns/notifications'
-import '../../css/dropdowns/reputation'
-import '../../css/dropdowns/request-mentoring'
-import '../../css/dropdowns/open-editor-button'
-
-import '../../css/pages/about'
-import '../../css/pages/team'
-import '../../css/pages/editor'
-import '../../css/pages/notifications'
-import '../../css/pages/blog'
-import '../../css/pages/blog-post'
-import '../../css/pages/donate'
-import '../../css/pages/landing'
-import '../../css/pages/settings'
-import '../../css/pages/contributing-dashboard'
-import '../../css/pages/contributing-contributors'
-import '../../css/pages/contributing-tasks'
-import '../../css/pages/auth'
-import '../../css/pages/dashboard'
-import '../../css/pages/docs-show'
-import '../../css/pages/docs-index'
-import '../../css/pages/docs-tracks'
-import '../../css/pages/onboarding'
-import '../../css/pages/profile-intro'
-import '../../css/pages/profile-new'
-import '../../css/pages/profile'
-import '../../css/pages/profile-badges'
-import '../../css/pages/profile-solutions'
-import '../../css/pages/profile-contributions'
-import '../../css/pages/profile-testimonials'
-import '../../css/pages/track-shared-index'
-import '../../css/pages/concepts-index'
-import '../../css/pages/concept-show'
-import '../../css/pages/exercise-show'
-import '../../css/pages/exercise-mentoring'
-import '../../css/pages/exercises-index'
-import '../../css/pages/iterations-index'
-import '../../css/pages/community-solutions-index'
-import '../../css/pages/community-solution-show'
-import '../../css/pages/track-index'
-import '../../css/pages/track-show'
-import '../../css/pages/track-about'
-import '../../css/pages/mentoring/external-request'
-import '../../css/pages/mentoring/external'
-import '../../css/pages/mentoring/inbox'
-import '../../css/pages/mentoring/queue'
-import '../../css/pages/mentoring/testimonials'
-import '../../css/pages/maintaining/dashboard'
-import '../../css/pages/maintaining/track'
-import '../../css/pages/journey'
-import '../../css/pages/journey/overview'
-import '../../css/pages/journey/solutions'
-import '../../css/pages/journey/reputation'
-import '../../css/pages/journey/badges'
-
 import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
-import '../../css/highlighters/highlightjs-light'
-import '../../css/highlighters/highlightjs-dark'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
-const DonationsFormWithModal = lazy(() =>
-  import('../components/donations/FormWithModal')
+const DonationsFormWithModal = lazy(
+  () => import('../components/donations/FormWithModal')
 )
 
-const DonationsSubscriptionForm = lazy(() =>
-  import('../components/donations/SubscriptionForm')
+const DonationsSubscriptionForm = lazy(
+  () => import('../components/donations/SubscriptionForm')
 )
 
+const PremiumSubscriptionForm = lazy(
+  () => import('../components/donations/PremiumSubscriptionForm')
+)
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
-const DonationsFooterForm = lazy(() =>
-  import('../components/donations/FooterForm')
+const DonationsFooterForm = lazy(
+  () => import('../components/donations/FooterForm')
+)
+
+const CLIWalkthrough = lazy(() => import('../components/common/CLIWalkthrough'))
+const CLIWalkthroughButton = lazy(
+  () => import('../components/common/CLIWalkthroughButton')
+)
+
+const ImpactStat = lazy(() => import('../components/impact/stat'))
+const ImpactMap = lazy(() => import('../components/impact/map'))
+const ImpactChart = lazy(() => import('../components/impact/Chart'))
+const InsidersStatus = lazy(
+  () => import('../components/insiders/InsidersStatus')
 )
 
 import StudentTracksList from '../components/student/TracksList'
 import StudentExerciseList from '../components/student/ExerciseList'
 
 import * as Common from '../components/common'
-import { CLIWalkthrough } from '../components/common/CLIWalkthrough'
-import { CLIWalkthroughButton } from '../components/common/CLIWalkthroughButton'
 
 import * as Student from '../components/student'
+import * as Community from '../components/community'
 
 import * as TrackComponents from '../components/track'
 import { ConceptMap } from '../components/concept-map/ConceptMap'
@@ -259,6 +57,8 @@ import {
   User,
   SiteUpdate,
   TrackContribution,
+  SharePlatform,
+  Metric,
 } from '../components/types'
 
 import * as Tooltips from '../components/tooltips'
@@ -274,45 +74,64 @@ import { Links as CommentsListLinks } from '../components/community-solutions/Co
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
-function camelizeKeysAs<T>(object: any): T {
-  return (camelizeKeys(object) as unknown) as T
+export function camelizeKeysAs<T>(object: any): T {
+  return camelizeKeys(object) as unknown as T
 }
 import currency from 'currency.js'
 
 const renderLoader = () => <div className="c-loading-suspense" />
 
-// // Add all react components here.
-// // Each should map 1-1 to a component in app/helpers/components
-initReact({
+declare global {
+  interface Window {
+    Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
+    queryCache: QueryCache
+  }
+}
+
+import { QueryCache } from 'react-query'
+window.queryCache = new QueryCache()
+
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+export const mappings = {
+  'share-link': (data: any) => (
+    <Common.ShareLink
+      title={data.title}
+      shareTitle={data.share_title}
+      shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+    />
+  ),
   'donations-with-modal-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
         userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
       />
     </Suspense>
   ),
   'donations-subscription-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
+        {...data}
         amount={currency(data.amount_in_cents, { fromCents: true })}
-        links={data.links}
+      />
+    </Suspense>
+  ),
+  'premium-subscription-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <PremiumSubscriptionForm
+        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
+        amount={currency(data.amount_in_cents, { fromCents: true })}
       />
     </Suspense>
   ),
   editor: (data: any) => (
     <Suspense fallback={renderLoader()}>
       <Editor {...camelizeKeysAs<EditorProps>(data)} />
-    </Suspense>
-  ),
-  'donations-footer-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-      />
     </Suspense>
   ),
   'common-concept-widget': (data: any) => (
@@ -325,12 +144,14 @@ initReact({
       language={data.language}
       indentSize={data.indent_size}
       publishedIterationIdx={data.published_iteration_idx}
+      publishedIterationIdxs={data.published_iteration_idxs}
       outOfDate={data.out_of_date}
       links={camelizeKeysAs<SolutionViewLinks>(data.links)}
     />
   ),
   'common-expander': (data: any) => (
     <Common.Expander
+      contentIsSafe={data.content_is_safe}
       content={data.content}
       buttonTextCompressed={data.button_text_compressed}
       buttonTextExpanded={data.button_text_expanded}
@@ -350,15 +171,38 @@ initReact({
       endpoint={data.endpoint}
     />
   ),
-  'common-cli-walkthrough': (data: any) => <CLIWalkthrough html={data.html} />,
-  'common-cli-walkthrough-button': (data: any) => (
-    <CLIWalkthroughButton html={data.html} />
+  'common-cli-walkthrough': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <CLIWalkthrough html={data.html} />
+    </Suspense>
   ),
+  'common-cli-walkthrough-button': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <CLIWalkthroughButton html={data.html} />
+    </Suspense>
+  ),
+
+  'community-video-grid': (data: any) => (
+    <Community.VideoGrid data={camelizeKeys(data)} />
+  ),
+  'community-stories-grid': (data: any) => (
+    <Community.StoriesGrid data={camelizeKeys(data)} />
+  ),
+
   'track-exercise-community-solutions-list': (data: any) => (
     <TrackComponents.ExerciseCommunitySolutionsList
       request={camelizeKeysAs<Request>(data.request)}
     />
   ),
+
+  'track-dig-deeper': (data: DigDeeperProps) => (
+    <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
+  ),
+
+  'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
+    <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
+  ),
+
   'track-exercise-makers-button': (data: any) => (
     <TrackComponents.ExerciseMakersButton
       avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
@@ -375,6 +219,15 @@ initReact({
       links={data.links}
     />
   ),
+  'common-credits': (data: any) => (
+    <Common.Credits
+      users={camelizeKeysAs<User[]>(data.users)}
+      topCount={data.top_count}
+      topLabel={data.top_label}
+      bottomCount={data.bottom_count}
+      bottomLabel={data.bottom_label}
+    />
+  ),
   'common-exercise-widget': (data: any) => (
     <Common.ExerciseWidget
       exercise={camelizeKeysAs<Exercise>(data.exercise)}
@@ -386,14 +239,12 @@ initReact({
       isSkinny={data.skinny}
     />
   ),
-  'common-share-solution-button': (data: any) => (
-    <Common.ShareSolutionButton title={data.title} links={data.links} />
-  ),
   'common-share-button': (data: any) => (
     <Common.ShareButton
       title={data.title}
       shareTitle={data.share_title}
       shareLink={data.share_link}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
   ),
   'common-site-updates-list': (data: any) => (
@@ -463,15 +314,30 @@ initReact({
   'exercise-tooltip': (data: any) => (
     <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
   ),
+
+  'tooling-tooltip': (data: any) => (
+    <Tooltips.ToolingTooltip endpoint={data.endpoint} />
+  ),
+
   'concept-tooltip': (data: any) => (
     <Tooltips.ConceptTooltip endpoint={data.endpoint} />
+  ),
+  'automation-locked-tooltip': (data: AutomationLockedTooltipProps) => (
+    <Tooltips.AutomationLockedTooltip endpoint={data.endpoint} />
   ),
   'dropdowns-dropdown': (data: any) => (
     <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
   ),
 
-  'common-copy-to-clipboard-button': (data: any) => (
+  'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
+  ),
+  'common-theme-toggle-button': (
+    data: Omit<ThemeToggleButtonProps, 'defaultTheme'> & {
+      default_theme: string
+    }
+  ): JSX.Element => (
+    <Common.ThemeToggleButton {...data} defaultTheme={data.default_theme} />
   ),
   'common-icon': (data: any) => <Common.Icon icon={data.icon} alt={data.alt} />,
   'common-graphical-icon': (data: any) => (
@@ -480,6 +346,7 @@ initReact({
   'profile-testimonials-summary': (data: any) => (
     <Profile.TestimonialsSummary
       handle={data.handle}
+      flair={data.flair}
       numTestimonials={data.num_testimonials}
       numSolutionsMentored={data.num_solutions_mentored}
       numStudentsHelped={data.num_students_helped}
@@ -567,16 +434,100 @@ initReact({
       width={data.width}
     />
   ),
-})
+
+  'impact-stat': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <ImpactStat metricType={data.type} initialValue={data.value} />
+    </Suspense>
+  ),
+  'impact-chart': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
+    </Suspense>
+  ),
+  'insiders-status': (data: InsidersStatusData): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
+    </Suspense>
+  ),
+  'premium-price-option': (data: PriceOptionProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
+    </Suspense>
+  ),
+  'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PaypalStatus {...camelizeKeysAs<PaypalStatusProps>(data)} />
+    </Suspense>
+  ),
+
+  'perks-external-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksExternalModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
+  'perks-modal-button': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PerksModalButton data={camelizeKeys(data)} />
+    </Suspense>
+  ),
+
+  'impact-map': (data: any) => {
+    const metrics = data.metrics.map((metric: any) =>
+      camelizeKeysAs<Metric>(metric)
+    )
+
+    return (
+      <Suspense fallback={renderLoader()}>
+        <ImpactMap initialMetrics={metrics} trackTitle={data.track_title} />
+      </Suspense>
+    )
+  },
+  // Slow things at the end
+  'donations-footer-form': (data: any) => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsFooterForm
+        request={camelizeKeysAs<Request>(data.request)}
+        links={data.links}
+        userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
+      />
+    </Suspense>
+  ),
+}
+
+// Add all react components here.
+// Each should map 1-1 to a component in app/helpers/components
+initReact(mappings)
 
 import { highlightAll } from '../utils/highlight'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
+import { InsidersStatusData } from '../components/insiders/InsidersStatus'
+import {
+  handleNavbarFocus,
+  scrollIntoView,
+  showSiteFooterOnTurboLoad,
+} from '@/utils'
+import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
+import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
+import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
+import {
+  PaypalStatus,
+  PaypalStatusProps,
+} from '@/components/premium/PaypalStatus'
+import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
 })
 
-const images = require.context('../images', true)
-const imagePath = (name: any) => images(name)
+showSiteFooterOnTurboLoad()
+handleNavbarFocus()
+scrollIntoView()
 
 // object.entries polyfill
 if (!Object.entries) {

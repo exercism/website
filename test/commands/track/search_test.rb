@@ -28,12 +28,20 @@ class Track::SearchTest < ActiveSupport::TestCase
     assert_equal [strong_js_track], Track::Search.(tags: ['typing:strong', 'compiles_to:javascript'])
   end
 
-  test "search: wildcard with criteria" do
+  test "search: wildcard with criteria matches title" do
     # Create one track with Ruby in the title
     track = create :track, :random_slug, title: "A Ruby Track"
     create :track, :random_slug, title: "A JS Track"
 
     assert_equal [track], Track::Search.(criteria: "ruby")
+  end
+
+  test "search: wildcard with criteria matches slug" do
+    # Create one track with Ruby in the title
+    track = create :track, :random_slug, title: "A C# Track", slug: 'csharp'
+    create :track, :random_slug, title: "A Ruby Track", slug: 'ruby'
+
+    assert_equal [track], Track::Search.(criteria: "csharp")
   end
 
   test "status: raises without a user" do
@@ -42,7 +50,7 @@ class Track::SearchTest < ActiveSupport::TestCase
     end
   end
 
-  test "status: raises unless its valid" do
+  test "status: raises unless it's valid" do
     assert_raises TrackSearchInvalidStatusError do
       Track::Search.(status: :foobar, user: create(:user))
     end
@@ -51,16 +59,16 @@ class Track::SearchTest < ActiveSupport::TestCase
   test "status: pivots correctly" do
     user = create :user
     joined = create :track, :random_slug
-    create :user_track, user: user, track: joined
+    create :user_track, user:, track: joined
     unjoined = create :track, :random_slug
 
     assert_equal [joined, unjoined],
-      Track::Search.(status: :all, user: user)
+      Track::Search.(status: :all, user:)
 
     assert_equal [joined],
-      Track::Search.(status: :joined, user: user)
+      Track::Search.(status: :joined, user:)
 
     assert_equal [unjoined],
-      Track::Search.(status: :unjoined, user: user)
+      Track::Search.(status: :unjoined, user:)
   end
 end

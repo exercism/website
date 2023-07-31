@@ -7,7 +7,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     comments = [{ 'foo' => 'bar' }]
     data = { 'comments' => comments }
 
-    job = create_analyzer_job!(submission, execution_status: ops_status, data: data)
+    job = create_analyzer_job!(submission, execution_status: ops_status, data:)
     Submission::Analysis::Process.(job)
 
     analysis = submission.reload.analysis
@@ -20,7 +20,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
     data = { 'comments' => [] }
-    job = create_analyzer_job!(submission, execution_status: 500, data: data)
+    job = create_analyzer_job!(submission, execution_status: 500, data:)
     Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_exceptioned?
@@ -29,7 +29,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
   test "handle completed" do
     submission = create :submission
     data = { 'comments' => [] }
-    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    job = create_analyzer_job!(submission, execution_status: 200, data:)
     Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_completed?
@@ -41,19 +41,19 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
     SubmissionChannel.expects(:broadcast!).with(submission)
 
-    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    job = create_analyzer_job!(submission, execution_status: 200, data:)
     Submission::Analysis::Process.(job)
   end
 
   test "broadcast with iteration" do
     submission = create :submission
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
     data = { 'comments' => [] }
 
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
 
-    job = create_analyzer_job!(submission, execution_status: 200, data: data)
+    job = create_analyzer_job!(submission, execution_status: 200, data:)
     Submission::Analysis::Process.(job)
   end
 end

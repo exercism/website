@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :user
 
       def to_s
-        super("profile-contributions-list", { categories: categories })
+        super("profile-contributions-list", { categories: })
       end
 
       private
@@ -53,6 +53,20 @@ module ReactComponents
                 initial_data: SerializePaginatedCollection.(
                   User::RetrieveAuthoredAndContributedExercises.(user),
                   serializer: SerializeExerciseAuthorships
+                )
+              }
+            }
+          },
+          {
+            title: "Other",
+            icon: "more-horizontal",
+            count: User::ReputationToken::Search.(user, category: :misc, paginated: false, sorted: false).count,
+            request: {
+              endpoint: Exercism::Routes.other_api_profile_contributions_url(user.handle),
+              options: {
+                initial_data: SerializePaginatedCollection.(
+                  User::ReputationToken::Search.(user, category: :misc),
+                  serializer: SerializeUserReputationTokens
                 )
               }
             }

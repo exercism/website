@@ -4,8 +4,13 @@ class SerializeCommunitySolutions
   initialize_with :solutions
 
   def call
-    solutions.includes(:exercise, :track).map do |solution|
+    solutions_with_includes.map do |solution|
       SerializeCommunitySolution.(solution)
     end
+  end
+
+  def solutions_with_includes
+    solutions.to_active_relation.
+      includes(:exercise, :track, user: { avatar_attachment: :blob })
   end
 end

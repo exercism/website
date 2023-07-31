@@ -14,7 +14,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     setup_user
 
     post favorite_api_mentoring_student_path('xxx'), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "invalid_mentor_student_relationship",
       message: I18n.t('api.errors.invalid_mentor_student_relationship')
@@ -30,13 +30,13 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     post favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, favorited: true).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, favorited: true).exists?
   end
 
   ###
@@ -46,7 +46,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     setup_user
 
     delete favorite_api_mentoring_student_path('xxx'), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "invalid_mentor_student_relationship",
       message: I18n.t('api.errors.invalid_mentor_student_relationship')
@@ -62,13 +62,13 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     delete favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, favorited: false).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, favorited: false).exists?
   end
 
   ###
@@ -78,7 +78,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     setup_user
 
     post block_api_mentoring_student_path('xxx'), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "invalid_mentor_student_relationship",
       message: I18n.t('api.errors.invalid_mentor_student_relationship')
@@ -94,13 +94,13 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     post block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, blocked_by_mentor: true).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, blocked_by_mentor: true).exists?
   end
 
   ###
@@ -110,7 +110,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     setup_user
 
     delete block_api_mentoring_student_path('xxx'), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "invalid_mentor_student_relationship",
       message: I18n.t('api.errors.invalid_mentor_student_relationship')
@@ -126,12 +126,12 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     delete block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
-    assert_response 200
+    assert_response :ok
 
-    assert Mentor::StudentRelationship.where(mentor: mentor, student: student, blocked_by_mentor: false).exists?
+    assert Mentor::StudentRelationship.where(mentor:, student:, blocked_by_mentor: false).exists?
   end
 end

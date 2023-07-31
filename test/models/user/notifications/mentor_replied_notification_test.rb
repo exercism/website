@@ -4,18 +4,18 @@ class User::Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSup
   test "keys are valid" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, exercise: exercise, user: user
-    iteration = create :iteration, solution: solution
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, exercise:, user:)
+    iteration = create(:iteration, solution:)
     mentor = create(:user)
-    discussion_post = create(:mentor_discussion_post, iteration: iteration, author: mentor)
+    discussion_post = create(:mentor_discussion_post, iteration:, author: mentor)
 
     notification = User::Notifications::MentorRepliedToDiscussionNotification.create!(
-      user: user,
-      params: { discussion_post: discussion_post }
+      user:,
+      params: { discussion_post: }
     )
     assert_equal "#{user.id}|mentor_replied_to_discussion|DiscussionPost##{discussion_post.id}", notification.uniqueness_key
-    assert_equal "#{mentor.handle} has added a new comment on your solution to #{track.title}:#{exercise.title}",
+    assert_equal "<strong>#{mentor.handle}</strong> has added a new comment on your solution to <strong>#{exercise.title}</strong> in <strong>#{track.title}</strong>", # rubocop:disable Layout/LineLength
       notification.text
     assert_equal :avatar, notification.image_type
     assert_equal mentor.avatar_url, notification.image_url

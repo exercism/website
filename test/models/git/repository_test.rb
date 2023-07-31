@@ -44,5 +44,13 @@ module Git
       commit = repository.lookup_commit("HEAD")
       assert_empty repository.read_text_blob(commit, "foobar")
     end
+
+    test "file_exists?" do
+      repository = ::Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      commit = repository.lookup_commit("HEAD")
+
+      assert repository.file_exists?(commit, "docs/ABOUT.md")
+      refute repository.file_exists?(commit, "foobar")
+    end
   end
 end

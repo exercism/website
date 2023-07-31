@@ -11,23 +11,23 @@ module Flows
 
     test "shows latest iteration marker" do
       solution = create :concept_solution
-      request = create :mentor_request, solution: solution
-      create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
+      request = create(:mentor_request, solution:)
+      create :iteration, idx: 1, solution:, created_at: 1.week.ago
 
       use_capybara_host do
         sign_in!
         visit mentoring_request_path(request)
 
-        assert_text "Iteration 1was submitted\n7d ago"
+        assert_text "Iteration 1was submitted 7d ago"
       end
     end
 
     test "shows request comment" do
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution: solution, comment_markdown: "How to do this?",
-                                        updated_at: 2.days.ago
-      create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25)
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        created_at: 2.days.ago
+      create :iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25)
 
       use_capybara_host do
         sign_in!
@@ -43,8 +43,8 @@ module Flows
     test "when request comment is blank, it is hidden" do
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, :v2, solution: solution, comment_markdown: ""
-      create :iteration, idx: 1, solution: solution
+      request = create :mentor_request, :v2, solution:, comment_markdown: ""
+      create(:iteration, idx: 1, solution:)
 
       use_capybara_host do
         sign_in!
@@ -58,10 +58,10 @@ module Flows
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution: solution, comment_markdown: "How to do this?",
-                                        updated_at: 2.days.ago
-      submission = create :submission, solution: solution
-      create :iteration, idx: 1, solution: solution, created_at: Date.new(2016, 12, 25), submission: submission
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
       use_capybara_host do
         sign_in!(mentor)
@@ -80,8 +80,8 @@ module Flows
 
     test "favorite button is hidden when there is no discussion yet" do
       solution = create :concept_solution
-      request = create :mentor_request, solution: solution
-      create :iteration, idx: 1, solution: solution, created_at: 1.week.ago
+      request = create(:mentor_request, solution:)
+      create :iteration, idx: 1, solution:, created_at: 1.week.ago
 
       use_capybara_host do
         sign_in!
@@ -94,7 +94,7 @@ module Flows
     test "mentor sees unavailable request" do
       expecting_errors do
         solution = create :concept_solution
-        request = create :mentor_request, solution: solution, status: :cancelled
+        request = create :mentor_request, solution:, status: :cancelled
 
         use_capybara_host do
           sign_in!

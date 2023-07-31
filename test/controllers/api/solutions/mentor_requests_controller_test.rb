@@ -10,15 +10,15 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
   test "create should 404 if the solution doesn't exist" do
     setup_user
     post api_solution_mentor_requests_path(999), headers: @headers, as: :json
-    assert_response 404
+    assert_response :not_found
   end
 
-  test "create should 404 if the solution belongs to someone else" do
+  test "create should 403 if the solution belongs to someone else" do
     setup_user
     solution = create :concept_solution
     create :user_track, user: @current_user, track: solution.track
     post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
-    assert_response 403
+    assert_response :forbidden
     expected = { error: {
       type: "solution_not_accessible",
       message: I18n.t('api.errors.solution_not_accessible')
@@ -34,7 +34,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     Mentor::Request::Create.expects(:call).raises(NoMentoringSlotsAvailableError)
 
     post api_solution_mentor_requests_path(solution.uuid), headers: @headers, as: :json
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "no_mentoring_slots_available",
       message: I18n.t('api.errors.no_mentoring_slots_available')
@@ -46,13 +46,13 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
   test "create should create correctly" do
     user = create :user
     setup_user(user)
-    solution = create :concept_solution, user: user
+    solution = create(:concept_solution, user:)
     create :user_track, user: @current_user, track: solution.track
-    create :iteration, solution: solution
+    create(:iteration, solution:)
 
     comment = "foo to the baaar"
     post api_solution_mentor_requests_path(solution.uuid),
-      params: { comment: comment },
+      params: { comment: },
       headers: @headers, as: :json
 
     req = Mentor::Request.last
@@ -61,7 +61,7 @@ class API::Solutions::MentorRequestControllerTest < API::BaseTestCase
     assert_equal comment, req.comment_markdown
     assert_equal "<p>#{comment}</p>\n", req.comment_html
 
-    assert_response :success
+    assert_response :ok
 
     # TODO: Assert correct JSON
     expected = {

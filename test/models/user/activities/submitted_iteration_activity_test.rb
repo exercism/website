@@ -4,15 +4,15 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
   test "keys" do
     user = create :user
     exercise = create :concept_exercise
-    solution = create :concept_solution, user: user, exercise: exercise
-    iteration = create :iteration, solution: solution
+    solution = create(:concept_solution, user:, exercise:)
+    iteration = create(:iteration, solution:)
 
     activity = User::Activities::SubmittedIterationActivity.create!(
-      user: user,
+      user:,
       track: exercise.track,
-      solution: solution,
+      solution:,
       params: {
-        iteration: iteration
+        iteration:
       }
     )
     assert_equal "#{user.id}|submitted_iteration|Iteration##{iteration.id}",
@@ -23,15 +23,15 @@ class User::Activities::SubmittedIterationActivityTest < ActiveSupport::TestCase
     freeze_time do
       user = create :user
       exercise = create :concept_exercise
-      solution = create :concept_solution, user: user, exercise: exercise
-      iteration = create :iteration, solution: solution, created_at: Time.current - 1.week, idx: 3
+      solution = create(:concept_solution, user:, exercise:)
+      iteration = create :iteration, solution:, created_at: Time.current - 1.week, idx: 3
 
       activity = User::Activities::SubmittedIterationActivity.create!(
-        user: user,
+        user:,
         track: exercise.track,
-        solution: solution,
+        solution:,
         params: {
-          iteration: iteration
+          iteration:
         }
       )
 

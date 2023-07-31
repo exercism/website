@@ -1,0 +1,18 @@
+.border-1.border-borderColor6.shadow-smZ1.rounded-8.py-16.px-32.mb-32{ class: 'w-100 max-w-[782px]' }
+  .flex.flex-col.items-stretch
+    %h2.reputation.text-20.leading-paragraph.mb-12.font-semibold.flex.items-center
+      %span.mr-12 Your current reputation is
+      = render ViewComponents::Reputation.new(current_user.formatted_reputation, size: :small, flashy: true)
+
+    .c-progress.mb-10
+      - progress = (current_user.reputation / profile_min_reputation.to_f) * 100
+      .bar{ style: "width:#{progress}%" }
+
+    .flex.items-center.text-14.leading-paragraph
+      .font-semibold.text-textColor6
+        = link_to doc_url(:using, 'product/reputation'), class: "flex items-center" do
+          = graphical_icon "info-circle", css_class: "w-[15px] h-[15px] mr-12 filter-textColor6"
+          How does this work?
+      .font-medium.text-textColor7.ml-auto
+        Profile creation unlocks at
+        = link_to "#{profile_min_reputation} rep", doc_url(:using, 'product/reputation'), class: 'text-gradient !font-semibold'

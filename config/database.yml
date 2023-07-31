@@ -5,7 +5,6 @@ default: &default
   pool: 50
   username: exercism
   password: exercism
-  socket: <%= Exercism.config.mysql_socket %>
   timeout: 5000
 
   host: <%= Exercism.config.mysql_master_endpoint %>

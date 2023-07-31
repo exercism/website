@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation, queryCache, QueryKey } from 'react-query'
+import { useMutation, QueryKey, useQueryCache } from 'react-query'
 import { fromNow } from '../../../utils/time'
 import { GraphicalIcon, TrackIcon } from '../../common'
-import { Testimonial } from '../../types'
+import { SharePlatform, Testimonial } from '../../types'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { PaginatedResult } from '../TestimonialsList'
@@ -16,17 +16,18 @@ export const UnrevealedTestimonial = ({
   testimonial,
   onRevealed,
   cacheKey,
+  platforms,
 }: {
   testimonial: Testimonial
   onRevealed: () => void
   cacheKey: QueryKey
+  platforms: readonly SharePlatform[]
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const isMountedRef = useIsMounted()
   const [open, setOpen] = useState(false)
-  const [
-    revealedTestimonial,
-    setRevealedTestimonial,
-  ] = useState<Testimonial | null>(null)
+  const [revealedTestimonial, setRevealedTestimonial] =
+    useState<Testimonial | null>(null)
   const [reveal, { status, error }] = useMutation<Testimonial>(
     () => {
       const { fetch } = sendRequest({
@@ -63,7 +64,7 @@ export const UnrevealedTestimonial = ({
           : oldTestimonial
       }),
     })
-  }, [cacheKey, revealedTestimonial])
+  }, [cacheKey, revealedTestimonial, queryCache])
 
   return (
     <a
@@ -98,6 +99,7 @@ export const UnrevealedTestimonial = ({
             updateCache()
             onRevealed()
           }}
+          platforms={platforms}
         />
       ) : null}
     </a>

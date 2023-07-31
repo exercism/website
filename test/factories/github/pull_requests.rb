@@ -6,21 +6,22 @@ FactoryBot.define do
     repo { "exercism/ruby" }
     author_username { "iHiD" }
     merged_by_username { "ErikSchierboom" }
+    state { :closed }
     data do
       {
-        node_id: node_id,
-        number: number,
-        title: title,
-        repo: repo,
+        node_id:,
+        number:,
+        title:,
+        repo:,
         url: "https://api.github.com/repos/exercism/ruby/pulls/#{number}",
         html_url: "https://github.com/exercism/ruby/pull/#{number}",
         state: "closed",
         action: "closed",
-        author_username: author_username,
+        author_username:,
         labels: [],
         merged: true,
         merged_at: Time.parse('2020-04-03T14:54:57Z').utc,
-        merged_by_username: merged_by_username,
+        merged_by_username:,
         reviews: []
       }
     end

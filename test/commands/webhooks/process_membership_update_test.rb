@@ -1,48 +1,44 @@
 require "test_helper"
 
 class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
-  test "adds member if action is 'member_added' and organization is exercism" do
-    Webhooks::ProcessMembershipUpdate.('member_added', 'user22', 'exercism')
+  test "add team member when action is 'added'" do
+    user_id = 12_348_521
+    team_name = 'team11'
+    org = 'exercism'
 
-    member = Github::OrganizationMember.find_by(username: 'user22')
-    refute member.alumnus
+    Github::Organization.any_instance.stubs(:name).returns(org)
+
+    Webhooks::ProcessMembershipUpdate.('added', user_id, team_name, org)
+
+    assert Github::TeamMember.where(user_id:, team_name:).exists?
   end
 
-  test "does not add member if action is 'member_added' and organization is not exercism" do
-    Webhooks::ProcessMembershipUpdate.('member_added', 'user22', 'other-org')
+  test "removes team member when action is 'removed'" do
+    user_id = 12_348_521
+    team_name = 'team11'
+    org = 'exercism'
+    create(:github_team_member, user_id:, team_name:)
 
-    refute Github::OrganizationMember.where(username: 'user22').exists?
+    Github::Organization.any_instance.stubs(:name).returns(org)
+
+    Webhooks::ProcessMembershipUpdate.('removed', user_id, team_name, org)
+
+    refute Github::TeamMember.where(user_id:, team_name:).exists?
   end
 
-  test "does not add member if action is not 'member_added'" do
-    Webhooks::ProcessMembershipUpdate.('other-action', 'user22', 'exercism')
+  test "does not do anything if organization does not match" do
+    Github::Organization.any_instance.stubs(:name).returns('exercism')
 
-    refute Github::OrganizationMember.where(username: 'user22').exists?
+    Github::TeamMember::Create.expects(:call).never
+    Github::TeamMember::Destroy.expects(:call).never
+
+    Webhooks::ProcessMembershipUpdate.('add', 12_348_521, 'team11', 'invalid-org')
   end
 
-  test "makes member alumnus if action is 'member_removed' and organization is exercism" do
-    create :github_organization_member, username: 'user22'
+  test "does not do anything if action is unknown" do
+    Github::TeamMember::Create.expects(:call).never
+    Github::TeamMember::Destroy.expects(:call).never
 
-    Webhooks::ProcessMembershipUpdate.('member_removed', 'user22', 'exercism')
-
-    member = Github::OrganizationMember.find_by(username: 'user22')
-    assert member.alumnus
-  end
-
-  test "does not makes member alumnus if action is 'member_removed' and organization is not exercism" do
-    create :github_organization_member, username: 'user22'
-
-    Webhooks::ProcessMembershipUpdate.('member_added', 'user22', 'other-org')
-
-    member = Github::OrganizationMember.find_by(username: 'user22')
-    refute member.alumnus
-  end
-
-  test "does not remove member if action is not 'member_removed'" do
-    create :github_organization_member, username: 'user22'
-
-    Webhooks::ProcessMembershipUpdate.('other-action', 'user22', 'exercism')
-
-    assert Github::OrganizationMember.where(username: 'user22').exists?
+    Webhooks::ProcessMembershipUpdate.('invalid-action', 12_348_521, 'team11', 'exercism')
   end
 end

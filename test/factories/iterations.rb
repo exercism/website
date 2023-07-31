@@ -4,5 +4,9 @@ FactoryBot.define do
     solution { submission.solution }
     submission
     idx { 0 }
+
+    trait :deleted do
+      deleted_at { Time.current }
+    end
   end
 end

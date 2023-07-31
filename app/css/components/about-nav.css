@@ -1,0 +1,41 @@
+@import "../styles";
+
+.c-about-nav {
+    @apply bg-backgroundColorA;
+    @apply border-b-1;
+    @apply mt-[-8px];
+    border-color: rgba(96, 79, 205, 0.2); /* anotherPurple * 0.2 */
+
+    & .container {
+        @apply flex flex-grow;
+    }
+
+    & ul {
+        @apply flex gap-32 md:gap-[40px] scroll-x-hidden;
+    }
+    & li {
+        @apply border-b-3 border-transparent whitespace-nowrap;
+        & a {
+            @apply text-16 leading-200 text-textColor6 font-medium;
+            @apply block mt-8 mb-8;
+
+            & .c-icon {
+                height: 24px;
+                width: 24px;
+                filter: var(--purple-filter);
+            }
+        }
+        &:hover {
+            & a {
+                @apply text-textColor1;
+            }
+        }
+        &.selected {
+            @apply border-adaptivePurple;
+
+            & a {
+                @apply text-adaptivePurple;
+            }
+        }
+    }
+}

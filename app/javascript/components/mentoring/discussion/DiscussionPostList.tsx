@@ -1,14 +1,9 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
-import { queryCache, QueryStatus } from 'react-query'
+import { QueryStatus, useQueryCache } from 'react-query'
 import { DiscussionPostProps } from './DiscussionPost'
 import { Loading } from '../../common/Loading'
-import {
-  Iteration,
-  MentorSessionExercise,
-  MentorSessionTrack,
-  Student,
-} from '../../types'
+import { Iteration } from '../../types'
 import { IterationMarker } from '../session/IterationMarker'
 import { PostsContext } from './PostsContext'
 import { usePosts } from './discussion-post-list/use-posts'
@@ -36,6 +31,7 @@ export const DiscussionPostList = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element | null => {
+  const queryCache = useQueryCache()
   const { cacheKey } = useContext(PostsContext)
   const posts = usePosts(iterations)
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(

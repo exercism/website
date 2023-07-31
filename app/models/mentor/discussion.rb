@@ -25,9 +25,7 @@ class Mentor::Discussion < ApplicationRecord
   belongs_to :mentor, class_name: "User"
   belongs_to :request, optional: true
 
-  has_many :posts, class_name: "DiscussionPost",
-                   dependent: :destroy,
-                   inverse_of: :discussion
+  has_many :posts, class_name: "DiscussionPost", dependent: :destroy, inverse_of: :discussion
   has_many :iterations, through: :solution
 
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
@@ -62,9 +60,7 @@ class Mentor::Discussion < ApplicationRecord
   delegate :title, to: :exercise, prefix: :exercise
   delegate :comment, to: :request, prefix: true, allow_nil: true
 
-  def status
-    super.to_sym
-  end
+  def status = super.to_sym
 
   %i[finished_by rating].each do |meth|
     define_method meth do
@@ -73,7 +69,7 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def student_mentor_relationship
-    Mentor::StudentRelationship.find_by(mentor: mentor, student: student)
+    Mentor::StudentRelationship.find_by(mentor:, student:)
   end
 
   def student_url
@@ -86,13 +82,8 @@ class Mentor::Discussion < ApplicationRecord
     Exercism::Routes.mentoring_discussion_url(self)
   end
 
-  def to_param
-    uuid
-  end
-
-  def finished_for_student?
-    status == :finished
-  end
+  def to_param = uuid
+  def finished_for_student? = status == :finished
 
   def finished_for_mentor?
     %i[mentor_finished finished].include?(status)
@@ -104,8 +95,18 @@ class Mentor::Discussion < ApplicationRecord
     [mentor, student].include?(user)
   end
 
+  def viewable_by_mentor?(user)
+    return true if user.admin?
+
+    user == mentor
+  end
+
   def student_handle
     anonymous_mode? ? "anonymous" : student.handle
+  end
+
+  def student_flair
+    anonymous_mode? ? "anonymous" : student.flair
   end
 
   def student_name
@@ -162,10 +163,11 @@ class Mentor::Discussion < ApplicationRecord
   end
 
   def update_stats!
-    UpdateMentorStatsJob.perform_later(
+    Mentor::UpdateStats.defer(
       mentor,
-      update_num_solutions_mentored: previous_changes.key?('status'),
+      update_counts: previous_changes.key?('status'),
       update_satisfaction_rating: previous_changes.key?('rating')
     )
+    Mentor::Discussion::UpdateNumFinishedDiscussions.defer(self) if previous_changes.key?('status') && finished?
   end
 end

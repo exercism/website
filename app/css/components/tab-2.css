@@ -8,10 +8,7 @@
     @apply text-textColor6;
     @apply border-b-4 border-transparent;
 
-    @screen md {
-        @apply text-18;
-        @apply mr-24;
-    }
+    @apply md:text-18 md:mr-24;
 
     & .c-icon {
         height: 24px;
@@ -26,13 +23,14 @@
     }
 
     &.selected {
-        @apply text-anotherPurple;
-        @apply border-anotherPurple;
+        color: var(--colorPurpleToBrightPurple);
+        border-color: var(--colorPurpleToBrightPurple);
         & .c-icon {
-            filter: var(--another-purple-filter);
+            filter: var(--purple-to-bright-purple-filter);
         }
         & .count {
-            @apply border-anotherPurple text-anotherPurple;
+            color: var(--colorPurpleToBrightPurple);
+            border-color: var(--colorPurpleToBrightPurple);
         }
     }
 
@@ -55,6 +53,7 @@
     }
     & span {
         @apply inline-flex flex-col items-center justify-between;
+        @apply whitespace-nowrap;
         &:after {
             content: attr(data-text);
             content: attr(data-text) / "";

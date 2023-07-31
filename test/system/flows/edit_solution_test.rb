@@ -11,13 +11,12 @@ module Components
       include RedirectHelpers
 
       test "user submits code" do
-        Submission::File.any_instance.stubs(:content)
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
@@ -41,13 +40,12 @@ module Components
       end
 
       test "user submits code via results panel" do
-        Submission::File.any_instance.stubs(:content)
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
@@ -73,13 +71,13 @@ module Components
       test "user tries to submits code immediately" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
-          submission = create :submission, solution: solution
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
+          submission = create(:submission, solution:)
           create :submission_test_run,
-            submission: submission,
+            submission:,
             ops_status: 200,
             raw_results: {
               status: "pass",
@@ -98,10 +96,10 @@ module Components
       test "user tries to submits code after refresh" do
         use_capybara_host do
           user = create :user
-          create :user_auth_token, user: user
+          create(:user_auth_token, user:)
           bob = create :concept_exercise
-          create :user_track, user: user, track: bob.track
-          solution = create :concept_solution, user: user, exercise: bob
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)

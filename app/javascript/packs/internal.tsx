@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'easymde/dist/easymde.min.css'
-
-require('channels')
 
 import React from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
 import {
   Iteration,
-  // Track,
-  // Exercise,
   MentorSessionRequest,
   MentorSessionTrack,
   MentorSessionExercise,
@@ -16,13 +13,13 @@ import {
   MentoredTrack,
   SolutionForStudent,
   CommunitySolution,
-  Testimonial,
   MentoredTrackExercise,
-  // User,
-  // SiteUpdate,
   CommunicationPreferences,
   User,
-  // TrackContribution,
+  MentoringSessionExemplarFile,
+  SharePlatform,
+  CompleteRepresentationData,
+  Guidance,
 } from '../components/types'
 
 import * as Maintaining from '../components/maintaining'
@@ -84,8 +81,10 @@ import * as Modals from '../components/modals'
 import { Request } from '../hooks/request-query'
 import { Request as MentoringInboxRequest } from '../components/mentoring/Inbox'
 import { camelizeKeys } from 'humps'
+import { AutomationProps } from '../components/mentoring/automation/Representation'
+import { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
 function camelizeKeysAs<T>(object: any): T {
-  return (camelizeKeys(object) as unknown) as T
+  return camelizeKeys(object) as unknown as T
 }
 
 // Add all react components here.
@@ -96,11 +95,16 @@ initReact({
     <MarkdownEditor contextId={data.context_id} />
   ),
 
-  'modals-first-time-modal': (data: any) => (
-    <Modals.FirstTimeModal
-      endpoint={data.endpoint}
-      contributors={camelizeKeysAs<readonly User[]>(data.contributors)}
-    />
+  'modals-welcome-modal': (data: any) => (
+    <Modals.WelcomeModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-premium-modal': (data: any) => (
+    <Modals.WelcomeToPremiumModal endpoint={data.endpoint} />
+  ),
+
+  'modals-welcome-to-insiders-modal': (data: any) => (
+    <Modals.WelcomeToInsidersModal endpoint={data.endpoint} />
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
@@ -137,19 +141,38 @@ initReact({
       userHandle={data.user_handle}
       discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
       mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
-      exemplarSolution={data.exemplar_solution}
+      exemplarFiles={camelizeKeysAs<readonly MentoringSessionExemplarFile[]>(
+        data.exemplar_files
+      )}
       student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
       track={camelizeKeysAs<MentorSessionTrack>(data.track)}
       exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
       iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
       instructions={data.instructions}
-      tests={data.tests}
+      testFiles={data.test_files}
       links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
       request={camelizeKeysAs<MentorSessionRequest>(data.request)}
       scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-      notes={data.notes}
+      guidance={camelizeKeysAs<Pick<Guidance, 'exercise' | 'track' | 'links'>>(
+        data.guidance
+      )}
       outOfDate={data.out_of_date}
       downloadCommand={data.download_command}
+    />
+  ),
+  'mentoring-representations-with-feedback': (data: any) => (
+    <Mentoring.RepresentationsWithFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
+  'mentoring-representations-admin': (data: any) => (
+    <Mentoring.RepresentationsAdmin
+      data={camelizeKeysAs<AutomationProps>(data)}
+    />
+  ),
+  'mentoring-representations-without-feedback': (data: any) => (
+    <Mentoring.RepresentationsWithoutFeedback
+      data={camelizeKeysAs<AutomationProps>(data)}
     />
   ),
   'mentoring-try-mentoring-button': (data: any) => (
@@ -165,6 +188,12 @@ initReact({
       tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
         data.tracks
       )}
+      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+    />
+  ),
+  'mentoring-representation': (data: any) => (
+    <Mentoring.Representation
+      data={camelizeKeysAs<CompleteRepresentationData>(data)}
     />
   ),
   'student-mentoring-session': (data: any) => (
@@ -232,9 +261,30 @@ initReact({
   'settings-token-form': (data: any) => (
     <Settings.TokenForm defaultToken={data.token} links={data.links} />
   ),
+  'settings-user-preferences-form': (data: any) => (
+    <Settings.UserPreferencesForm
+      defaultPreferences={camelizeKeysAs<Settings.UserPreferences>(
+        data.preferences
+      )}
+      links={data.links}
+    />
+  ),
+  'settings-theme-preference-form': (data: any) => (
+    <Settings.ThemePreferenceForm
+      defaultThemePreference={data.default_theme_preference}
+      isPremium={data.is_premium}
+      insidersStatus={data.insiders_status}
+      links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
+    />
+  ),
+  'settings-comments-preference-form': (data: any) => (
+    <Settings.CommentsPreferenceForm
+      {...camelizeKeysAs<Settings.CommentsPreferenceFormProps>(data)}
+    />
+  ),
   'settings-communication-preferences-form': (data: any) => (
     <Settings.CommunicationPreferencesForm
-      defaultPreferences={camelizeKeysAs<readonly CommunicationPreferences[]>(
+      defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
         data.preferences
       )}
       links={data.links}
@@ -245,6 +295,12 @@ initReact({
   ),
   'settings-reset-account-button': (data: any) => (
     <Settings.ResetAccountButton handle={data.handle} links={data.links} />
+  ),
+  'settings-show-on-supporters-page-button': (data: any) => (
+    <Settings.ShowOnSupportersPageButton
+      defaultValue={data.value}
+      links={data.links}
+    />
   ),
   'dropdowns-notifications': (data: any) => (
     <NotificationsDropdown endpoint={data.endpoint} />

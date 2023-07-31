@@ -7,6 +7,9 @@
 module API
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
+    skip_after_action :set_body_class_header
+    skip_around_action :mark_notifications_as_read!
+    skip_after_action :updated_last_visited_on!
 
     rescue_from ActionController::RoutingError, with: -> { render_404 }
 
@@ -18,7 +21,7 @@ module API
       authenticate_with_http_token do |token|
         return if token.blank?
 
-        user = User::AuthToken.find_by!(token: token).user
+        user = User::AuthToken.find_by!(token:).user
         sign_in(user)
       end
     rescue ActiveRecord::RecordNotFound
@@ -36,6 +39,20 @@ module API
       return if current_user.onboarded?
 
       render_403(:not_onboarded)
+    end
+
+    def ensure_supermentor!
+      return if current_user&.supermentor?
+      return if current_user&.admin? # Admins have supermentor permissions
+
+      render_403(:not_supermentor)
+    end
+
+    def ensure_maintainer!
+      return if current_user&.maintainer?
+      return if current_user&.admin? # Admins have maintainer permissions
+
+      render_403(:not_maintainer)
     end
 
     def sideload?(item)
@@ -60,8 +77,20 @@ module API
       render_error(404, type, data)
     end
 
+    def render_track_not_found
+      render_404(:track_not_found)
+    end
+
+    def render_exercise_not_found
+      render_404(:exercise_not_found)
+    end
+
     def render_solution_not_found
       render_404(:solution_not_found)
+    end
+
+    def render_solution_not_accessible
+      render_403(:solution_not_accessible)
     end
 
     def render_iteration_not_found
@@ -72,8 +101,8 @@ module API
       render_404(:submission_not_found)
     end
 
-    def render_solution_not_accessible
-      render_403(:solution_not_accessible)
+    def render_submission_not_accessible
+      render_403(:submission_not_accessible)
     end
 
     def render_file_not_found
@@ -85,10 +114,10 @@ module API
 
       render json: {
         error: {
-          type: type,
-          message: message
+          type:,
+          message:
         }.merge(data)
-      }, status: status
+      }, status:
     end
   end
 end

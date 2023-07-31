@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Tab } from '../common/Tab'
-import { TabsContext } from '../Editor'
+import { TabsContext, TasksContext } from '../Editor'
 import { Assignment, AssignmentTask } from './types'
 import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../common'
-import { File } from '../types'
 import { useHighlighting } from '../../utils/highlight'
+import { useReducedMotion } from '../../hooks/use-reduced-motion'
 
 export const InstructionsPanel = ({
   introduction,
@@ -15,7 +15,7 @@ export const InstructionsPanel = ({
   introduction: string
   assignment: Assignment
   debuggingInstructions?: string
-}) => {
+}): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
 
   return (
@@ -51,36 +51,40 @@ const Introduction = ({ introduction }: { introduction: string }) => {
   )
 }
 
-const Instructions = ({ assignment }: { assignment: Assignment }) => (
-  <div className="instructions">
-    <h2>Instructions</h2>
-    <div
-      className="content"
-      dangerouslySetInnerHTML={{ __html: assignment.overview }}
-    />
+const Instructions = ({ assignment }: { assignment: Assignment }) => {
+  return (
+    <div className="instructions">
+      <h2>Instructions</h2>
+      <div
+        className="content"
+        dangerouslySetInnerHTML={{ __html: assignment.overview }}
+      />
 
-    {assignment.tasks.map((task, idx) => (
-      <Task key={idx} task={task} open={idx === 0} idx={idx} />
-    ))}
-  </div>
-)
+      {assignment.tasks.map((task, idx) => (
+        <Task key={idx} task={task} idx={idx} />
+      ))}
+    </div>
+  )
+}
 
-const Task = ({
-  task,
-  open,
-  idx,
-}: {
-  task: AssignmentTask
-  open?: boolean
-  idx: number
-}) => {
+const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
+  const { current } = useContext(TasksContext)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const componentRef = useRef<HTMLDivElement>(null)
-  const detailsProps = open ? { open: true } : {}
+  const detailsRef = useRef<HTMLDetailsElement>(null)
+  const detailsProps =
+    (current === null && idx === 0) || current === task.id ? { open: true } : {}
+  const reducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (detailsRef?.current && current === task.id) {
+      detailsRef.current.scrollIntoView(
+        reducedMotion ? {} : { behavior: 'smooth' }
+      )
+    }
+  }, [current, detailsRef])
 
   return (
-    <details className="c-details task" {...detailsProps}>
+    <details ref={detailsRef} className="c-details task" {...detailsProps}>
       <summary className="--summary">
         <div className="--summary-inner">
           <div className="task-marker">Task {idx + 1}</div>
@@ -95,14 +99,13 @@ const Task = ({
       </summary>
       <div dangerouslySetInnerHTML={{ __html: task.text }} />
 
-      <div ref={componentRef}>
+      <div>
         <TaskHintsModal
           task={task}
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
         <button
-          ref={buttonRef}
           className="btn-default btn-s hints-btn"
           onClick={() => {
             setIsModalOpen(true)

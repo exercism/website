@@ -17,7 +17,21 @@ class SerializeContributorsTest < ActiveSupport::TestCase
     assert_equal expected, SerializeContributors.(
       [user_1, user_2],
       starting_rank: 1,
-      contextual_data: contextual_data
+      contextual_data:
     )
+  end
+
+  test "n+1s handled correctly" do
+    create_np1_data
+
+    contextual_data = User::ReputationToken::CalculateContextualData.(User.all)
+
+    Bullet.profile do
+      SerializeContributors.(
+        User.all,
+        starting_rank: 1,
+        contextual_data:
+      )
+    end
   end
 end

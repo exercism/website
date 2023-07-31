@@ -1,17 +1,17 @@
 module Git
   class Concept
     extend Mandate::Memoize
-    extend Git::HasGitFilepaths
+    extend Git::HasGitFilepath
 
     delegate :head_sha, :head_commit, to: :repo
 
-    git_filepaths about: "about.md",
-      introduction: "introduction.md",
-      links: "links.json",
-      config: ".meta/config.json"
+    git_filepath :about, file: "about.md"
+    git_filepath :introduction, file: "introduction.md"
+    git_filepath :links, file: "links.json"
+    git_filepath :config, file: ".meta/config.json"
 
     def initialize(concept_slug, git_sha = "HEAD", repo_url: nil, repo: nil)
-      @repo = repo || Repository.new(repo_url: repo_url)
+      @repo = repo || Repository.new(repo_url:)
       @concept_slug = concept_slug
       @git_sha = git_sha
     end
@@ -36,20 +36,13 @@ module Git
       config[:blurb]
     end
 
-    def synced_git_sha
-      commit.oid
-    end
+    def synced_git_sha = commit.oid
 
     private
     attr_reader :repo, :concept_slug, :git_sha
 
-    def absolute_filepath(filepath)
-      "#{dir}/#{filepath}"
-    end
-
-    def dir
-      "concepts/#{concept_slug}"
-    end
+    def absolute_filepath(filepath) = "#{dir}/#{filepath}"
+    def dir = "concepts/#{concept_slug}"
 
     memoize
     def commit

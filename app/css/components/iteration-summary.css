@@ -41,6 +41,7 @@
         height: 24px;
         width: 24px;
         @apply text-textColor5 mr-16;
+        filter: var(--textColor2-filter);
     }
     & > .--info {
         @apply flex-grow;
@@ -64,10 +65,7 @@
                 font-size: 12px;
                 line-height: 20px;
 
-                @apply hidden;
-                @screen md {
-                    @apply block;
-                }
+                @apply hidden md:block;
             }
             & > .--latest + .--published {
                 @apply ml-8;

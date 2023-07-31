@@ -1,0 +1,139 @@
+#gobridge-partner-page {
+    & header {
+        @apply bg-white shadow-lg;
+        & .icons {
+            & span {
+                @apply text-40 mx-24;
+                @apply md:text-64 md:mx-32;
+            }
+            & .c-icon,
+            img {
+                height: 80px;
+                @screen md {
+                    height: 96px;
+                }
+            }
+        }
+        & .btns {
+            & a {
+                @apply mx-16;
+            }
+        }
+        & p {
+            max-width: 760px;
+            @apply text-center;
+        }
+    }
+    & .mentoring-section {
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--purple-filter);
+            }
+        }
+        & h3 {
+            & .sm {
+                @apply inline md:hidden;
+            }
+            & .md {
+                @apply hidden md:inline;
+            }
+        }
+        & .video-section {
+            width: 100%;
+            @apply lg:ml-64;
+            @screen lg {
+                max-width: 640px;
+            }
+        }
+        & .screenshots {
+            @apply block;
+            @apply mx-auto;
+            width: 100%;
+            max-width: 1280px;
+        }
+    }
+    & .learning-section {
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--purple-filter);
+            }
+        }
+        & h3 {
+            @apply text-center;
+            max-width: 790px;
+        }
+        & p {
+            max-width: 840px;
+            & em {
+                @apply not-italic;
+                @apply border-b-1 border-borderColor3;
+            }
+        }
+
+        & a.concepts-map {
+            @apply flex flex-col items-center overflow-hidden;
+            max-width: 100%;
+            position: relative;
+
+            & img {
+                width: 100%;
+                min-width: 550px;
+                max-width: 1024px;
+            }
+            &:after {
+                content: "";
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+                box-shadow: 0 -20px 20px 20px var(--backgroundColorB) inset;
+                background: transparent;
+                @apply lg:hidden;
+            }
+        }
+    }
+    & .contributing-section {
+        & h2 {
+            & .c-icon {
+                height: 32px;
+                width: 32px;
+                filter: var(--purple-filter);
+            }
+        }
+        & .box {
+            @apply flex flex-col items-center;
+            @apply shadow-lgZ1;
+            @apply bg-white;
+            @apply p-40;
+
+            & img:first-child {
+                width: 160px;
+                height: 160px;
+                @apply mb-24;
+            }
+            & .tag {
+                @apply font-mono text-16 leading-150 mb-12;
+                @apply text-purple font-bold;
+            }
+            & .text-h3 {
+                @apply text-center;
+                max-width: 300px;
+                @apply mb-24 md:mb-32;
+            }
+            & img:last-child {
+                height: 24px;
+                width: 24px;
+                filter: var(--textColor6-filter);
+                @screen md {
+                    height: 32px;
+                    width: 32px;
+                }
+            }
+        }
+    }
+}

@@ -64,7 +64,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal :open, issue.status
     assert_empty issue.labels
     assert_equal Time.parse("2020-10-17T02:39:37Z").utc, issue.opened_at
-    assert issue.opened_by_username.nil?
+    assert_nil issue.opened_by_username
   end
 
   test "update issue if data has changed" do
@@ -108,7 +108,7 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
 
   test "removes labels if no longer present" do
     issue = create :github_issue
-    create :github_issue_label, issue: issue
+    create(:github_issue_label, issue:)
 
     Github::Issue::CreateOrUpdate.(
       issue.node_id,
@@ -122,5 +122,95 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     )
 
     assert_empty issue.reload.labels
+  end
+
+  test "adds metric for new track issue" do
+    track = create :track, slug: 'ruby', repo_url: 'https://github.com/exercism/ruby'
+    user = create :user, github_username: 'yano'
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/ruby",
+      labels: %w[bug good-first-issue],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: user.github_username
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_instance_of Metrics::OpenIssueMetric, metric
+    assert_equal issue.opened_at, metric.occurred_at
+    assert_equal track, metric.track
+    assert_equal user, metric.user
+  end
+
+  test "adds metric for new non-track issue" do
+    user = create :user, github_username: 'yano'
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/configlet",
+      labels: %w[bug good-first-issue],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: user.github_username
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal issue.opened_at, metric.occurred_at
+    assert_instance_of Metrics::OpenIssueMetric, metric
+    assert_nil metric.track
+    assert_equal user, metric.user
+  end
+
+  test "adds metric for new issue with unknown user" do
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: "grep is failing on Windows",
+      state: "OPEN",
+      repo: "exercism/configlet",
+      labels: %w[bug],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: 'unknown'
+    )
+
+    perform_enqueued_jobs
+
+    assert_equal 1, Metric.count
+    metric = Metric.last
+    assert_equal issue.opened_at, metric.occurred_at
+    assert_instance_of Metrics::OpenIssueMetric, metric
+    assert_nil metric.track
+    assert_nil metric.user
+  end
+
+  test "does not add metric for updated issue" do
+    issue = create :github_issue
+
+    perform_enqueued_jobs do
+      Github::Issue::CreateOrUpdate.(
+        issue.node_id,
+        number: issue.number,
+        title: "grep is unsuccessful on Windows",
+        state: issue.status.to_s.upcase,
+        repo: issue.repo,
+        labels: %w[bug good-first-issue help-wanted],
+        opened_at: issue.opened_at,
+        opened_by_username: issue.opened_by_username
+      )
+    end
+
+    refute Metric.exists?
   end
 end

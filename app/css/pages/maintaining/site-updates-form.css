@@ -1,0 +1,24 @@
+.c-site-updates-form {
+    padding: 25px 5%;
+    font-size: 16px;
+    h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+    input,
+    textarea {
+        width: 400px;
+        border: 1px solid #aaa;
+    }
+    textarea {
+        padding: 20px;
+        height: 100px;
+    }
+    .field {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        @apply mb-8;
+    }
+}

@@ -1,0 +1,130 @@
+@keyframes impactZoomIn {
+    from {
+        transform: scale(0, 0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+@keyframes impactFadeOut {
+    from {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0, 0);
+        opacity: 0;
+    }
+}
+
+body.namespace-.controller-about.action-impact {
+    background: var(--backgroundColorImpactPage);
+}
+
+#impact-page {
+    header {
+        width: 100%;
+        left: 0px;
+        top: 64px;
+
+        background: var(--backgroundImpactPageHeader);
+        background-size: 100%;
+    }
+    .map-point {
+        transform-origin: left top;
+        &.metric-submit_submission_metric,
+        &.metric-start_solution_metric {
+            z-index: 1;
+            opacity: 0;
+            animation: impactZoomIn 0.2s linear 0.05s forwards,
+                impactFadeOut 50s linear 3s forwards;
+        }
+
+        &.metric-sign_up_metric,
+        &.metric-publish_solution_metric,
+        &.metric-open_issue_metric,
+        &.metric-open_pull_request_metric,
+        &.metric-merge_pull_request_metric {
+            z-index: 2;
+            opacity: 0;
+            animation: impactZoomIn 0.2s linear 0.05s forwards,
+                impactFadeOut 0.3s linear 6s forwards;
+
+            img {
+                filter: drop-shadow(
+                    0px 0px 10px rgba(var(--shadowColorMain), 0.3)
+                );
+            }
+        }
+    }
+
+    & article.testimonials {
+        & .stats {
+            @apply grid grid-cols-3;
+            @apply mx-auto mb-48;
+            max-width: 690px;
+            & .stat {
+                max-width: 230px;
+                @apply px-24;
+                & .number {
+                    @apply text-24 leading-160 font-medium text-textColor2;
+                    @apply text-center;
+                }
+                & .metric {
+                    @apply text-16 leading-160 text-textColor2;
+                    @apply text-center;
+                }
+            }
+        }
+
+        & .testimonials {
+            column-count: auto;
+            column-width: 350px;
+            column-gap: 24px;
+        }
+        & .testimonial {
+            display: inline-block;
+            margin: 24px 0;
+            width: 100%;
+
+            @apply pt-36 pb-24 px-24;
+            @apply border-1 border-borderColor6;
+            @apply shadow-sm;
+            @apply rounded-8;
+            @apply relative;
+            @apply text-left;
+
+            & .c-avatar {
+                @apply absolute;
+                top: -24px;
+                height: 48px;
+                width: 48px;
+            }
+            & .content {
+                @apply text-20 leading-130 font-medium;
+                @apply mb-8;
+            }
+            & .student-name {
+                @apply text-16 text-textColor2 font-medium leading-160;
+                @apply mb-2;
+            }
+            & .exercise {
+                @apply flex items-center mb-8;
+                @apply text-16 text-textColor6 leading-160;
+                & .c-track-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply mx-8;
+                }
+                & .track-title {
+                    @apply text-textColor3 font-medium;
+                }
+            }
+            & time {
+                @apply text-textColor6 leading-140 font-medium;
+            }
+        }
+    }
+}

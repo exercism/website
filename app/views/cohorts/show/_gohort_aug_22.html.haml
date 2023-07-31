@@ -1,0 +1,67 @@
+#gobridge-partner-page
+  %header.pt-32.md:pt-48.pb-48.md:pb-64
+    .lg-container.flex.flex-col.md:items-center.c-shapes.c-shapes-1
+      .icons.flex.items-center.mb-24.md:mb-36.self-center
+        = graphical_icon "exercism-face"
+        %span 💙
+        = graphical_icon "go-gopher", category: "graphics"
+
+      %h1.text-h0.text-center.mb-12.md:mb-16 Introducing the #{cohort.name}
+      %p.text-p-2xlarge What happens when a few committed learners encourage and help each other on their learning journeys? We've invented the Gohort to find out! (The "Go cohort", see what we did there? 😉)
+
+  %article
+    %section.mentoring-section.pt-40.md:pt-56.mb-16.md:mb-48
+      .lg-container.flex.flex-col-reverse.lg:flex-row.mb-48
+        .content.flex.flex-col
+          %h2.text-h4.mb-16.flex.items-center
+            = graphical_icon "mentoring-gradient"
+            .text-gradient.ml-24 Tell me more!
+          %h3.text-h1
+            %span What is the Gohort?
+          %hr.c-divider.my-24
+          %p.text-p-xlarge.mb-16
+            The Gohort is simple. We'll give you and a bunch of other learners a space to learn together, add in some of our best mentors and Exercism experts, and support you as you work together through the Exercism Go syllabus over 30 days.
+          %ul.text-p-xlarge.mb-16.list-disc.pl-20
+            %li.mb-6 100% free
+            %li.mb-6 Starts August 8th. Lasts for 30 days.
+            %li.mb-6 Work through the track in your own time
+            %li.mb-6 Pair with each other or work as individuals
+            %li Commit to sharing your journey, and supporting others
+
+          %p.text-p-xlarge.mb-32
+            %strong Notes: Some programming experience is required (if you can write a "Hello World" in any language, you're good enough).
+
+          = link_to "#register", class: 'btn-primary btn-m self-start' do
+            Sign up below!
+            = graphical_icon "chevron-down"
+
+        %section.video-section.flex-shrink-0.mb-32.lg:mb-0
+          <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/1521cd588e6e421a901fe5ccc34e076e" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+    %section.learning-section.c-shapes.c-shapes-1.pt-48.mb-96
+      .lg-container.flex.flex-col.items-center
+        %h2.text-h4.mb-16.flex.items-center
+          = graphical_icon "concepts"
+          .text-gradient.ml-24 Gain fluency in Go
+
+        %h3.text-h1 Here's a taste of what you'll learn!
+
+        %hr.c-divider.my-24
+        %p.text-p-xlarge.mb-16.text-center
+          The Go track on Exercism has
+          %em #{user_track.num_concepts} concepts
+          to learn, along with
+          %em #{user_track.num_exercises} coding exercises
+          for you to complete. It’s a great way to pick up Go specific concepts and ways of working.
+
+        %p.text-p-xlarge.mb-32.text-center
+          %strong
+            And better still, get mentoring from senior Go developers to discover your knowledge gaps and build a deep understanding of the language.
+
+        = link_to track_path('go'), class: 'btn-enhanced btn-m mb-48' do
+          Explore the Go track
+          = graphical_icon "arrow-right"
+
+        = link_to track_concepts_path('go'), class: "concepts-map" do
+          = image_tag "screenshots/go-concepts.jpg"
+

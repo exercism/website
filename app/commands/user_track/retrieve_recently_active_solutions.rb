@@ -12,14 +12,22 @@ class UserTrack::RetrieveRecentlyActiveSolutions
     # about the latest iteration. It achieves this by a Group/MAX(id) and then
     # an outer query to get the normal fields.
     solution_ids = User::Activity.
-      where(user: user, track: track).
+      where(user:, track:).
       group(:solution_id).
       order(id: :desc).
       select("solution_id, max(id) as id").
       limit(5).
-      pluck(:solution_id)
+      map(&:solution_id) # Don't use pluck else you'll override select
 
     Solution.where(id: solution_ids).
-      order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')"))
+      includes(
+        :exercise, :track, :user,
+        latest_iteration: [
+          :exercise, :track,
+          { submission: %i[
+            analysis solution submission_representation
+          ] }
+        ]
+      ).sort_by { |s| solution_ids.index(s.id) }
   end
 end

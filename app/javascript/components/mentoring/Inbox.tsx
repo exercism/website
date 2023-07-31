@@ -62,16 +62,11 @@ export const Inbox = ({
     setPage,
     setQuery,
   } = useList(discussionsRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    refetch,
-  } = usePaginatedRequestQuery<APIResponse>(
-    ['mentor-discussion-list', request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, refetch } =
+    usePaginatedRequestQuery<APIResponse>(
+      ['mentor-discussion-list', request.endpoint, request.query],
+      request
+    )
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -96,7 +91,7 @@ export const Inbox = ({
   return (
     <div className="c-mentor-inbox">
       <div className="tabs">
-        <StatusTab
+        <StatusTab<DiscussionStatus>
           status="awaiting_mentor"
           currentStatus={request.query.status}
           setStatus={setStatus}
@@ -106,7 +101,7 @@ export const Inbox = ({
             <div className="count">{resolvedData.meta.awaitingMentorTotal}</div>
           ) : null}
         </StatusTab>
-        <StatusTab
+        <StatusTab<DiscussionStatus>
           status="awaiting_student"
           currentStatus={request.query.status}
           setStatus={setStatus}
@@ -118,7 +113,7 @@ export const Inbox = ({
             </div>
           ) : null}
         </StatusTab>
-        <StatusTab
+        <StatusTab<DiscussionStatus>
           status="finished"
           currentStatus={request.query.status}
           setStatus={setStatus}
@@ -130,7 +125,7 @@ export const Inbox = ({
         </StatusTab>
       </div>
       <div className="container">
-        <header className="c-search-bar">
+        <header className="c-search-bar inbox-header">
           <TrackFilter
             request={{
               ...tracksRequest,
@@ -149,6 +144,7 @@ export const Inbox = ({
             sortOptions={sortOptions}
             order={request.query.order}
             setOrder={setOrder}
+            setPage={setPage}
           />
         </header>
         <ResultsZone isFetching={isFetching}>

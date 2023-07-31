@@ -30,6 +30,7 @@ test('renders a solution when passed in', async () => {
     exercise: {
       slug: 'ruby',
     },
+    isOutOfDate: true,
     numIterations: 3,
   }
   const track: Track = {
@@ -67,6 +68,11 @@ test('renders a solution when passed in', async () => {
   expect(screen.getByAltText('Mentoring requested')).toBeInTheDocument()
   expect(screen.getByText('3 iterations')).toBeInTheDocument()
   expect(screen.getByText('Tasty exercise')).toBeInTheDocument()
+  expect(
+    screen.getByAltText(
+      /This solution was solved against an older version of this exercise/i
+    )
+  ).toBeInTheDocument()
 })
 
 test('renders an available exercise', async () => {

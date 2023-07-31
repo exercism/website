@@ -15,7 +15,7 @@ export const ConceptWidget = ({ concept }: Props): JSX.Element => {
       <a
         ref={conceptRef}
         href={concept.links.self}
-        className="unlocked-concept"
+        className="c-unlocked-concept"
       >
         <div className="c-concept-icon c--small">
           {concept.name.slice(0, 2)}

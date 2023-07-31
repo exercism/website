@@ -22,16 +22,18 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
             className="block lg:hidden"
           />
           <h3 className="--title">{track.title}</h3>
-          <div className="items-center hidden md:flex">
-            {track.numConcepts > 5 ? (
-              <div className="--v3"> Learning Mode </div>
-            ) : track.isNew ? (
-              <div className="--new">
-                <Icon icon="stars" alt="This track is new" />
-                New
-              </div>
-            ) : null}
-          </div>
+          {!track.isJoined && (
+            <div className="items-center hidden md:flex">
+              {track.course ? (
+                <div className="--v3"> Learning Mode </div>
+              ) : track.isNew ? (
+                <div className="--new">
+                  <Icon icon="stars" alt="This track is new" />
+                  New
+                </div>
+              ) : null}
+            </div>
+          )}
           {track.hasNotifications && <div className="c-notification-dot" />}
           {track.isJoined && (
             <div className="--joined">
@@ -48,13 +50,16 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
               : `${track.numCompletedExercises}/`}
             {track.numExercises} {pluralize('exercise', track.numExercises)}
           </li>
-          <li>
-            <Icon icon="concepts" alt="Number of concepts" />
-            {track.numCompletedConcepts == undefined
-              ? null
-              : `${track.numCompletedConcepts}/`}
-            {track.numConcepts} {pluralize('concept', track.numConcepts)}
-          </li>
+
+          {track.course && (
+            <li>
+              <Icon icon="concepts" alt="Number of concepts" />
+              {track.numCompletedConcepts == undefined
+                ? null
+                : `${track.numCompletedConcepts}/`}
+              {track.numConcepts} {pluralize('concept', track.numConcepts)}
+            </li>
+          )}
         </ul>
 
         {track.isJoined && (

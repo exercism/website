@@ -29,7 +29,7 @@ class Submission::PrepareHttpFilesTest < ActiveSupport::TestCase
     filename = "subdir/foobar.rb"
     content = Array.new(1.megabyte + 1, 'x')
     headers = "Content-Disposition: form-data; name=\"files[]\"; filename=\"#{filename}\"\r\nContent-Type: application/octet-stream\r\n" # rubocop:disable Layout/LineLength
-    file = mock(read: content, headers: headers)
+    file = mock(read: content, headers:)
 
     assert_raises SubmissionFileTooLargeError do
       Submission::PrepareHttpFiles.([file])

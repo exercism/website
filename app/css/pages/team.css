@@ -1,16 +1,13 @@
 @import "../styles";
 
 #page-team {
-    @apply bg-backgroundColorA;
-
     & > header {
         @apply relative;
+        background: var(--backgroundColorTeamHeader);
 
         & .lg-container {
             @apply pt-32;
-            @screen md {
-                @apply pt-48;
-            }
+            @apply md:pt-48;
         }
 
         & .icon {
@@ -28,18 +25,14 @@
         }
         & .stats {
             @apply text-20 leading-150 font-semibold text-textColor6;
-            & .stat {
-            }
             & .divider {
                 @apply mx-24;
-                @apply hidden;
-                @screen md {
-                    @apply block;
-                }
+                @apply hidden md:block;
             }
         }
     }
     & .info-box {
+        background: var(--backgroundColorTeamInfoBox);
         & .c-icon {
             height: 240px;
             width: 240px;
@@ -55,6 +48,7 @@
                 height: 48px;
                 width: 48px;
                 @apply mb-16;
+                @apply filter-textColor1;
             }
         }
         & .person {
@@ -62,20 +56,14 @@
             @apply p-16;
 
             @apply flex flex-col items-start;
-            @screen md {
-                @apply flex-row;
-            }
-            @screen sm {
-                @apply p-24;
-            }
+            @apply md:flex-row;
+            @apply sm:p-24;
+
             & .avatar {
                 height: 64px;
                 width: 64px;
                 @apply mb-12 rounded-100;
-
-                @screen md {
-                    @apply mb-0 mr-16;
-                }
+                @apply md:mb-0 md:mr-16;
             }
             & h3 {
                 @apply text-18 leading-150 text-textColor2;
@@ -105,6 +93,7 @@
                     & .c-icon {
                         height: 16px;
                         width: 16px;
+                        @apply filter-textColor6;
                     }
                     & span {
                         @apply mx-16;

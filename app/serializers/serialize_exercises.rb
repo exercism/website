@@ -1,14 +1,11 @@
 class SerializeExercises
   include Mandate
 
-  def initialize(exercises, user_track: nil)
-    @exercises = exercises
-    @user_track = user_track
-  end
+  initialize_with :exercises, user_track: nil
 
   def call
     any_recommended = false
-    exercises.map do |exercise|
+    eager_loaded_exercises.map do |exercise|
       if !any_recommended && %w[available started].include?(user_track&.exercise_status(exercise))
         any_recommended = true
         recommended = true
@@ -16,12 +13,13 @@ class SerializeExercises
 
       SerializeExercise.(
         exercise,
-        user_track: user_track,
+        user_track:,
         recommended: !!recommended
       )
     end
   end
 
-  private
-  attr_reader :exercises, :user_track
+  def eager_loaded_exercises
+    exercises.to_active_relation.includes(:track)
+  end
 end

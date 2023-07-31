@@ -3,7 +3,7 @@ require 'test_helper'
 class User::SendEmailTest < ActiveSupport::TestCase
   test "sends email" do
     user = create :user
-    notification = create :mentor_started_discussion_notification, :unread, user: user
+    notification = create(:mentor_started_discussion_notification, :unread, user:)
 
     assert_email_sent(notification)
   end
@@ -15,9 +15,10 @@ class User::SendEmailTest < ActiveSupport::TestCase
     assert notification.email_sent?
   end
 
-  test "does not send if user's email is github placeholder" do
-    user = create :user, email: "foo@users.noreply.github.com"
-    notification = create(:notification, :unread, user: user)
+  test "does not send if user may not receive emails" do
+    user = create :user
+    user.expects(may_receive_emails?: false)
+    notification = create(:notification, :unread, user:)
 
     refute_email_sent(notification)
   end
@@ -25,7 +26,7 @@ class User::SendEmailTest < ActiveSupport::TestCase
   test "does not send if preference set to false" do
     user = create :user
     user.communication_preferences.update(email_on_mentor_started_discussion_notification: false)
-    notification = create(:notification, :unread, user: user)
+    notification = create(:notification, :unread, user:)
 
     refute_email_sent(notification)
 
@@ -73,12 +74,18 @@ class User::SendEmailTest < ActiveSupport::TestCase
   def assert_email_sent(emailable)
     called = false
     sending_block = proc { called = true }
-    User::SendEmail.(emailable, &sending_block)
+
+    sent = User::SendEmail.(emailable, &sending_block)
+
+    assert sent
     assert called
   end
 
   def refute_email_sent(emailable)
     sending_block = proc { flunk }
-    User::SendEmail.(emailable, &sending_block)
+
+    sent = User::SendEmail.(emailable, &sending_block)
+
+    refute sent
   end
 end

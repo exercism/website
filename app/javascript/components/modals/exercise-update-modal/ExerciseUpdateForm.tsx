@@ -14,7 +14,7 @@ const DEFAULT_ERROR = new Error('Unable to update exercise')
 
 export const TabsContext = createContext<TabContext>({
   current: '',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const ExerciseUpdateForm = ({
@@ -24,7 +24,7 @@ export const ExerciseUpdateForm = ({
   diff: ExerciseDiff
   onCancel: () => void
 }): JSX.Element => {
-  const [tab, setTab] = useState(diff.files[0].filename)
+  const [tab, setTab] = useState(diff.files[0].relativePath)
 
   const [mutation, { status, error }] = useMutation<SolutionForStudent>(
     () => {
@@ -62,17 +62,21 @@ export const ExerciseUpdateForm = ({
       >
         <div className="tabs">
           {diff.files.map((file) => (
-            <Tab id={file.filename} context={TabsContext} key={file.filename}>
-              {file.filename}
+            <Tab
+              id={file.relativePath}
+              context={TabsContext}
+              key={file.relativePath}
+            >
+              {file.relativePath}
             </Tab>
           ))}
         </div>
 
         {diff.files.map((file) => (
           <Tab.Panel
-            id={file.filename}
+            id={file.relativePath}
             context={TabsContext}
-            key={file.filename}
+            key={file.relativePath}
           >
             <DiffViewer diff={file.diff} />
           </Tab.Panel>

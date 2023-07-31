@@ -1,17 +1,14 @@
 class SerializeContributor
   include Mandate
 
-  def initialize(user, rank:, contextual_data:)
-    @user = user
-    @rank = rank
-    @contextual_data = contextual_data
-  end
+  initialize_with :user, rank: Mandate::NO_DEFAULT, contextual_data: Mandate::NO_DEFAULT
 
   def call
     {
-      rank: rank,
-      activity: activity,
+      rank:,
+      activity:,
       handle: user.handle,
+      flair: user.flair,
       reputation: User::FormatReputation.(reputation),
       avatar_url: user.avatar_url,
       links: {
@@ -21,13 +18,6 @@ class SerializeContributor
   end
 
   private
-  attr_reader :user, :rank, :contextual_data
-
-  def activity
-    contextual_data.activity
-  end
-
-  def reputation
-    contextual_data.reputation
-  end
+  def activity = contextual_data&.activity || []
+  def reputation = contextual_data&.reputation || 0
 end

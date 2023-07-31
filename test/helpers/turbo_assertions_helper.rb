@@ -1,5 +1,5 @@
 module TurboAssertionsHelper
-  TURBO_VISIT = /Turbo\.visit\("([^"]+)", {"action":"([^"]+)"}\)/.freeze
+  TURBO_VISIT = /Turbo\.visit\("([^"]+)", {"action":"([^"]+)"}\)/
 
   def assert_redirected_to(options = {}, message = nil)
     if turbo_request?

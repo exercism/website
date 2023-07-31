@@ -1,3 +1,6 @@
+- content_for :meta_title, "#{@doc.title} | Exercism's Docs".html_safe
+- content_for :meta_description, @doc.blurb.presence || strip_tags(@doc.content_html).truncate(150)
+
 = render ViewComponents::DocsMainNav.new(@section)
 
 #page-docs-show

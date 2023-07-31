@@ -4,7 +4,7 @@ import pluralize from 'pluralize'
 import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
 import { MarkAllAsSeenButton } from './contribution-results/MarkAllAsSeenButton'
 import { APIResult } from './ContributionsList'
-import { queryCache, QueryKey } from 'react-query'
+import { QueryKey, useQueryCache } from 'react-query'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -15,6 +15,7 @@ export const ContributionResults = ({
   cacheKey: QueryKey
   data: APIResult
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {
@@ -34,7 +35,7 @@ export const ContributionResults = ({
         meta: { ...oldData?.meta, unseenTotal: response.meta.unseenTotal },
       })
     },
-    [cacheKey]
+    [cacheKey, queryCache]
   )
 
   return (

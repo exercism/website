@@ -9,7 +9,7 @@ export type AccordionContext = {
 const Context = React.createContext<AccordionContext>({
   id: '',
   isOpen: false,
-  onClick: (id: string) => {},
+  onClick: (id: string) => null,
 })
 
 export const Accordion = ({

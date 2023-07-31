@@ -23,7 +23,7 @@ export const DiscussionActions = ({
     <FinishButton
       discussion={discussion}
       links={links}
-      className="btn-keyboard-shortcut finish-button"
+      className="btn-xs btn-enhanced finish-button"
     >
       <div className="--hint">End discussion</div>
     </FinishButton>

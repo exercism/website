@@ -1,13 +1,12 @@
-/ TODO: Use the flag instead
-- return unless track.concepts.size > 5
+- return unless track.course?
 
 %section.concepts-section
   .lg-container.container
     .section-header
       = graphical_icon "concepts", hex: true, css_class: "header-icon"
-      %h2.text-center A taste of the concepts you’ll cover
+      %h2.text-center A taste of the concepts you&apos;ll cover
       %hr.c-divider
 
-    = image_pack_tag "screenshots/concept-map.png", role: :presentation, class: "screenshot"
+    = image_tag "screenshots/concept-map.svg", role: :presentation, class: "screenshot", width: 2880, height: 1434
 
     = render ViewComponents::ProminentLink.new("See all the concepts for #{track.title}", track_concepts_path(track))

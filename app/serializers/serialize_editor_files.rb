@@ -6,7 +6,7 @@ class SerializeEditorFiles
   def call
     files.map do |filename, data|
       {
-        filename: filename,
+        filename:,
         type: data[:type],
         content: data[:content]
       }

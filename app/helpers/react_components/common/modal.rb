@@ -31,7 +31,7 @@ module ReactComponents
       end
 
       def to_s
-        super("common-modal", html: html)
+        super("common-modal", { html: })
       end
 
       private
@@ -39,7 +39,7 @@ module ReactComponents
 
       def html
         if template
-          render partial: template, locals: locals
+          render(partial: template, locals:)
         else
           capture_haml { block.() }.html_safe
         end

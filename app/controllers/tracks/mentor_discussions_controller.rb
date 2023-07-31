@@ -1,25 +1,25 @@
 class Tracks::MentorDiscussionsController < ApplicationController
+  include UseTrackExerciseSolutionConcern
   before_action :use_solution
   before_action :use_discussion, only: :show
-  before_action :disable_site_header!, only: :show
 
   def index
-    redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
+    return redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
+
+    @previous_discussions = @solution.mentor_discussions.finished.includes(mentor: { avatar_attachment: :blob })
   end
 
   def show; end
 
-  private
-  def use_solution
-    @track = Track.find(params[:track_id])
-    @user_track = UserTrack.for(current_user, @track)
-    @exercise = @track.exercises.find(params[:exercise_id])
-    @solution = Solution.for(current_user, @exercise)
-  end
+  def tooltip_locked = render_template_as_json
 
+  private
   def use_discussion
     raise ActiveRecord::RecordNotFound unless @solution
 
-    @discussion = @solution.mentor_discussions.find_by!(uuid: params[:id])
+    @discussion = @solution.mentor_discussions.includes(
+      student: { avatar_attachment: :blob },
+      mentor: { avatar_attachment: :blob }
+    ).find_by!(uuid: params[:id])
   end
 end

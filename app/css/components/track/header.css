@@ -4,16 +4,14 @@
     @apply bg-backgroundColorA pt-16 shadow-base;
     /* Needed for the box-shadow */
     @apply relative;
+    z-index: 1;
 
     & > .container {
         @apply relative;
     }
 
     & .text-h1 {
-        @apply text-28;
-        @screen md {
-            @apply text-39;
-        }
+        @apply text-28 md:text-39;
     }
     & .c-track-icon {
         height: 48px;

@@ -5,16 +5,18 @@ import { IterationReport } from './iterations-list/IterationReport'
 import { EmptyIterations } from './iterations-list/EmptyIterations'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 
 export type Exercise = {
   title: string
+  slug: string
   downloadCmd: string
   hasTestRunner: boolean
 }
 
 export type Track = {
   title: string
+  slug: string
   iconUrl: string
   highlightjsLanguage: string
   indentSize: number
@@ -37,6 +39,13 @@ export type IterationsListRequest = {
   }
 }
 
+export const getCacheKey = (
+  trackSlug: string,
+  exerciseSlug: string
+): string => {
+  return `iterations-${trackSlug}-${exerciseSlug}`
+}
+
 export const IterationsList = ({
   solutionUuid,
   request,
@@ -50,8 +59,9 @@ export const IterationsList = ({
   track: Track
   links: Links
 }): JSX.Element => {
+  const queryCache = useQueryCache()
   const [isOpen, setIsOpen] = useState<boolean[]>([])
-  const CACHE_KEY = `iterations-${track.title}-${exercise.title}`
+  const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
   const { resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
   }>(CACHE_KEY, request)
@@ -86,6 +96,7 @@ export const IterationsList = ({
     return () => {
       solutionChannel.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [CACHE_KEY, solutionUuid])
 
   useEffect(() => {

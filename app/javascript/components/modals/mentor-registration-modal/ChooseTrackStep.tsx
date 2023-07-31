@@ -20,7 +20,7 @@ export const ChooseTrackStep = ({
     <section className="tracks-section">
       <h2>Select the tracks you want to mentor</h2>
       <p>
-        This allows us to only show you the solutions you want to mentor.
+        This allows us to only show you the solutions you want to mentor.{' '}
         <strong>
           Don’t worry, you can change these selections at anytime.
         </strong>

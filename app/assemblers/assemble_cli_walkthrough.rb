@@ -5,7 +5,7 @@ class AssembleCLIWalkthrough
 
   def call
     {
-      html: html
+      html:
     }
   end
 

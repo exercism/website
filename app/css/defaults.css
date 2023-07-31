@@ -1,0 +1,81 @@
+body {
+    @apply font-body antialiased;
+    line-height: 1;
+    font-size: 14px;
+    scroll-behavior: smooth;
+
+    /* This stops the page jumping around on Windows
+       when the scrollbar appears or disappears. */
+    overflow-y: scroll;
+    overflow-x: auto;
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+@media screen and (prefers-reduced-motion: reduce) {
+    body {
+        scroll-behavior: auto;
+    }
+}
+code {
+    @apply leading-code;
+}
+
+.js-focus-visible :focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    &:not(.focus-visible) {
+        outline: none;
+    }
+}
+
+pre {
+    @apply font-mono text-14 leading-160;
+}
+
+/*******************/
+/* HTML/Body Setup */
+/*******************/
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    @apply flex flex-col;
+}
+
+/**************/
+/* Containers */
+/**************/
+.sm-container,
+.md-container,
+.lg-container {
+    width: 100%;
+    @apply mx-auto;
+}
+
+.sm-container {
+    max-width: 1056px;
+    padding: 0 var(--container-padding-x);
+}
+
+.md-container {
+    max-width: 1248px;
+    padding: 0 var(--container-padding-x);
+}
+
+.lg-container {
+    max-width: 1440px;
+    padding: 0 var(--container-padding-x);
+}
+
+[data-react-data] {
+    /* width: 100%; */
+    /* height: 100%; */
+}
+
+.c-react-component {
+    &.--fitted {
+        width: fit-content;
+        height: fit-content;
+    }
+}

@@ -6,6 +6,8 @@ export const buildEditor = build<Props>({
     timeout: 60000,
     defaultSubmissions: [],
     defaultFiles: [{ filename: 'lasagna.rb', content: 'class Lasagna' }],
+    insidersStatus: 'active',
+    chatgptUsage: { '3.5': 4, '4.0': 2 },
     defaultSettings: {},
     autosave: { saveInterval: 500000 },
     panels: {
@@ -16,6 +18,12 @@ export const buildEditor = build<Props>({
           tasks: [],
         },
       },
+      results: {
+        testRunner: {
+          averageTestDuration: 3,
+        },
+      },
+      chatgptUsage: { '3.5': 4, '4.0': 2 },
     },
     track: {},
     exercise: {},
@@ -24,5 +32,18 @@ export const buildEditor = build<Props>({
       back: '',
     },
     features: { theme: true, keybindings: true },
+    iteration: {
+      analyzerFeedback: null,
+      representerFeedback: {
+        html: '<p>This is exemplar!</p>\n',
+        author: {
+          name: 'Aron Demeter',
+          reputation: 56,
+          avatarUrl:
+            'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg',
+          profileUrl: 'http://local.exercism.io:3020/profiles/dem4ron',
+        },
+      },
+    },
   },
 })

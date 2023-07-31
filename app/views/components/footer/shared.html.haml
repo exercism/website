@@ -1,10 +1,11 @@
 .lg-container
-  .nfp.mb-40.md:mb-58
-    = graphical_icon "exercism-face-gradient"
-    %h2.text-h2.mb-32 Help us keep Exercism free for everyone, everywhere.
-    = render ReactComponents::Donations::FooterForm.new
-    %h3.text-h4.mt-32.mb-8 Exercism is open source and 100% free.
-    %p.text-p-large Help us provide opportunity for people of all backgrounds by helping them develop their programming skills through code practice and mentorship.
+  - if user_signed_in?
+    .nfp.mb-40.md:mb-58
+      = graphical_icon "exercism-face-gradient"
+      %h2.text-h2.mb-32 Help us keep Exercism free for everyone, everywhere.
+      = render ReactComponents::Donations::FooterForm.new
+      %h3.text-h4.mt-32.mb-8 Exercism is open source and 100% free.
+      %p.text-p-large Help us provide opportunity for people of all backgrounds by helping them develop their programming skills through code practice and mentorship.
 
   %hr
   .site-links.mt-24.md:mt-56
@@ -21,16 +22,21 @@
         %h3 About
         %hr.c-divider.--small
         %ul
-          %li= link_to "About Exercism", about_page_path
-          %li= link_to "Our team", team_page_path
+          %li= link_to "About Exercism", about_path
+          %li= link_to "Our team", team_about_path
           %li= link_to "Contributors", contributing_contributors_path
+          %li= link_to "Partners", Exercism::Routes.about_partners_path
+          %li= link_to "Individual supporters", individual_supporters_about_path
 
       .col
         %h3 Get involved
         %hr.c-divider.--small
         %ul
+          %li= link_to "Exercism Insiders", insiders_path
+          %li= link_to "Exercism Premium", premium_path
           %li= link_to "Contribute", contributing_root_path
           %li= link_to "Mentor", mentoring_path
+          %li= link_to "Donate", donate_path
 
       .col
         %h3 Legal &amp; policies
@@ -86,13 +92,14 @@
       .col.hidden.md:block.mt-32.xl:mt-0
         %h3.text-h6 Want to add a language track to Exercism?
         %p.text-p-base
-          = link_to "Open an issue", "https://github.com/exercism/exercism/issues/new?title=Create%20new%20track%20for%20[LANGUAGE]"
+          Start a new topic
+          = link_to "in the forum", "https://forum.exercism.org/c/exercism/4"
           and let's discuss it.
   %hr
   .legals.mt-24.md:mt-32.mb-32.md:mb-40.flex.md:items-center.flex-col.md:flex-row
     .company.mb-16.md:mb-0.md:mr-32
-      Exercism is not-for-profit organisation registered in the UK with company number
-      #{link_to '11733062', 'https://find-and-update.company-information.service.gov.uk/company/11733062'}.
-      Its trustees are #{link_to 'Katrina Owen', 'https://www.kytrinyx.com/'} and #{link_to 'Jeremy Walker', 'https://ihid.info/'}.
+      Exercism is not-for-profit organisation
+      #{link_to 'registered in the UK', 'https://find-and-update.company-information.service.gov.uk/company/11733062'}.
+      Its trustees are #{link_to 'Katrina Owen', 'https://exercism.github.io/kytrinyx/'}, #{link_to 'Jeremy Walker', 'https://ihid.info/'} and #{link_to 'Erik Schierboom', 'https://erikschierboom.com/'}.
     .copyright.md:ml-auto
       © #{Date.current.year} Exercism

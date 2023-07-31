@@ -70,10 +70,10 @@ class SerializeExerciseTest < ActiveSupport::TestCase
   test "concept with user track" do
     user = create :user
     track = create :track
-    user_track = create :user_track, user: user, track: track
-    exercise = create :concept_exercise, track: track
+    user_track = create(:user_track, user:, track:)
+    exercise = create(:concept_exercise, track:)
 
-    create :hello_world_solution, :completed, track: track, user: user
+    create(:hello_world_solution, :completed, track:, user:)
 
     expected = {
       slug: exercise.slug,
@@ -92,18 +92,21 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     assert_equal expected, SerializeExercise.(
       exercise,
-      user_track: user_track
+      user_track:
     )
   end
 
   test "practice with user track" do
     user = create :user
     track = create :track
-    user_track = create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    create :exercise_prerequisite, exercise: exercise
+    concept = create :concept
+    concept_exercise = create(:concept_exercise, track:)
+    concept_exercise.taught_concepts << concept
+    user_track = create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    exercise.prerequisites << concept
 
-    create :hello_world_solution, :completed, track: track, user: user
+    create(:hello_world_solution, :completed, track:, user:)
 
     expected = {
       slug: exercise.slug,
@@ -120,15 +123,15 @@ class SerializeExerciseTest < ActiveSupport::TestCase
 
     assert_equal expected, SerializeExercise.(
       exercise,
-      user_track: user_track
+      user_track:
     )
   end
 
   test "hello world is tutorial" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track, slug: "hello-world"
+    create(:user_track, user:, track:)
+    exercise = create :practice_exercise, track:, slug: "hello-world"
 
     assert_equal "tutorial", SerializeExercise.(exercise)[:type]
   end

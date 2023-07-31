@@ -3,9 +3,9 @@ require "test_helper"
 class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::TestCase
   test "exercise_type" do
     track = create :track
-    user_track = create :user_track, track: track
-    concept_exercise = create :concept_exercise, :random_slug, track: track
-    practice_exercise = create :practice_exercise, :random_slug, track: track
+    user_track = create(:user_track, track:)
+    concept_exercise = create(:concept_exercise, :random_slug, track:)
+    practice_exercise = create(:practice_exercise, :random_slug, track:)
 
     summary = summary_for(user_track)
     assert_equal :concept, summary.exercise_type(concept_exercise)
@@ -14,9 +14,9 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "exercise_position" do
     track = create :track
-    user_track = create :user_track, track: track
-    five = create :concept_exercise, :random_slug, track: track, position: 5
-    seven = create :practice_exercise, :random_slug, track: track, position: 7
+    user_track = create(:user_track, track:)
+    five = create :concept_exercise, :random_slug, track:, position: 5
+    seven = create :practice_exercise, :random_slug, track:, position: 7
 
     summary = summary_for(user_track)
     assert_equal 5, summary.exercise_position(five)
@@ -25,9 +25,9 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "exercise_unlocked? with tutorial pending" do
     track = create :track
-    user_track = create :user_track, track: track
-    hello_world = create :hello_world_exercise, track: track
-    exercise = create :concept_exercise, :random_slug, track: track
+    user_track = create(:user_track, track:)
+    hello_world = create(:hello_world_exercise, track:)
+    exercise = create(:concept_exercise, :random_slug, track:)
 
     summary = summary_for(user_track)
     assert summary.exercise_unlocked?(hello_world)
@@ -41,69 +41,69 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "exercise_unlocked? with no prerequisites" do
     track = create :track
-    user_track = create :user_track, track: track
-    create :hello_world_solution, :completed, track: track, user: user_track.user
+    user_track = create(:user_track, track:)
+    create :hello_world_solution, :completed, track:, user: user_track.user
 
-    exercise = create :concept_exercise, :random_slug, track: track
+    exercise = create(:concept_exercise, :random_slug, track:)
     assert summary_for(user_track).exercise_unlocked?(exercise)
   end
 
   test "exercise_unlocked? with prerequisites" do
     track = create :track
-    exercise = create :concept_exercise, :random_slug, track: track
+    exercise = create(:concept_exercise, :random_slug, track:)
 
-    prereq_1 = create :concept, track: track, slug: "bools"
+    prereq_1 = create :concept, track:, slug: "bools"
     prereq_exercise_1 = create :concept_exercise, slug: 'bools-exercise'
     create(:exercise_taught_concept, exercise: prereq_exercise_1, concept: prereq_1)
-    create(:exercise_prerequisite, exercise: exercise, concept: prereq_1)
+    create(:exercise_prerequisite, exercise:, concept: prereq_1)
 
-    prereq_2 = create :concept, track: track, slug: "conditionals"
+    prereq_2 = create :concept, track:, slug: "conditionals"
     prereq_exercise_2 = create :concept_exercise, slug: 'conditionals-exercise'
     create(:exercise_taught_concept, exercise: prereq_exercise_2, concept: prereq_2)
-    create(:exercise_prerequisite, exercise: exercise, concept: prereq_2)
+    create(:exercise_prerequisite, exercise:, concept: prereq_2)
 
     user = create :user
-    user_track = create :user_track, track: track, user: user
-    create :hello_world_solution, :completed, track: track, user: user_track.user
+    user_track = create(:user_track, track:, user:)
+    create :hello_world_solution, :completed, track:, user: user_track.user
     refute user_track.exercise_unlocked?(exercise)
 
-    create :concept_solution, :completed, user: user, exercise: prereq_exercise_1
+    create :concept_solution, :completed, user:, exercise: prereq_exercise_1
     user_track.reset_summary!
     refute summary_for(user_track).exercise_unlocked?(exercise)
 
-    create :concept_solution, :completed, user: user, exercise: prereq_exercise_2
+    create :concept_solution, :completed, user:, exercise: prereq_exercise_2
     user_track.reset_summary!
     assert summary_for(user_track).exercise_unlocked?(exercise)
   end
 
   test "unlocked concepts" do
     track = create :track
-    basics = create :concept, track: track, slug: "co_basics"
-    enums = create :concept, track: track, slug: "co_enums"
-    strings = create :concept, track: track, slug: "co_strings"
+    basics = create :concept, track:, slug: "co_basics"
+    enums = create :concept, track:, slug: "co_enums"
+    strings = create :concept, track:, slug: "co_strings"
 
     # Nothing teaches recursion
-    recursion = create :concept, track: track, slug: "co_recursion"
+    recursion = create :concept, track:, slug: "co_recursion"
 
-    basics_exercise = create :concept_exercise, slug: "ex_basics", track: track
+    basics_exercise = create(:concept_exercise, slug: "ex_basics", track:)
     basics_exercise.taught_concepts << basics
 
-    enums_exercise = create :concept_exercise, slug: "ex_enums", track: track
+    enums_exercise = create(:concept_exercise, slug: "ex_enums", track:)
     enums_exercise.prerequisites << basics
     enums_exercise.taught_concepts << enums
 
-    strings_exercise = create :concept_exercise, slug: "ex_strings", track: track
+    strings_exercise = create(:concept_exercise, slug: "ex_strings", track:)
     strings_exercise.prerequisites << enums
     strings_exercise.prerequisites << basics
     strings_exercise.taught_concepts << strings
 
-    practice_exercise = create :practice_exercise, slug: "ex_prac_enums", track: track
+    practice_exercise = create(:practice_exercise, slug: "ex_prac_enums", track:)
     practice_exercise.prerequisites << enums
     practice_exercise.practiced_concepts << enums
 
     user = create :user
-    user_track = create :user_track, track: track, user: user
-    create :hello_world_solution, :completed, track: track, user: user_track.user
+    user_track = create(:user_track, track:, user:)
+    create :hello_world_solution, :completed, track:, user: user_track.user
 
     assert_equal [basics, recursion], user_track.unlocked_concepts
     assert_empty user_track.learnt_concepts
@@ -113,7 +113,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     refute user_track.concept_unlocked?(enums)
     refute user_track.concept_unlocked?(strings)
 
-    create :concept_solution, :completed, exercise: basics_exercise, user: user
+    create(:concept_solution, :completed, exercise: basics_exercise, user:)
 
     summary = summary_for(user_track)
 
@@ -125,7 +125,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert summary.concept_unlocked?(enums)
     refute summary.concept_unlocked?(strings)
 
-    create :concept_solution, :completed, exercise: enums_exercise, user: user
+    create(:concept_solution, :completed, exercise: enums_exercise, user:)
 
     summary = summary_for(user_track)
 
@@ -140,10 +140,10 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "locked exercises honour practice mode" do
     track = create :track
-    exercise = create :practice_exercise, :random_slug, track: track
-    exercise.prerequisites << create(:concept, track: track)
+    exercise = create(:practice_exercise, :random_slug, track:)
+    exercise.prerequisites << create(:concept, track:)
 
-    ut = create :user_track, track: track
+    ut = create(:user_track, track:)
     assert_equal :locked, summary_for(ut).exercise_status(exercise)
 
     ut.update(practice_mode: true)
@@ -152,22 +152,22 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "unlocked exercises" do
     track = create :track
-    concept_exercise_1 = create :concept_exercise, :random_slug, track: track
-    concept_exercise_2 = create :concept_exercise, :random_slug, track: track
-    concept_exercise_3 = create :concept_exercise, :random_slug, track: track
-    concept_exercise_4 = create :concept_exercise, :random_slug, track: track
+    concept_exercise_1 = create(:concept_exercise, :random_slug, track:)
+    concept_exercise_2 = create(:concept_exercise, :random_slug, track:)
+    concept_exercise_3 = create(:concept_exercise, :random_slug, track:)
+    concept_exercise_4 = create(:concept_exercise, :random_slug, track:)
 
-    practice_exercise_1 = create :practice_exercise, :random_slug, track: track
-    practice_exercise_2 = create :practice_exercise, :random_slug, track: track
-    practice_exercise_3 = create :practice_exercise, :random_slug, track: track
-    practice_exercise_4 = create :practice_exercise, :random_slug, track: track
+    practice_exercise_1 = create(:practice_exercise, :random_slug, track:)
+    practice_exercise_2 = create(:practice_exercise, :random_slug, track:)
+    practice_exercise_3 = create(:practice_exercise, :random_slug, track:)
+    practice_exercise_4 = create(:practice_exercise, :random_slug, track:)
 
-    prereq_1 = create :concept, track: track
-    prereq_2 = create :concept, track: track
+    prereq_1 = create(:concept, track:)
+    prereq_2 = create(:concept, track:)
 
-    concept_exercise_5 = create :concept_exercise, slug: 'pr1-ex', track: track
+    concept_exercise_5 = create(:concept_exercise, slug: 'pr1-ex', track:)
     concept_exercise_5.taught_concepts << prereq_1
-    concept_exercise_6 = create :concept_exercise, slug: 'pr2-ex', track: track
+    concept_exercise_6 = create(:concept_exercise, slug: 'pr2-ex', track:)
     concept_exercise_6.taught_concepts << prereq_2
 
     create(:exercise_prerequisite, exercise: concept_exercise_2, concept: prereq_1)
@@ -179,8 +179,8 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     create(:exercise_prerequisite, exercise: concept_exercise_4, concept: prereq_2)
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
     user = create :user
-    user_track = create :user_track, track: track, user: user
-    hw_solution = create :hello_world_solution, :completed, track: track, user: user
+    user_track = create(:user_track, track:, user:)
+    hw_solution = create(:hello_world_solution, :completed, track:, user:)
     hello_world = hw_solution.exercise
 
     summary = summary_for(user_track)
@@ -191,7 +191,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal [concept_exercise_1, concept_exercise_5, concept_exercise_6], summary.unlocked_concept_exercises
     assert_equal [practice_exercise_1, hello_world], summary.unlocked_practice_exercises
 
-    create :concept_solution, :completed, user: user, exercise: concept_exercise_5
+    create :concept_solution, :completed, user:, exercise: concept_exercise_5
 
     summary = summary_for(user_track)
 
@@ -209,7 +209,7 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
       summary.unlocked_concept_exercises
     assert_equal [practice_exercise_1, practice_exercise_2, hello_world], summary.unlocked_practice_exercises
 
-    create :concept_solution, :completed, user: user, exercise: concept_exercise_6
+    create :concept_solution, :completed, user:, exercise: concept_exercise_6
 
     summary = summary_for(user_track)
 
@@ -236,19 +236,19 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
 
   test "unlocked exercises based on status" do
     track = create :track
-    create :concept_exercise, :random_slug, track: track, status: :wip
-    beta_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :beta
-    active_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :active
-    deprecated_concept_exercise = create :concept_exercise, :random_slug, track: track, status: :deprecated
+    create :concept_exercise, :random_slug, track:, status: :wip
+    beta_concept_exercise = create :concept_exercise, :random_slug, track:, status: :beta
+    active_concept_exercise = create :concept_exercise, :random_slug, track:, status: :active
+    deprecated_concept_exercise = create :concept_exercise, :random_slug, track:, status: :deprecated
 
-    create :practice_exercise, :random_slug, track: track, status: :wip
-    beta_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :beta
-    active_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :active
-    deprecated_practice_exercise = create :practice_exercise, :random_slug, track: track, status: :deprecated
+    create :practice_exercise, :random_slug, track:, status: :wip
+    beta_practice_exercise = create :practice_exercise, :random_slug, track:, status: :beta
+    active_practice_exercise = create :practice_exercise, :random_slug, track:, status: :active
+    deprecated_practice_exercise = create :practice_exercise, :random_slug, track:, status: :deprecated
 
     user = create :user
-    user_track = create :user_track, track: track, user: user
-    hw_solution = create :hello_world_solution, :completed, track: track, user: user
+    user_track = create(:user_track, track:, user:)
+    hw_solution = create(:hello_world_solution, :completed, track:, user:)
     hello_world = hw_solution.exercise
 
     summary = summary_for(user_track)
@@ -260,8 +260,8 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal [beta_concept_exercise, active_concept_exercise], summary.unlocked_concept_exercises
     assert_equal [beta_practice_exercise, active_practice_exercise, hello_world], summary.unlocked_practice_exercises
 
-    create :concept_solution, user: user, exercise: deprecated_concept_exercise
-    create :practice_solution, user: user, exercise: deprecated_practice_exercise
+    create :concept_solution, user:, exercise: deprecated_concept_exercise
+    create :practice_solution, user:, exercise: deprecated_practice_exercise
 
     summary = summary_for(user_track)
 
@@ -278,8 +278,48 @@ class UserTrack::GenerateSummaryData::ExercisesUnlockedTest < ActiveSupport::Tes
     assert_equal [beta_concept_exercise, active_concept_exercise, deprecated_concept_exercise], summary.unlocked_concept_exercises
     assert_equal [beta_practice_exercise, active_practice_exercise, deprecated_practice_exercise, hello_world],
       summary.unlocked_practice_exercises
+  end
 
-    # TODO: (Optional): show wip exercises for maintainers
+  test "maintainers can see WIP exercises" do
+    track = create :track
+    wip_concept_exercise = create :concept_exercise, :random_slug, track:, status: :wip
+    wip_practice_exercise = create :practice_exercise, :random_slug, track:, status: :wip
+
+    user = create :user, roles: [:maintainer], uid: '1232134'
+    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
+    user_track = create(:user_track, track:, user:)
+    hw_solution = create(:hello_world_solution, :completed, track:, user:)
+    hello_world = hw_solution.exercise
+
+    summary = summary_for(user_track)
+
+    # Test that the :wip and :deprecated exercises are not shown
+    assert_equal [wip_concept_exercise, wip_practice_exercise, hello_world], summary.unlocked_exercises
+    assert_equal [wip_concept_exercise], summary.unlocked_concept_exercises
+    assert_equal [wip_practice_exercise, hello_world], summary.unlocked_practice_exercises
+  end
+
+  test "concept exercises are only available when track has course" do
+    track = create :track
+    concept_exercise = create(:concept_exercise, :random_slug, track:)
+    practice_exercise = create(:practice_exercise, :random_slug, track:)
+
+    user = create :user
+    user_track = create(:user_track, track:, user:)
+    hw_solution = create(:hello_world_solution, :completed, track:, user:)
+    hello_world = hw_solution.exercise
+
+    track.update(course: false)
+    summary = summary_for(user_track)
+    assert_equal [practice_exercise, hello_world], summary.unlocked_exercises
+    assert_empty summary.unlocked_concept_exercises
+    assert_equal [practice_exercise, hello_world], summary.unlocked_practice_exercises
+
+    track.update(course: true)
+    summary = summary_for(user_track)
+    assert_equal [concept_exercise, practice_exercise, hello_world], summary.unlocked_exercises
+    assert_equal [concept_exercise], summary.unlocked_concept_exercises
+    assert_equal [practice_exercise, hello_world], summary.unlocked_practice_exercises
   end
 
   private

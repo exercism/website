@@ -18,19 +18,29 @@
         & > .--info {
             @apply flex-grow;
             & > .--title {
-                @apply text-16 font-semibold leading-150 text-textColor1;
+                @apply flex text-16 font-semibold leading-150 text-textColor1;
             }
             & > .--subtitle {
                 @apply text-14 leading-160 text-textColor6;
             }
         }
-        & .out-of-date {
+        & .--out-of-date {
             @apply ml-24;
-            & .c-icon {
-                height: 16px;
-                width: 16px;
-                filter: var(--orange-filter);
-            }
+            height: 16px;
+            width: 16px;
+            filter: var(--orange-filter);
+        }
+        & .passed-up-to-date-tests,
+        & .failed-up-to-date-tests {
+            @apply ml-16;
+            height: 16px;
+            width: 16px;
+        }
+        & .passed-up-to-date-tests {
+            filter: var(--dark-green-filter);
+        }
+        & .failed-up-to-date-tests {
+            filter: var(--red-filter);
         }
         & .c-iteration-processing-status {
             @apply ml-24;
@@ -44,7 +54,7 @@
         @apply flex-grow;
         @apply border-1 border-borderColor7 rounded-8;
         @apply mb-16;
-
+        @apply overflow-hidden;
         & code {
             @apply p-16;
             @apply block;
@@ -60,14 +70,15 @@
 
         & > time,
         & .not-published {
+            @apply sm:block hidden;
             @apply mr-24 flex-grow;
             @apply leading-160 text-textColor6;
         }
         & > .--counts {
             @apply flex;
+            @apply gap-x-24;
             & > .--count {
                 @apply flex items-center;
-                @apply ml-24;
 
                 & > .c-icon {
                     height: 18px;

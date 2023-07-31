@@ -7,12 +7,12 @@ class User::ReputationTokens::MentoredToken < User::ReputationToken
   value 5
 
   before_validation on: :create do
-    self.earned_on = self.discussion.finished_at unless earned_on
+    self.track = discussion.track unless track
+    self.exercise = discussion.exercise unless exercise
+    self.earned_on = discussion.finished_at unless earned_on
   end
 
-  def guard_params
-    "Discussion##{discussion.id}"
-  end
+  def guard_params = "Discussion##{discussion.id}"
 
   def i18n_params
     {

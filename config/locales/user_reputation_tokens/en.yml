@@ -12,6 +12,24 @@ en:
     concept_contribution:
       1: >
         You contributed to <strong>%{concept_name}</strong>
+    exercise_article_author:
+      1: >
+        You authored the <strong>%{article_title}</strong> article for <strong>%{exercise_title}</strong>
+    exercise_article_contribution:
+      1: >
+        You contributed to the <strong>%{article_title}</strong> article for <strong>%{exercise_title}</strong>
+    exercise_approach_author:
+      1: >
+        You authored the <strong>%{approach_title}</strong> approach of <strong>%{exercise_title}</strong>
+    exercise_approach_contribution:
+      1: >
+        You contributed to the <strong>%{approach_title}</strong> approach of <strong>%{exercise_title}</strong>
+    exercise_approach_introduction_author:
+      1: >
+        You authored the approach of <strong>%{exercise_title}</strong>
+    exercise_approach_introduction_contribution:
+      1: >
+        You contributed to the approach of <strong>%{exercise_title}</strong>
     code_contribution:
       1: >
         You created <strong>PR#%{pr_number}</strong> on <strong>%{repo}</strong>: %{pr_title}
@@ -27,3 +45,15 @@ en:
     published_solution:
       1: >
         You published your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
+    issue_author:
+      1: >
+        You opened <strong>issue#%{issue_number}</strong> on <strong>%{repo}</strong>: %{issue_title}
+    arbitrary:
+      1: >
+        %{reason}
+    automation_feedback_author:
+      1: >
+        You wrote automation feedback for <strong>%{exercise_title}</strong>
+    automation_feedback_editor:
+      1: >
+        You edited automation feedback for <strong>%{exercise_title}</strong>

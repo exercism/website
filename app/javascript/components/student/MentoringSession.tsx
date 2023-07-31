@@ -18,6 +18,7 @@ import {
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 import { SplitPane } from '../common'
+import { Flair } from '../common/HandleWithFlair'
 
 export type Links = {
   exercise: string
@@ -40,7 +41,8 @@ export type Mentor = {
   name: string
   bio: string
   handle: string
-  formattedReputation: number
+  flair: Flair
+  reputation: number
   numDiscussions: number
   pronouns?: string[]
 }
@@ -82,14 +84,11 @@ export const MentoringSession = ({
   })
 
   const [isLinked, setIsLinked] = useState(false)
-  const {
-    currentIteration,
-    handleIterationClick,
-    handleIterationScroll,
-  } = useIterationScrolling({
-    iterations: iterations,
-    on: isLinked,
-  })
+  const { currentIteration, handleIterationClick, handleIterationScroll } =
+    useIterationScrolling({
+      iterations: iterations,
+      on: isLinked,
+    })
 
   return (
     <div className="c-mentor-discussion">

@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super("journey-journey-page", {
-          categories: categories,
+          categories:,
           default_category: default_category_id
         })
       end
@@ -21,8 +21,11 @@ module ReactComponents
                 track_slug: params[:track_id],
                 status: params[:status],
                 mentoring_status: params[:mentoring_status],
+                sync_status: params[:sync_status],
+                tests_status: params[:tests_status],
+                head_tests_status: params[:head_tests_status],
                 page: params[:page],
-                order: params[:order]
+                order: params[:order] || :newest_first
               ),
               serializer: SerializeSolutions,
               serializer_args: [current_user]
@@ -33,8 +36,11 @@ module ReactComponents
             track_slug: params[:track_id],
             status: params[:status],
             mentoring_status: params[:mentoring_status],
+            sync_status: params[:sync_status],
+            tests_status: params[:tests_status],
+            head_tests_status: params[:head_tests_status],
             page: params[:page],
-            order: params[:order]
+            order: params[:order] || :newest_first
           }.compact
         else
           options = {}
@@ -46,8 +52,8 @@ module ReactComponents
           title: "Solutions",
           request: {
             endpoint: Exercism::Routes.api_solutions_url,
-            query: query,
-            options: options
+            query:,
+            options:
           },
           path: Exercism::Routes.solutions_journey_path,
           icon: "editor"
@@ -70,8 +76,8 @@ module ReactComponents
           title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
-            query: query,
-            options: options
+            query:,
+            options:
           },
           path: Exercism::Routes.reputation_journey_path,
           icon: "reputation"
@@ -93,7 +99,7 @@ module ReactComponents
           request: {
             endpoint: Exercism::Routes.api_journey_overview_url,
             query: {},
-            options: options
+            options:
           },
           path: Exercism::Routes.journey_path,
           icon: "overview"
@@ -126,8 +132,8 @@ module ReactComponents
           title: "Badges",
           request: {
             endpoint: Exercism::Routes.api_badges_url,
-            query: query,
-            options: options
+            query:,
+            options:
           },
           path: Exercism::Routes.badges_journey_path,
           icon: "badges"

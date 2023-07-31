@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :practice_solution do
     user { create :user }
-    exercise { create :practice_exercise, track: track }
+    exercise { create :practice_exercise, track: }
 
     trait :completed do
       status { :completed }
@@ -11,6 +11,12 @@ FactoryBot.define do
     trait :published do
       status { :published }
       published_at { Time.current }
+      completed_at { Time.current - 2.minutes }
+    end
+
+    trait :downloaded do
+      status { :started }
+      downloaded_at { Time.current }
     end
 
     transient do
@@ -20,7 +26,7 @@ FactoryBot.define do
     end
 
     factory :hello_world_solution do
-      exercise { create :hello_world_exercise, track: track }
+      exercise { create :hello_world_exercise, track: }
     end
   end
 end

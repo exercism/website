@@ -1,0 +1,49 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.99805 40.5C11.8975 40.5 14.248 38.1495 14.248 35.25C14.248 32.3505 11.8975 30 8.99805 30C6.09855 30 3.74805 32.3505 3.74805 35.25C3.74805 38.1495 6.09855 40.5 8.99805 40.5Z" stroke="url(#paint0_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.498 46.5C15.0208 43.7302 12.1372 42 8.99805 42C5.8589 42 2.97529 43.7302 1.49805 46.5" stroke="url(#paint1_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M38.998 40.5C41.8975 40.5 44.248 38.1495 44.248 35.25C44.248 32.3505 41.8975 30 38.998 30C36.0986 30 33.748 32.3505 33.748 35.25C33.748 38.1495 36.0986 40.5 38.998 40.5Z" stroke="url(#paint2_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46.498 46.5C45.0208 43.7302 42.1372 42 38.998 42C35.8589 42 32.9753 43.7302 31.498 46.5" stroke="url(#paint3_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.998 12C26.8975 12 29.248 9.64949 29.248 6.75C29.248 3.85051 26.8975 1.5 23.998 1.5C21.0986 1.5 18.748 3.85051 18.748 6.75C18.748 9.64949 21.0986 12 23.998 12Z" stroke="url(#paint4_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30.4961 16.5C28.8739 14.5954 26.4979 13.498 23.9961 13.498C21.4942 13.498 19.1183 14.5954 17.4961 16.5" stroke="url(#paint5_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.1001 39.4141C21.9305 40.8744 26.1666 40.8616 29.9881 39.3781" stroke="url(#paint6_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.6961 12C9.37726 15.1083 7.49464 19.4529 7.49609 24C7.49609 24.506 7.52609 25 7.57209 25.5" stroke="url(#paint7_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M40.4221 25.5C40.4661 25.004 40.4981 24.5 40.4981 24C40.5003 19.4527 38.6175 15.1079 35.2981 12" stroke="url(#paint8_linear)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<defs>
+<linearGradient id="paint0_linear" x1="8.99805" y1="30" x2="8.99805" y2="40.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="8.99805" y1="42" x2="8.99805" y2="46.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint2_linear" x1="38.998" y1="30" x2="38.998" y2="40.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint3_linear" x1="38.998" y1="42" x2="38.998" y2="46.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint4_linear" x1="23.998" y1="1.5" x2="23.998" y2="12" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint5_linear" x1="23.9961" y1="13.498" x2="23.9961" y2="16.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint6_linear" x1="24.0441" y1="39.3781" x2="24.0441" y2="41.3781" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint7_linear" x1="10.0961" y1="12" x2="10.0961" y2="25.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+<linearGradient id="paint8_linear" x1="37.8981" y1="12" x2="37.8981" y2="25.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2200FF"/>
+<stop offset="1" stop-color="#9E00FF"/>
+</linearGradient>
+</defs>
+</svg>

@@ -1,6 +1,6 @@
 class LatestIterationStatusChannel < ApplicationCable::Channel
   def subscribed
-    solution = Solution.find_by!(uuid: params[:uuid])
+    solution = current_user.submissions.find_by!(uuid: params[:uuid])
 
     stream_from "latest_iteration_status:#{solution.uuid}"
   end
@@ -12,7 +12,7 @@ class LatestIterationStatusChannel < ApplicationCable::Channel
 
     ActionCable.server.broadcast(
       "latest_iteration_status:#{solution.uuid}",
-      status: solution.latest_iteration.status.to_s
+      { status: solution.latest_iteration.status.to_s }
     )
   end
 end

@@ -2,16 +2,15 @@
     @apply flex justify-between items-center;
     @apply mt-32;
 
+    & a,
     & button,
     & .--pagination-more {
         @apply font-medium text-14 text-textColor6 leading-160;
         @apply border-1 border-transparent;
 
-        @apply py-8 px-8;
-        @screen sm {
-            @apply px-16;
-        }
+        @apply py-8 px-8 sm:px-16;
     }
+    & a,
     & button {
         @apply border-borderColor5 rounded-5;
 
@@ -26,11 +25,14 @@
     & .--pagination-rhs {
         @apply flex;
         flex: 1 1 0;
+
+        & a + a,
         & button + button {
             @apply ml-12;
         }
 
-        & button:disabled {
+        & button:disabled,
+        & a:disabled {
             @apply bg-backgroundColorD;
             @apply text-textColor7;
             @apply border-transparent;
@@ -44,13 +46,11 @@
     & .--pagination-pages {
         @apply flex-grow justify-center;
 
-        & button {
+        & button,
+        & a {
             @apply mx-6;
         }
-        @apply hidden;
-        @screen md {
-            @apply flex;
-        }
+        @apply hidden md:flex;
     }
     & .--pagination-rhs {
         @apply justify-end;

@@ -4,7 +4,7 @@ module Git
   class TrackTest < ActiveSupport::TestCase
     test "passing_repo_works" do
       repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      track = Git::Track.new(repo: repo)
+      track = Git::Track.new(repo:)
       assert_equal("ruby", track.slug)
     end
 
@@ -27,13 +27,13 @@ module Git
 
     test "retrieves_about" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.\nIt has an elegant syntax that is natural to read and easy to write.\n" # rubocop:disable Layout/LineLength
+      expected = "Ruby is a dynamic, open source programming language with a focus on simplicity and productivity.\nIt has an elegant syntax that is natural to read and easy to write." # rubocop:disable Layout/LineLength
       assert_equal(expected, track.about)
     end
 
     test "retrieves_snippet" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "class HelloWorld\n  def self.hello(name = 'World')\n    \"Hello, \#{name}!\"\n  end\nend\n"
+      expected = "class HelloWorld\n  def self.hello(name = 'World')\n    \"Hello, \#{name}!\"\n  end\nend"
       assert_equal(expected, track.snippet)
     end
 
@@ -45,19 +45,19 @@ module Git
 
     test "retrieves_debugging_instructions" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Debug\n\nYou can debug by printing to the console.\n"
+      expected = "# Debug\n\nYou can debug by printing to the console."
       assert_equal expected, track.debugging_instructions
     end
 
     test "retrieves_help" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Help\n\nStuck? Try the Ruby gitter channel.\n"
+      expected = "# Help\n\nStuck? Try the Ruby gitter channel."
       assert_equal expected, track.help
     end
 
     test "retrieves_tests" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = "# Tests\n\nRun the tests using `ruby test`.\n"
+      expected = "# Tests\n\nRun the tests using `ruby test`."
       assert_equal expected, track.tests
     end
 
@@ -111,6 +111,16 @@ module Git
       assert_equal('exercises/shared/.docs/tests.md', track.tests_absolute_filepath)
     end
 
+    test "representations file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/representations.md', track.representations_filepath)
+    end
+
+    test "representations absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('exercises/shared/.docs/representations.md', track.representations_absolute_filepath)
+    end
+
     test "config file path" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('config.json', track.config_filepath)
@@ -119,6 +129,16 @@ module Git
     test "config absolute file path" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
       assert_equal('config.json', track.config_absolute_filepath)
+    end
+
+    test "representer_normalizations file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/REPRESENTER_NORMALIZATIONS.md', track.representer_normalizations_filepath)
+    end
+
+    test "representer_normalizations absolute file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      assert_equal('docs/REPRESENTER_NORMALIZATIONS.md', track.representer_normalizations_absolute_filepath)
     end
 
     test "has_concept_exercises?" do
@@ -198,6 +218,12 @@ module Git
         "paradigm/object_oriented"
       ]
       assert_equal expected, track.tags
+    end
+
+    test "foregone_exercises" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      expected = %w[alphametics zipper]
+      assert_equal expected, track.foregone_exercises
     end
   end
 end

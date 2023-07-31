@@ -29,9 +29,9 @@ export const PublishSolutionModal = ({
         <GraphicalIcon icon="publish" className="publish-icon" />
         <div className="title">Publish your code and share your knowledge</div>
         <p>
-          By publishing your code, you'll help others learn from your work. You
-          can choose which iterations you publish, add more iterations once its
-          publish, and unpublish it at any time.
+          By publishing your code, you&apos;ll help others learn from your work.
+          You can choose which iterations you publish, add more iterations once
+          it&apos;s published, and unpublish it at any time.
         </p>
         <PublishSolutionForm
           endpoint={endpoint}

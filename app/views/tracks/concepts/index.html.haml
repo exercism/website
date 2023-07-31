@@ -1,4 +1,5 @@
-- track_meta_tags(@track)
+- content_for :meta_title, "#{@track.title} key concepts on Exercism"
+- content_for :meta_description, "Learn and master #{@user_track.num_concepts} key concepts in #{@track.title} on Exercism."
 
 #page-concepts-index
   = render ViewComponents::Track::Header.new(@track, :concepts)

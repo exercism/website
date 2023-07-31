@@ -37,9 +37,9 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
   test "serializes new_exercise_update with user" do
     exercise = create :practice_exercise
     user = create :user
-    solution = create :practice_solution, exercise: exercise, user: user
-    user_track = create :user_track, user: user, track: exercise.track
-    update = create :new_exercise_site_update, exercise: exercise
+    solution = create(:practice_solution, exercise:, user:)
+    user_track = create :user_track, user:, track: exercise.track
+    update = create(:new_exercise_site_update, exercise:)
     update.stubs(expanded?: true)
 
     expected = [
@@ -47,7 +47,7 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
         exercise_widget: AssembleExerciseWidget.(
           update.exercise,
           user_track,
-          solution: solution,
+          solution:,
           with_tooltip: false,
           render_as_link: true,
           render_blurb: true,
@@ -57,7 +57,7 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
         )
       )
     ]
-    assert_equal expected, SerializeSiteUpdates.([update], user: user)
+    assert_equal expected, SerializeSiteUpdates.([update], user:)
   end
 
   test "serializes new_concept_update" do

@@ -9,7 +9,8 @@ class SerializeTracksTest < ActiveSupport::TestCase
 
     expected = %w[Assembly Javascript Ruby Rust]
     actual = SerializeTracks.(
-      [ruby, javascript, assembly, rust]
+      [ruby, javascript, assembly, rust],
+      nil
     ).map { |t| t[:title] }
     assert_equal expected, actual
   end
@@ -21,7 +22,7 @@ class SerializeTracksTest < ActiveSupport::TestCase
     rust = create :track, title: "Rust", slug: :rust
 
     user = create :user
-    create :user_track, user: user, track: rust
+    create :user_track, user:, track: rust
 
     expected = %w[Rust Assembly Javascript Ruby]
     actual = SerializeTracks.(
@@ -34,14 +35,14 @@ class SerializeTracksTest < ActiveSupport::TestCase
   test "doesn't use n+1 notification checks" do
     user = create :user
     track_1 = create :track, title: "A"
-    user_track_1 = create :user_track, user: user, track: track_1
+    user_track_1 = create :user_track, user:, track: track_1
 
     track_2 = create :track, :random_slug, title: "B"
-    user_track_2 = create :user_track, user: user, track: track_2
+    user_track_2 = create :user_track, user:, track: track_2
 
     # Create notification and check it matches this track
     # (which it does because of clever factories)
-    create :notification, user: user, status: :unread
+    create :notification, user:, status: :unread
     assert user_track_1.has_notifications?
     refute user_track_2.has_notifications?
 

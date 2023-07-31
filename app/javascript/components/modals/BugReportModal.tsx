@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { sendRequest } from '../../utils/send-request'
 import { Modal } from './Modal'
 import { useMutation } from 'react-query'
@@ -12,20 +12,23 @@ enum BugReportModalStatus {
 export const BugReportModal = ({
   open,
   onClose,
+  trackSlug,
+  exerciseSlug,
+  url = document.querySelector<HTMLMetaElement>('meta[name="bug-reports-url"]')
+    ?.content,
+  minLength = 5,
   ...props
 }: {
   open: boolean
   onClose: () => void
+  trackSlug?: string
+  exerciseSlug?: string
+  url?: string
+  minLength?: number
 }): JSX.Element => {
-  const handleClose = useCallback(() => {
-    onClose()
-  }, [onClose])
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
-  const url = document.querySelector<HTMLMetaElement>(
-    'meta[name="bug-reports-url"]'
-  )?.content
+  const [content, setContent] = useState('')
+
   const [mutation] = useMutation(
     () => {
       if (!url) {
@@ -37,7 +40,9 @@ export const BugReportModal = ({
         method: 'POST',
         body: JSON.stringify({
           bug_report: {
-            content_markdown: textareaRef.current?.value,
+            content_markdown: content,
+            track_slug: trackSlug,
+            exercise_slug: exerciseSlug,
           },
         }),
       })
@@ -63,6 +68,14 @@ export const BugReportModal = ({
     [url, mutation]
   )
 
+  const handleChange = useCallback((e) => {
+    setContent(e.target.value)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    onClose()
+  }, [onClose])
+
   useEffect(() => {
     if (!open) {
       return
@@ -70,6 +83,8 @@ export const BugReportModal = ({
 
     setStatus(BugReportModalStatus.INITIALIZED)
   }, [open])
+
+  const isFormDisabled = !url || content.length < minLength
 
   return (
     <Modal open={open} onClose={onClose} className="m-bug-report" {...props}>
@@ -91,15 +106,21 @@ export const BugReportModal = ({
       ) : (
         <form data-turbo="false" onSubmit={handleSubmit}>
           <label htmlFor="content_markdown">
-            Thanks for reporting. Please tell is what is wrong.
+            Thanks for reporting. Please tell us what is wrong.
           </label>
           <textarea
             id="content_markdown"
-            ref={textareaRef}
+            value={content}
+            onChange={handleChange}
             placeholder="Please provide as much detail as possible"
-          ></textarea>
+            minLength={minLength}
+          />
           <div className="buttons">
-            <button type="submit" disabled={!url} className="btn-primary btn-s">
+            <button
+              type="submit"
+              disabled={isFormDisabled}
+              className="btn-primary btn-s"
+            >
               Submit bug report
             </button>
             <button

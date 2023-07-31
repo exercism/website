@@ -1,3 +1,6 @@
+- content_for :meta_title, "Exercism's Track Docs".html_safe
+- content_for :meta_description, "Everything you need to know about using #{@track.title} on Exercism."
+
 = render ViewComponents::DocsMainNav.new(:tracks)
 
 #page-docs-show
@@ -10,4 +13,4 @@
       %hr.c-divider
 
       .c-textual-content.--large
-        %p Explore our #{@track.title} docs and discover everything you need to know to make the most of your #{@track.title} experince on Exercism, from installing #{@track.title} to running the tests, learning the language, and useful resources.
+        %p Explore our #{@track.title} docs and discover everything you need to know to make the most of your #{@track.title} experience on Exercism, from installing #{@track.title} to running the tests, learning the language, and useful resources.

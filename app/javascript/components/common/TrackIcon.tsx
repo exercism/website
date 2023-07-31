@@ -1,4 +1,5 @@
 import React from 'react'
+import { missingTrackIconErrorHandler } from './imageErrorHandler'
 
 type TrackIconProps = {
   iconUrl: string
@@ -6,8 +7,12 @@ type TrackIconProps = {
   className?: string
 }
 
-export function TrackIcon({ iconUrl, title, className }: TrackIconProps) {
-  let classNames = ['c-icon c-track-icon']
+export function TrackIcon({
+  iconUrl,
+  title,
+  className,
+}: TrackIconProps): JSX.Element {
+  const classNames = ['c-icon c-track-icon']
   if (className !== undefined) {
     classNames.push(className)
   }
@@ -17,6 +22,7 @@ export function TrackIcon({ iconUrl, title, className }: TrackIconProps) {
       className={classNames.join(' ')}
       src={iconUrl}
       alt={`icon for ${title} track`}
+      onError={missingTrackIconErrorHandler}
     />
   )
 }

@@ -1,15 +1,13 @@
-class User
-  class ReputationToken
-    class AwardForPullRequest
-      include Mandate
+class User::ReputationToken::AwardForPullRequest
+  include Mandate
 
-      initialize_with :params
+  queue_as :reputation
 
-      def call
-        User::ReputationToken::AwardForPullRequestAuthor.(params)
-        User::ReputationToken::AwardForPullRequestReviewers.(params)
-        User::ReputationToken::AwardForPullRequestMerger.(params)
-      end
-    end
+  initialize_with params: Mandate::KWARGS
+
+  def call
+    User::ReputationToken::AwardForPullRequestAuthor.(**params)
+    User::ReputationToken::AwardForPullRequestReviewers.(**params)
+    User::ReputationToken::AwardForPullRequestMerger.(**params)
   end
 end

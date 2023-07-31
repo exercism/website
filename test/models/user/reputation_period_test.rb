@@ -3,10 +3,10 @@ require "test_helper"
 class User::ReputationPeriodTest < ActiveSupport::TestCase
   test "unique index" do
     user = create :user
-    create :user_reputation_period, user: user
+    create(:user_reputation_period, user:)
 
     assert_raises ActiveRecord::RecordNotUnique do
-      create :user_reputation_period, user: user
+      create :user_reputation_period, user:
     end
   end
 

@@ -7,9 +7,15 @@ class Iteration < ApplicationRecord
 
   has_one :exercise, through: :solution
   has_one :track, through: :exercise
+  has_one :user, through: :solution
   has_one :test_run, through: :iteration
 
   scope :not_deleted, -> { where(deleted_at: nil) }
+  scope :latest, lambda {
+    not_deleted.
+      joins("LEFT JOIN `iterations` AS `i` ON `i`.`solution_id` = `iterations`.`solution_id` AND `i`.`deleted_at` IS NULL AND `i`.`idx` > `iterations`.`idx`"). # rubocop:disable Layout/LineLength
+      where('`i`.`id` IS NULL')
+  }
 
   delegate :tests_status,
     :files_for_editor,
@@ -45,9 +51,7 @@ class Iteration < ApplicationRecord
     solution.latest_iteration == self
   end
 
-  def deleted?
-    !!deleted_at
-  end
+  def deleted? = !!deleted_at
 
   def published?
     solution.published? && (
@@ -80,13 +84,8 @@ class Iteration < ApplicationRecord
 
     delegate :to_s, to: :status
 
-    def to_sym
-      status
-    end
-
-    def inspect
-      "Iteration::Status (#{status})"
-    end
+    def to_sym = status
+    def inspect = "Iteration::Status (#{status})"
 
     %i[
       untested testing tests_failed analyzing

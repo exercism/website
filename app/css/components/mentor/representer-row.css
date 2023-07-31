@@ -1,0 +1,88 @@
+.c-mentor-inbox,
+.c-mentor-queue {
+    & .--representer {
+        @apply border-backgroundColorC border-t-1;
+        @apply flex items-center;
+        @apply py-8 px-20;
+
+        &:hover {
+            @apply bg-backgroundColorE;
+        }
+        &:first-child {
+            @apply border-t-0;
+        }
+
+        & .c-track-icon {
+            height: 32px;
+            width: 32px;
+            @apply mr-24;
+        }
+        & .c-exercise-icon {
+            height: 48px;
+            width: 48px;
+
+            @apply mr-24;
+        }
+
+        & .c-avatar {
+            height: 48px;
+            width: 48px;
+
+            @apply mr-16;
+        }
+        & .--info {
+            @apply flex-grow;
+
+            & .--exercise-title {
+                @apply flex items-center;
+                @apply font-medium text-16 text-textColor2 leading-160;
+                & .dot,
+                & .c-icon {
+                    @apply ml-8;
+                }
+
+                & .favorited {
+                    height: 22px;
+                    width: 22px;
+                }
+                & .previously-mentored {
+                    height: 18px;
+                    width: 18px;
+                    filter: var(--orange-filter);
+                }
+            }
+            & .--track-title {
+                @apply text-14 text-textColor6 leading-150;
+            }
+        }
+
+        & .--status {
+            @apply font-medium text-14 text-textColor6 leading-code;
+            @apply py-4 px-12 border-borderLight border-1 rounded-100;
+            @apply ml-56;
+        }
+        & time,
+        .--occurencies {
+            @apply font-medium text-14 text-textColor6 leading-code;
+            @apply text-right;
+            width: 140px;
+        }
+
+        .--occurencies {
+            @apply mr-32;
+        }
+
+        & .--feedback-glimpse {
+            @apply text-right mr-60 leading-150 text-textColor6;
+            @apply truncate;
+            width: 300px;
+        }
+
+        & .action-icon {
+            @apply ml-36 text-textColor6;
+
+            height: 16px;
+            width: 16px;
+        }
+    }
+}

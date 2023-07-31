@@ -5,8 +5,8 @@ class SerializeTaskTest < ActiveSupport::TestCase
     freeze_time do
       create :track, slug: 'ruby', title: 'Ruby'
       task = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312',
-                                  title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'ErikSchierboom',
-                                  action: :fix, knowledge: :none, area: :representer, size: :massive, type: :docs
+        title: 'Sync anagram', opened_at: 2.days.ago, opened_by_username: 'ErikSchierboom',
+        action: :fix, knowledge: :none, area: :representer, size: :massive, type: :docs
 
       expected = {
         uuid: task.uuid,
@@ -37,8 +37,8 @@ class SerializeTaskTest < ActiveSupport::TestCase
   test "serialize non-track task" do
     freeze_time do
       task = create :github_task, track: nil, issue_url: 'https://github.com/exercism/configlet/issues/888',
-                                  title: 'Improve test speed', opened_at: 10.days.ago, opened_by_username: 'iHiD',
-                                  action: :fix, knowledge: nil, area: :representer, size: nil, type: :docs
+        title: 'Improve test speed', opened_at: 10.days.ago, opened_by_username: 'iHiD',
+        action: :fix, knowledge: nil, area: :representer, size: nil, type: :docs
 
       expected = {
         uuid: task.uuid,

@@ -1,6 +1,6 @@
 import React, { useState, createContext, useCallback } from 'react'
 
-import { CommunitySolution, Student } from '../types'
+import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
 import { SessionInfo } from './session/SessionInfo'
 import { Guidance } from './session/Guidance'
@@ -26,6 +26,8 @@ import {
   MentorDiscussion as Discussion,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  MentoringSessionExemplarFile,
+  TestFile,
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
@@ -55,22 +57,27 @@ export type SessionProps = {
   discussion: Discussion
   iterations: readonly Iteration[]
   instructions: string
-  tests: string
+  testFiles: readonly TestFile[]
   userHandle: string
-  notes: string
+  guidance: SessionGuidance
   outOfDate: boolean
   mentorSolution: CommunitySolution
-  exemplarSolution: string
+  exemplarFiles: readonly MentoringSessionExemplarFile[]
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string
 }
 
+export type SessionGuidance = Pick<
+  GuidanceTypes,
+  'exercise' | 'track' | 'links'
+>
+
 export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const Session = (props: SessionProps): JSX.Element => {
@@ -82,11 +89,11 @@ export const Session = (props: SessionProps): JSX.Element => {
     links,
     iterations: initialIterations,
     instructions,
-    tests,
+    testFiles,
     discussion,
-    notes,
+    guidance,
     mentorSolution,
-    exemplarSolution,
+    exemplarFiles,
     outOfDate,
     request,
     scratchpad,
@@ -108,11 +115,8 @@ export const Session = (props: SessionProps): JSX.Element => {
   })
 
   const [isLinked, setIsLinked] = useState(false)
-  const {
-    currentIteration,
-    handleIterationClick,
-    handleIterationScroll,
-  } = useIterationScrolling({ iterations: iterations, on: isLinked })
+  const { currentIteration, handleIterationClick, handleIterationScroll } =
+    useIterationScrolling({ iterations: iterations, on: isLinked })
 
   return (
     <div className="c-mentor-discussion">
@@ -141,7 +145,7 @@ export const Session = (props: SessionProps): JSX.Element => {
             <IterationView
               iterations={iterations}
               instructions={instructions}
-              tests={tests}
+              testFiles={testFiles}
               currentIteration={currentIteration}
               onClick={handleIterationClick}
               isOutOfDate={outOfDate}
@@ -205,11 +209,11 @@ export const Session = (props: SessionProps): JSX.Element => {
                 </Tab.Panel>
                 <Tab.Panel id="guidance" context={TabsContext}>
                   <Guidance
-                    notes={notes}
+                    guidance={guidance}
                     mentorSolution={mentorSolution}
-                    exemplarSolution={exemplarSolution}
+                    exemplarFiles={exemplarFiles}
                     language={track.highlightjsLanguage}
-                    links={links}
+                    links={guidance.links}
                   />
                 </Tab.Panel>
                 {discussion ? (

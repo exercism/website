@@ -9,7 +9,7 @@ export function typecheck<T>(json: any, key: string): T | never {
     )
   }
 
-  if (!json.hasOwnProperty(key)) {
+  if (!Object.prototype.hasOwnProperty.call(json, key)) {
     const keys = Object.keys(json)
     throw new Error(`Expected top-level key ${key}, actual keys: ${keys}`)
   }

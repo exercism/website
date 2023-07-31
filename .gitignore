@@ -31,9 +31,22 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+.yarn/
 
 # Cache used for docker
 .cache
 
 # Any code coverage that's generated
 coverage/
+
+.built-assets/*
+!.built-assets/.keep
+
+app/javascript/.config/*
+!app/javascript/.config/.keep
+
+# Redis Database Backup
+dump.rdb
+
+# Ignore vendored local databases
+/vendor/*mmdb

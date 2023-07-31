@@ -1,0 +1,20 @@
+.c-tooltip-base.sm:block.hidden
+  .flex.gap-16
+    = graphical_icon 'syllabus', css_class: "filter-textColor6"
+    %div
+      %h5.text-h5
+        The #{@track.title} syllabus
+        = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
+
+      %p.text-p-base
+        - case @status.syllabus.health.to_sym
+        - when :exemplar
+          An impressive #{@status.syllabus.concepts.active.size} concepts are being taught!
+        - when :healthy
+          A respectable #{@status.syllabus.concepts.active.size} concepts are being taught.
+        - when :needs_attention
+          - num_concepts_to_target = @status.syllabus.concepts.num_active_target - @status.syllabus.concepts.active.size
+          Should have #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
+        - when :missing
+          No concepts have been implemented.
+

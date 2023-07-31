@@ -41,16 +41,16 @@ class Iteration::DiscussionPostTest < ActiveSupport::TestCase
   test "#by_student? returns true if post from student" do
     student = create :user
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
-    post = create :mentor_discussion_post, discussion: discussion, author: student
+    discussion = create(:mentor_discussion, solution:)
+    post = create :mentor_discussion_post, discussion:, author: student
 
     assert post.by_student?
   end
 
   test "#by_student? returns false if post from mentor" do
     mentor = create :user
-    discussion = create :mentor_discussion, mentor: mentor
-    post = create :mentor_discussion_post, discussion: discussion, author: mentor
+    discussion = create(:mentor_discussion, mentor:)
+    post = create :mentor_discussion_post, discussion:, author: mentor
 
     refute post.by_student?
   end

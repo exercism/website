@@ -1,4 +1,4 @@
-- track_meta_tags(@track)
+- track_meta_tags(@user_track)
 
 #page-track-about
   = render ViewComponents::Track::Header.new(@track, :about)
@@ -6,15 +6,14 @@
   - if @user_track.external?
     %header.track-header.c-header-with-bg
       .lg-container.container
-        .info.md:mr-64
+        .info.md:mr-64.flex.flex-col
           %h1.text-h1 Want to learn and master #{@track.title}?
           %p.text-p-xlarge
             Join Exercism’s #{@track.title} Track for access to
             %em.c-underline
               %strong #{@user_track.num_exercises} exercises
 
-            / TODO: Check numbers are active
-            - if @user_track.num_concepts.positive?
+            - if @track.course?
               grouped into #{@user_track.num_concepts} #{@track.title} Concepts,
             with automatic analysis
             of your code and
@@ -38,6 +37,14 @@
               = link_to track_exercises_path(@track), class: "btn-secondary btn-l" do
                 Explore exercises
 
+          - if @track.slug == "go"
+            .mt-40.border-2.border-gradient.rounded-8.overflow-hidden.self-start
+              .bg-veryLightBlue.flex.px-24.py-12
+                .font-semibold.text-16.leading-150
+                  ⭐
+                  %span.text-gradient Exercism is the official GoBridge &amp; GDN mentoring platform.
+                  = link_to "Learn more.", blog_post_path('exercism-is-the-official-go-mentoring-platform'), class: "text-gradient border-b-1"
+
         .graphics.hidden.md:grid
           = track_icon(@track)
 
@@ -47,10 +54,16 @@
         .info.mb-32.md:mb-0
           .c-textual-content.--large
             %h2 About #{@track.title}
-            = ReactComponents::Common::Expander.new(Markdown::Parse.(@track.about), button_text_compressed: "Read more on #{@track.title}", button_text_expanded: "Read less")
-        %pre
-          %code{ class: "lang-#{@track.highlightjs_language}" }
-            = @track.snippet
+            = ReactComponents::Common::Expander.new(Markdown::Parse.(@track.about), content_is_safe: true, button_text_compressed: "Read more on #{@track.title}", button_text_expanded: "Read less")
+
+        - if @track.intro_video_youtube_slug.present?
+          %div{ class: 'w-[100%] max-w-[500px]' }
+            .c-youtube-container
+              %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@track.intro_video_youtube_slug}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+        - else
+          %pre
+            %code{ class: "lang-#{@track.highlightjs_language}" }
+              = @track.snippet
 
   %section.exercises-section
     .lg-container
@@ -60,7 +73,8 @@
           %h2
             %em.c-underline #{@user_track.num_exercises} coding exercises
             for #{@track.title} on Exercism.
-            From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
+            - unless @showcase_exercises.empty?
+              From #{@showcase_exercises.first.title} to #{@showcase_exercises.last.title}.
           %hr.c-divider
           %p Get better at programming through fun, rewarding coding exercises that test your understanding of concepts with Exercism.
 
@@ -75,7 +89,7 @@
 
           = render ViewComponents::ProminentLink.new("See all #{@track.title} exercises on Exercism", track_exercises_path(@track))
 
-        = image_pack_tag "screenshots/exercise-about.png", role: :presentation, class: 'hidden lg:block'
+        = image_tag "screenshots/exercise-about.jpg", role: :presentation, class: 'hidden lg:block', width: 1264, height: 1180
 
   = render "tracks/about/key_features", track: @track
   = render "tracks/about/concepts", track: @track

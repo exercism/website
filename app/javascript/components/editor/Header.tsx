@@ -5,9 +5,11 @@ import { Settings } from './header/Settings'
 import { ActionMore } from './header/ActionMore'
 import { Hints } from './header/Hints'
 
-export const Header = ({ children }: { children: React.ReactNode }) => (
-  <div className="header">{children}</div>
-)
+export const Header = ({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element => <div className="header">{children}</div>
 
 Header.Back = ({ exercisePath }: { exercisePath: string }) => (
   <a href={exercisePath} className="close-btn">

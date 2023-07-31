@@ -79,4 +79,19 @@ class User::ReputationToken::AwardForPullRequestsTest < ActiveSupport::TestCase
     assert_equal 2, User::ReputationTokens::CodeMergeToken.find_each.size
     assert_equal 4, User::ReputationTokens::CodeReviewToken.find_each.size
   end
+
+  test "don't award reputation for open pull requests" do
+    user = create :user, github_username: "user-1"
+    create :github_pull_request, :random, state: :open, author_username: user.github_username
+    create :github_pull_request, :random, state: :open, merged_by_username: user.github_username
+    create :github_pull_request_review, :random, state: :open, reviewer_username: user.github_username
+
+    perform_enqueued_jobs do
+      User::ReputationToken::AwardForPullRequests.()
+    end
+
+    refute User::ReputationTokens::CodeContributionToken.exists?
+    refute User::ReputationTokens::CodeReviewToken.exists?
+    refute User::ReputationTokens::CodeMergeToken.exists?
+  end
 end

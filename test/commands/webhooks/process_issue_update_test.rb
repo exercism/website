@@ -6,7 +6,7 @@ class Webhooks::ProcessIssueUpdateTest < ActiveSupport::TestCase
     test "should enqueue process issue update job when action is #{action}" do
       assert_enqueued_jobs 1, only: ProcessIssueUpdateJob do
         Webhooks::ProcessIssueUpdate.(
-          action: action,
+          action:,
           node_id: "MDU6SXNzdWU3MjM2MjUwMTI=",
           number: 999,
           title: "grep is failing on Windows",
@@ -23,9 +23,9 @@ class Webhooks::ProcessIssueUpdateTest < ActiveSupport::TestCase
   invalid_actions = %w[pinned unpinned assigned unassigned locked milestoned demilestoned]
   invalid_actions.each do |action|
     test "should not enqueue process issue update job when action is #{action}" do
-      assert_enqueued_jobs 0, only: ProcessIssueUpdateJob do
+      assert_no_enqueued_jobs only: ProcessIssueUpdateJob do
         Webhooks::ProcessIssueUpdate.(
-          action: action,
+          action:,
           node_id: "MDU6SXNzdWU3MjM2MjUwMTI=",
           number: 999,
           title: "grep is failing on Windows",

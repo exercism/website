@@ -3,10 +3,10 @@ require "test_helper"
 class Badge::GrowthMindsetBadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :growth_mindset_badge
-    assert_equal "Growth Mindset", badge.name
+    assert_equal "Growth mindset", badge.name
     assert_equal :common, badge.rarity
     assert_equal :mentoring, badge.icon
-    assert_equal "Awarded for iterating a solution while working with a mentor", badge.description
+    assert_equal "Iterated a solution while working with a mentor", badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
   end
@@ -19,12 +19,12 @@ class Badge::GrowthMindsetBadgeTest < ActiveSupport::TestCase
     refute badge.award_to?(user.reload)
 
     # Iterated solution
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     solution.update_column(:last_iterated_at, Time.current - 1.week)
     refute badge.award_to?(user.reload)
 
     # Discusssion without new iteartion
-    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    create :mentor_discussion, solution:, created_at: Time.current - 1.day
     refute badge.award_to?(user.reload)
 
     # Extra iteration

@@ -1,17 +1,16 @@
 module.exports = {
   plugins: [
-    //require('postcss-mixins'),
     require('postcss-import'),
+    require('tailwindcss/nesting'),
     require('tailwindcss'),
+    require('postcss-hexrgba'),
+    require('autoprefixer'),
     require('postcss-flexbugs-fixes'),
-    require('postcss-preset-env')({
-      autoprefixer: {
-        flexbox: 'no-2009',
-      },
-      features: {
-        'nesting-rules': true,
-      },
-      stage: 3,
-    }),
+    require('@sector-labs/postcss-inline-class')(),
+    process.env.NODE_ENV === 'production'
+      ? require('cssnano')({
+          preset: 'default',
+        })
+      : null,
   ],
 }

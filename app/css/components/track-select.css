@@ -49,6 +49,29 @@
             }
         }
     }
+
+    &.--size-automation {
+        & button,
+        & > .c-results-zone > button {
+            & .c-icon.all,
+            & .c-track-icon {
+                height: 32px;
+                width: 32px;
+                @apply mr-12;
+            }
+        }
+        & label.c-radio-wrapper {
+            & .row {
+                & .c-icon,
+                & .c-track-icon {
+                    width: 32px;
+                    height: 32px;
+                    @apply mr-12;
+                }
+            }
+        }
+    }
+
     &.--size-multi {
         & button,
         & > .c-results-zone > button {
@@ -141,13 +164,15 @@
         }
         & button {
             @apply flex items-center;
-            @apply text-16 leading-170 text-lightBlue font-semibold;
+            @apply text-16 leading-170  font-semibold;
+            color: var(--c-prominent-link-color);
             @apply py-12 px-16 w-100;
 
             & .c-icon {
                 height: 16px;
                 width: 16px;
                 @apply mr-12;
+                filter: var(--c-prominent-link-icon-filter);
             }
         }
     }

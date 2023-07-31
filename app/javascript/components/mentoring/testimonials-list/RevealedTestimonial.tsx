@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { QueryKey } from 'react-query'
-import { fromNow } from '../../../utils/time'
-import { Avatar, GraphicalIcon, TrackIcon } from '../../common'
+import { fromNow } from '@/utils'
+import { Avatar, GraphicalIcon, HandleWithFlair, TrackIcon } from '../../common'
 import { TestimonialModal } from '../../modals/TestimonialModal'
-import { Testimonial } from '../../types'
+import { Testimonial, SharePlatform } from '../../types'
 import { OptionsDropdown } from './revealed-testimonial/OptionsDropdown'
 
 export const RevealedTestimonial = ({
   testimonial,
   cacheKey,
   isRevealed,
+  platforms,
 }: {
   testimonial: Testimonial
   cacheKey: QueryKey
   isRevealed: boolean
+  platforms: readonly SharePlatform[]
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
 
@@ -33,7 +35,12 @@ export const RevealedTestimonial = ({
             handle={testimonial.student.handle}
           />
           <div className="info">
-            <div className="student">{testimonial.student.handle}</div>
+            <div className="student">
+              <HandleWithFlair
+                handle={testimonial.student.handle}
+                flair={testimonial.student.flair}
+              />
+            </div>
             <div className="exercise">
               on {testimonial.exercise.title} in {testimonial.track.title}
             </div>
@@ -51,6 +58,7 @@ export const RevealedTestimonial = ({
         open={open}
         testimonial={testimonial}
         onClose={() => setOpen(false)}
+        platforms={platforms}
       />
     </React.Fragment>
   )

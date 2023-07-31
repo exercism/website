@@ -1,0 +1,8 @@
+.lg-container
+  %h1.text-h1.mb-16 Editing community video
+  = render "form", community_video: @community_video
+  %br/
+  %div
+    = link_to "Show this community video", [:admin, @community_video]
+    |
+    = link_to "Back to community videos", admin_community_videos_path

@@ -92,7 +92,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
 
     RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
+      with { |request| request.body.exclude?("after:") }.
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").
@@ -182,7 +182,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
     assert_equal 'exercism/ruby', issue.repo
     assert_equal %w[bug good-first-issue], issue.labels.pluck(:name).sort
     assert_equal Time.parse('2020-10-17T02:39:37Z').utc, issue.opened_at
-    assert issue.opened_by_username.nil?
+    assert_nil issue.opened_by_username
   end
 
   test "fetch all issues even if rate limit is reached" do
@@ -276,7 +276,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
 
     RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
+      with { |request| request.body.exclude?("after:") }.
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").
@@ -379,7 +379,7 @@ class Github::Issue::SyncRepoTest < ActiveSupport::TestCase
 
     RestClient.unstub(:post)
     stub_request(:post, "https://api.github.com/graphql").
-      with { |request| !request.body.include?("after:") }.
+      with { |request| request.body.exclude?("after:") }.
       to_return(status: 200, body: first_response.to_json, headers: { 'Content-Type': 'application/json' })
 
     stub_request(:post, "https://api.github.com/graphql").

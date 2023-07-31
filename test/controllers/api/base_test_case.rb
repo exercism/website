@@ -7,7 +7,7 @@ module API
         url = send(path, *Array.new(args, 'a')) # rubocop:disable Lint/RedundantSplatExpansion
         send(method, url, as: :json)
 
-        assert_response 401
+        assert_response :unauthorized
         expected = { error: {
           type: "invalid_auth_token",
           message: I18n.t('api.errors.invalid_auth_token')

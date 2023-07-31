@@ -10,14 +10,25 @@ def system!(*args)
 end
 
 FileUtils.chdir APP_ROOT do
-  # TODO: We're going to want to remove this eventually!!
-  # Recreates the database on each deployment.
-  # system! 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec bin/rails db:migrate:reset db:seed'
-
   # Firstly we're going to run the migrations.
   # We do this via this helper script to sleep and retry on conurrent failures
   system! 'bundle exec bin/rails runner lib/run_migrations_with_concurrent_guard.rb'
 
+  # As EFS files are owned by different users in different places
+  # we need to tell libgit to be less stressed about user conflicts.
+  # Any instance of "fatal: detected dubious ownership in repository"
+  # means that this hasn't worked properly.
+  system! "ls -1 -d /mnt/efs/repos/* | xargs -L1 git config --global --add safe.directory"
+
+  # Warm the local cache of EFS to avoid big read spikes as users start to hit the website.
+  system! 'bundle exec bin/rails runner "Track.find_each{|t|begin;t.git.config;rescue;end}"'
+  system! 'bundle exec bin/rails runner "Git::WebsiteCopy.new.walkthrough"'
+  system! 'bundle exec bin/rails runner "Git::Docs.new.section_config(:using)"'
+
   # Finally we get the actual server running
   system! "bundle exec bin/rails server -e production -b '0.0.0.0' -p 3000"
 end
+
+Track.active.order(:slug).pluck(:slug).map{|s| system("git config --global --add safe.directory /mnt/efs/repos/#{s}}")}
+
+

@@ -81,7 +81,7 @@ export const PronounsForm = ({
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 0)}
           />
-          answered all my questions. I'll recommend
+          answered all my questions. I&apos;ll recommend
           <input
             type="text"
             value={pronounParts[1] || ''}
@@ -117,7 +117,7 @@ export const PronounsForm = ({
             type="button"
             onClick={() => setPronounParts(['They', 'them', 'their'])}
           >
-            they / their / them
+            they / them / their
           </button>
           <button
             type="button"

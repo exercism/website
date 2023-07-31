@@ -8,6 +8,8 @@ const OptionComponent = ({ option: order }: { option: Order }) => {
       return <React.Fragment>Sort by Newest First</React.Fragment>
     case 'oldest_first':
       return <React.Fragment>Sort by Oldest First</React.Fragment>
+    case 'most_starred':
+      return <React.Fragment>Sort by Most Starred</React.Fragment>
   }
 }
 
@@ -20,7 +22,7 @@ export const OrderSelect = ({
 }): JSX.Element => {
   return (
     <SingleSelect<Order>
-      options={['newest_first', 'oldest_first']}
+      options={['most_starred', 'newest_first', 'oldest_first']}
       value={value}
       setValue={setValue}
       SelectedComponent={OptionComponent}

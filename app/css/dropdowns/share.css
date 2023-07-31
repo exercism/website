@@ -1,0 +1,7 @@
+@import "../styles";
+
+.c-share-dropdown {
+    @apply shadow-lg rounded-8 bg-backgroundColorA;
+    @apply relative z-dropdown;
+    max-width: 644px;
+}

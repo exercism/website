@@ -1,0 +1,22 @@
+.c-tooltip-base.sm:block.hidden
+  .flex.gap-16
+    = graphical_icon 'analyzer', css_class: "filter-textColor6"
+    %div
+      %h5.text-h5
+        The #{@track.title} analyzer
+        = render ViewComponents::Track::Build::Health.new(@status.analyzer.health)
+
+      %p.text-p-base
+        - case @status.analyzer.health.to_sym
+        - when :exemplar
+          Gives feedback on #{@status.analyzer.display_rate_percentage}% of the submitted iterations!
+        - when :healthy
+          Gives feedback on #{@status.analyzer.display_rate_percentage}% of the submitted iterations.
+        - when :needs_attention
+          No feedback has been given.
+        - when :missing
+          The analyzer has not yet been implemented.
+
+      - if @status.analyzer.num_comments.positive?
+        %p.text-p-base
+          #{@status.analyzer.num_comments} #{'comment'.pluralize(@status.analyzer.num_comments)} have been made.

@@ -8,6 +8,9 @@
       %h1.text-h1 #{@num_tracks} languages for you to master
       %p.text-p-large
         Become fluent in your chosen programming languages by completing these tracks created by our
-        = link_to "awesome team of contributors", contributing_contributors_path
+        = link_to "awesome team of contributors", contributing_contributors_path, class: 'text-prominentLinkColor'
 
   = render ReactComponents::Student::TracksList.new(current_user, @tracks, params)
+
+- content_for :meta_tags do
+  %meta{ name: "turbo-visit-control", content: "reload" }

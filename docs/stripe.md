@@ -73,4 +73,4 @@ stripe products create \
 
 Store the id in `config/initializers/stripe.rb`
 
-Note: Most tutorials will also expect you to create "prices" but we don't both with that as users can choose their own price.
+Note: Most tutorials will also expect you to create "prices" but we don't bother with that as users can choose their own price.

@@ -21,12 +21,11 @@ module Flows
                 product: Exercism.secrets.stripe_recurring_product_id,
                 recurring: { interval: "month" }
               }
-            }],
-            proration_behavior: "none"
+            }]
           }).
           to_return(status: 200, body: {}.to_json)
         user = create :user, active_donation_subscription: true
-        create :donations_subscription, stripe_id: subscription_id, user: user, active: true, amount_in_cents: 500
+        create :payments_subscription, external_id: subscription_id, user:, status: :active, amount_in_cents: 500
 
         use_capybara_host do
           sign_in!(user)

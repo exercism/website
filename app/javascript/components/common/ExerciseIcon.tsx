@@ -1,5 +1,5 @@
 import React from 'react'
-import { imageErrorHandler } from '../common'
+import { missingExerciseIconErrorHandler } from '../common'
 
 type ExerciseIconProps = {
   iconUrl: string
@@ -7,8 +7,12 @@ type ExerciseIconProps = {
   className?: string
 }
 
-export function ExerciseIcon({ iconUrl, title, className }: ExerciseIconProps) {
-  let classNames = ['c-icon c-exercise-icon']
+export function ExerciseIcon({
+  iconUrl,
+  title,
+  className,
+}: ExerciseIconProps): JSX.Element {
+  const classNames = ['c-icon c-exercise-icon']
   if (className !== undefined) {
     classNames.push(className)
   }
@@ -19,7 +23,7 @@ export function ExerciseIcon({ iconUrl, title, className }: ExerciseIconProps) {
       src={iconUrl}
       alt={title ? `Icon for exercise called ${title}` : undefined}
       role={title ? undefined : 'presentation'}
-      onError={imageErrorHandler}
+      onError={missingExerciseIconErrorHandler}
     />
   )
 }

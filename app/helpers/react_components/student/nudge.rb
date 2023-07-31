@@ -10,11 +10,11 @@ module ReactComponents
             title: solution.track.title,
             median_wait_time: solution.track.median_wait_time
           },
-          discussions: discussions,
-          request: request,
-          exercise_type: exercise_type,
-          iterations: solution.iterations.map { |iteration| SerializeIteration.(iteration) },
-          links: links
+          discussions:,
+          request:,
+          exercise_type:,
+          iterations: SerializeIterations.(solution.iterations.order(idx: :desc)),
+          links:
         })
       end
 
@@ -58,7 +58,7 @@ module ReactComponents
       end
 
       def discussions
-        SerializeMentorDiscussions.(solution.mentor_discussions.order(id: :desc), :student)
+        SerializeMentorDiscussionsForStudent.(solution.mentor_discussions.order(id: :desc))
       end
     end
   end

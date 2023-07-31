@@ -9,30 +9,30 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     solution = create :concept_solution, track: mentored_track
 
     # Cancelled
-    create :mentor_request, status: :cancelled, solution: solution
+    create(:mentor_request, status: :cancelled, solution:)
 
     # Fulfilled
-    create :mentor_request, status: :fulfilled, solution: solution
+    create(:mentor_request, status: :fulfilled, solution:)
 
     # Locked
-    request = create :mentor_request, solution: solution
-    create :mentor_request_lock, request: request
+    request = create(:mentor_request, solution:)
+    create(:mentor_request_lock, request:)
 
-    expired = create :mentor_request, solution: solution
-    pending = create :mentor_request, solution: solution
+    expired = create(:mentor_request, solution:)
+    pending = create(:mentor_request, solution:)
     locked_by_mentor = create :mentor_request
     create :mentor_request_lock, request: locked_by_mentor, locked_by: mentor
 
-    assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor: mentor)
+    assert_equal [expired, pending, locked_by_mentor], Mentor::Request::Retrieve.(mentor:)
   end
 
   test "does not retrieve own solutions" do
     mentored_track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
 
     other_solution = create :concept_solution, track: mentored_track
-    mentors_solution = create :concept_solution, track: mentored_track, user: user
+    mentors_solution = create(:concept_solution, track: mentored_track, user:)
 
     other_request = create :mentor_request, solution: other_solution
     create :mentor_request, solution: mentors_solution
@@ -49,9 +49,9 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     naughty_student = create :user
     unhappy_student = create :user
 
-    create :mentor_student_relationship, mentor: mentor, student: good_student
-    create :mentor_student_relationship, mentor: mentor, student: naughty_student, blocked_by_mentor: true
-    create :mentor_student_relationship, mentor: mentor, student: unhappy_student, blocked_by_student: true
+    create :mentor_student_relationship, mentor:, student: good_student
+    create :mentor_student_relationship, mentor:, student: naughty_student, blocked_by_mentor: true
+    create :mentor_student_relationship, mentor:, student: unhappy_student, blocked_by_student: true
 
     good_solution = create :concept_solution, track: mentored_track, user: good_student
     naughty_solution = create :concept_solution, track: mentored_track, user: naughty_student
@@ -61,7 +61,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     create :mentor_request, solution: naughty_solution
     create :mentor_request, solution: unhappy_solution
 
-    assert_equal [good_request], Mentor::Request::Retrieve.(mentor: mentor)
+    assert_equal [good_request], Mentor::Request::Retrieve.(mentor:)
   end
 
   test "only retrieves mentored or selected tracks" do
@@ -69,8 +69,8 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     mentored_track_2 = create :track, :random_slug
     unmentored_track = create :track, :random_slug
     user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track_1
-    create :user_track_mentorship, user: user, track: mentored_track_2
+    create :user_track_mentorship, user:, track: mentored_track_1
+    create :user_track_mentorship, user:, track: mentored_track_2
 
     mt_1_req = create :mentor_request, solution: create(:concept_solution, track: mentored_track_1)
     mt_2_req = create :mentor_request, solution: create(:concept_solution, track: mentored_track_2)
@@ -85,8 +85,8 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
 
     ruby = create :track, slug: "ruby"
     js = create :track, slug: "js"
-    create :user_track_mentorship, user: user, track: ruby
-    create :user_track_mentorship, user: user, track: js
+    create :user_track_mentorship, user:, track: ruby
+    create :user_track_mentorship, user:, track: js
 
     ruby_bob = create :concept_exercise, track: ruby, slug: "bob"
     js_bob = create :concept_exercise, track: js, slug: "bob"
@@ -110,7 +110,7 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "search works" do
     mentored_track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
 
     bob = create :user, handle: "Bob"
     toby = create :user, handle: "Toby"
@@ -127,13 +127,13 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "orders by recency" do
     mentored_track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
-    first = create :mentor_request, solution: solution
-    second = create :mentor_request, solution: solution
-    third = create :mentor_request, solution: solution
+    first = create(:mentor_request, solution:)
+    second = create(:mentor_request, solution:)
+    third = create(:mentor_request, solution:)
 
     assert_equal [first, second, third], Mentor::Request::Retrieve.(mentor: user)
     assert_equal [first, second, third], Mentor::Request::Retrieve.(mentor: user, sorted: false)
@@ -142,11 +142,11 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "pagination works" do
     mentored_track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
-    52.times { create :mentor_request, solution: solution }
+    52.times { create :mentor_request, solution: }
 
     requests = Mentor::Request::Retrieve.(mentor: user, page: 2)
     assert_equal 2, requests.current_page
@@ -163,11 +163,11 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
   test "returns relationship unless paginated" do
     mentored_track = create :track
     user = create :user
-    create :user_track_mentorship, user: user, track: mentored_track
+    create :user_track_mentorship, user:, track: mentored_track
 
     solution = create :concept_solution, track: mentored_track
 
-    create :mentor_request, solution: solution
+    create(:mentor_request, solution:)
 
     requests = Mentor::Request::Retrieve.(mentor: user, paginated: false)
     assert requests.is_a?(ActiveRecord::Relation)

@@ -6,6 +6,24 @@ on:
   pull_request:
 
 jobs:
+  setup_env:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          sparse-checkout: |
+            .dockerimages.json
+          sparse-checkout-cone-mode: false
+
+      - name: Define Docker images
+        run: |
+          echo "localstack_image=$(jq -r '.localstack' .dockerimages.json)" >> "$GITHUB_ENV"
+          echo "opensearch_image=$(jq -r '.opensearch' .dockerimages.json)" >> "$GITHUB_ENV"
+    outputs:
+      localstack_image: ${{ env.localstack_image }}
+      opensearch_image: ${{ env.opensearch_image }}
+
   ##################
   ##### RUBOCOP ####
   ##################
@@ -104,7 +122,9 @@ jobs:
   ruby-tests:
     if: github.repository == 'exercism/website'
 
-    needs: ruby-test-files
+    needs:
+      - ruby-test-files
+      - setup_env
     strategy:
       fail-fast: false
       max-parallel: 15
@@ -135,12 +155,12 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:2.2.0"
+        image: ${{ needs.setup_env.outputs.localstack_image }}
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:2.9.0
+        image: ${{ needs.setup_env.outputs.opensearch_image }}
         env:
           discovery.type: single-node
         ports:
@@ -255,7 +275,10 @@ jobs:
   system-tests:
     if: github.repository == 'exercism/website'
 
-    needs: system-test-files
+    needs:
+      - system-test-files
+      - setup_env
+
     strategy:
       fail-fast: false
       max-parallel: 15
@@ -285,12 +308,12 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:2.2.0"
+        image: ${{ needs.setup_env.outputs.localstack_image }}
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:2.9.0
+        image: ${{ needs.setup_env.outputs.opensearch_image }}
         env:
           discovery.type: single-node
         ports:

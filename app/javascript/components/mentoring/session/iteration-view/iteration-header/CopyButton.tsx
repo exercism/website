@@ -47,7 +47,6 @@ export const CopyButton = ({
     <button type="button" className={classNames.join(' ')} onClick={handleCopy}>
       <Icon icon="clipboard" alt="Copy solution" />
       {justCopied ? <span className="message">Copied</span> : null}
-      {/* <span className="message">Copied</span> */}
       <span data-test-clipboard data-content={textToCopy} />
     </button>
   )

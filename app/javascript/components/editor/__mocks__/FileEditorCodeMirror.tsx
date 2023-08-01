@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
-import { EditorSettings } from '../../Editor/types'
-import { File } from '../../types'
+import { File } from '@/components/types'
+import { EditorSettings } from '../types'
 
 export enum Keybindings {
   DEFAULT = 'default',

@@ -102,6 +102,7 @@ export function IterationSummary({
       ) : (
         <ProcessingStatusSummary iterationStatus={iteration.status} />
       )}
+
       {showFeedbackIndicator ? (
         <AnalysisStatusSummary
           numEssentialAutomatedComments={

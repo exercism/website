@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
+import { timeFormat } from '@/utils'
 import {
   CopyToClipboardButton,
   GraphicalIcon,
   Icon,
   MedianWaitTime,
-} from '../../../common'
-import { MentorSessionRequest as Request, Iteration } from '../../../types'
-import { timeFormat } from '../../../../utils/time'
-import { Video as VideoProps } from '../../MentoringSession'
-import { MentorSessionTrack as Track } from '../../../types'
-import { IterationMarker } from '../../../mentoring/session/IterationMarker'
+} from '@/components/common'
+import { IterationMarker } from '@/components/mentoring/session/IterationMarker'
 import {
   DiscussionPost,
   DiscussionPostProps,
   DiscussionPostAction,
-} from '../../../mentoring/discussion/DiscussionPost'
+} from '@/components/mentoring/discussion/DiscussionPost'
 import { CancelRequestButton } from './CancelRequestButton'
+import type {
+  MentorSessionRequest as Request,
+  Iteration,
+  MentorSessionTrack as Track,
+} from '@/components/types'
+import type { Video as VideoProps } from '../../MentoringSession'
 
 type Links = {
   privateMentoring: string

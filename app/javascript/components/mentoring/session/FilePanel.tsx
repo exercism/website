@@ -7,6 +7,7 @@ import {
   TestsPanel,
 } from '@/components/editor/index'
 import { File, TestFile } from '../../types'
+import { CopyButton } from './iteration-view/iteration-header/CopyButton'
 
 const TabsContext = createContext<TabContext>({
   current: '',
@@ -19,12 +20,14 @@ export const FilePanel = ({
   indentSize,
   instructions,
   testFiles,
+  showCopyButton = false,
 }: {
   files: readonly File[]
   language: string
   indentSize: number
   instructions?: string
   testFiles?: readonly TestFile[]
+  showCopyButton?: boolean
 }): JSX.Element | null => {
   const [tab, setTab] = useState<string>('')
 
@@ -49,28 +52,32 @@ export const FilePanel = ({
     >
       <div className="c-iteration-pane">
         <div className="tabs" role="tablist">
-          {files.map((file, idx) => (
-            <Tab
-              key={file.filename + idx}
-              id={file.filename + idx}
-              context={TabsContext}
-            >
-              {file.filename}
-            </Tab>
-          ))}
+          <div className="flex flex-grow relative">
+            {files.map((file, idx) => (
+              <Tab
+                key={file.filename + idx}
+                id={file.filename + idx}
+                context={TabsContext}
+              >
+                {file.filename}
+              </Tab>
+            ))}
 
-          {instructions ? (
-            <Tab key="instructions" id="instructions" context={TabsContext}>
-              Instructions
-            </Tab>
-          ) : null}
+            {instructions ? (
+              <Tab key="instructions" id="instructions" context={TabsContext}>
+                Instructions
+              </Tab>
+            ) : null}
 
-          {testFiles ? (
-            <Tab key="tests" id="tests" context={TabsContext}>
-              Tests
-            </Tab>
-          ) : null}
+            {testFiles ? (
+              <Tab key="tests" id="tests" context={TabsContext}>
+                Tests
+              </Tab>
+            ) : null}
+          </div>
+          {files && showCopyButton && <CopyButton files={files} />}
         </div>
+
         <div className="c-code-pane">
           {files.map((file, idx) => (
             <Tab.Panel

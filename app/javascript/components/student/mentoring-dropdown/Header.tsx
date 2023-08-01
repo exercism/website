@@ -1,6 +1,6 @@
 import React from 'react'
-import { CopyToClipboardButton } from '../../common'
-import { SolutionMentoringStatus } from '../../types'
+import { CopyToClipboardButton } from '@/components/common'
+import { SolutionMentoringStatus } from '@/components/types'
 
 export const Header = ({
   mentoringStatus,

@@ -25,8 +25,6 @@ export const TabsContext = createContext<TabContext>({
 export function FileEditorCodeMirror({
   language,
   editorDidMount,
-  onRunTests,
-  onSubmit,
   files: defaultFiles,
   settings,
   readonly,

@@ -2,6 +2,8 @@
     @apply flex-grow flex flex-col;
     @apply bg-backgroundColorB;
     .c-copy-text-to-clipboard {
+        --message-top-position: 25px;
+        position: static;
         @apply border-none border-l-1 rounded-none;
         @apply border-borderColor7 ml-32;
         @apply bg-transparent;

@@ -24,7 +24,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       joins(:track).
       pluck('exercises.slug', 'tracks.slug', 'solutions.published_at').
       group_by(&:first).
-      transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }
+      transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }.
+      tap { |published| published.delete('simple-linked-list') if published.key?('linked-list') }
   end
 
   memoize

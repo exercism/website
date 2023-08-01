@@ -11,7 +11,7 @@ type Links = Record<'settings' | 'donate', string>
 const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
 const DEFAULT_AMOUNT = currency(16)
 
-type Props = {
+export type FooterFormProps = {
   request: Request
   links: Links
   userSignedIn: boolean
@@ -25,7 +25,7 @@ const FooterForm = ({
   userSignedIn,
   captchaRequired,
   recaptchaSiteKey,
-}: Props): JSX.Element => {
+}: FooterFormProps): JSX.Element => {
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
   const [customAmount, setCustomAmount] = useState('')
   const [modalOpen, setModalOpen] = useState(false)

@@ -487,13 +487,7 @@ export const mappings = {
   // Slow things at the end
   'donations-footer-form': (data: any) => (
     <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
+      <DonationsFooterForm {...camelizeKeysAs<FooterFormProps>(data)} />
     </Suspense>
   ),
 }
@@ -521,6 +515,7 @@ import {
   PaypalStatusProps,
 } from '@/components/premium/PaypalStatus'
 import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
+import { FooterFormProps } from '../components/donations/FooterForm'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

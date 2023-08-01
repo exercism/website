@@ -128,7 +128,6 @@ export function useStripeForm({
         email: email,
       }),
     }).then((data: any) => {
-      console.log('data from getPaymentRequest', data)
       if (data.error) {
         setError(`Payment failed with error: ${data.error}`)
         return null

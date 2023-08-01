@@ -2,8 +2,8 @@ import React, { useState, useCallback } from 'react'
 import currency from 'currency.js'
 import { Request } from '@/hooks'
 import { Form } from './Form'
-import { PaymentIntentType } from './StripeForm'
 import SuccessModal from './SuccessModal'
+import { PaymentIntentType } from './stripe-form/useStripeForm'
 
 export type FormWithModalLinks = {
   donate: string

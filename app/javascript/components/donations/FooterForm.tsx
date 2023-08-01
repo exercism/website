@@ -6,9 +6,7 @@ import { FormModal } from './footer-form/FormModal'
 import { GraphicalIcon } from '../common'
 import { Request } from '../../hooks/request-query'
 
-type Links = {
-  settings: string
-}
+type Links = Record<'settings' | 'donate', string>
 
 const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
 const DEFAULT_AMOUNT = currency(16)

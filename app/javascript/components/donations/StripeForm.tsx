@@ -110,6 +110,8 @@ export function StripeForm({
         </div>
         <div className="card-element">
           {paymentIntentType === 'payment' ? (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             <PaymentElement onChange={handlePaymentElementChange} />
           ) : (
             <CardElement

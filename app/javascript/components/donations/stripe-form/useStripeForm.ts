@@ -45,7 +45,7 @@ type UseStripeFormReturns = {
   ) => Promise<void>
   handleCardChange: (event: StripeCardElementChangeEvent) => Promise<void>
   handleCardReady: (element: StripeCardElement) => Promise<void>
-  handleEmailChange: (e: any) => void
+  handleEmailChange: React.ChangeEventHandler<HTMLInputElement>
   handleCaptchaSuccess: () => void
   handleCaptchaFailure: () => void
   handleSubmit: (event: React.ChangeEvent<HTMLFormElement>) => Promise<void>
@@ -128,6 +128,7 @@ export function useStripeForm({
         email: email,
       }),
     }).then((data: any) => {
+      console.log('data from getPaymentRequest', data)
       if (data.error) {
         setError(`Payment failed with error: ${data.error}`)
         return null
@@ -140,7 +141,7 @@ export function useStripeForm({
     stripe: Stripe,
     elements: StripeElements,
     paymentIntent: PaymentIntent
-  ) => Promise<{ error?: StripeError; payload?: any }>
+  ) => Promise<{ error?: StripeError }>
 
   const handlePayment = async (
     event: React.ChangeEvent<HTMLFormElement>,
@@ -167,11 +168,7 @@ export function useStripeForm({
         return
       }
 
-      const { error, payload } = await confirmPaymentFn(
-        stripe,
-        elements,
-        paymentIntent
-      )
+      const { error } = await confirmPaymentFn(stripe, elements, paymentIntent)
 
       if (error) {
         setError(
@@ -192,7 +189,6 @@ export function useStripeForm({
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) =>
     handlePayment(
       event,
-      // TODO: fix TS here
       async (
         stripe: Stripe,
         elements: StripeElements,
@@ -200,7 +196,12 @@ export function useStripeForm({
       ) => {
         const cardElement = elements.getElement(CardElement)
         if (!cardElement)
-          return { error: { message: 'Card element not found' } }
+          return {
+            error: {
+              message: 'Card element not found',
+              type: 'validation_error',
+            },
+          }
 
         const payload = await stripe.confirmCardPayment(
           paymentIntent.clientSecret,

@@ -9,32 +9,50 @@ function CheckingForFeedback({
   showTakingTooLong: boolean
 }): JSX.Element {
   return (
-    <div className="flex flex-col gap-16">
-      <div className="flex gap-8 text-h4 text-textColor1">
+    <>
+      <div className="flex gap-40 items-start">
+        <div className="flex flex-col">
+          <div className="text-h4 mb-12">
+            Checking for automated feedback...{' '}
+          </div>
+          <p className="text-16 leading-150  mb-4">
+            Our systems are inspecting your code to find both automated feedback
+            and feedback given by mentors on similar solutions.
+          </p>
+          <p className="text-16 leading-150  mb-8">
+            This process normally takes ~10 seconds.
+          </p>
+          <GraphicalIcon
+            icon="spinner"
+            className="animate-spin filter-textColor1"
+            height={24}
+            width={24}
+          />
+        </div>
         <GraphicalIcon
-          icon="spinner"
-          className="animate-spin filter-textColor1"
-          height={24}
-          width={24}
+          height={160}
+          width={160}
+          className="mb-16"
+          icon="mentoring"
+          category="graphics"
         />
-        Checking for automated feedback...{' '}
       </div>
       {showTakingTooLong && <TakingTooLong />}
-      <button onClick={onClick} className="btn-primary btn-s mr-auto">
-        Continue anyway
+      <button onClick={onClick} className="btn-secondary btn-s mr-auto">
+        Continue without waiting
       </button>
-    </div>
+    </>
   )
 }
 
 function TakingTooLong(): JSX.Element {
   return (
-    <div>
-      <p className="text-p-base">
-        Sorry, this is taking a little long.
-        <br />
-        We&apos;ll continue gathering feedback in the background.
-      </p>
+    <div class="c-textblock-caution">
+      <div className="c-textblock-content text-p-base leading-150">
+        Sorry, this is taking a little longer than expected. You may wish to
+        continue without waiting. You can view any feedback on the iterations
+        tab of the solution later.
+      </div>
     </div>
   )
 }

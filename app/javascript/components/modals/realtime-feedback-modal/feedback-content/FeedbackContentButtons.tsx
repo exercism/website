@@ -4,10 +4,7 @@ type ReactButton = React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export function GoBackToExercise({ ...props }: ReactButton): JSX.Element {
   return (
-    <button
-      {...props}
-      className="mr-16 px-[18px] py-[12px] border border-1 border-textColor1 text-textColor1 text-16 rounded-8 font-semibold shadow-xsZ1v2"
-    >
+    <button {...props} className="btn-s btn-primary">
       Go back to editor
     </button>
   )

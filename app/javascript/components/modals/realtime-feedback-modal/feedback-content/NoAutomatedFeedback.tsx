@@ -13,28 +13,33 @@ export function NoAutomatedFeedback({
   'exercise' | 'mentorDiscussionsLink' | 'track'
 >): JSX.Element {
   return (
-    <div className="flex flex-col items-center py-24">
-      <h3 className="text-18 leading-regular font-semibold text-textColor1 mb-12 text-center ">
-        There is no automated feedback for this exercise
-      </h3>
+    <div className="flex gap-40 items-start">
+      <div className="flex flex-col items-start">
+        <h3 className="text-h4 mb-12">No Immediate Feedback</h3>
+
+        <p className="text-16 leading-150 font-medium text-textColor1 mb-8">
+          Our systems don't have any immediate suggestions about your code.
+        </p>
+
+        <p className="text-16 mb-16 leading-150">
+          We recommend sending the exercise to one of our {track.title} mentors.
+          They'll give you feedback on your code and ideas about how you can
+          make it even more idomatic. It's 100% free 🙂
+        </p>
+        <div className="flex gap-12">
+          <a href={mentorDiscussionsLink} className="btn-primary btn-s">
+            Send to a mentor...
+          </a>
+          <ContinueButton onClick={onContinue} />
+        </div>
+      </div>
       <GraphicalIcon
-        height={120}
-        width={120}
+        height={160}
+        width={160}
         className="mb-16"
         icon="mentoring"
         category="graphics"
       />
-      <p className="text-16 mb-24 leading-huge text-center ">
-        However, we recommend requesting a code review from one of our mentors
-        for the {exercise.title} exercise to help improve your {track.title}{' '}
-        skills.
-      </p>
-      <div className="flex gap-16">
-        <a href={mentorDiscussionsLink} className="btn-secondary btn-s">
-          Submit for a code review
-        </a>
-        <ContinueButton onClick={onContinue} />
-      </div>
     </div>
   )
 }

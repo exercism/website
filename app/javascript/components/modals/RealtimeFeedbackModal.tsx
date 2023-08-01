@@ -51,7 +51,7 @@ export const RealtimeFeedbackModal = ({
       onClose={onClose}
       shouldCloseOnEsc={false}
       shouldCloseOnOverlayClick
-      ReactModalClassName="max-w-[40%]"
+      ReactModalClassName="w-fill max-w-[700px]"
     >
       <FeedbackContent
         checkStatus={checkStatus}

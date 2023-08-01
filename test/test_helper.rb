@@ -309,7 +309,7 @@ class ActiveSupport::TestCase
 
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index:, id:)
-  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+  rescue OpenSearch::Transport::Transport::Errors::NotFound
     nil
   end
 

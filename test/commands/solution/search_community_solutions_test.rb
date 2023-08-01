@@ -281,7 +281,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
   test "fallback is called" do
     exercise = create :concept_exercise
     Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, :newest, "foobar", :passed, :failed, :up_to_date)
-    Elasticsearch::Client.expects(:new).raises
+    OpenSearch::Client.expects(:new).raises
 
     Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, head_tests_status: :failed, sync_status: :up_to_date) # rubocop:disable Layout:LineLength
   end

@@ -19,7 +19,7 @@ class Solution::RemoveUserSolutionsForTrackFromSearchIndex
         }
       }
     })
-  rescue Elasticsearch::Transport::Transport::Errors::Conflict
+  rescue OpenSearch::Transport::Transport::Errors::Conflict
     raise if @retries.to_i >= 3
 
     sleep(0.5)

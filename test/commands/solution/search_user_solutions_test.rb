@@ -292,7 +292,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     user = create :user
     Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", :oldest_first,
       :up_to_date, "passed", "failed")
-    Elasticsearch::Client.expects(:new).raises
+    OpenSearch::Client.expects(:new).raises
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
       criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")

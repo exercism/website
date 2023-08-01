@@ -57,7 +57,6 @@
     "highlightjs-zig": "^1.0.2",
     "humps": "^2.0.1",
     "lang-julia": "^0.1.0",
-    "localforage": "^1.9.0",
     "lodash": "^4.17.20",
     "mousetrap": "^1.6.5",
     "nim-codemirror-mode": "^0.3.0",

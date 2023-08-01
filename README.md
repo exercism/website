@@ -66,6 +66,7 @@ GRANT ALL PRIVILEGES ON `exercism_test`.* TO 'exercism'@'localhost';
 
 To run the app you must have a local version of AWS running.
 We use localstack and opensearch, and run them via Docker.
+Double check versions in `.dockerimages.json`.
 
 ```bash
 docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack:2.2.0

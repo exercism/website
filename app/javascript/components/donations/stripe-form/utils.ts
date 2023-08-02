@@ -22,9 +22,9 @@ export function generateStripeButtonText(
 export function generateIntervalText(paymentIntent: PaymentIntentType): string {
   switch (paymentIntent) {
     case 'premium_monthly_subscription':
-      return `month`
+      return 'month'
     case 'premium_yearly_subscription':
-      return `year`
+      return 'year'
     default:
       return ''
   }

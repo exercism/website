@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_02_140435) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1412,6 +1412,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.index ["user_id"], name: "fk_rails_283ecc719a"
   end
 
+  create_table "user_track_viewed_community_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_track_id", null: false
+    t.bigint "solution_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["solution_id"], name: "index_user_track_viewed_community_solutions_on_solution_id"
+    t.index ["user_track_id"], name: "index_user_track_viewed_community_solutions_on_user_track_id"
+  end
+
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
@@ -1580,6 +1589,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
   add_foreign_key "user_reputation_tokens", "users"
   add_foreign_key "user_track_mentorships", "tracks"
   add_foreign_key "user_track_mentorships", "users"
+  add_foreign_key "user_track_viewed_community_solutions", "solutions"
+  add_foreign_key "user_track_viewed_community_solutions", "user_tracks"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
 end

@@ -19,6 +19,8 @@ class UserTrack < ApplicationRecord
     primary_key: :user_id,
     inverse_of: :user_track
 
+  has_many :viewed_community_solutions, dependent: :destroy
+
   delegate :num_concepts, to: :track
   delegate :title, to: :track, prefix: true
 

@@ -983,4 +983,13 @@ class UserTrackTest < ActiveSupport::TestCase
     refute non_maintainer_user_track.reload.course?
     assert maintainer_user_track.reload.course?
   end
+
+  test "viewed_community_solutions" do
+    user_track = create :user_track
+
+    vcs_1 = create(:user_track_viewed_community_solution, user_track:)
+    vcs_2 = create(:user_track_viewed_community_solution, user_track:)
+
+    assert_equal [vcs_1, vcs_2], user_track.viewed_community_solutions.order(:id)
+  end
 end

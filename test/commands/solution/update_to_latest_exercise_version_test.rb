@@ -16,13 +16,14 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
   end
 
   test "updates last iteration submission's git data" do
-    solution = create :concept_solution
+    exercise = create :concept_exercise, representer_version: 20
+    solution = create(:concept_solution, exercise:)
     old_submission = create(:iteration, solution:).submission
     new_submission = create(:iteration, solution:).submission
     deleted_submission = create(:iteration, solution:, deleted_at: Time.current).submission
 
     [old_submission, new_submission, deleted_submission].each do |submission|
-      submission.update!(git_sha: "foo", git_slug: "bar")
+      submission.update!(git_sha: "foo", git_slug: "bar", git_important_files_hash: "gifh", exercise_representer_version: 13)
 
       # Sanity
       assert_equal "foo", submission.git_sha
@@ -32,12 +33,18 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
     Solution::UpdateToLatestExerciseVersion.(solution)
     [old_submission, new_submission, deleted_submission].each(&:reload)
 
-    assert_equal "foo", old_submission.git_sha
-    assert_equal "bar", old_submission.git_slug
     assert_equal solution.exercise.git_sha, new_submission.git_sha
     assert_equal solution.exercise.slug, new_submission.git_slug
-    assert_equal "foo", deleted_submission.git_sha
-    assert_equal "bar", deleted_submission.git_slug
+    assert_equal solution.git_important_files_hash, new_submission.git_important_files_hash
+    assert_equal exercise.representer_version, new_submission.exercise_representer_version
+
+    # Other things are unchanged
+    [old_submission, deleted_submission].each do |sub|
+      assert_equal "foo", sub.git_sha
+      assert_equal "bar", sub.git_slug
+      assert_equal "gifh", sub.git_important_files_hash
+      assert_equal 13, sub.exercise_representer_version
+    end
   end
 
   test "reruns test on latest iteration's submission" do
@@ -51,14 +58,13 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
     Solution::UpdateToLatestExerciseVersion.(solution)
   end
 
-  test "don't rerun test if test runner is disabled" do
+  test "reruns representation on latest iteration's submission" do
     solution = create :concept_solution
-    solution.exercise.update(has_test_runner: false)
     create(:iteration, solution:).submission
-    create(:iteration, solution:).submission
+    new_submission = create(:iteration, solution:).submission
     create(:iteration, solution:, deleted_at: Time.current).submission
 
-    Submission::TestRun::Init.expects(:call).never
+    Submission::Representation::Init.expects(:call).with(new_submission, run_in_background: true)
 
     Solution::UpdateToLatestExerciseVersion.(solution)
   end

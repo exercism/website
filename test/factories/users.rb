@@ -81,11 +81,23 @@ FactoryBot.define do
       name { "Ghost" }
     end
 
-    %i[founder admin staff maintainer supermentor].each do |role|
+    %i[founder admin staff maintainer].each do |role|
       trait role do
         after(:create) do |user, _evaluator|
-          user.data.update(roles: [role])
+          user.data.update!(
+            roles: (user.data.roles + [role])
+          )
         end
+      end
+    end
+
+    trait :supermentor do
+      after(:create) do |user, _evaluator|
+        data = user.data
+        data.update!(
+          roles: (data.roles + [:supermentor]),
+          cache: (data.cache || {}).merge({ 'mentor_satisfaction_percentage' => 98 })
+        )
       end
     end
 

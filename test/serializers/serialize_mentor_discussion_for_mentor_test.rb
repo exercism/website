@@ -25,7 +25,8 @@ class SerializeMentorDiscussionForMentorTest < ActiveSupport::TestCase
         self: Exercism::Routes.mentoring_discussion_url(discussion),
         posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
         finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion),
-        mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion)
+        mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion),
+        tooltip_url: Exercism::Routes.api_mentoring_student_path(discussion.student, track_slug: discussion.track.slug)
       }
     ).returns(output)
 

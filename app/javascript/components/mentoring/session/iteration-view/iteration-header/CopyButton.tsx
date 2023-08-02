@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { Icon } from '../../../../common'
-import { File } from '../../../../types'
-import { copyToClipboard } from '../../../../../utils/copyToClipboard'
+import { copyToClipboard } from '@/utils'
+import { Icon } from '@/components/common'
+import type { File } from '@/components/types'
 
 const formatForClipboard = (
   files: readonly File[],
@@ -24,11 +24,15 @@ export const CopyButton = ({
     justCopied ? '--copied' : '',
   ].filter((c) => c.length > 0)
 
-  const handleCopy = useCallback(async () => {
-    await copyToClipboard(textToCopy)
+  const handleCopy = useCallback(
+    async (e) => {
+      e.stopPropagation()
+      await copyToClipboard(textToCopy)
 
-    setJustCopied(true)
-  }, [textToCopy])
+      setJustCopied(true)
+    },
+    [textToCopy]
+  )
   useEffect(() => {
     if (!justCopied) {
       return

@@ -309,6 +309,8 @@ class ActiveSupport::TestCase
 
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index:, id:)
+  rescue OpenSearch::Transport::Transport::Errors::NotFound
+    nil
   end
 
   def wait_for_opensearch_to_be_synced
@@ -323,6 +325,13 @@ class ActiveSupport::TestCase
 
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
+  end
+
+  def generate_reputation_periods!
+    # We use reputation periods for the calculation
+    # This command should generate them all.
+    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationPeriod::Sweep.()
   end
 
   ###############
@@ -372,6 +381,11 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs(&block)
 
     assert_equal expected, user.data.reload.cache[key.to_s]
+  end
+
+  def reset_user_cache(user)
+    user.data.reload.update!(cache: nil)
+    user.reload
   end
 end
 

@@ -89,6 +89,7 @@ Done')
     TABLE
 
     expected = <<~HTML
+      <div class="c-responsive-table-wrapper">
       <table>
       <thead>
       <tr>
@@ -103,6 +104,7 @@ Done')
       </tr>
       </tbody>
       </table>
+      </div>
     HTML
     assert_equal expected, Markdown::Parse.(table)
   end
@@ -407,5 +409,10 @@ Done')
   test "render youtube video for mail with link" do
     expected = %(<a href="https://www.youtube.com/watch?v=LknqlTouTKg" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[video:youtube-mail/LknqlTouTKg](https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg)")
+  end
+
+  test "render youtube video for mail with link containing underscire" do
+    expected = %(<a href="https://www.youtube.com/watch?v=GOPmj_AMbP8" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/GOPmj_AMbP8](https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg)")
   end
 end

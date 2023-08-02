@@ -56,6 +56,14 @@ class Markdown::RenderHTML
       out('>', :children, '</a>')
     end
 
+    def table(node)
+      block do
+        out("<div class='c-responsive-table-wrapper'>")
+        super(node)
+        out('</div>')
+      end
+    end
+
     def external_url?(url)
       uri = Addressable::URI.parse(url)
       return false if uri.scheme.nil?

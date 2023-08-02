@@ -296,6 +296,32 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::JurassicJulyBadge
   end
 
+  test "awards apps august badge when published five or more exercises in an Appy August track" do
+    travel_to Time.utc(2022, 8, 12)
+
+    track = create :track, slug: 'kotlin'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::AppsAugustBadge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track
@@ -332,7 +358,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::PublishSolutionMetric, metric.class
+    assert_instance_of Metrics::PublishSolutionMetric, metric
     assert_equal solution.published_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal user, metric.user
@@ -351,5 +377,18 @@ class Solution::PublishTest < ActiveSupport::TestCase
       Solution::Publish.(solution, user_track, nil)
     end
     assert_equal 1, exercise.reload.num_published_solutions
+  end
+
+  test "updates user's num_published_solutions" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution = create(:concept_solution, :completed, user:, exercise:)
+    create(:iteration, solution:)
+
+    assert_user_data_cache_reset(user, :num_published_solutions, 1) do
+      Solution::Publish.(solution, user_track, nil)
+    end
   end
 end

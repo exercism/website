@@ -38,31 +38,54 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "correct test_runs are retrieved" do
     exercise_hash = "exercise-hash"
-    submission_sha = "submission-hash"
+    submission_hash = "submission-hash"
 
     exercise = create :practice_exercise, git_important_files_hash: exercise_hash
-    submission = create :submission, git_sha: submission_sha, solution: create(:practice_solution, exercise:)
-    create :submission_test_run, submission:, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
+    submission = create :submission, git_important_files_hash: submission_hash, solution: create(:practice_solution, exercise:)
+
+    create :submission_test_run, submission:, git_important_files_hash: SecureRandom.uuid
 
     # Create two head runs to check we get the latest
-    create :submission_test_run, submission:, git_sha: SecureRandom.uuid, git_important_files_hash: exercise_hash
-    head_run_2 = create :submission_test_run, submission:, git_sha: SecureRandom.uuid,
-      git_important_files_hash: exercise_hash
+    create :submission_test_run, submission:, git_important_files_hash: exercise_hash
+    head_run_2 = create :submission_test_run, submission:, git_important_files_hash: exercise_hash
+
     # Create two submission runs to check we get the latest
-    create :submission_test_run, submission:, git_sha: submission_sha, git_important_files_hash: SecureRandom.uuid
-    submission_run_2 = create :submission_test_run, submission:, git_sha: submission_sha,
-      git_important_files_hash: SecureRandom.uuid
-    create :submission_test_run, submission:, git_sha: SecureRandom.uuid, git_important_files_hash: SecureRandom.uuid
+    create :submission_test_run, submission:, git_important_files_hash: submission_hash
+    submission_run_2 = create :submission_test_run, submission:, git_important_files_hash: submission_hash
+    create :submission_test_run, submission:, git_important_files_hash: SecureRandom.uuid
 
     # Sanity
     assert_equal exercise_hash, exercise.git_important_files_hash
     assert_equal exercise_hash, head_run_2.git_important_files_hash
-    assert_equal submission_sha, submission.git_sha
-    assert_equal submission_sha, submission_run_2.git_sha
+    assert_equal submission_hash, submission.git_important_files_hash
+    assert_equal submission_hash, submission_run_2.git_important_files_hash
 
     assert_equal 6, submission.test_runs.size
     assert_equal head_run_2, submission.head_test_run
     assert_equal submission_run_2, submission.test_run
+  end
+
+  test "submission_representation" do
+    ast = "foobar"
+
+    # No submission_representation
+    submission = create :submission
+    assert_nil submission.exercise_representation
+
+    # Ops error submission rep
+    sr = create :submission_representation, submission:, ast:, ops_status: 500
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+
+    # Missing exercise_representation
+    sr.update!(ops_status: 200)
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+
+    # exercise_representation present
+    er = create :exercise_representation, exercise: submission.exercise, ast_digest: sr.ast_digest
+    submission = Submission.find(submission.id)
+    assert_equal er, submission.exercise_representation
   end
 
   test "exercise_representation" do

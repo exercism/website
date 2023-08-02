@@ -35,7 +35,7 @@ class Mentor::Discussion::CreateTest < ActiveSupport::TestCase
     Mentor::Discussion::Create.(create(:user), request, iteration.idx, "foobar")
 
     assert_equal 1, user.notifications.size
-    assert_equal User::Notifications::MentorStartedDiscussionNotification, User::Notification.where(user:).first.class
+    assert_instance_of User::Notifications::MentorStartedDiscussionNotification, User::Notification.where(user:).first
   end
 
   test "updates num_discussions on relationship record" do

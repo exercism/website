@@ -4,7 +4,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
   initialize_with :user
 
   def call
-    featured_exercises.filter_map do |exercise_slug, track_slugs|
+    self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
       next unless solutions.key?(exercise_slug)
 
       solved_in_featured_tracks = solutions[exercise_slug].select { |track_slug| track_slugs.include?(track_slug) }
@@ -17,6 +17,21 @@ class User::Challenges::FeaturedExercisesProgress12In23
     end
   end
 
+  def self.num_featured_exercises = self.featured_exercises.size - 1
+
+  memoize
+  def self.featured_exercises
+    (
+      FEBRUARY_EXERCISES.map { |e| [e, FEBRUARY_TRACKS] } +
+      MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
+      APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
+      MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
+      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
+      JULY_EXERCISES.map { |e| [e, JULY_TRACKS] } +
+      AUGUST_EXERCISES.map { |e| [e, AUGUST_TRACKS] }
+    ).to_h
+  end
+
   private
   memoize
   def solutions
@@ -24,19 +39,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       joins(:track).
       pluck('exercises.slug', 'tracks.slug', 'solutions.published_at').
       group_by(&:first).
-      transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }
-  end
-
-  memoize
-  def featured_exercises
-    (
-      FEBRUARY_EXERCISES.map { |e| [e, FEBRUARY_TRACKS] } +
-      MARCH_EXERCISES.map { |e| [e, MARCH_TRACKS] } +
-      APRIL_EXERCISES.map { |e| [e, APRIL_TRACKS] } +
-      MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
-      JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
-      JULY_EXERCISES.map { |e| [e, JULY_TRACKS] }
-    ).to_h
+      transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }.
+      tap { |published| published.delete('simple-linked-list') if published.key?('linked-list') }
   end
 
   FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze
@@ -56,4 +60,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   JULY_TRACKS = %w[c cpp cobol fortran vbnet].freeze
   JULY_EXERCISES = %w[bob allergies reverse-string high-scores armstrong-numbers].freeze
+
+  AUGUST_TRACKS = %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift
+                     typescript].freeze
+  AUGUST_EXERCISES = %w[anagram phone-number triangle rna-transcription scrabble-score].freeze
 end

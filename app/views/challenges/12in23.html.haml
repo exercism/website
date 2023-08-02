@@ -5,14 +5,15 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            Month 7 of #12in23
-          %h1.text-h1.mb-8 It's Jurassic July! ✨
+            Month 8 of #12in23
+          %h1.text-h1.mb-8 It's Appy August! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring established languages that have been incredibly successful. We're digging into C, C++, COBOL, Fortran and Visual Basic, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages that can be used to build apps.
+            We're digging into a whopping 14 languages: ABAP, CoffeeScript, Dart, Delphi, Elm, Java, JavaScript, Kotlin, Objective-C, PHP, PureScript, ReasonML, Swift and TypeScript, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Jurassic July overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Appy August overview video  👉
               %p.text-p-base.mb-8
                 Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
@@ -21,17 +22,17 @@
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/TlJaw3UZVsY", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/HuGqVceSyDk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Jurassic July badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the Appy August badge for completing and publishing 5 exercises in one of the following languages.
             Consider starting with a language with a syllabus (
             = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
             ).
 
-          - tracks = Track.where(slug: %w[c cpp cobol fortran vbnet])
-          .grid.grid-cols-8.gap-12.mb-32
+          - tracks = Track.where(slug: %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift typescript])
+          .grid.grid-cols-6.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
                 - if track.course?
@@ -44,25 +45,25 @@
             You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/bob.svg", class: "w-[25px] inline"
-              %strong.font-semibold Bob:
-              Work with strings and conditional logic
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/anagram.svg", class: "w-[25px] inline"
+              %strong.font-semibold Anagram:
+              Given a word and a list of possible anagrams, find its anagrams
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/allergies.svg", class: "w-[25px] inline"
-              %strong.font-semibold Allergies:
-              Work with strings, numbers and bitwise operations
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/phone-number.svg", class: "w-[25px] inline"
+              %strong.font-semibold Phone Number:
+              Clean-up a phone number
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/reverse-string.svg", class: "w-[25px] inline"
-              %strong.font-semibold Reverse String:
-              Iterate over the characters in a string
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/triangle.svg", class: "w-[25px] inline"
+              %strong.font-semibold Triangle:
+              Classify a triangle
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/high-scores.svg", class: "w-[25px] inline"
-              %strong.font-semibold High Scores:
-              Iterate over arrays of numbers
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/rna-transcription.svg", class: "w-[25px] inline"
+              %strong.font-semibold RNA Transcription:
+              Transform a DNA sequence into its RNA complement
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/armstrong-numbers.svg", class: "w-[25px] inline"
-              %strong.font-semibold Armstrong Numbers:
-              Work with numbers and looping/iteration
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/scrabble-score.svg", class: "w-[25px] inline"
+              %strong.font-semibold Scrabble Score:
+              Given a word, determine its scrabble score
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12.c-highlight-links
@@ -77,10 +78,6 @@
           %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
           %ul.text-p-large.list-disc.pl-16.c-highlight-links
             %li.mb-4
-              Help us compile the
-              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-jurassicy-languages/6306"
-              for learning and mastering these old skool languages in our dedicated forum thread.
-            %li.mb-4
               Join in the conversation by using the
               #{link_to '#12in23 tag on our forums', 'https://forum.exercism.org/tag/12in23'},
               chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord'},
@@ -88,9 +85,9 @@
               %strong.font-semibold #12in23
               hashtag around social media!
             %li.mb-4
-              We have exclusive Jurassic July swag that will only be available later in the month. Keep an eye on the
+              We have exclusive Appy August swag that will only be available later in the month. Keep an eye on the
               = link_to "swag store", "https://swag.exercism.org"
-              for details (and check out the Summer of Sexps swag before it goes too!)
+              for details (and check out the Jurassic July swag before it goes too!)
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
@@ -145,7 +142,7 @@
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
                 Published Exercises
-                .inline.text-14 (#{@badge_progress_exercises.size} / 30 so far)
+                .inline.text-14 (#{@badge_progress_exercises.size} / #{@badge_progress_exercise_count} so far)
               .grid.grid-cols-6.gap-12
                 - @badge_progress_exercises.each do |track_slug, exercise_slug|
                   = link_to track_exercise_path(track_slug, exercise_slug) do

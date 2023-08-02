@@ -22,11 +22,11 @@ module Git
       help: 'HELP.md'
     }.freeze
 
-    def self.for_solution(solution)
+    def self.for_solution(solution, git_sha: nil)
       new(
         solution.git_slug,
         solution.git_type,
-        solution.git_sha,
+        git_sha || solution.git_sha,
         repo_url: solution.track.repo_url
       )
     end
@@ -258,6 +258,9 @@ module Git
     memoize
     def articles = Git::Exercise::Articles.new(exercise_slug, exercise_type, git_sha, repo:)
 
+    memoize
+    def no_important_files_changed? = commit.message.downcase.include?(NO_IMPORTANT_FILES_CHANGED)
+
     private
     attr_reader :repo, :exercise_slug, :exercise_type, :git_sha
 
@@ -285,5 +288,8 @@ module Git
 
     memoize
     def track = Track.new(repo:)
+
+    NO_IMPORTANT_FILES_CHANGED = "[no important files changed]".freeze
+    private_constant :NO_IMPORTANT_FILES_CHANGED
   end
 end

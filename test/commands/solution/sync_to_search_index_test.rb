@@ -29,7 +29,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -85,7 +84,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -140,7 +138,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -201,7 +198,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -262,7 +258,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -319,7 +314,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -375,7 +369,6 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
     doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
     expected = {
       "_index" => "test-solutions",
-      "_type" => "solution",
       "_id" => "17",
       "found" => true,
       "_source" => {
@@ -403,5 +396,20 @@ class Solution::SyncToSearchIndexTest < ActiveSupport::TestCase
       }
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
+  end
+
+  test "remove solution from index when user is ghost user" do
+    user = create :user
+    ghost_user = create :user, :ghost
+    solution = create(:practice_solution, user:)
+
+    Solution::SyncToSearchIndex.(solution)
+
+    refute_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
+
+    solution.update(user: ghost_user)
+    Solution::SyncToSearchIndex.(solution)
+
+    assert_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
   end
 end

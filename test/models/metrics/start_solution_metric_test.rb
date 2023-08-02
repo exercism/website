@@ -11,7 +11,7 @@ class Metrics::StartSolutionTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:start_solution, occurred_at, solution:, track:, user:, request_context:)
 
-      assert_equal Metrics::StartSolutionMetric, metric.class
+      assert_instance_of Metrics::StartSolutionMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track

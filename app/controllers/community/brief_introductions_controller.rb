@@ -12,6 +12,7 @@ class Community::BriefIntroductionsController < ApplicationController
       "AOF9njfbfnY", # F#
       "X4Alzh3QyWU", # Julia
       "rYDRCNFtRq0", # Nim
+      "dKn-BbS_zQQ", # Prolog
       "Jbp4l_7kYxE", # Python
       "E_eH_fsXKH0", # Scala
       "WQ-Lusoda_8", # R

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include Turbo::CustomFrameRequest
   include BodyClassConcern
 
+  # around_action :set_log_level
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!
   before_action :ensure_onboarded!
@@ -153,6 +154,24 @@ class ApplicationController < ActionController::Base
     response.set_header("Exercism-Body-Class", body_class)
   end
 
+  def set_log_level
+    return yield if Rails.env.development?
+
+    begin
+      return yield if devise_controller?
+      return yield unless user_signed_in?
+      return yield unless current_user.admin? || current_user.handle == "bobahop"
+
+      ActiveRecord.verbose_query_logs = true
+      Rails.logger.level = :debug
+
+      yield
+    ensure
+      ActiveRecord.verbose_query_logs = false
+      Rails.logger.level = :info
+    end
+  end
+
   def set_csp_header
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
   end
@@ -175,8 +194,8 @@ class ApplicationController < ActionController::Base
     return unless request.format == :html
     return if current_user.last_visited_on == Time.zone.today
 
-    current_user.data.with_lock do
-      current_user.update(last_visited_on: Time.zone.today)
+    User::Data::SafeUpdate.(current_user) do |data|
+      data.last_visited_on = Time.zone.today
     end
   end
 

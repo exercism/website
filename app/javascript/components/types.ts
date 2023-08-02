@@ -437,6 +437,7 @@ export type MentorDiscussion = {
     posts: string
     markAsNothingToDo: string
     finish: string
+    tooltipUrl: string
   }
 }
 
@@ -759,6 +760,7 @@ export type Notification = {
   url: string
   imageType: NotificationImageType
   imageUrl: string
+  iconFilter: string
   text: string
   createdAt: string
   isRead: boolean

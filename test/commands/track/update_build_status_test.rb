@@ -19,28 +19,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
 
     # Sanity check
-    assert_equal 0, track.reload.build_status.students.num_students
+    assert_equal "needs_attention", track.reload.build_status.health
 
-    track.update(num_students: 33)
-    Track::UpdateBuildStatus.(track)
-
-    assert_equal 33, track.reload.build_status.students.num_students
-  end
-
-  test "students" do
-    track = create :track
-    other_track = create :track, :random_slug
-
-    (1..30).each do |day|
-      create_list(:user_track, day, track:)
-      create(:metric_period_day, metric_type: Metrics::JoinTrackMetric.name, day:, count: day, track:)
-      create :metric_period_day, metric_type: Metrics::JoinTrackMetric.name, day:, count: 5, track: other_track
-    end
+    track.update(has_analyzer: true)
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 465, track.build_status.students.num_students
-    assert_equal 15.5, track.build_status.students.num_students_per_day
+    assert_equal "needs_attention", track.reload.build_status.health
   end
 
   test "submissions" do
@@ -52,15 +37,9 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create_list(:submission, 40, track:, created_at: Time.current - 5.days)
     create_list(:submission, 35, track: other_track, created_at: Time.current - 5.days)
 
-    (1..30).each do |day|
-      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: 5, track: other_track
-      create :metric_period_day, metric_type: Metrics::SubmitSubmissionMetric.name, day:, count: day, track:
-    end
-
     Track::UpdateBuildStatus.(track)
 
     assert_equal 85, track.build_status.submissions.num_submissions
-    assert_equal 15.5, track.build_status.submissions.num_submissions_per_day
   end
 
   test "mentor_discussions" do
@@ -609,11 +588,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version
 
-    # Sanity check: ignore errored test runs
-    create :submission_test_run, :errored, submission: (create :submission, track:)
-    Track::UpdateBuildStatus.(track)
-    assert_equal 3, track.reload.build_status.test_runner.version
-
     # Sanity check: ignore timed-out test runs
     create :submission_test_run, :timed_out, submission: (create :submission, track:)
     Track::UpdateBuildStatus.(track)
@@ -652,11 +626,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     # Ignore submissions from other track
     create :submission_test_run, submission: (create :submission, track: other_track), raw_results: { version: 1, status: 'pass' }
-    Track::UpdateBuildStatus.(track)
-    assert_equal 3, track.reload.build_status.test_runner.version_target
-
-    # Sanity check: ignore errored test runs
-    create :submission_test_run, :errored, submission: (create :submission, track:)
     Track::UpdateBuildStatus.(track)
     assert_equal 3, track.reload.build_status.test_runner.version_target
 

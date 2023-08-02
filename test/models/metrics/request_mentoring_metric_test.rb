@@ -11,7 +11,7 @@ class Metrics::RequestMentoringTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:request_mentoring, occurred_at, request:, track:, user:, request_context:)
 
-      assert_equal Metrics::RequestMentoringMetric, metric.class
+      assert_instance_of Metrics::RequestMentoringMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track

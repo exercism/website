@@ -6,7 +6,8 @@ import { GraphicalIcon } from '../../common'
 const NotificationImage = ({
   imageType,
   imageUrl,
-}: Pick<NotificationType, 'imageType' | 'imageUrl'>) => {
+  iconFilter,
+}: Pick<NotificationType, 'imageType' | 'imageUrl' | 'iconFilter'>) => {
   switch (imageType) {
     case 'avatar':
       return (
@@ -16,7 +17,14 @@ const NotificationImage = ({
         />
       )
     default:
-      return <img alt="" role="presentation" src={imageUrl} className="icon" />
+      return (
+        <img
+          alt=""
+          role="presentation"
+          src={imageUrl}
+          className={`icon filter-${iconFilter}`}
+        />
+      )
   }
 }
 
@@ -45,10 +53,15 @@ export const Notification = ({
   text,
   createdAt,
   isRead,
+  iconFilter,
 }: NotificationType): JSX.Element => {
   return (
     <a href={url} className={`notification ${isRead ? '--read' : '--unread'}`}>
-      <NotificationImage imageType={imageType} imageUrl={imageUrl} />
+      <NotificationImage
+        iconFilter={iconFilter}
+        imageType={imageType}
+        imageUrl={imageUrl}
+      />
       <NotificationContent text={text} createdAt={createdAt} />
       <NotificationStatus isRead={isRead} />
       <GraphicalIcon icon="chevron-right" className="action-icon" />

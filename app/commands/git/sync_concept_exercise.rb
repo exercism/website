@@ -21,7 +21,8 @@ class Git::SyncConceptExercise < Git::Sync
       blurb: head_git_exercise.blurb,
       taught_concepts: find_concepts(exercise_config[:concepts]),
       prerequisites: find_concepts(exercise_config_prerequisites),
-      has_test_runner: head_git_exercise.has_test_runner?
+      has_test_runner: head_git_exercise.has_test_runner?,
+      representer_version: head_git_exercise.representer_version
     )
 
     Git::SyncExerciseAuthors.(exercise)
@@ -57,7 +58,8 @@ class Git::SyncConceptExercise < Git::Sync
       head_git_exercise.icon_name != exercise.icon_name ||
       head_git_exercise.authors.to_a.sort != exercise.authors.map(&:github_username).sort ||
       head_git_exercise.contributors.to_a.sort != exercise.contributors.map(&:github_username).sort ||
-      head_git_exercise.has_test_runner? != exercise.has_test_runner?
+      head_git_exercise.has_test_runner? != exercise.has_test_runner? ||
+      head_git_exercise.representer_version != exercise.representer_version?
   end
 
   def exercise_files_modified?

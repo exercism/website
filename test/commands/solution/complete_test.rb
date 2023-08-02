@@ -221,7 +221,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::CompleteSolutionMetric, metric.class
+    assert_instance_of Metrics::CompleteSolutionMetric, metric
     assert_equal solution.completed_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal user, metric.user

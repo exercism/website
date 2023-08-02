@@ -17,9 +17,6 @@ class Tooling::Representer::HandleDeploy
   def reprocess_exercises!
     return if old_representer_version == track.representer_version
 
-    Exercise::Representation.where(track:).with_feedback.includes(source_submission: :exercise).find_each do |representation|
-      submission = representation.source_submission
-      Submission::Representation::Init.(submission, type: :exercise, git_sha: submission.exercise.git_sha, run_in_background: true)
-    end
+    Exercise::Representation::TriggerRerunsForTrack.(track)
   end
 end

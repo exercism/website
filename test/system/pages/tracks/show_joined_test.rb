@@ -6,6 +6,24 @@ module Pages
     class ShowJoinedTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
+      test "ensure user track is not recached" do
+        track = create :track
+        user = create :user
+        user_track = create(:user_track, user:, track:)
+
+        # Generate summary then assert it should never get called again
+        user_track.unlocked_concept_exercises
+        UserTrack::GenerateSummaryData.expects(:call).never
+
+        stub_latest_track_forum_threads(track)
+
+        use_capybara_host do
+          sign_in!(user)
+
+          visit track_path(track)
+        end
+      end
+
       test "show joined on course-track in different states" do
         track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
         hello_world = create(:hello_world_exercise, track:)

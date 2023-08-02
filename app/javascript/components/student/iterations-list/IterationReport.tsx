@@ -64,6 +64,7 @@ export const IterationReport = ({
                 files={iteration.files}
                 language={track.highlightjsLanguage}
                 indentSize={track.indentSize}
+                showCopyButton
               />
             ) : (
               <IterationFiles

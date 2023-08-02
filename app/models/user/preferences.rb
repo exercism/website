@@ -12,6 +12,7 @@ class User::Preferences < ApplicationRecord
   def self.general_keys
     %i[
       theme
+      allow_comments_on_published_solutions
     ]
   end
 end

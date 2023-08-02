@@ -382,7 +382,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::SubmitIterationMetric, metric.class
+    assert_instance_of Metrics::SubmitIterationMetric, metric
     assert_equal iteration.created_at, metric.occurred_at
     assert_equal iteration, metric.iteration
     assert_equal iteration.track, metric.track

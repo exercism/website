@@ -88,14 +88,21 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
     track = create :track
     exercise = create(:concept_exercise, track:)
     solution_1 = create :concept_solution, exercise:, num_stars: 11, published_at: Time.current, status: :published
-    submission_1 = create :submission, solution: solution_1, tests_status: :passed
+    submission_1 = create :submission, solution: solution_1
     solution_2 = create :concept_solution, exercise:, num_stars: 22, published_at: Time.current, status: :published
-    submission_2 = create :submission, solution: solution_2, tests_status: :passed
+    submission_2 = create :submission, solution: solution_2
     solution_3 = create :concept_solution, exercise:, num_stars: 33, published_at: Time.current, status: :published
-    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    submission_3 = create :submission, solution: solution_3
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # We have to set these via the update_column so they don't get
+    # overriden by all the processes that kick off
+    perform_enqueued_jobs
+    submission_1.reload.update_column(:tests_status, :passed)
+    submission_2.reload.update_column(:tests_status, :passed)
+    submission_3.reload.update_column(:tests_status, :failed)
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchCommunitySolutions::Fallback.expects(:call).never
@@ -274,7 +281,7 @@ class Solution::SearchCommunitySolutionsTest < ActiveSupport::TestCase
   test "fallback is called" do
     exercise = create :concept_exercise
     Solution::SearchCommunitySolutions::Fallback.expects(:call).with(exercise, 2, 15, :newest, "foobar", :passed, :failed, :up_to_date)
-    Elasticsearch::Client.expects(:new).raises
+    OpenSearch::Client.expects(:new).raises
 
     Solution::SearchCommunitySolutions.(exercise, page: 2, per: 15, order: "newest", criteria: "foobar", tests_status: :passed, head_tests_status: :failed, sync_status: :up_to_date) # rubocop:disable Layout:LineLength
   end

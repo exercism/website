@@ -123,18 +123,27 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     solution_1 = create :concept_solution, user:, published_at: Time.current, num_stars: 11
     solution_2 = create :concept_solution, user:, published_at: Time.current, num_stars: 22
     solution_3 = create :concept_solution, user:, published_at: Time.current, num_stars: 33
-    submission_1 = create :submission, solution: solution_1, tests_status: :passed
-    submission_2 = create :submission, solution: solution_2, tests_status: :passed
-    submission_3 = create :submission, solution: solution_3, tests_status: :failed
+    submission_1 = create :submission, solution: solution_1
+    submission_2 = create :submission, solution: solution_2
+    submission_3 = create :submission, solution: solution_3
     solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
     solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
     solution_3.update!(published_iteration: create(:iteration, solution: solution_3, submission: submission_3))
+
+    # We have to set these via the update_column so they don't get
+    # overriden by all the processes that kick off
+    perform_enqueued_jobs
+    submission_1.reload.update_column(:tests_status, :passed)
+    submission_2.reload.update_column(:tests_status, :passed)
+    submission_3.reload.update_column(:tests_status, :failed)
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     # A different user
     create :concept_solution
+
+    perform_enqueued_jobs
 
     wait_for_opensearch_to_be_synced
 
@@ -283,7 +292,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     user = create :user
     Solution::SearchUserSolutions::Fallback.expects(:call).with(user, 2, 15, "csharp", "published", "none", "foobar", :oldest_first,
       :up_to_date, "passed", "failed")
-    Elasticsearch::Client.expects(:new).raises
+    OpenSearch::Client.expects(:new).raises
 
     Solution::SearchUserSolutions.(user, page: 2, per: 15, track_slug: "csharp", status: "published", mentoring_status: "none",
       criteria: "foobar", order: "oldest_first", sync_status: "up_to_date", tests_status: "passed", head_tests_status: "failed")

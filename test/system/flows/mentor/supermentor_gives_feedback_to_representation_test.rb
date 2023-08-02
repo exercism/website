@@ -73,7 +73,8 @@ module Flows
       end
 
       test "mentor gives feedback on representation without feedback" do
-        mentor = create :user, :supermentor, mentor_satisfaction_percentage: 96.5
+        mentor = create :user, :supermentor
+        mentor.update(cache: { 'mentor_satisfaction_percentage' => 96.5 })
         track = create :track, slug: :csharp, title: 'C#'
         exercise = create(:practice_exercise, :random_slug, track:)
         create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
@@ -101,8 +102,8 @@ module Flows
       end
 
       test "mentor filters for only mentored solutions" do
-        mentor_1 = create :user, :supermentor, mentor_satisfaction_percentage: 96.5
-        mentor_2 = create :user, :supermentor, mentor_satisfaction_percentage: 96.5
+        mentor_1 = create :user, :supermentor
+        mentor_2 = create :user, :supermentor
         track = create :track, slug: :csharp, title: 'C#'
         exercise_1 = create :practice_exercise, track:, slug: 'bob'
         exercise_2 = create :practice_exercise, track:, slug: 'leap'

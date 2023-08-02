@@ -3,7 +3,8 @@ class Track::UpdateMedianWaitTimes
 
   def call
     Track.active.find_each do |track|
-      track.update(median_wait_time: median_wait_time(track))
+      # Use update_column. We don't want to touch updated_at
+      track.update_column(:median_wait_time, median_wait_time(track))
     end
   end
 

@@ -52,7 +52,10 @@ namespace :api do
       patch :sudo_update
     end
     namespace :settings do
-      resource :user_preferences, only: [:update]
+      resource :user_preferences, only: [:update] do
+        patch :enable_solution_comments
+        patch :disable_solution_comments
+      end
       resource :communication_preferences, only: [:update]
 
       resources :introducers, only: [], param: :slug do

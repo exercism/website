@@ -3,7 +3,7 @@ module API
     skip_before_action :ensure_onboarded!, only: [:index]
 
     def index
-      render json: AssembleReputationTokens.(current_user, params)
+      render json: AssembleReputationTokens.(current_user, list_params)
     end
 
     def mark_as_seen

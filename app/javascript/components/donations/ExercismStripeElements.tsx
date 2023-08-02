@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   BaseStripeElementsOptions,
   StripeElementsOptions,
@@ -7,8 +7,7 @@ import {
 } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import Bugsnag from '@bugsnag/browser'
-import { useThemeObserver } from '@/hooks'
-import { bodyHasClassName } from '@/utils'
+import { useStripeFormTheme } from './stripe-form/useStripeFormTheme'
 
 const stripe = load()
 
@@ -38,7 +37,7 @@ const darkColors = {
   colorBackground: '#211D2F',
 }
 
-const appearance: BaseStripeElementsOptions['appearance'] = {
+export const appearance: BaseStripeElementsOptions['appearance'] = {
   theme: 'none',
   variables: {
     fontSizeBase: '16px',
@@ -73,22 +72,10 @@ export const ExercismStripeElements = ({
 }): JSX.Element | null => {
   if (stripe === undefined) return null
 
-  const [alwaysDark, setAlwaysDark] = useState(false)
-  const { explicitTheme } = useThemeObserver()
-
-  useEffect(() => {
-    if (
-      bodyHasClassName('controller-insiders') ||
-      bodyHasClassName('controller-premium')
-    ) {
-      setAlwaysDark(true)
-    }
-  }, [])
-
   OPTIONS.appearance = {
     ...appearance,
     variables:
-      explicitTheme === 'theme-light' && !alwaysDark
+      useStripeFormTheme() === 'light'
         ? { ...lightColors, ...appearance.variables }
         : { ...darkColors, ...appearance.variables },
   }

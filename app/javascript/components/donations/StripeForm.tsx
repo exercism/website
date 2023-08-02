@@ -8,7 +8,8 @@ import {
   generateIntervalText,
   generateStripeButtonText,
 } from './stripe-form/utils'
-import { CARD_OPTIONS } from './stripe-form/constants'
+import { generateCardOptions } from './stripe-form/constants'
+import { useStripeFormTheme } from './stripe-form/useStripeFormTheme'
 
 export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -57,6 +58,8 @@ export function StripeForm({
     onProcessing,
     onSettled,
   })
+
+  const cardOptions = generateCardOptions(useStripeFormTheme())
 
   return (
     <form
@@ -115,7 +118,7 @@ export function StripeForm({
             <PaymentElement onChange={handlePaymentElementChange} />
           ) : (
             <CardElement
-              options={CARD_OPTIONS}
+              options={cardOptions}
               onChange={handleCardChange}
               onReady={handleCardReady}
             />

@@ -1,29 +1,11 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import {
   BaseStripeElementsOptions,
   StripeElementsOptions,
-  loadStripe,
 } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
-import Bugsnag from '@bugsnag/browser'
 import { useStripeFormTheme } from './stripe-form/useStripeFormTheme'
-
-const stripe = load()
-
-function load() {
-  const publishableKey = document.querySelector<HTMLMetaElement>(
-    'meta[name="stripe-publishable-key"]'
-  )?.content
-
-  if (!publishableKey) {
-    Bugsnag.notify('Publishable key not found!')
-
-    return
-  }
-
-  return loadStripe(publishableKey)
-}
+import { useLazyLoadStripe } from './stripe-form/useLazyLoadStripe'
 
 const lightColors = {
   colorPrimary: '#130B43',
@@ -70,8 +52,6 @@ export const ExercismStripeElements = ({
   children?: React.ReactNode
   amount: number
 }): JSX.Element | null => {
-  if (stripe === undefined) return null
-
   OPTIONS.appearance = {
     ...appearance,
     variables:
@@ -80,6 +60,11 @@ export const ExercismStripeElements = ({
         : { ...darkColors, ...appearance.variables },
   }
   OPTIONS.amount = amount
+
+  const { stripe, error } = useLazyLoadStripe()
+
+  if (error) return <div>{error}</div>
+  if (!stripe) return <div>Loading...</div>
 
   return (
     <Elements stripe={stripe} options={OPTIONS}>

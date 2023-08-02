@@ -7,6 +7,7 @@ module ReactComponents
           {
             status: current_user.insiders_status,
             insiders_status_request: Exercism::Routes.api_user_url(current_user),
+            amount: 499,
             activate_insider_link: Exercism::Routes.activate_insiders_api_user_path,
             user_signed_in: user_signed_in?,
             captcha_required: !current_user || current_user.captcha_required?,

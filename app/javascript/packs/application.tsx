@@ -452,7 +452,7 @@ export const mappings = {
   ),
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
+      <InsidersStatus {...camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
   'premium-price-option': (data: PriceOptionProps): JSX.Element => (

@@ -5,7 +5,7 @@ class Track::Trophies::General::MentoredTrophyTest < ActiveSupport::TestCase
     # Get set up
     user = create :user
     track = create :track
-    trophy = Track::Trophy.lookup!(:general, :mentored)
+    trophy = create :mentored_trophy
 
     # A random discussion for this track shouldn't count
     solution = create(:practice_solution, track:)

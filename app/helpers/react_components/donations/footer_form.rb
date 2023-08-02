@@ -1,6 +1,7 @@
 module ReactComponents
   module Donations
     class FooterForm < ReactComponent
+      # this is cached in view_components/site_footer.rb
       def to_s
         super(
           "donations-footer-form",

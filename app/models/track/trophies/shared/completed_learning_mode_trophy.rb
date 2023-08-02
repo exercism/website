@@ -1,4 +1,4 @@
-class Track::Trophies::General::CompletedLearningModeTrophy < Track::Trophies::SharedTrophy
+class Track::Trophies::Shared::CompletedLearningModeTrophy < Track::Trophies::SharedTrophy
   def name(_) = "Fundamental"
   def icon = 'trophy-completed-learning-mode'
 

@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useState } from 'react'
 import {
   BaseStripeElementsOptions,
   StripeElementsOptions,
@@ -7,6 +8,7 @@ import {
 import { Elements } from '@stripe/react-stripe-js'
 import Bugsnag from '@bugsnag/browser'
 import { useThemeObserver } from '@/hooks'
+import { bodyHasClassName } from '@/utils'
 
 const stripe = load()
 
@@ -69,15 +71,24 @@ export const ExercismStripeElements = ({
   children?: React.ReactNode
   amount: number
 }): JSX.Element | null => {
+  if (stripe === undefined) return null
+
+  const [alwaysDark, setAlwaysDark] = useState(false)
   const { explicitTheme } = useThemeObserver()
-  if (stripe === undefined) {
-    return null
-  }
+
+  useEffect(() => {
+    if (
+      bodyHasClassName('controller-insiders') ||
+      bodyHasClassName('controller-premium')
+    ) {
+      setAlwaysDark(true)
+    }
+  }, [])
 
   OPTIONS.appearance = {
     ...appearance,
     variables:
-      explicitTheme === 'theme-light'
+      explicitTheme === 'theme-light' && !alwaysDark
         ? { ...lightColors, ...appearance.variables }
         : { ...darkColors, ...appearance.variables },
   }

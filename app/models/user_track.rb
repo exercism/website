@@ -99,6 +99,9 @@ class UserTrack < ApplicationRecord
       exists?
   end
 
+  def completed? = num_completed_exercises >= num_exercises
+  def completed_course? = num_completed_concept_exercises >= num_concept_exercises
+
   def completed_percentage
     return 100.0 if num_exercises.zero?
 

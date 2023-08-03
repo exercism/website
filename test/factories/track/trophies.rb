@@ -5,7 +5,7 @@ FactoryBot.define do
   factory :general_trophy, class: 'Track::Trophies::General::MentoredTrophy' do
   end
 
-  factory :shared_trophy, class: 'Track::Trophies::Shared::CompletedLearningMode' do
+  factory :shared_trophy, class: 'Track::Trophies::Shared::CompletedLearningModeTrophy' do
   end
 
   %i[

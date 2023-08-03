@@ -4,6 +4,6 @@ FactoryBot.define do
       Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
     end
     user
-    solution { create :practice_solution }
+    solution { create :practice_solution, user:, track: }
   end
 end

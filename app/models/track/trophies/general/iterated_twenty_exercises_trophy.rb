@@ -23,6 +23,10 @@ class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophy
       count >= NUM_EXERCISES
   end
 
+  def self.worth_queuing?(iteration:, **_context)
+    iteration.idx > 1
+  end
+
   NUM_EXERCISES = 20
   private_constant :NUM_EXERCISES
 end

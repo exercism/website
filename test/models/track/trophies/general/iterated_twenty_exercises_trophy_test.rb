@@ -36,4 +36,17 @@ class Track::Trophies::General::IteratedTwentyExercisesTrophyTest < ActiveSuppor
     user_track.reset_summary!
     assert trophy.award?(user, track)
   end
+
+  test "worth_queuing?" do
+    track = create :track
+    solution = create(:practice_solution, track:)
+    iteration_1 = create(:iteration, solution:, idx: 1)
+
+    # Don't queue first iteration
+    refute Track::Trophies::General::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_1)
+
+    # Queue second iteration
+    iteration_2 = create(:iteration, solution:, idx: 2)
+    assert Track::Trophies::General::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_2)
+  end
 end

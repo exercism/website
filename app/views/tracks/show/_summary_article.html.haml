@@ -52,30 +52,10 @@
           Click to explore the different trophies you can achieve!
 
         .trophies
-          .trophy.acquired
-            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
-            .title Magnificent Mentee
-
-          .trophy
-            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
-            .title Journeyman
-
-          .trophy
-            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
-            .title Journeyman
-
-          .trophy
-            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
-            .title Ruby Rambler
-
-          .trophy
-            = graphical_icon 'trophy-mentored', category: :graphics, width: 128, height: 128
-            .title Resistance is Futile
-
-          - @track.trophies.each do |trophy|
+          - trophies.each do |trophy|
             .trophy
               = graphical_icon trophy.icon, category: :graphics, width: 128, height: 128
-              .title= trophy.name(@track)
+              .title= trophy.name(track)
     .rhs
       - if last_8_weeks_counts.any?(&:positive?)
         %section.weekly-count
@@ -107,10 +87,10 @@
       - if user_track.num_completed_exercises.zero? && user_track.num_locked_exercises.positive?
         = render "tracks/show/stats_box_locked_exercises", track:, user_track:
 
-      - if @forum_threads.present?
+      - if forum_threads.present?
         %h3.text-h4.mt-32.mb-12 From the Forum…
         .flex.flex-col.gap-8.mb-20
-          - @forum_threads.each do |thread|
+          - forum_threads.each do |thread|
             = link_to thread.url, class: 'flex items-start bg-backgroundColorA px-16 py-12 shadow-base hover:shadow-smZ1 rounded-5 mb-8' do
               = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'
               .flex.flex-col.mr-auto

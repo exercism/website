@@ -22,18 +22,18 @@ class Track::Trophies::General::IteratedTwentyExercisesTrophyTest < ActiveSuppor
       end
     end
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Adding a second iteration to 19 solutions does not count
     solutions[0..18].each do |solution|
       create :iteration, solution:
     end
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Add a second iteration to a 20th solution counts
     create :iteration, solution: solutions[19]
     user_track.reset_summary!
-    assert trophy.award?(user_track)
+    assert trophy.award?(user, track)
   end
 end

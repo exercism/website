@@ -27,7 +27,12 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
     }
   end
 
-  def award?(user_track) = user_track.completed?
+  def award?(user, track)
+    Solution.completed.joins(:exercise).
+      where(user:, exercise: { track: }).
+      where('difficulty >= 8').
+      count >= NUM_EXERCISES
+  end
 
   NUM_EXERCISES = 5
   private_constant :NUM_EXERCISES

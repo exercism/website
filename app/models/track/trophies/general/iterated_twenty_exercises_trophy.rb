@@ -16,9 +16,9 @@ class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophy
     }
   end
 
-  def award?(user_track)
-    user_track.user.solutions.joins(:exercise).
-      where(exercise: { track: user_track.track }).
+  def award?(user, track)
+    Solution.joins(:exercise).
+      where(user:, exercise: { track: }).
       where('num_iterations >= 2').
       count >= NUM_EXERCISES
   end

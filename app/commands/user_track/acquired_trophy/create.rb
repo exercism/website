@@ -1,9 +1,7 @@
 class UserTrack::AcquiredTrophy::Create
   include Mandate
 
-  initialize_with :user_track, :category, :slug, send_email: true
-
-  delegate :user, :track, to: :user_track
+  initialize_with :user, :track, :category, :slug, send_email: true
 
   def call
     # Check to see if it exists already before doing any other expensive things
@@ -11,7 +9,7 @@ class UserTrack::AcquiredTrophy::Create
     return acquired_trophy if acquired_trophy
 
     # Check if the trophy should be awarded. Raise an exception if not
-    raise TrophyCriteriaNotFulfilledError unless trophy.award?(user_track)
+    raise TrophyCriteriaNotFulfilledError unless trophy.award?(user, track)
 
     # Build the trophy
     begin

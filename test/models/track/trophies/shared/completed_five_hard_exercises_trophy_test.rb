@@ -14,39 +14,39 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophyTest < ActiveSupp
     # summary data
     user_track = UserTrack.for!(user, track)
 
-    easy_exercises = create_list(:practice_exercise, 5, :random_slug, track:, difficulty: 2)
-    medium_exercises = create_list(:practice_exercise, 5, :random_slug, track:, difficulty: 5)
-    hard_exercises = create_list(:practice_exercise, 5, :random_slug, track:, difficulty: 8)
+    easy_exercises = create_list(:practice_exercise, 7, :random_slug, track:, difficulty: 2)
+    medium_exercises = create_list(:practice_exercise, 8, :random_slug, track:, difficulty: 5)
+    hard_exercises = create_list(:practice_exercise, 9, :random_slug, track:, difficulty: 8)
 
     # Completing five easy solutions does not count
     easy_exercises.each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Completing five medium solutions does not count
     medium_exercises.each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Completing four medium solutions does not count
     hard_exercises[0..3].each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Starting fifth hard solution does not count
     solution = create(:practice_solution, :started, exercise: hard_exercises[4], user:)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Iterating fifth hard solution does not count
     solution.update(status: :iterated)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Completing fifth hard solution counts
     solution.update(completed_at: Time.current)
     user_track.reset_summary!
-    assert trophy.award?(user_track)
+    assert trophy.award?(user, track)
   end
 
   test "reseed! sets valid_track_slugs to tracks with five hard exercises" do

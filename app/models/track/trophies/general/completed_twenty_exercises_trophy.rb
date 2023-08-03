@@ -16,7 +16,9 @@ class Track::Trophies::General::CompletedTwentyExercisesTrophy < Track::Trophy
     }
   end
 
-  def award?(user_track) = user_track.num_completed_exercises >= NUM_COMPLETED_EXERCISES
+  def award?(user, track)
+    UserTrack.for!(user, track).num_completed_exercises >= NUM_COMPLETED_EXERCISES
+  end
 
   NUM_COMPLETED_EXERCISES = 20
   private_constant :NUM_COMPLETED_EXERCISES

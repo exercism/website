@@ -16,9 +16,9 @@ class Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy < Track::Troph
     }
   end
 
-  def award?(user_track)
+  def award?(user, track)
     UserTrack::ViewedCommunitySolution.
-      where(user: user_track.user, track: user_track.track).
+      where(user:, track:).
       count >= NUM_SOLUTIONS
   end
 

@@ -18,21 +18,21 @@ class Track::Trophies::General::CompletedTwentyExercisesTrophyTest < ActiveSuppo
     # Completing 19 solutions does not count
     exercises[0..18].each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Starting 20th solution does not count
     solution = create(:practice_solution, :started, exercise: exercises[19], user:)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Iterating 20th solution does not count
     solution.update(status: :iterated)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Completing 20th solution counts
     solution.update(completed_at: Time.current)
     user_track.reset_summary!
-    assert trophy.award?(user_track)
+    assert trophy.award?(user, track)
   end
 end

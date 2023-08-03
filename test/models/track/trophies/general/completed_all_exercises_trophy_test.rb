@@ -31,21 +31,21 @@ class Track::Trophies::General::CompletedAllExercisesTrophyTest < ActiveSupport:
 
     # Just one concept exercise completed doesn't count
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Both concept exercises completed doesn't count
     cs_3.update(completed_at: Time.current)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Just one practice exercise completed doesn't count
     ps_1.update(completed_at: Time.current)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # All exercises completed counts
     ps_2.update(completed_at: Time.current)
     user_track.reset_summary!
-    assert trophy.award?(user_track)
+    assert trophy.award?(user, track)
   end
 end

@@ -20,21 +20,21 @@ class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophyTest < Act
     create(:practice_solution, :completed, exercise: exercises[0], user:)
     create(:practice_solution, :completed, exercise: exercises[1], user:)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Starting exercise does not count
     solution = create(:practice_solution, :started, exercise: exercises[2], user:)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Iterating exercise does not count
     solution.update(status: :iterated)
     user_track.reset_summary!
-    refute trophy.award?(user_track)
+    refute trophy.award?(user, track)
 
     # Completing exercise counts
     solution.update(completed_at: Time.current)
     user_track.reset_summary!
-    assert trophy.award?(user_track)
+    assert trophy.award?(user, track)
   end
 end

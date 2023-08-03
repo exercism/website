@@ -53,6 +53,7 @@ class Git::SyncTrack < Git::Sync
     )
 
     Git::SyncTrackDocs.(track, force_sync:)
+    Track::Trophy::ReseedVariableTrophies.()
 
     # Now that the concepts and exercises have synced successfully,
     # we can set the track's synced git SHA to the HEAD SHA

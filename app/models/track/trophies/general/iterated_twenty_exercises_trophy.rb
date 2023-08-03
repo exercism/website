@@ -1,4 +1,4 @@
-class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophies::GeneralTrophy
+class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophy
   def name(_) = "Iterator"
   def icon = 'trophy-iterated-twenty-exercises'
 

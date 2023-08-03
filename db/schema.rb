@@ -1418,6 +1418,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_140435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["solution_id"], name: "index_user_track_viewed_community_solutions_on_solution_id"
+    t.index ["user_track_id", "solution_id"], name: "index_user_track_viewed_community_solutions_uniq", unique: true
     t.index ["user_track_id"], name: "index_user_track_viewed_community_solutions_on_user_track_id"
   end
 

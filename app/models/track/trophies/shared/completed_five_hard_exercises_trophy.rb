@@ -34,6 +34,10 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
       count >= NUM_EXERCISES
   end
 
+  def self.worth_queuing?(exercise:, **_context)
+    exercise.difficulty_category == :hard
+  end
+
   NUM_EXERCISES = 5
   private_constant :NUM_EXERCISES
 end

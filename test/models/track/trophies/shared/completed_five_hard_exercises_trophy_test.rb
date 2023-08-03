@@ -95,4 +95,27 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophyTest < ActiveSupp
     trophy.reseed!
     assert_equal [track.slug, other_track.slug].sort, trophy.valid_track_slugs.sort
   end
+
+  test "worth_queuing?" do
+    track = create :track
+    exercise = create :practice_exercise
+
+    # Don't queue easy difficulty exercise
+    (1..3).each do |difficulty|
+      exercise.update(difficulty:)
+      refute Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+    end
+
+    # Don't queue medium difficulty exercise
+    (4..7).each do |difficulty|
+      exercise.update(difficulty:)
+      refute Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+    end
+
+    # Queue hard difficulty exercise
+    (8..9).each do |difficulty|
+      exercise.update(difficulty:)
+      assert Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+    end
+  end
 end

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, HandleWithFlair } from '@/components/common'
+import { Avatar } from '@/components/common'
 import type { RepresenterFeedback as Props } from '@/components/types'
 
 export const RepresenterFeedback = ({
@@ -12,12 +12,7 @@ export const RepresenterFeedback = ({
       <div className="feedback-header">
         <Avatar src={author.avatarUrl} handle={author.name} />
         <div className="info">
-          <strong className="inline-block">
-            <HandleWithFlair
-              handle={author.name || author.handle}
-              flair={author.flair}
-            />
-          </strong>
+          <strong className="inline-block">{author.name}</strong>
           &nbsp;gave this feedback on a solution very similar to yours
           <EditedBy editor={editor} author={author} />:
         </div>

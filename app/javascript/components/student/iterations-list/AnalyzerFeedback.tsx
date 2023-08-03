@@ -1,8 +1,11 @@
 import React from 'react'
-import { Icon, TrackIcon } from '../../common'
-import { AnalyzerFeedback as Props, AnalyzerFeedbackComment } from '../../types'
-import { Track } from '../IterationsList'
-import { useHighlighting } from '../../../utils/highlight'
+import { useHighlighting } from '@/utils'
+import { Icon, TrackIcon } from '@/components/common'
+import type {
+  AnalyzerFeedback as Props,
+  AnalyzerFeedbackComment,
+} from '@/components/types'
+import type { Track } from '../IterationsList'
 
 export const AnalyzerFeedback = ({
   summary,

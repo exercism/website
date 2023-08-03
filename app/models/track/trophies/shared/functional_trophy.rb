@@ -1,4 +1,4 @@
-class Track::Trophies::Shared::FunctionalTrophy < Track::Trophies::SharedTrophy
+class Track::Trophies::Shared::FunctionalTrophy < Track::Trophy
   def name(_) = "Functional Familiarity"
   def icon = 'trophy-mentored'
   def criteria(_) = "Awarded for completing 10 functional exercises. Choose from A,b,c,de,f... "

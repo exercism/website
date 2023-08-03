@@ -1413,13 +1413,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_140435) do
   end
 
   create_table "user_track_viewed_community_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_track_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
     t.bigint "solution_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["solution_id"], name: "index_user_track_viewed_community_solutions_on_solution_id"
-    t.index ["user_track_id", "solution_id"], name: "index_user_track_viewed_community_solutions_uniq", unique: true
-    t.index ["user_track_id"], name: "index_user_track_viewed_community_solutions_on_user_track_id"
+    t.index ["track_id"], name: "index_user_track_viewed_community_solutions_on_track_id"
+    t.index ["user_id", "track_id", "solution_id"], name: "index_user_track_viewed_community_solutions_uniq", unique: true
+    t.index ["user_id"], name: "index_user_track_viewed_community_solutions_on_user_id"
   end
 
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1591,7 +1593,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_140435) do
   add_foreign_key "user_track_mentorships", "tracks"
   add_foreign_key "user_track_mentorships", "users"
   add_foreign_key "user_track_viewed_community_solutions", "solutions"
-  add_foreign_key "user_track_viewed_community_solutions", "user_tracks"
+  add_foreign_key "user_track_viewed_community_solutions", "tracks"
+  add_foreign_key "user_track_viewed_community_solutions", "users"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
 end

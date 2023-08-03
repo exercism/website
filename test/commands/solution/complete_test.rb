@@ -258,7 +258,28 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy
   end
 
-  test "awards completed five hard exercises trophy" do
+  test "awards completed twenty exercises trophy when completing 20th exercise" do
+    user = create :user
+    track = create :track
+    practice_exercises = create_list(:practice_exercise, 25, :random_slug, track:, difficulty: 9)
+    user_track = create(:user_track, user:, track:)
+    refute user.badges.present?
+
+    practice_exercises[0..18].each do |exercise|
+      create(:practice_solution, :completed, user:, track:, exercise:)
+      refute user.reload.badges.present?
+    end
+
+    solution = create :practice_solution, user:, track:, exercise: practice_exercises[19]
+    create(:iteration, solution:)
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::CompletedTwentyExercisesTrophy
+  end
+
+  test "awards completed five hard exercises trophy when completing fifth hard exercise" do
     user = create :user
     track = create :track
     create(:hello_world_exercise, track:)

@@ -4,6 +4,8 @@ class UserTrack::ViewedCommunitySolution::Create
   initialize_with :user, :track, :solution
 
   def call
-    ::UserTrack::ViewedCommunitySolution.create_or_find_by!(user:, track:, solution:)
+    ::UserTrack::ViewedCommunitySolution.create_or_find_by!(user:, track:, solution:).tap do
+      AwardTrophyJob.perform_later(user, track, :general, :read_fifty_community_solutions)
+    end
   end
 end

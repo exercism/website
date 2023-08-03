@@ -388,4 +388,29 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal iteration.track, metric.track
     assert_equal solution.user, metric.user
   end
+
+  test "awards trophy when now having iterated twenty exercises" do
+    user = create :user
+    track = create :track
+    create(:user_track, user:, track:)
+
+    create_list(:practice_solution, 19, user:, track:) do |solution|
+      create_list(:submission, 2, solution:) do |submission|
+        create(:iteration, submission:)
+      end
+    end
+
+    refute_includes user.reload.trophies.map(&:class), Track::Trophies::General::IteratedTwentyExercisesTrophy
+
+    solution = create(:practice_solution, user:, track:)
+    submission_1 = create(:submission, solution:)
+    create(:iteration, submission: submission_1)
+
+    submission_2 = create(:submission, solution:)
+    perform_enqueued_jobs do
+      Iteration::Create.(solution, submission_2)
+    end
+
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::IteratedTwentyExercisesTrophy
+  end
 end

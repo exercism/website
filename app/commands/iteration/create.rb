@@ -24,6 +24,7 @@ class Iteration::Create
       ProcessIterationForDiscussionsJob.perform_later(iteration)
       record_activity!(iteration)
       award_badges!(iteration)
+      award_trophies!(iteration)
       log_metric!(iteration)
     end
   rescue ActiveRecord::RecordNotUnique
@@ -56,6 +57,10 @@ class Iteration::Create
     AwardBadgeJob.perform_later(user, :growth_mindset)
     AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
     AwardBadgeJob.perform_later(user, :participant_in_12_in_23)
+  end
+
+  def award_trophies!(iteration)
+    AwardTrophyJob.perform_later(user, track, :general, :iterated_twenty_exercises, context: iteration)
   end
 
   def log_metric!(iteration)

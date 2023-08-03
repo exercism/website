@@ -29,6 +29,7 @@ class Mentor::Discussion::FinishByStudent
     create_testimonial!
     award_reputation!
     award_badge!
+    award_trophy!
     update_roles!
     notify!
     log_metric!
@@ -82,6 +83,10 @@ class Mentor::Discussion::FinishByStudent
 
   def award_badge!
     AwardBadgeJob.perform_later(discussion.mentor, :mentor)
+  end
+
+  def award_trophy!
+    AwardTrophyJob.perform_later(discussion.student, track, :general, :mentored)
   end
 
   def update_roles!

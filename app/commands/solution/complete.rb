@@ -30,6 +30,7 @@ class Solution::Complete
 
   def award_trophies!
     AwardTrophyJob.perform_later(user, track, :general, :completed_all_exercises)
+    AwardTrophyJob.perform_later(user, track, :general, :completed_twenty_exercises)
     AwardTrophyJob.perform_later(user, track, :general, :completed_fifty_percent_of_exercises)
     AwardTrophyJob.perform_later(user, track, :shared, :completed_learning_mode)
     AwardTrophyJob.perform_later(user, track, :shared, :completed_five_hard_exercises, context: exercise)

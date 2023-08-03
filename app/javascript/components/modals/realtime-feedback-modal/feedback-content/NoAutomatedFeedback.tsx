@@ -3,7 +3,6 @@ import { GraphicalIcon } from '@/components/common'
 import { RealtimeFeedbackModalProps } from '..'
 import { ContinueButton } from './FeedbackContentButtons'
 import { FeedbackMentoringRequestForm } from './FeedbackMentoringRequestForm'
-import { MentorSessionRequest } from '@/components/types'
 
 export function NoAutomatedFeedback({
   track,
@@ -22,11 +21,8 @@ export function NoAutomatedFeedback({
         <FeedbackMentoringRequestForm
           trackObjectives={trackObjectives}
           track={track}
-          createMentorRequestLink={links.createMentorRequest}
+          links={links}
           onContinue={onContinue}
-          onSuccess={function (mentorRequest: MentorSessionRequest): void {
-            throw new Error('Function not implemented.')
-          }}
         />
       ) : (
         <NoImmediateFeedback

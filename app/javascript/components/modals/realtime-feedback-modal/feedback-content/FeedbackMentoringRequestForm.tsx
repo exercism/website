@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest, typecheck } from '@/utils'
+import { redirectTo, sendRequest, typecheck } from '@/utils'
 import { FormButton, MedianWaitTime } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {
@@ -8,26 +8,24 @@ import type {
   MentorSessionRequest as Request,
 } from '@/components/types'
 import { ContinueButton } from './FeedbackContentButtons'
+import { RealtimeFeedbackModalProps } from '..'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
 export const FeedbackMentoringRequestForm = ({
   trackObjectives,
   track,
-  createMentorRequestLink,
-  onSuccess,
+  links,
   onContinue,
 }: {
   trackObjectives: string
   track: Pick<Track, 'title' | 'medianWaitTime'>
-  createMentorRequestLink: string
   onContinue: () => void
-  onSuccess: (mentorRequest: Request) => void
-}): JSX.Element => {
+} & Pick<RealtimeFeedbackModalProps, 'links'>): JSX.Element => {
   const [mutation, { status, error }] = useMutation<Request>(
     async () => {
       const { fetch } = sendRequest({
-        endpoint: createMentorRequestLink,
+        endpoint: links.createMentorRequestLink,
         method: 'POST',
         body: JSON.stringify({
           comment: solutionCommentRef.current?.value,
@@ -38,7 +36,9 @@ export const FeedbackMentoringRequestForm = ({
       return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
     },
     {
-      onSuccess,
+      onSuccess: () => {
+        redirectTo(links.mentorDiscussionsLink)
+      },
     }
   )
 

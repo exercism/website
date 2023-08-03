@@ -25,11 +25,10 @@ type Links = {
   runTests: string
   back: string
   automatedFeedbackInfo: string
-  mentorDiscussions: string
   mentoringRequest: string
   automatedFeedbackInfoLink: string
   mentorDiscussionsLink: string
-  createMentorRequest: string
+  createMentorRequestLink: string
 }
 
 type Track = {

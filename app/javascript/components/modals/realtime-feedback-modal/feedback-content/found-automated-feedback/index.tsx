@@ -1,9 +1,9 @@
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
-import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
+import { AnalyzerFeedback } from './AnalyzerFeedback'
 import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
-import { GoBackToExercise, ContinueButton } from './FeedbackContentButtons'
-import { FeedbackContentProps } from '../FeedbackContent'
+import { GoBackToExercise, ContinueButton } from '../FeedbackContentButtons'
+import { FeedbackContentProps } from '../../FeedbackContent'
 
 const HEADLINE = [
   "Here's a suggestion on how to improve your code…",
@@ -28,19 +28,14 @@ export function FoundAutomatedFeedback({
           <div className="text-h4 mb-16 flex c-iteration-summary">
             {HEADLINE[+celebratory]}
           </div>
-          {latestIteration?.representerFeedback ? (
-            <RepresenterFeedback {...latestIteration.representerFeedback} />
-          ) : null}
-
-          {latestIteration?.representerFeedback &&
-          latestIteration?.analyzerFeedback ? (
-            <hr className="border-t-2 border-borderColor6 mb-12" />
-          ) : null}
+          {/* {latestIteration?.representerFeedback ? (
+            <RepresenterFeedback {...latestIteration.representerFeedback} /> */}
+          {/* ) : latestIteration?.analyzerFeedback ? ( */}
           {latestIteration?.analyzerFeedback ? (
             <AnalyzerFeedback
+              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
               {...latestIteration.analyzerFeedback}
               track={track}
-              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
             />
           ) : null}
         </div>

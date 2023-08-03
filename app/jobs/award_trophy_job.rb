@@ -14,15 +14,17 @@ class AwardTrophyJob < ApplicationJob
   end
 
   def self.worth_queuing?(track, category, slug, context:)
-    # General trophies apply to _all_ tracks, so there won't be any track filtering.
-    # If the context is also empty, there is no possibility of the trophy not being
-    # worth queuing
-    return true if category == :general && context.empty?
-
-    args = { track: }
-    args[context.class.base_class.name.demodulize.underscore] = context if context.present?
-
     badge = "Track::Trophies::#{category.to_s.camelize}::#{slug.to_s.camelize}Trophy".safe_constantize
+
+    # Don't queue the job if the badge is not enabled for this track
+    return false unless badge.enabled_for_track?(track)
+
+    # Queue the job if there is no context to conditionally
+    # determine if the job needs to be queued
+    return true if context.blank?
+
+    context_key = context.class.base_class.name.demodulize.underscore
+    args = { context_key => context }
     badge.worth_queuing?(**args.symbolize_keys)
   end
 end

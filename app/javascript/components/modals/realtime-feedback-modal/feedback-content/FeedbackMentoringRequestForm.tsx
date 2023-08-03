@@ -95,6 +95,7 @@ export const FeedbackMentoringRequestForm = ({
         Submit mentoring request
       </FormButton>
       <ContinueButton
+        type="button"
         text="Cancel sending request"
         className="btn-secondary"
         onClick={onContinue}

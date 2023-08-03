@@ -122,7 +122,7 @@ module ReactComponents
 
     memoize
     def user_track
-      UserTrack.for(student, track)
+      UserTrack.for(solution.user, track)
     end
 
     memoize

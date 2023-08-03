@@ -18,6 +18,7 @@ export type FeedbackContentProps = {
   | 'open'
   | 'links'
   | 'trackObjectives'
+  | 'mentoringRequested'
 >
 
 export function FeedbackContent({
@@ -29,6 +30,7 @@ export function FeedbackContent({
   onClose,
   links,
   trackObjectives,
+  mentoringRequested,
 }: FeedbackContentProps): JSX.Element {
   const itIsTakingTooLong = useTakingTooLong(open)
 
@@ -45,6 +47,7 @@ export function FeedbackContent({
       return (
         <NoAutomatedFeedback
           links={links}
+          mentoringRequested={mentoringRequested}
           onContinue={onContinue}
           track={track}
           trackObjectives={trackObjectives}
@@ -55,7 +58,7 @@ export function FeedbackContent({
         <FoundAutomatedFeedback
           celebratory
           track={track}
-          automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+          links={links}
           onClose={onClose}
           onContinue={onContinue}
           latestIteration={latestIteration}
@@ -65,7 +68,7 @@ export function FeedbackContent({
       return (
         <FoundAutomatedFeedback
           track={track}
-          automatedFeedbackInfoLink={links.automatedFeedbackInfoLink}
+          links={links}
           onClose={onClose}
           onContinue={onContinue}
           latestIteration={latestIteration}

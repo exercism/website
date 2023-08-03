@@ -26,9 +26,8 @@ type Links = {
   back: string
   automatedFeedbackInfo: string
   mentoringRequest: string
-  automatedFeedbackInfoLink: string
-  mentorDiscussionsLink: string
-  createMentorRequestLink: string
+  mentorDiscussions: string
+  createMentorRequest: string
 }
 
 type Track = {

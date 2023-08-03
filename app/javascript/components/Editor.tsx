@@ -553,6 +553,7 @@ export default ({
           <RealtimeFeedbackModal
             open={feedbackModalOpen}
             onClose={hideFeedbackModal}
+            mentoringRequested={mentoringRequested}
             onSubmit={submit}
             solution={solution}
             track={track}

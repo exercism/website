@@ -13,13 +13,13 @@ const HEADLINE = [
 export function FoundAutomatedFeedback({
   latestIteration,
   track,
-  automatedFeedbackInfoLink,
+  links,
   onClose,
   onContinue,
   celebratory = false,
 }: Pick<
   FeedbackContentProps,
-  'latestIteration' | 'track' | 'automatedFeedbackInfoLink' | 'onClose'
+  'latestIteration' | 'track' | 'onClose' | 'links'
 > & { onContinue: () => void; celebratory?: boolean }): JSX.Element {
   return (
     <>
@@ -40,7 +40,7 @@ export function FoundAutomatedFeedback({
             <AnalyzerFeedback
               {...latestIteration.analyzerFeedback}
               track={track}
-              automatedFeedbackInfoLink={automatedFeedbackInfoLink}
+              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
             />
           ) : null}
         </div>

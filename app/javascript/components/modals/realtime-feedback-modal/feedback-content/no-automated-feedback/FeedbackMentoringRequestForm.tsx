@@ -7,8 +7,8 @@ import type {
   MentorSessionTrack as Track,
   MentorSessionRequest as Request,
 } from '@/components/types'
-import { ContinueButton } from './FeedbackContentButtons'
-import { RealtimeFeedbackModalProps } from '..'
+import { ContinueButton } from '../FeedbackContentButtons'
+import { RealtimeFeedbackModalProps } from '../..'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -25,7 +25,7 @@ export const FeedbackMentoringRequestForm = ({
   const [mutation, { status, error }] = useMutation<Request>(
     async () => {
       const { fetch } = sendRequest({
-        endpoint: links.createMentorRequestLink,
+        endpoint: links.createMentorRequest,
         method: 'POST',
         body: JSON.stringify({
           comment: solutionCommentRef.current?.value,
@@ -37,7 +37,7 @@ export const FeedbackMentoringRequestForm = ({
     },
     {
       onSuccess: () => {
-        redirectTo(links.mentorDiscussionsLink)
+        redirectTo(links.mentoringRequest)
       },
     }
   )

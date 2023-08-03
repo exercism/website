@@ -2,7 +2,6 @@ import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
 import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
-import { AnalysisStatusSummary } from '@/components/track/iteration-summary/AnalysisStatusSummary'
 import { GoBackToExercise, ContinueButton } from './FeedbackContentButtons'
 import { FeedbackContentProps } from '../FeedbackContent'
 
@@ -55,7 +54,11 @@ export function FoundAutomatedFeedback({
       </div>
       <div className="flex gap-16 mt-16">
         {!celebratory && <GoBackToExercise onClick={onClose} />}
-        <ContinueButton anyway={!celebratory} onClick={onContinue} />
+        <ContinueButton
+          text={celebratory ? 'Continue' : 'Continue anyway'}
+          onClick={onContinue}
+          className={!celebratory ? 'btn-secondary' : ''}
+        />
       </div>
     </>
   )

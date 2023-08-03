@@ -11,14 +11,16 @@ export function GoBackToExercise({ ...props }: ReactButton): JSX.Element {
 }
 
 export function ContinueButton({
-  anyway,
+  text = 'Continue',
+  className,
   ...props
 }: {
-  anyway?: boolean
+  text?: string
+  className?: string
 } & ReactButton): JSX.Element {
   return (
-    <button {...props} className="btn-primary btn-s">
-      Continue{anyway ? ' anyway' : null}
+    <button {...props} className={`btn-primary btn-s ${className}`}>
+      {text}
     </button>
   )
 }

@@ -11,6 +11,7 @@ FactoryBot.define do
   %i[
     completed_all_exercises completed_fifty_percent_of_exercises
     completed_twenty_exercises mentored iterated_twenty_exercises
+    read_fifty_community_solutions
   ].each do |type|
     factory "#{type}_trophy", class: "Track::Trophies::General::#{type.to_s.camelize}Trophy" do
     end

@@ -79,5 +79,14 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test "show: registers community solution as viewed" do
+    exercise = create :practice_exercise
+    solution = create(:practice_solution, :published, exercise:)
+
+    UserTrack::ViewedCommunitySolution::Create.expects(:defer).with(@current_user, solution.track, solution)
+
+    get track_exercise_solution_url(exercise.track, exercise, solution.uuid)
+  end
+
   # TODO: add tests to verify redirect when viewing tutorial exercise
 end

@@ -30,7 +30,13 @@ class Track::Trophy < ApplicationRecord
     self.valid_track_slugs = Array(self.class.valid_track_slugs)
   end
 
-  # Stub to allow badges to short-circuit queueing
+  # Stub to allow trophies to short-circuit queueing
+  def self.worth_queuing?(track:, **_context)
+    return true if self.valid_track_slugs.empty?
+
+    self.valid_track_slugs.include?(track.slug)
+  end
+
   def award?(_user_track) = raise "Implement this method in the child class"
   def icon = super.to_sym
 end

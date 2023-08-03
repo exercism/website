@@ -7,7 +7,7 @@ class Track::Trophies::Shared::FunctionalTrophy < Track::Trophies::SharedTrophy
     "Congratulations on completing 10 functional exercises in %<track_title>s" % { track_title: track }
   end
 
-  def award?(user, track)
+  def award?(user_track)
     # TODO
   end
 

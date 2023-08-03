@@ -16,10 +16,7 @@ class Track::Trophies::Shared::CompletedFiveDifficultExercisesTrophy < Track::Tr
     }
   end
 
-  def award?(user, track)
-    user_track = UserTrack.for!(user, track)
-    user_track.completed?
-  end
+  def award?(user_track) = user_track.completed?
 
   NUM_EXERCISES = 5
   private_constant :NUM_EXERCISES

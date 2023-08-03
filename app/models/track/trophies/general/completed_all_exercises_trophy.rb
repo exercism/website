@@ -10,8 +10,5 @@ class Track::Trophies::General::CompletedAllExercisesTrophy < Track::Trophies::G
     "Congratulations on completing all exercises in %<track_title>s" % { track_title: track }
   end
 
-  def award?(user, track)
-    user_track = UserTrack.for!(user, track)
-    user_track.completed?
-  end
+  def award?(user_track) = user_track.completed?
 end

@@ -16,10 +16,7 @@ class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy < Track::
     }
   end
 
-  def award?(user, track)
-    user_track = UserTrack.for!(user, track)
-    user_track.completed_percentage >= 50.0
-  end
+  def award?(user_track) = user_track.completed_percentage >= 50.0
 
   PERCENTAGE_COMPLETED_EXERCISES = 20
   private_constant :PERCENTAGE_COMPLETED_EXERCISES

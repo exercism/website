@@ -1,5 +1,5 @@
 class UserTrack::AcquiredTrophy < ApplicationRecord
-  belongs_to :trophy
+  belongs_to :trophy, class_name: 'Track::Trophy'
   belongs_to :user
   belongs_to :track
 

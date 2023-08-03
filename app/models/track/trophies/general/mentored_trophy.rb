@@ -10,8 +10,8 @@ class Track::Trophies::General::MentoredTrophy < Track::Trophies::GeneralTrophy
     "Congratulations on completing a mentoring session in %<track_title>s" % { track_title: track }
   end
 
-  def award?(user, track)
-    Mentor::Discussion.finished.joins(:request).where(request: { student: user, track: }).exists?
+  def award?(user_track)
+    Mentor::Discussion.finished.joins(:request).where(request: { student: user_track.user, track: user_track.track }).exists?
   end
 
   # def name(track)

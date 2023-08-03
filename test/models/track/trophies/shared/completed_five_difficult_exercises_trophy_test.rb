@@ -21,31 +21,31 @@ class Track::Trophies::Shared::CompletedFiveDifficultExercisesTrophyTest < Activ
     # Completing five easy solutions does not count
     easy_exercises.each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user, track)
+    refute trophy.award?(user_track)
 
     # Completing five medium solutions does not count
     medium_exercises.each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user, track)
+    refute trophy.award?(user_track)
 
     # Completing four medium solutions does not count
     hard_exercises[0..3].each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
-    refute trophy.award?(user, track)
+    refute trophy.award?(user_track)
 
     # Starting fifth medium solution does not count
     solution = create(:practice_solution, :started, exercise: hard_exercises[4], user:)
     user_track.reset_summary!
-    refute trophy.award?(user, track)
+    refute trophy.award?(user_track)
 
     # Iterating fifth medium solution does not count
     solution.update(status: :iterated)
     user_track.reset_summary!
-    refute trophy.award?(user, track)
+    refute trophy.award?(user_track)
 
     # Completing fifth medium solution counts
     solution.update(completed_at: Time.current)
     user_track.reset_summary!
-    assert trophy.award?(user, track)
+    assert trophy.award?(user_track)
   end
 end

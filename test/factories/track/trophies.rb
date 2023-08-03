@@ -1,11 +1,11 @@
 FactoryBot.define do
-  factory :track_trophy, class: 'Track::Trophies::General::MentoredTrophy' do
+  factory :trophy, class: 'Track::Trophies::General::MentoredTrophy' do
   end
 
-  factory :general_track_trophy, class: 'Track::Trophies::General::MentoredTrophy' do
+  factory :general_trophy, class: 'Track::Trophies::General::MentoredTrophy' do
   end
 
-  factory :shared_track_trophy, class: 'Track::Trophies::Shared::CompletedLearningMode' do
+  factory :shared_trophy, class: 'Track::Trophies::Shared::CompletedLearningMode' do
   end
 
   %i[

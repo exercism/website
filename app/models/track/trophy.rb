@@ -17,8 +17,8 @@ class Track::Trophy < ApplicationRecord
     update!(valid_track_slugs: Array(self.class.valid_track_slugs))
   end
 
-  def self.lookup!(language, slug)
-    klass = "track/trophies/#{language}/#{slug}_trophy".camelize.constantize
+  def self.lookup!(category, slug)
+    klass = "track/trophies/#{category}/#{slug}_trophy".camelize.constantize
 
     # This avoids race conditions
     begin
@@ -33,6 +33,6 @@ class Track::Trophy < ApplicationRecord
   end
 
   # Stub to allow badges to short-circuit queueing
-  def award?(_user, _track) = raise "Implement this method in the child class"
+  def award?(_user_track) = raise "Implement this method in the child class"
   def icon = super.to_sym
 end

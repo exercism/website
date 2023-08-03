@@ -10,8 +10,5 @@ class Track::Trophies::Shared::CompletedLearningModeTrophy < Track::Trophies::Sh
     "Congratulations on completing Learning Mode in %<track_title>s" % { track_title: track }
   end
 
-  def award?(user, track)
-    user_track = UserTrack.for!(user, track)
-    user_track.completed_course?
-  end
+  def award?(user_track) = user_track.completed_course?
 end

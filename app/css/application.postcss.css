@@ -134,6 +134,7 @@
 @import "./components/completed-exercise-progress";
 @import "./components/search-input";
 @import "./components/zero-section";
+@import "./components/mentoring-request-form";
 
 @import "./components/widgets/exercise";
 @import "./components/mentor-discussion-post-editor";

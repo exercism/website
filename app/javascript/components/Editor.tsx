@@ -91,6 +91,7 @@ export default ({
   request,
   mentoringRequested,
   chatgptUsage,
+  trackObjectives,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -556,11 +557,10 @@ export default ({
             solution={solution}
             track={track}
             request={request}
-            automatedFeedbackInfoLink={links.automatedFeedbackInfo}
-            redirectToExerciseLink={redirectLink}
             submission={submission}
             exercise={exercise}
-            mentorDiscussionsLink={links.mentorDiscussions}
+            trackObjectives={trackObjectives}
+            links={{ ...links, redirectToExerciseLink: redirectLink }}
           />
 
           {submission && premium && (

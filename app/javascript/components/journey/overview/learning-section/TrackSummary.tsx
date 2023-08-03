@@ -87,8 +87,8 @@ export const TrackSummary = ({
               <div className="note">Avg. on Exercism = {avgVelocity}</div>
             ) : null}
             <div className="info">
-              This is a measure of how quickly you’ve progressed through the
-              track in the last 6 months
+              This is a measure of how quickly you&apos;ve progressed through
+              the track in the last 6 months
             </div>
           </div>
         ) : null}

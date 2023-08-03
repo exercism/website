@@ -46,12 +46,14 @@ module ReactComponents
         },
         request:,
         mentoring_requested: solution.mentoring_requested?,
+        track_objectives: user_track&.objectives.to_s,
         links: {
           run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
           back: Exercism::Routes.track_exercise_path(track, solution.exercise),
           automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
           mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
-          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise)
+          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise),
+          create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid)
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,
@@ -61,7 +63,8 @@ module ReactComponents
         track: {
           title: track.title,
           slug: track.slug,
-          icon_url: track.icon_url
+          icon_url: track.icon_url,
+          median_wait_time: track.median_wait_time
         }
       }
     end
@@ -115,6 +118,11 @@ module ReactComponents
       return if track.debugging_instructions.blank?
 
       Markdown::Parse.(track.debugging_instructions)
+    end
+
+    memoize
+    def user_track
+      UserTrack.for(student, track)
     end
 
     memoize

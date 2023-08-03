@@ -1,24 +1,21 @@
 import React, { useCallback } from 'react'
-import { redirectTo } from '@/utils/redirect-to'
-import { Modal } from './Modal'
-import { Props } from '../editor/Props'
-import { IterationsListRequest } from '../student/IterationsList'
-import { Submission } from '../editor/types'
-import { FeedbackContent } from './realtime-feedback-modal/FeedbackContent'
-import { useGetLatestIteration } from './realtime-feedback-modal/useGetLatestIteration'
-import { Iteration, Track } from '../types'
+import { redirectTo } from '@/utils'
+import { Modal } from '../Modal'
+import { FeedbackContent } from './FeedbackContent'
+import { useGetLatestIteration } from './useGetLatestIteration'
+import type { Props } from '@/components/editor/Props'
+import type { IterationsListRequest } from '@/components/student/IterationsList'
+import type { Submission } from '@/components/editor/types'
+import type { Iteration } from '@/components/types'
 
 export type RealtimeFeedbackModalProps = {
   open: boolean
   onClose: () => void
   onSubmit: () => void
-  track: Pick<Track, 'iconUrl' | 'title'>
-  automatedFeedbackInfoLink: string
   request: IterationsListRequest
-  redirectToExerciseLink: string
   submission: Submission | null
-  mentorDiscussionsLink: string
-} & Pick<Props, 'exercise' | 'solution'>
+  links: Props['links'] & { redirectToExerciseLink: string }
+} & Pick<Props, 'exercise' | 'solution' | 'trackObjectives' | 'track'>
 
 export type ResolvedIteration = Iteration & { submissionUuid?: string }
 
@@ -29,10 +26,9 @@ export const RealtimeFeedbackModal = ({
   exercise,
   track,
   request,
-  automatedFeedbackInfoLink,
-  mentorDiscussionsLink,
-  redirectToExerciseLink,
   submission,
+  links,
+  trackObjectives,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const { latestIteration, checkStatus } = useGetLatestIteration({
     request,
@@ -41,8 +37,8 @@ export const RealtimeFeedbackModal = ({
   })
 
   const redirectToExercise = useCallback(() => {
-    redirectTo(redirectToExerciseLink)
-  }, [redirectToExerciseLink])
+    redirectTo(links.redirectToExerciseLink)
+  }, [links.redirectToExerciseLink])
 
   return (
     <Modal
@@ -56,14 +52,14 @@ export const RealtimeFeedbackModal = ({
       <FeedbackContent
         checkStatus={checkStatus}
         open={open}
-        continueAnyway={redirectToExercise}
+        onContinue={redirectToExercise}
         exercise={exercise}
         solution={solution}
         track={track}
         latestIteration={latestIteration}
         onClose={onClose}
-        automatedFeedbackInfoLink={automatedFeedbackInfoLink}
-        mentorDiscussionsLink={mentorDiscussionsLink}
+        links={links}
+        trackObjectives={trackObjectives}
       />
     </Modal>
   )

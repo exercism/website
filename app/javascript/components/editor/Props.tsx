@@ -27,12 +27,16 @@ type Links = {
   automatedFeedbackInfo: string
   mentorDiscussions: string
   mentoringRequest: string
+  automatedFeedbackInfoLink: string
+  mentorDiscussionsLink: string
+  createMentorRequest: string
 }
 
 type Track = {
   title: string
   slug: string
   iconUrl: string
+  medianWaitTime: number
 }
 
 type Iteration = {
@@ -91,4 +95,5 @@ export type Props = {
   features?: EditorFeatures
   mentoringRequested: boolean
   request: IterationsListRequest
+  trackObjectives: string
 }

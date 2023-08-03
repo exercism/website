@@ -1,9 +1,7 @@
 class Track::Trophy < ApplicationRecord
-  class << self
-    attr_accessor :valid_track_slugs
-  end
-
   has_many :acquired_trophies, class_name: "UserTrack::AcquiredTrophy", dependent: :destroy
+
+  def self.valid_track_slugs = []
 
   def self.for_track(track)
     where(%{

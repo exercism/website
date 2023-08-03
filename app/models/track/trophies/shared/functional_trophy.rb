@@ -1,4 +1,8 @@
 class Track::Trophies::Shared::FunctionalTrophy < Track::Trophy
+  # TODO: define the tracks for which this is valid, we'll use
+  # a dummy track for now to have it apply to none of the tracks
+  def self.valid_track_slugs = ['NONE']
+
   def name(_) = "Functional Familiarity"
   def icon = 'trophy-mentored'
   def criteria(_) = "Awarded for completing 10 functional exercises. Choose from A,b,c,de,f... "

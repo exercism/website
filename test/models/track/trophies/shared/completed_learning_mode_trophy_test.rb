@@ -44,4 +44,27 @@ class Track::Trophies::General::CompletedLearningModeTrophyTest < ActiveSupport:
     user_track.reset_summary!
     assert trophy.award?(user_track)
   end
+
+  test "reseed! sets valid_track_slugs to tracks with learning mode enabled" do
+    track = create :track, course: false
+    trophy = create :completed_learning_mode_trophy
+
+    # Track is not valid if learning mode is disabled
+    assert_empty trophy.valid_track_slugs
+
+    # Track is valid if learning mode is enabled
+    track.update(course: true)
+    trophy.reseed!
+    assert_equal [track.slug], trophy.valid_track_slugs
+
+    # Ignore other track with learning mode disabled
+    other_track = create :track, slug: 'fsharp', course: false
+    trophy.reseed!
+    assert_equal [track.slug], trophy.valid_track_slugs
+
+    # Ignore all tracks with learning mode enabled
+    other_track.update(course: true)
+    trophy.reseed!
+    assert_equal [track.slug, other_track.slug].sort, trophy.valid_track_slugs.sort
+  end
 end

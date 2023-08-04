@@ -2,8 +2,12 @@ import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { AnalyzerFeedback } from './AnalyzerFeedback'
 import { RepresenterFeedback } from './RepresenterFeedback'
-import { GoBackToExercise, ContinueButton } from '../FeedbackContentButtons'
+import {
+  GoBackToExercise,
+  ContinueButton,
+} from '../../components/FeedbackContentButtons'
 import { FeedbackContentProps } from '../../FeedbackContent'
+import { FooterButtonContainer } from '../../components'
 
 const HEADLINE = [
   "Here's a suggestion on how to improve your code…",
@@ -46,14 +50,15 @@ export function FoundAutomatedFeedback({
           category="graphics"
         />
       </div>
-      <div className="flex gap-16 mt-0 -mx-48 -mb-32 py-16 px-48 border-t-1 border-borderColor6">
+
+      <FooterButtonContainer>
         {!celebratory && <GoBackToExercise onClick={onClose} />}
         <ContinueButton
           text={celebratory ? 'Continue' : 'Continue anyway'}
           onClick={onContinue}
           className={!celebratory ? 'btn-secondary' : ''}
         />
-      </div>
+      </FooterButtonContainer>
     </>
   )
 }

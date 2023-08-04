@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContinueButton } from '../FeedbackContentButtons'
+import { ContinueButton } from '../../components/FeedbackContentButtons'
 
 export function PendingMentoringRequest({
   mentoringRequestLink,

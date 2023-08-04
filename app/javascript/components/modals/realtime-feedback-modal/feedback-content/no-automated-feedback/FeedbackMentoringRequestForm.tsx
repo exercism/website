@@ -7,7 +7,7 @@ import type {
   MentorSessionTrack as Track,
   MentorSessionRequest as Request,
 } from '@/components/types'
-import { ContinueButton } from '../FeedbackContentButtons'
+import { ContinueButton } from '../../components/FeedbackContentButtons'
 import { RealtimeFeedbackModalProps } from '../..'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')

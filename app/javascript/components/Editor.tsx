@@ -6,6 +6,7 @@ import React, {
   createContext,
 } from 'react'
 import { useQueryCache } from 'react-query'
+import { redirectTo } from '@/utils'
 import { getCacheKey } from '@/components/student'
 import type { File } from './types'
 import { type TabContext, SplitPane } from './common'
@@ -90,6 +91,7 @@ export default ({
   discussion,
   request,
   mentoringRequested,
+  mentoringStatus,
   chatgptUsage,
   trackObjectives,
   features = { theme: false, keybindings: false },
@@ -203,7 +205,9 @@ export default ({
       throw 'Submission expected'
     }
 
-    showFeedbackModal()
+    if (mentoringStatus === 'none') {
+      showFeedbackModal()
+    }
     if (!hasLatestIteration) {
       dispatch({ status: EditorStatus.CREATING_ITERATION })
       createIteration(submission, {
@@ -213,6 +217,9 @@ export default ({
           ])
           setRedirectLink(iteration.links.solution)
           setHasLatestIteration(true)
+          if (mentoringStatus !== 'none') {
+            redirectTo(iteration.links.solution)
+          }
         },
       })
     }
@@ -223,6 +230,7 @@ export default ({
     exercise.slug,
     hasLatestIteration,
     isSubmitDisabled,
+    mentoringStatus,
     showFeedbackModal,
     submission,
     track.slug,

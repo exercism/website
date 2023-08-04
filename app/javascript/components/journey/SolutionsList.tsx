@@ -1,21 +1,26 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { SolutionProps, Solution } from './Solution'
-import { Request } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { removeEmpty, useHistory } from '../../hooks/use-history'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import pluralize from 'pluralize'
+import {
+  useList,
+  removeEmpty,
+  useHistory,
+  usePaginatedRequestQuery,
+  type Request,
+} from '@/hooks'
+import {
+  OrderSwitcher,
+  SolutionFilter,
+  type ExerciseStatus,
+  type MentoringStatus,
+  type SyncStatus,
+  type TestsStatus,
+  type HeadTestsStatus,
+} from './solutions-list'
+import { type SolutionProps, Solution } from './Solution'
 import { ResultsZone } from '../ResultsZone'
 import { Pagination, GraphicalIcon } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { PaginatedResult } from '../types'
-import { OrderSwitcher } from './solutions-list/OrderSwitcher'
-import pluralize from 'pluralize'
-import { SolutionFilter } from './solutions-list/SolutionFilter'
-import { ExerciseStatus } from './solutions-list/ExerciseStatusSelect'
-import { MentoringStatus } from './solutions-list/MentoringStatusSelect'
-import { SyncStatus } from './solutions-list/SyncStatusSelect'
-import { TestsStatus } from './solutions-list/TestsStatusSelect'
-import { HeadTestsStatus } from './solutions-list/HeadTestsStatusSelect'
+import { type PaginatedResult } from '../types'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -145,7 +150,7 @@ export const SolutionsList = ({
                 </div>
                 <Pagination
                   disabled={latestData === undefined}
-                  current={request.query.page}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={setPage}
                 />

@@ -46,6 +46,7 @@ module ReactComponents
         },
         request:,
         mentoring_requested: solution.mentoring_requested?,
+        mentoring_status: solution.mentoring_status,
         track_objectives: user_track&.objectives.to_s,
         links: {
           run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),

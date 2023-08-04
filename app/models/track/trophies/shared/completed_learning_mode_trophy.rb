@@ -15,6 +15,6 @@ class Track::Trophies::Shared::CompletedLearningModeTrophy < Track::Trophy
   def send_email_on_acquisition? = true
 
   def award?(user, track)
-    UserTrack.for!(user, track).completed_course?
+    UserTrack.for(user, track).completed_course?
   end
 end

@@ -18,6 +18,8 @@ class UserTrack
     def tutorial_exercise_completed? = false
     def anonymous_during_mentoring? = true
     def maintainer? = false
+    def completed? = false
+    def completed_course? = false
 
     memoize
     def exercises
@@ -105,6 +107,7 @@ class UserTrack
     ###############################
 
     def num_completed_exercises = 0
+    def completed_percentage = 0.0
 
     def unlocked_exercise_ids
       []

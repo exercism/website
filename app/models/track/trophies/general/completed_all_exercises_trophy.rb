@@ -11,7 +11,7 @@ class Track::Trophies::General::CompletedAllExercisesTrophy < Track::Trophy
   end
 
   def award?(user, track)
-    UserTrack.for!(user, track).completed?
+    UserTrack.for(user, track).completed?
   end
 
   def send_email_on_acquisition? = true

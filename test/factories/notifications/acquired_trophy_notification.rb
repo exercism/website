@@ -3,7 +3,7 @@ FactoryBot.define do
     user
     params do
       {
-        user_track_acquired_trophy: create(:user_track_acquired_trophy, user:, track:, trophy:)
+        user_track_acquired_trophy: create(:user_track_acquired_trophy, user:)
       }
     end
   end

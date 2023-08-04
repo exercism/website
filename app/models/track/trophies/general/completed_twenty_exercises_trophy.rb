@@ -17,7 +17,7 @@ class Track::Trophies::General::CompletedTwentyExercisesTrophy < Track::Trophy
   end
 
   def award?(user, track)
-    UserTrack.for!(user, track).num_completed_exercises >= NUM_COMPLETED_EXERCISES
+    UserTrack.for(user, track).num_completed_exercises >= NUM_COMPLETED_EXERCISES
   end
 
   def send_email_on_acquisition? = true

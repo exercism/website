@@ -3,7 +3,7 @@ class Track::Trophy::ReseedVariableTrophies
 
   def call
     VARIABLE_TROPHIES.each do |trophy|
-      trophy.first.reseed!
+      trophy.first&.reseed!
     end
   end
 

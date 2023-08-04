@@ -7,6 +7,8 @@ import type {
 } from '@/components/types'
 import type { Track } from '@/components/student/IterationsList'
 
+export const BLOCKQUOTE = 'border border-l-6 pl-12 border-borderColor6 mb-12'
+
 export const AnalyzerFeedback = ({
   summary,
   comments,
@@ -17,7 +19,7 @@ export const AnalyzerFeedback = ({
 }): JSX.Element => {
   return (
     <div className="c-automated-feedback analyzer-feedback">
-      <div className="border border-l-6 pl-12 border-borderColor6 mb-12">
+      <div className={BLOCKQUOTE}>
         {summary ? <div className="summary">{summary}</div> : null}
         {comments.map((comment, i) => {
           return <Comment key={i} {...comment} />

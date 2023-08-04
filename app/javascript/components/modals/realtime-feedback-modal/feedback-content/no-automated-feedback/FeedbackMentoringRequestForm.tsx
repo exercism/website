@@ -91,7 +91,7 @@ export const FeedbackMentoringRequestForm = ({
           aria-describedby="request-mentoring-form-solution-description"
         />
       </div>
-      <FormButton status={status} className="btn-primary btn-m">
+      <FormButton status={status} className="btn-primary btn-s">
         Submit mentoring request
       </FormButton>
       <ContinueButton

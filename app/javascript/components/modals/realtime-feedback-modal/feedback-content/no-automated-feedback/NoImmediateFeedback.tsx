@@ -25,7 +25,7 @@ export function NoImmediateFeedback({
         <button onClick={onSendMentoringRequest} className="btn-primary btn-s">
           Send to a mentor...
         </button>
-        <ContinueButton onClick={onContinue} />
+        <ContinueButton onClick={onContinue} className="btn-secondary" />
       </div>
     </div>
   )

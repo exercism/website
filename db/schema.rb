@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_02_140435) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_04_084334) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1218,6 +1218,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_140435) do
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
+    t.boolean "email_on_acquired_trophy_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end

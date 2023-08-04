@@ -18,6 +18,7 @@ class User::CommunicationPreferences < ApplicationRecord
   def self.product_keys
     %i[
       email_on_acquired_badge_notification
+      email_on_acquired_trophy_notification
       email_on_general_update_notification
       email_on_nudge_notification
       email_about_fundraising_campaigns

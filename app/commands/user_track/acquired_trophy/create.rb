@@ -17,11 +17,11 @@ class UserTrack::AcquiredTrophy::Create
         user:,
         track:,
         trophy:
-      ).tap do |uat|
+      ).tap do |user_track_acquired_trophy|
         if trophy.send_email_on_acquisition? && send_email
-          User::Notification::CreateEmailOnly.(user, :acquired_trophy, user_acquired_trophy: uat)
+          User::Notification::CreateEmailOnly.(user, :acquired_trophy,
+            user_track_acquired_trophy:)
         end
-
         User::Notification::Create.(user, trophy.notification_key) if trophy.notification_key.present?
         # User::ResetCache.defer(user, :has_unrevealed_badges?)
       end

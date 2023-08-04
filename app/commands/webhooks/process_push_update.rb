@@ -19,7 +19,7 @@ class Webhooks::ProcessPushUpdate
       Github::DispatchOrgWideFilesRepoUpdateEvent.defer(repo, pusher_username) if trigger_repo_update?
     end
 
-    Github::DispatchBackupRepoEvent.defer(repo)
+    Github::DispatchBackupRepoEvent.defer(repo_name)
   end
 
   private

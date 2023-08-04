@@ -44,7 +44,7 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
   end
 
   test "should dispatch backup repo event" do
-    Github::DispatchBackupRepoEvent.expects(:defer).with('exercism/ruby')
+    Github::DispatchBackupRepoEvent.expects(:defer).with('ruby')
 
     Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [], false)
   end

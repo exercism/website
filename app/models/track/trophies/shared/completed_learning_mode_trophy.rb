@@ -12,6 +12,8 @@ class Track::Trophies::Shared::CompletedLearningModeTrophy < Track::Trophy
     "Congratulations on completing Learning Mode in %<track_title>s" % { track_title: track }
   end
 
+  def send_email_on_acquisition? = true
+
   def award?(user, track)
     UserTrack.for!(user, track).completed_course?
   end

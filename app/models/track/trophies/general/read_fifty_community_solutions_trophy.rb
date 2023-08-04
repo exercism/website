@@ -22,6 +22,8 @@ class Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy < Track::Troph
       count >= NUM_SOLUTIONS
   end
 
+  def send_email_on_acquisition? = true
+
   NUM_SOLUTIONS = 50
   private_constant :NUM_SOLUTIONS
 end

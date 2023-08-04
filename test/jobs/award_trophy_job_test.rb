@@ -41,31 +41,29 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     end
   end
 
-  # test "use badge email setting by default" do
-  #   user = create :user
-  #   solution = create(:practice_solution, user:)
-  #   solution.update_column(:last_iterated_at, Time.current - 1.week)
-  #   create :mentor_discussion, solution:, created_at: Time.current - 1.day
-  #   solution.update_column(:last_iterated_at, Time.current)
+  test "use trophy email setting by default" do
+    user = create :user
+    track = create :track
 
-  #   perform_enqueued_jobs do
-  #     # The default for the growth_mindset badge is to send an email
-  #     User::Notification::CreateEmailOnly.expects(:call).once
-  #     AwardTrophyJob.perform_now(user.reload, :growth_mindset)
-  #   end
-  # end
+    create(:mentor_discussion, :finished, request: create(:mentor_request, student: user, track:))
 
-  # test "override badge email setting" do
-  #   user = create :user
-  #   solution = create(:practice_solution, user:)
-  #   solution.update_column(:last_iterated_at, Time.current - 1.week)
-  #   create :mentor_discussion, solution:, created_at: Time.current - 1.day
-  #   solution.update_column(:last_iterated_at, Time.current)
+    perform_enqueued_jobs do
+      # The default for the mentored trophy is to send an email
+      User::Notification::CreateEmailOnly.expects(:call).once
+      AwardTrophyJob.perform_now(user, track, :general, :mentored)
+    end
+  end
 
-  #   perform_enqueued_jobs do
-  #     # The default for the growth_mindset badge is to send an email, but we override that
-  #     User::Notification::CreateEmailOnly.expects(:call).never
-  #     AwardTrophyJob.perform_now(user.reload, :growth_mindset, send_email: false)
-  #   end
-  # end
+  test "override trophy email setting" do
+    user = create :user
+    track = create :track
+
+    create(:mentor_discussion, :finished, request: create(:mentor_request, student: user, track:))
+
+    perform_enqueued_jobs do
+      # The default for the mentored trophy is to send an email
+      User::Notification::CreateEmailOnly.expects(:call).never
+      AwardTrophyJob.perform_now(user, track, :general, :mentored, send_email: false)
+    end
+  end
 end

@@ -20,6 +20,8 @@ class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy < Track::
     UserTrack.for!(user, track).completed_percentage >= 50.0
   end
 
+  def send_email_on_acquisition? = true
+
   PERCENTAGE_COMPLETED_EXERCISES = 20
   private_constant :PERCENTAGE_COMPLETED_EXERCISES
 end

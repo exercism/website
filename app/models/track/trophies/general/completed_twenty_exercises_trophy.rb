@@ -20,6 +20,8 @@ class Track::Trophies::General::CompletedTwentyExercisesTrophy < Track::Trophy
     UserTrack.for!(user, track).num_completed_exercises >= NUM_COMPLETED_EXERCISES
   end
 
+  def send_email_on_acquisition? = true
+
   NUM_COMPLETED_EXERCISES = 20
   private_constant :NUM_COMPLETED_EXERCISES
 end

@@ -1,0 +1,6 @@
+%p Hi #{@user.handle},
+%p
+  Congratulations! You've unlocked a new badge at Exercism.
+  %br
+  Visit your Exercism Journey page to see what you earned.
+= email_button_to "Show me what I unlocked!", badges_journey_url

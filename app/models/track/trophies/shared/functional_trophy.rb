@@ -15,6 +15,8 @@ class Track::Trophies::Shared::FunctionalTrophy < Track::Trophy
     # TODO
   end
 
+  def send_email_on_acquisition? = true
+
   # def name(track)
   #   TRACK_NAMES[track.slug.to_sym] || FALLBACK_NAME % { track_title: track.title }
   # end

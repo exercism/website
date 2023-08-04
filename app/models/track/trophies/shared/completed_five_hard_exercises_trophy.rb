@@ -38,6 +38,8 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
     exercise.difficulty_category == :hard
   end
 
+  def send_email_on_acquisition? = true
+
   NUM_EXERCISES = 5
   private_constant :NUM_EXERCISES
 end

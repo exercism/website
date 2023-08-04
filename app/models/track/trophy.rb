@@ -40,4 +40,10 @@ class Track::Trophy < ApplicationRecord
   def self.worth_queuing?(**_context) = true
   def award?(_user_track) = raise "Implement this method in the child class"
   def icon = super.to_sym
+
+  def send_email_on_acquisition? = raise "Implement this method in the child class"
+
+  # Stub that children can override to generate
+  # notifications when they are created
+  def notification_key; end
 end

@@ -62,6 +62,9 @@ en:
     acquired_badge:
       1: Unused
 
+    acquired_trophy:
+      1: Unused
+
     joined_exercism:
       1: Unused
 

@@ -18,13 +18,11 @@ class UserTrack::AcquiredTrophy::Create
         track:,
         trophy:
       ).tap do |uat|
-        # TODO: enable
-        # if badge.send_email_on_acquisition? && send_email
-        #   User::Notification::CreateEmailOnly.(user, :acquired_badge,
-        #     user_acquired_badge: uat)
-        # end
+        if trophy.send_email_on_acquisition? && send_email
+          User::Notification::CreateEmailOnly.(user, :acquired_trophy, user_acquired_trophy: uat)
+        end
 
-        # User::Notification::Create.(user, badge.notification_key) if badge.notification_key.present?
+        User::Notification::Create.(user, trophy.notification_key) if trophy.notification_key.present?
         # User::ResetCache.defer(user, :has_unrevealed_badges?)
       end
 

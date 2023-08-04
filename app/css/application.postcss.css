@@ -71,6 +71,7 @@
 @import "./components/docs-tracks-list";
 @import "./components/iterations-footer";
 @import "./components/solution-iterations";
+@import "./components/loading-bar";
 @import "./components/loading-overlay";
 @import "./components/loading-suspense";
 @import "./components/unlocked-concept";

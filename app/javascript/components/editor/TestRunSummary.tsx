@@ -4,6 +4,7 @@ import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHea
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
 import { GraphicalIcon } from '../common'
+import { LoadingBar } from '../common/LoadingBar'
 
 export const TestRunSummary = ({
   testRun,
@@ -256,14 +257,7 @@ const TestRunSummaryContent = ({
       return (
         <div role="status" className="running">
           <GraphicalIcon icon="spinner" className="animate-spin-slow" />
-          <div className="progress">
-            <div
-              className="bar"
-              style={{
-                animationDuration: `${testRunner.averageTestDuration}s`,
-              }}
-            />
-          </div>
+          <LoadingBar animationDuration={testRunner.averageTestDuration} />
           <p>
             <strong>Running tests...</strong>
             <span>

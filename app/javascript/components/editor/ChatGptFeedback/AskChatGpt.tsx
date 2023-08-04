@@ -1,5 +1,6 @@
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
+import { LoadingBar } from '@/components/common/LoadingBar'
 import type { useChatGptFeedbackProps, HelpRecord } from './useChatGptFeedback'
 
 export function AskChatGpt({
@@ -65,14 +66,7 @@ function AskingChatGpt() {
   return (
     <div role="status" className="running">
       <GraphicalIcon icon="spinner" className="animate-spin-slow" />
-      <div className="progress">
-        <div
-          className="bar"
-          style={{
-            animationDuration: '15s',
-          }}
-        />
-      </div>
+      <LoadingBar animationDuration={15} />
       <p>
         <strong>Asking ChatGPT...</strong>
         <span>Estimated running time 15s</span>

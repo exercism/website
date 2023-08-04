@@ -4,7 +4,7 @@ import type { AnalyzerFeedback as Props } from '@/components/types'
 import { Comment } from '@/components/student/iterations-list/AnalyzerFeedback'
 import type { Track } from '@/components/student/IterationsList'
 
-export const BLOCKQUOTE = 'border border-l-6 pl-12 border-borderColor6 mb-12'
+export const BLOCKQUOTE = 'border border-l-6 pl-12 border-borderColor6 mb-16'
 
 export const AnalyzerFeedback = ({
   summary,

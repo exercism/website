@@ -28,10 +28,9 @@ export function FoundAutomatedFeedback({
           <div className="text-h4 mb-16 flex c-iteration-summary">
             {HEADLINE[+celebratory]}
           </div>
-          {/* {latestIteration?.representerFeedback ? (
-            <RepresenterFeedback {...latestIteration.representerFeedback} /> */}
-          {/* ) : latestIteration?.analyzerFeedback ? ( */}
-          {latestIteration?.analyzerFeedback ? (
+          {latestIteration?.representerFeedback ? (
+            <RepresenterFeedback {...latestIteration.representerFeedback} />
+          ) : latestIteration?.analyzerFeedback ? (
             <AnalyzerFeedback
               automatedFeedbackInfoLink={links.automatedFeedbackInfo}
               {...latestIteration.analyzerFeedback}

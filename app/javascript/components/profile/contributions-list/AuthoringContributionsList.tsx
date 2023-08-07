@@ -1,19 +1,9 @@
 import React from 'react'
-import { ExerciseWidget, Pagination } from '../../common'
-import { ExerciseAuthorship } from '../../types'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { ResultsZone } from '../../ResultsZone'
-import { useList } from '../../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-
-type PaginatedResult = {
-  results: readonly ExerciseAuthorship[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+import { usePaginatedRequestQuery, type Request, useList } from '@/hooks'
+import { ExerciseWidget, Pagination } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { ExerciseAuthorship, PaginatedResult } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load authoring contributions')
 
@@ -24,10 +14,10 @@ export const AuthoringContributionsList = ({
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
   const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-      [request.endpoint, request.query],
-      request
-    )
+    usePaginatedRequestQuery<
+      PaginatedResult<ExerciseAuthorship[]>,
+      Error | Response
+    >([request.endpoint, request.query], request)
 
   return (
     <ResultsZone isFetching={isFetching}>

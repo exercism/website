@@ -8,22 +8,18 @@ import {
 } from '@/hooks'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { SharePlatform, Testimonial } from '../types'
+import {
+  PaginatedResult as DefaultPaginatedResult,
+  SharePlatform,
+  Testimonial,
+} from '../types'
 import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
 import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
 import { GraphicalIcon, Pagination } from '../common'
 import { TrackDropdown } from './testimonials-list/TrackDropdown'
 import { OrderSelect } from './testimonials-list/OrderSelect'
 
-export type PaginatedResult = {
-  results: readonly Testimonial[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
-
+export type PaginatedResult = DefaultPaginatedResult<Testimonial[]>
 export type Track = {
   slug: string
   title: string

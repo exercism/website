@@ -13,17 +13,10 @@ import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import { GenericTooltip } from '../misc/ExercismTippy'
-import type { CommunitySolution as CommunitySolutionProps } from '../types'
-
-type PaginatedResult = {
-  results: CommunitySolutionProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-    unscopedTotal: number
-  }
-}
+import type {
+  CommunitySolution as CommunitySolutionProps,
+  PaginatedResult,
+} from '../types'
 
 export type Order = 'most_starred' | 'newest'
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
@@ -54,7 +47,10 @@ export const ExerciseCommunitySolutionsList = ({
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+    usePaginatedRequestQuery<
+      PaginatedResult<CommunitySolutionProps[]>,
+      Error | Response
+    >(
       ['exercise-community-solution-list', request.endpoint, request.query],
       request
     )

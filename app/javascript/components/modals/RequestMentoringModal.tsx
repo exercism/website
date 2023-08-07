@@ -1,5 +1,6 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
+import { fromNow } from '@/utils'
+import { type Request, usePaginatedRequestQuery, useList } from '@/hooks'
 import {
   GraphicalIcon,
   TrackIcon,
@@ -7,22 +8,11 @@ import {
   Icon,
   Pagination,
 } from '../common'
-import { Modal, ModalProps } from './Modal'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { SolutionForStudent } from '../types'
+import { Modal, type ModalProps } from './Modal'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { Links } from '../student/RequestMentoringButton'
-
-type PaginatedResult = {
-  results: SolutionForStudent[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+import type { Links } from '../student/RequestMentoringButton'
+import type { PaginatedResult, SolutionForStudent } from '../types'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -35,16 +25,11 @@ export const RequestMentoringModal = ({
   links: Links
 }): JSX.Element => {
   const { request, setPage, setCriteria } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['exercises-for-mentoring', request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<
+      PaginatedResult<SolutionForStudent[]>,
+      Error | Response
+    >(['exercises-for-mentoring', request.query], request)
 
   return (
     <Modal
@@ -108,7 +93,7 @@ export const RequestMentoringModal = ({
             </ResultsZone>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />

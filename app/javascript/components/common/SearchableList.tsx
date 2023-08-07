@@ -1,21 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import { QueryKey } from 'react-query'
+import {
+  Request,
+  usePaginatedRequestQuery,
+  useList,
+  useHistory,
+  removeEmpty,
+} from '@/hooks'
 import { GraphicalIcon, Loading, Pagination } from '../common'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
 import { FilterPanel } from './searchable-list/FilterPanel'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { QueryKey } from 'react-query'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-
-export type PaginatedResult<T> = {
-  results: T[]
-  meta: {
-    currentPage: number
-    totalPages: number
-    totalCount: number
-  }
-}
+import { PaginatedResult } from '../types'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 
 type ResultsType<T> = {
   order: string
@@ -68,23 +65,19 @@ export const SearchableList = <
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<U, Error | Response>(cacheKey, {
-    ...request,
-    query: removeEmpty(request.query),
-    options: { ...request.options, enabled: isEnabled },
-  })
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<U, Error | Response>(cacheKey, {
+      ...request,
+      query: removeEmpty(request.query),
+      options: { ...request.options, enabled: isEnabled },
+    })
 
+  const requestQuery = useDeepMemo(request.query)
   const setFilter = useCallback(
     (filter) => {
-      setQuery({ ...request.query, ...filter })
+      setQuery({ ...requestQuery, ...filter })
     },
-    [JSON.stringify(request.query), setQuery]
+    [requestQuery, setQuery]
   )
 
   useEffect(() => {

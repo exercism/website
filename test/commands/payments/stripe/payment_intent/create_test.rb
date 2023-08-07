@@ -1,7 +1,7 @@
 require_relative '../../test_base'
 
 class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
-  test "creates donation payment correctly" do
+  test "creates payment correctly" do
     customer_id = SecureRandom.uuid
     user = create :user, stripe_customer_id: customer_id
     type = 'payment'
@@ -20,7 +20,7 @@ class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
     assert_equal payment_intent, actual
   end
 
-  test "creates donation subscription correctly" do
+  test "creates subscription correctly" do
     customer_id = SecureRandom.uuid
     user = create :user, stripe_customer_id: customer_id
     type = 'subscription'

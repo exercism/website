@@ -41,20 +41,28 @@ class User::InsidersStatus::DetermineEligibilityStatus
   end
 
   def active_prelaunch_subscription?
-    user.subscriptions.donation.where.not(status: :canceled).
-      where('created_at < ?', LAUNCH_DATE).exists?
+    user.subscriptions.where.not(status: :canceled).
+      where('created_at < ?', Insiders::LAUNCH_DATE).exists?
   end
 
   def recent_donation?
-    user.payments.each do |donation|
-      if donation.created_at < LAUNCH_DATE
-        # For every 9.99 donation before Premium launched, give a month of access
-        # from the launch date. Plus one free month for everyone who's ever donated.
-        active_until = LAUNCH_DATE + (donation.amount_in_dollars / 9.99).floor.months + 1.month
+    user.payments.sort { |p| -p.id }.each do |donation|
+      # For every 9.99 donation before Premium launched, give a month of access
+      # from the launch date. Plus one free month for everyone who's ever donated.
+      if donation.created_at < Insiders::LAUNCH_DATE
+        active_until = Insiders::LAUNCH_DATE + (donation.amount_in_dollars / 9.99).floor.months + 1.month
+
+        # Annual payment: One year donation + grace period
+      elsif donation.amount_in_cents >= Insiders::YEAR_AMOUNT_IN_CENTS
+        active_until = donation.created_at + 1.year + Insiders::GRACE_PERIOD
+
+        # Monthly payment: A month + grace period
+      elsif donation.amount_in_cents > Insiders::MINIMUM_AMOUNT_IN_CENTS
+        active_until = donation.created_at + 1.month + Insiders::GRACE_PERIOD
+
+      # Else the donation is too small to be considered
       else
-        # For any newer donations, they need to be $25 per month to get Insiders, and
-        # then act from the date of the donation, not from launch
-        active_until = donation.created_at + (donation.amount_in_dollars / 25).floor.months
+        next
       end
 
       return true if active_until > Time.current
@@ -62,6 +70,4 @@ class User::InsidersStatus::DetermineEligibilityStatus
 
     false
   end
-
-  LAUNCH_DATE = Date.new(2023, 5, 31).freeze
 end

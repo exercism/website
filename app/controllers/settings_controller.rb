@@ -6,11 +6,7 @@ class SettingsController < ApplicationController
   def communication_preferences; end
 
   def donations
-    @payments = current_user.payments.donation.includes(:subscription).order(id: :desc)
-  end
-
-  def premium
-    @payments = current_user.payments.premium.includes(:subscription).order(id: :desc)
+    @payments = current_user.payments.includes(:subscription).order(id: :desc)
   end
 
   def reset_account

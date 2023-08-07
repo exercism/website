@@ -2,7 +2,7 @@ require_relative '../../test_base'
 
 class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
   %i[month year].each do |interval|
-    test "creates donation subscription with #{interval} interval correctly" do
+    test "creates subscription with #{interval} interval correctly" do
       user = create :user
       id = SecureRandom.uuid
       amount = 1500
@@ -18,9 +18,7 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
       assert_equal user, subscription.user
       assert_equal :active, subscription.status
       assert_equal :stripe, subscription.provider
-      assert_equal :donation, subscription.product
       assert_equal interval, subscription.interval
-      assert user.active_donation_subscription?
     end
   end
 
@@ -40,8 +38,6 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
     assert_equal user, subscription.user
     assert_equal :active, subscription.status
     assert_equal :stripe, subscription.provider
-    assert_equal :premium, subscription.product
-    refute user.active_donation_subscription?
   end
 
   test "idempotent" do
@@ -62,7 +58,7 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
     id = SecureRandom.uuid
     amount = 1500
     data = mock_stripe_subscription(id, amount)
-    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+    User::InsidersStatus::UpdateForPayment.expects(:call).with(user).at_least_once
 
     Payments::Stripe::Subscription::Create.(user, data)
   end

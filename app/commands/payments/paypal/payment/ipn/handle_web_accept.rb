@@ -24,7 +24,7 @@ class Payments::Paypal::Payment::IPN::HandleWebAccept
   def handle_completed
     return unless user
 
-    Payments::Paypal::Payment::Create.(user, external_id, amount, product)
+    Payments::Paypal::Payment::Create.(user, external_id, amount)
   end
 
   def handle_canceled_reversal = Payments::Paypal::Payment::UpdateAmount.(external_id, amount)
@@ -37,5 +37,4 @@ class Payments::Paypal::Payment::IPN::HandleWebAccept
   def payer_id = payload["payer_id"]
   def payer_email = payload["payer_email"]
   def user_id = payload["custom"]
-  def product = :donation
 end

@@ -6,34 +6,20 @@
 class Payments::Payment::Create
   include Mandate
 
-  initialize_with :user, :provider, :product, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
+  initialize_with :user, :provider, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
 
   def call
     Payments::Payment.create!(
       user:,
       provider:,
-      product:,
       external_id:,
       external_receipt_url:,
       subscription:,
       amount_in_cents:
     ).tap do |payment|
-      if product == :premium
-        User::Premium::Update.(user)
-      elsif product == :donation
-        User::UpdateTotalDonatedInCents.(user)
-        User::RegisterAsDonor.(user, Time.current)
-
-        if amount_in_cents >= Premium::LIFETIME_AMOUNT_IN_CENTS
-          # Immediately activate a user that donates 499 or more, as it's
-          # likely that the reason they're doing it is to immediately
-          # get a Premium subscription.
-          User::InsidersStatus::Activate.(user, force_lifetime: true)
-        else
-          User::InsidersStatus::Update.(user)
-        end
-      end
-
+      User::UpdateTotalDonatedInCents.(user)
+      User::RegisterAsDonor.(user, Time.current)
+      User::InsidersStatus::UpdateForPayment.(user)
       Payments::Payment::SendEmail.defer(payment)
     end
   rescue ActiveRecord::RecordNotUnique

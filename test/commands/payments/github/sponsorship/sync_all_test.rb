@@ -92,8 +92,8 @@ class Payments::Github::Sponsorship::SyncAllTest < Payments::TestBase
   end
 
   test "updates subscriptions" do
-    user_1 = create :user, github_username: 'user_1', active_donation_subscription: true, show_on_supporters_page: true
-    user_2 = create :user, github_username: 'user_2', active_donation_subscription: true, show_on_supporters_page: false
+    user_1 = create :user, github_username: 'user_1', show_on_supporters_page: true
+    user_2 = create :user, github_username: 'user_2', show_on_supporters_page: false
 
     create :payments_payment, :github, user: user_1, external_id: "S_kwHOAFXRv84AASNH"
     create :payments_subscription, :github, :active, user: user_1, external_id: "S_kwHOAFXRv84AASNH", amount_in_cents: 500
@@ -164,8 +164,8 @@ class Payments::Github::Sponsorship::SyncAllTest < Payments::TestBase
   end
 
   test "cancel missing subscriptions" do
-    user_1 = create :user, github_username: 'user_1', active_donation_subscription: true, show_on_supporters_page: true
-    user_2 = create :user, github_username: 'user_2', active_donation_subscription: true, show_on_supporters_page: false
+    user_1 = create :user, github_username: 'user_1', show_on_supporters_page: true
+    user_2 = create :user, github_username: 'user_2', show_on_supporters_page: false
 
     create :payments_subscription, user: user_1, external_id: "S_kwHOAFXRv84AASNH", provider: :github,
       status: :active, amount_in_cents: 500

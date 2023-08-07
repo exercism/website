@@ -1,14 +1,14 @@
-= link_to premium_path do
+= link_to insiders_path do
   .bg-darkBlueViolet.flex.flex-col.px-24.pt-20.pb-24.theme-dark
-    = graphical_icon :premium, css_class: "w-[48px] h-[48px] mb-16"
-    %h2.text-h3.mb-2{ class: '!text-white' } Exercism Premium
-    %p.text-h6.mb-20{ class: '!text-white' } Supercharge your Exercism Experience!
+    = graphical_icon :insiders, css_class: "w-[48px] h-[48px] mb-16"
+    %h2.text-h3.mb-2{ class: '!text-white' } Exercism Insiders
+    %p.text-h6.mb-20{ class: '!text-white' } Support Exercism, get bonus features and behind the scenes update.
 
     .text-h6.bg-launchingYellow.shadow-launching.py-6.px-12.mb-20.text-midnightBlue.rounded-8.self-start
       Only $9.99/month
 
     .text-p-base{ class: 'color-[#cbc9d9] max-w-[370px]' }
-      Enhance your journey with Premium!
+      Exercism needs your help to survive! Support us and get bonus features like
       = succeed(',') do
-        %strong{ class: 'color-[#f0f3f9]' } Unlock Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
+        %strong{ class: 'color-[#f0f3f9]' } Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
       and more.

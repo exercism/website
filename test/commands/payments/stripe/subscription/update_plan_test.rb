@@ -3,7 +3,7 @@ require_relative '../../test_base'
 class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
   test "updates amount in stripe" do
     subscription_id = SecureRandom.uuid
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, user:, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000)
@@ -22,7 +22,7 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
 
   test "update to yearly plan" do
     subscription_id = SecureRandom.uuid
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, user:, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000)
@@ -37,7 +37,7 @@ class Payments::Stripe::Subscription::UpdatePlanTest < Payments::TestBase
 
   test "update to monthly plan" do
     subscription_id = SecureRandom.uuid
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, user:, interval: :month, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000)

@@ -10,8 +10,7 @@ class User < ApplicationRecord
     founder: 0,
     staff: 1,
     insider: 2,
-    lifetime_insider: 3,
-    premium: 4
+    lifetime_insider: 3
   }, _prefix: "show", _suffix: "flair"
 
   # Include default devise modules. Others available are:
@@ -131,7 +130,6 @@ class User < ApplicationRecord
   scope :random, -> { order('RAND()') }
 
   scope :with_data, -> { joins(:data) }
-  scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
   scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
 
   # TODO: Validate presence of name
@@ -159,6 +157,10 @@ class User < ApplicationRecord
 
   after_update_commit do
     reverify_email! if previous_changes.key?('email')
+  end
+
+  def premium?
+    insider?
   end
 
   # If we don't know about this record, maybe the
@@ -221,13 +223,13 @@ class User < ApplicationRecord
   end
 
   memoize
-  def current_active_premium_subscription = subscriptions.premium.active.last
+  def active_subscription? = subscriptions.active.exists?
 
   memoize
-  def current_active_donation_subscription = subscriptions.donation.active.last
+  def current_active_subscription = subscriptions.active.last
 
   memoize
-  def current_active_donation_subscription_amount_in_cents = current_active_donation_subscription&.amount_in_cents
+  def current_active_donation_subscription_amount_in_cents = current_active_subscription&.amount_in_cents
 
   memoize
   def total_subscription_donations_in_dollars

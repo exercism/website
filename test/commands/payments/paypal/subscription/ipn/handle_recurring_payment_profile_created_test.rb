@@ -1,7 +1,7 @@
 require_relative '../../../test_base'
 
 class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedTest < Payments::TestBase
-  test "creates donation subscription" do
+  test "creates subscription" do
     freeze_time do
       recurring_payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
@@ -29,9 +29,7 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedT
       assert_equal user, subscription.user
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
-      assert_equal :donation, subscription.product
       assert_equal :month, subscription.interval
-      assert user.reload.active_donation_subscription?
     end
   end
 
@@ -63,9 +61,7 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedT
       assert_equal user, subscription.user
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
-      assert_equal :premium, subscription.product
       assert_equal :month, subscription.interval
-      refute user.reload.active_donation_subscription?
     end
   end
 
@@ -98,7 +94,6 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedT
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
       assert_equal :year, subscription.interval
-      assert user.reload.active_donation_subscription?
     end
   end
 
@@ -122,7 +117,6 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedT
 
       create(:payments_subscription, :paypal, :active, interval: :year, user:, external_id: recurring_payment_id,
         amount_in_cents:)
-      user.update(active_donation_subscription: true)
 
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(payload)
 
@@ -136,7 +130,6 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreatedT
       assert_equal :active, subscription.status
       assert_equal :paypal, subscription.provider
       assert_equal :year, subscription.interval
-      assert user.reload.active_donation_subscription?
     end
   end
 

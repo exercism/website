@@ -32,7 +32,7 @@ import type {
   TaskModule,
   PaginatedResult,
 } from '../types'
-import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { useDeepMemo } from '@/hooks'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'

@@ -7,6 +7,7 @@ import {
   removeEmpty,
   useList,
   type Request as BaseRequest,
+  useScrollToTop,
 } from '@/hooks'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -105,6 +106,8 @@ export const TasksList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const scrollToTopRef = useScrollToTop(requestQuery.page)
+
   return (
     <div className="lg-container container">
       <div className="c-search-bar">
@@ -143,7 +146,7 @@ export const TasksList = ({
         >
           {resolvedData ? (
             <React.Fragment>
-              <header className="main-header c-search-bar">
+              <header className="main-header c-search-bar" ref={scrollToTopRef}>
                 <h2>
                   <strong className="block md:inline">
                     Showing {resolvedData.meta.totalCount}{' '}

@@ -5,6 +5,7 @@ import {
   useList,
   useHistory,
   removeEmpty,
+  useScrollToTop,
 } from '@/hooks'
 import { CommunitySolution, Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -70,9 +71,11 @@ export const CommunitySolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <div className="lg-container">
-      <div className="c-search-bar">
+      <div className="c-search-bar" ref={scrollToTopRef}>
         <TrackDropdown
           tracks={tracks}
           value={request.query.trackSlug || ''}

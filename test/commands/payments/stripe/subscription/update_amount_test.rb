@@ -4,7 +4,7 @@ class Payments::Stripe::Subscription::UpdateAmountTest < Payments::TestBase
   test "updates amount in stripe" do
     subscription_id = SecureRandom.uuid
     amount_in_cents = 500
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, user:, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000)
@@ -31,7 +31,7 @@ class Payments::Stripe::Subscription::UpdateAmountTest < Payments::TestBase
   test "updates subscription amount" do
     subscription_id = SecureRandom.uuid
     amount_in_cents = 500
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, user:, external_id: subscription_id
 
     subscription_data = mock_stripe_subscription(subscription_id, 1000)

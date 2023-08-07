@@ -7,10 +7,7 @@ class Payments::Payment::SendEmail
 
   def call
     User::SendEmail.(payment) do
-      mailer.with(payment:).payment_created.deliver_later
+      DonationsMailer.with(payment:).payment_created.deliver_later
     end
   end
-
-  private
-  def mailer = payment.premium? ? PremiumMailer : DonationsMailer
 end

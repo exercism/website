@@ -19,22 +19,4 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkippedTest < P
 
     assert subscription.reload.overdue?
   end
-
-  test "skipped premium subscription payment causes user to be premium user for grace period" do
-    user = create :user, premium_until: Time.current + 2.days
-    subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
-    create(:payments_payment, :premium, :paypal, user:, subscription:)
-    payload = { "recurring_payment_id" => subscription.external_id }
-
-    assert user.reload.premium?
-
-    perform_enqueued_jobs do
-      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.(payload)
-    end
-
-    assert user.reload.premium?
-
-    travel_to Time.current + 50.days
-    refute user.reload.premium?
-  end
 end

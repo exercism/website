@@ -22,8 +22,8 @@ class Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancelTe
 
   test "canceled premium subscription causes user to only be premium user for remainder of interval" do
     user = create :user, premium_until: Time.current + 2.days
-    subscription = create(:payments_subscription, :premium, :paypal, :active, user:)
-    create(:payments_payment, :premium, :paypal, user:, subscription:)
+    subscription = create(:payments_subscription, :paypal, :active, user:)
+    create(:payments_payment, :paypal, user:, subscription:)
     payload = { "recurring_payment_id" => subscription.external_id }
 
     assert user.reload.premium?

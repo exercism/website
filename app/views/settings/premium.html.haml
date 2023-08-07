@@ -8,14 +8,14 @@
         .subscription-box.mb-16
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
-            - if current_user.current_active_premium_subscription
+            - if current_user.current_active_subscription
               = render ReactComponents::Donations::PremiumSubscriptionForm.new
             - elsif current_user.insider?
               %h2 You are an Exercism Premium member
               %p.text-p-base.mb-8
-                - if current_user.lifetime_insider?
+                - if current_user.lifetie_insider?
                   As an Exercism Lifetime Insider, you automatically get Exercism Premium for free forever.
-                  Thank you for the significant contribution(s) you have made in supporting Exercism 💙
+                  Thank you for the signficant contribution(s) you have made in supporting Exercism 💙
                 - else
                   As an Exercism Insider you automatically get Exercism Premium for free, for as long as you are an Exercism Insider.
                   Should you cease to be an insider, you will be able to resubscribe to Premium through the main Premium page.
@@ -30,7 +30,7 @@
                 to help everyone get better at programming.
               = link_to "Find out more", premium_path, class: "btn-primary btn-s"
 
-        - if current_user.current_active_premium_subscription
+        - if current_user.current_active_subscription
           %table.payments
             %tr
               %th Date

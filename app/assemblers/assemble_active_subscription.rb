@@ -18,11 +18,6 @@ class AssembleActiveSubscription
   private
   memoize
   def subscription
-    case product.to_sym
-    when :donation
-      user.current_active_donation_subscription
-    when :premium
-      user.current_active_premium_subscription
-    end
+    user.current_active_subscription
   end
 end

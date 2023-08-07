@@ -8,7 +8,6 @@ class Payments::Subscription::OverdueTest < Payments::TestBase
 
     Payments::Subscription::Overdue.(subscription)
     assert subscription.overdue?
-    refute user.active_donation_subscription?
   end
 
   test "triggers insiders_status update" do
@@ -16,7 +15,7 @@ class Payments::Subscription::OverdueTest < Payments::TestBase
     user = create :user, active_donation_subscription: true
     subscription = create :payments_subscription, :active, user:, external_id: subscription_id
 
-    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+    User::InsidersStatus::UpdateForPayment.expects(:call).with(user).at_least_once
 
     Payments::Subscription::Overdue.(subscription)
   end

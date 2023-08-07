@@ -40,7 +40,6 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "create notification when current insiders_status is eligible_lifetime" do
     user = create :user, insiders_status: :eligible_lifetime
 
-    User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_premium).once
     User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_lifetime_insiders).once
 
     User::InsidersStatus::Activate.(user)
@@ -146,7 +145,6 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "create notification when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
 
-    User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_premium).once
     User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_insiders).once
 
     User::InsidersStatus::Activate.(user)

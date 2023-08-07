@@ -1,4 +1,4 @@
-class User::Notifications::ExpiredPremiumNotification < User::Notification
+class User::Notifications::ExpiredInsidersNotification < User::Notification
   # TODO: determine what values to use
   def url = Exercism::Routes.dashboard_url
   def image_type; end
@@ -8,5 +8,5 @@ class User::Notifications::ExpiredPremiumNotification < User::Notification
   def guard_params = ""
 
   # No email key for this - it must be sent.
-  def email_communication_preferences_key = :email_about_premium
+  def email_communication_preferences_key = :email_about_insiders
 end

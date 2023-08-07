@@ -1,7 +1,6 @@
 import React from 'react'
 import { Modal } from '@/components/modals/Modal'
 import { GraphicalIcon, Icon, Reputation } from '@/components/common'
-import { PrimaryButton } from '../common/PrimaryButton'
 
 export type AutomationModalProps = {
   isOpen: boolean
@@ -21,30 +20,27 @@ export function SubmittedAutomationModal({
           This will get shown to the relevant students on their solutions as
           they work through exercises.{' '}
           <strong className="font-medium">
-            We’ll show you how many times your solution gets shown to students
-            too.
+            We&apos;ll show you how many times your solution gets shown to
+            students too.
           </strong>
         </p>
-        <div className="flex flex-row items-center border-gradient-primary text-white font-medium text-18 border border-4 rounded-12  px-24 py-8 mb-32 child:mx-12">
-          You earned <Reputation value="+3" type="primary" size="small" />{' '}
-          Reputation for this, thanks 😊
-        </div>
 
-        <a href={goBackLink}>
-          <PrimaryButton
-            className="!w-[100%] py-[16px] px-[24px] mb-16"
-            onClick={() => null}
-          >
-            <div className="flex flex-row justify-center text-18">
-              Continue to solutions requiring feedback{' '}
-              <Icon
-                alt="right"
-                icon="arrow-right"
-                className="w-[16px] h-[16px] filter-white ml-12"
-              />
-            </div>
-          </PrimaryButton>
+        <a href={goBackLink} className="btn-m btn-primary">
+          <div className="flex flex-row justify-center text-18">
+            Continue to solutions requiring feedback{' '}
+            <Icon
+              alt="right"
+              icon="arrow-right"
+              className="w-[16px] h-[16px] filter-white ml-12"
+            />
+          </div>
         </a>
+        <div className="flex mt-32 -mb-32 -mx-48 p-20 justify-center place-self-stretch bg-textColor6">
+          <div className="flex flex-row items-center border-gradient-primary text-white font-medium text-18 border border-4 rounded-12  px-24 py-8 child:mx-12">
+            You earned <Reputation value="+3" type="primary" size="small" />
+            &nbsp; Reputation for providing this feedback 😊
+          </div>
+        </div>
       </div>
     </Modal>
   )

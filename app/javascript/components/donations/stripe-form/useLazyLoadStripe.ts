@@ -31,7 +31,7 @@ export function useLazyLoadStripe(): {
       .then(setStripe)
       .catch((err) => {
         Bugsnag.notify('Failed to load Stripe:', err)
-        setError('Failed to load Stripe.')
+        setError(`Failed to load Stripe. Please reload the page to try again.`)
       })
   }, [])
 

@@ -20,46 +20,50 @@ const darkColors = {
 }
 
 export const appearance: BaseStripeElementsOptions['appearance'] = {
-  theme: 'none',
+  theme: 'stripe',
   variables: {
     fontSizeBase: '16px',
     fontFamily: 'Poppins, sans-serif',
     fontSmooth: 'antialiased',
-    fontLineHeight: '32px',
     fontWeightNormal: '500',
     colorDanger: '#D03B3B',
     colorTextPlaceholder: '#76709F',
   },
 }
 
-const OPTIONS: StripeElementsOptions = {
-  mode: 'payment',
-  amount: 3200,
-  currency: 'usd',
-  setup_future_usage: 'off_session',
-  fonts: [
-    {
-      cssSrc:
-        'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
-    },
-  ],
-}
-
 export const ExercismStripeElements = ({
   children,
   amount = 3200,
+  mode,
 }: {
   children?: React.ReactNode
   amount: number
+  mode: 'subscription' | 'payment'
 }): JSX.Element | null => {
-  OPTIONS.appearance = {
-    ...appearance,
-    variables:
-      useStripeFormTheme() === 'light'
-        ? { ...lightColors, ...appearance.variables }
-        : { ...darkColors, ...appearance.variables },
+  const options = {
+    currency: 'usd',
+    amount: amount,
+    fonts: [
+      {
+        cssSrc:
+          'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
+      },
+    ],
+    appearance: {
+      ...appearance,
+      variables:
+        useStripeFormTheme() === 'light'
+          ? { ...lightColors, ...appearance.variables }
+          : { ...darkColors, ...appearance.variables },
+    },
   }
-  OPTIONS.amount = amount
+
+  if (mode == 'subscription') {
+    options.mode = 'subscription'
+    options.setup_future_usage = 'off_session'
+  } else {
+    options.mode = 'payment'
+  }
 
   const { stripe, error } = useLazyLoadStripe()
 
@@ -67,7 +71,7 @@ export const ExercismStripeElements = ({
   if (!stripe) return <div className="c-alert my-12 mx-24">Loading...</div>
 
   return (
-    <Elements stripe={stripe} options={OPTIONS}>
+    <Elements stripe={stripe} options={options}>
       {children}
     </Elements>
   )

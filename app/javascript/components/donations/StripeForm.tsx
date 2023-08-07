@@ -1,7 +1,7 @@
 import React from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
-import { PaymentElement, CardElement } from '@stripe/react-stripe-js'
+import { PaymentElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
 import {
@@ -60,14 +60,17 @@ export function StripeForm({
   })
 
   const cardOptions = generateCardOptions(useStripeFormTheme())
+  const paymentElementOptions = {
+    layout: {
+      type: 'accordion',
+      defaultCollapsed: false,
+      radios: true,
+      spacedAccordionItems: false,
+    },
+  }
 
   return (
-    <form
-      data-turbo="false"
-      onSubmit={
-        paymentIntentType === 'payment' ? handlePaymentSubmit : handleSubmit
-      }
-    >
+    <form data-turbo="false" onSubmit={handlePaymentSubmit}>
       {!userSignedIn ? (
         <div className="email-container">
           <label htmlFor="email">Your email address (for receipts):</label>
@@ -103,44 +106,28 @@ export function StripeForm({
           </div>
         </div>
       ) : null}
-      <div className="card-container">
-        <div className="title">
-          {paymentIntentType.startsWith('premium')
-            ? `You are subscribing for ${amount.format()} / ${generateIntervalText(
-                paymentIntentType
-              )}`
-            : 'Donate with Card'}
-        </div>
-        <div className="card-element">
-          {paymentIntentType === 'payment' ? (
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            <PaymentElement onChange={handlePaymentElementChange} />
-          ) : (
-            <CardElement
-              options={cardOptions}
-              onChange={handleCardChange}
-              onReady={handleCardReady}
-            />
-          )}
-          <button
-            className="btn-primary btn-s"
-            type="submit"
-            disabled={
-              !notARobot ||
-              processing ||
-              !cardValid ||
-              succeeded ||
-              (!userSignedIn && email.length === 0)
-            }
-          >
-            {processing ? (
-              <Icon icon="spinner" alt="Progressing" className="animate-spin" />
-            ) : null}
-            <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
-          </button>
-        </div>
-      </div>
+
+      <PaymentElement
+        options={paymentElementOptions}
+        onChange={handlePaymentElementChange}
+      />
+      <button
+        className="btn-primary btn-s mt-16"
+        type="submit"
+        disabled={
+          !notARobot ||
+          processing ||
+          !cardValid ||
+          succeeded ||
+          (!userSignedIn && email.length === 0)
+        }
+      >
+        {processing ? (
+          <Icon icon="spinner" alt="Progressing" className="animate-spin" />
+        ) : null}
+        <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
+      </button>
+
       {error && (
         <div className="c-donation-card-error" role="alert">
           {error}

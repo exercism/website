@@ -126,6 +126,7 @@ export function useStripeForm({
         type: paymentIntentType,
         amount_in_cents: amount.intValue,
         email: email,
+        for_subscription: '??????', // Boolean!
       }),
     }).then((data: any) => {
       if (data.error) {

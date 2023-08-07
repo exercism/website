@@ -5,7 +5,8 @@ class API::Payments::PaymentIntentsController < API::BaseController
     payment_intent = ::Payments::Stripe::PaymentIntent::Create.(
       current_user || params[:email],
       params[:type],
-      params[:amount_in_cents]
+      params[:amount_in_cents],
+      params[:for_subscription]
     )
 
     render json: {

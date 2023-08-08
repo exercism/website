@@ -1,7 +1,7 @@
 class Payments::Stripe::PaymentIntent::CreateForPayment
   include Mandate
 
-  initialize_with :customer_id, :amount_in_cents, :for_subscription
+  initialize_with :customer_id, :amount_in_cents
 
   def call
     options = {
@@ -12,7 +12,6 @@ class Payments::Stripe::PaymentIntent::CreateForPayment
         enabled: true
       }
     }
-    options[:setup_future_usage] = "off_session" if for_subscription.present?
 
     Stripe::PaymentIntent.create(**options)
   end

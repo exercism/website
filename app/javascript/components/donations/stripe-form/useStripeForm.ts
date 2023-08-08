@@ -120,7 +120,7 @@ export function useStripeForm({
   )
 
   type PaymentRequestReturnData = {
-    payment_intent: PaymentIntent
+    paymentIntent: PaymentIntent
     error: string
   }
   const getPaymentRequest = useCallback(async () => {
@@ -129,15 +129,14 @@ export function useStripeForm({
       body: JSON.stringify({
         type: paymentIntentType,
         amount_in_cents: amount.intValue,
-        email: email,
-        for_subscription: paymentIntentType === 'subscription' ?? null,
+        email,
       }),
     }).then((data) => {
       if (data.error) {
         setError(`Payment failed with error: ${data.error}`)
         return null
       }
-      return data.payment_intent
+      return data.paymentIntent
     })
   }, [paymentIntentType, amount.intValue, email])
 

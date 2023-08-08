@@ -109,6 +109,13 @@ export default function Status({
     insidersStatus === 'eligible' || insidersStatus === 'eligible_lifetime'
 
   const [amount, setAmount] = useState<currency>(currency(10))
+  const [showError, setShowError] = useState(false)
+  const invalidAmount = amount.value < 10 || isNaN(amount.value)
+  const handleShowError = useCallback(() => {
+    if (invalidAmount) {
+      setShowError(true)
+    } else setShowError(false)
+  }, [invalidAmount])
 
   const handleAmountInputChange = useCallback((amount: currency) => {
     setAmount(amount)
@@ -167,13 +174,14 @@ export default function Status({
             </h3>
             <CustomAmountInput
               onChange={handleAmountInputChange}
+              onBlur={handleShowError}
               placeholder="Specify amount"
-              value={amount || currency(0)}
+              value={amount}
               selected={true}
               min="10"
               className="max-w-[150px]"
             />
-            {amount.value < 10 && (
+            {showError && (
               <div className="c-alert mt-12 text-p-base flex flex-row items-center gap-8">
                 <GraphicalIcon
                   icon="question-circle"
@@ -187,16 +195,15 @@ export default function Status({
           <h3 className="mb-16 text-h6 font-semibold">
             2. Choose your payment method:
           </h3>
-          <ExercismStripeElements mode="subscription">
+          <ExercismStripeElements mode="subscription" amount={amount.intValue}>
             <StripeForm
               confirmParamsReturnUrl={links.paymentPending}
               captchaRequired={captchaRequired}
               userSignedIn={userSignedIn}
               recaptchaSiteKey={recaptchaSiteKey}
-              paymentIntentType="payment"
               amount={isNaN(amount.value) ? currency(0) : amount}
               onSuccess={handleSuccess}
-              submitButtonDisabled={amount.value < 10}
+              submitButtonDisabled={invalidAmount}
               paymentIntentType="subscription"
             />
           </ExercismStripeElements>
@@ -224,7 +231,7 @@ function ModalHeader(): JSX.Element {
           className="w-[96px] h-[96px]"
         />
       </div>
-      <p className="text-p-base mb-20 !text-white mb-20">
+      <p className="text-p-base !text-white mb-20">
         Please use the form below to set up your monthly donation. You can amend
         or cancel your donation at any time in your settings page.
       </p>

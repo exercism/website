@@ -7,6 +7,7 @@ import { ExercismStripeElements } from '../donations/ExercismStripeElements'
 import { StripeForm } from '../donations/StripeForm'
 import { ModalHeader, ModalFooter } from '../premium/PriceOption'
 import { Modal } from '../modals'
+import { CustomAmountInput } from '../donations/donation-form/CustomAmountInput'
 
 const STATUS_DATA = {
   eligible: {
@@ -102,6 +103,12 @@ export default function Status({
   const eligible =
     insidersStatus === 'eligible' || insidersStatus === 'eligible_lifetime'
 
+  const [amount, setAmount] = useState<currency>(currency(16))
+
+  const handleAmountInputChange = useCallback((amount: currency) => {
+    setAmount(amount)
+  }, [])
+
   return (
     <div className="flex flex-col items-start">
       <div
@@ -137,13 +144,30 @@ export default function Status({
       >
         <ModalHeader period={'lifetime'} />
         <hr className="mb-32 border-borderColor5 -mx-48" />
+
+        <div className="mb-12">
+          <h3 className="mb-8 text-h6">
+            Choose your monthly donation (minimum $10):
+          </h3>
+          <CustomAmountInput
+            onChange={handleAmountInputChange}
+            placeholder="Specify amount"
+            value={amount || currency(0)}
+            selected={true}
+            min="10"
+          />
+          <div className="c-alert--danger mt-12">
+            Please note: The minimum donation amount is $10. Thank you for your
+            generous support!
+          </div>
+        </div>
         <ExercismStripeElements>
           <StripeForm
             captchaRequired={data.captchaRequired}
             userSignedIn={data.userSignedIn}
             recaptchaSiteKey={data.recaptchaSiteKey}
             paymentIntentType="payment"
-            amount={currency(499)}
+            amount={isNaN(amount.value) ? currency(0) : amount}
             onSuccess={handleSuccess}
           />
         </ExercismStripeElements>

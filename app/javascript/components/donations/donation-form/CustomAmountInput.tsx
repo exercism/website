@@ -7,12 +7,14 @@ export const CustomAmountInput = ({
   placeholder,
   defaultValue,
   value,
+  min = '0',
 }: {
   onChange: (amount: currency) => void
   selected: boolean
   placeholder: string
   defaultValue?: currency
   value?: currency | string
+  min?: string
 }): JSX.Element => {
   const handleCustomAmountChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +44,7 @@ export const CustomAmountInput = ({
       <div className="icon">$</div>
       <input
         type="number"
-        min="0"
+        min={min}
         step="0.01"
         placeholder={placeholder}
         onChange={handleCustomAmountChange}

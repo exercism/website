@@ -55,7 +55,7 @@ class Admin::PerksController < ApplicationController
         status preview_text
         light_logo dark_logo
         general_url general_offer_summary_markdown general_button_text general_offer_details general_voucher_code
-        premium_url premium_offer_summary_markdown premium_button_text premium_offer_details premium_voucher_code
+        insiders_url insiders_offer_summary_markdown insiders_button_text insiders_offer_details insiders_voucher_code
 
       ]
     )

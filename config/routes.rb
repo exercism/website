@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     root to: "dashboard#show"
-    resources :premium, controller: 'premium'
+    resources :insiders, controller: 'insiders'
     resources :community_videos
     resources :partners do
       resources :adverts
@@ -80,7 +80,6 @@ Rails.application.routes.draw do
     get :user_preferences
     get :communication_preferences
     get :donations
-    get :premium
     get :integrations
     patch :reset_account
     delete :destroy_account
@@ -99,9 +98,7 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
-  resources :insiders, only: [:index]
-
-  resource :premium, only: [:show], controller: 'premium' do
+  resources :insiders, only: [:index] do
     get :paypal_pending
     get :paypal_cancelled
   end

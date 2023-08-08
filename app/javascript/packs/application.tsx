@@ -14,9 +14,6 @@ const DonationsSubscriptionForm = lazy(
   () => import('../components/donations/SubscriptionForm')
 )
 
-const PremiumSubscriptionForm = lazy(
-  () => import('../components/donations/PremiumSubscriptionForm')
-)
 const Editor = lazy(() => import('../components/Editor'))
 import { Props as EditorProps } from '../components/editor/Props'
 
@@ -117,14 +114,6 @@ export const mappings = {
     <Suspense fallback={renderLoader()}>
       <DonationsSubscriptionForm
         {...data}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  'premium-subscription-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
-      <PremiumSubscriptionForm
-        {...camelizeKeysAs<PremiumSubscriptionProps>(data)}
         amount={currency(data.amount_in_cents, { fromCents: true })}
       />
     </Suspense>
@@ -450,16 +439,6 @@ export const mappings = {
       <InsidersStatus data={camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
-  'premium-price-option': (data: PriceOptionProps): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <PriceOption data={camelizeKeysAs<PriceOptionProps>(data)} />
-    </Suspense>
-  ),
-  'premium-paypal-status': (data: PaypalStatusProps): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <PaypalStatus {...camelizeKeysAs<PaypalStatusProps>(data)} />
-    </Suspense>
-  ),
 
   'perks-external-modal-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
@@ -513,12 +492,6 @@ import {
   showSiteFooterOnTurboLoad,
 } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
-import { PriceOption, PriceOptionProps } from '@/components/premium/PriceOption'
-import { PremiumSubscriptionProps } from '../components/donations/PremiumSubscriptionForm'
-import {
-  PaypalStatus,
-  PaypalStatusProps,
-} from '@/components/premium/PaypalStatus'
 import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
 
 document.addEventListener('turbo:load', () => {

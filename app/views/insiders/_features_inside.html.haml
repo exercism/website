@@ -21,7 +21,7 @@
 
   - else
     .feature
-      = graphical_icon :premium
+      = graphical_icon :insiders
       %h4 Name tag flair
       %p
         You'll now see a shiny little
@@ -48,13 +48,7 @@
     %h4 Exclusive Perks
     %p
       In the next few weeks, we'll be revealing exclusive Perks from our partners.
-      As
-      - if current_user.insider?
-        an Insider,
-      - else
-        a Premium member,
-      you'll get exclusive bonuses offers and discounts.
-      We'll email you when Perks launches.
+      As an Insider, you'll get exclusive bonuses offers and discounts.
 
 
 

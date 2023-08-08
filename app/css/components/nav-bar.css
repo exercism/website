@@ -68,7 +68,7 @@
             border-radius: 3px;
             vertical-align: middle;
         }
-        &.premium {
+        &.insiders {
             .arrow {
                 /* bottom:-10px; */
                 z-index: 50;

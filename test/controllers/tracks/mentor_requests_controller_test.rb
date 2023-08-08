@@ -46,8 +46,8 @@ class Tracks::MentorRequestsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to get_more_slots_track_exercise_mentor_request_url(track, exercise)
   end
 
-  test "new: redirects when max mentoring slots taken for premium" do
-    user = create :user, :premium
+  test "new: redirects when max mentoring slots taken for insiders" do
+    user = create :user, :insider
     track = create :track
     create(:user_track, user:, track:)
     exercise = create(:concept_exercise, track:)

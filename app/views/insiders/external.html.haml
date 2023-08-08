@@ -1,5 +1,5 @@
 #page-insiders
-  .gradient-container.pt-20.md:pt-48.pb-20
+  .gradient-container.pt-20.md:pt-40.pb-32
     .lg-container
       .top.grid.grid-cols-1.md:grid-cols-2.gap-48
         .top-lhs
@@ -9,10 +9,10 @@
           %h3.text-h3.mb-16
             Exercism relies on donations to survive &amp; thrive!
           %p.text-p-xlarge.mb-24
-
-            %strong.color-textColor1
+            %strong.text-textColor1
               Insiders is our way of saying thank you for supporting us.
-            Get behind-the-scenes access, Dark Mode, exclusive badges, ChatGPT integration, extra mentoring slots, private Discord channel, and more when you donate to Exercism.
+              %br
+            Get behind-the-scenes access, Dark Mode, exclusive badges, ChatGPT integration, extra mentoring slots, private Discord channel, and more when you donate to Exercism 🎉
 
           - if current_user.present?
             = render ReactComponents::Insiders::InsidersStatus.new
@@ -24,7 +24,8 @@
   .gradient-container.py-56
     .lg-container
 
-      %h2.text-h2.mb-32 Insider Features
+      %h2.text-h2.mb-4.text-center Insider Benefits
+      %p.text-p-large.mb-32.text-center Here are some of the ways we say thank you for supporting us.
       .features
         - @features.each do |feature|
           .feature
@@ -32,47 +33,49 @@
             %h4= feature[:title]
             %p= feature[:desc]
 
-      %p.text-p-large.text-center.pb-56 (And even more coming soon!)
-
   .gradient-container.faqs.py-56
     .lg-container
       %h2.text-h1.mb-40.text-center The Nitty Gritty &amp; FAQs
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
         %details{ open: true }
-          %summary What are the exact criteria for Insiders access?
+          %summary Is the only way to access Insiders through donating?
           %p.mb-12
+            The most common way to access insiders is through a regular donation.
+            Regular contributors get Insiders access for free, and it's also possible to get Lifetime Insiders membership for significant donations or contributions.
             You can check the exact algorithm #{link_to 'in our codebase', 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'} but it's also reproduced here.
           %p.mb-4 To gain lifetime access you need one of the following:
           %ul.mb-16
             %li To be a founder or staff member
             %li To be a supermentor (100+ solutions mentored on a track with a 95% positive rating)
             %li To have a reputation equal or greater than 1,000
-            %li To have donated $499 (in one or many parts)
+            %li To have donated $499 (in one chunk or many parts)
 
           %p.mb-4 For those without lifetime access, to gain access you need one of the following:
           %ul.mb-16
+            %li To have a recurring monthly donation of $10 or more.
             %li To be a maintainer
-            %li To have had a recurring donation at the point that Premium launched (May 30th 2023), and it still to be active.
             %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
-
-          %p.mb-4 You can also gain access to Insiders by donating.
-          %ul.mb-16
-            %li For donations before we launched Premium, you get one month of Insiders for every $9.99 donated, from the date that Premium launched, plus one extra bonus month. So if you donated $35 before Premium launched, you'd get Insiders access through June, July, August and September 2023.
-            %li For donations after we launched Premium, you get one month of Insiders for every $25 donated. So if you donate $50 today, you'll have access for the next two months.
+            %li To have had a recurring donation at the point that Insiders launched (May 30th 2023), and it still to be active.
+            %li For donations before we launched Insiders, you get one month of Insiders for every $9.99 donated, from the date that Insiders launched, plus one extra bonus month. So if you donated $35 before Insiders launched, you'd get Insiders access through June, July, August and September 2023.
+            %li One off donations of $10 or more give 1 months access.
 
           %p
-            If you think you meet these criteria but don't have access, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
+            If you think you meet these criteria but don't have access, please #{link_to 'open a forum issue', 'https://forum.exercism.org'} and someone will help you out!
             If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
 
         %details
           %summary I've donated via Paypal or GitHub Sponsors but don't have access.
           Sometimes the tech breaks down and we don't get webhook notifications from GitHub or Paypal.
-          If you have issues, please #{link_to 'contact Loretta', 'mailto:loretta@exercism.org'} and she'll sort it out.
+          If you have issues, please #{link_to 'open a forum issue', 'https://forum.exercism.org'} and someone will help you out!
 
         %details
           %summary What does Insiders cost?
-          Insiders isn't a product that you can buy - it's a rewards program for those who contribute, mentor or donate.
-          If you'd like access, you can start contributing, mentoring, or donate $499 or more to Exercism.
+          Insiders isn't a product that you can buy - it's our way of saying thank you for those who contribute, mentor or donate.
+          The easiest way to get Insiders access is by setting up a regular monthly donation of $10 or more.
+
+        %details
+          %summary Is Insiders the same as Premium?
+          Exercism Premium was discontinued in August 2023. All Premium members were migrated to have Exercism Insider status and their monthly payments converted to recurring donations.
 
         %details
           %summary How do I earn reputation?

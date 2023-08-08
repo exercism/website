@@ -9,7 +9,7 @@ module ReactComponents
       {
         default_submissions: submissions,
         default_files: SerializeEditorFiles.(solution.files_for_editor),
-        premium: solution.user.premium?,
+        insider: solution.user.insider?,
         chatgpt_usage:,
         default_settings: {
           tab_size: track.indent_size,

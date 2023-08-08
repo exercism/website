@@ -416,7 +416,6 @@
 }
 
 body.namespace-.controller-insiders.theme-light,
-body.namespace-.controller-premium.theme-light,
 .theme-dark {
     color-scheme: dark;
 
@@ -791,7 +790,6 @@ html {
     .shadow-keystroke,
     .shadow-launching,
     .shadow-navDropdown,
-    #page-premium .feature,
     #page-insiders .feature,
     #page-dashboard section.actions-section {
         box-shadow: 0 0 0 2px #000 !important;
@@ -867,7 +865,6 @@ html {
             }
         }
     }
-    #page-premium,
     #page-insiders {
         color: var(--textColor1);
 

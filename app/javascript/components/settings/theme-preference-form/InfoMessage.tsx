@@ -3,20 +3,18 @@ import React from 'react'
 export function InfoMessage({
   insidersStatus,
   insidersPath,
-  isPremium,
-  premiumPath,
+  isInsider,
 }: {
   insidersStatus: string
   insidersPath: string
-  isPremium: boolean
-  premiumPath: string
+  isInsider: boolean
 }): JSX.Element {
-  if (isPremium) {
+  if (isInsider) {
     return (
       <p className="text-p-base mb-16">
-        As an Exercism Premium member, you have access to Dark Mode. Choose
-        between light, dark, or automatically update based on your system
-        preferences. Enjoy! 💎
+        As an Exercism Insider, you have access to Dark Mode. Choose between
+        light, dark, or automatically update based on your system preferences.
+        Enjoy! 💎
       </p>
     )
   }
@@ -33,13 +31,14 @@ export function InfoMessage({
     default:
       return (
         <p className="text-p-base mb-16">
-          Dark Mode is only available to Exercism Premium Members.&nbsp;
+          Dark Mode is only available to Exercism Insiders.&nbsp;
           <strong>
-            <a className="text-prominentLinkColor" href={premiumPath}>
-              Upgrade to Premium
+            <a className="text-prominentLinkColor" href={insidersPath}>
+              Donate to Exercism
             </a>
           </strong>{' '}
-          to access Dark Mode, ChatGPT integration and more.
+          and become an Insider to access Dark Mode, ChatGPT integration and
+          more.
         </p>
       )
   }

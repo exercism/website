@@ -159,10 +159,6 @@ class User < ApplicationRecord
     reverify_email! if previous_changes.key?('email')
   end
 
-  def premium?
-    insider?
-  end
-
   # If we don't know about this record, maybe the
   # user's data record has it instead?
   def method_missing(name, *args)
@@ -233,7 +229,7 @@ class User < ApplicationRecord
 
   memoize
   def total_subscription_donations_in_dollars
-    payments.donation.subscription.sum(:amount_in_cents) / BigDecimal(100)
+    payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize

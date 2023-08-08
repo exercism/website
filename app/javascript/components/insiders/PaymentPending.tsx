@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { camelizeKeys } from 'humps'
 import { useQuery } from 'react-query'
 import { redirectTo } from '@/utils'
 
@@ -24,7 +25,12 @@ export function PaymentPending({
   })
 
   useEffect(() => {
-    if (data && data.user.insiders) {
+    if (!data) {
+      return
+    }
+
+    const insidersStatus = camelizeKeys(data.user).insidersStatus
+    if (insidersStatus == 'active' || insidersStatus == 'active_lifetime') {
       redirectTo(insidersRedirectPath)
     }
   }, [data, insidersRedirectPath])

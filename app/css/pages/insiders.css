@@ -83,7 +83,7 @@
             @apply select-none;
             outline: none;
             list-style: none;
-            @apply text-24 font-semibold leading-130;
+            @apply text-24 text-textColor1 font-semibold leading-130;
 
             &::-webkit-details-marker {
                 display: none;
@@ -97,6 +97,9 @@
                 transform: rotate(0deg);
                 transition: transform 0.2s ease-in-out;
             }
+        }
+        summary + * {
+            @apply pt-10;
         }
     }
 

@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     root to: "dashboard#show"
-    resources :premium, controller: 'premium'
+    resources :insiders, controller: 'insiders'
     resources :community_videos
     resources :partners do
       resources :adverts

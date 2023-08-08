@@ -2,7 +2,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
   include Mandate
 
   LIFETIME_REPUTATION_THRESHOLD = 1_000
-  LIFETIME_DONATIONS_THRESHOLD = Premium::LIFETIME_AMOUNT_IN_CENTS
+  LIFETIME_DONATIONS_THRESHOLD = Insiders::LIFETIME_AMOUNT_IN_CENTS
 
   MONTHLY_REPUTATION_THRESHOLD = 30
   ANNUAL_REPUTATION_THRESHOLD = 200
@@ -47,7 +47,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
 
   def recent_donation?
     user.payments.sort { |p| -p.id }.each do |donation|
-      # For every 9.99 donation before Premium launched, give a month of access
+      # For every 9.99 donation before Insiders launched, give a month of access
       # from the launch date. Plus one free month for everyone who's ever donated.
       if donation.created_at < Insiders::LAUNCH_DATE
         active_until = Insiders::LAUNCH_DATE + (donation.amount_in_dollars / 9.99).floor.months + 1.month

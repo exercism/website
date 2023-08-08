@@ -345,15 +345,6 @@ class UserTest < ActiveSupport::TestCase
     refute_equal User.all, User.random
   end
 
-  test "scope: premium" do
-    create :user, premium_until: nil
-    create :user, premium_until: Time.current - 3.days
-    user_2 = create :user, premium_until: Time.current + 2.days
-    user_3 = create :user, premium_until: Time.current + 4.months
-
-    assert_equal [user_2, user_3], User.premium.order(:id)
-  end
-
   test "scope: insiders" do
     create :user, insiders_status: :unset
     create :user, insiders_status: :ineligible
@@ -431,17 +422,6 @@ class UserTest < ActiveSupport::TestCase
 
     user.update(flair: :insider)
     assert_equal :insider, user.flair
-  end
-
-  test "premium?" do
-    user = create :user, premium_until: nil
-    refute user.premium?
-
-    user.update(premium_until: Time.current - 5.seconds)
-    refute user.premium?
-
-    user.update(premium_until: Time.current + 5.seconds)
-    assert user.premium?
   end
 
   test "email verified when email changes" do

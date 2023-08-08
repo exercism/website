@@ -36,7 +36,7 @@ class User::MentoringSlotsTest < ActiveSupport::TestCase
   end
 
   test "premium" do
-    user = create :user, :premium
+    user = create :user, :insider
     user_track = create(:user_track, user:)
 
     assert_equal 0, user_track.num_locked_mentoring_slots

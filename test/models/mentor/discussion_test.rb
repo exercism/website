@@ -287,12 +287,6 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
     mentor.data.reload
 
-    p "------"
-    p "#{mentor.id}|#{mentor.data.id}"
-    p mentor.num_solutions_mentored
-    p User::ResetCache.new(mentor.reload, nil).send(:value_for_num_solutions_mentored)
-    p "------"
-
     assert_equal 1, mentor.reload.num_solutions_mentored
 
     perform_enqueued_jobs do

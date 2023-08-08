@@ -102,7 +102,6 @@ FactoryBot.define do
     end
 
     trait :insider do
-      active_donation_subscription { true }
       insiders_status { :active }
     end
 

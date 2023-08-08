@@ -1,4 +1,13 @@
 #!/bin/bash
 
-git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.(jsx?|tsx?)$' | xargs npx eslint && \
-git diff --name-status --staged | grep '^[MA]' | grep -o '\s\+.*\.(jsx?|tsx?)$' | xargs git add
+files=$(git diff --name-status --staged | awk '/^[MA]/{ if ($2 ~ /\.(jsx?|tsx?)$/) print $2 }')
+
+if [ -n "$files" ]; then
+  echo "Running ESLint on the following JavaScript and TypeScript files:"
+  echo "$files"
+  echo "$files" | xargs npx eslint
+  echo "Adding linted JavaScript and TypeScript files back to staging:"
+  echo "$files" | xargs git add
+else
+  echo "No staged JavaScript or TypeScript files found for linting."
+fi

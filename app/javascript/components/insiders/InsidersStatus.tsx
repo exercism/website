@@ -38,7 +38,10 @@ export type InsidersStatusData = {
   userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
-  links: { insidersPath: string }
+  links: {
+    insiders: string
+    paymentPending: string
+  }
 }
 
 type Response = {
@@ -47,17 +50,20 @@ type Response = {
 }
 
 export default function Status({
-  data,
-}: {
-  data: InsidersStatusData
-}): JSX.Element {
-  const { status, insidersStatusRequest, activateInsiderLink } = data
+  activateInsiderLink,
+  captchaRequired,
+  insidersStatusRequest,
+  links,
+  recaptchaSiteKey,
+  status,
+  userSignedIn,
+}: InsidersStatusData): JSX.Element {
   const [insidersStatus, setInsidersStatus] = useState(status)
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
 
   const handleSuccess = useCallback(() => {
-    redirectTo(data.links.insidersPath)
-  }, [data.links.insidersPath])
+    redirectTo(links.insiders)
+  }, [links.insiders])
 
   const handleModalOpen = useCallback(() => {
     setStripeModalOpen(true)
@@ -102,8 +108,8 @@ export default function Status({
   const eligible =
     insidersStatus === 'eligible' || insidersStatus === 'eligible_lifetime'
 
-  const [amount, setAmount] = useState(currency(16))
   const [showError, setShowError] = useState(false)
+  const [amount, setAmount] = useState<currency>(currency(10))
 
   const handleAmountInputChange = useCallback((amount: currency) => {
     setAmount(amount)
@@ -135,7 +141,7 @@ export default function Status({
         <>
           <button
             onClick={handleModalOpen}
-            className="flex get-insiders-link grow mb-12"
+            className="flex get-insiders-link grow mb-12 w-fill lg:w-auto"
           >
             <span>Donate to Exercism to access Insiders</span>
             <GraphicalIcon icon="arrow-right" />
@@ -154,14 +160,39 @@ export default function Status({
         onClose={() => setStripeModalOpen(false)}
         open={stripeModalOpen}
         theme="dark"
-        ReactModalClassName="max-w-[570px]"
+        cover={true}
+        closeButton={true}
+        ReactModalClassName="max-w-[660px]"
       >
-        <ModalHeader />
-        <hr className="mb-32 border-borderColor5 -mx-48" />
+        <div className="--modal-content-inner">
+          <ModalHeader />
+          <hr className="mb-20 border-borderColor5" />
 
-        <div className="mb-12">
-          <h3 className="mb-8 text-h6">
-            Choose your monthly donation (minimum $10):
+          <div className="mb-24">
+            <h3 className="mb-8 text-h6 font-semibold">
+              1. Choose your monthly donation:
+            </h3>
+            <CustomAmountInput
+              onChange={handleAmountInputChange}
+              placeholder="Specify amount"
+              value={amount || currency(0)}
+              selected={true}
+              min="10"
+              className="max-w-[150px]"
+            />
+            {amount.value < 10 && (
+              <div className="c-alert mt-12 text-p-base flex flex-row items-center gap-8">
+                <GraphicalIcon
+                  icon="question-circle"
+                  className="h-[24px] w-[24px] filter-warning"
+                />
+                Please note: The minimum donation amount for Insiders Access is
+                $10.00. Thank you for your kind support!
+              </div>
+            )}
+          </div>
+          <h3 className="mb-16 text-h6 font-semibold">
+            2. Choose your payment method:
           </h3>
           <CustomAmountInput
             onChange={handleAmountInputChange}
@@ -177,19 +208,20 @@ export default function Status({
               your generous support!
             </div>
           )}
+          <ExercismStripeElements mode="subscription" amount={amount.value}>
+            <StripeForm
+              confirmParamsReturnUrl={links.paymentPending}
+              captchaRequired={captchaRequired}
+              userSignedIn={userSignedIn}
+              recaptchaSiteKey={recaptchaSiteKey}
+              amount={isNaN(amount.value) ? currency(0) : amount}
+              onSuccess={handleSuccess}
+              submitButtonDisabled={amount.value < 10}
+              paymentIntentType="subscription"
+            />
+          </ExercismStripeElements>
+          <ModalFooter />
         </div>
-        <ExercismStripeElements>
-          <StripeForm
-            captchaRequired={data.captchaRequired}
-            userSignedIn={data.userSignedIn}
-            recaptchaSiteKey={data.recaptchaSiteKey}
-            paymentIntentType="payment"
-            amount={isNaN(amount.value) ? currency(0) : amount}
-            onSuccess={handleSuccess}
-            submitButtonDisabled={amount.value < 10}
-          />
-        </ExercismStripeElements>
-        <ModalFooter />
       </Modal>
     </div>
   )
@@ -198,14 +230,23 @@ export default function Status({
 function ModalHeader(): JSX.Element {
   return (
     <>
-      <div className="flex flex-row items-center gap-8 mb-16">
-        <GraphicalIcon icon="insiders" className="w-[48px] h-[48px]" />
+      <div className="flex flex-row items-center gap-32 mb-12">
+        <div>
+          <h2 className="text-h2 mb-2 !text-white">Thank you!</h2>
+          <p className="text-p-large !text-white">
+            Thank you so much for supporting Exercism. It means the world to us!
+            💜
+          </p>
+        </div>
+        <GraphicalIcon
+          icon="confetti-without-background"
+          category="graphics"
+          className="w-[96px] h-[96px]"
+        />
       </div>
-      <h2 className="text-h2 mb-2 !text-white">Exercism Insiders</h2>
-      <p className="text-p-large mb-20 !text-white">
-        Thank you so much for supporting Exercism and backing our vision for
-        equal education in society. We hope you love our Insider features and
-        Insiders behind-the-scenes access!
+      <p className="text-p-base !text-white mb-20">
+        Please use the form below to set up your monthly donation. You can amend
+        or cancel your donation at any time in your settings page.
       </p>
     </>
   )
@@ -214,8 +255,9 @@ function ModalHeader(): JSX.Element {
 function ModalFooter(): JSX.Element {
   return (
     <p className="text-p-small mt-20">
-      Exercism is an independent, registered not-for-profit organisation (UK
-      #11733062). All donations are used to run and improve the platform.
+      Exercism is an independent not-for-profit organisation. All donations are
+      used to run and improve the platform. All payments are securely handled by
+      Stripe.
     </p>
   )
 }

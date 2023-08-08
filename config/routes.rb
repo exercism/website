@@ -98,9 +98,8 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
-  resources :insiders, only: [:index] do
-    get :paypal_pending
-    get :paypal_cancelled
+  resource :insiders, only: [:show], controller: "insiders" do
+    get :payment_pending
   end
 
   resources :profiles, only: %i[index show new create] do

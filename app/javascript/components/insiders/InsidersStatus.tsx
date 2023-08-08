@@ -177,10 +177,11 @@ export default function Status({
               placeholder="Specify amount"
               value={amount || currency(0)}
               selected={true}
+              onBlur={handleShowError}
               min="10"
               className="max-w-[150px]"
             />
-            {amount.value < 10 && (
+            {showError && (
               <div className="c-alert mt-12 text-p-base flex flex-row items-center gap-8">
                 <GraphicalIcon
                   icon="question-circle"
@@ -194,27 +195,13 @@ export default function Status({
           <h3 className="mb-16 text-h6 font-semibold">
             2. Choose your payment method:
           </h3>
-          <CustomAmountInput
-            onChange={handleAmountInputChange}
-            onBlur={handleShowError}
-            placeholder="Specify amount"
-            value={amount || currency(0)}
-            selected={true}
-            min="10"
-          />
-          {showError && (
-            <div className="c-alert--danger mt-12">
-              Please note: The minimum donation amount is $10. Thank you for
-              your generous support!
-            </div>
-          )}
-          <ExercismStripeElements mode="subscription" amount={amount.value}>
+          <ExercismStripeElements mode="subscription" amount={amount.intValue}>
             <StripeForm
               confirmParamsReturnUrl={links.paymentPending}
               captchaRequired={captchaRequired}
               userSignedIn={userSignedIn}
               recaptchaSiteKey={recaptchaSiteKey}
-              amount={isNaN(amount.value) ? currency(0) : amount}
+              amount={amount}
               onSuccess={handleSuccess}
               submitButtonDisabled={amount.value < 10}
               paymentIntentType="subscription"

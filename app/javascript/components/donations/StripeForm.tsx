@@ -114,7 +114,8 @@ export function StripeForm({
           processing ||
           !cardValid ||
           succeeded ||
-          (!userSignedIn && email.length === 0)
+          (!userSignedIn && email.length === 0) ||
+          submitButtonDisabled
         }
       >
         {processing ? (

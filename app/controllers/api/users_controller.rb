@@ -4,8 +4,7 @@ module API
       render json: {
         user: {
           handle: current_user.handle,
-          insiders_status: current_user.insiders_status,
-          insider: current_user.insider?
+          insiders_status: current_user.insiders_status
         }
       }
     end

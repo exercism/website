@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tab } from '@/components/common'
+import { GraphicalIcon, Tab } from '@/components/common'
 import { TabsContext } from '../../Editor'
 
 export const ChatGptUpsellPanel = (): JSX.Element => {
@@ -13,8 +13,9 @@ export const ChatGptUpsellPanel = (): JSX.Element => {
               className="w-[48px] h-[48px] mb-16"
             />
             <h2 className="text-h3 mb-2">Exercism Insiders</h2>
-            <p className="text-h5 mb-16">
-              Supercharge your Exercism Experience!
+            <p className="text-h5 mb-16 max-w-[520px]">
+              Donate to Exercism and get behind the scenes access and bonus
+              features.
             </p>
             <div className="text-p-base max-w-[520px] mb-16">
               Need help getting unstuck? Unlock our{' '}

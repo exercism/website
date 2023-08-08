@@ -12,7 +12,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:testing-library/react',
     'prettier',
-    'prettier/@typescript-eslint',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -37,6 +36,7 @@ module.exports = {
         'react/prop-types': 'off',
         'no-console': ['warn'],
         'react/display-name': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
       },
     },
     {

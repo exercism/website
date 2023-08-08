@@ -178,24 +178,6 @@ export const Form = ({
                 ) : null}
               </TransactionForm>
             </FetchingBoundary>
-            <ExercismStripeElements
-              mode="subscription"
-              amount={
-                currentAmount?.intValue || PAYMENT_DEFAULT_AMOUNT.intValue
-              }
-            >
-              <StripeForm
-                confirmParamsReturnUrl={links.donate}
-                paymentIntentType={transactionType}
-                userSignedIn={userSignedIn}
-                captchaRequired={captchaRequired}
-                recaptchaSiteKey={recaptchaSiteKey}
-                amount={currentAmount || currency(0)}
-                onSuccess={handleSuccess}
-                onProcessing={onProcessing}
-                onSettled={onSettled}
-              />
-            </ExercismStripeElements>
           </Tab.Panel>
           <Tab.Panel id="payment" context={TabsContext}>
             <TransactionForm
@@ -208,27 +190,23 @@ export const Form = ({
                 currency(128),
               ]}
             />
-            {
-              <ExercismStripeElements
-                mode="payment"
-                amount={
-                  currentAmount?.intValue || PAYMENT_DEFAULT_AMOUNT.intValue
-                }
-              >
-                <StripeForm
-                  confirmParamsReturnUrl={links.donate}
-                  paymentIntentType={transactionType}
-                  userSignedIn={userSignedIn}
-                  captchaRequired={captchaRequired}
-                  recaptchaSiteKey={recaptchaSiteKey}
-                  amount={currentAmount || currency(0)}
-                  onSuccess={handleSuccess}
-                  onProcessing={onProcessing}
-                  onSettled={onSettled}
-                />
-              </ExercismStripeElements>
-            }
           </Tab.Panel>
+          <ExercismStripeElements
+            mode={transactionType as 'payment' | 'subscription'}
+            amount={currentAmount?.intValue || PAYMENT_DEFAULT_AMOUNT.intValue}
+          >
+            <StripeForm
+              confirmParamsReturnUrl={links.donate}
+              paymentIntentType={transactionType}
+              userSignedIn={userSignedIn}
+              captchaRequired={captchaRequired}
+              recaptchaSiteKey={recaptchaSiteKey}
+              amount={currentAmount || currency(0)}
+              onSuccess={handleSuccess}
+              onProcessing={onProcessing}
+              onSettled={onSettled}
+            />
+          </ExercismStripeElements>
         </div>
       </div>
     </TabsContext.Provider>

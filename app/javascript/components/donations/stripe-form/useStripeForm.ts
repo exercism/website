@@ -119,21 +119,25 @@ export function useStripeForm({
     []
   )
 
+  type PaymentRequestReturnData = {
+    payment_intent: PaymentIntent
+    error: string
+  }
   const getPaymentRequest = useCallback(async () => {
-    return fetchJSON(createPaymentIntentEndpoint, {
+    return fetchJSON<PaymentRequestReturnData>(createPaymentIntentEndpoint, {
       method: 'POST',
       body: JSON.stringify({
         type: paymentIntentType,
         amount_in_cents: amount.intValue,
         email: email,
-        for_subscription: '??????', // Boolean!
+        for_subscription: paymentIntentType === 'subscription' ?? null,
       }),
-    }).then((data: any) => {
+    }).then((data) => {
       if (data.error) {
         setError(`Payment failed with error: ${data.error}`)
         return null
       }
-      return data.paymentIntent
+      return data.payment_intent
     })
   }, [paymentIntentType, amount.intValue, email])
 
@@ -162,7 +166,7 @@ export function useStripeForm({
       return
     }
 
-    getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
+    getPaymentRequest().then(async (paymentIntent: PaymentIntent | null) => {
       if (paymentIntent === undefined || paymentIntent === null) {
         setProcessing(false)
         return

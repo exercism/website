@@ -8,8 +8,10 @@ export const CustomAmountInput = ({
   defaultValue,
   value,
   min = '0',
+  onBlur,
 }: {
   onChange: (amount: currency) => void
+  onBlur?: () => void
   selected: boolean
   placeholder: string
   defaultValue?: currency
@@ -47,10 +49,26 @@ export const CustomAmountInput = ({
         min={min}
         step="0.01"
         placeholder={placeholder}
+        onBlur={onBlur}
         onChange={handleCustomAmountChange}
-        value={typeof value === 'string' ? value : value?.value}
+        value={getValue(value)}
         defaultValue={defaultValue?.value}
       />
     </label>
   )
+}
+
+type InputValue = string | currency | undefined
+
+// type guard to make sure that TS knows when value is of type currency
+function isCurrency(obj: InputValue): obj is currency {
+  return obj !== null && typeof obj === 'object' && 'value' in obj
+}
+
+function getValue(value: InputValue): string | number | undefined {
+  if (isCurrency(value) && isNaN(value.value)) {
+    // this gets rid of errors when input isNaN
+    return ''
+  }
+  return typeof value === 'string' ? value : value?.value
 }

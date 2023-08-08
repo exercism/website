@@ -103,11 +103,18 @@ export default function Status({
   const eligible =
     insidersStatus === 'eligible' || insidersStatus === 'eligible_lifetime'
 
-  const [amount, setAmount] = useState<currency>(currency(16))
+  const [amount, setAmount] = useState(currency(16))
+  const [showError, setShowError] = useState(false)
 
   const handleAmountInputChange = useCallback((amount: currency) => {
     setAmount(amount)
   }, [])
+
+  const handleShowError = useCallback(() => {
+    if (amount.value < 10) {
+      setShowError(true)
+    } else setShowError(false)
+  }, [amount.value])
 
   return (
     <div className="flex flex-col items-start">
@@ -151,12 +158,13 @@ export default function Status({
           </h3>
           <CustomAmountInput
             onChange={handleAmountInputChange}
+            onBlur={handleShowError}
             placeholder="Specify amount"
             value={amount || currency(0)}
             selected={true}
             min="10"
           />
-          {amount.value < 10 && (
+          {showError && (
             <div className="c-alert--danger mt-12">
               Please note: The minimum donation amount is $10. Thank you for
               your generous support!

@@ -28,6 +28,7 @@ export const appearance: BaseStripeElementsOptions['appearance'] = {
     fontWeightNormal: '500',
     colorDanger: '#D03B3B',
     colorTextPlaceholder: '#76709F',
+    borderRadius: '8px',
   },
 }
 

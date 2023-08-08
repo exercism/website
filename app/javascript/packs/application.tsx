@@ -445,6 +445,12 @@ export const mappings = {
     </Suspense>
   ),
 
+  'insiders-payment-pending': (data: PaymentPendingProps): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <PaymentPending {...camelizeKeysAs<PaymentPendingProps>(data)} />
+    </Suspense>
+  ),
+
   'perks-external-modal-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <PerksExternalModalButton

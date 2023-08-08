@@ -2,16 +2,16 @@ import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { redirectTo } from '@/utils'
 
-export type PaypalStatusProps = {
+export type PaymentPendingProps = {
   endpoint: string
-  premiumRedirectPath: string
+  insidersRedirectPath: string
 }
 
-export function PaypalStatus({
+export function PaymentPending({
   endpoint,
-  premiumRedirectPath,
-}: PaypalStatusProps): JSX.Element {
-  const fetchPaypalStatus = async () => {
+  insidersRedirectPath,
+}: PaymentPendingProps): JSX.Element {
+  const fetchPaymentPending = async () => {
     const response = await fetch(endpoint)
     if (!response.ok) {
       throw new Error('Error fetching paypal status')
@@ -19,15 +19,15 @@ export function PaypalStatus({
     return response.json()
   }
 
-  const { data } = useQuery('paypalStatus', fetchPaypalStatus, {
+  const { data } = useQuery('paypalStatus', fetchPaymentPending, {
     refetchInterval: 1000,
   })
 
   useEffect(() => {
-    if (data && data.user.premium) {
-      redirectTo(premiumRedirectPath)
+    if (data && data.user.insiders) {
+      redirectTo(insidersRedirectPath)
     }
-  }, [data, premiumRedirectPath])
+  }, [data, insidersRedirectPath])
 
   return <div className="hidden"></div>
 }

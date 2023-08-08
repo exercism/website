@@ -8,6 +8,7 @@ export const CustomAmountInput = ({
   defaultValue,
   value,
   min = '0',
+  className = '',
 }: {
   onChange: (amount: currency) => void
   selected: boolean
@@ -15,6 +16,7 @@ export const CustomAmountInput = ({
   defaultValue?: currency
   value?: currency | string
   min?: string
+  className?: string
 }): JSX.Element => {
   const handleCustomAmountChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,9 +37,11 @@ export const CustomAmountInput = ({
     [onChange]
   )
 
-  const classNames = ['c-faux-input', selected ? 'selected' : ''].filter(
-    (className) => className.length > 0
-  )
+  const classNames = [
+    className,
+    'c-faux-input',
+    selected ? 'selected' : '',
+  ].filter((className) => className.length > 0)
 
   return (
     <label className={classNames.join(' ')}>

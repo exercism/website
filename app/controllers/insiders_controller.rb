@@ -1,6 +1,7 @@
 class InsidersController < ApplicationController
   skip_before_action :authenticate_user!
-  def index
+
+  def show
     return external unless current_user&.insider?
   end
 

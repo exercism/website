@@ -504,6 +504,10 @@ import { FooterFormProps } from '../components/donations/FooterForm'
 import { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
 import { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
 import { VideoGridProps } from '@/components/community/video-grid/index.js'
+import {
+  PaymentPending,
+  PaymentPendingProps,
+} from '@/components/insiders/PaymentPending'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

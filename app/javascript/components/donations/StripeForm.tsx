@@ -107,7 +107,7 @@ export function StripeForm({
         onChange={handlePaymentElementChange}
       />
       <button
-        className="btn-primary btn-s mt-16"
+        className="btn-primary btn-m mt-16"
         type="submit"
         disabled={
           !notARobot ||
@@ -128,13 +128,6 @@ export function StripeForm({
           {error}
         </div>
       )}
-      {paymentIntentType == 'subscription' ? (
-        <div className="extra-info">
-          Thank you for your ongoing support! We will debit {amount.format()} on
-          around this day each month. You can change or cancel your donation at
-          any time.
-        </div>
-      ) : null}
     </form>
   )
 }

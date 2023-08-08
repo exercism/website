@@ -50,6 +50,7 @@ type StripeFormProps = {
   captchaRequired: boolean
   recaptchaSiteKey: string
   amount: currency
+  submitButtonDisabled?: boolean
 }
 
 export function StripeForm({
@@ -60,6 +61,7 @@ export function StripeForm({
   userSignedIn,
   recaptchaSiteKey,
   captchaRequired,
+  submitButtonDisabled = false,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
   const [succeeded, setSucceeded] = useState(false)
@@ -259,7 +261,8 @@ export function StripeForm({
               processing ||
               !cardValid ||
               succeeded ||
-              (!userSignedIn && email.length === 0)
+              (!userSignedIn && email.length === 0) ||
+              submitButtonDisabled
             }
           >
             {processing ? (

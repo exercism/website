@@ -42,13 +42,12 @@ class User::InsidersStatus::Update
       # we need to revert a load of bits
       User::SetDiscordRoles.defer(user)
       User::SetDiscourseGroups.defer(user)
-      User::Premium::Update.defer(user)
       User::UpdateFlair.defer(user)
 
     # This is the case where someone's cancelled their donation
     # but are still active for a period
     elsif user.insiders_status_active?
-      User::Premium::Update.defer(user)
+      # Do nothing
 
     elsif user.insiders_status_active_lifetime?
       # This is only called when someone is changing from

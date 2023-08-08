@@ -6,7 +6,7 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     external_id = SecureRandom.uuid
     amount = 1500
 
-    Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
+    Payments::Subscription::Create.(user, :stripe, :month, external_id, amount)
 
     assert_equal 1, Payments::Subscription.count
 
@@ -24,8 +24,8 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     external_id = SecureRandom.uuid
     amount = 1500
 
-    sub_1 = Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
-    sub_2 = Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
+    sub_1 = Payments::Subscription::Create.(user, :stripe, :month, external_id, amount)
+    sub_2 = Payments::Subscription::Create.(user, :stripe, :month, external_id, amount)
 
     assert_equal 1, Payments::Subscription.count
     assert_equal sub_1, sub_2
@@ -37,6 +37,6 @@ class Payments::Subscription::CreateTest < Payments::TestBase
     amount = 1500
     User::InsidersStatus::UpdateForPayment.expects(:call).with(user).once
 
-    Payments::Subscription::Create.(user, :stripe, :donation, :month, external_id, amount)
+    Payments::Subscription::Create.(user, :stripe, :month, external_id, amount)
   end
 end

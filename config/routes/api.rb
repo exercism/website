@@ -38,8 +38,6 @@ namespace :api do
         end
       end
       resources :subscriptions, only: [] do
-        post :create_paypal_premium, on: :collection
-
         member do
           patch :cancel
           patch :update_amount

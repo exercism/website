@@ -2,7 +2,7 @@ class ResetChatGPTUsageJob < ApplicationJob
   queue_as :default
 
   def perform
-    User.with_data.premium.find_each do |user|
+    User.with_data.insiders.find_each do |user|
       User::ResetUsage.(user, :chatgpt, '3.5')
       User::ResetUsage.(user, :chatgpt, '4.0')
     rescue StandardError => e

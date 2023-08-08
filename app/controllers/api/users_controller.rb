@@ -5,7 +5,7 @@ module API
         user: {
           handle: current_user.handle,
           insiders_status: current_user.insiders_status,
-          premium: current_user.premium?
+          insider: current_user.insider?
         }
       }
     end

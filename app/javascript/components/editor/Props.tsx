@@ -70,7 +70,7 @@ type EditorPanels = {
 
 export type Props = {
   timeout?: number
-  premium: boolean
+  insider: boolean
   defaultSubmissions: Submission[]
   chatgptUsage: GptUsage
   defaultFiles: File[]

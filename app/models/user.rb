@@ -159,10 +159,6 @@ class User < ApplicationRecord
     reverify_email! if previous_changes.key?('email')
   end
 
-  def premium?
-    insider?
-  end
-
   # If we don't know about this record, maybe the
   # user's data record has it instead?
   def method_missing(name, *args)

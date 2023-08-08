@@ -1,7 +1,7 @@
 class AssembleActiveSubscription
   include Mandate
 
-  initialize_with :user, :product
+  initialize_with :user
 
   def call
     return { subscription: nil } if user.blank? || subscription.blank?

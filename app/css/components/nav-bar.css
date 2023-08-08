@@ -74,6 +74,14 @@
                 z-index: 50;
                 @apply bg-darkBlueViolet;
             }
+            .nav-element-label {
+                &:after {
+                    content: "";
+                    background: url("icons/insiders.svg");
+                    @apply ml-6 mb-[3px];
+                    @apply bg-cover h-[16px] w-[16px];
+                }
+            }
             .nav-element-dropdown {
                 /* @apply !visible !opacity-[1]; */
                 @apply !h-auto;
@@ -265,4 +273,8 @@
             transition: none !important;
         }
     }
+}
+
+.theme-light #site-header .nav-element.insiders .nav-element-label:after {
+    @apply opacity-[0.75];
 }

@@ -123,9 +123,7 @@ export default function Status({
 
   return (
     <div className="flex flex-col items-start">
-      <div
-        className={`c-insiders-prompt mb-36 ${STATUS_DATA[insidersStatus].css}`}
-      >
+      <div className={`c-insiders-prompt ${STATUS_DATA[insidersStatus].css}`}>
         {STATUS_DATA[insidersStatus].text}
       </div>
 

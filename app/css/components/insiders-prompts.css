@@ -15,6 +15,7 @@
     }
 
     &.--ineligible {
+        @apply mb-20;
         @apply border-gradient border-2 text-textColor1;
         @apply gap-8;
         &:before {
@@ -25,6 +26,7 @@
         }
     }
     &.--unset {
+        @apply mb-36;
         @apply border-yellowPrompt text-yellowPrompt;
         background-color: rgba(theme(colors.yellowPrompt), 0.16);
         &:before {
@@ -34,6 +36,7 @@
         }
     }
     &.--already-insider {
+        @apply mb-36;
         @apply border-greenPrompt text-greenPrompt;
         background-color: rgba(theme(colors.greenPrompt), 0.16);
         &:before {

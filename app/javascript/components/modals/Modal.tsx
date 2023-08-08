@@ -43,6 +43,7 @@ export const Modal = ({
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
+      shouldCloseOnOverlayClick={!closeButton}
       className={`--modal-content ${ReactModalClassName}`}
       overlayClassName={overlayClassNames.join(' ')}
       appElement={document.querySelector('body') as HTMLElement}

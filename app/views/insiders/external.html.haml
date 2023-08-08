@@ -1,5 +1,5 @@
 #page-insiders
-  .gradient-container.pt-20.md:pt-48.pb-20
+  .gradient-container.pt-20.md:pt-40.pb-32
     .lg-container
       .top.grid.grid-cols-1.md:grid-cols-2.gap-48
         .top-lhs
@@ -9,10 +9,10 @@
           %h3.text-h3.mb-16
             Exercism relies on donations to survive &amp; thrive!
           %p.text-p-xlarge.mb-24
-
-            %strong.color-textColor1
+            %strong.text-textColor1
               Insiders is our way of saying thank you for supporting us.
-            Get behind-the-scenes access, Dark Mode, exclusive badges, ChatGPT integration, extra mentoring slots, private Discord channel, and more when you donate to Exercism.
+              %br
+            Get behind-the-scenes access, Dark Mode, exclusive badges, ChatGPT integration, extra mentoring slots, private Discord channel, and more when you donate to Exercism 🎉
 
           - if current_user.present?
             = render ReactComponents::Insiders::InsidersStatus.new
@@ -72,6 +72,10 @@
           %summary What does Insiders cost?
           Insiders isn't a product that you can buy - it's our way of saying thank you for those who contribute, mentor or donate.
           The easiest way to get Insiders access is by setting up a regular monthly donation of $10 or more.
+
+        %details
+          %summary Is Insiders the same as Premium?
+          Exercism Premium was discontinued in August 2023. All Premium members were migrated to have Exercism Insider status and their monthly payments converted to recurring donations.
 
         %details
           %summary How do I earn reputation?

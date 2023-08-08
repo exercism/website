@@ -5,7 +5,6 @@ import { sendRequest, typecheck, redirectTo } from '@/utils'
 import { GraphicalIcon } from '../common'
 import { ExercismStripeElements } from '../donations/ExercismStripeElements'
 import { StripeForm } from '../donations/StripeForm'
-import { ModalHeader, ModalFooter } from '../premium/PriceOption'
 import { Modal } from '../modals'
 import { CustomAmountInput } from '../donations/donation-form/CustomAmountInput'
 
@@ -126,13 +125,21 @@ export default function Status({
           <GraphicalIcon icon="arrow-right" />
         </button>
       ) : (
-        <button
-          onClick={handleModalOpen}
-          className="flex get-insiders-link grow"
-        >
-          <span>Donate to Exercism to access Insiders</span>
-          <GraphicalIcon icon="arrow-right" />
-        </button>
+        <>
+          <button
+            onClick={handleModalOpen}
+            className="flex get-insiders-link grow mb-12"
+          >
+            <span>Donate to Exercism to access Insiders</span>
+            <GraphicalIcon icon="arrow-right" />
+          </button>
+
+          <p className="text-p-base italic">
+            Exercism is an independent, registered not-for-profit organisation
+            (UK #11733062) with a tiny team. All donations are used to run and
+            improve the platform.
+          </p>
+        </>
       )}
 
       <Modal
@@ -142,7 +149,7 @@ export default function Status({
         theme="dark"
         ReactModalClassName="max-w-[570px]"
       >
-        <ModalHeader period={'lifetime'} />
+        <ModalHeader />
         <hr className="mb-32 border-borderColor5 -mx-48" />
 
         <div className="mb-12">
@@ -174,8 +181,33 @@ export default function Status({
             submitButtonDisabled={amount.value < 10}
           />
         </ExercismStripeElements>
-        <ModalFooter period={'lifetime'} />
+        <ModalFooter />
       </Modal>
     </div>
+  )
+}
+
+function ModalHeader(): JSX.Element {
+  return (
+    <>
+      <div className="flex flex-row items-center gap-8 mb-16">
+        <GraphicalIcon icon="insiders" className="w-[48px] h-[48px]" />
+      </div>
+      <h2 className="text-h2 mb-2 !text-white">Exercism Insiders</h2>
+      <p className="text-p-large mb-20 !text-white">
+        Thank you so much for supporting Exercism and backing our vision for
+        equal education in society. We hope you love our Insider features and
+        Insiders behind-the-scenes access!
+      </p>
+    </>
+  )
+}
+
+function ModalFooter(): JSX.Element {
+  return (
+    <p className="text-p-small mt-20">
+      Exercism is an independent, registered not-for-profit organisation (UK
+      #11733062). All donations are used to run and improve the platform.
+    </p>
   )
 }

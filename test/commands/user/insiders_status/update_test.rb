@@ -62,28 +62,32 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     assert_equal :lifetime_insider, user.flair
   end
 
-  test "active -> ineligible: user is premium until last payment date + 1 month + 15 days if that is in the future" do
-    travel_to(Date.new(2025, 1, 1)) do
-      user = create :user, insiders_status: :active, premium_until: Time.current
-      subscription = create(:payments_subscription, :premium, status: :active, user:)
-      create(:payments_payment, :premium, created_at: Time.current - 2.months, user:, subscription:)
-      last_payment = create(:payments_payment, :premium, created_at: Time.current - 20.days, user:, subscription:)
+  test "active -> ineligible: user is insider until last payment date + 1 month + 15 days if that is in the future" do
+    user = create :user, insiders_status: :active
+    subscription = create(:payments_subscription, status: :active, user:)
+    create(:payments_payment, created_at: Time.current - 2.months, user:, subscription:)
+    last_payment = create(:payments_payment, created_at: Time.current - 20.days, user:, subscription:)
 
-      User::SetDiscourseGroups.stubs(:defer)
+    User::SetDiscourseGroups.stubs(:defer)
 
-      perform_enqueued_jobs do
-        User::InsidersStatus::Update.(user.reload)
-      end
+    perform_enqueued_jobs { User::InsidersStatus::Update.(user.reload) }
+    assert user.insider?
 
-      assert_equal last_payment.created_at + 1.month + 15.days, user.reload.premium_until
-      assert user.premium?
+    # Before 15 days
+    travel_to(last_payment.created_at + 1.month + 14.days) do
+      perform_enqueued_jobs { User::InsidersStatus::Update.(user.reload) }
+      assert user.insider?
+    end
+
+    # After 15 days
+    travel_to(last_payment.created_at + 1.month + 16.days) do
+      perform_enqueued_jobs { User::InsidersStatus::Update.(user.reload) }
+      refute user.insider?
     end
   end
 
-  test "ineligible: user is no longer premium when last payment date + 30 days is not in the future" do
-    user = create :user, insiders_status: :active, premium_until: Time.current
-    subscription = create(:payments_subscription, :premium, status: :active, user:)
-    create(:payments_payment, :premium, created_at: Time.current - 2.months, subscription:)
+  test "ineligible: user is no longer insider when there are no payments" do
+    user = create :user, insiders_status: :active
 
     User::SetDiscourseGroups.stubs(:defer)
 
@@ -91,21 +95,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       User::InsidersStatus::Update.(user)
     end
 
-    assert_nil user.reload.premium_until
-    refute user.premium?
-  end
-
-  test "ineligible: user is no longer premium when there are no payments" do
-    user = create :user, insiders_status: :active, premium_until: Time.current
-
-    User::SetDiscourseGroups.stubs(:defer)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Update.(user)
-    end
-
-    assert_nil user.reload.premium_until
-    refute user.premium?
+    refute user.insider?
   end
 
   [
@@ -120,7 +110,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
       travel_to Time.utc(2023, 6, 29) do
         # Make the user eligible
-        create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
+        create :payments_payment, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
         User::InsidersStatus::Update.(user.reload)
 
@@ -134,7 +124,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       user = create :user, insiders_status: current_status
 
       # Make the user eligible
-      create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
+      create :payments_payment, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
       User::Notification::Create.expects(:defer).never
 
@@ -147,7 +137,7 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
       user = create :user, insiders_status: :ineligible
 
       # Make the user eligible
-      create :payments_payment, :donation, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
+      create :payments_payment, amount_in_cents: 100, user:, created_at: Time.utc(2022, 7, 23)
 
       User::Notification::CreateEmailOnly.expects(:defer).with(user, :eligible_for_insiders).once
 

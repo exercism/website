@@ -18,7 +18,7 @@
         @apply border-yellowPrompt text-yellowPrompt;
         background-color: rgba(theme(colors.yellowPrompt), 0.16);
         &:before {
-            content: url("icons/alert-circle-2.svg");
+            content: url("icons/question-circle.svg");
             @apply filter-yellowPrompt;
         }
     }

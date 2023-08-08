@@ -15,7 +15,7 @@ const STATUS_DATA = {
   },
 
   ineligible: {
-    text: 'Insiders is available to contributors, mentors, and regular donors. Earn Exercism reputation or donate $499+ to gain access.',
+    text: 'Set up a recurring monthly donation of $10 or more to access Insiders',
     css: '--ineligible',
   },
 
@@ -123,7 +123,7 @@ export default function Status({
           onClick={handleModalOpen}
           className="flex get-insiders-link grow"
         >
-          <span>Donate to Exercism</span>
+          <span>Donate to Exercism to access Insiders</span>
           <GraphicalIcon icon="arrow-right" />
         </button>
       )}

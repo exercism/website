@@ -4,12 +4,7 @@ import currency from 'currency.js'
 import { PaymentElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
 import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
-import {
-  generateIntervalText,
-  generateStripeButtonText,
-} from './stripe-form/utils'
-import { generateCardOptions } from './stripe-form/constants'
-import { useStripeFormTheme } from './stripe-form/useStripeFormTheme'
+import { generateStripeButtonText } from './stripe-form/utils'
 
 export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -43,11 +38,8 @@ export function StripeForm({
     succeeded,
     handleCaptchaFailure,
     handleCaptchaSuccess,
-    handleCardChange,
-    handleCardReady,
     handleEmailChange,
     handlePaymentElementChange,
-    handleSubmit,
     handlePaymentSubmit,
   } = useStripeForm({
     captchaRequired,
@@ -59,7 +51,6 @@ export function StripeForm({
     onSettled,
   })
 
-  const cardOptions = generateCardOptions(useStripeFormTheme())
   const paymentElementOptions = {
     layout: {
       type: 'accordion',
@@ -109,6 +100,8 @@ export function StripeForm({
 
       <PaymentElement
         options={paymentElementOptions}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         onChange={handlePaymentElementChange}
       />
       <button

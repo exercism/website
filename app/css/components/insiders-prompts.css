@@ -15,11 +15,13 @@
     }
 
     &.--ineligible {
-        @apply border-yellowPrompt text-yellowPrompt;
-        background-color: rgba(theme(colors.yellowPrompt), 0.16);
+        @apply border-gradient border-2 text-textColor1;
+        @apply gap-8;
         &:before {
-            content: url("icons/question-circle.svg");
-            @apply filter-yellowPrompt;
+            content: "";
+            background: url("icons/lightbulb-idea.svg");
+            @apply bg-cover w-[24px] h-[24px];
+            filter: var(--notifications-active-filter);
         }
     }
     &.--unset {

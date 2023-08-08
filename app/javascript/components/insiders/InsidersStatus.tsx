@@ -156,10 +156,12 @@ export default function Status({
             selected={true}
             min="10"
           />
-          <div className="c-alert--danger mt-12">
-            Please note: The minimum donation amount is $10. Thank you for your
-            generous support!
-          </div>
+          {amount.value < 10 && (
+            <div className="c-alert--danger mt-12">
+              Please note: The minimum donation amount is $10. Thank you for
+              your generous support!
+            </div>
+          )}
         </div>
         <ExercismStripeElements>
           <StripeForm
@@ -169,6 +171,7 @@ export default function Status({
             paymentIntentType="payment"
             amount={isNaN(amount.value) ? currency(0) : amount}
             onSuccess={handleSuccess}
+            submitButtonDisabled={amount.value < 10}
           />
         </ExercismStripeElements>
         <ModalFooter period={'lifetime'} />

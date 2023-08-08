@@ -16,6 +16,7 @@ class Payments::Stripe::PaymentIntent::CreateForSubscription
           }
         }
       }],
+      off_session: true,
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent']
     )

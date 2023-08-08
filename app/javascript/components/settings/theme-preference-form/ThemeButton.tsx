@@ -21,16 +21,16 @@ export function ThemeButton({
 }): JSX.Element {
   const selected = theme.value === currentTheme
 
-  const nonPremium = disabledInfo.level === 'non-premium'
+  const nonInsider = disabledInfo.level === 'non-insider'
   const { disabled } = disabledInfo
 
   return (
     <GenericTooltip
       interactive
-      disabled={!nonPremium}
+      disabled={!nonInsider}
       content={
-        nonPremium && (
-          <DisabledThemeSelectorTooltip premiumLink={links.premiumPath} />
+        nonInsider && (
+          <DisabledThemeSelectorTooltip insidersLink={links.insidersPath} />
         )
       }
     >
@@ -44,8 +44,8 @@ export function ThemeButton({
             height: `${THEME_BUTTON_SIZE}px`,
             width: `${THEME_BUTTON_SIZE}px`,
             background: `${theme.background}`,
-            filter: nonPremium ? 'grayscale(0.9)' : '',
-            opacity: nonPremium ? '60%' : '100%',
+            filter: nonInsider ? 'grayscale(0.9)' : '',
+            opacity: nonInsider ? '60%' : '100%',
           }}
           className={`theme-preference-form-button flex items-center justify-center border-1 border-borderColor6 rounded-8 ${
             selected && '--selected-theme'
@@ -53,14 +53,14 @@ export function ThemeButton({
           onClick={onClick}
         >
           <GraphicalIcon
-            icon={nonPremium ? 'lock-circle' : theme.icon}
+            icon={nonInsider ? 'lock-circle' : theme.icon}
             height={64}
             width={64}
           />
         </button>
         <label
           className="text-p text-15 font-semibold"
-          style={{ filter: nonPremium ? 'grayscale(0.9)' : '' }}
+          style={{ filter: nonInsider ? 'grayscale(0.9)' : '' }}
           htmlFor={`${theme.value}-theme`}
         >
           {theme.label}

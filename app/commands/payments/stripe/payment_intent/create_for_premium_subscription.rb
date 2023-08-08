@@ -9,7 +9,6 @@ class Payments::Stripe::PaymentIntent::CreateForPremiumSubscription
       items: [{
         price:
       }],
-      off_session: true,
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent']
     )

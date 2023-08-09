@@ -3,7 +3,7 @@ import React from 'react'
 export const Avatar = ({
   src,
   handle,
-  className,
+  className = '',
 }: {
   src: string
   handle?: string

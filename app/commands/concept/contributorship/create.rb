@@ -4,16 +4,12 @@ class Concept::Contributorship::Create
   initialize_with :concept, :contributor
 
   def call
-    begin
-      contributorship = concept.contributorships.create!(contributor:)
-    rescue ActiveRecord::RecordNotUnique
-      return nil
+    concept.contributorships.find_or_create_by(contributor:).tap do |contributorship|
+      User::ReputationToken::Create.defer(
+        contributor,
+        :concept_contribution,
+        contributorship:
+      )
     end
-
-    User::ReputationToken::Create.defer(
-      contributor,
-      :concept_contribution,
-      contributorship:
-    )
   end
 end

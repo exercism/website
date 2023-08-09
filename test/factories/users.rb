@@ -99,6 +99,10 @@ FactoryBot.define do
       insiders_status { :active }
     end
 
+    trait :lifetime_insider do
+      insiders_status { :active_lifetime }
+    end
+
     trait :github do
       after(:create) do |user, _evaluator|
         user.data.update(github_username: user.handle)

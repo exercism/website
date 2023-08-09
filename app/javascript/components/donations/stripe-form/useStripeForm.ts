@@ -26,12 +26,7 @@ type PaymentIntent = {
   id: string
   clientSecret: string
 }
-export type PaymentIntentType =
-  | 'payment'
-  | 'subscription'
-  | 'premium_yearly_subscription'
-  | 'premium_monthly_subscription'
-  | 'premium_lifetime_subscription'
+export type PaymentIntentType = 'payment' | 'subscription'
 
 type UseStripeFormReturns = {
   succeeded: boolean

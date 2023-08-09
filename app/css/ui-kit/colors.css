@@ -739,7 +739,7 @@ html {
 
     /* negate the filter */
     /* img:not(#site-header .c-icon):not(.theme-preference-form-button
-            .c-icon):not(#page-premium .feature .c-icon), */
+            .c-icon):not(#page-insiders .feature .c-icon), */
     img:not(.c-icon):not(.logo):not(.c-icon.graphic):not(.c-icon.--hex img):not(#page-journey .c-track-icon),
     /* .c-icon.graphic, */
     img[src*="/assets/graphics"],

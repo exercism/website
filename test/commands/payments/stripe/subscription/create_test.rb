@@ -22,24 +22,6 @@ class Payments::Stripe::Subscription::CreateTest < Payments::TestBase
     end
   end
 
-  test "creates premium subscription correctly" do
-    user = create :user
-    id = SecureRandom.uuid
-    amount = 1500
-    data = mock_stripe_subscription(id, amount, product: Exercism.secrets.stripe_premium_product_id)
-
-    Payments::Stripe::Subscription::Create.(user, data)
-
-    assert_equal 1, Payments::Subscription.count
-
-    subscription =  Payments::Subscription.last
-    assert_equal id, subscription.external_id
-    assert_equal amount, subscription.amount_in_cents
-    assert_equal user, subscription.user
-    assert_equal :active, subscription.status
-    assert_equal :stripe, subscription.provider
-  end
-
   test "idempotent" do
     user = create :user
     id = SecureRandom.uuid

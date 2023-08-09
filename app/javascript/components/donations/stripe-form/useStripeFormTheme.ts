@@ -6,9 +6,7 @@ export function useStripeFormTheme(): 'light' | 'dark' {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const { explicitTheme } = useThemeObserver()
 
-  const alwaysDark =
-    bodyHasClassName('controller-insiders') ||
-    bodyHasClassName('controller-premium')
+  const alwaysDark = bodyHasClassName('controller-insiders')
 
   useEffect(() => {
     if (

@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ResetChatGPTUsageJobTest < ActiveJob::TestCase
-  test "reset chatgpt 3.5 usage to nil for premium users" do
+  test "reset chatgpt 3.5 usage to nil for insiders" do
     insider_user = create :user, :insider
     user = create :user
 

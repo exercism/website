@@ -154,7 +154,6 @@ export default function Status({
       )}
 
       <Modal
-        className="m-premium-stripe-form"
         onClose={() => setStripeModalOpen(false)}
         open={stripeModalOpen}
         theme="dark"

@@ -35,7 +35,7 @@ class User::MentoringSlotsTest < ActiveSupport::TestCase
     assert user_track.has_available_mentoring_slot?
   end
 
-  test "premium" do
+  test "insider" do
     user = create :user, :insider
     user_track = create(:user_track, user:)
 

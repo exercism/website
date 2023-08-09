@@ -139,7 +139,7 @@
                             @apply mb-4 flex;
                             @apply text-16 leading-150 text-textColor2;
                             & strong {
-                                @apply font-semibold;
+                                @apply font-semibold flex gap-4;
                             }
                         }
                         & .more {

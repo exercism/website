@@ -19,11 +19,11 @@ module ViewComponents
     def announcement_bar
       return tag.span("") unless user_signed_in? && !current_user&.donated?
 
-      link_to(Exercism::Routes.donate_path, class: "announcement-bar md:block hidden") do
+      link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️ Exercism needs donations to survive 2023. ") +
-            tag.strong("Please support us if you can!") +
-            tag.span("⚠️")
+          tag.span("👋", class: 'emoji mr-6') +
+            tag.span("Enjoying Exercism? We need your help to survive…") +
+            tag.strong("Please support us if you can!")
         end
       end
     end

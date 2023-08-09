@@ -19,6 +19,7 @@ export type FeedbackContentProps = {
   | 'links'
   | 'trackObjectives'
   | 'mentoringRequested'
+  | 'mentoringStatus'
 >
 
 export function FeedbackContent({
@@ -31,6 +32,7 @@ export function FeedbackContent({
   links,
   trackObjectives,
   mentoringRequested,
+  mentoringStatus,
 }: FeedbackContentProps): JSX.Element {
   const itIsTakingTooLong = useTakingTooLong(open)
 
@@ -48,6 +50,7 @@ export function FeedbackContent({
         <NoAutomatedFeedback
           links={links}
           mentoringRequested={mentoringRequested}
+          mentoringStatus={mentoringStatus}
           onContinue={onContinue}
           track={track}
           trackObjectives={trackObjectives}

@@ -5,23 +5,28 @@ import { FeedbackMentoringRequestForm } from './FeedbackMentoringRequestForm'
 import { NoAutomatedFeedbackLHS } from './NoAutomatedFeedbackLHS'
 import { NoImmediateFeedback } from './NoImmediateFeedback'
 import { PendingMentoringRequest } from './PendingMentoringRequest'
+import { InProgressMentoring } from './InProgressMentoring'
 
 export type NoFeedbackState =
   | 'initial'
   | 'sendingMentoringRequest'
-  | 'pendingMentoringRequest'
+  | RealtimeFeedbackModalProps['mentoringStatus']
 export function NoAutomatedFeedback({
   track,
   links,
   onContinue,
   trackObjectives,
-  mentoringRequested,
+  mentoringStatus,
 }: { onContinue: () => void } & Pick<
   RealtimeFeedbackModalProps,
-  'track' | 'trackObjectives' | 'links' | 'mentoringRequested'
+  | 'track'
+  | 'trackObjectives'
+  | 'links'
+  | 'mentoringRequested'
+  | 'mentoringStatus'
 >): JSX.Element {
   const [noFeedbackState, setNoFeedbackState] = useState<NoFeedbackState>(
-    mentoringRequested ? 'pendingMentoringRequest' : 'initial'
+    mentoringStatus === 'none' ? 'initial' : mentoringStatus
   )
 
   return (
@@ -48,6 +53,12 @@ export function NoAutomatedFeedback({
             trackObjectives={trackObjectives}
             track={track}
             links={links}
+            onContinue={onContinue}
+          />
+        }
+        inProgressComponent={
+          <InProgressMentoring
+            mentoringRequestLink={links.mentorDiscussions}
             onContinue={onContinue}
           />
         }

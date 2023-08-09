@@ -7,10 +7,16 @@ import { useEffect, useRef } from 'react'
  */
 export function useScrollToTop<T extends HTMLElement>(
   stateUpdate: unknown
-): React.RefObject<T> {
+): React.RefObject<T> | undefined {
   const scrollToTopRef = useRef<T>(null)
+
   useEffect(() => {
-    scrollToTopRef.current?.scrollIntoView(true)
+    if (
+      scrollToTopRef.current &&
+      typeof scrollToTopRef.current.scrollIntoView === 'function'
+    ) {
+      scrollToTopRef.current.scrollIntoView(true)
+    }
   }, [stateUpdate])
 
   return scrollToTopRef

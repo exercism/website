@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { redirectTo, sendRequest, typecheck } from '@/utils'
+import { sendRequest, typecheck } from '@/utils'
 import { FormButton, MedianWaitTime } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {
@@ -17,10 +17,12 @@ export const FeedbackMentoringRequestForm = ({
   track,
   links,
   onContinue,
+  onSuccess,
 }: {
   trackObjectives: string
   track: Pick<Track, 'title' | 'medianWaitTime'>
   onContinue: () => void
+  onSuccess: () => void
 } & Pick<RealtimeFeedbackModalProps, 'links'>): JSX.Element => {
   const [mutation, { status, error }] = useMutation<Request>(
     async () => {
@@ -36,9 +38,7 @@ export const FeedbackMentoringRequestForm = ({
       return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
     },
     {
-      onSuccess: () => {
-        redirectTo(links.mentoringRequest)
-      },
+      onSuccess,
     }
   )
 

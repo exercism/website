@@ -165,7 +165,7 @@ module Components
         end
       end
 
-      test "feedback modal finds no feedback then user asks a code review" do
+      test "feedback modal finds no feedback then user asks for a code review" do
         use_capybara_host do
           user_track = create :user_track
           solution = create :concept_solution, user: user_track.user, track: user_track.track
@@ -186,7 +186,6 @@ module Components
 
           assert_button "Submit", disabled: false
 
-          visit edit_track_exercise_path(solution.track, solution.exercise)
           within(".lhs-footer") { click_on "Submit" }
           assert_text "Checking for automated feedback"
           sleep(1)
@@ -208,11 +207,53 @@ module Components
           input_2.set(solution_comment)
 
           click_on "Submit mentoring request"
+          assert_text "You've submitted your solution for Code Review"
+          assert_text "View your request"
+        end
+      end
 
-          wait_for_redirect
+      test "feedback modal shows when mentorship is in progress" do
+        mentor = create :user, handle: "Mentor"
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
+        submission = create :submission, solution:,
+          tests_status: :passed,
+          representation_status: :queued,
+          analysis_status: :queued
+        create(:iteration, idx: 1, solution:, submission:)
+        request = create :mentor_request, solution:, status: :fulfilled
+        create :mentor_discussion,
+          solution:,
+          mentor:,
+          request:,
+          status: :awaiting_student
+        solution.update_mentoring_status!
 
-          assert_text "Waiting on a mentor..."
-          assert_text solution_comment
+        use_capybara_host do
+          sign_in!(user_track.user)
+          visit edit_track_exercise_path(solution.track, solution.exercise)
+          test_run = create :submission_test_run,
+            submission: Submission.last,
+            ops_status: 200,
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
+
+          assert_button "Submit", disabled: false
+          within(".lhs-footer") { click_on "Submit" }
+          assert_text "Checking for automated feedback"
+          sleep(1)
+          submission.update!(representation_status: :generated, analysis_status: :completed)
+          solution.reload
+          Submission::TestRunsChannel.broadcast!(test_run)
+          SolutionWithLatestIterationChannel.broadcast!(solution)
+          assert_text "You're being mentored by Mentor"
+          assert_text "Your turn to respond"
+          assert_text "Go to your discussion"
+          click_on "Go to your discussion"
+          assert_text "Meet your mentor"
+          assert_text "I could do with some help here"
         end
       end
 

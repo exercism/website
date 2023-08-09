@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { RealtimeFeedbackModalProps } from '../..'
 import { FeedbackMentoringRequestForm } from './FeedbackMentoringRequestForm'
@@ -26,6 +26,10 @@ export function NoAutomatedFeedback({
     mentoringStatus === 'none' ? 'initial' : mentoringStatus
   )
 
+  const handleSuccessfulMentorRequest = useCallback(() => {
+    setNoFeedbackState('requested')
+  }, [])
+
   return (
     <div className="flex gap-40 items-start">
       <NoAutomatedFeedbackLHS
@@ -51,6 +55,7 @@ export function NoAutomatedFeedback({
             track={track}
             links={links}
             onContinue={onContinue}
+            onSuccess={handleSuccessfulMentorRequest}
           />
         }
         inProgressComponent={

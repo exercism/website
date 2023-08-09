@@ -22,7 +22,7 @@ class ApplicationJob < ActiveJob::Base
     # Sleep for a total of 5 seconds (20*0.25). This is rare enough
     # that we don't mind locking the jobs for this duration.
     # It's worse to drop jobs by accident.
-    20.times do |_offset|
+    20.times do
       sleep(0.25)
 
       begin

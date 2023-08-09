@@ -1,7 +1,7 @@
 import React from 'react'
 import { IterationStatus } from '@/components/types'
-import { CheckingForAutomatedFeedback } from './CheckingForAutomatedFeedback'
 import { useTakingTooLong } from './hooks'
+import { CheckingForAutomatedFeedback } from './CheckingForAutomatedFeedback'
 import { NoAutomatedFeedback, FoundAutomatedFeedback } from './feedback-content'
 import type { RealtimeFeedbackModalProps, ResolvedIteration } from '.'
 

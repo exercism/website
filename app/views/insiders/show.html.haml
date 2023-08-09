@@ -18,32 +18,18 @@
             Why not start with the latest behind the scenes Insiders video 👉
 
         .top-rhs
-          .c-vimeo-container
-            %iframe{ width: "560", height: "315", src: "https://player.vimeo.com/video/853051394?h=c9bde0cbd4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&transparent=0", frameborder: "0", allow: "autoplay; fullscreen; picture-in-picture", allowfullscreen: true }
-          %script{ src: "https://player.vimeo.com/api/player.js" }
+          = vimeo_embed("853051394?h=c9bde0cbd4")
 
   .gradient-container.py-48
     .lg-container
       %h2.text-h2.mb-32 Behind-the-scenes videos
       .grid.grid-cols-3.gap-32
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/WDUqfCMbh_8", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
-
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/qOijcXroPQU", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
-
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/7xSHBBDzJzQ", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
-
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/GOPmj_AMbP8", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
-
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/nroPGD11hkw", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
-
-        .c-vimeo-container
-          %iframe{ width: "560", height: "315", src: "https://player.vimeo.com/video/853051394?h=c9bde0cbd4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&transparent=0", frameborder: "0", allow: "autoplay; fullscreen; picture-in-picture", allowfullscreen: true }
-        %script{ src: "https://player.vimeo.com/api/player.js" }
+        = youtube_embed("WDUqfCMbh_8")
+        = youtube_embed("qOijcXroPQU")
+        = youtube_embed("7xSHBBDzJzQ")
+        = youtube_embed("GOPmj_AMbP8")
+        = youtube_embed("nroPGD11hkw")
+        = vimeo_embed("853051394?h=c9bde0cbd4")
 
   .gradient-container.py-48
     .lg-container

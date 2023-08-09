@@ -80,9 +80,12 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
     user = create :user
     nim = create :track, slug: 'nim'
     kotlin = create :track, slug: 'kotlin'
+    go = create :track, slug: 'go'
 
     linked_list_exercise = create :practice_exercise, slug: 'linked-list', track: nim
     linked_list_exercise_kotlin = create :practice_exercise, slug: 'linked-list', track: kotlin
+    linked_list_exercise_nim = create :practice_exercise, slug: 'linked-list', track: nim
+    linked_list_exercise_go = create :practice_exercise, slug: 'linked-list', track: go
     simple_linked_list_exercise = create :practice_exercise, slug: 'simple-linked-list', track: nim
 
     linked_list_solution = create :practice_solution, :published, user:, exercise: linked_list_exercise,
@@ -110,6 +113,16 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
       published_at: Time.utc(2023, 3, 24)
     create :practice_solution, :published, user:, exercise: linked_list_exercise_kotlin,
       published_at: Time.utc(2023, 3, 24)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
+
+    Solution.destroy_all
+
+    # Ignore Mechanical March linked-list solution not published in 2023
+    create :practice_solution, :published, user:, exercise: simple_linked_list_exercise,
+      published_at: Time.utc(2023, 3, 24)
+    create :practice_solution, :published, user:, exercise: linked_list_exercise_go,
+      published_at: Time.utc(2022, 3, 24)
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
     assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
   end

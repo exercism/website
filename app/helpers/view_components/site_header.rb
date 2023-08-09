@@ -62,9 +62,9 @@ module ViewComponents
               generic_nav("Discover", submenu: DISCOVER_SUBMENU, path: Exercism::Routes.community_path, offset: 20),
               generic_nav("Contribute", submenu: CONTRIBUTE_SUBMENU, path: Exercism::Routes.contributing_root_path, offset: 20),
               generic_nav("More", submenu: MORE_SUBMENU, offset: 0),
-              generic_nav("Premium", path: Exercism::Routes.premium_path, offset: 150,
-                has_view: true, view: (current_user&.premium? ? nil : :premium),
-                css_class: "premium"),
+              generic_nav("Insiders", path: Exercism::Routes.insiders_path, offset: 150,
+                has_view: true, view: (current_user&.insider? ? nil : :insiders),
+                css_class: "insiders"),
               ReactComponents::Common::ThemeToggleButton.new(user: current_user)
             ]
           )

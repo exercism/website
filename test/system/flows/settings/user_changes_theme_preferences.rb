@@ -6,8 +6,8 @@ module Flows
     class UserChangesThemePrefrencesTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
-      test "premium user updates theme preferences" do
-        user = create :user, premium_until: Time.current + 2.days
+      test "insider user updates theme preferences" do
+        user = create :user, :insider
 
         use_capybara_host do
           sign_in!(user)
@@ -31,7 +31,7 @@ module Flows
       end
 
       test "lifetime insider user updates theme preferences" do
-        user = create :user, premium_until: Time.current + 2.days
+        user = create :user, :lifetime_insider
 
         use_capybara_host do
           sign_in!(user)
@@ -55,7 +55,7 @@ module Flows
       end
 
       test "lifetime insider user updates theme preferences and it persists" do
-        user = create :user, premium_until: Time.current + 2.days
+        user = create :user, :lifetime_insider
 
         use_capybara_host do
           sign_in!(user)
@@ -71,7 +71,7 @@ module Flows
         end
       end
 
-      test "non-premium user updates theme preferences" do
+      test "non-insider user updates theme preferences" do
         user = create :user
 
         use_capybara_host do

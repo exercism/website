@@ -15,11 +15,9 @@ const DEFAULT_ERROR = new Error('Unable to cancel subscription')
 export const CancellingOption = ({
   cancelLink,
   onClose,
-  subscriptionType,
 }: {
   cancelLink: string
   onClose: () => void
-  subscriptionType: 'premium' | 'donation'
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<APIResponse>(
     async () => {
@@ -50,11 +48,7 @@ export const CancellingOption = ({
   return (
     <div className="expanded-option">
       <p className="text-p-base">
-        Are you sure you want to cancel your{' '}
-        {subscriptionType === 'donation'
-          ? 'recurring donation'
-          : 'premium subscription'}
-        ?
+        Are you sure you want to cancel your recurring donation?
       </p>
       <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="flex">

@@ -11,7 +11,7 @@ class Admin::MailshotsController < Admin::BaseController
   # GET /admin/mailshots/1
   def show
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
-    @audiences = %w[admins donors premium insiders challenge#12in23]
+    @audiences = %w[admins donors insiders challenge#12in23]
     @audiences += [100, 10, 3, 2, 1].map { |min| "reputation##{min}" }
     @audiences += [10, 30, 60, 90].map { |min| "recent##{min}" }
     @audiences += Track.pluck(:slug).map { |slug| "track##{slug}" }
@@ -94,7 +94,6 @@ class Admin::MailshotsController < Admin::BaseController
     @communication_preferences_keys = %i[
       receive_product_updates
       email_about_events
-      email_about_premium
       email_about_insiders
       email_about_fundraising_campaigns
     ]

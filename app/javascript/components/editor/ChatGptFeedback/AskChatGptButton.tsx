@@ -10,7 +10,7 @@ type Props = {
   noSubmission: boolean
   chatGptFetchingStatus: FetchingStatus
   passingTests: boolean
-  premium: boolean
+  insider: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
@@ -21,7 +21,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
       isProcessing,
       chatGptFetchingStatus,
       passingTests,
-      premium,
+      insider,
       ...props
     },
     ref
@@ -45,14 +45,14 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
 
     return (
       <GenericTooltip
-        disabled={!isDisabled || !premium}
+        disabled={!isDisabled || !insider}
         content={tooltipText.getLastTrueText()}
       >
         <div className="mr-auto ask-chatgpt-btn-wrapper">
           <button
             type="button"
             className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
-            disabled={isDisabled && premium}
+            disabled={isDisabled && insider}
             ref={ref}
             {...props}
           >

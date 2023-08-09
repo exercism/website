@@ -31,18 +31,18 @@ export function grabCurrentTheme():
 
 export type isButtonDisabled = { level: string; disabled: boolean }
 export function isDisabled(
-  isPremium: boolean,
+  isInsider: boolean,
   theme: string,
   currentTheme: string
 ): isButtonDisabled {
   const disabledTheme = ['dark', 'system'].includes(theme)
   const selectedTheme = currentTheme === `theme-${theme}`
 
-  const disabled = (!isPremium && disabledTheme) || selectedTheme
+  const disabled = (!isInsider && disabledTheme) || selectedTheme
 
   const disabledLevel = new ConditionTextManager()
   disabledLevel.append(selectedTheme, 'selected')
-  disabledLevel.append(!isPremium && disabledTheme, 'non-premium')
+  disabledLevel.append(!isInsider && disabledTheme, 'non-insider')
 
   return {
     level: disabledLevel.getLastTrueText() || 'enabled',

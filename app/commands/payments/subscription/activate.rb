@@ -3,5 +3,8 @@ class Payments::Subscription::Activate
 
   initialize_with :subscription
 
-  def call = Payments::Subscription::UpdateStatus.(subscription, :active)
+  def call
+    subscription.update!(status: :active)
+    User::InsidersStatus::UpdateForPayment.(subscription.user)
+  end
 end

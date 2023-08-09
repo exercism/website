@@ -57,8 +57,9 @@ export const WelcomeToInsidersModal = ({
           <h1>Welcome to Insiders! 💙</h1>
 
           <p className="">
-            You now have access to Exercism Premium along with behind the scenes
-            videos, new badges, and more!
+            You now have access to Dark Mode, ChatGPT Integration, extra
+            mentoring slots along with behind the scenes videos, new badges, and
+            more!
           </p>
         </header>
 

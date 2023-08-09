@@ -13,12 +13,6 @@ class Payments::SubscriptionTest < ActiveSupport::TestCase
     assert_equal :stripe, subscription.provider
   end
 
-  test "product: uses symbols" do
-    subscription = create :payments_subscription, :github
-    subscription.update(product: :premium)
-    assert_equal :premium, subscription.product
-  end
-
   test "interval: uses symbols" do
     subscription = create :payments_subscription, :github
     subscription.update(interval: :year)

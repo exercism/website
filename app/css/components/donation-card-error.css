@@ -1,0 +1,7 @@
+.c-donation-card-error {
+    @apply mt-16 text-center;
+    @apply text-15 text-darkRed font-semibold leading-150;
+    @apply border-2 border-darkRed rounded-8;
+    @apply bg-lightRed;
+    @apply py-12 px-24;
+}

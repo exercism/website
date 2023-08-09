@@ -7,7 +7,6 @@ class Webhooks::ProcessPaypalIPNTest < ActiveSupport::TestCase
     ["recurring_payment_expired", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired],
     ["recurring_payment_failed", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentFailed],
     ["recurring_payment_profile_cancel", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel],
-    ["recurring_payment_profile_created", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated],
     ["recurring_payment_skipped", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped],
     ["recurring_payment_suspended", Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspended],
     ["recurring_payment_suspended_due_to_max_failed_payment",
@@ -44,7 +43,6 @@ class Webhooks::ProcessPaypalIPNTest < ActiveSupport::TestCase
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentExpired.expects(:call).never
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentFailed.expects(:call).never
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel.expects(:call).never
-      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.expects(:call).never
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.expects(:call).never
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspended.expects(:call).never
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSuspendedDueToMaxFailedPayment.expects(:call).never

@@ -1,7 +1,7 @@
 class AssembleActiveSubscription
   include Mandate
 
-  initialize_with :user, :product
+  initialize_with :user
 
   def call
     return { subscription: nil } if user.blank? || subscription.blank?
@@ -18,11 +18,6 @@ class AssembleActiveSubscription
   private
   memoize
   def subscription
-    case product.to_sym
-    when :donation
-      user.current_active_donation_subscription
-    when :premium
-      user.current_active_premium_subscription
-    end
+    user.current_active_subscription
   end
 end

@@ -84,7 +84,6 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
 
     linked_list_exercise = create :practice_exercise, slug: 'linked-list', track: nim
     linked_list_exercise_kotlin = create :practice_exercise, slug: 'linked-list', track: kotlin
-    linked_list_exercise_nim = create :practice_exercise, slug: 'linked-list', track: nim
     linked_list_exercise_go = create :practice_exercise, slug: 'linked-list', track: go
     simple_linked_list_exercise = create :practice_exercise, slug: 'simple-linked-list', track: nim
 

@@ -1,10 +1,11 @@
 import React from 'react'
 import { fromNow } from '@/utils'
-import { usePaginatedRequestQuery, type Request, useList } from '@/hooks'
 import {
-  Contribution as ContributionProps,
-  PaginatedResult,
-} from '@/components/types'
+  usePaginatedRequestQuery,
+  type Request,
+  useList,
+  useScrollToTop,
+} from '@/hooks'
 import {
   TrackIcon,
   Reputation,
@@ -13,6 +14,10 @@ import {
 } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
+import type {
+  Contribution as ContributionProps,
+  PaginatedResult,
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load other contributions')
 
@@ -28,6 +33,8 @@ export const OtherContributionsList = ({
       Error | Response
     >([request.endpoint, request.query], request)
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <ResultsZone isFetching={isFetching}>
       <FetchingBoundary
@@ -37,7 +44,7 @@ export const OtherContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="other">
+            <div className="other" ref={scrollToTopRef}>
               {resolvedData.results.map((contribution) => (
                 <Contribution key={contribution.uuid} {...contribution} />
               ))}

@@ -1,18 +1,23 @@
 import React from 'react'
 import { fromNow } from '@/utils'
-import { type Request, usePaginatedRequestQuery, useList } from '@/hooks'
+import {
+  type Request,
+  usePaginatedRequestQuery,
+  useList,
+  useScrollToTop,
+} from '@/hooks'
 import {
   GraphicalIcon,
   TrackIcon,
   ExerciseIcon,
   Icon,
   Pagination,
-} from '../common'
+} from '@/components/common'
 import { Modal, type ModalProps } from './Modal'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
-import type { Links } from '../student/RequestMentoringButton'
-import type { PaginatedResult, SolutionForStudent } from '../types'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { Links } from '@/components/student/RequestMentoringButton'
+import type { PaginatedResult, SolutionForStudent } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -31,6 +36,8 @@ export const RequestMentoringModal = ({
       Error | Response
     >(['exercises-for-mentoring', request.query], request)
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <Modal
       closeButton={true}
@@ -38,7 +45,7 @@ export const RequestMentoringModal = ({
       {...props}
     >
       <h2>Select an exercise to request mentoring on</h2>
-      <div className="c-search-bar">
+      <div className="c-search-bar" ref={scrollToTopRef}>
         <input
           value={request.query.criteria || ''}
           onChange={(e) => {

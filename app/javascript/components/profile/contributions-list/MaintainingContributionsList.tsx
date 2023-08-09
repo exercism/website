@@ -1,6 +1,11 @@
 import React from 'react'
 import { fromNow } from '@/utils'
-import { usePaginatedRequestQuery, type Request, useList } from '@/hooks'
+import {
+  usePaginatedRequestQuery,
+  type Request,
+  useList,
+  useScrollToTop,
+} from '@/hooks'
 import {
   TrackIcon,
   Reputation,
@@ -28,6 +33,8 @@ export const MaintainingContributionsList = ({
       Error | Response
     >([request.endpoint, request.query], request)
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <ResultsZone isFetching={isFetching}>
       <FetchingBoundary
@@ -37,7 +44,7 @@ export const MaintainingContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="maintaining">
+            <div className="maintaining" ref={scrollToTopRef}>
               {resolvedData.results.map((contribution) => (
                 <Contribution key={contribution.uuid} {...contribution} />
               ))}

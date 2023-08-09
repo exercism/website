@@ -10,7 +10,7 @@ import {
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
-import type { Request } from '@/hooks'
+import { useScrollToTop, type Request } from '@/hooks'
 import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
 
@@ -49,6 +49,8 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     [criteria, setPage]
   )
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
+
   return (
     <>
       <VideoGridHeader
@@ -57,7 +59,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
         selectedTrack={selectedTrack}
       />
 
-      <div className="flex mb-32 c-search-bar">
+      <div className="flex mb-32 c-search-bar" ref={scrollToTopRef}>
         <input
           className="grow --search --right"
           placeholder="Search community content"

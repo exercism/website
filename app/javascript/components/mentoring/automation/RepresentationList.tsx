@@ -1,5 +1,6 @@
 import React from 'react'
 import type { QueryStatus } from 'react-query'
+import { useScrollToTop } from '@/hooks'
 import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
@@ -40,11 +41,12 @@ function Component({
   setPage,
   selectedTab,
 }: Props) {
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
   return (
     <>
       {resolvedData && resolvedData.results && (
         <React.Fragment>
-          <div className="--solutions">
+          <div className="--solutions" ref={scrollToTopRef}>
             {resolvedData.results.length > 0 ? (
               resolvedData.results.map((representation, key) => (
                 <AutomationListElement

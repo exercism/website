@@ -5,18 +5,23 @@ import {
   useHistory,
   removeEmpty,
   usePaginatedRequestQuery,
+  useScrollToTop,
   type Request,
 } from '@/hooks'
-import { CommunitySolution } from '../common/CommunitySolution'
-import { Checkbox, Icon, Pagination } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
+import {
+  Checkbox,
+  Icon,
+  Pagination,
+  CommunitySolution,
+} from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
-import { GenericTooltip } from '../misc/ExercismTippy'
 import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
-} from '../types'
+} from '@/components/types'
 
 export type Order = 'most_starred' | 'newest'
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
@@ -99,6 +104,8 @@ export const ExerciseCommunitySolutionsList = ({
     },
     [request.query, setQuery]
   )
+
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <div className="lg-container c-community-solutions-list">
@@ -186,7 +193,10 @@ export const ExerciseCommunitySolutionsList = ({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+              <div
+                className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+                ref={scrollToTopRef}
+              >
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution

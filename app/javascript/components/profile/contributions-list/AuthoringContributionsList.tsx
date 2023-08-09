@@ -1,5 +1,10 @@
 import React from 'react'
-import { usePaginatedRequestQuery, type Request, useList } from '@/hooks'
+import {
+  usePaginatedRequestQuery,
+  useList,
+  useScrollToTop,
+  type Request,
+} from '@/hooks'
 import { ExerciseWidget, Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -19,6 +24,8 @@ export const AuthoringContributionsList = ({
       Error | Response
     >([request.endpoint, request.query], request)
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <ResultsZone isFetching={isFetching}>
       <FetchingBoundary
@@ -28,7 +35,7 @@ export const AuthoringContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="authoring">
+            <div className="authoring" ref={scrollToTopRef}>
               <div className="exercises">
                 {resolvedData.results.map((authorship) => {
                   return (

@@ -1,18 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { QueryKey } from 'react-query'
 import {
-  Request,
   usePaginatedRequestQuery,
   useList,
   useHistory,
   removeEmpty,
+  useDeepMemo,
+  type Request,
 } from '@/hooks'
-import { GraphicalIcon, Loading, Pagination } from '../common'
+import { GraphicalIcon, Loading, Pagination } from '@/components/common'
 import { FilterPanel } from './searchable-list/FilterPanel'
-import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { PaginatedResult } from '../types'
-import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { PaginatedResult } from '@/components/types'
 
 type ResultsType<T> = {
   order: string

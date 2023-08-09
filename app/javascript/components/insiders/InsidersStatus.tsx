@@ -193,7 +193,12 @@ export default function Status({
           <h3 className="mb-16 text-h6 font-semibold">
             2. Choose your payment method:
           </h3>
-          <ExercismStripeElements mode="subscription" amount={amount.intValue}>
+          <ExercismStripeElements
+            mode="subscription"
+            amount={
+              isNaN(amount.intValue) ? currency(0).intValue : amount.intValue
+            }
+          >
             <StripeForm
               confirmParamsReturnUrl={links.paymentPending}
               captchaRequired={captchaRequired}

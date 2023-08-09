@@ -7,7 +7,7 @@ class ViewComponents::HandleWithFlairTest < ActionView::TestCase
   test "nothing with no flair" do
     handle = "iHiD"
 
-    expected = %(<span class="flex items-center"><span>#{handle}</span></span>)
+    expected = %(<span class="inline-flex items-center"><span>#{handle}</span></span>)
     actual = render(ViewComponents::HandleWithFlair.new(handle, nil))
     assert_equal expected, actual
   end
@@ -18,7 +18,7 @@ class ViewComponents::HandleWithFlairTest < ActionView::TestCase
     title = 'An Exercism Insider'
     alt = "#{title}'s flair"
 
-    expected = tag.span(class: 'flex items-center') do
+    expected = tag.span(class: 'inline-flex items-center') do
       tag.span(handle) +
         icon(:insiders, alt, style: "all:unset; height: 13px; width: 13px; margin-left: 4px", title:).to_s
     end

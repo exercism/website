@@ -21,8 +21,8 @@ export type RealtimeFeedbackModalProps = {
   | 'solution'
   | 'trackObjectives'
   | 'track'
-  | 'mentoringRequested'
   | 'mentoringStatus'
+  | 'discussion'
 >
 
 export type ResolvedIteration = Iteration & { submissionUuid?: string }
@@ -31,14 +31,13 @@ export const RealtimeFeedbackModal = ({
   open,
   onClose,
   solution,
-  exercise,
   track,
   request,
   submission,
   links,
   trackObjectives,
-  mentoringRequested,
   mentoringStatus,
+  discussion,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const { latestIteration, checkStatus } = useGetLatestIteration({
     request,
@@ -63,14 +62,12 @@ export const RealtimeFeedbackModal = ({
         checkStatus={checkStatus}
         open={open}
         onContinue={redirectToExercise}
-        exercise={exercise}
-        solution={solution}
         track={track}
         latestIteration={latestIteration}
         onClose={onClose}
         links={links}
+        discussion={discussion}
         trackObjectives={trackObjectives}
-        mentoringRequested={mentoringRequested}
         mentoringStatus={mentoringStatus}
       />
     </Modal>

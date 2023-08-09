@@ -12,14 +12,12 @@ export type FeedbackContentProps = {
 } & Pick<
   RealtimeFeedbackModalProps,
   | 'track'
-  | 'exercise'
-  | 'solution'
   | 'onClose'
   | 'open'
   | 'links'
   | 'trackObjectives'
-  | 'mentoringRequested'
   | 'mentoringStatus'
+  | 'discussion'
 >
 
 export function FeedbackContent({
@@ -31,8 +29,8 @@ export function FeedbackContent({
   onClose,
   links,
   trackObjectives,
-  mentoringRequested,
   mentoringStatus,
+  discussion,
 }: FeedbackContentProps): JSX.Element {
   const itIsTakingTooLong = useTakingTooLong(open)
 
@@ -49,11 +47,11 @@ export function FeedbackContent({
       return (
         <NoAutomatedFeedback
           links={links}
-          mentoringRequested={mentoringRequested}
           mentoringStatus={mentoringStatus}
           onContinue={onContinue}
           track={track}
           trackObjectives={trackObjectives}
+          discussion={discussion}
         />
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:

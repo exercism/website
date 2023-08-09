@@ -89,7 +89,6 @@ export default ({
   iteration,
   discussion,
   request,
-  mentoringRequested,
   mentoringStatus,
   chatgptUsage,
   trackObjectives,
@@ -522,7 +521,7 @@ export default ({
                     track={track}
                     iteration={iteration}
                     discussion={discussion}
-                    requestedMentoring={mentoringRequested}
+                    requestedMentoring={mentoringStatus === 'requested'}
                     mentoringRequestLink={links.mentoringRequest}
                     automatedFeedbackInfoLink={links.automatedFeedbackInfo}
                     mentorDiscussionsLink={links.mentorDiscussions}
@@ -554,7 +553,7 @@ export default ({
           <RealtimeFeedbackModal
             open={feedbackModalOpen}
             onClose={hideFeedbackModal}
-            mentoringRequested={mentoringRequested}
+            discussion={discussion}
             mentoringStatus={mentoringStatus}
             onSubmit={submit}
             solution={solution}

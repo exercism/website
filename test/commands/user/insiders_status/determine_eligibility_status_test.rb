@@ -77,11 +77,6 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
   test "eligible for active_prelaunch_subscription" do
     # Get away from any special logic that happens just after launch with old donations
     travel_to(Date.new(2024, 1, 1)) do
-      # Newer than launch
-      user = create :user
-      create(:payments_subscription, status: :active, created_at: Date.new(2023, 6, 1), user:)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
-
       # Prelaunch but canceled
       user = create :user
       create(:payments_subscription, status: :canceled, created_at: Date.new(2022, 6, 1), user:)
@@ -97,6 +92,28 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
       create(:payments_subscription, status: :overdue, created_at: Date.new(2022, 6, 1), user:)
       assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
     end
+  end
+
+  test "eligible for active_subscription" do
+    # Canceled
+    user = create :user
+    create(:payments_subscription, status: :canceled, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+    # Active but too small
+    user = create :user
+    create(:payments_subscription, status: :active, user:, amount_in_cents: Insiders::MINIMUM_AMOUNT_IN_CENTS - 1)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+    # Overdue
+    user = create :user
+    create(:payments_subscription, status: :overdue, user:)
+    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+    # Active
+    user = create :user
+    create(:payments_subscription, status: :active, user:, amount_in_cents: Insiders::MINIMUM_AMOUNT_IN_CENTS)
+    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
   end
 
   test "eligible for monthly rep" do

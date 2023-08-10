@@ -18,6 +18,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
 
     return :eligible if user.maintainer?
     return :eligible if active_prelaunch_subscription?
+    return :eligible if active_subscription?
     return :eligible if monthly_reputation >= MONTHLY_REPUTATION_THRESHOLD
     return :eligible if annual_reputation >= ANNUAL_REPUTATION_THRESHOLD
 
@@ -43,6 +44,11 @@ class User::InsidersStatus::DetermineEligibilityStatus
   def active_prelaunch_subscription?
     user.subscriptions.where.not(status: :canceled).
       where('created_at < ?', Insiders::LAUNCH_DATE).exists?
+  end
+
+  def active_subscription?
+    user.subscriptions.where.not(status: :canceled).
+      where('amount_in_cents >= ?', Insiders::MINIMUM_AMOUNT_IN_CENTS).exists?
   end
 
   def recent_donation?

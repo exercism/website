@@ -11,12 +11,8 @@ class User::InsidersStatus::UpdateForPayment
   def call
     if user.insider?
       User::InsidersStatus::Update.(user)
-    elsif user.total_donated_in_cents >= Insiders::LIFETIME_AMOUNT_IN_CENTS
-      User::InsidersStatus::Activate.(user, recalculate_status: true)
-    elsif user.total_donated_in_cents > Insiders::MINIMUM_AMOUNT_IN_CENTS
-      User::InsidersStatus::Activate.(user, recalculate_status: true)
     else
-      User::InsidersStatus::Update.(user)
+      User::InsidersStatus::Activate.(user, recalculate_status: true)
     end
   end
 end

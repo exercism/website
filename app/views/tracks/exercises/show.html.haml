@@ -17,8 +17,13 @@
 
       - if @exercise.tutorial?
         %section.tutorial-introduction
-          “Hello, World!” will get you writing some #{@track.title} and familiarize yourself with the Exercism workflow.
-          %strong Completing it unlocks the rest of the #{@track.title} Track.
+          %p.mb-12
+            “Hello, World!” will get you writing some #{@track.title} and familiarize yourself with the Exercism workflow.
+            %strong Completing it unlocks the rest of the #{@track.title} Track.
+          %p.mb-20
+            Watch our "Introduction to Hello, World" video to get started 👇
+
+          = vimeo_embed("853440496?h=6abbdfc68f")
 
       - if @exercise.concept_exercise?
         = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution

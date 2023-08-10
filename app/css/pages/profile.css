@@ -24,14 +24,13 @@
             }
             & h2 {
                 @apply text-h2 mx-auto text-center mb-20;
+                @apply relative;
                 &.published-solutions::after {
                     content: attr(data-total-count);
                     @apply absolute px-12 sm:flex hidden items-center;
                     @apply font-medium text-14 text-textColor6 leading-regular;
                     @apply border-1 border-borderColor4 rounded-100;
-                    right: calc(-50px - var(--digit-count, 0px));
-                    top: 84px;
-                    height: 30px;
+                    @apply height-[30px] top-[6px] left-[100%] ml-8;
                 }
                 & span {
                     display: block;

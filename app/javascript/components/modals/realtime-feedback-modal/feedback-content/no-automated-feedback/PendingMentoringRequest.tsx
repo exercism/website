@@ -20,10 +20,10 @@ export function PendingMentoringRequest({
         when this happens.
       </p>
       <div className="flex gap-12">
-        <a className="btn-primary btn-s mr-auto" href={mentoringRequestLink}>
+        <ContinueButton onClick={onContinue} className="btn-primary" />
+        <a className="btn-secondary btn-s mr-auto" href={mentoringRequestLink}>
           View your request
         </a>
-        <ContinueButton onClick={onContinue} className="btn-secondary" />
       </div>
     </div>
   )

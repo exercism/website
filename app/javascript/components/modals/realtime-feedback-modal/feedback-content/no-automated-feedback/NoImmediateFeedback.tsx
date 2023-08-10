@@ -18,13 +18,13 @@ export function NoImmediateFeedback({
       </p>
 
       <p className="text-16 mb-16 leading-150">
-        We recommend sending the exercise to one of our {track.title} mentors.
-        They&apos;ll give you feedback on your code and ideas about how you can
-        make it even more idomatic. It&apos;s 100% free 🙂
+        We recommend requesting code review from one of our {track.title}{' '}
+        mentors. They&apos;ll give you feedback on your code and ideas about how
+        you can make it even more idiomatic. It&apos;s 100% free 🙂
       </p>
       <div className="flex gap-12">
         <button onClick={onSendMentoringRequest} className="btn-primary btn-s">
-          Send to a mentor...
+          Request code review
         </button>
         <ContinueButton onClick={onContinue} className="btn-secondary" />
       </div>

@@ -11,13 +11,7 @@ export type FeedbackContentProps = {
   latestIteration: ResolvedIteration | undefined
 } & Pick<
   RealtimeFeedbackModalProps,
-  | 'track'
-  | 'onClose'
-  | 'open'
-  | 'links'
-  | 'trackObjectives'
-  | 'mentoringStatus'
-  | 'discussion'
+  'track' | 'onClose' | 'open' | 'links' | 'trackObjectives' | 'mentoringStatus'
 >
 
 export function FeedbackContent({
@@ -30,7 +24,6 @@ export function FeedbackContent({
   links,
   trackObjectives,
   mentoringStatus,
-  discussion,
 }: FeedbackContentProps): JSX.Element {
   const itIsTakingTooLong = useTakingTooLong(open)
 
@@ -51,7 +44,6 @@ export function FeedbackContent({
           onContinue={onContinue}
           track={track}
           trackObjectives={trackObjectives}
-          discussion={discussion}
         />
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:

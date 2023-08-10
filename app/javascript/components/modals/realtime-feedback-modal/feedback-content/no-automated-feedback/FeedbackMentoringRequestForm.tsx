@@ -60,8 +60,8 @@ export const FeedbackMentoringRequestForm = ({
       className="c-mentoring-request-form"
       onSubmit={handleSubmit}
     >
-      <h3 className="text-h4 mb-8">Send to a Mentor</h3>
-      <div className="question">
+      <h3 className="text-h4 mb-8">Request code review</h3>
+      <div className="question text-textColor1">
         <label htmlFor="request-mentoring-form-track-objectives">
           What are you hoping to learn from this track?
         </label>
@@ -77,7 +77,7 @@ export const FeedbackMentoringRequestForm = ({
           defaultValue={trackObjectives}
         />
       </div>
-      <div className="question">
+      <div className="question text-textColor1">
         <label htmlFor="request-mentoring-form-solution-comment">
           How can a mentor help you with this solution?
         </label>
@@ -92,7 +92,7 @@ export const FeedbackMentoringRequestForm = ({
           aria-describedby="request-mentoring-form-solution-description"
         />
       </div>
-      <div class="flex gap-8">
+      <div className="flex gap-8">
         <ContinueButton
           type="button"
           text="Cancel"

@@ -37,7 +37,6 @@ export const RealtimeFeedbackModal = ({
   links,
   trackObjectives,
   mentoringStatus,
-  discussion,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const { latestIteration, checkStatus } = useGetLatestIteration({
     request,
@@ -55,7 +54,6 @@ export const RealtimeFeedbackModal = ({
       closeButton={false}
       onClose={onClose}
       shouldCloseOnEsc={false}
-      shouldCloseOnOverlayClick
       ReactModalClassName="w-fill max-w-[700px]"
     >
       <FeedbackContent
@@ -66,7 +64,6 @@ export const RealtimeFeedbackModal = ({
         latestIteration={latestIteration}
         onClose={onClose}
         links={links}
-        discussion={discussion}
         trackObjectives={trackObjectives}
         mentoringStatus={mentoringStatus}
       />

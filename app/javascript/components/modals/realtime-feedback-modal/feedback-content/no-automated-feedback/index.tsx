@@ -17,10 +17,9 @@ export function NoAutomatedFeedback({
   onContinue,
   trackObjectives,
   mentoringStatus,
-  discussion,
 }: { onContinue: () => void } & Pick<
   RealtimeFeedbackModalProps,
-  'track' | 'trackObjectives' | 'links' | 'discussion' | 'mentoringStatus'
+  'track' | 'trackObjectives' | 'links' | 'mentoringStatus'
 >): JSX.Element {
   const [noFeedbackState, setNoFeedbackState] = useState<NoFeedbackState>(
     mentoringStatus === 'none' ? 'initial' : mentoringStatus
@@ -62,7 +61,6 @@ export function NoAutomatedFeedback({
           <InProgressMentoring
             mentoringRequestLink={links.mentoringRequest}
             onContinue={onContinue}
-            discussion={discussion}
           />
         }
       />

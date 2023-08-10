@@ -1,33 +1,22 @@
 import React from 'react'
 import { ContinueButton } from '../../components/FeedbackContentButtons'
-import { FeedbackContentProps } from '../../FeedbackContent'
-import { GraphicalIcon, HandleWithFlair } from '@/components/common'
-import pluralize from 'pluralize'
 
 export function InProgressMentoring({
   onContinue,
-  discussion,
   mentoringRequestLink,
 }: {
   mentoringRequestLink: string
   onContinue: () => void
-} & Pick<FeedbackContentProps, 'discussion'>): JSX.Element {
+}): JSX.Element {
   return (
     <div className="flex flex-col items-start">
-      {discussion ? (
-        <>
-          <h3 className="text-h4 mb-8">
-            You have a mentoring session active for this exercise.
-          </h3>
-          <p className="text-p-base mb-12">
-            It is generally good practice to tell your mentor what you've
-            changed in your code and ask them to take a look at your new
-            version.
-          </p>
-        </>
-      ) : (
-        <></>
-      )}
+      <h3 className="text-h4 mb-8">
+        You have a mentoring session active for this exercise.
+      </h3>
+      <p className="text-p-base mb-12">
+        It is generally good practice to tell your mentor what you&apos;ve
+        changed in your code and ask them to take a look at your new version.
+      </p>
 
       <div className="flex gap-12">
         <a className="btn-primary btn-s mr-auto" href={mentoringRequestLink}>

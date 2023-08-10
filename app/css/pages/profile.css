@@ -30,7 +30,7 @@
                     @apply absolute px-12 sm:flex hidden items-center;
                     @apply font-medium text-14 text-textColor6 leading-regular;
                     @apply border-1 border-borderColor4 rounded-100;
-                    @apply height-[30px] top-[6px] left-[100%] ml-8;
+                    @apply h-[30px] top-[6px] left-[100%] ml-8;
                 }
                 & span {
                     display: block;

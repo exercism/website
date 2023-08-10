@@ -12,6 +12,7 @@ class ProfilesController < ApplicationController
 
     # TODO: Order by most prominent first (what is the most prominent testimonial?)
     @testimonials = @user.mentor_testimonials.published.first(3)
+    @digit_count_style = compute_digit_count_style(@user.num_published_solutions)
   end
 
   def solutions
@@ -71,5 +72,16 @@ class ProfilesController < ApplicationController
     return redirect_to action: :intro if current_user&.handle == params[:id]
 
     render_404
+  end
+
+  def compute_digit_count_style(num_published_solutions)
+    nps_digit_count = num_published_solutions.to_s.length
+    base_multiplier = 6
+    total_adjustment = 0
+    (3..nps_digit_count).each do |n|
+      total_adjustment += (nps_digit_count / n).floor
+    end
+    count_adjustment = (nps_digit_count - 1) * (base_multiplier + total_adjustment)
+    "--digit-count: #{count_adjustment}px;"
   end
 end

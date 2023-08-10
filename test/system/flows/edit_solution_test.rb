@@ -195,8 +195,7 @@ module Components
           SolutionWithLatestIterationChannel.broadcast!(solution)
           refute_text "Checking for automated feedback"
           assert_text "No Immediate Feedback"
-          assert_text "Our systems don't have any immediate suggestions about your code."
-          click_on "Send to a mentor..."
+          click_on "Request code review"
           assert_text "What are you hoping to learn from this track?"
 
           input_1 = find("#request-mentoring-form-track-objectives")
@@ -206,7 +205,7 @@ module Components
           input_1.set("Help me get better at this track")
           input_2.set(solution_comment)
 
-          click_on "Submit mentoring request"
+          click_on "Submit for code review"
           assert_text "You've submitted your solution for Code Review"
           assert_text "View your request"
         end
@@ -248,12 +247,8 @@ module Components
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
-          assert_text "You're being mentored by Mentor"
-          assert_text "Your turn to respond"
-          assert_text "Go to your discussion"
-          click_on "Go to your discussion"
-          assert_text "Meet your mentor"
-          assert_text "I could do with some help here"
+
+          assert_text "You have a mentoring session active for this exercise."
         end
       end
 

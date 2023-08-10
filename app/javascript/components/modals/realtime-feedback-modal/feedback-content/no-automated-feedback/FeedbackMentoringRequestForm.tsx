@@ -57,11 +57,11 @@ export const FeedbackMentoringRequestForm = ({
   return (
     <form
       data-turbo="false"
-      className="c-mentoring-request-form"
+      className="c-mentoring-request-form realtime-feedback-modal-form"
       onSubmit={handleSubmit}
     >
       <h3 className="text-h4 mb-8">Request code review</h3>
-      <div className="question text-textColor1">
+      <div className="question">
         <label htmlFor="request-mentoring-form-track-objectives">
           What are you hoping to learn from this track?
         </label>
@@ -77,7 +77,7 @@ export const FeedbackMentoringRequestForm = ({
           defaultValue={trackObjectives}
         />
       </div>
-      <div className="question text-textColor1">
+      <div className="question">
         <label htmlFor="request-mentoring-form-solution-comment">
           How can a mentor help you with this solution?
         </label>
@@ -103,7 +103,7 @@ export const FeedbackMentoringRequestForm = ({
           status={status}
           className="!w-auto btn-primary btn-s flex-grow"
         >
-          Submit mentoring request
+          Submit for code review
         </FormButton>
       </div>
       <FetchingBoundary

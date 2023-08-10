@@ -24,6 +24,14 @@
         }
     }
 
+    &.realtime-feedback-modal-form {
+        .question {
+            label {
+                @apply text-textColor1;
+            }
+        }
+    }
+
     .first-time {
         @apply flex items-start;
         @apply bg-lightOrange rounded-8;

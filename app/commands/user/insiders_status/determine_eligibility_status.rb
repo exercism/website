@@ -18,6 +18,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
 
     return :eligible if user.maintainer?
     return :eligible if active_prelaunch_subscription?
+    return :eligible if active_subscription?
     return :eligible if monthly_reputation >= MONTHLY_REPUTATION_THRESHOLD
     return :eligible if annual_reputation >= ANNUAL_REPUTATION_THRESHOLD
 
@@ -45,6 +46,11 @@ class User::InsidersStatus::DetermineEligibilityStatus
       where('created_at < ?', Insiders::LAUNCH_DATE).exists?
   end
 
+  def active_subscription?
+    user.subscriptions.where.not(status: :canceled).
+      where('amount_in_cents >= ?', Insiders::MINIMUM_AMOUNT_IN_CENTS).exists?
+  end
+
   def recent_donation?
     user.payments.sort { |p| -p.id }.each do |donation|
       # For every 9.99 donation before Insiders launched, give a month of access
@@ -57,7 +63,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
         active_until = donation.created_at + 1.year + Insiders::GRACE_PERIOD
 
         # Monthly payment: A month + grace period
-      elsif donation.amount_in_cents > Insiders::MINIMUM_AMOUNT_IN_CENTS
+      elsif donation.amount_in_cents >= Insiders::MINIMUM_AMOUNT_IN_CENTS
         active_until = donation.created_at + 1.month + Insiders::GRACE_PERIOD
 
       # Else the donation is too small to be considered

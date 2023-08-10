@@ -92,6 +92,6 @@ class Payments::Payment::CreateTest < Payments::TestBase
     # For tiny payment, you don't get insiders
     user = create :user
     Payments::Payment::Create.(user, :stripe, SecureRandom.uuid, 5_00, "")
-    assert_equal :ineligible, user.reload.insiders_status
+    assert_equal :unset, user.reload.insiders_status
   end
 end

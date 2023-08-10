@@ -3,9 +3,9 @@ import { ContinueButton } from '../../components/FeedbackContentButtons'
 
 export function InProgressMentoring({
   onContinue,
-  mentoringRequestLink,
+  mentorDiscussionLink,
 }: {
-  mentoringRequestLink: string
+  mentorDiscussionLink: string
   onContinue: () => void
 }): JSX.Element {
   return (
@@ -19,7 +19,7 @@ export function InProgressMentoring({
       </p>
 
       <div className="flex gap-12">
-        <a className="btn-primary btn-s mr-auto" href={mentoringRequestLink}>
+        <a className="btn-primary btn-s mr-auto" href={mentorDiscussionLink}>
           Go to your discussion
         </a>
         <ContinueButton

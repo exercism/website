@@ -59,7 +59,7 @@ export function NoAutomatedFeedback({
         }
         inProgressComponent={
           <InProgressMentoring
-            mentoringRequestLink={links.mentoringRequest}
+            mentorDiscussionLink={links.mentoringRequest}
             onContinue={onContinue}
           />
         }

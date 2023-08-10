@@ -16,7 +16,7 @@ export function PendingMentoringRequest({
 
       <p className="text-16 mb-16 leading-150">
         A mentor will take a look at your solution and (hopefully) provide you
-        with useful feedback soon. You&apos;ll recieve a notification and email
+        with useful feedback soon. You&apos;ll receive a notification and email
         when this happens.
       </p>
       <div className="flex gap-12">

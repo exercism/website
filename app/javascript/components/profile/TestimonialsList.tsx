@@ -1,10 +1,18 @@
 import React, { useState, useCallback } from 'react'
-import { Request, usePaginatedRequestQuery, useList } from '@/hooks'
-import { Pagination } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { PaginatedResult, Testimonial as TestimonialProps } from '../types'
+import {
+  usePaginatedRequestQuery,
+  useList,
+  useScrollToTop,
+  type Request,
+} from '@/hooks'
+import { Pagination } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
 import { Testimonial } from './testimonials-list/Testimonial'
+import type {
+  PaginatedResult,
+  Testimonial as TestimonialProps,
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
@@ -37,6 +45,8 @@ export const TestimonialsList = ({
     setSelected(null)
   }, [setSelected])
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <ResultsZone isFetching={isFetching}>
       <FetchingBoundary
@@ -46,7 +56,7 @@ export const TestimonialsList = ({
       >
         {resolvedData ? (
           <>
-            <div className="testimonials">
+            <div className="testimonials" ref={scrollToTopRef}>
               {resolvedData.results.map((t) => {
                 return (
                   <Testimonial

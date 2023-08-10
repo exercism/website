@@ -12,6 +12,7 @@ export type PaginatedResult<T> = {
     currentPage: number
     totalCount: number
     totalPages: number
+    unscopedTotal?: number
   }
 }
 

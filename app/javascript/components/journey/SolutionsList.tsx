@@ -1,21 +1,27 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { SolutionProps, Solution } from './Solution'
-import { Request } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { removeEmpty, useHistory } from '../../hooks/use-history'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { Pagination, GraphicalIcon } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { PaginatedResult } from '../types'
-import { OrderSwitcher } from './solutions-list/OrderSwitcher'
 import pluralize from 'pluralize'
-import { SolutionFilter } from './solutions-list/SolutionFilter'
-import { ExerciseStatus } from './solutions-list/ExerciseStatusSelect'
-import { MentoringStatus } from './solutions-list/MentoringStatusSelect'
-import { SyncStatus } from './solutions-list/SyncStatusSelect'
-import { TestsStatus } from './solutions-list/TestsStatusSelect'
-import { HeadTestsStatus } from './solutions-list/HeadTestsStatusSelect'
+import { SolutionProps, Solution } from './Solution'
+import {
+  useList,
+  removeEmpty,
+  useHistory,
+  usePaginatedRequestQuery,
+  type Request,
+  useScrollToTop,
+} from '@/hooks'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination, GraphicalIcon } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import {
+  MentoringStatus,
+  SyncStatus,
+  TestsStatus,
+  HeadTestsStatus,
+  SolutionFilter,
+  OrderSwitcher,
+  ExerciseStatus,
+} from './solutions-list'
+import type { PaginatedResult } from '@/components/types'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -94,9 +100,11 @@ export const SolutionsList = ({
     })
   }, [request.query, setQuery])
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <article className="solutions-tab theme-dark">
-      <div className="c-search-bar">
+      <div className="c-search-bar" ref={scrollToTopRef}>
         <div className="md-container container">
           <input
             className="--search"
@@ -145,7 +153,7 @@ export const SolutionsList = ({
                 </div>
                 <Pagination
                   disabled={latestData === undefined}
-                  current={request.query.page}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={setPage}
                 />

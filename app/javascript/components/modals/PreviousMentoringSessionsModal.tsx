@@ -1,23 +1,26 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
+import pluralize from 'pluralize'
+import { fromNow } from '@/utils'
+import { useList, usePaginatedRequestQuery, useScrollToTop } from '@/hooks'
 import {
   Avatar,
   GraphicalIcon,
   Pagination,
   TrackIcon,
   ExerciseIcon,
-} from '../common'
-import { Modal, ModalProps } from './Modal'
-import pluralize from 'pluralize'
+} from '@/components/common'
 import {
-  FavoritableStudent,
   FavoriteButton,
-} from '../mentoring/session/FavoriteButton'
-import { useList } from '../../hooks/use-list'
-import { PaginatedResult, MentorDiscussion, Student } from '../types'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
+  type FavoritableStudent,
+} from '@/components/mentoring/session/FavoriteButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Modal, type ModalProps } from './Modal'
+import type {
+  PaginatedResult,
+  MentorDiscussion,
+  Student,
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load discussions')
 
@@ -34,51 +37,15 @@ export const PreviousMentoringSessionsModal = ({
     endpoint: student.links.previousSessions,
     options: {},
   })
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<
-    PaginatedResult<readonly MentorDiscussion[]>,
-    Error | Response
-  >([request.endpoint, request.query], request)
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<
+      PaginatedResult<readonly MentorDiscussion[]>,
+      Error | Response
+    >([request.endpoint, request.query], request)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 
-  const DiscussionLink = ({ discussion }: { discussion: MentorDiscussion }) => {
-    return (
-      <a
-        href={discussion.links.self}
-        key={discussion.uuid}
-        className="discussion"
-      >
-        <TrackIcon
-          iconUrl={discussion.track.iconUrl}
-          title={discussion.track.title}
-        />
-        <ExerciseIcon
-          iconUrl={discussion.exercise.iconUrl}
-          title={discussion.exercise.title}
-          className="exercise-icon"
-        />
-        <div className="exercise-title">{discussion.exercise.title}</div>
-        <div className="num-comments">
-          <GraphicalIcon icon="comment" />
-          {discussion.postsCount}
-        </div>
-        <div className="num-iterations">
-          <GraphicalIcon icon="iteration" />
-          {discussion.iterationsCount}
-        </div>
-        <time dateTime={discussion.createdAt}>
-          {fromNow(discussion.createdAt)}
-        </time>
-        <GraphicalIcon icon="chevron-right" className="action-icon" />
-      </a>
-    )
-  }
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <Modal
@@ -101,7 +68,7 @@ export const PreviousMentoringSessionsModal = ({
           />
         ) : null}
       </header>
-      <div className="discussions">
+      <div className="discussions" ref={scrollToTopRef}>
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary
             status={status}
@@ -118,7 +85,7 @@ export const PreviousMentoringSessionsModal = ({
                 ))}
                 <Pagination
                   disabled={latestData === undefined}
-                  current={request.query.page}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={setPage}
                 />
@@ -128,5 +95,42 @@ export const PreviousMentoringSessionsModal = ({
         </ResultsZone>
       </div>
     </Modal>
+  )
+}
+
+function DiscussionLink({
+  discussion,
+}: {
+  discussion: MentorDiscussion
+}): JSX.Element {
+  return (
+    <a
+      href={discussion.links.self}
+      key={discussion.uuid}
+      className="discussion"
+    >
+      <TrackIcon
+        iconUrl={discussion.track.iconUrl}
+        title={discussion.track.title}
+      />
+      <ExerciseIcon
+        iconUrl={discussion.exercise.iconUrl}
+        title={discussion.exercise.title}
+        className="exercise-icon"
+      />
+      <div className="exercise-title">{discussion.exercise.title}</div>
+      <div className="num-comments">
+        <GraphicalIcon icon="comment" />
+        {discussion.postsCount}
+      </div>
+      <div className="num-iterations">
+        <GraphicalIcon icon="iteration" />
+        {discussion.iterationsCount}
+      </div>
+      <time dateTime={discussion.createdAt}>
+        {fromNow(discussion.createdAt)}
+      </time>
+      <GraphicalIcon icon="chevron-right" className="action-icon" />
+    </a>
   )
 }

@@ -5,25 +5,23 @@ import {
   useHistory,
   removeEmpty,
   usePaginatedRequestQuery,
+  useScrollToTop,
   type Request,
 } from '@/hooks'
-import { CommunitySolution } from '../common/CommunitySolution'
-import { Checkbox, Icon, Pagination } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
+import {
+  Checkbox,
+  Icon,
+  Pagination,
+  CommunitySolution,
+} from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
-import { GenericTooltip } from '../misc/ExercismTippy'
-import type { CommunitySolution as CommunitySolutionProps } from '../types'
-
-type PaginatedResult = {
-  results: CommunitySolutionProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-    unscopedTotal: number
-  }
-}
+import type {
+  CommunitySolution as CommunitySolutionProps,
+  PaginatedResult,
+} from '@/components/types'
 
 export type Order = 'most_starred' | 'newest'
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
@@ -54,7 +52,10 @@ export const ExerciseCommunitySolutionsList = ({
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
+    usePaginatedRequestQuery<
+      PaginatedResult<CommunitySolutionProps[]>,
+      Error | Response
+    >(
       ['exercise-community-solution-list', request.endpoint, request.query],
       request
     )
@@ -103,6 +104,8 @@ export const ExerciseCommunitySolutionsList = ({
     },
     [request.query, setQuery]
   )
+
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <div className="lg-container c-community-solutions-list">
@@ -190,7 +193,10 @@ export const ExerciseCommunitySolutionsList = ({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+              <div
+                className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+                ref={scrollToTopRef}
+              >
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution

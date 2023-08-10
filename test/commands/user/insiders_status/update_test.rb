@@ -64,9 +64,9 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
   test "active -> ineligible: user is insider until last payment date + 1 month + 15 days if that is in the future" do
     user = create :user, insiders_status: :active
-    subscription = create(:payments_subscription, status: :active, user:)
-    create(:payments_payment, created_at: Time.current - 2.months, user:, subscription:)
-    last_payment = create(:payments_payment, created_at: Time.current - 20.days, user:, subscription:)
+    create(:payments_payment, created_at: Time.current - 2.months, user:)
+    last_payment = create(:payments_payment, created_at: Time.current - 20.days, user:,
+      amount_in_cents: Insiders::MINIMUM_AMOUNT_IN_CENTS)
 
     User::SetDiscourseGroups.stubs(:defer)
 

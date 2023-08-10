@@ -63,7 +63,7 @@ class User::InsidersStatus::DetermineEligibilityStatus
         active_until = donation.created_at + 1.year + Insiders::GRACE_PERIOD
 
         # Monthly payment: A month + grace period
-      elsif donation.amount_in_cents > Insiders::MINIMUM_AMOUNT_IN_CENTS
+      elsif donation.amount_in_cents >= Insiders::MINIMUM_AMOUNT_IN_CENTS
         active_until = donation.created_at + 1.month + Insiders::GRACE_PERIOD
 
       # Else the donation is too small to be considered

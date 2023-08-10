@@ -32,7 +32,7 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
       assert user.subscriptions.exists?
       assert_equal 1, user.payments.count
       assert_equal 1, user.subscriptions.count
-      payment = user.payments.last
+      payment = user.reload.payments.last
       subscription = user.subscriptions.last
       assert_equal sponsorship_node_id, payment.external_id
       assert_equal amount, payment.amount_in_cents

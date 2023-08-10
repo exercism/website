@@ -8,7 +8,10 @@ class Exercise::Contributorship::Create
       User::ReputationToken::Create.defer(
         contributor,
         :exercise_contribution,
-        contributorship:
+        contributorship:,
+        # This is called in a big transaction, so give it time
+        # to materialise to the database before calling things.
+        wait: 30.seconds
       )
     end
   end

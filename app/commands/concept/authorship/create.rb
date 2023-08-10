@@ -8,7 +8,10 @@ class Concept::Authorship::Create
       User::ReputationToken::Create.defer(
         author,
         :concept_author,
-        authorship:
+        authorship:,
+        # This is called in a big transaction, so give it time
+        # to materialise to the database before calling things.
+        wait: 30.seconds
       )
     end
   end

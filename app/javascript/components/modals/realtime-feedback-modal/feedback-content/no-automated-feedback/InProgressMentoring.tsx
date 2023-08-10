@@ -13,35 +13,20 @@ export function InProgressMentoring({
   onContinue: () => void
 } & Pick<FeedbackContentProps, 'discussion'>): JSX.Element {
   return (
-    <div className="flex flex-col items-start h-[170px] justify-between c-mentor-discussion-widget">
+    <div className="flex flex-col items-start">
       {discussion ? (
         <>
-          <h3 className="flex text-h6 items-center">
-            You&apos;re being mentored by&nbsp;
-            {
-              <HandleWithFlair
-                handle={discussion.mentor.handle}
-                flair={discussion.mentor.flair}
-                size="large"
-              />
-            }
+          <h3 className="text-h4 mb-8">
+            You have a mentoring session active for this exercise.
           </h3>
-
-          <div className="flex gap-12">
-            {discussion.status === 'awaiting_student' ? (
-              <div className="--turn">Your turn to respond</div>
-            ) : null}
-            <div className="--comments">
-              <GraphicalIcon icon="comment" />
-              {discussion.postsCount}&nbsp;
-              {pluralize('comments', discussion.postsCount)}
-            </div>
-          </div>
+          <p className="text-p-base mb-12">
+            It is generally good practice to tell your mentor what you've
+            changed in your code and ask them to take a look at your new
+            version.
+          </p>
         </>
       ) : (
-        <h3 className="flex text-h5 items-center">
-          You have an ongoing mentoring session.
-        </h3>
+        <></>
       )}
 
       <div className="flex gap-12">

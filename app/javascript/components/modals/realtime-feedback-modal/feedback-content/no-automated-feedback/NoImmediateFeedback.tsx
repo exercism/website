@@ -13,7 +13,8 @@ export function NoImmediateFeedback({
       <h3 className="text-h4 mb-12">No Immediate Feedback</h3>
 
       <p className="text-16 leading-150 font-medium text-textColor1 mb-8">
-        Our systems don&apos;t have any immediate suggestions about your code.
+        Our systems don&apos;t have any immediate suggestions about how to
+        improve your code.
       </p>
 
       <p className="text-16 mb-16 leading-150">

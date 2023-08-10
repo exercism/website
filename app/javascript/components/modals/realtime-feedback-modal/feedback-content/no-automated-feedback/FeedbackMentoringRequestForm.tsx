@@ -60,6 +60,7 @@ export const FeedbackMentoringRequestForm = ({
       className="c-mentoring-request-form"
       onSubmit={handleSubmit}
     >
+      <h3 className="text-h4 mb-8">Send to a Mentor</h3>
       <div className="question">
         <label htmlFor="request-mentoring-form-track-objectives">
           What are you hoping to learn from this track?
@@ -91,15 +92,20 @@ export const FeedbackMentoringRequestForm = ({
           aria-describedby="request-mentoring-form-solution-description"
         />
       </div>
-      <FormButton status={status} className="btn-primary btn-s">
-        Submit mentoring request
-      </FormButton>
-      <ContinueButton
-        type="button"
-        text="Cancel sending request"
-        className="btn-secondary"
-        onClick={onContinue}
-      />
+      <div class="flex gap-8">
+        <ContinueButton
+          type="button"
+          text="Cancel"
+          className="!w-auto btn-secondary"
+          onClick={onContinue}
+        />
+        <FormButton
+          status={status}
+          className="!w-auto btn-primary btn-s flex-grow"
+        >
+          Submit mentoring request
+        </FormButton>
+      </div>
       <FetchingBoundary
         status={status}
         error={error}

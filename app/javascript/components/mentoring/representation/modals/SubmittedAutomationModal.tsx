@@ -35,10 +35,10 @@ export function SubmittedAutomationModal({
             />
           </div>
         </a>
-        <div className="flex mt-32 -mb-32 -mx-48 p-20 justify-center place-self-stretch bg-textColor6">
-          <div className="flex flex-row items-center border-gradient-primary text-white font-medium text-18 border border-4 rounded-12  px-24 py-8 child:mx-12">
+        <div className="flex mt-32 -mb-32 -mx-48 p-20 justify-center place-self-stretch bg-backgroundColorE">
+          <div className="flex flex-row items-center border-gradient-primary text-white font-medium text-16 border border-4 rounded-12  px-24 py-8 child:mx-6">
             You earned <Reputation value="+3" type="primary" size="small" />
-            &nbsp; Reputation for providing this feedback 😊
+            Reputation for providing this feedback 😊
           </div>
         </div>
       </div>

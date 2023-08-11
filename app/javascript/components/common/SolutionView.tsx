@@ -51,7 +51,11 @@ export const SolutionView = ({
   })
 
   return (
-    <div className="c-solution-iterations">
+    <div
+      className={`c-solution-iterations ${
+        publishedIterations.length === 1 ? 'full-height-iteration' : ''
+      }`}
+    >
       <IterationSummaryWithWebsockets
         iteration={currentIteration}
         OutOfDateNotice={

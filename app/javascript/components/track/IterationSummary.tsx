@@ -60,7 +60,7 @@ export function IterationSummary({
   OutOfDateNotice,
 }: IterationSummaryProps): JSX.Element {
   return (
-    <div className={`c-iteration-summary ${className}`}>
+    <div className={`c-iteration-summary ${className ?? ''}`}>
       {showSubmissionMethod ? (
         <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
       ) : null}

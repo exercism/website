@@ -24,14 +24,6 @@
         }
     }
 
-    &.realtime-feedback-modal-form {
-        .question {
-            label {
-                @apply text-textColor1;
-            }
-        }
-    }
-
     .first-time {
         @apply flex items-start;
         @apply bg-lightOrange rounded-8;
@@ -56,7 +48,7 @@
     .question {
         @apply mb-20;
         label {
-            @apply text-16 leading-150 font-semibold text-textColor3;
+            @apply text-16 leading-150 font-semibold text-textColor1;
             @apply mb-4;
         }
         p {

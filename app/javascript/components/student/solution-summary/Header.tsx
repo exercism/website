@@ -33,8 +33,6 @@ export const Header = ({
   exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element => {
-  console.log(iteration)
-
   switch (iteration.status) {
     case IterationStatus.DELETED:
     case IterationStatus.UNTESTED:

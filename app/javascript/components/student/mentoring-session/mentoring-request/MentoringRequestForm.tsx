@@ -1,19 +1,18 @@
 import React, { useRef, useCallback } from 'react'
+import { useMutation } from 'react-query'
+import { sendRequest, typecheck } from '@/utils'
 import {
   CopyToClipboardButton,
   FormButton,
   GraphicalIcon,
   MedianWaitTime,
-} from '../../../common'
-import {
+} from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-} from '../../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { typecheck } from '../../../../utils/typecheck'
-import { MentorSessionRequest as Request } from '../../../types'
-import { FetchingBoundary } from '../../../FetchingBoundary'
+  MentorSessionRequest as Request,
+} from '@/components/types'
 
 type Links = {
   learnMoreAboutPrivateMentoring: string
@@ -38,7 +37,7 @@ export const MentoringRequestForm = ({
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<Request>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.createMentorRequest,
         method: 'POST',
@@ -51,7 +50,7 @@ export const MentoringRequestForm = ({
       return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
     },
     {
-      onSuccess: onSuccess,
+      onSuccess,
     }
   )
 
@@ -76,10 +75,14 @@ export const MentoringRequestForm = ({
         </h3>
         <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
-      <form data-turbo="false" className="community" onSubmit={handleSubmit}>
+      <form
+        data-turbo="false"
+        className="c-mentoring-request-form"
+        onSubmit={handleSubmit}
+      >
         <div className="heading">
           <div className="info">
-            <h2>It’s time to deepen your knowledge.</h2>
+            <h2>It&apos;s time to deepen your knowledge.</h2>
             <p>
               Start a mentoring discussion on <strong>{exercise.title}</strong>{' '}
               to discover new and exciting ways to approach it. Expand and
@@ -94,7 +97,7 @@ export const MentoringRequestForm = ({
           </label>
           <p id="request-mentoring-form-track-description">
             Tell our mentors a little about your programming background and what
-            you’re aiming to learn from {track.title}.
+            you&apos;re aiming to learn from {track.title}.
           </p>
           <textarea
             ref={trackObjectivesRef}

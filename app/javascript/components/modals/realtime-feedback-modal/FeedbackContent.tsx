@@ -1,38 +1,29 @@
 import React from 'react'
 import { IterationStatus } from '@/components/types'
+import { useTakingTooLong } from './hooks'
 import { CheckingForAutomatedFeedback } from './CheckingForAutomatedFeedback'
-import { useTakingTooLong } from './useTakingTooLong'
 import { NoAutomatedFeedback, FoundAutomatedFeedback } from './feedback-content'
-import type {
-  RealtimeFeedbackModalProps,
-  ResolvedIteration,
-} from '../RealtimeFeedbackModal'
+import type { RealtimeFeedbackModalProps, ResolvedIteration } from '.'
 
 export type FeedbackContentProps = {
   checkStatus: string
-  continueAnyway: () => void
+  onContinue: () => void
   latestIteration: ResolvedIteration | undefined
 } & Pick<
   RealtimeFeedbackModalProps,
-  | 'track'
-  | 'exercise'
-  | 'solution'
-  | 'automatedFeedbackInfoLink'
-  | 'mentorDiscussionsLink'
-  | 'onClose'
-  | 'open'
+  'track' | 'onClose' | 'open' | 'links' | 'trackObjectives' | 'mentoringStatus'
 >
 
 export function FeedbackContent({
   checkStatus,
-  continueAnyway,
+  onContinue,
   open,
-  exercise,
   track,
-  automatedFeedbackInfoLink,
-  mentorDiscussionsLink,
   latestIteration,
   onClose,
+  links,
+  trackObjectives,
+  mentoringStatus,
 }: FeedbackContentProps): JSX.Element {
   const itIsTakingTooLong = useTakingTooLong(open)
 
@@ -40,7 +31,7 @@ export function FeedbackContent({
     case 'loading':
       return (
         <CheckingForAutomatedFeedback
-          onClick={continueAnyway}
+          onClick={onContinue}
           showTakingTooLong={itIsTakingTooLong}
         />
       )
@@ -48,10 +39,11 @@ export function FeedbackContent({
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
       return (
         <NoAutomatedFeedback
-          exercise={exercise}
-          mentorDiscussionsLink={mentorDiscussionsLink}
-          onContinue={continueAnyway}
+          links={links}
+          mentoringStatus={mentoringStatus}
+          onContinue={onContinue}
           track={track}
+          trackObjectives={trackObjectives}
         />
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
@@ -59,9 +51,9 @@ export function FeedbackContent({
         <FoundAutomatedFeedback
           celebratory
           track={track}
-          automatedFeedbackInfoLink={automatedFeedbackInfoLink}
+          links={links}
           onClose={onClose}
-          onContinue={continueAnyway}
+          onContinue={onContinue}
           latestIteration={latestIteration}
         />
       )
@@ -69,9 +61,9 @@ export function FeedbackContent({
       return (
         <FoundAutomatedFeedback
           track={track}
-          automatedFeedbackInfoLink={automatedFeedbackInfoLink}
+          links={links}
           onClose={onClose}
-          onContinue={continueAnyway}
+          onContinue={onContinue}
           latestIteration={latestIteration}
         />
       )

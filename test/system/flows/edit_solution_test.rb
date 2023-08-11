@@ -35,7 +35,7 @@ module Components
           within(".lhs-footer") { click_on "Submit" }
 
           sleep(0.5)
-          click_on "Continue anyway"
+          click_on "Continue without waiting"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -66,7 +66,7 @@ module Components
           within(".success-box") { click_on "Submit" }
 
           sleep(0.5)
-          click_on "Continue anyway"
+          click_on "Continue without waiting"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -93,7 +93,7 @@ module Components
           within(".lhs-footer") { click_on "Submit" }
 
           sleep(0.5)
-          click_on "Continue anyway"
+          click_on "Continue without waiting"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -126,7 +126,7 @@ module Components
           within(".lhs-footer") { click_on "Submit" }
 
           sleep(0.5)
-          click_on "Continue anyway"
+          click_on "Continue without waiting"
           wait_for_redirect
           assert_text "Iteration 1"
         end
@@ -159,13 +159,13 @@ module Components
           within(".lhs-footer") { click_on "Submit" }
 
           assert_text "Checking for automated feedback..."
-          assert_text "Continue anyway"
+          assert_text "Continue without waiting"
           sleep(10)
-          assert_text "Sorry, this is taking a little long."
+          assert_text "Sorry, this is taking a little longer than expected."
         end
       end
 
-      test "feedback modal shows there is no feedback suggests code review then visits mentoring link" do
+      test "feedback modal finds no feedback then user asks for a code review" do
         use_capybara_host do
           user_track = create :user_track
           solution = create :concept_solution, user: user_track.user, track: user_track.track
@@ -186,7 +186,6 @@ module Components
 
           assert_button "Submit", disabled: false
 
-          visit edit_track_exercise_path(solution.track, solution.exercise)
           within(".lhs-footer") { click_on "Submit" }
           assert_text "Checking for automated feedback"
           sleep(1)
@@ -195,10 +194,61 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
           refute_text "Checking for automated feedback"
-          assert_text "There is no automated feedback for this exercise"
-          assert_text "we recommend requesting a code review"
-          click_on "Submit for a code review"
-          assert_text "Take your solution to the next level"
+          assert_text "No Immediate Feedback"
+          click_on "Request code review"
+          assert_text "What are you hoping to learn from this track?"
+
+          input_1 = find("#request-mentoring-form-track-objectives")
+          input_2 = find("#request-mentoring-form-solution-comment")
+
+          solution_comment = "Help me make this more idiomatic"
+          input_1.set("Help me get better at this track")
+          input_2.set(solution_comment)
+
+          click_on "Submit for code review"
+          assert_text "You've submitted your solution for Code Review"
+          assert_text "View your request"
+        end
+      end
+
+      test "feedback modal shows when mentorship is in progress" do
+        mentor = create :user, handle: "Mentor"
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
+        submission = create :submission, solution:,
+          tests_status: :passed,
+          representation_status: :queued,
+          analysis_status: :queued
+        create(:iteration, idx: 1, solution:, submission:)
+        request = create :mentor_request, solution:, status: :fulfilled
+        create :mentor_discussion,
+          solution:,
+          mentor:,
+          request:,
+          status: :awaiting_student
+        solution.update_mentoring_status!
+
+        use_capybara_host do
+          sign_in!(user_track.user)
+          visit edit_track_exercise_path(solution.track, solution.exercise)
+          test_run = create :submission_test_run,
+            submission: Submission.last,
+            ops_status: 200,
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
+
+          assert_button "Submit", disabled: false
+          within(".lhs-footer") { click_on "Submit" }
+          assert_text "Checking for automated feedback"
+          sleep(1)
+          submission.update!(representation_status: :generated, analysis_status: :completed)
+          solution.reload
+          Submission::TestRunsChannel.broadcast!(test_run)
+          SolutionWithLatestIterationChannel.broadcast!(solution)
+
+          assert_text "You have a mentoring session active for this exercise."
         end
       end
 
@@ -277,7 +327,7 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
-          assert_text "We've found some automated feedback"
+          assert_text "Here's a suggestion on how to improve your code…"
         end
       end
 
@@ -317,12 +367,12 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
-          assert_text "We've found some automated feedback"
+          assert_text "Here's a suggestion on how to improve your code…"
           click_on "Go back to editor"
           within(".lhs-footer") { click_on "Submit" }
           refute_text "Checking for automated feedback"
           assert_text "Essential"
-          assert_text "We've found some automated feedback"
+          assert_text "Here's a suggestion on how to improve your code…"
         end
       end
 

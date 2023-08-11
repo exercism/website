@@ -1,3 +1,4 @@
+import { MentoringStatus } from '../journey/solutions-list/MentoringStatusSelect'
 import { IterationsListRequest } from '../student/IterationsList'
 import {
   AnalyzerFeedback,
@@ -25,14 +26,16 @@ type Links = {
   runTests: string
   back: string
   automatedFeedbackInfo: string
-  mentorDiscussions: string
   mentoringRequest: string
+  mentorDiscussions: string
+  createMentorRequest: string
 }
 
 type Track = {
   title: string
   slug: string
   iconUrl: string
+  medianWaitTime: number
 }
 
 type Iteration = {
@@ -90,5 +93,7 @@ export type Props = {
   links: Links
   features?: EditorFeatures
   mentoringRequested: boolean
+  mentoringStatus: MentoringStatus
   request: IterationsListRequest
+  trackObjectives: string
 }

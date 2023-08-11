@@ -89,8 +89,9 @@ export default ({
   iteration,
   discussion,
   request,
-  mentoringRequested,
+  mentoringStatus,
   chatgptUsage,
+  trackObjectives,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -520,7 +521,7 @@ export default ({
                     track={track}
                     iteration={iteration}
                     discussion={discussion}
-                    requestedMentoring={mentoringRequested}
+                    requestedMentoring={mentoringStatus === 'requested'}
                     mentoringRequestLink={links.mentoringRequest}
                     automatedFeedbackInfoLink={links.automatedFeedbackInfo}
                     mentorDiscussionsLink={links.mentorDiscussions}
@@ -552,15 +553,16 @@ export default ({
           <RealtimeFeedbackModal
             open={feedbackModalOpen}
             onClose={hideFeedbackModal}
+            discussion={discussion}
+            mentoringStatus={mentoringStatus}
             onSubmit={submit}
             solution={solution}
             track={track}
             request={request}
-            automatedFeedbackInfoLink={links.automatedFeedbackInfo}
-            redirectToExerciseLink={redirectLink}
             submission={submission}
             exercise={exercise}
-            mentorDiscussionsLink={links.mentorDiscussions}
+            trackObjectives={trackObjectives}
+            links={{ ...links, redirectToExerciseLink: redirectLink }}
           />
 
           {submission && premium && (

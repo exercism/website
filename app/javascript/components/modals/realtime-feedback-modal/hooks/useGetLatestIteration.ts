@@ -3,10 +3,7 @@ import { useQueryCache } from 'react-query'
 import { usePaginatedRequestQuery } from '@/hooks'
 import { SolutionWithLatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
 import { IterationStatus } from '@/components/types'
-import type {
-  RealtimeFeedbackModalProps,
-  ResolvedIteration,
-} from '../RealtimeFeedbackModal'
+import type { RealtimeFeedbackModalProps, ResolvedIteration } from '..'
 
 const REFETCH_INTERVAL = 2000
 const PENDING_STATUS = [

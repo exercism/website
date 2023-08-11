@@ -1,10 +1,13 @@
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
-import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
-import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
-import { AnalysisStatusSummary } from '@/components/track/iteration-summary/AnalysisStatusSummary'
-import { GoBackToExercise, ContinueButton } from './FeedbackContentButtons'
-import { FeedbackContentProps } from '../FeedbackContent'
+import { AnalyzerFeedback } from './AnalyzerFeedback'
+import { RepresenterFeedback } from './RepresenterFeedback'
+import {
+  GoBackToExercise,
+  ContinueButton,
+} from '../../components/FeedbackContentButtons'
+import { FeedbackContentProps } from '../../FeedbackContent'
+import { FooterButtonContainer } from '../../components'
 
 const HEADLINE = [
   "Here's a suggestion on how to improve your code…",
@@ -14,13 +17,13 @@ const HEADLINE = [
 export function FoundAutomatedFeedback({
   latestIteration,
   track,
-  automatedFeedbackInfoLink,
+  links,
   onClose,
   onContinue,
   celebratory = false,
 }: Pick<
   FeedbackContentProps,
-  'latestIteration' | 'track' | 'automatedFeedbackInfoLink' | 'onClose'
+  'latestIteration' | 'track' | 'onClose' | 'links'
 > & { onContinue: () => void; celebratory?: boolean }): JSX.Element {
   return (
     <>
@@ -31,17 +34,11 @@ export function FoundAutomatedFeedback({
           </div>
           {latestIteration?.representerFeedback ? (
             <RepresenterFeedback {...latestIteration.representerFeedback} />
-          ) : null}
-
-          {latestIteration?.representerFeedback &&
-          latestIteration?.analyzerFeedback ? (
-            <hr className="border-t-2 border-borderColor6 mb-12" />
-          ) : null}
-          {latestIteration?.analyzerFeedback ? (
+          ) : latestIteration?.analyzerFeedback ? (
             <AnalyzerFeedback
+              automatedFeedbackInfoLink={links.automatedFeedbackInfo}
               {...latestIteration.analyzerFeedback}
               track={track}
-              automatedFeedbackInfoLink={automatedFeedbackInfoLink}
             />
           ) : null}
         </div>
@@ -53,10 +50,15 @@ export function FoundAutomatedFeedback({
           category="graphics"
         />
       </div>
-      <div className="flex gap-16 mt-16">
+
+      <FooterButtonContainer>
         {!celebratory && <GoBackToExercise onClick={onClose} />}
-        <ContinueButton anyway={!celebratory} onClick={onContinue} />
-      </div>
+        <ContinueButton
+          text={celebratory ? 'Continue' : 'Continue anyway'}
+          onClick={onContinue}
+          className={!celebratory ? 'btn-secondary' : ''}
+        />
+      </FooterButtonContainer>
     </>
   )
 }

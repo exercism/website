@@ -18,7 +18,6 @@
     }
     & .c-textual-content {
         @apply text-15 text-textColor1 leading-paragraph;
-        @apply mb-12;
         max-width: 100%;
     }
     & .byline {

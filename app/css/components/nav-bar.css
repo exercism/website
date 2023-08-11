@@ -168,7 +168,7 @@
                 li {
                     @apply pr-8 w-100;
                     .nav-dropdown-view {
-                        @apply absolute hidden rounded-8;
+                        @apply absolute hidden rounded-8 overflow-auto;
                         background: var(--nav-highlightColor);
                         height: var(--nd-height);
                         top: var(--nd-height);

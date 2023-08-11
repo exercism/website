@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQueryCache } from 'react-query'
 import { usePaginatedRequestQuery } from '@/hooks'
-import { LatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
+import { LatestIterationChannel } from '@/channels/LatestIterationChannel'
 import { IterationStatus } from '@/components/types'
 import type { RealtimeFeedbackModalProps, ResolvedIteration } from '..'
 

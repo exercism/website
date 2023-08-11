@@ -12,6 +12,7 @@ export type PaginatedResult<T> = {
     currentPage: number
     totalCount: number
     totalPages: number
+    unscopedTotal?: number
   }
 }
 
@@ -437,6 +438,7 @@ export type MentorDiscussion = {
     posts: string
     markAsNothingToDo: string
     finish: string
+    tooltipUrl: string
   }
 }
 

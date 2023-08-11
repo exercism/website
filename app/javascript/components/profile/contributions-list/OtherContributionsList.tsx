@@ -1,20 +1,23 @@
 import React from 'react'
-import { Contribution as ContributionProps } from '../../types'
-import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
-import { fromNow } from '../../../utils/date'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { ResultsZone } from '../../ResultsZone'
-import { useList } from '../../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-
-type PaginatedResult = {
-  results: readonly ContributionProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+import { fromNow } from '@/utils'
+import {
+  usePaginatedRequestQuery,
+  type Request,
+  useList,
+  useScrollToTop,
+} from '@/hooks'
+import {
+  TrackIcon,
+  Reputation,
+  GraphicalIcon,
+  Pagination,
+} from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type {
+  Contribution as ContributionProps,
+  PaginatedResult,
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load other contributions')
 
@@ -25,10 +28,12 @@ export const OtherContributionsList = ({
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
   const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-      [request.endpoint, request.query],
-      request
-    )
+    usePaginatedRequestQuery<
+      PaginatedResult<ContributionProps[]>,
+      Error | Response
+    >([request.endpoint, request.query], request)
+
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -39,14 +44,14 @@ export const OtherContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="other">
+            <div className="other" ref={scrollToTopRef}>
               {resolvedData.results.map((contribution) => (
                 <Contribution key={contribution.uuid} {...contribution} />
               ))}
             </div>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />

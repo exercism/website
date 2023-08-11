@@ -65,6 +65,29 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal submission_run_2, submission.test_run
   end
 
+  test "submission_representation" do
+    ast = "foobar"
+
+    # No submission_representation
+    submission = create :submission
+    assert_nil submission.exercise_representation
+
+    # Ops error submission rep
+    sr = create :submission_representation, submission:, ast:, ops_status: 500
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+
+    # Missing exercise_representation
+    sr.update!(ops_status: 200)
+    submission = Submission.find(submission.id)
+    assert_nil submission.exercise_representation
+
+    # exercise_representation present
+    er = create :exercise_representation, exercise: submission.exercise, ast_digest: sr.ast_digest
+    submission = Submission.find(submission.id)
+    assert_equal er, submission.exercise_representation
+  end
+
   test "exercise_representation" do
     ast = "foobar"
 

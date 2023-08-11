@@ -98,7 +98,7 @@ module Flows
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
 
-          assert_text "You haven’t submitted any iterations yet."
+          assert_text "You haven't submitted any iterations yet."
         end
       end
 

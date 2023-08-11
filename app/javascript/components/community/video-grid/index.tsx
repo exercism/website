@@ -10,19 +10,21 @@ import {
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
-import type { Request } from '@/hooks'
+import { useScrollToTop, type Request } from '@/hooks'
 import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
 
-type VideoGridProps = {
-  data: {
-    tracks: VideoTrack[]
-    itemsPerRow: number
-    request: Request
-  }
+export type VideoGridProps = {
+  tracks: VideoTrack[]
+  itemsPerRow: number
+  request: Request
 }
 
-export function VideoGrid({ data }: VideoGridProps): JSX.Element {
+export function VideoGrid({
+  tracks,
+  itemsPerRow,
+  request,
+}: VideoGridProps): JSX.Element {
   const {
     resolvedData,
     page,
@@ -32,7 +34,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     selectedTrack,
     criteria,
     setCriteria,
-  } = useVideoGrid(data.request, data.tracks)
+  } = useVideoGrid(request, tracks)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const timer = useRef<any>()
@@ -49,15 +51,17 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     [criteria, setPage]
   )
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
+
   return (
     <>
       <VideoGridHeader
-        tracks={data.tracks}
+        tracks={tracks}
         handleTrackChange={handleTrackChange}
         selectedTrack={selectedTrack}
       />
 
-      <div className="flex mb-32 c-search-bar">
+      <div className="flex mb-32 c-search-bar" ref={scrollToTopRef}>
         <input
           className="grow --search --right"
           placeholder="Search community content"
@@ -71,7 +75,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
 
       <ResultsZone isFetching={isFetching}>
         <div
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${data.itemsPerRow} gap-16`}
+          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${itemsPerRow} gap-16`}
         >
           {resolvedData && resolvedData.results.length > 0 ? (
             resolvedData.results.map((video) => (

@@ -49,12 +49,6 @@ FactoryBot.define do
       end
     end
 
-    trait :premium do
-      after(:create) do |user, _evaluator|
-        user.data.update(premium_until: Time.current + 1.year)
-      end
-    end
-
     trait :not_mentor do
       after(:create) do |user, _evaluator|
         user.data.update(became_mentor_at: nil)
@@ -102,8 +96,11 @@ FactoryBot.define do
     end
 
     trait :insider do
-      active_donation_subscription { true }
       insiders_status { :active }
+    end
+
+    trait :lifetime_insider do
+      insiders_status { :active_lifetime }
     end
 
     trait :github do

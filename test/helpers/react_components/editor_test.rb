@@ -9,7 +9,7 @@ class ReactComponents::EditorTest < ReactComponentTestCase
     data = {
       default_submissions: [],
       default_files: SerializeEditorFiles.(solution.files_for_editor),
-      premium: false,
+      insiders: false,
       chatgpt_usage: {},
       default_settings: {
         tab_size: track.indent_size,

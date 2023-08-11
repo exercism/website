@@ -17,7 +17,6 @@ class Solution::SyncToSearchIndex
   def create_document!
     Exercism.opensearch_client.index(
       index: Solution::OPENSEARCH_INDEX,
-      type: 'solution',
       id: solution.id,
       body: Solution::CreateSearchIndexDocument.(solution)
     )
@@ -26,8 +25,9 @@ class Solution::SyncToSearchIndex
   def delete_document!
     Exercism.opensearch_client.delete(
       index: Solution::OPENSEARCH_INDEX,
-      type: 'solution',
       id: solution.id
     )
+  rescue OpenSearch::Transport::Transport::Errors::NotFound
+    # The record has already been deleted.
   end
 end

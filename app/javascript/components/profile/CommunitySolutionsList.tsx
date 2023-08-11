@@ -1,30 +1,26 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { CommunitySolution as CommunitySolutionProps } from '../types'
-import { CommunitySolution } from '../common/CommunitySolution'
-import { Pagination } from '../common'
+import {
+  Request,
+  usePaginatedRequestQuery,
+  useList,
+  useHistory,
+  removeEmpty,
+  useScrollToTop,
+} from '@/hooks'
+import { CommunitySolution, Pagination } from '../common'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
-import { TrackDropdown } from './community-solutions-list/TrackDropdown'
-import { OrderSelect } from './community-solutions-list/OrderSelect'
+import { TrackDropdown, OrderSelect } from './community-solutions-list'
+import type {
+  CommunitySolution as CommunitySolutionProps,
+  PaginatedResult,
+} from '../types'
 
 export type TrackData = {
   iconUrl: string
   title: string
   slug: string | null
   numSolutions: number
-}
-
-type PaginatedResult = {
-  results: CommunitySolutionProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-    unscopedTotal: number
-  }
 }
 
 export type Order = 'most_starred' | 'newest_first' | 'oldest_first'
@@ -47,16 +43,14 @@ export const CommunitySolutionsList = ({
     setQuery,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['profile-community-solution-list', request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<
+      PaginatedResult<CommunitySolutionProps[]>,
+      Error | Response
+    >(
+      ['profile-community-solution-list', request.endpoint, request.query],
+      request
+    )
 
   const setTrack = useCallback(
     (slug) => {
@@ -77,12 +71,14 @@ export const CommunitySolutionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <div className="lg-container">
-      <div className="c-search-bar">
+      <div className="c-search-bar" ref={scrollToTopRef}>
         <TrackDropdown
           tracks={tracks}
-          value={request.query.trackSlug || null}
+          value={request.query.trackSlug || ''}
           setValue={setTrack}
         />
         <input
@@ -119,7 +115,7 @@ export const CommunitySolutionsList = ({
               </div>
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

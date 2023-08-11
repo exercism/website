@@ -1,26 +1,24 @@
 import React from 'react'
-import { Contribution as ContributionProps } from '../../types'
+import { fromNow } from '@/utils'
+import {
+  usePaginatedRequestQuery,
+  Request,
+  useList,
+  useScrollToTop,
+} from '@/hooks'
 import {
   missingExerciseIconErrorHandler,
   TrackIcon,
   Reputation,
   GraphicalIcon,
   Pagination,
-} from '../../common'
-import { fromNow } from '../../../utils/date'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { ResultsZone } from '../../ResultsZone'
-import { useList } from '../../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-
-type PaginatedResult = {
-  results: readonly ContributionProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+} from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type {
+  Contribution as ContributionProps,
+  PaginatedResult,
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load building contributions')
 
@@ -31,10 +29,12 @@ export const BuildingContributionsList = ({
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
   const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-      [request.endpoint, request.query],
-      request
-    )
+    usePaginatedRequestQuery<
+      PaginatedResult<ContributionProps[]>,
+      Error | Response
+    >([request.endpoint, request.query], request)
+
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -45,7 +45,7 @@ export const BuildingContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="maintaining">
+            <div className="maintaining" ref={scrollToTopRef}>
               {resolvedData.results.map((contribution) => (
                 <Contribution key={contribution.uuid} {...contribution} />
               ))}

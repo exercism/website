@@ -99,10 +99,6 @@ initReact({
     <Modals.WelcomeModal endpoint={data.endpoint} />
   ),
 
-  'modals-welcome-to-premium-modal': (data: any) => (
-    <Modals.WelcomeToPremiumModal endpoint={data.endpoint} />
-  ),
-
   'modals-welcome-to-insiders-modal': (data: any) => (
     <Modals.WelcomeToInsidersModal endpoint={data.endpoint} />
   ),
@@ -272,7 +268,7 @@ initReact({
   'settings-theme-preference-form': (data: any) => (
     <Settings.ThemePreferenceForm
       defaultThemePreference={data.default_theme_preference}
-      isPremium={data.is_premium}
+      isInsider={data.is_insider}
       insidersStatus={data.insiders_status}
       links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
     />

@@ -5,24 +5,18 @@
 class Payments::Subscription::Create
   include Mandate
 
-  initialize_with :user, :provider, :product, :interval, :external_id, :amount_in_cents, status: :active
+  initialize_with :user, :provider, :interval, :external_id, :amount_in_cents, status: :active
 
   def call
     Payments::Subscription.create!(
       user:,
       provider:,
-      product:,
       interval:,
       external_id:,
       amount_in_cents:,
       status:
     ).tap do
-      case product
-      when :donation
-        User::UpdateActiveDonationSubscription.(user)
-      when :premium
-        User::Premium::Update.(user)
-      end
+      User::InsidersStatus::UpdateForPayment.(user)
     end
   rescue ActiveRecord::RecordNotUnique
     Payments::Subscription.find_by!(external_id:, provider:)

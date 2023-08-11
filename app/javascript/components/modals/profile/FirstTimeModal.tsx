@@ -21,9 +21,9 @@ export const FirstTimeModal = ({ links }: { links: Links }): JSX.Element => {
         <GraphicalIcon icon="confetti" category="graphics" />
         <h2>You now have a public profile!</h2>
         <p>
-          <strong>Good job!</strong> You'll now see your published solutions,
-          mentoring testimonials, contributions and badges on your public
-          profile.
+          <strong>Good job!</strong> You&apos;ll now see your published
+          solutions, mentoring testimonials, contributions and badges on your
+          public profile.
         </p>
       </header>
       <div className="copy-section">

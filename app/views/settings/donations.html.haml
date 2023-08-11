@@ -8,7 +8,7 @@
         .subscription-box
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
-            - if current_user.active_donation_subscription?
+            - if current_user.active_subscription?
               = render ReactComponents::Donations::SubscriptionForm.new
             - else
               %h2 Become a monthly supporter of Exercism
@@ -64,7 +64,6 @@
                     = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
                       = graphical_icon "download"
                       %span View Receipt
-
 
         - else
           .summary-box

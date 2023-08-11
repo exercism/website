@@ -28,8 +28,6 @@ class Webhooks::ProcessPaypalIPN
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentFailed.(params)
     when "recurring_payment_profile_cancel"
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCancel.(params)
-    when "recurring_payment_profile_created"
-      Payments::Paypal::Subscription::IPN::HandleRecurringPaymentProfileCreated.(params)
     when "recurring_payment_skipped"
       Payments::Paypal::Subscription::IPN::HandleRecurringPaymentSkipped.(params)
     when "recurring_payment_suspended"

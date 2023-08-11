@@ -77,7 +77,7 @@ export const TasksContext = createContext<TaskContext>({
 export default ({
   timeout = 60000,
   defaultSubmissions,
-  premium,
+  insider,
   defaultFiles,
   defaultSettings,
   autosave,
@@ -447,7 +447,7 @@ export default ({
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
                   <ChatGPT.Button
-                    premium={premium}
+                    insider={insider}
                     noSubmission={!submission}
                     sameSubmission={
                       submission ? submission.uuid === submissionUuid : false
@@ -456,7 +456,7 @@ export default ({
                     passingTests={testRunStatus === TestRunStatus.PASS}
                     chatGptFetchingStatus={chatGptFetchingStatus}
                     onClick={
-                      premium
+                      insider
                         ? () => setChatGptDialogOpen(true)
                         : () => setTab('chatgpt')
                     }
@@ -527,13 +527,13 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {premium ? (
+                {insider ? (
                   <ChatGPT.Panel
                     helpRecord={helpRecord}
                     status={chatGptFetchingStatus}
                   >
                     <ChatGPT.Button
-                      premium={premium}
+                      insider={insider}
                       noSubmission={!submission}
                       sameSubmission={
                         submission ? submission.uuid === submissionUuid : false
@@ -565,7 +565,7 @@ export default ({
             links={{ ...links, redirectToExerciseLink: redirectLink }}
           />
 
-          {submission && premium && (
+          {submission && insider && (
             <ChatGPT.Dialog
               onClose={() => setChatGptDialogOpen(false)}
               open={chatGptDialogOpen}

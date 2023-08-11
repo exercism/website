@@ -7,16 +7,16 @@ import {
   MedianWaitTime,
 } from '@/components/common'
 import { IterationMarker } from '@/components/mentoring/session/IterationMarker'
-import { CancelRequestButton } from './CancelRequestButton'
 import {
   DiscussionPost,
-  type DiscussionPostProps,
-  type DiscussionPostAction,
+  DiscussionPostProps,
+  DiscussionPostAction,
 } from '@/components/mentoring/discussion/DiscussionPost'
+import { CancelRequestButton } from './CancelRequestButton'
 import type {
-  MentorSessionTrack as Track,
   MentorSessionRequest as Request,
   Iteration,
+  MentorSessionTrack as Track,
 } from '@/components/types'
 import type { Video as VideoProps } from '../../MentoringSession'
 

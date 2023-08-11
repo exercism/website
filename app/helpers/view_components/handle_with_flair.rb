@@ -5,7 +5,7 @@ module ViewComponents
     initialize_with :handle, :flair, size: :base
 
     def to_s
-      tag.span(class: 'flex items-center') do
+      tag.span(class: 'inline-flex items-center') do
         safe_join(
           [
             tag.span(handle),
@@ -22,7 +22,7 @@ module ViewComponents
       icon(
         icon_name,
         icon_alt,
-        style: "all:unset; height: #{size_in_px}; width: #{size_in_px}; margin-left: #{ml_in_px}",
+        style: "all:unset; height: #{size_in_px}; width: #{size_in_px}; margin-left: #{ml_in_px}; margin-bottom: #{mb_in_px}",
         title: icon_title
       )
     end
@@ -50,6 +50,11 @@ module ViewComponents
       "#{(SIZES[size.to_sym] / 4.0).ceil}px"
     end
 
+    memoize
+    def mb_in_px
+      "#{(SIZES[size.to_sym] / 7.0).floor}px"
+    end
+
     SIZES = {
       small: 10,
       base: 13,
@@ -59,15 +64,13 @@ module ViewComponents
     }.freeze
 
     ICONS = {
-      premium: 'premium',
       insider: 'insiders',
       lifetime_insider: 'lifetime-insiders',
-      founder: 'exercism-face-gradient',
-      staff: 'exercism-face-gradient'
+      founder: 'staff-flair',
+      staff: 'staff-flair'
     }.freeze
 
     TITLES = {
-      premium: 'Premium User',
       insider: 'An Exercism Insider',
       lifetime_insider: 'A lifetime Insider',
       founder: 'Founder',

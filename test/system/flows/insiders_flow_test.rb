@@ -15,7 +15,7 @@ module Flows
 
         visit insiders_url
 
-        assert_text "Earn Exercism reputation or donate $499+ to gain access."
+        assert_text "Set up a recurring monthly donation of $10 or more to access Insiders"
       end
     end
 

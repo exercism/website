@@ -77,11 +77,6 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
   test "eligible for active_prelaunch_subscription" do
     # Get away from any special logic that happens just after launch with old donations
     travel_to(Date.new(2024, 1, 1)) do
-      # Newer than launch
-      user = create :user
-      create(:payments_subscription, status: :active, created_at: Date.new(2023, 6, 1), user:)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
-
       # Prelaunch but canceled
       user = create :user
       create(:payments_subscription, status: :canceled, created_at: Date.new(2022, 6, 1), user:)
@@ -97,6 +92,28 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
       create(:payments_subscription, status: :overdue, created_at: Date.new(2022, 6, 1), user:)
       assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
     end
+  end
+
+  test "eligible for active_subscription" do
+    # Canceled
+    user = create :user
+    create(:payments_subscription, status: :canceled, user:)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+    # Active but too small
+    user = create :user
+    create(:payments_subscription, status: :active, user:, amount_in_cents: Insiders::MINIMUM_AMOUNT_IN_CENTS - 1)
+    assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+    # Overdue
+    user = create :user
+    create(:payments_subscription, status: :overdue, user:)
+    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
+
+    # Active
+    user = create :user
+    create(:payments_subscription, status: :active, user:, amount_in_cents: Insiders::MINIMUM_AMOUNT_IN_CENTS)
+    assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user.reload)
   end
 
   test "eligible for monthly rep" do
@@ -187,34 +204,31 @@ class User::InsidersStatus::DetermineEligibilityStatusTest < ActiveSupport::Test
     user_tiny_donation = create :user
     create :payments_payment, amount_in_cents: 1, created_at: Date.new(2023, 6, 1), user: user_tiny_donation
 
-    user_15 = create :user
-    create :payments_payment, amount_in_cents: 15_00, created_at: Date.new(2023, 6, 1), user: user_15
+    user_10 = create :user
+    create :payments_payment, amount_in_cents: 10_00, created_at: Date.new(2023, 6, 1), user: user_10
 
-    user_25 = create :user
-    create :payments_payment, amount_in_cents: 25_00, created_at: Date.new(2023, 6, 1), user: user_25
+    user_100 = create :user
+    create :payments_payment, amount_in_cents: 100_00, created_at: Date.new(2023, 6, 1), user: user_100
 
-    user_50 = create :user
-    create :payments_payment, amount_in_cents: 50_00, created_at: Date.new(2023, 6, 1), user: user_50
-
+    # Next day
     travel_to(Date.new(2023, 6, 2)) do
       assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
-      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
-      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_50.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_10.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_100.reload)
     end
 
-    travel_to(Date.new(2023, 7, 2)) do
+    # Longer than a month + grace period
+    travel_to(Date.new(2023, 7, 30)) do
       assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
-      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_50.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_10.reload)
+      assert_equal :eligible, User::InsidersStatus::DetermineEligibilityStatus.(user_100.reload)
     end
 
-    travel_to(Date.new(2023, 8, 2)) do
+    # Longer than a year + grace period
+    travel_to(Date.new(2024, 6, 30)) do
       assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_tiny_donation.reload)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_15.reload)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_25.reload)
-      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_50.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_10.reload)
+      assert_equal :ineligible, User::InsidersStatus::DetermineEligibilityStatus.(user_100.reload)
     end
   end
 end

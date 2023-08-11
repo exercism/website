@@ -24,18 +24,17 @@
             }
             & h2 {
                 @apply text-h2 mx-auto text-center mb-20;
+                @apply relative;
+                &.published-solutions::after {
+                    content: attr(data-total-count);
+                    @apply absolute px-12 sm:flex hidden items-center;
+                    @apply font-medium text-14 text-textColor6 leading-regular;
+                    @apply border-1 border-borderColor4 rounded-100;
+                    @apply h-[30px] top-[6px] left-[100%] ml-8;
+                }
                 & span {
                     display: block;
                 }
-            }
-            & .total-count {
-                @apply absolute px-12 sm:flex hidden items-center;
-                @apply font-medium text-14 text-textColor6 leading-regular;
-                @apply border-1 border-borderColor4 rounded-100;
-
-                right: -50px;
-                top: 84px;
-                height: 30px;
             }
         }
 

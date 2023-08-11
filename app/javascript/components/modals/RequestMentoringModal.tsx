@@ -1,28 +1,23 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
+import { fromNow } from '@/utils'
+import {
+  type Request,
+  usePaginatedRequestQuery,
+  useList,
+  useScrollToTop,
+} from '@/hooks'
 import {
   GraphicalIcon,
   TrackIcon,
   ExerciseIcon,
   Icon,
   Pagination,
-} from '../common'
-import { Modal, ModalProps } from './Modal'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { SolutionForStudent } from '../types'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { Links } from '../student/RequestMentoringButton'
-
-type PaginatedResult = {
-  results: SolutionForStudent[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+} from '@/components/common'
+import { Modal, type ModalProps } from './Modal'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { Links } from '@/components/student/RequestMentoringButton'
+import type { PaginatedResult, SolutionForStudent } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -35,16 +30,13 @@ export const RequestMentoringModal = ({
   links: Links
 }): JSX.Element => {
   const { request, setPage, setCriteria } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['exercises-for-mentoring', request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<
+      PaginatedResult<SolutionForStudent[]>,
+      Error | Response
+    >(['exercises-for-mentoring', request.query], request)
+
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <Modal
@@ -53,7 +45,7 @@ export const RequestMentoringModal = ({
       {...props}
     >
       <h2>Select an exercise to request mentoring on</h2>
-      <div className="c-search-bar">
+      <div className="c-search-bar" ref={scrollToTopRef}>
         <input
           value={request.query.criteria || ''}
           onChange={(e) => {
@@ -108,7 +100,7 @@ export const RequestMentoringModal = ({
             </ResultsZone>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />

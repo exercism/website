@@ -1,13 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { ContributionResults } from './ContributionResults'
-import { Request } from '../../hooks/request-query'
-import { Contribution } from '../types'
-import { useList } from '../../hooks/use-list'
-import { removeEmpty, useHistory } from '../../hooks/use-history'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { Pagination } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
+import {
+  type Request,
+  usePaginatedRequestQuery,
+  useList,
+  removeEmpty,
+  useHistory,
+  useDeepMemo,
+  useScrollToTop,
+} from '@/hooks'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import type { Contribution } from '@/components/types'
 import { CategorySelect } from './contributions-list/CategorySelect'
 
 const DEFAULT_ERROR = new Error('Unable to load contributions list')
@@ -44,23 +49,19 @@ export const ContributionsList = ({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<APIResult>(cacheKey, {
-    ...request,
-    query: removeEmpty(request.query),
-    options: { ...request.options, enabled: isEnabled },
-  })
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<APIResult>(cacheKey, {
+      ...request,
+      query: removeEmpty(request.query),
+      options: { ...request.options, enabled: isEnabled },
+    })
 
+  const requestQuery = useDeepMemo(request.query)
   const setCategory = useCallback(
     (category) => {
-      setQuery({ ...request.query, category: category, page: undefined })
+      setQuery({ ...requestQuery, category: category, page: undefined })
     },
-    [JSON.stringify(request.query), setQuery]
+    [requestQuery, setQuery]
   )
 
   useEffect(() => {
@@ -75,10 +76,12 @@ export const ContributionsList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(requestQuery.page)
+
   return (
     <article className="reputation-tab theme-dark">
       <div className="md-container container">
-        <div className="c-search-bar">
+        <div className="c-search-bar" ref={scrollToTopRef}>
           <input
             className="--search"
             onChange={(e) => {
@@ -103,7 +106,7 @@ export const ContributionsList = ({
                 <ContributionResults data={resolvedData} cacheKey={cacheKey} />
                 <Pagination
                   disabled={latestData === undefined}
-                  current={request.query.page}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={setPage}
                 />

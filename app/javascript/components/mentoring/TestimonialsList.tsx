@@ -1,29 +1,28 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import {
-  Request as BaseRequest,
   usePaginatedRequestQuery,
   useHistory,
   removeEmpty,
   useList,
+  type Request as BaseRequest,
+  useScrollToTop,
 } from '@/hooks'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { SharePlatform, Testimonial } from '../types'
-import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
-import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
-import { GraphicalIcon, Pagination } from '../common'
-import { TrackDropdown } from './testimonials-list/TrackDropdown'
-import { OrderSelect } from './testimonials-list/OrderSelect'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { GraphicalIcon, Pagination } from '@/components/common'
+import {
+  RevealedTestimonial,
+  OrderSelect,
+  TrackDropdown,
+  UnrevealedTestimonial,
+} from './testimonials-list'
+import type {
+  PaginatedResult as DefaultPaginatedResult,
+  SharePlatform,
+  Testimonial,
+} from '@/components/types'
 
-export type PaginatedResult = {
-  results: readonly Testimonial[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
-
+export type PaginatedResult = DefaultPaginatedResult<Testimonial[]>
 export type Track = {
   slug: string
   title: string
@@ -90,10 +89,12 @@ export const TestimonialsList = ({
     }
   }, [setRequestCriteria, criteria])
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <div className="lg-container">
       <article className="content">
-        <div className="c-search-bar">
+        <div className="c-search-bar" ref={scrollToTopRef}>
           <TrackDropdown
             tracks={tracks}
             value={request.query.trackSlug || ''}

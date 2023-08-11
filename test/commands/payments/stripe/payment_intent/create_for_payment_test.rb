@@ -11,7 +11,9 @@ class Payments::Stripe::PaymentIntent::CreateForPaymentTest < Payments::TestBase
       customer: customer_id,
       amount: amount_in_cents,
       currency: 'usd',
-      setup_future_usage: 'off_session'
+      automatic_payment_methods: {
+        enabled: true
+      }
     ).returns(payment_intent)
 
     actual = Payments::Stripe::PaymentIntent::CreateForPayment.(customer_id, amount_in_cents)

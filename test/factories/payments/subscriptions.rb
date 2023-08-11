@@ -28,13 +28,5 @@ FactoryBot.define do
     trait :paypal do
       provider { :paypal }
     end
-
-    trait :donation do
-      product { :donation }
-    end
-
-    trait :premium do
-      product { :premium }
-    end
   end
 end

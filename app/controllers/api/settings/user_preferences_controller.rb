@@ -19,7 +19,7 @@ class API::Settings::UserPreferencesController < API::BaseController
       require(:user_preferences).
       permit(*User::Preferences.keys).tap do |ps|
       # TODO: Add a test for this
-      ps[:theme] = "light" if ps[:theme] == "dark" && !current_user.premium?
+      ps[:theme] = "light" if ps[:theme] == "dark" && !current_user.insider?
     end
   end
 

@@ -2,9 +2,8 @@ import React from 'react'
 import { RevealedBadge } from './RevealedBadge'
 import { UnrevealedBadge } from './UnrevealedBadge'
 import pluralize from 'pluralize'
-import { Badge as BadgeProps } from '../types'
+import { Badge as BadgeProps, PaginatedResult } from '../types'
 import { QueryKey } from 'react-query'
-import { PaginatedResult } from '../common/SearchableList'
 
 export type Order = 'unrevealed_first' | 'newest_first' | 'oldest_first'
 
@@ -12,7 +11,7 @@ export const BadgeResults = ({
   data,
   cacheKey,
 }: {
-  data: PaginatedResult<BadgeProps>
+  data: PaginatedResult<BadgeProps[]>
   cacheKey: QueryKey
 }): JSX.Element => {
   return (

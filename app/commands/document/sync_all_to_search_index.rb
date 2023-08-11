@@ -13,7 +13,6 @@ class Document::SyncAllToSearchIndex
           index: {
             _index: Document::OPENSEARCH_INDEX,
             _id: doc.id,
-            _type: 'document',
             data: Document::CreateSearchIndexDocument.(doc)
           }
         }

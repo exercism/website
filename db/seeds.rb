@@ -476,11 +476,11 @@ packt.perks.create!(
     Simply click the button below to checkout with the discount already applied.
   TEXT
 
-  premium_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
-  premium_offer_summary_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
-  premium_button_text: "Claim 50% discount",
+  insiders_url: "https://www.packtpub.com/checkout/subscription/packt-exercism-7h3kf",
+  insiders_offer_summary_markdown: "Get **50% off a Packt annual membership** with your Exercism account.",
+  insiders_button_text: "Claim 50% discount",
 
-  premium_offer_details: <<~TEXT
+  insiders_offer_details: <<~TEXT
     Packt are offering 50% off their annual subscription for all Exercism Premium users and Exercism Insiders.
     Simply click the button below to checkout with the discount already applied.
   TEXT
@@ -506,11 +506,11 @@ codecapsules.perks.create!(
   general_button_text: "Claim $5 credit",
   general_voucher_code: "PENDING",
 
-  premium_url: "https://codecapsules.io/auth/registration",
-  premium_offer_summary_markdown: "Get a $10 credit (worth 2 months of free hosting) with your Premium account.",
-  premium_offer_details: "Deploy a frontend or backend app free for two months with a $10 credit. Simply use the voucher code below at checkout.",
-  premium_button_text: "Claim $10 credit",
-  premium_voucher_code: "PENDING"
+  insiders_url: "https://codecapsules.io/auth/registration",
+  insiders_offer_summary_markdown: "Get a $10 credit (worth 2 months of free hosting) with your Premium account.",
+  insiders_offer_details: "Deploy a frontend or backend app free for two months with a $10 credit. Simply use the voucher code below at checkout.",
+  insiders_button_text: "Claim $10 credit",
+  insiders_voucher_code: "PENDING"
 )
 
 stoplight.perks.create!(

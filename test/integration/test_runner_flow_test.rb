@@ -90,6 +90,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
     submission.reload
     solution.reload
 
+    # Stub a representation so we don't get jobs for it later.
+    create(:submission_representation, submission:)
+
     # Store real values
     git_sha = exercise.git_sha
     git_important_files_hash = exercise.git_important_files_hash
@@ -180,6 +183,7 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
     # Let's get to a starting state
     submission = Submission::Create.(solution, files, :cli)
+
     Iteration::Create.(solution, submission)
     job = create_test_run_job(submission)
     Submission::TestRun::Process.(job)
@@ -187,6 +191,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
     perform_enqueued_jobs
     submission.reload
     solution.reload
+
+    # Stub a representation so we don't get jobs for it later.
+    create(:submission_representation, submission:)
 
     # Store real values
     git_sha = exercise.git_sha
@@ -216,6 +223,13 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
       git_sha:,
       run_in_background: true
     )
+    # ToolingJob::Create.expects(:call).with(
+    #   submission,
+    #   :representer,
+    #   git_sha:,
+    #   run_in_background: true,
+    #   context: {}
+    # )
 
     exercise.update(git_sha:, git_important_files_hash:)
     perform_enqueued_jobs

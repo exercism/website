@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -167,7 +167,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.integer "provider", limit: 1, default: 0, null: false
     t.string "external_id", null: false
     t.string "external_receipt_url"
-    t.integer "product", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0
     t.index ["external_id", "provider"], name: "index_donations_payments_on_external_id_and_provider", unique: true
     t.index ["subscription_id"], name: "index_donations_payments_on_subscription_id"
     t.index ["user_id"], name: "index_donations_payments_on_user_id"
@@ -182,7 +182,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.integer "status", limit: 1, default: 0, null: false
     t.integer "provider", limit: 1, default: 0, null: false
     t.string "external_id", null: false
-    t.integer "product", limit: 1, default: 0, null: false
+    t.integer "product", limit: 1, default: 0
     t.integer "interval", limit: 1, default: 0, null: false
     t.index ["external_id", "provider"], name: "index_donations_subscriptions_on_external_id_and_provider", unique: true
     t.index ["user_id"], name: "index_donations_subscriptions_on_user_id"
@@ -386,6 +386,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.boolean "has_test_runner", default: false, null: false
     t.integer "num_published_solutions", default: 0, null: false
     t.boolean "has_approaches", default: false, null: false
+    t.integer "representer_version", limit: 2, default: 1, null: false
     t.index ["track_id", "uuid"], name: "index_exercises_on_track_id_and_uuid", unique: true
     t.index ["track_id"], name: "fk_rails_a796d89c21"
   end
@@ -698,12 +699,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.string "general_button_text", null: false
     t.string "general_offer_details", null: false
     t.string "general_voucher_code"
-    t.string "premium_url"
-    t.string "premium_offer_summary_markdown"
-    t.string "premium_offer_summary_html"
-    t.string "premium_button_text"
-    t.string "premium_offer_details"
-    t.string "premium_voucher_code"
+    t.string "insiders_url"
+    t.string "insiders_offer_summary_markdown"
+    t.string "insiders_offer_summary_html"
+    t.string "insiders_button_text"
+    t.string "insiders_offer_details"
+    t.string "insiders_voucher_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["partner_id"], name: "index_partner_perks_on_partner_id"
@@ -953,6 +954,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.bigint "mentor_id"
     t.bigint "track_id"
     t.string "exercise_id_and_ast_digest_idx_cache"
+    t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.index ["ast_digest"], name: "index_submission_representations_on_ast_digest"
     t.index ["exercise_id_and_ast_digest_idx_cache"], name: "index_ex_rep"
     t.index ["mentor_id"], name: "index_submission_representations_on_mentor_id"
@@ -1001,6 +1003,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.string "git_important_files_hash", limit: 50
     t.integer "track_id", limit: 2
     t.integer "exercise_id", limit: 3
+    t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
     t.index ["git_sha", "solution_id", "git_important_files_hash"], name: "submissions-git-optimiser-1"
@@ -1094,6 +1097,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.datetime "updated_at", null: false
     t.index ["track_id"], name: "index_track_concepts_on_track_id"
     t.index ["uuid"], name: "index_track_concepts_on_uuid", unique: true
+  end
+
+  create_table "track_trophies", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "type", null: false
+    t.json "valid_track_slugs"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_track_trophies_on_type", unique: true
   end
 
   create_table "tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1206,7 +1217,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
-    t.boolean "email_about_premium", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
@@ -1303,8 +1313,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.boolean "auto_update_exercises", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "allow_comments_on_published_solutions", default: false, null: false
     t.string "theme"
+    t.boolean "allow_comments_on_published_solutions", default: false, null: false
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 
@@ -1374,6 +1384,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_113620) do
     t.index ["user_id", "type"], name: "index_user_reputation_tokens_query_1"
     t.index ["user_id", "value"], name: "index_user_reputation_tokens_on_user_id_and_value"
     t.index ["uuid"], name: "index_user_reputation_tokens_on_uuid", unique: true
+  end
+
+  create_table "user_track_acquired_trophies", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
+    t.bigint "trophy_id", null: false
+    t.boolean "revealed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trophy_id"], name: "index_user_track_acquired_trophies_on_trophy_id"
+    t.index ["user_id", "trophy_id", "track_id"], name: "index_user_track_acquired_trophies_uniq_guard", unique: true
+    t.index ["user_id"], name: "index_user_track_acquired_trophies_on_user_id"
+    t.index ["uuid"], name: "index_user_track_acquired_trophies_on_uuid", unique: true
   end
 
   create_table "user_track_mentorships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

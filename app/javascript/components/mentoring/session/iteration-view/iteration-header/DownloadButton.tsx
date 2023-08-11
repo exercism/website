@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { LazyTippy } from '../../../../misc/LazyTippy'
-import { CopyToClipboardButton, Icon } from '../../../../common'
+import { LazyTippy } from '@/components/misc/LazyTippy'
+import { CopyToClipboardButton, Icon } from '@/components/common'
 
 export const DownloadButton = ({
   command,

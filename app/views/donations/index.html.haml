@@ -25,7 +25,7 @@
           .metric Supporters
 
         .item
-          - parts = Payments::Subscription.donation.active_total_per_month_in_dollars.to_s.split(".")
+          - parts = Payments::Subscription.active_total_per_month_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
             .dollars.text-32.leading-130= number_with_delimiter(parts[0])
@@ -33,7 +33,7 @@
           .metric Total Monthly Pledges
 
         .item
-          - parts = Payments::Payment.donation.total_donated_in_dollars.to_s.split(".")
+          - parts = Payments::Payment.total_donated_in_dollars.to_s.split(".")
           .value.c-financial-amount.py-10
             .currency.text-16.leading-100.mr-4 $
             .dollars.text-32.leading-130= number_with_delimiter(parts[0])

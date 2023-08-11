@@ -75,4 +75,42 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
     expected = [[julia.slug, julia_exercise_etl.slug]]
     assert_equal expected, progress
   end
+
+  test "don't double count linked-list and simple-linked-list exercises" do
+    user = create :user
+    nim = create :track, slug: 'nim'
+    kotlin = create :track, slug: 'kotlin'
+
+    linked_list_exercise = create :practice_exercise, slug: 'linked-list', track: nim
+    linked_list_exercise_kotlin = create :practice_exercise, slug: 'linked-list', track: kotlin
+    simple_linked_list_exercise = create :practice_exercise, slug: 'simple-linked-list', track: nim
+
+    linked_list_solution = create :practice_solution, :published, user:, exercise: linked_list_exercise,
+      published_at: Time.utc(2023, 3, 17)
+
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    assert_equal [[nim.slug, linked_list_exercise.slug]], progress
+
+    simple_linked_list_solution = create :practice_solution, :published, user:, exercise: simple_linked_list_exercise,
+      published_at: Time.utc(2023, 3, 24)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    assert_equal [[nim.slug, linked_list_exercise.slug]], progress
+
+    linked_list_solution.update(published_at: nil)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
+
+    simple_linked_list_solution.update(published_at: nil)
+    assert_empty User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+
+    Solution.destroy_all
+
+    # Ignore non Mechanical March linked-list solution
+    create :practice_solution, :published, user:, exercise: simple_linked_list_exercise,
+      published_at: Time.utc(2023, 3, 24)
+    create :practice_solution, :published, user:, exercise: linked_list_exercise_kotlin,
+      published_at: Time.utc(2023, 3, 24)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
+  end
 end

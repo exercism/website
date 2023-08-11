@@ -22,11 +22,11 @@ module Git
       help: 'HELP.md'
     }.freeze
 
-    def self.for_solution(solution)
+    def self.for_solution(solution, git_sha: nil)
       new(
         solution.git_slug,
         solution.git_type,
-        solution.git_sha,
+        git_sha || solution.git_sha,
         repo_url: solution.track.repo_url
       )
     end

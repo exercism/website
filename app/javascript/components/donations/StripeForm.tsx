@@ -1,47 +1,12 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import currency from 'currency.js'
-import {
-  StripeCardElement,
-  StripeCardElementChangeEvent,
-} from '@stripe/stripe-js'
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { PaymentElement } from '@stripe/react-stripe-js'
 import { Icon } from '@/components/common'
-import { fetchJSON } from '@/utils/fetch-json'
+import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
+import { generateStripeButtonText } from './stripe-form/utils'
 
-const cardOptions = {
-  style: {
-    base: {
-      backgroundColor: 'transparent',
-      color: 'grey',
-      fontFamily: 'Poppins, sans-serif',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
-      lineHeight: '32px',
-      fontWeight: '500',
-      '::placeholder': {
-        color: '#76709F',
-      },
-    },
-    invalid: {
-      color: '#D03B3B',
-      iconColor: '#D03B3B',
-    },
-  },
-}
-
-type PaymentIntent = {
-  id: string
-  clientSecret: string
-}
-export type PaymentIntentType =
-  | 'payment'
-  | 'subscription'
-  | 'premium_yearly_subscription'
-  | 'premium_monthly_subscription'
-  | 'premium_lifetime_subscription'
-
-type StripeFormProps = {
+export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   onProcessing?: () => void
@@ -50,6 +15,8 @@ type StripeFormProps = {
   captchaRequired: boolean
   recaptchaSiteKey: string
   amount: currency
+  submitButtonDisabled?: boolean
+  confirmParamsReturnUrl: string
 }
 
 export function StripeForm({
@@ -60,148 +27,43 @@ export function StripeForm({
   userSignedIn,
   recaptchaSiteKey,
   captchaRequired,
+  submitButtonDisabled = false,
+  confirmParamsReturnUrl,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
-  const [succeeded, setSucceeded] = useState(false)
-  const [error, setError] = useState<string | undefined>()
-  const [processing, setProcessing] = useState(false)
-  const [cardValid, setCardValid] = useState(false)
-  const [notARobot, setNotARobot] = useState(!captchaRequired)
-  // this can be passed to the backend
-  const [captchaToken, setCaptchaToken] = useState('')
-  const [email, setEmail] = useState('')
+  const {
+    cardValid,
+    error,
+    email,
+    processing,
+    notARobot,
+    succeeded,
+    handleCaptchaFailure,
+    handleCaptchaSuccess,
+    handleEmailChange,
+    handlePaymentElementChange,
+    handlePaymentSubmit,
+  } = useStripeForm({
+    captchaRequired,
+    amount,
+    confirmParamsReturnUrl,
+    onSuccess,
+    paymentIntentType,
+    onProcessing,
+    onSettled,
+  })
 
-  const createPaymentIntentEndpoint = '/api/v2/payments/payment_intents'
-  const paymentIntentFailedEndpoint =
-    '/api/v2/payments/payment_intents/$ID/failed'
-  const paymentIntentSucceededEndpoint =
-    '/api/v2/payments/payment_intents/$ID/succeeded'
-
-  const stripe = useStripe()
-  const elements = useElements()
-
-  // Focus on the card number once the element loads
-  const handleCardReady = async (element: StripeCardElement) => {
-    element.focus()
-  }
-
-  const handleCardChange = async (event: StripeCardElementChangeEvent) => {
-    // When we've got a completed card with no errors, set the card to be valid
-    setCardValid(event.complete && !event.error)
-
-    // If there are errors, display them.
-    setError(event.error ? event.error.message : undefined)
-  }
-
-  const cancelPaymentIntent = useCallback((paymentIntent: PaymentIntent) => {
-    const endpoint = paymentIntentFailedEndpoint.replace(
-      '$ID',
-      paymentIntent.id
-    )
-    return fetchJSON(endpoint, {
-      method: 'PATCH',
-    })
-  }, [])
-
-  const notifyServerOfSuccess = useCallback(
-    async (paymentIntent: PaymentIntent) => {
-      const endpoint = paymentIntentSucceededEndpoint.replace(
-        '$ID',
-        paymentIntent.id
-      )
-      return fetchJSON(endpoint, {
-        method: 'PATCH',
-      })
+  const paymentElementOptions = {
+    layout: {
+      type: 'accordion',
+      defaultCollapsed: false,
+      radios: true,
+      spacedAccordionItems: false,
     },
-    []
-  )
-
-  const getPaymentRequest = useCallback(() => {
-    return fetchJSON(createPaymentIntentEndpoint, {
-      method: 'POST',
-      body: JSON.stringify({
-        type: paymentIntentType,
-        amount_in_cents: amount.intValue,
-        email: email,
-      }),
-    }).then((data: any) => {
-      if (data.error) {
-        setError(`Payment failed with error: ${data.error}`)
-        return null
-      }
-      return data.paymentIntent
-    })
-  }, [paymentIntentType, amount.intValue, email])
-
-  const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return
-    }
-
-    // Set as processing to disable the button
-    setProcessing(true)
-    setError(undefined)
-
-    getPaymentRequest().then(async (paymentIntent: PaymentIntent) => {
-      // If we've failed to get a payment intent get out of here
-      if (paymentIntent === undefined || paymentIntent === null) {
-        setProcessing(false)
-        return
-      }
-
-      // Get a reference to a mounted CardElement. Elements knows how
-      // to find the CardElement because there can only ever be one of
-      // each type of element. We could maybe use a ref here instead?
-      const cardElement = elements.getElement(CardElement)!
-      const payload = await stripe.confirmCardPayment(
-        paymentIntent.clientSecret,
-        {
-          payment_method: {
-            card: cardElement,
-          },
-        }
-      )
-
-      if (payload.error) {
-        setError(
-          `Your payment failed. The message we got back from your bank was "${payload.error.message}"`
-        )
-        setProcessing(false)
-        cancelPaymentIntent(paymentIntent)
-      } else {
-        setError(undefined)
-        setProcessing(false)
-        setSucceeded(true)
-        await notifyServerOfSuccess(paymentIntent)
-        onSuccess(paymentIntentType, amount)
-      }
-    })
   }
-
-  useEffect(() => {
-    processing ? onProcessing() : onSettled()
-  }, [onProcessing, onSettled, processing])
-
-  const handleEmailChange = useCallback((e) => {
-    setEmail(e.target.value)
-  }, [])
-
-  const handleCaptchaSuccess = useCallback((token) => {
-    setNotARobot(true)
-    setCaptchaToken(token)
-  }, [])
-
-  const handleCaptchaFailure = useCallback(() => {
-    setNotARobot(false)
-    setCaptchaToken('')
-  }, [])
 
   return (
-    <form data-turbo="false" onSubmit={handleSubmit}>
+    <form data-turbo="false" onSubmit={handlePaymentSubmit}>
       {!userSignedIn ? (
         <div className="email-container">
           <label htmlFor="email">Your email address (for receipts):</label>
@@ -237,77 +99,36 @@ export function StripeForm({
           </div>
         </div>
       ) : null}
-      <div className="card-container">
-        <div className="title">
-          {paymentIntentType.startsWith('premium')
-            ? `You are subscribing for ${amount.format()} / ${generateIntervalText(
-                paymentIntentType
-              )}`
-            : 'Donate with Card'}
-        </div>
-        <div className="card-element">
-          <CardElement
-            options={cardOptions}
-            onChange={handleCardChange}
-            onReady={handleCardReady}
-          />
-          <button
-            className="btn-primary btn-s"
-            type="submit"
-            disabled={
-              !notARobot ||
-              processing ||
-              !cardValid ||
-              succeeded ||
-              (!userSignedIn && email.length === 0)
-            }
-          >
-            {processing ? (
-              <Icon icon="spinner" alt="Progressing" className="animate-spin" />
-            ) : null}
-            <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
-          </button>
-        </div>
-      </div>
+
+      <PaymentElement
+        options={paymentElementOptions}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        onChange={handlePaymentElementChange}
+      />
+      <button
+        className="btn-primary btn-m mt-16"
+        type="submit"
+        disabled={
+          !notARobot ||
+          processing ||
+          !cardValid ||
+          succeeded ||
+          (!userSignedIn && email.length === 0) ||
+          submitButtonDisabled
+        }
+      >
+        {processing ? (
+          <Icon icon="spinner" alt="Progressing" className="animate-spin" />
+        ) : null}
+        <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
+      </button>
+
       {error && (
-        <div className="card-error" role="alert">
+        <div className="c-donation-card-error" role="alert">
           {error}
         </div>
       )}
-      {paymentIntentType == 'subscription' ? (
-        <div className="extra-info">
-          Thank you for your ongoing support! We will debit {amount.format()} on
-          around this day each month. You can change or cancel your donation at
-          any time.
-        </div>
-      ) : null}
     </form>
   )
-}
-
-function generateStripeButtonText(
-  paymentIntent: PaymentIntentType,
-  amount: currency
-) {
-  switch (paymentIntent) {
-    case 'payment':
-      return `Donate ${amount.format()} to Exercism`
-    case 'subscription':
-      return `Donate ${amount.format()} to Exercism monthly`
-    case 'premium_monthly_subscription':
-      return 'Subscribe to Premium'
-    case 'premium_yearly_subscription':
-      return 'Subscribe to Premium'
-  }
-}
-
-function generateIntervalText(paymentIntent: PaymentIntentType) {
-  switch (paymentIntent) {
-    case 'premium_monthly_subscription':
-      return `month`
-    case 'premium_yearly_subscription':
-      return `year`
-    default:
-      return ''
-  }
 }

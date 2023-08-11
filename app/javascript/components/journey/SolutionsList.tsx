@@ -1,26 +1,27 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import pluralize from 'pluralize'
+import { SolutionProps, Solution } from './Solution'
 import {
   useList,
   removeEmpty,
   useHistory,
   usePaginatedRequestQuery,
   type Request,
+  useScrollToTop,
 } from '@/hooks'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination, GraphicalIcon } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import {
-  OrderSwitcher,
+  MentoringStatus,
+  SyncStatus,
+  TestsStatus,
+  HeadTestsStatus,
   SolutionFilter,
-  type ExerciseStatus,
-  type MentoringStatus,
-  type SyncStatus,
-  type TestsStatus,
-  type HeadTestsStatus,
+  OrderSwitcher,
+  ExerciseStatus,
 } from './solutions-list'
-import { type SolutionProps, Solution } from './Solution'
-import { ResultsZone } from '../ResultsZone'
-import { Pagination, GraphicalIcon } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { type PaginatedResult } from '../types'
+import type { PaginatedResult } from '@/components/types'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -99,9 +100,11 @@ export const SolutionsList = ({
     })
   }, [request.query, setQuery])
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <article className="solutions-tab theme-dark">
-      <div className="c-search-bar">
+      <div className="c-search-bar" ref={scrollToTopRef}>
         <div className="md-container container">
           <input
             className="--search"

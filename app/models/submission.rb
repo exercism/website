@@ -32,7 +32,9 @@ class Submission < ApplicationRecord
     },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
-  has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
+  has_one :submission_representation, # rubocop:disable Rails/InverseOf
+    ->(s) { where(exercise_representer_version: s.exercise_representer_version) },
+    class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
   has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
@@ -43,15 +45,15 @@ class Submission < ApplicationRecord
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
+  before_validation on: :create do
+    self.track = solution.track unless track
+    self.exercise = solution.exercise unless exercise
+  end
+
   before_create do
     self.git_slug = solution.git_slug
     self.git_sha = solution.git_sha if git_sha.blank?
     self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
-  end
-
-  before_validation on: :create do
-    self.track = solution.track unless track
-    self.exercise = solution.exercise unless exercise
   end
 
   after_save_commit do

@@ -9,8 +9,13 @@ export function useScrollToTop<T extends HTMLElement>(
   stateUpdate: unknown
 ): React.RefObject<T> | undefined {
   const scrollToTopRef = useRef<T>(null)
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
     if (
       scrollToTopRef.current &&
       typeof scrollToTopRef.current.scrollIntoView === 'function'

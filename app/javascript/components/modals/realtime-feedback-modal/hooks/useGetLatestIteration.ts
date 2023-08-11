@@ -17,12 +17,15 @@ export function useGetLatestIteration({
   request,
   submission,
   solution,
-}: Pick<RealtimeFeedbackModalProps, 'request' | 'submission' | 'solution'>): {
+  feedbackModalOpen,
+}: Pick<RealtimeFeedbackModalProps, 'request' | 'submission' | 'solution'> & {
+  feedbackModalOpen: boolean
+}): {
   latestIteration: ResolvedIteration | undefined
   checkStatus: string
 } {
   const [latestIteration, setLatestIteration] = useState<ResolvedIteration>()
-  const [checkStatus, setCheckStatus] = useState('loading')
+  const [checkStatus, setCheckStatus] = useState('idle')
 
   const queryCache = useQueryCache()
   const CACHE_KEY = `editor-${solution.uuid}-feedback`
@@ -68,10 +71,10 @@ export function useGetLatestIteration({
   }, [CACHE_KEY, queryCache, solution])
 
   useEffect(() => {
-    if (checkStatus === 'loading') {
+    if (checkStatus === 'loading' && feedbackModalOpen) {
       setQueryEnabled(true)
     } else setQueryEnabled(false)
-  }, [checkStatus, latestIteration])
+  }, [checkStatus, feedbackModalOpen, latestIteration])
 
   return { latestIteration, checkStatus }
 }

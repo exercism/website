@@ -42,6 +42,7 @@ export const RealtimeFeedbackModal = ({
     request,
     submission,
     solution,
+    feedbackModalOpen: open,
   })
 
   const redirectToExercise = useCallback(() => {

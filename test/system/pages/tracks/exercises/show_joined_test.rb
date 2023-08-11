@@ -143,6 +143,44 @@ module Pages
             assert_text "Extra instructions for bob"
           end
         end
+
+        test "switching to practice mode unlocks things" do
+          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          ce_1 = create :concept_exercise, track:, slug: 'movie'
+          ce_2 = create :concept_exercise, track:, slug: 'team'
+          ce_3 = create :concept_exercise, track:, slug: 'book', status: :deprecated
+          pe_1 = create :practice_exercise, track:, slug: 'bob'
+          pe_2 = create :practice_exercise, track:, slug: 'iso'
+          c_1 = create :concept, track:, slug: 'basics'
+          c_2 = create :concept, track:, slug: 'strings'
+          ce_1.taught_concepts << c_1
+          ce_2.taught_concepts << c_2
+          ce_3.taught_concepts << c_1
+          ce_2.prerequisites << c_1
+          pe_1.prerequisites << c_1
+          pe_2.prerequisites << c_1
+          pe_2.prerequisites << c_2
+
+          user = create :user
+          create(:user_track, user:, track:)
+          create(:hello_world_solution, :completed, track:, user:)
+          stub_latest_track_forum_threads(track)
+
+          use_capybara_host do
+            sign_in!(user.reload)
+            visit track_path(track)
+
+            click_on "Exercises"
+            within(".c-exercise-widget:last-child") { assert_text "Locked" }
+
+            click_on "Track options"
+            click_on "Disable Learning Mode…"
+            click_on "Disable Learning Mode"
+            click_on "Exercises"
+
+            within(".c-exercise-widget:last-child") { refute_text "Locked" }
+          end
+        end
       end
     end
   end

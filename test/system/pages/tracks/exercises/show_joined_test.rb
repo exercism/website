@@ -146,20 +146,11 @@ module Pages
 
         test "switching to practice mode unlocks things" do
           track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
-          ce_1 = create :concept_exercise, track:, slug: 'movie'
-          ce_2 = create :concept_exercise, track:, slug: 'team'
-          ce_3 = create :concept_exercise, track:, slug: 'book', status: :deprecated
-          pe_1 = create :practice_exercise, track:, slug: 'bob'
-          pe_2 = create :practice_exercise, track:, slug: 'iso'
-          c_1 = create :concept, track:, slug: 'basics'
-          c_2 = create :concept, track:, slug: 'strings'
-          ce_1.taught_concepts << c_1
-          ce_2.taught_concepts << c_2
-          ce_3.taught_concepts << c_1
-          ce_2.prerequisites << c_1
-          pe_1.prerequisites << c_1
-          pe_2.prerequisites << c_1
-          pe_2.prerequisites << c_2
+          ce = create :concept_exercise, track:, slug: 'movie'
+          pe = create :practice_exercise, track:, slug: 'bob'
+          concept = create :concept, track:, slug: 'basics'
+          ce.taught_concepts << concept
+          pe.prerequisites << concept
 
           user = create :user
           create(:user_track, user:, track:)
@@ -176,8 +167,8 @@ module Pages
             click_on "Track options"
             click_on "Disable Learning Mode…"
             click_on "Disable Learning Mode"
-            click_on "Exercises"
 
+            click_on "Exercises"
             within(".c-exercise-widget:last-child") { refute_text "Locked" }
           end
         end

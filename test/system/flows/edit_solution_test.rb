@@ -372,7 +372,7 @@ module Components
           within(".lhs-footer") { click_on "Submit" }
           refute_text "Checking for automated feedback"
           assert_text "Essential"
-          assert_text "Here's an importants uggestion on how to improve your code…"
+          assert_text "Here's an important suggestion on how to improve your code…"
         end
       end
 

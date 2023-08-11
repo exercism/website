@@ -30,8 +30,6 @@ export function FoundAutomatedFeedback({
   'latestIteration' | 'track' | 'onClose' | 'links'
 > & {
   onContinue: () => void
-  celebratory?: boolean
-  nonActionable?: boolean
 }): JSX.Element {
   const celebratory =
     latestIteration?.status === 'celebratory_automated_feedback'

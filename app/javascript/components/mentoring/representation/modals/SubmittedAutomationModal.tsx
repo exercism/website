@@ -35,7 +35,7 @@ export function SubmittedAutomationModal({
             />
           </div>
         </a>
-        <div className="flex mt-32 -mb-32 -mx-48 p-20 justify-center place-self-stretch bg-backgroundColorE">
+        <div className="flex mt-32 -mb-32 -mx-48 p-20 justify-center place-self-stretch bg-backgroundColorE border-borderColor6 border-t-1">
           <div className="flex flex-row items-center border-gradient-primary text-white font-medium text-16 border border-4 rounded-12  px-24 py-8 child:mx-6">
             You earned <Reputation value="+3" type="primary" size="small" />
             Reputation for providing this feedback 😊

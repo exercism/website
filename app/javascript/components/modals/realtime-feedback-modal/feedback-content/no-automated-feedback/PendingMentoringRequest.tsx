@@ -15,14 +15,15 @@ export function PendingMentoringRequest({
       </h3>
 
       <p className="text-16 mb-16 leading-150">
-        A mentor will (hopefully) provide you with feedback soon. You&apos;ll
-        recieve a notification and email when this happens.
+        A mentor will take a look at your solution and (hopefully) provide you
+        with useful feedback soon. You&apos;ll receive a notification and email
+        when this happens.
       </p>
       <div className="flex gap-12">
-        <a className="btn-primary btn-s mr-auto" href={mentoringRequestLink}>
+        <ContinueButton onClick={onContinue} className="btn-primary" />
+        <a className="btn-secondary btn-s mr-auto" href={mentoringRequestLink}>
           View your request
         </a>
-        <ContinueButton onClick={onContinue} className="btn-secondary" />
       </div>
     </div>
   )

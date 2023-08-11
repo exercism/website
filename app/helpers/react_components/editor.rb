@@ -45,7 +45,6 @@ module ReactComponents
           uuid: solution.uuid
         },
         request:,
-        mentoring_requested: solution.mentoring_requested?,
         mentoring_status: solution.mentoring_status,
         track_objectives: user_track&.objectives.to_s,
         links: {

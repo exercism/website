@@ -6,7 +6,6 @@ import React, {
   createContext,
 } from 'react'
 import { useQueryCache } from 'react-query'
-import { redirectTo } from '@/utils'
 import { getCacheKey } from '@/components/student'
 import type { File } from './types'
 import { type TabContext, SplitPane } from './common'
@@ -90,7 +89,6 @@ export default ({
   iteration,
   discussion,
   request,
-  mentoringRequested,
   mentoringStatus,
   chatgptUsage,
   trackObjectives,
@@ -205,9 +203,7 @@ export default ({
       throw 'Submission expected'
     }
 
-    if (mentoringStatus === 'none') {
-      showFeedbackModal()
-    }
+    showFeedbackModal()
     if (!hasLatestIteration) {
       dispatch({ status: EditorStatus.CREATING_ITERATION })
       createIteration(submission, {
@@ -217,9 +213,6 @@ export default ({
           ])
           setRedirectLink(iteration.links.solution)
           setHasLatestIteration(true)
-          if (mentoringStatus !== 'none') {
-            redirectTo(iteration.links.solution)
-          }
         },
       })
     }
@@ -230,7 +223,6 @@ export default ({
     exercise.slug,
     hasLatestIteration,
     isSubmitDisabled,
-    mentoringStatus,
     showFeedbackModal,
     submission,
     track.slug,
@@ -529,7 +521,7 @@ export default ({
                     track={track}
                     iteration={iteration}
                     discussion={discussion}
-                    requestedMentoring={mentoringRequested}
+                    requestedMentoring={mentoringStatus === 'requested'}
                     mentoringRequestLink={links.mentoringRequest}
                     automatedFeedbackInfoLink={links.automatedFeedbackInfo}
                     mentorDiscussionsLink={links.mentorDiscussions}
@@ -561,7 +553,8 @@ export default ({
           <RealtimeFeedbackModal
             open={feedbackModalOpen}
             onClose={hideFeedbackModal}
-            mentoringRequested={mentoringRequested}
+            discussion={discussion}
+            mentoringStatus={mentoringStatus}
             onSubmit={submit}
             solution={solution}
             track={track}

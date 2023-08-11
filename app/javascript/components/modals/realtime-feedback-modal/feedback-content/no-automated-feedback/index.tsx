@@ -1,28 +1,33 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { RealtimeFeedbackModalProps } from '../..'
 import { FeedbackMentoringRequestForm } from './FeedbackMentoringRequestForm'
 import { NoAutomatedFeedbackLHS } from './NoAutomatedFeedbackLHS'
 import { NoImmediateFeedback } from './NoImmediateFeedback'
 import { PendingMentoringRequest } from './PendingMentoringRequest'
+import { InProgressMentoring } from './InProgressMentoring'
 
 export type NoFeedbackState =
   | 'initial'
   | 'sendingMentoringRequest'
-  | 'pendingMentoringRequest'
+  | RealtimeFeedbackModalProps['mentoringStatus']
 export function NoAutomatedFeedback({
   track,
   links,
   onContinue,
   trackObjectives,
-  mentoringRequested,
+  mentoringStatus,
 }: { onContinue: () => void } & Pick<
   RealtimeFeedbackModalProps,
-  'track' | 'trackObjectives' | 'links' | 'mentoringRequested'
+  'track' | 'trackObjectives' | 'links' | 'mentoringStatus'
 >): JSX.Element {
   const [noFeedbackState, setNoFeedbackState] = useState<NoFeedbackState>(
-    mentoringRequested ? 'pendingMentoringRequest' : 'initial'
+    mentoringStatus === 'none' ? 'initial' : mentoringStatus
   )
+
+  const handleSuccessfulMentorRequest = useCallback(() => {
+    setNoFeedbackState('requested')
+  }, [])
 
   return (
     <div className="flex gap-40 items-start">
@@ -48,6 +53,13 @@ export function NoAutomatedFeedback({
             trackObjectives={trackObjectives}
             track={track}
             links={links}
+            onContinue={onContinue}
+            onSuccess={handleSuccessfulMentorRequest}
+          />
+        }
+        inProgressComponent={
+          <InProgressMentoring
+            mentorDiscussionLink={links.mentoringRequest}
             onContinue={onContinue}
           />
         }

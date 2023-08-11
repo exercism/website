@@ -17,7 +17,12 @@ export type RealtimeFeedbackModalProps = {
   links: Props['links'] & { redirectToExerciseLink: string }
 } & Pick<
   Props,
-  'exercise' | 'solution' | 'trackObjectives' | 'track' | 'mentoringRequested'
+  | 'exercise'
+  | 'solution'
+  | 'trackObjectives'
+  | 'track'
+  | 'mentoringStatus'
+  | 'discussion'
 >
 
 export type ResolvedIteration = Iteration & { submissionUuid?: string }
@@ -26,13 +31,12 @@ export const RealtimeFeedbackModal = ({
   open,
   onClose,
   solution,
-  exercise,
   track,
   request,
   submission,
   links,
   trackObjectives,
-  mentoringRequested,
+  mentoringStatus,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const { latestIteration, checkStatus } = useGetLatestIteration({
     request,
@@ -50,21 +54,18 @@ export const RealtimeFeedbackModal = ({
       closeButton={false}
       onClose={onClose}
       shouldCloseOnEsc={false}
-      shouldCloseOnOverlayClick
       ReactModalClassName="w-fill max-w-[700px]"
     >
       <FeedbackContent
         checkStatus={checkStatus}
         open={open}
         onContinue={redirectToExercise}
-        exercise={exercise}
-        solution={solution}
         track={track}
         latestIteration={latestIteration}
         onClose={onClose}
         links={links}
         trackObjectives={trackObjectives}
-        mentoringRequested={mentoringRequested}
+        mentoringStatus={mentoringStatus}
       />
     </Modal>
   )

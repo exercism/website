@@ -48,7 +48,7 @@
     .question {
         @apply mb-20;
         label {
-            @apply text-16 leading-150 font-semibold text-textColor3;
+            @apply text-16 leading-150 font-semibold text-textColor1;
             @apply mb-4;
         }
         p {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IterationStatus } from '@/components/types'
-import { CheckingForAutomatedFeedback } from './CheckingForAutomatedFeedback'
 import { useTakingTooLong } from './hooks'
+import { CheckingForAutomatedFeedback } from './CheckingForAutomatedFeedback'
 import { NoAutomatedFeedback, FoundAutomatedFeedback } from './feedback-content'
 import type { RealtimeFeedbackModalProps, ResolvedIteration } from '.'
 
@@ -11,14 +11,7 @@ export type FeedbackContentProps = {
   latestIteration: ResolvedIteration | undefined
 } & Pick<
   RealtimeFeedbackModalProps,
-  | 'track'
-  | 'exercise'
-  | 'solution'
-  | 'onClose'
-  | 'open'
-  | 'links'
-  | 'trackObjectives'
-  | 'mentoringRequested'
+  'track' | 'onClose' | 'open' | 'links' | 'trackObjectives' | 'mentoringStatus'
 >
 
 export function FeedbackContent({
@@ -30,7 +23,7 @@ export function FeedbackContent({
   onClose,
   links,
   trackObjectives,
-  mentoringRequested,
+  mentoringStatus,
 }: FeedbackContentProps): JSX.Element {
   const itIsTakingTooLong = useTakingTooLong(open)
 
@@ -47,7 +40,7 @@ export function FeedbackContent({
       return (
         <NoAutomatedFeedback
           links={links}
-          mentoringRequested={mentoringRequested}
+          mentoringStatus={mentoringStatus}
           onContinue={onContinue}
           track={track}
           trackObjectives={trackObjectives}

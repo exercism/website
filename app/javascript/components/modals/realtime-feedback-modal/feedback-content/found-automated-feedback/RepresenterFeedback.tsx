@@ -18,7 +18,11 @@ export const RepresenterFeedback = ({
         />
       </div>
       <div className="feedback-header">
-        <Avatar src={author.avatarUrl} handle={author.name} />
+        <Avatar
+          src={author.avatarUrl}
+          handle={author.name}
+          className="place-self-start"
+        />
         <div className="info">
           <strong className="inline-block">{author.name}</strong>
           &nbsp;gave this feedback on a solution very similar to yours

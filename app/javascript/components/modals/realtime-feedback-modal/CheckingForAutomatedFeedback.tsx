@@ -1,9 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { LoadingBar } from '@/components/common/LoadingBar'
 import { FooterButtonContainer } from './components'
 
-function CheckingForFeedback({
+export function CheckingForAutomatedFeedback({
   onClick,
   showTakingTooLong,
 }: {
@@ -21,7 +21,7 @@ function CheckingForFeedback({
             Our systems are inspecting your code to find both automated feedback
             and feedback given by mentors on similar solutions.
           </p>
-          <p className="text-16 leading-150  mb-12">
+          <p className="text-16 leading-150 font-semibold mt-4 mb-16">
             This process normally takes ~10 seconds.
           </p>
 
@@ -56,5 +56,3 @@ function TakingTooLong(): JSX.Element {
     </div>
   )
 }
-
-export const CheckingForAutomatedFeedback = memo(CheckingForFeedback)

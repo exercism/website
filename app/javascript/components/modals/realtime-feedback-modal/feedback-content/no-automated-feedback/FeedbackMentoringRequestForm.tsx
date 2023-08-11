@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { redirectTo, sendRequest, typecheck } from '@/utils'
+import { sendRequest, typecheck } from '@/utils'
 import { FormButton, MedianWaitTime } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {
@@ -17,10 +17,12 @@ export const FeedbackMentoringRequestForm = ({
   track,
   links,
   onContinue,
+  onSuccess,
 }: {
   trackObjectives: string
   track: Pick<Track, 'title' | 'medianWaitTime'>
   onContinue: () => void
+  onSuccess: () => void
 } & Pick<RealtimeFeedbackModalProps, 'links'>): JSX.Element => {
   const [mutation, { status, error }] = useMutation<Request>(
     async () => {
@@ -36,9 +38,7 @@ export const FeedbackMentoringRequestForm = ({
       return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
     },
     {
-      onSuccess: () => {
-        redirectTo(links.mentoringRequest)
-      },
+      onSuccess,
     }
   )
 
@@ -57,9 +57,10 @@ export const FeedbackMentoringRequestForm = ({
   return (
     <form
       data-turbo="false"
-      className="c-mentoring-request-form"
+      className="c-mentoring-request-form realtime-feedback-modal-form"
       onSubmit={handleSubmit}
     >
+      <h3 className="text-h4 mb-8">Request code review</h3>
       <div className="question">
         <label htmlFor="request-mentoring-form-track-objectives">
           What are you hoping to learn from this track?
@@ -91,15 +92,20 @@ export const FeedbackMentoringRequestForm = ({
           aria-describedby="request-mentoring-form-solution-description"
         />
       </div>
-      <FormButton status={status} className="btn-primary btn-s">
-        Submit mentoring request
-      </FormButton>
-      <ContinueButton
-        type="button"
-        text="Cancel sending request"
-        className="btn-secondary"
-        onClick={onContinue}
-      />
+      <div className="flex gap-8">
+        <ContinueButton
+          type="button"
+          text="Cancel"
+          className="!w-auto btn-secondary"
+          onClick={onContinue}
+        />
+        <FormButton
+          status={status}
+          className="!w-auto btn-primary btn-s flex-grow"
+        >
+          Submit for code review
+        </FormButton>
+      </div>
       <FetchingBoundary
         status={status}
         error={error}

@@ -16,7 +16,7 @@ const HEADLINE: Partial<Record<IterationStatus, string>> = {
   celebratory_automated_feedback: 'We have some positive feedback for you! 🎉',
   essential_automated_feedback:
     "Here's an important suggestion on how to improve your code…",
-  non_actionable_automated_feedback: "Here's some thoughts on your code…",
+  non_actionable_automated_feedback: "Here are some thoughts on your code…",
 }
 
 export function FoundAutomatedFeedback({

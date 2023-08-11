@@ -96,11 +96,11 @@ export const SolutionsList = ({
     })
   }, [request.query, setQuery])
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <article className="solutions-tab theme-dark">
-      <div className="c-search-bar" ref={scrollToTopRef}>
+      <div className="c-search-bar">
         <div className="md-container container">
           <input
             className="--search"

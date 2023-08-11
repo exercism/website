@@ -25,9 +25,7 @@ export const DiscussionList = ({
   refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
   links: Links
 }): JSX.Element => {
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(
-    resolvedData?.meta.currentPage
-  )
+  useScrollToTop(resolvedData?.meta.currentPage)
 
   return (
     <div>
@@ -52,7 +50,7 @@ export const DiscussionList = ({
             </div>
           </>
         ) : (
-          <div className="--conversations" ref={scrollToTopRef}>
+          <div className="--conversations">
             {resolvedData && (
               <React.Fragment>
                 {resolvedData.results.map((discussion, key) => (

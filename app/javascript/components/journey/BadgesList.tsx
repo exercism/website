@@ -47,12 +47,12 @@ export const BadgesList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <article className="badges-tab theme-dark">
       <div className="md-container container">
-        <div className="c-search-bar" ref={scrollToTopRef}>
+        <div className="c-search-bar">
           <input
             className="--search"
             onChange={(e) => {

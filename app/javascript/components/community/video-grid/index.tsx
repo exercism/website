@@ -52,7 +52,7 @@ export function VideoGrid({
     [criteria, setPage]
   )
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
+  useScrollToTop(page)
 
   return (
     <>
@@ -62,7 +62,7 @@ export function VideoGrid({
         selectedTrack={selectedTrack}
       />
 
-      <div className="flex mb-32 c-search-bar" ref={scrollToTopRef}>
+      <div className="flex mb-32 c-search-bar">
         <input
           className="grow --search --right"
           placeholder="Search community content"

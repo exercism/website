@@ -116,14 +116,14 @@ export default function NotificationsList({
 
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')
 
-  const scrollToTopRef = useScrollToTop(request.query.page)
+  useScrollToTop(request.query.page)
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <>
       <ResultsZone isFetching={disabled}>
-        <header className="notifications-header" ref={scrollToTopRef}>
+        <header className="notifications-header">
           <h1 className="text-h1">Notifications</h1>
           <div className="actions">
             <MutationButton

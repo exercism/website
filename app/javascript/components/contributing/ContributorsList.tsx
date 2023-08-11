@@ -59,12 +59,12 @@ export default function ContributorsList({
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
   useQueryParams(request.query)
 
   return (
     <div>
-      <div className="c-search-bar" ref={scrollToTopRef}>
+      <div className="c-search-bar">
         <div className="tabs overflow-x-auto">
           <PeriodButton
             period="week"

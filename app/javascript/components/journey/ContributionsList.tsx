@@ -72,12 +72,12 @@ export function ContributionsList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(requestQuery.page)
+  useScrollToTop(requestQuery.page)
 
   return (
     <article className="reputation-tab theme-dark">
       <div className="md-container container">
-        <div className="c-search-bar" ref={scrollToTopRef}>
+        <div className="c-search-bar">
           <input
             className="--search"
             onChange={(e) => {

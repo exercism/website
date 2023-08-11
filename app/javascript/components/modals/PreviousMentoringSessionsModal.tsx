@@ -47,7 +47,7 @@ export const PreviousMentoringSessionsModal = ({
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <Modal
@@ -70,7 +70,7 @@ export const PreviousMentoringSessionsModal = ({
           />
         ) : null}
       </header>
-      <div className="discussions" ref={scrollToTopRef}>
+      <div className="discussions">
         <ResultsZone isFetching={isFetching}>
           <FetchingBoundary
             status={status}

@@ -30,7 +30,7 @@ export const OtherContributionsList = ({
       Error | Response
     >([request.endpoint, request.query], request)
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -41,7 +41,7 @@ export const OtherContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="other" ref={scrollToTopRef}>
+            <div className="other">
               {resolvedData.results.map((contribution) => (
                 <Contribution key={contribution.uuid} {...contribution} />
               ))}

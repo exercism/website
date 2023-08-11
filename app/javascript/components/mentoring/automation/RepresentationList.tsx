@@ -41,12 +41,12 @@ function Component({
   setPage,
   selectedTab,
 }: Props) {
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
+  useScrollToTop(page)
   return (
     <>
       {resolvedData && resolvedData.results && (
         <React.Fragment>
-          <div className="--solutions" ref={scrollToTopRef}>
+          <div className="--solutions">
             {resolvedData.results.length > 0 ? (
               resolvedData.results.map((representation, key) => (
                 <AutomationListElement

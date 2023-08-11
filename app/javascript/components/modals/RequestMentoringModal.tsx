@@ -33,7 +33,7 @@ export const RequestMentoringModal = ({
       Error | Response
     >(['exercises-for-mentoring', request.query], request)
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <Modal
@@ -42,7 +42,7 @@ export const RequestMentoringModal = ({
       {...props}
     >
       <h2>Select an exercise to request mentoring on</h2>
-      <div className="c-search-bar" ref={scrollToTopRef}>
+      <div className="c-search-bar">
         <input
           value={request.query.criteria || ''}
           onChange={(e) => {

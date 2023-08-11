@@ -97,7 +97,7 @@ export function ExerciseCommunitySolutionsList({
     [request.query, setQuery]
   )
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <div className="lg-container c-community-solutions-list">
@@ -185,10 +185,7 @@ export function ExerciseCommunitySolutionsList({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div
-                className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-                ref={scrollToTopRef}
-              >
+              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution

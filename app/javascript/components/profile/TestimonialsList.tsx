@@ -42,7 +42,7 @@ export default function TestimonialsList({
     setSelected(null)
   }, [setSelected])
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -53,7 +53,7 @@ export default function TestimonialsList({
       >
         {resolvedData ? (
           <>
-            <div className="testimonials" ref={scrollToTopRef}>
+            <div className="testimonials">
               {resolvedData.results.map((t) => {
                 return (
                   <Testimonial

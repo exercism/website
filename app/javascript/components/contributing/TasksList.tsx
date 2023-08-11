@@ -105,7 +105,7 @@ export default function TasksList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const scrollToTopRef = useScrollToTop(requestQuery.page)
+  useScrollToTop(requestQuery.page)
 
   return (
     <div className="lg-container container">
@@ -145,7 +145,7 @@ export default function TasksList({
         >
           {resolvedData ? (
             <React.Fragment>
-              <header className="main-header c-search-bar" ref={scrollToTopRef}>
+              <header className="main-header c-search-bar">
                 <h2>
                   <strong className="block md:inline">
                     Showing {resolvedData.meta.totalCount}{' '}

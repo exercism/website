@@ -88,12 +88,12 @@ export default function TestimonialsList({
     }
   }, [setRequestCriteria, criteria])
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <div className="lg-container">
       <article className="content">
-        <div className="c-search-bar" ref={scrollToTopRef}>
+        <div className="c-search-bar">
           <TrackDropdown
             tracks={tracks}
             value={request.query.trackSlug || ''}

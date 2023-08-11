@@ -22,7 +22,7 @@ export const AuthoringContributionsList = ({
       Error | Response
     >([request.endpoint, request.query], request)
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+  useScrollToTop(request.query.page)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -33,7 +33,7 @@ export const AuthoringContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="authoring" ref={scrollToTopRef}>
+            <div className="authoring">
               <div className="exercises">
                 {resolvedData.results.map((authorship) => {
                   return (

@@ -32,13 +32,13 @@ export const SolutionList = ({
 }
 
 const Component = ({ resolvedData, latestData, page, setPage }: Props) => {
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
+  useScrollToTop(page)
 
   return (
     <>
       {resolvedData && resolvedData.results.length > 0 ? (
         <React.Fragment>
-          <div className="--solutions" ref={scrollToTopRef}>
+          <div className="--solutions">
             {resolvedData.results.length > 0
               ? resolvedData.results.map((solution, key) => (
                   <Solution key={key} {...solution} />

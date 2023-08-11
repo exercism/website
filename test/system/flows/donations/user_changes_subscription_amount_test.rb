@@ -24,7 +24,7 @@ module Flows
             }]
           }).
           to_return(status: 200, body: {}.to_json)
-        user = create :user, active_donation_subscription: true
+        user = create :user
         create :payments_subscription, external_id: subscription_id, user:, status: :active, amount_in_cents: 500
 
         use_capybara_host do

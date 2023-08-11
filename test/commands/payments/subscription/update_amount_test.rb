@@ -10,7 +10,7 @@ class Payments::Subscription::UpdateAmountTest < Payments::TestBase
   end
 
   test "triggers insiders_status update" do
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, user:, amount_in_cents: 30
 
     User::InsidersStatus::UpdateForPayment.expects(:call).with(user) # .at_least_once

@@ -10,7 +10,7 @@ module Flows
         subscription_id = "sub_123"
         stub_request(:delete, "https://api.stripe.com/v1/subscriptions/#{subscription_id}").
           to_return(status: 200, body: {}.to_json)
-        user = create :user, active_donation_subscription: true
+        user = create :user
         create :payments_subscription, user:, status: :active, provider: :stripe, external_id: subscription_id
 
         use_capybara_host do

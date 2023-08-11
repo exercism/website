@@ -225,9 +225,6 @@ class User < ApplicationRecord
   def current_active_subscription = subscriptions.active.last
 
   memoize
-  def current_active_donation_subscription_amount_in_cents = current_active_subscription&.amount_in_cents
-
-  memoize
   def total_subscription_donations_in_dollars
     payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end

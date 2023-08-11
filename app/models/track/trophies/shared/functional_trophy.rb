@@ -8,7 +8,7 @@ class Track::Trophies::Shared::FunctionalTrophy < Track::Trophy
   def criteria(_) = "Awarded for completing 10 functional exercises. Choose from A,b,c,de,f... "
 
   def success_message(track)
-    "Congratulations on completing 10 functional exercises in %<track_title>s" % { track_title: track }
+    "Congratulations on completing 10 functional exercises in %<track_title>s" % { track_title: track.title }
   end
 
   def award?(user, track)

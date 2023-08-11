@@ -5,11 +5,11 @@ class Track::Trophies::Shared::CompletedLearningModeTrophy < Track::Trophy
   def icon = 'trophy-completed-learning-mode'
 
   def criteria(track)
-    "Awarded once you complete Learning Mode in %<track_title>s" % { track_title: track }
+    "Awarded once you complete Learning Mode in %<track_title>s" % { track_title: track.title }
   end
 
   def success_message(track)
-    "Congratulations on completing Learning Mode in %<track_title>s" % { track_title: track }
+    "Congratulations on completing Learning Mode in %<track_title>s" % { track_title: track.title }
   end
 
   def send_email_on_acquisition? = true

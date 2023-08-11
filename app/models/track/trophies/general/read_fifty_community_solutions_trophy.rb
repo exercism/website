@@ -5,14 +5,14 @@ class Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy < Track::Troph
   def criteria(track)
     "Awarded once you've read %<num_solutions>d community solutions in %<track_title>s" % {
       num_solutions: NUM_SOLUTIONS,
-      track_title: track
+      track_title: track.title
     }
   end
 
   def success_message(track)
     "Congratulations on reading %<num_solutions>d community solutions in %<track_title>s" % {
       num_solutions: NUM_SOLUTIONS,
-      track_title: track
+      track_title: track.title
     }
   end
 

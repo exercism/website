@@ -3,11 +3,11 @@ class Track::Trophies::General::CompletedAllExercisesTrophy < Track::Trophy
   def icon = 'trophy-completed-all-exercises'
 
   def criteria(track)
-    "Awarded once you complete all exercises in %<track_title>s" % { track_title: track }
+    "Awarded once you complete all exercises in %<track_title>s" % { track_title: track.title }
   end
 
   def success_message(track)
-    "Congratulations on completing all exercises in %<track_title>s" % { track_title: track }
+    "Congratulations on completing all exercises in %<track_title>s" % { track_title: track.title }
   end
 
   def award?(user, track)

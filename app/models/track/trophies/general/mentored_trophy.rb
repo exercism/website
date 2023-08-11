@@ -3,11 +3,11 @@ class Track::Trophies::General::MentoredTrophy < Track::Trophy
   def icon = 'trophy-mentored'
 
   def criteria(track)
-    "Awarded once you complete a mentoring session in %<track_title>s" % { track_title: track }
+    "Awarded once you complete a mentoring session in %<track_title>s" % { track_title: track.title }
   end
 
   def success_message(track)
-    "Congratulations on completing a mentoring session in %<track_title>s" % { track_title: track }
+    "Congratulations on completing a mentoring session in %<track_title>s" % { track_title: track.title }
   end
 
   def award?(user, track)

@@ -16,14 +16,14 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
   def criteria(track)
     "Awarded once you complete %<num_exercises>i hard exercises in %<track_title>s" % {
       num_exercises: NUM_EXERCISES,
-      track_title: track
+      track_title: track.title
     }
   end
 
   def success_message(track)
     "Congratulations on completing %<num_exercises>i hard exercises in %<track_title>s" % {
       num_exercises: NUM_EXERCISES,
-      track_title: track
+      track_title: track.title
     }
   end
 

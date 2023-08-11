@@ -5,14 +5,14 @@ class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy < Track::
   def criteria(track)
     "Awarded once you complete %<percentage_completed_exercises>i of the exercises in %<track_title>s" % {
       percentage_completed_exercises: PERCENTAGE_COMPLETED_EXERCISES,
-      track_title: track
+      track_title: track.title
     }
   end
 
   def success_message(track)
     "Congratulations on completing %<percentage_completed_exercises>i of the exercises in %<track_title>s" % {
       percentage_completed_exercises: PERCENTAGE_COMPLETED_EXERCISES,
-      track_title: track
+      track_title: track.title
     }
   end
 

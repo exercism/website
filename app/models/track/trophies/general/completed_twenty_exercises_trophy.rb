@@ -5,14 +5,14 @@ class Track::Trophies::General::CompletedTwentyExercisesTrophy < Track::Trophy
   def criteria(track)
     "Awarded once you complete %<num_completed_exercises> exercises in %<track_title>s" % {
       num_completed_exercises: NUM_COMPLETED_EXERCISES,
-      track_title: track
+      track_title: track.title
     }
   end
 
   def success_message(track)
     "Congratulations on completing %<num_completed_exercises> exercises in %<track_title>s" % {
       num_completed_exercises: NUM_COMPLETED_EXERCISES,
-      track_title: track
+      track_title: track.title
     }
   end
 

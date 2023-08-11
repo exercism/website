@@ -4,6 +4,7 @@ module API
     before_action :guard_solution!, except: [:automated_feedback]
     before_action :use_iteration, only: %i[destroy automated_feedback]
 
+    # This should match LatestIterationChannel
     def latest
       iteration = @solution.iterations.includes(:track, :exercise, :files, :submission).last
       return render_iteration_not_found if iteration.nil?

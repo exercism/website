@@ -10,7 +10,7 @@ export type ChannelResponse = {
 /* TODO: We have yet to have an official Solution type */
 type Solution = any
 
-export class SolutionWithLatestIterationChannel {
+export class LatestIterationChannel {
   subscription: ActionCable.Channel
 
   constructor(
@@ -19,7 +19,7 @@ export class SolutionWithLatestIterationChannel {
   ) {
     this.subscription = consumer.subscriptions.create(
       {
-        channel: 'SolutionWithLatestIterationChannel',
+        channel: 'LatestIterationChannel',
         uuid: solution.uuid,
       },
       {

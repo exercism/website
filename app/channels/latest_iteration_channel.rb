@@ -1,4 +1,4 @@
-class SolutionWithLatestIterationChannel < ApplicationCable::Channel
+class LatestIterationChannel < ApplicationCable::Channel
   def subscribed
     solution = Solution.find_by!(uuid: params[:uuid])
 
@@ -7,9 +7,9 @@ class SolutionWithLatestIterationChannel < ApplicationCable::Channel
 
   def unsubscribed; end
 
+    # This should match API::IterationsController#latest
   def self.broadcast!(solution)
     broadcast_to solution,
-      solution: SerializeSolution.(solution),
       iteration: SerializeIteration.(solution.iterations.includes(:track, :exercise, :files, :submission).last,
         sideload: [:automated_feedback])
   end

@@ -228,7 +228,7 @@ class Solution < ApplicationRecord
 
   def broadcast!
     SolutionChannel.broadcast!(self)
-    SolutionWithLatestIterationChannel.broadcast!(self)
+    LatestIterationChannel.broadcast!(self)
     LatestIterationStatusChannel.broadcast!(self)
   end
 

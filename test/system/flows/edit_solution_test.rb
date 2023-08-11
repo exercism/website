@@ -192,7 +192,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionWithLatestIterationChannel.broadcast!(solution)
+          LatestIterationChannel.broadcast!(solution)
           refute_text "Checking for automated feedback"
           assert_text "No Immediate Feedback"
           click_on "Request code review"
@@ -246,7 +246,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionWithLatestIterationChannel.broadcast!(solution)
+          LatestIterationChannel.broadcast!(solution)
 
           assert_text "You have a mentoring session active for this exercise."
         end
@@ -286,7 +286,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionWithLatestIterationChannel.broadcast!(solution)
+          LatestIterationChannel.broadcast!(solution)
           assert_text "We've found celebratory automated feedback! 🎉"
         end
       end
@@ -325,7 +325,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionWithLatestIterationChannel.broadcast!(solution)
+          LatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
           assert_text "Here's a suggestion on how to improve your code…"
         end
@@ -365,7 +365,7 @@ module Components
           submission.update!(representation_status: :generated, analysis_status: :completed)
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
-          SolutionWithLatestIterationChannel.broadcast!(solution)
+          LatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
           assert_text "Here's a suggestion on how to improve your code…"
           click_on "Go back to editor"

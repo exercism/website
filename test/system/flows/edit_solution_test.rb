@@ -287,7 +287,7 @@ module Components
           solution.reload
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
-          assert_text "We've found celebratory automated feedback! 🎉"
+          assert_text "We have some positive feedback for you! 🎉"
         end
       end
 
@@ -327,7 +327,7 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
-          assert_text "Here's a suggestion on how to improve your code…"
+          assert_text "Here's an important suggestion on how to improve your code…"
         end
       end
 
@@ -367,12 +367,12 @@ module Components
           Submission::TestRunsChannel.broadcast!(test_run)
           SolutionWithLatestIterationChannel.broadcast!(solution)
           assert_text "Essential"
-          assert_text "Here's a suggestion on how to improve your code…"
+          assert_text "Here's an important suggestion on how to improve your code…"
           click_on "Go back to editor"
           within(".lhs-footer") { click_on "Submit" }
           refute_text "Checking for automated feedback"
           assert_text "Essential"
-          assert_text "Here's a suggestion on how to improve your code…"
+          assert_text "Here's an importants uggestion on how to improve your code…"
         end
       end
 

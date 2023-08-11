@@ -15,6 +15,7 @@ export const ProcessingStatusButton = ({
     case IterationStatus.ESSENTIAL_AUTOMATED_FEEDBACK:
     case IterationStatus.ACTIONABLE_AUTOMATED_FEEDBACK:
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+    case CELEBRATORY_AUTOMATED_FEEDBACK:
     case IterationStatus.NO_AUTOMATED_FEEDBACK:
       return (
         <TestRunStatusButton endpoint={iteration.links.testRun}>

@@ -306,6 +306,7 @@ export type Iteration = {
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
+  numCelebratoryAutomatedComments: number
   submissionMethod: SubmissionMethod
   representerFeedback?: RepresenterFeedback
   analyzerFeedback?: AnalyzerFeedback

@@ -205,7 +205,7 @@ module Components
             { type: "celebratory", comment: "ruby.two-fer.splat_args" }
           ]
         }
-        assert iteration.status.non_actionable_automated_feedback? # Sanity
+        assert iteration.status.celebratory_automated_feedback? # Sanity
 
         use_capybara_host do
           sign_in!(user)

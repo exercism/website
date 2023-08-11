@@ -12,11 +12,11 @@ import { IterationStatus } from '@/components/types'
 
 const HEADLINE: Partial<Record<IterationStatus, string>> = {
   actionable_automated_feedback:
-    "Here's a suggestion on how to improve your code…",
-  celebratory_automated_feedback:
-    "We've found celebratory automated feedback! 🎉",
-  essential_automated_feedback: "We've found essential feedback",
-  non_actionable_automated_feedback: 'Non actionable feedback',
+    "Here's an suggestion on how to improve your code…",
+  celebratory_automated_feedback: 'We have some positive feedback for you! 🎉',
+  essential_automated_feedback:
+    "Here's an important suggestion on how to improve your code…",
+  non_actionable_automated_feedback: "Here's some thoughts on your code…",
 }
 
 export function FoundAutomatedFeedback({

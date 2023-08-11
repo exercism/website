@@ -13,7 +13,7 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
 
     sign_in!(acquired_trophy.user)
 
-    patch reveal_api_track_trophy_url(track_slug:, uuid:), headers: @headers, as: :json
+    patch reveal_api_track_trophy_url(track_slug, uuid), headers: @headers, as: :json
 
     assert_response :ok
     assert acquired_trophy.reload.revealed
@@ -26,7 +26,7 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
 
     sign_in!(acquired_trophy.user)
 
-    patch reveal_api_track_trophy_url(track_slug:, uuid:), headers: @headers, as: :json
+    patch reveal_api_track_trophy_url(track_slug, uuid), headers: @headers, as: :json
 
     assert_response :not_found
     expected = {
@@ -47,7 +47,7 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
 
     sign_in!(acquired_trophy.user)
 
-    patch reveal_api_track_trophy_url(track_slug:, uuid:), headers: @headers, as: :json
+    patch reveal_api_track_trophy_url(track_slug, uuid), headers: @headers, as: :json
 
     assert_response :not_found
     expected = {
@@ -69,7 +69,7 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
 
     sign_in!(user)
 
-    patch reveal_api_track_trophy_url(track_slug:, uuid:), headers: @headers, as: :json
+    patch reveal_api_track_trophy_url(track_slug, uuid), headers: @headers, as: :json
 
     assert_response :forbidden
     expected = {
@@ -91,7 +91,7 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
 
     sign_in!(acquired_trophy.user)
 
-    patch reveal_api_track_trophy_url(track_slug:, uuid:), headers: @headers, as: :json
+    patch reveal_api_track_trophy_url(track_slug, uuid), headers: @headers, as: :json
 
     assert_response :forbidden
     expected = {

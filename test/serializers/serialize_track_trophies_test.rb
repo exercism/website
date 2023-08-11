@@ -16,13 +16,15 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Nim",
         icon_name: "trophy-mentored",
-        revealed: false
+        status: :not_earned,
+        links: {}
       },
       {
         name: "Fundamental",
         criteria: "Awarded once you complete Learning Mode in Nim",
         icon_name: "trophy-completed-learning-mode",
-        revealed: false
+        status: :not_earned,
+        links: {}
       }
     ]
     assert_equal expected, SerializeTrackTrophies.(nim, user)
@@ -32,7 +34,8 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Prolog",
         icon_name: "trophy-mentored",
-        revealed: false
+        status: :not_earned,
+        links: {}
       }
     ]
     assert_equal expected, SerializeTrackTrophies.(prolog, user)
@@ -50,7 +53,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
     learning_mode_trophy = create :completed_learning_mode_trophy
     learning_mode_trophy.reseed! # Make sure the valid track slugs are up to date
 
-    create :user_track_acquired_trophy, trophy: mentored_trophy, user:, track: nim, revealed: false
+    unrevealed_trophy = create :user_track_acquired_trophy, trophy: mentored_trophy, user:, track: nim, revealed: false
     create :user_track_acquired_trophy, trophy: mentored_trophy, user:, track: prolog, revealed: true
     create :user_track_acquired_trophy, trophy: completed_all_exercises_trophy, user: other_user, track: prolog
 
@@ -59,19 +62,24 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Nim",
         icon_name: "trophy-mentored",
-        status: :unrevealed
+        status: :unrevealed,
+        links: {
+          reveal: "https://test.exercism.org/api/v2/tracks/nim/trophies/#{unrevealed_trophy.uuid}/reveal"
+        }
       },
       {
         name: "Completionist",
         criteria: "Awarded once you complete all exercises in Nim",
         icon_name: "trophy-completed-all-exercises",
-        status: :not_earned
+        status: :not_earned,
+        links: {}
       },
       {
         name: "Fundamental",
         criteria: "Awarded once you complete Learning Mode in Nim",
         icon_name: "trophy-completed-learning-mode",
-        status: :not_earned
+        status: :not_earned,
+        links: {}
       }
     ]
     assert_equal expected, SerializeTrackTrophies.(nim, user)
@@ -81,13 +89,15 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Prolog",
         icon_name: "trophy-mentored",
-        status: :revealed
+        status: :revealed,
+        links: {}
       },
       {
         name: "Completionist",
         criteria: "Awarded once you complete all exercises in Prolog",
         icon_name: "trophy-completed-all-exercises",
-        status: :not_earned
+        status: :not_earned,
+        links: {}
       }
     ]
     assert_equal expected, SerializeTrackTrophies.(prolog, user)

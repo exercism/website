@@ -24,7 +24,8 @@ class SerializeTrackTrophies
         name: trophy.name(track),
         criteria: trophy.criteria(track),
         icon_name: trophy.icon,
-        status:
+        status:,
+        links:
       }
     end
 
@@ -34,6 +35,14 @@ class SerializeTrackTrophies
       return :revealed if acquired_trophy.revealed
 
       :unrevealed
+    end
+
+    def links
+      return {} if acquired_trophy.nil? || acquired_trophy.revealed
+
+      {
+        reveal: Exercism::Routes.reveal_api_track_trophy_url(track.slug, acquired_trophy.uuid)
+      }
     end
   end
 end

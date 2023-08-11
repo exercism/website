@@ -8,11 +8,16 @@ import {
 } from '../../components/FeedbackContentButtons'
 import { FeedbackContentProps } from '../../FeedbackContent'
 import { FooterButtonContainer } from '../../components'
+import { IterationStatus } from '@/components/types'
 
-const HEADLINE = [
-  "Here's a suggestion on how to improve your code…",
-  "We've found celebratory automated feedback! 🎉",
-]
+const HEADLINE: Partial<Record<IterationStatus, string>> = {
+  actionable_automated_feedback:
+    "Here's a suggestion on how to improve your code…",
+  celebratory_automated_feedback:
+    "We've found celebratory automated feedback! 🎉",
+  essential_automated_feedback: "We've found essential feedback",
+  non_actionable_automated_feedback: 'Non actionable feedback',
+}
 
 export function FoundAutomatedFeedback({
   latestIteration,
@@ -20,17 +25,22 @@ export function FoundAutomatedFeedback({
   links,
   onClose,
   onContinue,
-  celebratory = false,
 }: Pick<
   FeedbackContentProps,
   'latestIteration' | 'track' | 'onClose' | 'links'
-> & { onContinue: () => void; celebratory?: boolean }): JSX.Element {
+> & {
+  onContinue: () => void
+  celebratory?: boolean
+  nonActionable?: boolean
+}): JSX.Element {
+  const celebratory =
+    latestIteration?.status === 'celebratory_automated_feedback'
   return (
     <>
       <div className="flex gap-40 items-start">
         <div className="flex-col items-left">
           <div className="text-h4 mb-16 flex c-iteration-summary">
-            {HEADLINE[+celebratory]}
+            {HEADLINE[latestIteration!.status]}
           </div>
           {latestIteration?.representerFeedback ? (
             <RepresenterFeedback {...latestIteration.representerFeedback} />

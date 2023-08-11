@@ -68,22 +68,10 @@ export function useGetLatestIteration({
   }, [CACHE_KEY, queryCache, solution])
 
   useEffect(() => {
-    if (!latestIteration) {
-      return
-    }
-
-    switch (latestIteration.status) {
-      case IterationStatus.DELETED:
-      case IterationStatus.UNTESTED:
-      case IterationStatus.TESTING:
-      case IterationStatus.ANALYZING:
-        setQueryEnabled(true)
-        break
-      default:
-        setQueryEnabled(false)
-        break
-    }
-  }, [latestIteration])
+    if (checkStatus === 'loading') {
+      setQueryEnabled(true)
+    } else setQueryEnabled(false)
+  }, [checkStatus, latestIteration])
 
   return { latestIteration, checkStatus }
 }

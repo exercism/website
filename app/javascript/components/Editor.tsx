@@ -45,6 +45,7 @@ import {
 import { TestContentWrapper } from './editor/TestContentWrapper'
 import { RealtimeFeedbackModal } from './modals'
 import * as ChatGPT from './editor/ChatGptFeedback'
+import { redirectTo } from '@/utils'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
@@ -203,7 +204,10 @@ export default ({
       throw 'Submission expected'
     }
 
-    showFeedbackModal()
+    if (exercise.slug !== 'hello-world') {
+      showFeedbackModal()
+    }
+
     if (!hasLatestIteration) {
       dispatch({ status: EditorStatus.CREATING_ITERATION })
       createIteration(submission, {
@@ -211,6 +215,10 @@ export default ({
           await cache.invalidateQueries([
             getCacheKey(track.slug, exercise.slug),
           ])
+
+          if (exercise.slug === 'hello-world') {
+            redirectTo(iteration.links.solution)
+          }
           setRedirectLink(iteration.links.solution)
           setHasLatestIteration(true)
         },

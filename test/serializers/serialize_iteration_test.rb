@@ -14,7 +14,8 @@ class SerializeIterationTest < ActiveSupport::TestCase
         analyzer_feedback: "barfoo",
         num_essential_automated_comments: 5,
         num_actionable_automated_comments: 2,
-        num_non_actionable_automated_comments: 1
+        num_non_actionable_automated_comments: 1,
+        num_celebratory_automated_comments: 3
       )
 
       expected = {
@@ -25,6 +26,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         num_essential_automated_comments: 5,
         num_actionable_automated_comments: 2,
         num_non_actionable_automated_comments: 1,
+        num_celebratory_automated_comments: 3,
         submission_method: "cli",
         created_at: Time.current.iso8601,
         tests_status: "not_queued",
@@ -68,6 +70,7 @@ class SerializeIterationTest < ActiveSupport::TestCase
         num_essential_automated_comments: 0,
         num_actionable_automated_comments: 0,
         num_non_actionable_automated_comments: 0,
+        num_celebratory_automated_comments: 0,
         submission_method: "cli",
         created_at: Time.current.iso8601,
         tests_status: "not_queued",

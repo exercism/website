@@ -1,3 +1,5 @@
+import { MentoringStatus } from '../journey/solutions-list/MentoringStatusSelect'
+import { IterationsListRequest } from '../student/IterationsList'
 import {
   AnalyzerFeedback,
   File,
@@ -24,14 +26,16 @@ type Links = {
   runTests: string
   back: string
   automatedFeedbackInfo: string
-  mentorDiscussions: string
   mentoringRequest: string
+  mentorDiscussions: string
+  createMentorRequest: string
 }
 
 type Track = {
   title: string
   slug: string
   iconUrl: string
+  medianWaitTime: number
 }
 
 type Iteration = {
@@ -42,6 +46,10 @@ type Iteration = {
 type Exercise = {
   title: string
   slug: string
+}
+
+export type Solution = {
+  uuid: string
 }
 
 type AutosaveConfig = {
@@ -80,8 +88,12 @@ export type Props = {
   track: Track
   exercise: Exercise
   iteration?: Iteration
+  solution: Solution
   discussion?: MentorDiscussion
   links: Links
   features?: EditorFeatures
   mentoringRequested: boolean
+  mentoringStatus: MentoringStatus
+  request: IterationsListRequest
+  trackObjectives: string
 }

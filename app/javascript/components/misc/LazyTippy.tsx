@@ -9,7 +9,7 @@ export type LazyTippyProps = TippyProps & {
   renderReactComponents?: boolean
 }
 
-export const LazyTippy = (props: LazyTippyProps) => {
+export const LazyTippy = (props: LazyTippyProps): JSX.Element => {
   const { renderReactComponents, ...tippyProps } = props
   const [mounted, setMounted] = React.useState(false)
 

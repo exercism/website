@@ -23,7 +23,7 @@ class Iteration < ApplicationRecord
     :representer_feedback,
     :analyzer_feedback, to: :submission
 
-  %i[essential actionable non_actionable].each do |type|
+  %i[essential actionable non_actionable celebratory].each do |type|
     delegate :"num_#{type}_automated_comments", to: :submission
     delegate :"has_#{type}_automated_feedback?", to: :submission
   end
@@ -39,9 +39,10 @@ class Iteration < ApplicationRecord
       return :testing                           if submission.tests_queued?
       return :tests_failed                      unless submission.tests_passed?
       return :analyzing                         if submission.automated_feedback_pending?
-      return :essential_automated_feedback      if submission.has_essential_automated_feedback?
-      return :actionable_automated_feedback     if submission.has_actionable_automated_feedback?
-      return :non_actionable_automated_feedback if submission.has_non_actionable_automated_feedback?
+      return :essential_automated_feedback      if has_essential_automated_feedback?
+      return :actionable_automated_feedback     if has_actionable_automated_feedback?
+      return :celebratory_automated_feedback    if has_celebratory_automated_feedback?
+      return :non_actionable_automated_feedback if has_non_actionable_automated_feedback?
 
       :no_automated_feedback
     }.())
@@ -90,7 +91,8 @@ class Iteration < ApplicationRecord
     %i[
       untested testing tests_failed analyzing
       essential_automated_feedback actionable_automated_feedback
-      non_actionable_automated_feedback no_automated_feedback
+      non_actionable_automated_feedback celebratory_automated_feedback
+      no_automated_feedback
     ].each do |s|
       define_method "#{s}?" do
         status == s

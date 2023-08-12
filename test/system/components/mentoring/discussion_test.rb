@@ -173,7 +173,7 @@ module Components
           click_on "Student received automated feedback"
         end
 
-        assert_text "Our Ruby Analyzer has some comments on your solution"
+        assert_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
         assert_text "Define an explicit"
       end
 

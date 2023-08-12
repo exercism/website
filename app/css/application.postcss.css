@@ -72,6 +72,7 @@
 @import "./components/docs-tracks-list";
 @import "./components/iterations-footer";
 @import "./components/solution-iterations";
+@import "./components/loading-bar";
 @import "./components/loading-overlay";
 @import "./components/loading-suspense";
 @import "./components/unlocked-concept";
@@ -135,6 +136,7 @@
 @import "./components/completed-exercise-progress";
 @import "./components/search-input";
 @import "./components/zero-section";
+@import "./components/mentoring-request-form";
 
 @import "./components/widgets/exercise";
 @import "./components/mentor-discussion-post-editor";

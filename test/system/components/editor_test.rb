@@ -221,7 +221,7 @@ module Components
         refute_text "Code Review"
         assert_text "Automated Feedback"
         # click_on can only click on links or buttons
-        assert_text "Our Ruby Analyzer has some comments"
+        assert_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
       end
     end
 
@@ -312,9 +312,9 @@ module Components
         sleep 0.1
         assert_text "Code Review"
         assert_text "Automated Feedback"
-        refute_text "Our Ruby Analyzer has some comments"
+        refute_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
         find("details", text: "Automated Feedback").click
-        assert_text "Our Ruby Analyzer has some comments"
+        assert_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
         assert_text "This is your latest code review session for this exercise."
         assert_text "Representer feedback"
         assert_css "img[src='#{user.avatar_url}']"\

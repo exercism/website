@@ -251,7 +251,7 @@ module Flows
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
 
-          assert_text "Our Ruby Analyzer has some comments on your solution"
+          assert_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
           assert_text "Define an explicit"
         end
       end

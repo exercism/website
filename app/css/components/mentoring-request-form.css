@@ -1,0 +1,70 @@
+.c-mentoring-request-form {
+    .heading {
+        @apply flex items-center;
+
+        .info {
+            @apply flex-grow;
+
+            h2 {
+                @apply text-h3 mb-8;
+            }
+            p {
+                @apply text-15 leading-160;
+                @apply mb-16;
+
+                strong {
+                    @apply font-medium;
+                }
+            }
+        }
+        .c-icon {
+            height: 120px;
+            width: 120px;
+            @apply ml-24;
+        }
+    }
+
+    .first-time {
+        @apply flex items-start;
+        @apply bg-lightOrange rounded-8;
+        @apply py-12 px-24 mb-16;
+
+        .c-icon {
+            height: 32px;
+            width: 32px;
+            @apply mr-16;
+        }
+        .info {
+            @apply flex-grow;
+            h3 {
+                @apply text-h6 mb-4;
+            }
+            p {
+                @apply text-p-small;
+            }
+        }
+    }
+
+    .question {
+        @apply mb-20;
+        label {
+            @apply text-16 leading-150 font-semibold text-textColor1;
+            @apply mb-4;
+        }
+        p {
+            @apply text-15 leading-160 text-textColor6;
+            @apply mb-8;
+        }
+        textarea {
+            @apply w-100;
+            height: 100px;
+        }
+    }
+    .btn-primary {
+        @apply w-100 mb-16;
+    }
+    .flow-explanation {
+        @apply text-p-small font-medium text-textColor6;
+        @apply text-center;
+    }
+}

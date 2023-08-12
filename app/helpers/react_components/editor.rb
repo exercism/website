@@ -37,6 +37,24 @@ module ReactComponents
           ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil,
           chatgpt_usage:
         },
+        exercise: {
+          title: solution.exercise.title,
+          slug: solution.exercise.slug
+        },
+        solution: {
+          uuid: solution.uuid
+        },
+        request:,
+        mentoring_status: solution.mentoring_status,
+        track_objectives: user_track&.objectives.to_s,
+        links: {
+          run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
+          back: Exercism::Routes.track_exercise_path(track, solution.exercise),
+          automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
+          mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
+          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise),
+          create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid)
+        },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,
           representer_feedback: iteration&.representer_feedback
@@ -45,19 +63,21 @@ module ReactComponents
         track: {
           title: track.title,
           slug: track.slug,
-          icon_url: track.icon_url
-        },
-        exercise: {
-          title: solution.exercise.title,
-          slug: solution.exercise.slug
-        },
-        mentoring_requested: solution.mentoring_requested?,
-        links: {
-          run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
-          back: Exercism::Routes.track_exercise_path(track, solution.exercise),
-          automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
-          mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
-          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise)
+          icon_url: track.icon_url,
+          median_wait_time: track.median_wait_time
+        }
+      }
+    end
+
+    # TODO: clean this up, and maybe enough to get the latest iteration?
+    def request
+      {
+        endpoint: Exercism::Routes.latest_api_solution_iterations_path(solution.uuid, sideload: [:automated_feedback]),
+        options: {
+          initial_data: {
+            iteration: latest_iteration
+          },
+          initial_data_updated_at: Time.current.to_i
         }
       }
     end
@@ -70,6 +90,10 @@ module ReactComponents
 
     memoize
     def iteration = solution.latest_iteration
+
+    memoize
+    def latest_iteration = SerializeIteration.(solution.iterations.includes(:track, :exercise, :files, :submission).last,
+      sideload: [:automated_feedback])
 
     memoize
     def discussion = solution.mentor_discussions.last
@@ -94,6 +118,11 @@ module ReactComponents
       return if track.debugging_instructions.blank?
 
       Markdown::Parse.(track.debugging_instructions)
+    end
+
+    memoize
+    def user_track
+      UserTrack.for(solution.user, track)
     end
 
     memoize

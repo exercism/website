@@ -113,7 +113,7 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
-  flair: string
+  flair: Flair
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
@@ -177,7 +177,7 @@ export type CommunitySolution = {
   author: {
     handle: string
     avatarUrl: string
-    flair: string
+    flair: Flair
   }
   exercise: {
     title: string
@@ -306,6 +306,7 @@ export type Iteration = {
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
+  numCelebratoryAutomatedComments: number
   submissionMethod: SubmissionMethod
   representerFeedback?: RepresenterFeedback
   analyzerFeedback?: AnalyzerFeedback
@@ -366,6 +367,7 @@ export enum IterationStatus {
   ESSENTIAL_AUTOMATED_FEEDBACK = 'essential_automated_feedback',
   ACTIONABLE_AUTOMATED_FEEDBACK = 'actionable_automated_feedback',
   NON_ACTIONABLE_AUTOMATED_FEEDBACK = 'non_actionable_automated_feedback',
+  CELEBRATORY_AUTOMATED_FEEDBACK = 'celebratory_automated_feedback',
   NO_AUTOMATED_FEEDBACK = 'no_automated_feedback',
 }
 
@@ -411,12 +413,12 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
-    flair: string
+    flair: Flair
   }
   mentor: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
   }
   track: {
     title: string
@@ -744,7 +746,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
     reputation: string
   }
   updatedAt: string

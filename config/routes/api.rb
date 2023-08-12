@@ -168,6 +168,7 @@ namespace :api do
 
       resources :iterations, only: %i[create destroy], param: :uuid do
         get :automated_feedback, on: :member
+        get :latest, on: :collection
         get :latest_status, on: :collection
       end
       resources :initial_files, only: %i[index], controller: "solutions/initial_files"

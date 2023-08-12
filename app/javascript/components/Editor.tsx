@@ -6,7 +6,6 @@ import React, {
   createContext,
 } from 'react'
 import { useQueryCache } from 'react-query'
-import { redirectTo } from '@/utils/redirect-to'
 import { getCacheKey } from '@/components/student'
 import type { File } from './types'
 import { type TabContext, SplitPane } from './common'
@@ -44,7 +43,9 @@ import {
   FeedbackPanel,
 } from './editor/index'
 import { TestContentWrapper } from './editor/TestContentWrapper'
+import { RealtimeFeedbackModal } from './modals'
 import * as ChatGPT from './editor/ChatGptFeedback'
+import { redirectTo } from '@/utils'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
@@ -84,11 +85,14 @@ export default ({
   panels,
   track,
   exercise,
+  solution,
   links,
   iteration,
   discussion,
-  mentoringRequested,
+  request,
+  mentoringStatus,
   chatgptUsage,
+  trackObjectives,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -101,6 +105,9 @@ export default ({
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false)
+  const [redirectLink, setRedirectLink] = useState('')
+  const [hasLatestIteration, setHasLatestIteration] = useState(false)
   const {
     create: createSubmission,
     current: submission,
@@ -117,10 +124,7 @@ export default ({
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
     testRunStatus !== TestRunStatus.PASS || !filesEqual(submissionFiles, files)
-  const isProcessing =
-    status === EditorStatus.CREATING_SUBMISSION ||
-    status === EditorStatus.CREATING_ITERATION ||
-    testRunStatus === TestRunStatus.QUEUED
+  const [isProcessing, setIsProcessing] = useState(false)
   const haveFilesChanged =
     submission === null ||
     !filesEqual(submissionFiles, files) ||
@@ -134,6 +138,16 @@ export default ({
     usage: chatgptUsage['3.5'],
   })
 
+  useEffect(() => {
+    if (
+      status === EditorStatus.CREATING_SUBMISSION ||
+      status === EditorStatus.CREATING_ITERATION ||
+      testRunStatus === TestRunStatus.QUEUED
+    )
+      setIsProcessing(true)
+    else setIsProcessing(false)
+  }, [status, testRunStatus])
+
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
@@ -141,6 +155,7 @@ export default ({
       onSuccess: () => {
         dispatch({ status: EditorStatus.INITIALIZED })
         setSubmissionFiles(files)
+        setHasLatestIteration(false)
       },
       onError: async (error) => {
         let editorError = null
@@ -172,6 +187,14 @@ export default ({
     })
   }, [createSubmission, dispatch, files])
 
+  const showFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(true)
+  }, [])
+  const hideFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(false)
+    setIsProcessing(false)
+  }, [])
+
   const submit = useCallback(() => {
     if (isSubmitDisabled) {
       return
@@ -181,20 +204,34 @@ export default ({
       throw 'Submission expected'
     }
 
-    dispatch({ status: EditorStatus.CREATING_ITERATION })
+    if (exercise.slug !== 'hello-world') {
+      showFeedbackModal()
+    }
 
-    createIteration(submission, {
-      onSuccess: async (iteration) => {
-        await cache.invalidateQueries([getCacheKey(track.slug, exercise.slug)])
-        redirectTo(iteration.links.solution)
-      },
-    })
+    if (!hasLatestIteration) {
+      dispatch({ status: EditorStatus.CREATING_ITERATION })
+      createIteration(submission, {
+        onSuccess: async (iteration) => {
+          await cache.invalidateQueries([
+            getCacheKey(track.slug, exercise.slug),
+          ])
+
+          if (exercise.slug === 'hello-world') {
+            redirectTo(iteration.links.solution)
+          }
+          setRedirectLink(iteration.links.solution)
+          setHasLatestIteration(true)
+        },
+      })
+    }
   }, [
     cache,
     createIteration,
     dispatch,
     exercise.slug,
+    hasLatestIteration,
     isSubmitDisabled,
+    showFeedbackModal,
     submission,
     track.slug,
   ])
@@ -492,7 +529,7 @@ export default ({
                     track={track}
                     iteration={iteration}
                     discussion={discussion}
-                    requestedMentoring={mentoringRequested}
+                    requestedMentoring={mentoringStatus === 'requested'}
                     mentoringRequestLink={links.mentoringRequest}
                     automatedFeedbackInfoLink={links.automatedFeedbackInfo}
                     mentorDiscussionsLink={links.mentorDiscussions}
@@ -520,6 +557,20 @@ export default ({
                 )}
               </TasksContext.Provider>
             }
+          />
+          <RealtimeFeedbackModal
+            open={feedbackModalOpen}
+            onClose={hideFeedbackModal}
+            discussion={discussion}
+            mentoringStatus={mentoringStatus}
+            onSubmit={submit}
+            solution={solution}
+            track={track}
+            request={request}
+            submission={submission}
+            exercise={exercise}
+            trackObjectives={trackObjectives}
+            links={{ ...links, redirectToExerciseLink: redirectLink }}
           />
 
           {submission && insider && (

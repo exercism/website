@@ -37,7 +37,7 @@ export const MentoringRequestForm = ({
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<Request>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.createMentorRequest,
         method: 'POST',
@@ -50,7 +50,7 @@ export const MentoringRequestForm = ({
       return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
     },
     {
-      onSuccess: onSuccess,
+      onSuccess,
     }
   )
 
@@ -75,7 +75,11 @@ export const MentoringRequestForm = ({
         </h3>
         <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
-      <form data-turbo="false" className="community" onSubmit={handleSubmit}>
+      <form
+        data-turbo="false"
+        className="c-mentoring-request-form"
+        onSubmit={handleSubmit}
+      >
         <div className="heading">
           <div className="info">
             <h2>It&apos;s time to deepen your knowledge.</h2>

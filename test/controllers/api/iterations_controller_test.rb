@@ -3,11 +3,96 @@ require_relative './base_test_case'
 class API::IterationsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_solution_iterations_path, args: 1, method: :post
   guard_incorrect_token! :api_solution_iteration_path, args: 2, method: :delete
+  guard_incorrect_token! :latest_api_solution_iterations_path, args: 1
   guard_incorrect_token! :latest_status_api_solution_iterations_path, args: 1
   guard_incorrect_token! :automated_feedback_api_solution_iteration_path, args: 2
 
   ###
-  # latst_status
+  # latest
+  ###
+  test "latest should 404 if the solution doesn't exist" do
+    setup_user
+    get latest_api_solution_iterations_path(999), headers: @headers, as: :json
+    assert_response :not_found
+  end
+
+  test "latest should 404 if no iteration exist" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :not_found
+  end
+
+  test "latest should 403 if the solution belongs to someone else" do
+    setup_user
+    solution = create :concept_solution
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :forbidden
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest should return latest iteration" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create(:iteration, solution:)
+    it_2 = create(:iteration, solution:)
+
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :ok
+
+    expected = { iteration: SerializeIteration.(it_2) }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest should return latest iteration even if it was deleted" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create(:iteration, solution:)
+    it_2 = create :iteration, solution:, deleted_at: Time.current
+
+    get latest_api_solution_iterations_path(solution.uuid), headers: @headers, as: :json
+    assert_response :ok
+
+    expected = { iteration: SerializeIteration.(it_2) }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  test "latest allows sideloading automated feedback" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+    create(:iteration, solution:)
+    submission = create :submission, solution:,
+      tests_status: :passed,
+      representation_status: :queued,
+      analysis_status: :queued
+    create :submission_analysis, submission:, data: {
+      comments: [
+        { type: "informative", comment: "ruby.two-fer.splat_args" },
+        { type: "essential", comment: "ruby.two-fer.splat_args" }
+      ]
+    }
+    it_2 = create(:iteration, submission:)
+
+    get latest_api_solution_iterations_path(solution.uuid, sideload: [:automated_feedback]), headers: @headers, as: :json
+    assert_response :ok
+
+    expected = { iteration: SerializeIteration.(it_2.reload, sideload: [:automated_feedback]) }
+    expected[:iteration][:analyzer_feedback][:comments][0][:type] = 'essential'
+    expected[:iteration][:analyzer_feedback][:comments][1][:type] = 'informative'
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+  end
+
+  ###
+  # latest_status
   ###
   test "latest_status should 404 if the solution doesn't exist" do
     setup_user

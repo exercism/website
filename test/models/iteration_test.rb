@@ -182,6 +182,22 @@ class IterationTest < ActiveSupport::TestCase
     assert iteration.status.actionable_automated_feedback?
   end
 
+  test "status: celebratory feedback" do
+    submission = create :submission, tests_status: :queued
+    submission.expects(
+      tests_not_queued?: false,
+      tests_queued?: false,
+      tests_passed?: true,
+      automated_feedback_pending?: false,
+      has_essential_automated_feedback?: false,
+      has_actionable_automated_feedback?: false,
+      has_celebratory_automated_feedback?: true
+    )
+    iteration = create(:iteration, submission:)
+
+    assert iteration.status.celebratory_automated_feedback?
+  end
+
   test "status: non_actionable feedback" do
     submission = create :submission, tests_status: :queued
     submission.expects(
@@ -191,6 +207,7 @@ class IterationTest < ActiveSupport::TestCase
       automated_feedback_pending?: false,
       has_essential_automated_feedback?: false,
       has_actionable_automated_feedback?: false,
+      has_celebratory_automated_feedback?: false,
       has_non_actionable_automated_feedback?: true
     )
     iteration = create(:iteration, submission:)

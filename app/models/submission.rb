@@ -86,7 +86,6 @@ class Submission < ApplicationRecord
     # submission when it is created, and then use those here instead of the track's
     # status fields
     return true if !representation_generated? && !analysis_completed? && track.has_representer? && track.has_analyzer?
-    return false if has_automated_feedback?
     return true if (representation_queued? || representation_not_queued?) && track.has_representer?
     return true if (analysis_queued? || analysis_not_queued?) && track.has_analyzer?
 
@@ -95,7 +94,7 @@ class Submission < ApplicationRecord
 
   def has_automated_feedback? = num_automated_comments_by_type.values.sum.positive?
 
-  %i[essential actionable non_actionable].each do |type|
+  %i[essential actionable non_actionable celebratory].each do |type|
     define_method "num_#{type}_automated_comments" do
       num_automated_comments_by_type[type]
     end
@@ -203,13 +202,15 @@ class Submission < ApplicationRecord
     {
       essential: analysis&.num_essential_comments.to_i,
       actionable: analysis&.num_actionable_comments.to_i,
-      non_actionable: analysis&.num_informative_comments.to_i +
-        analysis&.num_celebratory_comments.to_i
+      non_actionable: analysis&.num_informative_comments.to_i,
+      celebratory: analysis&.num_celebratory_comments.to_i
     }.tap do |values|
       if exercise_representation&.has_essential_feedback?
         values[:essential] += 1
       elsif exercise_representation&.has_actionable_feedback?
         values[:actionable] += 1
+      elsif exercise_representation&.has_celebratory_feedback?
+        values[:celebratory] += 1
       elsif exercise_representation&.has_feedback?
         values[:non_actionable] += 1
       end

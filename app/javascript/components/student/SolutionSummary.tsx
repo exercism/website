@@ -67,7 +67,7 @@ export const SolutionSummary = ({
   const queryCache = useQueryCache()
   const CACHE_KEY = `solution-${solution.uuid}-summary`
   const [queryEnabled, setQueryEnabled] = useState(true)
-  const { resolvedData } = usePaginatedRequestQuery<{
+  const { resolvedData, status } = usePaginatedRequestQuery<{
     iterations: Iteration[]
   }>(CACHE_KEY, {
     ...request,

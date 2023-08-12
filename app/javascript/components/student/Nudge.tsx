@@ -97,6 +97,7 @@ export const Nudge = ({
       default: {
         switch (iterationStatus) {
           case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+          case IterationStatus.CELEBRATORY_AUTOMATED_FEEDBACK:
           case IterationStatus.NO_AUTOMATED_FEEDBACK: {
             switch (exerciseType) {
               case 'concept':
@@ -130,7 +131,7 @@ export const Nudge = ({
     return () => {
       channel.disconnect()
     }
-  }, [CACHE_KEY, solution])
+  }, [CACHE_KEY, solution, queryCache])
 
   useEffect(() => {
     setNudgeType(getNudgeType())

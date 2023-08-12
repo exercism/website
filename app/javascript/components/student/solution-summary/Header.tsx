@@ -92,10 +92,12 @@ export const Header = ({
           : '',
         iteration.numNonActionableAutomatedComments > 0
           ? `${
-              iteration.numNonActionableAutomatedComments
+              iteration.numNonActionableAutomatedComments +
+              iteration.numCelebratoryAutomatedComments
             } additional ${pluralize(
               'comment',
-              iteration.numNonActionableAutomatedComments
+              iteration.numNonActionableAutomatedComments +
+                iteration.numCelebratoryAutomatedComments
             )}`
           : '',
       ].filter((comment) => comment.length > 0)
@@ -135,6 +137,7 @@ export const Header = ({
         </header>
       )
     case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+    case IterationStatus.CELEBRATORY_AUTOMATED_FEEDBACK:
       if (exercise.type === 'tutorial') {
         return <TutorialHeader exercise={exercise} />
       }
@@ -147,10 +150,13 @@ export const Header = ({
               We’ve analysed your solution and not found anything that needs
               changing. We do have{' '}
               <span className="non-actionable">
-                {iteration.numNonActionableAutomatedComments} additional{' '}
+                {iteration.numNonActionableAutomatedComments +
+                  iteration.numCelebratoryAutomatedComments}{' '}
+                additional{' '}
                 {pluralize(
                   'comment',
-                  iteration.numNonActionableAutomatedComments
+                  iteration.numNonActionableAutomatedComments +
+                    iteration.numCelebratoryAutomatedComments
                 )}
               </span>{' '}
               that you might like to check.{' '}
@@ -175,10 +181,12 @@ export const Header = ({
         )}`,
         iteration.numNonActionableAutomatedComments > 0
           ? `${
-              iteration.numNonActionableAutomatedComments
+              iteration.numNonActionableAutomatedComments +
+              iteration.numCelebratoryAutomatedComments
             } additional ${pluralize(
               'comment',
-              iteration.numNonActionableAutomatedComments
+              iteration.numNonActionableAutomatedComments +
+                iteration.numCelebratoryAutomatedComments
             )}`
           : '',
       ].filter((comment) => comment.length > 0)

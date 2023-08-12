@@ -22,7 +22,7 @@ export class LatestIterationStatusChannel {
     )
   }
 
-  disconnect() {
+  disconnect(): void {
     this.subscription.unsubscribe()
   }
 }

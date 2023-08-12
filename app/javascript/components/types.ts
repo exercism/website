@@ -306,6 +306,7 @@ export type Iteration = {
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
+  numCelebratoryAutomatedComments: number
   submissionMethod: SubmissionMethod
   representerFeedback?: RepresenterFeedback
   analyzerFeedback?: AnalyzerFeedback
@@ -366,6 +367,7 @@ export enum IterationStatus {
   ESSENTIAL_AUTOMATED_FEEDBACK = 'essential_automated_feedback',
   ACTIONABLE_AUTOMATED_FEEDBACK = 'actionable_automated_feedback',
   NON_ACTIONABLE_AUTOMATED_FEEDBACK = 'non_actionable_automated_feedback',
+  CELEBRATORY_AUTOMATED_FEEDBACK = 'celebratory_automated_feedback',
   NO_AUTOMATED_FEEDBACK = 'no_automated_feedback',
 }
 

@@ -147,6 +147,7 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.automated_feedback_pending?
     assert submission.has_essential_automated_feedback?
     refute submission.has_actionable_automated_feedback?
+    refute submission.has_celebratory_automated_feedback?
     refute submission.has_non_actionable_automated_feedback?
 
     er.update!(feedback_type: :celebratory)
@@ -154,7 +155,8 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.automated_feedback_pending?
     refute submission.has_essential_automated_feedback?
     refute submission.has_actionable_automated_feedback?
-    assert submission.has_non_actionable_automated_feedback?
+    assert submission.has_celebratory_automated_feedback?
+    refute submission.has_non_actionable_automated_feedback?
 
     # Present only if there is actual feedback on analysis
     submission = create :submission, representation_status: :queued, analysis_status: :completed

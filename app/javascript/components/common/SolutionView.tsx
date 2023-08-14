@@ -6,7 +6,7 @@ import { IterationsList } from '../mentoring/session/IterationsList'
 import { FilePanel } from '../mentoring/session/FilePanel'
 import {
   IterationSummary,
-  IterationSummaryWithWebsockets,
+  default as IterationSummaryWithWebsockets,
 } from '../track/IterationSummary'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'

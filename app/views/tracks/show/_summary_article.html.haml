@@ -52,10 +52,23 @@
           Click to explore the different trophies you can achieve!
 
         .trophies
-          - trophies.each do |trophy|
-            .trophy
-              = graphical_icon trophy.icon, category: :graphics, width: 128, height: 128
-              .title= trophy.name(track)
+          - trophies.each.with_index do |trophy, idx|
+            - acquired = idx.zero?
+            - revealable = idx == 1
+            - if acquired
+              - class_name = "acquired"
+            - elsif revealable
+              - class_name = "revealable"
+            - else
+              - class_name = 'not-acquired'
+            .trophy{ class: class_name }
+              .p-8
+                = graphical_icon trophy.icon, category: :graphics, width: 128, height: 128
+              - if revealable
+                .shimmer{ style: "background-image: url(#{image_url("graphics/#{trophy.icon}.svg")})" }
+                .title{ class: "!text-textColor1" } Click to Reveal
+              - else
+                .title= trophy.name(track)
     .rhs
       - if last_8_weeks_counts.any?(&:positive?)
         %section.weekly-count

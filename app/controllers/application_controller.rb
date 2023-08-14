@@ -128,7 +128,7 @@ class ApplicationController < ActionController::Base
     fontawesome = "https://maxcdn.bootstrapcdn.com"
     spellchecker = "https://cdn.jsdelivr.net"
 
-    default = %w['self' https://exercism.org https://api.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
+    default = %w['self' https://exercism.org https://api.exercism.org https://assets.exercism.org]
     default << "127.0.0.1" if Rails.env.test?
 
     {

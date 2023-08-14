@@ -5,7 +5,9 @@ import 'tippy.js/dist/svg-arrow.css'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import React, { lazy, Suspense } from 'react'
-import { initReact } from '../utils/react-bootloader.jsx'
+import { initReact } from '@/utils/react-bootloader'
+
+import { camelizeKeysAs } from '@/utils'
 
 const CLIWalkthrough = lazy(() => import('../components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
@@ -57,9 +59,6 @@ import { Links as CommentsListLinks } from '../components/community-solutions/Co
 
 import { Request } from '../hooks/request-query'
 import { camelizeKeys } from 'humps'
-export function camelizeKeysAs<T>(object: any): T {
-  return camelizeKeys(object) as unknown as T
-}
 
 export const renderLoader = (): JSX.Element => (
   <div className="c-loading-suspense" />
@@ -79,49 +78,61 @@ window.queryCache = new QueryCache()
 // Each should map 1-1 to a component in app/helpers/components
 export const mappings = {
   'share-link': (data: any): JSX.Element => (
-    <Common.ShareLink
-      title={data.title}
-      shareTitle={data.share_title}
-      shareLink={data.share_link}
-      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
-    />
+    <Suspense fallback={renderLoader()}>
+      <Common.ShareLink
+        title={data.title}
+        shareTitle={data.share_title}
+        shareLink={data.share_link}
+        platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+      />
+    </Suspense>
   ),
   'common-concept-widget': (data: any): JSX.Element => (
-    <Common.ConceptWidget concept={data.concept} />
+    <Suspense fallback={renderLoader()}>
+      <Common.ConceptWidget concept={data.concept} />
+    </Suspense>
   ),
   'common-modal': (data: any): JSX.Element => <Common.Modal html={data.html} />,
   'common-solution-view': (data: any): JSX.Element => (
-    <Common.SolutionView
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      language={data.language}
-      indentSize={data.indent_size}
-      publishedIterationIdx={data.published_iteration_idx}
-      publishedIterationIdxs={data.published_iteration_idxs}
-      outOfDate={data.out_of_date}
-      links={camelizeKeysAs<SolutionViewLinks>(data.links)}
-    />
+    <Suspense fallback={renderLoader()}>
+      <Common.SolutionView
+        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+        language={data.language}
+        indentSize={data.indent_size}
+        publishedIterationIdx={data.published_iteration_idx}
+        publishedIterationIdxs={data.published_iteration_idxs}
+        outOfDate={data.out_of_date}
+        links={camelizeKeysAs<SolutionViewLinks>(data.links)}
+      />
+    </Suspense>
   ),
   'common-expander': (data: any): JSX.Element => (
-    <Common.Expander
-      contentIsSafe={data.content_is_safe}
-      content={data.content}
-      buttonTextCompressed={data.button_text_compressed}
-      buttonTextExpanded={data.button_text_expanded}
-      className={data.class_name}
-    />
+    <Suspense fallback={renderLoader()}>
+      <Common.Expander
+        contentIsSafe={data.content_is_safe}
+        content={data.content}
+        buttonTextCompressed={data.button_text_compressed}
+        buttonTextExpanded={data.button_text_expanded}
+        className={data.class_name}
+      />
+    </Suspense>
   ),
   'common-community-solution': (data: any): JSX.Element => (
-    <Common.CommunitySolution
-      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
-      context={data.context}
-    />
+    <Suspense fallback={renderLoader()}>
+      <Common.CommunitySolution
+        solution={camelizeKeysAs<CommunitySolution>(data.solution)}
+        context={data.context}
+      />
+    </Suspense>
   ),
   'common-introducer': (data: any): JSX.Element => (
-    <Common.Introducer
-      icon={data.icon}
-      content={data.content}
-      endpoint={data.endpoint}
-    />
+    <Suspense fallback={renderLoader()}>
+      <Common.Introducer
+        icon={data.icon}
+        content={data.content}
+        endpoint={data.endpoint}
+      />
+    </Suspense>
   ),
   'common-cli-walkthrough': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>

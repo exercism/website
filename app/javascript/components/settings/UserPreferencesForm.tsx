@@ -14,13 +14,13 @@ export type UserPreferences = {
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
 
-export const UserPreferencesForm = ({
+export default function UserPreferencesForm({
   defaultPreferences,
   links,
 }: {
   defaultPreferences: UserPreferences
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [preferences, setPreferences] = useState(defaultPreferences)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,

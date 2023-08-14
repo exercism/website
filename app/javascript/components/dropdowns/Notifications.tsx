@@ -80,19 +80,18 @@ const DropdownContent = ({
 const MAX_NOTIFICATIONS = 5
 const CACHE_KEY = 'notifications'
 
-export const Notifications = ({
+export default function Notifications({
   endpoint,
 }: {
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [isStale, setIsStale] = useState(false)
-  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
-    APIResponse
-  >(CACHE_KEY, {
-    endpoint: endpoint,
-    query: { per_page: MAX_NOTIFICATIONS },
-    options: {},
-  })
+  const { resolvedData, error, status, refetch } =
+    usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
+      endpoint: endpoint,
+      query: { per_page: MAX_NOTIFICATIONS },
+      options: {},
+    })
   const {
     buttonAttributes,
     panelAttributes,

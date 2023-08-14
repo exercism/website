@@ -4,7 +4,7 @@ import { AutomationProps, Representations } from './Representation'
 export type RepresentationsWithFeedbackProps = {
   data: AutomationProps
 }
-export function RepresentationsAdmin({
+export default function RepresentationsAdmin({
   data,
 }: RepresentationsWithFeedbackProps): JSX.Element {
   return (

@@ -5,7 +5,7 @@ type Links = {
   reset: string
 }
 
-export const ResetAccountButton = ({
+export default function ResetAccountButton({
   handle,
   links,
   ariaHideApp = true,
@@ -13,7 +13,7 @@ export const ResetAccountButton = ({
   handle: string
   links: Links
   ariaHideApp?: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (

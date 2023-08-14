@@ -51,7 +51,7 @@ type NudgeType =
 
 const REFETCH_INTERVAL = 2000
 
-export const Nudge = ({
+export default function Nudge({
   solution,
   exerciseType,
   request,
@@ -59,7 +59,7 @@ export const Nudge = ({
   links,
   iterations,
   track,
-}: Props): JSX.Element | null => {
+}: Props): JSX.Element | null {
   const queryCache = useQueryCache()
   const CACHE_KEY = `nudge-${solution.uuid}`
   const [queryEnabled, setQueryEnabled] = useState(true)

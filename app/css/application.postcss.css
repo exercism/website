@@ -1,5 +1,6 @@
 @import "./tailwind.css";
 @import "./defaults";
+@import "./fonts";
 
 @import "./ui-kit/animations";
 @import "./ui-kit/borders";

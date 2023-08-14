@@ -123,12 +123,10 @@ class ApplicationController < ActionController::Base
     websockets = "ws://#{Rails.env.production? ? 'exercism.org' : 'local.exercism.io:3334'}"
     stripe = "https://js.stripe.com"
     captcha = %w[https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/]
-    google_fonts_font = "https://fonts.gstatic.com"
-    google_fonts_css = "https://fonts.googleapis.com"
     fontawesome = "https://maxcdn.bootstrapcdn.com"
     spellchecker = "https://cdn.jsdelivr.net"
 
-    default = %w['self' https://exercism.org https://api.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
+    default = %w['self' https://exercism.org https://api.exercism.org https://assets.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
     default << "127.0.0.1" if Rails.env.test?
 
     {
@@ -138,8 +136,8 @@ class ApplicationController < ActionController::Base
       media: %w[*],
       script: default + [stripe, spellchecker, *captcha],
       frame: [stripe, *captcha],
-      font: [google_fonts_font, fontawesome],
-      style: default + ["'unsafe-inline'", google_fonts_css, fontawesome],
+      font: default + [fontawesome],
+      style: default + ["'unsafe-inline'", fontawesome],
       child: %w['none']
 
     }.map do |type, domains|

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import { ExerciseStatus } from '../types'
-import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
+import { ExerciseTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
 export const ExerciseStatusDot = ({

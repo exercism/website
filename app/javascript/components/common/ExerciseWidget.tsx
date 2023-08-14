@@ -3,7 +3,7 @@ import { Track, Exercise, SolutionForStudent } from '../types'
 import { ExerciseIcon } from './ExerciseIcon'
 import { GraphicalIcon } from './GraphicalIcon'
 import { Info } from './exercise-widget/Info'
-import { ExerciseTooltip } from '../tooltips/ExerciseTooltip'
+import { ExerciseTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
 type Links = {

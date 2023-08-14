@@ -7,7 +7,7 @@ import { Loading } from './Loading'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-export const ExerciseTooltip = React.forwardRef<
+const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
@@ -40,3 +40,5 @@ export const ExerciseTooltip = React.forwardRef<
     </div>
   )
 })
+
+export default ExerciseTooltip

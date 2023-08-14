@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Concept } from '../types'
-import { ConceptTooltip } from '../tooltips/ConceptTooltip'
+import { ConceptTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
 export type Props = { concept: Concept }

@@ -16,13 +16,13 @@ import type {
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
-export const TestimonialsList = ({
+export default function TestimonialsList({
   request: initialRequest,
   defaultSelected,
 }: {
   request: Request
   defaultSelected: string | null
-}): JSX.Element => {
+}): JSX.Element {
   const [selected, setSelected] = useState<string | null>(defaultSelected)
 
   const { request, setPage } = useList(initialRequest)

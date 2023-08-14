@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '@/utils/react-bootloader'
+import { camelizeKeys } from 'humps'
 import { camelizeKeysAs } from '@/utils'
 import 'focus-visible'
 import 'tippy.js/animations/shift-away-subtle.css'
@@ -86,17 +87,23 @@ const FirstTimeModal = lazy(
   () => import('@/components/modals/profile/FirstTimeModal')
 )
 
-// import * as Profile from '@/components/profile'
-import * as CommunitySolutions from '@/components/community-solutions'
-import * as Contributing from '@/components/contributing'
-import { Request as ContributingTasksRequest } from '@/components/contributing/TasksList'
-import { TrackData as ProfileCommunitySolutionsListTrackData } from '@/components/profile/CommunitySolutionsList'
-import { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
-import { Links as SolutionViewLinks } from '@/components/common/SolutionView'
-import { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
+const StarButton = lazy(
+  () => import('@/components/community-solutions/StarButton')
+)
+const CommentsList = lazy(
+  () => import('@/components/community-solutions/CommentsList')
+)
+const ContributorsList = lazy(
+  () => import('@/components/contributing/ContributorsList')
+)
+const TasksList = lazy(() => import('@/components/contributing/TasksList'))
+import type { Request as ContributingTasksRequest } from '@/components/contributing/TasksList'
+import type { TrackData as ProfileCommunitySolutionsListTrackData } from '@/components/profile/CommunitySolutionsList'
+import type { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
+import type { Links as SolutionViewLinks } from '@/components/common/SolutionView'
+import type { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
 
-import { Request } from '../hooks/request-query'
-import { camelizeKeys } from 'humps'
+import type { Request } from '@/hooks'
 
 export const renderLoader = (): JSX.Element => (
   <div className="c-loading-suspense" />
@@ -278,7 +285,7 @@ export const mappings = {
   ),
   'contributing-contributors-list': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Contributing.ContributorsList
+      <ContributorsList
         request={camelizeKeysAs<Request>(data.request)}
         tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
       />
@@ -286,7 +293,7 @@ export const mappings = {
   ),
   'contributing-tasks-list': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Contributing.TasksList
+      <TasksList
         request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
         tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
       />
@@ -474,7 +481,7 @@ export const mappings = {
   ),
   'community-solutions-star-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <CommunitySolutions.StarButton
+      <StarButton
         userSignedIn={data.user_signed_in}
         defaultNumStars={data.num_stars}
         defaultIsStarred={data.is_starred}
@@ -484,7 +491,7 @@ export const mappings = {
   ),
   'community-solutions-comments-list': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <CommunitySolutions.CommentsList
+      <CommentsList
         isAuthor={data.is_author}
         userSignedIn={data.user_signed_in}
         defaultAllowComments={data.allow_comments}

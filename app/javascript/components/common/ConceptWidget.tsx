@@ -5,7 +5,7 @@ import { ExercismTippy } from '../misc/ExercismTippy'
 
 export type Props = { concept: Concept }
 
-export const ConceptWidget = ({ concept }: Props): JSX.Element => {
+export function ConceptWidget({ concept }: Props): JSX.Element {
   const conceptRef = useRef(null)
 
   return (
@@ -25,3 +25,5 @@ export const ConceptWidget = ({ concept }: Props): JSX.Element => {
     </ExercismTippy>
   )
 }
+
+export default ConceptWidget

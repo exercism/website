@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { usePaginatedRequestQuery } from '@/hooks'
 import { Iteration, File } from '../types'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
@@ -8,7 +9,6 @@ import {
   IterationSummary,
   default as IterationSummaryWithWebsockets,
 } from '../track/IterationSummary'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { PublishSettings } from '../student/published-solution/PublishSettings'
 
 export type Links = {
@@ -28,7 +28,7 @@ export type Props = {
 
 const DEFAULT_ERROR = new Error('Unable to load files')
 
-export const SolutionView = ({
+export default function SolutionView({
   iterations,
   publishedIterationIdx,
   publishedIterationIdxs,
@@ -36,7 +36,7 @@ export const SolutionView = ({
   indentSize,
   outOfDate,
   links,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const publishedIterations = iterations.filter((iteration) =>
     publishedIterationIdxs.includes(iteration.idx)
   )

@@ -17,7 +17,7 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   ReactModalClassName?: string
 }
 
-export const Modal = ({
+export function Modal({
   open,
   onClose,
   className,
@@ -29,7 +29,7 @@ export const Modal = ({
   aria,
   ReactModalClassName,
   ...props
-}: React.PropsWithChildren<ModalProps>): JSX.Element => {
+}: React.PropsWithChildren<ModalProps>): JSX.Element {
   const overlayClassNames = [
     'c-modal',
     `theme-${theme}`,
@@ -93,3 +93,5 @@ function CloseButton({ onClose }: CloseButtonProps) {
     </button>
   )
 }
+
+export default Modal

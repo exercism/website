@@ -2,11 +2,40 @@
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '@/utils/react-bootloader'
 import { camelizeKeys } from 'humps'
-import { camelizeKeysAs } from '@/utils'
+import { camelizeKeysAs, highlightAll } from '@/utils'
 import 'focus-visible'
 import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
+
+import type { IConceptMap } from '@/components/concept-map/concept-map-types'
+import type {
+  Iteration,
+  Track,
+  Exercise,
+  SolutionForStudent,
+  CommunitySolution as CommunitySolutionProps,
+  Testimonial,
+  User,
+  SiteUpdate,
+  SharePlatform,
+  Metric,
+} from '@/components/types'
+import type { Request as ContributingTasksRequest } from '@/components/contributing/TasksList'
+import type { TrackData as ProfileCommunitySolutionsListTrackData } from '@/components/profile/CommunitySolutionsList'
+import type { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
+import type { Links as SolutionViewLinks } from '@/components/common/SolutionView'
+import type { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
+import type { Request } from '@/hooks'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
+import type { InsidersStatusData } from '../components/insiders/InsidersStatus'
+import type { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
+import type { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
+import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
+import type { VideoGridProps } from '@/components/community/video-grid/index.js'
+import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
 
 const CLIWalkthrough = lazy(() => import('@/components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
@@ -23,26 +52,61 @@ const InsidersStatus = lazy(
 import StudentTracksList from '@/components/student/TracksList'
 import StudentExerciseList from '@/components/student/ExerciseList'
 
-import * as Common from '@/components/common'
+const ShareLink = lazy(() => import('@/components/common/ShareLink'))
+const ConceptWidget = lazy(() => import('@/components/common/ConceptWidget'))
+const SolutionView = lazy(() => import('@/components/common/SolutionView'))
+const Expander = lazy(() => import('@/components/common/Expander'))
+const Introducer = lazy(() => import('@/components/common/Introducer'))
+const Modal = lazy(() => import('@/components/common/Modal'))
+const CommunitySolution = lazy(
+  () => import('@/components/common/CommunitySolution')
+)
+const Credits = lazy(() => import('@/components/common/Credits'))
+const ExerciseWidget = lazy(() => import('@/components/common/ExerciseWidget'))
+const ShareButton = lazy(() => import('@/components/common/ShareButton'))
+const SiteUpdatesList = lazy(
+  () => import('@/components/common/SiteUpdatesList')
+)
+const CopyToClipboardButton = lazy(
+  () => import('@/components/common/CopyToClipboardButton')
+)
+const ThemeToggleButton = lazy(
+  () => import('@/components/common/ThemeToggleButton')
+)
+const Icon = lazy(() => import('@/components/common/Icon'))
+const GraphicalIcon = lazy(() => import('@/components/common/GraphicalIcon'))
+const ProgressGraph = lazy(() => import('@/components/common/ProgressGraph'))
 
-import * as Student from '@/components/student'
-import * as Community from '@/components/community'
+const ExerciseStatusChart = lazy(
+  () => import('@/components/student/ExerciseStatusChart')
+)
+const ExerciseStatusDot = lazy(
+  () => import('@/components/student/ExerciseStatusDot')
+)
+const OpenEditorButton = lazy(
+  () => import('@/components/student/OpenEditorButton')
+)
+const CompleteExerciseButton = lazy(
+  () => import('@/components/student/CompleteExerciseButton')
+)
+const VideoGrid = lazy(() => import('@/components/community/video-grid'))
+const StoriesGrid = lazy(() => import('@/components/community/stories-grid'))
 
-import * as TrackComponents from '@/components/track'
+const ExerciseCommunitySolutionsList = lazy(
+  () => import('@/components/track/ExerciseCommunitySolutionsList')
+)
+const DigDeeper = lazy(() => import('@/components/track/DigDeeper'))
+const ConceptMakersButton = lazy(
+  () => import('@/components/track/ConceptMakersButton')
+)
+const UnlockHelpButton = lazy(
+  () => import('@/components/track/UnlockHelpButton')
+)
+const ExerciseMakersButton = lazy(
+  () => import('@/components/track/ExerciseMakersButton')
+)
+
 const ConceptMap = lazy(() => import('@/components/concept-map/ConceptMap'))
-import type { IConceptMap } from '@/components/concept-map/concept-map-types'
-import type {
-  Iteration,
-  Track,
-  Exercise,
-  SolutionForStudent,
-  CommunitySolution,
-  Testimonial,
-  User,
-  SiteUpdate,
-  SharePlatform,
-  Metric,
-} from '@/components/types'
 
 // TODO: Move this out of /types, as this is not a type
 import { TrackContribution } from '@/components/types'
@@ -97,13 +161,16 @@ const ContributorsList = lazy(
   () => import('@/components/contributing/ContributorsList')
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
-import type { Request as ContributingTasksRequest } from '@/components/contributing/TasksList'
-import type { TrackData as ProfileCommunitySolutionsListTrackData } from '@/components/profile/CommunitySolutionsList'
-import type { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
-import type { Links as SolutionViewLinks } from '@/components/common/SolutionView'
-import type { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
 
-import type { Request } from '@/hooks'
+const PaymentPending = lazy(
+  () => import('@/components/insiders/PaymentPending')
+)
+const PerksModalButton = lazy(
+  () => import('@/components/perks/PerksModalButton')
+)
+const PerksExternalModalButton = lazy(
+  () => import('@/components/perks/PerksExternalModalButton')
+)
 
 export const renderLoader = (): JSX.Element => (
   <div className="c-loading-suspense" />
@@ -124,7 +191,7 @@ window.queryCache = new QueryCache()
 export const mappings = {
   'share-link': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.ShareLink
+      <ShareLink
         title={data.title}
         shareTitle={data.share_title}
         shareLink={data.share_link}
@@ -134,13 +201,13 @@ export const mappings = {
   ),
   'common-concept-widget': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.ConceptWidget concept={data.concept} />
+      <ConceptWidget concept={data.concept} />
     </Suspense>
   ),
-  'common-modal': (data: any): JSX.Element => <Common.Modal html={data.html} />,
+  'common-modal': (data: any): JSX.Element => <Modal html={data.html} />,
   'common-solution-view': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.SolutionView
+      <SolutionView
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
         language={data.language}
         indentSize={data.indent_size}
@@ -153,7 +220,7 @@ export const mappings = {
   ),
   'common-expander': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.Expander
+      <Expander
         contentIsSafe={data.content_is_safe}
         content={data.content}
         buttonTextCompressed={data.button_text_compressed}
@@ -164,15 +231,15 @@ export const mappings = {
   ),
   'common-community-solution': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.CommunitySolution
-        solution={camelizeKeysAs<CommunitySolution>(data.solution)}
+      <CommunitySolution
+        solution={camelizeKeysAs<CommunitySolutionProps>(data.solution)}
         context={data.context}
       />
     </Suspense>
   ),
   'common-introducer': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.Introducer
+      <Introducer
         icon={data.icon}
         content={data.content}
         endpoint={data.endpoint}
@@ -192,18 +259,18 @@ export const mappings = {
 
   'community-video-grid': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Community.VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
+      <VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
     </Suspense>
   ),
   'community-stories-grid': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Community.StoriesGrid data={camelizeKeys(data)} />
+      <StoriesGrid data={camelizeKeys(data)} />
     </Suspense>
   ),
 
   'track-exercise-community-solutions-list': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <TrackComponents.ExerciseCommunitySolutionsList
+      <ExerciseCommunitySolutionsList
         request={camelizeKeysAs<Request>(data.request)}
       />
     </Suspense>
@@ -211,19 +278,19 @@ export const mappings = {
 
   'track-dig-deeper': (data: DigDeeperProps): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
+      <DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
     </Suspense>
   ),
 
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
+      <UnlockHelpButton unlockUrl={data.unlock_url} />
     </Suspense>
   ),
 
   'track-exercise-makers-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <TrackComponents.ExerciseMakersButton
+      <ExerciseMakersButton
         avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
         numAuthors={data.num_authors}
         numContributors={data.num_contributors}
@@ -233,7 +300,7 @@ export const mappings = {
   ),
   'track-concept-makers-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <TrackComponents.ConceptMakersButton
+      <ConceptMakersButton
         avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
         numAuthors={data.num_authors}
         numContributors={data.num_contributors}
@@ -243,7 +310,7 @@ export const mappings = {
   ),
   'common-credits': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.Credits
+      <Credits
         users={camelizeKeysAs<User[]>(data.users)}
         topCount={data.top_count}
         topLabel={data.top_label}
@@ -254,7 +321,7 @@ export const mappings = {
   ),
   'common-exercise-widget': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.ExerciseWidget
+      <ExerciseWidget
         exercise={camelizeKeysAs<Exercise>(data.exercise)}
         track={camelizeKeysAs<Track>(data.track)}
         solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
@@ -267,7 +334,7 @@ export const mappings = {
   ),
   'common-share-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.ShareButton
+      <ShareButton
         title={data.title}
         shareTitle={data.share_title}
         shareLink={data.share_link}
@@ -277,7 +344,7 @@ export const mappings = {
   ),
   'common-site-updates-list': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.SiteUpdatesList
+      <SiteUpdatesList
         updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}
         context={data.context}
       />
@@ -314,7 +381,7 @@ export const mappings = {
   ),
   'student-exercise-status-chart': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Student.ExerciseStatusChart
+      <ExerciseStatusChart
         exercisesData={data.exercises_data}
         links={data.links}
       />
@@ -322,7 +389,7 @@ export const mappings = {
   ),
   'student-exercise-status-dot': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Student.ExerciseStatusDot
+      <ExerciseStatusDot
         exerciseStatus={data.exercise_status}
         type={data.type}
         links={data.links}
@@ -331,7 +398,7 @@ export const mappings = {
   ),
   'student-open-editor-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Student.OpenEditorButton
+      <OpenEditorButton
         editorEnabled={data.editor_enabled}
         status={data.status}
         links={data.links}
@@ -341,7 +408,7 @@ export const mappings = {
   ),
   'student-complete-exercise-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Student.CompleteExerciseButton
+      <CompleteExerciseButton
         endpoint={data.endpoint}
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
       />
@@ -395,7 +462,7 @@ export const mappings = {
 
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
+      <CopyToClipboardButton textToCopy={data.text_to_copy} />
     </Suspense>
   ),
   'common-theme-toggle-button': (
@@ -404,17 +471,17 @@ export const mappings = {
     }
   ): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.ThemeToggleButton {...data} defaultTheme={data.default_theme} />
+      <ThemeToggleButton {...data} defaultTheme={data.default_theme} />
     </Suspense>
   ),
   'common-icon': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.Icon icon={data.icon} alt={data.alt} />
+      <Icon icon={data.icon} alt={data.alt} />
     </Suspense>
   ),
   'common-graphical-icon': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.GraphicalIcon icon={data.icon} />
+      <GraphicalIcon icon={data.icon} />
     </Suspense>
   ),
   'profile-testimonials-summary': (data: any): JSX.Element => (
@@ -523,7 +590,7 @@ export const mappings = {
     height: number
   }): JSX.Element => (
     <Suspense fallback={renderLoader()}>
-      <Common.ProgressGraph
+      <ProgressGraph
         data={data.values}
         height={data.height}
         width={data.width}
@@ -584,26 +651,11 @@ export const mappings = {
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
-import type { DigDeeperProps } from '@/components/track/DigDeeper'
-import type { ChartData } from '@/components/impact/Chart'
-import { InsidersStatusData } from '../components/insiders/InsidersStatus'
 import {
   handleNavbarFocus,
   scrollIntoView,
   showSiteFooterOnTurboLoad,
 } from '@/utils'
-import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
-import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
-import { FooterFormProps } from '../components/donations/FooterForm'
-import { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
-import { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
-import { VideoGridProps } from '@/components/community/video-grid/index.js'
-import {
-  PaymentPending,
-  PaymentPendingProps,
-} from '@/components/insiders/PaymentPending'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

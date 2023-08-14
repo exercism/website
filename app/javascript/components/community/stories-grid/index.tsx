@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Avatar, GraphicalIcon, Pagination } from '../../common'
+import { Avatar, GraphicalIcon, Pagination } from '@/components/common'
 
 type StoriesGridProps = {
   data: any
@@ -77,3 +77,4 @@ function Story({ title, interviewee, links }: StoryProps): JSX.Element {
     </a>
   )
 }
+export default StoriesGrid

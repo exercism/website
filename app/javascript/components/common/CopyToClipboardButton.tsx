@@ -10,7 +10,7 @@ const KEY_NAMES_LEGACY = Object.freeze({
   SPACE: 'Space',
 })
 
-export function CopyToClipboardButton({
+export default function CopyToClipboardButton({
   textToCopy,
 }: {
   textToCopy: string

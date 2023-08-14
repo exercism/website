@@ -37,3 +37,5 @@ export function GraphicalIcon({
     />
   )
 }
+
+export default GraphicalIcon

@@ -6,7 +6,7 @@ import {
   ExerciseType,
   Iteration,
 } from '../types'
-import { CompleteExerciseButton } from './CompleteExerciseButton'
+import { default as CompleteExerciseButton } from './CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
 import {
   MentorDiscussion,

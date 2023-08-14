@@ -15,19 +15,15 @@ export function Pagination({
   setPage,
   around = 2,
 }: PaginationProps): JSX.Element | null {
-  if (total <= 1) {
-    return null
-  }
-
   useEffect(() => {
     if (current > total) {
       setPage(total)
     } else if (current < 1) {
       setPage(1)
     }
-  }, [total, current])
+  }, [total, current, setPage])
 
-  if (current < 1 || current > total) {
+  if (current < 1 || current > total || total <= 1) {
     return null
   }
 

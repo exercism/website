@@ -1,5 +1,5 @@
-export { WelcomeModal } from './WelcomeModal'
-export { WelcomeToInsidersModal } from './WelcomeToInsidersModal'
-export { Modal } from './Modal'
+export { default as WelcomeModal } from './WelcomeModal'
+export { default as WelcomeToInsidersModal } from './WelcomeToInsidersModal'
+export { default as Modal } from './Modal'
 export { UploadVideoModal } from './upload-video'
 export { RealtimeFeedbackModal } from './realtime-feedback-modal'

@@ -20,7 +20,7 @@ export type Props = {
   isSkinny: boolean
 }
 
-export const ExerciseWidget = ({
+export function ExerciseWidget({
   exercise,
   track,
   solution,
@@ -28,7 +28,7 @@ export const ExerciseWidget = ({
   renderAsLink,
   renderBlurb,
   isSkinny,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   return (
     <ExercismTippy
       content={
@@ -146,3 +146,4 @@ ExerciseWidget.defaultProps = {
   renderBlurb: true,
   isSkinny: false,
 }
+export default ExerciseWidget

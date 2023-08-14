@@ -3,7 +3,7 @@ import { ExerciseStatus } from '../types'
 import { ExerciseTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
-export const ExerciseStatusDot = ({
+export default function ExerciseStatusDot({
   exerciseStatus,
   type,
   links,
@@ -14,7 +14,7 @@ export const ExerciseStatusDot = ({
     tooltip: string
     exercise?: string
   }
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <ExercismTippy content={<ExerciseTooltip endpoint={links.tooltip} />}>
       <ReferenceElement

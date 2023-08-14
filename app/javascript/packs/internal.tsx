@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'easymde/dist/easymde.min.css'
 
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
 import {
@@ -87,12 +87,36 @@ function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
 
+import { Props as EditorProps } from '../components/editor/Props'
+const Editor = lazy(() => import('../components/Editor'))
+
+import { FooterFormProps } from '../components/donations/FooterForm'
+const DonationsFooterForm = lazy(
+  () => import('../components/donations/FooterForm')
+)
+const DonationsFormWithModal = lazy(
+  () => import('../components/donations/FormWithModal')
+)
+
+const DonationsSubscriptionForm = lazy(
+  () => import('../components/donations/SubscriptionForm')
+)
+
+import { renderLoader } from './application'
+import currency from 'currency.js'
+
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 
 initReact({
   'common-markdown-editor': (data: any) => (
     <MarkdownEditor contextId={data.context_id} />
+  ),
+
+  editor: (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <Editor {...camelizeKeysAs<EditorProps>(data)} />
+    </Suspense>
   ),
 
   'modals-welcome-modal': (data: any) => (
@@ -268,7 +292,6 @@ initReact({
   'settings-theme-preference-form': (data: any) => (
     <Settings.ThemePreferenceForm
       defaultThemePreference={data.default_theme_preference}
-      isInsider={data.is_insider}
       insidersStatus={data.insiders_status}
       links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
     />
@@ -379,5 +402,32 @@ initReact({
   ),
   'student-update-exercise-notice': (data: any) => (
     <Student.UpdateExerciseNotice links={data.links} />
+  ),
+
+  // Slow things at the end
+  'donations-footer-form': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsFooterForm {...camelizeKeysAs<FooterFormProps>(data)} />
+    </Suspense>
+  ),
+
+  'donations-with-modal-form': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsFormWithModal
+        request={camelizeKeysAs<Request>(data.request)}
+        links={data.links}
+        userSignedIn={data.user_signed_in}
+        captchaRequired={data.captcha_required}
+        recaptchaSiteKey={data.recaptcha_site_key}
+      />
+    </Suspense>
+  ),
+  'donations-subscription-form': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <DonationsSubscriptionForm
+        {...data}
+        amount={currency(data.amount_in_cents, { fromCents: true })}
+      />
+    </Suspense>
   ),
 })

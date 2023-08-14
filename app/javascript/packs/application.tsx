@@ -7,21 +7,6 @@ import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 import React, { lazy, Suspense } from 'react'
 import { initReact } from '../utils/react-bootloader.jsx'
 
-const DonationsFormWithModal = lazy(
-  () => import('../components/donations/FormWithModal')
-)
-
-const DonationsSubscriptionForm = lazy(
-  () => import('../components/donations/SubscriptionForm')
-)
-
-const Editor = lazy(() => import('../components/Editor'))
-import { Props as EditorProps } from '../components/editor/Props'
-
-const DonationsFooterForm = lazy(
-  () => import('../components/donations/FooterForm')
-)
-
 const CLIWalkthrough = lazy(() => import('../components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
   () => import('../components/common/CLIWalkthroughButton')
@@ -75,9 +60,10 @@ import { camelizeKeys } from 'humps'
 export function camelizeKeysAs<T>(object: any): T {
   return camelizeKeys(object) as unknown as T
 }
-import currency from 'currency.js'
 
-const renderLoader = () => <div className="c-loading-suspense" />
+export const renderLoader = (): JSX.Element => (
+  <div className="c-loading-suspense" />
+)
 
 declare global {
   interface Window {
@@ -99,30 +85,6 @@ export const mappings = {
       shareLink={data.share_link}
       platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
     />
-  ),
-  'donations-with-modal-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFormWithModal
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
-      />
-    </Suspense>
-  ),
-  'donations-subscription-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsSubscriptionForm
-        {...data}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  editor: (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
-    </Suspense>
   ),
   'common-concept-widget': (data: any): JSX.Element => (
     <Common.ConceptWidget concept={data.concept} />
@@ -476,12 +438,6 @@ export const mappings = {
       </Suspense>
     )
   },
-  // Slow things at the end
-  'donations-footer-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm {...camelizeKeysAs<FooterFormProps>(data)} />
-    </Suspense>
-  ),
 }
 
 // Add all react components here.

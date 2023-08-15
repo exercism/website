@@ -3,14 +3,14 @@ class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophy
   def icon = 'trophy-iterated-twenty-exercises'
 
   def criteria(track)
-    "Awarded once you submit multiple iterations for %<num_exercises> exercises in %<track_title>s" % {
+    "Awarded once you submit multiple iterations for %<num_exercises>i exercises in %<track_title>s" % {
       num_exercises: NUM_EXERCISES,
       track_title: track.title
     }
   end
 
   def success_message(track)
-    "Congratulations on submitting multiple iterations for %<num_exercises> exercises in %<track_title>s" % {
+    "Congratulations on submitting multiple iterations for %<num_exercises>i exercises in %<track_title>s" % {
       num_exercises: NUM_EXERCISES,
       track_title: track.title
     }

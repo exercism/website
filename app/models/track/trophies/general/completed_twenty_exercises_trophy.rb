@@ -3,14 +3,14 @@ class Track::Trophies::General::CompletedTwentyExercisesTrophy < Track::Trophy
   def icon = 'trophy-completed-twenty-exercises'
 
   def criteria(track)
-    "Awarded once you complete %<num_completed_exercises> exercises in %<track_title>s" % {
+    "Awarded once you complete %<num_completed_exercises>i exercises in %<track_title>s" % {
       num_completed_exercises: NUM_COMPLETED_EXERCISES,
       track_title: track.title
     }
   end
 
   def success_message(track)
-    "Congratulations on completing %<num_completed_exercises> exercises in %<track_title>s" % {
+    "Congratulations on completing %<num_completed_exercises>i exercises in %<track_title>s" % {
       num_completed_exercises: NUM_COMPLETED_EXERCISES,
       track_title: track.title
     }

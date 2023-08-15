@@ -217,8 +217,8 @@
                     }
 
                     .shimmer {
-                        @apply absolute inset-8;
-                        bottom: 55px;
+                        @apply absolute inset-0;
+                        bottom: 0px;
                         @apply bg-contain bg-no-repeat;
                         clip-path: polygon(-5% 0%, 5% 0%, 0% 5%, 0% -5%);
                         animation: shimmer 3s infinite forwards;

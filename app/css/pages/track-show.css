@@ -199,8 +199,11 @@
                 @apply border-1 border-borderColor7 rounded-8 bg-backgroundColorA;
                 @apply flex flex-col items-stretch;
                 flex: 1 1 20%;
-                img {
-                    @apply w-fill;
+                .icon {
+                    @apply p-8;
+                    img {
+                        @apply w-fill;
+                    }
                 }
                 .title {
                     @apply border-t-1 border-borderColor7 p-8 bg-backgroundColorB bg-white;

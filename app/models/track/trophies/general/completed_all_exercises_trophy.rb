@@ -1,6 +1,7 @@
 class Track::Trophies::General::CompletedAllExercisesTrophy < Track::Trophy
-  def name(_) = "Completionist"
+  def name(_) = "Exemplary Expert"
   def icon = 'trophy-completed-all-exercises'
+  def order = 6
 
   def criteria(track)
     "Awarded once you complete all exercises in %<track_title>s" % { track_title: track.title }

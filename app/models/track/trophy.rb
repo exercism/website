@@ -8,7 +8,7 @@ class Track::Trophy < ApplicationRecord
       JSON_LENGTH(valid_track_slugs) = 0
       OR
       JSON_CONTAINS(valid_track_slugs, '"#{track.slug}"')
-    })
+          }).sort_by(&:order)
   end
 
   def reseed!
@@ -45,5 +45,6 @@ class Track::Trophy < ApplicationRecord
 
   # Stub that children can override to generate
   # notifications when they are created
-  def notification_key; end
+  def notification_key = nil
+  def order = 999
 end

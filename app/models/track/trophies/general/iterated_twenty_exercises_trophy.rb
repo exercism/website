@@ -1,6 +1,7 @@
 class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophy
-  def name(_) = "Iterator"
+  def name(_) = "Persistent Perfectionist"
   def icon = 'trophy-iterated-twenty-exercises'
+  def order = 3
 
   def criteria(track)
     "Awarded once you submit multiple iterations for %<num_exercises>i exercises in %<track_title>s" % {

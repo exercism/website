@@ -1,6 +1,7 @@
 class Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy < Track::Trophy
-  def name(_) = "Inspiration"
+  def name(_) = "Studious Student"
   def icon = 'trophy-read-fifty-community-solutions'
+  def order = 5
 
   def criteria(track)
     "Awarded once you've read %<num_solutions>i community solutions in %<track_title>s" % {

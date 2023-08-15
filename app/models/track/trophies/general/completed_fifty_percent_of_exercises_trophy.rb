@@ -1,6 +1,7 @@
 class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy < Track::Trophy
-  def name(_) = "Halfway There"
+  def name(_) = "Laudable Learner"
   def icon = 'trophy-completed-fifty-percent-of-exercises'
+  def order = 2
 
   def criteria(track)
     "Awarded once you complete %<percentage_completed_exercises>i%% of the exercises in %<track_title>s" % {

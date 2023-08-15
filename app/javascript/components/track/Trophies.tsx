@@ -117,12 +117,14 @@ const Trophy = ({
       onClick={handleReveal}
       disabled={trophyStatus === 'not_earned' || disabled}
     >
-      <GraphicalIcon
-        icon={trophy.iconName}
-        category="graphics"
-        width={128}
-        height={128}
-      />
+      <div className="icon">
+        <GraphicalIcon
+          icon={trophy.iconName}
+          category="graphics"
+          width={128}
+          height={128}
+        />
+      </div>
       {trophyStatus === 'unrevealed' ? (
         <>
           <div

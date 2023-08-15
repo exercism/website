@@ -1,6 +1,7 @@
 class Track::Trophies::General::CompletedTwentyExercisesTrophy < Track::Trophy
-  def name(_) = "Twenty"
+  def name(_) = "Prolific Padawan"
   def icon = 'trophy-completed-twenty-exercises'
+  def order = 1
 
   def criteria(track)
     "Awarded once you complete %<num_completed_exercises>i exercises in %<track_title>s" % {

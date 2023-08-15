@@ -1,6 +1,7 @@
 class Track::Trophies::General::MentoredTrophy < Track::Trophy
   def name(_) = "Magnificent Mentee"
   def icon = 'trophy-mentored'
+  def order = 4
 
   def criteria(track)
     "Awarded once you complete a mentoring session in %<track_title>s" % { track_title: track.title }

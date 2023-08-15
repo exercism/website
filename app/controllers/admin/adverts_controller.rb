@@ -1,6 +1,6 @@
 class Admin::AdvertsController < ApplicationController
-  before_action :set_partner
-  before_action :set_advert, only: %i[show edit update destroy]
+  before_action :use_partner
+  before_action :use_advert, only: %i[show edit update destroy]
 
   # GET /admin/adverts/1
   def show; end
@@ -40,16 +40,16 @@ class Admin::AdvertsController < ApplicationController
   end
 
   private
-  def set_partner
-    @partner = Partner.find(params[:partner_id])
+  def use_partner
+    @partner = Partner.find_by(slug: params[:partner_id])
   end
 
-  def set_advert
-    @advert = @partner.adverts.find(params[:id])
+  def use_advert
+    @advert = @partner.adverts.find_by(uuid: params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def advert_params
-    params.require(:partner_advert).permit(*%i[status url base_text emphasised_text])
+    params.require(:partner_advert).permit(*%i[status url base_text emphasised_text light_logo dark_logo])
   end
 end

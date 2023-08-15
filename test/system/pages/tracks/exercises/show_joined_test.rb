@@ -161,14 +161,14 @@ module Pages
             sign_in!(user.reload)
             visit track_path(track)
 
-            click_on "Exercises"
+            click_on "Practice"
             within(".c-exercise-widget:last-child") { assert_text "Locked" }
 
             click_on "Track options"
             click_on "Disable Learning Mode…"
             click_on "Disable Learning Mode"
 
-            click_on "Exercises"
+            click_on "Practice"
             within(".c-exercise-widget:last-child") { refute_text "Locked" }
           end
         end

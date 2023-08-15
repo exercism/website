@@ -5,7 +5,7 @@ class UserTrack::AcquiredTrophy::Create
 
   def call
     # Check to see if it exists already before doing any other expensive things
-    acquired_trophy = UserTrack::AcquiredTrophy.find_by(user:, trophy:, track:)
+    acquired_trophy = UserTrack::AcquiredTrophy.find_by(user:, track:, trophy:)
     return acquired_trophy if acquired_trophy
 
     # Check if the trophy should be awarded. Raise an exception if not

@@ -3,6 +3,7 @@ import { useMutation } from 'react-query'
 import { assetUrl, sendRequest } from '@/utils'
 import { GraphicalIcon } from '../common'
 import { Modal } from '../modals'
+import { GenericTooltip } from '../misc/ExercismTippy'
 
 export type TrophyStatus = 'not_earned' | 'unrevealed' | 'revealed'
 
@@ -41,9 +42,7 @@ export function Trophies({ trophies }: TrophiesProps): JSX.Element {
       ))}
       <Modal open={modalOpen} celebratory onClose={() => setModalOpen(false)}>
         <div className="flex flex-col items-center">
-          <h2 className="text-h2 mb-12">
-            Congrats on earning {highlightedTrophy?.name}!
-          </h2>
+          <h2 className="text-h2 mb-12">{highlightedTrophy?.successMessage}</h2>
 
           {highlightedTrophy && (
             <Trophy
@@ -78,6 +77,7 @@ const Trophy = ({
   disabled?: boolean
 }): JSX.Element => {
   const [trophyStatus, setTrophyStatus] = useState<TrophyStatus>(trophy.status)
+  const [showError, setShowError] = useState(false)
   const [mutation] = useMutation(
     () => {
       if (!trophy.links.reveal) {
@@ -96,7 +96,9 @@ const Trophy = ({
         setHighlightedTrophy(trophy)
         setModalOpen(true)
         setTrophyStatus('revealed')
+        setShowError(false)
       },
+      onError: () => setShowError(true),
     }
   )
 
@@ -134,7 +136,12 @@ const Trophy = ({
           <div className="title !text-textColor1">Click to Reveal</div>
         </>
       ) : (
-        <div className="title">{trophy.name}</div>
+        <GenericTooltip content={trophy.criteria}>
+          <div className="title">{trophy.name}</div>
+        </GenericTooltip>
+      )}
+      {showError && (
+        <div className="c-alert--danger">Failed to reveal trophy</div>
       )}
     </button>
   )

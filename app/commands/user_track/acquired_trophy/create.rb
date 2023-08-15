@@ -5,7 +5,7 @@ class UserTrack::AcquiredTrophy::Create
 
   def call
     # Check to see if it exists already before doing any other expensive things
-    acquired_trophy = UserTrack::AcquiredTrophy.find_by(user:, trophy:)
+    acquired_trophy = UserTrack::AcquiredTrophy.find_by(user:, trophy:, track:)
     return acquired_trophy if acquired_trophy
 
     # Check if the trophy should be awarded. Raise an exception if not
@@ -23,7 +23,6 @@ class UserTrack::AcquiredTrophy::Create
             user_track_acquired_trophy:)
         end
         User::Notification::Create.(user, trophy.notification_key) if trophy.notification_key.present?
-        # User::ResetCache.defer(user, :has_unrevealed_badges?)
       end
 
     # Guard against the race condition and return the trophy if it's been

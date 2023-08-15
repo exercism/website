@@ -78,7 +78,7 @@ const Trophy = ({
   disabled?: boolean
 }): JSX.Element => {
   const [trophyStatus, setTrophyStatus] = useState<TrophyStatus>(trophy.status)
-  const [mutation, { status, error }] = useMutation(
+  const [mutation] = useMutation(
     () => {
       if (!trophy.links.reveal) {
         throw new Error('Reveal link is not available')
@@ -92,10 +92,9 @@ const Trophy = ({
       return fetch
     },
     {
-      onSuccess: (data, trophy: Trophy) => {
-        console.log(data)
-        setModalOpen(true)
+      onSuccess: () => {
         setHighlightedTrophy(trophy)
+        setModalOpen(true)
         setTrophyStatus('revealed')
       },
     }
@@ -114,7 +113,7 @@ const Trophy = ({
     <button
       className={`trophy ${statusToClassName[trophyStatus]}`}
       onClick={handleReveal}
-      disabled={trophy.status === 'not_earned' || disabled}
+      disabled={trophyStatus === 'not_earned' || disabled}
     >
       <GraphicalIcon
         icon={trophy.iconName}
@@ -122,7 +121,7 @@ const Trophy = ({
         width={128}
         height={128}
       />
-      {trophy.status === 'unrevealed' ? (
+      {trophyStatus === 'unrevealed' ? (
         <>
           <div
             className="shimmer"

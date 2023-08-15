@@ -1,7 +1,7 @@
 class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
   def self.valid_track_slugs
     exercise_sql = Arel.sql(
-      Exercise.where('difficulty >= 8').
+      Exercise.where('difficulty >= ?', MIN_HARD_DIFFICULTY).
         where('tracks.id = track_id').
         having("count(*) >= 5").
         select('1').
@@ -30,7 +30,7 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
   def award?(user, track)
     Solution.completed.joins(:exercise).
       where(user:, exercise: { track: }).
-      where('difficulty >= 8').
+      where('difficulty >= ?', MIN_HARD_DIFFICULTY).
       count >= NUM_EXERCISES
   end
 
@@ -41,5 +41,6 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
   def send_email_on_acquisition? = true
 
   NUM_EXERCISES = 5
-  private_constant :NUM_EXERCISES
+  MIN_HARD_DIFFICULTY = 8
+  private_constant :NUM_EXERCISES, :MIN_HARD_DIFFICULTY
 end

@@ -71,7 +71,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "icon_url" do
     exercise = create :practice_exercise, slug: 'bob', icon_name: 'bobby'
-    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bobby.svg", exercise.icon_url
+    assert_equal "https://assets.exercism.org/exercises/bobby.svg", exercise.icon_url
   end
 
   test "git_important_files_sha is generated" do

@@ -87,11 +87,11 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
       representation: {
         id: representation.id,
         exercise: {
-          icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/strings.svg",
+          icon_url: "https://assets.exercism.org/exercises/strings.svg",
           title: "Strings"
         },
         track: {
-          icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg",
+          icon_url: "https://assets.exercism.org/tracks/ruby.svg",
           title: "Ruby",
           highlightjs_language: 'ruby'
         },

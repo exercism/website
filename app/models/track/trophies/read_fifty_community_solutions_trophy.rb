@@ -1,4 +1,4 @@
-class Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy < Track::Trophy
+class Track::Trophies::ReadFiftyCommunitySolutionsTrophy < Track::Trophy
   def name(_) = "Studious Student"
   def icon = 'trophy-read-fifty-community-solutions'
   def order = 5

@@ -167,7 +167,7 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
       Mentor::Discussion::FinishByStudent.(discussion, 4)
     end
 
-    assert_includes student.reload.trophies.map(&:class), Track::Trophies::General::MentoredTrophy
+    assert_includes student.reload.trophies.map(&:class), Track::Trophies::MentoredTrophy
   end
 
   test "adds metric" do

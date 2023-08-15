@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Track::Trophies::Shared::CompletedFiveHardExercisesTrophyTest < ActiveSupport::TestCase
+class Track::Trophies::CompletedFiveHardExercisesTrophyTest < ActiveSupport::TestCase
   test "award?" do
     user = create :user
     track = create :track
@@ -103,19 +103,19 @@ class Track::Trophies::Shared::CompletedFiveHardExercisesTrophyTest < ActiveSupp
     # Don't queue easy difficulty exercise
     (1..3).each do |difficulty|
       exercise.update(difficulty:)
-      refute Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+      refute Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
     end
 
     # Don't queue medium difficulty exercise
     (4..7).each do |difficulty|
       exercise.update(difficulty:)
-      refute Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+      refute Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
     end
 
     # Queue hard difficulty exercise
     (8..9).each do |difficulty|
       exercise.update(difficulty:)
-      assert Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+      assert Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
     end
   end
 end

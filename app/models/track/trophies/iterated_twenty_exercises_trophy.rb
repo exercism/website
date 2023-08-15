@@ -1,4 +1,4 @@
-class Track::Trophies::General::IteratedTwentyExercisesTrophy < Track::Trophy
+class Track::Trophies::IteratedTwentyExercisesTrophy < Track::Trophy
   def name(_) = "Persistent Perfectionist"
   def icon = 'trophy-iterated-twenty-exercises'
   def order = 3

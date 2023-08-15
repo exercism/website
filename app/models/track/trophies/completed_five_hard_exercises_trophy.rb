@@ -1,4 +1,4 @@
-class Track::Trophies::Shared::CompletedFiveHardExercisesTrophy < Track::Trophy
+class Track::Trophies::CompletedFiveHardExercisesTrophy < Track::Trophy
   def self.valid_track_slugs
     exercise_sql = Arel.sql(
       Exercise.where('difficulty >= ?', MIN_HARD_DIFFICULTY).

@@ -1,4 +1,4 @@
-class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy < Track::Trophy
+class Track::Trophies::CompletedFiftyPercentOfExercisesTrophy < Track::Trophy
   def name(_) = "Laudable Learner"
   def icon = 'trophy-completed-fifty-percent-of-exercises'
   def order = 2

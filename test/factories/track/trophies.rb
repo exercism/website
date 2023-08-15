@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :trophy, class: 'Track::Trophies::General::MentoredTrophy' do
+  factory :trophy, class: 'Track::Trophies::MentoredTrophy' do
   end
 
   %i[
@@ -7,14 +7,14 @@ FactoryBot.define do
     completed_twenty_exercises mentored iterated_twenty_exercises
     read_fifty_community_solutions
   ].each do |type|
-    factory "#{type}_trophy", class: "Track::Trophies::General::#{type.to_s.camelize}Trophy" do
+    factory "#{type}_trophy", class: "Track::Trophies::#{type.to_s.camelize}Trophy" do
     end
   end
 
   %i[
     completed_five_hard_exercises completed_learning_mode functional
   ].each do |type|
-    factory "#{type}_trophy", class: "Track::Trophies::Shared::#{type.to_s.camelize}Trophy" do
+    factory "#{type}_trophy", class: "Track::Trophies::#{type.to_s.camelize}Trophy" do
     end
   end
 end

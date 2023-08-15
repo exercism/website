@@ -31,7 +31,7 @@ class UserTrack::ViewedCommunitySolution::CreateTest < ActiveSupport::TestCase
       create(:user_track_viewed_community_solution, user:, track:, solution:)
     end
 
-    refute_includes user.reload.trophies.map(&:class), Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy
+    refute_includes user.reload.trophies.map(&:class), Track::Trophies::ReadFiftyCommunitySolutionsTrophy
 
     solution = create(:practice_solution, user:, track:)
 
@@ -39,6 +39,6 @@ class UserTrack::ViewedCommunitySolution::CreateTest < ActiveSupport::TestCase
       UserTrack::ViewedCommunitySolution::Create.(user, track, solution)
     end
 
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::ReadFiftyCommunitySolutionsTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::ReadFiftyCommunitySolutionsTrophy
   end
 end

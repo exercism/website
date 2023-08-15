@@ -227,7 +227,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::CompletedAllExercisesTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedAllExercisesTrophy
   end
 
   test "awards completed 50% of exercises trophy when at least 50% of the track exercises are now completed" do
@@ -255,7 +255,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
     user_track.reset_summary!
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedFiftyPercentOfExercisesTrophy
   end
 
   test "awards completed twenty exercises trophy when completing 20th exercise" do
@@ -276,7 +276,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::CompletedTwentyExercisesTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedTwentyExercisesTrophy
   end
 
   test "awards completed five hard exercises trophy when completing fifth hard exercise" do
@@ -303,7 +303,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::Shared::CompletedFiveHardExercisesTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedFiveHardExercisesTrophy
   end
 
   test "awards completed learning mode trophy when all the track's learning exercises are now completed" do
@@ -321,7 +321,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Solution::Complete.(solution, user_track)
 
     perform_enqueued_jobs
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::Shared::CompletedLearningModeTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedLearningModeTrophy
   end
 
   test "adds metric" do

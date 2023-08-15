@@ -7,10 +7,10 @@ class Track::Trophy::ReseedVariableTrophiesTest < ActiveSupport::TestCase
     create :completed_five_hard_exercises_trophy
     create :completed_learning_mode_trophy
 
-    Track::Trophies::General::IteratedTwentyExercisesTrophy.any_instance.expects(:reseed!).never
-    Track::Trophies::General::MentoredTrophy.any_instance.expects(:reseed!).never
-    Track::Trophies::Shared::CompletedFiveHardExercisesTrophy.any_instance.expects(:reseed!).once
-    Track::Trophies::Shared::CompletedLearningModeTrophy.any_instance.expects(:reseed!).once
+    Track::Trophies::IteratedTwentyExercisesTrophy.any_instance.expects(:reseed!).never
+    Track::Trophies::MentoredTrophy.any_instance.expects(:reseed!).never
+    Track::Trophies::CompletedFiveHardExercisesTrophy.any_instance.expects(:reseed!).once
+    Track::Trophies::CompletedLearningModeTrophy.any_instance.expects(:reseed!).once
 
     Track::Trophy::ReseedVariableTrophies.()
   end

@@ -1,10 +1,10 @@
 require "test_helper"
 
-class Track::Trophies::General::CompletedLearningModeTrophyTest < ActiveSupport::TestCase
+class Track::Trophies::CompletedAllExercisesTrophyTest < ActiveSupport::TestCase
   test "award?" do
     user = create :user
     track = create :track
-    trophy = create :completed_learning_mode_trophy
+    trophy = create :completed_all_exercises_trophy
 
     ce_1 = create(:concept_exercise, :random_slug, track:)
     ce_2 = create(:concept_exercise, :random_slug, track:)
@@ -33,38 +33,19 @@ class Track::Trophies::General::CompletedLearningModeTrophyTest < ActiveSupport:
     user_track.reset_summary!
     refute trophy.award?(user, track)
 
-    # Practice exercises completed don't count
-    ps_1.update(completed_at: Time.current)
-    ps_2.update(completed_at: Time.current)
+    # Both concept exercises completed doesn't count
+    cs_3.update(completed_at: Time.current)
     user_track.reset_summary!
     refute trophy.award?(user, track)
 
-    # Both concept exercises completed counts
-    cs_3.update(completed_at: Time.current)
+    # Just one practice exercise completed doesn't count
+    ps_1.update(completed_at: Time.current)
+    user_track.reset_summary!
+    refute trophy.award?(user, track)
+
+    # All exercises completed counts
+    ps_2.update(completed_at: Time.current)
     user_track.reset_summary!
     assert trophy.award?(user, track)
-  end
-
-  test "reseed! sets valid_track_slugs to tracks with learning mode enabled" do
-    track = create :track, course: false
-    trophy = create :completed_learning_mode_trophy
-
-    # Track is not valid if learning mode is disabled
-    assert_empty trophy.valid_track_slugs
-
-    # Track is valid if learning mode is enabled
-    track.update(course: true)
-    trophy.reseed!
-    assert_equal [track.slug], trophy.valid_track_slugs
-
-    # Ignore other track with learning mode disabled
-    other_track = create :track, slug: 'fsharp', course: false
-    trophy.reseed!
-    assert_equal [track.slug], trophy.valid_track_slugs
-
-    # Ignore all tracks with learning mode enabled
-    other_track.update(course: true)
-    trophy.reseed!
-    assert_equal [track.slug, other_track.slug].sort, trophy.valid_track_slugs.sort
   end
 end

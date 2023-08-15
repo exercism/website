@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Track::Trophies::General::MentoredTrophyTest < ActiveSupport::TestCase
+class Track::Trophies::MentoredTrophyTest < ActiveSupport::TestCase
   test "award?" do
     # Get set up
     user = create :user

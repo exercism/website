@@ -1,13 +1,12 @@
 require "test_helper"
 
-class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophyTest < ActiveSupport::TestCase
+class Track::Trophies::CompletedTwentyExercisesTrophyTest < ActiveSupport::TestCase
   test "award?" do
     user = create :user
     track = create :track
-    trophy = create :completed_fifty_percent_of_exercises_trophy
+    trophy = create :completed_twenty_exercises_trophy
 
-    exercises = create_list(:practice_exercise, 5, :random_slug, track:)
-
+    exercises = create_list(:practice_exercise, 20, :random_slug, track:)
     create(:user_track, user:, track:)
 
     # We need to get hold of the user track like this as otherwise
@@ -16,23 +15,22 @@ class Track::Trophies::General::CompletedFiftyPercentOfExercisesTrophyTest < Act
     # summary data
     user_track = UserTrack.for!(user, track)
 
-    # Completing less than half of the exercises
-    create(:practice_solution, :completed, exercise: exercises[0], user:)
-    create(:practice_solution, :completed, exercise: exercises[1], user:)
+    # Completing 19 solutions does not count
+    exercises[0..18].each { |exercise| create(:practice_solution, :completed, exercise:, user:) }
     user_track.reset_summary!
     refute trophy.award?(user, track)
 
-    # Starting exercise does not count
-    solution = create(:practice_solution, :started, exercise: exercises[2], user:)
+    # Starting 20th solution does not count
+    solution = create(:practice_solution, :started, exercise: exercises[19], user:)
     user_track.reset_summary!
     refute trophy.award?(user, track)
 
-    # Iterating exercise does not count
+    # Iterating 20th solution does not count
     solution.update(status: :iterated)
     user_track.reset_summary!
     refute trophy.award?(user, track)
 
-    # Completing exercise counts
+    # Completing 20th solution counts
     solution.update(completed_at: Time.current)
     user_track.reset_summary!
     assert trophy.award?(user, track)

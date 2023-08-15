@@ -1,4 +1,4 @@
-class Track::Trophies::General::MentoredTrophy < Track::Trophy
+class Track::Trophies::MentoredTrophy < Track::Trophy
   def name(_) = "Magnificent Mentee"
   def icon = 'trophy-mentored'
   def order = 4

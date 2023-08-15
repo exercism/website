@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Track::Trophies::General::IteratedTwentyExercisesTrophyTest < ActiveSupport::TestCase
+class Track::Trophies::IteratedTwentyExercisesTrophyTest < ActiveSupport::TestCase
   test "award?" do
     user = create :user
     track = create :track
@@ -43,10 +43,10 @@ class Track::Trophies::General::IteratedTwentyExercisesTrophyTest < ActiveSuppor
     iteration_1 = create(:iteration, solution:, idx: 1)
 
     # Don't queue first iteration
-    refute Track::Trophies::General::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_1)
+    refute Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_1)
 
     # Queue second iteration
     iteration_2 = create(:iteration, solution:, idx: 2)
-    assert Track::Trophies::General::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_2)
+    assert Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_2)
   end
 end

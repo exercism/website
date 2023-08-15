@@ -400,7 +400,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       end
     end
 
-    refute_includes user.reload.trophies.map(&:class), Track::Trophies::General::IteratedTwentyExercisesTrophy
+    refute_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
 
     solution = create(:practice_solution, user:, track:)
     submission_1 = create(:submission, solution:)
@@ -411,6 +411,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
       Iteration::Create.(solution, submission_2)
     end
 
-    assert_includes user.reload.trophies.map(&:class), Track::Trophies::General::IteratedTwentyExercisesTrophy
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
   end
 end

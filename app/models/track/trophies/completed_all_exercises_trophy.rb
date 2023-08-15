@@ -1,4 +1,4 @@
-class Track::Trophies::General::CompletedAllExercisesTrophy < Track::Trophy
+class Track::Trophies::CompletedAllExercisesTrophy < Track::Trophy
   def name(_) = "Exemplary Expert"
   def icon = 'trophy-completed-all-exercises'
   def order = 6

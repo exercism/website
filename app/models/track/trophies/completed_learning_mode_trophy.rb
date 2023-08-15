@@ -1,4 +1,4 @@
-class Track::Trophies::Shared::CompletedLearningModeTrophy < Track::Trophy
+class Track::Trophies::CompletedLearningModeTrophy < Track::Trophy
   def self.valid_track_slugs = Track.active.where(course: true).pluck(:slug)
 
   def name(_) = "Fundamental"

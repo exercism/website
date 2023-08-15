@@ -204,7 +204,12 @@ export const mappings = {
       <ConceptWidget concept={data.concept} />
     </Suspense>
   ),
-  'common-modal': (data: any): JSX.Element => <Modal html={data.html} />,
+
+  'common-modal': (data: any): JSX.Element => (
+    <Suspense fallback={renderLoader()}>
+      <Modal html={data.html} />
+    </Suspense>
+  ),
   'common-solution-view': (data: any): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <SolutionView

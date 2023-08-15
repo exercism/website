@@ -15,6 +15,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Nim",
+        success_message: "Congratulations on completing a mentoring session in Nim",
         icon_name: "trophy-mentored",
         status: :not_earned,
         links: {}
@@ -22,6 +23,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Fundamental",
         criteria: "Awarded once you complete Learning Mode in Nim",
+        success_message: "Congratulations on completing Learning Mode in Nim",
         icon_name: "trophy-completed-learning-mode",
         status: :not_earned,
         links: {}
@@ -33,6 +35,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Prolog",
+        success_message: "Congratulations on completing a mentoring session in Prolog",
         icon_name: "trophy-mentored",
         status: :not_earned,
         links: {}
@@ -61,6 +64,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Nim",
+        success_message: "Congratulations on completing a mentoring session in Nim",
         icon_name: "trophy-mentored",
         status: :unrevealed,
         links: {
@@ -70,6 +74,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Completionist",
         criteria: "Awarded once you complete all exercises in Nim",
+        success_message: "Congratulations on completing all exercises in Nim",
         icon_name: "trophy-completed-all-exercises",
         status: :not_earned,
         links: {}
@@ -77,6 +82,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Fundamental",
         criteria: "Awarded once you complete Learning Mode in Nim",
+        success_message: "Congratulations on completing Learning Mode in Nim",
         icon_name: "trophy-completed-learning-mode",
         status: :not_earned,
         links: {}
@@ -88,6 +94,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Magnificent Mentee",
         criteria: "Awarded once you complete a mentoring session in Prolog",
+        success_message: "Congratulations on completing a mentoring session in Prolog",
         icon_name: "trophy-mentored",
         status: :revealed,
         links: {}
@@ -95,6 +102,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
       {
         name: "Completionist",
         criteria: "Awarded once you complete all exercises in Prolog",
+        success_message: "Congratulations on completing all exercises in Prolog",
         icon_name: "trophy-completed-all-exercises",
         status: :not_earned,
         links: {}

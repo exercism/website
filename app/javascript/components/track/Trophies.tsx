@@ -13,6 +13,7 @@ export type TrophyLinks = {
 export type Trophy = {
   name: string
   criteria: string
+  successMessage: string
   iconName: string
   status: TrophyStatus
   links: TrophyLinks

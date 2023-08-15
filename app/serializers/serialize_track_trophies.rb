@@ -23,6 +23,7 @@ class SerializeTrackTrophies
       {
         name: trophy.name(track),
         criteria: trophy.criteria(track),
+        success_message: trophy.success_message(track),
         icon_name: trophy.icon,
         status:,
         links:

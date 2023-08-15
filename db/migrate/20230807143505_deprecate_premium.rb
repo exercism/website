@@ -15,7 +15,7 @@ class DeprecatePremium < ActiveRecord::Migration[7.0]
     User.where(flair: 4).update_all(flair: :insider)
 
     # Do these post-deploy
-    remove_column :users, :active_donation_subscription
+    remove_column :user_data, :active_donation_subscription
     remove_column :user_communication_preferences, :email_about_premium
   end
 end

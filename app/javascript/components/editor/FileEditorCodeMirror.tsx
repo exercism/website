@@ -4,12 +4,17 @@ import React, {
   useState,
   useEffect,
   createContext,
+  lazy,
+  Suspense,
 } from 'react'
 import { File } from '../types'
-import { CodeMirror, Handler } from '../misc/CodeMirror'
+import type { Handler } from '../misc/CodeMirror'
 import { Tab, TabContext } from '../common/Tab'
 import { EditorSettings } from '../editor/types'
 import { LegacyFileBanner } from './LegacyFileBanner'
+import { renderLoader } from '@/packs/application'
+import { useDeepMemo } from '@/hooks'
+const CodeMirror = lazy(() => import('../misc/CodeMirror'))
 
 export type FileEditorHandle = {
   getFiles: () => File[]
@@ -42,10 +47,11 @@ export function FileEditorCodeMirror({
   const containerRef = useRef<HTMLDivElement>(null)
   const editorRefs = useRef<Record<string, Handler>>({})
 
+  const cachedFiles = useDeepMemo(files)
   useEffect(() => {
     const editors: Record<string, Handler> = {}
 
-    files.forEach((file) => {
+    cachedFiles.forEach((file) => {
       const editor = editorRefs.current[file.filename]
 
       if (!editor) {
@@ -58,7 +64,7 @@ export function FileEditorCodeMirror({
     })
 
     editorRefs.current = editors
-  }, [JSON.stringify(files)])
+  }, [cachedFiles])
 
   const getFiles = useCallback(() => {
     return Object.keys(editorRefs.current)
@@ -139,27 +145,29 @@ export function FileEditorCodeMirror({
             {file.type === 'legacy' ? (
               <LegacyFileBanner onDelete={handleDelete(file)} />
             ) : null}
-            <CodeMirror
-              key={file.filename}
-              value={file.content}
-              editorDidMount={(editor) => {
-                const oldEditors = editorRefs.current
+            <Suspense fallback={renderLoader()}>
+              <CodeMirror
+                key={file.filename}
+                value={file.content}
+                editorDidMount={(editor) => {
+                  const oldEditors = editorRefs.current
 
-                oldEditors[file.filename] = editor
+                  oldEditors[file.filename] = editor
 
-                editorRefs.current = oldEditors
-              }}
-              tabSize={settings.tabSize}
-              useSoftTabs={settings.useSoftTabs}
-              language={language}
-              wrap={settings.wrap !== 'off'}
-              isTabCaptured={settings.tabBehavior === 'captured'}
-              theme={settings.theme || 'light'}
-              readonly={
-                readonly || file.type === 'legacy' || file.type === 'readonly'
-              }
-              commands={[]}
-            />
+                  editorRefs.current = oldEditors
+                }}
+                tabSize={settings.tabSize}
+                useSoftTabs={settings.useSoftTabs}
+                language={language}
+                wrap={settings.wrap !== 'off'}
+                isTabCaptured={settings.tabBehavior === 'captured'}
+                theme={settings.theme || 'light'}
+                readonly={
+                  readonly || file.type === 'legacy' || file.type === 'readonly'
+                }
+                commands={[]}
+              />
+            </Suspense>
           </Tab.Panel>
         ))}
       </div>

@@ -14,10 +14,10 @@ class AwardTrophyJob < ApplicationJob
   end
 
   def self.worth_queuing?(track, category, slug, context:)
-    badge = "Track::Trophies::#{category.to_s.camelize}::#{slug.to_s.camelize}Trophy".safe_constantize
+    trophy = "Track::Trophies::#{category.to_s.camelize}::#{slug.to_s.camelize}Trophy".safe_constantize
 
     # Don't queue the job if the badge is not enabled for this track
-    return false unless badge.enabled_for_track?(track)
+    return false unless trophy.enabled_for_track?(track)
 
     # Queue the job if there is no context to conditionally
     # determine if the job needs to be queued
@@ -25,6 +25,6 @@ class AwardTrophyJob < ApplicationJob
 
     context_key = context.class.base_class.name.demodulize.underscore
     args = { context_key => context }
-    badge.worth_queuing?(**args.symbolize_keys)
+    trophy.worth_queuing?(**args.symbolize_keys)
   end
 end

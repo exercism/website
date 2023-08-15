@@ -5,7 +5,7 @@ class SerializeTrackTrophies
 
   def call
     track.trophies.map do |trophy|
-      acquired_trophy = acquired_trophies.find { |at| at.trophy == trophy }
+      acquired_trophy = acquired_trophies.find { |at| at.trophy_id == trophy.id }
       SerializeTrackTrophy.(track, trophy, acquired_trophy)
     end
   end

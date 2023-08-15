@@ -4,7 +4,7 @@ import { waitFor, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { MarkdownEditor } from '../../../../app/javascript/components/common/MarkdownEditor'
+import { MarkdownEditor } from '@/components/common/'
 import userEvent from '@testing-library/user-event'
 
 const server = setupServer(

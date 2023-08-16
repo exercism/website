@@ -14,6 +14,4 @@ class Track::Trophies::MentoredTrophy < Track::Trophy
   def award?(user, track)
     Mentor::Discussion.finished.joins(:request).where(request: { student: user, track: }).exists?
   end
-
-  def send_email_on_acquisition? = true
 end

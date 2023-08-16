@@ -28,8 +28,6 @@ class Track::Trophies::IteratedTwentyExercisesTrophy < Track::Trophy
     iteration.idx > 1
   end
 
-  def send_email_on_acquisition? = true
-
   NUM_EXERCISES = 20
   private_constant :NUM_EXERCISES
 end

@@ -18,6 +18,4 @@ class Track::Trophies::CompletedFiftyPercentOfExercisesTrophy < Track::Trophy
   def award?(user, track)
     UserTrack.for(user, track).completed_percentage >= 50
   end
-
-  def send_email_on_acquisition? = true
 end

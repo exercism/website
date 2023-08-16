@@ -506,7 +506,6 @@ import {
 } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
-<<<<<<< HEAD
 import { FooterFormProps } from '../components/donations/FooterForm'
 import { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
 import { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'

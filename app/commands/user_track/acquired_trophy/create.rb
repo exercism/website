@@ -1,7 +1,7 @@
 class UserTrack::AcquiredTrophy::Create
   include Mandate
 
-  initialize_with :user, :track, :slug, send_email: true
+  initialize_with :user, :track, :slug
 
   def call
     # Check to see if it exists already before doing any other expensive things
@@ -14,11 +14,6 @@ class UserTrack::AcquiredTrophy::Create
     # Build the trophy
     begin
       UserTrack::AcquiredTrophy.create!(user:, track:, trophy:).tap do |user_track_acquired_trophy|
-        if trophy.send_email_on_acquisition? && send_email
-          User::Notification::CreateEmailOnly.(user, :acquired_trophy,
-            user_track_acquired_trophy:)
-        end
-
         if trophy.notification_key.present?
           User::Notification::Create.(user, trophy.notification_key)
         else

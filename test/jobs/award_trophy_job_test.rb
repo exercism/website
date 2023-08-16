@@ -6,7 +6,7 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     track = create :track
     slug = :mentored
 
-    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, slug, send_email: true)
+    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, slug)
 
     AwardTrophyJob.perform_now(user, track, slug)
   end
@@ -16,8 +16,7 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     track = create :track
     slug = :mentored
 
-    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, slug,
-      send_email: true).raises(TrophyCriteriaNotFulfilledError)
+    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, slug).raises(TrophyCriteriaNotFulfilledError)
     AwardTrophyJob.perform_now(user, track, slug)
   end
 
@@ -38,29 +37,15 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     end
   end
 
-  test "use trophy email setting by default" do
+  test "create notification" do
     user = create :user
     track = create :track
 
     create(:mentor_discussion, :finished, request: create(:mentor_request, student: user, track:))
 
     perform_enqueued_jobs do
-      # The default for the mentored trophy is to send an email
-      User::Notification::CreateEmailOnly.expects(:call).once
+      User::Notification::Create.expects(:call).once
       AwardTrophyJob.perform_now(user, track, :mentored)
-    end
-  end
-
-  test "override trophy email setting" do
-    user = create :user
-    track = create :track
-
-    create(:mentor_discussion, :finished, request: create(:mentor_request, student: user, track:))
-
-    perform_enqueued_jobs do
-      # The default for the mentored trophy is to send an email
-      User::Notification::CreateEmailOnly.expects(:call).never
-      AwardTrophyJob.perform_now(user, track, :mentored, send_email: false)
     end
   end
 end

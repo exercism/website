@@ -3,14 +3,14 @@ class AwardTrophyJob < ApplicationJob
 
   discard_on TrophyCriteriaNotFulfilledError
 
-  def self.perform_later(user, track, slug, send_email: true, context: nil)
+  def self.perform_later(user, track, slug, context: nil)
     return unless self.worth_queuing?(track, slug, context:)
 
-    super(user, track, slug, send_email:)
+    super(user, track, slug)
   end
 
-  def perform(user, track, slug, send_email: true)
-    UserTrack::AcquiredTrophy::Create.(user, track, slug, send_email:)
+  def perform(user, track, slug)
+    UserTrack::AcquiredTrophy::Create.(user, track, slug)
   end
 
   def self.worth_queuing?(track, slug, context:)

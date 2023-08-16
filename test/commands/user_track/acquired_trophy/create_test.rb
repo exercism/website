@@ -66,50 +66,9 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
 
     notification_key = ""
     Track::Trophies::MentoredTrophy.any_instance.stubs(notification_key:)
-    User::Notification::Create.expects(:call).with(user, :acquired_trophy, user_track_acquired_trophy:)
+    User::Notification::Create.expects(:call).with(user, :acquired_trophy, user_track_acquired_trophy: nil)
 
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
-  end
-
-  test "sends email if send_email_on_acquisition" do
-    user = create :user
-    track = create :track
-    force_trophy!(user, track)
-
-    create :mentored_trophy
-    Track::Trophies::MentoredTrophy.any_instance.expects(:send_email_on_acquisition?).returns(true)
-    User::Notification::CreateEmailOnly.expects(:call).with do |*params|
-      assert_equal user, params[0]
-      assert_equal :acquired_trophy, params[1]
-      assert_equal :user_track_acquired_trophy, params[2].keys.first
-      assert params[2].values.first.is_a?(UserTrack::AcquiredTrophy)
-    end
-
-    UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
-  end
-
-  test "does not send email if send_email_on_acquisition is false" do
-    user = create :user
-    track = create :track
-    force_trophy!(user, track)
-
-    create :mentored_trophy
-    Track::Trophies::MentoredTrophy.any_instance.expects(:send_email_on_acquisition?).returns(false)
-    User::Notification::CreateEmailOnly.expects(:call).never
-
-    UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
-  end
-
-  test "does not send email if send_email_on_acquisition is true and send_email is false" do
-    user = create :user
-    track = create :track
-    force_trophy!(user, track)
-
-    create :mentored_trophy
-    Track::Trophies::MentoredTrophy.any_instance.expects(:send_email_on_acquisition?).returns(true)
-    User::Notification::CreateEmailOnly.expects(:call).never
-
-    UserTrack::AcquiredTrophy::Create.(user, track, :mentored, send_email: false)
   end
 
   def force_trophy!(user, track)

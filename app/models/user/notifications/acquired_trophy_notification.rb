@@ -3,6 +3,10 @@ class User::Notifications::AcquiredTrophyNotification < User::Notification
 
   delegate :track, :trophy, to: :user_track_acquired_trophy
 
+  before_validation on: :create do
+    self.track = user_track_acquired_trophy.track
+  end
+
   def url = Exercism::Routes.track_url(track, anchor: "trophy-cabinet")
   def image_type = :icon
   def image_url = trophy.icon

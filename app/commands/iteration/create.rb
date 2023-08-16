@@ -60,7 +60,7 @@ class Iteration::Create
   end
 
   def award_trophies!(iteration)
-    AwardTrophyJob.perform_later(user, track, :general, :iterated_twenty_exercises, context: iteration)
+    AwardTrophyJob.perform_later(user, track, :iterated_twenty_exercises, context: iteration)
   end
 
   def log_metric!(iteration)

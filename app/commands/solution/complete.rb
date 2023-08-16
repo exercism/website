@@ -29,11 +29,11 @@ class Solution::Complete
   end
 
   def award_trophies!
-    AwardTrophyJob.perform_later(user, track, :general, :completed_all_exercises)
-    AwardTrophyJob.perform_later(user, track, :general, :completed_twenty_exercises)
-    AwardTrophyJob.perform_later(user, track, :general, :completed_fifty_percent_of_exercises)
-    AwardTrophyJob.perform_later(user, track, :shared, :completed_learning_mode)
-    AwardTrophyJob.perform_later(user, track, :shared, :completed_five_hard_exercises, context: exercise)
+    AwardTrophyJob.perform_later(user, track, :completed_all_exercises)
+    AwardTrophyJob.perform_later(user, track, :completed_twenty_exercises)
+    AwardTrophyJob.perform_later(user, track, :completed_fifty_percent_of_exercises)
+    AwardTrophyJob.perform_later(user, track, :completed_learning_mode)
+    AwardTrophyJob.perform_later(user, track, :completed_five_hard_exercises, context: exercise)
   end
 
   def record_activity!

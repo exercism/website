@@ -77,6 +77,7 @@ class NotificationsMailer < ApplicationMailer
   def acquired_trophy
     notification = params[:notification]
     @user = notification.user
+    @track = notification.track
 
     subject = "You've unlocked a new trophy"
     @unsubscribe_key = :email_on_acquired_trophy_notification

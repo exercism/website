@@ -8,7 +8,7 @@ module Flows
     include RedirectHelpers
 
     test "advert impression logged" do
-      travel_to(Time.new.utc(2023, 8, 18, 12, 0)) do
+      travel_to(Time.zone.local(2023, 8, 18, 12, 0)) do
         ActionDispatch::Request.any_instance.expects(:is_crawler?).returns(false)
 
         track = create :track, slug: :javascript

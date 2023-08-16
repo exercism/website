@@ -1,4 +1,6 @@
 class Partner::AdvertsController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def redirect
     advert = Partner::Advert.find_by!(uuid: params[:id])
 

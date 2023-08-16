@@ -5,8 +5,6 @@ class Track::Trophy::Reseed
     TROPHIES.each do |trophy|
       trophy.first&.reseed! || trophy.create!
     end
-
-    Track::Trophy::ReseedVariableTrophies.()
   end
 
   TROPHIES = [

@@ -1,4 +1,4 @@
-class Track::Trophy::ReseedVariableTrophies
+class Track::Trophy::ReseedVariable
   include Mandate
 
   def call

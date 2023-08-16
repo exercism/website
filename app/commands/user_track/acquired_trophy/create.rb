@@ -18,7 +18,12 @@ class UserTrack::AcquiredTrophy::Create
           User::Notification::CreateEmailOnly.(user, :acquired_trophy,
             user_track_acquired_trophy:)
         end
-        User::Notification::Create.(user, trophy.notification_key) if trophy.notification_key.present?
+
+        if trophy.notification_key.present?
+          User::Notification::Create.(user, trophy.notification_key)
+        else
+          User::Notification::Create.(user, :acquired_trophy, user_track_acquired_trophy:)
+        end
       end
 
     # Guard against the race condition and return the trophy if it's been

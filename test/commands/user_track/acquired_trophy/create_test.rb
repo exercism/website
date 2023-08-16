@@ -58,20 +58,23 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
-  test "Does not create notification if key is not present" do
+  test "creates default notification if key is not present" do
     user = create :user
     track = create :track
+    trophy = create :mentored_trophy
     force_trophy!(user, track)
 
-    create :mentored_trophy
+    user_track_acquired_trophy = create(:user_track_acquired_trophy, user:, track:, trophy:)
+    UserTrack::AcquiredTrophy.expects(:create!).with(user:, track:, trophy:).returns(user_track_acquired_trophy)
+
     notification_key = ""
     Track::Trophies::MentoredTrophy.any_instance.stubs(notification_key:)
-    User::Notification::Create.expects(:call).never
+    User::Notification::Create.expects(:call).with(user, :acquired_trophy, user_track_acquired_trophy:)
 
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
-  test "Sends email if send_email_on_acquisition" do
+  test "sends email if send_email_on_acquisition" do
     user = create :user
     track = create :track
     force_trophy!(user, track)
@@ -88,7 +91,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
-  test "Does not send email if send_email_on_acquisition is false" do
+  test "does not send email if send_email_on_acquisition is false" do
     user = create :user
     track = create :track
     force_trophy!(user, track)
@@ -100,7 +103,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
-  test "Does not send email if send_email_on_acquisition is true and send_email is false" do
+  test "does not send email if send_email_on_acquisition is true and send_email is false" do
     user = create :user
     track = create :track
     force_trophy!(user, track)

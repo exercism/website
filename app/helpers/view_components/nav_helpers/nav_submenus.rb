@@ -29,6 +29,13 @@ module ViewComponents
 
       DISCOVER_SUBMENU = [
         {
+          title: "Exercism Perks",
+          description: "Offers & discounts from our partners",
+          path: Exercism::Routes.perks_path,
+          icon: 'perks-gradient'
+        },
+
+        {
           title: "Community Videos",
           description: "Streaming, walkthroughs & more",
           path: Exercism::Routes.community_videos_path,

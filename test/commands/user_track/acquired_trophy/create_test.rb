@@ -61,11 +61,8 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
   test "creates default notification if key is not present" do
     user = create :user
     track = create :track
-    trophy = create :mentored_trophy
     force_trophy!(user, track)
-
-    user_track_acquired_trophy = create(:user_track_acquired_trophy, user:, track:, trophy:)
-    UserTrack::AcquiredTrophy.expects(:create!).with(user:, track:, trophy:).returns(user_track_acquired_trophy)
+    create :mentored_trophy
 
     notification_key = ""
     Track::Trophies::MentoredTrophy.any_instance.stubs(notification_key:)

@@ -15,8 +15,8 @@ class Track::Trophy < ApplicationRecord
     update!(valid_track_slugs: Array(self.class.valid_track_slugs))
   end
 
-  def self.lookup!(category, slug)
-    klass = "track/trophies/#{category}/#{slug}_trophy".camelize.constantize
+  def self.lookup!(slug)
+    klass = "track/trophies/#{slug}_trophy".camelize.constantize
 
     # This avoids race conditions
     begin

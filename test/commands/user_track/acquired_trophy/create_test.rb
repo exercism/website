@@ -7,7 +7,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     trophy = create :mentored_trophy
     expected = create(:user_track_acquired_trophy, user:, trophy:, track:)
 
-    actual = UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+    actual = UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
     assert_equal expected, actual
   end
 
@@ -19,7 +19,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     create(:user_track_acquired_trophy, user:, trophy:, track: other_track)
 
     assert_raises TrophyCriteriaNotFulfilledError do
-      UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+      UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
     end
   end
 
@@ -29,7 +29,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     trophy = create :mentored_trophy
     Track::Trophies::MentoredTrophy.any_instance.expects(:award?).with(user, track).returns(true)
 
-    actual = UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+    actual = UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
     assert_equal user, actual.user
     assert_equal trophy, actual.trophy
   end
@@ -41,7 +41,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     Track::Trophies::MentoredTrophy.any_instance.expects(:award?).with(user, track).returns(false)
 
     assert_raises TrophyCriteriaNotFulfilledError do
-      UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+      UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
     end
   end
 
@@ -55,7 +55,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     Track::Trophies::MentoredTrophy.any_instance.stubs(notification_key:)
     User::Notification::Create.expects(:call).with(user, notification_key)
 
-    UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+    UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
   test "Does not create notification if key is not present" do
@@ -68,7 +68,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     Track::Trophies::MentoredTrophy.any_instance.stubs(notification_key:)
     User::Notification::Create.expects(:call).never
 
-    UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+    UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
   test "Sends email if send_email_on_acquisition" do
@@ -85,7 +85,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
       assert params[2].values.first.is_a?(UserTrack::AcquiredTrophy)
     end
 
-    UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+    UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
   test "Does not send email if send_email_on_acquisition is false" do
@@ -97,7 +97,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     Track::Trophies::MentoredTrophy.any_instance.expects(:send_email_on_acquisition?).returns(false)
     User::Notification::CreateEmailOnly.expects(:call).never
 
-    UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored)
+    UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
   test "Does not send email if send_email_on_acquisition is true and send_email is false" do
@@ -109,7 +109,7 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     Track::Trophies::MentoredTrophy.any_instance.expects(:send_email_on_acquisition?).returns(true)
     User::Notification::CreateEmailOnly.expects(:call).never
 
-    UserTrack::AcquiredTrophy::Create.(user, track, :general, :mentored, send_email: false)
+    UserTrack::AcquiredTrophy::Create.(user, track, :mentored, send_email: false)
   end
 
   def force_trophy!(user, track)

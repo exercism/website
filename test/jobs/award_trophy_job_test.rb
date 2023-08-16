@@ -4,30 +4,27 @@ class AwardTrophyJobTest < ActiveJob::TestCase
   test "trophy is created" do
     user = create :user
     track = create :track
-    category = :general
     slug = :mentored
 
-    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, category, slug, send_email: true)
+    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, slug, send_email: true)
 
-    AwardTrophyJob.perform_now(user, track, category, slug)
+    AwardTrophyJob.perform_now(user, track, slug)
   end
 
   test "rescues from TrophyCriteriaNotFulfilledError" do
     user = create :user
     track = create :track
-    category = :general
     slug = :mentored
 
-    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, category, slug,
+    UserTrack::AcquiredTrophy::Create.expects(:call).with(user, track, slug,
       send_email: true).raises(TrophyCriteriaNotFulfilledError)
-    AwardTrophyJob.perform_now(user, track, category, slug)
+    AwardTrophyJob.perform_now(user, track, slug)
   end
 
   test "trophy is not created when trophy is not worth queueing" do
     user = create :user
     track = create :track, course: false
     create :track, course: true, slug: 'nim'
-    category = :shared
     slug = :completed_learning_mode
     trophy = create :completed_learning_mode_trophy
     trophy.reseed! # Make sure the valid track slugs are up to date
@@ -37,7 +34,7 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     # The completed_learning_mode trophy is only queued when the
     # track has learning mode enabled
     perform_enqueued_jobs do
-      AwardTrophyJob.perform_later(user, track, category, slug)
+      AwardTrophyJob.perform_later(user, track, slug)
     end
   end
 
@@ -50,7 +47,7 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     perform_enqueued_jobs do
       # The default for the mentored trophy is to send an email
       User::Notification::CreateEmailOnly.expects(:call).once
-      AwardTrophyJob.perform_now(user, track, :general, :mentored)
+      AwardTrophyJob.perform_now(user, track, :mentored)
     end
   end
 
@@ -63,7 +60,7 @@ class AwardTrophyJobTest < ActiveJob::TestCase
     perform_enqueued_jobs do
       # The default for the mentored trophy is to send an email
       User::Notification::CreateEmailOnly.expects(:call).never
-      AwardTrophyJob.perform_now(user, track, :general, :mentored, send_email: false)
+      AwardTrophyJob.perform_now(user, track, :mentored, send_email: false)
     end
   end
 end

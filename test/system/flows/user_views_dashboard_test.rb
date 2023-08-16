@@ -61,8 +61,8 @@ module Flows
 
     test "shows latest site updates for joined tracks" do
       user = create :user
-      joined_track = create :track, :random_slug
-      unjoined_track = create :track, :random_slug
+      joined_track = create :track, slug: 'ruby'
+      unjoined_track = create :track, slug: 'kotlin'
       create :user_track, user:, track: joined_track
       joined_arbitrary_update = create :arbitrary_site_update, title: "Arbitrary update 1",
         description_markdown: 'Such a cool update', track: joined_track, published_at: Time.current

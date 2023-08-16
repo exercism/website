@@ -72,7 +72,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
         }
       },
       {
-        name: "Completionist",
+        name: "Exemplary Expert",
         criteria: "Awarded once you complete all exercises in Nim",
         success_message: "Congratulations on completing all exercises in Nim",
         icon_name: "trophy-completed-all-exercises",
@@ -100,7 +100,7 @@ class SerializeTrackTrophiesTest < ActiveSupport::TestCase
         links: {}
       },
       {
-        name: "Completionist",
+        name: "Exemplary Expert",
         criteria: "Awarded once you complete all exercises in Prolog",
         success_message: "Congratulations on completing all exercises in Prolog",
         icon_name: "trophy-completed-all-exercises",

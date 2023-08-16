@@ -86,7 +86,7 @@ class Mentor::Discussion::FinishByStudent
   end
 
   def award_trophies!
-    AwardTrophyJob.perform_later(discussion.student, track, :general, :mentored)
+    AwardTrophyJob.perform_later(discussion.student, track, :mentored)
   end
 
   def update_roles!

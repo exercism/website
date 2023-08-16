@@ -68,8 +68,8 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     Track::Trophies::MentoredTrophy.any_instance.stubs(notification_key:)
     User::Notification::Create.expects(:call).with do |actual_user, actual_slug, kwargs|
       assert_equal user, actual_user
-      assert_equal : acquired_trophy, actual_slug
-      assert_nil kwargs[: user_track_acquired_trophy]
+      assert_equal :acquired_trophy, actual_slug
+      refute_nil kwargs[:user_track_acquired_trophy]
     end
 
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)

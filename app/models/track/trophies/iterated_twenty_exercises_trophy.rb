@@ -24,8 +24,10 @@ class Track::Trophies::IteratedTwentyExercisesTrophy < Track::Trophy
       count >= NUM_EXERCISES
   end
 
-  def self.worth_queuing?(iteration:, **_context)
-    iteration.idx > 1
+  def self.worth_queuing?(**context)
+    return true unless context.key?(:iteration)
+
+    context[:iteration].idx > 1
   end
 
   NUM_EXERCISES = 20

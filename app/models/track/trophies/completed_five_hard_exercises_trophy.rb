@@ -34,8 +34,10 @@ class Track::Trophies::CompletedFiveHardExercisesTrophy < Track::Trophy
       count >= NUM_EXERCISES
   end
 
-  def self.worth_queuing?(exercise:, **_context)
-    exercise.difficulty_category == :hard
+  def self.worth_queuing?(**context)
+    return true unless context.key?(:exercise)
+
+    context[:exercise].difficulty_category == :hard
   end
 
   NUM_EXERCISES = 5

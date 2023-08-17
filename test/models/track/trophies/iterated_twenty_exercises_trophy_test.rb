@@ -49,4 +49,10 @@ class Track::Trophies::IteratedTwentyExercisesTrophyTest < ActiveSupport::TestCa
     iteration_2 = create(:iteration, solution:, idx: 2)
     assert Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_2)
   end
+
+  test "worth_queuing? does not require exercise in context" do
+    track = create :track
+
+    assert Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:)
+  end
 end

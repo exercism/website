@@ -117,5 +117,13 @@ class Track::Trophies::CompletedFiveHardExercisesTrophyTest < ActiveSupport::Tes
       exercise.update(difficulty:)
       assert Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
     end
+
+    exercise.update(difficulty: 9)
+  end
+
+  test "worth_queuing? does not require exercise in context" do
+    track = create :track
+
+    assert Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:)
   end
 end

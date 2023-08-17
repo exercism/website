@@ -2,6 +2,8 @@ class Partner
   class LogAdvertImpression
     include Mandate
 
+    queue_as :background
+
     initialize_with :uuid, :advert, :user, :ip_address, :shown_at, :request_path
 
     def call

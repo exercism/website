@@ -2,6 +2,8 @@ class Partner
   class LogAdvertClick
     include Mandate
 
+    queue_as :background
+
     initialize_with :advert, :user, :clicked_at, :impression_uuid
 
     def call

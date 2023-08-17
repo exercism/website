@@ -9,6 +9,8 @@ class Partner
 
       mongodb_collection.insert_one(doc)
       Advert.where(id: advert.id).update_all('num_impressions = num_impressions + 1')
+    ensure
+      mongodb_client.close
     end
 
     private

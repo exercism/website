@@ -42,39 +42,102 @@ export function Trophies({ trophies }: TrophiesProps): JSX.Element {
       ))}
       <Modal open={modalOpen} celebratory onClose={() => setModalOpen(false)}>
         <div className="flex flex-col items-center">
-          <h2 className="text-h2 mb-12">{highlightedTrophy?.successMessage}</h2>
-
           {highlightedTrophy && (
-            <Trophy
-              trophy={highlightedTrophy}
-              disabled
-              setHighlightedTrophy={setHighlightedTrophy}
-              setModalOpen={setModalOpen}
-            />
+            <>
+              <h2 className="text-h2 mb-12">
+                {highlightedTrophy.successMessage}
+              </h2>
+              <div className="trophy acquired">
+                <TrophyIcon trophy={highlightedTrophy} />
+                <div className="title">{highlightedTrophy.name}</div>
+              </div>
+              <p className="text-p-base mt-16">{highlightedTrophy.criteria}</p>
+            </>
           )}
-          <p className="text-p-base mt-16">{highlightedTrophy?.criteria}</p>
         </div>
       </Modal>
     </div>
   )
 }
 
-const statusToClassName: Record<TrophyStatus, string> = {
-  not_earned: 'not-acquired',
-  revealed: 'acquired',
-  unrevealed: 'revealable',
+const TrophyIcon = ({ trophy }: { trophy: Trophy }): JSX.Element => {
+  return (
+    <div className="icon">
+      <GraphicalIcon
+        icon={trophy.iconName}
+        category="graphics"
+        width={128}
+        height={128}
+      />
+    </div>
+  )
 }
 
 const Trophy = ({
   trophy,
   setHighlightedTrophy,
   setModalOpen,
-  disabled = false,
 }: {
   trophy: Trophy
   setHighlightedTrophy: Dispatch<SetStateAction<Trophy | null>>
   setModalOpen: Dispatch<SetStateAction<boolean>>
-  disabled?: boolean
+}): JSX.Element => {
+  switch (trophy.status) {
+    case 'not_earned':
+      return <NotEarnedTrophy key={trophy.name} trophy={trophy} />
+    case 'unrevealed':
+      return (
+        <UnrevealedTrophy
+          key={trophy.name}
+          trophy={trophy}
+          setHighlightedTrophy={setHighlightedTrophy}
+          setModalOpen={setModalOpen}
+        />
+      )
+    case 'revealed':
+      return (
+        <RevealedTrophy
+          key={trophy.name}
+          trophy={trophy}
+          setHighlightedTrophy={setHighlightedTrophy}
+          setModalOpen={setModalOpen}
+        />
+      )
+  }
+}
+
+const RevealedTrophy = ({
+  trophy,
+  setHighlightedTrophy,
+  setModalOpen,
+}: {
+  trophy: Trophy
+  setHighlightedTrophy: Dispatch<SetStateAction<Trophy | null>>
+  setModalOpen: Dispatch<SetStateAction<boolean>>
+}): JSX.Element => {
+  const onClick = useCallback(() => {
+    setHighlightedTrophy(trophy)
+    setModalOpen(true)
+  }, [setHighlightedTrophy, setModalOpen])
+
+  return (
+    <GenericTooltip content={trophy.successMessage}>
+      <button className="trophy acquired" onClick={() => onClick()}>
+        <TrophyIcon trophy={trophy} />
+        <div className="title">{trophy.name}</div>
+      </button>
+    </GenericTooltip>
+  )
+}
+
+const UnrevealedTrophy = ({
+  trophy,
+  setHighlightedTrophy,
+  setModalOpen,
+}: {
+  trophy: Trophy
+  setHighlightedTrophy: Dispatch<SetStateAction<Trophy | null>>
+  setModalOpen: Dispatch<SetStateAction<boolean>>
 }): JSX.Element => {
   const [trophyStatus, setTrophyStatus] = useState<TrophyStatus>(trophy.status)
   const [showError, setShowError] = useState(false)
@@ -112,39 +175,31 @@ const Trophy = ({
   }, [mutation, setHighlightedTrophy, setModalOpen, trophy, trophyStatus])
 
   return (
-    <button
-      className={`trophy ${statusToClassName[trophyStatus]}`}
-      onClick={handleReveal}
-      disabled={trophyStatus === 'not_earned' || disabled}
-    >
-      <div className="icon">
-        <GraphicalIcon
-          icon={trophy.iconName}
-          category="graphics"
-          width={128}
-          height={128}
-        />
-      </div>
-      {trophyStatus === 'unrevealed' ? (
-        <>
-          <div
-            className="shimmer"
-            style={{
-              backgroundImage: `url(${assetUrl(
-                `graphics/${trophy.iconName}.svg`
-              )})`,
-            }}
-          />
-          <div className="title !text-textColor1">Click to Reveal</div>
-        </>
-      ) : (
-        <GenericTooltip content={trophy.criteria}>
-          <div className="title">{trophy.name}</div>
-        </GenericTooltip>
-      )}
+    <button className="trophy revealable" onClick={handleReveal}>
+      <TrophyIcon trophy={trophy} />
+      <div
+        className="shimmer"
+        style={{
+          backgroundImage: `url(${assetUrl(
+            `graphics/${trophy.iconName}.svg`
+          )})`,
+        }}
+      />
+      <div className="title !text-textColor1">Click to Reveal</div>
       {showError && (
         <div className="c-alert--danger">Failed to reveal trophy</div>
       )}
     </button>
+  )
+}
+
+const NotEarnedTrophy = ({ trophy }: { trophy: Trophy }): JSX.Element => {
+  return (
+    <GenericTooltip content={trophy.criteria}>
+      <div className="trophy not-acquired">
+        <TrophyIcon trophy={trophy} />
+        <div className="title">{trophy.name}</div>
+      </div>
+    </GenericTooltip>
   )
 }

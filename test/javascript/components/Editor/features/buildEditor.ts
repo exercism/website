@@ -139,7 +139,7 @@ export const buildEditor = build<Props>({
           name: 'Aron Demeter',
           reputation: 56,
           avatarUrl:
-            'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg',
+            'https://assets.exercism.org/placeholders/user-avatar.svg',
           profileUrl: 'http://local.exercism.io:3020/profiles/dem4ron',
         },
       },

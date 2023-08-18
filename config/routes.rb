@@ -313,6 +313,7 @@ Rails.application.routes.draw do
   # Partners #
   ############
   get "partners/gobridge" => "partners#gobridge", as: :gobridge_partner_page
+  get "partners/code-capsules/advert_redirect" => "partners#code_capsules_advert_redirect"
   get "partners/go-developer-network", to: redirect("partners/gobridge")
   get "partners/gdn", to: redirect("partners/gobridge")
 

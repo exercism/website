@@ -7,10 +7,10 @@ module Flows
 
     test "shows last touched tracks" do
       user = create :user
-      nim = create :track, :random_slug, title: "Nim"
-      ruby = create :track, :random_slug, title: "Ruby"
-      kotlin = create :track, :random_slug, title: "Kotlin"
-      elixir = create :track, :random_slug, title: "Elixir"
+      nim = create :track, slug: "nim", title: "Nim"
+      ruby = create :track, slug: "ruby", title: "Ruby"
+      kotlin = create :track, slug: "kotlin", title: "Kotlin"
+      elixir = create :track, slug: "elixir", title: "Elixir"
       create :user_track, track: nim, user:, last_touched_at: 4.days.ago
       create :user_track, track: kotlin, user:, last_touched_at: 3.days.ago
       create :user_track, track: ruby, user:, last_touched_at: 2.days.ago

@@ -39,8 +39,8 @@ module Pages
     test "with three track" do
       user = create :user
 
-      3.times do
-        create :user_track, user:, track: create(:track, :random_slug)
+      %w[nim kotlin prolog].each do |slug|
+        create :user_track, user:, track: create(:track, slug:)
       end
 
       use_capybara_host do
@@ -58,10 +58,10 @@ module Pages
     test "with four track" do
       user = create :user
 
-      ut_1 = create :user_track, last_touched_at: Time.current - 1.day, user:, track: create(:track, :random_slug)
-      ut_2 = create :user_track, last_touched_at: Time.current - 2.days, user:, track: create(:track, :random_slug)
-      ut_3 = create :user_track, last_touched_at: Time.current, user:, track: create(:track, :random_slug)
-      ut_4 = create :user_track, last_touched_at: Time.current + 1.day, user:, track: create(:track, :random_slug)
+      ut_1 = create :user_track, last_touched_at: Time.current - 1.day, user:, track: create(:track, slug: "nim")
+      ut_2 = create :user_track, last_touched_at: Time.current - 2.days, user:, track: create(:track, slug: "prolog")
+      ut_3 = create :user_track, last_touched_at: Time.current, user:, track: create(:track, slug: "swift")
+      ut_4 = create :user_track, last_touched_at: Time.current + 1.day, user:, track: create(:track, slug: "kotlin")
 
       use_capybara_host do
         sign_in!(user)

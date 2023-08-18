@@ -34,7 +34,7 @@ StreamingEvent.create!(
   starts_at: DateTime.new(2023,2,9,16,30),
   ends_at: DateTime.new(2023,2,9,18,00),
   youtube_id: "LknqlTouTKg",
-  thumbnail_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg",
+  thumbnail_url: "https://assets.exercism.org/images/thumbnails/yt-jose-interview-preview.jpg",
   featured: true
 )
 
@@ -45,7 +45,7 @@ StreamingEvent.create!(
   ends_at: DateTime.new(2023,2,9,20,00),
   featured: true
   # youtube_id: "LknqlTouTKg",
-  # thumbnail_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg"
+  # thumbnail_url: "https://assets.exercism.org/images/thumbnails/yt-jose-interview-preview.jpg"
 )
 
 =end

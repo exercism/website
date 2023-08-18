@@ -79,23 +79,23 @@ export function Trophies({ trophies }: TrophiesProps): JSX.Element {
                   className="mt-12 mb-24"
                 />
                 <h2 className="text-h1 mb-2">{highlightedTrophy.name}</h2>
-                {/*<div className="text-p-large text-center text-textColor6 mb-16">
+                <div className="text-p-large text-center text-textColor6 mb-16">
                   Awarded on{' '}
                   <time dateTime={highlightedTrophy.awardedAt}>
                     {timeFormat(highlightedTrophy.awardedAt, 'Do MMM YYYY')}
                   </time>
-                </div>*/}
+                </div>
                 <div className="text-p-large text-center mb-16 text-balance">
                   {highlightedTrophy.successMessage}
                 </div>
 
-                <div className="num-awardees text-p-base">
+                {/*<div className="num-awardees text-p-base">
                   <GraphicalIcon icon="students" />
                   <strong>{highlightedTrophy.numAwardees}</strong>{' '}
                   {pluralize('member', highlightedTrophy.numAwardees)}{' '}
                   {pluralize('has', highlightedTrophy.numAwardees)} earned this
                   trophy in {highlightedTrophy.track.title}.
-                </div>
+                </div>*/}
               </>
             )}
           </div>

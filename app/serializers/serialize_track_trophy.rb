@@ -10,7 +10,7 @@ class SerializeTrackTrophy
       success_message: trophy.success_message(track),
       icon_name: trophy.icon,
       num_awardees: trophy.num_awardees,
-      awarded_at: trophy.created_at.iso8601,
+      awarded_at: acquired_trophy&.created_at&.iso8601,
       status:,
       links:,
       track: {

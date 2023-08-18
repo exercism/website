@@ -29,15 +29,27 @@ export function Trophies({ trophies }: TrophiesProps): JSX.Element {
   const [highlightedTrophy, setHighlightedTrophy] = useState<Trophy | null>(
     null
   )
+  const [currentTrophies, setCurrentTrophies] = useState(trophies)
+  const updateTrophy = useCallback(
+    (trophy: Trophy) => {
+      setCurrentTrophies(
+        currentTrophies.map((currentTrophy) =>
+          currentTrophy === trophy ? trophy : currentTrophy
+        )
+      )
+    },
+    [setCurrentTrophies, currentTrophies]
+  )
 
   return (
     <div className="trophies">
-      {trophies.map((trophy) => (
+      {currentTrophies.map((trophy) => (
         <Trophy
           key={trophy.name}
           trophy={trophy}
           setHighlightedTrophy={setHighlightedTrophy}
           setModalOpen={setModalOpen}
+          updateTrophy={updateTrophy}
         />
       ))}
       <Modal open={modalOpen} celebratory onClose={() => setModalOpen(false)}>
@@ -77,10 +89,12 @@ const Trophy = ({
   trophy,
   setHighlightedTrophy,
   setModalOpen,
+  updateTrophy,
 }: {
   trophy: Trophy
   setHighlightedTrophy: Dispatch<SetStateAction<Trophy | null>>
   setModalOpen: Dispatch<SetStateAction<boolean>>
+  updateTrophy: (trophy: Trophy) => void
 }): JSX.Element => {
   switch (trophy.status) {
     case 'not_earned':
@@ -92,6 +106,7 @@ const Trophy = ({
           trophy={trophy}
           setHighlightedTrophy={setHighlightedTrophy}
           setModalOpen={setModalOpen}
+          updateTrophy={updateTrophy}
         />
       )
     case 'revealed':
@@ -134,12 +149,13 @@ const UnrevealedTrophy = ({
   trophy,
   setHighlightedTrophy,
   setModalOpen,
+  updateTrophy,
 }: {
   trophy: Trophy
   setHighlightedTrophy: Dispatch<SetStateAction<Trophy | null>>
   setModalOpen: Dispatch<SetStateAction<boolean>>
+  updateTrophy: (trophy: Trophy) => void
 }): JSX.Element => {
-  const [trophyStatus, setTrophyStatus] = useState<TrophyStatus>(trophy.status)
   const [showError, setShowError] = useState(false)
   const [mutation] = useMutation(
     () => {
@@ -156,26 +172,18 @@ const UnrevealedTrophy = ({
     },
     {
       onSuccess: () => {
+        trophy.status = 'revealed'
+        updateTrophy(trophy)
         setHighlightedTrophy(trophy)
         setModalOpen(true)
-        setTrophyStatus('revealed')
         setShowError(false)
       },
       onError: () => setShowError(true),
     }
   )
 
-  const handleReveal = useCallback(() => {
-    if (trophyStatus === 'unrevealed') {
-      mutation()
-    } else if (trophyStatus === 'revealed') {
-      setHighlightedTrophy(trophy)
-      setModalOpen(true)
-    }
-  }, [mutation, setHighlightedTrophy, setModalOpen, trophy, trophyStatus])
-
   return (
-    <button className="trophy revealable" onClick={handleReveal}>
+    <button className="trophy revealable" onClick={() => mutation()}>
       <TrophyIcon trophy={trophy} />
       <div
         className="shimmer"

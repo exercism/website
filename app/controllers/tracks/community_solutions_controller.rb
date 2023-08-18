@@ -44,7 +44,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @other_solutions = Solution.where(id: os_ids).includes(*SerializeSolutions::NP1_INCLUDES)
     @mentor_discussions = @solution.mentor_discussions.finished.not_negatively_rated.includes(:mentor)
 
-    UserTrack::ViewedCommunitySolution::Create.defer(current_user, @track, @solution)
+    UserTrack::ViewedCommunitySolution::Create.defer(current_user, @track, @solution) if user_signed_in?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

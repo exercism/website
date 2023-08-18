@@ -21,7 +21,7 @@ class Exercise::Representation::CreateOrUpdate
 
     update_cache_columns!
 
-    # Now copy the old feedback and trigger runs if we've created a new represenation that's different from the old one
+    # Now copy the old feedback and trigger runs if we've created a new representation that's different from the old one
     if representation_is_new && old_representation && representation != old_representation
       update_feedback!
       trigger_reruns!

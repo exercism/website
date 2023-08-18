@@ -1,5 +1,33 @@
 @import "../styles";
 
+@keyframes shimmer {
+    0% {
+        /*clip-path: polygon(100% 0%,100% 10%,0% 100%,0% 90%);*/
+        clip-path: polygon(-5% 0%, 5% 0%, 0% 5%, 0% -5%);
+    }
+
+    30% {
+        clip-path: polygon(195% 0%, 205% 0%, 0% 205%, 0% 195%);
+    }
+
+    /* This just keeps adds a delay between visible animation iteratons */
+    100% {
+        clip-path: polygon(295% 0%, 305% 0%, 0% 305%, 0% 295%);
+    }
+}
+
+@keyframes pulse-box-shadow {
+    0% {
+        box-shadow: 0px 4px 8px 0px rgba(var(--shadowColorMain), 0.2);
+    }
+    50% {
+        box-shadow: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.5);
+    }
+    100% {
+        box-shadow: 0px 4px 8px 0px rgba(var(--shadowColorMain), 0.2);
+    }
+}
+
 #page-track-show {
     & .track-header {
         & .container {
@@ -112,7 +140,6 @@
         }
 
         & section.progress-chart {
-            background: #fff;
             @apply shadow-lg bg-backgroundColorA rounded-8;
             @apply pt-20 pb-28 px-32;
 
@@ -159,6 +186,61 @@
                         @apply ml-auto mr-0;
                         @apply border-l-1 border-borderColor6;
                         @apply pl-24;
+                    }
+                }
+            }
+        }
+        .c-react-wrapper-track-trophies {
+            min-height: 144px;
+        }
+        & section.trophy-cabinet {
+            @apply shadow-lg bg-backgroundColorA rounded-8 pt-24 pb-28 px-32;
+            .trophies {
+                @apply grid grid-cols-6 gap-16;
+            }
+            .trophy {
+                @apply border-1 border-borderColor7 rounded-8 bg-backgroundColorA overflow-hidden;
+                @apply flex flex-col items-stretch;
+                flex: 1 1 20%;
+
+                .icon {
+                    @apply p-8;
+                    img {
+                        @apply w-fill;
+                    }
+                }
+                .title {
+                    @apply border-t-1 border-borderColor7 p-8 bg-backgroundColorB bg-white;
+                    @apply text-center text-textColor6 uppercase font-semibold text-12;
+                    @apply grid flex-grow place-items-center text-center;
+                    @apply leading-130;
+                }
+                &.revealable {
+                    animation: pulse-box-shadow 2s infinite forwards;
+                    @apply shadow-sm hover:shadow-smZ1;
+                    @apply relative overflow-hidden;
+                    img:not(.shimmer) {
+                        @apply grayscale opacity-[0.15];
+                    }
+
+                    .shimmer {
+                        @apply absolute inset-0;
+                        bottom: 0px;
+                        @apply bg-contain bg-no-repeat;
+                        clip-path: polygon(-5% 0%, 5% 0%, 0% 5%, 0% -5%);
+                        animation: shimmer 3s infinite forwards;
+                    }
+                }
+
+                &.acquired {
+                    @apply shadow-sm hover:shadow-smZ1;
+                }
+                &.not-acquired {
+                    img {
+                        @apply grayscale opacity-[0.15];
+                    }
+                    .title {
+                        @apply opacity-[0.7];
                     }
                 }
             }
@@ -681,6 +763,18 @@
         }
         & .c-prominent-link {
             @apply self-center;
+        }
+    }
+}
+.m-track-trophy {
+    & .num-awardees {
+        @apply bg-backgroundColorD;
+        @apply py-8 px-16 mb-10;
+        @apply rounded-8;
+        & .c-icon {
+            @apply h-[24px] w-[24px] mr-4 mb-4;
+            @apply filter-textColor2;
+            @apply inline;
         }
     }
 }

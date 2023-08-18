@@ -68,7 +68,9 @@ module Flows
       use_capybara_host do
         visit track_path(track)
 
-        click_on "Syllabus"
+        within(".c-track-header") do
+          click_on "Learn"
+        end
         assert_text "Your journey through Ruby"
       end
     end
@@ -86,7 +88,9 @@ module Flows
         sign_in!(user.reload)
         visit track_path(track)
 
-        click_on "Syllabus"
+        within(".c-track-header") do
+          click_on "Learn"
+        end
         assert_text "Your journey through Ruby"
       end
     end

@@ -155,6 +155,21 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     assert_includes mentor.reload.badges.map(&:class), Badges::MentorBadge
   end
 
+  test "awards mentored trophy" do
+    mentor = create :user
+    student = create :user
+
+    request = create(:mentor_request, student:)
+    discussion = create(:mentor_discussion, mentor:, student:, request:)
+    refute student.badges.present?
+
+    perform_enqueued_jobs do
+      Mentor::Discussion::FinishByStudent.(discussion, 4)
+    end
+
+    assert_includes student.reload.trophies.map(&:class), Track::Trophies::MentoredTrophy
+  end
+
   test "adds metric" do
     discussion = create :mentor_discussion
 

@@ -51,15 +51,15 @@ module ViewComponents
 
         tabs << concepts_tab if course && !practice_mode
         tabs << exercises_tab
-        tabs << about_tab(:about_track_path) unless external
-        tabs << build_tab
+        # tabs << about_tab(:about_track_path) unless external
+        tabs << build_tab if current_user&.maintainer?
 
         safe_join(tabs)
       end
 
       def about_tab(url)
         link_to(
-          graphical_icon('info-circle') + tag.span("About"),
+          graphical_icon('info-circle') + tag.span("About Ruby"),
           Exercism::Routes.send(url, track),
           class: tab_class(:about),
           data: scroll_into_view(:about)
@@ -68,7 +68,7 @@ module ViewComponents
 
       def concepts_tab
         link_to(
-          graphical_icon(:concepts) + tag.span("Syllabus"),
+          graphical_icon(:concepts) + tag.span("Learn"),
           Exercism::Routes.track_concepts_path(track),
           class: tab_class(:concepts),
           data: scroll_into_view(:concepts)
@@ -77,7 +77,7 @@ module ViewComponents
 
       def exercises_tab
         link_to(
-          graphical_icon(:exercises) + tag.span("Exercises"),
+          graphical_icon(:exercises) + tag.span("Practice"),
           Exercism::Routes.track_exercises_path(track),
           class: tab_class(:exercises),
           data: scroll_into_view(:exercises)

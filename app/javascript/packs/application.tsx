@@ -189,6 +189,12 @@ export const mappings = {
     <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
   ),
 
+  'track-trophies': (data: TrophiesProps) => (
+    <TrackComponents.Trophies
+      trophies={camelizeKeysAs<Trophy[]>(data.trophies)}
+    />
+  ),
+
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
     <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
   ),
@@ -508,6 +514,7 @@ import {
   PaymentPending,
   PaymentPendingProps,
 } from '@/components/insiders/PaymentPending'
+import { TrophiesProps, Trophy } from '@/components/track/Trophies.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

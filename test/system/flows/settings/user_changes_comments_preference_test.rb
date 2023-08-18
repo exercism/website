@@ -3,7 +3,7 @@ require_relative "../../../support/capybara_helpers"
 
 module Flows
   module Settings
-    class UserChangesCommentsPrefrenceTest < ApplicationSystemTestCase
+    class UserChangesCommentsPreferenceTest < ApplicationSystemTestCase
       include CapybaraHelpers
 
       test "user updates comments preference" do

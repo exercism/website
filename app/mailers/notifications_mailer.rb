@@ -74,6 +74,17 @@ class NotificationsMailer < ApplicationMailer
     transactional_mail(@user, subject)
   end
 
+  def acquired_trophy
+    notification = params[:notification]
+    @user = notification.user
+    @track = notification.track
+
+    subject = "You've unlocked a new trophy"
+    @unsubscribe_key = :email_on_acquired_trophy_notification
+    @title = "There's a new trophy waiting for you to reveal!"
+    transactional_mail(@user, subject)
+  end
+
   def joined_exercism
     notification = params[:notification]
     @user = notification.user

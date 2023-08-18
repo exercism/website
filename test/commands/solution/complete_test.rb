@@ -208,6 +208,122 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::ConceptualBadge
   end
 
+  test "awards completed all exercises trophy when all the track's learning exercises are now completed" do
+    user = create :user
+    track = create :track
+    create(:hello_world_exercise, track:)
+    concept_exercise = create :concept_exercise, track:, position: 1
+    practice_exercise = create :practice_exercise, track:, position: 2, slug: 'leap'
+    user_track = create(:user_track, user:, track:)
+    refute user.badges.present?
+
+    create(:hello_world_solution, :completed, user:, track:)
+    create :practice_solution, :completed, user:, track:, exercise: practice_exercise
+    refute user.reload.badges.present?
+
+    solution = create :concept_solution, user:, track:, exercise: concept_exercise
+    create(:iteration, solution:)
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedAllExercisesTrophy
+  end
+
+  test "awards completed 50% of exercises trophy when at least 50% of the track exercises are now completed" do
+    user = create :user
+    track = create :track
+    create(:hello_world_exercise, track:)
+    create :concept_exercise, track:, position: 1
+    practice_exercise = create :practice_exercise, track:, position: 2, slug: 'leap'
+    create(:user_track, user:, track:)
+    refute user.badges.present?
+
+    # We need to get hold of the user track like this as otherwise
+    # we'd end up with the code being tested using a different,
+    # cached version of the user track and we could not reset the
+    # summary data
+    user_track = UserTrack.for!(user, track)
+
+    create(:hello_world_solution, :completed, user:, track:)
+    refute user.reload.badges.present?
+
+    solution = create :practice_solution, user:, track:, exercise: practice_exercise
+    create(:iteration, solution:)
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    user_track.reset_summary!
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedFiftyPercentOfExercisesTrophy
+  end
+
+  test "awards completed twenty exercises trophy when completing 20th exercise" do
+    user = create :user
+    track = create :track
+    practice_exercises = create_list(:practice_exercise, 25, :random_slug, track:, difficulty: 9)
+    user_track = create(:user_track, user:, track:)
+    refute user.badges.present?
+
+    practice_exercises[0..18].each do |exercise|
+      create(:practice_solution, :completed, user:, track:, exercise:)
+      refute user.reload.badges.present?
+    end
+
+    solution = create :practice_solution, user:, track:, exercise: practice_exercises[19]
+    create(:iteration, solution:)
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedTwentyExercisesTrophy
+  end
+
+  test "awards completed five hard exercises trophy when completing fifth hard exercise" do
+    user = create :user
+    track = create :track
+    create(:hello_world_exercise, track:)
+    practice_exercises = create_list(:practice_exercise, 6, :random_slug, track:, difficulty: 9)
+    user_track = create(:user_track, user:, track:)
+    refute user.badges.present?
+
+    create(:hello_world_solution, :completed, user:, track:)
+
+    practice_exercises[0..3].each do |exercise|
+      create(:practice_solution, :completed, user:, track:, exercise:)
+      refute user.reload.badges.present?
+    end
+
+    solution = create :practice_solution, user:, track:, exercise: practice_exercises[4]
+    create(:iteration, solution:)
+
+    trophy = create :completed_five_hard_exercises_trophy
+    trophy.reseed!
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedFiveHardExercisesTrophy
+  end
+
+  test "awards completed learning mode trophy when all the track's learning exercises are now completed" do
+    user = create :user
+    track = create :track
+    create(:hello_world_exercise, track:)
+    concept_exercise = create :concept_exercise, track:, position: 1
+    create :practice_exercise, track:, position: 2, slug: 'leap'
+    user_track = create(:user_track, user:, track:)
+    refute user.badges.present?
+
+    solution = create :concept_solution, user:, track:, exercise: concept_exercise
+    create(:iteration, solution:)
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::CompletedLearningModeTrophy
+  end
+
   test "adds metric" do
     track = create :track
     user = create :user

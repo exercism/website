@@ -473,6 +473,42 @@ class UserTrackTest < ActiveSupport::TestCase
     assert_equal 2, user_track.num_concepts_mastered
   end
 
+  test "completed?" do
+    track = create :track
+    user = create :user
+    ce_1 = create(:concept_exercise, :random_slug, track:)
+    ce_2 = create(:concept_exercise, :random_slug, track:)
+    pe_1 = create(:practice_exercise, :random_slug, track:)
+    pe_2 = create(:practice_exercise, :random_slug, track:)
+    user_track = create(:user_track, user:, track:)
+
+    # Started
+    ps_1 = create(:practice_solution, exercise: pe_1, user:)
+
+    # Iterated
+    ps_2 = create(:practice_solution, exercise: pe_2, user:)
+    cs_3 = create(:concept_solution, exercise: ce_1, user:)
+
+    # Completed
+    create(:concept_solution, exercise: ce_2, completed_at: Time.current, user:)
+
+    refute user_track.completed?
+    refute user_track.completed_course?
+
+    cs_3.update(completed_at: Time.current)
+    user_track.reset_summary!
+
+    refute user_track.completed?
+    assert user_track.completed_course?
+
+    ps_1.update(completed_at: Time.current)
+    ps_2.update(completed_at: Time.current)
+    user_track.reset_summary!
+
+    assert user_track.completed?
+    assert user_track.completed_course?
+  end
+
   test "has_notifications" do
     user = create :user
     track = create :track, :random_slug

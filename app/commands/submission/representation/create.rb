@@ -4,14 +4,17 @@ class Submission::Representation::Create
   initialize_with :submission, :tooling_job, :ast_digest, :exercise_representer_version
 
   def call
-    Submission::Representation.create!(
+    representation = Submission::Representation.find_create_or_find_by!(
       submission:,
-      tooling_job_id: tooling_job.id,
       ops_status: tooling_job.execution_status.to_i,
       ast_digest:,
       exercise_representer_version:
-    ).tap do
-      Submission::Representation::UpdateMentor.defer(submission)
+    ) do |sr|
+      sr.tooling_job_id = tooling_job.id
     end
+
+    Submission::Representation::UpdateMentor.defer(submission) if representation.id_previously_changed?
+
+    representation
   end
 end

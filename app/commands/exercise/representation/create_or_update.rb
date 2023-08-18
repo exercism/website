@@ -16,10 +16,13 @@ class Exercise::Representation::CreateOrUpdate
       rep.last_submitted_at = last_submitted_at
     end
 
+    # Do this straight away before anything else
+    representation_is_new = representation.id_previously_changed?
+
     update_cache_columns!
 
-    # Now copy the old feedback and trigger runs if appropriate
-    if old_representation && representation != old_representation
+    # Now copy the old feedback and trigger runs if we've created a new represenation that's different from the old one
+    if representation_is_new && old_representation && representation != old_representation
       update_feedback!
       trigger_reruns!
     end

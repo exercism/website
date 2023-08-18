@@ -210,7 +210,7 @@
                     }
                 }
                 .title {
-                    @apply border-t-1 border-borderColor7 p-8 bg-backgroundColorB bg-white;
+                    @apply border-t-1 border-borderColor7 p-8 bg-backgroundColorB;
                     @apply text-center text-textColor6 uppercase font-semibold text-12;
                     @apply grid flex-grow place-items-center text-center;
                     @apply leading-130;

@@ -50,6 +50,7 @@
           #{track.title} Trophy Cabinet
         %p.text-p-base.text-textColor6.mb-20.text-center
           Unlock for achievements as you progress through the track.
+          = link_to "Learn more", "https://forum.exercism.org/t/track-trophies-are-live/6957"
 
         = render ReactComponents::Track::Trophies.new(track, user_track.user)
 

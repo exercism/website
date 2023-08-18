@@ -39,20 +39,22 @@ class Track::Trophies::IteratedTwentyExercisesTrophyTest < ActiveSupport::TestCa
 
   test "worth_queuing?" do
     track = create :track
+    trophy = create :iterated_twenty_exercises_trophy
     solution = create(:practice_solution, track:)
     iteration_1 = create(:iteration, solution:, idx: 1)
 
     # Don't queue first iteration
-    refute Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_1)
+    refute trophy.worth_queuing?(track:, iteration: iteration_1)
 
     # Queue second iteration
     iteration_2 = create(:iteration, solution:, idx: 2)
-    assert Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:, iteration: iteration_2)
+    assert trophy.worth_queuing?(track:, iteration: iteration_2)
   end
 
   test "worth_queuing? does not require exercise in context" do
     track = create :track
+    trophy = create :iterated_twenty_exercises_trophy
 
-    assert Track::Trophies::IteratedTwentyExercisesTrophy.worth_queuing?(track:)
+    assert trophy.worth_queuing?(track:)
   end
 end

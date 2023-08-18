@@ -98,24 +98,25 @@ class Track::Trophies::CompletedFiveHardExercisesTrophyTest < ActiveSupport::Tes
 
   test "worth_queuing?" do
     track = create :track
+    trophy = create :completed_five_hard_exercises_trophy
     exercise = create :practice_exercise
 
     # Don't queue easy difficulty exercise
     (1..3).each do |difficulty|
       exercise.update(difficulty:)
-      refute Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+      refute trophy.worth_queuing?(track:, exercise:)
     end
 
     # Don't queue medium difficulty exercise
     (4..7).each do |difficulty|
       exercise.update(difficulty:)
-      refute Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+      refute trophy.worth_queuing?(track:, exercise:)
     end
 
     # Queue hard difficulty exercise
     (8..9).each do |difficulty|
       exercise.update(difficulty:)
-      assert Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:, exercise:)
+      assert trophy.worth_queuing?(track:, exercise:)
     end
 
     exercise.update(difficulty: 9)
@@ -123,7 +124,8 @@ class Track::Trophies::CompletedFiveHardExercisesTrophyTest < ActiveSupport::Tes
 
   test "worth_queuing? does not require exercise in context" do
     track = create :track
+    trophy = create :completed_five_hard_exercises_trophy
 
-    assert Track::Trophies::CompletedFiveHardExercisesTrophy.worth_queuing?(track:)
+    assert trophy.worth_queuing?(track:)
   end
 end

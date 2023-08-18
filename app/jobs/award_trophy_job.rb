@@ -14,7 +14,7 @@ class AwardTrophyJob < ApplicationJob
   end
 
   def self.worth_queuing?(track, slug, context:)
-    trophy = "Track::Trophies::#{slug.to_s.camelize}Trophy".safe_constantize
+    trophy = Track::Trophy.lookup!(slug)
 
     # Don't queue the job if the trophy is not enabled for this track
     return false unless trophy.enabled_for_track?(track)

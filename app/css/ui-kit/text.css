@@ -40,11 +40,11 @@
     .text--p {
         @apply leading-160;
 
-        & a.not(".btn-primary") {
+        a:not(.btn-primary) {
             color: var(--c-prominent-link-color);
             @apply font-medium;
         }
-        & strong {
+        strong {
             @apply font-medium text-textColor2;
         }
     }

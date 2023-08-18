@@ -8,14 +8,20 @@ class Track::Trophy::Reseed
   end
 
   TROPHIES = [
+    #
+    # General trophies
+    #
     Track::Trophies::ReadFiftyCommunitySolutionsTrophy,
     Track::Trophies::MentoredTrophy,
     Track::Trophies::IteratedTwentyExercisesTrophy,
     Track::Trophies::CompletedTwentyExercisesTrophy,
     Track::Trophies::CompletedFiftyPercentOfExercisesTrophy,
     Track::Trophies::CompletedAllExercisesTrophy,
-    Track::Trophies::FunctionalTrophy,
-    Track::Trophies::CompletedLearningModeTrophy,
-    Track::Trophies::CompletedFiveHardExercisesTrophy
+    Track::Trophies::FunctionalTrophy
+    #
+    # Variable trophies
+    #
+    # Track::Trophies::CompletedFiveHardExercisesTrophy
+    # Track::Trophies::CompletedLearningModeTrophy,
   ].freeze
 end

@@ -3,19 +3,21 @@ class Track::Trophies::ReadFiftyCommunitySolutionsTrophy < Track::Trophy
   def icon = 'trophy-read-fifty-community-solutions'
   def order = 5
 
+  # rubocop:disable Layout/LineLength
   def criteria(track)
-    "Awarded once you've read %<num_solutions>i community solutions in %<track_title>s" % {
+    "Awarded for reading %<num_solutions>i %<track_title>s community solutions" % {
       num_solutions: NUM_SOLUTIONS,
       track_title: track.title
     }
   end
 
   def success_message(track)
-    "Congratulations on reading %<num_solutions>i community solutions in %<track_title>s" % {
+    "Congratulations on reading %<num_solutions>i community solutions in %<track_title>s. Learning from others is a fantastic way to master a language!" % {
       num_solutions: NUM_SOLUTIONS,
       track_title: track.title
     }
   end
+  # rubocop:enable Layout/LineLength
 
   def award?(user, track)
     UserTrack::ViewedCommunitySolution.

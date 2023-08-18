@@ -9,8 +9,10 @@ class Track::Trophy::ReseedVariableTest < ActiveSupport::TestCase
 
     Track::Trophies::IteratedTwentyExercisesTrophy.any_instance.expects(:reseed!).never
     Track::Trophies::MentoredTrophy.any_instance.expects(:reseed!).never
-    Track::Trophies::CompletedFiveHardExercisesTrophy.any_instance.expects(:reseed!).once
-    Track::Trophies::CompletedLearningModeTrophy.any_instance.expects(:reseed!).once
+
+    Track::Trophy::ReseedVariable::VARIABLE_TROPHIES.each do |trophy|
+      trophy.any_instance.expects(:reseed!).once
+    end
 
     Track::Trophy::ReseedVariable.()
   end

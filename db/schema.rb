@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_18_160815) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1104,6 +1104,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.json "valid_track_slugs"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "num_awardees", limit: 3, default: 0, null: false
     t.index ["type"], name: "index_track_trophies_on_type", unique: true
   end
 

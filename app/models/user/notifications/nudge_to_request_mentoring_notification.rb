@@ -3,10 +3,7 @@ class User::Notifications::NudgeToRequestMentoringNotification < User::Notificat
   def image_type = :icon
   def image_path = "icons/mentoring-gradient.svg"
   def icon_filter = "none"
-
-  def guard_params
-    ""
-  end
+  def guard_params = ""
 
   def email_communication_preferences_key = :email_on_nudge_notification
 end

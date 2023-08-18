@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { assetUrl, sendRequest } from '@/utils'
+import { assetUrl, sendRequest, timeFormat } from '@/utils'
 import { GraphicalIcon } from '../common'
 import { Modal } from '../modals'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import pluralize from 'pluralize'
 
 export type TrophyStatus = 'not_earned' | 'unrevealed' | 'revealed'
 
@@ -11,6 +12,9 @@ export type TrophyLinks = {
   reveal?: string
 }
 
+type TrackProps = {
+  title: string
+}
 export type Trophy = {
   name: string
   criteria: string
@@ -18,6 +22,9 @@ export type Trophy = {
   iconName: string
   status: TrophyStatus
   links: TrophyLinks
+  awardedAt: string
+  numAwardees: number
+  track: TrackProps
 }
 
 export type TrophiesProps = {
@@ -52,20 +59,46 @@ export function Trophies({ trophies }: TrophiesProps): JSX.Element {
           updateTrophy={updateTrophy}
         />
       ))}
-      <Modal open={modalOpen} celebratory onClose={() => setModalOpen(false)}>
-        <div className="flex flex-col items-center">
-          {highlightedTrophy && (
-            <>
-              <h2 className="text-h2 mb-12">
-                {highlightedTrophy.successMessage}
-              </h2>
-              <div className="trophy acquired">
-                <TrophyIcon trophy={highlightedTrophy} />
-                <div className="title">{highlightedTrophy.name}</div>
-              </div>
-              <p className="text-p-base mt-16">{highlightedTrophy.criteria}</p>
-            </>
-          )}
+      <Modal
+        open={modalOpen}
+        celebratory
+        onClose={() => setModalOpen(false)}
+        cover={true}
+        closeButton={true}
+        ReactModalClassName="max-w-[660px] m-track-trophy"
+      >
+        <div className="--modal-content-inner">
+          <div className="flex flex-col items-center">
+            {highlightedTrophy && (
+              <>
+                <GraphicalIcon
+                  icon={highlightedTrophy.iconName}
+                  category="graphics"
+                  width={190}
+                  height={190}
+                  className="mt-12 mb-24"
+                />
+                <h2 className="text-h1 mb-2">{highlightedTrophy.name}</h2>
+                <div className="text-p-large text-center text-textColor6 mb-16">
+                  Awarded on{' '}
+                  <time dateTime={highlightedTrophy.awardedAt}>
+                    {timeFormat(highlightedTrophy.awardedAt, 'Do MMM YYYY')}
+                  </time>
+                </div>
+                <div className="text-p-large text-center mb-16 text-balance">
+                  {highlightedTrophy.successMessage}
+                </div>
+
+                <div className="num-awardees text-p-base">
+                  <GraphicalIcon icon="students" />
+                  <strong>{highlightedTrophy.numAwardees}</strong>{' '}
+                  {pluralize('member', highlightedTrophy.numAwardees)}{' '}
+                  {pluralize('has', highlightedTrophy.numAwardees)} earned this
+                  trophy in {highlightedTrophy.track.title}.
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </Modal>
     </div>
@@ -136,12 +169,10 @@ const RevealedTrophy = ({
   }, [setHighlightedTrophy, setModalOpen])
 
   return (
-    <GenericTooltip content={trophy.successMessage}>
-      <button className="trophy acquired" onClick={() => onClick()}>
-        <TrophyIcon trophy={trophy} />
-        <div className="title">{trophy.name}</div>
-      </button>
-    </GenericTooltip>
+    <button className="trophy acquired" onClick={() => onClick()}>
+      <TrophyIcon trophy={trophy} />
+      <div className="title">{trophy.name}</div>
+    </button>
   )
 }
 
@@ -206,7 +237,7 @@ const NotEarnedTrophy = ({ trophy }: { trophy: Trophy }): JSX.Element => {
     <GenericTooltip content={trophy.criteria}>
       <div className="trophy not-acquired">
         <TrophyIcon trophy={trophy} />
-        <div className="title">{trophy.name}</div>
+        <div className="title">Locked</div>
       </div>
     </GenericTooltip>
   )

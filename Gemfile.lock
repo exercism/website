@@ -305,7 +305,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     netrc (0.11.0)
-    nio4r (2.5.8)
+    nio4r (2.5.9)
     nokogiri (1.14.2)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
@@ -352,7 +352,7 @@ GEM
     propshaft (0.4.0)
       rails (>= 7.0.0.alpha2)
     public_suffix (5.0.1)
-    puma (4.3.12)
+    puma (5.6.7)
       nio4r (~> 2.0)
     qonfig (0.28.0)
     raabro (1.4.0)
@@ -586,7 +586,7 @@ DEPENDENCIES
   opensearch-ruby
   propshaft (= 0.4.0)
   public_suffix
-  puma (~> 4.3)
+  puma (~> 5.6)
   rack-attack (~> 6.6)
   rack-cors
   rails (~> 7.0.1)

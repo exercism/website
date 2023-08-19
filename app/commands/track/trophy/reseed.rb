@@ -17,11 +17,11 @@ class Track::Trophy::Reseed
     Track::Trophies::CompletedTwentyExercisesTrophy,
     Track::Trophies::CompletedFiftyPercentOfExercisesTrophy,
     Track::Trophies::CompletedAllExercisesTrophy,
-    Track::Trophies::FunctionalTrophy
+    Track::Trophies::FunctionalTrophy,
     #
     # Variable trophies
     #
-    # Track::Trophies::CompletedFiveHardExercisesTrophy
-    # Track::Trophies::CompletedLearningModeTrophy,
+    Track::Trophies::CompletedFiveHardExercisesTrophy,
+    Track::Trophies::CompletedLearningModeTrophy
   ].freeze
 end

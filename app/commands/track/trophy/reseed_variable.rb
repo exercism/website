@@ -8,7 +8,7 @@ class Track::Trophy::ReseedVariable
   end
 
   VARIABLE_TROPHIES = [
-    # Track::Trophies::CompletedFiveHardExercisesTrophy,
-    # Track::Trophies::CompletedLearningModeTrophy
+    Track::Trophies::CompletedFiveHardExercisesTrophy,
+    Track::Trophies::CompletedLearningModeTrophy
   ].freeze
 end

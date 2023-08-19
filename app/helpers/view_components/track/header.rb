@@ -51,8 +51,8 @@ module ViewComponents
 
         tabs << concepts_tab if course && !practice_mode
         tabs << exercises_tab
-        # tabs << about_tab(:about_track_path) unless external
-        tabs << build_tab if current_user&.maintainer?
+        tabs << about_tab(:about_track_path) unless external
+        # tabs << build_tab if current_user&.maintainer?
 
         safe_join(tabs)
       end

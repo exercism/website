@@ -59,7 +59,7 @@ module ViewComponents
 
       def about_tab(url)
         link_to(
-          graphical_icon('info-circle') + tag.span("About Ruby"),
+          graphical_icon('info-circle') + tag.span("About #{track.title}"),
           Exercism::Routes.send(url, track),
           class: tab_class(:about),
           data: scroll_into_view(:about)

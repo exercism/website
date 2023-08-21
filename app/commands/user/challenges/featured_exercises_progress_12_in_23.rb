@@ -16,10 +16,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
       next [solved_before_23.keys.first, exercise_slug] if solved_before_23.size == track_slugs.size
     end
 
-    has_duplicate = exercises.count { |(_, exercise_slug)| MARCH_DUPLICATES.include?(exercise_slug) } == MARCH_DUPLICATES.length
-    exercises.reject! { |(_, exercise_slug)| MARCH_DUPLICATES_TO_REMOVE.include?(exercise_slug) } if has_duplicate
-
-    exercises
+    remove_march_duplicates(exercises)
   end
 
   def self.num_featured_exercises = self.featured_exercises.size - 1
@@ -47,6 +44,14 @@ class User::Challenges::FeaturedExercisesProgress12In23
       transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }
   end
 
+  def remove_march_duplicates(exercises)
+    if exercises.count { |(_, exercise_slug)| MARCH_DUPLICATES.include?(exercise_slug) } > 1
+      exercises.reject! { |(_, exercise_slug)| MARCH_DUPLICATES_TO_REMOVE.include?(exercise_slug) }
+    end
+
+    exercises
+  end
+
   FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze
   FEBRUARY_EXERCISES = %w[hamming collatz-conjecture robot-simulator yacht protein-translation].freeze
 
@@ -54,7 +59,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
   MARCH_EXERCISES = %w[linked-list simple-linked-list secret-handshake sieve binary-search pangram].freeze
 
   MARCH_DUPLICATES = %w[linked-list simple-linked-list].freeze
-  MARCH_DUPLICATES_TO_REMOVE = (MARCH_DUPLICATES - 'linked-list').freeze
+  MARCH_DUPLICATES_TO_REMOVE = (MARCH_DUPLICATES - %w[linked-list]).freeze
 
   APRIL_TRACKS = %w[julia python r].freeze
   APRIL_EXERCISES = %w[etl largest-series-product saddle-points sum-of-multiples word-count].freeze

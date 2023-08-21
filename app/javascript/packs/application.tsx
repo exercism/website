@@ -49,8 +49,10 @@ const InsidersStatus = lazy(
   () => import('@/components/insiders/InsidersStatus')
 )
 
-import StudentTracksList from '@/components/student/TracksList'
-import StudentExerciseList from '@/components/student/ExerciseList'
+const StudentTracksList = lazy(() => import('@/components/student/TracksList'))
+const StudentExerciseList = lazy(
+  () => import('@/components/student/ExerciseList')
+)
 
 const ShareLink = lazy(() => import('@/components/common/ShareLink'))
 const ConceptWidget = lazy(() => import('@/components/common/ConceptWidget'))

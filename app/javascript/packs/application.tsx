@@ -518,11 +518,10 @@ import { TrophiesProps, Trophy } from '@/components/track/Trophies.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
+  showSiteFooterOnTurboLoad()
+  handleNavbarFocus()
+  scrollIntoView()
 })
-
-showSiteFooterOnTurboLoad()
-handleNavbarFocus()
-scrollIntoView()
 
 // object.entries polyfill
 if (!Object.entries) {

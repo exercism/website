@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useLayoutEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
@@ -70,10 +70,6 @@ export default ({
       clearTimeout(handler)
     }
   }, [setRequestCriteria, criteria])
-
-  useLayoutEffect(() => {
-    document.querySelector('meta[name="turbo-visit-control"]')?.remove()
-  }, [])
 
   return (
     <div className="c-tracks-list">

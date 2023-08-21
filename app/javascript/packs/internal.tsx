@@ -199,37 +199,37 @@ const DonationsSubscriptionForm = lazy(
   () => import('@/components/donations/SubscriptionForm')
 )
 
-import { renderLoader } from './application'
+import { RenderLoader } from '@/components/common'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
   'common-markdown-editor': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <MarkdownEditor contextId={data.context_id} />
     </Suspense>
   ),
 
   editor: (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Editor {...camelizeKeysAs<EditorProps>(data)} />
     </Suspense>
   ),
 
   'modals-welcome-modal': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <WelcomeModal endpoint={data.endpoint} />
     </Suspense>
   ),
 
   'modals-welcome-to-insiders-modal': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <WelcomeToInsidersModal endpoint={data.endpoint} />
     </Suspense>
   ),
 
   'maintaining-submissions-summary-table': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <SubmissionsSummaryTable
         submissions={data.submissions.map((s: any) => {
           return camelizeKeys(s)
@@ -238,7 +238,7 @@ initReact({
     </Suspense>
   ),
   'mentoring-inbox': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Inbox
         discussionsRequest={camelizeKeysAs<MentoringInboxRequest>(
           data.discussions_request
@@ -252,7 +252,7 @@ initReact({
     </Suspense>
   ),
   'mentoring-queue': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Queue
         queueRequest={camelizeKeysAs<Request>(data.queue_request)}
         tracksRequest={camelizeKeysAs<Request>(data.tracks_request)}
@@ -266,7 +266,7 @@ initReact({
     </Suspense>
   ),
   'mentoring-session': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Session
         userHandle={data.user_handle}
         discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
@@ -292,26 +292,26 @@ initReact({
     </Suspense>
   ),
   'mentoring-representations-with-feedback': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <RepresentationsWithFeedback
         data={camelizeKeysAs<AutomationProps>(data)}
       />
     </Suspense>
   ),
   'mentoring-representations-admin': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <RepresentationsAdmin data={camelizeKeysAs<AutomationProps>(data)} />
     </Suspense>
   ),
   'mentoring-representations-without-feedback': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <RepresentationsWithoutFeedback
         data={camelizeKeysAs<AutomationProps>(data)}
       />
     </Suspense>
   ),
   'mentoring-try-mentoring-button': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TryMentoringButton
         text={data.text}
         size={data.size}
@@ -320,7 +320,7 @@ initReact({
     </Suspense>
   ),
   'mentoring-testimonials-list': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TestimonialsList
         request={camelizeKeysAs<Request>(data.request)}
         tracks={camelizeKeysAs<readonly MentoringTestimonialsListTrack[]>(
@@ -331,12 +331,12 @@ initReact({
     </Suspense>
   ),
   'mentoring-representation': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Representation data={camelizeKeysAs<CompleteRepresentationData>(data)} />
     </Suspense>
   ),
   'student-mentoring-session': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentMentoringSession
         userHandle={data.user_handle}
         discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
@@ -353,7 +353,7 @@ initReact({
     </Suspense>
   ),
   'student-request-mentoring-button': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <RequestMentoringButton
         request={data.request}
         links={camelizeKeysAs<RequestMentoringButtonLinks>(data.links)}
@@ -362,7 +362,7 @@ initReact({
   ),
 
   'journey-journey-page': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <JourneyPage
         categories={camelizeKeysAs<readonly JourneyPageCategory[]>(
           data.categories
@@ -372,7 +372,7 @@ initReact({
     </Suspense>
   ),
   'settings-profile-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ProfileForm
         defaultUser={data.user}
         defaultProfile={data.profile}
@@ -381,7 +381,7 @@ initReact({
     </Suspense>
   ),
   'settings-photo-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PhotoForm
         defaultUser={camelizeKeysAs<User>(data.user)}
         links={data.links}
@@ -389,12 +389,12 @@ initReact({
     </Suspense>
   ),
   'settings-delete-profile-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <DeleteProfileForm links={data.links} />
     </Suspense>
   ),
   'settings-pronouns-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PronounsForm
         handle={data.handle}
         defaultPronounParts={data.pronoun_parts}
@@ -403,27 +403,27 @@ initReact({
     </Suspense>
   ),
   'settings-handle-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <HandleForm defaultHandle={data.handle} links={data.links} />
     </Suspense>
   ),
   'settings-email-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <EmailForm defaultEmail={data.email} links={data.links} />
     </Suspense>
   ),
   'settings-password-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PasswordForm links={data.links} />
     </Suspense>
   ),
   'settings-token-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TokenForm defaultToken={data.token} links={data.links} />
     </Suspense>
   ),
   'settings-user-preferences-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <UserPreferencesForm
         defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
         links={data.links}
@@ -431,7 +431,7 @@ initReact({
     </Suspense>
   ),
   'settings-theme-preference-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ThemePreferenceForm
         defaultThemePreference={data.default_theme_preference}
         insidersStatus={data.insiders_status}
@@ -440,14 +440,14 @@ initReact({
     </Suspense>
   ),
   'settings-comments-preference-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CommentsPreferenceForm
         {...camelizeKeysAs<CommentsPreferenceFormProps>(data)}
       />
     </Suspense>
   ),
   'settings-communication-preferences-form': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CommunicationPreferencesForm
         defaultPreferences={camelizeKeysAs<CommunicationPreferences>(
           data.preferences
@@ -457,17 +457,17 @@ initReact({
     </Suspense>
   ),
   'settings-delete-account-button': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <DeleteAccountButton handle={data.handle} links={data.links} />
     </Suspense>
   ),
   'settings-reset-account-button': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ResetAccountButton handle={data.handle} links={data.links} />
     </Suspense>
   ),
   'settings-show-on-supporters-page-button': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ShowOnSupportersPageButton
         defaultValue={data.value}
         links={data.links}
@@ -475,12 +475,12 @@ initReact({
     </Suspense>
   ),
   'dropdowns-notifications': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <NotificationsDropdown endpoint={data.endpoint} />
     </Suspense>
   ),
   'dropdowns-reputation': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ReputationDropdown
         endpoint={data.endpoint}
         defaultIsSeen={data.is_seen}
@@ -489,7 +489,7 @@ initReact({
     </Suspense>
   ),
   'dropdowns-track-menu': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TrackMenuDropdown
         track={data.track}
         links={camelizeKeysAs<TrackMenuLinks>(data.links)}
@@ -497,7 +497,7 @@ initReact({
     </Suspense>
   ),
   'notifications-notifications-list': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <NotificationsList
         request={camelizeKeysAs<Request>(data.request)}
         links={camelizeKeysAs<NotificationsListLinks>(data.links)}
@@ -505,7 +505,7 @@ initReact({
     </Suspense>
   ),
   'track-iteration-summary': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <IterationSummaryWithWebsockets
         iteration={camelizeKeysAs<Iteration>(data.iteration)}
         className={data.class_name}
@@ -516,7 +516,7 @@ initReact({
     </Suspense>
   ),
   'student-iterations-list': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentIterationsList
         solutionUuid={data.solution_uuid}
         request={camelizeKeysAs<IterationsListRequest>(data.request)}
@@ -527,7 +527,7 @@ initReact({
     </Suspense>
   ),
   'student-solution-summary': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentSolutionSummary
         discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
         solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
@@ -540,7 +540,7 @@ initReact({
   ),
 
   'student-nudge': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentNudge
         solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
         track={camelizeKeysAs<NudgeTrack>(data.track)}
@@ -556,7 +556,7 @@ initReact({
   ),
 
   'student-publish-solution-button': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PublishSolutionButton
         endpoint={data.endpoint}
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
@@ -564,7 +564,7 @@ initReact({
     </Suspense>
   ),
   'student-published-solution': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PublishedSolution
         solution={camelizeKeysAs<CommunitySolution>(data.solution)}
         publishedIterationIdx={data.published_iteration_idx}
@@ -574,20 +574,20 @@ initReact({
     </Suspense>
   ),
   'student-update-exercise-notice': (data: any) => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <UpdateExerciseNotice links={data.links} />
     </Suspense>
   ),
 
   // Slow things at the end
   'donations-footer-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <DonationsFooterForm {...camelizeKeysAs<FooterFormProps>(data)} />
     </Suspense>
   ),
 
   'donations-with-modal-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
         links={data.links}
@@ -598,7 +598,7 @@ initReact({
     </Suspense>
   ),
   'donations-subscription-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <DonationsSubscriptionForm
         {...data}
         amount={currency(data.amount_in_cents, { fromCents: true })}

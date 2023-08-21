@@ -12,7 +12,7 @@ import type { Handler } from '../misc/CodeMirror'
 import { Tab, TabContext } from '../common/Tab'
 import { EditorSettings } from '../editor/types'
 import { LegacyFileBanner } from './LegacyFileBanner'
-import { renderLoader } from '@/packs/application'
+import { RenderLoader } from '@/components/common'
 import { useDeepMemo } from '@/hooks'
 const CodeMirror = lazy(() => import('../misc/CodeMirror'))
 
@@ -145,7 +145,7 @@ export function FileEditorCodeMirror({
             {file.type === 'legacy' ? (
               <LegacyFileBanner onDelete={handleDelete(file)} />
             ) : null}
-            <Suspense fallback={renderLoader()}>
+            <Suspense fallback={RenderLoader()}>
               <CodeMirror
                 key={file.filename}
                 value={file.content}

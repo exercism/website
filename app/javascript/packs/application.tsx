@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { lazy, Suspense } from 'react'
-import { initReact } from '@/utils/react-bootloader'
 import { camelizeKeys } from 'humps'
 import { camelizeKeysAs, highlightAll } from '@/utils'
+import { initReact } from '@/utils/react-bootloader'
+import { RenderLoader } from '@/components/common/RenderLoader'
 import 'focus-visible'
 import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
@@ -36,6 +37,7 @@ import type { PerksModalButtonProps } from '@/components/perks/PerksModalButton.
 import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
 import type { VideoGridProps } from '@/components/community/video-grid/index.js'
 import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
+import type { TrophiesProps, Trophy } from '@/components/track/Trophies'
 
 const CLIWalkthrough = lazy(() => import('@/components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
@@ -174,9 +176,7 @@ const PerksExternalModalButton = lazy(
   () => import('@/components/perks/PerksExternalModalButton')
 )
 
-export const renderLoader = (): JSX.Element => (
-  <div className="c-loading-suspense" />
-)
+const Trophies = lazy(() => import('@/components/track/Trophies'))
 
 declare global {
   interface Window {
@@ -192,7 +192,7 @@ window.queryCache = new QueryCache()
 // Each should map 1-1 to a component in app/helpers/components
 export const mappings = {
   'share-link': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ShareLink
         title={data.title}
         shareTitle={data.share_title}
@@ -202,18 +202,18 @@ export const mappings = {
     </Suspense>
   ),
   'common-concept-widget': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ConceptWidget concept={data.concept} />
     </Suspense>
   ),
 
   'common-modal': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Modal html={data.html} />
     </Suspense>
   ),
   'common-solution-view': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <SolutionView
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
         language={data.language}
@@ -226,7 +226,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-expander': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Expander
         contentIsSafe={data.content_is_safe}
         content={data.content}
@@ -237,7 +237,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-community-solution': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CommunitySolution
         solution={camelizeKeysAs<CommunitySolutionProps>(data.solution)}
         context={data.context}
@@ -245,7 +245,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-introducer': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Introducer
         icon={data.icon}
         content={data.content}
@@ -254,29 +254,29 @@ export const mappings = {
     </Suspense>
   ),
   'common-cli-walkthrough': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CLIWalkthrough html={data.html} />
     </Suspense>
   ),
   'common-cli-walkthrough-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CLIWalkthroughButton html={data.html} />
     </Suspense>
   ),
 
   'community-video-grid': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
     </Suspense>
   ),
   'community-stories-grid': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StoriesGrid data={camelizeKeys(data)} />
     </Suspense>
   ),
 
   'track-exercise-community-solutions-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ExerciseCommunitySolutionsList
         request={camelizeKeysAs<Request>(data.request)}
       />
@@ -284,23 +284,23 @@ export const mappings = {
   ),
 
   'track-dig-deeper': (data: DigDeeperProps): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
     </Suspense>
   ),
 
-  'track-trophies': (data: TrophiesProps) => (
+  'track-trophies': (data: TrophiesProps): JSX.Element => (
     <Trophies trophies={camelizeKeysAs<Trophy[]>(data.trophies)} />
   ),
 
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <UnlockHelpButton unlockUrl={data.unlock_url} />
     </Suspense>
   ),
 
   'track-exercise-makers-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ExerciseMakersButton
         avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
         numAuthors={data.num_authors}
@@ -310,7 +310,7 @@ export const mappings = {
     </Suspense>
   ),
   'track-concept-makers-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ConceptMakersButton
         avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
         numAuthors={data.num_authors}
@@ -320,7 +320,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-credits': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Credits
         users={camelizeKeysAs<User[]>(data.users)}
         topCount={data.top_count}
@@ -331,7 +331,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-exercise-widget': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ExerciseWidget
         exercise={camelizeKeysAs<Exercise>(data.exercise)}
         track={camelizeKeysAs<Track>(data.track)}
@@ -344,7 +344,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-share-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ShareButton
         title={data.title}
         shareTitle={data.share_title}
@@ -354,7 +354,7 @@ export const mappings = {
     </Suspense>
   ),
   'common-site-updates-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <SiteUpdatesList
         updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}
         context={data.context}
@@ -362,7 +362,7 @@ export const mappings = {
     </Suspense>
   ),
   'contributing-contributors-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ContributorsList
         request={camelizeKeysAs<Request>(data.request)}
         tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
@@ -370,7 +370,7 @@ export const mappings = {
     </Suspense>
   ),
   'contributing-tasks-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TasksList
         request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
         tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
@@ -378,12 +378,12 @@ export const mappings = {
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentTracksList request={data.request} tagOptions={data.tag_options} />
     </Suspense>
   ),
   'student-exercise-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentExerciseList
         request={camelizeKeysAs<Request>(data.request)}
         defaultStatus={data.status}
@@ -391,7 +391,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-exercise-status-chart': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ExerciseStatusChart
         exercisesData={data.exercises_data}
         links={data.links}
@@ -399,7 +399,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-exercise-status-dot': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ExerciseStatusDot
         exerciseStatus={data.exercise_status}
         type={data.type}
@@ -408,7 +408,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-open-editor-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <OpenEditorButton
         editorEnabled={data.editor_enabled}
         status={data.status}
@@ -418,7 +418,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-complete-exercise-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CompleteExerciseButton
         endpoint={data.endpoint}
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
@@ -426,53 +426,53 @@ export const mappings = {
     </Suspense>
   ),
   'concept-map': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
     </Suspense>
   ),
 
   'mentored-student-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StudentTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'user-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <UserTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'exercise-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ExerciseTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
 
   'tooling-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ToolingTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
 
   'concept-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ConceptTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'automation-locked-tooltip': (
     data: AutomationLockedTooltipProps
   ): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <AutomationLockedTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'dropdowns-dropdown': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
     </Suspense>
   ),
 
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CopyToClipboardButton textToCopy={data.text_to_copy} />
     </Suspense>
   ),
@@ -481,22 +481,22 @@ export const mappings = {
       default_theme: string
     }
   ): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ThemeToggleButton {...data} defaultTheme={data.default_theme} />
     </Suspense>
   ),
   'common-icon': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <Icon icon={data.icon} alt={data.alt} />
     </Suspense>
   ),
   'common-graphical-icon': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <GraphicalIcon icon={data.icon} />
     </Suspense>
   ),
   'profile-testimonials-summary': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TestimonialsSummary
         handle={data.handle}
         flair={data.flair}
@@ -510,7 +510,7 @@ export const mappings = {
     </Suspense>
   ),
   'profile-community-solutions-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CommunitySolutionsList
         request={camelizeKeysAs<Request>(data.request)}
         tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
@@ -520,7 +520,7 @@ export const mappings = {
     </Suspense>
   ),
   'profile-testimonials-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <TestimonialsList
         request={camelizeKeysAs<Request>(data.request)}
         defaultSelected={data.default_selected || null}
@@ -528,7 +528,7 @@ export const mappings = {
     </Suspense>
   ),
   'profile-contributions-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ContributionsList
         categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(
           data.categories
@@ -543,7 +543,7 @@ export const mappings = {
     )
 
     return (
-      <Suspense fallback={renderLoader()}>
+      <Suspense fallback={RenderLoader()}>
         <ContributionsSummary
           tracks={tracks}
           handle={data.handle}
@@ -553,12 +553,12 @@ export const mappings = {
     )
   },
   'profile-first-time-modal': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <FirstTimeModal links={data.links} />
     </Suspense>
   ),
   'community-solutions-star-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <StarButton
         userSignedIn={data.user_signed_in}
         defaultNumStars={data.num_stars}
@@ -568,7 +568,7 @@ export const mappings = {
     </Suspense>
   ),
   'community-solutions-comments-list': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CommentsList
         isAuthor={data.is_author}
         userSignedIn={data.user_signed_in}
@@ -579,7 +579,7 @@ export const mappings = {
     </Suspense>
   ),
   'profile-avatar-selector': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <AvatarSelector
         defaultUser={camelizeKeysAs<User>(data.user)}
         links={data.links}
@@ -587,7 +587,7 @@ export const mappings = {
     </Suspense>
   ),
   'profile-new-profile-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <NewProfileForm
         user={camelizeKeysAs<User>(data.user)}
         defaultFields={data.fields}
@@ -600,7 +600,7 @@ export const mappings = {
     width: number
     height: number
   }): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ProgressGraph
         data={data.values}
         height={data.height}
@@ -610,29 +610,29 @@ export const mappings = {
   ),
 
   'impact-stat': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ImpactStat metricType={data.type} initialValue={data.value} />
     </Suspense>
   ),
   'impact-chart': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <InsidersStatus {...camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
 
   'insiders-payment-pending': (data: PaymentPendingProps): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PaymentPending {...camelizeKeysAs<PaymentPendingProps>(data)} />
     </Suspense>
   ),
 
   'perks-external-modal-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PerksExternalModalButton
         data={camelizeKeysAs<PerksExternalModalButtonProps>(data)}
       />
@@ -640,7 +640,7 @@ export const mappings = {
   ),
 
   'perks-modal-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PerksModalButton data={camelizeKeysAs<PerksModalButtonProps>(data)} />
     </Suspense>
   ),
@@ -651,7 +651,7 @@ export const mappings = {
     )
 
     return (
-      <Suspense fallback={renderLoader()}>
+      <Suspense fallback={RenderLoader()}>
         <ImpactMap initialMetrics={metrics} trackTitle={data.track_title} />
       </Suspense>
     )
@@ -667,8 +667,6 @@ import {
   scrollIntoView,
   showSiteFooterOnTurboLoad,
 } from '@/utils'
-import { TrophiesProps, Trophy } from '@/components/track/Trophies'
-import { Trophies } from '@/components/track'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

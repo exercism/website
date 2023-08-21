@@ -16,7 +16,10 @@ export const ExerciseStatusDot = ({
   }
 }): JSX.Element => {
   return (
-    <ExercismTippy content={<ExerciseTooltip endpoint={links.tooltip} />}>
+    <ExercismTippy
+      delay={100}
+      content={<ExerciseTooltip endpoint={links.tooltip} />}
+    >
       <ReferenceElement
         className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}

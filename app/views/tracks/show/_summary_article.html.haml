@@ -9,11 +9,14 @@
           - if user_track.completed_percentage.zero?
             You&apos;ve just started the #{track.title} track.
             %strong Good luck, adventurer!
+          - elsif user_track.completed_percentage == 100
+            Amazing - you've complete the track!!
+            %strong What an achievement! 👏
           - else
             You&apos;re
             %em #{user_track.completed_percentage}%
             through the #{track.title} track.
-            %strong= user_track.completed_percentage_text
+            %strong= user_track_completed_percentage_text(user_track)
 
         .c-progress
           .bar{ style: "width: #{user_track.completed_percentage}%" }

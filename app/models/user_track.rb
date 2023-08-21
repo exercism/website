@@ -102,35 +102,6 @@ class UserTrack < ApplicationRecord
   def completed? = num_completed_exercises >= num_exercises
   def completed_course? = num_completed_concept_exercises >= num_concept_exercises
 
-  def completed_percentage_text
-    case completed_percentage
-    when 0...10
-      "<10%, Keep it up! 🚀"
-    when 10...20
-      "<20%, Keep it up! 🚀"
-    when 20...30
-      "<30%, Keep it up! 🚀"
-    when 30...40
-      "<40%, Keep it up! 🚀"
-    when 40...50
-      "<50%, Keep it up! 🚀"
-    when 50...60
-      "<60%, Keep it up! 🚀"
-    when 60...70
-      "<70%, Keep it up! 🚀"
-    when 70...80
-      "<80%, Keep it up! 🚀"
-    when 80...90
-      "<90%, Keep it up! 🚀"
-    when 90...100
-      "<100%, Keep it up! 🚀"
-    when 100
-      "100%, Good job! 🚀"
-    else
-      "Invalid percentage."
-    end
-  end
-
   def completed_percentage
     return 100.0 if num_exercises.zero?
 

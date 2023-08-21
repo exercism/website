@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useLayoutEffect } from 'react'
 import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
 import { TagsFilter } from './tracks-list/TagsFilter'
 import { List } from './tracks-list/List'
@@ -29,14 +29,15 @@ export default ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
-  const { request, setCriteria: setRequestCriteria, setQuery } = useList(
-    initialRequest
-  )
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setQuery,
+  } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
-  const { resolvedData, isError, isFetching } = usePaginatedRequestQuery<
-    APIResponse
-  >(CACHE_KEY, request)
+  const { resolvedData, isError, isFetching } =
+    usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
 
   const setTags = useCallback(
     (tags) => {
@@ -69,6 +70,10 @@ export default ({
       clearTimeout(handler)
     }
   }, [setRequestCriteria, criteria])
+
+  useLayoutEffect(() => {
+    document.querySelector('meta[name="turbo-visit-control"]')?.remove()
+  }, [])
 
   return (
     <div className="c-tracks-list">

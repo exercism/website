@@ -92,19 +92,20 @@ export const FilePanel = ({
               />
             </Tab.Panel>
           ))}
-          {instructions ? (
-            <Tab.Panel
-              key="instructions"
-              id="instructions"
-              context={TabsContext}
-            >
-              <div
-                className="p-16 c-textual-content --small"
-                dangerouslySetInnerHTML={{ __html: instructions }}
-              />
-            </Tab.Panel>
-          ) : null}
         </div>
+        {instructions ? (
+          <Tab.Panel
+            key="instructions"
+            id="instructions"
+            context={TabsContext}
+            className="overflow-auto"
+          >
+            <div
+              className="p-16 c-textual-content --small"
+              dangerouslySetInnerHTML={{ __html: instructions }}
+            />
+          </Tab.Panel>
+        ) : null}
         {testFiles ? (
           <TestsPanel context={TabsContext}>
             <TestContentWrapper testFiles={testFiles} tabContext={TabsContext}>

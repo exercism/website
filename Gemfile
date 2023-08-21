@@ -105,7 +105,6 @@ group :test do
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
   gem 'webmock'
   gem 'show_me_the_cookies'
 

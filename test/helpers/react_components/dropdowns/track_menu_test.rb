@@ -55,6 +55,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
         links: {
           repo: track.repo_url,
           documentation: Exercism::Routes.track_docs_url(track),
+          build_status: Exercism::Routes.track_build_path(track),
           activate_practice_mode: nil,
           activate_learning_mode: Exercism::Routes.activate_learning_mode_api_track_url(track),
           reset: Exercism::Routes.reset_api_track_url(track),

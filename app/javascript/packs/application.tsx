@@ -290,7 +290,9 @@ export const mappings = {
   ),
 
   'track-trophies': (data: TrophiesProps): JSX.Element => (
-    <Trophies trophies={camelizeKeysAs<Trophy[]>(data.trophies)} />
+    <Suspense fallback={RenderLoader()}>
+      <Trophies trophies={camelizeKeysAs<Trophy[]>(data.trophies)} />
+    </Suspense>
   ),
 
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (

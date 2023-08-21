@@ -5,6 +5,12 @@
         @apply flex-grow;
     }
 
+    #panel-instructions {
+        code {
+            @apply py-0;
+        }
+    }
+
     code {
         @apply flex;
         @apply py-8;

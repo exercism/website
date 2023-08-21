@@ -37,13 +37,6 @@ document.addEventListener('turbo:frame-render', (e) => {
   document.querySelector('body').className = bodyClass
 })
 
-// document.addEventListener('turbo:before-frame-render', (e) => {
-//   console.log("Unloading")
-//   const elem = document.getElementById('tf-main')
-//   ReactDOM.unmountComponentAtNode(elem)
-//   console.log("Unloaded")
-// }
-
 /********************************************************/
 /** Add a loading cursor when a turbo-frame is loading **/
 /********************************************************/

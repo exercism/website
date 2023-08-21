@@ -73,7 +73,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-    addressable (2.8.1)
+    addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     ansi-to-html (0.0.3)
     anycable (1.2.5)
@@ -128,7 +128,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.1.3)
-    capybara (3.38.0)
+    capybara (3.39.2)
       addressable
       matrix
       mini_mime (>= 0.1.3)
@@ -281,8 +281,8 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
-    mini_mime (1.1.2)
-    mini_portile2 (2.8.1)
+    mini_mime (1.1.5)
+    mini_portile2 (2.8.4)
     minitest (5.18.0)
     minitest-retry (0.2.2)
       minitest (>= 5.0)
@@ -306,8 +306,8 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.14.2)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.15.4)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -351,13 +351,13 @@ GEM
     parslet (2.0.0)
     propshaft (0.4.0)
       rails (>= 7.0.0.alpha2)
-    public_suffix (5.0.1)
+    public_suffix (5.0.3)
     puma (4.3.12)
       nio4r (~> 2.0)
     qonfig (0.28.0)
     raabro (1.4.0)
-    racc (1.6.2)
-    rack (2.2.6.4)
+    racc (1.7.1)
+    rack (2.2.8)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (2.0.1)
@@ -403,7 +403,7 @@ GEM
       ffi (~> 1.0)
     recursive-open-struct (1.1.3)
     redis (4.8.1)
-    regexp_parser (2.7.0)
+    regexp_parser (2.8.1)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -420,7 +420,7 @@ GEM
       netrc (~> 0.8)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.2.5)
+    rexml (3.2.6)
     rubocop (1.48.1)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -454,7 +454,7 @@ GEM
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
-    selenium-webdriver (4.8.6)
+    selenium-webdriver (4.11.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -519,10 +519,6 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.2.0)
-      nokogiri (~> 1.6)
-      rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
     webmock (3.18.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -612,7 +608,6 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console (>= 3.3.0)
-  webdrivers
   webmock
 
 RUBY VERSION

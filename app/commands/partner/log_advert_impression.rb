@@ -2,6 +2,8 @@ class Partner
   class LogAdvertImpression
     include Mandate
 
+    queue_as :background
+
     initialize_with :uuid, :advert, :user, :ip_address, :shown_at, :request_path
 
     def call
@@ -9,6 +11,8 @@ class Partner
 
       mongodb_collection.insert_one(doc)
       Advert.where(id: advert.id).update_all('num_impressions = num_impressions + 1')
+    ensure
+      mongodb_client.close
     end
 
     private

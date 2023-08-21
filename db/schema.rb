@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_18_160815) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1104,6 +1104,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.json "valid_track_slugs"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "num_awardees", limit: 3, default: 0, null: false
     t.index ["type"], name: "index_track_trophies_on_type", unique: true
   end
 
@@ -1218,6 +1219,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
+    t.boolean "email_on_acquired_trophy_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1412,6 +1414,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
     t.index ["user_id"], name: "fk_rails_283ecc719a"
   end
 
+  create_table "user_track_viewed_community_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
+    t.bigint "solution_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["solution_id"], name: "index_user_track_viewed_community_solutions_on_solution_id"
+    t.index ["track_id"], name: "index_user_track_viewed_community_solutions_on_track_id"
+    t.index ["user_id", "track_id", "solution_id"], name: "index_user_track_viewed_community_solutions_uniq", unique: true
+    t.index ["user_id"], name: "index_user_track_viewed_community_solutions_on_user_id"
+  end
+
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "track_id", null: false
@@ -1580,6 +1594,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_143505) do
   add_foreign_key "user_reputation_tokens", "users"
   add_foreign_key "user_track_mentorships", "tracks"
   add_foreign_key "user_track_mentorships", "users"
+  add_foreign_key "user_track_viewed_community_solutions", "solutions"
+  add_foreign_key "user_track_viewed_community_solutions", "tracks"
+  add_foreign_key "user_track_viewed_community_solutions", "users"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
 end

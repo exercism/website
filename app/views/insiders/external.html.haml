@@ -19,8 +19,7 @@
             = render ReactComponents::Insiders::InsidersStatus.new
 
         .top-rhs
-          .c-youtube-container
-            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/iwhahd41h0A", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+          = vimeo_embed("855534271?h=97d3a4c8c2")
 
   .gradient-container.py-56
     .lg-container

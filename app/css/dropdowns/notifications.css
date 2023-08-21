@@ -18,7 +18,7 @@
             & .icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-20;
+                @apply mt-4 mr-20;
                 @apply self-start;
             }
             & .content {

@@ -49,6 +49,10 @@ en:
       1: >
         You've been upgraded to Exercism Lifetime Insiders!
 
+    acquired_trophy:
+      1: >
+        You've been awarded the %{trophy_name} trophy on the %{track_title} track
+
     #########################################
     # Legacy but possibly still in the wild #
     #########################################

@@ -15,6 +15,7 @@ class Community::BriefIntroductionsController < ApplicationController
       "dKn-BbS_zQQ", # Prolog
       "Jbp4l_7kYxE", # Python
       "E_eH_fsXKH0", # Scala
+      "zoGruqFThFE", # Swift
       "WQ-Lusoda_8", # R
       "kwEgGWXSdLM" # Rust
     ]

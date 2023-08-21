@@ -47,6 +47,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).acquired_badge
   end
 
+  def acquired_trophy
+    NotificationsMailer.with(
+      notification: User::Notifications::AcquiredTrophyNotification.first
+    ).acquired_trophy
+  end
+
   def joined_exercism
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first

@@ -432,7 +432,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     expected = {
       slug: "zebra-puzzle",
       title: "Zebra Puzzle",
-      icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/zebra-puzzle.svg",
+      icon_url: "https://assets.exercism.org/exercises/zebra-puzzle.svg",
       links: {
         self: "https://github.com/exercism/problem-specifications/tree/main/exercises/zebra-puzzle"
       }
@@ -449,7 +449,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     expected = {
       slug: "alphametics",
       title: "Alphametics",
-      icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/alphametics.svg",
+      icon_url: "https://assets.exercism.org/exercises/alphametics.svg",
       links: {
         self: "https://github.com/exercism/problem-specifications/tree/main/exercises/alphametics"
       }

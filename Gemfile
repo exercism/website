@@ -37,7 +37,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.107.0'
+gem 'exercism-config', '>= 0.108.0'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
@@ -105,7 +105,6 @@ group :test do
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
   gem 'webmock'
   gem 'show_me_the_cookies'
 

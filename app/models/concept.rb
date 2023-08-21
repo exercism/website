@@ -52,6 +52,10 @@ class Concept < ApplicationRecord
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }
 
+  after_destroy do
+    SiteUpdates::NewConceptUpdate.where(%(params LIKE "%gid://website/Concept/#{id}%")).destroy_all
+  end
+
   delegate :about, :introduction, :links, to: :git
   memoize
   def git

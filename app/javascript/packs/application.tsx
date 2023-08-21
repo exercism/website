@@ -287,6 +287,10 @@ export const mappings = {
     </Suspense>
   ),
 
+  'track-trophies': (data: TrophiesProps) => (
+    <Trophies trophies={camelizeKeysAs<Trophy[]>(data.trophies)} />
+  ),
+
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
     <Suspense fallback={renderLoader()}>
       <UnlockHelpButton unlockUrl={data.unlock_url} />
@@ -661,6 +665,8 @@ import {
   scrollIntoView,
   showSiteFooterOnTurboLoad,
 } from '@/utils'
+import { TrophiesProps, Trophy } from '@/components/track/Trophies'
+import { Trophies } from '@/components/track'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

@@ -79,5 +79,26 @@ class Tracks::CommunitySolutionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test "show: registers community solution as viewed" do
+    exercise = create :practice_exercise
+    solution = create(:practice_solution, :published, exercise:)
+
+    user = create :user
+
+    UserTrack::ViewedCommunitySolution::Create.expects(:defer).with(user, solution.track, solution)
+
+    sign_in!(user)
+    get track_exercise_solution_url(exercise.track, exercise, solution.uuid)
+  end
+
+  test "show: does not register community solution as viewed for non-logged in user" do
+    exercise = create :practice_exercise
+    solution = create(:practice_solution, :published, exercise:)
+
+    UserTrack::ViewedCommunitySolution::Create.expects(:defer).never
+
+    get track_exercise_solution_url(exercise.track, exercise, solution.uuid)
+  end
+
   # TODO: add tests to verify redirect when viewing tutorial exercise
 end

@@ -199,9 +199,23 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
   test "triggers reruns" do
     submission = create :submission
 
+    Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, Time.zone.now, "sha1")
+
     Exercise::Representation::TriggerReruns.expects(:defer).once.with(anything, "sha2")
 
-    Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 1, 1, Time.zone.now, "sha1")
     Exercise::Representation::CreateOrUpdate.(submission, 'def foo', 'hq471b', { 'a' => 'test' }, 2, 1, Time.zone.now, "sha2")
+  end
+
+  # This is a weird edge case where a run for a new exercise_version was created before a run for an old exercise_version
+  test "does not triggers reruns if exercise representation already existed" do
+    submission = create :submission
+    create :exercise_representation, :with_feedback, exercise: submission.exercise,
+      source_submission: submission, exercise_version: 2, representer_version: 1
+    new_representation = create :exercise_representation, :with_feedback, exercise: submission.exercise,
+      source_submission: submission, exercise_version: 1, representer_version: 1
+
+    Exercise::Representation::TriggerReruns.expects(:defer).never
+
+    Exercise::Representation::CreateOrUpdate.(submission, nil, new_representation.ast_digest, {}, 1, 1, Time.zone.now, "sha2")
   end
 end

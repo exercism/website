@@ -27,3 +27,4 @@ en:
 
     email_on_general_update_notification: "Email me about other non-essential updates to my account"
     email_on_acquired_badge_notification: "Email me when I unlock a new badge"
+    email_on_acquired_trophy_notification: "Email me when I unlock a new trophy"

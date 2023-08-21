@@ -71,7 +71,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "icon_url" do
     exercise = create :practice_exercise, slug: 'bob', icon_name: 'bobby'
-    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bobby.svg", exercise.icon_url
+    assert_equal "https://assets.exercism.org/exercises/bobby.svg", exercise.icon_url
   end
 
   test "git_important_files_sha is generated" do
@@ -201,5 +201,30 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_no_enqueued_jobs(only: MandateJob) do
       exercise.update!(slug: 'test')
     end
+  end
+
+  test "deletes associated site updates" do
+    concept_exercise = create :concept_exercise
+    practice_exercise = create :practice_exercise
+
+    ce_site_update = create :new_exercise_site_update, params: { exercise: concept_exercise }
+    assert_equal concept_exercise, ce_site_update.exercise # Sanity
+
+    pe_site_update = create :new_exercise_site_update, params: { exercise: practice_exercise }
+    assert_equal practice_exercise, pe_site_update.exercise # Sanity
+
+    concept_exercise.destroy
+
+    refute ConceptExercise.where(id: concept_exercise.id).exists?
+    refute SiteUpdate.where(id: ce_site_update.id).exists?
+    assert PracticeExercise.where(id: practice_exercise.id).exists?
+    assert SiteUpdate.where(id: pe_site_update.id).exists?
+
+    practice_exercise.destroy
+
+    refute ConceptExercise.where(id: concept_exercise.id).exists?
+    refute SiteUpdate.where(id: ce_site_update.id).exists?
+    refute PracticeExercise.where(id: practice_exercise.id).exists?
+    refute SiteUpdate.where(id: pe_site_update.id).exists?
   end
 end

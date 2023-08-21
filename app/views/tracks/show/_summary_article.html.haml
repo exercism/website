@@ -4,16 +4,19 @@
       - unless user_track.tutorial_exercise_completed?
         = render "tracks/show/start_track_section", track:
 
-      %section.progress-chart
+      %section.progress-chart.mb-24
         %h2
           - if user_track.completed_percentage.zero?
             You&apos;ve just started the #{track.title} track.
             %strong Good luck, adventurer!
+          - elsif user_track.completed_percentage == 100
+            Amazing - you've complete the track!!
+            %strong What an achievement! 👏
           - else
             You&apos;re
             %em #{user_track.completed_percentage}%
             through the #{track.title} track.
-            %strong Keep it up! 🚀
+            %strong= user_track_completed_percentage_text(user_track)
 
         .c-progress
           .bar{ style: "width: #{user_track.completed_percentage}%" }
@@ -45,14 +48,14 @@
             .status Total Exercises
             .count= user_track.num_exercises
 
-      - if user_track.tutorial_exercise_completed?
-        %section.activities
-          - recent_solutions.each do |solution|
-            = render ViewComponents::Track::SolutionActivity.new(solution, user_track)
-          = render ViewComponents::ProminentLink.new("See all #{track.title} exercises", track_exercises_path(track), with_bg: true)
+      %section#trophy-cabinet.trophy-cabinet
+        %h2.text-h4.mb-2.text-center
+          #{track.title} Trophy Cabinet
+        %p.text-p-base.text-textColor6.mb-20.text-center
+          Unlock for achievements as you progress through the track.
+          = link_to "Learn more", "https://forum.exercism.org/t/track-trophies-are-live/6957"
 
-      - else
-        = render "tracks/show/activities_zero_state_section"
+        = render ReactComponents::Track::Trophies.new(track, user_track.user)
 
     .rhs
       - if last_8_weeks_counts.any?(&:positive?)
@@ -85,10 +88,10 @@
       - if user_track.num_completed_exercises.zero? && user_track.num_locked_exercises.positive?
         = render "tracks/show/stats_box_locked_exercises", track:, user_track:
 
-      - if @forum_threads.present?
+      - if forum_threads.present?
         %h3.text-h4.mt-32.mb-12 From the Forum…
         .flex.flex-col.gap-8.mb-20
-          - @forum_threads.each do |thread|
+          - forum_threads.each do |thread|
             = link_to thread.url, class: 'flex items-start bg-backgroundColorA px-16 py-12 shadow-base hover:shadow-smZ1 rounded-5 mb-8' do
               = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'
               .flex.flex-col.mr-auto

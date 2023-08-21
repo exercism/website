@@ -64,6 +64,7 @@ class Mentor::UpdateStatsTest < ActiveSupport::TestCase
   test "recalculates num_solutions_mentored" do
     mentor = create :user
     student = create :user
+    other_student = create :user
     mentor.num_solutions_mentored # Cache it
 
     # Sanity check
@@ -82,8 +83,9 @@ class Mentor::UpdateStatsTest < ActiveSupport::TestCase
 
     create(:mentor_discussion, mentor:, status: :finished, request: create(:mentor_request, student:))
     create(:mentor_discussion, mentor:, status: :finished, request: create(:mentor_request, student:))
+    create(:mentor_discussion, mentor:, status: :finished, request: create(:mentor_request, student: other_student))
     Mentor::UpdateStats.(mentor, update_counts: true)
     assert_equal 2, mentor.reload.num_students_mentored
-    assert_equal 2, mentor.reload.num_solutions_mentored
+    assert_equal 3, mentor.reload.num_solutions_mentored
   end
 end

@@ -30,6 +30,7 @@ class UnsubscribeController < ApplicationController
       email_on_mentor_heartbeat: false,
       email_on_general_update_notification: false,
       email_on_acquired_badge_notification: false,
+      email_on_acquired_trophy_notification: false,
       email_on_nudge_notification: false,
       email_on_student_finished_discussion_notification: false,
       email_on_mentor_finished_discussion_notification: false,

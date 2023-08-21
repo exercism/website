@@ -67,6 +67,12 @@ export default function TrackMenu({
                 {track.title} documentation
               </a>
             </li>
+            <li {...itemAttributes(2)}>
+              <a href={links.buildStatus}>
+                <GraphicalIcon icon="building" />
+                Track Build Status
+              </a>
+            </li>
             {links.activatePracticeMode ? (
               <li {...itemAttributes(2)}>
                 <button type="button" onClick={() => setModal('practice')}>

@@ -1,6 +1,6 @@
 class Admin::PerksController < ApplicationController
-  before_action :set_partner
-  before_action :set_perk, only: %i[show edit update destroy]
+  before_action :use_partner
+  before_action :use_perk, only: %i[show edit update destroy]
 
   # GET /admin/perks/1
   def show; end
@@ -40,11 +40,11 @@ class Admin::PerksController < ApplicationController
   end
 
   private
-  def set_partner
+  def use_partner
     @partner = Partner.find_by(slug: params[:partner_id])
   end
 
-  def set_perk
+  def use_perk
     @perk = @partner.perks.find_by(uuid: params[:id])
   end
 

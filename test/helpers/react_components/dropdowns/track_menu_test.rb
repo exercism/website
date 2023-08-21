@@ -11,7 +11,8 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
         track: SerializeTrack.(track, UserTrack::External.new(track)),
         links: {
           repo: track.repo_url,
-          documentation: Exercism::Routes.track_docs_url(track)
+          documentation: Exercism::Routes.track_docs_url(track),
+          build_status: Exercism::Routes.track_build_path(track)
         }
       }
   end
@@ -31,11 +32,11 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
         links: {
           repo: track.repo_url,
           documentation: Exercism::Routes.track_docs_url(track),
+          build_status: Exercism::Routes.track_build_path(track),
           activate_practice_mode: Exercism::Routes.activate_practice_mode_api_track_url(track),
           activate_learning_mode: nil,
           reset: Exercism::Routes.reset_api_track_url(track),
           leave: Exercism::Routes.leave_api_track_url(track)
-
         }
       }
   end
@@ -55,11 +56,11 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
         links: {
           repo: track.repo_url,
           documentation: Exercism::Routes.track_docs_url(track),
+          build_status: Exercism::Routes.track_build_path(track),
           activate_practice_mode: nil,
           activate_learning_mode: Exercism::Routes.activate_learning_mode_api_track_url(track),
           reset: Exercism::Routes.reset_api_track_url(track),
           leave: Exercism::Routes.leave_api_track_url(track)
-
         }
       }
   end
@@ -79,9 +80,9 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
         links: {
           repo: track.repo_url,
           documentation: Exercism::Routes.track_docs_url(track),
+          build_status: Exercism::Routes.track_build_path(track),
           reset: Exercism::Routes.reset_api_track_url(track),
           leave: Exercism::Routes.leave_api_track_url(track)
-
         }
       }
   end

@@ -28,7 +28,6 @@ jobs:
   ##### RUBOCOP ####
   ##################
   rubocop:
-    # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-22.04
@@ -230,6 +229,14 @@ jobs:
           bundle exec rails test:prepare
 
       ###
+      # Wait for everything to be ready
+      - name: Wait for open search to become ready
+        id: wait-for-opensearch
+        env:
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+        run: ./bin/wait_for_opensearch.sh
+
+      ###
       # Run the tests
       - name: Run Ruby tests
         env:
@@ -384,6 +391,14 @@ jobs:
         run: |
           bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare
+
+      ###
+      # Wait for everything to be ready
+      - name: Wait for open search to become ready
+        id: wait-for-opensearch
+        env:
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+        run: ./bin/wait_for_opensearch.sh
 
       ###
       # Run the tests

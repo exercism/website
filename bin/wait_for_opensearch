@@ -1,0 +1,7 @@
+#!/bin/bash
+
+until [[ $(curl --write-out %{http_code} --output /dev/null --silent --head --fail $OPENSEARCH_HOST -u admin:admin --insecure) == 200 ]]; do
+  echo "Waiting for OpenSearch to be ready"
+  sleep 1
+done
+

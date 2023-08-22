@@ -45,11 +45,12 @@ class User::Challenges::FeaturedExercisesProgress12In23
   end
 
   def remove_march_duplicates(exercises)
-    if exercises.count { |(_, exercise_slug)| MARCH_DUPLICATES.include?(exercise_slug) } > 1
-      exercises.reject! { |(_, exercise_slug)| MARCH_DUPLICATES_TO_REMOVE.include?(exercise_slug) }
-    end
+    exercise_slugs = exercises.map(&:second)
+    duplicate_exercises = %w[linked-list simple-linked-list]
 
-    exercises
+    return exercises unless duplicate_exercises & exercise_slugs == duplicate_exercises
+
+    exercises.reject { |(_, exercise_slug)| exercise_slug == 'simple-linked-list' }
   end
 
   FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze
@@ -57,9 +58,6 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   MARCH_TRACKS = %w[c cpp d nim go rust vlang zig].freeze
   MARCH_EXERCISES = %w[linked-list simple-linked-list secret-handshake sieve binary-search pangram].freeze
-
-  MARCH_DUPLICATES = %w[linked-list simple-linked-list].freeze
-  MARCH_DUPLICATES_TO_REMOVE = (MARCH_DUPLICATES - %w[linked-list]).freeze
 
   APRIL_TRACKS = %w[julia python r].freeze
   APRIL_EXERCISES = %w[etl largest-series-product saddle-points sum-of-multiples word-count].freeze

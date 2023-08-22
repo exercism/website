@@ -23,9 +23,14 @@ class Track::Trophies::MentoredTrophyTest < ActiveSupport::TestCase
     create(:mentor_discussion, solution:)
     refute trophy.award?(user, track)
 
-    # A unfinished discussion shouldn't count
+    # A mentor finished discussion shouldn't count
     solution = create(:practice_solution, user:, track:)
-    create(:mentor_discussion, :finished, solution:)
+    create(:mentor_discussion, :mentor_finished, solution:)
+    refute trophy.award?(user, track)
+
+    # A student finished discussion counts
+    solution = create(:practice_solution, user:, track:)
+    create(:mentor_discussion, :student_finished, solution:)
     assert trophy.award?(user, track)
   end
 end

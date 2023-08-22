@@ -15,8 +15,13 @@ export function GetHelpPanel({
 
       <div className="px-24">
         <header className="flex items-center gap-12 mb-24">
-          <GraphicalIcon icon="hints" category="graphics" />
-          <h2 className="text-h2">Help</h2>
+          <GraphicalIcon
+            icon="hints"
+            category="graphics"
+            height={40}
+            width={40}
+          />
+          <h2 className="text-h3">Help</h2>
         </header>
 
         <div

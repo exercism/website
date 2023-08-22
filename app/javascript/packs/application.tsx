@@ -518,6 +518,7 @@ import { TrophiesProps, Trophy } from '@/components/track/Trophies.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
+  document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 })
 
 showSiteFooterOnTurboLoad()

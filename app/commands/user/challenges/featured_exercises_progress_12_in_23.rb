@@ -4,7 +4,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
   initialize_with :user
 
   def call
-    self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
+    exercises = self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
       next unless solutions.key?(exercise_slug)
 
       solved_in_featured_tracks = solutions[exercise_slug].select { |track_slug| track_slugs.include?(track_slug) }
@@ -15,6 +15,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       solved_before_23 = solved_in_featured_tracks.select { |_, year| year < 2023 }
       next [solved_before_23.keys.first, exercise_slug] if solved_before_23.size == track_slugs.size
     end
+
+    remove_march_duplicates(exercises)
   end
 
   def self.num_featured_exercises = self.featured_exercises.size - 1
@@ -39,13 +41,16 @@ class User::Challenges::FeaturedExercisesProgress12In23
       joins(:track).
       pluck('exercises.slug', 'tracks.slug', 'solutions.published_at').
       group_by(&:first).
-      transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }.
-      tap do |published|
-        next unless published.key?('linked-list')
-        next unless published['linked-list'].keys.any? { |track| MARCH_TRACKS.include?(track) }
+      transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }
+  end
 
-        published.delete('simple-linked-list')
-      end
+  def remove_march_duplicates(exercises)
+    exercise_slugs = exercises.map(&:second)
+    duplicate_exercises = %w[linked-list simple-linked-list]
+
+    return exercises unless duplicate_exercises & exercise_slugs == duplicate_exercises
+
+    exercises.reject { |(_, exercise_slug)| exercise_slug == 'simple-linked-list' }
   end
 
   FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze

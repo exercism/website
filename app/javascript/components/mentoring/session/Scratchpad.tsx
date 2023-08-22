@@ -9,6 +9,7 @@ import {
   AlertTag,
   MarkdownEditor,
 } from '../../common'
+import { default as MarkdownEditor } from '../../common/MarkdownEditor'
 import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,

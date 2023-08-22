@@ -150,8 +150,5 @@
     "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/website.css",
     "build": "./app/javascript/esbuild.js",
     "prepare": "husky install"
-  },
-  "resolutions": {
-    "@types/react": "17.0.38"
   }
 }

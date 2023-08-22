@@ -90,7 +90,7 @@ const setTurboStyle = (style: string) => {
   styleElem.textContent = style
 }
 
-export const initReact = (mappings: Mappings): void => {
+export function initReact(mappings: Mappings): void {
   const renderThings = (parentElement = document.body) => {
     renderComponents(parentElement, mappings)
     renderTooltips(parentElement, mappings)

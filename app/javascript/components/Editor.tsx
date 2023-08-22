@@ -47,6 +47,8 @@ import { TestContentWrapper } from './editor/TestContentWrapper'
 import { RealtimeFeedbackModal } from './modals'
 import * as ChatGPT from './editor/ChatGptFeedback'
 import { redirectTo } from '@/utils'
+import { GetHelpTab } from './editor/GetHelp/GetHelpTab'
+import { GetHelpPanel } from './editor/GetHelp'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
 
@@ -421,7 +423,6 @@ export default ({
             />
             <div className="options">
               <Header.ActionHints assignment={panels.instructions.assignment} />
-              <Header.ActionHelp helpHtml={help.html} />
               <Header.ActionSettings
                 settings={settings}
                 setSettings={setSettings}
@@ -502,7 +503,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  <ChatGPT.Tab />
+                  <GetHelpTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -538,26 +539,30 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {insider ? (
-                  <ChatGPT.Panel
-                    helpRecord={helpRecord}
-                    status={chatGptFetchingStatus}
-                  >
-                    <ChatGPT.Button
-                      insider={insider}
-                      noSubmission={!submission}
-                      sameSubmission={
-                        submission ? submission.uuid === submissionUuid : false
-                      }
-                      isProcessing={isProcessing}
-                      passingTests={testRunStatus === TestRunStatus.PASS}
-                      chatGptFetchingStatus={chatGptFetchingStatus}
-                      onClick={() => setChatGptDialogOpen(true)}
-                    />
-                  </ChatGPT.Panel>
-                ) : (
-                  <ChatGPT.UpsellPanel />
-                )}
+                <GetHelpPanel helpHtml={help.html}>
+                  {insider ? (
+                    <ChatGPT.Wrapper
+                      helpRecord={helpRecord}
+                      status={chatGptFetchingStatus}
+                    >
+                      <ChatGPT.Button
+                        insider={insider}
+                        noSubmission={!submission}
+                        sameSubmission={
+                          submission
+                            ? submission.uuid === submissionUuid
+                            : false
+                        }
+                        isProcessing={isProcessing}
+                        passingTests={testRunStatus === TestRunStatus.PASS}
+                        chatGptFetchingStatus={chatGptFetchingStatus}
+                        onClick={() => setChatGptDialogOpen(true)}
+                      />
+                    </ChatGPT.Wrapper>
+                  ) : (
+                    <ChatGPT.UpsellContent />
+                  )}
+                </GetHelpPanel>
               </TasksContext.Provider>
             }
           />

@@ -1,83 +1,182 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { lazy, Suspense } from 'react'
+import { camelizeKeys } from 'humps'
+import { camelizeKeysAs, highlightAll } from '@/utils'
+import { initReact } from '@/utils/react-bootloader'
+import { RenderLoader } from '@/components/common/RenderLoader'
 import 'focus-visible'
 import 'tippy.js/animations/shift-away-subtle.css'
 import 'tippy.js/dist/svg-arrow.css'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
-import React, { lazy, Suspense } from 'react'
-import { initReact } from '../utils/react-bootloader.jsx'
-
-const DonationsFormWithModal = lazy(
-  () => import('../components/donations/FormWithModal')
-)
-
-const DonationsSubscriptionForm = lazy(
-  () => import('../components/donations/SubscriptionForm')
-)
-
-const Editor = lazy(() => import('../components/Editor'))
-import { Props as EditorProps } from '../components/editor/Props'
-
-const DonationsFooterForm = lazy(
-  () => import('../components/donations/FooterForm')
-)
-
-const CLIWalkthrough = lazy(() => import('../components/common/CLIWalkthrough'))
-const CLIWalkthroughButton = lazy(
-  () => import('../components/common/CLIWalkthroughButton')
-)
-
-const ImpactStat = lazy(() => import('../components/impact/stat'))
-const ImpactMap = lazy(() => import('../components/impact/map'))
-const ImpactChart = lazy(() => import('../components/impact/Chart'))
-const InsidersStatus = lazy(
-  () => import('../components/insiders/InsidersStatus')
-)
-
-import StudentTracksList from '../components/student/TracksList'
-import StudentExerciseList from '../components/student/ExerciseList'
-
-import * as Common from '../components/common'
-
-import * as Student from '../components/student'
-import * as Community from '../components/community'
-
-import * as TrackComponents from '../components/track'
-import { ConceptMap } from '../components/concept-map/ConceptMap'
-import { IConceptMap } from '../components/concept-map/concept-map-types'
-import {
+import type { IConceptMap } from '@/components/concept-map/concept-map-types'
+import type {
   Iteration,
   Track,
   Exercise,
   SolutionForStudent,
-  CommunitySolution,
+  CommunitySolution as CommunitySolutionProps,
   Testimonial,
   User,
   SiteUpdate,
-  TrackContribution,
   SharePlatform,
   Metric,
-} from '../components/types'
+} from '@/components/types'
+import type { Request as ContributingTasksRequest } from '@/components/contributing/TasksList'
+import type { TrackData as ProfileCommunitySolutionsListTrackData } from '@/components/profile/CommunitySolutionsList'
+import type { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
+import type { Links as SolutionViewLinks } from '@/components/common/SolutionView'
+import type { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
+import type { Request } from '@/hooks'
+import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
+import type { DigDeeperProps } from '@/components/track/DigDeeper'
+import type { ChartData } from '@/components/impact/Chart'
+import type { InsidersStatusData } from '../components/insiders/InsidersStatus'
+import type { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
+import type { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
+import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
+import type { VideoGridProps } from '@/components/community/video-grid/index.js'
+import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
+import type { TrophiesProps, Trophy } from '@/components/track/Trophies'
 
-import * as Tooltips from '../components/tooltips'
-import { Dropdown } from '../components/dropdowns/Dropdown'
-import * as Profile from '../components/profile'
-import * as CommunitySolutions from '../components/community-solutions'
-import * as Contributing from '../components/contributing'
-import { Request as ContributingTasksRequest } from '../components/contributing/TasksList'
-import { TrackData as ProfileCommunitySolutionsListTrackData } from '../components/profile/CommunitySolutionsList'
-import { Category as ProfileContributionsListCategory } from '../components/profile/ContributionsList'
-import { Links as SolutionViewLinks } from '../components/common/SolutionView'
-import { Links as CommentsListLinks } from '../components/community-solutions/CommentsList'
+const CLIWalkthrough = lazy(() => import('@/components/common/CLIWalkthrough'))
+const CLIWalkthroughButton = lazy(
+  () => import('@/components/common/CLIWalkthroughButton')
+)
 
-import { Request } from '../hooks/request-query'
-import { camelizeKeys } from 'humps'
-export function camelizeKeysAs<T>(object: any): T {
-  return camelizeKeys(object) as unknown as T
-}
-import currency from 'currency.js'
+const ImpactStat = lazy(() => import('@/components/impact/stat'))
+const ImpactMap = lazy(() => import('@/components/impact/map'))
+const ImpactChart = lazy(() => import('@/components/impact/Chart'))
+const InsidersStatus = lazy(
+  () => import('@/components/insiders/InsidersStatus')
+)
 
-const renderLoader = () => <div className="c-loading-suspense" />
+const StudentTracksList = lazy(() => import('@/components/student/TracksList'))
+const StudentExerciseList = lazy(
+  () => import('@/components/student/ExerciseList')
+)
+
+const ShareLink = lazy(() => import('@/components/common/ShareLink'))
+const ConceptWidget = lazy(() => import('@/components/common/ConceptWidget'))
+const SolutionView = lazy(() => import('@/components/common/SolutionView'))
+const Expander = lazy(() => import('@/components/common/Expander'))
+const Introducer = lazy(() => import('@/components/common/Introducer'))
+const Modal = lazy(() => import('@/components/common/Modal'))
+const CommunitySolution = lazy(
+  () => import('@/components/common/CommunitySolution')
+)
+const Credits = lazy(() => import('@/components/common/Credits'))
+const ExerciseWidget = lazy(() => import('@/components/common/ExerciseWidget'))
+const ShareButton = lazy(() => import('@/components/common/ShareButton'))
+const SiteUpdatesList = lazy(
+  () => import('@/components/common/SiteUpdatesList')
+)
+const CopyToClipboardButton = lazy(
+  () => import('@/components/common/CopyToClipboardButton')
+)
+const ThemeToggleButton = lazy(
+  () => import('@/components/common/ThemeToggleButton')
+)
+const Icon = lazy(() => import('@/components/common/Icon'))
+const GraphicalIcon = lazy(() => import('@/components/common/GraphicalIcon'))
+const ProgressGraph = lazy(() => import('@/components/common/ProgressGraph'))
+
+const ExerciseStatusChart = lazy(
+  () => import('@/components/student/ExerciseStatusChart')
+)
+const ExerciseStatusDot = lazy(
+  () => import('@/components/student/ExerciseStatusDot')
+)
+const OpenEditorButton = lazy(
+  () => import('@/components/student/OpenEditorButton')
+)
+const CompleteExerciseButton = lazy(
+  () => import('@/components/student/CompleteExerciseButton')
+)
+const VideoGrid = lazy(() => import('@/components/community/video-grid'))
+const StoriesGrid = lazy(() => import('@/components/community/stories-grid'))
+
+const ExerciseCommunitySolutionsList = lazy(
+  () => import('@/components/track/ExerciseCommunitySolutionsList')
+)
+const DigDeeper = lazy(() => import('@/components/track/DigDeeper'))
+const ConceptMakersButton = lazy(
+  () => import('@/components/track/ConceptMakersButton')
+)
+const UnlockHelpButton = lazy(
+  () => import('@/components/track/UnlockHelpButton')
+)
+const ExerciseMakersButton = lazy(
+  () => import('@/components/track/ExerciseMakersButton')
+)
+
+const ConceptMap = lazy(() => import('@/components/concept-map/ConceptMap'))
+
+// TODO: Move this out of /types, as this is not a type
+import { TrackContribution } from '@/components/types'
+
+const StudentTooltip = lazy(
+  () => import('@/components/tooltips/StudentTooltip')
+)
+const UserTooltip = lazy(() => import('@/components/tooltips/UserTooltip'))
+const ExerciseTooltip = lazy(
+  () => import('@/components/tooltips/ExerciseTooltip')
+)
+const ToolingTooltip = lazy(
+  () => import('@/components/tooltips/ToolingTooltip')
+)
+const ConceptTooltip = lazy(
+  () => import('@/components/tooltips/ConceptTooltip')
+)
+
+const AutomationLockedTooltip = lazy(
+  () => import('@/components/tooltips/AutomationLockedTooltip')
+)
+const Dropdown = lazy(() => import('@/components/dropdowns/Dropdown'))
+
+const TestimonialsSummary = lazy(
+  () => import('@/components/profile/TestimonialsSummary')
+)
+const CommunitySolutionsList = lazy(
+  () => import('@/components/profile/CommunitySolutionsList')
+)
+const TestimonialsList = lazy(
+  () => import('@/components/profile/TestimonialsList')
+)
+const ContributionsList = lazy(
+  () => import('@/components/profile/ContributionsList')
+)
+const ContributionsSummary = lazy(
+  () => import('@/components/profile/ContributionsSummary')
+)
+const AvatarSelector = lazy(() => import('@/components/profile/AvatarSelector'))
+const NewProfileForm = lazy(() => import('@/components/profile/NewProfileForm'))
+const FirstTimeModal = lazy(
+  () => import('@/components/modals/profile/FirstTimeModal')
+)
+
+const StarButton = lazy(
+  () => import('@/components/community-solutions/StarButton')
+)
+const CommentsList = lazy(
+  () => import('@/components/community-solutions/CommentsList')
+)
+const ContributorsList = lazy(
+  () => import('@/components/contributing/ContributorsList')
+)
+const TasksList = lazy(() => import('@/components/contributing/TasksList'))
+
+const PaymentPending = lazy(
+  () => import('@/components/insiders/PaymentPending')
+)
+const PerksModalButton = lazy(
+  () => import('@/components/perks/PerksModalButton')
+)
+const PerksExternalModalButton = lazy(
+  () => import('@/components/perks/PerksExternalModalButton')
+)
+
+const Trophies = lazy(() => import('@/components/track/Trophies'))
 
 declare global {
   interface Window {
@@ -93,288 +192,351 @@ window.queryCache = new QueryCache()
 // Each should map 1-1 to a component in app/helpers/components
 export const mappings = {
   'share-link': (data: any): JSX.Element => (
-    <Common.ShareLink
-      title={data.title}
-      shareTitle={data.share_title}
-      shareLink={data.share_link}
-      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
-    />
-  ),
-  'donations-with-modal-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFormWithModal
-        request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
-        userSignedIn={data.user_signed_in}
-        captchaRequired={data.captcha_required}
-        recaptchaSiteKey={data.recaptcha_site_key}
+    <Suspense fallback={RenderLoader()}>
+      <ShareLink
+        title={data.title}
+        shareTitle={data.share_title}
+        shareLink={data.share_link}
+        platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
       />
-    </Suspense>
-  ),
-  'donations-subscription-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsSubscriptionForm
-        {...data}
-        amount={currency(data.amount_in_cents, { fromCents: true })}
-      />
-    </Suspense>
-  ),
-  editor: (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
     </Suspense>
   ),
   'common-concept-widget': (data: any): JSX.Element => (
-    <Common.ConceptWidget concept={data.concept} />
+    <Suspense fallback={RenderLoader()}>
+      <ConceptWidget concept={data.concept} />
+    </Suspense>
   ),
-  'common-modal': (data: any): JSX.Element => <Common.Modal html={data.html} />,
+
+  'common-modal': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <Modal html={data.html} />
+    </Suspense>
+  ),
   'common-solution-view': (data: any): JSX.Element => (
-    <Common.SolutionView
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      language={data.language}
-      indentSize={data.indent_size}
-      publishedIterationIdx={data.published_iteration_idx}
-      publishedIterationIdxs={data.published_iteration_idxs}
-      outOfDate={data.out_of_date}
-      links={camelizeKeysAs<SolutionViewLinks>(data.links)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <SolutionView
+        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+        language={data.language}
+        indentSize={data.indent_size}
+        publishedIterationIdx={data.published_iteration_idx}
+        publishedIterationIdxs={data.published_iteration_idxs}
+        outOfDate={data.out_of_date}
+        links={camelizeKeysAs<SolutionViewLinks>(data.links)}
+      />
+    </Suspense>
   ),
   'common-expander': (data: any): JSX.Element => (
-    <Common.Expander
-      contentIsSafe={data.content_is_safe}
-      content={data.content}
-      buttonTextCompressed={data.button_text_compressed}
-      buttonTextExpanded={data.button_text_expanded}
-      className={data.class_name}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <Expander
+        contentIsSafe={data.content_is_safe}
+        content={data.content}
+        buttonTextCompressed={data.button_text_compressed}
+        buttonTextExpanded={data.button_text_expanded}
+        className={data.class_name}
+      />
+    </Suspense>
   ),
   'common-community-solution': (data: any): JSX.Element => (
-    <Common.CommunitySolution
-      solution={camelizeKeysAs<CommunitySolution>(data.solution)}
-      context={data.context}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <CommunitySolution
+        solution={camelizeKeysAs<CommunitySolutionProps>(data.solution)}
+        context={data.context}
+      />
+    </Suspense>
   ),
   'common-introducer': (data: any): JSX.Element => (
-    <Common.Introducer
-      icon={data.icon}
-      content={data.content}
-      endpoint={data.endpoint}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <Introducer
+        icon={data.icon}
+        content={data.content}
+        endpoint={data.endpoint}
+      />
+    </Suspense>
   ),
   'common-cli-walkthrough': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CLIWalkthrough html={data.html} />
     </Suspense>
   ),
   'common-cli-walkthrough-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <CLIWalkthroughButton html={data.html} />
     </Suspense>
   ),
 
   'community-video-grid': (data: any): JSX.Element => (
-    <Community.VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
+    <Suspense fallback={RenderLoader()}>
+      <VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
+    </Suspense>
   ),
   'community-stories-grid': (data: any): JSX.Element => (
-    <Community.StoriesGrid data={camelizeKeys(data)} />
+    <Suspense fallback={RenderLoader()}>
+      <StoriesGrid data={camelizeKeys(data)} />
+    </Suspense>
   ),
 
   'track-exercise-community-solutions-list': (data: any): JSX.Element => (
-    <TrackComponents.ExerciseCommunitySolutionsList
-      request={camelizeKeysAs<Request>(data.request)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ExerciseCommunitySolutionsList
+        request={camelizeKeysAs<Request>(data.request)}
+      />
+    </Suspense>
   ),
 
   'track-dig-deeper': (data: DigDeeperProps): JSX.Element => (
-    <TrackComponents.DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
+    <Suspense fallback={RenderLoader()}>
+      <DigDeeper data={camelizeKeysAs<DigDeeperProps>(data)} />
+    </Suspense>
   ),
 
-  'track-trophies': (data: TrophiesProps) => (
-    <TrackComponents.Trophies
-      trophies={camelizeKeysAs<Trophy[]>(data.trophies)}
-    />
+  'track-trophies': (data: TrophiesProps): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <Trophies trophies={camelizeKeysAs<Trophy[]>(data.trophies)} />
+    </Suspense>
   ),
 
   'unlock-help-button': (data: { unlock_url: string }): JSX.Element => (
-    <TrackComponents.UnlockHelpButton unlockUrl={data.unlock_url} />
+    <Suspense fallback={RenderLoader()}>
+      <UnlockHelpButton unlockUrl={data.unlock_url} />
+    </Suspense>
   ),
 
   'track-exercise-makers-button': (data: any): JSX.Element => (
-    <TrackComponents.ExerciseMakersButton
-      avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
-      numAuthors={data.num_authors}
-      numContributors={data.num_contributors}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ExerciseMakersButton
+        avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
+        numAuthors={data.num_authors}
+        numContributors={data.num_contributors}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'track-concept-makers-button': (data: any): JSX.Element => (
-    <TrackComponents.ConceptMakersButton
-      avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
-      numAuthors={data.num_authors}
-      numContributors={data.num_contributors}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ConceptMakersButton
+        avatarUrls={camelizeKeysAs<readonly string[]>(data.avatar_urls)}
+        numAuthors={data.num_authors}
+        numContributors={data.num_contributors}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'common-credits': (data: any): JSX.Element => (
-    <Common.Credits
-      users={camelizeKeysAs<User[]>(data.users)}
-      topCount={data.top_count}
-      topLabel={data.top_label}
-      bottomCount={data.bottom_count}
-      bottomLabel={data.bottom_label}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <Credits
+        users={camelizeKeysAs<User[]>(data.users)}
+        topCount={data.top_count}
+        topLabel={data.top_label}
+        bottomCount={data.bottom_count}
+        bottomLabel={data.bottom_label}
+      />
+    </Suspense>
   ),
   'common-exercise-widget': (data: any): JSX.Element => (
-    <Common.ExerciseWidget
-      exercise={camelizeKeysAs<Exercise>(data.exercise)}
-      track={camelizeKeysAs<Track>(data.track)}
-      solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-      links={data.links}
-      renderAsLink={data.render_as_link}
-      renderBlurb={data.render_blurb}
-      isSkinny={data.skinny}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ExerciseWidget
+        exercise={camelizeKeysAs<Exercise>(data.exercise)}
+        track={camelizeKeysAs<Track>(data.track)}
+        solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
+        links={data.links}
+        renderAsLink={data.render_as_link}
+        renderBlurb={data.render_blurb}
+        isSkinny={data.skinny}
+      />
+    </Suspense>
   ),
   'common-share-button': (data: any): JSX.Element => (
-    <Common.ShareButton
-      title={data.title}
-      shareTitle={data.share_title}
-      shareLink={data.share_link}
-      platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ShareButton
+        title={data.title}
+        shareTitle={data.share_title}
+        shareLink={data.share_link}
+        platforms={camelizeKeysAs<readonly SharePlatform[]>(data.platforms)}
+      />
+    </Suspense>
   ),
   'common-site-updates-list': (data: any): JSX.Element => (
-    <Common.SiteUpdatesList
-      updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}
-      context={data.context}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <SiteUpdatesList
+        updates={camelizeKeysAs<readonly SiteUpdate[]>(data.updates)}
+        context={data.context}
+      />
+    </Suspense>
   ),
   'contributing-contributors-list': (data: any): JSX.Element => (
-    <Contributing.ContributorsList
-      request={camelizeKeysAs<Request>(data.request)}
-      tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ContributorsList
+        request={camelizeKeysAs<Request>(data.request)}
+        tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
+      />
+    </Suspense>
   ),
   'contributing-tasks-list': (data: any): JSX.Element => (
-    <Contributing.TasksList
-      request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
-      tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <TasksList
+        request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
+        tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
+      />
+    </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (
-    <StudentTracksList request={data.request} tagOptions={data.tag_options} />
+    <Suspense fallback={RenderLoader()}>
+      <StudentTracksList request={data.request} tagOptions={data.tag_options} />
+    </Suspense>
   ),
   'student-exercise-list': (data: any): JSX.Element => (
-    <StudentExerciseList
-      request={camelizeKeysAs<Request>(data.request)}
-      defaultStatus={data.status}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <StudentExerciseList
+        request={camelizeKeysAs<Request>(data.request)}
+        defaultStatus={data.status}
+      />
+    </Suspense>
   ),
   'student-exercise-status-chart': (data: any): JSX.Element => (
-    <Student.ExerciseStatusChart
-      exercisesData={data.exercises_data}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ExerciseStatusChart
+        exercisesData={data.exercises_data}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'student-exercise-status-dot': (data: any): JSX.Element => (
-    <Student.ExerciseStatusDot
-      exerciseStatus={data.exercise_status}
-      type={data.type}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ExerciseStatusDot
+        exerciseStatus={data.exercise_status}
+        type={data.type}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'student-open-editor-button': (data: any): JSX.Element => (
-    <Student.OpenEditorButton
-      editorEnabled={data.editor_enabled}
-      status={data.status}
-      links={data.links}
-      command={data.command}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <OpenEditorButton
+        editorEnabled={data.editor_enabled}
+        status={data.status}
+        links={data.links}
+        command={data.command}
+      />
+    </Suspense>
   ),
   'student-complete-exercise-button': (data: any): JSX.Element => (
-    <Student.CompleteExerciseButton
-      endpoint={data.endpoint}
-      iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <CompleteExerciseButton
+        endpoint={data.endpoint}
+        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
+      />
+    </Suspense>
   ),
   'concept-map': (data: any): JSX.Element => (
-    <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
+    <Suspense fallback={RenderLoader()}>
+      <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
+    </Suspense>
   ),
 
   'mentored-student-tooltip': (data: any): JSX.Element => (
-    <Tooltips.StudentTooltip endpoint={data.endpoint} />
+    <Suspense fallback={RenderLoader()}>
+      <StudentTooltip endpoint={data.endpoint} />
+    </Suspense>
   ),
   'user-tooltip': (data: any): JSX.Element => (
-    <Tooltips.UserTooltip endpoint={data.endpoint} />
+    <Suspense fallback={RenderLoader()}>
+      <UserTooltip endpoint={data.endpoint} />
+    </Suspense>
   ),
   'exercise-tooltip': (data: any): JSX.Element => (
-    <Tooltips.ExerciseTooltip endpoint={data.endpoint} />
+    <Suspense fallback={RenderLoader()}>
+      <ExerciseTooltip endpoint={data.endpoint} />
+    </Suspense>
   ),
 
   'tooling-tooltip': (data: any): JSX.Element => (
-    <Tooltips.ToolingTooltip endpoint={data.endpoint} />
+    <Suspense fallback={RenderLoader()}>
+      <ToolingTooltip endpoint={data.endpoint} />
+    </Suspense>
   ),
 
   'concept-tooltip': (data: any): JSX.Element => (
-    <Tooltips.ConceptTooltip endpoint={data.endpoint} />
+    <Suspense fallback={RenderLoader()}>
+      <ConceptTooltip endpoint={data.endpoint} />
+    </Suspense>
   ),
   'automation-locked-tooltip': (
     data: AutomationLockedTooltipProps
   ): JSX.Element => (
-    <Tooltips.AutomationLockedTooltip endpoint={data.endpoint} />
+    <Suspense fallback={RenderLoader()}>
+      <AutomationLockedTooltip endpoint={data.endpoint} />
+    </Suspense>
   ),
   'dropdowns-dropdown': (data: any): JSX.Element => (
-    <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
+    <Suspense fallback={RenderLoader()}>
+      <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
+    </Suspense>
   ),
 
   'common-copy-to-clipboard-button': (data: any): JSX.Element => (
-    <Common.CopyToClipboardButton textToCopy={data.text_to_copy} />
+    <Suspense fallback={RenderLoader()}>
+      <CopyToClipboardButton textToCopy={data.text_to_copy} />
+    </Suspense>
   ),
   'common-theme-toggle-button': (
     data: Omit<ThemeToggleButtonProps, 'defaultTheme'> & {
       default_theme: string
     }
   ): JSX.Element => (
-    <Common.ThemeToggleButton {...data} defaultTheme={data.default_theme} />
+    <Suspense fallback={RenderLoader()}>
+      <ThemeToggleButton {...data} defaultTheme={data.default_theme} />
+    </Suspense>
   ),
   'common-icon': (data: any): JSX.Element => (
-    <Common.Icon icon={data.icon} alt={data.alt} />
+    <Suspense fallback={RenderLoader()}>
+      <Icon icon={data.icon} alt={data.alt} />
+    </Suspense>
   ),
   'common-graphical-icon': (data: any): JSX.Element => (
-    <Common.GraphicalIcon icon={data.icon} />
+    <Suspense fallback={RenderLoader()}>
+      <GraphicalIcon icon={data.icon} />
+    </Suspense>
   ),
   'profile-testimonials-summary': (data: any): JSX.Element => (
-    <Profile.TestimonialsSummary
-      handle={data.handle}
-      flair={data.flair}
-      numTestimonials={data.num_testimonials}
-      numSolutionsMentored={data.num_solutions_mentored}
-      numStudentsHelped={data.num_students_helped}
-      numTestimonialsReceived={data.num_testimonials_received}
-      testimonials={camelizeKeysAs<Testimonial[]>(data.testimonials)}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <TestimonialsSummary
+        handle={data.handle}
+        flair={data.flair}
+        numTestimonials={data.num_testimonials}
+        numSolutionsMentored={data.num_solutions_mentored}
+        numStudentsHelped={data.num_students_helped}
+        numTestimonialsReceived={data.num_testimonials_received}
+        testimonials={camelizeKeysAs<Testimonial[]>(data.testimonials)}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'profile-community-solutions-list': (data: any): JSX.Element => (
-    <Profile.CommunitySolutionsList
-      request={camelizeKeysAs<Request>(data.request)}
-      tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
-        data.tracks
-      )}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <CommunitySolutionsList
+        request={camelizeKeysAs<Request>(data.request)}
+        tracks={camelizeKeysAs<ProfileCommunitySolutionsListTrackData[]>(
+          data.tracks
+        )}
+      />
+    </Suspense>
   ),
   'profile-testimonials-list': (data: any): JSX.Element => (
-    <Profile.TestimonialsList
-      request={camelizeKeysAs<Request>(data.request)}
-      defaultSelected={data.default_selected || null}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <TestimonialsList
+        request={camelizeKeysAs<Request>(data.request)}
+        defaultSelected={data.default_selected || null}
+      />
+    </Suspense>
   ),
   'profile-contributions-list': (data: any): JSX.Element => (
-    <Profile.ContributionsList
-      categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(
-        data.categories
-      )}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ContributionsList
+        categories={camelizeKeysAs<readonly ProfileContributionsListCategory[]>(
+          data.categories
+        )}
+      />
+    </Suspense>
   ),
   'profile-contributions-summary': (data: any): JSX.Element => {
     const tracks = data.tracks.map(
@@ -383,82 +545,96 @@ export const mappings = {
     )
 
     return (
-      <Profile.ContributionsSummary
-        tracks={tracks}
-        handle={data.handle}
-        links={data.links}
-      />
+      <Suspense fallback={RenderLoader()}>
+        <ContributionsSummary
+          tracks={tracks}
+          handle={data.handle}
+          links={data.links}
+        />
+      </Suspense>
     )
   },
   'profile-first-time-modal': (data: any): JSX.Element => (
-    <Profile.FirstTimeModal links={data.links} />
+    <Suspense fallback={RenderLoader()}>
+      <FirstTimeModal links={data.links} />
+    </Suspense>
   ),
   'community-solutions-star-button': (data: any): JSX.Element => (
-    <CommunitySolutions.StarButton
-      userSignedIn={data.user_signed_in}
-      defaultNumStars={data.num_stars}
-      defaultIsStarred={data.is_starred}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <StarButton
+        userSignedIn={data.user_signed_in}
+        defaultNumStars={data.num_stars}
+        defaultIsStarred={data.is_starred}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'community-solutions-comments-list': (data: any): JSX.Element => (
-    <CommunitySolutions.CommentsList
-      isAuthor={data.is_author}
-      userSignedIn={data.user_signed_in}
-      defaultAllowComments={data.allow_comments}
-      request={camelizeKeysAs<Request>(data.request)}
-      links={camelizeKeysAs<CommentsListLinks>(data.links)}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <CommentsList
+        isAuthor={data.is_author}
+        userSignedIn={data.user_signed_in}
+        defaultAllowComments={data.allow_comments}
+        request={camelizeKeysAs<Request>(data.request)}
+        links={camelizeKeysAs<CommentsListLinks>(data.links)}
+      />
+    </Suspense>
   ),
   'profile-avatar-selector': (data: any): JSX.Element => (
-    <Profile.AvatarSelector
-      defaultUser={camelizeKeysAs<User>(data.user)}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <AvatarSelector
+        defaultUser={camelizeKeysAs<User>(data.user)}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'profile-new-profile-form': (data: any): JSX.Element => (
-    <Profile.NewProfileForm
-      user={camelizeKeysAs<User>(data.user)}
-      defaultFields={data.fields}
-      links={data.links}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <NewProfileForm
+        user={camelizeKeysAs<User>(data.user)}
+        defaultFields={data.fields}
+        links={data.links}
+      />
+    </Suspense>
   ),
   'common-progress-graph': (data: {
     values: Array<number>
     width: number
     height: number
   }): JSX.Element => (
-    <Common.ProgressGraph
-      data={data.values}
-      height={data.height}
-      width={data.width}
-    />
+    <Suspense fallback={RenderLoader()}>
+      <ProgressGraph
+        data={data.values}
+        height={data.height}
+        width={data.width}
+      />
+    </Suspense>
   ),
 
   'impact-stat': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ImpactStat metricType={data.type} initialValue={data.value} />
     </Suspense>
   ),
   'impact-chart': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <ImpactChart data={camelizeKeysAs<ChartData>(data)} />
     </Suspense>
   ),
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <InsidersStatus {...camelizeKeysAs<InsidersStatusData>(data)} />
     </Suspense>
   ),
 
   'insiders-payment-pending': (data: PaymentPendingProps): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PaymentPending {...camelizeKeysAs<PaymentPendingProps>(data)} />
     </Suspense>
   ),
 
   'perks-external-modal-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PerksExternalModalButton
         data={camelizeKeysAs<PerksExternalModalButtonProps>(data)}
       />
@@ -466,7 +642,7 @@ export const mappings = {
   ),
 
   'perks-modal-button': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={RenderLoader()}>
       <PerksModalButton data={camelizeKeysAs<PerksModalButtonProps>(data)} />
     </Suspense>
   ),
@@ -477,40 +653,18 @@ export const mappings = {
     )
 
     return (
-      <Suspense fallback={renderLoader()}>
+      <Suspense fallback={RenderLoader()}>
         <ImpactMap initialMetrics={metrics} trackTitle={data.track_title} />
       </Suspense>
     )
   },
-  // Slow things at the end
-  'donations-footer-form': (data: any): JSX.Element => (
-    <Suspense fallback={renderLoader()}>
-      <DonationsFooterForm {...camelizeKeysAs<FooterFormProps>(data)} />
-    </Suspense>
-  ),
 }
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-import { highlightAll } from '../utils/highlight'
-import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
-import type { DigDeeperProps } from '@/components/track/DigDeeper'
-import type { ChartData } from '@/components/impact/Chart'
-import { InsidersStatusData } from '../components/insiders/InsidersStatus'
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
-import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
-import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
-import { FooterFormProps } from '../components/donations/FooterForm'
-import { PerksModalButtonProps } from '@/components/perks/PerksModalButton.js'
-import { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
-import { VideoGridProps } from '@/components/community/video-grid/index.js'
-import {
-  PaymentPending,
-  PaymentPendingProps,
-} from '@/components/insiders/PaymentPending'
-import { TrophiesProps, Trophy } from '@/components/track/Trophies.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()

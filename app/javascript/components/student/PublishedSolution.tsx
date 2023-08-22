@@ -3,7 +3,7 @@ import {
   CommunitySolution as CommunitySolutionProps,
   Iteration,
 } from '../types'
-import { CommunitySolution, Icon } from '../common'
+import { CommunitySolution } from '../common'
 import { PublishSettings } from './published-solution/PublishSettings'
 
 export type Links = {
@@ -11,7 +11,7 @@ export type Links = {
   unpublish: string
 }
 
-export const PublishedSolution = ({
+export default function PublishedSolution({
   publishedIterationIdx,
   iterations,
   solution,
@@ -21,7 +21,7 @@ export const PublishedSolution = ({
   solution: CommunitySolutionProps
   iterations: readonly Iteration[]
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <div className="publish-section">
       <div className="header">

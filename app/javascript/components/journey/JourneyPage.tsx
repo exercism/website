@@ -28,13 +28,13 @@ export type Category = {
   request: Request
 }
 
-export const JourneyPage = ({
+export default function JourneyPage({
   defaultCategory,
   categories,
 }: {
   defaultCategory: CategoryId
   categories: readonly Category[]
-}): JSX.Element => {
+}): JSX.Element {
   const isMounted = useRef(false)
   const [currentCategory, setCurrentCategory] = useState<Category>(() => {
     const category = categories.find((c) => c.id === defaultCategory)

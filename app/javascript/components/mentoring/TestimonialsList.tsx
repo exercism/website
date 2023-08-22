@@ -41,7 +41,7 @@ export type Request = BaseRequest<{
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 const DEFAULT_ORDER = 'unrevealed'
 
-export const TestimonialsList = ({
+export default function TestimonialsList({
   request: initialRequest,
   tracks,
   platforms,
@@ -49,7 +49,7 @@ export const TestimonialsList = ({
   request: Request
   tracks: readonly Track[]
   platforms: readonly SharePlatform[]
-}): JSX.Element => {
+}): JSX.Element {
   const {
     request,
     setQuery,

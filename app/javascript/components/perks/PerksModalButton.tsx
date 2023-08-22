@@ -8,7 +8,7 @@ export type PerksModalButtonProps = {
   perk: Record<PerkKeys, string>
   partner: Record<'websiteDomain', string>
 }
-export function PerksModalButton({
+export default function PerksModalButton({
   data,
 }: {
   data: PerksModalButtonProps

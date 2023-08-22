@@ -8,7 +8,7 @@ export type PaymentPendingProps = {
   insidersRedirectPath: string
 }
 
-export function PaymentPending({
+export default function PaymentPending({
   endpoint,
   insidersRedirectPath,
 }: PaymentPendingProps): JSX.Element {

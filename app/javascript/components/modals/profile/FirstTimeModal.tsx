@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import { CopyToClipboardButton, GraphicalIcon } from '../../common'
+import { CopyToClipboardButton, GraphicalIcon } from '@/components/common'
 import { Modal } from '../Modal'
 
 type Links = {
   profile: string
 }
 
-export const FirstTimeModal = ({ links }: { links: Links }): JSX.Element => {
+export default function FirstTimeModal({
+  links,
+}: {
+  links: Links
+}): JSX.Element {
   const [open, setOpen] = useState(true)
 
   return (

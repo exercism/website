@@ -4,13 +4,14 @@ import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
-import { useList } from '../../hooks/use-list'
 import {
+  useList,
+  useHistory,
+  removeEmpty,
   usePaginatedRequestQuery,
-  Request as BaseRequest,
-} from '../../hooks/request-query'
+  type Request as BaseRequest,
+} from '@/hooks'
 import { ResultsZone } from '../ResultsZone'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 
 export type SortOption = {
@@ -41,7 +42,7 @@ type Links = {
   queue: string
 }
 
-export const Inbox = ({
+export default function Inbox({
   tracksRequest,
   sortOptions,
   discussionsRequest,
@@ -51,7 +52,7 @@ export const Inbox = ({
   discussionsRequest: Request
   sortOptions: readonly SortOption[]
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [criteria, setCriteria] = useState(
     discussionsRequest.query?.criteria || ''
   )

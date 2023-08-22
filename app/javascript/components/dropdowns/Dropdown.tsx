@@ -13,13 +13,13 @@ type MenuItem = {
   className: string
 }
 
-export const Dropdown = ({
+export default function Dropdown({
   menuButton,
   menuItems,
 }: {
   menuButton: MenuButton
   menuItems: MenuItem[]
-}): JSX.Element => {
+}): JSX.Element {
   const {
     buttonAttributes,
     panelAttributes,

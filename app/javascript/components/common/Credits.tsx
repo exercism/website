@@ -13,7 +13,7 @@ type CreditsProps = {
   className?: string
 }
 
-export function Credits({
+export default function Credits({
   topLabel,
   topCount,
   bottomLabel,

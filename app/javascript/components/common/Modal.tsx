@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { Modal as BaseModal } from '../modals/Modal'
+import { default as BaseModal } from '../modals/Modal'
 
-export const Modal = ({ html }: { html: string }): JSX.Element => {
+export function Modal({ html }: { html: string }): JSX.Element {
   const contentRef = useRef<HTMLDivElement | null>(null)
   const [isMounted, setIsMounted] = useState(false)
   const [open, setOpen] = useState(true)
@@ -37,7 +37,7 @@ export const Modal = ({ html }: { html: string }): JSX.Element => {
   return (
     <BaseModal
       open={open}
-      onClose={() => {}}
+      onClose={() => null}
       className=""
       appElement={document.querySelector('body') as HTMLElement}
     >
@@ -45,3 +45,5 @@ export const Modal = ({ html }: { html: string }): JSX.Element => {
     </BaseModal>
   )
 }
+
+export default Modal

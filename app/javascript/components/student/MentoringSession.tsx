@@ -46,7 +46,7 @@ export type Mentor = {
   numDiscussions: number
 }
 
-export const MentoringSession = ({
+export default function MentoringSession({
   userHandle,
   discussion,
   mentor,
@@ -70,7 +70,7 @@ export const MentoringSession = ({
   request?: Request
   links: Links
   outOfDate: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
 
   const handleCreateMentorRequest = useCallback((mentorRequest) => {

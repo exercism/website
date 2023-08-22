@@ -1,13 +1,13 @@
 import React from 'react'
-import { ExerciseStatusDot } from './ExerciseStatusDot'
+import { default as ExerciseStatusDot } from './ExerciseStatusDot'
 
-export const ExerciseStatusChart = ({
+export function ExerciseStatusChart({
   exercisesData,
   links,
 }: {
   exercisesData: { [slug: string]: [string, string] }
   links: { exercise: string; tooltip: string }
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <div className="exercises">
       {Object.keys(exercisesData).map((key) => {
@@ -46,3 +46,5 @@ export const ExerciseStatusChart = ({
     </div>
   )
 }
+
+export default ExerciseStatusChart

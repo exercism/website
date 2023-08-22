@@ -25,7 +25,7 @@ export function Pagination({
     } else if (current < 1) {
       setPage(1)
     }
-  }, [total, current])
+  }, [total, current, setPage])
 
   if (current < 1 || current > total) {
     return null

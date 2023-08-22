@@ -91,32 +91,17 @@ export const initReact = (mappings) => {
 }
 
 const render = (elem, component) => {
-  const callback = () => {
-    // console.log(Date.now(), 'rendered')
-    elem.classList.add('--hydrated')
-  }
-  // console.log(Date.now(), 'rendering')
-  const hydrate = elem.dataset['reactHydrate'] == 'true'
-  if (hydrate) {
-    //console.log('hydrating')
-    ReactDOM.hydrate(<>{component}</>, elem, callback)
-  } else {
-    ReactDOM.render(
-      <React.StrictMode>
-        <ReactQueryCacheProvider queryCache={window.queryCache}>
-          <ErrorBoundary>{component}</ErrorBoundary>
-        </ReactQueryCacheProvider>
-      </React.StrictMode>,
-      elem,
-      callback
-    )
-  }
-
-  const unloadOnce = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <ReactQueryCacheProvider queryCache={window.queryCache}>
+        <ErrorBoundary>{component}</ErrorBoundary>
+      </ReactQueryCacheProvider>
+    </React.StrictMode>,
+    elem
+  )
+  document.addEventListener('turbo:before-frame-render', (e) => {
     ReactDOM.unmountComponentAtNode(elem)
-    document.removeEventListener('turbo:before-render', unloadOnce)
-  }
-  // document.addEventListener('turbo:before-render', unloadOnce)
+  })
 }
 
 export function renderComponents(parentElement, mappings) {
@@ -140,6 +125,16 @@ export function renderComponents(parentElement, mappings) {
   }
 }
 
+function renderTooltips(parentElement, mappings) {
+  if (!parentElement) {
+    parentElement = document.body
+  }
+
+  parentElement
+    .querySelectorAll('[data-tooltip-type][data-endpoint]')
+    .forEach((elem) => renderTooltip(mappings, elem))
+}
+
 function renderTooltip(mappings, elem) {
   const name = elem.dataset['tooltipType'] + '-tooltip'
   const generator = mappings[name]
@@ -161,14 +156,4 @@ function renderTooltip(mappings, elem) {
       reference={elem}
     />
   )
-}
-
-function renderTooltips(parentElement, mappings) {
-  if (!parentElement) {
-    parentElement = document.body
-  }
-
-  parentElement
-    .querySelectorAll('[data-tooltip-type][data-endpoint]')
-    .forEach((elem) => renderTooltip(mappings, elem))
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import { usePanel } from '../../hooks/use-panel'
+import { usePanel } from '@/hooks'
 import { SharePanel } from './SharePanel'
 import { SharePlatform } from '../types'
 
-export const ShareLink = ({
+export default function ShareLink({
   title,
   shareTitle,
   shareLink,
@@ -13,7 +13,7 @@ export const ShareLink = ({
   shareTitle: string
   shareLink: string
   platforms: readonly SharePlatform[]
-}): JSX.Element => {
+}): JSX.Element {
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [

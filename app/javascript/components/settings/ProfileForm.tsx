@@ -21,7 +21,7 @@ type Links = {
 
 const DEFAULT_ERROR = new Error('Unable to save profile')
 
-export const ProfileForm = ({
+export default function ProfileForm({
   defaultUser,
   defaultProfile,
   links,
@@ -29,7 +29,7 @@ export const ProfileForm = ({
   defaultUser: User
   defaultProfile: Profile | null
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [user, setUser] = useState<User>(defaultUser)
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)
 

@@ -6,11 +6,11 @@ type Links = {
   diff: string
 }
 
-export const UpdateExerciseNotice = ({
+export default function UpdateExerciseNotice({
   links,
 }: {
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
   return (
     <React.Fragment>

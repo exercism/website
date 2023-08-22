@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export const Expander = ({
+export default function Expander({
   content,
   buttonTextCompressed,
   buttonTextExpanded,
@@ -12,7 +12,7 @@ export const Expander = ({
   buttonTextExpanded: string
   className?: string
   contentIsSafe: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const classNames = [

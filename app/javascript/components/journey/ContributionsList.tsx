@@ -30,13 +30,13 @@ export type APIResult = {
   }
 }
 
-export const ContributionsList = ({
+export function ContributionsList({
   request: initialRequest,
   isEnabled,
 }: {
   request: Request
   isEnabled: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const {
     request,
     setPage,

@@ -59,13 +59,13 @@ export type Request = BaseRequest<{
   order: string
 }>
 
-export const TasksList = ({
+export default function TasksList({
   request: initialRequest,
   tracks,
 }: {
   request: Request
   tracks: readonly Track[]
-}): JSX.Element => {
+}): JSX.Element {
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
   const { status, resolvedData, latestData, isFetching, error } =
     usePaginatedRequestQuery<PaginatedResult<TaskProps[]>, Error | Response>(

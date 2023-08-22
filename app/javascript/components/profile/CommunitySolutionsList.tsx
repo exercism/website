@@ -28,13 +28,13 @@ export type Order = 'most_starred' | 'newest_first' | 'oldest_first'
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 const DEFAULT_ORDER = 'most_starred'
 
-export const CommunitySolutionsList = ({
+export default function CommunitySolutionsList({
   request: initialRequest,
   tracks,
 }: {
   request: Request
   tracks: TrackData[]
-}): JSX.Element => {
+}): JSX.Element {
   const {
     request,
     setCriteria: setRequestCriteria,

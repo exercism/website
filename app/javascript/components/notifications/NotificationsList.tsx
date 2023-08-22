@@ -46,13 +46,13 @@ type APIResponse = {
   }
 }
 
-export const NotificationsList = ({
+export default function NotificationsList({
   request: initialRequest,
   links,
 }: {
   request: Request
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const queryCache = useQueryCache()
   const { request, setPage } = useList(initialRequest)
   const cacheKey = useMemo(

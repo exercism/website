@@ -2,7 +2,7 @@
 import 'easymde/dist/easymde.min.css'
 
 import React from 'react'
-import { initReact } from '../utils/react-bootloader.jsx'
+import { initReact } from '@/utils'
 
 import {
   Iteration,

@@ -5,7 +5,7 @@ import 'tippy.js/dist/svg-arrow.css'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import React, { lazy, Suspense } from 'react'
-import { initReact } from '../utils/react-bootloader.jsx'
+import { initReact } from '@/utils'
 
 const DonationsFormWithModal = lazy(
   () => import('../components/donations/FormWithModal')

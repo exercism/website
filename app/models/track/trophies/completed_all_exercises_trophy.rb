@@ -4,7 +4,7 @@ class Track::Trophies::CompletedAllExercisesTrophy < Track::Trophy
   def order = 6
 
   def criteria(track)
-    "Awarded once you completing the whole %<track_title>s Track" % { track_title: track.title }
+    "Awarded once you complete the whole %<track_title>s Track" % { track_title: track.title }
   end
 
   def success_message(track)

@@ -499,11 +499,7 @@ import type { AutomationLockedTooltipProps } from '../components/tooltips/Automa
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'
 import { InsidersStatusData } from '../components/insiders/InsidersStatus'
-import {
-  handleNavbarFocus,
-  scrollIntoView,
-  showSiteFooterOnTurboLoad,
-} from '@/utils'
+import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { ThemeToggleButtonProps } from '@/components/common/ThemeToggleButton'
 import { PerksModalButton, PerksExternalModalButton } from '@/components/perks'
 import { FooterFormProps } from '../components/donations/FooterForm'
@@ -518,7 +514,7 @@ import { TrophiesProps, Trophy } from '@/components/track/Trophies.js'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
-  showSiteFooterOnTurboLoad()
+  showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
 })

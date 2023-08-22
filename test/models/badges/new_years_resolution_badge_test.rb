@@ -18,7 +18,7 @@ class Badge::NewYearsResolutionBadgeTest < ActiveSupport::TestCase
     # No iterations
     refute badge.award_to?(user.reload)
 
-    iteration = create :iteration, user: user
+    iteration = create(:iteration, user:)
 
     # Iteration created on 30st of December
     iteration.update(created_at: Time.utc(2019, 12, 30, 23, 59, 59))

@@ -1,0 +1,6 @@
+.flex.flex-col.items-center
+  %h1.text-64.font-bold.leading-130.text-textColor2.mt-64.mb-12 Whoops!
+  %h2.text-h2.mb-20 You have no more mentoring slots available.
+  %p.text-p-xlarge.mb-32
+    You can get more mentoring slots by #{link_to 'earning reputation', doc_path(:using, 'product/reputation'), class: 'text-prominentLinkColor'} or #{link_to 'donating to Exercism', Exercism::Routes.insiders_path, class: 'text-prominentLinkColor'}.
+  = render ViewComponents::ProminentLink.new("Go to track", track_path(@track))

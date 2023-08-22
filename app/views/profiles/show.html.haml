@@ -14,8 +14,7 @@
       .lg-container.container
         %header.section-header
           = graphical_icon :'community-solutions', hex: true
-          %h2 Published Solutions
-          .total-count= @num_total_solutions
+          %h2.published-solutions{ data: { total_count: @user.num_published_solutions } } Published Solutions
           %hr.c-divider
 
         .solutions

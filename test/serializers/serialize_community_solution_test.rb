@@ -4,7 +4,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution
     create :user_track, user: solution.user, track: solution.track
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     expected = {
       uuid: solution.uuid,
       snippet: solution.snippet,
@@ -20,6 +20,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       language: solution.track.highlightjs_language,
       author: {
         handle: solution.user.handle,
+        flair: solution.user.flair,
         avatar_url: solution.user.avatar_url
       },
       exercise: {

@@ -1,0 +1,7 @@
+= link_to redirect_advert_path(advert, impression_uuid: uuid), class: 'c-advert w-[260px] bg-backgroundColorA border-1 border-borderColor5 py-10 px-12 rounded-8 text-center flex flex-col items-center leading-140 text-14 shadow-sm hover:shadow-smZ1', data: { turbo: false }, target: "_blank", rel: 'noopener' do
+  .font-medium.mb-10.text-14 Exercism is supported by
+  = image_tag (advert.light_logo.presence || advert.partner.light_logo || 'blank.png'), class: 'logo-light h-[35px] mb-8'
+  = image_tag (advert.dark_logo.presence || advert.partner.dark_logo || 'blank.png'), class: 'logo-dark h-[35px] mb-8'
+  .text-14
+    = advert.base_text
+    %span.font-medium.text-textColor1= raw advert.emphasised_text

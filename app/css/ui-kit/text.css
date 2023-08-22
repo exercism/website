@@ -17,7 +17,7 @@
         @apply md:text-31;
     }
     .text-h3 {
-        @apply text-20 text-textColor1 font-semibold leading-150;
+        @apply text-20 text-textColor1 font-semibold leading-130;
 
         @apply md:text-24;
     }
@@ -40,10 +40,11 @@
     .text--p {
         @apply leading-160;
 
-        & a {
-            @apply text-lightBlue font-medium;
+        a:not(.btn-primary) {
+            color: var(--c-prominent-link-color);
+            @apply font-medium;
         }
-        & strong {
+        strong {
             @apply font-medium text-textColor2;
         }
     }
@@ -89,7 +90,7 @@
     }
 
     .text-radio-essential {
-        @apply text-14 font-semibold text-biggerBolderAndMorePurpleThanEver;
+        @apply text-14 font-semibold text-textColor1;
     }
 
     .text-gradient {
@@ -97,5 +98,9 @@
         background: -webkit-linear-gradient(#2200ff, #9e00ff);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+
+    .text-balance {
+        text-wrap: balance;
     }
 }

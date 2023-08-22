@@ -16,6 +16,6 @@ class JourneyController < ApplicationController
   end
 
   def setup_hero
-    @user_tracks = current_user.user_tracks.sort_by { |ut| -ut.num_completed_exercises }
+    @user_tracks = current_user.user_tracks.includes(:track).sort_by { |ut| -ut.num_completed_exercises }
   end
 end

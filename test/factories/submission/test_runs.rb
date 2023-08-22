@@ -13,6 +13,30 @@ FactoryBot.define do
       }
     end
 
+    trait :failed do
+      ops_status { 200 }
+      raw_results do
+        {
+          version: 1,
+          status: "fail",
+          message: "some message",
+          tests: []
+        }
+      end
+    end
+
+    trait :errored do
+      ops_status { 200 }
+      raw_results do
+        {
+          version: 1,
+          status: "error",
+          message: "some message",
+          tests: []
+        }
+      end
+    end
+
     trait :timed_out do
       ops_status { 408 }
       raw_results do

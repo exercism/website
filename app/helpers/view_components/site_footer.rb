@@ -2,9 +2,6 @@ module ViewComponents
   class SiteFooter < ViewComponent
     extend Mandate::Memoize
 
-    delegate :namespace_name, :controller_name,
-      to: :view_context
-
     def to_s
       Rails.cache.fetch(cache_key) do
         tag.footer(id: "site-footer") do
@@ -21,6 +18,7 @@ module ViewComponents
       parts = digests
       parts << ::Track.active.count
       parts << user_part
+      parts << stripe_version
 
       parts.join(':')
     end
@@ -30,6 +28,8 @@ module ViewComponents
 
       current_user.captcha_required? ? 2 : 1
     end
+
+    def stripe_version = 2
 
     def digests
       %w[external shared].map do |file|

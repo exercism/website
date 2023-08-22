@@ -5,19 +5,19 @@ import React, {
   createContext,
   useRef,
 } from 'react'
-import { Request } from '../../hooks/request-query'
 import { GraphicalIcon } from '../common'
-import { TabContext, Tab } from '../common/Tab'
+import { type TabContext, Tab } from '../common/Tab'
 import { ContributionsList } from './ContributionsList'
 import { SolutionsList } from './SolutionsList'
 import { BadgesList } from './BadgesList'
 import { Overview } from './Overview'
+import type { Request } from '@/hooks'
 
 type CategoryId = 'solutions' | 'reputation'
 
 const TabsContext = createContext<TabContext>({
   current: '',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export type Category = {
@@ -28,13 +28,13 @@ export type Category = {
   request: Request
 }
 
-export const JourneyPage = ({
+export default function JourneyPage({
   defaultCategory,
   categories,
 }: {
   defaultCategory: CategoryId
   categories: readonly Category[]
-}): JSX.Element => {
+}): JSX.Element {
   const isMounted = useRef(false)
   const [currentCategory, setCurrentCategory] = useState<Category>(() => {
     const category = categories.find((c) => c.id === defaultCategory)

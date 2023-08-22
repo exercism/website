@@ -16,13 +16,13 @@ type RequestBody = {
 
 const DEFAULT_ERROR = new Error('Unable to change email')
 
-export const EmailForm = ({
+export default function EmailForm({
   defaultEmail,
   links,
 }: {
   defaultEmail: string
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [state, setState] = useState({ email: defaultEmail, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,

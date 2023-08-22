@@ -19,7 +19,7 @@ export const ConfirmFinishMentorDiscussionModal = ({
       <h3>Are you sure you want to end this discussion?</h3>
       <p>
         When you feel like the mentoring has reached its natural conclusion, or
-        you simply don’t wish to proceed further, it's time to end the
+        you simply don&apos;t wish to proceed further, it&apos;s time to end the
         discussion.
       </p>
       <div className="buttons">

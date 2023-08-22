@@ -4,8 +4,8 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
   test "stores correctly in redis with custom paths" do
     freeze_time do
       exercise = create :practice_exercise
-      solution = create :practice_solution, exercise: exercise
-      submission = create :submission, solution: solution
+      solution = create(:practice_solution, exercise:)
+      submission = create(:submission, solution:)
       git_sha = "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
       type = "foobars"
 
@@ -49,8 +49,8 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
     git_sha = "ae1a56deb0941ac53da22084af8eb6107d4b5c3a"
 
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise, git_sha: "something-wrong"
-    submission = create :submission, solution: solution, git_sha: git_sha
+    solution = create :practice_solution, exercise:, git_sha: "something-wrong"
+    submission = create(:submission, solution:, git_sha:)
 
     assert_equal git_sha, submission.git_sha # Sanity
 

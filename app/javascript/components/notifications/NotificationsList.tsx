@@ -1,16 +1,23 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { Notification } from '../types'
-import { ResultsZone } from '../ResultsZone'
-import { List } from './notifications-list/List'
-import { useList } from '../../hooks/use-list'
-import { Pagination, GraphicalIcon } from '../common'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { useNotificationMutation } from './notifications-list/useNotificationMutation'
-import { MutationButton } from './notifications-list/MutationButton'
-import { MarkAllNotificationsAsReadModal } from './notifications-list/MarkAllNotificationsAsReadModal'
 import { useQueryCache } from 'react-query'
+import {
+  type Request,
+  usePaginatedRequestQuery,
+  useList,
+  useHistory,
+  removeEmpty,
+  useScrollToTop,
+} from '@/hooks'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination, GraphicalIcon } from '@/components/common'
+import {
+  useNotificationMutation,
+  MutationButton,
+  List,
+  MarkAllNotificationsAsReadModal,
+} from './notifications-list'
+import type { Notification } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
@@ -39,26 +46,21 @@ type APIResponse = {
   }
 }
 
-export const NotificationsList = ({
+export default function NotificationsList({
   request: initialRequest,
   links,
 }: {
   request: Request
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const queryCache = useQueryCache()
   const { request, setPage } = useList(initialRequest)
   const cacheKey = useMemo(
     () => ['notifications-list', removeEmpty(request.query)],
     [request.query]
   )
-  const {
-    status,
-    resolvedData,
-    latestData,
-    error,
-    isFetching,
-  } = usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
+  const { status, resolvedData, latestData, error, isFetching } =
+    usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
 
   const [selected, setSelected] = useState<Notification[]>([])
 
@@ -118,12 +120,14 @@ export const NotificationsList = ({
 
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')
 
+  const scrollToTopRef = useScrollToTop(request.query.page)
+
   useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <>
       <ResultsZone isFetching={disabled}>
-        <header className="notifications-header">
+        <header className="notifications-header" ref={scrollToTopRef}>
           <h1 className="text-h1">Notifications</h1>
           <div className="actions">
             <MutationButton
@@ -176,7 +180,7 @@ export const NotificationsList = ({
               />
               <Pagination
                 disabled={latestData === undefined}
-                current={request.query.page}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={setPage}
               />

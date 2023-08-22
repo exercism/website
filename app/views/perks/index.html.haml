@@ -1,0 +1,18 @@
+#page-partners
+  %nav.c-header-with-bg.mb-32
+    .lg-container.flex.mt-24.mb-24
+      .content{ class: "max-w-[820px]" }
+        = graphical_icon "contributing-header", css_class: 'w-[64px] h-[64px] mb-16'
+        %h1.text-h1.mb-12 Exercism Perks
+        %p.text-p-large.mb-16
+          Get discounts and free trials from the organisations that support Exercism's mission for equal access to education and opportunity.
+          = link_to "Exercism Insiders", insiders_path, class: 'font-semibold text-linkColor'
+          get enhanced Perks.
+      = graphical_icon "contributing-header", css_class: "w-[220px] h-[220px] ml-auto hidden md:block", category: :graphics
+      .decorations
+
+  .lg-container.mt-24.mb-24
+    .grid.grid-cols-1.md:grid-cols-2.xl:grid-cols-3.gap-24
+      - @perks.each do |perk|
+        = render ViewComponents::Partner::Perk.new(perk)
+

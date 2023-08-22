@@ -6,13 +6,13 @@ export type Links = {
   mentorRequest: string
 }
 
-export const RequestMentoringButton = ({
+export default function RequestMentoringButton({
   request,
   links,
 }: {
   request: Request
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (

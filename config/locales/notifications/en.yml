@@ -52,3 +52,39 @@ en:
     mentor_finished_discussion:
       1: >
         %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}
+
+    eligible_for_insiders:
+      1: >
+        Join Exercism Insiders!
+
+    eligible_for_lifetime_insiders:
+      1: >
+        Join Exercism Lifetime Insiders!
+
+    expired_insiders:
+      1: >
+        Your Exercism Insiders membership has expired.
+
+    upgraded_to_lifetime_insiders:
+      1: >
+        You've been upgraded to Exercism Lifetime Insiders!
+
+    acquired_trophy:
+      1: >
+        You've been awarded the %{trophy_name} trophy on the %{track_title} track
+
+    #########################################
+    # Legacy but possibly still in the wild #
+    #########################################
+    expired_premium:
+      1: >
+        Your Exercism Premium membership has expired.
+
+    ######################################
+    # Not actually used below this point #
+    ######################################
+    joined_insiders:
+      1: Unused
+
+    joined_lifetime_insiders:
+      1: Unused

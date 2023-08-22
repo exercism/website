@@ -4,12 +4,12 @@ module API
     before_action :use_track
 
     def activate_learning_mode
-      @user_track.update(practice_mode: false)
+      UserTrack::TogglePracticeMode.(@user_track, false)
       render_track_mode
     end
 
     def activate_practice_mode
-      @user_track.update(practice_mode: true)
+      UserTrack::TogglePracticeMode.(@user_track, true)
       render_track_mode
     end
 

@@ -3,9 +3,9 @@ require "test_helper"
 class BlogPostTest < ActiveSupport::TestCase
   test "published and scheduled scopes" do
     freeze_time do
-      post_1 = create :blog_post, published_at: Time.current - 1.second
-      post_2 = create :blog_post, published_at: Time.current + 1.second
-      post_3 = create :blog_post, published_at: Time.current
+      post_1 = create :blog_post, :random_slug, published_at: Time.current - 1.second
+      post_2 = create :blog_post, :random_slug, published_at: Time.current + 1.second
+      post_3 = create :blog_post, :random_slug, published_at: Time.current
 
       assert_equal [post_1, post_3], BlogPost.published
       assert_equal [post_2], BlogPost.scheduled

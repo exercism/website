@@ -25,8 +25,15 @@
             @apply mr-24;
             width: 45px;
 
+            .c-icon {
+                @apply filter-textColor6;
+            }
+
             & .action-icon {
                 @apply border-none;
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
             & .knowledge-tag {
                 @apply border-none p-0;
@@ -53,7 +60,9 @@
         &.summary {
             @apply pb-16;
             & .task-icon {
-                @apply bg-lightGold rounded-3 border-none;
+                @apply rounded-3 border-none;
+                background: var(--backgroundColorMentorTestimonialsNew);
+                color: var(--textColorMentorTestimonialsNew);
                 @apply text-12 font-bold leading-150 font-mono uppercase;
                 @apply py-4 px-8;
             }

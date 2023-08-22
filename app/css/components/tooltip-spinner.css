@@ -1,0 +1,7 @@
+.c-tooltip-spinner {
+    @apply self-center;
+    height: 30px;
+    width: 30px;
+    animation: spin 3s linear infinite;
+    filter: var(--textColor7-filter);
+}

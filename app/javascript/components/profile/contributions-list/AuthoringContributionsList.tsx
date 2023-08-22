@@ -1,19 +1,14 @@
 import React from 'react'
-import { ExerciseWidget, Pagination } from '../../common'
-import { ExerciseAuthorship } from '../../types'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { ResultsZone } from '../../ResultsZone'
-import { useList } from '../../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-
-type PaginatedResult = {
-  results: readonly ExerciseAuthorship[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+import {
+  usePaginatedRequestQuery,
+  useList,
+  useScrollToTop,
+  type Request,
+} from '@/hooks'
+import { ExerciseWidget, Pagination } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { ExerciseAuthorship, PaginatedResult } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load authoring contributions')
 
@@ -23,16 +18,13 @@ export const AuthoringContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    [request.endpoint, request.query],
-    request
-  )
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<
+      PaginatedResult<ExerciseAuthorship[]>,
+      Error | Response
+    >([request.endpoint, request.query], request)
+
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -43,7 +35,7 @@ export const AuthoringContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="authoring">
+            <div className="authoring" ref={scrollToTopRef}>
               <div className="exercises">
                 {resolvedData.results.map((authorship) => {
                   return (
@@ -59,7 +51,7 @@ export const AuthoringContributionsList = ({
             </div>
             <Pagination
               disabled={latestData === undefined}
-              current={request.query.page}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={setPage}
             />

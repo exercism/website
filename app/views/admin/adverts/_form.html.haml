@@ -1,0 +1,35 @@
+- if advert.errors.any?
+  %div{ style: "color: red" }
+    %h2
+      = pluralize(advert.errors.count, "error")
+      prohibited this advert from being saved:
+    %ul
+      - advert.errors.each do |error|
+        %li= error.full_message
+
+.mt-20
+  .flex.flex-col.mb-16
+    = f.label :status, class: 'text-h6 mb-4'
+    .c-select
+      = f.select :status, (Partner::Advert.statuses.map { |s, _| [s.titleize, s] })
+  .flex.flex-col.mb-16
+    = f.label :url, class: 'text-h6 mb-4'
+    = f.text_field :url
+  .flex.flex-col.mb-16
+    = f.label :base_text, class: 'text-h6 mb-4'
+    = f.text_field :base_text
+  .flex.flex-col.mb-16
+    = f.label :emphasised_text, class: 'text-h6 mb-4'
+    = f.text_field :emphasised_text
+
+  .flex.flex-col.mb-16
+    = f.label :light_logo, class: 'text-h6 mb-4'
+    = f.file_field :light_logo
+
+  .flex.flex-col.mb-16
+    = f.label :dark_logo, class: 'text-h6 mb-4'
+    = f.file_field :dark_logo
+
+%div
+  = f.submit class: 'btn btn-primary btn-base'
+

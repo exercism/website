@@ -4,7 +4,7 @@ import { sendRequest } from '../../utils/send-request'
 import { redirectTo } from '../../utils/redirect-to'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { AvatarSelector } from './AvatarSelector'
+import { default as AvatarSelector } from './AvatarSelector'
 import { User } from '../types'
 
 type Links = {
@@ -27,7 +27,7 @@ type Fields = {
 
 const DEFAULT_ERROR = new Error('Unable to create profile')
 
-export const NewProfileForm = ({
+export default function NewProfileForm({
   user,
   defaultFields,
   links,
@@ -35,7 +35,7 @@ export const NewProfileForm = ({
   user: User
   defaultFields: Fields
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [fields, setFields] = useState<Fields>(defaultFields)
   const [mutation, { status, error }] = useMutation<APIResponse>(
     () => {

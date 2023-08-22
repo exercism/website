@@ -1,5 +1,33 @@
 @import "../styles";
 
+@keyframes shimmer {
+    0% {
+        /*clip-path: polygon(100% 0%,100% 10%,0% 100%,0% 90%);*/
+        clip-path: polygon(-5% 0%, 5% 0%, 0% 5%, 0% -5%);
+    }
+
+    30% {
+        clip-path: polygon(195% 0%, 205% 0%, 0% 205%, 0% 195%);
+    }
+
+    /* This just keeps adds a delay between visible animation iteratons */
+    100% {
+        clip-path: polygon(295% 0%, 305% 0%, 0% 305%, 0% 295%);
+    }
+}
+
+@keyframes pulse-box-shadow {
+    0% {
+        box-shadow: 0px 4px 8px 0px rgba(var(--shadowColorMain), 0.2);
+    }
+    50% {
+        box-shadow: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.5);
+    }
+    100% {
+        box-shadow: 0px 4px 8px 0px rgba(var(--shadowColorMain), 0.2);
+    }
+}
+
 #page-track-show {
     & .track-header {
         & .container {
@@ -54,10 +82,10 @@
     }
     & article {
         @apply pb-80;
-        background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
+        /* background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%); */
     }
     & article.summary-article {
-        @apply bg-backgroundColorA;
+        @apply bg-backgroundColorB;
 
         & .container {
             @apply flex pt-32;
@@ -112,7 +140,6 @@
         }
 
         & section.progress-chart {
-            background: #fff;
             @apply shadow-lg bg-backgroundColorA rounded-8;
             @apply pt-20 pb-28 px-32;
 
@@ -120,7 +147,7 @@
                 @apply text-20 font-medium leading-170 text-textColor2;
                 @apply mb-8;
                 & em {
-                    @apply not-italic text-anotherPurple font-semibold;
+                    @apply not-italic text-adaptivePurple font-semibold;
                 }
                 & strong {
                     @apply font-semibold;
@@ -163,6 +190,61 @@
                 }
             }
         }
+        .c-react-wrapper-track-trophies {
+            min-height: 144px;
+        }
+        & section.trophy-cabinet {
+            @apply shadow-lg bg-backgroundColorA rounded-8 pt-24 pb-28 px-32;
+            .trophies {
+                @apply grid grid-cols-6 gap-16;
+            }
+            .trophy {
+                @apply border-1 border-borderColor7 rounded-8 bg-backgroundColorA overflow-hidden;
+                @apply flex flex-col items-stretch;
+                flex: 1 1 20%;
+
+                .icon {
+                    @apply p-8;
+                    img {
+                        @apply w-fill;
+                    }
+                }
+                .title {
+                    @apply border-t-1 border-borderColor7 p-8 bg-backgroundColorB;
+                    @apply text-center text-textColor6 uppercase font-semibold text-12;
+                    @apply grid flex-grow place-items-center text-center;
+                    @apply leading-130;
+                }
+                &.revealable {
+                    animation: pulse-box-shadow 2s infinite forwards;
+                    @apply shadow-sm hover:shadow-smZ1;
+                    @apply relative overflow-hidden;
+                    img:not(.shimmer) {
+                        @apply grayscale opacity-[0.15];
+                    }
+
+                    .shimmer {
+                        @apply absolute inset-0;
+                        bottom: 0px;
+                        @apply bg-contain bg-no-repeat;
+                        clip-path: polygon(-5% 0%, 5% 0%, 0% 5%, 0% -5%);
+                        animation: shimmer 3s infinite forwards;
+                    }
+                }
+
+                &.acquired {
+                    @apply shadow-sm hover:shadow-smZ1;
+                }
+                &.not-acquired {
+                    img {
+                        @apply grayscale opacity-[0.15];
+                    }
+                    .title {
+                        @apply opacity-[0.7];
+                    }
+                }
+            }
+        }
 
         & section.activities-zero-state {
             @apply mt-40 py-16 px-24 items-center;
@@ -181,9 +263,10 @@
                 height: 24px;
                 width: 24px;
                 @apply mr-24;
+                @apply filter-textColor6;
             }
             & p {
-                @apply text-17 leading-170 font-medium text-textColor7;
+                @apply text-17 leading-170 font-medium text-textColor6;
             }
         }
 
@@ -281,6 +364,7 @@
                             & > .c-icon {
                                 height: 16px;
                                 width: 16px;
+                                filter: var(--textColor5-filter);
                             }
                         }
                         & > .description {
@@ -298,7 +382,7 @@
                             height: 12px;
                             width: 12px;
                             @apply ml-32;
-                            @apply text-textColor6;
+                            @apply filter-textColor6;
                         }
                     }
                 }
@@ -344,7 +428,7 @@
 
         & section.learning-pattern,
         & .stats-box {
-            @apply border-1 border-borderColor6 bg-white rounded-8;
+            @apply border-1 border-borderColor6 bg-backgroundColorA rounded-8;
         }
         & section.learning-pattern {
             @apply py-12 px-24 mb-40;
@@ -382,6 +466,7 @@
                 height: 24px;
                 width: 24px;
                 @apply ml-auto;
+                @apply filter-textColor2;
             }
             & .icons {
                 @apply flex items-center;
@@ -436,6 +521,7 @@
                     height: 24px;
                     width: 24px;
                     @apply mr-16;
+                    @apply filter-textColor1;
                 }
             }
             & .c-heading-with-count {
@@ -474,12 +560,12 @@
                 }
                 & a.all {
                     @apply block flex-grow-0 flex-shrink-0;
-                    @apply font-semibold text-lightBlue;
+                    @apply font-semibold text-linkColor;
                 }
             }
 
             & .cta {
-                @apply bg-unnamed15 rounded-8 py-16 px-24;
+                @apply bg-backgroundColorD rounded-8 py-16 px-24;
 
                 & h3 {
                     @apply text-16 font-semibold mb-8;
@@ -488,7 +574,7 @@
                     @apply text-14 leading-paragraph mb-8;
                 }
                 & a {
-                    @apply block text-14 text-lightBlue font-semibold;
+                    @apply block text-14 text-linkColor font-semibold;
                 }
             }
         }
@@ -563,7 +649,6 @@
                     @apply mb-12;
                 }
                 & .info {
-                    @apply flex;
                     & .explanation {
                         @apply flex items-center;
                         @apply text-14 leading-150 text-textColor6 font-semibold;
@@ -571,17 +656,14 @@
                             @apply mr-12;
                             height: 16px;
                             width: 16px;
-                            filter: --var(textColor6-filter);
+                            filter: var(--textColor6-filter);
                         }
                     }
                     & .next-slot {
-                        @apply ml-auto;
-                        @apply mr-56;
-                        @apply flex items-center;
                         @apply leading-160 text-textColor6 font-medium;
 
                         & strong {
-                            @apply font-semibold ml-4;
+                            @apply font-semibold;
                             color: #7029f5;
                             background: -webkit-linear-gradient(
                                 #9e00ff,
@@ -589,6 +671,9 @@
                             );
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
+                        }
+                        a {
+                            @apply underline;
                         }
                     }
                 }
@@ -610,7 +695,7 @@
             & .request {
                 @apply py-16 px-24;
                 @apply flex flex-col items-start;
-                @apply shadow-baseZ1;
+                @apply shadow-baseZ1v2;
 
                 & .c-exercise-icon {
                     height: 54px;
@@ -678,6 +763,18 @@
         }
         & .c-prominent-link {
             @apply self-center;
+        }
+    }
+}
+.m-track-trophy {
+    & .num-awardees {
+        @apply bg-backgroundColorD;
+        @apply py-8 px-16 mb-10;
+        @apply rounded-8;
+        & .c-icon {
+            @apply h-[24px] w-[24px] mr-4 mb-4;
+            @apply filter-textColor2;
+            @apply inline;
         }
     }
 }

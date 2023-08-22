@@ -12,7 +12,7 @@ module Components
         create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         student = create :user, handle: "student"
-        request = create_mentor_request exercise: series, student: student, created_at: 1.year.ago
+        request = create_mentor_request exercise: series, student:, created_at: 1.year.ago
 
         use_capybara_host do
           sign_in!(mentor)
@@ -36,8 +36,8 @@ module Components
         create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby
         student = create :user, handle: "student"
-        request = create_mentor_request exercise: series, student: student, created_at: 1.year.ago
-        relationship = create :mentor_student_relationship, student: student, mentor: mentor
+        request = create_mentor_request exercise: series, student:, created_at: 1.year.ago
+        relationship = create(:mentor_student_relationship, student:, mentor:)
         create :mentor_discussion, solution: create(:practice_solution, user: student),
           request: create(:mentor_request, status: :fulfilled)
 
@@ -70,9 +70,9 @@ module Components
         create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         student = create :user, handle: "student"
-        create_mentor_request exercise: series, student: student, created_at: Time.current - 1.week
+        create_mentor_request exercise: series, student:, created_at: Time.current - 1.week
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
-        create_mentor_request exercise: tournament, student: student, created_at: Time.current - 1.day
+        create_mentor_request exercise: tournament, student:, created_at: Time.current - 1.day
 
         use_capybara_host do
           sign_in!(mentor)
@@ -94,7 +94,7 @@ module Components
         create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         student = create :user, handle: "student"
-        create_mentor_request exercise: series, student: student
+        create_mentor_request(exercise: series, student:)
         tournament = create :concept_exercise, title: "Tournament", track: ruby, slug: "tournament"
         other_student = create :user, handle: "Other"
         create_mentor_request exercise: tournament, student: other_student
@@ -148,7 +148,7 @@ module Components
         create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         student = create :user, name: "User 2"
-        create_mentor_request exercise: series, student: student
+        create_mentor_request(exercise: series, student:)
         csharp = create :track, title: "C#", slug: "csharp"
         create :user_track_mentorship, track: csharp, user: mentor
         tournament = create :concept_exercise, title: "Tournament", track: csharp, slug: "tournament"
@@ -172,7 +172,7 @@ module Components
         create :user_track_mentorship, track: ruby, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
         student = create :user, name: "User 2"
-        create_mentor_request exercise: series, student: student
+        create_mentor_request(exercise: series, student:)
         csharp = create :track, title: "C#", slug: "csharp"
         create :user_track_mentorship, track: csharp, user: mentor
         tournament = create :concept_exercise, title: "Tournament", track: csharp, slug: "tournament"
@@ -182,7 +182,7 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_queue_path
-          within(".mentor-queue-filtering") { assert_text "C#\n1" }
+          within(".mentor-queue-filtering") { assert_text "C# 1" }
         end
       end
 
@@ -195,11 +195,11 @@ module Components
         rust = create :track, title: "Rust", slug: "rust"
         create :user_track_mentorship, track: rust, user: mentor
         series = create :concept_exercise, title: "Series", track: ruby, slug: "series"
-        create_mentor_request exercise: series, student: student
+        create_mentor_request(exercise: series, student:)
         tournament = create :concept_exercise, title: "Tournament", track: rust, slug: "tournament"
         running = create :concept_exercise, title: "Running", track: rust, slug: "running"
-        create_mentor_request exercise: tournament, student: student
-        create_mentor_request exercise: running, student: student
+        create_mentor_request(exercise: tournament, student:)
+        create_mentor_request(exercise: running, student:)
 
         use_capybara_host do
           sign_in!(mentor)

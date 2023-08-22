@@ -8,7 +8,7 @@ module Components
 
       test "No iteration" do
         user = create :user
-        solution = create :practice_solution, user: user
+        solution = create(:practice_solution, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -20,9 +20,9 @@ module Components
 
       test "Untested iteration" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution, tests_status: :not_queued
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:, tests_status: :not_queued
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.untested? # Sanity
 
         use_capybara_host do
@@ -40,9 +40,9 @@ module Components
 
       test "Iteration with tests queued" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution, tests_status: :queued
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:, tests_status: :queued
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.testing? # Sanity
 
         use_capybara_host do
@@ -62,9 +62,9 @@ module Components
 
       test "responds to websockets" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution, tests_status: :queued
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:, tests_status: :queued
+        iteration = create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -75,7 +75,7 @@ module Components
           assert_text "Your solution is being processed…"
         end
 
-        submission = create :submission, solution: solution, tests_status: :failed
+        submission = create :submission, solution:, tests_status: :failed
         iteration.update!(submission:)
         SolutionChannel.broadcast!(solution)
         LatestIterationStatusChannel.broadcast!(solution)
@@ -88,9 +88,9 @@ module Components
 
       test "still works when websockets message is not sent" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution, tests_status: :queued
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:, tests_status: :queued
+        iteration = create(:iteration, idx: 1, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -101,7 +101,7 @@ module Components
           assert_text "Your solution is being processed…"
         end
 
-        submission = create :submission, solution: solution, tests_status: :failed
+        submission = create :submission, solution:, tests_status: :failed
         iteration.update!(submission:)
 
         within "section.latest-iteration header" do
@@ -112,9 +112,9 @@ module Components
 
       test "Failed tests" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution, tests_status: :failed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:, tests_status: :failed
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.tests_failed? # Sanity
 
         use_capybara_host do
@@ -136,12 +136,12 @@ module Components
 
       test "No feedback Practice Exercise" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution,
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.no_automated_feedback? # Sanity
 
         use_capybara_host do
@@ -165,11 +165,11 @@ module Components
       test "No feedback (Concept Exercise)" do
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
-        submission = create :submission, solution: solution,
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.no_automated_feedback? # Sanity
 
         use_capybara_host do
@@ -193,19 +193,19 @@ module Components
 
       test "Non actionable feedback (Practice Exercise)" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution,
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
-        create :submission_analysis, submission: submission, data: {
+        iteration = create(:iteration, idx: 1, solution:, submission:)
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "informative", comment: "ruby.two-fer.splat_args" },
             { type: "celebratory", comment: "ruby.two-fer.splat_args" }
           ]
         }
-        assert iteration.status.non_actionable_automated_feedback? # Sanity
+        assert iteration.status.celebratory_automated_feedback? # Sanity
 
         use_capybara_host do
           sign_in!(user)
@@ -230,15 +230,15 @@ module Components
       test "Non actionable feedback (Concept Exercise)" do
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
-        submission = create :submission, solution: solution,
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
-        create :submission_analysis, submission: submission, data: {
+        iteration = create(:iteration, idx: 1, solution:, submission:)
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "informative", comment: "ruby.two-fer.splat_args" },
-            { type: "celebratory", comment: "ruby.two-fer.splat_args" }
+            { type: "informative", comment: "ruby.two-fer.splat_args" }
           ]
         }
         assert iteration.status.non_actionable_automated_feedback? # Sanity
@@ -263,15 +263,51 @@ module Components
         assert_no_css "section.mentoring-discussion-nudge"
       end
 
-      test "Actionable feedback (Practice Exercise)" do
-        user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution,
+      test "Celebratory feedback" do
+        user_track = create :user_track
+        solution = create :concept_solution, user: user_track.user, track: user_track.track
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
-        create :submission_analysis, submission: submission, data: {
+        iteration = create(:iteration, idx: 1, solution:, submission:)
+        create :submission_analysis, submission:, data: {
+          comments: [
+            { type: "informative", comment: "ruby.two-fer.splat_args" },
+            { type: "celebratory", comment: "ruby.two-fer.splat_args" }
+          ]
+        }
+        assert iteration.status.celebratory_automated_feedback? # Sanity
+
+        use_capybara_host do
+          sign_in!(user_track.user)
+          visit Exercism::Routes.private_solution_path(solution)
+        end
+
+        assert_text "Iteration 1"
+        within "section.latest-iteration header" do
+          assert_text "Your solution looks great!"
+          assert_text "We’ve analysed your solution and not found anything that needs changing."
+          assert_text "We do have 2 additional comments that you might like to check."
+          refute_text "mentor" # Keep this as a wide search so it doesn't go out of date
+          assert_css ".status.passed"
+        end
+
+        assert_css "section.completion-nudge"
+        assert_no_css "section.mentoring-prompt-nudge"
+        assert_no_css "section.mentoring-request-nudge"
+        assert_no_css "section.mentoring-discussion-nudge"
+      end
+
+      test "Actionable feedback (Practice Exercise)" do
+        user = create :user
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:,
+          tests_status: :passed,
+          representation_status: :generated,
+          analysis_status: :completed
+        iteration = create(:iteration, idx: 1, solution:, submission:)
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "actionable", comment: "ruby.two-fer.splat_args" },
             { type: "informative", comment: "ruby.two-fer.splat_args" },
@@ -301,12 +337,12 @@ module Components
       test "Actionable feedback (Concept Exercise)" do
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
-        submission = create :submission, solution: solution,
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
-        create :submission_analysis, submission: submission, data: {
+        iteration = create(:iteration, idx: 1, solution:, submission:)
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "actionable", comment: "ruby.two-fer.splat_args" },
             { type: "actionable", comment: "ruby.two-fer.splat_args" },
@@ -338,12 +374,12 @@ module Components
       test "Essential feedback" do
         user_track = create :user_track
         solution = create :concept_solution, user: user_track.user, track: user_track.track
-        submission = create :submission, solution: solution,
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
-        create :submission_analysis, submission: submission, data: {
+        iteration = create(:iteration, idx: 1, solution:, submission:)
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "essential", comment: "ruby.two-fer.splat_args" },
             { type: "essential", comment: "ruby.two-fer.splat_args" },
@@ -363,7 +399,7 @@ module Components
         assert_text "Iteration 1"
         within "section.latest-iteration header" do
           assert_text "Your solution worked, but you can take it further…"
-          assert_text "We’ve analysed your solution and have 3 essential improvements, 1 recommendation and 2 additional comments" # rubocop:disable Layout/LineLength
+          assert_text "We’ve analysed your solution and have 3 essential improvements, 1 recommendation and 2 additional comments"
           assert_text "Address the essential improvements before proceeding."
           assert_css ".status.passed"
         end
@@ -375,14 +411,14 @@ module Components
 
       test "Mentoring requested" do
         user = create :user
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution,
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.no_automated_feedback? # Sanity
-        create :mentor_request, solution: solution
+        create(:mentor_request, solution:)
 
         use_capybara_host do
           sign_in!(user)
@@ -398,17 +434,17 @@ module Components
       test "Mentoring in-progress" do
         user = create :user
 
-        solution = create :practice_solution, user: user
-        submission = create :submission, solution: solution,
+        solution = create(:practice_solution, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        iteration = create :iteration, idx: 1, solution: solution, submission: submission
+        iteration = create(:iteration, idx: 1, solution:, submission:)
         assert iteration.status.no_automated_feedback? # Sanity
 
-        create :user_track, user: user, track: solution.track
+        create :user_track, user:, track: solution.track
         request = create(:mentor_request, solution:)
-        create :mentor_discussion, solution: solution, request: request
+        create(:mentor_discussion, solution:, request:)
         request.fulfilled!
 
         use_capybara_host do

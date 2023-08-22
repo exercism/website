@@ -22,16 +22,12 @@ class AssembleExerciseRepresentationsWithFeedback
     Exercise::Representation::Search.(
       mentor:,
       track:,
-      with_feedback: true,
+      mode: :with_feedback,
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)
     )
   end
 
-  def track
-    return if params[:track_slug].blank?
-
-    Track.find(params[:track_slug])
-  end
+  def track = Track.find_by(slug: params[:track_slug])
 end

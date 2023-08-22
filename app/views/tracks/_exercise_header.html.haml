@@ -12,11 +12,15 @@
     .seperator /
     .exercise-title= exercise.title
 
+.lg-container.relative
+  .absolute{ style: 'right: var(--container-padding-x)', class: 'z-[10] top-[-55px]' }
+    = render ViewComponents::Partner::Advert.new(track:)
+
 - if solution&.out_of_date?
   .lg-container
     = render ReactComponents::Student::UpdateExerciseNotice.new(solution)
 
-.content.lg-container.container.flex.items-center
+.content.lg-container.container.flex.items-center.relative
   = exercise_icon exercise, css_class: "self-start md:self-center"
   .flex-grow.flex.flex-col.md:flex-row
     .info
@@ -48,7 +52,5 @@
             .icon
             Hard
 
-    .decorations.hidden.lg:block
-
     / TODO: Cache this
-    = render ReactComponents::Track::ExerciseMakersButton.new(exercise)
+    -# = render ReactComponents::Track::ExerciseMakersButton.new(exercise)

@@ -3,8 +3,8 @@ require "test_helper"
 class Mentor::Request::CreateTest < ActiveSupport::TestCase
   test "creates request" do
     user = create :user
-    solution = create :practice_solution, user: user
-    create :user_track, user: user, track: solution.track
+    solution = create(:practice_solution, user:)
+    create :user_track, user:, track: solution.track
     comment = "Please help with this"
 
     Mentor::Request::Create.(solution, comment)
@@ -18,9 +18,9 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
 
   test "returns existing in progress request" do
     user = create :user
-    solution = create :practice_solution, user: user
-    create :user_track, user: user, track: solution.track
-    existing_request = create :mentor_request, status: :pending, solution: solution
+    solution = create(:practice_solution, user:)
+    create :user_track, user:, track: solution.track
+    existing_request = create(:mentor_request, status: :pending, solution:)
 
     new_request = Mentor::Request::Create.(solution, "foobar")
     assert_equal existing_request, new_request
@@ -47,15 +47,15 @@ class Mentor::Request::CreateTest < ActiveSupport::TestCase
   test "adds metric" do
     track = create :track
     user = create :user
-    solution = create :practice_solution, user: user, track: track
-    create :user_track, user: user, track: track
+    solution = create(:practice_solution, user:, track:)
+    create(:user_track, user:, track:)
 
     request = Mentor::Request::Create.(solution, "Please help with this")
     perform_enqueued_jobs
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::RequestMentoringMetric, metric.class
+    assert_instance_of Metrics::RequestMentoringMetric, metric
     assert_equal request.created_at, metric.occurred_at
     assert_equal track, metric.track
     assert_equal user, metric.user

@@ -6,6 +6,24 @@ on:
   pull_request:
 
 jobs:
+  setup_env:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          sparse-checkout: |
+            .dockerimages.json
+          sparse-checkout-cone-mode: false
+
+      - name: Define Docker images
+        run: |
+          echo "localstack_image=$(jq -r '.localstack' .dockerimages.json)" >> "$GITHUB_ENV"
+          echo "opensearch_image=$(jq -r '.opensearch' .dockerimages.json)" >> "$GITHUB_ENV"
+    outputs:
+      localstack_image: ${{ env.localstack_image }}
+      opensearch_image: ${{ env.opensearch_image }}
+
   ##################
   ##### RUBOCOP ####
   ##################
@@ -13,14 +31,14 @@ jobs:
     # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
 
@@ -48,12 +66,12 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       ###
 
       # Caching using GitHub's caching action
@@ -63,7 +81,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -86,13 +104,13 @@ jobs:
   ruby-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - id: test-files
         env:
@@ -104,13 +122,15 @@ jobs:
   ruby-tests:
     if: github.repository == 'exercism/website'
 
-    needs: ruby-test-files
+    needs:
+      - ruby-test-files
+      - setup_env
     strategy:
       fail-fast: false
       max-parallel: 15
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     services:
       mysql:
@@ -135,39 +155,32 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:0.12.3"
+        image: ${{ needs.setup_env.outputs.localstack_image }}
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:1.1.0
+        image: ${{ needs.setup_env.outputs.opensearch_image }}
         env:
           discovery.type: single-node
         ports:
           - 9200
 
     steps:
-      ###
-      # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
-      ###
-      # Setup Ruby
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      ###
-      # Update package lists
       - name: Update package lists
         run: sudo apt-get update
 
-      ###
-      # Install graphicsmagick
-      - name: Install graphicsmagick
-        run: sudo apt-get install graphicsmagick
+      - name: Install packages
+        run: sudo apt-get install graphicsmagick libvips
 
       ###
       # Caching using GitHub's caching action
@@ -177,7 +190,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -197,6 +210,11 @@ jobs:
           yarn install
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: latest
 
       ###
       # Precompile JS
@@ -228,7 +246,7 @@ jobs:
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: ruby-tests
     steps:
       - run: echo "Ruby tests completed"
@@ -239,13 +257,13 @@ jobs:
   system-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - id: test-files
         env:
@@ -257,13 +275,16 @@ jobs:
   system-tests:
     if: github.repository == 'exercism/website'
 
-    needs: system-test-files
+    needs:
+      - system-test-files
+      - setup_env
+
     strategy:
       fail-fast: false
       max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     services:
       mysql:
@@ -287,12 +308,12 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:0.12.3"
+        image: ${{ needs.setup_env.outputs.localstack_image }}
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:1.1.0
+        image: ${{ needs.setup_env.outputs.opensearch_image }}
         env:
           discovery.type: single-node
         ports:
@@ -301,15 +322,26 @@ jobs:
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Update package lists
+        run: sudo apt-get update
+
+      - name: Install packages
+        run: sudo apt-get install libvips
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: latest
 
       ###
       # Caching using GitHub's caching action
@@ -319,7 +351,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -367,7 +399,7 @@ jobs:
         run: bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: system-tests
     steps:
       - run: echo "System tests completed"
@@ -378,17 +410,17 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
       ###
       # Checkout using GitHub's checkout action
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@fabf2515e6b5531555983e2641f2acdf622b0e50
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -402,7 +434,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache yarn
-        uses: actions/cache@v2
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}

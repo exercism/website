@@ -48,7 +48,7 @@ export function UnlockHelpButton({
       <button
         style={{
           height: 'unset',
-          boxShadow: '0px 2px 4px rgba(79, 114, 205, 0.15)',
+          boxShadow: '0px 2px 4px rgba(var(--shadowColorMain), 0.15)',
         }}
         className="btn-primary btn-s flex items-center grow text-14 leading-170 py-8"
         onClick={() => unlockHelp()}
@@ -63,3 +63,5 @@ export function UnlockHelpButton({
     </div>
   )
 }
+
+export default UnlockHelpButton

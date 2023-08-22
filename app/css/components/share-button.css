@@ -1,6 +1,6 @@
 .c-share-button {
     background: linear-gradient(180deg, #2200ff 0%, #9e00ff 100%);
-    box-shadow: 0px 1px 0px 1px rgba(203, 201, 217, 0.6);
+    box-shadow: 0px 1px 0px 1px rgba(var(--shadowColorKeystroke), 0.6);
     padding: 2px;
     @apply rounded-5 shadow-xsZ1;
     height: 40px;
@@ -8,10 +8,9 @@
 
     & .inner {
         @apply px-16;
-        @apply bg-white flex items-center;
-        @apply font-semibold;
+        @apply bg-backgroundColorA flex items-center;
+        @apply font-semibold text-textColor1;
         border-radius: 3px;
-        color: #2200ff;
         & .c-icon {
             height: 21px;
             width: 21px;

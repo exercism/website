@@ -9,7 +9,7 @@ module Flows
       user = create :user
       author = create :user, handle: "ExerciseAuthor"
       exercise = create :concept_exercise
-      create :exercise_authorship, exercise: exercise, author: author
+      create(:exercise_authorship, exercise:, author:)
 
       use_capybara_host do
         sign_in!(user)

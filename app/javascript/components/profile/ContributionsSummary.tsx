@@ -38,7 +38,7 @@ export const CATEGORY_ICONS = {
   other: 'more-horizontal',
 }
 
-export const ContributionsSummary = ({
+export default function ContributionsSummary({
   tracks,
   handle,
   links,
@@ -48,7 +48,7 @@ export const ContributionsSummary = ({
   handle?: string
   links: Links
   showHeader?: boolean
-}): JSX.Element | null => {
+}): JSX.Element | null {
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {

@@ -22,18 +22,21 @@ class Submission < ApplicationRecord
     },
     class_name: "Submission::TestRun", dependent: :destroy
 
-  # The "normal" one is the one run against the same git_sha as the submission
+  # The "normal" one is the one run against the same git_important_files_hash as the submission
   # We again use order id desc to get the latest
   has_one :test_run, # rubocop:disable Rails/InverseOf
     lambda {
       order(id: :desc).
         joins(:submission).
-        where('submission_test_runs.git_sha = submissions.git_sha')
+        where('submission_test_runs.git_important_files_hash = submissions.git_important_files_hash')
     },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
-  has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
+  has_one :submission_representation, # rubocop:disable Rails/InverseOf
+    ->(s) { where(exercise_representer_version: s.exercise_representer_version) },
+    class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
+  has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
   # TODO: It's important that we enforce rules on these to stop things from
   # going from the success states (passed/failed/errored/generated/completed)
@@ -42,15 +45,15 @@ class Submission < ApplicationRecord
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
+  before_validation on: :create do
+    self.track = solution.track unless track
+    self.exercise = solution.exercise unless exercise
+  end
+
   before_create do
     self.git_slug = solution.git_slug
     self.git_sha = solution.git_sha if git_sha.blank?
     self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
-  end
-
-  before_validation on: :create do
-    self.track = solution.track unless track
-    self.exercise = solution.exercise unless exercise
   end
 
   after_save_commit do
@@ -61,6 +64,13 @@ class Submission < ApplicationRecord
 
   def broadcast!
     SubmissionChannel.broadcast!(self)
+  end
+
+  def write_to_efs!
+    dir = [Exercism.config.efs_submissions_mount_point, uuid].join('/')
+    return if Dir.exist?(dir)
+
+    files.each(&:write_to_efs!)
   end
 
   def tests_passed?
@@ -76,7 +86,6 @@ class Submission < ApplicationRecord
     # submission when it is created, and then use those here instead of the track's
     # status fields
     return true if !representation_generated? && !analysis_completed? && track.has_representer? && track.has_analyzer?
-    return false if has_automated_feedback?
     return true if (representation_queued? || representation_not_queued?) && track.has_representer?
     return true if (analysis_queued? || analysis_not_queued?) && track.has_analyzer?
 
@@ -85,7 +94,7 @@ class Submission < ApplicationRecord
 
   def has_automated_feedback? = num_automated_comments_by_type.values.sum.positive?
 
-  %i[essential actionable non_actionable].each do |type|
+  %i[essential actionable non_actionable celebratory].each do |type|
     define_method "num_#{type}_automated_comments" do
       num_automated_comments_by_type[type]
     end
@@ -129,17 +138,20 @@ class Submission < ApplicationRecord
     end
   end
 
-  memoize
-  def valid_filepaths
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def valid_filepaths(repo = exercise_repo)
+    repo ||= exercise_repo
     files.map(&:filename).select do |filepath|
-      exercise_repo.valid_submission_filepath?(filepath)
+      repo.valid_submission_filepath?(filepath)
     end
   end
 
-  memoize
-  def exercise_files
-    exercise_repo.tooling_files.reject do |filepath, _|
-      valid_filepaths.include?(filepath)
+  # We allow repo overriding for when we want to run
+  # a submission against newer tests
+  def exercise_files(repo = exercise_repo)
+    repo.tooling_files.reject do |filepath, _|
+      valid_filepaths(repo).include?(filepath)
     end
   end
 
@@ -151,15 +163,26 @@ class Submission < ApplicationRecord
     return nil unless exercise_representation&.has_feedback?
 
     author = exercise_representation.feedback_author
+    editor = exercise_representation.feedback_editor
 
     {
       html: exercise_representation.feedback_html,
       author: {
         name: author.name,
         reputation: author.reputation,
+        flair: author.flair,
         avatar_url: author.avatar_url,
         profile_url: author.profile ? Exercism::Routes.profile_url(author) : nil
-      }
+      },
+      editor: if editor.present?
+                {
+                  name: editor.name,
+                  flair: author.flair,
+                  reputation: editor.reputation,
+                  avatar_url: editor.avatar_url,
+                  profile_url: editor.profile ? Exercism::Routes.profile_url(editor) : nil
+                }
+              end
     }
   end
 
@@ -179,13 +202,15 @@ class Submission < ApplicationRecord
     {
       essential: analysis&.num_essential_comments.to_i,
       actionable: analysis&.num_actionable_comments.to_i,
-      non_actionable: analysis&.num_informative_comments.to_i +
-        analysis&.num_celebratory_comments.to_i
+      non_actionable: analysis&.num_informative_comments.to_i,
+      celebratory: analysis&.num_celebratory_comments.to_i
     }.tap do |values|
       if exercise_representation&.has_essential_feedback?
         values[:essential] += 1
       elsif exercise_representation&.has_actionable_feedback?
         values[:actionable] += 1
+      elsif exercise_representation&.has_celebratory_feedback?
+        values[:celebratory] += 1
       elsif exercise_representation&.has_feedback?
         values[:non_actionable] += 1
       end

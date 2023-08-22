@@ -1,18 +1,15 @@
 import React from 'react'
-import { Avatar } from '../Avatar'
-import {
-  SiteUpdate as SiteUpdateProps,
-  SiteUpdateExpandedInfo,
-} from '../../types'
-import { SiteUpdateIcon } from './SiteUpdateIcon'
 import { PullRequestWidget } from './PullRequestWidget'
 import { ExerciseWidget } from '../ExerciseWidget'
 import { ConceptWidget } from '../ConceptWidget'
+import { HandleWithFlair } from '../HandleWithFlair'
+import type {
+  SiteUpdate as SiteUpdateProps,
+  SiteUpdateExpandedInfo,
+} from '@/components/types'
 
 export const ExpandedInfo = ({
   expanded,
-  icon,
-  track,
   pullRequest,
   conceptWidget,
   exerciseWidget,
@@ -25,21 +22,28 @@ export const ExpandedInfo = ({
   return (
     <div className="expanded">
       <div className="header">
-        <SiteUpdateIcon icon={icon} context="update" track={track} />
         <div className="info">
           <div className="title">{expanded.title}</div>
           <div className="byline">
-            <Avatar
-              src={expanded.author.avatarUrl}
-              handle={expanded.author.handle}
-            />
-            <div className="by">
-              by <strong>{expanded.author.handle}</strong>
+            <div className="by flex">
+              by&nbsp;
+              <strong>
+                <HandleWithFlair
+                  handle={expanded.author.handle}
+                  flair={expanded.author.flair}
+                  size="medium"
+                />
+              </strong>
             </div>
           </div>
         </div>
       </div>
-      <div className="description">{expanded.description}</div>
+      {expanded.descriptionHtml && (
+        <div
+          className="description c-highlight-links"
+          dangerouslySetInnerHTML={{ __html: expanded.descriptionHtml }}
+        />
+      )}
       {pullRequest ? <PullRequestWidget {...pullRequest} /> : null}
       {conceptWidget ? <ConceptWidget {...conceptWidget} /> : null}
       {exerciseWidget ? (

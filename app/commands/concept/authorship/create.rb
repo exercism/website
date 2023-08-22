@@ -4,16 +4,15 @@ class Concept::Authorship::Create
   initialize_with :concept, :author
 
   def call
-    begin
-      authorship = concept.authorships.create!(author:)
-    rescue ActiveRecord::RecordNotUnique
-      return nil
+    concept.authorships.find_or_create_by(author:).tap do |authorship|
+      User::ReputationToken::Create.defer(
+        author,
+        :concept_author,
+        authorship:,
+        # This is called in a big transaction, so give it time
+        # to materialise to the database before calling things.
+        wait: 30.seconds
+      )
     end
-
-    User::ReputationToken::Create.defer(
-      author,
-      :concept_author,
-      authorship:
-    )
   end
 end

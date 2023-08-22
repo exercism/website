@@ -11,10 +11,10 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
     # It has two representations (an old one and a newer one)
     base_submission = create :submission, solution: create(:practice_solution, exercise:)
 
-    old_representation = create :exercise_representation, :with_feedback, feedback_markdown: old_feedback,
-      source_submission: base_submission, exercise: exercise
-    new_representation = create :exercise_representation, :with_feedback, feedback_markdown: new_feedback,
-      source_submission: base_submission, exercise: exercise
+    old_representation = create(:exercise_representation, :with_feedback, feedback_markdown: old_feedback,
+      source_submission: base_submission, exercise:)
+    new_representation = create(:exercise_representation, :with_feedback, feedback_markdown: new_feedback,
+      source_submission: base_submission, exercise:)
 
     create :submission_representation, submission: base_submission, ast_digest: old_representation.ast_digest
     create :submission_representation, submission: base_submission, ast_digest: new_representation.ast_digest
@@ -37,9 +37,9 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
   # here for me as a base. (source: test/commands/submission/representation/process_test.rb)
   test "test exercise representations are reused" do
     solution = create :concept_solution
-    submission_1 = create :submission, solution: solution
-    submission_2 = create :submission, solution: solution
-    submission_3 = create :submission, solution: solution
+    submission_1 = create(:submission, solution:)
+    submission_2 = create(:submission, solution:)
+    submission_3 = create(:submission, solution:)
 
     job_1 = create_representer_job!(submission_1, execution_status: 200, ast: "ast 1")
     job_2 = create_representer_job!(submission_2, execution_status: 200, ast: "ast 1")

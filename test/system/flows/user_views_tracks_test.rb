@@ -11,10 +11,10 @@ module Flows
 
     test "shows track information" do
       user = create :user
-      ruby = create :track, :random_slug
-      create :track, :random_slug
-      create :track, :random_slug
-      create :user_track, track: ruby, user: user, last_touched_at: 2.days.ago
+      ruby = create :track, slug: "ruby"
+      create :track, slug: "nim"
+      create :track, slug: "kotlin"
+      create :user_track, track: ruby, user:, last_touched_at: 2.days.ago
 
       use_capybara_host do
         sign_in!(user)
@@ -27,9 +27,9 @@ module Flows
 
     test "separates tracks into joined and unjoined" do
       user = create :user
-      ruby = create :track, :random_slug, title: "Ruby"
-      create :track, :random_slug, title: "Go"
-      create :user_track, track: ruby, user: user
+      ruby = create :track, slug: "ruby", title: "Ruby"
+      create :track, slug: "go", title: "Go"
+      create(:user_track, track: ruby, user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -41,8 +41,8 @@ module Flows
     end
 
     test "filter by track title" do
-      create :track, :random_slug, title: "Ruby"
-      create :track, :random_slug, title: "Go"
+      create :track, slug: "ruby", title: "Ruby"
+      create :track, slug: "go", title: "Go"
 
       use_capybara_host do
         sign_in!
@@ -55,8 +55,8 @@ module Flows
     end
 
     test "filter by tag" do
-      create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
-      create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
+      create :track, slug: "ruby", title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+      create :track, slug: "go", title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
       use_capybara_host do
         sign_in!
@@ -72,8 +72,8 @@ module Flows
     end
 
     test "resets filters" do
-      create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
-      create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
+      create :track, slug: "ruby", title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+      create :track, slug: "go", title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
       use_capybara_host do
         sign_in!
@@ -100,10 +100,10 @@ module Flows
 
     test "sorts by last touched" do
       user = create :user
-      ruby = create :track, :random_slug, title: "Ruby"
-      go = create :track, :random_slug, title: "Go"
-      create :user_track, track: ruby, user: user, last_touched_at: 1.day.ago
-      create :user_track, track: go, user: user, last_touched_at: 2.days.ago
+      ruby = create :track, slug: "ruby", title: "Ruby"
+      go = create :track, slug: "go", title: "Go"
+      create :user_track, track: ruby, user:, last_touched_at: 1.day.ago
+      create :user_track, track: go, user:, last_touched_at: 2.days.ago
       order = %w[Ruby Go]
 
       use_capybara_host do

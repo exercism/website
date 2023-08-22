@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import {
+  useList,
+  useHistory,
+  removeEmpty,
+  usePaginatedRequestQuery,
+  type Request,
+  useScrollToTop,
+} from '@/hooks'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { BadgeResults } from './BadgeResults'
-import { Request } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { removeEmpty, useHistory } from '../../hooks/use-history'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { Pagination } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
 import { OrderSwitcher } from './badges-list/OrderSwitcher'
-import { PaginatedResult, Badge } from '../types'
+import type { PaginatedResult, Badge } from '@/components/types'
 
 const DEFAULT_ORDER = 'unrevealed_first'
 const DEFAULT_ERROR = new Error('Unable to load badge list')
@@ -28,17 +32,12 @@ export const BadgesList = ({
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const cacheKey = ['badges-list', request.endpoint, removeEmpty(request.query)]
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<PaginatedResult<Badge[]>>(cacheKey, {
-    ...request,
-    query: removeEmpty(request.query),
-    options: { ...request.options, enabled: isEnabled },
-  })
+  const { status, resolvedData, latestData, isFetching, error } =
+    usePaginatedRequestQuery<PaginatedResult<Badge[]>>(cacheKey, {
+      ...request,
+      query: removeEmpty(request.query),
+      options: { ...request.options, enabled: isEnabled },
+    })
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -52,10 +51,12 @@ export const BadgesList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
+
   return (
     <article className="badges-tab theme-dark">
       <div className="md-container container">
-        <div className="c-search-bar">
+        <div className="c-search-bar" ref={scrollToTopRef}>
           <input
             className="--search"
             onChange={(e) => {
@@ -80,7 +81,7 @@ export const BadgesList = ({
                 <BadgeResults data={resolvedData} cacheKey={cacheKey} />
                 <Pagination
                   disabled={latestData === undefined}
-                  current={request.query.page}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={setPage}
                 />

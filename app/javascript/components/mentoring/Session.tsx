@@ -80,7 +80,7 @@ export const TabsContext = createContext<TabContext>({
   switchToTab: () => null,
 })
 
-export const Session = (props: SessionProps): JSX.Element => {
+export default function Session(props: SessionProps): JSX.Element {
   const [session, setSession] = useState(props)
   const {
     student,

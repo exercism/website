@@ -3,7 +3,7 @@ require "test_helper"
 class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
   test "indexes document linked to track" do
     track = create :track, slug: 'nim'
-    doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track
+    doc = create(:document, id: 3, title: 'Installation', blurb: 'How to install Nim', track:)
     doc.stubs(:markdown).returns('# Installation')
 
     Document::SyncToSearchIndex.(doc)
@@ -11,7 +11,6 @@ class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
-      "_type" => "document",
       "_id" => "3",
       "found" => true,
       "_source" => {
@@ -35,7 +34,6 @@ class Document::SyncToSearchIndexTest < ActiveSupport::TestCase
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
-      "_type" => "document",
       "_id" => "4",
       "found" => true,
       "_source" => {

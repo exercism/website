@@ -1,0 +1,24 @@
+.c-admin-table
+  .lg-container
+    %h1.text-h1.mb-8 Donors
+    - if flash[:donors_notice]
+      .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:donors_notice]
+
+    %table.mb-8
+      %tr
+        %th Name
+        %th Handle
+        %th Email
+        %th Total donated in cents
+        %th Became donor at
+      - @donors.each do |donor|
+        %tr
+          %td= donor.name
+          %td= donor.handle
+          %td= donor.email
+          %td= donor.total_donated_in_cents
+          %td= format_datetime(donor.first_donated_at)
+    .flex
+      = link_to "New donor", new_admin_donor_path, class: 'btn btn-primary btn-base'
+
+    = paginate @donors

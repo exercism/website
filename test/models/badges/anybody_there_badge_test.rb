@@ -27,12 +27,12 @@ class Badge::AnybodyThereBadgeTest < ActiveSupport::TestCase
 
     # Doesn't care if we get a 5th other exercise
     another_track = create :track, slug: "irrelevant"
-    create :practice_solution, :completed, user: user, track: another_track
+    create :practice_solution, :completed, user:, track: another_track
     refute badge.award_to?(user.reload)
 
     # Add a 5th hello world, but not completed
     track = create :track, slug: "final_track"
-    solution = create :hello_world_solution, :iterated, user: user, track: track
+    solution = create(:hello_world_solution, :iterated, user:, track:)
     refute badge.award_to?(user.reload)
 
     # Iterate it

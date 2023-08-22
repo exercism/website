@@ -1,0 +1,113 @@
+#page-insiders {
+    @apply bg-darkBlueViolet;
+    color: #cbc9d9;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #f0f3f9;
+    }
+
+    .light-green-prompt {
+        @apply block mx-auto max-w-[610px];
+        @apply py-8 px-20 text-center;
+        @apply rounded-8;
+        @apply border-1 border-greenPrompt font-medium text-18 leading-150;
+        background-color: rgba(theme(colors.greenPrompt), 0.16);
+    }
+    .get-insiders-link {
+        @apply btn-l btn-primary cursor-pointer;
+        box-shadow: 0px 2px 4px rgba(var(--shadowColorMain), 0.4);
+    }
+
+    .launching {
+        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 mr-auto inline-block mb-24 text-midnightBlue;
+    }
+
+    .features {
+        @apply grid lg:grid-cols-3 grid-cols-1 gap-24 pb-20;
+        .feature {
+            .c-icon {
+                height: 45px;
+                width: 45px;
+                @apply mb-12 relative;
+            }
+            box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.15);
+            @apply py-20 px-24 rounded-16 bg-russianViolet;
+            @apply flex flex-col;
+
+            h4 {
+                @apply text-h4 mb-8 text-[#F0F3F9];
+            }
+
+            p {
+                @apply text-p-base text-left;
+                a {
+                    @apply text-lightGold;
+                }
+            }
+        }
+    }
+
+    .faqs {
+        a {
+            @apply text-veryLightBlue font-semibold underline;
+        }
+
+        p,
+        ul {
+            @apply !text-left;
+        }
+        ul {
+            @apply list-disc ml-20;
+        }
+    }
+    details {
+        @apply cursor-pointer;
+        &[open] {
+            summary {
+                @apply mb-8;
+                &::after {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+        @apply py-16 px-32 rounded-16 bg-russianViolet;
+        @apply text-18 font-normal leading-150;
+
+        summary {
+            @apply flex items-center;
+            @apply select-none;
+            outline: none;
+            list-style: none;
+            @apply text-24 text-textColor1 font-semibold leading-130;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+
+            &::after {
+                content: url("icons/chevron-down-circle.svg");
+                height: 32px;
+                width: 32px;
+                margin-left: auto;
+                transform: rotate(0deg);
+                transition: transform 0.2s ease-in-out;
+            }
+        }
+        summary + * {
+            @apply pt-10;
+        }
+    }
+
+    .gradient-container {
+        background: linear-gradient(
+            180deg,
+            #221e31 0%,
+            rgba(34, 30, 49, 0) 100%
+        );
+    }
+}

@@ -7,7 +7,7 @@ class Concept < ApplicationRecord
 
   friendly_id :slug, use: [:history]
 
-  belongs_to :track
+  belongs_to :track, touch: true
 
   has_many :exercise_prerequisites,
     class_name: "Exercise::Prerequisite",
@@ -51,6 +51,10 @@ class Concept < ApplicationRecord
   scope :not_taught, lambda {
     where.not(id: Exercise::TaughtConcept.select(:track_concept_id))
   }
+
+  after_destroy do
+    SiteUpdates::NewConceptUpdate.where(%(params LIKE "%gid://website/Concept/#{id}%")).destroy_all
+  end
 
   delegate :about, :introduction, :links, to: :git
   memoize

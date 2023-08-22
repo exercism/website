@@ -1,12 +1,12 @@
 import React from 'react'
-import { Iteration, File } from '../../../types'
+import {
+  default as IterationSummaryWithWebsockets,
+  IterationSummary,
+} from '@/components/track/IterationSummary'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { DownloadButton } from './iteration-header/DownloadButton'
 import { CopyButton } from './iteration-header/CopyButton'
-import {
-  IterationSummaryWithWebsockets,
-  IterationSummary,
-} from '../../../track/IterationSummary'
-import { GenericTooltip } from '../../../misc/ExercismTippy'
+import type { Iteration, File } from '@/components/types'
 
 export type Props = {
   iteration: Iteration

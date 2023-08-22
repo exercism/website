@@ -3,9 +3,9 @@ require 'test_helper'
 class NotificationTest < ActiveSupport::TestCase
   test "statuses" do
     user = create :user
-    pending = create :notification, user: user, status: :pending
-    unread = create :notification, user: user, status: :unread
-    read = create :notification, user: user, status: :read
+    pending = create :notification, user:, status: :pending
+    unread = create :notification, user:, status: :unread
+    read = create :notification, user:, status: :read
 
     assert pending.pending?
     assert unread.unread?
@@ -20,7 +20,7 @@ class NotificationTest < ActiveSupport::TestCase
   test "read!" do
     freeze_time do
       user = create :user
-      notification = create :notification, user: user, status: :unread
+      notification = create :notification, user:, status: :unread
       refute notification.read?
       assert_empty user.notifications.read
       assert_equal [notification], user.notifications.unread
@@ -41,7 +41,7 @@ class NotificationTest < ActiveSupport::TestCase
 
     I18n.expects(:t).with(
       "notifications.notification.",
-      { user: "dangerous" }
+      user: "dangerous"
     ).returns("")
 
     notification.text
@@ -61,7 +61,8 @@ class NotificationTest < ActiveSupport::TestCase
       is_read: false,
       created_at: notification.created_at.iso8601,
       image_type: 'avatar',
-      image_url: mentor.avatar_url
+      image_url: mentor.avatar_url,
+      icon_filter: "textColor6"
     }.with_indifferent_access
 
     assert_equal expected, notification.rendering_data

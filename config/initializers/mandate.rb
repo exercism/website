@@ -30,12 +30,12 @@ module Mandate
   end
 
   def self.included(base)
-    #  Upstream
+    # Upstream
     base.extend(Memoize)
     base.extend(CallInjector)
     base.extend(InitializerInjector)
 
-    #  New
+    # New
     base.extend(ActiveJobQueuer)
   end
 end

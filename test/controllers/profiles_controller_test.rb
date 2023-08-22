@@ -47,7 +47,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
   test "intro: redirects_to own profile" do
     user = create :user
-    create :user_profile, user: user
+    create(:user_profile, user:)
     sign_in!(user)
 
     get intro_profiles_url
@@ -67,7 +67,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
   test "new: redirects_to own profile" do
     user = create :user, reputation: 10
-    create :user_profile, user: user
+    create(:user_profile, user:)
     sign_in!(user)
 
     get new_profile_url
@@ -91,7 +91,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
   test "testimonials redirects to profile page if user does not have contributions" do
     user = create :user
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     get testimonials_profile_url(user)
 
@@ -103,7 +103,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   #################
   test "contributions redirects to profile page if user does not have contributions" do
     user = create :user
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     get contributions_profile_url(user)
 
@@ -115,7 +115,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   #############
   test "solutions redirects to profile page if user does not have solutions" do
     user = create :user
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     get solutions_profile_url(user)
 

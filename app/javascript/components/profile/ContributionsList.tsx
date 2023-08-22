@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { GraphicalIcon } from '../common'
+import { GraphicalIcon } from '@/components/common'
 import { BuildingContributionsList } from './contributions-list/BuildingContributionsList'
 import { MaintainingContributionsList } from './contributions-list/MaintainingContributionsList'
 import { AuthoringContributionsList } from './contributions-list/AuthoringContributionsList'
 import { OtherContributionsList } from './contributions-list/OtherContributionsList'
-import { Request } from '../../hooks/request-query'
+import type { Request } from '@/hooks'
 
 export type Category = {
   title: 'Building' | 'Maintaining' | 'Authoring' | 'Other'
@@ -13,16 +13,16 @@ export type Category = {
   icon: string
 }
 
-export const ContributionsList = ({
+export default function ContributionsList({
   categories,
 }: {
   categories: readonly Category[]
-}): JSX.Element => {
+}): JSX.Element {
   const [currentCategory, setCurrentCategory] = useState(categories[0])
 
   return (
     <React.Fragment>
-      <div className="tabs">
+      <div className="tabs scroll-x-hidden">
         {categories.map((category) => {
           const classNames = [
             'c-tab',

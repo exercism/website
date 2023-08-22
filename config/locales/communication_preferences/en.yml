@@ -24,6 +24,8 @@ en:
     email_about_fundraising_campaigns: "Email me about fundraising campaigns"
     email_about_events: "Email me about events (e.g. Functional February) or interviews."
     receive_onboarding_emails: "Email me with hints about how to make the most of Exercism"
+    email_about_insiders: "Email me about my Exercism Insiders membership"
 
     email_on_general_update_notification: "Email me about other non-essential updates to my account"
     email_on_acquired_badge_notification: "Email me when I unlock a new badge"
+    email_on_acquired_trophy_notification: "Email me when I unlock a new trophy"

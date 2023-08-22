@@ -4,6 +4,10 @@ Rails.application.configure do
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
     config.action_cable.url = ActionCable.server.config.url = "#{Exercism.config.websockets_url}/cable" if AnyCable::Rails.enabled?
+
+    Bullet.enable = false # Also change this in config/initializers/bullet.rb
+    Bullet.raise  = false
+    Bullet.bugsnag = false
   end
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -45,7 +49,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = (ENV['RAILS_LOG_LEVEL'].presence || :error).to_sym
   config.colorize_logging = false
 
   # This uses too much memory in production

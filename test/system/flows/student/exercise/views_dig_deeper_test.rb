@@ -10,11 +10,11 @@ module Flows
         test "view dig deeper section by unlocking via unlock button" do
           user = create :user
           track = create :track
-          create :user_track, user: user, track: track
-          create :hello_world_solution, :completed, track: track, user: user
-          exercise = create :practice_exercise, track: track, slug: 'hamming'
-          create :exercise_approach, exercise: exercise
-          create :exercise_article, exercise: exercise
+          create(:user_track, user:, track:)
+          create(:hello_world_solution, :completed, track:, user:)
+          exercise = create :practice_exercise, track:, slug: 'hamming'
+          create(:exercise_approach, exercise:)
+          create(:exercise_article, exercise:)
           exercise.update(has_approaches: true)
 
           use_capybara_host do
@@ -26,7 +26,7 @@ module Flows
             assert_text "You can only view the Dig Deeper tab for this exercise if you've attempted this exercise at least once."
 
             # Simulate having passing tests
-            solution = create :practice_solution, user: user, exercise: exercise, downloaded_at: Time.current
+            solution = create :practice_solution, user:, exercise:, downloaded_at: Time.current
 
             visit track_exercise_path(track, exercise)
 
@@ -48,11 +48,11 @@ module Flows
         test "view dig deeper section by iterating" do
           user = create :user
           track = create :track
-          create :user_track, user: user, track: track
-          create :hello_world_solution, :completed, track: track, user: user
-          exercise = create :practice_exercise, track: track, slug: 'hamming'
-          create :exercise_approach, exercise: exercise
-          create :exercise_article, exercise: exercise
+          create(:user_track, user:, track:)
+          create(:hello_world_solution, :completed, track:, user:)
+          exercise = create :practice_exercise, track:, slug: 'hamming'
+          create(:exercise_approach, exercise:)
+          create(:exercise_article, exercise:)
           exercise.update(has_approaches: true)
 
           use_capybara_host do
@@ -64,9 +64,9 @@ module Flows
             assert_text "You can only view the Dig Deeper tab for this exercise if you've attempted this exercise at least once."
 
             # Simulate having submitted an iteration
-            solution = create :practice_solution, user: user, exercise: exercise
-            submission = create :submission, solution: solution
-            create :iteration, submission: submission
+            solution = create(:practice_solution, user:, exercise:)
+            submission = create(:submission, solution:)
+            create(:iteration, submission:)
 
             visit track_exercise_path(track, exercise)
 

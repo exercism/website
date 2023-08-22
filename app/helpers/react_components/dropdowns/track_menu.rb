@@ -19,11 +19,12 @@ module ReactComponents
       def links
         hash = {
           repo: track.repo_url,
-          documentation: Exercism::Routes.track_docs_url(track)
+          documentation: Exercism::Routes.track_docs_url(track),
+          build_status: Exercism::Routes.track_build_path(track)
         }
         return hash if user_track.external?
 
-        if track.course?
+        if user_track.course?
           hash[:activate_practice_mode] = activate_practice_mode_url
           hash[:activate_learning_mode] = activate_learning_mode_url
         end

@@ -9,16 +9,16 @@ module Flows
       test "opens and closes iterations as expected" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
 
-        submission_1 = create :submission, tests_status: :queued, solution: solution
-        create :iteration, idx: 1, solution: solution, submission: submission_1
+        submission_1 = create(:submission, tests_status: :queued, solution:)
+        create :iteration, idx: 1, solution:, submission: submission_1
         create :submission_file, submission: submission_1
 
-        submission_2 = create :submission, tests_status: :queued, solution: solution
-        create :iteration, idx: 2, solution: solution, submission: submission_2
+        submission_2 = create(:submission, tests_status: :queued, solution:)
+        create :iteration, idx: 2, solution:, submission: submission_2
         create :submission_file, submission: submission_2
 
         use_capybara_host do
@@ -45,19 +45,19 @@ module Flows
       test "opens newest iteration when there are no iterations open" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
-        create :iteration, idx: 2, solution: solution, submission: submission
-        create :submission_file, submission: submission
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, tests_status: :queued, solution:, submitted_via: :cli
+        create(:iteration, idx: 2, solution:, submission:)
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
           find("summary").click
 
-          create :iteration, idx: 3, solution: solution
+          create(:iteration, idx: 3, solution:)
           SolutionChannel.broadcast!(solution)
           assert_equal find("details", text: "Iteration 3")['open'], "true"
         end
@@ -66,21 +66,21 @@ module Flows
       test "does not open newest iteration when there are iterations open" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        create :hello_world_solution, :completed, track: track, user: user
+        create(:user_track, user:, track:)
+        create(:hello_world_solution, :completed, track:, user:)
 
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
-        create :iteration, idx: 2, solution: solution, submission: submission
-        create :submission_file, submission: submission
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, tests_status: :queued, solution:, submitted_via: :cli
+        create(:iteration, idx: 2, solution:, submission:)
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
           sleep(0.2) # Give the websockets time to attach
 
-          create :iteration, idx: 3, solution: solution
+          create(:iteration, idx: 3, solution:)
           SolutionChannel.broadcast!(solution)
 
           assert_equal "false", find("details", text: "Iteration 3")['open']
@@ -90,24 +90,24 @@ module Flows
       test "user sees zero state" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        create :concept_solution, exercise: exercise, user: user
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        create(:concept_solution, exercise:, user:)
 
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
 
-          assert_text "You haven’t submitted any iterations yet."
+          assert_text "You haven't submitted any iterations yet."
         end
       end
 
       test "user starts exercise in zero state" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        create :concept_solution, exercise: exercise, user: user
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        create(:concept_solution, exercise:, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -121,12 +121,12 @@ module Flows
       test "user views iteration files" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, tests_status: :queued, solution: solution, submitted_via: :cli
-        create :iteration, idx: 2, solution: solution, submission: submission
-        create :submission_file, submission: submission, content: "class Bob\n"
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, tests_status: :queued, solution:, submitted_via: :cli
+        create(:iteration, idx: 2, solution:, submission:)
+        create :submission_file, submission:, content: "class Bob\n"
 
         use_capybara_host do
           sign_in!(user)
@@ -139,12 +139,12 @@ module Flows
       test "user views processing iteration" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, tests_status: :queued, solution: solution
-        create :iteration, solution: solution, submission: submission
-        create :submission_file, submission: submission
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create(:submission, tests_status: :queued, solution:)
+        create(:iteration, solution:, submission:)
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -160,15 +160,15 @@ module Flows
       test "user views iteration with no automated feedback" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
-        create :submission_file, submission: submission
+        create(:iteration, solution:, submission:)
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -181,12 +181,12 @@ module Flows
       test "user views iteration with failed tests" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution, tests_status: :failed
-        create :iteration, solution: solution, submission: submission
-        create :submission_file, submission: submission
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:, tests_status: :failed
+        create(:iteration, solution:, submission:)
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -200,25 +200,25 @@ module Flows
         user = create :user
         author = create :user, name: "Feedback author"
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
         create :exercise_representation,
-          exercise: exercise,
+          exercise:,
           source_submission: submission,
           feedback_author: author,
           feedback_markdown: "Good job",
           feedback_type: :essential,
           ast_digest: "AST"
         create :submission_representation,
-          submission: submission,
+          submission:,
           ast_digest: "AST"
-        create :iteration, solution: solution, submission: submission
-        create :submission_file, submission: submission
+        create(:iteration, solution:, submission:)
+        create(:submission_file, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -232,16 +232,16 @@ module Flows
       test "user views analyzer feedback" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
-        create :submission_file, submission: submission
-        create :submission_analysis, submission: submission, data: {
+        create(:iteration, solution:, submission:)
+        create(:submission_file, submission:)
+        create :submission_analysis, submission:, data: {
           comments: [
             { type: "essential", comment: "ruby.two-fer.splat_args" }
           ]
@@ -251,7 +251,7 @@ module Flows
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
 
-          assert_text "Our Ruby Analyzer has some comments on your solution"
+          assert_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
           assert_text "Define an explicit"
         end
       end
@@ -259,16 +259,16 @@ module Flows
       test "user views v3 test run" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
+        create(:iteration, solution:, submission:)
         create :submission_test_run,
-          submission: submission,
+          submission:,
           ops_status: 200,
           raw_results: {
             version: 3,
@@ -291,16 +291,16 @@ module Flows
       test "user views v3 test run with missing task" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
+        create(:iteration, solution:, submission:)
         create :submission_test_run,
-          submission: submission,
+          submission:,
           ops_status: 200,
           raw_results: {
             version: 3,
@@ -324,16 +324,16 @@ module Flows
       test "user views v2 test run" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
+        create(:iteration, solution:, submission:)
         create :submission_test_run,
-          submission: submission,
+          submission:,
           ops_status: 200,
           raw_results: {
             version: 2,
@@ -354,16 +354,16 @@ module Flows
       test "user views v1 test run" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :passed,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
+        create(:iteration, solution:, submission:)
         create :submission_test_run,
-          submission: submission,
+          submission:,
           ops_status: 200,
           raw_results: {
             version: 1,
@@ -383,14 +383,14 @@ module Flows
       test "user views tests for submission on track with test runner disabled" do
         user = create :user
         track = create :track, has_test_runner: false
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :not_queued,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -404,14 +404,14 @@ module Flows
       test "user views tests for submission on exercise with test runner disabled" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track, has_test_runner: false
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution,
+        create(:user_track, user:, track:)
+        exercise = create :concept_exercise, track:, has_test_runner: false
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create :submission, solution:,
           tests_status: :not_queued,
           representation_status: :generated,
           analysis_status: :completed
-        create :iteration, solution: solution, submission: submission
+        create(:iteration, solution:, submission:)
 
         use_capybara_host do
           sign_in!(user)
@@ -425,13 +425,13 @@ module Flows
       test "user sees latest iteration" do
         user = create :user
         track = create :track
-        create :user_track, user: user, track: track
-        exercise = create :concept_exercise, track: track
-        solution = create :concept_solution, exercise: exercise, user: user
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission, idx: 1
-        submission = create :submission, solution: solution
-        create :iteration, solution: solution, submission: submission, idx: 2
+        create(:user_track, user:, track:)
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        submission = create(:submission, solution:)
+        create :iteration, solution:, submission:, idx: 1
+        submission = create(:submission, solution:)
+        create :iteration, solution:, submission:, idx: 2
 
         use_capybara_host do
           sign_in!(user)

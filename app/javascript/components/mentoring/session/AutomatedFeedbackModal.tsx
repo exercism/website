@@ -1,17 +1,16 @@
 import React from 'react'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { Modal, ModalProps } from '../../modals/Modal'
-import { Icon, GraphicalIcon } from '../../common'
-import { useRequestQuery } from '../../../hooks/request-query'
-import {
+import { useRequestQuery } from '@/hooks'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { Icon, GraphicalIcon } from '@/components/common'
+import { AnalyzerFeedback } from '@/components/student/iterations-list/AnalyzerFeedback'
+import { RepresenterFeedback } from '@/components/student/iterations-list/RepresenterFeedback'
+import type {
   AnalyzerFeedback as AnalyzerFeedbackProps,
   Iteration,
   MentorSessionTrack,
   RepresenterFeedback as RepresenterFeedbackProps,
-} from '../../types'
-import { AnalyzerFeedback } from '../../student/iterations-list/AnalyzerFeedback'
-import { RepresenterFeedback } from '../../student/iterations-list/RepresenterFeedback'
-import { SessionInfo } from './SessionInfo'
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load automated feedback')
 
@@ -72,6 +71,6 @@ export const AutomatedFeedbackModal = ({
   )
 }
 
-const LoadingComponent = () => (
+const LoadingComponent = (): JSX.Element => (
   <Icon icon="spinner" alt="Loading automated feedback" />
 )

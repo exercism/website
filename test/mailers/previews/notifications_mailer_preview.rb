@@ -47,6 +47,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).acquired_badge
   end
 
+  def acquired_trophy
+    NotificationsMailer.with(
+      notification: User::Notifications::AcquiredTrophyNotification.first
+    ).acquired_trophy
+  end
+
   def joined_exercism
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first
@@ -81,5 +87,41 @@ class NotificationsMailerPreview < ActionMailer::Preview
     NotificationsMailer.with(
       notification: User::Notifications::OnboardingCommunityNotification.first
     ).onboarding_fundraising
+  end
+
+  def eligible_for_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).eligible_for_insiders
+  end
+
+  def eligible_for_lifetime_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).eligible_for_lifetime_insiders
+  end
+
+  def joined_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).joined_insiders
+  end
+
+  def joined_lifetime_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).joined_lifetime_insiders
+  end
+
+  def upgraded_to_lifetime_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedExercismNotification.first
+    ).upgraded_to_lifetime_insiders
+  end
+
+  def expired_insiders_notification
+    NotificationsMailer.with(
+      notification: User::Notifications::JoinedInsidersNotification.first
+    ).expired_premium
   end
 end

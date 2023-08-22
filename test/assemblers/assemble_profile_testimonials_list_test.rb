@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssembleContributorsTest < ActiveSupport::TestCase
+class AssembleProfileTestimonialsListTest < ActiveSupport::TestCase
   test "should return top 20 serialized correctly" do
     mentor = create :user
     5.times do

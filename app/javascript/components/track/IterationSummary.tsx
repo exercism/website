@@ -22,10 +22,10 @@ type IterationSummaryProps = {
   OutOfDateNotice?: React.ReactNode
 }
 
-export const IterationSummaryWithWebsockets = ({
+export default function IterationSummaryWithWebsockets({
   iteration: initialIteration,
   ...props
-}: IterationSummaryProps): JSX.Element => {
+}: IterationSummaryProps): JSX.Element {
   const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
 
@@ -60,7 +60,7 @@ export function IterationSummary({
   OutOfDateNotice,
 }: IterationSummaryProps): JSX.Element {
   return (
-    <div className={`c-iteration-summary ${className}`}>
+    <div className={`c-iteration-summary ${className ?? ''}`}>
       {showSubmissionMethod ? (
         <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
       ) : null}
@@ -102,6 +102,7 @@ export function IterationSummary({
       ) : (
         <ProcessingStatusSummary iterationStatus={iteration.status} />
       )}
+
       {showFeedbackIndicator ? (
         <AnalysisStatusSummary
           numEssentialAutomatedComments={

@@ -23,7 +23,8 @@ module ViewComponents
             li_link("Team", :team),
             # li_link("Jobs", :hiring),
             li_link("Supporters", :individual_supporters),
-            li_link("Supporting Orgs", :organisation_supporters)
+            tag.li(link_to("Partners", Exercism::Routes.about_partners_path),
+              class: selected_section == :organisation_supporters ? "selected" : nil)
             # li_link("Community", :community),
             # li_link("Not-for-profit", :organisation),
             # li_link("Track-specific", :tracks)
@@ -34,8 +35,9 @@ module ViewComponents
 
     def li_link(title, section = nil)
       css_class = section == selected_section ? "selected" : nil
+      scroll_into_view = section == selected_section ? true : nil
       url = Exercism::Routes.send([section, "about_path"].compact.join("_"))
-      tag.li(link_to(title, url), class: css_class)
+      tag.li(link_to(title, url), class: css_class, data: { scroll_into_view: })
     end
 
     private

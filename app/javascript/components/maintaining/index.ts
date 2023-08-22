@@ -1,1 +1,1 @@
-export { SubmissionsSummaryTable } from './SubmissionsSummaryTable'
+export { SubmissionsSummaryTable as default } from './SubmissionsSummaryTable'

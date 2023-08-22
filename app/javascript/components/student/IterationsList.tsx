@@ -46,7 +46,7 @@ export const getCacheKey = (
   return `iterations-${trackSlug}-${exerciseSlug}`
 }
 
-export const IterationsList = ({
+export default function IterationsList({
   solutionUuid,
   request,
   exercise,
@@ -58,7 +58,7 @@ export const IterationsList = ({
   exercise: Exercise
   track: Track
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const queryCache = useQueryCache()
   const [isOpen, setIsOpen] = useState<boolean[]>([])
   const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
@@ -109,9 +109,7 @@ export const IterationsList = ({
     }
 
     if (isOpen.length === 0) {
-      setIsOpen(
-        resolvedData.iterations.map((iteration, i) => (i === 0 ? true : false))
-      )
+      setIsOpen(resolvedData.iterations.map((_, i) => i === 0))
 
       return
     }

@@ -1,16 +1,18 @@
 @import "../styles";
 
-.theme-light {
-    & .c-progress {
-        @apply bg-veryLightBlue;
-    }
+.theme-light,
+.theme-accessibility-dark {
+    /* veryLightBlue */
+    --c-progress-bg: #e1ebff;
 }
+
 .theme-dark {
-    & .c-progress {
-        @apply bg-backgroundColorF;
-    }
+    /* backgroundColorF dark variant */
+    --c-progress-bg: #191525;
 }
+
 .c-progress {
+    background: var(--c-progress-bg);
     @apply w-100 rounded-100;
     @apply flex items-center;
     height: 16px;

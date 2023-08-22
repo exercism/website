@@ -44,6 +44,11 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
+# We just want one copy of mongodb client for the whole test_suite
+Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
+client = Exercism.mongodb_client
+Exercism.define_singleton_method(:mongodb_client) { client }
+
 # This "fixes" reload in Madnate.
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
@@ -136,7 +141,7 @@ class ActionMailer::TestCase
     end
 
     # Test the body of the sent email contains what we expect it to
-    assert_equal ["hello@mail.exercism.io"], email.from
+    assert_equal ["hello@mail.exercism.org"], email.from
     assert_equal [to], email.to
     assert_equal subject, email.subject
     read_fixture(fixture).each do |text|
@@ -152,10 +157,11 @@ class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   # parallelize(workers: :number_of_processors)
 
-  def setup
+  setup do
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
+    reset_mongodb!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -163,6 +169,12 @@ class ActiveSupport::TestCase
     return if @__skip_stubbing_rest_client__
 
     RestClient.define_method(:post) {}
+    Bullet.start_request
+  end
+
+  teardown do
+    Bullet.perform_out_of_channel_notifications if Bullet.notification?
+    Bullet.end_request
   end
 
   # Create a few models and return a random one.
@@ -184,7 +196,11 @@ class ActiveSupport::TestCase
   def assert_idempotent_command(&cmd)
     obj_1 = cmd.yield
     obj_2 = cmd.yield
-    assert_equal obj_1, obj_2
+    if obj_1.nil?
+      assert_nil obj_2
+    else
+      assert_equal obj_1, obj_2
+    end
   end
 
   def assert_html_equal(expected, actual)
@@ -202,6 +218,10 @@ class ActiveSupport::TestCase
 
   def reset_rack_attack!
     Rack::Attack.reset!
+  end
+
+  def reset_mongodb!
+    Exercism.mongodb_client.collections.each(&:drop)
   end
 
   ###################
@@ -289,6 +309,8 @@ class ActiveSupport::TestCase
 
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index:, id:)
+  rescue OpenSearch::Transport::Transport::Errors::NotFound
+    nil
   end
 
   def wait_for_opensearch_to_be_synced
@@ -303,6 +325,67 @@ class ActiveSupport::TestCase
 
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
+  end
+
+  def generate_reputation_periods!
+    # We use reputation periods for the calculation
+    # This command should generate them all.
+    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationPeriod::Sweep.()
+  end
+
+  ###############
+  # N+1 Helpers #
+  ###############
+  def create_np1_data(mentor: nil)
+    mentor ||= create :user
+
+    2.times do
+      user = create :user
+      create(:user_profile, user:)
+
+      # Reputation things
+      create(:user_reputation_token, user:)
+
+      # Relationships
+      create :mentor_student_relationship, mentor:, student: user
+
+      3.times do
+        track = create :track, :random_slug
+        exercise = create(:practice_exercise, track:)
+        create(:user_track, track:, user:)
+
+        # Submission things
+        solution = create(:practice_solution, exercise:, user:)
+
+        3.times do
+          ast_digest = SecureRandom.uuid
+          submission = create(:submission, solution:)
+          create(:submission_representation, submission:, ast_digest:)
+          create(:exercise_representation, exercise:, ast_digest:)
+          create(:iteration, solution:)
+          create :solution_comment, solution:
+        end
+
+        # Mentor things
+        create(:user_track_mentorship, user: mentor, track:)
+        create(:mentor_request, solution:)
+        create :mentor_discussion, solution:
+      end
+    end
+  end
+
+  def assert_user_data_cache_reset(user, key, expected, &block)
+    assert_nil user.data.reload.cache[key.to_s]
+
+    perform_enqueued_jobs(&block)
+
+    assert_equal expected, user.data.reload.cache[key.to_s]
+  end
+
+  def reset_user_cache(user)
+    user.data.reload.update!(cache: nil)
+    user.reload
   end
 end
 
@@ -322,10 +405,8 @@ class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   include TurboAssertionsHelper
 
-  def setup
+  setup do
     host! URI(Rails.application.routes.default_url_options[:host]).host
-
-    super
   end
 
   def sign_in!(user = nil)

@@ -34,7 +34,7 @@ type Props =
       links: { exercise: string; local: string }
     }
 
-export const OpenEditorButton = (props: Props): JSX.Element | null => {
+export default function OpenEditorButton(props: Props): JSX.Element | null {
   return (
     <ButtonTooltip {...props}>
       <ComboButton enabled={props.status !== 'locked'}>

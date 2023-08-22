@@ -1,8 +1,11 @@
 import React from 'react'
-import { Icon, TrackIcon } from '../../common'
-import { AnalyzerFeedback as Props, AnalyzerFeedbackComment } from '../../types'
-import { Track } from '../IterationsList'
-import { useHighlighting } from '../../../utils/highlight'
+import { useHighlighting } from '@/utils'
+import { Icon, TrackIcon } from '@/components/common'
+import type {
+  AnalyzerFeedback as Props,
+  AnalyzerFeedbackComment,
+} from '@/components/types'
+import type { Track } from '../IterationsList'
 
 export const AnalyzerFeedback = ({
   summary,
@@ -18,8 +21,8 @@ export const AnalyzerFeedback = ({
       <div className="feedback-header">
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />
         <div className="info">
-          Our <strong>{track.title} Analyzer</strong> has some comments on your
-          solution which may be useful for you:
+          Our <strong>{track.title} Analyzer</strong> generated this feedback
+          when analyzing your solution.
         </div>
       </div>
       {summary ? <div className="summary">{summary}</div> : null}
@@ -31,14 +34,21 @@ export const AnalyzerFeedback = ({
         and systems developed by our community.{' '}
         <a href={automatedFeedbackInfoLink}>
           Learn more
-          <Icon icon="external-link" alt="Opens in a new tab" />
+          <Icon
+            icon="external-link"
+            alt="Opens in a new tab"
+            className="filter-lightBlue"
+          />
         </a>
       </div>
     </div>
   )
 }
 
-const Comment = ({ type, html }: AnalyzerFeedbackComment) => {
+export const Comment = ({
+  type,
+  html,
+}: AnalyzerFeedbackComment): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
 
   return (

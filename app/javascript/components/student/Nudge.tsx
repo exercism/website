@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Avatar, GraphicalIcon, Icon } from '../common'
+import { Avatar, GraphicalIcon, HandleWithFlair, Icon } from '../common'
 import {
   IterationStatus,
   SolutionForStudent,
   ExerciseType,
   Iteration,
 } from '../types'
-import { CompleteExerciseButton } from './CompleteExerciseButton'
+import { default as CompleteExerciseButton } from './CompleteExerciseButton'
 import { MentoringComboButton } from './MentoringComboButton'
 import {
   MentorDiscussion,
@@ -51,7 +51,7 @@ type NudgeType =
 
 const REFETCH_INTERVAL = 2000
 
-export const Nudge = ({
+export default function Nudge({
   solution,
   exerciseType,
   request,
@@ -59,7 +59,7 @@ export const Nudge = ({
   links,
   iterations,
   track,
-}: Props): JSX.Element | null => {
+}: Props): JSX.Element | null {
   const queryCache = useQueryCache()
   const CACHE_KEY = `nudge-${solution.uuid}`
   const [queryEnabled, setQueryEnabled] = useState(true)
@@ -97,6 +97,7 @@ export const Nudge = ({
       default: {
         switch (iterationStatus) {
           case IterationStatus.NON_ACTIONABLE_AUTOMATED_FEEDBACK:
+          case IterationStatus.CELEBRATORY_AUTOMATED_FEEDBACK:
           case IterationStatus.NO_AUTOMATED_FEEDBACK: {
             switch (exerciseType) {
               case 'concept':
@@ -130,7 +131,7 @@ export const Nudge = ({
     return () => {
       channel.disconnect()
     }
-  }, [CACHE_KEY, solution])
+  }, [CACHE_KEY, solution, queryCache])
 
   useEffect(() => {
     setNudgeType(getNudgeType())
@@ -148,13 +149,7 @@ export const Nudge = ({
 
   switch (nudgeType) {
     case 'mentoringRequested':
-      return (
-        <MentoringRequestedNudge
-          track={track}
-          links={links}
-          className={className}
-        />
-      )
+      return <MentoringRequestedNudge links={links} className={className} />
     case 'inProgress':
       return (
         <InProgressMentoringNudge
@@ -216,8 +211,8 @@ const CompleteExerciseNudge = ({
         <p>
           Complete the exercise to unlock new concepts and exercises.{' '}
           <strong>
-            Remember, you can get mentored even after you’ve completed the
-            exercise.
+            Remember, you can request code review even after you’ve completed
+            the exercise.
           </strong>
         </p>
       </div>
@@ -258,11 +253,11 @@ const MentoringNudge = ({
     <section className={classNames.join(' ')}>
       <GraphicalIcon icon="mentoring-screen" category="graphics" />
       <div className="info">
-        <h3>Improve your solution with mentoring</h3>
+        <h3>Improve your solution with code review</h3>
         <p>
-          On average, students that get mentoring iterate a further 3.5 times on
-          their solution. It’s a great way to discover what you don’t know about
-          your language.
+          Having your code reviewed by a mentor is an incredible way to identify
+          your knowledge gaps and accelerate your learning. It&apos;s totally
+          free.
         </p>
         <div className="options">
           <MentoringComboButton
@@ -276,7 +271,7 @@ const MentoringNudge = ({
             target="_blank"
             rel="noreferrer"
           >
-            What is Mentoring?
+            What is Code Review?
             <Icon icon="external-link" alt="Opens in a new tab" />
           </a>
         </div>
@@ -309,7 +304,7 @@ const TestsFailedNudge = ({
         <p>Get some help from our awesome {track.title} mentors.</p>
         <div className="options">
           <a href={links.requestMentoring} className="btn-primary btn-s">
-            Request mentoring
+            Submit for Code Review
           </a>
           <a
             href={links.mentoringInfo}
@@ -327,11 +322,9 @@ const TestsFailedNudge = ({
 }
 
 const MentoringRequestedNudge = ({
-  track,
   links,
   className = '',
 }: {
-  track: Track
   links: {
     mentoringInfo: string
     pendingMentorRequest: string
@@ -382,9 +375,17 @@ const InProgressMentoringNudge = ({
       />
 
       <div className="info">
-        <h3>
-          You&apos;re being mentored by{' '}
-          <strong>{discussion.mentor.handle}</strong>
+        <h3 className="flex">
+          You&apos;re being mentored by&nbsp;
+          <strong>
+            {
+              <HandleWithFlair
+                handle={discussion.mentor.handle}
+                flair={discussion.mentor.flair}
+                size="large"
+              />
+            }
+          </strong>
         </h3>
         <div className="details">
           {discussion.status === 'awaiting_student' ? (

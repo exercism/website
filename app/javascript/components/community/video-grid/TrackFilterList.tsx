@@ -114,8 +114,10 @@ const Component = ({
   }
 
   return (
-    <div className={`c-single-select c-track-select --size-${sizeVariant}`}>
-      <ResultsZone isFetching={isFetching}>
+    <div
+      className={`flex items-end sm:ml-24 ml-0 c-single-select c-track-select --size-${sizeVariant}`}
+    >
+      <ResultsZone isFetching={isFetching} className="sm:grow-0 grow">
         <button
           className="current-track !shadow-xsZ1v2"
           aria-label="Open the track filter"

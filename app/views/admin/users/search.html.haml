@@ -1,0 +1,25 @@
+.c-admin-table
+  .lg-container
+    %h1.text-h1.mb-8 Search User
+
+    = form_with url: search_admin_users_path, method: :get do |form|
+      .flex.flex-col
+        .mb-12
+          = form.label :email, class: "block mb-4"
+          = form.email_field :email, class: 'w-fill'
+        .mb-12
+          = form.submit "Search", class: "btn btn-primary"
+
+    - if @user
+      .text-h6.mb-8 Name: #{@user.name}
+      .text-h6.mb-8 Handle: #{@user.handle}
+      .text-h6.mb-8 Email: #{@user.email}
+      .text-h6.mb-8 Reputation: #{@user.reputation}
+      .text-h6.mb-8 Joined At: #{@user.created_at}
+      .text-h6.mb-8 Last Visited On: #{@user.last_visited_on}
+      .text-h6.mb-8 Total Donated (in cents): #{@user.total_donated_in_cents}
+      - if @user.disabled?
+        .text-h6.mb-8.text-danger Disabled At: #{@user.disabled_at}
+    - elsif @searched
+      .mb-12.text-p-base.font-bold.text-danger Could not find user
+

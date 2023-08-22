@@ -49,7 +49,7 @@ export type Exercise = {
 
 const REFETCH_INTERVAL = 2000
 
-export const SolutionSummary = ({
+export default function SolutionSummary({
   solution,
   track,
   discussions,
@@ -63,11 +63,11 @@ export const SolutionSummary = ({
   request: SolutionSummaryRequest
   exercise: Exercise
   links: SolutionSummaryLinks
-}): JSX.Element | null => {
+}): JSX.Element | null {
   const queryCache = useQueryCache()
   const CACHE_KEY = `solution-${solution.uuid}-summary`
   const [queryEnabled, setQueryEnabled] = useState(true)
-  const { resolvedData } = usePaginatedRequestQuery<{
+  const { resolvedData, status } = usePaginatedRequestQuery<{
     iterations: Iteration[]
   }>(CACHE_KEY, {
     ...request,

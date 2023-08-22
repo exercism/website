@@ -48,10 +48,12 @@ class Git::SyncTrack < Git::Sync
       has_test_runner: head_git_track.has_test_runner?,
       has_analyzer: head_git_track.has_analyzer?,
       has_representer: head_git_track.has_representer?,
-      concepts:
+      concepts:,
+      highlightjs_language: head_git_track.highlightjs_language
     )
 
     Git::SyncTrackDocs.(track, force_sync:)
+    Track::Trophy::ReseedVariable.()
 
     # Now that the concepts and exercises have synced successfully,
     # we can set the track's synced git SHA to the HEAD SHA
@@ -103,7 +105,8 @@ class Git::SyncTrack < Git::Sync
         blurb: git_exercise.blurb,
         taught_concepts: exercise_concepts(exercise_config[:concepts]),
         prerequisites: exercise_concepts(head_git_track.taught_concept_slugs & exercise_config[:prerequisites].to_a),
-        has_test_runner: git_exercise.has_test_runner?
+        has_test_runner: git_exercise.has_test_runner?,
+        representer_version: git_exercise.representer_version
       )
       Git::SyncConceptExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
     end
@@ -127,7 +130,8 @@ class Git::SyncTrack < Git::Sync
         difficulty: exercise_config[:difficulty],
         prerequisites: exercise_concepts(head_git_track.taught_concept_slugs & exercise_config[:prerequisites].to_a),
         practiced_concepts: exercise_concepts(exercise_config[:practices]),
-        has_test_runner: git_exercise.has_test_runner?
+        has_test_runner: git_exercise.has_test_runner?,
+        representer_version: git_exercise.representer_version
       )
       Git::SyncPracticeExercise.(exercise, force_sync: force_sync || exercise.id_previously_changed?)
     end

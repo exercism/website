@@ -23,32 +23,6 @@
 
       %section
         = render ReactComponents::Settings::HandleForm.new
-
-      %section.github-section.flex.flex-col.items-start
-        %h2 GitHub Integration
-        %hr.c-divider.--small
-        - if current_user.provider.present?
-          %p.text-16.leading-140
-            Your Exercism and GitHub accounts are linked. Any pull requests that are merged on GitHub should award you
-            = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
-              reputation
-              = icon "external-link", "(opens in a new tab)"
-            on your Exercism account.
-        - else
-          %p.text-16.leading-140.mb-16
-            To be awarded
-            = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
-              reputation
-              = icon "external-link", "(opens in a new tab)"
-            on Exercism when you submit pull requests on GitHub, please connect your accounts using the button below.
-          = button_to omniauth_authorize_path(:user, :github),
-            form_class: "github-btn",
-            class: "btn-enhanced btn-m",
-            method: :post,
-            data: { turbo: false } do
-            = graphical_icon 'external-site-github'
-            Connect with GitHub
-
       %section
         = render ReactComponents::Settings::EmailForm.new
 

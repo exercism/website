@@ -16,7 +16,7 @@ module Flows
 
         assert_text "Member"
         refute_text "Rookie"
-        assert_text "1\nCommon"
+        assert_text "1 Common"
       end
     end
   end

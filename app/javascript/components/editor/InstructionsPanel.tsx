@@ -15,7 +15,7 @@ export const InstructionsPanel = ({
   introduction: string
   assignment: Assignment
   debuggingInstructions?: string
-}) => {
+}): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
 
   return (

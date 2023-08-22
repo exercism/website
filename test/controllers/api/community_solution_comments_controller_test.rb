@@ -9,7 +9,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   ###
   test "index returns comments for request and solution" do
     setup_user
-    solution = create :concept_solution, :published
+    solution = create :concept_solution, :published, allow_comments: true
     comment = create(:solution_comment, solution:, content_markdown: "Hello", updated_at: Time.utc(2016, 12, 25))
 
     get api_track_exercise_community_solution_comments_path(
@@ -94,7 +94,7 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
 
   test "create should create correctly for user" do
     user = create :user
-    solution = create :practice_solution, :published
+    solution = create :practice_solution, :published, allow_comments: true
     content_markdown = "foo to the baaar"
     comment = create(:solution_comment, author: user, solution:, content_markdown:)
 

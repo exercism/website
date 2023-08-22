@@ -55,20 +55,20 @@ export const CommunityLaunchModal = ({
     >
       <div className="lhs">
         <header>
-          <h1>The new "Community" tab</h1>
+          <h1>The new &quot;Community&quot; tab</h1>
 
           <p>
             We think our community is pretty special - thousands of people
             learning, mentoring and supporting each other in a non-toxic
-            environment. Well, from today we're focusing even more on making
-            Exercism a great place for you all to spend time.
+            environment. Well, from today we&apos;re focusing even more on
+            making Exercism a great place for you all to spend time.
           </p>
         </header>
 
-        <h2>So, what’s new?</h2>
+        <h2>So, what&apos;s new?</h2>
         <p>
-          We’ve added a few new sections to Exercism. Everything is accessible
-          via the new Community tab.
+          We&apos;ve added a few new sections to Exercism. Everything is
+          accessible via the new Community tab.
         </p>
 
         <div className="improvements">
@@ -157,7 +157,7 @@ export const CommunityLaunchModal = ({
             your story, and learn how we can make Exercism even better for you
             👇
           </p>
-          <div className="flex flex-row items-center bg-white rounded-100 p-12">
+          <div className="flex flex-row items-center bg-backgroundColorA rounded-100 p-12">
             <img
               src={jonathanImageUrl}
               alt="Photo of Jonathan"

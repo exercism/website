@@ -51,7 +51,7 @@
                     @apply font-semibold;
                     @apply border-b-1 border-textColor6;
                     &:hover {
-                        @apply text-lightBlue border-lightBlue;
+                        @apply text-prominentLinkColor border-prominentLinkColor;
                     }
                 }
             }
@@ -102,7 +102,17 @@
             }
         }
         & .description {
-            @apply text-p-base mb-20;
+            @apply text-p-base not-last:mb-20;
+
+            & p {
+                @apply mb-8;
+            }
+            & ul {
+                @apply list-disc pl-20;
+                & p {
+                    @apply mb-0;
+                }
+            }
         }
         & .pull-request {
             @apply flex items-center;

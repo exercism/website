@@ -5,7 +5,10 @@ class SerializeSolutionComments
 
   def call
     comments.
-      includes(:author, solution: { exercise: :track }).
+      includes(
+        solution: { exercise: :track },
+        author: { avatar_attachment: :blob }
+      ).
       map { |comment| SerializeSolutionComment.(comment, for_user) }
   end
 end

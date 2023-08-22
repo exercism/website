@@ -43,7 +43,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 403 when the track isn't joined" do
     setup_user
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
     get latest_api_v1_solutions_path(exercise_id: exercise.slug, track_id: track.slug), headers: @headers, as: :json
     assert_response :forbidden
     expected = { error: {
@@ -58,8 +58,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 403 when solution cannot be unlocked" do
     setup_user
     track = create :track
-    create :user_track, user: @current_user, track: track
-    exercise = create :concept_exercise, track: track
+    create(:user_track, user: @current_user, track:)
+    exercise = create(:concept_exercise, track:)
 
     UserTrack.any_instance.expects(:exercise_unlocked?).returns(false)
 
@@ -77,7 +77,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "latest should return 200 if solution is unlocked" do
     setup_user
     exercise = create :concept_exercise
-    create :concept_solution, user: @current_user, exercise: exercise
+    create(:concept_solution, user: @current_user, exercise:)
     create :user_track, user: @current_user, track: exercise.track
 
     get latest_api_v1_solutions_path(track_id: exercise.track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
@@ -99,8 +99,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     setup_user
     exercise = create :concept_exercise
     track = exercise.track
-    create :user_track, user: @current_user, track: track
-    solution = create :concept_solution, user: @current_user, exercise: exercise
+    create(:user_track, user: @current_user, track:)
+    solution = create(:concept_solution, user: @current_user, exercise:)
 
     get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
 
@@ -114,8 +114,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
       setup_user
       exercise = create :concept_exercise
       track = exercise.track
-      solution = create :concept_solution, user: @current_user, exercise: exercise
-      create :user_track, user: solution.user, track: track
+      solution = create(:concept_solution, user: @current_user, exercise:)
+      create(:user_track, user: solution.user, track:)
 
       get latest_api_v1_solutions_path(track_id: track.slug, exercise_id: exercise.slug), headers: @headers, as: :json
       assert_response :ok
@@ -265,7 +265,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
   test "update should create submission and iteration" do
     setup_user
     exercise = create :concept_exercise
-    solution = create :concept_solution, user: @current_user, exercise: exercise
+    solution = create(:concept_solution, user: @current_user, exercise:)
 
     created_submission = create(:submission, solution:)
 
@@ -283,6 +283,32 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     assert_response :created
   end
 
+  test "update should init test run" do
+    setup_user
+    exercise = create :concept_exercise
+    solution = create(:concept_solution, user: @current_user, exercise:)
+
+    http_files = [SecureRandom.uuid, SecureRandom.uuid]
+    files = []
+    Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
+
+    # Ensure representer and analyzer are called once
+    ToolingJob::Create.expects(:call).with(anything, :representer, git_sha: "HEAD", run_in_background: false, context: {})
+    ToolingJob::Create.expects(:call).with(anything, :analyzer)
+
+    # Ensure test runner is called once, in the foreground, and not again in the background
+    ToolingJob::Create.expects(:call).with(anything, :test_runner, git_sha: "HEAD", run_in_background: false)
+
+    patch api_v1_solution_path(solution.uuid),
+      params: { files: http_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :created
+
+    # Run the jobs through to make sure nothing unexpected happens
+    perform_enqueued_jobs
+  end
   test "update should catch duplicate submission" do
     setup_user
     solution = create :concept_solution, user: @current_user

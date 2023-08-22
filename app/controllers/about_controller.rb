@@ -2,20 +2,20 @@ class AboutController < ApplicationController
   skip_before_action :authenticate_user!
 
   def organisation_supporters
-    use_num_individual_supporters
+    @num_individual_supporters = User::Data.donors.count
   end
 
   def individual_supporters
-    use_num_individual_supporters
-    @badges = User::AcquiredBadge.joins(:user).includes(:user).
-      where(badge_id: Badge.find_by_slug!("supporter")). # rubocop:disable Rails/DynamicFindBy
-      where(users: { show_on_supporters_page: true }).select(:user_id, :created_at).
-      order(id: :asc).
-      page(params[:page]).per(30)
-  end
+    @num_individual_supporters = User::Data.donors.count
+    user_ids = User::Data.public_supporter.
+      order(first_donated_at: :asc).
+      page(params[:page]).per(30).without_count.
+      pluck(:user_id)
 
-  def supporter_gobridge
-    @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
+    users = User.with_attached_avatar.
+      where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
+    @supporting_users = Kaminari.paginate_array(users, total_count: @num_individual_supporters).
+      page(params[:page]).per(30)
   end
 
   #     ips = [
@@ -74,7 +74,7 @@ class AboutController < ApplicationController
       https://avatars1.githubusercontent.com/u/1099999?v=4
       https://exercism.org/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbDhLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--85c4ddce2d10fd2c488909446e464088ce8e6dd8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWNocEFjZz0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf22b5230692a68d08c0320d3b3745f81d8aca85/joshjpeg.jpg
       https://avatars.githubusercontent.com/u/1228739
-      https://dg8krxphbh767.cloudfront.net/placeholders/user-avatar.svg
+      https://assets.exercism.org/placeholders/user-avatar.svg
       https://exercism.org/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBcUJQIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--e1c6d4ff9c5e01c0d42d9e72f0a951f555d6b699/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWNocEFjZz0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf22b5230692a68d08c0320d3b3745f81d8aca85/me_2012.jpg
       https://avatars1.githubusercontent.com/u/122470?v=4
       https://avatars0.githubusercontent.com/u/1964376
@@ -150,9 +150,5 @@ class AboutController < ApplicationController
   end
 
   private
-  def use_num_individual_supporters
-    @num_individual_supporters = User::AcquiredBadge.includes(:user).
-      where(badge_id: Badge.find_by_slug!("supporter")). # rubocop:disable Rails/DynamicFindBy
-      count
-  end
+  def use_num_individual_supporters; end
 end

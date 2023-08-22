@@ -28,6 +28,7 @@
                 & .c-icon {
                     height: 24px;
                     width: 24px;
+                    @apply filter-textColor6;
                 }
             }
             & .c-track-icon {
@@ -50,7 +51,7 @@
                 & .info {
                     @apply flex flex-col;
                     & .handle {
-                        @apply font-medium text-16 text-textColor3 leading-huge;
+                        @apply font-medium text-16 text-textColor1 leading-huge;
                     }
 
                     & .exercise {
@@ -61,11 +62,11 @@
             & .info-for-student {
                 @apply flex-grow;
                 @apply text-14 leading-150 text-textColor6;
-                & strong {
-                    @apply font-medium text-textColor3;
+                strong {
+                    @apply font-medium text-textColor1;
                 }
                 & .exercise-title {
-                    @apply text-16 font-medium text-textColor3;
+                    @apply text-16 font-medium text-textColor1;
                 }
             }
             & .finish-button {
@@ -144,7 +145,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+            box-shadow: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3);
 
             @apply bg-backgroundColorA;
 
@@ -204,7 +205,7 @@
                 & .note {
                     @apply text-p-small text-textColor6;
                     & a {
-                        @apply font-medium text-lightBlue;
+                        @apply font-medium text-prominentLinkColor;
                     }
                 }
             }
@@ -216,7 +217,8 @@
                     @apply font-medium;
                 }
                 & em {
-                    @apply text-lightBlue not-italic font-medium;
+                    @apply not-italic font-medium;
+                    color: var(--c-prominent-link-color);
                 }
             }
         }
@@ -319,6 +321,7 @@
                             height: 14px;
                             width: 14px;
                             @apply ml-12;
+                            @apply filter-textColor6;
                         }
                     }
                 }
@@ -329,135 +332,6 @@
                 }
             }
 
-            & .discussion {
-                --header-height: 32px;
-
-                & .timeline-entry {
-                    @apply flex;
-                    @apply py-8 px-24;
-                    @apply relative;
-
-                    &:first-child {
-                        @apply pt-20;
-                    }
-                    &.post:last-child {
-                        &:before {
-                            bottom: auto;
-                            height: 16px;
-                        }
-                    }
-
-                    &:before {
-                        content: "";
-                        @apply absolute;
-                        left: 40px;
-                        top: 0;
-                        bottom: 0;
-                        @apply border-l-1 border-borderColor6;
-                    }
-
-                    & .timeline-marker {
-                        height: var(--header-height);
-                        width: var(--header-height);
-                        @apply mr-16;
-                        @apply relative z-1 bg-backgroundColorA;
-                        @apply flex-shrink-0;
-                    }
-                    & .timeline-content {
-                        @apply flex-grow items-center;
-                        @apply overflow-hidden;
-                    }
-                }
-                & .timeline-entry-header {
-                    height: var(--header-height);
-                    @apply flex items-center;
-                    & time {
-                        @apply text-textColor6 leading-160;
-                        @apply ml-auto;
-                    }
-                }
-
-                & .iteration-entry {
-                    & .timeline-marker {
-                        @apply rounded-circle shadow-xsZ1;
-                        @apply grid place-items-center;
-
-                        & .c-icon {
-                            width: 50%;
-                            height: 50%;
-                            filter: var(--textColor6-filter);
-                        }
-                    }
-
-                    & .info {
-                        @apply text-16 text-textColor6 leading-150;
-
-                        & strong {
-                            @apply font-medium text-textColor2 mr-6;
-                        }
-                    }
-                }
-
-                & .auto-feedback {
-                    @apply mt-8;
-                    @apply relative;
-                    @apply border-1 border-borderColor6 rounded-8;
-                    @apply py-8 px-16;
-                    @apply flex items-center;
-
-                    & .info-icon {
-                        height: 16px;
-                        width: 16px;
-                        @apply text-orange mr-12;
-                        filter: var(--textColor6-filter);
-                    }
-                    & .info {
-                        @apply flex-grow;
-                        @apply text-15 text-textColor6 font-medium leading-150;
-                        @apply mr-12;
-                    }
-
-                    & .modal-icon {
-                        height: 16px;
-                        width: 16px;
-                        @apply ml-auto;
-                        filter: var(--textColor6-filter);
-                    }
-                }
-
-                & .post {
-                    &.--editable:hover {
-                        @apply bg-backgroundColorE;
-                        & .timeline-entry-header {
-                            & .edit-button {
-                                @apply grid;
-                            }
-                            & time {
-                                @apply hidden;
-                            }
-                        }
-                    }
-
-                    & .timeline-entry-header {
-                        @apply flex items-center;
-
-                        & .author {
-                            @apply font-semibold text-16 leading-150 text-textColor3;
-                        }
-
-                        & .edit-button {
-                            width: 32px;
-                            height: 32px;
-                            @apply hidden ml-auto place-items-center;
-                            @apply shadow-xsZ1 rounded-circle bg-backgroundColorA;
-
-                            & .c-icon {
-                                width: 50%;
-                            }
-                        }
-                    }
-                }
-            }
             & .finished-wizard.timeline-entry,
             & .student-review.timeline-entry {
                 @apply pt-24;
@@ -548,7 +422,7 @@
             @apply overflow-auto;
 
             & .direct,
-            & .community {
+            & .c-mentoring-request-form {
                 @apply px-24;
             }
             & .direct {
@@ -561,79 +435,8 @@
                     @apply mb-8;
 
                     & a {
-                        @apply text-lightBlue;
+                        @apply text-prominentLinkColor;
                     }
-                }
-            }
-
-            & .community {
-                & .heading {
-                    @apply flex items-center;
-
-                    & .info {
-                        @apply flex-grow;
-
-                        & h2 {
-                            @apply text-h3 mb-8;
-                        }
-                        & p {
-                            @apply text-15 leading-160;
-                            @apply mb-16;
-
-                            & strong {
-                                @apply font-medium;
-                            }
-                        }
-                    }
-                    & .c-icon {
-                        height: 120px;
-                        width: 120px;
-                        @apply ml-24;
-                    }
-                }
-
-                & .first-time {
-                    @apply flex items-start;
-                    @apply bg-lightOrange rounded-8;
-                    @apply py-12 px-24 mb-16;
-
-                    & .c-icon {
-                        height: 32px;
-                        width: 32px;
-                        @apply mr-16;
-                    }
-                    & .info {
-                        @apply flex-grow;
-                        & h3 {
-                            @apply text-h6 mb-4;
-                        }
-                        & p {
-                            @apply text-p-small;
-                        }
-                    }
-                }
-
-                & .question {
-                    @apply mb-20;
-                    & label {
-                        @apply text-16 leading-150 font-semibold text-textColor3;
-                        @apply mb-4;
-                    }
-                    & p {
-                        @apply text-15 leading-160 text-textColor6;
-                        @apply mb-8;
-                    }
-                    & textarea {
-                        @apply w-100;
-                        height: 100px;
-                    }
-                }
-                & .btn-primary {
-                    @apply w-100 mb-16;
-                }
-                & .flow-explanation {
-                    @apply text-p-small font-medium text-textColor6;
-                    @apply text-center;
                 }
             }
         }
@@ -650,20 +453,22 @@
 
             & .status {
                 @apply flex items-center;
-                @apply bg-lightOrange rounded-8;
+                background: var(--backgroundColorMentoringRequestedStatusInfo);
+                @apply rounded-8;
                 @apply py-12 px-16 mx-24;
 
                 & .info {
                     @apply flex-grow;
                     & h3 {
-                        @apply font-semibold text-textColor3 leading-170;
+                        @apply font-semibold leading-170;
+                        color: var(--textColorMentoringRequestedStatusInfo);
                     }
                     & p {
                         @apply font-medium text-textColor6 leading-150;
                     }
                 }
                 & button {
-                    @apply text-lightBlue font-semibold;
+                    @apply text-prominentLinkColor font-semibold;
                 }
             }
             & .placeholder {
@@ -728,11 +533,11 @@
                     @apply text-p-small;
                     & a {
                         @apply inline-flex items-center;
-                        @apply text-lightBlue font-medium;
+                        @apply text-prominentLinkColor font-medium;
                         & .c-icon {
                             width: 12px;
                             height: 12px;
-                            @apply ml-8;
+                            @apply ml-8 filter-prominentLinkColor;
                         }
                     }
                 }
@@ -769,14 +574,14 @@
                         & > .c-icon {
                             height: 16px;
                             width: 16px;
-                            @apply text-textColor6;
+                            @apply filter-textColor6;
                             @apply ml-20;
                         }
                     }
                 }
             }
             & .direct {
-                box-shadow: 0px 4px 24px 0px rgba(79, 114, 205, 0.3);
+                box-shadow: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.3);
 
                 @apply px-24 py-16 bg-backgroundColorA;
 

@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { StudentTooltip } from '../../../../app/javascript/components/tooltips/StudentTooltip'
+import { StudentTooltip } from '@/components/tooltips'
 
 test('correct information is displayed', async () => {
   const server = setupServer(

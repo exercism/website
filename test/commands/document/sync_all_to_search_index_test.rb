@@ -17,7 +17,7 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
 
   test "indexes document linked to track" do
     track = create :track, slug: 'nim'
-    doc = create :document, id: 3, title: 'Installation', blurb: 'How to install Nim', track: track
+    doc = create(:document, id: 3, title: 'Installation', blurb: 'How to install Nim', track:)
     Document.any_instance.stubs(:markdown).returns('# Installation')
     wait_for_opensearch_to_be_synced
 
@@ -27,7 +27,6 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
-      "_type" => "document",
       "_id" => "3",
       "found" => true,
       "_source" => {
@@ -53,7 +52,6 @@ class Document::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     indexed_doc = get_opensearch_doc(Document::OPENSEARCH_INDEX, doc.id)
     expected = {
       "_index" => "test-documents",
-      "_type" => "document",
       "_id" => "4",
       "found" => true,
       "_source" => {

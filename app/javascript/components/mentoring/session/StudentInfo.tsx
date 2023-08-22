@@ -3,6 +3,7 @@ import { Student } from '../../types'
 import { Avatar, Reputation } from '../../common'
 import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
 
 export const StudentInfo = ({
   student,
@@ -16,7 +17,13 @@ export const StudentInfo = ({
       <div className="info">
         <div className="subtitle">Who you&apos;re mentoring</div>
         <div className="handle-block">
-          <div className="handle">{student.handle}</div>
+          <div className="handle">
+            <HandleWithFlair
+              handle={student.handle}
+              flair={student.flair}
+              size="medium"
+            />
+          </div>
           <Reputation
             value={student.reputation.toString()}
             type="primary"

@@ -1,7 +1,7 @@
 import React from 'react'
 import Tippy, { TippyProps } from '@tippyjs/react'
 import { Instance } from 'tippy.js'
-import { renderComponents } from '@/utils/react-bootloader'
+import { renderComponents } from '@/utils'
 import { mappings } from '@/packs/application'
 
 // Export own set of props (even if they are the same for now) to enable clients to be more future-proof

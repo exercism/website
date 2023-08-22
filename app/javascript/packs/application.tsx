@@ -517,6 +517,7 @@ document.addEventListener('turbo:load', () => {
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
+  document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 })
 
 // object.entries polyfill

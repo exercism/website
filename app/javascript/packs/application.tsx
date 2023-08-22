@@ -664,20 +664,15 @@ export const mappings = {
 // Each should map 1-1 to a component in app/helpers/components
 initReact(mappings)
 
-import {
-  handleNavbarFocus,
-  scrollIntoView,
-  showSiteFooterOnTurboLoad,
-} from '@/utils'
+import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 
 document.addEventListener('turbo:load', () => {
   highlightAll()
+  showSiteFooter()
+  handleNavbarFocus()
+  scrollIntoView()
   document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 })
-
-showSiteFooterOnTurboLoad()
-handleNavbarFocus()
-scrollIntoView()
 
 // object.entries polyfill
 if (!Object.entries) {

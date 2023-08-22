@@ -42,7 +42,7 @@ class AssembleReputationTokens
   # then fill with the most recent first 5 (regardless of status).
   # Then we just look at the first 5 things in the set.
   def header_tokens
-    ids = Set.new(user.reputation_tokens.unseen.limit(5).pluck(:id))
+    ids = Set.new(user.reputation_tokens.unseen.order(id: :desc).limit(5).pluck(:id))
 
     # TODO: This needs a desc index adding
     ids += user.reputation_tokens.seen.limit(10).order(id: :desc).pluck(:id) unless ids.size == 5

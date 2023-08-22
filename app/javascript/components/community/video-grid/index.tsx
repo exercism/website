@@ -199,3 +199,5 @@ function NoResultsYet() {
     </div>
   )
 }
+
+export default VideoGrid

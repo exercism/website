@@ -93,13 +93,13 @@ const ProcessingStatus = ({
   )
 }
 
-export const CommunitySolution = ({
+export default function CommunitySolution({
   solution,
   context,
 }: {
   solution: CommunitySolutionProps
   context: CommunitySolutionContext
-}): JSX.Element => {
+}): JSX.Element {
   const snippetRef = useHighlighting<HTMLPreElement>()
 
   const url =

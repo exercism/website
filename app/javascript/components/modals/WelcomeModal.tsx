@@ -7,12 +7,12 @@ import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export const WelcomeModal = ({
+export default function WelcomeModal({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(true)
   const [mutation, { status, error }] = useMutation(
     () => {

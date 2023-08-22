@@ -4,7 +4,6 @@ import { assetUrl, sendRequest, timeFormat } from '@/utils'
 import { GraphicalIcon } from '../common'
 import { Modal } from '../modals'
 import { GenericTooltip } from '../misc/ExercismTippy'
-import pluralize from 'pluralize'
 
 export type TrophyStatus = 'not_earned' | 'unrevealed' | 'revealed'
 
@@ -31,7 +30,7 @@ export type TrophiesProps = {
   trophies: readonly Trophy[]
 }
 
-export function Trophies({ trophies }: TrophiesProps): JSX.Element {
+export default function Trophies({ trophies }: TrophiesProps): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false)
   const [highlightedTrophy, setHighlightedTrophy] = useState<Trophy | null>(
     null
@@ -88,14 +87,6 @@ export function Trophies({ trophies }: TrophiesProps): JSX.Element {
                 <div className="text-p-large text-center mb-16 text-balance">
                   {highlightedTrophy.successMessage}
                 </div>
-
-                {/*<div className="num-awardees text-p-base">
-                  <GraphicalIcon icon="students" />
-                  <strong>{highlightedTrophy.numAwardees}</strong>{' '}
-                  {pluralize('member', highlightedTrophy.numAwardees)}{' '}
-                  {pluralize('has', highlightedTrophy.numAwardees)} earned this
-                  trophy in {highlightedTrophy.track.title}.
-                </div>*/}
               </>
             )}
           </div>
@@ -166,7 +157,7 @@ const RevealedTrophy = ({
   const onClick = useCallback(() => {
     setHighlightedTrophy(trophy)
     setModalOpen(true)
-  }, [setHighlightedTrophy, setModalOpen])
+  }, [setHighlightedTrophy, setModalOpen, trophy])
 
   return (
     <button className="trophy acquired" onClick={() => onClick()}>

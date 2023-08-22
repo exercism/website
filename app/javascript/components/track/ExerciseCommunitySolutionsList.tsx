@@ -38,11 +38,11 @@ export type TestsStatus =
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
 const DEFAULT_ORDER = 'most_starred'
 
-export const ExerciseCommunitySolutionsList = ({
+export function ExerciseCommunitySolutionsList({
   request: initialRequest,
 }: {
   request: Request
-}): JSX.Element => {
+}): JSX.Element {
   const {
     request,
     setPage,
@@ -220,3 +220,5 @@ export const ExerciseCommunitySolutionsList = ({
     </div>
   )
 }
+
+export default ExerciseCommunitySolutionsList

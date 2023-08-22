@@ -7,7 +7,7 @@ export type ToolingTooltipProps = {
   endpoint: string
 }
 
-export function ToolingTooltip({
+export default function ToolingTooltip({
   endpoint,
 }: ToolingTooltipProps): JSX.Element | null {
   return (

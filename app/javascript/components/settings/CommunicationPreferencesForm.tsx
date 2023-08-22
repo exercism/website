@@ -10,13 +10,13 @@ type Links = {
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
 
-export const CommunicationPreferencesForm = ({
+export default function CommunicationPreferencesForm({
   defaultPreferences,
   links,
 }: {
   defaultPreferences: CommunicationPreferences
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [preferences, setPreferences] = useState(defaultPreferences)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,

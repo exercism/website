@@ -3,13 +3,13 @@ import { GraphicalIcon } from '../common'
 import { CompleteExerciseModal } from '../modals/CompleteExerciseModal'
 import { Iteration } from '../types'
 
-export const CompleteExerciseButton = ({
+export default function CompleteExerciseButton({
   endpoint,
   iterations,
 }: {
   endpoint: string
   iterations: readonly Iteration[]
-}): JSX.Element => {
+}): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleModalClose = useCallback(() => {

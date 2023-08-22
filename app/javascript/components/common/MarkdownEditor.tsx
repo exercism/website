@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo } from 'react'
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor'
 import { sendRequest } from '@/utils'
+import { useDeepMemo } from '@/hooks'
 
 export type MarkdownEditorHandle = {
   value: (value: string | void) => string | void
   focus: () => void
 }
 
-export const MarkdownEditor = ({
+export default function MarkdownEditor({
   contextId,
   onChange = () => null,
   editorDidMount,
@@ -25,7 +26,7 @@ export const MarkdownEditor = ({
   value?: string
   onChange?: (value: string) => void
   options?: EasyMDE.Options
-}): JSX.Element => {
+}): JSX.Element {
   const getInstance = useCallback(
     (editor) => {
       if (!editorDidMount) {
@@ -50,6 +51,7 @@ export const MarkdownEditor = ({
     [editorDidMount]
   )
 
+  options = useDeepMemo(options)
   const editorOptions = useMemo<SimpleMDEReactProps['options']>(() => {
     return {
       autosave: contextId
@@ -101,7 +103,7 @@ export const MarkdownEditor = ({
       },
       ...options,
     }
-  }, [contextId, JSON.stringify(options), url])
+  }, [contextId, options, url])
 
   return (
     <SimpleMDE

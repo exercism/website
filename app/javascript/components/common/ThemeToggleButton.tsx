@@ -9,7 +9,7 @@ export type ThemeToggleButtonProps = {
   links: { update: string; insiders: string }
 }
 
-export function ThemeToggleButton({
+export default function ThemeToggleButton({
   links,
   disabled,
   defaultTheme,

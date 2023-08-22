@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton, Icon } from '../common'
+import { FormButton } from '../common'
 import { FormMessage } from './FormMessage'
 
 type Links = {
@@ -17,7 +17,7 @@ type RequestBody = {
 
 const DEFAULT_ERROR = new Error('Unable to change password')
 
-export const PasswordForm = ({ links }: { links: Links }): JSX.Element => {
+export default function PasswordForm({ links }: { links: Links }): JSX.Element {
   const [state, setState] = useState({
     sudoPassword: '',
     password: '',

@@ -1,14 +1,14 @@
 import React from 'react'
 import { render, waitFor, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { CopyToClipboardButton } from '../../../../app/javascript/components/common/CopyToClipboardButton'
+import { CopyToClipboardButton } from '@/components/common'
 
 // See https://github.com/aelbore/esbuild-jest/issues/26
-jest.mock('../../../../app/javascript/utils/copyToClipboard', () => ({
+jest.mock('@/utils/copyToClipboard', () => ({
   copyToClipboard: jest.fn(),
 }))
 
-import { copyToClipboard } from '../../../../app/javascript/utils/copyToClipboard'
+import { copyToClipboard } from '@/utils/copyToClipboard'
 
 test('copies text to clipboard when clicking', async () => {
   const { getByRole } = render(

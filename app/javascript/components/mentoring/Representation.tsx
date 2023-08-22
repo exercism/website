@@ -4,7 +4,7 @@ import { CompleteRepresentationData } from '../types'
 import { LeftPane } from './representation/left-pane'
 import { RightPane } from './representation/right-pane'
 
-export function Representation({
+export default function Representation({
   data,
 }: {
   data: CompleteRepresentationData

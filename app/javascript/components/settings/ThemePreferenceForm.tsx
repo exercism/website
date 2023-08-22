@@ -20,7 +20,7 @@ export type Theme = {
   value: string
 }
 
-export const ThemePreferenceForm = ({
+export default function ThemePreferenceForm({
   defaultThemePreference,
   insidersStatus,
   links,
@@ -28,7 +28,7 @@ export const ThemePreferenceForm = ({
   defaultThemePreference: string
   insidersStatus: string
   links: ThemePreferenceLinks
-}): JSX.Element => {
+}): JSX.Element {
   const { handleThemeUpdate } = useTheme(defaultThemePreference, links)
   const { theme } = useThemeObserver()
 

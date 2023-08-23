@@ -12,8 +12,7 @@ class AboutController < ApplicationController
       page(params[:page]).per(30).without_count.
       pluck(:user_id)
 
-    users = User.with_attached_avatar.
-      where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
+    users = User.where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
     @supporting_users = Kaminari.paginate_array(users, total_count: @num_individual_supporters).
       page(params[:page]).per(30)
   end

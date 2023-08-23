@@ -6,7 +6,7 @@ class Tracks::MentorDiscussionsController < ApplicationController
   def index
     return redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
 
-    @previous_discussions = @solution.mentor_discussions.finished.includes(mentor: { avatar_attachment: :blob })
+    @previous_discussions = @solution.mentor_discussions.finished.includes(:mentor)
   end
 
   def show; end
@@ -18,8 +18,7 @@ class Tracks::MentorDiscussionsController < ApplicationController
     raise ActiveRecord::RecordNotFound unless @solution
 
     @discussion = @solution.mentor_discussions.includes(
-      student: { avatar_attachment: :blob },
-      mentor: { avatar_attachment: :blob }
+      :student, :mentor
     ).find_by!(uuid: params[:id])
   end
 end

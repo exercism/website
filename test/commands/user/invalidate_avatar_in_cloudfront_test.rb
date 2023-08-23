@@ -7,7 +7,7 @@ class User::InvalidateAvatarInCloudfrontTest < ActiveSupport::TestCase
 
       client = mock
       client.expects(:create_invalidation).with(
-        distribution_id: Exercism.config.assets_cloudfront_distribution_id,
+        distribution_id: Exercism.config.website_assets_cloudfront_distribution_id,
         invalidation_batch: {
           paths: {
             quantity: 1,

@@ -20,7 +20,7 @@ class User::InvalidateAvatarInCloudfront
 
   private
   def distribution_id
-    Exercism.config.assets_cloudfront_distribution_id
+    Exercism.config.website_assets_cloudfront_distribution_id
   end
 
   def caller_reference

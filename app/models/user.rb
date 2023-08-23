@@ -286,9 +286,13 @@ class User < ApplicationRecord
 
   memoize
   def avatar_url
+    "#{Exercism.config.website_avatars_host}/#{id}"
+  end
+
+  def non_cdn_avatar_url
     return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
 
-    super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
+    attributes['avatar_url'].presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
   end
 
   def has_avatar?

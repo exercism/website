@@ -4,7 +4,7 @@ module ReactComponents
       def to_s
         super("settings-photo-form", {
           user: {
-            avatar_url: current_user.avatar_url,
+            avatar_url: current_user.non_cdn_avatar_url,
             has_avatar: current_user.has_avatar?,
             handle: current_user.handle
           },

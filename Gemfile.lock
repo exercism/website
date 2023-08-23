@@ -5,6 +5,15 @@ GIT
     coinbase_commerce (0.8.7)
       faraday (~> 1.0)
 
+PATH
+  remote: ../config
+  specs:
+    exercism-config (0.108.0)
+      aws-sdk-dynamodb (~> 1.0)
+      aws-sdk-secretsmanager (~> 1.0)
+      mandate
+      zeitwerk
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -91,6 +100,9 @@ GEM
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.759.0)
+    aws-sdk-cloudfront (1.76.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -165,11 +177,6 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.108.0)
-      aws-sdk-dynamodb (~> 1.0)
-      aws-sdk-secretsmanager (~> 1.0)
-      mandate
-      zeitwerk
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -542,6 +549,7 @@ DEPENDENCIES
   addressable (~> 2.7)
   ansi-to-html
   anycable-rails (~> 1.2.0)
+  aws-sdk-cloudfront
   aws-sdk-ecr
   aws-sdk-s3 (~> 1)
   bootsnap (>= 1.4.2)
@@ -555,7 +563,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
-  exercism-config (>= 0.108.0)
+  exercism-config!
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { initReact } from '@/utils'
+import { initReact } from '@/utils/react-bootloader'
 import { LoadingOverlay } from '../components/test/LoadingOverlay'
 
 // Add all react components here.

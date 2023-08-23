@@ -63,3 +63,5 @@ export function UnlockHelpButton({
     </div>
   )
 }
+
+export default UnlockHelpButton

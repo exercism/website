@@ -9,7 +9,7 @@ class Track::Trophies::MentoredTrophy < Track::Trophy
   end
 
   def success_message(track)
-    "Congratulations on completing a mentoring session in %<track_title>s. Our mentors are always to help and guide you!" % { track_title: track.title }
+    "Congratulations on completing a mentoring session in %<track_title>s. Our mentors are always here to help and guide you!" % { track_title: track.title }
   end
   # rubocop:enable Layout/LineLength
 

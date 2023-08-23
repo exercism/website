@@ -1,29 +1,23 @@
 -# %meta{ "http-equiv": "Content-Security-Policy", content: csp_policy}
 
-%link{ rel: "preconnect", href: Exercism.config.website_assets_host, crossorigin: true }
-
 / We always want this rendered at the start.
 = stylesheet_link_tag "website", "data-turbo-track": "reload"
 
-- if Rails.env.production?
-  %script{ async: true, src: "/usage/js/script.js", data: { domain: "exercism.org", api: "/usage/api/event" } }
-
 - if landing_page?
+  = javascript_include_tag('landing', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
+
   - content_for :deferred do
-    = javascript_include_tag('landing', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
-    = stylesheet_link_tag "internal", rel: "prefetch stylesheet", as: :style
-    = stylesheet_link_tag "application", rel: "prefetch stylesheet", as: :style
+    %link{ href: asset_path("application.css"), rel: "prefetch stylesheet", as: :style }
     %link{ href: asset_path("core.js"), rel: "prefetch", as: :script }
+    %link{ href: asset_path("application.js"), rel: "prefetch", as: :script }
 
 - else
   = stylesheet_link_tag "internal", "data-turbo-track": "reload"
   = stylesheet_link_tag "application", "data-turbo-track": "reload"
   = javascript_include_tag('core', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false)
   - js_packs.each do |pack|
-    = javascript_include_tag(pack, type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false)
+    = javascript_include_tag(pack, type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
 
-- content_for :deferred do
-  / Prefetch the deferred packs which are needed on other pages
-  - deferred_js_packs.each do |pack|
-    %link{ href: asset_path("#{pack}.js"), rel: "prefetch", as: "script" }
+- if Rails.env.production?
+  %script{ async: true, src: "/usage/js/script.js", data: { domain: "exercism.org", api: "/usage/api/event" } }
 

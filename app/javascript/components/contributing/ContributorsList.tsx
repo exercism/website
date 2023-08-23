@@ -33,13 +33,13 @@ type QueryValueTypes = {
   category: Category
 }
 
-export const ContributorsList = ({
+export default function ContributorsList({
   request: initialRequest,
   tracks,
 }: {
   request: Request
   tracks: readonly Track[]
-}): JSX.Element => {
+}): JSX.Element {
   const { request, setPage, setQuery } = useList(initialRequest)
   const { status, resolvedData, latestData, isFetching, error } =
     usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(

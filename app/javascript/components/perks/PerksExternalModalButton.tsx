@@ -8,7 +8,7 @@ export type PerksExternalModalButtonProps = {
   perk: Record<PerkKeys, string>
   links: Record<Links, string>
 }
-export function PerksExternalModalButton({
+export default function PerksExternalModalButton({
   data,
 }: {
   data: PerksExternalModalButtonProps

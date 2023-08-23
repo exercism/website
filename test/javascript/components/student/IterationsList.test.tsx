@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { IterationsList } from '../../../../app/javascript/components/student/IterationsList'
+import { default as IterationsList } from '@/components/student/IterationsList'
 import userEvent from '@testing-library/user-event'
 import { createIteration } from '../../factories/IterationFactory'
 import { rest } from 'msw'

@@ -3,12 +3,12 @@ import { EditorView, keymap, KeyBinding } from '@codemirror/view'
 import { basicSetup } from '@codemirror/basic-setup'
 import { EditorState, Compartment, StateEffect } from '@codemirror/state'
 import { indentUnit } from '@codemirror/language'
+import { defaultHighlightStyle } from '@codemirror/highlight'
+import { oneDarkTheme, oneDarkHighlightStyle } from '@codemirror/theme-one-dark'
 import { Themes } from '../editor/types'
 import { loadLanguageCompartment } from './CodeMirror/languageCompartment'
 import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
 import { useTabBinding } from './CodeMirror/use-tab-binding'
-import { defaultHighlightStyle } from '@codemirror/highlight'
-import { oneDarkTheme, oneDarkHighlightStyle } from '@codemirror/theme-one-dark'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -21,7 +21,7 @@ export type Handler = {
   getValue: () => string
   focus: () => void
 }
-export const CodeMirror = ({
+export default function CodeMirror({
   value,
   language,
   commands,
@@ -43,7 +43,7 @@ export const CodeMirror = ({
   tabSize: number
   editorDidMount: (handler: Handler) => void
   readonly?: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
   const viewRef = useRef<EditorView | null>(null)
 

@@ -22,10 +22,10 @@ type IterationSummaryProps = {
   OutOfDateNotice?: React.ReactNode
 }
 
-export const IterationSummaryWithWebsockets = ({
+export default function IterationSummaryWithWebsockets({
   iteration: initialIteration,
   ...props
-}: IterationSummaryProps): JSX.Element => {
+}: IterationSummaryProps): JSX.Element {
   const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
 

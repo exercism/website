@@ -11,13 +11,13 @@ type Links = {
 
 const DEFAULT_ERROR = new Error('Unable to reset token')
 
-export const TokenForm = ({
+export default function TokenForm({
   defaultToken,
   links,
 }: {
   defaultToken: string
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [token, setToken] = useState(defaultToken)
 
   const { mutation, status, error } = useSettingsMutation<

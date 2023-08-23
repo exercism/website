@@ -2,13 +2,13 @@ import React from 'react'
 import { SiteUpdate } from './site-updates-list/SiteUpdate'
 import { SiteUpdate as SiteUpdateProps, SiteUpdateContext } from '../types'
 
-export const SiteUpdatesList = ({
+export default function SiteUpdatesList({
   updates,
   context,
 }: {
   updates: readonly SiteUpdateProps[]
   context: SiteUpdateContext
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <div className="updates">
       {updates.map((update, i) => {

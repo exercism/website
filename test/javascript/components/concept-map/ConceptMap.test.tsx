@@ -7,8 +7,8 @@ import { act, render, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // Component
-import { ConceptMap } from '../../../../app/javascript/components/concept-map/ConceptMap'
-import { IConceptMap } from '../../../../app/javascript/components/concept-map/concept-map-types'
+import { default as ConceptMap } from '@/components/concept-map/ConceptMap'
+import { IConceptMap } from '@/components/concept-map/concept-map-types'
 
 describe('<ConceptMap />', () => {
   test('renders empty component', async () => {

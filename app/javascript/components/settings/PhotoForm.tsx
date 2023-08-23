@@ -7,13 +7,13 @@ type Links = {
   delete: string
 }
 
-export const PhotoForm = ({
+export default function PhotoForm({
   defaultUser,
   links,
 }: {
   defaultUser: User
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <div className="c-settings-photo-form">
       <h2>Change your photo</h2>

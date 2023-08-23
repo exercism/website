@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  IterationSummaryWithWebsockets,
+  default as IterationSummaryWithWebsockets,
   IterationSummary,
 } from '@/components/track/IterationSummary'
 import { GenericTooltip } from '@/components/misc/ExercismTippy'

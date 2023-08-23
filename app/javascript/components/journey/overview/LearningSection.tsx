@@ -7,7 +7,6 @@ import { ExercisesCompletedSummary } from './learning-section/ExercisesCompleted
 import { ConceptsLearntSummary } from './learning-section/ConceptsLearntSummary'
 import { LearningOverview } from './learning-section/LearningOverview'
 import { TrackSummary } from './learning-section/TrackSummary'
-import { LearningStats } from './learning-section/LearningStats'
 
 export type Props = {
   tracks: TrackProgressList

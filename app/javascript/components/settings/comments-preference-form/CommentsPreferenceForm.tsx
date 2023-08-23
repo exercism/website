@@ -19,13 +19,13 @@ export type CommentsPreferenceFormProps = {
 
 const DEFAULT_ERROR = new Error('Unable to change preferences')
 
-export const CommentsPreferenceForm = ({
+export default function CommentsPreferenceForm({
   currentPreference,
   links,
   label,
   numPublishedSolutions,
   numSolutionsWithCommentsEnabled,
-}: CommentsPreferenceFormProps): JSX.Element => {
+}: CommentsPreferenceFormProps): JSX.Element {
   const {
     handleSubmit,
     commentStatusPhrase,

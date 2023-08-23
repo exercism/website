@@ -317,7 +317,11 @@ Rails.application.routes.draw do
   get "partners/go-developer-network", to: redirect("partners/gobridge")
   get "partners/gdn", to: redirect("partners/gobridge")
 
+  ##################
+  # Special routes #
+  ##################
   get "site.webmanifest" => "meta#site_webmanifest"
+  resources :avatars, only: :show
 
   #################
   # Legacy routes #

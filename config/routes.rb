@@ -321,7 +321,7 @@ Rails.application.routes.draw do
   # Special routes #
   ##################
   get "site.webmanifest" => "meta#site_webmanifest"
-  resources :avatars, only: :show
+  get "avatars/:id/:version" => "avatars#show"
 
   #################
   # Legacy routes #

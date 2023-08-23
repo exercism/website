@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_18_160815) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1467,6 +1467,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_160815) do
     t.integer "reputation", default: 0, null: false
     t.datetime "disabled_at"
     t.integer "flair", limit: 1
+    t.integer "version", limit: 2, default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true

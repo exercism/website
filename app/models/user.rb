@@ -286,7 +286,7 @@ class User < ApplicationRecord
 
   memoize
   def avatar_url
-    "/api/users/#{id}/avatar"
+    "#{Exercism.config.website_avatars_host}/avatars/#{id}/#{version}"
   end
 
   def non_cdn_avatar_url

@@ -10,7 +10,7 @@
         %h1.text-h0.mb-12.md:mb-18= @post.title
         = render "info_bar", post: @post
   .md-container.mb-32.md:mb-48.flex.gap-32
-    %article.shadow-lg.bg-backgroundColorA.rounded-8{ class: 'max-w-[840px]' }
+    %article.shadow-lg.bg-backgroundColorA.rounded-8{ class: 'md:max-w-[840px] max-w-[100%]' }
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center
         = graphical_icon "lightbulb", category: :graphics, css_class: "main-graphic hidden md:block"
         .info.md:hidden
@@ -41,7 +41,7 @@
             = avatar(@post.author)
             .info.mb-20.md:mb-0
               .text-16.leading-150.text-textColor6.mb-2 Published by
-              .flex.items-center.mb-4
+              .sm:flex.hidden.items-center.mb-4
                 .text-h4.mr-16 @#{@post.author.handle}
                 = render ViewComponents::Reputation.new(@post.author.formatted_reputation, flashy: true, size: :small)
               .text-16.leading-150.font-semibold.text-textColor6= @post.author.name

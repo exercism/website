@@ -45,7 +45,7 @@ if (process.env.BUGSNAG_API_KEY) {
   if (reactPlugin) {
     ErrorBoundary = reactPlugin.createErrorBoundary(React)
   } else {
-    throw new Error('Bugsnag React plugin is null')
+    throw new Error('Failed to load Bugsnag\'s react plugin')
   }
 }
 

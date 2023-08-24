@@ -1,13 +1,7 @@
 require 'open-uri'
 
-class AvatarsController < ApplicationController
-  skip_before_action :authenticate_user!
-  skip_before_action :ensure_onboarded!
-  skip_before_action :verify_authenticity_token
-  skip_after_action :set_body_class_header
-  skip_around_action :mark_notifications_as_read!
-  skip_after_action :updated_last_visited_on!
-
+# This should inhert from a name ActionController::Base, not ApplicationController
+class AvatarsController < ActionController::Base # rubocop:disable Rails/ApplicationController
   def show
     user = User.find(params[:id])
 
@@ -28,5 +22,7 @@ class AvatarsController < ApplicationController
     send_data data,
       type: content_type,
       disposition: 'inline'
+  rescue ActiveRecord::RecordNotFound
+    head :resource_not_found
   end
 end

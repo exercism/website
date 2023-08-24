@@ -27,5 +27,8 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
       disposition: 'inline'
   rescue ActiveRecord::RecordNotFound
     head :not_found
+  rescue StandardError => e
+    Bugsnag.notify(e)
+    head :internal_server_error
   end
 end

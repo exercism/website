@@ -5,6 +5,9 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
   def show
     user = User.find(params[:id])
 
+    # We don't want future requests to be cached before they should be!
+    raise ActiveRecord::RecordNotFound if params[:version].to_i > user.version
+
     if user.avatar.attached?
       data = user.avatar.download
       content_type = user.avatar.content_type
@@ -23,6 +26,6 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
       type: content_type,
       disposition: 'inline'
   rescue ActiveRecord::RecordNotFound
-    head :resource_not_found
+    head :not_found
   end
 end

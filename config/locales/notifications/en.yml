@@ -30,6 +30,10 @@ en:
       1: >
         Welcome to Exercism! Explore your dashboard to learn more.
 
+    onboarding_product:
+      1: >
+        TODO
+
     onboarding_community:
       1: >
         Community is at the heart of Exercism. Try our forums and mentoring, get involved on YouTube and Twitch.

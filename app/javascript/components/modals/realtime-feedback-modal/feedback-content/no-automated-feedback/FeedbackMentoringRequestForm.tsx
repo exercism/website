@@ -1,14 +1,12 @@
-import React, { useRef, useCallback } from 'react'
-import { useMutation } from 'react-query'
-import { sendRequest, typecheck } from '@/utils'
+import React from 'react'
 import { FormButton, MedianWaitTime } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
-import type {
-  MentorSessionTrack as Track,
-  MentorSessionRequest as Request,
-} from '@/components/types'
+import type { MentorSessionTrack as Track } from '@/components/types'
 import { ContinueButton } from '../../components/FeedbackContentButtons'
 import { RealtimeFeedbackModalProps } from '../..'
+import { SolutionCommentTextArea } from '@/components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents/SolutionCommentTextArea'
+import { TrackObjectivesTextArea } from '@/components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents/TrackObjectivesTextArea'
+import { useMentoringRequest } from '@/components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -24,35 +22,13 @@ export const FeedbackMentoringRequestForm = ({
   onContinue: () => void
   onSuccess: () => void
 } & Pick<RealtimeFeedbackModalProps, 'links'>): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<Request>(
-    async () => {
-      const { fetch } = sendRequest({
-        endpoint: links.createMentorRequest,
-        method: 'POST',
-        body: JSON.stringify({
-          comment: solutionCommentRef.current?.value,
-          track_objectives: trackObjectivesRef.current?.value,
-        }),
-      })
-
-      return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
-    },
-    {
-      onSuccess,
-    }
-  )
-
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      mutation()
-    },
-    [mutation]
-  )
-
-  const trackObjectivesRef = useRef<HTMLTextAreaElement>(null)
-  const solutionCommentRef = useRef<HTMLTextAreaElement>(null)
+  const {
+    handleSubmit,
+    error,
+    status,
+    solutionCommentRef,
+    trackObjectivesRef,
+  } = useMentoringRequest(links, onSuccess)
 
   return (
     <form
@@ -61,37 +37,12 @@ export const FeedbackMentoringRequestForm = ({
       onSubmit={handleSubmit}
     >
       <h3 className="text-h4 mb-8">Request code review</h3>
-      <div className="question">
-        <label htmlFor="request-mentoring-form-track-objectives">
-          What are you hoping to learn from this track?
-        </label>
-        <p id="request-mentoring-form-track-description">
-          Tell our mentors a little about your programming background and what
-          you&apos;re aiming to learn from {track.title}.
-        </p>
-        <textarea
-          ref={trackObjectivesRef}
-          id="request-mentoring-form-track-objectives"
-          required
-          aria-describedby="request-mentoring-form-track-description"
-          defaultValue={trackObjectives}
-        />
-      </div>
-      <div className="question">
-        <label htmlFor="request-mentoring-form-solution-comment">
-          How can a mentor help you with this solution?
-        </label>
-        <p id="request-mentoring-form-solution-description">
-          Give your mentor a starting point for the conversation. This will be
-          your first comment during the session. Markdown is permitted.
-        </p>
-        <textarea
-          ref={solutionCommentRef}
-          id="request-mentoring-form-solution-comment"
-          required
-          aria-describedby="request-mentoring-form-solution-description"
-        />
-      </div>
+      <TrackObjectivesTextArea
+        defaultValue={trackObjectives}
+        ref={trackObjectivesRef}
+        track={track}
+      />
+      <SolutionCommentTextArea ref={solutionCommentRef} />
       <div className="flex gap-8">
         <ContinueButton
           type="button"

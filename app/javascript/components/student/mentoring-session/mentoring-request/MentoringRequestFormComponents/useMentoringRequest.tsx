@@ -2,10 +2,9 @@ import { useCallback, useRef } from 'react'
 import { QueryStatus, useMutation } from 'react-query'
 import { sendRequest, typecheck } from '@/utils'
 import { MentorSessionRequest } from '@/components/types'
-import type { Links } from '.'
 
 export function useMentoringRequest(
-  links: Links,
+  links: { createMentorRequest: string },
   onSuccess: (mentorRequest: MentorSessionRequest) => void
 ): {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void

@@ -3,7 +3,7 @@ import type { MentorSessionTrack } from '@/components/types'
 
 export const TrackObjectivesTextArea = React.forwardRef<
   HTMLTextAreaElement,
-  { defaultValue: string; track: MentorSessionTrack }
+  { defaultValue: string; track: Pick<MentorSessionTrack, 'title'> }
 >(({ track, defaultValue }, ref) => (
   <div className="question">
     <label htmlFor="request-mentoring-form-track-objectives">
@@ -20,5 +20,6 @@ export const TrackObjectivesTextArea = React.forwardRef<
       aria-describedby="request-mentoring-form-track-description"
       defaultValue={defaultValue}
     />
+    <div className="c-alert--danger">Minimum 20 characters required</div>
   </div>
 ))

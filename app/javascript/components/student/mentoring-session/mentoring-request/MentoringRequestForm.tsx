@@ -15,8 +15,10 @@ import type {
   MentorSessionExercise as Exercise,
   MentorSessionRequest as Request,
 } from '@/components/types'
-import { TrackObjectivesTextArea } from './MentoringRequestFormComponents/TrackObjectivesTextArea'
-import { SolutionCommentTextArea } from './MentoringRequestFormComponents/SolutionCommentTextArea'
+import {
+  TrackObjectivesTextArea,
+  SolutionCommentTextArea,
+} from './MentoringRequestFormComponents'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -71,9 +73,7 @@ export const MentoringRequestForm = ({
           track={track}
           ref={trackObjectivesRef}
         />
-        <div className="c-alert--danger">Minimum 20 characters required</div>
         <SolutionCommentTextArea ref={solutionCommentRef} />
-        <div className="c-alert--danger">Minimum 20 characters required</div>
         <FormButton status={status} className="btn-primary btn-m">
           Submit mentoring request
         </FormButton>

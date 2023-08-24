@@ -18,5 +18,6 @@ export const SolutionCommentTextArea = React.forwardRef<
       required
       aria-describedby="request-mentoring-form-solution-description"
     />
+    <div className="c-alert">Minimum 20 characters required</div>
   </div>
 ))

@@ -35,12 +35,63 @@ module Flows
         within(".m-select-exercise-for-mentoring") { click_on "Lasagna" }
 
         fill_in "What are you hoping to learn from this track?", with: "I want to learn OOP."
-        fill_in "How can a mentor help you with this solution?", with: "I don't know."
+        fill_in "How can a mentor help you with this solution?", with: "I'm sorry but I have absolutely no idea."
         click_on "Submit mentoring request"
       end
 
       assert_text "Waiting on a mentor..."
-      assert_text "I don't know."
+      assert_text "I'm sorry but I have absolutely no idea."
+    end
+
+    test "form should be invalid when textarea value doesn't reach min length of 20 characters" do
+      user = create :user
+      track = create :track
+      create(:user_track, user:, track:)
+      hello_world = create :concept_exercise, track:, slug: "hello-world"
+
+      # completed hello world
+      create :concept_solution,
+        exercise: hello_world,
+        user:,
+        completed_at: 2.days.ago,
+        status: :completed
+
+      # completed lasagna
+      exercise = create :concept_exercise, track:, title: "Lasagna"
+      solution = create :concept_solution, exercise:, user:, status: :completed, completed_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, submission:, solution:)
+
+      stub_latest_track_forum_threads(track)
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_url(track)
+        first("button", text: "Select an exercise").click
+        within(".m-select-exercise-for-mentoring") { click_on "Lasagna" }
+
+        fill_in "What are you hoping to learn from this track?", with: "12345678901234567890"
+        fill_in "How can a mentor help you with this solution?", with: "1234567890123456789"
+
+        click_on "Submit mentoring request"
+
+        assert_css('textarea#request-mentoring-form-track-objectives:valid')
+        assert_css('textarea#request-mentoring-form-solution-comment:invalid')
+
+        refute_text "Waiting on a mentor..."
+        refute_text "12345678890123456789"
+
+        fill_in "What are you hoping to learn from this track?", with: "1234567890123456789"
+        fill_in "How can a mentor help you with this solution?", with: "12345678901234567890"
+
+        click_on "Submit mentoring request"
+
+        assert_css('textarea#request-mentoring-form-track-objectives:invalid')
+        assert_css('textarea#request-mentoring-form-solution-comment:valid')
+
+        refute_text "Waiting on a mentor..."
+        refute_text "123456788901234567890"
+      end
     end
 
     test "student can not request mentorship for hello-world" do

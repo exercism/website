@@ -76,6 +76,7 @@ export default function SolutionView({
               files={resolvedData.files}
               language={language}
               indentSize={indentSize}
+              showCopyButton
             />
           ) : null}
         </FetchingBoundary>

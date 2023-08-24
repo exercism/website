@@ -110,7 +110,7 @@ export const FeedbackMentoringRequestForm = ({
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
-      ></FetchingBoundary>
+      />
       <p className="flow-explanation">
         Once you submit, your request will be open for a mentor to join and
         start providing feedback.

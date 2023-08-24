@@ -18,6 +18,14 @@ class User::UpdateAvatarTest < ActiveSupport::TestCase
     assert user.avatar.attached?
   end
 
+  test "defers cloudfront invalidation" do
+    user = create :user
+
+    User::InvalidateAvatarInCloudfront.expects(:defer).with(user)
+
+    User::UpdateAvatar.(user, @avatar)
+  end
+
   test "bumps version" do
     user = create :user, version: 15
 

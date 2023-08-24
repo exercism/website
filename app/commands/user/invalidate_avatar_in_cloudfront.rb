@@ -10,8 +10,8 @@ class User::InvalidateAvatarInCloudfront
       distribution_id:,
       invalidation_batch: {
         paths: {
-          quantity: 1,
-          items: ["avatars/#{user.id}"]
+          quantity: items.size,
+          items:
         },
         caller_reference:
       }
@@ -19,6 +19,13 @@ class User::InvalidateAvatarInCloudfront
   end
 
   private
+  memoize
+  def items
+    # Invalidate the old versions too. We don't want to leave
+    # photos of people in our caches when they delete them.
+    (0..user.version).map { |version| "avatars/#{user.id}/#{version}" }
+  end
+
   def distribution_id
     Exercism.config.website_assets_cloudfront_distribution_id
   end

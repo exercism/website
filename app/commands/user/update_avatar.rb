@@ -8,5 +8,7 @@ class User::UpdateAvatar
       avatar:,
       version: user.version + 1
     )
+
+    User::InvalidateAvatarInCloudfront.defer(user)
   end
 end

@@ -120,8 +120,6 @@ class ApplicationController < ActionController::Base
 
   # rubocop:disable Lint/PercentStringArray
   def csp_policy
-    return { default: "*" } unless Rails.env.production?
-
     websockets = "ws://#{Rails.env.production? ? 'exercism.org' : 'local.exercism.io:3334'}"
     stripe = "https://js.stripe.com"
     captcha = %w[https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/]
@@ -173,6 +171,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_csp_header
+    return unless Rails.env.production?
+
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
   end
 

@@ -168,7 +168,7 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.113.0)
+    exercism-config (0.114.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -559,7 +559,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
-  exercism-config (>= 0.113.0)
+  exercism-config (>= 0.114.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)

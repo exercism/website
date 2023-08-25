@@ -4,11 +4,8 @@ class User::UpdateAvatar
   initialize_with :user, :avatar
 
   def call
-    user.update!(
-      avatar:,
-      version: user.version + 1
-    )
+    user.update!(avatar:)
 
-    User::InvalidateAvatarInCloudfront.defer(user)
+    User::IncrementVersion.(user)
   end
 end

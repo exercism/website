@@ -9,15 +9,18 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       avatar_url: "somewhere",
       location: "here",
       pronouns: "there",
-      became_mentor_at: Time.current
+      became_mentor_at: Time.current,
+      version: 10
 
     User::ResetAccount.(user)
 
+    user.reload
     assert_equal 0, user.reputation
+    assert_equal 11, user.version
     assert_empty user.roles
     assert_nil user.bio
 
-    assert_equal "http://local.exercism.io:3020/avatars/#{user.id}/0", user.avatar_url
+    assert_nil user.attributes["avatar_url"]
 
     assert_nil user.location
     assert_nil user.pronouns

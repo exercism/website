@@ -17,9 +17,9 @@ export const TrackObjectivesTextArea = React.forwardRef<
       ref={ref}
       id="request-mentoring-form-track-objectives"
       required
+      minLength={20}
       aria-describedby="request-mentoring-form-track-description"
       defaultValue={defaultValue}
     />
-    <div className="c-alert--danger">Minimum 20 characters required</div>
   </div>
 ))

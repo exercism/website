@@ -286,7 +286,7 @@ class User < ApplicationRecord
 
   # Don't memoize this as it can change when someone uploads their photo
   def avatar_url
-    "#{Exercism.config.website_avatars_host}/avatars/#{id}/#{version}"
+    "#{Exercism.config.website_avatars_host}/#{id}/#{version}"
   end
 
   def has_avatar?

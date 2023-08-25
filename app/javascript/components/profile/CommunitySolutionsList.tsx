@@ -7,7 +7,8 @@ import {
   removeEmpty,
   useScrollToTop,
 } from '@/hooks'
-import { CommunitySolution, Pagination } from '../common'
+import { Pagination } from '../common'
+import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { TrackDropdown, OrderSelect } from './community-solutions-list'

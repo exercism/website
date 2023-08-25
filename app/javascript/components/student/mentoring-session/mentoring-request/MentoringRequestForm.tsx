@@ -3,10 +3,10 @@ import { useMutation } from 'react-query'
 import { sendRequest, typecheck } from '@/utils'
 import {
   CopyToClipboardButton,
-  FormButton,
   GraphicalIcon,
   MedianWaitTime,
 } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {
   MentorSessionTrack as Track,

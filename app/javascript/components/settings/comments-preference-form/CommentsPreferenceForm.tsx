@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormButton, Icon, GraphicalIcon } from '../../common'
+import { Icon, GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { FormMessage } from '../FormMessage'
 import { useCommentsPreferenceForm } from './useCommentsPreferenceForm'
 import { ManageExistingSolution } from './ManageExistingSolutions'

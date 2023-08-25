@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { FormButton, GraphicalIcon } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
+import { sendRequest } from '@/utils/send-request'
+import { GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { Modal, ModalProps } from './Modal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 

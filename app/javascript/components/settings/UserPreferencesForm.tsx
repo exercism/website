@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react'
+import { Icon, GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { UserPreference } from '@/components/types'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton, Icon, GraphicalIcon } from '../common'
 import { FormMessage } from './FormMessage'
-import { UserPreference } from '../types'
 
 type Links = {
   update: string

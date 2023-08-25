@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHighlighting } from '@/hooks'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { Credits } from '@/components/common'
 import { Article } from '../DigDeeper'
 

@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react'
-import { highlightAll } from '@/utils'
+import { highlightAll } from '@/utils/highlight'
 import { Tab } from '@/components/common/Tab'
 import { TestContentContext, TestTabContext } from './TestContentWrapper'
 

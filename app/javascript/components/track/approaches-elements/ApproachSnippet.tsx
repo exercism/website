@@ -1,5 +1,5 @@
 import { Credits } from '@/components/common'
-import { useHighlighting } from '@/hooks'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import React, { useContext } from 'react'
 import { Approach, DigDeeperDataContext } from '../DigDeeper'
 

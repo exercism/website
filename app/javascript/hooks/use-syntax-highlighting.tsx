@@ -1,5 +1,5 @@
 import { useRef, RefObject, useLayoutEffect } from 'react'
-import { highlightAll, highlightAllAlways } from '@/utils'
+import { highlightAll, highlightAllAlways } from '@/utils/highlight'
 
 export function useHighlighting<T extends HTMLElement>(
   html?: string

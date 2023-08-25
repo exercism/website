@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
 import { QueryStatus } from 'react-query'
-import { FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to mark all notifications as read')
 

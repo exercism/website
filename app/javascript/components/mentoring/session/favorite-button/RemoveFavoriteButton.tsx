@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { FormButton } from '../../../common'
-import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { useMutation } from 'react-query'
-import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { sendRequest } from '../../../../utils/send-request'
+import { FormButton } from '@/components/common/FormButton'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import { sendRequest } from '@/utils/send-request'
 import { FavoritableStudent } from '../FavoriteButton'
-import { typecheck } from '../../../../utils/typecheck'
+import { typecheck } from '@/utils/typecheck'
 
 type ComponentProps = {
   endpoint: string

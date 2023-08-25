@@ -1,6 +1,7 @@
 import React from 'react'
 import { QueryStatus } from 'react-query'
-import { GraphicalIcon, FormButton } from '..'
+import { GraphicalIcon } from '..'
+import { FormButton } from '../FormButton'
 
 export const EditFormFooter = ({
   status,

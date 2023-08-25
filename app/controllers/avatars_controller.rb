@@ -27,10 +27,10 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
     expires_in 5.years, public: true
     response.set_header("Content-Type", content_type)
     send_data data, type: content_type, disposition: 'inline'
-    # rescue ActiveRecord::RecordNotFound
-    #   head :not_found
-    # rescue StandardError => e
-    #   Bugsnag.notify(e)
-    #   head :internal_server_error
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  rescue StandardError => e
+    Bugsnag.notify(e)
+    head :internal_server_error
   end
 end

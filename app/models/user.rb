@@ -284,11 +284,9 @@ class User < ApplicationRecord
     solution.viewable_by?(self)
   end
 
-  memoize
+  # Don't memoize this as it can change when someone uploads their photo
   def avatar_url
-    return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
-
-    super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
+    "#{Exercism.config.website_avatars_host}/#{id}/#{version}"
   end
 
   def has_avatar?

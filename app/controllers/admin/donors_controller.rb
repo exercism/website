@@ -6,8 +6,7 @@ class Admin::DonorsController < Admin::BaseController
       page(params[:page]).per(30).without_count.
       pluck(:user_id)
 
-    users = User.with_attached_avatar.
-      where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
+    users = User.where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
     @donors = Kaminari.paginate_array(users, total_count: User::Data.donors.count).
       page(params[:page]).per(30)
   end

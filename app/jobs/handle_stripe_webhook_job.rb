@@ -3,7 +3,8 @@ class HandleStripeWebhookJob < ApplicationJob
 
   def perform(signature, payload_body)
     event = Stripe::Webhook.construct_event(
-      payload_body, signature, Exercism.secrets.stripe_endpoint_secret
+      payload_body, signature, Exercism.secrets.stripe_endpoint_secret,
+      tolerance: TOLERANCE
     )
 
     case event.type
@@ -21,4 +22,7 @@ class HandleStripeWebhookJob < ApplicationJob
       end
     end
   end
+
+  TOLERANCE = 1.day.to_i
+  private_constant :TOLERANCE
 end

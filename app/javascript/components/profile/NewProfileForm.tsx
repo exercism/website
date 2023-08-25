@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { redirectTo } from '../../utils/redirect-to'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { User } from '@/components/types'
 import { default as AvatarSelector } from './AvatarSelector'
-import { User } from '../types'
 
 type Links = {
   create: string

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Modal } from '../Modal'
-import { Loading, FormButton } from '../../common'
-import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { QueryStatus } from 'react-query'
+import { Loading } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import { Modal } from '../Modal'
 
 const DEFAULT_ERROR = new Error('Unable to end discussion')
 

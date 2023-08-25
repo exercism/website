@@ -1,11 +1,11 @@
 import React from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { GraphicalIcon } from '../../../common/GraphicalIcon'
-import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { sendRequest } from '@/utils/send-request'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { FavoritableStudent } from '../FavoriteButton'
-import { FormButton } from '../../../common'
-import { typecheck } from '../../../../utils/typecheck'
+import { FormButton } from '@/components/common/FormButton'
+import { typecheck } from '@/components/../utils/typecheck'
 
 type ComponentProps = {
   endpoint: string

@@ -6,9 +6,9 @@ import {
   ProminentLink,
   CopyToClipboardButton,
   GraphicalIcon,
-  FormButton,
 } from '@/components/common'
-import { FetchingBoundary } from '../../FetchingBoundary'
+import { FormButton } from '@/components/common/FormButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Exercise } from '../IterationsList'
 
 type Links = {

@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react'
-import { ModalProps, Modal } from './Modal'
-import { Iteration, SolutionForStudent } from '../types'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { FormButton } from '../common'
-import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
+import { Iteration, SolutionForStudent } from '@/components/types'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { typecheck } from '@/utils/typecheck'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
+import { ModalProps, Modal } from './Modal'
 import { IterationSelector } from './student/IterationSelector'
-import { redirectTo } from '../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to publish solution')
 

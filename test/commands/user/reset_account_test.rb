@@ -17,7 +17,7 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     assert_empty user.roles
     assert_nil user.bio
 
-    assert_equal "https://assets.exercism.org/placeholders/user-avatar.svg", user.avatar_url
+    assert_equal "http://local.exercism.io:3020/avatars/#{user.id}/0", user.avatar_url
 
     assert_nil user.location
     assert_nil user.pronouns

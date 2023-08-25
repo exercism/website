@@ -12,6 +12,11 @@
             @apply h-arbitary;
         }
     }
+    .c-copy-text-to-clipboard {
+        .message {
+            right: 0;
+        }
+    }
     & .c-iterations-footer {
         @apply flex-grow-0;
         @apply flex items-center;

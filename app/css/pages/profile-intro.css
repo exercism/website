@@ -83,7 +83,6 @@
                     height: 160px;
                     width: 160px;
                     @apply mb-8;
-                    @apply filter-textColor6;
                 }
 
                 & h3 {

@@ -3,7 +3,9 @@ FactoryBot.define do
     track do
       Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
     end
-    trophy
+    trophy do
+      Track::Trophy.lookup!(:mentored)
+    end
     user
   end
 end

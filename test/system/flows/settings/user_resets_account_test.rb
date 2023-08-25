@@ -7,9 +7,6 @@ module Flows
       include CapybaraHelpers
 
       test "user resets account" do
-        # We render the avatar after resetting the account
-        stub_request(:get, "https://assets.exercism.org/placeholders/user-avatar.svg")
-
         user = create :user, handle: "handle"
 
         use_capybara_host do

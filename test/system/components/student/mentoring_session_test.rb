@@ -11,8 +11,8 @@ module Components
       include MarkdownEditorHelpers
 
       test "shows posts" do
-        mentor = create :user, :external_avatar_url, handle: "author"
-        student = create :user, :external_avatar_url, handle: "student"
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
         track = create :track
         exercise = create(:concept_exercise, track:)
         solution = create(:concept_solution, user: student, exercise:)
@@ -78,8 +78,8 @@ module Components
 
       test "refetches when new post comes in" do
         skip
-        mentor = create :user, :external_avatar_url, handle: "author"
-        student = create :user, :external_avatar_url, handle: "student"
+        mentor = create :user, handle: "author"
+        student = create :user, handle: "student"
         track = create :track
         exercise = create(:concept_exercise, track:)
         solution = create(:concept_solution, user: student, exercise:)
@@ -361,9 +361,11 @@ module Components
         submission = create(:submission, solution:)
         create(:iteration, solution:, submission:)
 
-        use_capybara_host do
-          sign_in!(student)
-          visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+        Exercism.without_bullet do
+          use_capybara_host do
+            sign_in!(student)
+            visit track_exercise_mentor_discussion_path(track, exercise, discussion)
+          end
         end
 
         assert_text "Outdated"

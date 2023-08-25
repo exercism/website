@@ -1,6 +1,6 @@
 require 'open-uri'
 
-# This should inhert from a name ActionController::Base, not ApplicationController
+# This should inherit from ActionController::Base, not ApplicationController
 class AvatarsController < ActionController::Base # rubocop:disable Rails/ApplicationController
   def show
     user = User.find(params[:id])

@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
-  before_action :use_user, except: %i[index intro new create avatar]
-  before_action :use_profile, except: %i[index intro new create tooltip avatar]
+  skip_before_action :authenticate_user!, except: %i[intro new create]
+  before_action :use_user, except: %i[index intro new create]
+  before_action :use_profile, except: %i[index intro new create tooltip]
 
   def index
     redirect_to contributing_contributors_path

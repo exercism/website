@@ -14,7 +14,7 @@ mailshot = Mailshot.find_create_or_find_by!(slug: slug) do |ms|
 end
 
 yesterday = Date.yesterday
-UserTrack::AcquiredTrophy.where(revealed: false).includes(:user).find_each do |trophy|
+UserTrack::AcquiredTrophy.where(revealed: false).where(user_id: 1530).includes(:user).find_each do |trophy|
   next if trophy.created_at > yesterday
   User::Mailshot::SendWithCustomMailer.(trophy.user, mailshot)
 end

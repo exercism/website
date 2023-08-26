@@ -17,9 +17,9 @@ class MailshotsMailer < ApplicationMailer
     raise "No trophies" unless @num_trophies.positive?
 
     subject = @num_trophies == 1 ? "You have a new Track Trophy at Exercism" :
-       "You have #{@num_trophies} new Track Trophies at Exercism"
+      "You have #{@num_trophies.humanize} new Track Trophies at Exercism"
 
     @email_communication_preferences_key = :receive_product_updates
-    transactional_mail(@user, subject)
+    bulk_mail(@user, subject)
   end
 end

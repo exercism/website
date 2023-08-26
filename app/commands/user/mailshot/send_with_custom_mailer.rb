@@ -1,19 +1,26 @@
 # Send with:
-# slug = "launch_trophies"
-# email_communication_preferences_key = :receive_product_updates
-# mailshot = Mailshot.find_create_or_find_by!(slug: slug) do |ms|
-#   ms.email_communication_preferences_key= :receive_product_updates
-#   ms.subject= ""
-#   ms.button_url= ""
-#   ms.button_text= ""
-#   ms.text_content= ""
-#   ms.content_markdown= ""
-#   ms.content_html= ""
-# end
-#
-# UserTrack::AcquiredTrophy.where(revealed: false).includes(:user).find_each do |trophy|
-#   User::Mailshot::SendWithCustomMailer.(trophy.user, mailshot)
-# end
+# rubocop:disable Style/BlockComments
+=begin
+slug = "launch_trophies"
+email_communication_preferences_key = :receive_product_updates
+mailshot = Mailshot.find_create_or_find_by!(slug: slug) do |ms|
+  ms.email_communication_preferences_key= :receive_product_updates
+  ms.subject= ""
+  ms.button_url= ""
+  ms.button_text= ""
+  ms.text_content= ""
+  ms.content_markdown= ""
+  ms.content_html= ""
+end
+
+yesterday = Date.yesterday
+UserTrack::AcquiredTrophy.where(revealed: false).includes(:user).find_each do |trophy|
+  next if trophy.created_at > yesterday
+  User::Mailshot::SendWithCustomMailer.(trophy.user, mailshot)
+end
+=end
+# rubocop:enable Style/BlockComments
+
 class User::Mailshot::SendWithCustomMailer
   include Mandate
 

@@ -7,8 +7,7 @@ module ViewComponents
     def to_s
       # Don't show adverts at all for crawlers
       return nil if request.is_crawler?
-      return nil unless preview || (track && %w[javascript python java].include?(track.slug))
-      return nil unless preview || ALLOWED_DATES.include?(Date.current)
+      return nil unless preview || show_advert?
       return nil unless advert
 
       uuid = SecureRandom.hex
@@ -29,6 +28,14 @@ module ViewComponents
     memoize
     def advert
       @advert || ::Partner::Advert.active.first
+    end
+
+    def show_advert?
+      return false unless track
+      return true if track.slug == "go"
+      return true if %w[javascript python java].include?(track.slug) && ALLOWED_DATES.include?(Date.current)
+
+      false
     end
 
     ALLOWED_DATES = [

@@ -13,7 +13,7 @@ import { Tab, TabContext } from '../common/Tab'
 import { EditorSettings } from '../editor/types'
 import { LegacyFileBanner } from './LegacyFileBanner'
 import { RenderLoader } from '@/components/common'
-import { useDeepMemo } from '@/hooks'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 const CodeMirror = lazy(() => import('../misc/CodeMirror'))
 
 export type FileEditorHandle = {

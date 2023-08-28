@@ -6,9 +6,9 @@ import {
   useList,
   removeEmpty,
   useHistory,
-  useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

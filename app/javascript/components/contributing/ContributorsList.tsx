@@ -8,9 +8,9 @@ import {
   useQueryParams,
   useList,
   type Request,
-  useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 import {
   ContributorRow,
   PeriodButton,

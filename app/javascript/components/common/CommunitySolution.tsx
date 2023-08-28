@@ -1,5 +1,5 @@
 import React from 'react'
-import { shortFromNow } from '@/utils'
+import { shortFromNow } from '@/utils/time'
 import { useHighlighting } from '@/utils/highlight'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'

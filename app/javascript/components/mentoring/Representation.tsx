@@ -1,5 +1,5 @@
 import React from 'react'
-import { SplitPane } from '../common'
+import { SplitPane } from '../common/SplitPane'
 import { CompleteRepresentationData } from '../types'
 import { LeftPane } from './representation/left-pane'
 import { RightPane } from './representation/right-pane'

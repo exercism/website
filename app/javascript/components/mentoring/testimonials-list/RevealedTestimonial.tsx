@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { QueryKey } from 'react-query'
-import { fromNow } from '@/utils'
+import { fromNow } from '@/utils/date'
 import { Avatar, GraphicalIcon, HandleWithFlair, TrackIcon } from '../../common'
 import { TestimonialModal } from '../../modals/TestimonialModal'
 import { Testimonial, SharePlatform } from '../../types'

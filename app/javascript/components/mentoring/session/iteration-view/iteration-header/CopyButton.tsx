@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { copyToClipboard } from '@/utils'
+import { copyToClipboard } from '@/utils/copyToClipboard'
 import { Icon } from '@/components/common'
 import type { File } from '@/components/types'
 

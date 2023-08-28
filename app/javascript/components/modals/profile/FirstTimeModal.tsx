@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { CopyToClipboardButton, GraphicalIcon } from '@/components/common'
+import { GraphicalIcon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { Modal } from '../Modal'
 
 type Links = {

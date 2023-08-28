@@ -22,7 +22,6 @@ export { Tab, type TabContext } from './Tab'
 export { SingleSelect } from './SingleSelect'
 export { MultipleSelect } from './MultipleSelect'
 export { default as SiteUpdatesList } from './SiteUpdatesList'
-export { default as ProgressGraph } from './ProgressGraph'
 export {
   missingExerciseIconErrorHandler,
   missingTrackIconErrorHandler,

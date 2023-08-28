@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { lazy, Suspense } from 'react'
 import { camelizeKeys } from 'humps'
-import { camelizeKeysAs } from '@/utils'
+import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import { highlightAll } from '@/utils/highlight'
 import { initReact } from '@/utils/react-bootloader'
 import { RenderLoader } from '@/components/common/RenderLoader'

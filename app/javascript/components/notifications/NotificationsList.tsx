@@ -4,10 +4,9 @@ import {
   type Request,
   usePaginatedRequestQuery,
   useList,
-  useHistory,
-  removeEmpty,
   useScrollToTop,
 } from '@/hooks'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'

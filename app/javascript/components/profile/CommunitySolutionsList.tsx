@@ -3,10 +3,9 @@ import {
   Request,
   usePaginatedRequestQuery,
   useList,
-  useHistory,
-  removeEmpty,
   useScrollToTop,
 } from '@/hooks'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { Pagination } from '../common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '../FetchingBoundary'

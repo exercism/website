@@ -5,8 +5,8 @@ import {
   usePaginatedRequestQuery,
   Request,
   useDebounce,
-  useHistory,
 } from '@/hooks'
+import { useHistory } from '@/hooks/use-history'
 import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {

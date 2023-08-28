@@ -6,11 +6,10 @@ import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
 import {
   useList,
-  useHistory,
-  removeEmpty,
   usePaginatedRequestQuery,
   type Request as BaseRequest,
 } from '@/hooks'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { ResultsZone } from '../ResultsZone'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 

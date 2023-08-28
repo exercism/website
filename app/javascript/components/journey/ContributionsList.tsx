@@ -4,11 +4,10 @@ import {
   type Request,
   usePaginatedRequestQuery,
   useList,
-  removeEmpty,
-  useHistory,
   useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

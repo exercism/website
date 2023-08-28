@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import {
   useList,
-  useHistory,
-  removeEmpty,
   usePaginatedRequestQuery,
   type Request,
   useScrollToTop,
 } from '@/hooks'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

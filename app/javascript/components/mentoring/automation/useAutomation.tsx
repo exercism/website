@@ -3,10 +3,9 @@ import {
   useList,
   usePaginatedRequestQuery,
   Request,
-  useHistory,
-  removeEmpty,
   useDebounce,
 } from '@/hooks'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
 import type { QueryStatus } from 'react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
 

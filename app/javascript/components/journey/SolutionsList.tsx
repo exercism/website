@@ -3,12 +3,11 @@ import pluralize from 'pluralize'
 import { SolutionProps, Solution } from './Solution'
 import {
   useList,
-  removeEmpty,
-  useHistory,
   usePaginatedRequestQuery,
   type Request,
   useScrollToTop,
 } from '@/hooks'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

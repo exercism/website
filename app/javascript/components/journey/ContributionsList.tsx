@@ -1,14 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { ContributionResults } from './ContributionResults'
 import {
-  type Request,
-  usePaginatedRequestQuery,
   useList,
   removeEmpty,
   useHistory,
   useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

@@ -1,13 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { useQueryCache } from 'react-query'
-import {
-  type Request,
-  usePaginatedRequestQuery,
-  useList,
-  useHistory,
-  removeEmpty,
-  useScrollToTop,
-} from '@/hooks'
+import { useList, useHistory, removeEmpty, useScrollToTop } from '@/hooks'
+import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'

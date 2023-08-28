@@ -4,13 +4,11 @@ import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
+import { useList, useHistory, removeEmpty } from '@/hooks'
 import {
-  useList,
-  useHistory,
-  removeEmpty,
   usePaginatedRequestQuery,
   type Request as BaseRequest,
-} from '@/hooks'
+} from '@/hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 

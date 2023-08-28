@@ -1,12 +1,7 @@
 import { useMemo } from 'react'
 import { QueryStatus } from 'react-query'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  Request,
-  useDebounce,
-  useHistory,
-} from '@/hooks'
+import { useList, useDebounce, useHistory } from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {

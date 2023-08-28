@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  usePaginatedRequestQuery,
-  useList,
-  useQueryParams,
-  type Request,
-  type ListState,
-} from '@/hooks'
+import { useList, useQueryParams, type ListState } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import type { CommunityVideoType, VideoTrack } from '@/components/types'
 
 export type APIResponse = {

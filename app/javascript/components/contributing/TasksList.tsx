@@ -1,14 +1,11 @@
 import React, { useCallback } from 'react'
 import pluralize from 'pluralize'
 import { Pagination } from '../common'
+import { useHistory, removeEmpty, useList, useScrollToTop } from '@/hooks'
 import {
   usePaginatedRequestQuery,
-  useHistory,
-  removeEmpty,
-  useList,
   type Request as BaseRequest,
-  useScrollToTop,
-} from '@/hooks'
+} from '@/hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { TrackSelect } from '../common/TrackSelect'

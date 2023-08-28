@@ -1,12 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import {
-  Request,
-  usePaginatedRequestQuery,
-  useList,
-  useHistory,
-  removeEmpty,
-  useScrollToTop,
-} from '@/hooks'
+import { useList, useHistory, removeEmpty, useScrollToTop } from '@/hooks'
+import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { Pagination } from '../common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '../FetchingBoundary'

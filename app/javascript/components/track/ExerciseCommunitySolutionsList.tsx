@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
-import {
-  useList,
-  useHistory,
-  removeEmpty,
-  usePaginatedRequestQuery,
-  useScrollToTop,
-  type Request,
-} from '@/hooks'
+import { useList, useHistory, removeEmpty, useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { Checkbox, Icon, Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

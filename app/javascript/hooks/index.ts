@@ -1,9 +1,5 @@
 export { useLogger } from './use-logger'
 export { useList, ListState } from './use-list'
-// export {
-//   useHighlighting,
-//   useContinuousHighlighting,
-// } from './use-syntax-highlighting'
 export {
   Request,
   usePaginatedRequestQuery,

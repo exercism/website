@@ -6,11 +6,11 @@ import { FetchingBoundary } from '@/components/FetchingBoundary'
 import {
   usePaginatedRequestQuery,
   useQueryParams,
-  useList,
   type Request,
   useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { useList } from '@/hooks/use-list'
 import {
   ContributorRow,
   PeriodButton,

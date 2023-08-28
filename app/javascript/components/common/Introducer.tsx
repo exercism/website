@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { sendRequest } from '@/utils'
-import { GraphicalIcon, Icon } from './'
 import { useMutation } from 'react-query'
+import { sendRequest } from '@/utils/send-request'
+import { GraphicalIcon, Icon } from './'
 import { FormButton } from './FormButton'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 

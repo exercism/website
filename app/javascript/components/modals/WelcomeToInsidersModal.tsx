@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from './Modal'
 import { FormButton } from '../common'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'

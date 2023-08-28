@@ -1,6 +1,7 @@
 import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest, typecheck } from '@/utils'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { FormButton, MedianWaitTime } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {

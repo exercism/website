@@ -1,5 +1,5 @@
 import React from 'react'
-import { Introducer } from '../../common'
+import Introducer from '@/components/common/Introducer'
 
 export function AutomationIntroducer({
   hideEndpoint,

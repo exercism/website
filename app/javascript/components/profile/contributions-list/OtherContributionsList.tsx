@@ -1,11 +1,8 @@
 import React from 'react'
+import { useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
 import { fromNow } from '@/utils/date'
-import {
-  usePaginatedRequestQuery,
-  type Request,
-  useList,
-  useScrollToTop,
-} from '@/hooks'
 import {
   TrackIcon,
   Reputation,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRequestQuery } from '@/hooks'
+import { useRequestQuery } from '@/hooks/request-query'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { Icon, GraphicalIcon } from '@/components/common'

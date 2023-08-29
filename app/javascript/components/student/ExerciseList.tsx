@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import {
-  usePaginatedRequestQuery,
-  Request,
-  useList,
-  useHistory,
-  removeEmpty,
-} from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import { ExerciseWidget } from '../common'
 import { Exercise, SolutionForStudent } from '../types'
 import { FetchingBoundary } from '../FetchingBoundary'

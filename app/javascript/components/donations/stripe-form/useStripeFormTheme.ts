@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useThemeObserver } from '@/hooks'
+import { useThemeObserver } from '@/hooks/use-theme-observer'
 import { bodyHasClassName } from '@/utils'
 
 export function useStripeFormTheme(): 'light' | 'dark' {

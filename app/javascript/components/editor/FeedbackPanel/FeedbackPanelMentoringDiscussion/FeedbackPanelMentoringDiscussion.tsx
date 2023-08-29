@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRequestQuery } from '@/hooks'
+import { useRequestQuery } from '@/hooks/request-query'
 import { DiscussionPostProps } from '@/components/mentoring/discussion/DiscussionPost'
 import { FeedbackPanelProps } from '../FeedbackPanel'
 import { FeedbackDetail } from '../FeedbackDetail'

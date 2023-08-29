@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react'
 import pluralize from 'pluralize'
 import { Pagination } from '../common'
+import { useScrollToTop } from '@/hooks'
 import {
   usePaginatedRequestQuery,
-  useHistory,
-  removeEmpty,
-  useList,
   type Request as BaseRequest,
-  useScrollToTop,
-} from '@/hooks'
+} from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { TrackSelect } from '../common/TrackSelect'
@@ -32,7 +31,7 @@ import type {
   TaskModule,
   PaginatedResult,
 } from '../types'
-import { useDeepMemo } from '@/hooks'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'

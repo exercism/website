@@ -5,9 +5,9 @@ import {
   usePaginatedRequestQuery,
   removeEmpty,
   useHistory,
-  useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'

@@ -4,7 +4,7 @@ import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
 } from '@/components/types'
-import { SplitPane } from '@/components/common'
+import { SplitPane } from '@/components/common/SplitPane'
 import { Modal } from '@/components/modals'
 import { sendRequest } from '@/utils'
 import { IterationView } from '../left-pane/RepresentationIterationView'

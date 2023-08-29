@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { timeFormat } from '@/utils'
-import {
-  CopyToClipboardButton,
-  GraphicalIcon,
-  Icon,
-  MedianWaitTime,
-} from '@/components/common'
+import { GraphicalIcon, Icon, MedianWaitTime } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { IterationMarker } from '@/components/mentoring/session/IterationMarker'
 import {
   DiscussionPost,

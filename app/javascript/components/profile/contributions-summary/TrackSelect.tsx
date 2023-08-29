@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
-import { TrackContribution } from '../../types'
+import { TrackContribution } from '@/components/types'
 import {
   TrackSelect as BaseTrackSelect,
   TrackLogo,
-} from '../../common/TrackSelect'
+} from '@/components/common/TrackSelect'
 
 const OptionComponent = ({
   option: track,

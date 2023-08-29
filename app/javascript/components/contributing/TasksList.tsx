@@ -5,10 +5,10 @@ import {
   usePaginatedRequestQuery,
   useHistory,
   removeEmpty,
-  useList,
   type Request as BaseRequest,
   useScrollToTop,
 } from '@/hooks'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { TrackSelect } from '../common/TrackSelect'

@@ -3,10 +3,10 @@ import {
   usePaginatedRequestQuery,
   useHistory,
   removeEmpty,
-  useList,
   type Request as BaseRequest,
   useScrollToTop,
 } from '@/hooks'
+import { useList } from '@/hooks/use-list'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import { GraphicalIcon, Pagination } from '@/components/common'

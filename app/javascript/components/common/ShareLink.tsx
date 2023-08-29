@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePanel } from '@/hooks'
+import { usePanel } from '@/hooks/use-panel'
 import { SharePanel } from './SharePanel'
 import { SharePlatform } from '../types'
 

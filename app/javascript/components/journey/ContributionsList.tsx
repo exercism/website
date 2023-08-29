@@ -3,12 +3,12 @@ import { ContributionResults } from './ContributionResults'
 import {
   type Request,
   usePaginatedRequestQuery,
-  useList,
   removeEmpty,
   useHistory,
   useScrollToTop,
 } from '@/hooks'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

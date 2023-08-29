@@ -59,7 +59,7 @@ import type {
 } from '@/components/student/Nudge'
 import type { Links as PublishedSolutionLinks } from '@/components/student/PublishedSolution'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
 import type { AutomationProps } from '@/components/mentoring/automation/Representation'
 import type { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'

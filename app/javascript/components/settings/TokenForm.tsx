@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
-import { CopyToClipboardButton } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ProminentLink, Icon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 

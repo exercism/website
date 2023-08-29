@@ -1,9 +1,10 @@
 import React from 'react'
-import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
-import { GraphicalIcon, ProgressGraph } from '../../../common'
-import { TrackProgress } from '../../types'
-import { timeFormat, fromNow } from '../../../../utils/time'
 import pluralize from 'pluralize'
+import { timeFormat, fromNow } from '@/utils/time'
+import { GraphicalIcon } from '@/components/common'
+import ProgressGraph from '@/components/common/ProgressGraph'
+import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
+import type { TrackProgress } from '../../types'
 
 export const TrackSummary = ({
   track,

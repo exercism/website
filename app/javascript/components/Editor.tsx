@@ -8,7 +8,8 @@ import React, {
 import { useQueryCache } from 'react-query'
 import { getCacheKey } from '@/components/student'
 import type { File } from './types'
-import { type TabContext, SplitPane } from './common'
+import { type TabContext } from './common'
+import { SplitPane } from './common/SplitPane'
 import {
   type Props,
   type EditorFeatures,

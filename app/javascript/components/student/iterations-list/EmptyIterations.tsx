@@ -2,11 +2,8 @@ import React from 'react'
 import { useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
 import { sendRequest, redirectTo } from '@/utils'
-import {
-  ProminentLink,
-  CopyToClipboardButton,
-  GraphicalIcon,
-} from '@/components/common'
+import { ProminentLink, GraphicalIcon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Exercise } from '../IterationsList'

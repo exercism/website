@@ -177,4 +177,12 @@ FactoryBot.define do
       }
     end
   end
+
+  trait :seen do
+    seen { true }
+  end
+
+  trait :unseen do
+    seen { false }
+  end
 end

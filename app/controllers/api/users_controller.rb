@@ -10,7 +10,7 @@ module API
     end
 
     def update
-      current_user.update!(user_params)
+      User::UpdateAvatar.(current_user, params.require(:user)[:avatar])
 
       render json: {
         user: {
@@ -29,11 +29,6 @@ module API
           redirect_url: insiders_url
         }
       }
-    end
-
-    private
-    def user_params
-      params.require(:user).permit(:avatar)
     end
   end
 end

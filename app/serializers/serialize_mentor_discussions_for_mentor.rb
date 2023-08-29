@@ -37,9 +37,7 @@ class SerializeMentorDiscussionsForMentor
   def materialized_discussions
     discussions.
       includes(
-        :solution, :exercise, :track,
-        mentor: { avatar_attachment: :blob },
-        student: { avatar_attachment: :blob }
+        :solution, :exercise, :track, :mentor, :student
       )
   end
 end

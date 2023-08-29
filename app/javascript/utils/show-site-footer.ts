@@ -2,13 +2,23 @@ let retryCount = 0
 const MAX_RETRIES = 50
 
 export function showSiteFooter(): void {
+  // If we're over our recount try, just show the footer
+  if (retryCount >= MAX_RETRIES) {
+    displayFooter()
+    return
+  }
+
   const elems = document.body.getElementsByClassName('c-react-component')
   for (const elem of elems) {
-    if (elem.childElementCount === 0 && retryCount < MAX_RETRIES) {
-      retryCount++
-      setTimeout(showSiteFooter, 50)
-      return
+    // If this elem is hydrated, move onto the next one...
+    if (elem.childElementCount > 0) {
+      continue
     }
+
+    // ...otherwise wait another 50ms and try again
+    retryCount++
+    setTimeout(showSiteFooter, 50)
+    return
   }
 
   /*

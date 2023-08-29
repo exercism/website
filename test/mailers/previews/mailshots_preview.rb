@@ -1,4 +1,10 @@
 class MailshotsPreview < ActionMailer::Preview
+  def launch_trophies
+    MailshotsMailer.with(
+      user: User.first
+    ).launch_trophies
+  end
+
   def mailshot
     mailshot = Mailshot.find_by!(slug: params[:slug])
     MailshotsMailer.with(

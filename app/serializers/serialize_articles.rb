@@ -43,7 +43,6 @@ class SerializeArticles
   def users
     User.includes(:profile).
       where(id: article_author_ids.values.flatten + article_contributor_ids.values.flatten).
-      with_attached_avatar.
       to_a
   end
 

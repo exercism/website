@@ -1,11 +1,20 @@
 require_relative "../react_component_test_case"
 
 class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
+  test "signed out user" do
+    track = create :track, course: false
+
+    component = ReactComponents::Dropdowns::TrackMenu.new(track)
+    component.stubs(user_signed_in?: false)
+    assert_equal "", render(component)
+  end
+
   test "external course" do
     track = create :track, course: false
 
-    component = render(ReactComponents::Dropdowns::TrackMenu.new(track))
-    assert_component component,
+    component = ReactComponents::Dropdowns::TrackMenu.new(track)
+    component.stubs(user_signed_in?: true)
+    assert_component render(component),
       "dropdowns-track-menu",
       {
         track: SerializeTrack.(track, UserTrack::External.new(track)),
@@ -23,7 +32,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
     user_track = create(:user_track, track:, user:)
 
     component = ReactComponents::Dropdowns::TrackMenu.new(track)
-    component.stubs(current_user: user)
+    component.stubs(user_signed_in?: true, current_user: user)
 
     assert_component render(component),
       "dropdowns-track-menu",
@@ -47,7 +56,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
     user_track = create :user_track, track:, user:, practice_mode: true
 
     component = ReactComponents::Dropdowns::TrackMenu.new(track)
-    component.stubs(current_user: user)
+    component.stubs(user_signed_in?: true, current_user: user)
 
     assert_component render(component),
       "dropdowns-track-menu",
@@ -71,7 +80,7 @@ class ReactComponents::Dropdowns::TrackMenuTest < ReactComponentTestCase
     user_track = create :user_track, track:, user:, practice_mode: true
 
     component = ReactComponents::Dropdowns::TrackMenu.new(track)
-    component.stubs(current_user: user)
+    component.stubs(user_signed_in?: true, current_user: user)
 
     assert_component render(component),
       "dropdowns-track-menu",

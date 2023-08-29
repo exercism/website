@@ -17,7 +17,7 @@ class CombineAuthorsAndContributors
     if users.is_a?(ActiveRecord::Relation)
       ids = users.distinct.pluck(user_id_column)
       ids.shuffle.slice!(3, ids.size)
-      User.with_attached_avatar.includes(:profile).where(id: ids).limit(num_users).to_a
+      User.includes(:profile).where(id: ids).limit(num_users).to_a
     else
       users.shuffle.take(num_users)
     end

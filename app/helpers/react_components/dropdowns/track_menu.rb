@@ -4,6 +4,8 @@ module ReactComponents
       initialize_with :track
 
       def to_s
+        return "" unless user_signed_in?
+
         super("dropdowns-track-menu", {
           track: SerializeTrack.(track, user_track),
           links:

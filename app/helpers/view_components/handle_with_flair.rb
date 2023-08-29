@@ -5,14 +5,8 @@ module ViewComponents
     initialize_with :handle, :flair, size: :base
 
     def to_s
-      tag.span(class: 'inline-flex items-center') do
-        safe_join(
-          [
-            tag.span(handle),
-            icon_part
-          ].compact
-        )
-      end
+      content = safe_join([handle, icon_part].compact)
+      tag.span(content, class: 'inline-flex items-center leading-150')
     end
 
     private

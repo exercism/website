@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   prepend_view_path "app/views/mailers"
-  default reply_to: "jonathan@exercism.org"
+  default reply_to: "jeremy@exercism.org"
 
   layout "mailer"
   helper :email

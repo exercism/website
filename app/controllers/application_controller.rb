@@ -171,6 +171,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_csp_header
+    return unless Rails.env.production?
+
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
   end
 

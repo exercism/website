@@ -1,6 +1,6 @@
 import React from 'react'
 import pluralize from 'pluralize'
-import { fromNow } from '@/utils'
+import { fromNow } from '@/utils/date'
 import { useList, usePaginatedRequestQuery, useScrollToTop } from '@/hooks'
 import {
   Avatar,

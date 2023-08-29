@@ -1,7 +1,8 @@
 import React from 'react'
 import { useMutation } from 'react-query'
 import { useIsMounted } from 'use-is-mounted'
-import { sendRequest, redirectTo } from '@/utils'
+import { redirectTo } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import {
   ProminentLink,
   CopyToClipboardButton,

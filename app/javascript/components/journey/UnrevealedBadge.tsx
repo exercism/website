@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { useMutation, QueryKey, useQueryCache } from 'react-query'
-import { sendRequest, typecheck } from '@/utils'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '../common'
 import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { BadgeModal } from '../modals/BadgeModal'

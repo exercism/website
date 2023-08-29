@@ -4,7 +4,7 @@ import React, { Suspense, lazy } from 'react'
 import { camelizeKeys } from 'humps'
 import currency from 'currency.js'
 import { initReact } from '@/utils/react-bootloader'
-import { camelizeKeysAs } from '@/utils'
+import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import 'easymde/dist/easymde.min.css'
 
 // Type imports

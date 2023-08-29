@@ -3,7 +3,7 @@ import { Badge as BadgeProps } from '../types'
 import { GraphicalIcon } from '../common'
 import { BadgeMedallion } from '../common/BadgeMedallion'
 import { Modal, ModalProps } from './Modal'
-import { timeFormat } from '@/utils'
+import { timeFormat } from '@/utils/time'
 import pluralize from 'pluralize'
 
 export const BadgeModal = ({

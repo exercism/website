@@ -1,5 +1,5 @@
 import React from 'react'
-import { fromNow } from '@/utils'
+import { fromNow } from '@/utils/date'
 import { Testimonial as TestimonialProps } from '@/components/types'
 import { Avatar, HandleWithFlair, TrackIcon } from '@/components/common'
 import { TestimonialModal } from './TestimonialModal'

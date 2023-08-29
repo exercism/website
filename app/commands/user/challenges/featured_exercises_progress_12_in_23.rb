@@ -3,6 +3,31 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   initialize_with :user
 
+  FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze
+  FEBRUARY_EXERCISES = %w[hamming collatz-conjecture robot-simulator yacht protein-translation].freeze
+
+  MARCH_TRACKS = %w[c cpp d nim go rust vlang zig].freeze
+  MARCH_EXERCISES = %w[linked-list simple-linked-list secret-handshake sieve binary-search pangram].freeze
+
+  APRIL_TRACKS = %w[julia python r].freeze
+  APRIL_EXERCISES = %w[etl largest-series-product saddle-points sum-of-multiples word-count].freeze
+
+  MAY_TRACKS = %w[ballerina pharo-smalltalk prolog red rust tcl unison].freeze
+  MAY_EXERCISES = %w[raindrops isogram roman-numerals space-age acronym].freeze
+
+  JUNE_TRACKS = %w[clojure common-lisp emacs-lisp lfe racket scheme].freeze
+  JUNE_EXERCISES = %w[leap two-fer difference-of-squares robot-name matching-brackets].freeze
+
+  JULY_TRACKS = %w[c cpp cobol fortran vbnet].freeze
+  JULY_EXERCISES = %w[bob allergies reverse-string high-scores armstrong-numbers].freeze
+
+  AUGUST_TRACKS = %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift
+                     typescript].freeze
+  AUGUST_EXERCISES = %w[anagram phone-number triangle rna-transcription scrabble-score].freeze
+
+  SEPTEMBER_TRACKS = %w[8th awk bash jq perl5 raku].freeze
+  SEPTEMBER_EXERCISES = %w[atbash-cipher darts gigasecond luhn series].freeze
+
   def call
     exercises = self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
       next unless solutions.key?(exercise_slug)
@@ -53,29 +78,4 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
     exercises.reject { |(_, exercise_slug)| exercise_slug == 'simple-linked-list' }
   end
-
-  FEBRUARY_TRACKS = %w[clojure elixir erlang fsharp haskell ocaml scala sml gleam].freeze
-  FEBRUARY_EXERCISES = %w[hamming collatz-conjecture robot-simulator yacht protein-translation].freeze
-
-  MARCH_TRACKS = %w[c cpp d nim go rust vlang zig].freeze
-  MARCH_EXERCISES = %w[linked-list simple-linked-list secret-handshake sieve binary-search pangram].freeze
-
-  APRIL_TRACKS = %w[julia python r].freeze
-  APRIL_EXERCISES = %w[etl largest-series-product saddle-points sum-of-multiples word-count].freeze
-
-  MAY_TRACKS = %w[ballerina pharo-smalltalk prolog red rust tcl unison].freeze
-  MAY_EXERCISES = %w[raindrops isogram roman-numerals space-age acronym].freeze
-
-  JUNE_TRACKS = %w[clojure common-lisp emacs-lisp lfe racket scheme].freeze
-  JUNE_EXERCISES = %w[leap two-fer difference-of-squares robot-name matching-brackets].freeze
-
-  JULY_TRACKS = %w[c cpp cobol fortran vbnet].freeze
-  JULY_EXERCISES = %w[bob allergies reverse-string high-scores armstrong-numbers].freeze
-
-  AUGUST_TRACKS = %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift
-                     typescript].freeze
-  AUGUST_EXERCISES = %w[anagram phone-number triangle rna-transcription scrabble-score].freeze
-
-  SEPTEMBER_TRACKS = %w[8th awk bash jq perl5 raku].freeze
-  SEPTEMBER_EXERCISES = %w[atbash-cipher darts gigasecond luhn series].freeze
 end

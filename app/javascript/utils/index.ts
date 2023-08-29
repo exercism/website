@@ -1,4 +1,3 @@
-export { pluralizeWithNumber } from './pluralizeWithNumber'
 export { handleNavbarFocus } from './navbar-focus-handler'
 export { scrollIntoView } from './scroll-into-view'
 export { redirectTo } from './redirect-to'

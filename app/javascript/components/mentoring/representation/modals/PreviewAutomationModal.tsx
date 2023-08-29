@@ -6,7 +6,7 @@ import {
 } from '@/components/types'
 import { SplitPane } from '@/components/common/SplitPane'
 import { Modal } from '@/components/modals'
-import { sendRequest } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { IterationView } from '../left-pane/RepresentationIterationView'
 import { PreviewFeedbackComment } from './PreviewFeedbackComment'
 import { PreviewFooter } from './PreviewFooter'

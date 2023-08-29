@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePaginatedRequestQuery } from '@/hooks'
+import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { ModalProps, Modal } from './Modal'

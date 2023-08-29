@@ -1,10 +1,7 @@
 import React from 'react'
-import {
-  usePaginatedRequestQuery,
-  useList,
-  useScrollToTop,
-  type Request,
-} from '@/hooks'
+import { useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
 import { Pagination } from '@/components/common'
 import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

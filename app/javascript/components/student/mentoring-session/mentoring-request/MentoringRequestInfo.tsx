@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { timeFormat } from '@/utils'
+import { timeFormat } from '@/utils/time'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { MedianWaitTime } from '@/components/common/MedianWaitTime'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'

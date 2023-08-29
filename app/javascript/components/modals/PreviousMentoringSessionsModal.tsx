@@ -1,8 +1,9 @@
 import React from 'react'
 import pluralize from 'pluralize'
 import { fromNow } from '@/utils'
-import { useList, useScrollToTop } from '@/hooks'
+import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
 import {
   Avatar,
   GraphicalIcon,

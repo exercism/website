@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useThemeObserver } from '@/hooks'
+import { useThemeObserver } from '@/hooks/use-theme-observer'
 import { useTheme } from '../settings/theme-preference-form'
 import { GenericTooltip } from '../misc/ExercismTippy'
 

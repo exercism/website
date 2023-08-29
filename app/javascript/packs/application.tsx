@@ -2,7 +2,6 @@
 import React, { lazy, Suspense } from 'react'
 import { camelizeKeys } from 'humps'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
-import { highlightAll } from '@/utils/highlight'
 import { initReact } from '@/utils/react-bootloader'
 import { RenderLoader } from '@/components/common/RenderLoader'
 import 'focus-visible'
@@ -668,7 +667,10 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 
 document.addEventListener('turbo:load', () => {
-  highlightAll()
+  // only load highlightjs when a code block with lang-... classname exists in the DOM
+  if (document.querySelector('code[class^=lang-]') !== null) {
+    import('@/utils/highlight').then((m) => m.highlightAll())
+  }
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()

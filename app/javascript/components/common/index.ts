@@ -11,7 +11,6 @@ export { ProminentLink } from './ProminentLink'
 export { ProcessingStatusSummary } from './ProcessingStatusSummary'
 export { default as Expander } from './Expander'
 export { Tab, type TabContext } from './Tab'
-export { default as SiteUpdatesList } from './SiteUpdatesList'
 export { default as ProgressGraph } from './ProgressGraph'
 export {
   missingExerciseIconErrorHandler,

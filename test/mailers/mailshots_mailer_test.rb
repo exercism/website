@@ -7,7 +7,7 @@ class MailshotsMailerTest < ActionMailer::TestCase
 
     email = MailshotsMailer.with(user:).launch_trophies
     subject = "You have a new Track Trophy at Exercism"
-    assert_email(email, user.email, subject, "launch_trophies")
+    assert_email(email, user.email, subject, "launch_trophies", bulk: true)
   end
 
   test "launch_trophies: 5 trophies" do
@@ -16,6 +16,6 @@ class MailshotsMailerTest < ActionMailer::TestCase
 
     email = MailshotsMailer.with(user:).launch_trophies
     subject = "You have five new Track Trophies at Exercism"
-    assert_email(email, user.email, subject, "launch_trophies")
+    assert_email(email, user.email, subject, "launch_trophies", bulk: true)
   end
 end

@@ -1,11 +1,8 @@
 import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { sendRequest, typecheck } from '@/utils'
-import {
-  CopyToClipboardButton,
-  GraphicalIcon,
-  MedianWaitTime,
-} from '@/components/common'
+import { GraphicalIcon, MedianWaitTime } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {

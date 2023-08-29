@@ -1,12 +1,12 @@
 import React, { JSXElementConstructor } from 'react'
-import { CopyToClipboardButton } from '../common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import {
   ComboButton,
   PrimarySegment,
   DropdownSegment,
-} from '../common/ComboButton'
+} from '@/components/common/ComboButton'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { StartExerciseButton } from './open-editor-button/StartExerciseButton'
-import { GenericTooltip } from '../misc/ExercismTippy'
 
 type Props =
   | {

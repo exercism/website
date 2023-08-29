@@ -4,12 +4,12 @@ import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { fromNow } from '@/utils/date'
 import {
-  missingExerciseIconErrorHandler,
   TrackIcon,
   Reputation,
   GraphicalIcon,
   Pagination,
 } from '@/components/common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import type {

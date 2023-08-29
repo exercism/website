@@ -1,8 +1,8 @@
 import React from 'react'
-import { Exercise, Track, SolutionForStudent } from '../types'
-import { ExerciseWidget } from '../common'
-import { useRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
+import { Exercise, Track, SolutionForStudent } from '@/components/types'
+import ExerciseWidget from '@/components/common/ExerciseWidget'
+import { useRequestQuery } from '@/hooks/request-query'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Loading } from './Loading'
 
 const DEFAULT_ERROR = new Error('Unable to load information')

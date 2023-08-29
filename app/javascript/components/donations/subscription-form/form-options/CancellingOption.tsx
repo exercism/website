@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { typecheck, redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
-import { FormButton } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 type APIResponse = {

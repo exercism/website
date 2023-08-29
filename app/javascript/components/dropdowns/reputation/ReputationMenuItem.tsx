@@ -1,10 +1,7 @@
 import React from 'react'
-import { fromNow } from '../../../utils/time'
-import {
-  missingExerciseIconErrorHandler,
-  GraphicalIcon,
-  Reputation,
-} from '../../common'
+import { fromNow } from '@/utils/time'
+import { GraphicalIcon, Reputation } from '@/components/common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
 import { ReputationToken } from '../Reputation'
 
 export const ReputationMenuItem = ({

@@ -2,12 +2,10 @@ import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { typecheck } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
-import {
-  CopyToClipboardButton,
-  FormButton,
-  GraphicalIcon,
-  MedianWaitTime,
-} from '@/components/common'
+import { GraphicalIcon } from '@/components/common'
+import { MedianWaitTime } from '@/components/common/MedianWaitTime'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {
   MentorSessionTrack as Track,

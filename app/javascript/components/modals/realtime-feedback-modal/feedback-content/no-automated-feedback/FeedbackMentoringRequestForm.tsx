@@ -2,7 +2,8 @@ import React, { useRef, useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { typecheck } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
-import { FormButton, MedianWaitTime } from '@/components/common'
+import { MedianWaitTime } from '@/components/common/MedianWaitTime'
+import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type {
   MentorSessionTrack as Track,

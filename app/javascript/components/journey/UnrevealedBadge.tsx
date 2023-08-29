@@ -2,10 +2,10 @@ import React, { useState, useCallback } from 'react'
 import { useMutation, QueryKey, useQueryCache } from 'react-query'
 import { typecheck } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
-import { FormButton } from '../common'
-import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
-import { BadgeModal } from '../modals/BadgeModal'
-import type { Badge as BadgeProps, PaginatedResult } from '../types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
+import { BadgeModal } from '@/components/modals/BadgeModal'
+import type { Badge as BadgeProps, PaginatedResult } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to reveal badge')
 

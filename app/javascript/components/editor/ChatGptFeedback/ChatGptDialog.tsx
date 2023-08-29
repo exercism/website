@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from '@/components/modals'
 import { Submission } from '../types'
-import { SingleSelect } from '@/components/common'
+import { SingleSelect } from '@/components/common/SingleSelect'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 
 export type GptModelInfo = {

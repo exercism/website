@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { Loading } from '@/components/common'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { Modal } from '@/components/modals'

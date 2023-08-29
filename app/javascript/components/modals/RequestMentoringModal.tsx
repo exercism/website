@@ -1,5 +1,5 @@
 import React from 'react'
-import { fromNow } from '@/utils'
+import { fromNow } from '@/utils/date'
 import {
   type Request,
   usePaginatedRequestQuery,

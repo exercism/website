@@ -1,6 +1,5 @@
 export { sendRequest } from './send-request'
 export { pluralizeWithNumber } from './pluralizeWithNumber'
-export { fromNow } from './date'
 export { copyToClipboard } from './copyToClipboard'
 export { handleNavbarFocus } from './navbar-focus-handler'
 export { scrollIntoView } from './scroll-into-view'

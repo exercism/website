@@ -5,12 +5,12 @@ import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import {
   usePaginatedRequestQuery,
-  useQueryParams,
   useList,
   type Request,
   useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { useQueryParams } from '@/hooks/use-query-params'
 import {
   ContributorRow,
   PeriodButton,

@@ -6,7 +6,7 @@ import {
   useHistory,
   removeEmpty,
 } from '@/hooks'
-import { ExerciseWidget } from '../common'
+import ExerciseWidget from '../common/ExerciseWidget'
 import { Exercise, SolutionForStudent } from '../types'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'

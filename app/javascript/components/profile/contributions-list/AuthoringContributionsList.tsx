@@ -5,7 +5,8 @@ import {
   useScrollToTop,
   type Request,
 } from '@/hooks'
-import { ExerciseWidget, Pagination } from '@/components/common'
+import { Pagination } from '@/components/common'
+import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import type { ExerciseAuthorship, PaginatedResult } from '@/components/types'

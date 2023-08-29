@@ -1,5 +1,4 @@
 export { pluralizeWithNumber } from './pluralizeWithNumber'
-export { copyToClipboard } from './copyToClipboard'
 export { handleNavbarFocus } from './navbar-focus-handler'
 export { scrollIntoView } from './scroll-into-view'
 export { redirectTo } from './redirect-to'

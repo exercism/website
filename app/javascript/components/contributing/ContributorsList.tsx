@@ -5,11 +5,11 @@ import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import {
   usePaginatedRequestQuery,
-  useList,
   type Request,
   useDeepMemo,
   useScrollToTop,
 } from '@/hooks'
+import { useList } from '@/hooks/use-list'
 import { useQueryParams } from '@/hooks/use-query-params'
 import {
   ContributorRow,

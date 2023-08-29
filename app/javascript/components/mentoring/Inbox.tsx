@@ -5,12 +5,12 @@ import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
 import {
-  useList,
   useHistory,
   removeEmpty,
   usePaginatedRequestQuery,
   type Request as BaseRequest,
 } from '@/hooks'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 

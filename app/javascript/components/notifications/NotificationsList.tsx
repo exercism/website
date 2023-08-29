@@ -3,11 +3,11 @@ import { useQueryCache } from 'react-query'
 import {
   type Request,
   usePaginatedRequestQuery,
-  useList,
   useHistory,
   removeEmpty,
   useScrollToTop,
 } from '@/hooks'
+import { useList } from '@/hooks/use-list'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'

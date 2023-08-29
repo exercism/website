@@ -30,7 +30,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       MAY_EXERCISES.map { |e| [e, MAY_TRACKS] } +
       JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
       JULY_EXERCISES.map { |e| [e, JULY_TRACKS] } +
-      AUGUST_EXERCISES.map { |e| [e, AUGUST_TRACKS] }
+      AUGUST_EXERCISES.map { |e| [e, AUGUST_TRACKS] } +
+      SEPTEMBER_EXERCISES.map { |e| [e, SEPTEMBER_TRACKS] }
     ).to_h
   end
 
@@ -74,4 +75,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
   AUGUST_TRACKS = %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift
                      typescript].freeze
   AUGUST_EXERCISES = %w[anagram phone-number triangle rna-transcription scrabble-score].freeze
+
+  SEPTEMBER_TRACKS = %w[8th awk bash jq perl5 raku].freeze
+  SEPTEMBER_EXERCISES = %w[atbash-cipher darts gigasecond luhn series].freeze
 end

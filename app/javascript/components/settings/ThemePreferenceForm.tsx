@@ -6,7 +6,7 @@ import {
   isDisabled,
   useTheme,
 } from './theme-preference-form'
-import { useThemeObserver } from '@/hooks'
+import { useThemeObserver } from '@/hooks/use-theme-observer'
 
 export type ThemePreferenceLinks = {
   update: string

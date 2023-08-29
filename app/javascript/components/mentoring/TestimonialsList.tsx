@@ -1,9 +1,9 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import { useScrollToTop } from '@/hooks'
 import {
   usePaginatedRequestQuery,
   type Request as BaseRequest,
-  useScrollToTop,
-} from '@/hooks'
+} from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

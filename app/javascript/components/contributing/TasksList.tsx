@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import pluralize from 'pluralize'
 import { Pagination } from '../common'
+import { useScrollToTop } from '@/hooks'
 import {
   usePaginatedRequestQuery,
   type Request as BaseRequest,
-  useScrollToTop,
-} from '@/hooks'
+} from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'

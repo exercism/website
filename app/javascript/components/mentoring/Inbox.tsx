@@ -4,7 +4,10 @@ import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
-import { usePaginatedRequestQuery, type Request as BaseRequest } from '@/hooks'
+import {
+  usePaginatedRequestQuery,
+  type Request as BaseRequest,
+} from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
-import { usePaginatedRequestQuery, useScrollToTop, type Request } from '@/hooks'
+import { useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { Checkbox, Icon, Pagination } from '@/components/common'

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
-import { usePaginatedRequestQuery, Request } from '@/hooks'
 import { useList } from '@/hooks/use-list'
 import { ExerciseWidget } from '../common'
 import { Exercise, SolutionForStudent } from '../types'

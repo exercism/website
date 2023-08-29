@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Request, usePaginatedRequestQuery, useScrollToTop } from '@/hooks'
+import { useScrollToTop } from '@/hooks'
+import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { Pagination } from '../common'

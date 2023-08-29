@@ -67,6 +67,6 @@ class Solution::Publish
 
   BADGES = %i[functional_february mechanical_march analytical_april
               mind_shifting_may summer_of_sexps jurassic_july
-              apps_august].freeze
+              apps_august slimline_september].freeze
   private_constant :BADGES
 end

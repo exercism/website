@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import { Modal } from '../modals'
-import { CopyToClipboardButton } from '../common'
+import { Modal } from '@/components/modals'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 
 type PerkKeys = 'claimUrl' | 'offerSummaryHtml' | 'offerDetails' | 'voucherCode'
 export type PerksModalButtonProps = {

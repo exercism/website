@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, waitFor, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { CopyToClipboardButton } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 
 // See https://github.com/aelbore/esbuild-jest/issues/26
 jest.mock('@/utils/copyToClipboard', () => ({

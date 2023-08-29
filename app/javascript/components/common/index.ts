@@ -11,10 +11,6 @@ export { ProminentLink } from './ProminentLink'
 export { ProcessingStatusSummary } from './ProcessingStatusSummary'
 export { default as Expander } from './Expander'
 export { Tab, type TabContext } from './Tab'
-export {
-  missingExerciseIconErrorHandler,
-  missingTrackIconErrorHandler,
-} from './imageErrorHandler'
 export { MedianWaitTime } from './MedianWaitTime'
 export { Checkbox } from './Checkbox'
 export { SearchInput } from './SearchInput'

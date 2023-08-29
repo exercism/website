@@ -1,5 +1,5 @@
 import React from 'react'
-import { missingExerciseIconErrorHandler } from '../common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
 
 type ExerciseIconProps = {
   iconUrl: string

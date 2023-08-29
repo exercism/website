@@ -263,6 +263,9 @@ body.keyboard-navigation .nav-element:hover .arrow {
             @apply ml-8;
         }
     }
+    .auth-buttons + .c-react-wrapper-dropdowns-dropdown {
+        @apply min-w-[135px] lg:min-w-[0];
+    }
     & .auth-buttons a,
     & .explore-menu {
         height: 40px;

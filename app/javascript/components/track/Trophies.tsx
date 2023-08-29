@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { assetUrl, sendRequest, timeFormat } from '@/utils'
+import { assetUrl, sendRequest } from '@/utils'
+import { timeFormat } from '@/utils/time'
 import { GraphicalIcon } from '../common'
 import { Modal } from '../modals'
 import { GenericTooltip } from '../misc/ExercismTippy'

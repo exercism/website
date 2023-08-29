@@ -1,4 +1,3 @@
-export { sendRequest } from './send-request'
 export { pluralizeWithNumber } from './pluralizeWithNumber'
 export { copyToClipboard } from './copyToClipboard'
 export { handleNavbarFocus } from './navbar-focus-handler'

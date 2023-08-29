@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { MutateFunction, QueryStatus, useMutation } from 'react-query'
 import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
-import { sendRequest } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import { Submission } from '../types'
 import { GPTModel as GPTModelType } from './ChatGptDialog'

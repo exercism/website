@@ -1,6 +1,6 @@
 import React from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon } from '../common'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 

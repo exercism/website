@@ -1,12 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { ContributionResults } from './ContributionResults'
-import {
-  type Request,
-  usePaginatedRequestQuery,
-  removeEmpty,
-  useHistory,
-  useScrollToTop,
-} from '@/hooks'
+import { type Request, usePaginatedRequestQuery, useScrollToTop } from '@/hooks'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '@/components/ResultsZone'

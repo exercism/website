@@ -3,11 +3,10 @@ import pluralize from 'pluralize'
 import { Pagination } from '../common'
 import {
   usePaginatedRequestQuery,
-  useHistory,
-  removeEmpty,
   type Request as BaseRequest,
   useScrollToTop,
 } from '@/hooks'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'
 import { FetchingBoundary } from '../FetchingBoundary'

@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  Request,
-  useDebounce,
-} from '@/hooks'
+import { usePaginatedRequestQuery, Request, useDebounce } from '@/hooks'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import type { QueryStatus } from 'react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
 

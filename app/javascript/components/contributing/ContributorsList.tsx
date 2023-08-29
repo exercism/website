@@ -3,14 +3,10 @@ import { Pagination, TrackSelect } from '@/components/common'
 import type { PaginatedResult, Contributor, Track } from '@/components/types'
 import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
-import {
-  usePaginatedRequestQuery,
-  useQueryParams,
-  useList,
-  type Request,
-  useDeepMemo,
-  useScrollToTop,
-} from '@/hooks'
+import { usePaginatedRequestQuery, type Request, useScrollToTop } from '@/hooks'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { useList } from '@/hooks/use-list'
+import { useQueryParams } from '@/hooks/use-query-params'
 import {
   ContributorRow,
   PeriodButton,

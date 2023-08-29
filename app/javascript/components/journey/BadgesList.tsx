@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  type Request,
-  useScrollToTop,
-} from '@/hooks'
+import { usePaginatedRequestQuery, type Request, useScrollToTop } from '@/hooks'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

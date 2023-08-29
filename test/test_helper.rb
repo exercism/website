@@ -134,14 +134,17 @@ else
 end
 
 class ActionMailer::TestCase
-  def assert_email(email, to, subject, fixture)
+  def assert_email(email, to, subject, fixture, bulk: false)
     # Test email can send ok
     assert_emails 1 do
       email.deliver_now
     end
 
+    tld = bulk ? "io" : "org"
+    from = "hello@mail.exercism.#{tld}"
+
     # Test the body of the sent email contains what we expect it to
-    assert_equal ["hello@mail.exercism.org"], email.from
+    assert_equal [from], email.from
     assert_equal [to], email.to
     assert_equal subject, email.subject
     read_fixture(fixture).each do |text|

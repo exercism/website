@@ -45,7 +45,7 @@ if (process.env.BUGSNAG_API_KEY) {
   if (reactPlugin) {
     ErrorBoundary = reactPlugin.createErrorBoundary(React)
   } else {
-    throw new Error('Failed to load Bugsnag\'s react plugin')
+    throw new Error("Failed to load Bugsnag's react plugin")
   }
 }
 
@@ -91,9 +91,9 @@ const setTurboStyle = (style: string) => {
 }
 
 export function initReact(mappings: Mappings): void {
-  const renderThings = (parentElement = document.body) => {
-    renderComponents(parentElement, mappings)
-    renderTooltips(parentElement, mappings)
+  const renderThings = () => {
+    renderComponents(document.body, mappings)
+    renderTooltips(document.body, mappings)
   }
 
   // This adds rendering for all future turbo clicks
@@ -123,9 +123,12 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
 }
 
 export function renderComponents(
-  parentElement: HTMLElement = document.body,
+  parentElement: HTMLElement,
   mappings: Mappings
 ): void {
+  if (!parentElement) {
+    parentElement = document.body
+  }
   // As getElementsByClassName returns a live collection, it is recommended to use Array.from
   // when iterating through it, otherwise the number of elements may change mid-loop.
   const elems = Array.from(
@@ -146,10 +149,10 @@ export function renderComponents(
   }
 }
 
-function renderTooltips(
-  parentElement: HTMLElement = document.body,
-  mappings: Mappings
-) {
+function renderTooltips(parentElement: HTMLElement, mappings: Mappings) {
+  if (!parentElement) {
+    parentElement = document.body
+  }
   parentElement
     .querySelectorAll('[data-tooltip-type][data-endpoint]')
     .forEach((elem) => renderTooltip(mappings, elem as HTMLElement))

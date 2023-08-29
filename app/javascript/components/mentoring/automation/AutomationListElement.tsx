@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { pluralizeWithNumber, fromNow } from '@/utils'
+import { pluralizeWithNumber } from '@/utils'
+import { fromNow } from '@/utils/date'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '@/components/common'
 import { MostPopularTag } from './MostPopularTag'
 import type { Representation } from '@/components/types'

@@ -31,7 +31,7 @@ import {
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
-import { SplitPane } from '../common'
+import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
 
 export type Links = {

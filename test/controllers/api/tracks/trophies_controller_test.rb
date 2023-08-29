@@ -103,4 +103,37 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
   end
+
+  test "reveal: is rate limited" do
+    user = create :user
+    setup_user(user)
+
+    beginning_of_minute = Time.current.beginning_of_minute
+    travel_to beginning_of_minute
+
+    30.times do
+      track = create :track, :random_slug
+      acquired_trophy = create(:user_track_acquired_trophy, user:, track:, revealed: false)
+
+      sign_in!(user)
+
+      patch reveal_api_track_trophy_url(track.slug, acquired_trophy.uuid), headers: @headers, as: :json
+      assert_response :ok
+    end
+
+    track = create :track, :random_slug
+    acquired_trophy = create(:user_track_acquired_trophy, user:, track:, revealed: false)
+
+    patch reveal_api_track_trophy_url(track.slug, acquired_trophy.uuid), headers: @headers, as: :json
+    assert_response :too_many_requests
+
+    # Verify that the rate limit resets every minute
+    travel_to beginning_of_minute + 1.minute
+
+    track = create :track, :random_slug
+    acquired_trophy = create(:user_track_acquired_trophy, user:, track:, revealed: false)
+
+    patch reveal_api_track_trophy_url(track.slug, acquired_trophy.uuid), headers: @headers, as: :json
+    assert_response :ok
+  end
 end

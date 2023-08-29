@@ -1,24 +1,22 @@
-import React, { useRef, useCallback } from 'react'
-import { useMutation } from 'react-query'
-import { typecheck } from '@/utils'
-import { sendRequest } from '@/utils/send-request'
+import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { MedianWaitTime } from '@/components/common/MedianWaitTime'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
+import {
+  type Links,
+  useMentoringRequest,
+} from './MentoringRequestFormComponents'
 import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
   MentorSessionRequest as Request,
 } from '@/components/types'
-
-type Links = {
-  learnMoreAboutPrivateMentoring: string
-  privateMentoring: string
-  mentoringGuide: string
-  createMentorRequest: string
-}
+import {
+  TrackObjectivesTextArea,
+  SolutionCommentTextArea,
+} from './MentoringRequestFormComponents'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -35,35 +33,13 @@ export const MentoringRequestForm = ({
   links: Links
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<Request>(
-    async () => {
-      const { fetch } = sendRequest({
-        endpoint: links.createMentorRequest,
-        method: 'POST',
-        body: JSON.stringify({
-          comment: solutionCommentRef.current?.value,
-          track_objectives: trackObjectivesRef.current?.value,
-        }),
-      })
-
-      return fetch.then((json) => typecheck<Request>(json, 'mentorRequest'))
-    },
-    {
-      onSuccess,
-    }
-  )
-
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault()
-
-      mutation()
-    },
-    [mutation]
-  )
-
-  const trackObjectivesRef = useRef<HTMLTextAreaElement>(null)
-  const solutionCommentRef = useRef<HTMLTextAreaElement>(null)
+  const {
+    error,
+    handleSubmit,
+    solutionCommentRef,
+    status,
+    trackObjectivesRef,
+  } = useMentoringRequest(links, onSuccess)
 
   return (
     <div className="mentoring-request-section">
@@ -90,37 +66,12 @@ export const MentoringRequestForm = ({
           </div>
           <GraphicalIcon icon="mentoring" category="graphics" />
         </div>
-        <div className="question">
-          <label htmlFor="request-mentoring-form-track-objectives">
-            What are you hoping to learn from this track?
-          </label>
-          <p id="request-mentoring-form-track-description">
-            Tell our mentors a little about your programming background and what
-            you&apos;re aiming to learn from {track.title}.
-          </p>
-          <textarea
-            ref={trackObjectivesRef}
-            id="request-mentoring-form-track-objectives"
-            required
-            aria-describedby="request-mentoring-form-track-description"
-            defaultValue={trackObjectives}
-          />
-        </div>
-        <div className="question">
-          <label htmlFor="request-mentoring-form-solution-comment">
-            How can a mentor help you with this solution?
-          </label>
-          <p id="request-mentoring-form-solution-description">
-            Give your mentor a starting point for the conversation. This will be
-            your first comment during the session. Markdown is permitted.
-          </p>
-          <textarea
-            ref={solutionCommentRef}
-            id="request-mentoring-form-solution-comment"
-            required
-            aria-describedby="request-mentoring-form-solution-description"
-          />
-        </div>
+        <TrackObjectivesTextArea
+          defaultValue={trackObjectives}
+          track={track}
+          ref={trackObjectivesRef}
+        />
+        <SolutionCommentTextArea ref={solutionCommentRef} />
         <FormButton status={status} className="btn-primary btn-m">
           Submit mentoring request
         </FormButton>
@@ -128,7 +79,7 @@ export const MentoringRequestForm = ({
           status={status}
           error={error}
           defaultError={DEFAULT_ERROR}
-        ></FetchingBoundary>
+        />
         <p className="flow-explanation">
           Once you submit, your request will be open for a mentor to join and
           start providing feedback.

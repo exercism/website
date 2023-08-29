@@ -6,7 +6,7 @@ module API
       mentor_request_comment = @discussion.request_comment
       posts = @discussion.posts.includes(
         :iteration,
-        author: { avatar_attachment: :blob }
+        :author
       )
 
       serialized_posts = [mentor_request_comment, posts].

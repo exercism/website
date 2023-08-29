@@ -19,9 +19,9 @@ module ReactComponents
       def avatar_urls
         target = 3
         urls = Set.new
-        urls += concept.authors.order("RAND()").limit(3).select(:avatar_url).to_a.map(&:avatar_url)
+        urls += concept.authors.order("RAND()").limit(3).select(:id, :version).to_a.map(&:avatar_url)
         if urls.size < 3 && num_contributors.positive?
-          urls += concept.contributors.order("RAND()").limit(target - urls.size).select(:avatar_url).to_a.map(&:avatar_url)
+          urls += concept.contributors.order("RAND()").limit(target - urls.size).select(:id, :version).to_a.map(&:avatar_url)
         end
         urls.compact
       end

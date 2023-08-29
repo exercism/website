@@ -288,7 +288,7 @@ module.exports = {
       backgroundColorNavDropdown: 'var(--backgroundColorNavDropdown)',
     },
     fontFamily: {
-      body: ['Poppins', 'sans-serif'],
+      body: 'var(--body-font)',
       mono: ['Source Code Pro', 'monospace'],
     },
     fontSize: {

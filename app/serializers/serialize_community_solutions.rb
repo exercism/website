@@ -11,6 +11,6 @@ class SerializeCommunitySolutions
 
   def solutions_with_includes
     solutions.to_active_relation.
-      includes(:exercise, :track, user: { avatar_attachment: :blob })
+      includes(:exercise, :track, :user)
   end
 end

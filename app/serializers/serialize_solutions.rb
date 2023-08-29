@@ -1,7 +1,7 @@
 class SerializeSolutions
   include Mandate
 
-  NP1_INCLUDES = [:exercise, :track, { user: { avatar_attachment: :blob } }].freeze
+  NP1_INCLUDES = %i[exercise track user].freeze
 
   initialize_with :solutions, :user
 

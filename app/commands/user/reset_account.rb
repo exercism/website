@@ -21,6 +21,7 @@ class User::ResetAccount
 
     user.avatar&.destroy
     User::RemoveRoles.(user, user.roles)
+    User::IncrementVersion.(user)
   end
 
   def reset_tracks!

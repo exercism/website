@@ -46,4 +46,9 @@ export function lazyHighlightAll(): void {
 
   const observer = new MutationObserver(mutationCallback)
   observer.observe(document.body, { childList: true, subtree: true })
+
+  // if no code block is found within 2 seconds after the turbo:load event, disconnect the observer.
+  setTimeout(() => {
+    observer.disconnect()
+  }, 2000)
 }

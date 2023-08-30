@@ -1,42 +1,36 @@
 export function lazyHighlightAll(): void {
   let highlighted = false
 
-  function checkAndHighlight(): void {
-    if (highlighted) return
+  function loadAndHighlight() {
+    import('@/utils/highlight')
+      .then((m) => {
+        m.highlightAll()
+        observer.disconnect()
+      })
+      .catch((e) => {
+        highlighted = false
+        // eslint-disable-next-line no-console
+        console.error(e)
+      })
+  }
 
+  function checkAndHighlight(): void {
     // only load highlightjs when a code block with lang-... or language-... classname exists in the DOM
-    if (
-      document.querySelector('code[class^=lang-]') !== null ||
-      document.querySelector('code[class^=language-]') !== null
-    ) {
-      // to avoid race conditions, set this optimistically to true before the async operations
-      highlighted = true
-      import('@/utils/highlight')
-        .then((m) => {
-          m.highlightAll()
-          observer.disconnect()
-        })
-        .catch((e) => {
-          highlighted = false
-          // eslint-disable-next-line no-console
-          console.error(e)
-        })
-    }
+    if (highlighted || !hasHighlightableCodeBlock(document)) return
+
+    // to avoid race conditions, set this optimistically to true before the async loading
+    highlighted = true
+    loadAndHighlight()
   }
 
   function mutationCallback(mutationsList: MutationRecord[]): void {
     for (const mutation of mutationsList) {
-      if (mutation.type === 'childList') {
-        for (const node of mutation.addedNodes) {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            if (
-              (node as Element).querySelector('code[class^=lang-]') !== null ||
-              (node as Element).querySelector('code[class^=language-]') !== null
-            ) {
-              checkAndHighlight()
-              return
-            }
-          }
+      if (mutation.type !== 'childList') continue
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== Node.ELEMENT_NODE) continue
+        if (hasHighlightableCodeBlock(node as Element)) {
+          checkAndHighlight()
+          return
         }
       }
     }
@@ -51,4 +45,11 @@ export function lazyHighlightAll(): void {
   setTimeout(() => {
     observer.disconnect()
   }, 2000)
+}
+
+function hasHighlightableCodeBlock(rootNode: Document | Element): boolean {
+  return (
+    rootNode.querySelector('code[class^=lang-]') !== null ||
+    rootNode.querySelector('code[class^=language-]') !== null
+  )
 }

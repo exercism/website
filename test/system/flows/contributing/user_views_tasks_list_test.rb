@@ -176,7 +176,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "2"
+          find('button[aria-label="Go to page 2"]').click
 
           assert_text "Write docs"
           assert_no_text "Fix bug"

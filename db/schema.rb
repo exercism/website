@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_30_103033) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -545,7 +545,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.datetime "awaiting_mentor_since", precision: nil
     t.datetime "mentor_reminder_sent_at", precision: nil
     t.string "uuid", null: false
-    t.datetime "requires_student_action_since", precision: nil
     t.integer "num_posts", limit: 3, default: 0, null: false
     t.boolean "anonymous_mode", default: false, null: false
     t.datetime "awaiting_student_since", precision: nil

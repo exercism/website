@@ -17,7 +17,8 @@ class User::Notifications::NudgeStudentToReplyInDiscussionNotificationTest < Act
         num_days_waiting: 7
       }
     )
-    assert_equal "#{user.id}|nudge_student_to_reply_in_discussion|Discussion##{discussion.id}#2022-03-27", notification.uniqueness_key
+    assert_equal "#{user.id}|nudge_student_to_reply_in_discussion|Discussion##{discussion.id}#2022-03-27#7",
+      notification.uniqueness_key
     assert_equal "<strong>#{mentor.handle}</strong> is waiting for you to reply in the discussion on your solution to <strong>#{exercise.title}</strong> in <strong>#{track.title}</strong>", notification.text # rubocop:disable Layout/LineLength
     assert_equal :avatar, notification.image_type
     assert_equal mentor.avatar_url, notification.image_url

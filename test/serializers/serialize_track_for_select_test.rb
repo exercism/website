@@ -15,7 +15,7 @@ class SerializeTrackForSelectTest < ActiveSupport::TestCase
     expected = {
       slug: nil,
       title: "All Tracks",
-      icon_url: "ICON"
+      icon_url: ActionController::Base.helpers.image_path("graphics/missing-track.svg")
     }
     assert_equal expected, SerializeTrackForSelect::ALL_TRACK
   end

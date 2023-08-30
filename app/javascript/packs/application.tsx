@@ -667,8 +667,11 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 
 document.addEventListener('turbo:load', () => {
-  // only load highlightjs when a code block with lang-... classname exists in the DOM
-  if (document.querySelector('code[class^=lang-]') !== null) {
+  // only load highlightjs when a code block with lang-... or language-... classname exists in the DOM
+  if (
+    document.querySelector('code[class^=lang-]') !== null ||
+    document.querySelector('code[class^=language-]') !== null
+  ) {
     import('@/utils/highlight').then((m) => m.highlightAll())
   }
   showSiteFooter()

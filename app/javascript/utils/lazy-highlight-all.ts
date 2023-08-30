@@ -9,11 +9,18 @@ export function lazyHighlightAll(): void {
       document.querySelector('code[class^=lang-]') !== null ||
       document.querySelector('code[class^=language-]') !== null
     ) {
-      import('@/utils/highlight').then((m) => {
-        m.highlightAll()
-        highlighted = true
-        observer.disconnect()
-      })
+      // to avoid race conditions, set this optimistically to true before the async operations
+      highlighted = true
+      import('@/utils/highlight')
+        .then((m) => {
+          m.highlightAll()
+          observer.disconnect()
+        })
+        .catch((e) => {
+          highlighted = false
+          // eslint-disable-next-line no-console
+          console.error(e)
+        })
     }
   }
 

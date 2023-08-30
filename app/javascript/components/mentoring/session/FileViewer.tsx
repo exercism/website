@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContinuousHighlighting } from '@/hooks'
+import { useContinuousHighlighting } from '@/hooks/use-syntax-highlighting'
 import type { File } from '@/components/types'
 
 export const FileViewer = ({

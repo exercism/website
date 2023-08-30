@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { usePaginatedRequestQuery } from '@/hooks'
+import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { Iteration, File } from '../types'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'

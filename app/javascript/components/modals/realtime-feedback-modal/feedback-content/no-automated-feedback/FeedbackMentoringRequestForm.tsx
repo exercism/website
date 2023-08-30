@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormButton, MedianWaitTime } from '@/components/common'
+import { MedianWaitTime } from '@/components/common/MedianWaitTime'
+import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import type { MentorSessionTrack as Track } from '@/components/types'
 import { ContinueButton } from '../../components/FeedbackContentButtons'

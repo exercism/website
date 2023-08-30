@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import {
-  Request,
-  usePaginatedRequestQuery,
-  useList,
-  useHistory,
-  removeEmpty,
-  useScrollToTop,
-} from '@/hooks'
-import { CommunitySolution, Pagination } from '../common'
+import { useScrollToTop } from '@/hooks'
+import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { Pagination } from '../common'
+import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { TrackDropdown, OrderSelect } from './community-solutions-list'

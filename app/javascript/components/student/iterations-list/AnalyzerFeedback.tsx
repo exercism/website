@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHighlighting } from '@/utils'
+import { useHighlighting } from '@/utils/highlight'
 import { Icon, TrackIcon } from '@/components/common'
 import type {
   AnalyzerFeedback as Props,

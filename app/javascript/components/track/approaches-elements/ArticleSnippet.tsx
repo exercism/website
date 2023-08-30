@@ -1,6 +1,6 @@
 import React from 'react'
-import { useHighlighting } from '@/hooks'
-import { Credits } from '@/components/common'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
+import Credits from '@/components/common/Credits'
 import { Article } from '../DigDeeper'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {

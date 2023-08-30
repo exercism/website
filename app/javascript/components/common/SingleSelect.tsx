@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Icon } from '.'
+import { Icon } from './Icon'
 import { useDropdown } from '../dropdowns/useDropdown'
 
 export const SingleSelect = <T extends unknown>({

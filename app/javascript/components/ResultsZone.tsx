@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Icon } from './common'
+import { Icon } from './common/Icon'
 
 const DELAY_MS = 250
 

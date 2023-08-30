@@ -1,14 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import pluralize from 'pluralize'
 import { SolutionProps, Solution } from './Solution'
-import {
-  useList,
-  removeEmpty,
-  useHistory,
-  usePaginatedRequestQuery,
-  type Request,
-  useScrollToTop,
-} from '@/hooks'
+import { useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

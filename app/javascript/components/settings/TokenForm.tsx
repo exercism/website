@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react'
-import { CopyToClipboardButton, FormButton } from '../common'
+import { FormButton } from '@/components/common/FormButton'
+import { ProminentLink, Icon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
-import { ProminentLink, Icon } from '../common'
 
 type Links = {
   reset: string

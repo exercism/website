@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react'
 import { QueryStatus, useMutation } from 'react-query'
-import { sendRequest, typecheck } from '@/utils'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 import { MentorSessionRequest } from '@/components/types'
 
 export function useMentoringRequest(

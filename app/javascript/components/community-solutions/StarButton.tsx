@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
-import { FormButton, Icon } from '../common'
-import { sendRequest, typecheck } from '@/utils'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
+import { Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 
 type Links = {
   star: string

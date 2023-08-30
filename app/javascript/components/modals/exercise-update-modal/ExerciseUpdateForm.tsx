@@ -1,14 +1,15 @@
 import React, { createContext, useState } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { typecheck } from '@/utils/typecheck'
+import { GraphicalIcon, ExerciseIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { SolutionForStudent } from '@/components/types'
+import { Tab, TabContext } from '@/components/common/Tab'
 import { ExerciseDiff } from '../ExerciseUpdateModal'
-import { GraphicalIcon, ExerciseIcon, FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { SolutionForStudent } from '../../types'
-import { typecheck } from '../../../utils/typecheck'
 import { DiffViewer } from './DiffViewer'
-import { Tab, TabContext } from '../../common/Tab'
-import { redirectTo } from '../../../utils/redirect-to'
 
 const DEFAULT_ERROR = new Error('Unable to update exercise')
 

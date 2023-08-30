@@ -1,10 +1,8 @@
 import React from 'react'
-import {
-  CopyToClipboardButton,
-  FormButton,
-  GraphicalIcon,
-  MedianWaitTime,
-} from '@/components/common'
+import { GraphicalIcon } from '@/components/common'
+import { MedianWaitTime } from '@/components/common/MedianWaitTime'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import {
   type Links,

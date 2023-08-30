@@ -1,6 +1,6 @@
-import { Credits } from '@/components/common'
-import { useHighlighting } from '@/hooks'
 import React, { useContext } from 'react'
+import Credits from '@/components/common/Credits'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { Approach, DigDeeperDataContext } from '../DigDeeper'
 
 export function ApproachSnippet({

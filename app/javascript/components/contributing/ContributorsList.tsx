@@ -1,16 +1,14 @@
 import React, { useCallback } from 'react'
-import { Pagination, TrackSelect } from '@/components/common'
+import { Pagination } from '@/components/common'
+import { TrackSelect } from '@/components/common/TrackSelect'
 import type { PaginatedResult, Contributor, Track } from '@/components/types'
 import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
-import {
-  usePaginatedRequestQuery,
-  useQueryParams,
-  useList,
-  type Request,
-  useDeepMemo,
-  useScrollToTop,
-} from '@/hooks'
+import { useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { useList } from '@/hooks/use-list'
+import { useQueryParams } from '@/hooks/use-query-params'
 import {
   ContributorRow,
   PeriodButton,

@@ -1,10 +1,11 @@
 import React from 'react'
 import pluralize from 'pluralize'
-import { TrackIcon } from '../../common/TrackIcon'
-import { Icon, GraphicalIcon } from '../../common'
+import { TrackIcon } from '@/components/common/TrackIcon'
+import { Icon } from '@/components/common/Icon'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ProgressBar } from './ProgressBar'
-import { fromNow } from '../../../utils/time'
-import { StudentTrack } from '../../types'
+import { fromNow } from '@/utils/time'
+import { StudentTrack } from '@/components/types'
 
 export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
   return (

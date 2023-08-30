@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { lazy, Suspense } from 'react'
 import { camelizeKeys } from 'humps'
-import { camelizeKeysAs, highlightAll } from '@/utils'
+import { camelizeKeysAs } from '@/utils/camelize-keys-as'
+import { highlightAll } from '@/utils/highlight'
 import { initReact } from '@/utils/react-bootloader'
 import { RenderLoader } from '@/components/common/RenderLoader'
 import 'focus-visible'
@@ -27,7 +28,7 @@ import type { TrackData as ProfileCommunitySolutionsListTrackData } from '@/comp
 import type { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
 import type { Links as SolutionViewLinks } from '@/components/common/SolutionView'
 import type { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 import type { AutomationLockedTooltipProps } from '../components/tooltips/AutomationLockedTooltip'
 import type { DigDeeperProps } from '@/components/track/DigDeeper'
 import type { ChartData } from '@/components/impact/Chart'

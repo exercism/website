@@ -1,18 +1,15 @@
 import React from 'react'
-import { fromNow } from '@/utils'
+import { useScrollToTop } from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { fromNow } from '@/utils/date'
 import {
-  usePaginatedRequestQuery,
-  Request,
-  useList,
-  useScrollToTop,
-} from '@/hooks'
-import {
-  missingExerciseIconErrorHandler,
   TrackIcon,
   Reputation,
   GraphicalIcon,
   Pagination,
 } from '@/components/common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import type {

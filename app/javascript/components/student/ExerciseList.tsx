@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import {
-  usePaginatedRequestQuery,
-  Request,
-  useList,
-  useHistory,
-  removeEmpty,
-} from '@/hooks'
-import { ExerciseWidget } from '../common'
-import { Exercise, SolutionForStudent } from '../types'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import ExerciseWidget from '@/components/common/ExerciseWidget'
+import { Exercise, SolutionForStudent } from '@/components/types'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
 
 const DEFAULT_ERROR = new Error('Unable to load exercises')
 

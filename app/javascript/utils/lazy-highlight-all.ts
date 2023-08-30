@@ -21,7 +21,6 @@ export function lazyHighlightAll(): void {
     for (const mutation of mutationsList) {
       if (mutation.type === 'childList') {
         for (const node of mutation.addedNodes) {
-          // htmlElement node
           if (node.nodeType === Node.ELEMENT_NODE) {
             if (
               (node as Element).querySelector('code[class^=lang-]') !== null ||

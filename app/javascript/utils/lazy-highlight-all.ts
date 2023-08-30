@@ -8,9 +8,8 @@ export function lazyHighlightAll(): void {
         observer.disconnect()
       })
       .catch((e) => {
-        highlighted = false
-        // eslint-disable-next-line no-console
-        console.error(e)
+        observer.disconnect()
+        throw new Error(e)
       })
   }
 

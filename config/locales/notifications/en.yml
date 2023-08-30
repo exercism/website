@@ -44,6 +44,10 @@ en:
       1: >
         %{mentor_name} has finished the discussion on your solution for %{track_title}:%{exercise_title}
 
+    nudge_student_to_reply_in_discussion:
+      1: >
+        <strong>%{mentor_name}</strong> is waiting for you to reply in the discussion on your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
+
     eligible_for_insiders:
       1: >
         Join Exercism Insiders!

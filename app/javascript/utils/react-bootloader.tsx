@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import Bugsnag from '@bugsnag/js'
 import BugsnagPluginReact from '@bugsnag/plugin-react'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
@@ -109,16 +109,16 @@ export function initReact(mappings: Mappings): void {
 }
 
 const render = (elem: HTMLElement, component: React.ReactNode) => {
-  ReactDOM.render(
+  const root = createRoot(elem)
+  root.render(
     <React.StrictMode>
       <ReactQueryCacheProvider queryCache={window.queryCache}>
         <ErrorBoundary>{component}</ErrorBoundary>
       </ReactQueryCacheProvider>
-    </React.StrictMode>,
-    elem
+    </React.StrictMode>
   )
   document.addEventListener('turbo:before-frame-render', () => {
-    ReactDOM.unmountComponentAtNode(elem)
+    root.unmount()
   })
 }
 

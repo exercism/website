@@ -174,4 +174,47 @@ class Mentor::Discussion::SendNudgesTest < ActiveSupport::TestCase
     expected_params = { discussion: discussion.to_global_id.to_s, num_days_waiting: 14 }.with_indifferent_access
     assert_equal expected_params, second_notification.send(:params)
   end
+
+  test "gracefully handle errors when sending nudge" do
+    mentor = create :user
+    student = create :user
+    discussion_1 = create(:mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.now.utc - 8.days, mentor:,
+      student:)
+    discussion_2 = create(:mentor_discussion, :awaiting_student, awaiting_student_since: Time.now.utc - 9.days, mentor:,
+      student:)
+    discussion_3 = create(:mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.now.utc - 15.days, mentor:,
+      student:)
+    discussion_4 = create(:mentor_discussion, :awaiting_student, awaiting_student_since: Time.now.utc - 24.days, mentor:,
+      student:)
+
+    User::Notification::Create.expects(:call).with(
+      discussion_1.mentor,
+      :nudge_mentor_to_reply_in_discussion,
+      discussion: discussion_1,
+      num_days_waiting: 7
+    ).raises
+
+    User::Notification::Create.expects(:call).with(
+      discussion_2.student,
+      :nudge_student_to_reply_in_discussion,
+      discussion: discussion_2,
+      num_days_waiting: 7
+    ).raises
+
+    User::Notification::Create.expects(:call).with(
+      discussion_3.mentor,
+      :nudge_mentor_to_reply_in_discussion,
+      discussion: discussion_3,
+      num_days_waiting: 14
+    )
+
+    User::Notification::Create.expects(:call).with(
+      discussion_4.student,
+      :nudge_student_to_reply_in_discussion,
+      discussion: discussion_4,
+      num_days_waiting: 21
+    )
+
+    Mentor::Discussion::SendNudges.()
+  end
 end

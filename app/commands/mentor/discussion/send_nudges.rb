@@ -10,6 +10,8 @@ class Mentor::Discussion::SendNudges
   def nudge_students!
     student_nudge_discussions.find_each do |discussion|
       nudge_student!(discussion)
+    rescue StandardError => e
+      Bugsnag.notify(e)
     end
   end
 
@@ -36,6 +38,8 @@ class Mentor::Discussion::SendNudges
   def nudge_mentors!
     mentor_nudge_discussions.find_each do |discussion|
       nudge_mentor!(discussion)
+    rescue StandardError => e
+      Bugsnag.notify(e)
     end
   end
 

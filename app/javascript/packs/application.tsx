@@ -665,15 +665,10 @@ export const mappings = {
 initReact(mappings)
 
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
+import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 
 document.addEventListener('turbo:load', () => {
-  // only load highlightjs when a code block with lang-... or language-... classname exists in the DOM
-  if (
-    document.querySelector('code[class^=lang-]') !== null ||
-    document.querySelector('code[class^=language-]') !== null
-  ) {
-    import('@/utils/highlight').then((m) => m.highlightAll())
-  }
+  lazyHighlightAll()
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()

@@ -9,7 +9,8 @@ class Mentor::Discussion::SendNudges
   private
   def nudge_students!
     student_nudge_discussions.find_each do |discussion|
-      nudge_student!(discussion)
+      num_days_waiting = num_days_waiting_since(discussion.awaiting_student_since)
+      Mentor::Discussion::NudgeStudent.(discussion, num_days_waiting)
     rescue StandardError => e
       Bugsnag.notify(e)
     end
@@ -21,22 +22,10 @@ class Mentor::Discussion::SendNudges
       where('awaiting_student_since < ?', Time.now.utc - 7.days)
   end
 
-  def nudge_student!(discussion)
-    num_days_waiting = NUM_DAYS_WAITING_CUTOFFS.find do |cutoff|
-      Time.now.utc.to_date - discussion.awaiting_student_since.utc.to_date >= cutoff
-    end
-
-    User::Notification::Create.(
-      discussion.student,
-      :nudge_student_to_reply_in_discussion,
-      discussion:,
-      num_days_waiting:
-    )
-  end
-
   def nudge_mentors!
     mentor_nudge_discussions.find_each do |discussion|
-      nudge_mentor!(discussion)
+      num_days_waiting = num_days_waiting_since(discussion.awaiting_mentor_since)
+      Mentor::Discussion::NudgeMentor.(discussion, num_days_waiting)
     rescue StandardError => e
       Bugsnag.notify(e)
     end
@@ -48,17 +37,10 @@ class Mentor::Discussion::SendNudges
       where('awaiting_mentor_since < ?', Time.now.utc - 7.days)
   end
 
-  def nudge_mentor!(discussion)
-    num_days_waiting = NUM_DAYS_WAITING_CUTOFFS.find do |cutoff|
-      Time.now.utc.to_date - discussion.awaiting_mentor_since.utc.to_date >= cutoff
+  def num_days_waiting_since(time)
+    NUM_DAYS_WAITING_CUTOFFS.find do |cutoff|
+      Time.now.utc.to_date - time.utc.to_date >= cutoff
     end
-
-    User::Notification::Create.(
-      discussion.mentor,
-      :nudge_mentor_to_reply_in_discussion,
-      discussion:,
-      num_days_waiting:
-    )
   end
 
   NUM_DAYS_WAITING_CUTOFFS = [21, 14, 7].freeze

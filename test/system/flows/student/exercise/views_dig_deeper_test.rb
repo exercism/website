@@ -94,10 +94,10 @@ module Flows
             sign_in!(user)
             visit track_exercise_dig_deeper_path(track, exercise)
 
-            sleep(5)
-            # assert_css('.hljs')
+            assert_css('.hljs')
+            assert_css('.hljs-string')
 
-            assert_text "Performance122" # Shows article
+            assert_text "Perf" # Shows article
             assert_text "Readability" # Shows approach
           end
         end

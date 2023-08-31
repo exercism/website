@@ -3,7 +3,9 @@ class Mentor::Discussion < ApplicationRecord
     awaiting_student: 0,
     awaiting_mentor: 1,
     mentor_finished: 2,
-    finished: 4
+    finished: 4,
+    student_timed_out: 5,
+    mentor_timed_out: 6
   }
   enum finished_by: {
     mentor: 1,

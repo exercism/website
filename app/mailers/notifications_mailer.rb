@@ -249,4 +249,60 @@ class NotificationsMailer < ApplicationMailer
     subject = "[Mentoring] #{@discussion.student.handle} has is waiting for you to reply to the discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     transactional_mail(@user, subject)
   end
+
+  def mentor_timed_out_discussion_student
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_mentor_timed_out_discussion_notification
+
+    @title = "Your discussion has timed out"
+    subject = "[Mentoring] the discussion on your solution to #{@track.title}/#{@exercise.title} has timed out"
+    transactional_mail(@user, subject)
+  end
+
+  def mentor_timed_out_discussion_mentor
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_mentor_timed_out_discussion_notification
+
+    @title = "Your mentoring session has timed out"
+    subject = "[Mentoring] your mentoring session on the solution by the solution by #{@discussion.student.handle} to #{@track.title}/#{@exercise.title} has timed out" # rubocop:disable Layout/LineLength
+    transactional_mail(@user, subject)
+  end
+
+  def student_timed_out_discussion_student
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_student_timed_out_discussion_notification
+
+    @title = "Your discussion has timed out"
+    subject = "[Mentoring] your discussion on #{@track.title}/#{@exercise.title} has timed out"
+    transactional_mail(@user, subject)
+  end
+
+  def student_timed_out_discussion_mentor
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_student_timed_out_discussion_notification
+
+    @title = "Your student's discussion has timed-out"
+    subject = "[Mentoring] your mentoring session on the solution by #{@discussion.student.handle} on #{@track.title}/#{@exercise.title} has timed out" # rubocop:disable Layout/LineLength
+    transactional_mail(@user, subject)
+  end
 end

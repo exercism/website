@@ -14,6 +14,8 @@ class User::CommunicationPreferences < ApplicationRecord
       email_on_automated_feedback_added_notification
       email_on_nudge_student_to_reply_in_discussion_notification
       email_on_nudge_mentor_to_reply_in_discussion_notification
+      email_on_student_timed_out_discussion_notification
+      email_on_mentor_timed_out_discussion_notification
     ]
   end
 

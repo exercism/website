@@ -24,6 +24,8 @@ class User::UnsubscribeFromAllEmails
       email_about_fundraising_campaigns: false,
       email_on_nudge_student_to_reply_in_discussion_notification: false,
       email_on_nudge_mentor_to_reply_in_discussion_notification: false,
+      email_on_mentor_timed_out_discussion_notification: false,
+      email_on_student_timed_out_discussion_notification: false,
       email_about_events: false,
       receive_onboarding_emails: false,
       email_about_insiders: false

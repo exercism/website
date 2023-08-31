@@ -23,6 +23,7 @@ class User::UnsubscribeFromAllEmails
       email_on_automated_feedback_added_notification: false,
       email_about_fundraising_campaigns: false,
       email_on_nudge_student_to_reply_in_discussion_notification: false,
+      email_on_nudge_mentor_to_reply_in_discussion_notification: false,
       email_about_events: false,
       receive_onboarding_emails: false,
       email_about_insiders: false

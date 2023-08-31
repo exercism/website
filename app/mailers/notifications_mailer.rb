@@ -235,4 +235,18 @@ class NotificationsMailer < ApplicationMailer
     subject = "[Mentoring] #{@discussion.mentor.handle} has is waiting for you to reply to the discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
     transactional_mail(@user, subject)
   end
+
+  def nudge_mentor_to_reply_in_discussion
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_nudge_mentor_to_reply_in_discussion_notification
+
+    @title = "Your student is waiting for you to reply on your discussion"
+    subject = "[Mentoring] #{@discussion.student.handle} has is waiting for you to reply to the discussion on #{@track.title}/#{@exercise.title}" # rubocop:disable Layout/LineLength
+    transactional_mail(@user, subject)
+  end
 end

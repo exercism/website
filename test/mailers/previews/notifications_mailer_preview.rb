@@ -130,4 +130,10 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::NudgeStudentToReplyInDiscussionNotification.first
     ).nudge_student_to_reply_in_discussion
   end
+
+  def nudge_mentor_to_reply_in_discussion
+    NotificationsMailer.with(
+      notification: User::Notifications::NudgeMentorToReplyInDiscussionNotification.first
+    ).nudge_mentor_to_reply_in_discussion
+  end
 end

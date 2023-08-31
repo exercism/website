@@ -48,6 +48,10 @@ en:
       1: >
         <strong>%{mentor_name}</strong> is waiting for you to reply in the discussion on your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
 
+    nudge_mentor_to_reply_in_discussion:
+      1: >
+        <strong>%{student_name}</strong> is waiting for you to reply in the discussion on your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
+
     eligible_for_insiders:
       1: >
         Join Exercism Insiders!

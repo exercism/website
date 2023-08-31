@@ -3,6 +3,7 @@ class Mentor::Discussion::SendNudges
 
   def call
     nudge_students!
+    nudge_mentors!
   end
 
   private
@@ -27,6 +28,32 @@ class Mentor::Discussion::SendNudges
     User::Notification::Create.(
       discussion.student,
       :nudge_student_to_reply_in_discussion,
+      discussion:,
+      num_days_waiting:
+    )
+  end
+
+  def nudge_mentors!
+    mentor_nudge_discussions.find_each do |discussion|
+      nudge_mentor!(discussion)
+    end
+  end
+
+  def mentor_nudge_discussions
+    Mentor::Discussion.
+      includes(:mentor, :exercise, :track).
+      awaiting_mentor.
+      where('awaiting_mentor_since < ?', Time.now.utc - 7.days)
+  end
+
+  def nudge_mentor!(discussion)
+    num_days_waiting = NUM_DAYS_WAITING_CUTOFFS.find do |cutoff|
+      Time.now.utc.to_date - discussion.awaiting_mentor_since.utc.to_date >= cutoff
+    end
+
+    User::Notification::Create.(
+      discussion.mentor,
+      :nudge_mentor_to_reply_in_discussion,
       discussion:,
       num_days_waiting:
     )

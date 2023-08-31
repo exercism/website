@@ -10,6 +10,7 @@ import {
 } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '../ResultsZone'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 
@@ -62,11 +63,16 @@ export default function Inbox({
     setPage,
     setQuery,
   } = useList(discussionsRequest)
-  const { status, resolvedData, latestData, isFetching, refetch } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentor-discussion-list', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    refetch,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentor-discussion-list', request.endpoint, request.query],
+    request
+  )
+  const latestData = useLatestData(resolvedData)
 
   useEffect(() => {
     const handler = setTimeout(() => {

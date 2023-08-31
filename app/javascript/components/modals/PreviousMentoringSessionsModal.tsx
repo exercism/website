@@ -3,6 +3,7 @@ import pluralize from 'pluralize'
 import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { fromNow } from '@/utils/date'
 import {
   Avatar,
@@ -39,11 +40,16 @@ export const PreviousMentoringSessionsModal = ({
     endpoint: student.links.previousSessions,
     options: {},
   })
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<readonly MentorDiscussion[]>,
-      Error | Response
-    >([request.endpoint, request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<readonly MentorDiscussion[]>,
+    Error | Response
+  >([request.endpoint, request.query], request)
+  const latestData = useLatestData(resolvedData)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 

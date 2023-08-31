@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 import { fromNow } from '@/utils/date'
 import { Avatar, GraphicalIcon, HandleWithFlair, TrackIcon } from '../../common'
 import { TestimonialModal } from '../../modals/TestimonialModal'

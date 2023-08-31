@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iterations-list/IterationReport'
 import { EmptyIterations } from './iterations-list/EmptyIterations'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
-import { useQueryCache } from 'react-query'
 
 export type Exercise = {
   title: string
@@ -59,16 +59,16 @@ export default function IterationsList({
   track: Track
   links: Links
 }): JSX.Element {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState<boolean[]>([])
   const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
-  const { resolvedData } = usePaginatedRequestQuery<{
+  const { data: resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
-  }>(CACHE_KEY, request)
+  }>([CACHE_KEY], request)
 
   const handleDelete = (deletedIteration: Iteration) => {
-    queryCache.setQueryData<{ iterations: readonly Iteration[] }>(
-      CACHE_KEY,
+    queryClient.setQueryData<{ iterations: readonly Iteration[] }>(
+      [CACHE_KEY],
       (result) => {
         if (!result) {
           return { iterations: [] }
@@ -89,7 +89,9 @@ export default function IterationsList({
     const solutionChannel = new SolutionChannel(
       { uuid: solutionUuid },
       (response) => {
-        queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
+        queryClient.setQueryData([CACHE_KEY], {
+          iterations: response.iterations,
+        })
       }
     )
 

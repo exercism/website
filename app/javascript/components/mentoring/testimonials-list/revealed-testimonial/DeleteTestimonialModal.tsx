@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { QueryKey, useQueryCache, useMutation } from 'react-query'
+import { QueryKey, useQueryClient, useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { Testimonial } from '@/components/types'
@@ -18,9 +18,13 @@ export const DeleteTestimonialModal = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
-  const queryCache = useQueryCache()
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const queryClient = useQueryClient()
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: testimonial.links.delete,
         method: 'DELETE',
@@ -31,7 +35,7 @@ export const DeleteTestimonialModal = ({
     },
     {
       onSuccess: () => {
-        queryCache.setQueryData<PaginatedResult | undefined>(
+        queryClient.setQueryData<PaginatedResult | undefined>(
           cacheKey,
           (result) => {
             if (!result) {

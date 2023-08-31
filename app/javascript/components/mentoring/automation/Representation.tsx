@@ -1,5 +1,4 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
 import { Checkbox, SearchInput } from '@/components/common'
 import { ResultsZone } from '@/components/ResultsZone'
 import { useAutomation } from './useAutomation'
@@ -11,6 +10,7 @@ import { StatusTab } from '../inbox/StatusTab'
 import { SortOption } from '../Inbox'
 import type { Request } from '@/hooks/request-query'
 import type { AutomationStatus, AutomationTrack } from '@/components/types'
+import { QueryKey } from '@tanstack/react-query'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -29,7 +29,7 @@ export type AutomationProps = {
   representationsRequest: Request
   sortOptions: SortOption[]
   selectedTab: SelectedTab
-  trackCacheKey: string
+  trackCacheKey: QueryKey
   isIntroducerHidden: boolean
 }
 
@@ -115,7 +115,7 @@ export function Representations({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
-            status={QueryStatus.Success}
+            status={'success'}
             error={''}
             tracks={tracks}
             countText={trackCountText}

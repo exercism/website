@@ -83,9 +83,14 @@ export const Overview = ({
   request: Request
   isEnabled: boolean
 }): JSX.Element => {
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<{
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<{
     overview: JourneyOverview
-  }>('journey-overview', {
+  }>(['journey-overview'], {
     ...request,
     options: { ...request.options, enabled: isEnabled },
   })

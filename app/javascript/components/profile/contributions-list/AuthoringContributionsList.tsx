@@ -2,6 +2,7 @@ import React from 'react'
 import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { Pagination } from '@/components/common'
 import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -16,11 +17,16 @@ export const AuthoringContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<ExerciseAuthorship[]>,
-      Error | Response
-    >([request.endpoint, request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<ExerciseAuthorship[]>,
+    Error | Response
+  >([request.endpoint, request.query], request)
+  const latestData = useLatestData(resolvedData)
 
   const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 

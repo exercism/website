@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
@@ -32,8 +32,12 @@ export default function StarButton({
     numStars: defaultNumStars,
     isStarred: defaultIsStarred,
   })
-  const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.star,
         method: state.isStarred ? 'DELETE' : 'POST',

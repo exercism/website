@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { ExerciseIcon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrackExercise } from '../../types'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 
 export type Props = {
   exercises: MentoredTrackExercise[] | undefined
@@ -76,13 +76,10 @@ export const ExerciseFilterList = ({
 
 const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] = useState(
-    true
-  )
-  const [
-    isShowingExercisesCompleted,
-    setIsShowingExercisesCompleted,
-  ] = useState(false)
+  const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] =
+    useState(true)
+  const [isShowingExercisesCompleted, setIsShowingExercisesCompleted] =
+    useState(false)
 
   const exercisesToShow = useMemo(() => {
     if (!exercises) {

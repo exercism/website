@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { QueryStatus } from 'react-query'
+import { MutationStatus, QueryStatus } from '@tanstack/react-query'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
@@ -13,7 +13,7 @@ export const MarkAllNotificationsAsReadModal = ({
   ...props
 }: Omit<ModalProps, 'className'> & {
   mutation: {
-    status: QueryStatus
+    status: MutationStatus
     error: unknown
   }
   onSubmit: () => void

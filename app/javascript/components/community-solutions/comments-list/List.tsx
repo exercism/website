@@ -1,5 +1,5 @@
 import React from 'react'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 import { SolutionComment } from '../../types'
 import { Comment } from './Comment'
 import { useItemList } from '../../common/use-item-list'

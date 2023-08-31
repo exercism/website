@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
@@ -26,8 +26,12 @@ const Component = ({
   endpoint,
   onSuccess,
 }: ComponentProps): JSX.Element | null => {
-  const [mutation, { status, error }] = useMutation<FavoritableStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'POST',

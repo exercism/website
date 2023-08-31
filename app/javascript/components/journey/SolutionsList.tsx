@@ -5,6 +5,7 @@ import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -44,12 +45,17 @@ export const SolutionsList = ({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<SolutionProps[]>>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<SolutionProps[]>>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
+  const latestData = useLatestData(resolvedData)
 
   useEffect(() => {
     const handler = setTimeout(() => {

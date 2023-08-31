@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { MentorDiscussion } from '@/components/types'
 import { Avatar, GraphicalIcon } from '@/components/common'
@@ -21,8 +21,12 @@ export const AddTestimonialStep = ({
   discussion: MentorDiscussion
 }): JSX.Element => {
   const [value, setValue] = useState('')
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',

@@ -2,6 +2,7 @@ import React from 'react'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useScrollToTop } from '@/hooks'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { fromNow } from '@/utils/date'
 import {
   GraphicalIcon,
@@ -27,11 +28,16 @@ export const RequestMentoringModal = ({
   links: Links
 }): JSX.Element => {
   const { request, setPage, setCriteria } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<SolutionForStudent[]>,
-      Error | Response
-    >(['exercises-for-mentoring', request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<SolutionForStudent[]>,
+    Error | Response
+  >(['exercises-for-mentoring', request.query], request)
+  const latestData = useLatestData(resolvedData)
 
   const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { QueryStatus } from 'react-query'
+import type { QueryStatus } from '@tanstack/react-query'
 import { useScrollToTop } from '@/hooks'
 import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

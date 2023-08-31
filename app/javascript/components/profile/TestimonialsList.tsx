@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -23,11 +24,16 @@ export default function TestimonialsList({
   const [selected, setSelected] = useState<string | null>(defaultSelected)
 
   const { request, setPage } = useList(initialRequest)
-  const { resolvedData, isFetching, status, error, latestData } =
-    usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
-      ['profile-testimonials-list-key', request.endpoint, request.query],
-      request
-    )
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
+    ['profile-testimonials-list-key', request.endpoint, request.query],
+    request
+  )
+  const latestData = useLatestData(resolvedData)
 
   const handleTestimonialOpen = useCallback(
     (uuid: string) => {

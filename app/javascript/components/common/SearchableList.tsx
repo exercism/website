@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { useDeepMemo } from '@/hooks/use-deep-memo'

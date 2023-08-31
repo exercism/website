@@ -5,7 +5,7 @@ import React, {
   useEffect,
   createContext,
 } from 'react'
-import { useQueryCache } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { getCacheKey } from '@/components/student'
 import type { File } from './types'
 import { type TabContext } from './common'
@@ -132,7 +132,7 @@ export default ({
     testRunStatus === TestRunStatus.OPS_ERROR ||
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
-  const cache = useQueryCache()
+  const queryClient = useQueryClient()
   const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
   const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
     version: '3.5',
@@ -213,7 +213,7 @@ export default ({
       dispatch({ status: EditorStatus.CREATING_ITERATION })
       createIteration(submission, {
         onSuccess: async (iteration) => {
-          await cache.invalidateQueries([
+          await queryClient.invalidateQueries([
             getCacheKey(track.slug, exercise.slug),
           ])
 
@@ -226,7 +226,7 @@ export default ({
       })
     }
   }, [
-    cache,
+    queryClient,
     createIteration,
     dispatch,
     exercise.slug,

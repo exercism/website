@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 import { Icon } from '../../../common'
 import { useDropdown } from '../../../dropdowns/useDropdown'
 import { Testimonial } from '../../../types'

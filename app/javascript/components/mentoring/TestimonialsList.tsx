@@ -6,6 +6,7 @@ import {
 } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import { GraphicalIcon, Pagination } from '@/components/common'
@@ -62,11 +63,16 @@ export default function TestimonialsList({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+  })
+  const latestData = useLatestData(resolvedData)
 
   const setTrack = useCallback(
     (trackSlug) => {

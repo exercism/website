@@ -43,21 +43,18 @@ const StudentTooltip = React.forwardRef<
                 size="small"
               />
             </div>
-
             {data.student.trackObjectives ? (
               <div className="track-objectives">
                 <h3>Track objectives</h3>
                 <p>{data.student.trackObjectives}</p>
               </div>
             ) : null}
-
             {data.student.location ? (
               <div className="location">
                 <Icon icon="location" alt="Located in" />
                 {data.student.location}
               </div>
             ) : null}
-
             {data.student.numTotalDiscussions > 0 ? (
               <div className="previous-sessions">
                 Mentored <strong>{data.student.numTotalDiscussions}</strong>{' '}
@@ -81,7 +78,6 @@ const StudentTooltip = React.forwardRef<
                 This will be their <strong>first</strong> mentoring session
               </div>
             )}
-
             {data.student.isFavorited ? (
               <div className="favorited">
                 <GraphicalIcon icon="gold-star" />

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils/redirect-to'
 import { Modal, ModalProps } from '@/components/modals/Modal'
@@ -23,8 +23,12 @@ export const CancelRequestModal = ({
 }: Omit<ModalProps, 'className'> & {
   request: MentorSessionRequest
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: request.links.cancel,
         method: 'PATCH',

@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { useDebounce } from '@/hooks'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {
@@ -64,18 +65,23 @@ export const useMentoringQueue = ({
     }
   }, [exerciseSlug, request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
-  const { resolvedData, latestData, isFetching, status, error } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentoring-request', debouncedQuery, request],
-      {
-        ...request,
-        query: debouncedQuery,
-        options: {
-          ...request.options,
-          enabled: !!track,
-        },
-      }
-    )
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentoring-request', debouncedQuery, request],
+    {
+      ...request,
+      query: debouncedQuery,
+      options: {
+        ...request.options,
+        enabled: !!track,
+      },
+    }
+  )
+  const latestData = useLatestData(resolvedData)
 
   useHistory({ pushOn: debouncedQuery })
 

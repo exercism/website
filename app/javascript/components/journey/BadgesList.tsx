@@ -3,12 +3,14 @@ import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { BadgeResults } from './BadgeResults'
 import { OrderSwitcher } from './badges-list/OrderSwitcher'
 import type { PaginatedResult, Badge } from '@/components/types'
+import type { QueryKey } from '@tanstack/react-query'
 
 const DEFAULT_ORDER = 'unrevealed_first'
 const DEFAULT_ERROR = new Error('Unable to load badge list')
@@ -27,13 +29,22 @@ export const BadgesList = ({
     setOrder,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const cacheKey = ['badges-list', request.endpoint, removeEmpty(request.query)]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<Badge[]>>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    })
+  const cacheKey: QueryKey = [
+    'badges-list',
+    request.endpoint,
+    removeEmpty(request.query),
+  ]
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<Badge[]>>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
+  const latestData = useLatestData(resolvedData)
 
   useEffect(() => {
     const handler = setTimeout(() => {

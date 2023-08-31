@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { Modal, ModalProps } from './Modal'
 import { TrackSelector } from '../mentoring/TrackSelector'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../utils/send-request'
 import { MentoredTrack } from '../types'
 import { APIResponse as TrackListAPIResponse } from '../mentoring/queue/useTrackList'
-import { useQueryCache } from 'react-query'
 
 type Links = {
   tracks: string
@@ -22,14 +22,14 @@ export const MentorChangeTracksModal = ({
 }: Omit<ModalProps, 'className'> & {
   links: Links
   tracks: readonly MentoredTrack[]
-  cacheKey: string
+  cacheKey: QueryKey
   onSuccess: () => void
 }): JSX.Element => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 
-  const [mutation] = useMutation<TrackListAPIResponse>(
-    () => {
+  const { mutate: mutation } = useMutation<TrackListAPIResponse>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.updateTracks,
         method: 'PATCH',
@@ -40,11 +40,11 @@ export const MentorChangeTracksModal = ({
     },
     {
       onSuccess: (response) => {
-        queryCache.setQueryData(cacheKey, response)
+        queryClient.setQueryData(cacheKey, response)
         onSuccess()
       },
       onSettled: () => {
-        queryCache.invalidateQueries(cacheKey)
+        queryClient.invalidateQueries(cacheKey)
       },
     }
   )

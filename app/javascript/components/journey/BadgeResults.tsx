@@ -3,7 +3,7 @@ import { RevealedBadge } from './RevealedBadge'
 import { UnrevealedBadge } from './UnrevealedBadge'
 import pluralize from 'pluralize'
 import { Badge as BadgeProps, PaginatedResult } from '../types'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 
 export type Order = 'unrevealed_first' | 'newest_first' | 'oldest_first'
 

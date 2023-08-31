@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { FavoritableStudent } from '../session/FavoriteButton'
 
 export const DiscussionDetails = ({

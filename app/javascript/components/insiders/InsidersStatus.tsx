@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import currency from 'currency.js'
 import { typecheck, redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'

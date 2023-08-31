@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon } from '../common'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
@@ -39,7 +39,7 @@ export function UnlockHelpButton({
     )
   }
 
-  const [unlockHelp, { error }] = useMutation(() => UnlockHelp(), {
+  const { mutate: unlockHelp, error } = useMutation(async () => UnlockHelp(), {
     onSuccess: () => window.location.reload(),
   })
 

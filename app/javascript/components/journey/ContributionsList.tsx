@@ -5,6 +5,7 @@ import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -45,12 +46,17 @@ export function ContributionsList({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<APIResult>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<APIResult>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
+  const latestData = useLatestData(resolvedData)
 
   const requestQuery = useDeepMemo(request.query)
   const setCategory = useCallback(

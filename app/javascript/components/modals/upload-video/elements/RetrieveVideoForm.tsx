@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import type { CommunityVideoType } from '@/components/types'
@@ -26,10 +26,13 @@ export function RetrieveVideoForm({
 
   const [retrievalError, setRetrievalError] = useState(false)
 
-  const [verifyVideo] = useMutation((url: any) => VerifyVideo(url), {
-    onSuccess: (data: VideoDataResponse) => onSuccess(data),
-    onError: () => setRetrievalError(true),
-  })
+  const { mutate: verifyVideo } = useMutation(
+    async (url: any) => VerifyVideo(url),
+    {
+      onSuccess: (data: VideoDataResponse) => onSuccess(data),
+      onError: () => setRetrievalError(true),
+    }
+  )
 
   const handleRetrieveVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

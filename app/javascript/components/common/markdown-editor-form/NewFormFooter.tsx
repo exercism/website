@@ -1,5 +1,5 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
+import { MutationStatus } from '@tanstack/react-query'
 import { GraphicalIcon } from '..'
 import { FormButton } from '../FormButton'
 
@@ -8,7 +8,7 @@ export const NewFormFooter = ({
   value,
   onCancel,
 }: {
-  status: QueryStatus
+  status: MutationStatus
   value: string
   onCancel?: (e: React.FormEvent) => void
 }): JSX.Element => {

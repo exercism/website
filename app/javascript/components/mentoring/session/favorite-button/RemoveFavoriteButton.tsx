@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { FormButton } from '@/components/common/FormButton'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
@@ -29,8 +29,12 @@ const Component = ({
 }: ComponentProps): JSX.Element | null => {
   const [isHovering, setIsHovering] = useState(false)
 
-  const [mutation, { status, error }] = useMutation<FavoritableStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',

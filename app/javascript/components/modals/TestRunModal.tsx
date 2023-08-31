@@ -17,11 +17,15 @@ export const TestRunModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const { resolvedData, status, error, isFetching } =
-    usePaginatedRequestQuery<APIResponse>(['test-run', endpoint], {
-      endpoint: endpoint,
-      options: { enabled: props.open },
-    })
+  const {
+    data: resolvedData,
+    status,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(['test-run', endpoint], {
+    endpoint: endpoint,
+    options: { enabled: props.open },
+  })
 
   return (
     <Modal className="m-test-run" {...props}>

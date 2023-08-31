@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
@@ -17,8 +17,12 @@ export const CommunityLaunchModal = ({
   jonathanImageUrl: string
 }): JSX.Element => {
   const [open, setOpen] = useState(true)
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

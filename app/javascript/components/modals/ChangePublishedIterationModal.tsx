@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { ModalProps, Modal } from './Modal'
 import { redirectTo } from '@/utils/redirect-to'
 import { sendRequest } from '@/utils/send-request'
@@ -27,8 +27,12 @@ export const ChangePublishedIterationModal = ({
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )
-  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<SolutionForStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

@@ -1,4 +1,5 @@
 import React, { useState, createContext, useCallback, useMemo } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { PaymentIntentType } from './stripe-form/useStripeForm'
 import { Tab, TabContext } from '../common/Tab'
 import { Icon } from '../common'
@@ -9,7 +10,6 @@ import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { useQueryCache } from 'react-query'
 import { FormWithModalLinks } from './FormWithModal'
 
 const TabsContext = createContext<TabContext>({
@@ -58,10 +58,10 @@ export const Form = ({
   onSettled = () => null,
   id,
 }: Props): JSX.Element => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription
-  }>('active-subscription', request)
+  }>(['active-subscription'], request)
   const [amount, setAmount] = useState({
     subscription: SUBSCRIPTION_DEFAULT_AMOUNT,
     payment: PAYMENT_DEFAULT_AMOUNT,
@@ -111,7 +111,7 @@ export const Form = ({
   const handleSuccess = useCallback(
     (type, amount) => {
       if (type === 'subscription') {
-        queryCache.setQueryData('active-subscription', () => {
+        queryClient.setQueryData(['active-subscription'], () => {
           return {
             subscription: {
               amountInCents: amount.intValue,
@@ -122,7 +122,7 @@ export const Form = ({
 
       onSuccess(type, amount)
     },
-    [onSuccess, queryCache]
+    [onSuccess, queryClient]
   )
 
   return (

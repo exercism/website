@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList, ListState } from '@/hooks/use-list'
 import { useQueryParams } from '@/hooks/use-query-params'
-
+import { useLatestData } from '@/hooks/use-latest-data'
 import type { CommunityVideoType, VideoTrack } from '@/components/types'
 
 export type APIResponse = {
@@ -48,7 +48,7 @@ export function useVideoGrid(
     setQuery,
   } = useList(videoRequest)
 
-  const { resolvedData, latestData, isFetching } =
+  const { data: resolvedData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
       [
         'community-video-grid-key',
@@ -58,6 +58,7 @@ export function useVideoGrid(
       ],
       request
     )
+  const latestData = useLatestData(resolvedData)
 
   const handlePageChange = useCallback(
     (page) => {

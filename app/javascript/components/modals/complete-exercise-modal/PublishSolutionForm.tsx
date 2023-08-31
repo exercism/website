@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { QueryStatus, useMutation } from 'react-query'
+import { MutationStatus, useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
@@ -13,7 +13,7 @@ const ConfirmButton = ({
   status,
   error,
 }: {
-  status: QueryStatus
+  status: MutationStatus
   error: unknown
 }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
@@ -43,8 +43,12 @@ export const PublishSolutionForm = ({
   const [iterationIdxToPublish, setIterationIdxToPublish] = useState<
     number | null
   >(null)
-  const [mutation, { status, error }] = useMutation<ExerciseCompletion>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<ExerciseCompletion>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

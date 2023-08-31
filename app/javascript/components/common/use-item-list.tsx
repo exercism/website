@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react'
-import { QueryKey, useQueryCache } from 'react-query'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
 
 type ListItemType = {
   uuid: string
 }
 
 export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const [editingItem, setEditingItem] = useState<T | null>(null)
 
   const handleEdit = useCallback((item) => {
@@ -19,7 +19,7 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
 
   const handleDelete = useCallback(
     (deleted) => {
-      queryCache.setQueryData<{ items: T[] }>([cacheKey], (oldData) => {
+      queryClient.setQueryData<{ items: T[] }>([cacheKey], (oldData) => {
         if (!oldData) {
           return { items: [] }
         }
@@ -29,12 +29,12 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
         }
       })
     },
-    [cacheKey, queryCache]
+    [cacheKey, queryClient]
   )
 
   const handleUpdate = useCallback(
     (updated) => {
-      queryCache.setQueryData<{ items: T[] }>([cacheKey], (oldData) => {
+      queryClient.setQueryData<{ items: T[] }>([cacheKey], (oldData) => {
         if (!oldData) {
           return { items: [updated] }
         }
@@ -46,7 +46,7 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
         }
       })
     },
-    [cacheKey, queryCache]
+    [cacheKey, queryClient]
   )
 
   const getItemAction = useCallback(

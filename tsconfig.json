@@ -15,6 +15,7 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "noImplicitAny": false,
     "types": ["./app/javascript/declarations"],
     "paths": {
       "@/*": ["./*"]

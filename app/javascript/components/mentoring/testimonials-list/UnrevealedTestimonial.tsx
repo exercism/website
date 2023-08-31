@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation, QueryKey, useQueryCache } from 'react-query'
+import { useMutation, QueryKey, useQueryClient } from '@tanstack/react-query'
 import { fromNow } from '../../../utils/time'
 import { GraphicalIcon, TrackIcon } from '../../common'
 import { SharePlatform, Testimonial } from '../../types'
@@ -23,15 +23,17 @@ export const UnrevealedTestimonial = ({
   cacheKey: QueryKey
   platforms: readonly SharePlatform[]
 }): JSX.Element => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const isMountedRef = useIsMounted()
   const [open, setOpen] = useState(false)
-  const [
-    revealedTestimonial,
-    setRevealedTestimonial,
-  ] = useState<Testimonial | null>(null)
-  const [reveal, { status, error }] = useMutation<Testimonial>(
-    () => {
+  const [revealedTestimonial, setRevealedTestimonial] =
+    useState<Testimonial | null>(null)
+  const {
+    mutate: reveal,
+    status,
+    error,
+  } = useMutation<Testimonial>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: testimonial.links.reveal,
         method: 'PATCH',
@@ -52,13 +54,13 @@ export const UnrevealedTestimonial = ({
     }
   )
   const updateCache = useCallback(() => {
-    const oldData = queryCache.getQueryData<PaginatedResult>(cacheKey)
+    const oldData = queryClient.getQueryData<PaginatedResult>(cacheKey)
 
     if (!oldData || !revealedTestimonial) {
       return
     }
 
-    queryCache.setQueryData(cacheKey, {
+    queryClient.setQueryData(cacheKey, {
       ...oldData,
       results: oldData.results.map((oldTestimonial) => {
         return oldTestimonial.uuid === revealedTestimonial.uuid
@@ -66,7 +68,7 @@ export const UnrevealedTestimonial = ({
           : oldTestimonial
       }),
     })
-  }, [cacheKey, revealedTestimonial, queryCache])
+  }, [cacheKey, revealedTestimonial, queryClient])
 
   return (
     <a

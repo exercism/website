@@ -3,6 +3,7 @@ import { useScrollToTop } from '@/hooks'
 import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { Pagination } from '../common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -40,14 +41,19 @@ export default function CommunitySolutionsList({
     setQuery,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<CommunitySolutionProps[]>,
-      Error | Response
-    >(
-      ['profile-community-solution-list', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<CommunitySolutionProps[]>,
+    Error | Response
+  >(
+    ['profile-community-solution-list', request.endpoint, request.query],
+    request
+  )
+  const latestData = useLatestData(resolvedData)
 
   const setTrack = useCallback(
     (slug) => {

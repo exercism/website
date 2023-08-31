@@ -36,8 +36,11 @@ export default ({
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
-  const { resolvedData, isError, isFetching } =
-    usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
+  const {
+    data: resolvedData,
+    isError,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
 
   const setTags = useCallback(
     (tags) => {

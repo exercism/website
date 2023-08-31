@@ -6,7 +6,7 @@ import { Mentoring } from './solution-summary/Mentoring'
 import { Loading, ProminentLink } from '../common'
 import { SolutionChannel } from '../../channels/solutionChannel'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useQueryCache } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   Iteration,
   MentorDiscussion,
@@ -64,12 +64,12 @@ export default function SolutionSummary({
   exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element | null {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const CACHE_KEY = `solution-${solution.uuid}-summary`
   const [queryEnabled, setQueryEnabled] = useState(true)
-  const { resolvedData, status } = usePaginatedRequestQuery<{
+  const { data: resolvedData, status } = usePaginatedRequestQuery<{
     iterations: Iteration[]
-  }>(CACHE_KEY, {
+  }>([CACHE_KEY], {
     ...request,
     options: {
       ...request.options,
@@ -81,14 +81,14 @@ export default function SolutionSummary({
     const solutionChannel = new SolutionChannel(
       { uuid: solution.uuid },
       (response) => {
-        queryCache.setQueryData(CACHE_KEY, response)
+        queryClient.setQueryData([CACHE_KEY], response)
       }
     )
 
     return () => {
       solutionChannel.disconnect()
     }
-  }, [CACHE_KEY, solution, queryCache])
+  }, [CACHE_KEY, solution, queryClient])
 
   const latestIteration =
     resolvedData?.iterations[resolvedData?.iterations.length - 1]

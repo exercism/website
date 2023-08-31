@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useQueryCache } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { SolutionWithLatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
 import { IterationStatus } from '@/components/types'
@@ -27,14 +27,14 @@ export function useGetLatestIteration({
   const [latestIteration, setLatestIteration] = useState<ResolvedIteration>()
   const [checkStatus, setCheckStatus] = useState('idle')
 
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const CACHE_KEY = `editor-${solution.uuid}-feedback`
 
   const [queryEnabled, setQueryEnabled] = useState(false)
 
-  const { resolvedData } = usePaginatedRequestQuery<{
+  const { data: resolvedData } = usePaginatedRequestQuery<{
     iteration: ResolvedIteration
-  }>(CACHE_KEY, {
+  }>([CACHE_KEY], {
     ...request,
     options: {
       ...request?.options,
@@ -61,14 +61,14 @@ export function useGetLatestIteration({
     const solutionChannel = new SolutionWithLatestIterationChannel(
       { uuid: solution.uuid },
       (response) => {
-        queryCache.setQueryData(CACHE_KEY, { iteration: response.iteration })
+        queryClient.setQueryData([CACHE_KEY], { iteration: response.iteration })
       }
     )
 
     return () => {
       solutionChannel.disconnect()
     }
-  }, [CACHE_KEY, queryCache, solution])
+  }, [CACHE_KEY, queryClient, solution])
 
   useEffect(() => {
     if (checkStatus === 'loading' && feedbackModalOpen) {

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -18,8 +18,12 @@ export const SatisfiedStep = ({
   onNotRequeued: () => void
   onBack: () => void
 }): JSX.Element => {
-  const [finish, { status, error }] = useMutation(
-    (requeue: boolean) => {
+  const {
+    mutate: finish,
+    status,
+    error,
+  } = useMutation(
+    async (requeue: boolean) => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',

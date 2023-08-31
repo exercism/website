@@ -1,6 +1,5 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
-import type { RefetchOptions } from 'react-query/types/core/query'
+import { QueryStatus, UseQueryResult } from '@tanstack/react-query'
 import { useScrollToTop } from '@/hooks'
 import { Pagination, Loading, GraphicalIcon } from '@/components/common'
 import { Discussion } from './Discussion'
@@ -22,8 +21,8 @@ export const DiscussionList = ({
   latestData: APIResponse | undefined
   status: QueryStatus
   setPage: (page: number) => void
-  refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
   links: Links
+  refetch: () => Promise<UseQueryResult<APIResponse, unknown>>
 }): JSX.Element => {
   const scrollToTopRef = useScrollToTop<HTMLDivElement>(
     resolvedData?.meta.currentPage

@@ -17,11 +17,15 @@ export const TestsInformation = ({
 }: {
   request: Request
 }): JSX.Element => {
-  const { resolvedData, status, error, isFetching } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['test-run', request.endpoint],
-      request
-    )
+  const {
+    data: resolvedData,
+    status,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['test-run', request.endpoint],
+    request
+  )
 
   return (
     <ResultsZone isFetching={isFetching}>

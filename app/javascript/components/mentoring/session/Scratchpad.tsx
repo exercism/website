@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { camelizeKeys } from 'humps'
 import { sendRequest } from '@/utils/send-request'
 import { typecheck } from '@/utils/typecheck'
@@ -35,8 +35,8 @@ export const Scratchpad = ({
     setContent(content)
   }, [])
 
-  const [mutation] = useMutation<ScratchpadPage>(
-    () => {
+  const { mutate: mutation } = useMutation<ScratchpadPage>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: scratchpad.links.self,
         method: 'PATCH',

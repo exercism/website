@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Iteration, SolutionForStudent } from '@/components/types'
 import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils/redirect-to'
@@ -20,8 +20,12 @@ export const PublishSolutionModal = ({
   iterations: readonly Iteration[]
 }): JSX.Element => {
   const [iterationIdx, setIterationIdx] = useState<number | null>(null)
-  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<SolutionForStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

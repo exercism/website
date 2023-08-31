@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { SolutionForStudent } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
@@ -16,8 +16,12 @@ export const EnableSolutionCommentsModal = ({
   endpoint: string
   onSuccess: () => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<SolutionForStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

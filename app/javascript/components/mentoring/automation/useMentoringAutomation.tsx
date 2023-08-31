@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { useHistory } from '@/hooks/use-history'
@@ -61,18 +61,23 @@ export const useMentoringAutomation = ({
     }
   }, [request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
-  const { resolvedData, latestData, isFetching, status, error } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentoring-automation', debouncedQuery],
-      {
-        ...request,
-        query: debouncedQuery,
-        options: {
-          ...request.options,
-          enabled: !!track,
-        },
-      }
-    )
+  const {
+    data: resolvedData,
+    latestData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentoring-automation', debouncedQuery],
+    {
+      ...request,
+      query: debouncedQuery,
+      options: {
+        ...request.options,
+        enabled: !!track,
+      },
+    }
+  )
 
   useHistory({ pushOn: debouncedQuery })
 

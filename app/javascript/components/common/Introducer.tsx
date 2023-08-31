@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon, Icon } from './'
 import { FormButton } from './FormButton'
@@ -25,8 +25,12 @@ export default function Introducer({
 }>): JSX.Element | null {
   const [hidden, setHidden] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

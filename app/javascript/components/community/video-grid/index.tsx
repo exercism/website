@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { QueryStatus } from 'react-query'
 import { ResultsZone } from '@/components/ResultsZone'
 import {
   Avatar,
@@ -130,7 +129,7 @@ function VideoGridHeader({
         tracks={tracks}
         setValue={handleTrackChange}
         sizeVariant="automation"
-        status={QueryStatus.Success}
+        status={'success'}
         error={undefined}
         countText={'video'}
       />

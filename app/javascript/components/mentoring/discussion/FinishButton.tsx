@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/mentor/FinishMentorDiscussionModal'
 import { ModalProps } from '../../modals/Modal'
 import { MentorDiscussion as Discussion } from '../../types'
-import Mousetrap from 'mousetrap'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 
@@ -17,8 +16,12 @@ export const FinishButton = ({
   onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
-  const [mutation, { status, error }] = useMutation<Discussion>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<Discussion>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

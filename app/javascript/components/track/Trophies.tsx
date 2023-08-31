@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { assetUrl } from '@/utils/assets'
 import { timeFormat } from '@/utils/time'
@@ -181,8 +181,8 @@ const UnrevealedTrophy = ({
   updateTrophy: (trophy: Trophy) => void
 }): JSX.Element => {
   const [showError, setShowError] = useState(false)
-  const [mutation] = useMutation(
-    () => {
+  const { mutate: mutation } = useMutation(
+    async () => {
       if (!trophy.links.reveal) {
         throw new Error('Reveal link is not available')
       }

@@ -98,9 +98,12 @@ export const ConceptMakersModal = ({
   endpoint,
   ...props
 }: { endpoint: string } & Omit<ModalProps, 'className'>): JSX.Element => {
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
-    APIResponse
-  >(['concept-makers', endpoint], {
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(['concept-makers', endpoint], {
     endpoint: endpoint,
     options: { enabled: props.open },
   })

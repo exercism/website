@@ -6,7 +6,7 @@ import { ResultsZone } from '../../ResultsZone'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
 import { SolutionComment } from '../../types'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 
 const DEFAULT_ERROR = new Error('Unable to load comments')
 
@@ -21,9 +21,12 @@ export const ListContainer = ({
   request: Request
   cacheKey: QueryKey
 }): JSX.Element => {
-  const { resolvedData, status, error, isFetching } = usePaginatedRequestQuery<
-    APIResponse
-  >(cacheKey, request)
+  const {
+    data: resolvedData,
+    status,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(cacheKey, request)
 
   return (
     <ResultsZone isFetching={isFetching}>

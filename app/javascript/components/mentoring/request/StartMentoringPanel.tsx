@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { MentorSessionRequest as Request } from '../../types'
@@ -25,8 +25,12 @@ export const StartMentoringPanel = ({
   request: Request
   onLock: (request: Request) => void
 }): JSX.Element => {
-  const [lock, { status, error }] = useMutation<Request>(
-    () => {
+  const {
+    mutate: lock,
+    status,
+    error,
+  } = useMutation<Request>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: request.links.lock,
         body: null,

@@ -16,7 +16,7 @@ import {
 import { LatestIterationStatusChannel } from '../../channels/latestIterationStatusChannel'
 import { usePaginatedRequestQuery, Request } from '../../hooks/request-query'
 import pluralize from 'pluralize'
-import { useQueryCache } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 export type Track = {
   title: string
@@ -60,12 +60,12 @@ export default function Nudge({
   iterations,
   track,
 }: Props): JSX.Element | null {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const CACHE_KEY = `nudge-${solution.uuid}`
   const [queryEnabled, setQueryEnabled] = useState(true)
-  const { resolvedData } = usePaginatedRequestQuery<{
+  const { data: resolvedData } = usePaginatedRequestQuery<{
     status: IterationStatus
-  }>(CACHE_KEY, {
+  }>([CACHE_KEY], {
     ...request,
     options: {
       ...request.options,
@@ -124,14 +124,14 @@ export default function Nudge({
     const channel = new LatestIterationStatusChannel(
       solution.uuid,
       (response) => {
-        queryCache.setQueryData(CACHE_KEY, response)
+        queryClient.setQueryData([CACHE_KEY], response)
       }
     )
 
     return () => {
       channel.disconnect()
     }
-  }, [CACHE_KEY, solution, queryCache])
+  }, [CACHE_KEY, solution, queryClient])
 
   useEffect(() => {
     setNudgeType(getNudgeType())

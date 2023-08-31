@@ -9,6 +9,7 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
 import { useQueryParams } from '@/hooks/use-query-params'
+import { useLatestData } from '@/hooks/use-latest-data'
 import {
   ContributorRow,
   PeriodButton,
@@ -39,14 +40,19 @@ export default function ContributorsList({
   tracks: readonly Track[]
 }): JSX.Element {
   const { request, setPage, setQuery } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
-      ['contributors-list', request.endpoint, request.query],
-      {
-        ...request,
-        options: { ...request.options },
-      }
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
+    ['contributors-list', request.endpoint, request.query],
+    {
+      ...request,
+      options: { ...request.options },
+    }
+  )
+  const latestData = useLatestData(resolvedData)
 
   const requestQuery = useDeepMemo(request.query)
   const setQueryValue = useCallback(

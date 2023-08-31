@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { sendRequest } from '../../utils/send-request'
 import { Submission, TestRunStatus, TestRun } from './types'
 import { File } from '../types'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { typecheck } from '../../utils/typecheck'
 
 type Links = {
@@ -23,8 +23,8 @@ export const useSubmissionsList = (
 } => {
   const [list, setList] = useState(defaultList)
 
-  const [create] = useMutation<Submission, unknown, File[]>(
-    (files) => {
+  const { mutate: create } = useMutation<Submission, unknown, File[]>(
+    async (files) => {
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',

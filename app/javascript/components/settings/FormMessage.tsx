@@ -1,7 +1,7 @@
 import React from 'react'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { FallbackProps } from 'react-error-boundary'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { Icon } from '../common'
 
 const ErrorMessage = ({ error }: FallbackProps): JSX.Element => {

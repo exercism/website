@@ -3,7 +3,7 @@ import { ReputationIcon } from './reputation/ReputationIcon'
 import { ReputationMenu } from './reputation/ReputationMenu'
 import { ReputationChannel } from '../../channels/reputationChannel'
 import { useDropdown, DropdownAttributes } from './useDropdown'
-import { QueryStatus } from 'react-query'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
@@ -58,7 +58,7 @@ const DropdownContent = ({
   itemAttributes,
 }: {
   data: APIResponse | undefined
-  cacheKey: string
+  cacheKey: QueryKey
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
@@ -101,12 +101,16 @@ export default function Reputation({
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
-  const { resolvedData, error, status, refetch } =
-    usePaginatedRequestQuery<APIResponse>(cacheKey, {
-      endpoint: endpoint,
-      query: { per_page: MAX_TOKENS },
-      options: {},
-    })
+  const {
+    data: resolvedData,
+    error,
+    status,
+    refetch,
+  } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
+    endpoint: endpoint,
+    query: { per_page: MAX_TOKENS },
+    options: {},
+  })
   const {
     buttonAttributes,
     panelAttributes,
@@ -167,7 +171,7 @@ export default function Reputation({
         <div className="c-reputation-dropdown" {...panelAttributes}>
           <DropdownContent
             data={resolvedData}
-            cacheKey={cacheKey}
+            cacheKey={[cacheKey]}
             status={status}
             error={error}
             itemAttributes={itemAttributes}

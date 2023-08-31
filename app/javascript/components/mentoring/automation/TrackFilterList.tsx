@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react'
 import { TrackIcon, Icon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { AutomationTrack } from '../../types'
-import { QueryStatus } from 'react-query'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
 import { pluralizeWithNumber } from '../../../utils/pluralizeWithNumber'
@@ -66,7 +66,7 @@ type Props = {
   isFetching: boolean
   value: AutomationTrack
   setValue: (value: AutomationTrack) => void
-  cacheKey: string
+  cacheKey: QueryKey
   sizeVariant?: 'large' | 'multi' | 'inline' | 'single' | 'automation'
   countText: string
 }

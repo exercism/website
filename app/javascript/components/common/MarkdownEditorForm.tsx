@@ -1,11 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react'
+import { MutationStatus } from '@tanstack/react-query'
 import {
   default as MarkdownEditor,
   MarkdownEditorHandle,
 } from './MarkdownEditor'
 import { FormFooter } from './markdown-editor-form/FormFooter'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import { QueryStatus } from 'react-query'
 
 const ErrorMessage = ({
   error,
@@ -47,7 +47,7 @@ export const MarkdownEditorForm = ({
   onChange: (value: string) => void
   contextId?: string
   value: string
-  status: QueryStatus
+  status: MutationStatus
   error: unknown
   defaultError: Error
   action: MarkdownEditorFormAction

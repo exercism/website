@@ -4,6 +4,7 @@ import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { useLatestData } from '@/hooks/use-latest-data'
 import { Checkbox, Icon, Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -43,14 +44,19 @@ export function ExerciseCommunitySolutionsList({
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<CommunitySolutionProps[]>,
-      Error | Response
-    >(
-      ['exercise-community-solution-list', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<CommunitySolutionProps[]>,
+    Error | Response
+  >(
+    ['exercise-community-solution-list', request.endpoint, request.query],
+    request
+  )
+  const latestData = useLatestData(resolvedData)
 
   useEffect(() => {
     const handler = setTimeout(() => {

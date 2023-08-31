@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Icon } from '@/components/common'
 import RadioButton from '@/components/mentoring/representation/right-pane/RadioButton'
@@ -47,8 +47,8 @@ export function UploadVideoForm({
     return fetch
   }
 
-  const [uploadVideo, { error }] = useMutation(
-    (body: string) => UploadVideo(body),
+  const { mutate: uploadVideo, error } = useMutation(
+    async (body: string) => UploadVideo(body),
     {
       onSuccess,
     }

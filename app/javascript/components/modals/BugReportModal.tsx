@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { sendRequest } from '../../utils/send-request'
 import { Modal } from './Modal'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 
 enum BugReportModalStatus {
   INITIALIZED = 'initialized',
@@ -29,8 +29,8 @@ export const BugReportModal = ({
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
   const [content, setContent] = useState('')
 
-  const [mutation] = useMutation(
-    () => {
+  const { mutate: mutation } = useMutation(
+    async () => {
       if (!url) {
         throw 'No bug report URL found'
       }

@@ -43,9 +43,14 @@ export default function SolutionView({
   const [currentIteration, setCurrentIteration] = useState(
     publishedIterations[publishedIterations.length - 1]
   )
-  const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
+  const {
+    data: resolvedData,
+    error,
+    status,
+    isFetching,
+  } = usePaginatedRequestQuery<{
     files: File[]
-  }>(currentIteration.links.files, {
+  }>([currentIteration.links.files], {
     endpoint: currentIteration.links.files,
     options: {},
   })

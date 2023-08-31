@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import type { VideoTrack } from '@/components/types'
 import { TrackIcon, Icon } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'

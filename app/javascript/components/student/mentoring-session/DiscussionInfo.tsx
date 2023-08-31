@@ -8,7 +8,7 @@ import { MentorDiscussion, Iteration } from '../../types'
 import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 
 type Links = {
   exercise: string

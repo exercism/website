@@ -15,6 +15,5 @@ class User::Notifications::NudgeStudentToReplyInDiscussionNotification < User::N
 
   def image_type = :avatar
   def image_url = mentor.avatar_url
-  def guard_params = "Discussion##{discussion.id}##{nudge_day}##{num_days_waiting}"
-  def nudge_day = (discussion.awaiting_student_since + num_days_waiting.days).to_date
+  def guard_params = "Discussion##{discussion.id}##{discussion.awaiting_student_since.to_date}##{num_days_waiting}"
 end

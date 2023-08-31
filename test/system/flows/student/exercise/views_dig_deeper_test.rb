@@ -83,8 +83,7 @@ module Flows
           create(:user_track, user:, track:)
           create(:hello_world_solution, :completed, track:, user:)
           exercise = create :practice_exercise, track:, slug: 'hamming', has_approaches: true
-          exercise.stubs(:approaches_introduction).returns("something")
-          create(:exercise_approach, exercise:)
+          create(:exercise_approach, exercise:, blurb: 'For Aron')
           create(:exercise_article, exercise:)
           # Simulate having submitted an iteration
           solution = create(:practice_solution, user:, exercise:)
@@ -96,7 +95,7 @@ module Flows
             visit track_exercise_dig_deeper_path(track, exercise)
 
             sleep(5)
-            # assert_css('.hljs')
+            assert_css('.hljs')
 
             assert_text "Performance" # Shows article
             assert_text "Readability" # Shows approach

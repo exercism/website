@@ -16,8 +16,7 @@ class Mentor::Discussion::SendNudges
   end
 
   def student_nudge_discussions
-    Mentor::Discussion.
-      includes(:student, :exercise, :track).
+    Mentor::Discussion.includes(:student).
       awaiting_student.
       where('awaiting_student_since < ?', Time.now.utc - 7.days)
   end
@@ -44,8 +43,7 @@ class Mentor::Discussion::SendNudges
   end
 
   def mentor_nudge_discussions
-    Mentor::Discussion.
-      includes(:mentor, :exercise, :track).
+    Mentor::Discussion.includes(:mentor).
       awaiting_mentor.
       where('awaiting_mentor_since < ?', Time.now.utc - 7.days)
   end

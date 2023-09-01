@@ -2,6 +2,6 @@
 
 timeout="10s"
 status="yellow"
-url="'${OPENSEARCH_HOST}/_cluster/health?wait_for_status=${status}&timeout=${timeout}'"
+url="${OPENSEARCH_HOST}/_cluster/health"
 
-curl --request GET --head --fail --silent --output /dev/null --user admin:admin "${url}"
+curl --get --fail --insecure --user admin:admin --data-urlencode "wait_for_status=${status}" --data-urlencode "timeout=${timeout}" "${url}"

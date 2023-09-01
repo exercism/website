@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Tippy, { TippyProps } from '@tippyjs/react'
 import { Instance } from 'tippy.js'
 import { renderComponents } from '@/utils/react-bootloader'
@@ -10,7 +10,8 @@ export type LazyTippyProps = TippyProps & {
 }
 
 export const LazyTippy = (props: LazyTippyProps): JSX.Element => {
-  const { renderReactComponents, ...tippyProps } = props
+  // const { renderReactComponents, ...tippyProps } = props
+  const [tippyProps, setTippyProps] = useState(props)
   const [mounted, setMounted] = React.useState(false)
 
   const lazyPlugin = {
@@ -18,23 +19,34 @@ export const LazyTippy = (props: LazyTippyProps): JSX.Element => {
       onMount: () => setMounted(true),
       onHidden: () => setMounted(false),
       onAfterUpdate: (instance: Instance) => {
-        if (renderReactComponents) {
+        if (tippyProps.renderReactComponents) {
           renderComponents(instance.popper, mappings)
         }
       },
     }),
   }
 
-  const computedProps = { ...tippyProps }
+  // const computedProps = { ...tippyProps }
 
-  computedProps.plugins = [lazyPlugin, ...(tippyProps.plugins || [])]
+  useEffect(() => {
+    if (tippyProps.render) {
+      // console.log('tippyprops render')
+      const { render } = tippyProps // let TypeScript safely derive that render is not undefined
+      setTippyProps({
+        render: (...args) => (mounted ? render(...args) : ''),
+        ...tippyProps,
+      })
+    } else {
+      setTippyProps({
+        content: mounted ? tippyProps.content : '',
+        ...tippyProps,
+      })
+    }
+    setTippyProps({
+      plugins: [lazyPlugin, ...(tippyProps.plugins || [])],
+      ...tippyProps,
+    })
+  }, [])
 
-  if (tippyProps.render) {
-    const { render } = tippyProps // let TypeScript safely derive that render is not undefined
-    computedProps.render = (...args) => (mounted ? render(...args) : '')
-  } else {
-    computedProps.content = mounted ? tippyProps.content : ''
-  }
-
-  return <Tippy {...computedProps} />
+  return <Tippy {...tippyProps} />
 }

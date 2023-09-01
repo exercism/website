@@ -79,7 +79,7 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
       repo_url: TestHelpers.git_repo_url("track-with-exercises"))
 
-    assert_equal Time.zone.utc_to_local(Time.utc(2022, 9, 29, 13, 46, 54)), approaches.introduction_last_modified_at
+    assert_equal Time.zone.utc_to_local(Time.utc(2023, 8, 31, 10, 27, 9)), approaches.introduction_last_modified_at
   end
 
   test "introduction_last_modified_at without approaches introduction" do

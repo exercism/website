@@ -9,7 +9,7 @@ import { RepresentationList } from './RepresentationList'
 import { Sorter } from '../Sorter'
 import { StatusTab } from '../inbox/StatusTab'
 import { SortOption } from '../Inbox'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 import type { AutomationStatus, AutomationTrack } from '@/components/types'
 
 export type AutomationLinks = {

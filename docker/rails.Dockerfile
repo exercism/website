@@ -11,12 +11,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y cmake make nodejs yarn graphicsmagick libvips42
 
-WORKDIR /usr/share/GeoIP
-
-RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${GEOIP_LICENSE_KEY}&suffix=tar.gz" --output geolite2-city.tar.gz && \
-    tar -xvf geolite2-city.tar.gz --strip-components=1 --wildcards '*/GeoLite2-City.mmdb' && \
-    rm geolite2-city.tar.gz
-
 WORKDIR /opt/exercism/website
 
 RUN gem install nokogiri -v 1.14.2 && \
@@ -33,6 +27,12 @@ RUN bundle config set deployment 'true' && \
 # Only package.json and yarn.lock changes require a new yarn install
 COPY package.json yarn.lock ./
 RUN yarn install
+
+WORKDIR /usr/share/GeoIP
+
+RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${GEOIP_LICENSE_KEY}&suffix=tar.gz" --output geolite2-city.tar.gz && \
+    tar -xvf geolite2-city.tar.gz --strip-components=1 --wildcards '*/GeoLite2-City.mmdb' && \
+    rm geolite2-city.tar.gz
 
 # Copy everything over now
 COPY . ./

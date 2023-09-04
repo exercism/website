@@ -4,7 +4,6 @@
 .git/
 .github/
 .husky/
-docker/
 docs/
 log/
 node_modules/

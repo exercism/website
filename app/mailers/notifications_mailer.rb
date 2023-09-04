@@ -99,7 +99,7 @@ class NotificationsMailer < ApplicationMailer
     @user = notification.user
 
     subject = "Exercism - Join our community"
-    mail_to_user(@user, subject)
+    transactional_mail(@user, subject)
   end
 
   def onboarding_fundraising
@@ -107,7 +107,7 @@ class NotificationsMailer < ApplicationMailer
     @user = notification.user
 
     subject = "Exercism - A Free Platform with a Social Mission"
-    mail_to_user(@user, subject)
+    transactional_mail(@user, subject)
   end
 
   def nudge_to_request_mentoring

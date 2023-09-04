@@ -94,6 +94,14 @@ class NotificationsMailer < ApplicationMailer
     transactional_mail(@user, subject)
   end
 
+  def onboarding_product
+    notification = params[:notification]
+    @user = notification.user
+
+    subject = "How are you getting on with Exercism?"
+    transactional_mail(@user, subject)
+  end
+
   def onboarding_community
     notification = params[:notification]
     @user = notification.user

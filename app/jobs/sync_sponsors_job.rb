@@ -6,5 +6,6 @@ class SyncSponsorsJob < ApplicationJob
   def perform
     Payments::Github::Sponsorship::SyncAll.()
     Payments::Stripe::Subscription::SyncAll.()
+    Payments::Stripe::Payment::SyncAll.()
   end
 end

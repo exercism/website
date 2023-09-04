@@ -156,6 +156,7 @@ end
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include ActiveJob::TestHelper
+  include Propshaft::Helper
 
   # Run tests in parallel with specified workers
   # parallelize(workers: :number_of_processors)
@@ -389,6 +390,10 @@ class ActiveSupport::TestCase
   def reset_user_cache(user)
     user.data.reload.update!(cache: nil)
     user.reload
+  end
+
+  def image_path(img)
+    "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(img)}"
   end
 end
 

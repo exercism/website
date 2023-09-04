@@ -28,13 +28,14 @@ RUN bundle config set deployment 'true' && \
 COPY package.json yarn.lock ./
 RUN yarn install
 
+# Pause to download GeoIP
 WORKDIR /usr/share/GeoIP
-
 RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${GEOIP_LICENSE_KEY}&suffix=tar.gz" --output geolite2-city.tar.gz && \
     tar -xvf geolite2-city.tar.gz --strip-components=1 --wildcards '*/GeoLite2-City.mmdb' && \
     rm geolite2-city.tar.gz
 
 # Copy everything over now
+WORKDIR /opt/exercism/website
 COPY . ./
 
 # Speed things up by precompiling bootsnap

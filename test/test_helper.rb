@@ -156,6 +156,7 @@ end
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include ActiveJob::TestHelper
+  include Propshaft::Helper
 
   # Run tests in parallel with specified workers
   # parallelize(workers: :number_of_processors)
@@ -392,8 +393,6 @@ class ActiveSupport::TestCase
   end
 
   def image_path(img)
-    # We include propshaft helper just for this eigenclass
-    self.class.include Propshaft::Helper
     "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(img)}"
   end
 end

@@ -21,7 +21,8 @@ class ViewComponents::HandleWithFlairTest < ActionView::TestCase
     expected = tag.span(class: 'inline-flex items-center leading-150') do
       safe_join([
         handle,
-        icon(:insiders, alt, style: "all:unset; height: 13px; width: 13px; margin-left: 4px; margin-bottom: 1px", title:)
+        image_tag('/assets/icons/insiders-d0418ec8b59d21a8852f7326404fa20b2d21785d.svg', alt:, class: 'c-icon',
+          style: "all:unset; height: 13px; width: 13px; margin-left: 4px; margin-bottom: 1px", title:)
       ].compact)
     end
 

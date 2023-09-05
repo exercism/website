@@ -20,7 +20,7 @@ class User::ResetAccount
     )
 
     user.avatar&.destroy
-    User::RemoveRoles.(user, user.roles)
+    User::RemoveRoles.defer(user, user.roles.to_a)
     User::IncrementVersion.(user)
   end
 

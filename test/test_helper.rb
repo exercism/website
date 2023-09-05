@@ -134,13 +134,13 @@ else
 end
 
 class ActionMailer::TestCase
-  def assert_email(email, to, subject, fixture, bulk: false)
+  def assert_email(email, to, subject, fixture, bulk: false) # rubocop:disable Lint/UnusedMethodArgument
     # Test email can send ok
     assert_emails 1 do
       email.deliver_now
     end
 
-    tld = bulk ? "io" : "org"
+    tld = "org" # bulk ? "io" : "org"
     from = "hello@mail.exercism.#{tld}"
 
     # Test the body of the sent email contains what we expect it to

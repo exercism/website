@@ -4,7 +4,7 @@ import { BuildingContributionsList } from './contributions-list/BuildingContribu
 import { MaintainingContributionsList } from './contributions-list/MaintainingContributionsList'
 import { AuthoringContributionsList } from './contributions-list/AuthoringContributionsList'
 import { OtherContributionsList } from './contributions-list/OtherContributionsList'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 
 export type Category = {
   title: 'Building' | 'Maintaining' | 'Authoring' | 'Other'

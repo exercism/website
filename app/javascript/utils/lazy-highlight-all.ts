@@ -2,6 +2,9 @@ export function lazyHighlightAll(): void {
   let highlighted = false
 
   function applySyntaxHighlighting() {
+    // to avoid race conditions, set this optimistically to true before the async loading
+    highlighted = true
+
     import('@/utils/highlight')
       .then((m) => {
         m.highlightAll()
@@ -13,16 +16,10 @@ export function lazyHighlightAll(): void {
       })
   }
 
-  function initAndApplyHighlighting() {
-    // to avoid race conditions, set this optimistically to true before the async loading
-    highlighted = true
-    applySyntaxHighlighting()
-  }
-
   function checkAndInitHighlighting() {
     if (!shouldApplySyntaxHighlighting(document, highlighted)) return
 
-    initAndApplyHighlighting()
+    applySyntaxHighlighting()
   }
 
   function handleDOMChanges(mutationsList: MutationRecord[]): void {
@@ -33,14 +30,14 @@ export function lazyHighlightAll(): void {
         if (node.nodeType !== Node.ELEMENT_NODE) continue
 
         if (shouldApplySyntaxHighlighting(node as Element, highlighted)) {
-          initAndApplyHighlighting()
+          applySyntaxHighlighting()
           return
         }
       }
     }
   }
 
-  checkAndInitHighlighting()
+  applySyntaxHighlighting()
 
   const observer = new MutationObserver(handleDOMChanges)
   observer.observe(document.body, { childList: true, subtree: true })

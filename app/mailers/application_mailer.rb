@@ -41,7 +41,7 @@ class ApplicationMailer < ActionMailer::Base
     }
     mail_to_user(
       *args,
-      from: "Jeremy from Exercism <hello@#{Exercism.secrets.bulk_smtp_sending_domain}>",
+      from: "Jeremy from Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
       delivery_method_options:,
       **kwargs
     )

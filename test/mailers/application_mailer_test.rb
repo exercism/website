@@ -49,7 +49,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       ApplicationMailer.any_instance.expects(:mail_to_user).with(
         user, "Be a badass",
-        from: "Jeremy from Exercism <hello@mail.exercism.io>",
+        from: "Jeremy from Exercism <hello@mail.exercism.org>",
         delivery_method_options: {
           user_name: Exercism.secrets.transactional_smtp_username,
           password: Exercism.secrets.transactional_smtp_password,

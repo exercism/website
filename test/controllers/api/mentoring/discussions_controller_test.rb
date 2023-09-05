@@ -105,7 +105,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: ActionController::Base.helpers.image_path("graphics/missing-track.svg"), count: 3 },
+      { slug: nil, title: 'All Tracks', icon_url: image_path("graphics/missing-track.svg"), count: 3 },
       { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 }
     ]

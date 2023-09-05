@@ -56,7 +56,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
         {
           slug: nil,
           title: "All Tracks",
-          icon_url: ActionController::Base.helpers.image_path("graphics/missing-track.svg"),
+          icon_url: image_path("graphics/missing-track.svg"),
           categories: [
             { id: :publishing, reputation: 10, metric_full: "5 solutions published", metric_short: "5 solutions" },
             { id: :mentoring, reputation: 45, metric_full: "9 students mentored", metric_short: "9 students" },
@@ -105,7 +105,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
         {
           slug: nil,
           title: "All Tracks",
-          icon_url: ActionController::Base.helpers.image_path("graphics/missing-track.svg"),
+          icon_url: image_path("graphics/missing-track.svg"),
           categories: [
             { id: :publishing, reputation: 0, metric_full: "No solutions published", metric_short: "No solutions" },
             { id: :mentoring, reputation: 0, metric_full: "No students mentored", metric_short: "No students" },

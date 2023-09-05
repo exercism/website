@@ -1,6 +1,11 @@
 .theme-light,
 .theme-accessibility-dark {
     .c-header-with-bg {
+        /*
+         * app/images/bg-pattern.svg
+         * https://pattern.monster/hexagon-1/
+         * https://base64.guru/converter/encode/image/svg
+         * */
         background: linear-gradient(
                 180deg,
                 rgba(251, 251, 255, 0) 79.36%,
@@ -13,7 +18,8 @@
                 rgba(250, 250, 255, 0) 77.6%,
                 #fafaff 100%
             ),
-            url("bg-tracks-header@2x.jpg"), #fafaff;
+            url("data:image/svg+xml;base64,PHN2ZyBpZD0ncGF0dGVybklkJyB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxkZWZzPjxwYXR0ZXJuIGlkPSdhJyBwYXR0ZXJuVW5pdHM9J3VzZXJTcGFjZU9uVXNlJyB3aWR0aD0nMjknIGhlaWdodD0nNTAuMTE1JyBwYXR0ZXJuVHJhbnNmb3JtPSdzY2FsZSgyKSByb3RhdGUoMCknPjxyZWN0IHg9JzAnIHk9JzAnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbGw9J2hzbGEoMCwwJSwxMDAlLDEpJy8+PHBhdGggZD0nTTE0LjQ5OCAxNi44NThMMCA4LjQ4OC4wMDItOC4yNTdsMTQuNS04LjM3NEwyOS04LjI2bC0uMDAyIDE2Ljc0NXptMCA1MC4wNkwwIDU4LjU0OGwuMDAyLTE2Ljc0NSAxNC41LTguMzczTDI5IDQxLjhsLS4wMDIgMTYuNzQ0ek0yOC45OTYgNDEuOGwtMTQuNDk4LTguMzcuMDAyLTE2Ljc0NEwyOSA4LjMxMmwxNC40OTggOC4zNy0uMDAyIDE2Ljc0NXptLTI5IDBsLTE0LjQ5OC04LjM3LjAwMi0xNi43NDRMMCA4LjMxMmwxNC40OTggOC4zNy0uMDAyIDE2Ljc0NXonICBzdHJva2Utd2lkdGg9JzAuNScgc3Ryb2tlPSdoc2xhKDI1OSwgMCUsIDkwJSwgMSknIGZpbGw9J25vbmUnLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSc4MDAlJyBoZWlnaHQ9JzgwMCUnIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC0zOCwtNi40NiknIGZpbGw9J3VybCgjYSknLz48L3N2Zz4K"),
+            #fafaff;
 
         background-size: 100%;
         background-position: -190px;

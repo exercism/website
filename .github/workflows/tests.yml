@@ -231,17 +231,9 @@ jobs:
       ###
       # Wait for everything to be ready
       - name: Wait for open search to become ready
-        id: wait-for-opensearch
         env:
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
         run: ./bin/wait_for_opensearch
-
-      - name: Re-run job if open-search failed to become ready
-        if: ${{ failure() }}
-        env:
-          GH_TOKEN: ${{ secrets.RERUN_WORKFLOWS_PAT }}
-        run: |
-          gh run rerun --failed ${{ github.run_id }}
 
       ###
       # Run the tests
@@ -402,17 +394,9 @@ jobs:
       ###
       # Wait for everything to be ready
       - name: Wait for open search to become ready
-        id: wait-for-opensearch
         env:
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
         run: ./bin/wait_for_opensearch
-
-      - name: Re-run job if open-search failed to become ready
-        if: ${{ failure() }}
-        env:
-          GH_TOKEN: ${{ secrets.RERUN_WORKFLOWS_PAT }}
-        run: |
-          gh run rerun --failed ${{ github.run_id }}
 
       ###
       # Run the tests

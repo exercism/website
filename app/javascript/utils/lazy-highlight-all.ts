@@ -41,14 +41,8 @@ export function lazyHighlightAll(): void {
   observer.observe(document.body, { childList: true, subtree: true })
 
   // if no code block is found within 2 seconds after the turbo:load event, disconnect the observer.
-  setTimeout(() => {
-    observer.disconnect()
-  }, 2000)
 }
 
 function hasHighlightableCodeBlock(rootNode: Document | Element): boolean {
-  return (
-    rootNode.querySelector('code[class^=lang-]') !== null ||
-    rootNode.querySelector('code[class^=language-]') !== null
-  )
+  return rootNode.querySelector('code') !== null
 }

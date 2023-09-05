@@ -39,11 +39,15 @@ class User::SetDiscordRoles
   def add_role!(role_id)
     url = API_URL % [GUILD_ID, user.discord_uid, role_id]
     RestClient.put(url, {}, Authorization: AUTH_HEADER)
+  rescue RestClient::NotFound
+    # If the user could not be found, ignore the error
   end
 
   def remove_role!(role_id)
     url = API_URL % [GUILD_ID, user.discord_uid, role_id]
     RestClient.delete(url, Authorization: AUTH_HEADER)
+  rescue RestClient::NotFound
+    # If the user could not be found, ignore the error
   end
 
   API_URL =  "https://discord.com/api/guilds/%s/members/%s/roles/%s".freeze

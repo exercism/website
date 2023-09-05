@@ -133,6 +133,26 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     end
   end
 
+  test "check 0 reputation is not cached" do
+    user = create :user
+
+    ActiveRecord::Relation.any_instance.expects(:sum).with(:num_tokens).at_least_once.returns({})
+
+    ActiveRecord::Relation.any_instance.expects(:sum).with(:reputation).returns(0)
+    data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+    assert_equal 0, data.reputation
+
+    # This time it should be cached with 10
+    ActiveRecord::Relation.any_instance.expects(:sum).with(:reputation).returns(10)
+    data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+    assert_equal 10, data.reputation
+
+    # So we shouldn't look it up next time
+    ActiveRecord::Relation.any_instance.expects(:sum).never
+    data = User::ReputationToken::CalculateContextualData.(user.id, period: :week)
+    assert_equal 10, data.reputation
+  end
+
   test "check cache is invalidated when a new token is created" do
     freeze_time do
       user = create :user

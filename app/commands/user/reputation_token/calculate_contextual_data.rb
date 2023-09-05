@@ -111,7 +111,7 @@ class User::ReputationToken::CalculateContextualData
 
       # Sometimes we get [] calculated/cached. I don't know why.
       # But when that happens, let's not use the cached version!
-      return parsed_value if parsed_value.present?
+      return parsed_value if parsed_value.present? && parsed_value != 0
     end
 
     # Or yield and cache a new one

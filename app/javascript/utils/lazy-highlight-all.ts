@@ -14,7 +14,7 @@ export function lazyHighlightAll(): void {
   }
 
   function checkAndHighlight(): void {
-    // only load highlightjs when a code block with lang-... or language-... classname exists in the DOM
+    // only load highlightjs when a code block exists in the DOM
     if (highlighted || !hasHighlightableCodeBlock(document)) return
 
     // to avoid race conditions, set this optimistically to true before the async loading

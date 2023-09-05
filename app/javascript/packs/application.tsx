@@ -2,7 +2,6 @@
 import React, { lazy, Suspense } from 'react'
 import { camelizeKeys } from 'humps'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
-import { highlightAll } from '@/utils/highlight'
 import { initReact } from '@/utils/react-bootloader'
 import { RenderLoader } from '@/components/common/RenderLoader'
 import 'focus-visible'
@@ -666,9 +665,10 @@ export const mappings = {
 initReact(mappings)
 
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
+import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 
 document.addEventListener('turbo:load', () => {
-  highlightAll()
+  lazyHighlightAll()
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()

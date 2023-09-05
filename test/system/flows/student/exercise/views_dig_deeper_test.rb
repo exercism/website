@@ -76,6 +76,31 @@ module Flows
             assert_text "Readability" # Shows approach
           end
         end
+
+        test "check if highlighting works for approaches introduction" do
+          user = create :user
+          track = create :track
+          create(:user_track, user:, track:)
+          create(:hello_world_solution, :completed, track:, user:)
+          exercise = create :practice_exercise, track:, slug: 'bob', has_approaches: true
+          create(:exercise_approach, exercise:)
+          create(:exercise_article, exercise:)
+          # Simulate having submitted an iteration
+          solution = create(:practice_solution, user:, exercise:)
+          submission = create(:submission, solution:)
+          create(:iteration, submission:)
+
+          use_capybara_host do
+            sign_in!(user)
+            visit track_exercise_dig_deeper_path(track, exercise)
+
+            assert_css('.hljs')
+            assert_css('.hljs-string')
+
+            assert_text "Perf" # Shows article
+            assert_text "Readability" # Shows approach
+          end
+        end
       end
     end
   end

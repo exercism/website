@@ -109,9 +109,11 @@ class User::ReputationToken::CalculateContextualData
     if cached
       parsed_value = JSON.parse(cached)
 
-      # Sometimes we get [] calculated/cached. I don't know why.
-      # But when that happens, let's not use the cached version!
-      return parsed_value if parsed_value.present?
+      # Sometimes, due to someone checking the contributors page while
+      # the reputation periods are being updated in their nightly cycle,
+      # this data is wrong (either empty array or 0).
+      # We shouldn't honour this and should act as if this isn't cached.
+      return parsed_value if parsed_value.present? && parsed_value != 0
     end
 
     # Or yield and cache a new one

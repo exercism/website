@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import currency from 'currency.js'
-import { Request } from '@/hooks'
+import { Request } from '@/hooks/request-query'
 import { Form } from './Form'
 import SuccessModal from './SuccessModal'
 import { PaymentIntentType } from './stripe-form/useStripeForm'

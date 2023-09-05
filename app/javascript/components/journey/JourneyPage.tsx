@@ -11,7 +11,7 @@ import { ContributionsList } from './ContributionsList'
 import { SolutionsList } from './SolutionsList'
 import { BadgesList } from './BadgesList'
 import { Overview } from './Overview'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 
 type CategoryId = 'solutions' | 'reputation'
 

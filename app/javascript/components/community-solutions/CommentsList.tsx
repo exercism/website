@@ -4,7 +4,7 @@ import { NewCommentForm } from './comments-list/NewCommentForm'
 import { Reminder } from './comments-list/Reminder'
 import { ListContainer } from './comments-list/ListContainer'
 import { ListDisabled } from './comments-list/ListDisabled'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 
 export type Links = {
   create: string

@@ -97,7 +97,7 @@ class Exercise < ApplicationRecord
 
   after_update_commit do
     if saved_changes.include?('git_important_files_hash')
-      Exercise::ProcessGitImportantFilesChanged.(
+      Exercise::ProcessGitImportantFilesChanged.defer(
         self,
         previous_changes['git_important_files_hash'][0],
         (previous_changes.dig('git_sha', 0) || git_sha),

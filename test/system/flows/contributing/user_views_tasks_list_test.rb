@@ -176,7 +176,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "2"
+          within(".c-pagination") { click_on "2" }
 
           assert_text "Write docs"
           assert_no_text "Fix bug"

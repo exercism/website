@@ -5,15 +5,15 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            Month 8 of #12in23
-          %h1.text-h1.mb-8 It's Appy August! ✨
+            Month 9 of #12in23
+          %h1.text-h1.mb-8 It's Slimline September! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring languages that can be used to build apps.
-            We're digging into a whopping 14 languages: ABAP, CoffeeScript, Dart, Delphi, Elm, Java, JavaScript, Kotlin, Objective-C, PHP, PureScript, ReasonML, Swift and TypeScript, with interviews and live streaming, exclusive swag and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring languages with concise syntax.
+            We're digging into the following languages: 8th, AWK, Bash, jq, Perl and Raku, with interviews and live streaming and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Appy August overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Slimline September overview video  👉
               %p.text-p-base.mb-8
                 Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
@@ -22,16 +22,17 @@
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/HuGqVceSyDk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/k9QMbXPcpr4", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
+          - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::SEPTEMBER_TRACKS)
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Appy August badge for completing and publishing 5 exercises in one of the following languages.
-            Consider starting with a language with a syllabus (
-            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
-            ).
+            Earn the Slimline September badge for completing and publishing 5 exercises in one of the following languages.
+            - if tracks.any?(&:course?)
+              Consider starting with a language with a syllabus (
+              = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+              ).
 
-          - tracks = Track.where(slug: %w[abap coffeescript dart delphi elm java javascript kotlin objective-c php purescript reasonml swift typescript])
           .grid.grid-cols-6.gap-12.mb-32
             - tracks.each do |track|
               = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
@@ -45,25 +46,25 @@
             You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/anagram.svg", class: "w-[25px] inline"
-              %strong.font-semibold Anagram:
-              Given a word and a list of possible anagrams, find its anagrams
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/atbash-cipher.svg", class: "w-[25px] inline"
+              %strong.font-semibold Atbash Cipher:
+              Encode and decode a sentence using an ancient encryption system
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/phone-number.svg", class: "w-[25px] inline"
-              %strong.font-semibold Phone Number:
-              Clean-up a phone number
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/darts.svg", class: "w-[25px] inline"
+              %strong.font-semibold Darts:
+              Score the points for a single toss in a darts game
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/triangle.svg", class: "w-[25px] inline"
-              %strong.font-semibold Triangle:
-              Classify a triangle
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/gigasecond.svg", class: "w-[25px] inline"
+              %strong.font-semibold Gigasecond:
+              Add a gigasecond to a certain date and time
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/rna-transcription.svg", class: "w-[25px] inline"
-              %strong.font-semibold RNA Transcription:
-              Transform a DNA sequence into its RNA complement
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/luhn.svg", class: "w-[25px] inline"
+              %strong.font-semibold Luhn:
+              Determine if a number is valid according to the Luhn formula
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/scrabble-score.svg", class: "w-[25px] inline"
-              %strong.font-semibold Scrabble Score:
-              Given a word, determine its scrabble score
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/series.svg", class: "w-[25px] inline"
+              %strong.font-semibold Series:
+              Output a string's contiguous substrings of a specific length
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12.c-highlight-links
@@ -84,10 +85,6 @@
               or using the
               %strong.font-semibold #12in23
               hashtag around social media!
-            %li.mb-4
-              We have exclusive Appy August swag that will only be available later in the month. Keep an eye on the
-              = link_to "swag store", "https://swag.exercism.org"
-              for details (and check out the Jurassic July swag before it goes too!)
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7

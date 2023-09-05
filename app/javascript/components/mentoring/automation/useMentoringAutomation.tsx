@@ -1,12 +1,10 @@
 import { useMemo } from 'react'
 import { QueryStatus } from 'react-query'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  Request,
-  useDebounce,
-  useHistory,
-} from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { useHistory } from '@/hooks/use-history'
+import { useDebounce } from '@/hooks/use-debounce'
+
 import type { MentoredTrack, Representation } from '@/components/types'
 
 export type RepresentationsRequest = {

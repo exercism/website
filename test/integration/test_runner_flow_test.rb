@@ -122,8 +122,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
       run_in_background: true
     )
 
-    exercise.update(git_sha:, git_important_files_hash:)
-    perform_enqueued_jobs
+    perform_enqueued_jobs do
+      exercise.update(git_sha:, git_important_files_hash:)
+    end
     solution.reload
     submission.reload
 
@@ -231,8 +232,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
     #   context: {}
     # )
 
-    exercise.update(git_sha:, git_important_files_hash:)
-    perform_enqueued_jobs
+    perform_enqueued_jobs do
+      exercise.update(git_sha:, git_important_files_hash:)
+    end
     submission.reload
     solution.reload
 

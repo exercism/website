@@ -32,16 +32,16 @@ class ApplicationMailer < ActionMailer::Base
 
   def bulk_mail(*args, **kwargs)
     delivery_method_options = {
-      user_name: Exercism.secrets.bulk_smtp_username,
-      password: Exercism.secrets.bulk_smtp_password,
-      address: Exercism.secrets.bulk_smtp_address,
-      domain: Exercism.secrets.bulk_smtp_address,
-      port: Exercism.secrets.bulk_smtp_port,
-      authentication: Exercism.secrets.bulk_smtp_authentication
+      user_name: Exercism.secrets.transactional_smtp_username,
+      password: Exercism.secrets.transactional_smtp_password,
+      address: Exercism.secrets.transactional_smtp_address,
+      port: Exercism.secrets.transactional_smtp_port,
+      authentication: Exercism.secrets.transactional_smtp_authentication,
+      enable_starttls_auto: true
     }
     mail_to_user(
       *args,
-      from: "Jeremy from Exercism <hello@#{Exercism.secrets.bulk_smtp_sending_domain}>",
+      from: "Jeremy from Exercism <hello@#{Exercism.secrets.transactional_smtp_sending_domain}>",
       delivery_method_options:,
       **kwargs
     )

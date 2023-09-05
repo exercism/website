@@ -155,4 +155,14 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
 
     User::SetDiscordRoles.(user)
   end
+
+  test "gracefully handles 404 insiders role when user is not an insider" do
+    uid = SecureRandom.hex
+    user = create :user, :insider, discord_uid: uid
+
+    RestClient.expects(:delete).raises(RestClient::NotFound).twice
+    RestClient.expects(:put).raises(RestClient::NotFound)
+
+    User::SetDiscordRoles.(user)
+  end
 end

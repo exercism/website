@@ -49,14 +49,14 @@ class ApplicationMailerTest < ActionMailer::TestCase
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       ApplicationMailer.any_instance.expects(:mail_to_user).with(
         user, "Be a badass",
-        from: "Jeremy from Exercism <hello@mail.exercism.io>",
+        from: "Jeremy from Exercism <hello@mail.exercism.org>",
         delivery_method_options: {
-          user_name: Exercism.secrets.bulk_smtp_username,
-          password: Exercism.secrets.bulk_smtp_password,
-          address: Exercism.secrets.bulk_smtp_address,
-          domain: Exercism.secrets.bulk_smtp_address,
-          port: Exercism.secrets.bulk_smtp_port,
-          authentication: Exercism.secrets.bulk_smtp_authentication
+          user_name: Exercism.secrets.transactional_smtp_username,
+          password: Exercism.secrets.transactional_smtp_password,
+          address: Exercism.secrets.transactional_smtp_address,
+          port: Exercism.secrets.transactional_smtp_port,
+          authentication: Exercism.secrets.transactional_smtp_authentication,
+          enable_starttls_auto: true
         }
       )
     end

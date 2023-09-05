@@ -5,6 +5,7 @@ class UserTrack::Reset
   delegate :user, :track, to: :user_track
 
   def call
+    user_track.viewed_community_solutions.destroy_all
     user_track.solutions.update_all("user_id = #{User::GHOST_USER_ID}, unique_key = UUID()")
     user_track.update(
       anonymous_during_mentoring: false,

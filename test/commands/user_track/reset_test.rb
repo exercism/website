@@ -51,6 +51,30 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     UserTrack::Reset.(user_track)
   end
 
+  test "remove viewed community solutions" do
+    create :user, :ghost
+    user = create :user
+    other_user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+    user_track = create(:user_track, user:, track:)
+    user_track_for_other_track = create(:user_track, user:, track: other_track)
+    user_track_for_other_user = create(:user_track, user: other_user, track:)
+    create(:user_track_viewed_community_solution, user:, track:)
+    create(:user_track_viewed_community_solution, user:, track: other_track)
+    create(:user_track_viewed_community_solution, user: other_user.user, track:)
+
+    assert user_track.viewed_community_solutions.exists?
+    assert user_track_for_other_track.viewed_community_solutions.exists?
+    assert user_track_for_other_user.viewed_community_solutions.exists?
+
+    UserTrack::Reset.(user_track)
+
+    refute user_track.viewed_community_solutions.exists?
+    assert user_track_for_other_track.viewed_community_solutions.exists?
+    assert user_track_for_other_user.viewed_community_solutions.exists?
+  end
+
   test "removes track-specification reputation" do
     freeze_time do
       create :user, :ghost

@@ -110,6 +110,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
     assert_enqueued_with(job: MandateJob, args: [Exercise::QueueSolutionHeadTestRuns.name, exercise]) do
       exercise.update!(git_important_files_hash: 'new-hash')
+      perform_enqueued_jobs
     end
   end
 
@@ -133,7 +134,7 @@ class ExerciseTest < ActiveSupport::TestCase
     git_sha = '0b04b8976650d993ecf4603cf7413f3c6b898eff'
     exercise = create(:practice_exercise, git_sha:)
 
-    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash, git_sha,
+    Exercise::ProcessGitImportantFilesChanged.expects(:defer).with(exercise, exercise.git_important_files_hash, git_sha,
       exercise.slug).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
@@ -143,7 +144,7 @@ class ExerciseTest < ActiveSupport::TestCase
     git_sha = 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
     exercise = create(:practice_exercise, slug: 'satellite', git_sha:)
 
-    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash, git_sha,
+    Exercise::ProcessGitImportantFilesChanged.expects(:defer).with(exercise, exercise.git_important_files_hash, git_sha,
       exercise.slug).once
 
     exercise.update!(git_important_files_hash: 'new-hash')

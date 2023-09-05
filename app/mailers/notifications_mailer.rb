@@ -110,7 +110,7 @@ class NotificationsMailer < ApplicationMailer
     transactional_mail(@user, subject)
   end
 
-  def onboarding_fundraising
+  def onboarding_insiders
     notification = params[:notification]
     @user = notification.user
 

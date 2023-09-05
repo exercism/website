@@ -83,10 +83,10 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).onboarding_community
   end
 
-  def onboarding_fundraising
+  def onboarding_insiders
     NotificationsMailer.with(
-      notification: User::Notifications::OnboardingFundraisingNotification.first
-    ).onboarding_fundraising
+      notification: User::Notifications::OnboardingInsidersNotification.first
+    ).onboarding_insiders
   end
 
   def eligible_for_insiders_notification

@@ -43,11 +43,11 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     user_4 = create :user, created_at: Time.current - 4.9.days # Sanity check: too soon
     user_5 = create :user, created_at: Time.current - 6.1.days # Sanity check: too late
 
-    User::Notification::Create.expects(:call).with(user_1, :onboarding_fundraising).once
-    User::Notification::Create.expects(:call).with(user_2, :onboarding_fundraising).once
-    User::Notification::Create.expects(:call).with(user_3, :onboarding_fundraising).once
-    User::Notification::Create.expects(:call).with(user_4, :onboarding_fundraising).never
-    User::Notification::Create.expects(:call).with(user_5, :onboarding_fundraising).never
+    User::Notification::Create.expects(:call).with(user_1, :onboarding_insiders).once
+    User::Notification::Create.expects(:call).with(user_2, :onboarding_insiders).once
+    User::Notification::Create.expects(:call).with(user_3, :onboarding_insiders).once
+    User::Notification::Create.expects(:call).with(user_4, :onboarding_insiders).never
+    User::Notification::Create.expects(:call).with(user_5, :onboarding_insiders).never
 
     CreateOnboardingNotificationsJob.perform_now
   end
@@ -61,9 +61,9 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     community_user_2 = create :user, created_at: Time.current - 3.6.days
     community_user_3 = create :user, created_at: Time.current - 3.7.days
 
-    fundraising_user_1 = create :user, created_at: Time.current - 5.1.days
-    fundraising_user_2 = create :user, created_at: Time.current - 5.3.days
-    fundraising_user_3 = create :user, created_at: Time.current - 5.5.days
+    insider_user_1 = create :user, created_at: Time.current - 5.1.days
+    insider_user_2 = create :user, created_at: Time.current - 5.3.days
+    insider_user_3 = create :user, created_at: Time.current - 5.5.days
 
     User::Notification::Create.expects(:call).with(product_user_1, :onboarding_product).raises
     User::Notification::Create.expects(:call).with(product_user_2, :onboarding_product).once
@@ -73,9 +73,9 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     User::Notification::Create.expects(:call).with(community_user_2, :onboarding_community).once
     User::Notification::Create.expects(:call).with(community_user_3, :onboarding_community).once
 
-    User::Notification::Create.expects(:call).with(fundraising_user_1, :onboarding_fundraising).once
-    User::Notification::Create.expects(:call).with(fundraising_user_2, :onboarding_fundraising).raises
-    User::Notification::Create.expects(:call).with(fundraising_user_3, :onboarding_fundraising).once
+    User::Notification::Create.expects(:call).with(insider_user_1, :onboarding_insiders).once
+    User::Notification::Create.expects(:call).with(insider_user_2, :onboarding_insiders).raises
+    User::Notification::Create.expects(:call).with(insider_user_3, :onboarding_insiders).once
 
     CreateOnboardingNotificationsJob.perform_now
   end

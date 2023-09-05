@@ -18,7 +18,7 @@ class CreateOnboardingNotificationsJob < ApplicationJob
   EMAILS = {
     1 => :product,
     3 => :community,
-    5 => :fundraising
+    5 => :insiders
   }.map { |day, slug| OnboardingEmail.new(day:, slug:) }.freeze
 
   # For each email we get all the users that signed up between

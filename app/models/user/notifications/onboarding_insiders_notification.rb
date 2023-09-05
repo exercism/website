@@ -1,4 +1,4 @@
-class User::Notifications::OnboardingFundraisingNotification < User::Notification
+class User::Notifications::OnboardingInsidersNotification < User::Notification
   def url = Exercism::Routes.donate_url
   def image_type = :icon
   def image_path = "icons/donate.svg"

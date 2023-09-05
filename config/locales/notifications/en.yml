@@ -21,15 +21,6 @@ en:
         New feedback has been added to iteration (#%{iteration_idx}) of your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>.
         We %{emphasis}recommend taking a look.
 
-    # Not actually used
-    acquired_badge:
-      1: >
-        You have unlocked a new badge. Visit your journey page to reveal what it is.
-
-    joined_exercism:
-      1: >
-        Welcome to Exercism! Explore your dashboard to learn more.
-
     onboarding_product:
       1: >
         TODO
@@ -39,7 +30,7 @@ en:
         Community is at the heart of Exercism. Try our forums and mentoring, get involved on YouTube and Twitch.
         Check the community section for more info!
 
-    onboarding_fundraising:
+    onboarding_insiders:
       1: >
         Support our goal: Give everyone an equal chance to learn and master programming.
         Check the donate section for more info!
@@ -87,6 +78,12 @@ en:
     ######################################
     # Not actually used below this point #
     ######################################
+    acquired_badge:
+      1: Unused
+
+    joined_exercism:
+      1: Unused
+
     joined_insiders:
       1: Unused
 

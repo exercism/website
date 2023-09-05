@@ -37,7 +37,7 @@ export function lazyHighlightAll(): void {
     }
   }
 
-  applySyntaxHighlighting()
+  checkAndInitHighlighting()
 
   const observer = new MutationObserver(handleDOMChanges)
   observer.observe(document.body, { childList: true, subtree: true })

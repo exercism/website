@@ -21,14 +21,17 @@ export function lazyHighlightAll(): void {
 
   function checkAndInitHighlighting() {
     if (!shouldApplySyntaxHighlighting(document, highlighted)) return
+
     initAndApplyHighlighting()
   }
 
   function handleDOMChanges(mutationsList: MutationRecord[]): void {
     for (const mutation of mutationsList) {
       if (mutation.type !== 'childList') continue
+
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== Node.ELEMENT_NODE) continue
+
         if (shouldApplySyntaxHighlighting(node as Element, highlighted)) {
           initAndApplyHighlighting()
           return

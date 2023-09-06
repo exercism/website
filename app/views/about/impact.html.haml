@@ -1,6 +1,7 @@
 
 - content_for :meta_title, "Exercism's Impact Report".html_safe
 - content_for :meta_description, "We've provided over 100 million minutes of free learning to over a million people. Learn more in our impact report!".html_safe
+- content_for :canonical_url, Exercism::Routes.impact_about_url
 
 = render ViewComponents::AboutNav.new(:impact)
 

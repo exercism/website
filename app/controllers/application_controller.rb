@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :set_request_context
   after_action :set_body_class_header
   after_action :set_csp_header
+  after_action :set_link_header
   after_action :updated_last_visited_on!
 
   def process_action(*args)
@@ -175,6 +176,22 @@ class ApplicationController < ActionController::Base
     return unless Rails.env.production?
 
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
+  end
+
+  def set_link_header
+    links = [
+      LinkHeaderLink.new('website.css', rel: :preload, as: :style),
+      LinkHeaderLink.new('poppins-v20-latin-regular.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous),
+      LinkHeaderLink.new('poppins-v20-latin-600.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous)
+    ]
+    response.set_header('Link', links.map(&:to_s).join(","))
+  end
+  LinkHeaderLink = Struct.new(:asset, :attrs) do
+    include Propshaft::Helper
+    def to_s
+      url = "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(asset)}"
+      "<#{url}>; #{attrs.map { |k, v| %(#{k}="#{v}") }.join('; ')}"
+    end
   end
 
   def storable_location?

@@ -14,7 +14,6 @@
 @import "./ui-kit/tracks";
 @import "./ui-kit/filters";
 @import "./ui-kit/scroll";
-@import "./ui-kit/responsive-table-wrapper";
 
 @import "./tooltips/generic";
 @import "./tooltips/base";
@@ -78,6 +77,7 @@
 @import "./components/loading-suspense";
 @import "./components/unlocked-concept";
 @import "./components/discussion-timeline";
+@import "./components/responsive-table-wrapper";
 
 @import "./components/share-panel";
 @import "./components/split-pane";

@@ -1,5 +1,6 @@
 - content_for :meta_title, "Exercism's Team".html_safe
 - content_for :meta_description, "Learn who runs Exercism, out trustees, leadership and full-time time."
+- content_for :canonical_url, Exercism::Routes.team_about_url
 
 = render ViewComponents::AboutNav.new(:team)
 

@@ -75,7 +75,7 @@
                 rgba(250, 250, 255, 0) 77.6%,
                 #fafaff 100%
             ),
-            url("bg-tracks-header@2x.jpg"), #fafaff;
+            var(--hex-bg-image), #fafaff;
     }
 
     .theme-dark {

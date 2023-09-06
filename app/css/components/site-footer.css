@@ -40,8 +40,7 @@ body.namespace-.controller-insiders {
                 rgba(39, 27, 114, 0) 48.1%,
                 #271b72 100%
             ),
-            linear-gradient(0deg, #271b72, #271b72),
-            url("bg-tracks-header@2x.jpg");
+            linear-gradient(0deg, #271b72, #271b72), var(--hex-bg-image);
 
         background-size: 100%;
         background-position: -190px;

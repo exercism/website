@@ -668,11 +668,13 @@ import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 
 document.addEventListener('turbo:load', () => {
-  lazyHighlightAll()
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
   document.querySelector('meta[name="turbo-visit-control"]')?.remove()
+
+  // Do this last
+  lazyHighlightAll()
 })
 
 // object.entries polyfill

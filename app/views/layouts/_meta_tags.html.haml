@@ -1,4 +1,4 @@
-- if canonical_url
+- if canonical_url.present?
   %link{ rel: "canonical", href: canonical_url }
 
 = csrf_meta_tags

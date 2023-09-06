@@ -11,22 +11,23 @@ export function showSiteFooter(): void {
   const elems = document.body.getElementsByClassName('c-react-component')
   for (const elem of elems) {
     // If this elem is hydrated, move onto the next one...
-    if (elem.childElementCount > 0) {
+    if (
+      elem.childElementCount > 0 &&
+      elem.children[0].classList != 'c-loading-suspense'
+    ) {
       continue
     }
 
-    // ...otherwise wait another 50ms and try again
+    // ...otherwise wait another 10ms and try again
     retryCount++
-    setTimeout(showSiteFooter, 50)
+    setTimeout(showSiteFooter, 10)
     return
   }
 
   /*
-   * Now everything is rendered, it might take the browser
-   * a few ms to actually paint everything. In my testing, it's
-   * always between 50-100ms, so I've added a little extra to be safe.
+   * Now everything is rendered, display the footer!
    */
-  setTimeout(displayFooter, 150)
+  displayFooter()
   retryCount = 0
 }
 

@@ -1,10 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('@rails/ujs').start()
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('@rails/activestorage').start()
-
 import '@hotwired/turbo-rails'
-import { navigator } from '@hotwired/turbo'
 
 // As we're sensitive to the order of things across different packs
 // we set a window-level constant to record when turbo has loaded

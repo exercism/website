@@ -125,7 +125,7 @@
         @apply text-caution font-medium text-16 leading-150;
         @apply flex items-center;
 
-        & .c-prominent-link {
+        & form.button_to {
             @apply ml-auto;
         }
     }

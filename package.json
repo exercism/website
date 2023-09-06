@@ -23,8 +23,6 @@
     "@hotwired/turbo-rails": "^7.3.0",
     "@popperjs/core": "^2.5.2",
     "@rails/actioncable": "^6.0.0",
-    "@rails/activestorage": "^6.0.0",
-    "@rails/ujs": "^6.0.0",
     "@sector-labs/postcss-inline-class": "^0.0.6",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",

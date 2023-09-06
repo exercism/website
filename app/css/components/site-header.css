@@ -182,7 +182,8 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
 
         & li.opt {
-            & a {
+            & a,
+            form.button_to button {
                 @apply flex;
                 @apply text-textColor6 font-medium;
                 @apply text-16 leading-huge;
@@ -229,9 +230,13 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
 
         & li.opt {
-            & a {
+            & a,
+            form.button_to button {
                 @apply px-12 py-4;
                 @apply lg:px-16 lg:py-8;
+            }
+            form.button_to button {
+                @apply w-100;
             }
         }
 

@@ -10,16 +10,21 @@ class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactCompo
 
   private
   def cancel
-    return nil unless current_user.current_active_subscription.stripe?
+    return nil unless subscription.stripe?
 
-    Exercism::Routes.cancel_api_payments_subscription_url(current_user.current_active_subscription)
+    Exercism::Routes.cancel_api_payments_subscription_url(subscription)
   end
 
-  def donation_attributes = current_user.current_active_subscription.attributes.slice("provider", "amount_in_cents")
+  def donation_attributes = subscription.attributes.slice("provider", "amount_in_cents")
 
   def update
-    return nil unless current_user.current_active_subscription.stripe?
+    return nil unless subscription.stripe?
 
-    Exercism::Routes.update_amount_api_payments_subscription_url(current_user.current_active_subscription)
+    Exercism::Routes.update_amount_api_payments_subscription_url(subscription)
+  end
+
+  memoize
+  def subscription
+    current_user.current_active_or_overdue_subscription
   end
 end

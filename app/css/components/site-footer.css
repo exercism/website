@@ -48,6 +48,8 @@ body.namespace-.controller-insiders {
 
         & .c-icon {
             @apply mb-24;
+            width: 133px;
+            height: 24px;
             filter: var(--filter-FFFFFF);
         }
         & h2 {
@@ -217,6 +219,7 @@ body.namespace-.controller-insiders {
             @apply mx-12;
             & .c-icon {
                 height: 24px;
+                width: 24px;
                 filter: var(--filter-FFFFFF);
             }
             &.twitter {

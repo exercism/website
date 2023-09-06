@@ -14,8 +14,6 @@ module.exports = {
   content: [
     './app/views/**/*.haml',
     './app/helpers/**/*.rb',
-    './app/css/*.css',
-    './app/css/**/*.css',
     './app/javascript/**/*',
   ],
   theme: {

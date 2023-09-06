@@ -75,7 +75,7 @@
                         = track_icon(track)
                     .font-semibold.text-textColor7.ml-16.whitespace-nowrap +#{sample[:num_tracks]} more
 
-        = image_tag "screenshots/landing-page-exercise.webp", alt: "", role: :presentation, category: :graphics, class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1 w-fill", width: 1376, height: 1076
+        = srcset_tag "screenshots/landing-page-exercise.webp", [400, 688, 800, 1376], [[:lg, "50vw"], "100vw"], alt: "", role: :presentation, class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1 w-fill", width: 1376, height: 1076
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
@@ -107,7 +107,7 @@
           %p.text-p-xlarge
             Discover new and exciting ways to approach an exercise by getting mentored on it. Become more familiar with the conventions, idioms and opinions of a particular programming language.
 
-      = image_tag "screenshots/mentoring.webp", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1", width: 2752, height: 1796
+      = srcset_tag "screenshots/mentoring.webp", [400, 500, 800, 1000, 1376, 2752], "100vw", role: :presentation, class: "main-graphic mb-60 shadow-lgZ1", width: 2752, height: 1796
 
       .flex.flex-col.items-center
         %h3.text-h2 Why mentoring?

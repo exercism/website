@@ -217,7 +217,7 @@
             rgba(250, 250, 255, 0) 77.6%,
             #fafaff 100%
         ),
-        url("bg-tracks-header@2x.jpg"), #fafaff;
+        var(--hex-bg-image), #fafaff;
 
     --backgroundImageHex: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA4MCA4MCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1IDIuODg3YTEwIDEwIDAgMCAxIDEwIDBsMjQuNjQgMTQuMjI2YTEwIDEwIDAgMCAxIDUgOC42NnYyOC40NTNhMTAgMTAgMCAwIDEtNSA4LjY2TDQ1IDc3LjExNGExMCAxMCAwIDAgMS0xMCAwTDEwLjM1OSA2Mi44ODdhMTAgMTAgMCAwIDEtNS04LjY2VjI1Ljc3NGExMCAxMCAwIDAgMSA1LTguNjZsMjQuNjQtMTQuMjI3eiIvPjxwYXRoIGZpbGw9IiMxMzBCNDMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTY3Ljc2NiAyMC4zNiA0My4xMjUgNi4xMzVhNi4yNSA2LjI1IDAgMCAwLTYuMjUgMEwxMi4yMzQgMjAuMzYxYTYuMjUgNi4yNSAwIDAgMC0zLjEyNSA1LjQxM3YyOC40NTNhNi4yNSA2LjI1IDAgMCAwIDMuMTI1IDUuNDEybDI0LjY0IDE0LjIyN2E2LjI1IDYuMjUgMCAwIDAgNi4yNSAwbDI0LjY0Mi0xNC4yMjdhNi4yNSA2LjI1IDAgMCAwIDMuMTI1LTUuNDEzVjI1Ljc3NGE2LjI1IDYuMjUgMCAwIDAtMy4xMjUtNS40MTN6TTQ1IDIuODg4YTEwIDEwIDAgMCAwLTEwIDBMMTAuMzU5IDE3LjExM2ExMCAxMCAwIDAgMC01IDguNjZ2MjguNDUzYTEwIDEwIDAgMCAwIDUgOC42NmwyNC42NCAxNC4yMjdhMTAgMTAgMCAwIDAgMTAgMGwyNC42NDItMTQuMjI2YTEwIDEwIDAgMCAwIDUtOC42NlYyNS43NzRhMTAgMTAgMCAwIDAtNS04LjY2TDQ1IDIuODg2eiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+");
     --textColorCReputation: var(--textColor7);
@@ -758,10 +758,10 @@ html {
     .c-badge-medallion,
     #site-footer,
     #page-journey,
-    #journey-view, 
-    #impact-page .logos .gobridge, 
+    #journey-view,
+    #impact-page .logos .gobridge,
     #page-journey article.overview-tab header.section-header .c-icon img,
-    #page-organisation-supporters .logos .gobridge, 
+    #page-organisation-supporters .logos .gobridge,
     .emoji {
         filter: invert(100%) hue-rotate(180deg);
     }

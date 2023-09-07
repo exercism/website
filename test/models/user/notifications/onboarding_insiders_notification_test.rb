@@ -11,6 +11,6 @@ class User::Notifications::OnboardingInsidersNotificationTest < ActiveSupport::T
     assert_equal :icon, notification.image_type
     assert_match(%r{^/assets/icons/insiders-[a-z0-9]+\.svg$}, notification.image_url)
     assert_equal "https://test.exercism.org/insiders", notification.url
-    assert_equal "/donate", notification.path
+    assert_equal "/insiders", notification.path
   end
 end

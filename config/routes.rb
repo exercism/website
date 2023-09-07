@@ -83,6 +83,7 @@ Rails.application.routes.draw do
     get :integrations
     patch :reset_account
     delete :destroy_account
+    delete :disconnect_discord
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"

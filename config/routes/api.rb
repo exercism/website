@@ -19,10 +19,6 @@ namespace :api do
     resource :profile_photo, only: %i[destroy], controller: "users/profile_photos"
   end
 
-  resource :integrations, only: %i[], controller: "users/integrations" do
-    delete "disconnect_discord"
-  end
-
   resource :profile, only: %i[create destroy]
 
   resource :journey_overview, only: [:show], controller: "journey_overview"

@@ -106,7 +106,7 @@ class NotificationsMailer < ApplicationMailer
     notification = params[:notification]
     @user = notification.user
 
-    subject = "Exercism - Join our community"
+    subject = "Have you said hello on Discord or our forum yet?"
     transactional_mail(@user, subject)
   end
 
@@ -114,7 +114,7 @@ class NotificationsMailer < ApplicationMailer
     notification = params[:notification]
     @user = notification.user
 
-    subject = "Exercism - A Free Platform with a Social Mission"
+    subject = "Did you know we're a not-for-profit?"
     transactional_mail(@user, subject)
   end
 

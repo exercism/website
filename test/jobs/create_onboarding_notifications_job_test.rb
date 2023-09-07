@@ -9,11 +9,11 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     user_4 = create :user, created_at: Time.current - 0.1.days # Sanity check: too soon
     user_5 = create :user, created_at: Time.current - 2.1.days # Sanity check: too late
 
-    User::Notification::Create.expects(:call).with(user_1, :onboarding_product).once
-    User::Notification::Create.expects(:call).with(user_2, :onboarding_product).once
-    User::Notification::Create.expects(:call).with(user_3, :onboarding_product).once
-    User::Notification::Create.expects(:call).with(user_4, :onboarding_product).never
-    User::Notification::Create.expects(:call).with(user_5, :onboarding_product).never
+    User::Notification::CreateEmailOnly.expects(:call).with(user_1, :onboarding_product).once
+    User::Notification::CreateEmailOnly.expects(:call).with(user_2, :onboarding_product).once
+    User::Notification::CreateEmailOnly.expects(:call).with(user_3, :onboarding_product).once
+    User::Notification::CreateEmailOnly.expects(:call).with(user_4, :onboarding_product).never
+    User::Notification::CreateEmailOnly.expects(:call).with(user_5, :onboarding_product).never
 
     CreateOnboardingNotificationsJob.perform_now
   end
@@ -35,7 +35,7 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     CreateOnboardingNotificationsJob.perform_now
   end
 
-  test "sends onboarding fundraising notification to correct users" do
+  test "sends onboarding insiders notification to correct users" do
     user_1 = create :user, created_at: Time.current - 5.1.days
     user_2 = create :user, created_at: Time.current - 5.5.days
     user_3 = create :user, created_at: Time.current - 5.9.days
@@ -65,9 +65,9 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     insider_user_2 = create :user, created_at: Time.current - 5.3.days
     insider_user_3 = create :user, created_at: Time.current - 5.5.days
 
-    User::Notification::Create.expects(:call).with(product_user_1, :onboarding_product).raises
-    User::Notification::Create.expects(:call).with(product_user_2, :onboarding_product).once
-    User::Notification::Create.expects(:call).with(product_user_3, :onboarding_product).once
+    User::Notification::CreateEmailOnly.expects(:call).with(product_user_1, :onboarding_product).raises
+    User::Notification::CreateEmailOnly.expects(:call).with(product_user_2, :onboarding_product).once
+    User::Notification::CreateEmailOnly.expects(:call).with(product_user_3, :onboarding_product).once
 
     User::Notification::Create.expects(:call).with(community_user_1, :onboarding_community).raises
     User::Notification::Create.expects(:call).with(community_user_2, :onboarding_community).once
@@ -78,5 +78,38 @@ class CreateOnboardingNotificationsJobTest < ActiveJob::TestCase
     User::Notification::Create.expects(:call).with(insider_user_3, :onboarding_insiders).once
 
     CreateOnboardingNotificationsJob.perform_now
+  end
+
+  test "creates onboarding product notification successfully" do
+    user = create :user, created_at: Time.current - 1.1.days
+    refute User::Notifications::OnboardingProductNotification.exists? # Sanity
+
+    CreateOnboardingNotificationsJob.perform_now
+
+    noti = User::Notifications::OnboardingProductNotification.last
+    assert_equal user, noti.user
+    assert_equal :email_only, noti.status
+  end
+
+  test "creates onboarding community notification successfully" do
+    user = create :user, created_at: Time.current - 3.1.days
+    refute User::Notifications::OnboardingCommunityNotification.exists? # Sanity
+
+    CreateOnboardingNotificationsJob.perform_now
+
+    noti = User::Notifications::OnboardingCommunityNotification.last
+    assert_equal user, noti.user
+    assert_equal :pending, noti.status
+  end
+
+  test "creates onboarding insiders notification successfully" do
+    user = create :user, created_at: Time.current - 5.1.days
+    refute User::Notifications::OnboardingInsidersNotification.exists? # Sanity
+
+    CreateOnboardingNotificationsJob.perform_now
+
+    noti = User::Notifications::OnboardingInsidersNotification.last
+    assert_equal user, noti.user
+    assert_equal :pending, noti.status
   end
 end

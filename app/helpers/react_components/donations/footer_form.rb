@@ -7,9 +7,9 @@ module ReactComponents
           "donations-footer-form",
           {
             request: {
-              endpoint: Exercism::Routes.api_payments_active_subscription_url(product: :donation),
+              endpoint: Exercism::Routes.active_or_overdue_api_payments_subscriptions_url(product: :donation),
               options: {
-                initial_data: AssembleActiveSubscription.(current_user)
+                initial_data: AssembleActiveOrOverdueSubscription.(current_user)
               }
             },
             user_signed_in: user_signed_in?,

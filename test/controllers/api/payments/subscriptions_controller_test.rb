@@ -3,6 +3,7 @@ require_relative '../base_test_case'
 class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
   guard_incorrect_token! :cancel_api_payments_subscription_path, args: 1, method: :patch
   guard_incorrect_token! :update_amount_api_payments_subscription_path, args: 1, method: :patch
+  guard_incorrect_token! :active_or_overdue_api_payments_subscription_path
 
   ##########
   # Cancel #
@@ -36,6 +37,31 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
       as: :json
     assert_response :ok
     expected = { subscription: { links: { index: donations_settings_url } } }
+    assert_equal(expected.to_json, response.body)
+  end
+
+  #####################
+  # Active or overdue #
+  #####################
+  test "get defaults to last active or overdue subscription" do
+    user = create :user
+    create(:payments_subscription, :active, user:, amount_in_cents: 100)
+    subscription = create(:payments_subscription, :active, :github, user:, amount_in_cents: 200)
+    create(:payments_subscription, :canceled, user:, amount_in_cents: 300)
+    create(:payments_subscription, :overdue, user:, amount_in_cents: 400)
+
+    setup_user(user)
+    get active_or_overdue_api_payments_subscriptions_path, headers: @headers, as: :json
+
+    assert_response :ok
+
+    expected = {
+      subscription: {
+        provider: subscription.provider,
+        interval: subscription.interval,
+        amount_in_cents: subscription.amount_in_cents
+      }
+    }
     assert_equal(expected.to_json, response.body)
   end
 end

@@ -29,7 +29,6 @@ namespace :api do
     get "hiring/testimonials" => "hiring#testimonials"
 
     namespace :payments do
-      resource :active_subscription, only: [:show]
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do
         member do
@@ -43,6 +42,8 @@ namespace :api do
           patch :update_amount
           patch :update_plan
         end
+
+        get :current, on: :collection
       end
     end
 

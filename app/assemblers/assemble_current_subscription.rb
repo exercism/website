@@ -1,4 +1,4 @@
-class AssembleActiveSubscription
+class AssembleCurrentSubscription
   include Mandate
 
   initialize_with :user
@@ -17,7 +17,5 @@ class AssembleActiveSubscription
 
   private
   memoize
-  def subscription
-    user.current_active_subscription
-  end
+  def subscription = user.current_subscription
 end

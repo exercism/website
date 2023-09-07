@@ -25,4 +25,8 @@ class API::Payments::SubscriptionsController < API::BaseController
       }
     }
   end
+
+  def current
+    render json: AssembleCurrentSubscription.(current_user)
+  end
 end

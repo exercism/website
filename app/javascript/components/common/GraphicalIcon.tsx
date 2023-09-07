@@ -24,7 +24,7 @@ export function GraphicalIcon({
 
   return hex ? (
     <div className={classNames.join(' ')}>
-      <img src={iconFile} alt="" role="presentation" />
+      <img src={iconFile} alt="" />
     </div>
   ) : (
     <img
@@ -32,7 +32,6 @@ export function GraphicalIcon({
       alt=""
       width={width}
       height={height}
-      role="presentation"
       className={classNames.join(' ')}
     />
   )

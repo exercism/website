@@ -24,7 +24,6 @@ export const ReputationMenuItem = ({
     <a href={url} className="token">
       <img
         alt=""
-        role="presentation"
         src={iconUrl}
         className="reason-icon"
         onError={missingExerciseIconErrorHandler}

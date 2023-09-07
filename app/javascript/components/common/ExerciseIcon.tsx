@@ -22,7 +22,6 @@ export function ExerciseIcon({
       className={classNames.join(' ')}
       src={iconUrl}
       alt={title ? `Icon for exercise called ${title}` : undefined}
-      role={title ? undefined : 'presentation'}
       onError={missingExerciseIconErrorHandler}
     />
   )

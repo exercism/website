@@ -9,7 +9,7 @@
     .lg-container
       .flex.flex-wrap.justify-center.mb-32.gap-2.lg:gap-4.mx-auto{ class: 'max-w-[1000px]' }
         - Track.active.map(&:icon_url).shuffle.each do |icon_url|
-          = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[24px] w-[24px] lg:h-[48px] lg:w-[48px]"
+          = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[24px] w-[24px] lg:h-[48px] lg:w-[48px]"
 
       %h1.text-h0.mb-16 The #12in23 Challenge
       %p.mb-12

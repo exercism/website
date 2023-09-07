@@ -28,7 +28,7 @@
 
         - @forum_threads.each do |thread|
           = link_to thread.url, class: 'flex items-center bg-backgroundColorA px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
-            = image_tag thread.poster_avatar_url, alt: "", role: :presentation, class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+            = image_tag thread.poster_avatar_url, alt: "", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
             .flex.flex-col.mr-auto
               %h5.text-h5= thread.title
               .text-textColor6.leading-150
@@ -37,7 +37,7 @@
               = graphical_icon "message-bubble-square"
               = thread.posts_count
 
-      = image_tag "screenshots/forum.webp", width: 1767, height: 1232, alt: "", role: :presentation, class: 'rounded-8 w-fill hidden xl:block w-[45%] flex-shrink-0 max-w-[620px] mt-[-16px]'
+      = image_tag "screenshots/forum.webp", width: 1767, height: 1232, alt: "", class: 'rounded-8 w-fill hidden xl:block w-[45%] flex-shrink-0 max-w-[620px] mt-[-16px]'
 
     .flex.flex-col.lg:flex-row.gap-y-32.gap-x-96.mb-48
       .block

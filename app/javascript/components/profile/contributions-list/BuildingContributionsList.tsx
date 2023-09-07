@@ -81,7 +81,6 @@ const Contribution = ({
     <a href={url} className="reputation-token">
       <img
         alt=""
-        role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
         onError={missingExerciseIconErrorHandler}

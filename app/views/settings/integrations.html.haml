@@ -31,17 +31,24 @@
       %section.github-section.flex.flex-col.items-start
         %h2{ class: "!mb-4" } Discord
         - if current_user.discord_uid.present?
-          %p.text-16.leading-140
+          %p.text-16.leading-140.mb-16
             Your Exercism and Discord accounts are linked.
             You should receive the correct roles on Discord.
             If you don't, please email #{link_to 'jeremy@exercism.org', 'mailto:jeremy@exercism.org'}.
+          = button_to disconnect_discord_api_integrations_path,
+            form_class: "discord-btn",
+            class: "btn-enhanced btn-m !bg-discordBlue !text-white",
+            method: :delete,
+            data: { turbo: false } do
+            = graphical_icon 'external-site-discord', css_class: '!filter-none'
+            %span Disconnect from Discord
         - else
           %p.text-16.leading-140.mb-16
             To be assigned the correct roles on Discord, please connect your Exercism and Discord accounts.
           = button_to omniauth_authorize_path(:user, :discord),
             form_class: "discord-btn",
             class: "btn-enhanced btn-m !bg-discordBlue !text-white",
-            method: :post,
+            method: :put,
             data: { turbo: false } do
             = graphical_icon 'external-site-discord', css_class: '!filter-none'
             %span Connect with Discord

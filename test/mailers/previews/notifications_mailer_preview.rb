@@ -71,6 +71,24 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).automated_feedback_added
   end
 
+  def onboarding_product
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingProductNotification.first
+    ).onboarding_product
+  end
+
+  def onboarding_community
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingCommunityNotification.first
+    ).onboarding_community
+  end
+
+  def onboarding_insiders
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingInsidersNotification.first
+    ).onboarding_insiders
+  end
+
   def eligible_for_insiders_notification
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first

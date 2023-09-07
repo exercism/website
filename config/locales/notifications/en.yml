@@ -20,6 +20,17 @@ en:
       1: >
         New feedback has been added to iteration (#%{iteration_idx}) of your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>.
         We %{emphasis}recommend taking a look.
+
+    onboarding_community:
+      1: >
+        Community is at the heart of Exercism. Join our forum and Discord server, enjoy our YouTube and Twitch channels, and get mentored.
+        Learn more…
+
+    onboarding_insiders:
+      1: >
+        Exercism Insiders is our reward program for everyone that supports our mission to create equal opportunity in tech.
+        Learn more on the Insiders page.
+
     nudge_to_request_mentoring:
       1: >
         <strong>It's time to get mentored!</strong>
@@ -64,13 +75,16 @@ en:
     # Not actually used below this point #
     ######################################
     acquired_badge:
-      1: Unused
+      1:
 
     joined_exercism:
-      1: Unused
+      1:
 
     joined_insiders:
-      1: Unused
+      1:
 
     joined_lifetime_insiders:
-      1: Unused
+      1:
+
+    onboarding_product:
+      1:

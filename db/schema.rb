@@ -1218,6 +1218,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false    
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
@@ -1469,6 +1470,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.integer "flair", limit: 1
     t.integer "version", limit: 2, default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true

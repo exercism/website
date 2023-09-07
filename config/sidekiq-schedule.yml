@@ -110,6 +110,12 @@ update_last_hour_metrics:
   class: "UpdateLastHourMetricsJob"
   queue: metrics
 
+# Every 30 minutes
+create_onboarding_notifications:
+  cron: "*/30 * * * *"
+  class: "CreateOnboardingNotificationsJob"
+  queue: background
+
 # Every day at noon
 update_last_week_metrics:
   cron: "0 12 * * *"

@@ -23,7 +23,7 @@ class User::InvalidateAvatarInCloudfront
   def items
     # Invalidate the old versions too. We don't want to leave
     # photos of people in our caches when they delete them.
-    (0..user.version).map { |version| "avatars/#{user.id}/#{version}" }
+    (0..user.version).map { |version| "/avatars/#{user.id}/#{version}" }
   end
 
   def distribution_id

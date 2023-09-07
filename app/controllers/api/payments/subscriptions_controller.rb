@@ -26,7 +26,7 @@ class API::Payments::SubscriptionsController < API::BaseController
     }
   end
 
-  def active_or_overdue
-    render json: AssembleActiveOrOverdueSubscription.(current_user)
+  def current
+    render json: AssembleCurrentSubscription.(current_user)
   end
 end

@@ -43,7 +43,7 @@ namespace :api do
           patch :update_plan
         end
 
-        get :active_or_overdue, on: :collection
+        get :current, on: :collection
       end
     end
 

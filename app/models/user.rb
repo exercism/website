@@ -222,16 +222,10 @@ class User < ApplicationRecord
   end
 
   memoize
-  def active_subscription? = subscriptions.active.exists?
+  def current_subscription? = current_subscription.present?
 
   memoize
-  def current_active_subscription = subscriptions.active.last
-
-  memoize
-  def active_or_overdue_subscription? = current_active_or_overdue_subscription.present?
-
-  memoize
-  def current_active_or_overdue_subscription = subscriptions.where(status: %i[active overdue]).last
+  def current_subscription = subscriptions.where(status: %i[active overdue]).last
 
   memoize
   def total_subscription_donations_in_dollars

@@ -25,6 +25,6 @@ class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactCompo
 
   memoize
   def subscription
-    current_user.current_active_or_overdue_subscription
+    current_user.current_subscription
   end
 end

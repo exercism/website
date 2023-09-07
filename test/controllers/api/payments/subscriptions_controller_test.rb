@@ -3,7 +3,7 @@ require_relative '../base_test_case'
 class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
   guard_incorrect_token! :cancel_api_payments_subscription_path, args: 1, method: :patch
   guard_incorrect_token! :update_amount_api_payments_subscription_path, args: 1, method: :patch
-  guard_incorrect_token! :active_or_overdue_api_payments_subscription_path
+  guard_incorrect_token! :current_api_payments_subscriptions_path
 
   ##########
   # Cancel #
@@ -41,17 +41,16 @@ class API::Payments::SubscriptionsControllerTest < API::BaseTestCase
   end
 
   #####################
-  # Active or overdue #
+  # Current #
   #####################
-  test "get defaults to last active or overdue subscription" do
+  test "get current subscription" do
     user = create :user
     create(:payments_subscription, :active, user:, amount_in_cents: 100)
     subscription = create(:payments_subscription, :active, :github, user:, amount_in_cents: 200)
     create(:payments_subscription, :canceled, user:, amount_in_cents: 300)
-    create(:payments_subscription, :overdue, user:, amount_in_cents: 400)
 
     setup_user(user)
-    get active_or_overdue_api_payments_subscriptions_path, headers: @headers, as: :json
+    get current_api_payments_subscriptions_path, headers: @headers, as: :json
 
     assert_response :ok
 

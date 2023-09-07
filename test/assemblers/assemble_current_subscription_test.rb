@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssembleActiveOrOverdueSubscriptionTest < ActiveSupport::TestCase
+class AssembleCurrentSubscriptionTest < ActiveSupport::TestCase
   test "serialize last active subscription" do
     user = create :user
     other_user = create :user
@@ -16,7 +16,7 @@ class AssembleActiveOrOverdueSubscriptionTest < ActiveSupport::TestCase
         amount_in_cents: active_subscription.amount_in_cents
       }
     }
-    assert_equal expected, AssembleActiveOrOverdueSubscription.(user)
+    assert_equal expected, AssembleCurrentSubscription.(user)
   end
 
   test "serialize last overdue subscription" do
@@ -34,7 +34,7 @@ class AssembleActiveOrOverdueSubscriptionTest < ActiveSupport::TestCase
         amount_in_cents: overdue_subscription.amount_in_cents
       }
     }
-    assert_equal expected, AssembleActiveOrOverdueSubscription.(user)
+    assert_equal expected, AssembleCurrentSubscription.(user)
   end
 
   test "gracefully handle no active or overdue subscription being present" do
@@ -45,20 +45,20 @@ class AssembleActiveOrOverdueSubscriptionTest < ActiveSupport::TestCase
     create(:payments_subscription, :active, user: other_user)
 
     expected = { subscription: nil }
-    assert_equal expected, AssembleActiveOrOverdueSubscription.(user)
+    assert_equal expected, AssembleCurrentSubscription.(user)
   end
 
   test "gracefully handle no subscriptions being present" do
     user = create :user
 
     expected = { subscription: nil }
-    assert_equal expected, AssembleActiveOrOverdueSubscription.(user)
+    assert_equal expected, AssembleCurrentSubscription.(user)
   end
 
   test "gracefully handle no user being nil" do
     user = nil
 
     expected = { subscription: nil }
-    assert_equal expected, AssembleActiveOrOverdueSubscription.(user)
+    assert_equal expected, AssembleCurrentSubscription.(user)
   end
 end

@@ -8,7 +8,7 @@
         .subscription-box
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
-            - if current_user.active_or_overdue_subscription?
+            - if current_user.current_subscription?
               = render ReactComponents::Donations::SubscriptionForm.new
             - else
               %h2 Become a monthly supporter of Exercism

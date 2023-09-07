@@ -1,6 +1,6 @@
 - content_for :meta_title, "#{sanitize(@solution.user.handle)}'s solution for #{@exercise.title} in #{@track.title} on Exercism".html_safe
 - content_for :meta_description, "Learn from how #{sanitize(@solution.user.handle)} solved #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise."
-- content_for :canonical_url, Exercism::Routes.published_solution_url(@solution)
+- content_for :canonical_url, published_solution_url(@solution)
 
 #page-community-solution
   .c-exercise-header

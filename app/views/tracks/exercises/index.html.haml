@@ -1,5 +1,6 @@
 - content_for :meta_title, "#{@track.title} exercises on Exercism"
 - content_for :meta_description, "Explore the #{@user_track.num_exercises} #{@track.title} exercises on Exercism"
+- content_for :canonical_url, track_exercises_url(@track)
 
 #page-exercises-index
   = render ViewComponents::Track::Header.new(@track, :exercises)

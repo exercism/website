@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Chart } from 'chart.js'
+import Chart from 'chart.js/auto'
 import { generateAccumulatedData } from './chart-elements/data'
 import { CANVAS_CUSTOM_POINTS } from './chart-elements'
 import { createChartConfig } from './chart-elements/chart-config'
@@ -35,7 +35,6 @@ export default function ImpactChart({
     if (!chart) {
       return
     }
-    // Chart.register(CANVAS_BACKGROUND)
     Chart.register(CANVAS_CUSTOM_POINTS)
 
     chart.update()
@@ -44,7 +43,7 @@ export default function ImpactChart({
   return (
     <div className="relative">
       {/* <NumberOfStudentsLabel /> */}
-      <canvas height={480} ref={setCanvas}></canvas>
+      <canvas height={480} ref={setCanvas} />
     </div>
   )
 }

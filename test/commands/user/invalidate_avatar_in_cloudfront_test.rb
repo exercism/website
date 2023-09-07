@@ -12,10 +12,10 @@ class User::InvalidateAvatarInCloudfrontTest < ActiveSupport::TestCase
           paths: {
             quantity: 4,
             items: [
-              "avatars/#{user.id}/0",
-              "avatars/#{user.id}/1",
-              "avatars/#{user.id}/2",
-              "avatars/#{user.id}/3"
+              "/avatars/#{user.id}/0",
+              "/avatars/#{user.id}/1",
+              "/avatars/#{user.id}/2",
+              "/avatars/#{user.id}/3"
             ]
           },
           caller_reference: "avatar-invalidation-for-user-#{user.id}-#{Time.current.to_i}"

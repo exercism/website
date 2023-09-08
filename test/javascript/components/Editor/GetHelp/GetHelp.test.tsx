@@ -3,7 +3,7 @@ import { render, RenderResult, screen } from '@testing-library/react'
 import { GetHelpPanel } from '@/components/editor/GetHelp'
 import { MOCK_DATA } from './mockdata'
 
-describe('GetHelp tests', () => {
+describe('GetHelpPanel tests', () => {
   let renderedComponent: RenderResult
 
   beforeEach(() => {

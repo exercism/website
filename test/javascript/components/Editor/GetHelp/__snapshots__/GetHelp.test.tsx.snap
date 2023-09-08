@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GetHelp tests Component snapshot test 1`] = `
+exports[`GetHelpPanel tests Component snapshot test 1`] = `
 <DocumentFragment>
   <div
     aria-labelledby="tab-get-help"

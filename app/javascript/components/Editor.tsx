@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { useQueryCache } from 'react-query'
 import { getCacheKey } from '@/components/student'
+import { redirectTo } from '@/utils'
 import type { File } from './types'
 import { type TabContext, SplitPane } from './common'
 import {
@@ -41,14 +42,13 @@ import {
   TestsPanel,
   ResultsPanel,
   FeedbackPanel,
+  GetHelpPanel,
+  GetHelpTab,
+  StuckButton,
+  TestContentWrapper,
+  ChatGPT,
 } from './editor/index'
-import { TestContentWrapper } from './editor/TestContentWrapper'
 import { RealtimeFeedbackModal } from './modals'
-import * as ChatGPT from './editor/ChatGptFeedback'
-import { redirectTo } from '@/utils'
-import { GetHelpTab } from './editor/GetHelp/GetHelpTab'
-import { GetHelpPanel } from './editor/GetHelp'
-import { StuckButton } from './editor/GetHelp/StuckButton'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'get-help'
 

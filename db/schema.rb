@@ -339,6 +339,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.integer "draft_feedback_type", limit: 1
     t.text "draft_feedback_markdown"
     t.string "exercise_id_and_ast_digest_idx_cache"
+    t.integer "num_published_solutions", limit: 2, default: 0, null: false
     t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep"
@@ -874,6 +875,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.integer "published_iteration_head_tests_status", default: 0, null: false
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
+    t.bigint "published_exercise_representation_id"
     t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_1"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_2"
@@ -885,6 +887,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.index ["exercise_id"], name: "fk_rails_8c0841e614"
     t.index ["num_stars", "id"], name: "solutions_popular_new"
     t.index ["public_uuid"], name: "solutions_public_uuid"
+    t.index ["published_exercise_representation_id"], name: "fk_rails_3d3fa40f89"
     t.index ["published_iteration_id"], name: "fk_rails_16788386df"
     t.index ["unique_key"], name: "index_solutions_on_unique_key", unique: true
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id"
@@ -1554,6 +1557,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_comments", "solutions"
+  add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
   add_foreign_key "solutions", "users"

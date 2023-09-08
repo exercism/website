@@ -304,7 +304,7 @@ class ActiveSupport::TestCase
   ######################
   def reset_opensearch!
     opensearch = Exercism.opensearch_client
-    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+    OPENSEARCH_INDEXES.each do |index|
       opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
       opensearch.indices.create(index:)
     end
@@ -321,7 +321,7 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+    OPENSEARCH_INDEXES.each do |index|
       Exercism.opensearch_client.indices.refresh(index:)
     end
   end
@@ -390,6 +390,13 @@ class ActiveSupport::TestCase
     user.data.reload.update!(cache: nil)
     user.reload
   end
+
+  OPENSEARCH_INDEXES = [
+    Document::OPENSEARCH_INDEX,
+    Solution::OPENSEARCH_INDEX,
+    Exercise::Representation::OPENSEARCH_INDEX
+  ].freeze
+  private_constant :OPENSEARCH_INDEXES
 end
 
 class ActionView::TestCase

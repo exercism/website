@@ -68,4 +68,12 @@ class Solution::UpdateToLatestExerciseVersionTest < ActiveSupport::TestCase
 
     Solution::UpdateToLatestExerciseVersion.(solution)
   end
+
+  test "updates solution's published exercise representation" do
+    solution = create :concept_solution
+
+    Solution::UpdatePublishedExerciseRepresentation.expects(:defer).with(solution, wait: 10)
+
+    Solution::UpdateToLatestExerciseVersion.(solution)
+  end
 end

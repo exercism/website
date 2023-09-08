@@ -4,13 +4,27 @@ class Solution::UpdateToLatestExerciseVersion
   initialize_with :solution
 
   def call
-    solution.sync_git!
+    solution.update!(
+      git_slug: exercise.slug,
+      git_sha: exercise.git_sha,
+      git_important_files_hash: exercise.git_important_files_hash
+    )
 
-    return unless submission
+    # Only bother with these if we have a submission
+    # but definitely do them before running the bit below
+    if submission
+      update_latest_iteration!
+      rerun_tests!
+      rerun_submission_representation!
+    end
 
-    update_latest_iteration!
-    rerun_tests!
-    rerun_submission_representation!
+    # Changing this data changes which submission_representation is active
+    # so we need to recalculate the correct exercise representation as a result.
+    # This might be unncessarily if the solution isn't published, but we let the
+    # job deal with that downstream.
+    #
+    # We wait a few seconds just in case this is called in a transaction (e.g. in a bulk job).
+    Solution::UpdatePublishedExerciseRepresentation.defer(solution, wait: 10)
   end
 
   # This updates the submission of the latest iteration
@@ -54,4 +68,6 @@ class Solution::UpdateToLatestExerciseVersion
 
   memoize
   def submission = solution.latest_iteration&.submission
+
+  delegate :exercise, to: :solution
 end

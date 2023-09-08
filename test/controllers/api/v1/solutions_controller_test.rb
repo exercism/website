@@ -133,7 +133,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     create :user_track, user: @current_user, track: solution.track
 
-    Solution.any_instance.expects(:sync_git!)
+    Solution::UpdateToLatestExerciseVersion.expects(:call).with(solution)
+
     get latest_api_v1_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
       headers: @headers, as: :json
   end
@@ -146,7 +147,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     create :user_track, user: @current_user, track: solution.track
 
-    Solution.any_instance.expects(:sync_git!).never
+    Solution::UpdateToLatestExerciseVersion.expects(:call).never
+
     get latest_api_v1_solutions_path(track_id: solution.track.slug, exercise_id: solution.exercise.slug),
       headers: @headers, as: :json
   end
@@ -226,7 +228,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     create :user_track, user: @current_user, track: solution.track
 
-    Solution.any_instance.expects(:sync_git!)
+    Solution::UpdateToLatestExerciseVersion.expects(:call).with(solution)
+
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
   end
 
@@ -236,7 +239,8 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     create :user_track, user: @current_user, track: solution.track
 
-    Solution.any_instance.expects(:sync_git!).never
+    Solution::UpdateToLatestExerciseVersion.expects(:call).never
+
     get api_v1_solution_path(solution.uuid), headers: @headers, as: :json
   end
 

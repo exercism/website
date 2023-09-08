@@ -57,4 +57,19 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
 
     assert_equal other_iteration.snippet, solution.snippet
   end
+
+  test "updates representation" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+
+    create(:exercise_representation, exercise:)
+    solution = create(:concept_solution)
+    create(:iteration, submission: create(:submission, solution:))
+
+    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+
+    Solution::Publish.(solution, user_track, nil)
+  end
 end

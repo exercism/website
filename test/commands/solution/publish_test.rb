@@ -417,4 +417,17 @@ class Solution::PublishTest < ActiveSupport::TestCase
       Solution::Publish.(solution, user_track, nil)
     end
   end
+
+  test "calls out to change representation" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+
+    solution = create(:concept_solution, user:, exercise:)
+    create(:iteration, solution:)
+
+    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+    Solution::Publish.(solution, user_track, nil)
+  end
 end

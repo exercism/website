@@ -32,20 +32,6 @@ class SolutionTest < ActiveSupport::TestCase
     end
   end
 
-  test "sync_git!" do
-    solution = create :concept_solution
-    solution.update!(git_sha: "foo", git_slug: "bar")
-
-    # Sanity
-    assert_equal "foo", solution.git_sha
-    assert_equal "bar", solution.git_slug
-
-    solution.sync_git!
-    assert_equal solution.exercise.git_sha, solution.git_sha
-    assert_equal solution.exercise.slug, solution.git_slug
-    assert_equal solution.exercise.git_important_files_hash, solution.git_important_files_hash
-  end
-
   test "status" do
     solution = create :concept_solution
     assert_equal :started, solution.reload.status.to_sym

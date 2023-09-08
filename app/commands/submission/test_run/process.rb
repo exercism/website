@@ -28,7 +28,9 @@ class Submission::TestRun::Process
       else
         raise "Unknown status"
       end
-    rescue StandardError
+    rescue StandardError => e
+      # Alert bugsnag and mark as exceptioned
+      Bugsnag.notify(e)
       update_status!(:exceptioned)
     end
 

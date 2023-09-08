@@ -5,7 +5,7 @@ import * as Component from './GetHelpPanelComponents'
 import type { Assignment } from '../types'
 
 export type GetHelpPanelProps = {
-  children: React.ReactChild
+  children?: React.ReactChild
   helpHtml: string
   assignment: Assignment
 }

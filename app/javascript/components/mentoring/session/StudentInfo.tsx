@@ -1,6 +1,6 @@
 import React from 'react'
-import { Student } from '../../types'
-import { Avatar, Reputation } from '../../common'
+import type { Student } from '@/components/types'
+import { Avatar, GraphicalIcon, Reputation } from '@/components/common'
 import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 import { HandleWithFlair } from '@/components/common/HandleWithFlair'

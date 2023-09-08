@@ -26,8 +26,11 @@ class Submission::Representation::Process
       ActiveRecord::Base.transaction do
         handle_generated!
       end
-    rescue StandardError
+    rescue StandardError => e
       raise unless Rails.env.production?
+
+      # Alert bugsnag and mark as exceptioned
+      Bugsnag.notify(e)
 
       # Reload the record here to ensure # that it hasn't got
       # in a bad state in the transaction above.

@@ -11,6 +11,7 @@ class Solution < ApplicationRecord
   belongs_to :user
   belongs_to :exercise
   belongs_to :published_iteration, class_name: "Iteration", optional: true
+  belongs_to :published_exercise_representation, class_name: "Exercise::Representation", optional: true
   has_one :track, through: :exercise
 
   # TODO: This might be horrific for performance
@@ -234,14 +235,6 @@ class Solution < ApplicationRecord
 
   def anonymised_user_handle
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
-  end
-
-  def sync_git!
-    update!(
-      git_slug: exercise.slug,
-      git_sha: exercise.git_sha,
-      git_important_files_hash: exercise.git_important_files_hash
-    )
   end
 
   def read_file(filepath)

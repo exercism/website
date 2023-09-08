@@ -4,7 +4,7 @@ FactoryBot.define do
     tooling_job_id { SecureRandom.uuid }
 
     ops_status { 200 }
-    ast_digest { SecureRandom.uuid }
+    ast { SecureRandom.uuid }
     mentored_by { nil }
   end
 end

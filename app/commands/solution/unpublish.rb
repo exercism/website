@@ -5,6 +5,7 @@ class Solution::Unpublish
 
   def call
     solution.update!(published_iteration_id: nil, published_at: nil)
+    Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
 

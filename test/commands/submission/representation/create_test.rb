@@ -46,4 +46,17 @@ class Submission::Representation::CreateTest < ActiveSupport::TestCase
 
     assert_equal mentor, representation.reload.mentored_by
   end
+
+  test "updates published exercise representation for solution" do
+    mentor = create :user
+    iteration = create :iteration
+    submission = iteration.submission
+    discussion = create :mentor_discussion, mentor:, solution: iteration.solution
+    create :mentor_discussion_post, discussion:, iteration:, author: mentor
+    job = create_representer_job!(submission, execution_status: 200, ast: "here(lives(an(ast)))")
+
+    Solution::UpdatePublishedExerciseRepresentation.expects(:defer).with(submission.solution, wait: 10)
+
+    Submission::Representation::Create.(submission, job, "the_digest", 1)
+  end
 end

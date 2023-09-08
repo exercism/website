@@ -111,4 +111,38 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
       assert_equal 1, user.reload.reputation
     end
   end
+
+  test "updates published solutions for exercise representations" do
+    create :user, :ghost
+
+    user = create :user
+    other_user = create :user
+    track = create :track
+    concept_exercise = create(:concept_exercise, track:)
+    practice_exercise = create(:practice_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+    solution_1 = create(:concept_solution, exercise: concept_exercise, user:)
+    solution_2 = create(:practice_solution, exercise: practice_exercise, user:)
+    solution_3 = create(:practice_solution, exercise: practice_exercise, user: other_user)
+    representation_1 = create(:exercise_representation, exercise: concept_exercise)
+    representation_2 = create(:exercise_representation, exercise: practice_exercise)
+    solution_1.update(published_exercise_representation: representation_1)
+    solution_2.update(published_exercise_representation: representation_2)
+    solution_3.update(published_exercise_representation: representation_1)
+
+    # Sanity check
+    Exercise::Representation::UpdatePublishedSolutions.(representation_1)
+    Exercise::Representation::UpdatePublishedSolutions.(representation_2)
+    assert_equal 2, representation_1.num_published_solutions
+    assert_equal 1, representation_2.num_published_solutions
+
+    perform_enqueued_jobs do
+      UserTrack::Reset.(user_track)
+    end
+
+    assert_nil solution_1.reload.published_exercise_representation
+    assert_nil solution_2.reload.published_exercise_representation
+    assert_equal 1, representation_1.reload.num_published_solutions
+    assert_equal 0, representation_2.reload.num_published_solutions
+  end
 end

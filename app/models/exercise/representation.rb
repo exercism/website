@@ -1,4 +1,6 @@
 class Exercise::Representation < ApplicationRecord
+  OPENSEARCH_INDEX = "#{Rails.env}-exercise-representation".freeze
+
   serialize :mapping, JSON
   has_markdown_field :feedback
 
@@ -20,6 +22,9 @@ class Exercise::Representation < ApplicationRecord
   # This is too inefficient. Get the representations and then their submissions instead.
   # has_many :submission_representation_submissions, through: :submission_representations, source: :submission
 
+  has_many :published_solutions, foreign_key: "published_exercise_representation", class_name: "Solution",
+    inverse_of: :published_exercise_representation
+
   scope :without_feedback, -> { where(feedback_type: nil) }
   scope :with_feedback, -> { where.not(feedback_type: nil) }
   scope :with_feedback_by, ->(mentor) { where(feedback_author: mentor) }
@@ -31,6 +36,7 @@ class Exercise::Representation < ApplicationRecord
   before_create do
     self.uuid = SecureRandom.compact_uuid
     self.track_id = exercise.track_id
+    self.ast_digest = Submission::Representation.digest_ast(ast) unless self.ast_digest
     self.exercise_id_and_ast_digest_idx_cache = "#{exercise_id}|#{ast_digest}"
   end
 

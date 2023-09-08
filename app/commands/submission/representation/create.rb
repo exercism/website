@@ -13,7 +13,13 @@ class Submission::Representation::Create
       sr.tooling_job_id = tooling_job.id
     end
 
-    Submission::Representation::UpdateMentor.defer(submission) if representation.id_previously_changed?
+    if representation.id_previously_changed?
+      Submission::Representation::UpdateMentor.defer(submission)
+
+      # This is unncessarily most of the time, but should result in a noop downstream if so.
+      # We're waiting 10 seconds just to ensure the exercise representation is saved too.
+      Solution::UpdatePublishedExerciseRepresentation.defer(submission.solution, wait: 10)
+    end
 
     representation
   end

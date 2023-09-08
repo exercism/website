@@ -4,6 +4,7 @@ import { Avatar, Reputation } from '../../common'
 import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 import { HandleWithFlair } from '@/components/common/HandleWithFlair'
+import { Pronouns } from '@/components/common/Pronouns'
 
 export const StudentInfo = ({
   student,
@@ -32,6 +33,7 @@ export const StudentInfo = ({
         </div>
         <div className="name">{student.name}</div>
         <div className="bio">{student.bio}</div>
+        <Pronouns handle={student.handle} pronouns={student.pronouns} />
         <div className="options">
           {student.links ? (
             <StudentInfoActions student={student} setStudent={setStudent} />

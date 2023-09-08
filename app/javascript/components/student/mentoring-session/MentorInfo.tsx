@@ -1,6 +1,7 @@
 import React from 'react'
 import { Avatar, HandleWithFlair, Reputation } from '@/components/common'
 import { Mentor } from '../MentoringSession'
+import { Pronouns } from '@/components/common/Pronouns'
 
 export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
   return (
@@ -23,8 +24,10 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
             size="small"
           />
         </div>
+
         <div className="name">{mentor.name}</div>
         <div className="bio">{mentor.bio}</div>
+        <Pronouns handle={mentor.handle} pronouns={mentor.pronouns} />
         {/* TODO: (required) View previous sessions as a student */}
       </div>
       <Avatar src={mentor.avatarUrl} handle={mentor.handle} />

@@ -16,6 +16,7 @@ class SerializeStudent
       languages_spoken: student.languages_spoken,
       avatar_url: student.avatar_url,
       reputation: student.formatted_reputation,
+      pronouns:,
       is_favorited: !!relationship&.favorited?,
       is_blocked: !!relationship&.blocked_by_mentor?,
       track_objectives: user_track&.objectives.to_s,
@@ -33,6 +34,10 @@ class SerializeStudent
       reputation: 0,
       num_discussions_with_mentor: 0
     }
+  end
+
+  def pronouns
+    student.pronouns.present? ? student.pronoun_parts : nil
   end
 
   def num_total_discussions

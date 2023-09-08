@@ -4,7 +4,7 @@ class Exercise::Representation::UpdatePublishedSolutions
   initialize_with :representation
 
   def call
-    representation.update(
+    representation.update!(
       num_published_solutions: representation.published_solutions.count
     )
 

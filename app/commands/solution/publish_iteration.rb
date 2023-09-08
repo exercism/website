@@ -4,7 +4,7 @@ class Solution::PublishIteration
   initialize_with :solution, :iteration_idx
 
   def call
-    solution.update(published_iteration: iteration)
+    solution.update!(published_iteration: iteration)
 
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)

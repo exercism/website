@@ -158,7 +158,7 @@ bundle exec rails test
 ##### Run tests:
 
 ```
-npm test [path/to/file]
+yarn test [path/to/file]
 ```
 
 > Omit path to run all tests
@@ -166,7 +166,7 @@ npm test [path/to/file]
 ##### Update snapshots:
 
 ```
-npm test [path/to/file] -- -u
+yarn test [path/to/file] -- -u
 ```
 
 > Omit path to update all snapshots

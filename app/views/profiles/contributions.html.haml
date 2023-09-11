@@ -1,5 +1,6 @@
 - content_for :meta_title, "#{sanitize(@user.handle)}'s contributions to Exercism".html_safe
 - content_for :meta_description, "See how #{@user.handle} has contributed to Exercism"
+- content_for :canonical_url, contributions_profile_url(@user, order: params[:order].presence, page: params[:page].to_i > 1 ? params[:page] : nil)
 
 #page-profile-contributions
   = render ViewComponents::Profile::Header.new(@user, @profile, :contributions)

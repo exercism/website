@@ -5,5 +5,6 @@ class Mentor::Request::Cancel
 
   def call
     request.cancelled!
+    MentorRequestChannel.broadcast!(request)
   end
 end

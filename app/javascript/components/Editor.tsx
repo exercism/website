@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { useQueryCache } from 'react-query'
 import { getCacheKey } from '@/components/student'
+import { redirectTo } from '@/utils'
 import type { File } from './types'
 import { type TabContext, SplitPane } from './common'
 import {
@@ -41,15 +42,15 @@ import {
   TestsPanel,
   ResultsPanel,
   FeedbackPanel,
+  GetHelpPanel,
+  GetHelpTab,
+  StuckButton,
+  TestContentWrapper,
+  ChatGPT,
 } from './editor/index'
-import { TestContentWrapper } from './editor/TestContentWrapper'
 import { RealtimeFeedbackModal } from './modals'
-import * as ChatGPT from './editor/ChatGptFeedback'
-import { redirectTo } from '@/utils'
-import { GetHelpTab } from './editor/GetHelp/GetHelpTab'
-import { GetHelpPanel } from './editor/GetHelp'
 
-type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
+type TabIndex = 'instructions' | 'tests' | 'results' | 'get-help'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -386,7 +387,7 @@ export default ({
 
   const invokeChatGpt = useCallback(() => {
     const status = chatGptFetchingStatus
-    setTab('chatgpt')
+    setTab('get-help')
     if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
       pokeChatGpt()
       setSubmissionUuid(submission?.uuid)
@@ -457,20 +458,9 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <ChatGPT.Button
-                    insider={insider}
-                    noSubmission={!submission}
-                    sameSubmission={
-                      submission ? submission.uuid === submissionUuid : false
-                    }
-                    isProcessing={isProcessing}
-                    passingTests={testRunStatus === TestRunStatus.PASS}
-                    chatGptFetchingStatus={chatGptFetchingStatus}
-                    onClick={
-                      insider
-                        ? () => setChatGptDialogOpen(true)
-                        : () => setTab('chatgpt')
-                    }
+                  <StuckButton
+                    onClick={() => setTab('get-help')}
+                    disabled={tab === 'get-help'}
                   />
                   <RunTestsButton
                     onClick={runTests}

@@ -1,6 +1,6 @@
 - content_for :meta_title, "Community solutions for #{@exercise.title} in #{@track.title} on Exercism"
 - content_for :meta_description, "Explore other people's solutions to #{@exercise.title} in #{@track.title}, and learn how others have solved the exercise.".html_safe
-- content_for :canonical_url, track_exercise_solutions_url(@track, @exercise)
+- content_for :canonical_url, track_exercise_solutions_url(@track, @exercise, page: params[:page].to_i > 1 ? params[:page] : nil)
 
 #page-community-solutions-index
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :community_solutions)

@@ -1,5 +1,6 @@
 - content_for :meta_title, "#{sanitize(@user.handle)}'s profile on Exercism".html_safe
 - content_for :meta_description, "Explore what #{@user.handle} has done on Exercism - their solutions, contributions and testimonials."
+- content_for :canonical_url, profile_url(@user)
 
 - if params[:first_time]
   = render ReactComponents::Profile::FirstTimeModal.new(@profile)

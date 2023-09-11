@@ -153,6 +153,24 @@ The tests can be run using:
 bundle exec rails test
 ```
 
+### Running Jest tests
+
+##### Run tests:
+
+```
+yarn test [path/to/file]
+```
+
+> Omit path to run all tests
+
+##### Update snapshots:
+
+```
+yarn test [path/to/file] -- -u
+```
+
+> Omit path to update all snapshots
+
 ### Git Repos
 
 If you need to create a new Git repo for use in the tests, use the following:

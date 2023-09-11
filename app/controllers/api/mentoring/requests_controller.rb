@@ -32,6 +32,21 @@ module API
       }
     end
 
+    def extend_lock
+      mentor_request = Mentor::Request.find_by(uuid: params[:uuid])
+      return render_404(:mentor_request_not_found) unless mentor_request
+
+      lock = Mentor::RequestLock.find_by(mentor_request_id: mentor_request.id, user_id: current_user)
+      lock.extend!
+      # TODO: Catch raised exception from out of date lock and return accordingly
+
+      render json: {
+        mentor_request_lock: {
+          locked_until: lock.locked_until
+        }
+      }
+    end
+
     def cancel
       mentor_request = current_user.solution_mentor_requests.find_by(uuid: params[:uuid])
       return render_404(:mentor_request_not_found) unless mentor_request

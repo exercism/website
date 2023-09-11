@@ -5,7 +5,7 @@
     .lg-container.container
       .track-icons
         - @track_icon_urls.each do |icon_url|
-          = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon"
+          = image_tag icon_url, alt: '', class: "c-icon c-track-icon"
 
       %h1.text-h1 #{@num_tracks} languages for you to master
       %p.text-p-large

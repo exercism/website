@@ -143,7 +143,7 @@
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
           = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
-            = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
+            = image_tag track.icon_url, alt: '', class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
               = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"

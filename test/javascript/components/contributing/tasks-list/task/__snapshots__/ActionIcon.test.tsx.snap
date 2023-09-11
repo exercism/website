@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionIcon tests ActionIcon snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="action-icon"
+  >
+    <img
+      alt="Action: proofread"
+      class="c-icon"
+      src="undefined/assets/undefined"
+    />
+  </div>
+</DocumentFragment>
+`;

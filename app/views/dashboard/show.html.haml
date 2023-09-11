@@ -108,7 +108,7 @@
 
           .flex.flex-wrap.justify-center.gap-2
             - Track.active.map(&:icon_url).shuffle.each do |icon_url|
-              = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[30px] w-[30px]"
+              = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[30px] w-[30px]"
 
       - if @featured_event
         .flex.flex-col.mb-32

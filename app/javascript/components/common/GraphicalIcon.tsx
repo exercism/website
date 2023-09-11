@@ -8,6 +8,7 @@ export function GraphicalIcon({
   width = undefined,
   height = undefined,
   hex = false,
+  alt,
 }: {
   icon: string
   className?: string
@@ -15,6 +16,7 @@ export function GraphicalIcon({
   width?: number
   height?: number
   hex?: boolean
+  alt?: string
 }): JSX.Element {
   const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
     (className) => className.length > 0
@@ -24,15 +26,14 @@ export function GraphicalIcon({
 
   return hex ? (
     <div className={classNames.join(' ')}>
-      <img src={iconFile} alt="" role="presentation" />
+      <img src={iconFile} alt="" />
     </div>
   ) : (
     <img
       src={iconFile}
-      alt=""
+      alt={alt || ''}
       width={width}
       height={height}
-      role="presentation"
       className={classNames.join(' ')}
     />
   )

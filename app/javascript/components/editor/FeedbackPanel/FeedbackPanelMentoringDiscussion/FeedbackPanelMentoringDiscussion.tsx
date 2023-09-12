@@ -17,7 +17,7 @@ export function MentoringDiscussion({
   open?: boolean
 }): JSX.Element | null {
   const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
-    `posts-discussion-${discussion?.uuid}`,
+    [`posts-discussion-${discussion?.uuid}`],
     { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
   if (discussion) {

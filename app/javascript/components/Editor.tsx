@@ -213,9 +213,9 @@ export default ({
       dispatch({ status: EditorStatus.CREATING_ITERATION })
       createIteration(submission, {
         onSuccess: async (iteration) => {
-          await queryClient.invalidateQueries([
-            getCacheKey(track.slug, exercise.slug),
-          ])
+          await queryClient.invalidateQueries({
+            queryKey: [getCacheKey(track.slug, exercise.slug)],
+          })
 
           if (exercise.slug === 'hello-world') {
             redirectTo(iteration.links.solution)

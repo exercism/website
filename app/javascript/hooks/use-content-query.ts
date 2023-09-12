@@ -9,9 +9,13 @@ export function useContentQuery(
   isError: boolean
   htmlContent: { html: string } | undefined
 } {
-  const { isLoading, isError, data: htmlContent } = useRequestQuery<{
+  const {
+    isLoading,
+    isError,
+    data: htmlContent,
+  } = useRequestQuery<{
     html: string
-  }>(id, { endpoint: endpoint, options: { enabled } })
+  }>([id], { endpoint: endpoint, options: { enabled } })
 
   return { isLoading, isError, htmlContent }
 }

@@ -25,7 +25,7 @@ export const TestRunSummaryContainer = ({
   cancelLink: string
 }): JSX.Element | null => {
   const { data } = useRequestQuery<{ testRun: TestRun }>(
-    `test-run-${testRun.submissionUuid}`,
+    [`test-run-${testRun.submissionUuid}`],
     {
       endpoint: testRun.links.self,
       options: {

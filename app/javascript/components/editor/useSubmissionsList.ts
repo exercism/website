@@ -55,6 +55,7 @@ export const useSubmissionsList = (
               links: {
                 self: submission.links.testRun,
               },
+              tasks: [],
             },
           },
         ])

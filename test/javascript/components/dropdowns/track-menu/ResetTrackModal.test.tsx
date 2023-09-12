@@ -1,5 +1,6 @@
 import React from 'react'
-import { screen, render, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { ResetTrackModal } from '../../../../../app/javascript/components/dropdowns/track-menu/ResetTrackModal'
@@ -114,9 +115,7 @@ test('user sees error messages', async () => {
     )
     userEvent.click(resetButton)
 
-    await waitFor(() =>
-      expect(screen.getByText('Unable to reset')).toBeInTheDocument()
-    )
+    expect(await screen.findByText('Unable to reset')).toBeInTheDocument()
   })
 })
 
@@ -139,8 +138,6 @@ test('user sees generic error message', async () => {
     )
     userEvent.click(resetButton)
 
-    await waitFor(() =>
-      expect(screen.getByText('Unable to reset track')).toBeInTheDocument()
-    )
+    expect(await screen.findByText('Unable to reset track')).toBeInTheDocument()
   })
 })

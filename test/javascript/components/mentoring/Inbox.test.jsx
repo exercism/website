@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../test-utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -91,7 +92,7 @@ test('page is reset to 1 when switching tracks', async () => {
 
     userEvent.click(await screen.findByRole('button', { name: /Ruby/ }))
 
-    userEvent.click(await screen.getByRole('radio', { name: /Go/ }))
+    userEvent.click(screen.getByRole('radio', { name: /Go/ }))
 
     await waitFor(() => expect(screen.getByText('First')).toBeDisabled())
 

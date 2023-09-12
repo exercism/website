@@ -150,7 +150,7 @@ export default function Queue({
           isFetching={isTrackListFetching}
           value={selectedTrack}
           setValue={handleTrackChange}
-          cacheKey={TRACKS_LIST_CACHE_KEY}
+          cacheKey={[TRACKS_LIST_CACHE_KEY]}
           links={links}
         />
         <ExerciseFilterList

@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { DeleteIterationModal } from '../../../../../app/javascript/components/student/iterations-list/DeleteIterationModal'
 import { createIteration } from '../../../factories/IterationFactory'

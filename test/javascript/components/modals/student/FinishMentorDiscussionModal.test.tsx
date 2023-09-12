@@ -1,12 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { FinishMentorDiscussionModal } from '@/components/modals/student/FinishMentorDiscussionModal'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { TestQueryCache } from '../../../support/TestQueryCache'
-import { queryClient } from '../../../setupTests'
 
 test('has back button in add testimonial step', async () => {
   const links = {
@@ -49,14 +48,12 @@ test('has back button in satisfied step', async () => {
   }
 
   render(
-    <TestQueryCache queryClient={queryClient}>
-      <FinishMentorDiscussionModal
-        open
-        links={links}
-        discussion={discussion}
-        ariaHideApp={false}
-      />
-    </TestQueryCache>
+    <FinishMentorDiscussionModal
+      open
+      links={links}
+      discussion={discussion}
+      ariaHideApp={false}
+    />
   )
   userEvent.click(screen.getByRole('button', { name: 'Acceptable' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
@@ -79,14 +76,12 @@ test('has back button in report step', async () => {
   }
 
   render(
-    <TestQueryCache queryClient={queryClient}>
-      <FinishMentorDiscussionModal
-        open
-        links={links}
-        discussion={discussion}
-        ariaHideApp={false}
-      />
-    </TestQueryCache>
+    <FinishMentorDiscussionModal
+      open
+      links={links}
+      discussion={discussion}
+      ariaHideApp={false}
+    />
   )
   userEvent.click(screen.getByRole('button', { name: 'Problematic' }))
   userEvent.click(screen.getByRole('button', { name: 'Back' }))
@@ -117,14 +112,12 @@ test('shows summary of report', async () => {
   server.listen()
 
   render(
-    <TestQueryCache queryClient={queryClient}>
-      <FinishMentorDiscussionModal
-        open
-        discussion={discussion}
-        links={{}}
-        ariaHideApp={false}
-      />
-    </TestQueryCache>
+    <FinishMentorDiscussionModal
+      open
+      discussion={discussion}
+      links={{}}
+      ariaHideApp={false}
+    />
   )
   userEvent.click(screen.getByRole('button', { name: 'Problematic' }))
   userEvent.click(await screen.findByRole('button', { name: 'Finish' }))

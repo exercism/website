@@ -1,5 +1,6 @@
 import React from 'react'
-import { screen, render, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { LeaveResetTrackForm } from '../../../../../../app/javascript/components/dropdowns/track-menu/leave-track-modal/LeaveResetTrackForm'
@@ -112,9 +113,7 @@ test('user sees error messages', async () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
 
-    await waitFor(() =>
-      expect(screen.getByText('Unable to leave')).toBeInTheDocument()
-    )
+    expect(await screen.findByText('Unable to leave')).toBeInTheDocument()
   })
 })
 
@@ -135,10 +134,8 @@ test('user sees generic error message', async () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
 
-    await waitFor(() =>
-      expect(
-        screen.getByText('Unable to leave and reset track')
-      ).toBeInTheDocument()
-    )
+    expect(
+      await screen.findByText('Unable to leave and reset track')
+    ).toBeInTheDocument()
   })
 })

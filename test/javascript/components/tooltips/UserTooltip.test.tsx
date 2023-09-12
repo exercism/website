@@ -1,9 +1,11 @@
 import React from 'react'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { UserTooltip } from '../../../../app/javascript/components/tooltips'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { queryClient } from '../../setupTests'
 
 test('correct information is displayed', async () => {
   const server = setupServer(
@@ -14,7 +16,7 @@ test('correct information is displayed', async () => {
           ctx.json({
             html: `
             <div class='heading'>
-              <div class="c-avatar" style="background-image:url(\"https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4\")"><img alt="Erik SchierBOOM&#39;s uploaded avatar" class="sr-only" src="https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4" />
+              <div class="c-avatar" style="background-image:url("https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4")"><img alt="Erik SchierBOOM&#39;s uploaded avatar" class="sr-only" src="https://avatars2.githubusercontent.com/u/8953691?s=460&amp;u=593aaf70d7708aa3a98eb0b49a212a45263bc065&amp;v=4" />
               </div>
               <div class='identifier'>
                 <h4 class='name'>Erik ShireBOOM</h4>
@@ -38,15 +40,13 @@ test('correct information is displayed', async () => {
   server.listen()
 
   render(
-    <UserTooltip endpoint="https://exercism.test/tooltips/user_summary/1" />
+    <TestQueryCache queryClient={queryClient}>
+      <UserTooltip endpoint="https://exercism.test/tooltips/user_summary/1" />
+    </TestQueryCache>
   )
 
-  await waitFor(() =>
-    expect(screen.getByText('Erik ShireBOOM')).toBeInTheDocument()
-  )
-  await waitFor(() =>
-    expect(screen.getByText('erikshireboom')).toBeInTheDocument()
-  )
+  expect(await screen.findByText('Erik ShireBOOM')).toBeInTheDocument()
+  expect(await screen.findByText('erikshireboom')).toBeInTheDocument()
 
   server.close()
 })

@@ -3,7 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { TrackFilterList } from '../../../../../app/javascript/components/mentoring/queue/TrackFilterList'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
+import { TestQueryCache } from '../../../support/TestQueryCache'
+import { queryClient } from '../../../setupTests'
 
 test('closes dropdown after choosing a track', async () => {
   const tracks = [
@@ -32,28 +34,30 @@ test('closes dropdown after choosing a track', async () => {
   ]
 
   render(
-    <TrackFilterList
-      cacheKey="CACHE_KEY"
-      status={'success' as QueryStatus}
-      error={null}
-      tracks={tracks}
-      isFetching={false}
-      value={{
-        id: 'csharp',
-        title: 'C#',
-        iconUrl: 'https://exercism.test/tracks/csharp/icon',
-        numSolutionsQueued: 2,
-        exercises: [],
-        links: {
-          exercises: 'https://exercism.test/tracks/csharp/exercises',
-        },
-      }}
-      setValue={() => null}
-      links={{
-        tracks: 'https://exercism.test/tracks',
-        updateTracks: 'https://exercism.test/tracks',
-      }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <TrackFilterList
+        cacheKey={['CACHE_KEY']}
+        status={'success' as QueryStatus}
+        error={null}
+        tracks={tracks}
+        isFetching={false}
+        value={{
+          slug: 'csharp',
+          title: 'C#',
+          iconUrl: 'https://exercism.test/tracks/csharp/icon',
+          numSolutionsQueued: 2,
+          exercises: [],
+          links: {
+            exercises: 'https://exercism.test/tracks/csharp/exercises',
+          },
+        }}
+        setValue={() => null}
+        links={{
+          tracks: 'https://exercism.test/tracks',
+          updateTracks: 'https://exercism.test/tracks',
+        }}
+      />
+    </TestQueryCache>
   )
 
   userEvent.click(screen.getByRole('button', { name: 'Open the track filter' }))

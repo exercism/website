@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { DeleteTestimonialModal } from '../../../../../../app/javascript/components/mentoring/testimonials-list/revealed-testimonial/DeleteTestimonialModal'
 import { createTestimonial } from '../../../../factories/TestimonialFactory'
@@ -43,7 +44,7 @@ test('disables buttons when submitting', async () => {
     <DeleteTestimonialModal
       open
       testimonial={testimonial}
-      cacheKey="CACHE_KEY"
+      cacheKey={['CACHE_KEY']}
       onClose={jest.fn()}
     />
   )
@@ -78,7 +79,7 @@ test('unable to close modal when submitting', async () => {
     <DeleteTestimonialModal
       open
       testimonial={testimonial}
-      cacheKey="CACHE_KEY"
+      cacheKey={['CACHE_KEY']}
       onClose={handleClose}
     />
   )
@@ -117,7 +118,7 @@ test('shows api errors', async () => {
       <DeleteTestimonialModal
         open
         testimonial={testimonial}
-        cacheKey="CACHE_KEY"
+        cacheKey={['CACHE_KEY']}
         onClose={jest.fn()}
       />
     )
@@ -144,7 +145,7 @@ test('shows unexpected errors', async () => {
       <DeleteTestimonialModal
         open
         testimonial={testimonial}
-        cacheKey="CACHE_KEY"
+        cacheKey={['CACHE_KEY']}
         onClose={jest.fn()}
       />
     )

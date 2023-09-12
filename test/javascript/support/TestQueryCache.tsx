@@ -8,8 +8,13 @@ export const TestQueryCache = ({
   children?: React.ReactElement
   queryClient: any
 }): JSX.Element => {
+  const localQueryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+    },
+  })
   return (
-    <QueryClientProvider client={queryClient || new QueryClient()}>
+    <QueryClientProvider client={queryClient || localQueryClient}>
       {children}
     </QueryClientProvider>
   )

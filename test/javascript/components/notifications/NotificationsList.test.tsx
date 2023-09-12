@@ -1,9 +1,6 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { render } from '../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { default as NotificationsList } from '@/components/notifications/NotificationsList'
 import { rest } from 'msw'

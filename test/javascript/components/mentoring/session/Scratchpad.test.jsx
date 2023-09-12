@@ -7,8 +7,6 @@ import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { Scratchpad } from '../../../../../app/javascript/components/mentoring/session/Scratchpad'
 import { stubRange } from '../../../support/code-mirror-helpers'
-import { awaitPopper } from '../../../support/await-popper'
-import { TestQueryCache } from '../../../support/TestQueryCache'
 import { build } from '@jackfranklin/test-data-bot'
 import { expectConsoleError } from '../../../support/silence-console'
 

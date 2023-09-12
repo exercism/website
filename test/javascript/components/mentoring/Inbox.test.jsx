@@ -7,7 +7,9 @@ import { Inbox } from '@/components/mentoring'
 import userEvent from '@testing-library/user-event'
 import { expectConsoleError } from '../../support/silence-console'
 import { awaitPopper } from '../../support/await-popper'
-import { queryCache } from 'react-query'
+import { QueryCache } from '@tanstack/react-query'
+
+const queryCache = new QueryCache()
 
 let server = setupServer(
   rest.get('https://exercism.test/tracks', (req, res, ctx) => {

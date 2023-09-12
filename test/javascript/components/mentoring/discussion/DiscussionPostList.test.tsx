@@ -6,7 +6,6 @@ import { TestQueryCache } from '../../../support/TestQueryCache'
 import { stubIntersectionObserver } from '../../../support/intersection-observer-helpers'
 import { createIteration } from '../../../factories/IterationFactory'
 import { createDiscussionPost } from '../../../factories/DiscussionPostFactory'
-import { QueryStatus } from 'react-query'
 
 stubIntersectionObserver()
 
@@ -22,7 +21,7 @@ test('displays all posts', async () => {
         userHandle="user"
         userIsStudent={false}
         onIterationScroll={jest.fn()}
-        status={QueryStatus.Success}
+        status="success"
       />
     </TestQueryCache>
   )
@@ -45,7 +44,7 @@ test('shows first iteration with posts', async () => {
       userHandle="user"
       onIterationScroll={jest.fn()}
       userIsStudent={true}
-      status={QueryStatus.Success}
+      status="success"
     />
   )
 
@@ -63,7 +62,7 @@ test('shows latest iteration if there are no posts', async () => {
       userHandle="user"
       onIterationScroll={jest.fn()}
       userIsStudent={true}
-      status={QueryStatus.Success}
+      status="success"
     />
   )
 

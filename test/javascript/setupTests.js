@@ -1,11 +1,15 @@
 import 'react-app-polyfill/ie9'
 import '@testing-library/jest-dom/extend-expect'
 import { waitFor, act } from '@testing-library/react'
-import { queryCache } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import flushPromises from 'flush-promises'
 
 jest.mock('../../app/javascript/utils/action-cable-consumer')
 jest.retryTimes(3)
+
+export const queryCache = new QueryClient({
+  defaultOptions: { queries: { retry: false } },
+})
 
 // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 Object.defineProperty(window, 'matchMedia', {

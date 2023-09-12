@@ -15,8 +15,10 @@ import { default as Session } from '@/components/mentoring/Session'
 import { stubRange } from '../../support/code-mirror-helpers'
 import { stubIntersectionObserver } from '../../support/intersection-observer-helpers'
 import { awaitPopper } from '../../support/await-popper'
-import { queryCache } from 'react-query'
+import { QueryCache } from '@tanstack/react-query'
 import { expectConsoleError } from '../../support/silence-console'
+
+const queryCache = new QueryCache()
 
 stubRange()
 stubIntersectionObserver()

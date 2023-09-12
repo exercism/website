@@ -102,7 +102,7 @@
     "@prettier/plugin-ruby": "^0.18.2",
     "@testing-library/dom": "^7.24.1",
     "@testing-library/jest-dom": "^5.11.0",
-    "@testing-library/react": "^10.4.3",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^12.6.0",
     "@types/actioncable": "^5.2.3",
     "@types/fontfaceobserver": "^0.0.6",

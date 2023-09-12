@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { default as Queue } from '@/components/mentoring/Queue'
 import { TestQueryCache } from '../../support/TestQueryCache'
 import { silenceConsole } from '../../support/silence-console'
+import { queryClient } from '../../setupTests'
 
 test('shows API errors when fetching queue', async () => {
   silenceConsole()
@@ -44,7 +45,7 @@ test('shows API errors when fetching queue', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
@@ -97,7 +98,7 @@ test('shows generic errors when fetching queue', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'wrongendpoint',
@@ -149,7 +150,7 @@ test('shows API errors when fetching tracks', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
@@ -191,7 +192,7 @@ test('shows generic errors when fetching tracks', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
@@ -217,7 +218,7 @@ test('shows generic errors when fetching tracks', async () => {
   server.close()
 })
 
-test('shows API errors when fetching tracks', async () => {
+test('shows API errors when fetching tracks 2', async () => {
   silenceConsole()
   const server = setupServer(
     rest.get('https://exercism.test/tracks', (req, res, ctx) => {
@@ -243,7 +244,7 @@ test('shows API errors when fetching tracks', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
@@ -302,7 +303,7 @@ test('shows API errors when fetching exercises', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'https://exercism.test/queue',
@@ -346,7 +347,7 @@ test('shows generic errors when fetching exercises', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <Queue
         queueRequest={{
           endpoint: 'https://exercism.test/queue',

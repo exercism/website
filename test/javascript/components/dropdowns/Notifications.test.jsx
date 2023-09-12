@@ -7,6 +7,7 @@ import { default as Notifications } from '@/components/dropdowns/Notifications'
 import { TestQueryCache } from '../../support/TestQueryCache'
 import { expectConsoleError } from '../../support/silence-console'
 import userEvent from '@testing-library/user-event'
+import { queryClient } from '../../setupTests'
 
 test('shows API error message', async () => {
   expectConsoleError(async () => {
@@ -24,7 +25,7 @@ test('shows API error message', async () => {
     server.listen()
 
     render(
-      <TestQueryCache>
+      <TestQueryCache queryClient={queryClient}>
         <Notifications endpoint="https://exercism.test/notifications" />
       </TestQueryCache>
     )
@@ -34,7 +35,6 @@ test('shows API error message', async () => {
 
     expect(await screen.findByText('Unable to load')).toBeInTheDocument()
 
-    await awaitPopper()
     server.close()
   })
 })
@@ -42,7 +42,7 @@ test('shows API error message', async () => {
 test('shows generic error message', async () => {
   expectConsoleError(async () => {
     render(
-      <TestQueryCache>
+      <TestQueryCache queryClient={queryClient}>
         <Notifications endpoint="https://exercism.test/notifications" />
       </TestQueryCache>
     )
@@ -53,7 +53,5 @@ test('shows generic error message', async () => {
     expect(
       await screen.findByText('Unable to load notifications')
     ).toBeInTheDocument()
-
-    await awaitPopper()
   })
 })

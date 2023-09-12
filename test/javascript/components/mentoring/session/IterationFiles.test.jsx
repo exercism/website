@@ -11,6 +11,7 @@ import { IterationFiles } from '../../../../../app/javascript/components/mentori
 import userEvent from '@testing-library/user-event'
 import { silenceConsole } from '../../../support/silence-console'
 import { TestQueryCache } from '../../../support/TestQueryCache'
+import { queryClient } from '../../../setupTests'
 
 test('shows files in tabs', async () => {
   const files = [
@@ -56,7 +57,7 @@ test('shows errors from API', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <IterationFiles endpoint="https://exercism.test/files" language="ruby" />
     </TestQueryCache>
   )
@@ -76,7 +77,7 @@ test('shows generic error message for unexpected errors', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <IterationFiles endpoint="weirdendpoint" language="ruby" />
     </TestQueryCache>
   )

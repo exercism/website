@@ -6,6 +6,7 @@ import { TestQueryCache } from '../../../support/TestQueryCache'
 import { stubIntersectionObserver } from '../../../support/intersection-observer-helpers'
 import { createIteration } from '../../../factories/IterationFactory'
 import { createDiscussionPost } from '../../../factories/DiscussionPostFactory'
+import { queryClient } from '../../../setupTests'
 
 stubIntersectionObserver()
 
@@ -14,7 +15,7 @@ test('displays all posts', async () => {
   const iterations = [createIteration({ idx: 1, posts: posts })]
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <DiscussionPostList
         iterations={iterations}
         discussionUuid="uuid"

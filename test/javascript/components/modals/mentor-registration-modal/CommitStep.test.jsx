@@ -7,7 +7,7 @@ import { TestQueryCache } from '../../../support/TestQueryCache'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { expectConsoleError } from '../../../support/silence-console'
-import { queryCache } from 'react-query'
+import { queryClient } from '../../../setupTests'
 import flushPromises from 'flush-promises'
 import { awaitPopper } from '../../../support/await-popper'
 
@@ -58,8 +58,8 @@ test('continue and back button are disabled while request is sending', async () 
   server.listen()
 
   render(
-    <TestQueryCache>
-      <CommitStep links={links} onContinue={() => {}} />
+    <TestQueryCache queryClient={queryClient}>
+      <CommitStep links={links} onContinue={() => null} />
     </TestQueryCache>
   )
 
@@ -88,14 +88,14 @@ test('continue and back button are disabled while request is sending', async () 
   })
   await awaitPopper()
 
-  waitFor(() => {
+  await waitFor(() => {
     expect(screen.getByRole('button', { name: /Continue/ })).toBeDisabled()
     expect(screen.getByRole('button', { name: /Back/ })).toBeDisabled()
   })
 
   await flushPromises()
   await awaitPopper()
-  queryCache.cancelQueries()
+  // queryClient.cancelQueries()
   server.close()
 })
 test('shows API errors', async () => {
@@ -117,8 +117,8 @@ test('shows API errors', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
-      <CommitStep links={links} onContinue={() => {}} />
+    <TestQueryCache queryClient={queryClient}>
+      <CommitStep links={links} onContinue={() => null} />
     </TestQueryCache>
   )
 
@@ -146,7 +146,7 @@ test('shows API errors', async () => {
   })
 
   flushPromises()
-  queryCache.cancelQueries()
+  queryClient.cancelQueries()
   server.close()
 })
 
@@ -155,7 +155,7 @@ test('shows generic errors', async () => {
     registration: 'wrong',
   }
 
-  render(<CommitStep links={links} onContinue={() => {}} />)
+  render(<CommitStep links={links} onContinue={() => null} />)
 
   userEvent.click(
     screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })

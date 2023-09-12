@@ -1,5 +1,5 @@
 import React from 'react'
-import { QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export const TestQueryCache = ({
   children,
@@ -9,6 +9,8 @@ export const TestQueryCache = ({
   queryClient: any
 }): JSX.Element => {
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient || new QueryClient()}>
+      {children}
+    </QueryClientProvider>
   )
 }

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class User::Notifications::NudgeStudentToReplyInDiscussionNotificationTest < ActiveSupport::TestCase
+class User::Notifications::NudgeMentorToReplyInDiscussionNotificationTest < ActiveSupport::TestCase
   test "keys are valid" do
     awaiting_mentor_since = Time.utc(2022, 3, 20)
     student = create :user

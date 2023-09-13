@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_31_092351) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_121539) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -556,6 +556,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_31_092351) do
     t.index ["mentor_id", "status"], name: "index_mentor_discussions_on_mentor_id_and_status"
     t.index ["request_id"], name: "fk_rails_38162d0a13"
     t.index ["solution_id"], name: "fk_rails_704ccdde73"
+    t.index ["status", "awaiting_mentor_since"], name: "index_mentor_discussions_on_status_and_awaiting_mentor_since"
+    t.index ["status", "awaiting_student_since"], name: "index_mentor_discussions_on_status_and_awaiting_student_since"
     t.index ["uuid"], name: "index_mentor_discussions_on_uuid", unique: true
   end
 

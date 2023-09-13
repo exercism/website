@@ -46,11 +46,6 @@ sync_payments:
   class: "SyncPaymentsJob"
   queue: dribble
 
-send_mentor_discussion_nudges:
-  cron: "15 0 * * *"
-  class: "SendDiscussionNudgesJob"
-  queue: dribble
-
 # 1am Monday
 fetch_and_sync_all_pull_requests_reputation:
   cron: "0 1 * * 1"
@@ -91,6 +86,12 @@ update_minute_metrics:
   cron: "* * * * *"
   class: "UpdateMinuteMetricsJob"
   queue: metrics
+
+# At start of every hour
+send_mentor_discussion_nudges:
+  cron: "0 * * * *"
+  class: "SendDiscussionNudgesJob"
+  queue: dribble
 
 # At start of every day
 update_day_metrics:

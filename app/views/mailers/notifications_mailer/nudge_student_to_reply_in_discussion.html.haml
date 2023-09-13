@@ -1,5 +1,6 @@
 %p Hi #{@user.handle},
-%p Your mentor (#{@discussion.mentor.handle}) is waiting for you to reply in the discussion on your solution to #{@exercise.title} on the #{@track.title} track.
+
+%p This is a friendly reminder that your mentor (#{@discussion.student.handle}) has been waiting #{notification.num_days_waiting} days for you to reply in #{link_to 'the discussion', track_exercise_mentor_discussion_url(@track, @exercise, @discussion)} on your solution to #{@exercise.title} on the #{@track.title} track.
 
 = email_button_to "Go to the discussion", track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
 

@@ -1,7 +1,7 @@
 tw = require('./tailwind.config.js')
 tw.content = []
-;(tw.corePlugins = {
+tw.corePlugins = {
   container: false,
   preflight: false,
-}),
-  (module.exports = tw)
+}
+module.exports = tw

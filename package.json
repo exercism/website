@@ -146,7 +146,7 @@
     "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
     "test-watch": "jest --watchAll",
-    "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets --ext css",
+    "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets",
     "build": "./app/javascript/esbuild.js",
     "prepare": "husky install"
   }

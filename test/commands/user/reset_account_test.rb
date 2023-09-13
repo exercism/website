@@ -198,4 +198,15 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       challenge.reload
     end
   end
+
+  test "cleans up viewed community solutions" do
+    create :user, :ghost
+    user = create :user
+    viewed_solution = create(:user_track_viewed_community_solution, user:)
+
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      viewed_solution.reload
+    end
+  end
 end

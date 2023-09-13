@@ -37,7 +37,9 @@ function CommunityOpportunity({
   return (
     <a
       href={link}
-      className="px-12 py-10 flex gap-16 items-center hover:bg-[var(--nav-backgroundColor)]"
+      target="_blank"
+      rel="noreferrer"
+      className="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
     >
       <GraphicalIcon icon={icon} width={32} height={32} />
       <div>

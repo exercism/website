@@ -269,10 +269,10 @@
                     @apply flex-grow;
                 }
                 & .subtitle {
-                    @apply text-textColor6 leading-paragraph mb-4;
+                    @apply text-textColor6 leading-paragraph mb-6;
                 }
                 & .handle-block {
-                    @apply flex items-center;
+                    @apply flex items-center mb-6;
                     & .handle {
                         @apply text-h5 mr-12;
                     }

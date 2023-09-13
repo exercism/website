@@ -27,4 +27,21 @@ class Submission::SyncRepresentationStatusTest < ActiveSupport::TestCase
     assert Submission::SyncRepresentationStatus.(submission)
     assert_equal 'generated', submission.representation_status
   end
+
+  test "uses latest representation, even if a previous one is cached" do
+    submission = create :submission, representation_status: :queued
+    rep_1 = create :submission_representation, submission:, ops_status: 500
+    assert_equal rep_1, submission.submission_representation # Sanity
+
+    Submission::SyncRepresentationStatus.(submission)
+    assert_equal 'exceptioned', submission.representation_status
+
+    create :submission_representation, submission:, ops_status: 200
+    # Sanity - Check that Rails has this cached to rep_1, so that
+    # we're actually testing the correct behaviour
+    assert_equal rep_1, submission.submission_representation
+
+    Submission::SyncRepresentationStatus.(submission)
+    assert_equal 'generated', submission.representation_status
+  end
 end

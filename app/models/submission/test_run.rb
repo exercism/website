@@ -36,6 +36,10 @@ class Submission::TestRun < ApplicationRecord
     self.track = submission.track unless track
   end
 
+  def self.for!(submission)
+    where(submission:).last
+  end
+
   def status = super.try(&:to_sym)
   def ops_success? = ops_status == 200
   def timed_out? = ops_status == 408

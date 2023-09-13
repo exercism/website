@@ -7,5 +7,6 @@ class SyncPaymentsJob < ApplicationJob
     Payments::Github::Sponsorship::SyncAll.()
     Payments::Stripe::Subscription::SyncAll.()
     Payments::Stripe::Payment::SyncAll.()
+    Payments::Subscription::CancelPending.()
   end
 end

@@ -422,7 +422,6 @@ export default ({
               exerciseTitle={exercise.title}
             />
             <div className="options">
-              <Header.ActionHints assignment={panels.instructions.assignment} />
               <Header.ActionSettings
                 settings={settings}
                 setSettings={setSettings}
@@ -528,7 +527,10 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                <GetHelpPanel helpHtml={help.html}>
+                <GetHelpPanel
+                  assignment={panels.instructions.assignment}
+                  helpHtml={help.html}
+                >
                   {insider ? (
                     <ChatGPT.Wrapper
                       helpRecord={helpRecord}

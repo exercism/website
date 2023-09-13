@@ -3,7 +3,6 @@ import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
 import { More } from './header/More'
-import { Hints } from './header/Hints'
 
 export const Header = ({
   children,
@@ -31,8 +30,6 @@ Header.Title = ({
     <div className="exercise">{exerciseTitle}</div>
   </div>
 )
-
-Header.ActionHints = Hints
 
 Header.ActionKeyboardShortcuts = forwardRef<
   HTMLButtonElement,

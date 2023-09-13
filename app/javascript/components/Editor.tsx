@@ -52,7 +52,12 @@ import { RealtimeFeedbackModal } from './modals'
 import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
 import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
 
-type TabIndex = 'instructions' | 'tests' | 'results' | 'get-help'
+export type TabIndex =
+  | 'instructions'
+  | 'tests'
+  | 'results'
+  | 'get-help'
+  | 'chat-gpt'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -459,10 +464,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <StuckButton
-                    onClick={() => setTab('get-help')}
-                    disabled={tab === 'get-help'}
-                  />
+                  <StuckButton insider={insider} tab={tab} setTab={setTab} />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}

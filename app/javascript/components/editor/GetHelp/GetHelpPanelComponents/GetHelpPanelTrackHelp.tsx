@@ -6,7 +6,7 @@ export function GetHelpPanelTrackHelp({
   helpHtml,
 }: Pick<GetHelpPanelProps, 'helpHtml'>): JSX.Element {
   return (
-    <GetHelpAccordionSkeleton title={'Track help'} icon={''}>
+    <GetHelpAccordionSkeleton title="Track help" icon={''}>
       <div
         className="c-textual-content --base pt-16"
         dangerouslySetInnerHTML={{ __html: helpHtml }}

@@ -18,10 +18,13 @@ export const Pronouns = ({
     : `Rather than using pronouns (he, her's, etc) please always refer to ${handle} as ${handle}.`
 
   return (
-    <GenericTooltip content={content} className="c-pronouns-tooltip">
+    <GenericTooltip
+      content={content}
+      className="text-15 leading-140 !max-w-[420px]"
+    >
       <div className="cursor-default text-textColor6 font-semibold flex items-center gap-8 mb-6">
         <GraphicalIcon
-          icon="user"
+          icon="pronouns"
           className="filter-textColor6"
           width={16}
           height={16}
@@ -33,15 +36,17 @@ export const Pronouns = ({
 }
 
 function createExample(handle: string, pronouns: string[]) {
+  const pronounsString = pronouns.join(' / ')
   return (
     <>
       <p>
-        {`When refering to ${handle}, please use the pronouns "${pronouns.join(
-          ' / '
-        )}".`}
+        When refering to @{handle}, please use the pronouns{' '}
+        <strong className="whitespace-nowrap">{pronounsString}</strong>. For
+        example, if leaving a testimonial for {handle}, you might say:
       </p>
-      <p>For example, if leaving a testimonial for {handle}, you might say:</p>
-      <blockquote>{`"${handle} was great. ${pronouns[0]} answered all my questions. I'll recommend ${pronouns[1]} to others because ${pronouns[2]} advice was very helpful."`}</blockquote>
+      <blockquote className="block border-l-3 border-borderColor6 mt-8 pl-8 italic">
+        {`"${handle} was great. ${pronouns[0]} answered all my questions. I'll recommend ${pronouns[1]} to others because ${pronouns[2]} advice was very helpful."`}
+      </blockquote>
     </>
   )
 }

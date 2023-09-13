@@ -261,7 +261,7 @@
             & .student-info,
             & .mentor-info {
                 @apply bg-backgroundColorA shadow-xsZ1;
-                @apply flex;
+                @apply flex flex-col;
 
                 @apply py-16 px-24;
 
@@ -279,10 +279,12 @@
                 }
                 & .name {
                     @apply text-16 text-textColor6 font-medium leading-regular;
-                    @apply mb-6;
+                    &:not(:last-child) {
+                        @apply mb-6;
+                    }
                 }
                 & .bio {
-                    @apply text-15 leading-huge mr-40;
+                    @apply text-15 leading-150;
                     & .flags {
                         @apply ml-8;
                     }

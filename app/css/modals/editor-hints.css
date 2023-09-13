@@ -1,31 +1,23 @@
 @import "../styles";
 
-.m-editor-hints.c-modal {
-    & .--modal-content {
-        padding: 0;
-        width: 100%;
-        max-width: 1100px;
-    }
-    & header {
+#panel-get-help {
+    header {
         @apply py-16 px-32;
         @apply border-b-1 border-borderColor5;
         @apply flex items-center;
 
-        & .c-icon {
+        .c-icon {
             height: 48px;
             width: 48px;
             @apply mr-24;
         }
-        & h2 {
+        h2 {
             @apply text-h3;
         }
     }
-    & .c-details {
-        &:not(:last-child) {
-            @apply border-b-1 border-borderColor5;
-        }
+    .c-details {
         &:not([open]) {
-            & .--summary {
+            .--summary {
                 @apply pb-16;
             }
         }
@@ -37,19 +29,19 @@
             }
         }
 
-        & .--summary-inner {
+        .--summary-inner {
             @apply px-32 pt-16;
 
             @apply text-h5;
             @apply flex items-center;
-            & .c-icon {
+            .c-icon {
                 @apply ml-auto;
                 height: 24px;
                 width: 24px;
             }
         }
     }
-    & .c-textual-content {
+    .c-textual-content {
         @apply px-32 pb-16;
         & ul {
             @apply ml-0;
@@ -60,7 +52,7 @@
             }
         }
     }
-    & .single-task-hints {
+    .single-task-hints {
         & h3 {
             @apply text-h5 px-32 py-16;
         }

@@ -1,33 +1,26 @@
 import React from 'react'
 import { TabsContext } from '@/components/Editor'
-import { GraphicalIcon, Tab } from '@/components/common'
+import { Tab } from '@/components/common'
+import * as Component from './GetHelpPanelComponents'
+import type { Assignment } from '../types'
+
+export type GetHelpPanelProps = {
+  children?: React.ReactChild
+  helpHtml: string
+  assignment: Assignment
+}
 
 export function GetHelpPanel({
   children,
   helpHtml,
-}: {
-  children: React.ReactChild
-  helpHtml: string
-}): JSX.Element {
+  assignment,
+}: GetHelpPanelProps): JSX.Element {
   return (
     <Tab.Panel id="get-help" context={TabsContext}>
       {children}
-
-      <div className="px-24">
-        <header className="flex items-center gap-12 mb-24">
-          <GraphicalIcon
-            icon="hints"
-            category="graphics"
-            height={40}
-            width={40}
-          />
-          <h2 className="text-h3">Help</h2>
-        </header>
-
-        <div
-          className="c-textual-content --base"
-          dangerouslySetInnerHTML={{ __html: helpHtml }}
-        />
+      <div className="px-24 flex flex-col gap-24">
+        <Component.Hints assignment={assignment} />
+        <Component.Help helpHtml={helpHtml} />
       </div>
     </Tab.Panel>
   )

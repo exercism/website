@@ -1,0 +1,506 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GetHelpPanel tests Component snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="tab-get-help"
+    class="--tab-panel undefined"
+    id="panel-get-help"
+    role="tabpanel"
+    style="display: none;"
+    tabindex="0"
+  >
+    <div
+      class="px-24 flex flex-col gap-24"
+    >
+      <div
+        class="flex flex-col"
+      >
+        <header
+          class="flex items-center gap-12 mb-24\\""
+        >
+          <img
+            alt=""
+            class="c-icon"
+            role="presentation"
+            src="undefined/assets/undefined"
+          />
+          <h2>
+            Hints and Tips
+          </h2>
+        </header>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              1. Define the expected oven time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://www.rubyguides.com/2017/07/ruby-constants/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  constant
+                </a>
+                 that should contain the
+
+                <a
+                  href="https://ruby-doc.org/core-2.7.0/Integer.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  integer
+                </a>
+                 value specified in the recipe.
+              </li>
+              
+
+              <li>
+                The 
+                <code>
+                  ::
+                </code>
+                 used in 
+                <code>
+                  Lasagna::EXPECTED_MINUTES_IN_OVEN
+                </code>
+                 means that 
+                <code>
+                  EXPECTED_MINUTES_IN_OVEN
+                </code>
+                 needs to be defined
+within the 
+                <code>
+                  Lasagna
+                </code>
+                 class.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              2. Calculate the remaining oven time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with a single parameter for the
+actual time so far.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for
+subtraction
+                </a>
+                 to subtract values.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              3. Calculate the preparation time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with a single parameter for the
+number of layers.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for
+multiplication
+                </a>
+                 to multiply values.
+              </li>
+              
+
+              <li>
+                You could define an extra constant for the time in minutes per layer, or use a "magic number" in the code.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              4. Calculate the total working time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                role="presentation"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with two named parameters:
+
+                <code>
+                  number_of_layers
+                </code>
+                 and 
+                <code>
+                  actual_minutes_in_oven
+                </code>
+                .
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="http://ruby-for-beginners.rubymonstas.org/objects/calling.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  invoke
+                </a>
+                 one of the other methods you've
+defined previously.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for addition
+                </a>
+                
+to add values.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+      </div>
+      <div
+        class="flex flex-col"
+      >
+        <header
+          class="flex items-center gap-12 mb-24"
+        >
+          <img
+            alt=""
+            class="c-icon"
+            height="40"
+            role="presentation"
+            src="undefined/assets/undefined"
+            width="40"
+          />
+          <h2
+            class="text-h3"
+          >
+            Help
+          </h2>
+        </header>
+        <div
+          class="c-textual-content --base"
+        >
+          <p>
+            To get help if you're having trouble, you can use one of the following resources:
+          </p>
+          
+  
+          <ul>
+            
+  
+            <li>
+              <a
+                href="http://ruby-doc.org/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ruby Documentation
+              </a>
+            </li>
+            
+  
+            <li>
+              <a
+                href="http://stackoverflow.com/questions/tagged/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                StackOverflow
+              </a>
+            </li>
+            
+  
+            <li>
+              
+  
+              <a
+                href="https://www.reddit.com/r/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                /r/ruby
+              </a>
+               is the Ruby subreddit.
+            </li>
+            
+  
+          </ul>
+          
+  
+          <p>
+            Should those resources not suffice, check the following pages:
+          </p>
+          
+  
+          <ul>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://exercism.org/docs/tracks/ruby"
+              >
+                Ruby track's documentation
+              </a>
+              
+  
+            </li>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://forum.exercism.org/c/programming/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ruby track's programming category on the forum
+              </a>
+              
+  
+            </li>
+            
+  
+            <li>
+              <a
+                href="https://forum.exercism.org/c/programming/5"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Exercism's programming category on the forum
+              </a>
+            </li>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://exercism.org/docs/using/faqs"
+              >
+                Frequently Asked Questions
+              </a>
+              
+  
+            </li>
+            
+  
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

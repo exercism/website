@@ -58,4 +58,23 @@ class User::DestroyAccountTest < ActiveSupport::TestCase
     perform_enqueued_jobs
     assert_empty Solution::SearchCommunitySolutions.(solution.exercise)
   end
+
+  test "resets payments and subscriptions" do
+    create :user, :ghost
+    user = create :user
+
+    # Create all the things the person might have
+    subscription = create(:payments_subscription, user:)
+    payment_1 = create(:payments_payment, user:, subscription:)
+    payment_2 = create(:payments_payment, user:)
+
+    User::ResetAccount.expects(:call).with(user)
+
+    User::DestroyAccount.(user)
+
+    assert_raises ActiveRecord::RecordNotFound, &proc { user.reload }
+    assert_equal User::GHOST_USER_ID, subscription.reload.user_id
+    assert_equal User::GHOST_USER_ID, payment_1.reload.user_id
+    assert_equal User::GHOST_USER_ID, payment_2.reload.user_id
+  end
 end

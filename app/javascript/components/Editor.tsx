@@ -49,6 +49,8 @@ import {
   ChatGPT,
 } from './editor/index'
 import { RealtimeFeedbackModal } from './modals'
+import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
+import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
 
 type TabIndex = 'instructions' | 'tests' | 'results' | 'get-help'
 
@@ -491,6 +493,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
+                  <ChatGptTab />
                   <GetHelpTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
@@ -527,10 +530,7 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                <GetHelpPanel
-                  assignment={panels.instructions.assignment}
-                  helpHtml={help.html}
-                >
+                <ChatGptPanel>
                   {insider ? (
                     <ChatGPT.Wrapper
                       helpRecord={helpRecord}
@@ -553,7 +553,11 @@ export default ({
                   ) : (
                     <ChatGPT.UpsellContent />
                   )}
-                </GetHelpPanel>
+                </ChatGptPanel>
+                <GetHelpPanel
+                  assignment={panels.instructions.assignment}
+                  helpHtml={help.html}
+                />
               </TasksContext.Provider>
             }
           />

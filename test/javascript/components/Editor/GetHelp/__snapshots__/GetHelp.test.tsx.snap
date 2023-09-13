@@ -11,24 +11,56 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
     tabindex="0"
   >
     <div
-      class="px-24 flex flex-col gap-24"
+      class="p-24 flex flex-col gap-24"
     >
-      <div
-        class="flex flex-col"
+      <details
+        class="c-details"
       >
-        <header
-          class="flex items-center gap-12 mb-24\\""
+        <summary
+          class="flex items-center"
         >
           <img
             alt=""
-            class="c-icon"
+            class="c-icon mr-16 filter-textColor6"
+            height="32"
             role="presentation"
             src="undefined/assets/undefined"
+            width="32"
           />
-          <h2>
-            Hints and Tips
-          </h2>
-        </header>
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Hints and Tips
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
         <details
           class="c-details"
         >
@@ -369,29 +401,57 @@ to add values.
 
           </div>
         </details>
-      </div>
-      <div
-        class="flex flex-col"
+      </details>
+      <details
+        class="c-details"
       >
-        <header
-          class="flex items-center gap-12 mb-24"
+        <summary
+          class="flex items-center"
         >
           <img
             alt=""
-            class="c-icon"
-            height="40"
+            class="c-icon mr-16 filter-textColor6"
+            height="32"
             role="presentation"
             src="undefined/assets/undefined"
-            width="40"
+            width="32"
           />
-          <h2
-            class="text-h3"
+          <div
+            class="flex items-center justify-between w-100"
           >
-            Help
-          </h2>
-        </header>
+            <span
+              class="text-h4"
+            >
+              Track help
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
         <div
-          class="c-textual-content --base"
+          class="c-textual-content --base pt-16"
         >
           <p>
             To get help if you're having trouble, you can use one of the following resources:
@@ -499,7 +559,114 @@ to add values.
   
           </ul>
         </div>
-      </div>
+      </details>
+      <details
+        class="c-details"
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt=""
+            class="c-icon mr-16 filter-textColor6"
+            height="32"
+            role="presentation"
+            src="undefined/assets/undefined"
+            width="32"
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Community help
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="pt-16 flex flex-col gap-8 px-32"
+        >
+          <a
+            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+            href=""
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              alt=""
+              class="c-icon"
+              height="32"
+              role="presentation"
+              src="undefined/assets/undefined"
+              width="32"
+            />
+            <div>
+              <h6
+                class="text-h6 text-textColor1 mb-2"
+              >
+                Discord
+              </h6>
+              <p
+                class="text-p-small text-textColor1"
+              >
+                Chat & hang with the community
+              </p>
+            </div>
+          </a>
+          <a
+            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+            href=""
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              alt=""
+              class="c-icon"
+              height="32"
+              role="presentation"
+              src="undefined/assets/undefined"
+              width="32"
+            />
+            <div>
+              <h6
+                class="text-h6 text-textColor1 mb-2"
+              >
+                Forum
+              </h6>
+              <p
+                class="text-p-small text-textColor1"
+              >
+                Dig deeper into topics
+              </p>
+            </div>
+          </a>
+        </div>
+      </details>
     </div>
   </div>
 </DocumentFragment>

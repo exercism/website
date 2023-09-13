@@ -11,6 +11,7 @@ describe('GetHelpPanel tests', () => {
       <GetHelpPanel
         assignment={MOCK_DATA.ASSIGNMENT}
         helpHtml={MOCK_DATA.HELP}
+        links={{ discordRedirectPath: '', forumRedirectPath: '' }}
       />
     )
   })
@@ -21,11 +22,13 @@ describe('GetHelpPanel tests', () => {
     expect(asFragment()).toMatchSnapshot()
   })
 
-  test('Component renders both hints and help', () => {
+  test('Component renders hints, track help and community help', () => {
     const hint = screen.getByText(/Define the expected oven time in minutes/)
     const help = screen.getByText(/To get help if you're having trouble/)
+    const communityHelp = screen.getByText('Community help')
 
     expect(hint).toBeInTheDocument()
     expect(help).toBeInTheDocument()
+    expect(communityHelp).toBeInTheDocument()
   })
 })

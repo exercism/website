@@ -1,0 +1,8 @@
+@config "../../tailwind.minimal.config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+/* Exercism: DELETE ABOVE THIS */

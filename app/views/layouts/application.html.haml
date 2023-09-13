@@ -9,6 +9,8 @@
 
     = render "layouts/meta_tags"
 
+    = yield :head
+
   %body{ class: body_class }
     = render ViewComponents::SiteHeader.new
 

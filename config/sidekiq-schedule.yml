@@ -41,6 +41,11 @@ mark_outdated_reputation_year_periods:
   queue: reputation
   args: ["year"]
 
+sync_payments:
+  cron: "0 5 * * *"
+  class: "SyncPaymentsJob"
+  queue: dribble
+
 # 1am Monday
 fetch_and_sync_all_pull_requests_reputation:
   cron: "0 1 * * 1"
@@ -62,11 +67,6 @@ sync_tracks:
 sync_team_members:
   cron: "0 1 * * 3"
   class: "SyncTeamMembersJob"
-  queue: dribble
-
-sync_sponsors:
-  cron: "0 1 * * 3"
-  class: "SyncSponsorsJob"
   queue: dribble
 
 # 1am Thursday

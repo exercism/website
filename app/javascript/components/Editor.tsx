@@ -559,6 +559,7 @@ export default ({
                 <GetHelpPanel
                   assignment={panels.instructions.assignment}
                   helpHtml={help.html}
+                  links={links}
                 />
               </TasksContext.Provider>
             }

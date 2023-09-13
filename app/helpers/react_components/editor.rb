@@ -56,7 +56,9 @@ module ReactComponents
           automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
           mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
           mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise),
-          create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid)
+          create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
+          discord_redirect_path: Exercism::Routes.discord_redirect_path,
+          forum_redirect_path: Exercism::Routes.forum_redirect_path
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,

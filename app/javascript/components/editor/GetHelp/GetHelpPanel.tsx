@@ -7,17 +7,20 @@ import type { Assignment } from '../types'
 export type GetHelpPanelProps = {
   helpHtml: string
   assignment: Assignment
+  links: Record<'discordRedirectPath' | 'forumRedirectPath', string>
 }
 
 export function GetHelpPanel({
   helpHtml,
   assignment,
+  links,
 }: GetHelpPanelProps): JSX.Element {
   return (
     <Tab.Panel id="get-help" context={TabsContext}>
-      <div className="px-24 flex flex-col gap-24">
+      <div className="p-24 flex flex-col gap-24">
         <Component.Hints assignment={assignment} />
-        <Component.Help helpHtml={helpHtml} />
+        <Component.TrackHelp helpHtml={helpHtml} />
+        <Component.CommunityHelp links={links} />
       </div>
     </Tab.Panel>
   )

@@ -1,6 +1,7 @@
 .c-details {
     & > summary {
         @apply cursor-pointer;
+        @apply select-none;
         list-style-type: none;
         &::marker,
         &::-webkit-details-marker {
@@ -13,7 +14,6 @@
                 height: 12px;
                 width: 12px;
                 @apply ml-16 filter-textColor6;
-
             }
         }
     }

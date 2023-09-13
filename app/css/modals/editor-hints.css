@@ -32,7 +32,7 @@
         .--summary-inner {
             @apply px-32 pt-16;
 
-            @apply text-h5;
+            @apply text-h6;
             @apply flex items-center;
             .c-icon {
                 @apply ml-auto;
@@ -46,7 +46,7 @@
         & ul {
             @apply ml-0;
             & li {
-                @apply text-18 leading-170;
+                @apply text-16 leading-170;
                 list-style: disc;
                 @apply ml-20;
             }

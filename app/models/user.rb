@@ -197,7 +197,7 @@ class User < ApplicationRecord
 
   def pronoun_parts
     a = pronouns.to_s.split("/")
-    a.fill("", a.length...3)
+    a.size == 3 && a.exclude?('') ? a : nil
   end
 
   def pronoun_parts=(parts)

@@ -57,8 +57,13 @@ module ReactComponents
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
           reputation: mentor.formatted_reputation,
-          num_discussions: num_discussions_with_mentor
+          num_discussions: num_discussions_with_mentor,
+          pronouns:
         }
+      end
+
+      def pronouns
+        mentor.pronouns.present? ? mentor.pronoun_parts : nil
       end
 
       def num_discussions_with_mentor

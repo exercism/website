@@ -44,6 +44,7 @@ export type Mentor = {
   flair: Flair
   reputation: number
   numDiscussions: number
+  pronouns?: string[]
 }
 
 export default function MentoringSession({

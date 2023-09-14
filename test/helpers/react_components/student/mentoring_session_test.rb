@@ -44,7 +44,8 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           languages_spoken: mentor.languages_spoken,
           avatar_url: mentor.avatar_url,
           reputation: mentor.formatted_reputation,
-          num_discussions: 0
+          num_discussions: 0,
+          pronouns: nil
         },
         track_objectives: "",
         out_of_date: false,

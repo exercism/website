@@ -115,6 +115,9 @@ GEM
     aws-sdk-secretsmanager (1.75.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-sesv2 (1.33.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.2.0)
@@ -168,7 +171,7 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.114.0)
+    exercism-config (0.115.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -549,6 +552,7 @@ DEPENDENCIES
   aws-sdk-cloudfront
   aws-sdk-ecr
   aws-sdk-s3 (~> 1)
+  aws-sdk-sesv2
   bootsnap (>= 1.4.2)
   bugsnag
   bullet
@@ -560,7 +564,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
-  exercism-config (>= 0.114.0)
+  exercism-config (>= 0.115.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)

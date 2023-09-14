@@ -8,9 +8,7 @@ import { Inbox } from '@/components/mentoring'
 import userEvent from '@testing-library/user-event'
 import { expectConsoleError } from '../../support/silence-console'
 import { awaitPopper } from '../../support/await-popper'
-import { QueryCache } from '@tanstack/react-query'
-
-const queryCache = new QueryCache()
+import { queryClient } from '../../setupTests'
 
 let server = setupServer(
   rest.get('https://exercism.test/tracks', (req, res, ctx) => {
@@ -96,7 +94,7 @@ test('page is reset to 1 when switching tracks', async () => {
 
     await waitFor(() => expect(screen.getByText('First')).toBeDisabled())
 
-    queryCache.cancelQueries()
+    queryClient.cancelQueries()
     await awaitPopper()
   })
 })

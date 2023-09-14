@@ -5,4 +5,8 @@
 @tailwind utilities;
 @tailwind screens;
 
-/* Exercism: DELETE ABOVE THIS */
+/* This line is used as a flag for post-processing */
+/* Do not change it!! */
+.exercism-delete-before-this {
+    color: red;
+}

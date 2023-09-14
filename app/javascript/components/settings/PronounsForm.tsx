@@ -79,6 +79,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[0] || ''}
             required
+            pattern="^[^\s]*$"
+            title="Input cannot contain whitespace"
             placeholder="e.g. They"
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 0)}
@@ -88,6 +90,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[1] || ''}
             required
+            pattern="^[^\s]*$"
+            title="Input cannot contain whitespace"
             placeholder="e.g. them"
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 1)}
@@ -97,6 +101,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[2] || ''}
             required
+            pattern="^[^\s]*$"
+            title="Input cannot contain whitespace"
             placeholder="e.g. their"
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 2)}

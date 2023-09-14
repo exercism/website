@@ -1,6 +1,6 @@
 module MetaTagsHelper
   def require_stylesheet(stylesheet)
-    content_for :head do
+    content_for :stylesheets do
       stylesheet_link_tag stylesheet, "data-turbo-track": "reload"
     end
   end

@@ -9,6 +9,11 @@ class SettingsController < ApplicationController
     @payments = current_user.payments.includes(:subscription).order(id: :desc)
   end
 
+  def disconnect_discord
+    current_user.update!(discord_uid: nil)
+    redirect_to action: :integrations
+  end
+
   def reset_account
     User::ResetAccount.(current_user) if params[:handle] == current_user.handle
 

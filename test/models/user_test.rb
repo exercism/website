@@ -226,7 +226,7 @@ class UserTest < ActiveSupport::TestCase
   test "pronoun_parts" do
     user = create :user
     assert_nil user.pronouns
-    assert_equal ['', '', ''], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = %w[he him his]
     assert_equal "he/him/his", user.pronouns
@@ -234,19 +234,19 @@ class UserTest < ActiveSupport::TestCase
 
     user.pronoun_parts = ["she", "", "her"]
     assert_equal "she//her", user.pronouns
-    assert_equal ["she", "", "her"], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = ["they", "their", ""]
     assert_equal "they/their/", user.pronouns
-    assert_equal ["they", "their", ""], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = { 2 => "his", 0 => "he", 1 => "" }
     assert_equal "he//his", user.pronouns
-    assert_equal ["he", "", "his"], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = { '2' => "her", '0' => "she", '1' => "" }
     assert_equal "she//her", user.pronouns
-    assert_equal ["she", "", "her"], user.pronoun_parts
+    assert_nil user.pronoun_parts
   end
 
   test "dismiss_introducer!" do

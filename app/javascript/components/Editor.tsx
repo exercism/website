@@ -560,6 +560,7 @@ export default ({
                   assignment={panels.instructions.assignment}
                   helpHtml={help.html}
                   links={links}
+                  track={track}
                 />
               </TasksContext.Provider>
             }

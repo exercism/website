@@ -2,25 +2,27 @@ import React from 'react'
 import { TabsContext } from '@/components/Editor'
 import { Tab } from '@/components/common'
 import * as Component from './GetHelpPanelComponents'
-import type { Assignment } from '../types'
+import type { Assignment, Track } from '../types'
 
 export type GetHelpPanelProps = {
   helpHtml: string
   assignment: Assignment
   links: Record<'discordRedirectPath' | 'forumRedirectPath', string>
+  track: Track
 }
 
 export function GetHelpPanel({
   helpHtml,
   assignment,
   links,
+  track,
 }: GetHelpPanelProps): JSX.Element {
   return (
     <Tab.Panel id="get-help" context={TabsContext}>
-      <div className="p-24 flex flex-col gap-24">
-        <Component.Hints assignment={assignment} />
-        <Component.TrackHelp helpHtml={helpHtml} />
+      <div className="pb-12 flex flex-col">
         <Component.CommunityHelp links={links} />
+        <Component.TrackHelp helpHtml={helpHtml} track={track} />
+        <Component.Hints assignment={assignment} />
       </div>
     </Tab.Panel>
   )

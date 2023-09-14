@@ -9,17 +9,25 @@ export function GetHelpPanelCommunityHelp({
   Record<'forumRedirectPath' | 'discordRedirectPath', string>
 >): JSX.Element {
   return (
-    <GetHelpAccordionSkeleton title="Community help" icon={''}>
-      <div className="pt-16 flex flex-col gap-8 px-32">
+    <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
+      <div className="pt-8 flex flex-col gap-2">
+        <p className="text-p-base text-color-2 mb-8">
+          Don't struggle on alone! Our community is always here to help.
+        </p>
+        <p className="text-p-base text-color-2 mb-8">
+          Although you can't submit a mentoring requests until you get the tests
+          passing, you can ask for help on Discord or our Forum. Use the links
+          below to get started:
+        </p>
         <CommunityOpportunity
           name="Discord"
-          description="Chat & hang with the community"
+          description="Get real time help in the #support channel on our Discord server."
           icon="external-site-discord-blue"
           link={links.discordRedirectPath}
         />
         <CommunityOpportunity
           name="Forum"
-          description="Dig deeper into topics"
+          description="Dig deeper into topics and ideas on our forum."
           icon="discourser"
           link={links.forumRedirectPath}
         />
@@ -44,7 +52,7 @@ function CommunityOpportunity({
       <GraphicalIcon icon={icon} width={32} height={32} />
       <div>
         <h6 className="text-h6 text-textColor1 mb-2">{name}</h6>
-        <p className="text-p-small text-textColor1">{description}</p>
+        <p className="text-p-base text-textColor5">{description}</p>
       </div>
     </a>
   )

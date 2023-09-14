@@ -5,7 +5,7 @@ import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const GetHelpTab = (): JSX.Element => (
   <Tab id="get-help" context={TabsContext}>
-    <GraphicalIcon icon="automation" />
+    <GraphicalIcon icon="help" />
     <span data-text="Get Help">Get help</span>
   </Tab>
 )

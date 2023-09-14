@@ -48,7 +48,7 @@
         }
     }
     .c-textual-content {
-        @apply px-32 pb-16;
+        @apply pb-16;
         & ul {
             @apply ml-0;
             & li {

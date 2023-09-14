@@ -72,7 +72,12 @@ export const DeleteTestimonialModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
+    <Modal
+      className="m-generic-confirmation"
+      shouldCloseOnEsc={false}
+      onClose={handleClose}
+      {...props}
+    >
       <h3>Are you sure you want to delete this testimonial?</h3>
       <p>
         Deleting the testimonial will hide it from this list, your profile and

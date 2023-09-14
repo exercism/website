@@ -14,7 +14,7 @@ class UnsubscribeController < ApplicationController
       )
     end
 
-    User::UnsubscribeFromAllEmails.(communication_preferences.user)
+    User::UnsubscribeFromAllEmails.(@communication_preferences.user)
     redirect_to({ action: :show, token: @token, key: @email_key }, notice: "You have been unsubscribed successfully")
   end
 

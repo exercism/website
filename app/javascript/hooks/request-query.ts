@@ -47,7 +47,6 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
     queryKey: key,
     queryFn: handleFetch(request),
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 30,
     keepPreviousData: true,
     ...camelizeKeys(request.options),
   })
@@ -62,7 +61,6 @@ export function useRequestQuery<TResult = unknown, TError = unknown>(
     queryFn: handleFetch(request),
     refetchOnWindowFocus: false,
     staleTime: 1000 * 30,
-    keepPreviousData: true,
     ...camelizeKeys(request.options),
   })
 }

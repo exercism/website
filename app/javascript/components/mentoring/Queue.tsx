@@ -45,7 +45,7 @@ export default function Queue({
     error: trackListError,
     isFetching: isTrackListFetching,
   } = useTrackList({
-    cacheKey: TRACKS_LIST_CACHE_KEY,
+    cacheKey: [TRACKS_LIST_CACHE_KEY],
     request: tracksRequest,
   })
   const [selectedTrack, setSelectedTrack] =

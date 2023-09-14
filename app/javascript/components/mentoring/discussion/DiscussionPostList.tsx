@@ -44,13 +44,13 @@ export const DiscussionPostList = ({
     handleEditCancel,
     handleUpdate,
     handleDelete,
-  } = useItemList<DiscussionPostProps>(cacheKey)
+  } = useItemList<DiscussionPostProps>([cacheKey])
   const { iterationsWithRef } = usePostScrolling({
     iterations: iterations,
     onScroll: onIterationScroll,
   })
   const iterationsToShow = useListTrimming<IterationWithRef>(iterationsWithRef)
-  useChannel(discussionUuid, () => queryClient.invalidateQueries(cacheKey))
+  useChannel(discussionUuid, () => queryClient.invalidateQueries([cacheKey]))
 
   if (status === 'loading') {
     return (

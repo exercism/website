@@ -19,7 +19,7 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
 
   const handleDelete = useCallback(
     (deleted) => {
-      queryClient.setQueryData<{ items: T[] }>([cacheKey], (oldData) => {
+      queryClient.setQueryData<{ items: T[] }>([...cacheKey], (oldData) => {
         if (!oldData) {
           return { items: [] }
         }
@@ -34,7 +34,7 @@ export const useItemList = <T extends ListItemType>(cacheKey: QueryKey) => {
 
   const handleUpdate = useCallback(
     (updated) => {
-      queryClient.setQueryData<{ items: T[] }>([cacheKey], (oldData) => {
+      queryClient.setQueryData<{ items: T[] }>([...cacheKey], (oldData) => {
         if (!oldData) {
           return { items: [updated] }
         }

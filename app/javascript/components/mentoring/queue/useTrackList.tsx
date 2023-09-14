@@ -1,6 +1,6 @@
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { MentoredTrack } from '../../types'
-import { QueryStatus } from '@tanstack/react-query'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
 
 export type APIResponse = {
   tracks: MentoredTrack[]
@@ -10,7 +10,7 @@ export const useTrackList = ({
   cacheKey,
   request,
 }: {
-  cacheKey: string
+  cacheKey: QueryKey
   request: Request
 }): {
   tracks: MentoredTrack[]

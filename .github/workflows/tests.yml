@@ -77,7 +77,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -116,7 +116,7 @@ jobs:
           FILES_PER_BATCH: 50
         run: |
           tests=$(find test -name '*_test.rb' -not -path 'test/system/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
+          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
 
   ruby-tests:
     if: github.repository == 'exercism/website'
@@ -186,7 +186,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -276,7 +276,7 @@ jobs:
           FILES_PER_BATCH: 12
         run: |
           tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
+          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
 
   system-tests:
     if: github.repository == 'exercism/website'
@@ -354,7 +354,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -444,7 +444,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8

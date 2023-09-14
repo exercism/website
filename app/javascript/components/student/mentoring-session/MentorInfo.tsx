@@ -11,13 +11,11 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
           <div className="subtitle">Meet your mentor</div>
           <div className="handle-block">
             <div className="handle">
-              {
-                <HandleWithFlair
-                  handle={mentor.handle}
-                  flair={mentor.flair}
-                  size="medium"
-                />
-              }
+              <HandleWithFlair
+                handle={mentor.handle}
+                flair={mentor.flair}
+                size="medium"
+              />
             </div>
             <Reputation
               value={mentor.reputation.toString()}
@@ -25,13 +23,11 @@ export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
               size="small"
             />
           </div>
-
           <div className="name">{mentor.name}</div>
           <Pronouns handle={mentor.handle} pronouns={mentor.pronouns} />
         </div>
         <Avatar src={mentor.avatarUrl} handle={mentor.handle} />
       </div>
-
       <div className="bio">{mentor.bio}</div>
       {/* TODO: (required) View previous sessions as a student */}
     </div>

@@ -1,9 +1,11 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { StudentTooltip } from '@/components/tooltips'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { queryClient } from '../../setupTests'
 
 test('correct information is displayed', async () => {
   const server = setupServer(
@@ -27,11 +29,13 @@ test('correct information is displayed', async () => {
   )
   server.listen()
 
-  const { getByText } = render(
-    <StudentTooltip endpoint="https://exercism.test/tooltips/mentored_student/1" />
+  render(
+    <TestQueryCache queryClient={queryClient}>
+      <StudentTooltip endpoint="https://exercism.test/tooltips/mentored_student/1" />
+    </TestQueryCache>
   )
 
-  await waitFor(() => expect(getByText('mentee')).toBeInTheDocument())
+  expect(await screen.findByText('mentee')).toBeInTheDocument()
 
   server.close()
 })

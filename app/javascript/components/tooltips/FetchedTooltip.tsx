@@ -14,10 +14,13 @@ export const FetchedTooltip = ({
   className: string
   defaultError: Error
 }): JSX.Element | null => {
-  const { data, error, status } = useRequestQuery<{ html: string }>(endpoint, {
-    endpoint: endpoint,
-    options: {},
-  })
+  const { data, error, status } = useRequestQuery<{ html: string }>(
+    [endpoint],
+    {
+      endpoint: endpoint,
+      options: {},
+    }
+  )
 
   return (
     <div className={className}>

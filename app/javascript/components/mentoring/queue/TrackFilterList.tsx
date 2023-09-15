@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import { TrackIcon, Icon, GraphicalIcon } from '../../common'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { MentoredTrack } from '../../types'
-import { QueryStatus } from '@tanstack/react-query'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
 import { MentorChangeTracksModal } from '../../modals/MentorChangeTracksModal'
@@ -60,7 +60,7 @@ type Props = {
   isFetching: boolean
   value: MentoredTrack
   setValue: (value: MentoredTrack) => void
-  cacheKey: string
+  cacheKey: QueryKey
   links: {
     tracks: string
     updateTracks: string

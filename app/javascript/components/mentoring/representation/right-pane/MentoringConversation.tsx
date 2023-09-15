@@ -44,7 +44,7 @@ export default function MentoringConversation({
     }
   }, [])
 
-  const [generateHTML] = useMutation(async (markdown: string) => {
+  const { mutate: generateHTML } = useMutation(async (markdown: string) => {
     const { fetch } = sendRequest<{ html: string }>({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

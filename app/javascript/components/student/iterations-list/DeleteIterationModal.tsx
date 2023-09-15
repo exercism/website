@@ -53,7 +53,12 @@ export const DeleteIterationModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
+    <Modal
+      className="m-generic-confirmation"
+      shouldCloseOnEsc={false}
+      onClose={handleClose}
+      {...props}
+    >
       <h3>Are you sure you want to delete Iteration {iteration.idx}?</h3>
       <p>
         Deleted iterations are also removed from published solutions and

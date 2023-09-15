@@ -70,7 +70,7 @@ export default function Status({
     setStripeModalOpen(true)
   }, [])
 
-  const [mutation] = useMutation<Response>(
+  const { mutate: mutation } = useMutation<Response>(
     async () => {
       const { fetch } = sendRequest({
         endpoint: insidersStatusRequest,
@@ -85,7 +85,7 @@ export default function Status({
     }
   )
 
-  const [activateInsider] = useMutation(
+  const { mutate: activateInsider } = useMutation(
     async () => {
       const { fetch } = sendRequest({
         endpoint: activateInsiderLink,

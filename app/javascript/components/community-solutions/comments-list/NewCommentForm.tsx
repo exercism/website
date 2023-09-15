@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { QueryCache, QueryKey, useQueryClient } from '@tanstack/react-query'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { SolutionComment } from '../../types'
 import { APIResponse } from './ListContainer'
 import { NewListItemForm } from '../../common/NewListItemForm'
@@ -16,9 +16,7 @@ export const NewCommentForm = ({
   const queryClient = useQueryClient()
   const handleSuccess = useCallback(
     (comment) => {
-      const queryCache = new QueryCache()
-      const oldData = queryCache.find<APIResponse>(cacheKey)
-
+      const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
       if (!oldData) {
         return [comment]
       }

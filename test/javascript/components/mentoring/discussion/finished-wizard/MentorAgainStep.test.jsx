@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -8,6 +9,7 @@ import { MentorAgainStep } from '../../../../../../app/javascript/components/men
 import { silenceConsole } from '../../../../support/silence-console'
 import { TestQueryCache } from '../../../../support/TestQueryCache'
 import { awaitPopper } from '../../../../support/await-popper'
+import { queryClient } from '../../../../setupTests'
 
 test('disables buttons when choosing to mentor again', async () => {
   const student = {
@@ -23,7 +25,7 @@ test('disables buttons when choosing to mentor again', async () => {
   server.listen()
 
   render(
-    <TestQueryCache>
+    <TestQueryCache queryClient={queryClient}>
       <MentorAgainStep student={student} onYes={() => null} onNo={() => null} />
     </TestQueryCache>
   )

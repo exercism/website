@@ -1,5 +1,5 @@
 import { useRef, RefObject, useLayoutEffect } from 'react'
-import { highlightAll, highlightAllAlways } from '@/utils/highlight'
+import { highlightAll } from '@/utils/highlight'
 
 export function useHighlighting<T extends HTMLElement>(
   html?: string
@@ -24,7 +24,7 @@ export function useContinuousHighlighting<T extends HTMLElement>(
     if (!parentRef.current) {
       return
     }
-    highlightAllAlways(parentRef.current as unknown as ParentNode)
+    highlightAll(parentRef.current as unknown as ParentNode)
   }, [html])
 
   return parentRef

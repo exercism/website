@@ -159,14 +159,13 @@ export default ({
         setHasLatestIteration(false)
       },
       onError: async (error) => {
-        let editorError = null
+        let editorError: null | Promise<{ type: string; message: string }> =
+          null
 
         if (error instanceof Error) {
-          editorError = Promise.resolve(() => {
-            return {
-              type: 'unknown',
-              message: 'Unable to submit file. Please try again.',
-            }
+          editorError = Promise.resolve({
+            type: 'unknown',
+            message: 'Unable to submit file. Please try again.',
           })
         } else if (error instanceof Response) {
           editorError = error
@@ -180,10 +179,13 @@ export default ({
             })
         }
 
-        dispatch({
-          status: EditorStatus.CREATE_SUBMISSION_FAILED,
-          error: await editorError,
-        })
+        if (editorError) {
+          const errorResult = await editorError
+          dispatch({
+            status: EditorStatus.CREATE_SUBMISSION_FAILED,
+            error: errorResult,
+          })
+        }
       },
     })
   }, [createSubmission, dispatch, files])
@@ -213,9 +215,9 @@ export default ({
       dispatch({ status: EditorStatus.CREATING_ITERATION })
       createIteration(submission, {
         onSuccess: async (iteration) => {
-          await queryClient.invalidateQueries([
-            getCacheKey(track.slug, exercise.slug),
-          ])
+          await queryClient.invalidateQueries({
+            queryKey: [getCacheKey(track.slug, exercise.slug)],
+          })
 
           if (exercise.slug === 'hello-world') {
             redirectTo(iteration.links.solution)
@@ -271,14 +273,13 @@ export default ({
         setFiles(files)
       },
       onError: async (err) => {
-        let editorError = null
+        let editorError: null | Promise<{ type: string; message: string }> =
+          null
 
         if (err instanceof Error) {
-          editorError = Promise.resolve(() => {
-            return {
-              type: 'unknown',
-              message: 'Unable to revert file, please try again.',
-            }
+          editorError = Promise.resolve({
+            type: 'unknown',
+            message: 'Unable to revert file, please try again.',
           })
         } else if (err instanceof Response) {
           editorError = err
@@ -292,10 +293,13 @@ export default ({
             })
         }
 
-        dispatch({
-          status: EditorStatus.REVERT_FAILED,
-          error: await editorError,
-        })
+        if (editorError) {
+          const errorResult = await editorError
+          dispatch({
+            status: EditorStatus.REVERT_FAILED,
+            error: errorResult,
+          })
+        }
       },
     })
   }, [submission, dispatch, revertToLastIteration, setFiles, defaultFiles])
@@ -313,14 +317,13 @@ export default ({
         setFiles(files)
       },
       onError: async (err) => {
-        let editorError = null
+        let editorError: null | Promise<{ type: string; message: string }> =
+          null
 
         if (err instanceof Error) {
-          editorError = Promise.resolve(() => {
-            return {
-              type: 'unknown',
-              message: 'Unable to revert file, please try again.',
-            }
+          editorError = Promise.resolve({
+            type: 'unknown',
+            message: 'Unable to revert file, please try again.',
           })
         } else if (err instanceof Response) {
           editorError = err
@@ -334,10 +337,13 @@ export default ({
             })
         }
 
-        dispatch({
-          status: EditorStatus.REVERT_FAILED,
-          error: await editorError,
-        })
+        if (editorError) {
+          const errorResult = await editorError
+          dispatch({
+            status: EditorStatus.REVERT_FAILED,
+            error: errorResult,
+          })
+        }
       },
     })
   }, [submission, dispatch, revertToExerciseStart, setFiles, defaultFiles])

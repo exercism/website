@@ -13,7 +13,7 @@ const StudentTooltip = React.forwardRef<
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
   const { data, error, status } = useRequestQuery<{ student: Student }>(
-    endpoint,
+    [endpoint],
     { endpoint: endpoint, options: {} }
   )
 

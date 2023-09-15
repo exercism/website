@@ -1,10 +1,12 @@
 import { sendRequest } from '../../utils/send-request'
-import { useMutation } from '@tanstack/react-query'
+import { UseMutateFunction, useMutation } from '@tanstack/react-query'
 import { typecheck } from '../../utils/typecheck'
 import { Submission } from './types'
 import { Iteration } from '../types'
 
-export const useIteration = () => {
+export const useIteration = (): {
+  create: UseMutateFunction<Iteration, unknown, Submission, unknown>
+} => {
   const { mutate: create } = useMutation<Iteration, unknown, Submission>(
     async (submission) => {
       if (!submission) {

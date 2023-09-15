@@ -197,14 +197,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      ###
-      # Install yarn dependencies
       - name: Install yarn dependencies
         run: yarn install
 
-      ###
-      # Install bundler and dependencies
-      - name: Install dependencies
+      - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
@@ -369,14 +365,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      ###
-      # Install yarn dependencies
       - name: Install yarn dependencies
         run: yarn install
 
-      ###
-      # Install bundler and dependencies
-      - name: Install dependencies
+      - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true

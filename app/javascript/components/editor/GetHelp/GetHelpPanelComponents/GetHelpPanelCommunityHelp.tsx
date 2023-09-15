@@ -9,15 +9,15 @@ export function GetHelpPanelCommunityHelp({
   Record<'forumRedirectPath' | 'discordRedirectPath', string>
 >): JSX.Element {
   return (
-    <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
+    <GetHelpAccordionSkeleton title="Community help" icon="support">
       <div className="pt-8 flex flex-col gap-2">
         <p className="text-p-base text-color-2 mb-8">
-          Don't struggle on alone! Our community is always here to help.
+          Don&apos;t struggle on alone! Our community is always here to help.
         </p>
         <p className="text-p-base text-color-2 mb-8">
-          Although you can't submit a mentoring requests until you get the tests
-          passing, you can ask for help on Discord or our Forum. Use the links
-          below to get started:
+          Although you can&apos;t submit a mentoring requests until you get the
+          tests passing, you can ask for help on Discord or our Forum. Use the
+          links below to get started:
         </p>
         <CommunityOpportunity
           name="Discord"

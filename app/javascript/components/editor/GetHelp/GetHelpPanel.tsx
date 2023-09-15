@@ -2,7 +2,8 @@ import React from 'react'
 import { TabsContext } from '@/components/Editor'
 import { Tab } from '@/components/common'
 import * as Component from './GetHelpPanelComponents'
-import type { Assignment, Track } from '../types'
+import type { Assignment } from '../types'
+import { Track } from '@/components/types'
 
 export type GetHelpPanelProps = {
   helpHtml: string

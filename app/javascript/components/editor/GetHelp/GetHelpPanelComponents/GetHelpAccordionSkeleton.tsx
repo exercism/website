@@ -10,20 +10,17 @@ type GetHelpAccordionSkeletonProps = Partial<
 export function GetHelpAccordionSkeleton({
   title,
   icon,
-  iconSlug,
   children,
 }: GetHelpAccordionSkeletonProps): JSX.Element {
   return (
     <details className="c-details border-t-1 border-borderColor6 py-16 px-24 ">
       <summary className="flex items-center">
-        {icon || (
-          <GraphicalIcon
-            icon={iconSlug || 'help'}
-            width={24}
-            height={24}
-            className="mr-16 filter-textColor6"
-          />
-        )}
+        <GraphicalIcon
+          icon={icon || 'help'}
+          width={24}
+          height={24}
+          className="mr-16 filter-textColor6"
+        />
         <div className="flex items-center justify-between w-100">
           <span className="text-h4">{title}</span>
           <span className="--closed-icon">

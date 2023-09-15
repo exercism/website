@@ -29,6 +29,8 @@ type Links = {
   mentoringRequest: string
   mentorDiscussions: string
   createMentorRequest: string
+  discordRedirectPath: string
+  forumRedirectPath: string
 }
 
 type Track = {

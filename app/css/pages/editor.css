@@ -319,6 +319,13 @@
                 @apply border-t-1 border-borderColor7 pt-16;
             }
 
+            #panel-get-help {
+                .c-textual-content,
+                .--summary-inner {
+                    @apply px-0;
+                }
+            }
+
             section.feedback-pane {
                 @apply pb-16 px-24;
 

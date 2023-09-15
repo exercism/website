@@ -50,8 +50,15 @@ import {
   ChatGPT,
 } from './editor/index'
 import { RealtimeFeedbackModal } from './modals'
+import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
+import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
 
-type TabIndex = 'instructions' | 'tests' | 'results' | 'get-help'
+export type TabIndex =
+  | 'instructions'
+  | 'tests'
+  | 'results'
+  | 'get-help'
+  | 'chat-gpt'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -458,10 +465,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <StuckButton
-                    onClick={() => setTab('get-help')}
-                    disabled={tab === 'get-help'}
-                  />
+                  <StuckButton insider={insider} tab={tab} setTab={setTab} />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -492,6 +496,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
+                  <ChatGptTab />
                   <GetHelpTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
@@ -528,10 +533,7 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                <GetHelpPanel
-                  assignment={panels.instructions.assignment}
-                  helpHtml={help.html}
-                >
+                <ChatGptPanel>
                   {insider ? (
                     <ChatGPT.Wrapper
                       helpRecord={helpRecord}
@@ -554,7 +556,13 @@ export default ({
                   ) : (
                     <ChatGPT.UpsellContent />
                   )}
-                </GetHelpPanel>
+                </ChatGptPanel>
+                <GetHelpPanel
+                  assignment={panels.instructions.assignment}
+                  helpHtml={help.html}
+                  links={links}
+                  track={track}
+                />
               </TasksContext.Provider>
             }
           />

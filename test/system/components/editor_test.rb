@@ -725,8 +725,9 @@ module Components
         visit edit_track_exercise_path(track, exercise)
         click_on "Get help"
 
-        assert_text "ChatGPT Integration"
-        assert_text "Stuck? Try the Ruby gitter channel."
+        assert_text "Hints and Tips"
+        assert_text "Track help"
+        assert_text "Community help"
       end
     end
 

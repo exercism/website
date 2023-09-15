@@ -9,7 +9,7 @@ export function GetHelpPanelCommunityHelp({
   Record<'forumRedirectPath' | 'discordRedirectPath', string>
 >): JSX.Element {
   return (
-    <GetHelpAccordionSkeleton title="Community help" icon="support">
+    <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
       <div className="pt-8 flex flex-col gap-2">
         <p className="text-p-base text-color-2 mb-8">
           Don&apos;t struggle on alone! Our community is always here to help.

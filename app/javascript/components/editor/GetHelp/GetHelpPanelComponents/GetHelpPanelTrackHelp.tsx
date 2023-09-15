@@ -6,7 +6,7 @@ import { TrackIcon } from '@/components/common'
 export function GetHelpPanelTrackHelp({
   helpHtml,
   track,
-}: Pick<GetHelpPanelProps, 'helpHtml', 'track'>): JSX.Element {
+}: Pick<GetHelpPanelProps, 'helpHtml' | 'track'>): JSX.Element {
   return (
     <GetHelpAccordionSkeleton
       title={`${track.title} help`}

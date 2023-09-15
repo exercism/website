@@ -12,6 +12,20 @@ describe('GetHelpPanel tests', () => {
         assignment={MOCK_DATA.ASSIGNMENT}
         helpHtml={MOCK_DATA.HELP}
         links={{ discordRedirectPath: '', forumRedirectPath: '' }}
+        track={{
+          slug: 'ruby',
+          title: 'Ruby',
+          iconUrl: '',
+          course: false,
+          numConcepts: 0,
+          numExercises: 0,
+          numSolutions: 0,
+          links: {
+            self: '',
+            exercises: '',
+            concepts: '',
+          },
+        }}
       />
     )
   })

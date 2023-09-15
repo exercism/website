@@ -11,10 +11,11 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
     tabindex="0"
   >
     <div
-      class="p-24 flex flex-col gap-24"
+      class="pb-12 flex flex-col"
     >
       <details
-        class="c-details"
+        class="c-details border-t-1 border-borderColor6 py-16 px-24"
+        open=""
       >
         <summary
           class="flex items-center"
@@ -22,10 +23,284 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
           <img
             alt=""
             class="c-icon mr-16 filter-textColor6"
-            height="32"
+            height="24"
             role="presentation"
             src="undefined/assets/undefined"
-            width="32"
+            width="24"
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Community help
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="pt-8 flex flex-col gap-2"
+        >
+          <p
+            class="text-p-base text-color-2 mb-8"
+          >
+            Don't struggle on alone! Our community is always here to help.
+          </p>
+          <p
+            class="text-p-base text-color-2 mb-8"
+          >
+            Although you can't submit a mentoring requests until you get the tests passing, you can ask for help on Discord or our Forum. Use the links below to get started:
+          </p>
+          <a
+            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+            href=""
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              alt=""
+              class="c-icon"
+              height="32"
+              role="presentation"
+              src="undefined/assets/undefined"
+              width="32"
+            />
+            <div>
+              <h6
+                class="text-h6 text-textColor1 mb-2"
+              >
+                Discord
+              </h6>
+              <p
+                class="text-p-base text-textColor5"
+              >
+                Get real time help in the #support channel on our Discord server.
+              </p>
+            </div>
+          </a>
+          <a
+            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+            href=""
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              alt=""
+              class="c-icon"
+              height="32"
+              role="presentation"
+              src="undefined/assets/undefined"
+              width="32"
+            />
+            <div>
+              <h6
+                class="text-h6 text-textColor1 mb-2"
+              >
+                Forum
+              </h6>
+              <p
+                class="text-p-base text-textColor5"
+              >
+                Dig deeper into topics and ideas on our forum.
+              </p>
+            </div>
+          </a>
+        </div>
+      </details>
+      <details
+        class="c-details border-t-1 border-borderColor6 py-16 px-24"
+        open=""
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt="icon for Ruby track"
+            class="c-icon c-track-icon w-[24px] h-[24px] mr-16"
+            src=""
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Ruby help
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                role="presentation"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="c-textual-content --base pt-16"
+        >
+          <p>
+            To get help if you're having trouble, you can use one of the following resources:
+          </p>
+          
+  
+          <ul>
+            
+  
+            <li>
+              <a
+                href="http://ruby-doc.org/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ruby Documentation
+              </a>
+            </li>
+            
+  
+            <li>
+              <a
+                href="http://stackoverflow.com/questions/tagged/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                StackOverflow
+              </a>
+            </li>
+            
+  
+            <li>
+              
+  
+              <a
+                href="https://www.reddit.com/r/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                /r/ruby
+              </a>
+               is the Ruby subreddit.
+            </li>
+            
+  
+          </ul>
+          
+  
+          <p>
+            Should those resources not suffice, check the following pages:
+          </p>
+          
+  
+          <ul>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://exercism.org/docs/tracks/ruby"
+              >
+                Ruby track's documentation
+              </a>
+              
+  
+            </li>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://forum.exercism.org/c/programming/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ruby track's programming category on the forum
+              </a>
+              
+  
+            </li>
+            
+  
+            <li>
+              <a
+                href="https://forum.exercism.org/c/programming/5"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Exercism's programming category on the forum
+              </a>
+            </li>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://exercism.org/docs/using/faqs"
+              >
+                Frequently Asked Questions
+              </a>
+              
+  
+            </li>
+            
+  
+          </ul>
+        </div>
+      </details>
+      <details
+        class="c-details border-t-1 border-borderColor6 py-16 px-24"
+        open=""
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt=""
+            class="c-icon mr-16 filter-textColor6"
+            height="24"
+            role="presentation"
+            src="undefined/assets/undefined"
+            width="24"
           />
           <div
             class="flex items-center justify-between w-100"
@@ -401,271 +676,6 @@ to add values.
 
           </div>
         </details>
-      </details>
-      <details
-        class="c-details"
-      >
-        <summary
-          class="flex items-center"
-        >
-          <img
-            alt=""
-            class="c-icon mr-16 filter-textColor6"
-            height="32"
-            role="presentation"
-            src="undefined/assets/undefined"
-            width="32"
-          />
-          <div
-            class="flex items-center justify-between w-100"
-          >
-            <span
-              class="text-h4"
-            >
-              Track help
-            </span>
-            <span
-              class="--closed-icon"
-            >
-              <img
-                alt=""
-                class="c-icon filter-textColor6"
-                height="12"
-                role="presentation"
-                src="undefined/assets/undefined"
-                width="12"
-              />
-            </span>
-            <span
-              class="--open-icon"
-            >
-              <img
-                alt=""
-                class="c-icon filter-textColor6"
-                height="12"
-                role="presentation"
-                src="undefined/assets/undefined"
-                width="12"
-              />
-            </span>
-          </div>
-        </summary>
-        <div
-          class="c-textual-content --base pt-16"
-        >
-          <p>
-            To get help if you're having trouble, you can use one of the following resources:
-          </p>
-          
-  
-          <ul>
-            
-  
-            <li>
-              <a
-                href="http://ruby-doc.org/"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Ruby Documentation
-              </a>
-            </li>
-            
-  
-            <li>
-              <a
-                href="http://stackoverflow.com/questions/tagged/ruby"
-                rel="noreferrer"
-                target="_blank"
-              >
-                StackOverflow
-              </a>
-            </li>
-            
-  
-            <li>
-              
-  
-              <a
-                href="https://www.reddit.com/r/ruby"
-                rel="noreferrer"
-                target="_blank"
-              >
-                /r/ruby
-              </a>
-               is the Ruby subreddit.
-            </li>
-            
-  
-          </ul>
-          
-  
-          <p>
-            Should those resources not suffice, check the following pages:
-          </p>
-          
-  
-          <ul>
-            
-  
-            <li>
-              The 
-              <a
-                href="https://exercism.org/docs/tracks/ruby"
-              >
-                Ruby track's documentation
-              </a>
-              
-  
-            </li>
-            
-  
-            <li>
-              The 
-              <a
-                href="https://forum.exercism.org/c/programming/ruby"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Ruby track's programming category on the forum
-              </a>
-              
-  
-            </li>
-            
-  
-            <li>
-              <a
-                href="https://forum.exercism.org/c/programming/5"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Exercism's programming category on the forum
-              </a>
-            </li>
-            
-  
-            <li>
-              The 
-              <a
-                href="https://exercism.org/docs/using/faqs"
-              >
-                Frequently Asked Questions
-              </a>
-              
-  
-            </li>
-            
-  
-          </ul>
-        </div>
-      </details>
-      <details
-        class="c-details"
-      >
-        <summary
-          class="flex items-center"
-        >
-          <img
-            alt=""
-            class="c-icon mr-16 filter-textColor6"
-            height="32"
-            role="presentation"
-            src="undefined/assets/undefined"
-            width="32"
-          />
-          <div
-            class="flex items-center justify-between w-100"
-          >
-            <span
-              class="text-h4"
-            >
-              Community help
-            </span>
-            <span
-              class="--closed-icon"
-            >
-              <img
-                alt=""
-                class="c-icon filter-textColor6"
-                height="12"
-                role="presentation"
-                src="undefined/assets/undefined"
-                width="12"
-              />
-            </span>
-            <span
-              class="--open-icon"
-            >
-              <img
-                alt=""
-                class="c-icon filter-textColor6"
-                height="12"
-                role="presentation"
-                src="undefined/assets/undefined"
-                width="12"
-              />
-            </span>
-          </div>
-        </summary>
-        <div
-          class="pt-16 flex flex-col gap-8 px-32"
-        >
-          <a
-            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
-            href=""
-            rel="noreferrer"
-            target="_blank"
-          >
-            <img
-              alt=""
-              class="c-icon"
-              height="32"
-              role="presentation"
-              src="undefined/assets/undefined"
-              width="32"
-            />
-            <div>
-              <h6
-                class="text-h6 text-textColor1 mb-2"
-              >
-                Discord
-              </h6>
-              <p
-                class="text-p-small text-textColor1"
-              >
-                Chat & hang with the community
-              </p>
-            </div>
-          </a>
-          <a
-            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
-            href=""
-            rel="noreferrer"
-            target="_blank"
-          >
-            <img
-              alt=""
-              class="c-icon"
-              height="32"
-              role="presentation"
-              src="undefined/assets/undefined"
-              width="32"
-            />
-            <div>
-              <h6
-                class="text-h6 text-textColor1 mb-2"
-              >
-                Forum
-              </h6>
-              <p
-                class="text-p-small text-textColor1"
-              >
-                Dig deeper into topics
-              </p>
-            </div>
-          </a>
-        </div>
       </details>
     </div>
   </div>

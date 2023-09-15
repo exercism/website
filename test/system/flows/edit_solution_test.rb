@@ -72,7 +72,7 @@ module Components
         end
       end
 
-      test "user tries to submits code immediately" do
+      test "user tries to submit code immediately" do
         use_capybara_host do
           user = create :user
           create(:user_auth_token, user:)

@@ -23,7 +23,7 @@ export const useSubmissionsList = (
 } => {
   const [list, setList] = useState(defaultList)
 
-  const { mutateAsync: create } = useMutation<Submission, unknown, File[]>(
+  const { mutate: create } = useMutation<Submission, unknown, File[]>(
     async (files) => {
       const { fetch } = sendRequest({
         endpoint: links.create,

@@ -108,8 +108,15 @@ export function initReact(mappings: Mappings): void {
   }
 }
 
+const roots = new WeakMap()
 const render = (elem: HTMLElement, component: React.ReactNode) => {
-  const root = createRoot(elem)
+  let root = roots.get(elem)
+
+  if (!root) {
+    root = createRoot(elem)
+    roots.set(elem, root)
+  }
+
   root.render(
     <React.StrictMode>
       <QueryClientProvider client={window.queryClient}>
@@ -119,6 +126,7 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
   )
   document.addEventListener('turbo:before-frame-render', () => {
     root.unmount()
+    roots.delete(elem)
   })
 }
 

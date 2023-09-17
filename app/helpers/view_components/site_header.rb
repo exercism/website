@@ -17,13 +17,13 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") unless user_signed_in?
+      return tag.span("") unless user_signed_in? && !current_user&.donated?
 
-      tag.div(class: "announcement-bar md:block hidden !bg-[#8B0000]") do
+      link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️", class: 'emoji mr-6') +
-            tag.span("We are updating our databases and will be offline for 10-30mins sometime in the next three hours.") +
-            tag.span("⚠️", class: 'emoji ml-6')
+          tag.span("👋", class: 'emoji mr-6') +
+            tag.span("Enjoying Exercism? We need your help to survive…") +
+            tag.strong("Please support us if you can!")
         end
       end
     end

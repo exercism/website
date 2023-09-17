@@ -1,1 +1,113 @@
-/* Keep until deleted everywhere */
+/* Override the tailwind default */
+img {
+    max-width: none;
+}
+
+@layer base {
+    /* TODO: These btn styles are legacy and should be refactored out */
+    .btn--simple {
+        @apply bg-backgroundColorA text-textColor6 border-borderColor5;
+    }
+    .btn--secondary {
+        @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;
+    }
+    .btn--discourage {
+        @apply bg-backgroundColorA text-textColor6 border-borderColor5;
+    }
+    .btn {
+        @apply flex items-center justify-center px-20;
+        @apply border-2 border-buttonBorderColor1 rounded-5;
+        @apply text-16 font-semibold;
+        white-space: nowrap;
+        height: 48px;
+
+        & > .c-icon {
+            height: 18px;
+            width: 18px;
+            &:first-child {
+                @apply mr-12;
+            }
+            &:last-child {
+                @apply ml-12;
+            }
+        }
+
+        & > .kb-shortcut {
+            @apply ml-8;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+    .btn-simple {
+        @apply btn btn--simple;
+    }
+
+    .btn-i-large {
+        @apply btn;
+        @apply px-32 border-3 text-18;
+        @apply shadow-buttonS;
+        height: 54px;
+
+        & > .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+    .btn-large-secondary {
+        @apply btn-i-large btn--secondary;
+    }
+
+    .btn-small {
+        @apply btn border-1 border-buttonBorderColor2;
+        @apply text-14 rounded-5 px-16;
+        @apply text-textColor6;
+        height: 36px;
+
+        & > .c-icon {
+            height: 14px;
+            width: 14px;
+            @apply filter-textColor6;
+        }
+    }
+    .btn-small-secondary {
+        @apply btn-small btn--secondary;
+    }
+    .btn-small-discourage {
+        @apply btn-small btn--discourage;
+    }
+
+    .btn-link-legacy {
+        @apply btn-small;
+        @apply border-0  p-0;
+        color: var(--c-prominent-link-color);
+        .c-icon {
+            filter: var(--c-prominent-link-icon-filter);
+        }
+    }
+
+    a.text-a-subtle,
+    button.text-a-subtle {
+        @apply text-textColor2 font-normal leading-140;
+        @apply border-b-1 border-textColor2;
+    }
+
+    .uses-suspense {
+        @apply relative;
+    }
+
+    .c-count-bubble {
+        @apply border-1 border-borderLight rounded-100 px-12;
+        @apply text-textColor6 text-13 leading-200 font-medium;
+    }
+}
+
+body {
+    /*
+         * app/images/bg-pattern.svg
+         * https://pattern.monster/hexagon-1/
+         * https://base64.guru/converter/encode/image/svg
+         * */
+    --hex-bg-image: url("data:image/svg+xml;base64,PHN2ZyBpZD0ncGF0dGVybklkJyB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxkZWZzPjxwYXR0ZXJuIGlkPSdhJyBwYXR0ZXJuVW5pdHM9J3VzZXJTcGFjZU9uVXNlJyB3aWR0aD0nMjknIGhlaWdodD0nNTAuMTE1JyBwYXR0ZXJuVHJhbnNmb3JtPSdzY2FsZSgyKSByb3RhdGUoMCknPjxyZWN0IHg9JzAnIHk9JzAnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbGw9J2hzbGEoMCwwJSwxMDAlLDEpJy8+PHBhdGggZD0nTTE0LjQ5OCAxNi44NThMMCA4LjQ4OC4wMDItOC4yNTdsMTQuNS04LjM3NEwyOS04LjI2bC0uMDAyIDE2Ljc0NXptMCA1MC4wNkwwIDU4LjU0OGwuMDAyLTE2Ljc0NSAxNC41LTguMzczTDI5IDQxLjhsLS4wMDIgMTYuNzQ0ek0yOC45OTYgNDEuOGwtMTQuNDk4LTguMzcuMDAyLTE2Ljc0NEwyOSA4LjMxMmwxNC40OTggOC4zNy0uMDAyIDE2Ljc0NXptLTI5IDBsLTE0LjQ5OC04LjM3LjAwMi0xNi43NDRMMCA4LjMxMmwxNC40OTggOC4zNy0uMDAyIDE2Ljc0NXonICBzdHJva2Utd2lkdGg9JzAuNScgc3Ryb2tlPSdoc2xhKDI1OSwgMCUsIDkwJSwgMSknIGZpbGw9J25vbmUnLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSc4MDAlJyBoZWlnaHQ9JzgwMCUnIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC0zOCwtNi40NiknIGZpbGw9J3VybCgjYSknLz48L3N2Zz4K");
+}

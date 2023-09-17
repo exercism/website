@@ -1,10 +1,4 @@
 module MetaTagsHelper
-  def require_stylesheet(stylesheet)
-    content_for :stylesheets do
-      stylesheet_link_tag stylesheet, "data-turbo-track": "reload"
-    end
-  end
-
   def meta_title
     content_for?(:meta_title) ? content_for(:meta_title) : "Exercism"
   end

@@ -49,45 +49,7 @@ if (process.env.BUGSNAG_API_KEY) {
   }
 }
 
-// Asynchronously appends a stylesheet to the head and resolves
-// the promise when it's finished loading.
-let loadStylesheet = function (url) {
-  return new Promise((resolve, reject) => {
-    let link = document.createElement('link')
-    link.type = 'text/css'
-    link.rel = 'stylesheet'
-    link.onload = resolve
-    link.href = url
-
-    document.getElementsByTagName('head')[0].appendChild(link)
-  })
-}
-
 function initEventListeners() {
-  // As we have conditional stylesheets per page, we need to extract and
-  // render those when the frame changes. We want the CSS to load BEFORE
-  // then HTML renders, so we get any stylesheets downloaded and THEN render
-  // continnue processing the frame render.
-  document.addEventListener('turbo:before-frame-render', (e) => {
-    const hrefs = Array.from(event.detail.newFrame.getElementsByTagName('link'))
-      .filter((el) => el.getAttribute('rel') == 'stylesheet')
-      .map((el) => el.getAttribute('href'))
-
-    // If we have no stylesheets, just continue
-    if (hrefs.length == 0) {
-      return
-    }
-
-    // Pause rendering until stylesheets are loaded
-    e.preventDefault()
-
-    // Load stylesheets in parallel asynchronously
-    const promises = hrefs.map((href) => loadStylesheet(href))
-
-    // When they're all loaded, resume
-    Promise.all(promises).then(() => e.detail.resume())
-  })
-
   // This changes any extra things that need changing from the
   // turbo frame, such as body class or page title
   document.addEventListener('turbo:frame-render', (e) => {

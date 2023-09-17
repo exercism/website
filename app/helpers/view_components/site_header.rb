@@ -17,7 +17,7 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") unless user_signed_in? && !current_user&.donated?
+      return tag.span("") unless user_signed_in?
 
       tag.div(class: "announcement-bar md:block hidden !bg-[#8B0000]") do
         tag.div(class: "lg-container") do

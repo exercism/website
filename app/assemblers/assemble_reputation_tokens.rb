@@ -36,19 +36,9 @@ class AssembleReputationTokens
     params[:for_header] ? header_tokens : page_tokens
   end
 
-  # This is much more efficient than the page_tokens version below
-  # We want to order by unseed then seen but this is slow.
-  # So we create a Set, populate it with the first five unseed,
-  # then fill with the most recent first 5 (regardless of status).
-  # Then we just look at the first 5 things in the set.
+  # It's faster to get the ids, then the records as we can use an index condition this way
   def header_tokens
-    ids = Set.new(user.reputation_tokens.unseen.order(id: :desc).limit(5).pluck(:id))
-
-    # TODO: This needs a desc index adding
-    ids += user.reputation_tokens.seen.limit(10).order(id: :desc).pluck(:id) unless ids.size == 5
-
-    ids = ids.to_a # Sets don't have `.index`
-
+    ids = user.reputation_tokens.order(seen: :asc, id: :desc).limit(5).pluck(:id)
     tokens = User::ReputationToken.where(id: ids).
       sort_by { |rt| ids.index(rt.id) }[0, 5]
 

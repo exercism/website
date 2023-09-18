@@ -16,6 +16,7 @@ class User::Notification < ApplicationRecord
 
   enum status: { pending: 0, unread: 1, read: 2, email_only: 3 }
 
+  scope :not_pending, -> { where(status: %i[read unread]) }
   scope :pending_or_unread, -> { where(status: %i[pending unread]) }
   scope :visible, -> { where(status: %i[unread read]) }
 

@@ -3,6 +3,7 @@
 * text eol=lf
 *.png binary
 *.jpg binary
+*.webp binary
 
 # The bare repositories used for testing purposes
 # should be treated as binary files

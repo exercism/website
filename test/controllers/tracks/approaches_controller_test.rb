@@ -3,7 +3,7 @@ require "test_helper"
 class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "index: redirects to dig_deeper" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     get track_exercise_approaches_url(track, exercise)
 
@@ -12,8 +12,8 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
   test "show: renders correctly for external" do
     track = create :track
-    exercise = create :practice_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
 
     get track_exercise_approach_url(track, exercise, approach)
 
@@ -22,8 +22,8 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
   test "show: redirects when exercise is hello-world" do
     track = create :track
-    exercise = create :hello_world_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
+    exercise = create(:hello_world_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
 
     get track_exercise_approach_url(track, exercise, approach)
 
@@ -33,10 +33,10 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "show: redirects when not iterated and not unlocked help" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
-    create :concept_solution, user: user, exercise: exercise
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
+    create(:concept_solution, user:, exercise:)
 
     sign_in!(user)
 
@@ -48,9 +48,9 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "show: 404s when track does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
 
     sign_in!(user)
 
@@ -62,9 +62,9 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "show: 404s when exercise does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
 
     sign_in!(user)
 
@@ -76,8 +76,8 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "show: 404s when approach does not exist" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -89,10 +89,10 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "show: renders when not iterated but unlocked help" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
-    create :concept_solution, user: user, exercise: exercise, unlocked_help: true
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
+    create :concept_solution, user:, exercise:, unlocked_help: true
 
     sign_in!(user)
 
@@ -104,11 +104,11 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
   test "show: renders when iterated" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
-    approach = create :exercise_approach, exercise: exercise
-    solution = create :concept_solution, user: user, exercise: exercise, unlocked_help: true
-    create :iteration, solution: solution, user: user
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
+    solution = create :concept_solution, user:, exercise:, unlocked_help: true
+    create(:iteration, solution:, user:)
 
     sign_in!(user)
 

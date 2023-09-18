@@ -28,7 +28,7 @@ export default ({
         awesome contributors like yourself. You&apos;ll be sent an email shortly
         with your donation confirmation and receipt.
       </p>
-      <div className="flex items-center rounded-5 shadow-xsZ1 py-6 px-24 bg-lightOrange mb-32 border-1 border-lightGold">
+      <div className="badge-container">
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
           You&apos;ve earned the{' '}

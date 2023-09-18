@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { pluralizeWithNumber } from '@/utils'
+import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
 import { AvatarGroup } from '.'
 import { User } from '../types'
 
@@ -13,7 +13,7 @@ type CreditsProps = {
   className?: string
 }
 
-export function Credits({
+export default function Credits({
   topLabel,
   topCount,
   bottomLabel,

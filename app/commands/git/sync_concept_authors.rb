@@ -8,14 +8,14 @@ class Git::SyncConceptAuthors < Git::Sync
 
   def call
     ActiveRecord::Base.transaction do
-      authors = ::User.where(github_username: authors_config)
+      authors = ::User.with_data.where(data: { github_username: authors_config })
       authors.find_each { |author| ::Concept::Authorship::Create.(concept, author) }
 
       # This is required to remove authors that were already added
       concept.reload.update!(authors:)
 
       # TODO: (Optional) consider what to do with missing authors
-      missing_authors = authors_config - authors.pluck(:github_username)
+      missing_authors = authors_config - authors.map(&:github_username)
       Rails.logger.error "Missing authors: #{missing_authors.join(', ')}" if missing_authors.present?
     end
   end

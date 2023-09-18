@@ -55,7 +55,7 @@
 
         & footer {
             @apply px-24 py-16;
-            @apply border-lightGray border-t-1;
+            @apply border-borderColor7 border-t-1;
         }
     }
 

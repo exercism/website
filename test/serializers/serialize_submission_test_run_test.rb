@@ -136,7 +136,7 @@ class SerializeSubmissionTestRunTest < ActiveSupport::TestCase
 
   test "message: returns message if there is one" do
     message = "foobar"
-    test_run = create :submission_test_run, message: message
+    test_run = create(:submission_test_run, message:)
 
     output = SerializeSubmissionTestRun.(test_run)
 

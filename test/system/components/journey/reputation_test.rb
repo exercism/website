@@ -10,12 +10,12 @@ module Components
       test "shows contribution" do
         user = create :user
         track = create :track, title: "Ruby"
-        exercise = create :concept_exercise, track: track
+        exercise = create(:concept_exercise, track:)
         token = create :user_code_contribution_reputation_token,
-          user: user,
+          user:,
           level: :large,
-          track: track,
-          exercise: exercise,
+          track:,
+          exercise:,
           created_at: 1.day.ago,
           earned_on: 1.day.ago,
           external_url: "https://test.exercism.org/token"
@@ -37,8 +37,8 @@ module Components
       test "paginates contributions" do
         User::ReputationToken::Search.stubs(:default_per).returns(1)
         user = create :user
-        review_token = create :user_code_review_reputation_token, user: user, created_at: Time.current - 1.day
-        contribution_token = create :user_code_contribution_reputation_token, user: user, level: :large
+        review_token = create :user_code_review_reputation_token, user:, created_at: Time.current - 1.day
+        contribution_token = create :user_code_contribution_reputation_token, user:, level: :large
 
         use_capybara_host do
           sign_in!(user)
@@ -59,14 +59,14 @@ module Components
         user = create :user
         track = create :track, title: "Ruby"
         exercise = create :concept_exercise
-        contribution_token = create :user_code_contribution_reputation_token,
-          user: user,
+        contribution_token = create(:user_code_contribution_reputation_token,
+          user:,
           level: :large,
-          exercise: exercise
-        review_token = create :user_code_review_reputation_token,
-          user: user,
-          track: track,
-          exercise: exercise
+          exercise:)
+        review_token = create(:user_code_review_reputation_token,
+          user:,
+          track:,
+          exercise:)
 
         use_capybara_host do
           sign_in!(user)
@@ -80,8 +80,8 @@ module Components
 
       test "filters contributions" do
         user = create :user
-        contribution_token = create :user_exercise_contribution_reputation_token, user: user
-        review_token = create :user_code_review_reputation_token, user: user
+        contribution_token = create(:user_exercise_contribution_reputation_token, user:)
+        review_token = create(:user_code_review_reputation_token, user:)
 
         use_capybara_host do
           sign_in!(user)

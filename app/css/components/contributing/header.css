@@ -21,7 +21,7 @@
             & p {
                 @apply text-p-large;
                 & a {
-                    @apply text-lightBlue font-medium;
+                    @apply text-prominentLinkColor font-medium;
                 }
             }
         }

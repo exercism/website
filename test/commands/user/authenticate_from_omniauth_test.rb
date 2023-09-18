@@ -39,7 +39,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     assert_equal "user@exercism.org", user.email
     assert_equal "Name", user.name
     assert_equal "user22", user.github_username
-    assert_equal "http://some.image/avatar.jpg", user.avatar_url
+    assert_equal "http://some.image/avatar.jpg", user.attributes["avatar_url"]
   end
 
   test "copes with duplicate gh username but unauthed" do
@@ -61,7 +61,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "updates email and github_username if from users.noreply.github.com" do
-    user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com"
+    user = create :user, provider: "github", uid: "111", email: "user@users.noreply.github.com", avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx"
     auth = stub(provider: "github", uid: "111", info: stub(email: "user@exercism.org", nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)
@@ -72,21 +72,21 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "updates avatar if missing" do
-    user = create :user, provider: "github", uid: "111", avatar_url: nil
+    user = create :user, provider: "github", uid: "111", avatar_url: nil, avatar: nil
     auth = stub(provider: "github", uid: "111", info: stub(image: "http://some.image/avatar.jpg", nickname: "foobar"))
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_equal "http://some.image/avatar.jpg", user.reload.avatar_url
+    assert_equal "http://some.image/avatar.jpg", user.reload.attributes['avatar_url']
   end
 
   test "does not update avatar if present" do
-    user = create :user, provider: "github", uid: "111", avatar_url: "original.jpg"
+    user = create :user, provider: "github", uid: "111", avatar_url: "original.jpg", avatar: nil
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "foobar"))
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_equal "original.jpg", user.reload.avatar_url
+    assert_equal "original.jpg", user.reload.attributes["avatar_url"]
   end
 
   test "sets provider, uid and github_username for email matches" do
@@ -143,7 +143,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "recalculate pull request reputation for uid matches that change the github_username" do
-    user = create :user, provider: "github", uid: "111", github_username: nil
+    user = create :user, provider: "github", uid: "111", github_username: nil, avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx"
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
     assert_enqueued_with(job: MandateJob, args: [User::ReputationToken::AwardForPullRequestsForUser.name, user],
@@ -153,7 +153,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
   end
 
   test "don't recalculate pull request reputation for uid matches that don't change the github_username" do
-    create :user, provider: "github", uid: "111", github_username: "user22"
+    create :user, provider: "github", uid: "111", github_username: "user22", avatar_url: "https://avatars.githubusercontent.com/u/5624255?s=200&v=4&e_uid=xxx"
     auth = stub(provider: "github", uid: "111", info: stub(nickname: "user22"))
 
     User::AuthenticateFromOmniauth.(auth)

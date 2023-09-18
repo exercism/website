@@ -8,12 +8,12 @@ module Flows
     test "user deletes an iteration" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
-      exercise = create :concept_exercise, track: track
-      solution = create :concept_solution, :published, exercise: exercise, user: user
-      submission = create :submission, tests_status: :passed, solution: solution
-      create :iteration, solution: solution, submission: submission
-      create :submission_file, submission: submission
+      create(:user_track, user:, track:)
+      exercise = create(:concept_exercise, track:)
+      solution = create(:concept_solution, :published, exercise:, user:)
+      submission = create(:submission, tests_status: :passed, solution:)
+      create(:iteration, solution:, submission:)
+      create(:submission_file, submission:)
 
       use_capybara_host do
         sign_in!(user)

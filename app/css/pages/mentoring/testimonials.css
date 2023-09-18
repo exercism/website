@@ -28,7 +28,7 @@
                 height: 48px;
                 width: 48px;
                 @apply mb-12;
-                filter: var(--textColor6-filter);
+                @apply filter-textColor6;
             }
             & h2 {
                 @apply text-18 leading-160 font-medium text-textColor6;
@@ -72,6 +72,10 @@
             & .options-button {
                 @apply py-12 px-24;
                 @apply border-l-1 border-borderColor6;
+
+                .c-icon {
+                    @apply filter-textColor6;
+                }
             }
         }
         & .testimonial,
@@ -100,8 +104,10 @@
                 }
             }
             & .new {
+                background: var(--backgroundColorMentorTestimonialsNew);
+                color: var(--textColorMentorTestimonialsNew);
                 @apply ml-24;
-                @apply bg-lightGold rounded-3;
+                @apply rounded-3;
                 @apply text-12 leading-140 font-mono font-bold uppercase;
                 @apply py-4 px-8;
             }
@@ -119,6 +125,7 @@
                 height: 16px;
                 width: 16px;
                 @apply ml-56;
+                @apply filter-textColor6;
             }
         }
     }

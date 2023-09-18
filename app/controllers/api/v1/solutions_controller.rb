@@ -76,7 +76,7 @@ module API
 
       private
       def respond_with_authored_solution(solution)
-        solution.sync_git! unless solution.downloaded?
+        Solution::UpdateToLatestExerciseVersion.(solution) unless solution.downloaded?
 
         respond_with_solution(solution)
 

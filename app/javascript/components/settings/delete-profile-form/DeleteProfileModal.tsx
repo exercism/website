@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { redirectTo } from '../../../utils/redirect-to'
+import { redirectTo } from '@/utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to delete profile')
 

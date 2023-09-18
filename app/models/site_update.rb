@@ -7,11 +7,17 @@ class SiteUpdate < ApplicationRecord
 
   scope :published, -> { where('published_at < ?', Time.current) }
   scope :for_track, ->(track) { where(track:) }
-  scope :for_user, ->(user) { for_track(user.tracks) }
+
+  # This is optimised. Don't naively rely on user.tracks or select as both are slow
+  scope :for_user, ->(user) { where(track_id: user.user_tracks.pluck(:track_id)) }
+
+  # TODO: Add a desc index when we switch to mysql8
   scope :sorted, -> { order(published_at: :desc, id: :desc) }
 
   belongs_to :author, optional: true, class_name: "User"
   belongs_to :pull_request, optional: true, class_name: "Github::PullRequest"
+
+  has_markdown_field :description
 
   before_validation only: :create do
     self.published_at = Time.current + 3.hours unless published_at
@@ -57,7 +63,7 @@ class SiteUpdate < ApplicationRecord
           avatar_url: author.avatar_url
         },
         title:,
-        description:
+        description_html:
       }
     end
 
@@ -75,7 +81,7 @@ class SiteUpdate < ApplicationRecord
   end
 
   def expanded?
-    [author, title, description].all?(&:present?)
+    [author, title, description_markdown].all?(&:present?)
   end
 
   # Should be overriden in children

@@ -25,10 +25,8 @@ class Document::SearchDocs
 
     doc_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
     docs = doc_ids.present? ?
-      Document.where(id: doc_ids).
-        includes(:track).
-        order(Arel.sql("FIND_IN_SET(id, '#{doc_ids.join(',')}')")).
-        to_a : []
+      Document.where(id: doc_ids).includes(:track).sort_by { |d| doc_ids.index(d.id) } :
+          []
 
     total_count = results["hits"]["total"]["value"].to_i
     Kaminari.paginate_array(docs, total_count:).

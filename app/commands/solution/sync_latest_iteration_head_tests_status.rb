@@ -1,3 +1,5 @@
+# This syncs solution.latest_iteration_head_tests_status to be
+# the same as the solution's actual latest_iteration status
 class Solution::SyncLatestIterationHeadTestsStatus
   include Mandate
 
@@ -16,14 +18,17 @@ class Solution::SyncLatestIterationHeadTestsStatus
       status = :errored
     end
 
-    # Only update it if we need to.
-    solution.update_latest_iteration_head_tests_status!(status) unless solution.latest_iteration_head_tests_status == status
+    # Always call this as it also updates the git_sha
+    # and git_important_files_hash
+    solution.update_latest_iteration_head_tests_status!(status)
+
+    Solution::AutoUpdateToLatestExerciseVersion.(solution)
 
     true
   end
 
   memoize
   def test_run
-    solution.latest_iteration&.submission&.head_test_run
+    solution.latest_iteration_submission&.head_test_run
   end
 end

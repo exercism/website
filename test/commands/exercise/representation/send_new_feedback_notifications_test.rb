@@ -5,10 +5,10 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     representation = create :exercise_representation, :with_feedback, feedback_type: :essential
 
     user = create :user
-    solution = create :practice_solution, user: user
-    submission = create :submission, exercise: representation.exercise, solution: solution
-    iteration = create :iteration, submission: submission, idx: 1
-    create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+    solution = create(:practice_solution, user:)
+    submission = create(:submission, exercise: representation.exercise, solution:)
+    iteration = create :iteration, submission:, idx: 1
+    create :submission_representation, submission:, ast_digest: representation.ast_digest
 
     perform_enqueued_jobs do
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
@@ -23,13 +23,13 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
   %i[essential actionable].each do |feedback_type|
     test "send notifications when feedback type is #{feedback_type}" do
-      representation = create :exercise_representation, :with_feedback, feedback_type: feedback_type
+      representation = create(:exercise_representation, :with_feedback, feedback_type:)
 
       user = create :user
-      solution = create :practice_solution, user: user
-      submission = create :submission, exercise: representation.exercise, solution: solution
-      iteration = create :iteration, submission: submission, idx: 1
-      create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+      solution = create(:practice_solution, user:)
+      submission = create(:submission, exercise: representation.exercise, solution:)
+      iteration = create :iteration, submission:, idx: 1
+      create :submission_representation, submission:, ast_digest: representation.ast_digest
 
       perform_enqueued_jobs do
         Exercise::Representation::SendNewFeedbackNotifications.(representation)
@@ -91,11 +91,11 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     representation = create :exercise_representation, :with_feedback
 
     user = create :user
-    solution = create :practice_solution, user: user
-    submission_1 = create :submission, exercise: representation.exercise, solution: solution
+    solution = create(:practice_solution, user:)
+    submission_1 = create(:submission, exercise: representation.exercise, solution:)
     create :iteration, :deleted, submission: submission_1, idx: 1
     create :submission_representation, submission: submission_1, ast_digest: representation.ast_digest
-    submission_2 = create :submission, exercise: representation.exercise, solution: solution
+    submission_2 = create(:submission, exercise: representation.exercise, solution:)
     create :iteration, :deleted, submission: submission_2, idx: 2
     create :submission_representation, submission: submission_2, ast_digest: 'different'
 
@@ -110,10 +110,10 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     representation = create :exercise_representation, :with_feedback
 
     user = create :user
-    solution = create :practice_solution, user: user
-    submission = create :submission, exercise: representation.exercise, solution: solution
-    create :iteration, :deleted, submission: submission, idx: 1
-    create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+    solution = create(:practice_solution, user:)
+    submission = create(:submission, exercise: representation.exercise, solution:)
+    create :iteration, :deleted, submission:, idx: 1
+    create :submission_representation, submission:, ast_digest: representation.ast_digest
 
     perform_enqueued_jobs do
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
@@ -126,10 +126,10 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
     representation = create :exercise_representation, :with_feedback
 
     user = create :user
-    solution = create :practice_solution, user: user
-    submission = create :submission, exercise: representation.exercise, solution: solution
-    create :iteration, submission: submission, idx: 1
-    create :submission_representation, submission: submission, ast_digest: 'different_digest'
+    solution = create(:practice_solution, user:)
+    submission = create(:submission, exercise: representation.exercise, solution:)
+    create :iteration, submission:, idx: 1
+    create :submission_representation, submission:, ast_digest: 'different_digest'
 
     perform_enqueued_jobs do
       Exercise::Representation::SendNewFeedbackNotifications.(representation)
@@ -140,13 +140,13 @@ class Exercise::Representation::SendNewFeedbackNotificationsTest < ActiveSupport
 
   %i[non_actionable celebratory].each do |feedback_type|
     test "does not send notification when feedback type is #{feedback_type}" do
-      representation = create :exercise_representation, :with_feedback, feedback_type: feedback_type
+      representation = create(:exercise_representation, :with_feedback, feedback_type:)
 
       user = create :user
-      solution = create :practice_solution, user: user
-      submission = create :submission, exercise: representation.exercise, solution: solution
-      create :iteration, submission: submission, idx: 1
-      create :submission_representation, submission: submission, ast_digest: representation.ast_digest
+      solution = create(:practice_solution, user:)
+      submission = create(:submission, exercise: representation.exercise, solution:)
+      create :iteration, submission:, idx: 1
+      create :submission_representation, submission:, ast_digest: representation.ast_digest
 
       perform_enqueued_jobs do
         Exercise::Representation::SendNewFeedbackNotifications.(representation)

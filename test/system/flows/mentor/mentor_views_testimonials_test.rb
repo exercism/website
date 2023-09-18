@@ -12,12 +12,12 @@ module Flows
         ruby = create :track
         bob = create :concept_exercise, title: "Bob", track: ruby
         solution = create :concept_solution, exercise: bob
-        discussion = create :mentor_discussion, solution: solution
+        discussion = create(:mentor_discussion, solution:)
         create :mentor_testimonial, :revealed,
-          mentor: mentor,
-          student: student,
+          mentor:,
+          student:,
           content: "Great mentor!",
-          discussion: discussion,
+          discussion:,
           created_at: 1.day.ago
 
         use_capybara_host do
@@ -29,7 +29,7 @@ module Flows
           assert_text "student"
           assert_text "Great mentor!"
           assert_text "on Bob in Ruby"
-          assert_text "a day ago"
+          assert_text "yesterday"
         end
       end
 
@@ -37,8 +37,8 @@ module Flows
         mentor = create :user
         student = create :user, handle: "student"
         other_student = create :user, handle: "otherstudent"
-        create :mentor_testimonial, :revealed, mentor: mentor, student: student, content: "Great mentor!"
-        create :mentor_testimonial, :revealed, mentor: mentor, student: other_student, content: "Too good!"
+        create :mentor_testimonial, :revealed, mentor:, student:, content: "Great mentor!"
+        create :mentor_testimonial, :revealed, mentor:, student: other_student, content: "Too good!"
 
         use_capybara_host do
           sign_in!(mentor)
@@ -53,8 +53,8 @@ module Flows
       test "mentor switches pages" do
         ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
         mentor = create :user
-        create :mentor_testimonial, :revealed, content: "Great mentor!", mentor: mentor
-        create :mentor_testimonial, :revealed, content: "Too good!", mentor: mentor
+        create(:mentor_testimonial, :revealed, content: "Great mentor!", mentor:)
+        create(:mentor_testimonial, :revealed, content: "Too good!", mentor:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -69,8 +69,8 @@ module Flows
       test "mentor orders testimonials" do
         ::Mentor::Testimonial::Retrieve.stubs(:testimonials_per_page).returns(1)
         mentor = create :user
-        create :mentor_testimonial, :revealed, created_at: 1.day.ago, content: "Great mentor!", mentor: mentor
-        create :mentor_testimonial, :revealed, created_at: 1.hour.ago, content: "Too good!", mentor: mentor
+        create(:mentor_testimonial, :revealed, created_at: 1.day.ago, content: "Great mentor!", mentor:)
+        create(:mentor_testimonial, :revealed, created_at: 1.hour.ago, content: "Too good!", mentor:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -93,8 +93,8 @@ module Flows
         strings = create :concept_exercise, title: "Strings", track: csharp
         other_discussion = create :mentor_discussion, solution: create(:concept_solution, exercise: strings)
 
-        create :mentor_testimonial, :revealed, mentor: mentor, content: "Great mentor!", discussion: discussion
-        create :mentor_testimonial, :revealed, mentor: mentor, discussion: other_discussion, content: "Too good!"
+        create(:mentor_testimonial, :revealed, mentor:, content: "Great mentor!", discussion:)
+        create :mentor_testimonial, :revealed, mentor:, discussion: other_discussion, content: "Too good!"
 
         use_capybara_host do
           sign_in!(mentor)
@@ -109,7 +109,7 @@ module Flows
 
       test "mentor views testimonial in a modal" do
         mentor = create :user
-        create :mentor_testimonial, :revealed, mentor: mentor, content: "Great mentor!"
+        create :mentor_testimonial, :revealed, mentor:, content: "Great mentor!"
 
         use_capybara_host do
           sign_in!(mentor)
@@ -122,7 +122,7 @@ module Flows
 
       test "mentor reveals a testimonial" do
         mentor = create :user
-        create :mentor_testimonial, :unrevealed, mentor: mentor, content: "Great mentor!"
+        create :mentor_testimonial, :unrevealed, mentor:, content: "Great mentor!"
 
         use_capybara_host do
           sign_in!(mentor)

@@ -18,7 +18,7 @@ class Git::SyncTrackDocsTest < ActiveSupport::TestCase
   test "updates existing docs" do
     track = create :track, synced_to_git_sha: "d337d99a9cbee14ebd8390d5d1cf86351d604a3a"
     create :document, uuid: "7dce5fef-d759-4292-a2b4-ba3ed65f93d7",
-      track: track,
+      track:,
       slug: "rlly",
       git_path: "incorrect/old.md",
       title: "Very wrong",

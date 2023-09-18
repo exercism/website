@@ -3,7 +3,7 @@ require "test_helper"
 class NotificationsChannelTest < ActionCable::Channel::TestCase
   test ".broadcast_pending! broadcasts path" do
     user = create :user
-    notification = create :notification, user: user
+    notification = create(:notification, user:)
 
     assert_broadcast_on(
       user,

@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../../../modals/Modal'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../../utils/send-request'
-import { typecheck } from '../../../../../utils/typecheck'
-import { User } from '../../../../types'
-import { FormButton } from '../../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../../ErrorBoundary'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { User } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to remove photo')
 

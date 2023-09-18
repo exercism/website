@@ -5,11 +5,11 @@ class User::Notifications::StudentAddedIteration < ActiveSupport::TestCase
     student = create :user, handle: "paula"
     mentor = create :user
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Strings", track: track
-    solution = create :concept_solution, user: student, exercise: exercise
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor
-    submission = create :submission, solution: solution
-    iteration = create :iteration, solution: solution, submission: submission, idx: 2
+    exercise = create(:concept_exercise, title: "Strings", track:)
+    solution = create(:concept_solution, user: student, exercise:)
+    discussion = create(:mentor_discussion, solution:, mentor:)
+    submission = create(:submission, solution:)
+    iteration = create :iteration, solution:, submission:, idx: 2
 
     notification = User::Notifications::StudentAddedIterationNotification.create!(
       user: mentor,

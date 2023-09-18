@@ -1,11 +1,11 @@
 @import "../styles";
 
 #page-profile-testimonials {
-    @apply mb-80 bg-backgroundColorA;
+    @apply mb-80 bg-backgroundColorB;
     & article {
         @apply pt-32;
         & .stats {
-            @apply grid grid-cols-3;
+            @apply grid md:grid-cols-3 grid-cols-1 justify-items-center;
             @apply mx-auto mb-48;
             max-width: 690px;
             & .stat {
@@ -23,14 +23,13 @@
         }
 
         & .testimonials {
-            column-count: 3;
-            column-gap: 24px;
+            @apply columns-1 sm:columns-2 md:columns-3 gap-24;
         }
         & .testimonial {
             display: inline-block;
             margin: 24px 0;
             width: 100%;
-
+            @apply bg-backgroundColorA;
             @apply pt-36 pb-24 px-24;
             @apply border-1 border-borderColor6;
             @apply shadow-sm;
@@ -61,7 +60,7 @@
                     @apply mx-8;
                 }
                 & .track-title {
-                    @apply text-textColor3 font-medium;
+                    @apply text-textColor6 font-medium;
                 }
             }
             & time {

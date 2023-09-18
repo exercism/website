@@ -11,7 +11,7 @@ class Metrics::SubmitSubmissionTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:submit_submission, occurred_at, submission:, track:, user:, request_context:)
 
-      assert_equal Metrics::SubmitSubmissionMetric, metric.class
+      assert_instance_of Metrics::SubmitSubmissionMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track

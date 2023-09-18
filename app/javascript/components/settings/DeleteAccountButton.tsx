@@ -5,7 +5,7 @@ type Links = {
   delete: string
 }
 
-export const DeleteAccountButton = ({
+export default function DeleteAccountButton({
   handle,
   links,
   ariaHideApp = true,
@@ -13,7 +13,7 @@ export const DeleteAccountButton = ({
   handle: string
   links: Links
   ariaHideApp?: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (

@@ -33,4 +33,25 @@ module ImagesHelper
   def key_feature_icon_url(feature)
     "#{Exercism.config.website_icons_host}/key-features/#{feature}.svg"
   end
+
+  # Use as follows:
+  # srcset_tag "screenshots/landing-page-exercise.webp", [400, 688, 800, 1376], [[:lg, "50vw"], "100vw"]
+  def srcset_tag(base_src, image_sizes, page_sizes, **kwargs)
+    filepath, ext = base_src.split(".")
+    kwargs[:srcset] = image_sizes.map do |size|
+      "#{asset_url("#{filepath}-#{size}w.#{ext}")} #{size}w"
+    end.join(", ")
+
+    size_mappings = { sm: 640, md: 768, lg: 1024, xl: 1280 }
+    kwargs[:sizes] = Array(page_sizes).map do |pair|
+      if pair.is_a?(Array)
+        "(min-width: #{size_mappings[pair[0].to_sym]}px) #{pair[1]}"
+      else
+        pair
+      end
+    end.join(", ")
+
+    src = "#{filepath}-#{image_sizes.last}w.#{ext}"
+    image_tag(src, **kwargs)
+  end
 end

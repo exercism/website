@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-import { useList } from '../../../hooks/use-list'
-import { MentoredTrack, MentoredTrackExercise } from '../../types'
 import { QueryStatus } from 'react-query'
-import { useDebounce } from '../../../hooks/use-debounce'
-import { useHistory } from '../../../hooks/use-history'
+import { useDebounce } from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useHistory } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {
   uuid: string
@@ -88,7 +88,7 @@ export const useMentoringQueue = ({
     setCriteria,
     order: request.query.order,
     setOrder,
-    page: request.query.page,
+    page: request.query.page || 1,
     setPage,
     error,
   }

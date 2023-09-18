@@ -22,8 +22,10 @@
     }
     & .warning {
         @apply py-12 px-24 mb-28;
-        @apply text-16 font-medium leading-160 text-lightBrown;
-        @apply bg-lightOrange border-2 border-orange rounded-8;
+        @apply text-16 font-medium leading-160;
+        @apply border-2 border-orange rounded-8;
         @apply w-100;
+        background: var(--backgroundColorCAlert);
+        color: var(--textColorCAlert);
     }
 }

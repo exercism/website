@@ -1,0 +1,5 @@
+.c-highlight-links {
+    a {
+        @apply text-prominentLinkColor;
+    }
+}

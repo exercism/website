@@ -1,12 +1,12 @@
 import React from 'react'
-import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { SolutionForStudent } from '../types'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { redirectTo } from '../../utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { redirectTo } from '@/utils/redirect-to'
+import { SolutionForStudent } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { Modal, ModalProps } from './Modal'
 
 const DEFAULT_ERROR = new Error('Unable to unpublish solution')
 

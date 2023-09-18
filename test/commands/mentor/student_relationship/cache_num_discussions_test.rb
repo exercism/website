@@ -11,7 +11,7 @@ class Mentor::StudentRelationship::CacheNumDiscussionTest < ActiveSupport::TestC
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
+    create(:mentor_discussion, mentor:, solution:)
 
     Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
 
@@ -23,8 +23,8 @@ class Mentor::StudentRelationship::CacheNumDiscussionTest < ActiveSupport::TestC
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
-    rel = create :mentor_student_relationship, mentor: mentor, student: student
+    create(:mentor_discussion, mentor:, solution:)
+    rel = create(:mentor_student_relationship, mentor:, student:)
 
     Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
 
@@ -35,14 +35,14 @@ class Mentor::StudentRelationship::CacheNumDiscussionTest < ActiveSupport::TestC
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    rel_1 = create :mentor_student_relationship, mentor: mentor, student: student
-    create :mentor_discussion, mentor: mentor, solution: solution
+    rel_1 = create(:mentor_student_relationship, mentor:, student:)
+    create(:mentor_discussion, mentor:, solution:)
 
-    rel_2 = create :mentor_student_relationship, mentor: mentor
-    create :mentor_discussion, mentor: mentor
+    rel_2 = create(:mentor_student_relationship, mentor:)
+    create(:mentor_discussion, mentor:)
 
-    rel_3 = create :mentor_student_relationship, student: student
-    create :mentor_discussion, solution: solution
+    rel_3 = create(:mentor_student_relationship, student:)
+    create(:mentor_discussion, solution:)
 
     Mentor::StudentRelationship::CacheNumDiscussions.(mentor, student)
 

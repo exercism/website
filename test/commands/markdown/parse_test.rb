@@ -89,6 +89,7 @@ Done')
     TABLE
 
     expected = <<~HTML
+      <div class="c-responsive-table-wrapper">
       <table>
       <thead>
       <tr>
@@ -103,6 +104,7 @@ Done')
       </tr>
       </tbody>
       </table>
+      </div>
     HTML
     assert_equal expected, Markdown::Parse.(table)
   end
@@ -263,7 +265,7 @@ Done')
   end
 
   test "skip unsupported internal links" do
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/contributors/iliketohelp">iliketohelp</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/contributors/iliketohelp">iliketohelp</a></p>\n)
     assert_equal expected, Markdown::Parse.("[iliketohelp](https://exercism.org/tracks/ruby/contributors/iliketohelp)")
   end
 
@@ -290,6 +292,11 @@ Done')
     # TODO: render exercise widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
+  end
+
+  test "don't render exercise widget for approach link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">approach</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach](https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value)")
   end
 
   test "copes with a bad link uri scheme" do
@@ -397,5 +404,15 @@ Done')
   test "heading id for same titles uses sequential numbering" do
     expected = %(<h2 id="h-my-title">my title</h2>\n<h2 id="h-my-title-1">my title</h2>\n<h2 id="h-my-title-2">my title</h2>\n)
     assert_equal expected, Markdown::Parse.("## my title\n\n## my title\n\n## my title", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  test "render youtube video for mail with link" do
+    expected = %(<a href="https://www.youtube.com/watch?v=LknqlTouTKg" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-jose-interview-preview.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/LknqlTouTKg](https://assets.exercism.org/images/thumbnails/yt-jose-interview-preview.jpg)")
+  end
+
+  test "render youtube video for mail with link containing underscire" do
+    expected = %(<a href="https://www.youtube.com/watch?v=GOPmj_AMbP8" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/GOPmj_AMbP8](https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg)")
   end
 end

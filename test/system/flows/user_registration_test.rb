@@ -92,7 +92,7 @@ module Flows
 
     test "user registers via Github, onboards, and is redirected to the correct page" do
       track = create :track, title: "Ruby"
-      create :concept_exercise, track: track
+      create(:concept_exercise, track:)
 
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(

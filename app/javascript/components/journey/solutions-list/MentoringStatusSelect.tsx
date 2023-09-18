@@ -1,5 +1,5 @@
 import React from 'react'
-import { SingleSelect } from '../../common'
+import { SingleSelect } from '@/components/common/SingleSelect'
 
 export type MentoringStatus =
   | undefined

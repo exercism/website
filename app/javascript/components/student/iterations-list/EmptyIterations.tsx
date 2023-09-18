@@ -1,15 +1,12 @@
 import React from 'react'
-import {
-  ProminentLink,
-  CopyToClipboardButton,
-  GraphicalIcon,
-  FormButton,
-} from '../../common'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
 import { useIsMounted } from 'use-is-mounted'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { redirectTo } from '../../../utils/redirect-to'
+import { redirectTo } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
+import { ProminentLink, GraphicalIcon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { FormButton } from '@/components/common/FormButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Exercise } from '../IterationsList'
 
 type Links = {
@@ -57,10 +54,10 @@ export const EmptyIterations = ({
   return (
     <div className="lg-container container">
       <section className="zero-state">
-        <h2>You haven’t submitted any iterations yet.</h2>
+        <h2>You haven&apos;t submitted any iterations yet.</h2>
         <p>
-          You’ll get to see all your iterations with test results and automated
-          feedback once you submit a solution.
+          You&apos;ll get to see all your iterations with test results and
+          automated feedback once you submit a solution.
         </p>
         <div className="box">
           {exercise.hasTestRunner ? (

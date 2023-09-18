@@ -7,7 +7,7 @@ module API
     #########
     test "index should proxy params" do
       track = create :track
-      exercise = create :concept_exercise, track: track
+      exercise = create(:concept_exercise, track:)
 
       Solution::SearchCommunitySolutions.expects(:call).with(
         exercise,
@@ -34,7 +34,7 @@ module API
 
     test "head_tests_status filter is on by default" do
       track = create :track
-      exercise = create :concept_exercise, track: track
+      exercise = create(:concept_exercise, track:)
 
       Solution::SearchCommunitySolutions.expects(:call).with(
         exercise,
@@ -61,11 +61,11 @@ module API
 
     test "index should search and return solutions" do
       track = create :track
-      exercise = create :concept_exercise, :random_slug, track: track
-      solution_1 = create :concept_solution, exercise: exercise, published_at: Time.current, num_stars: 11,
+      exercise = create(:concept_exercise, :random_slug, track:)
+      solution_1 = create :concept_solution, exercise:, published_at: Time.current, num_stars: 11,
         published_iteration_head_tests_status: :queued
       create :iteration, solution: solution_1
-      solution_2 = create :concept_solution, exercise: exercise, published_at: Time.current, num_stars: 22,
+      solution_2 = create :concept_solution, exercise:, published_at: Time.current, num_stars: 22,
         published_iteration_head_tests_status: :passed
       create :iteration, solution: solution_2
       create :concept_solution, published_at: Time.current, num_stars: 33

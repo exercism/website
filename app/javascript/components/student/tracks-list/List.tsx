@@ -1,7 +1,7 @@
 import React from 'react'
 import { Track } from './Track'
-import { GraphicalIcon } from '../../common'
-import { StudentTrack } from '../../types'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
+import { StudentTrack } from '@/components/types'
 
 export const List = ({
   data,

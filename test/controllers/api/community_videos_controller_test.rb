@@ -27,7 +27,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
   test "lookup returns video" do
     user = create :user
     url = "https://youtube.com/..."
-    video = build :community_video, url: url
+    video = build(:community_video, url:)
     CommunityVideo::Retrieve.expects(:call).with(url).returns(video)
 
     setup_user(user)
@@ -115,7 +115,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
     user = create :user
     title = "foooooo"
     url = "https://youtube.com/..."
-    video = build :community_video, url: url
+    video = build(:community_video, url:)
     CommunityVideo::Retrieve.expects(:call).with(url).returns(video)
 
     setup_user(user)
@@ -140,7 +140,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
   test "create sets author if specified" do
     user = create :user
     url = "https://youtube.com/..."
-    video = build :community_video, url: url
+    video = build(:community_video, url:)
     CommunityVideo::Retrieve.expects(:call).with(url).returns(video)
 
     setup_user(user)
@@ -160,7 +160,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
     user = create :user
     url = "https://youtube.com/..."
     exercise = create :practice_exercise
-    video = build :community_video, url: url
+    video = build(:community_video, url:)
     CommunityVideo::Retrieve.expects(:call).with(url).returns(video)
 
     setup_user(user)

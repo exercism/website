@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { TrackSelect, TrackLogo } from '../../common/TrackSelect'
+import { TrackSelect, TrackLogo } from '@/components/common/TrackSelect'
 import { Track } from '../TestimonialsList'
 
 const OptionComponent = ({ option: track }: { option: Track }) => {

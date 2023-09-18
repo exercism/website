@@ -52,7 +52,9 @@
                 @apply absolute;
                 top: 0;
                 right: 0;
-                filter: drop-shadow(0px 4px 16px rgba(79, 114, 205, 0.3));
+                filter: drop-shadow(
+                    0px 4px 16px rgba(var(--shadowColorMain), 0.3)
+                );
             }
         }
     }
@@ -114,7 +116,7 @@
                     }
                     &.happy {
                         &:hover {
-                            @apply bg-veryLightGreen2;
+                            background: var(--backgroundColorConceptMastered);
                             @apply border-darkGreen;
                             & .c-icon {
                                 filter: var(--dark-green-filter);
@@ -131,7 +133,7 @@
                     }
                     &.sad {
                         &:hover {
-                            @apply bg-veryLightRed;
+                            background: var(--backgroundColorDangerSection);
                             @apply border-red;
                             & .c-icon {
                                 filter: var(--red-filter);

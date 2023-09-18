@@ -8,7 +8,7 @@ import { Loading } from './Loading'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-export const StudentTooltip = React.forwardRef<
+const StudentTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
@@ -96,3 +96,5 @@ export const StudentTooltip = React.forwardRef<
     </div>
   )
 })
+
+export default StudentTooltip

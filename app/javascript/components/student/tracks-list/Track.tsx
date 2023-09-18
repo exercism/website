@@ -1,10 +1,11 @@
 import React from 'react'
 import pluralize from 'pluralize'
-import { TrackIcon } from '../../common/TrackIcon'
-import { Icon, GraphicalIcon } from '../../common'
+import { TrackIcon } from '@/components/common/TrackIcon'
+import { Icon } from '@/components/common/Icon'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { ProgressBar } from './ProgressBar'
-import { fromNow } from '../../../utils/time'
-import { StudentTrack } from '../../types'
+import { fromNow } from '@/utils/time'
+import { StudentTrack } from '@/components/types'
 
 export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
   return (
@@ -24,7 +25,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
           <h3 className="--title">{track.title}</h3>
           {!track.isJoined && (
             <div className="items-center hidden md:flex">
-              {track.numConcepts > 5 ? (
+              {track.course ? (
                 <div className="--v3"> Learning Mode </div>
               ) : track.isNew ? (
                 <div className="--new">
@@ -50,13 +51,16 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
               : `${track.numCompletedExercises}/`}
             {track.numExercises} {pluralize('exercise', track.numExercises)}
           </li>
-          <li>
-            <Icon icon="concepts" alt="Number of concepts" />
-            {track.numCompletedConcepts == undefined
-              ? null
-              : `${track.numCompletedConcepts}/`}
-            {track.numConcepts} {pluralize('concept', track.numConcepts)}
-          </li>
+
+          {track.course && (
+            <li>
+              <Icon icon="concepts" alt="Number of concepts" />
+              {track.numCompletedConcepts == undefined
+                ? null
+                : `${track.numCompletedConcepts}/`}
+              {track.numConcepts} {pluralize('concept', track.numConcepts)}
+            </li>
+          )}
         </ul>
 
         {track.isJoined && (

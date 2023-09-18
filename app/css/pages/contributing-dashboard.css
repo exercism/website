@@ -92,13 +92,21 @@
                         @apply mb-8;
 
                         &.beginner {
-                            @apply text-lightBlue bg-veryLightBlue border-darkBlue;
+                            @apply text-linkColor border-darkBlue;
+                            background: var(
+                                --backgroundColorDonationsFormSelected
+                            );
                         }
                         &.intermediary {
-                            @apply text-textColor2 bg-lightOrange border-orange;
+                            @apply text-textColor2 border-orange;
+                            background: var(--backgroundColorCAlert);
                         }
                         &.advanced {
-                            @apply text-purple bg-lightPurple border-purple;
+                            color: var(--colorPurpleToBrightPurple);
+                            border-color: var(--colorPurpleToBrightPurple);
+                            background: var(
+                                --backgroundColorContributingAdvanced
+                            );
                         }
                     }
                     & p {

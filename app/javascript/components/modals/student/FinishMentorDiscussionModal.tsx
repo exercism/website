@@ -54,6 +54,10 @@ const Inner = ({
     case 'rateMentor':
       return (
         <Step.RateMentorStep
+          // <DonationStep
+          //   donationLinks={links.donation}
+          //   mentorHandle={discussion.mentor.handle}
+          // />
           discussion={discussion}
           onHappy={() => send('HAPPY')}
           onSatisfied={() => send('SATISFIED')}

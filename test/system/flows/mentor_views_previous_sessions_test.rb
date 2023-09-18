@@ -13,17 +13,17 @@ module Flows
 
       running = create :concept_exercise, slug: "running"
       solution = create :concept_solution, exercise: running, user: student
-      running_discussion = create :mentor_discussion, :finished, solution: solution, mentor: mentor
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
+      running_discussion = create(:mentor_discussion, :finished, solution:, mentor:)
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
 
       lasagna = create :concept_exercise, slug: "lasagna"
       solution = create :concept_solution, exercise: lasagna, user: student
-      discussion = create :mentor_discussion, solution: solution, mentor: mentor
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
+      discussion = create(:mentor_discussion, solution:, mentor:)
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
 
-      create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 2
+      create :mentor_student_relationship, mentor:, student:, num_discussions: 2
 
       use_capybara_host do
         sign_in!(mentor)
@@ -41,13 +41,13 @@ module Flows
 
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
-      create :mentor_student_relationship, mentor: mentor, student: student, num_discussions: 2
+      create :mentor_student_relationship, mentor:, student:, num_discussions: 2
 
       lasagna = create :concept_exercise, slug: "lasagna"
       solution = create :concept_solution, exercise: lasagna, user: student
-      discussion = create :mentor_discussion, solution: solution, mentor: mentor
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
+      discussion = create(:mentor_discussion, solution:, mentor:)
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
 
       use_capybara_host do
         sign_in!(mentor)

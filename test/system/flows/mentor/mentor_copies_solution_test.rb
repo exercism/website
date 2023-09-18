@@ -11,11 +11,11 @@ module Flows
       test "mentor copies solution to clipboard" do
         mentor = create :user
         solution = create :concept_solution
-        submission = create :submission, solution: solution
-        create :submission_file, submission: submission, filename: "file1.txt", content: "file 1"
-        create :submission_file, submission: submission, filename: "file2.txt", content: "file 2"
-        create :iteration, solution: solution, submission: submission
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
+        submission = create(:submission, solution:)
+        create :submission_file, submission:, filename: "file1.txt", content: "file 1"
+        create :submission_file, submission:, filename: "file2.txt", content: "file 2"
+        create(:iteration, solution:, submission:)
+        discussion = create(:mentor_discussion, solution:, mentor:)
 
         use_capybara_host do
           sign_in!(mentor)

@@ -41,7 +41,7 @@
             @apply mr-32;
         }
         & .dismiss-btn {
-            @apply text-lightBlue font-semibold text-16 leading-200;
+            @apply text-prominentLinkColor font-semibold text-16 leading-200;
         }
     }
 }

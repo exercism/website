@@ -5,15 +5,15 @@ class SerializeMentorDiscussionForMentorTest < ActiveSupport::TestCase
     student = create :user
     mentor = create :user
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise, user: student
-    create :iteration, solution: solution
-    discussion = create :mentor_discussion,
+    exercise = create(:concept_exercise, track:)
+    solution = create :concept_solution, exercise:, user: student
+    create(:iteration, solution:)
+    discussion = create(:mentor_discussion,
       :awaiting_mentor,
-      solution: solution,
-      mentor: mentor
-    create :mentor_discussion_post, discussion: discussion
-    create :mentor_discussion_post, discussion: discussion
+      solution:,
+      mentor:)
+    create(:mentor_discussion_post, discussion:)
+    create(:mentor_discussion_post, discussion:)
 
     output = mock
     SerializeMentorDiscussion.expects(:call).with(
@@ -25,7 +25,8 @@ class SerializeMentorDiscussionForMentorTest < ActiveSupport::TestCase
         self: Exercism::Routes.mentoring_discussion_url(discussion),
         posts: Exercism::Routes.api_mentoring_discussion_posts_url(discussion),
         finish: Exercism::Routes.finish_api_mentoring_discussion_url(discussion),
-        mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion)
+        mark_as_nothing_to_do: Exercism::Routes.mark_as_nothing_to_do_api_mentoring_discussion_url(discussion),
+        tooltip_url: Exercism::Routes.api_mentoring_student_path(discussion.student, track_slug: discussion.track.slug)
       }
     ).returns(output)
 
@@ -36,13 +37,13 @@ class SerializeMentorDiscussionForMentorTest < ActiveSupport::TestCase
     student = create :user
     mentor = create :user
     solution = create :concept_solution, user: student
-    create :iteration, solution: solution
-    discussion = create :mentor_discussion,
+    create(:iteration, solution:)
+    discussion = create(:mentor_discussion,
       :awaiting_mentor,
-      solution: solution,
-      mentor: mentor
+      solution:,
+      mentor:)
 
-    relationship = create :mentor_student_relationship, student: student, mentor: mentor
+    relationship = create(:mentor_student_relationship, student:, mentor:)
 
     result = SerializeMentorDiscussionForMentor.(discussion)
     refute result[:student][:is_favorited]

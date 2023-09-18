@@ -1,5 +1,5 @@
 import React, { forwardRef, HTMLProps } from 'react'
-import { CopyToClipboardButton } from '.'
+import CopyToClipboardButton from './CopyToClipboardButton'
 import { SharePlatform } from '../types'
 import { PlatformButton } from './share-panel/PlatformButton'
 

@@ -6,13 +6,13 @@ module Components
       test "user views new exercise update" do
         author = create :user, handle: "Author"
         exercise = create :concept_exercise, title: "Bob", authors: [author]
-        create :new_exercise_site_update, exercise: exercise, published_at: 1.day.ago
+        create :new_exercise_site_update, exercise:, published_at: 1.day.ago
 
         visit test_components_common_site_updates_list_path
 
         assert_text "Author published a new Exercise"
         assert_link "Bob", href: Exercism::Routes.track_exercise_url(exercise.track, exercise)
-        assert_text "yesterday"
+        assert_text "Yesterday"
         assert_css "img[src='#{exercise.icon_url}']"
         assert_css "img[src='#{author.avatar_url}']"
       end
@@ -28,16 +28,16 @@ module Components
 
         assert_text "We published a new Concept"
         assert_link "Strings", href: Exercism::Routes.track_concept_url(strings.track, strings)
-        assert_text "yesterday"
+        assert_text "Yesterday"
         assert_css ".c-concept-icon", text: "St"
       end
 
       test "user views expanded site update" do
         author = create :user, handle: "Author"
         update = create :new_exercise_site_update,
-          author: author,
+          author:,
           title: "New exercise",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 
@@ -46,7 +46,7 @@ module Components
           assert_text "by Author"
           assert_text "New description"
           assert_css "img[src='#{update.exercise.icon_url}']"
-          assert_css "img[src='#{author.avatar_url}']"
+          assert_css "img[src='#{update.exercise.track.icon_url}']"
         end
       end
 
@@ -58,11 +58,11 @@ module Components
           merged_by_username: "iHiD",
           updated_at: 2.days.ago,
           repo: "exercism/ruby"
-        create :new_exercise_site_update,
-          author: author,
+        create(:new_exercise_site_update,
+          author:,
           title: "New exercise",
-          description: "New description",
-          pull_request: pull_request
+          description_markdown: "New description",
+          pull_request:)
 
         visit test_components_common_site_updates_list_path
 
@@ -73,8 +73,8 @@ module Components
       test "user views update with track icon" do
         author = create :user, handle: "Author"
         track = create :track
-        exercise = create :concept_exercise, title: "Bob", authors: [author], track: track
-        create :new_exercise_site_update, exercise: exercise, published_at: 1.hour.ago
+        exercise = create(:concept_exercise, title: "Bob", authors: [author], track:)
+        create :new_exercise_site_update, exercise:, published_at: 1.hour.ago
 
         visit test_components_common_site_updates_list_path(icon: "track")
         assert_css "img[src='#{track.icon_url}']"
@@ -84,10 +84,10 @@ module Components
         author = create :user, handle: "Author"
         exercise = create :concept_exercise, title: "Bob"
         create :new_exercise_site_update,
-          author: author,
-          exercise: exercise,
+          author:,
+          exercise:,
           title: "New exercise",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 
@@ -101,9 +101,9 @@ module Components
           published_at: 1.day.ago,
           params: { concept: strings },
           track: strings.track,
-          author: author,
+          author:,
           title: "New concept",
-          description: "New description"
+          description_markdown: "New description"
 
         visit test_components_common_site_updates_list_path
 

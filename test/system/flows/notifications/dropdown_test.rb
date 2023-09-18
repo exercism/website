@@ -11,9 +11,9 @@ module Flows
       test "user views notifications" do
         user = create :user
         mentor = create :user, handle: "mr-mentor"
-        discussion = create :mentor_discussion, mentor: mentor
-        create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
-        create :user_dismissed_introducer, slug: "challenge-12in23-modal", user: user
+        discussion = create(:mentor_discussion, mentor:)
+        create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
+        create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -29,15 +29,15 @@ module Flows
       test "refetches on websocket notification" do
         user = create :user
         mentor = create :user, handle: "mrs-mentor"
-        discussion = create :mentor_discussion, mentor: mentor
-        create :user_dismissed_introducer, slug: "challenge-12in23-modal", user: user
+        discussion = create(:mentor_discussion, mentor:)
+        create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
         use_capybara_host do
           sign_in!(user)
           visit dashboard_path
           wait_for_websockets
 
-          create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
+          create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
 
           NotificationsChannel.broadcast_changed!(user)
           within(".c-notification") { assert_text "1" }
@@ -50,15 +50,15 @@ module Flows
       test "only loads notifications when dropdown is closed" do
         user = create :user
         mentor = create :user, handle: "mrs-mentor"
-        discussion = create :mentor_discussion, mentor: mentor
-        create :user_dismissed_introducer, slug: "challenge-12in23-modal", user: user
+        discussion = create(:mentor_discussion, mentor:)
+        create(:user_dismissed_introducer, slug: "welcome-modal", user:)
 
         use_capybara_host do
           sign_in!(user)
           visit dashboard_path
           find(".c-notification").click
 
-          create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
+          create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
           NotificationsChannel.broadcast_changed!(user)
           wait_for_websockets
 

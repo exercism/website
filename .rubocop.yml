@@ -56,9 +56,6 @@ Metrics/MethodLength:
   Exclude:
     - "test/**/*"
 
-Metrics/AbcSize:
-  IgnoredMethods: ["CLI::PrepareUploadedFiles.call"]
-
 Metrics/ClassLength:
   Exclude:
     - "test/commands/solution/search_user_solutions_test.rb"
@@ -71,6 +68,10 @@ Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
   SingleLineConditionsOnly: false
   IncludeTernaryExpressions: false
+
+Style/FormatString:
+  EnforcedStyle: percent
+  Enabled: false
 
 Style/StringLiterals:
   Enabled: false
@@ -109,6 +110,9 @@ Naming/VariableNumber:
 
 Style/LambdaCall:
   EnforcedStyle: braces
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
 
 Rails/HasManyOrHasOneDependent:
   Exclude:

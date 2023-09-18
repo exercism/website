@@ -1,0 +1,50 @@
+:css
+  #admin-mailshots {
+    padding:25px 0%;
+    font-size: 16px;
+    line-height:1.5;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #888;
+    padding: 10px;
+    text-align:left;
+    font-weight:600px;
+  }
+  td {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #aaa;
+    padding: 10px;
+    vertical-align:top;
+    max-width:300px;
+  }
+
+#admin-mailshots
+  .lg-container
+    %h1.text-h1.mb-8 Mailshots
+    %table.mb-20
+      %thead
+        %tr
+          %td Slug
+          %td Subject
+          %td.text-right Send count
+          %td{ colspan: 2 }
+
+      %tbody
+      - @mailshots.each do |mailshot|
+        %tr
+          %td= mailshot.slug
+          %td= mailshot.subject
+          %td.text-right= @send_counts[mailshot.id]
+          %td= link_to "Details", [:admin, mailshot]
+          %td= link_to "Edit", edit_admin_mailshot_path(mailshot)
+    .flex
+      = link_to "New mailshot", new_admin_mailshot_path, class: 'btn btn-primary btn-base'

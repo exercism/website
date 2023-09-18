@@ -1,0 +1,71 @@
+.c-toggle-button {
+    --switch-size: 18px;
+    --switch-w: calc(var(--switch-size) * 2);
+    --switch-h: var(--switch-size);
+    --switch-p: calc(var(--switch-size) / 6);
+    --left-p: calc(var(--switch-p) * 2 / 3);
+    --transformX: calc(
+        var(--switch-w) - var(--switch-size) -
+            calc(var(--switch-p) - var(--left-p))
+    );
+    --shape-size: calc(var(--switch-h) - var(--switch-p));
+    --toggle-off-color: theme(colors.aliceBlue);
+    --toggle-on-color: theme(colors.purpleHover);
+    --toggle-off-bg: theme(colors.gray);
+    --toggle-on-bg: theme(colors.purple);
+    --transition-speed: 300ms;
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: var(--switch-w);
+        height: var(--switch-h);
+
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+
+            &:checked + .slider {
+                background-color: var(--toggle-on-bg);
+
+                &:before {
+                    transform: translateX(var(--transformX));
+                    background: var(--toggle-on-color);
+                }
+            }
+
+            &:focus + .slider {
+                box-shadow: 0 0 1px var(--dark-bg);
+            }
+        }
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--toggle-off-bg);
+        transition: var(--transition-speed);
+
+        &.round {
+            border-radius: var(--switch-h);
+        }
+
+        &:before {
+            @apply absolute rounded-circle m-auto;
+            background: var(--toggle-off-color);
+            content: "";
+            height: var(--shape-size);
+            width: var(--shape-size);
+            left: var(--left-p);
+            top: 0;
+            bottom: 0;
+            transition: all var(--transition-speed) ease;
+            box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+}

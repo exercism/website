@@ -14,4 +14,13 @@ class SerializeDocsTest < ActiveSupport::TestCase
       assert_equal expected, SerializeDocs.(docs)
     end
   end
+
+  test "n+1s handled correctly" do
+    create :document, track: create(:track, :random_slug)
+    create :document, track: create(:track, :random_slug)
+
+    Bullet.profile do
+      SerializeDocs.(Document.all)
+    end
+  end
 end

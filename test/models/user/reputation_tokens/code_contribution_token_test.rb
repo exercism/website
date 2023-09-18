@@ -26,7 +26,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeContributionToken, rt
     assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
@@ -62,7 +62,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeContributionToken, rt
     assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
@@ -98,7 +98,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::CodeContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::CodeContributionToken, rt
     assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
     assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
     assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key
@@ -134,7 +134,7 @@ class User::ReputationTokens::CodeContributionTokenTest < ActiveSupport::TestCas
       assert_equal 1, user.reputation_tokens.size
       rt = user.reputation_tokens.first
 
-      assert_equal User::ReputationTokens::CodeContributionToken, rt.class
+      assert_instance_of User::ReputationTokens::CodeContributionToken, rt
       assert_equal "You created <strong>PR##{pr_number}</strong> on <strong>ruby</strong>: The cat sat on the mat", rt.text
       assert_equal 'https://api.github.com/repos/exercism/v3/pulls/1347', rt.external_url
       assert_equal "#{user.id}|code_contribution|PR#MDExOlB1bGxSZXF1ZXN0NTgzMTI1NTaQ", rt.uniqueness_key

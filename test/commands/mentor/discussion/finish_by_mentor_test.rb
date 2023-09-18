@@ -15,9 +15,9 @@ class Mentor::Discussion::FinishByMentorTest < ActiveSupport::TestCase
     mentor = create :user, handle: "mentor"
     student = create :user, email: "student@exercism.org"
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Strings", track: track
-    solution = create :concept_solution, user: student, exercise: exercise
-    discussion = create :mentor_discussion, mentor: mentor, solution: solution
+    exercise = create(:concept_exercise, title: "Strings", track:)
+    solution = create(:concept_solution, user: student, exercise:)
+    discussion = create(:mentor_discussion, mentor:, solution:)
 
     perform_enqueued_jobs do
       Mentor::Discussion::FinishByMentor.(discussion)

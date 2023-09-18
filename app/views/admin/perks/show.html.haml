@@ -1,0 +1,28 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-16 Perk #{@partner.name}##{@perk.id}
+    %div{ class: 'max-w-[443px]' }= render ViewComponents::Partner::Perk.new(@perk)
+    %hr.my-32.border-borderColor5
+
+    .text-h6.mb-8 Status: #{@perk.status.titleize}
+    .text-h6.mb-8 Num Clicks: #{@perk.num_clicks}
+    .text-h6.mb-8 Preview Text: #{@perk.preview_text}
+
+    %h2.text-h2.mb-16 General offer
+    .text-h6.mb-8 URL: #{@perk.general_url}
+    .text-h6.mb-8 Offer Summary: #{@perk.general_offer_summary_markdown}
+    .text-h6.mb-8 Button Text: #{@perk.general_button_text}
+    .text-h6.mb-8 Offer Details: #{@perk.general_offer_details}
+
+    %h2.text-h2.mb-16 Insiders offer
+    .text-h6.mb-8 URL: #{@perk.insiders_url}
+    .text-h6.mb-8 Offer Summary: #{@perk.insiders_offer_summary_markdown}
+    .text-h6.mb-8 Button Text: #{@perk.insiders_button_text}
+    .text-h6.mb-8 Offer Details: #{@perk.insiders_offer_details}
+
+    %hr.my-32.border-borderColor5
+
+    .flex
+      = link_to "Back to partner", [:admin, @partner], class: 'btn btn-m'
+
+

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { FormButton, GraphicalIcon, Icon } from '../common'
+import { GraphicalIcon, Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 
@@ -21,7 +22,7 @@ type Links = {
 
 const DEFAULT_ERROR = new Error('Unable to save profile')
 
-export const ProfileForm = ({
+export default function ProfileForm({
   defaultUser,
   defaultProfile,
   links,
@@ -29,7 +30,7 @@ export const ProfileForm = ({
   defaultUser: User
   defaultProfile: Profile | null
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [user, setUser] = useState<User>(defaultUser)
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)
 

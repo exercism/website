@@ -3,11 +3,11 @@ import { FetchedTooltip } from './FetchedTooltip'
 
 const DEFAULT_ERROR = new Error('Unable to load concept')
 
-export const ConceptTooltip = ({
+export default function ConceptTooltip({
   endpoint,
 }: {
   endpoint: string
-}): JSX.Element | null => {
+}): JSX.Element | null {
   return (
     <FetchedTooltip
       endpoint={endpoint}

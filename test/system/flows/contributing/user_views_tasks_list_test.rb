@@ -19,7 +19,7 @@ module Flows
       test "user views task tooltip" do
         track = create :track, title: "Ruby"
         create :github_task,
-          track: track,
+          track:,
           action: "create",
           type: "docs",
           size: "large",
@@ -50,7 +50,7 @@ module Flows
           click_on "All Tracks"
           find("label", text: "Go").click
 
-          assert_text "Showing 1 task\n/\nout of 2 possible tasks"
+          assert_text "Showing 1 task / out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -66,7 +66,7 @@ module Flows
           find("label", text: "Improve").click
           find("label", text: "Improve").native.send_keys(:tab)
 
-          assert_text "Showing 1 task\n/\nout of 2 possible tasks"
+          assert_text "Showing 1 task / out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -82,7 +82,7 @@ module Flows
           find("label", text: "Docs").click
           find("label", text: "Docs").native.send_keys(:tab)
 
-          assert_text "Showing 1 task\n/\nout of 2 possible tasks"
+          assert_text "Showing 1 task / out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -98,7 +98,7 @@ module Flows
           find("label", text: "Medium").click
           find("label", text: "Medium").native.send_keys(:tab)
 
-          assert_text "Showing 1 task\n/\nout of 2 possible tasks"
+          assert_text "Showing 1 task / out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -114,7 +114,7 @@ module Flows
           find("label", text: "Intermediate").click
           find("label", text: "Intermediate").native.send_keys(:tab)
 
-          assert_text "Showing 1 task\n/\nout of 2 possible tasks"
+          assert_text "Showing 1 task / out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -130,7 +130,7 @@ module Flows
           find("label", text: "Generator").click
           find("label", text: "Generator").native.send_keys(:tab)
 
-          assert_text "Showing 1 task\n/\nout of 2 possible tasks"
+          assert_text "Showing 1 task / out of 2 possible tasks"
           assert_text "Write docs"
           assert_no_text "Fix bug"
         end
@@ -176,7 +176,7 @@ module Flows
 
         use_capybara_host do
           visit contributing_tasks_path
-          click_on "2"
+          within(".c-pagination") { click_on "2" }
 
           assert_text "Write docs"
           assert_no_text "Fix bug"

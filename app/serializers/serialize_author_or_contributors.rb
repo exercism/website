@@ -3,5 +3,12 @@ class SerializeAuthorOrContributors
 
   initialize_with :users
 
-  def call = users.map { |user| SerializeAuthorOrContributor.(user) }
+  def call
+    eager_loaded_users.map { |user| SerializeAuthorOrContributor.(user) }
+  end
+
+  private
+  def eager_loaded_users
+    users.to_active_relation.includes(:profile)
+  end
 end

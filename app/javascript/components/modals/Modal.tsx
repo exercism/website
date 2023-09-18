@@ -4,7 +4,7 @@ import { Icon } from '../common/Icon'
 import { Wrapper } from '../common/Wrapper'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
 
-type Theme = 'light' | 'dark'
+type Theme = 'light' | 'dark' | 'unset'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   className?: string
   closeButton?: boolean
@@ -17,19 +17,19 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   ReactModalClassName?: string
 }
 
-export const Modal = ({
+export function Modal({
   open,
   onClose,
   className,
   closeButton = false,
   cover = false,
   celebratory = false,
-  theme = 'light',
+  theme = 'unset',
   children,
   aria,
   ReactModalClassName,
   ...props
-}: React.PropsWithChildren<ModalProps>): JSX.Element => {
+}: React.PropsWithChildren<ModalProps>): JSX.Element {
   const overlayClassNames = [
     'c-modal',
     `theme-${theme}`,
@@ -43,6 +43,7 @@ export const Modal = ({
       ariaHideApp={process.env.NODE_ENV !== 'test'}
       isOpen={open}
       onRequestClose={onClose}
+      shouldCloseOnOverlayClick={!closeButton}
       className={`--modal-content ${ReactModalClassName}`}
       overlayClassName={overlayClassNames.join(' ')}
       appElement={document.querySelector('body') as HTMLElement}
@@ -92,3 +93,5 @@ function CloseButton({ onClose }: CloseButtonProps) {
     </button>
   )
 }
+
+export default Modal

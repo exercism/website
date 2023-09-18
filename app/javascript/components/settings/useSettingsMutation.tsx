@@ -11,12 +11,14 @@ export const useSettingsMutation = <
   body,
   timeout = 4000,
   onSuccess = () => null,
+  onError,
 }: {
   endpoint: string
   method: 'POST' | 'PATCH'
   body: T
   timeout?: number
   onSuccess?: (params: U) => void
+  onError?: (error: unknown) => void
 }) => {
   const [baseMutation, { status, error, reset }] = useMutation<U>(
     () => {
@@ -29,7 +31,8 @@ export const useSettingsMutation = <
       return fetch
     },
     {
-      onSuccess: onSuccess,
+      onSuccess,
+      onError,
     }
   )
 

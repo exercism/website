@@ -55,5 +55,6 @@ label.c-checkbox-wrapper {
         width: 9px;
         transition: transform 0.2s linear;
         transform: scale(0);
+        @apply filter-textColor1;
     }
 }

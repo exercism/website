@@ -12,7 +12,7 @@ en:
       invalid_mentor_student_relationship: "There is not a valid relationship between you and this student"
       iteration_not_found: "The iteration you specified does not exist"
       profile_not_found: "This profile could not be found"
-      resource_not_found: "This URL was not recognised"
+      resource_not_found: "This URL was not recognized"
       solution_not_found: "This solution could not be found"
       solution_not_accessible: "You do not have permission to view this solution"
       solution_not_unlocked: "You have not unlocked this exercise"
@@ -23,6 +23,8 @@ en:
       solution_comment_not_accessible: "This comment is not accessible"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"
+      trophy_not_found: "This trophy could not be found"
+      trophy_not_accessible: "You do not have permission to access this trophy"
       representation_not_found: "This representation could not be found"
       team_not_found: "The team could not be found"
       track_ambiguous: "Please specify a track ID"
@@ -31,6 +33,7 @@ en:
       file_not_found: "The file was not found"
       # TODO: Add max size to this
       file_too_large: "The submitted file was too large"
+      too_many_requests: "A rate limit has been hit"
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."

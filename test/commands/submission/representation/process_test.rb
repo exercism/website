@@ -65,9 +65,9 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
   test "test exercise representations are reused" do
     solution = create :concept_solution
-    submission_1 = create :submission, solution: solution
-    submission_2 = create :submission, solution: solution
-    submission_3 = create :submission, solution: solution
+    submission_1 = create(:submission, solution:)
+    submission_2 = create(:submission, solution:)
+    submission_3 = create(:submission, solution:)
 
     job_1 = create_representer_job!(submission_1, execution_status: 200, ast: "ast 1")
     job_2 = create_representer_job!(submission_2, execution_status: 200, ast: "ast 1")
@@ -98,7 +98,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
 
   test "handle invalid ast" do
     exercise = create :concept_exercise
-    submission = create :submission, exercise: exercise
+    submission = create(:submission, exercise:)
 
     job = create_representer_job!(submission, execution_status: 200, ast: "")
     Submission::Representation::Process.(job)
@@ -110,10 +110,10 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
     create :exercise_representation,
-      exercise: exercise,
+      exercise:,
       ast_digest: Submission::Representation.digest_ast(ast)
 
-    submission = create :submission, exercise: exercise
+    submission = create(:submission, exercise:)
 
     job = create_representer_job!(submission, execution_status: 200, ast:)
     Submission::Representation::Process.(job)
@@ -125,12 +125,12 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
     create :exercise_representation,
-      exercise: exercise,
+      exercise:,
       ast_digest: Submission::Representation.digest_ast(ast),
       feedback_author: create(:user),
       feedback_markdown: "foobar"
 
-    submission = create :submission, exercise: exercise
+    submission = create(:submission, exercise:)
 
     job = create_representer_job!(submission, execution_status: 200, ast:)
     cmd = Submission::Representation::Process.new(job)
@@ -148,10 +148,10 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
     create :exercise_representation,
-      exercise: exercise,
+      exercise:,
       ast_digest: Submission::Representation.digest_ast(ast)
 
-    submission = create :submission, exercise: exercise
+    submission = create(:submission, exercise:)
 
     SubmissionChannel.expects(:broadcast!).with(submission)
 
@@ -163,11 +163,11 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     ast = "Some AST goes here..."
     exercise = create :concept_exercise
     create :exercise_representation,
-      exercise: exercise,
+      exercise:,
       ast_digest: Submission::Representation.digest_ast(ast)
 
-    submission = create :submission, exercise: exercise
-    iteration = create :iteration, submission: submission
+    submission = create(:submission, exercise:)
+    iteration = create(:iteration, submission:)
 
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
@@ -193,5 +193,39 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     )
 
     Submission::Representation::Process.(job)
+  end
+
+  test "exercise_version is 1 by default" do
+    # No version is set for hamming here
+    exercise = create :practice_exercise, slug: "hamming", git_sha: "87448759c3f447c0a20db660b278a628e299e602"
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
+    job = create_representer_job!(submission, execution_status: 200, ast: 'ast')
+    Submission::Representation::Process.(job)
+
+    representation = Exercise::Representation.last
+
+    assert_equal 1, representation.exercise_version
+  end
+
+  test "exercise_version is set from the git_sha" do
+    slug = "space-age"
+    v1_sha = "8b874172f74acad07ca880c71814a85eb883e2d7"
+    v2_sha = "9f9d8f5bdac4411d0497af0f393ae76f2ab33a97"
+    exercise = create(:practice_exercise, slug:)
+    solution = create(:practice_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    # First test with the v1_sha
+    job = create_representer_job!(submission, execution_status: 200, ast: 'ast', git_sha: v1_sha)
+    Submission::Representation::Process.(job)
+    representation = Exercise::Representation.last
+    assert_equal 1, representation.exercise_version
+
+    # Then with the v2 sha
+    job = create_representer_job!(submission, execution_status: 200, ast: 'ast', git_sha: v2_sha)
+    Submission::Representation::Process.(job)
+    representation = Exercise::Representation.last
+    assert_equal 2, representation.exercise_version
   end
 end

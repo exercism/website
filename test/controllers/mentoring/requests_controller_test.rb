@@ -14,7 +14,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(mentor)
 
     solution = create :practice_solution, user: mentor
-    request = create :mentor_request, solution: solution
+    request = create(:mentor_request, solution:)
 
     get mentoring_request_path(request)
     assert_redirected_to mentoring_queue_path
@@ -25,7 +25,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(mentor)
 
     request = create :mentor_request
-    create :mentor_request_lock, request: request
+    create(:mentor_request_lock, request:)
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)
@@ -56,7 +56,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(mentor)
 
     request = create :mentor_request, status: :fulfilled
-    discussion = create :mentor_discussion, request: request, mentor: mentor
+    discussion = create(:mentor_discussion, request:, mentor:)
 
     get mentoring_request_path(request)
     assert_redirected_to mentoring_discussion_path(discussion)
@@ -67,7 +67,7 @@ class Mentoring::RequestsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(mentor)
 
     request = create :mentor_request, status: :fulfilled
-    create :mentor_discussion, request: request
+    create(:mentor_discussion, request:)
 
     get mentoring_request_path(request)
     assert_redirected_to unavailable_mentoring_request_path(request)

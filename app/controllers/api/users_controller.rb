@@ -1,10 +1,16 @@
 module API
   class UsersController < BaseController
-    skip_before_action :authenticate_user!
-    before_action :authenticate_user
+    def show
+      render json: {
+        user: {
+          handle: current_user.handle,
+          insiders_status: current_user.insiders_status
+        }
+      }
+    end
 
     def update
-      current_user.update!(user_params)
+      User::UpdateAvatar.(current_user, params.require(:user)[:avatar])
 
       render json: {
         user: {
@@ -15,9 +21,14 @@ module API
       }
     end
 
-    private
-    def user_params
-      params.require(:user).permit(:avatar)
+    def activate_insiders
+      User::InsidersStatus::Activate.(current_user)
+
+      render json: {
+        links: {
+          redirect_url: insiders_url
+        }
+      }
     end
   end
 end

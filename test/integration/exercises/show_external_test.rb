@@ -13,22 +13,22 @@ class Tracks::ShowExternalTest < ActionDispatch::IntegrationTest
     assert_select ".instructions", text: /Instructions for bob/
   end
 
-  test "the introduction is not shown for a concept exercise" do
+  test "the introduction is shown for a concept exercise" do
     create :concept_exercise
     get "/tracks/ruby/exercises/strings/"
-    assert_select ".introduction", false
+    assert_select ".instructions", text: /Strings are manipulated/
   end
 
   test "the introduction is shown for a practice exercise that has an introduction" do
     create :practice_exercise
     get "/tracks/ruby/exercises/bob/"
-    assert_select ".introduction", text: /Introduction for bob/
+    assert_select ".instructions", text: /Introduction for bob/
   end
 
   test "the introduction is not shown for a practice exercise without an introduction" do
     create :practice_exercise, slug: 'allergies'
     get "/tracks/ruby/exercises/allergies/"
-    assert_select ".introduction", false
+    assert_select ".instructions", { count: 0, text: "Introduction" }
   end
 
   test "the source is shown" do

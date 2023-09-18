@@ -4,7 +4,10 @@ module API
 
     def index
       mentor_request_comment = @discussion.request_comment
-      posts = @discussion.posts
+      posts = @discussion.posts.includes(
+        :iteration,
+        :author
+      )
 
       serialized_posts = [mentor_request_comment, posts].
         flatten.

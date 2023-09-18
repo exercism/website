@@ -3,8 +3,8 @@ require "test_helper"
 class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
   test "num_loc is updated for iteration" do
     submission = create :submission
-    create :submission_file, submission: submission, content: "Some source code"
-    iteration = create :iteration, submission: submission
+    create :submission_file, submission:, content: "Some source code"
+    iteration = create(:iteration, submission:)
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
@@ -31,7 +31,7 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
   test "ignores iteration without valid filepaths" do
     submission = create :submission
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
 
     CalculateLinesOfCodeJob.perform_now(iteration)
 
@@ -41,9 +41,9 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
   test "solution is updated if iteration is latest" do
     submission = create :submission
-    create :submission_file, submission: submission, content: "Some source code"
+    create :submission_file, submission:, content: "Some source code"
     create :iteration, solution: submission.solution
-    latest_iteration = create :iteration, submission: submission
+    latest_iteration = create(:iteration, submission:)
     create :iteration, solution: submission.solution, deleted_at: Time.current # Last iteration
 
     num_loc = 24
@@ -65,10 +65,10 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
   test "solution is not updated if iteration is not latest" do
     solution = create :concept_solution
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, content: "Some source code"
-    iteration = create :iteration, submission: submission
-    other_iteration = create :iteration, solution: solution, num_loc: 33
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, content: "Some source code"
+    iteration = create(:iteration, submission:)
+    other_iteration = create :iteration, solution:, num_loc: 33
     solution.update(num_loc: other_iteration.num_loc)
 
     num_loc = 24
@@ -90,11 +90,11 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
 
   test "solution is updated if iteration is published" do
     solution = create :concept_solution, :published
-    submission = create :submission, solution: solution
-    create :submission_file, submission: submission, content: "Some source code"
-    create :iteration, solution: solution
-    iteration = create :iteration, submission: submission
-    create :iteration, solution: solution
+    submission = create(:submission, solution:)
+    create :submission_file, submission:, content: "Some source code"
+    create(:iteration, solution:)
+    iteration = create(:iteration, submission:)
+    create(:iteration, solution:)
     solution.update(published_iteration: iteration)
 
     num_loc = 24
@@ -117,9 +117,9 @@ class CalculateLinesOfCodeJobTest < ActiveJob::TestCase
   test "solution is not updated if another iteration is published" do
     solution = create :concept_solution
     submission = create :submission
-    create :submission_file, submission: submission, content: "Some source code"
+    create :submission_file, submission:, content: "Some source code"
     published_iteration = create :iteration, solution: submission.solution, num_loc: 33
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
     create :iteration, solution: submission.solution
     solution.update(published_iteration:, num_loc: published_iteration.num_loc)
 

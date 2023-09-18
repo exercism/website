@@ -1,35 +1,9 @@
-:css
-  #maintaining-site-updates {
-    padding:25px 0%;
-    font-size: 16px;
-    line-height:1.5;
-  }
-  h2 {
-    font-size: 20px;
-    margin-bottom: 16px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th {
-    border: 1px solid #ddd;
-    border-bottom: 1px solid #888;
-    padding: 10px;
-    text-align:left;
-    font-weight:600px;
-  }
-  td {
-    border: 1px solid #ddd;
-    border-bottom: 1px solid #aaa;
-    padding: 10px;
-    vertical-align:top;
-    max-width:300px;
-  }
-
-#maintaining-site-updates
+#maintaining-site-updates.c-admin-page
   .lg-container
-    %table
+    %h1.text-h1.mb-8 Site updates
+    - if flash[:site_updates_notice]
+      .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
+    %table.mb-8.c-admin-table
       %thead
         %tr
           %th Type
@@ -48,14 +22,22 @@
             - when SiteUpdates::NewConceptUpdate
               %td Concept
               %td #{update.track&.title} / #{update.concept&.name}
+            - when SiteUpdates::ArbitraryUpdate
+              %td Arbitrary
+              %td= update.track&.title
 
             %td= update.published_at
             %td
               - if update.expanded?
                 .title= update.title
                 .handle= update.author.handle
-                %p= update.description
+                %p= update.description_html&.html_safe
             %td= update.pull_request&.title
             %td
               - if update.editable_by?(current_user)
                 = link_to "Edit", edit_maintaining_site_update_path(update)
+
+    .flex
+      = link_to "New site update", new_maintaining_site_update_path, class: 'btn btn-primary btn-base'
+
+    = paginate @updates

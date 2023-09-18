@@ -29,8 +29,8 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal track.slug, track.to_param
   end
 
-  test "highlightjs_language" do
-    track = create :track
+  test "highlightjs_language uses slug if nil" do
+    track = create :track, highlightjs_language: nil
     assert_equal 'ruby', track.highlightjs_language
   end
 
@@ -178,8 +178,8 @@ class TrackTest < ActiveSupport::TestCase
 
   test "representations" do
     track = create :track
-    exercise_1 = create :practice_exercise, track: track
-    exercise_2 = create :practice_exercise, track: track
+    exercise_1 = create(:practice_exercise, track:)
+    exercise_2 = create(:practice_exercise, track:)
     exercise_3 = create :practice_exercise, track: (create :track, :random_slug)
 
     representation_1 = create :exercise_representation, exercise: exercise_1
@@ -210,5 +210,25 @@ class TrackTest < ActiveSupport::TestCase
     track = create :track
 
     assert_equal 2, track.representer.version
+  end
+
+  test "updated_at doesn't get affected by num_students counter cache" do
+    original_time = Time.current - 6.months
+    track = create :track, updated_at: original_time
+
+    assert_equal 0, track.reload.num_students
+    create(:user_track, track:)
+    assert_equal 1, track.reload.num_students
+    assert_equal original_time, track.reload.updated_at
+  end
+
+  test "editing an exercise should update a tracks's updated_at" do
+    freeze_time do
+      original_time = Time.current - 6.months
+      track = create :track, updated_at: original_time, median_wait_time: 100
+
+      create(:practice_exercise, track:)
+      assert_equal Time.current, track.reload.updated_at
+    end
   end
 end

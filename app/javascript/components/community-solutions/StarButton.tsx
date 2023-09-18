@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { FormButton, Icon } from '../common'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
+import { Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
 
 type Links = {
   star: string
@@ -16,7 +17,7 @@ type APIResponse = {
 
 const DEFAULT_ERROR = new Error('Unable to update stars')
 
-export const StarButton = ({
+export default function StarButton({
   userSignedIn,
   defaultNumStars,
   defaultIsStarred,
@@ -26,7 +27,7 @@ export const StarButton = ({
   defaultNumStars: number
   defaultIsStarred: boolean
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [state, setState] = useState({
     numStars: defaultNumStars,
     isStarred: defaultIsStarred,

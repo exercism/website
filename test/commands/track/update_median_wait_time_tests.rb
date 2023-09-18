@@ -4,10 +4,10 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
   test "update median time" do
     freeze_time do
       track = create :track
-      exercise = create :practice_exercise, track: track
+      exercise = create(:practice_exercise, track:)
 
       # Time between start request and discussion: 2 minutes
-      solution_1 = create :practice_solution, exercise: exercise
+      solution_1 = create(:practice_solution, exercise:)
       request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 2.minutes
       create :mentor_discussion, request: request_1, created_at: Time.current
 
@@ -16,7 +16,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_equal 120, track.reload.median_wait_time
 
       # Time between start request and discussion: 30 seconds
-      solution_2 = create :practice_solution, exercise: exercise
+      solution_2 = create(:practice_solution, exercise:)
       request_2 = create :mentor_request, solution: solution_2, created_at: Time.current - 55.seconds
       create :mentor_discussion, request: request_2, created_at: Time.current - 25.seconds
 
@@ -25,7 +25,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_equal 75, track.reload.median_wait_time
 
       # Time between start request and discussion: 3 hours
-      solution_3 = create :practice_solution, exercise: exercise
+      solution_3 = create(:practice_solution, exercise:)
       request_3 = create :mentor_request, solution: solution_3, created_at: Time.current - 4.hours
       create :mentor_discussion, request: request_3, created_at: Time.current - 1.hour
 
@@ -38,10 +38,10 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
   test "discounts old discussions" do
     freeze_time do
       track = create :track
-      exercise = create :practice_exercise, track: track
+      exercise = create(:practice_exercise, track:)
 
       # Time between start request and discussion: 4 weeks and 2 hours
-      solution_1 = create :practice_solution, exercise: exercise
+      solution_1 = create(:practice_solution, exercise:)
       request_1 = create :mentor_request, solution: solution_1, created_at: Time.current - 4.weeks - 2.hours
       create :mentor_discussion, request: request_1, created_at: Time.current - 4.weeks
 
@@ -50,7 +50,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_nil track.reload.median_wait_time
 
       # Time between start request and discussion: 3 hours
-      solution_3 = create :practice_solution, exercise: exercise
+      solution_3 = create(:practice_solution, exercise:)
       request_3 = create :mentor_request, solution: solution_3, created_at: Time.current - 3.minutes
       create :mentor_discussion, request: request_3, created_at: Time.current
 
@@ -63,7 +63,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
   test "discounts discussions started directly after request" do
     freeze_time do
       track = create :track
-      exercise = create :practice_exercise, track: track
+      exercise = create(:practice_exercise, track:)
 
       # Sanity check
       Track::UpdateMedianWaitTimes.()
@@ -71,7 +71,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_nil track.reload.median_wait_time
 
       # Time between start request and discussion: less than 5 seconds
-      solution_2 = create :practice_solution, exercise: exercise
+      solution_2 = create(:practice_solution, exercise:)
       request_2 = create :mentor_request, solution: solution_2, created_at: Time.current - 2.seconds
       create :mentor_discussion, request: request_2, created_at: Time.current - 4.seconds
 
@@ -80,7 +80,7 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_nil track.reload.median_wait_time
 
       # Time between start request and discussion: 3 minutes
-      solution_3 = create :practice_solution, exercise: exercise
+      solution_3 = create(:practice_solution, exercise:)
       request_3 = create :mentor_request, solution: solution_3, created_at: Time.current - 3.minutes
       create :mentor_discussion, request: request_3, created_at: Time.current
 
@@ -100,9 +100,9 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
 
   test "set to nil when no requests" do
     track = create :track
-    exercise = create :practice_exercise, track: track
-    create :practice_solution, exercise: exercise
-    create :practice_solution, exercise: exercise
+    exercise = create(:practice_exercise, track:)
+    create(:practice_solution, exercise:)
+    create(:practice_solution, exercise:)
 
     Track::UpdateMedianWaitTimes.()
 
@@ -111,10 +111,10 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
 
   test "set to nil when no discussions" do
     track = create :track
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, exercise: exercise
-    create :mentor_request, solution: solution
-    create :mentor_request, solution: solution
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, exercise:)
+    create(:mentor_request, solution:)
+    create(:mentor_request, solution:)
 
     Track::UpdateMedianWaitTimes.()
 
@@ -123,9 +123,9 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
 
   test "only exercises with discussions have median wait time" do
     track = create :track
-    exercise_1 = create :practice_exercise, track: track
-    exercise_2 = create :practice_exercise, track: track
-    exercise_3 = create :practice_exercise, track: track
+    exercise_1 = create(:practice_exercise, track:)
+    exercise_2 = create(:practice_exercise, track:)
+    exercise_3 = create(:practice_exercise, track:)
     solution_1 = create :practice_solution, exercise: exercise_1
     solution_2 = create :practice_solution, exercise: exercise_2
     create :practice_solution, exercise: exercise_3
@@ -217,5 +217,13 @@ class Track::UpdateMedianWaitTimesTest < ActiveSupport::TestCase
       assert_equal 1680, track_2.reload.median_wait_time
       assert_equal 150, track_3.reload.median_wait_time
     end
+  end
+
+  test "shouldn't touch track's updated_at" do
+    original_time = Time.current - 6.months
+    track = create :track, updated_at: original_time, median_wait_time: 100
+
+    Track::UpdateMedianWaitTimes.()
+    assert_equal original_time, track.reload.updated_at
   end
 end

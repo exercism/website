@@ -18,7 +18,7 @@ class Github::PullRequest::SyncReposTest < ActiveSupport::TestCase
         status: 200,
         body: { items: [{ full_name: 'exercism/ruby' }] }.to_json,
         headers: {
-          'Link': "<https://api.github.com/search/repositories?per_page=100&q=org:exercism%20is:public&page=2>; rel=\"last\"", # rubocop:disable Layout/LineLength
+          'Link': "<https://api.github.com/search/repositories?per_page=100&q=org:exercism%20is:public&page=2>; rel=\"last\"",
           'Content-Type': 'application/json'
         }
       )

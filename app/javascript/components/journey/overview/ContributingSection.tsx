@@ -1,7 +1,7 @@
 import React from 'react'
-import { TrackContribution } from '../../types'
-import { ContributionsSummary } from '../../profile/ContributionsSummary'
-import { GraphicalIcon } from '../../common'
+import { TrackContribution } from '@/components/types'
+import { ContributionsSummary } from '@/components/profile'
+import { GraphicalIcon } from '@/components/common'
 import { HeaderSummary } from './contributing-section/HeaderSummary'
 
 export type Props = {

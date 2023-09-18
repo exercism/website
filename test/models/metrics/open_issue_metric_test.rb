@@ -10,7 +10,7 @@ class Metrics::OpenIssueTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:open_issue, occurred_at, issue:, track:, user:)
 
-      assert_equal Metrics::OpenIssueMetric, metric.class
+      assert_instance_of Metrics::OpenIssueMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track

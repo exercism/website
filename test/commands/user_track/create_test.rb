@@ -23,7 +23,7 @@ class UserTrack::CreateTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::JoinTrackMetric, metric.class
+    assert_instance_of Metrics::JoinTrackMetric, metric
     assert_equal user_track.created_at, metric.occurred_at
     assert_equal user_track, metric.user_track
     assert_equal track, metric.track

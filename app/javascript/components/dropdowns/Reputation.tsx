@@ -88,7 +88,7 @@ const DropdownContent = ({
 
 const MAX_TOKENS = 5
 
-export const Reputation = ({
+export default function Reputation({
   defaultReputation,
   defaultIsSeen,
   endpoint,
@@ -96,18 +96,17 @@ export const Reputation = ({
   defaultReputation: number
   defaultIsSeen: boolean
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
-  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
-    APIResponse
-  >(cacheKey, {
-    endpoint: endpoint,
-    query: { per_page: MAX_TOKENS },
-    options: {},
-  })
+  const { resolvedData, error, status, refetch } =
+    usePaginatedRequestQuery<APIResponse>(cacheKey, {
+      endpoint: endpoint,
+      query: { per_page: MAX_TOKENS },
+      options: {},
+    })
   const {
     buttonAttributes,
     panelAttributes,

@@ -25,7 +25,7 @@ class UnsubscribeTest < ApplicationSystemTestCase
 
   test "user unsubscribes using form" do
     user = create :user
-    preferences = create :user_communication_preferences, user: user
+    preferences = create(:user_communication_preferences, user:)
     assert preferences.email_on_mentor_started_discussion_notification
 
     use_capybara_host do

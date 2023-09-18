@@ -17,7 +17,6 @@
             width: 64px;
             height: 64px;
             filter: var(--textColor7-filter);
-            animation: spin 3s linear infinite;
         }
     }
 

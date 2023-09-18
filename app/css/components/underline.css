@@ -1,7 +1,7 @@
 .c-underline {
     font-style: normal;
     background-image: linear-gradient(to right, #fae54d 0%, #fae54d 100%);
-    background-position: left bottom 20%;
+    background-position: left bottom 0%;
     background-repeat: repeat-x;
     background-size: 1px 4px;
 }

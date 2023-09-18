@@ -8,7 +8,9 @@ class AssembleTracksForSelect
   def call
     [
       SerializeTrackForSelect::ALL_TRACK,
-      *tracks.order(title: :asc).map { |track| SerializeTrackForSelect.(track) }
+
+      # Don't use order here - it slows things down. Just sort in Ruby intead
+      *tracks.sort_by(&:title).map { |track| SerializeTrackForSelect.(track) }
     ]
   end
 

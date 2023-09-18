@@ -150,9 +150,9 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
 
   test "learnt" do
     track, user_track = setup_user_track
-    basics = create :concept, track: track, slug: :basics
-    lasagna = create :concept_exercise, slug: :lasagna, track: track
-    bob = create :practice_exercise, slug: :bob, track: track
+    basics = create :concept, track:, slug: :basics
+    lasagna = create(:concept_exercise, slug: :lasagna, track:)
+    bob = create(:practice_exercise, slug: :bob, track:)
 
     # Set up exercises
     lasagna.taught_concepts << basics
@@ -172,8 +172,8 @@ class UserTrack::GenerateConceptStatusMappingTest < ActiveSupport::TestCase
   private
   def setup_user_track
     track = create :track
-    user_track = create :user_track, track: track
-    hello_world_solution = create :hello_world_solution, :completed, track: track, user: user_track.user
+    user_track = create(:user_track, track:)
+    hello_world_solution = create :hello_world_solution, :completed, track:, user: user_track.user
 
     [track, user_track, hello_world_solution]
   end

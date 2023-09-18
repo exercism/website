@@ -9,7 +9,7 @@ module ReactComponents
             handle: current_user.handle
           },
           links: {
-            update: Exercism::Routes.api_user_url(current_user),
+            update: Exercism::Routes.api_user_url,
             delete: Exercism::Routes.api_user_profile_photo_url
           }
         })

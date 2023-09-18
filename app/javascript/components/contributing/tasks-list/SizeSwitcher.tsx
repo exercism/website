@@ -1,6 +1,7 @@
 import React from 'react'
-import { TaskSize } from '../../types'
-import { MultipleSelect, GraphicalIcon } from '../../common'
+import { TaskSize } from '@/components/types'
+import { GraphicalIcon } from '@/components/common'
+import { MultipleSelect } from '@/components/common/MultipleSelect'
 import { SizeTag } from './task/SizeTag'
 
 const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {

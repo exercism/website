@@ -21,7 +21,7 @@ module Benchmarks
       mentor = create :user
       track = create :track
 
-      exercises = loads[:exercises].times.map { create :concept_exercise, track: track }
+      exercises = loads[:exercises].times.map { create(:concept_exercise, track:) }
 
       # Build solutions for a mentor
       mentor_solutions = loads[:exercises].times.map do |i|

@@ -4,12 +4,14 @@ class SerializeContributorTest < ActiveSupport::TestCase
   test "serializes correctly" do
     rank = 5
     user = create :user
-    create :user_reputation_token, user: user
+    create(:user_reputation_token, user:)
+    generate_reputation_periods!
 
     expected = {
       rank:,
       activity: "1 PR created",
       handle: user.handle,
+      flair: user.flair,
       reputation: "12",
       avatar_url: user.avatar_url,
       links: { profile: nil }
@@ -21,7 +23,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
 
   test "serializes profile link" do
     user = create :user
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
     data = SerializeContributor.(user, rank: 0, contextual_data:)
@@ -30,7 +32,7 @@ class SerializeContributorTest < ActiveSupport::TestCase
 
   test "reputation is formatted" do
     user = create :user
-    create :user_profile, user: user
+    create(:user_profile, user:)
 
     contextual_data = User::ReputationToken::CalculateContextualData.(user.id)
     contextual_data.stubs(reputation: 1_000_000)

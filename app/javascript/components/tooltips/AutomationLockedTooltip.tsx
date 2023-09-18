@@ -7,9 +7,9 @@ export type AutomationLockedTooltipProps = {
   endpoint: string
 }
 
-export const AutomationLockedTooltip = ({
+export default function AutomationLockedTooltip({
   endpoint,
-}: AutomationLockedTooltipProps): JSX.Element | null => {
+}: AutomationLockedTooltipProps): JSX.Element | null {
   return (
     <FetchedTooltip
       endpoint={endpoint}

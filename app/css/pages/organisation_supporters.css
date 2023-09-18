@@ -15,15 +15,11 @@
         & .logos {
             & .c-icon {
                 @apply mx-32 my-12;
+                height: 40px;
             }
             & .mozilla {
                 height: 33px;
-            }
-            & .packt {
-                height: 40px;
-            }
-            & .chicago {
-                height: 48px;
+                @apply filter-textColor1;
             }
             & .gobridge {
                 height: 80px;
@@ -34,6 +30,7 @@
         }
         & h1 {
             & strong {
+                @apply text-textColor1NoDark;
                 background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgxIiBoZWlnaHQ9IjcwIiB2aWV3Qm94PSIwIDAgMjgxIDcwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMjYuMzQyNyAyNS4wMzZDMjcuNDU5IDIyLjQwODcgMzAuMDAwMiAyMC43MTk4IDMyLjk1MjggMjAuNjQyOUwyNjYuOTA0IDE0LjU1NjFDMjcxLjMyMSAxNC40NDEyIDI3NS4yNzggMTcuOTA5OSAyNzUuNzQzIDIyLjMwMzdMMjc5LjE0NiA1NC40OUMyNzkuNjE2IDU4LjkzNzIgMjc2LjMzMSA2Mi42MTYyIDI3MS44NTMgNjIuNjU2MkwyMi40NjI0IDY0Ljg4M0MxNi40NzQyIDY0LjkzNjUgMTIuMDQ2OSA1OC42ODIxIDE0LjMwNzIgNTMuMzYyNEwyNi4zNDI3IDI1LjAzNloiIGZpbGw9IiNGQUU1NEUiLz4KPHBhdGggZD0iTTYuMDk4NDIgOC43OTM1MkM2LjY1MjEgNC40NzIzMSAxMC41NjgzIDEuMTA5NzYgMTQuOTE1NyAxLjIyMjc2TDI2MC43MjMgNy42MTE3NkMyNjUuMTM5IDcuNzI2NTcgMjY4LjM0NCAxMS4zODE1IDI2Ny44NzkgMTUuNzc1M0wyNjQuNDUzIDQ4LjE5ODRDMjYzLjk5MyA1Mi41NTM0IDI2MC4wOTkgNTYuMDA3NSAyNTUuNzE1IDU1Ljk0ODJMOC43ODkwNiA1Mi42MTJDNC4yNTc2IDUyLjU1MDggMC45NzY0NyA0OC43NjggMS41NTI4OCA0NC4yNjk0TDYuMDk4NDIgOC43OTM1MloiIGZpbGw9IiNGQUU1NEUiLz4KPC9zdmc+Cgo=");
                 background-size: cover;
                 @apply font-bold;
@@ -60,6 +57,7 @@
         }
     }
     & .areas-of-collaboration {
+        background: var(--backgroundColorTracksListJoined);
         & h2 {
             max-width: 600px;
         }
@@ -95,12 +93,27 @@
             height: 64px;
             width: 64px;
             @apply mb-16;
+            @apply filter-textColor1;
         }
         & h2 {
             max-width: 740px;
         }
         & .c-prominent-link {
             @apply text-18;
+        }
+    }
+}
+.theme-light {
+    #page-organisation-supporters {
+        .logo-dark {
+            @apply hidden;
+        }
+    }
+}
+.theme-dark {
+    #page-organisation-supporters {
+        .logo-light {
+            @apply hidden;
         }
     }
 }

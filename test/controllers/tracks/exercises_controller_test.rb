@@ -11,7 +11,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "index: renders correctly for joined" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     sign_in!(user)
 
@@ -66,7 +66,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "show: 404s silently for inactive track and user is not a maintainer" do
     user = create :user
     track = create :track, active: false
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -78,7 +78,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "show: renders correctly for inactive track and user is a maintainer" do
     user = create :user, roles: [:maintainer]
     track = create :track, active: false
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -96,7 +96,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "concept/show: renders correctly for joined" do
     user = create :user
     exercise = create :concept_exercise
-    create :user_track, user: user, track: exercise.track
+    create :user_track, user:, track: exercise.track
 
     sign_in!(user)
 
@@ -116,7 +116,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
 
   test "practice/show: renders correctly for external" do
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     get track_exercise_url(track, exercise)
     assert_template "tracks/exercises/show"
@@ -125,8 +125,8 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "practice/show: renders correctly for joined" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
-    exercise = create :practice_exercise, track: track
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -137,7 +137,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "practice/show: renders correctly for unjoined" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track
+    exercise = create(:practice_exercise, track:)
 
     sign_in!(user)
 
@@ -148,10 +148,10 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "edit: is fine if there's a solution" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track, slug: "hello-world"
+    exercise = create :practice_exercise, track:, slug: "hello-world"
 
-    create :user_track, user: user, track: track
-    create :practice_solution, user: user, exercise: exercise
+    create(:user_track, user:, track:)
+    create(:practice_solution, user:, exercise:)
 
     sign_in!(user)
 
@@ -162,9 +162,9 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "edit: creates a solution if one is missing" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track, slug: "hello-world"
+    exercise = create :practice_exercise, track:, slug: "hello-world"
 
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     sign_in!(user)
 
@@ -176,10 +176,10 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "edit: redirects if exercise is locked" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track, slug: "hello-world"
+    exercise = create :practice_exercise, track:, slug: "hello-world"
     UserTrack.any_instance.expects(:exercise_unlocked?).with(exercise).returns(false)
 
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     sign_in!(user)
 
@@ -190,7 +190,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "edit: redirects if track not joined" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track, slug: "hello-world"
+    exercise = create :practice_exercise, track:, slug: "hello-world"
 
     sign_in!(user)
 
@@ -201,7 +201,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "edit: redirects if there is no test runner" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
     exercise = create :practice_exercise, has_test_runner: false
 
     sign_in!(user)
@@ -213,7 +213,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "no_test_runner renders if there is no test runner" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
     exercise = create :practice_exercise, has_test_runner: false
 
     sign_in!(user)
@@ -225,7 +225,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "no_test_runner redirects if there is a test runner" do
     user = create :user
     track = create :track
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
     exercise = create :practice_exercise, has_test_runner: true
 
     sign_in!(user)

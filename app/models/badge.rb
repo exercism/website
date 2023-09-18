@@ -16,6 +16,14 @@ class Badge < ApplicationRecord
     }
   end
 
+  class << self
+    attr_reader :seed_data
+  end
+
+  def reseed!
+    update!(self.class.seed_data)
+  end
+
   # Badges are created on-demand, so if a new badge is added
   # to the code, it will get added to the database on first usage.
   #

@@ -13,7 +13,7 @@ class User::Notifications::ActivateTest < ActiveSupport::TestCase
 
   test "broadcasts message" do
     user = create :user
-    notification = create :notification, user: user
+    notification = create(:notification, user:)
     NotificationsChannel.expects(:broadcast_changed!).with(user)
 
     User::Notification::Activate.(notification)
@@ -21,7 +21,7 @@ class User::Notifications::ActivateTest < ActiveSupport::TestCase
 
   test "sends email" do
     user = create :user
-    notification = create :notification, user: user
+    notification = create(:notification, user:)
     User::Notification::SendEmail.expects(:call).with(notification)
 
     User::Notification::Activate.(notification)

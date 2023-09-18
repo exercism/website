@@ -16,7 +16,7 @@ class User::ReputationTokens::ConceptAuthorTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ConceptAuthorToken, rt.class
+    assert_instance_of User::ReputationTokens::ConceptAuthorToken, rt
     assert_equal "You authored <strong>#{concept.name}</strong>", rt.text
     assert_equal concept, rt.concept
     assert_equal track, rt.track

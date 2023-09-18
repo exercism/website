@@ -37,7 +37,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
       message:,
       tests:
     }
-    tr = create :submission_test_run, raw_results: raw_results
+    tr = create(:submission_test_run, raw_results:)
     assert_equal status.to_sym, tr.status
     assert_equal message, tr.message
     assert_equal version, tr.version
@@ -120,6 +120,19 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal test_as_hash, result.as_json(1, 2, 3) # Test with arbitary args
   end
 
+  test "test_results - name is stringified" do
+    name = { foo: 'bar' }
+    tests = [{ 'name' => name }]
+
+    tr = create :submission_test_run, raw_results: {
+      version: 2,
+      status: 'pass',
+      tests:
+    }
+    expected = JSON.parse(JSON.generate(name)).to_s
+    assert_equal expected, tr.test_results.first.to_h[:name]
+  end
+
   test "test_results - version 3" do
     name = "some name"
     status = "some status"
@@ -198,8 +211,8 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     ruby = create :track, slug: :ruby
     bob = create :practice_exercise, slug: :bob, track: ruby
     solution = create :practice_solution, exercise: bob
-    submission = create :submission, solution: solution
-    test_run = create :submission_test_run, git_sha: old_sha, submission: submission
+    submission = create(:submission, solution:)
+    test_run = create(:submission_test_run, git_sha: old_sha, submission:)
 
     # Assert that the hash has been created from the old sha
     # which is different to the latest sha.
@@ -212,7 +225,7 @@ class Submission::TestRunTest < ActiveSupport::TestCase
 
   test "track: inferred from submission" do
     submission = create :submission
-    test_run = create :submission_test_run, submission: submission
+    test_run = create(:submission_test_run, submission:)
 
     assert_equal submission.track, test_run.track
   end

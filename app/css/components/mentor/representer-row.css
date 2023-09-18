@@ -6,7 +6,7 @@
         @apply py-8 px-20;
 
         &:hover {
-            @apply bg-bgGray;
+            @apply bg-backgroundColorE;
         }
         &:first-child {
             @apply border-t-0;
@@ -67,14 +67,15 @@
             @apply text-right;
             width: 140px;
         }
-        & time {
-            @apply ml-32;
+
+        .--occurencies {
+            @apply mr-32;
         }
 
         & .--feedback-glimpse {
             @apply text-right mr-60 leading-150 text-textColor6;
             @apply truncate;
-            width: 400px;
+            width: 300px;
         }
 
         & .action-icon {

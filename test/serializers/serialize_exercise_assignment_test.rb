@@ -33,7 +33,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize general hints for practice exercise without hints" do
     exercise = create :practice_exercise, slug: 'allergies'
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     serialized = SerializeExerciseAssignment.(solution)
 
@@ -62,7 +62,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize overview for practice exercise without appends" do
     exercise = create :practice_exercise, slug: 'allergies'
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     serialized = SerializeExerciseAssignment.(solution)
 
@@ -253,7 +253,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize concept exercise without general hints" do
     exercise = create :concept_exercise, slug: 'numbers'
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     serialized = SerializeExerciseAssignment.(solution)
 
@@ -262,7 +262,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "serialize concept exercise with some tasks missing hints" do
     exercise = create :concept_exercise, slug: 'booleans'
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     serialized = SerializeExerciseAssignment.(solution)
 
@@ -282,7 +282,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
 
   test "uses solution git sha instead of exercise sha" do
     exercise = create :concept_exercise, slug: 'arrays', git_sha: '0913c69f21b3f81477337b259a21fb7278393bc1'
-    solution = create :concept_solution, exercise: exercise, git_sha: 'ef19c86ee73dfbd3df8f3d49251008783a51de91'
+    solution = create :concept_solution, exercise:, git_sha: 'ef19c86ee73dfbd3df8f3d49251008783a51de91'
 
     serialized = SerializeExerciseAssignment.(solution)
 

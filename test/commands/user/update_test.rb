@@ -3,7 +3,7 @@ require "test_helper"
 class User::UpdateTest < ActiveSupport::TestCase
   test "updates user and profile with hash" do
     user = create :user, name: "foobar"
-    profile = create :user_profile, user: user, twitter: "foobar123"
+    profile = create :user_profile, user:, twitter: "foobar123"
 
     User::Update.(
       user,
@@ -17,7 +17,7 @@ class User::UpdateTest < ActiveSupport::TestCase
 
   test "updates user and profile with params" do
     user = create :user, name: "foobar"
-    profile = create :user_profile, user: user, twitter: "foobar123"
+    profile = create :user_profile, user:, twitter: "foobar123"
 
     User::Update.(
       user,
@@ -42,14 +42,14 @@ class User::UpdateTest < ActiveSupport::TestCase
 
   test "updates profile with hash" do
     user = create :user, name: "foobar"
-    profile = create :user_profile, user: user, twitter: "foobar123"
+    profile = create :user_profile, user:, twitter: "foobar123"
     User::Update.(user, profile: { twitter: "iHiD2" })
     assert_equal 'iHiD2', profile.twitter
   end
 
   test "updates profile with params" do
     user = create :user, name: "foobar"
-    profile = create :user_profile, user: user, twitter: "foobar123"
+    profile = create :user_profile, user:, twitter: "foobar123"
     User::Update.(user, ActionController::Parameters.new(profile: { twitter: "iHiD2" }))
     assert_equal 'iHiD2', profile.twitter
   end

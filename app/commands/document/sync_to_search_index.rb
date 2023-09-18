@@ -8,7 +8,6 @@ class Document::SyncToSearchIndex
   def call
     Exercism.opensearch_client.index(
       index: Document::OPENSEARCH_INDEX,
-      type: 'document',
       id: doc.id,
       body: Document::CreateSearchIndexDocument.(doc)
     )

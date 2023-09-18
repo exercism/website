@@ -1,0 +1,47 @@
+.c-react-wrapper-insiders-status {
+    @apply min-h-[160px];
+}
+
+.c-insiders-prompt {
+    @apply flex py-8 px-20 gap-16;
+
+    @apply text-16 font-semibold leading-150;
+    @apply rounded-16 border-2;
+
+    &:before {
+        @apply w-[24px] h-[24px];
+        @apply self-center;
+        @apply flex-shrink-0;
+    }
+
+    &.--ineligible {
+        @apply mb-20;
+        @apply border-gradient border-2 text-textColor1;
+        @apply gap-8;
+        &:before {
+            content: "";
+            background: url("icons/lightbulb-idea.svg");
+            @apply bg-cover w-[24px] h-[24px];
+            filter: var(--notifications-active-filter);
+        }
+    }
+    &.--unset {
+        @apply mb-36;
+        @apply border-yellowPrompt text-yellowPrompt;
+        background-color: rgba(theme(colors.yellowPrompt), 0.16);
+        &:before {
+            content: url("icons/spinner-small.svg");
+            @apply filter-yellowPrompt;
+            animation: spin 2s linear infinite;
+        }
+    }
+    &.--already-insider {
+        @apply mb-36;
+        @apply border-greenPrompt text-greenPrompt;
+        background-color: rgba(theme(colors.greenPrompt), 0.16);
+        &:before {
+            content: url("icons/check-circle-2.svg");
+            @apply filter-greenPrompt;
+        }
+    }
+}

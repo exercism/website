@@ -16,7 +16,7 @@
         .seperator /
         .exercise-title= @concept.name
 
-    .lg-container.container
+    .lg-container.container.relative
       = render ViewComponents::ConceptIcon.new(@concept, :huge)
       .info
         %h1
@@ -26,17 +26,21 @@
         .exercises
           = graphical_icon(:exercises)
           = pluralize @user_track.num_exercises_for_concept(@concept), "exercise"
-      - unless @user_track.external?
-        .rhs.progress
-          .progress-text{ class: @user_track.concept_mastered?(@concept) ? 'completed' : '' }
-            #{@user_track.num_completed_exercises_for_concept(@concept)}/#{@user_track.num_exercises_for_concept(@concept)}
-            = 'exercise'.pluralize(@user_track.num_exercises_for_concept(@concept))
-            completed
-          .progress-exercises
-            - @concept_exercises.each do |exercise|
-              = render ReactComponents::Student::ExerciseStatusDot.new(exercise, @user_track)
-            - @practice_exercises.each do |exercise|
-              = render ReactComponents::Student::ExerciseStatusDot.new(exercise, @user_track)
+
+      .absolute{ style: 'right: var(--container-padding-x)', class: 'z-[10] top-[-31px]' }
+        = render ViewComponents::Partner::Advert.new(track: @track)
+      -#
+        - unless @user_track.external?
+          .rhs.progress
+            .progress-text{ class: @user_track.concept_mastered?(@concept) ? 'completed' : '' }
+              #{@user_track.num_completed_exercises_for_concept(@concept)}/#{@user_track.num_exercises_for_concept(@concept)}
+              = 'exercise'.pluralize(@user_track.num_exercises_for_concept(@concept))
+              completed
+            .progress-exercises
+              - @concept_exercises.each do |exercise|
+                = render ReactComponents::Student::ExerciseStatusDot.new(exercise, @user_track)
+              - @practice_exercises.each do |exercise|
+                = render ReactComponents::Student::ExerciseStatusDot.new(exercise, @user_track)
 
   .lg-container
     - if @user_track.concept_mastered?(@concept)

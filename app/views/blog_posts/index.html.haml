@@ -1,3 +1,4 @@
+- content_for :canonical_url, blog_posts_url
 #page-blog
   %header.pt-16.pb-24.md:pb-16.mb-32.md:mb-48
     .lg-container.flex.flex-col.md:flex-row.items-center
@@ -10,7 +11,7 @@
 
       .socials.flex.items-center.md:ml-24
         = link_to "https://github.com/exercism", class: 'c-social-icon' do
-          = graphical_icon 'external-site-github'
+          = graphical_icon 'external-site-github', css_class: 'filter-textColor1'
           GitHub
         = link_to "https://twitter.com/exercism_io", class: 'c-social-icon twitter' do
           = graphical_icon 'external-site-twitter'
@@ -33,7 +34,7 @@
           = graphical_icon 'arrow-right'
 
       .hidden.lg:block.lg:ml-48.self-start.main-image-link
-        = image_tag main_post.image_url, alt: "", role: "presentation", class: 'rounded-8 w-100'
+        = image_tag main_post.image_url, alt: "", class: 'rounded-8 w-100'
 
     %h2.text-h3.mb-24.md:mb-40 More posts from the community
     .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-4

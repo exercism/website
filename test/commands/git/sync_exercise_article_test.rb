@@ -36,7 +36,7 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
 
   test "updates article from config value" do
     exercise = create :practice_exercise
-    article = create :exercise_article, exercise: exercise
+    article = create(:exercise_article, exercise:)
     config = { uuid: article.uuid, slug: "new slug", title: "new title", blurb: "new blurb" }
 
     Git::SyncExerciseArticle.(exercise, config)
@@ -55,7 +55,7 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
     contributor_1 = create :user, :github
     contributor_2 = create :user, :github
     exercise = create :practice_exercise
-    article = create :exercise_article, exercise: exercise
+    article = create(:exercise_article, exercise:)
     article.update(authors: [author_1], contributors: [contributor_1])
     config = article.slice(:uuid, :slug, :title, :blurb).merge({
       authors: [author_1.github_username, author_2.github_username],
@@ -72,7 +72,7 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
   test "does not change updated_at when values haven't changed" do
     updated_at = Time.zone.now - 2.days
     exercise = create :practice_exercise
-    article = create :exercise_article, exercise: exercise, updated_at: updated_at, synced_to_git_sha: exercise.git.head_sha
+    article = create :exercise_article, exercise:, updated_at:, synced_to_git_sha: exercise.git.head_sha
     config = article.slice(:uuid, :slug, :title, :blurb)
 
     Git::SyncExerciseArticle.(exercise, config)

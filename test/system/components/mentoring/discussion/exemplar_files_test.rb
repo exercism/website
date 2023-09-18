@@ -10,10 +10,10 @@ module Components
         test "mentor sees exemplar files" do
           mentor = create :user
           exercise = create :concept_exercise, slug: "log-levels"
-          solution = create :concept_solution, exercise: exercise
-          discussion = create :mentor_discussion, solution: solution, mentor: mentor
-          submission = create :submission, solution: solution
-          create :iteration, solution: solution, submission: submission
+          solution = create(:concept_solution, exercise:)
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          submission = create(:submission, solution:)
+          create(:iteration, solution:, submission:)
 
           use_capybara_host do
             sign_in!(mentor)
@@ -22,7 +22,7 @@ module Components
 
             exercise.exemplar_files.each do |filename, content|
               assert_text filename.gsub(%r{^\.meta/}, '')
-              assert_text content
+              assert_text content, normalize_ws: false
             end
           end
         end
@@ -30,10 +30,10 @@ module Components
         test "mentor does not see exemplar files section if exemplar files are empty" do
           mentor = create :user
           exercise = create :practice_exercise, slug: "allergies"
-          solution = create :practice_solution, exercise: exercise
-          discussion = create :mentor_discussion, solution: solution, mentor: mentor
-          submission = create :submission, solution: solution
-          create :iteration, solution: solution, submission: submission
+          solution = create(:practice_solution, exercise:)
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          submission = create(:submission, solution:)
+          create(:iteration, solution:, submission:)
 
           use_capybara_host do
             sign_in!(mentor)

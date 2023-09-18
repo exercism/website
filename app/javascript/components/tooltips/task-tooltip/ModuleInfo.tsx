@@ -84,7 +84,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
           <h3>
             This task is about <strong>Representers</strong>.
             <p>
-              Representers create normalised versions of students&apos;
+              Representers create normalized versions of students&apos;
               submissions, which can have mentoring comments attached to them.
             </p>
           </h3>

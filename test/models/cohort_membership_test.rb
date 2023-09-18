@@ -14,14 +14,14 @@ class CohortMembershipTest < ActiveSupport::TestCase
     cohort = create :cohort, slug: 'gohort'
     other_cohort = create :cohort, slug: 'exhort'
 
-    create :cohort_membership, :on_waiting_list, cohort: cohort
-    create :cohort_membership, :on_waiting_list, cohort: cohort
-    create :cohort_membership, :on_waiting_list, cohort: cohort
+    create(:cohort_membership, :on_waiting_list, cohort:)
+    create(:cohort_membership, :on_waiting_list, cohort:)
+    create(:cohort_membership, :on_waiting_list, cohort:)
 
     # Sanity check: enrollment in other cohort does not count
-    create :cohort_membership, :on_waiting_list, cohort: other_cohort, user: user
+    create(:cohort_membership, :on_waiting_list, cohort: other_cohort, user:)
 
-    membership = create :cohort_membership, :on_waiting_list, cohort: cohort, user: user
+    membership = create(:cohort_membership, :on_waiting_list, cohort:, user:)
 
     assert_equal 4, membership.position_on_waiting_list
   end

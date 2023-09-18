@@ -4,7 +4,7 @@ class SerializeDocTest < ActiveSupport::TestCase
   test "serialize track doc" do
     freeze_time do
       track = create :track, slug: 'fsharp', title: "F#"
-      doc = create :document, slug: 'ruby/install', title: 'Ruby', blurb: 'Install Ruby', track: track
+      doc = create(:document, slug: 'ruby/install', title: 'Ruby', blurb: 'Install Ruby', track:)
 
       expected = {
         uuid: doc.uuid,
@@ -13,7 +13,7 @@ class SerializeDocTest < ActiveSupport::TestCase
         track: {
           slug: 'fsharp',
           title: 'F#',
-          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/fsharp.svg'
+          icon_url: 'https://assets.exercism.org/tracks/fsharp.svg'
         },
         updated_at: Time.current.iso8601,
         links: {

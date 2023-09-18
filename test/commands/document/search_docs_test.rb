@@ -41,7 +41,7 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.()
-    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(criteria: " ") # rubocop:disable Layout:LineLength
+    assert_equal [non_track_doc, ruby_doc_1, ruby_doc_2, elixir_doc], Document::SearchDocs.(criteria: " ") # :LineLength
     assert_equal [ruby_doc_1], Document::SearchDocs.(criteria: "install")
     assert_equal [ruby_doc_1], Document::SearchDocs.(criteria: "inst step")
     assert_equal [elixir_doc, ruby_doc_2], Document::SearchDocs.(criteria: "resources")
@@ -130,12 +130,12 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
 
   test "fallback is called" do
     Document::SearchDocs::Fallback.expects(:call).with("foobar", "csharp", 2, 15)
-    Elasticsearch::Client.expects(:new).raises
+    OpenSearch::Client.expects(:new).raises
 
     Document::SearchDocs.(criteria: "foobar", track_slug: "csharp", page: 2, per: 15)
   end
 
-  test "fallback is called when elasticsearch times out" do
+  test "fallback is called when OpenSearch times out" do
     # Simulate a timeout
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       Document::SearchDocs.any_instance.stubs(:search_query).returns({

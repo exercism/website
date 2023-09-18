@@ -32,8 +32,8 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(mentor)
 
     solution = create :concept_solution
-    discussion = create :mentor_discussion, mentor: mentor, solution: solution
-    create :iteration, solution: solution
+    discussion = create(:mentor_discussion, mentor:, solution:)
+    create(:iteration, solution:)
     get mentoring_discussion_path(discussion)
     assert_response :ok
   end
@@ -43,8 +43,8 @@ class Mentoring::DiscussionsControllerTest < ActionDispatch::IntegrationTest
     sign_in!(admin)
 
     solution = create :concept_solution
-    discussion = create :mentor_discussion, solution: solution
-    create :iteration, solution: solution
+    discussion = create(:mentor_discussion, solution:)
+    create(:iteration, solution:)
     get mentoring_discussion_path(discussion)
     assert_response :ok
   end

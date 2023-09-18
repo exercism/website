@@ -1,5 +1,6 @@
 - content_for :meta_title, "Exercism's Track Docs".html_safe
 - content_for :meta_description, "Everything you need to know about using #{@track.title} on Exercism."
+- content_for :canonical_url, track_docs_url(@track.slug)
 
 = render ViewComponents::DocsMainNav.new(:tracks)
 

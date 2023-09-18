@@ -96,14 +96,10 @@ test('cancels a pending submission', async () => {
   render(<Editor {...props} />)
 
   userEvent.click(screen.getByRole('button', { name: /Run Tests/ }))
-  await waitFor(() =>
-    expect(screen.getByText('Running tests...')).toBeInTheDocument()
-  )
+  expect(await screen.findByText('Running tests...')).toBeInTheDocument()
   userEvent.click(await screen.findByRole('button', { name: /cancel/i }))
 
-  await waitFor(() =>
-    expect(screen.getByText('Test run cancelled')).toBeInTheDocument()
-  )
+  expect(await screen.findByText('Test run cancelled')).toBeInTheDocument()
 })
 test('makes editor readonly while submitting tests', async () => {
   const props = buildEditor()

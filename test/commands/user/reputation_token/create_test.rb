@@ -123,7 +123,7 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
 
   test "does not award contributor token if category is publishing" do
     user = create :user
-    solution = create :practice_solution, :published, user: user
+    solution = create(:practice_solution, :published, user:)
 
     # The published reputation token's category is publishing
     User::ReputationToken::Create.(
@@ -150,5 +150,18 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
 
     perform_enqueued_jobs
     refute_includes user.reload.badges.map(&:class), Badges::ContributorBadge
+  end
+
+  test "resets user cache" do
+    user = create :user, handle: "User22", github_username: "user22"
+    contributorship = create :exercise_contributorship, contributor: user
+
+    assert_user_data_cache_reset(user, :has_unseen_reputation_tokens?, true) do
+      User::ReputationToken::Create.(
+        user,
+        :exercise_contribution,
+        contributorship:
+      )
+    end
   end
 end

@@ -4,7 +4,7 @@ class SerializeUserAcquiredBadgesTest < ActiveSupport::TestCase
   test "basic request" do
     user = create :user
     badge = create :rookie_badge
-    acquired_badge = create :user_acquired_badge, revealed: false, badge: badge, user: user
+    acquired_badge = create(:user_acquired_badge, revealed: false, badge:, user:)
 
     expected = [
       {

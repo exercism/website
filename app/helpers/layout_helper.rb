@@ -7,11 +7,6 @@ module LayoutHelper
     ].compact
   end
 
-  def deferred_js_packs
-    all = %w[application internal]
-    all - js_packs
-  end
-
   # Always include application in the JS pack
   def css_packs
     (js_packs + ['application']).uniq

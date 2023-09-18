@@ -1,0 +1,14 @@
+.c-admin-table
+  .lg-container
+    %h1.text-h1.mb-8 Insiders
+    %ul.text-p-base
+      %li
+        Num Subscribers:
+        = @num_subscribers
+
+      %li
+        Total recurring donations:
+        = number_to_currency @total_recurring_amount_in_dollars
+
+
+

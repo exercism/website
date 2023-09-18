@@ -26,8 +26,15 @@ class User::BootstrapTest < ActiveSupport::TestCase
 
     assert_equal 1, Metric.count
     metric = Metric.last
-    assert_equal Metrics::SignUpMetric, metric.class
+    assert_instance_of Metrics::SignUpMetric, metric
     assert_equal user.created_at, metric.occurred_at
     assert_equal user, metric.user
+  end
+
+  test "email verified for new user" do
+    user = create :user
+
+    User::VerifyEmail.expects(:defer).with(user).once
+    User::Bootstrap.(user)
   end
 end

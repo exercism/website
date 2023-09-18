@@ -3,7 +3,7 @@ require 'test_helper'
 class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
   test "generate for concept exercise" do
     exercise = create :concept_exercise
-    solution = create :concept_solution, exercise: exercise
+    solution = create(:concept_solution, exercise:)
 
     contents = Solution::GenerateHelpFile.(solution)
     expected = <<~EXPECTED.strip
@@ -40,7 +40,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
   test "generate for practice exercise" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
 
     contents = Solution::GenerateHelpFile.(solution)
     expected = <<~EXPECTED.strip
@@ -77,7 +77,7 @@ class Solution::GenerateHelpFileTest < ActiveSupport::TestCase
 
   test "generate for exercise with multiple solution files" do
     exercise = create :practice_exercise
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
     Git::Exercise.any_instance.stubs(:solution_filepaths).returns(['bob.rb', 'lib.rb'])
 
     contents = Solution::GenerateHelpFile.(solution)

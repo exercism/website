@@ -4,7 +4,7 @@ import RelativeTime from 'dayjs/plugin/relativeTime'
 import pluralize from 'pluralize'
 dayjs.extend(RelativeTime)
 
-export function fromNow(date: ConfigType) {
+export function fromNow(date: ConfigType, titleize = false): string {
   const now = dayjs()
   const from = dayjs(date)
 
@@ -22,8 +22,8 @@ export function fromNow(date: ConfigType) {
   } else if (days > 1) {
     return `${days} ${pluralize('days', weeks)} ago`
   } else if (days === 1) {
-    return 'yesterday'
+    return titleize ? 'Yesterday' : 'yesterday'
   } else {
-    return 'today'
+    return titleize ? 'Today' : 'today'
   }
 }

@@ -4,9 +4,9 @@ class Mentor::RequestTest < ActiveSupport::TestCase
   test "materialises columns correctly" do
     student = create :user, handle: "someone"
     track = create :track, slug: "foobar"
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, user: student, exercise: exercise
-    req = create :mentor_request, solution: solution
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, user: student, exercise:)
+    req = create(:mentor_request, solution:)
     assert_equal student.id, req.student_id
     assert_equal track.id, req.track_id
     assert_equal exercise.id, req.exercise_id
@@ -22,7 +22,7 @@ class Mentor::RequestTest < ActiveSupport::TestCase
     refute request.locked?
 
     # Current Lock
-    create :mentor_request_lock, request: request, locked_by: create(:user)
+    create :mentor_request_lock, request:, locked_by: create(:user)
     assert request.locked?
   end
 
@@ -42,11 +42,11 @@ class Mentor::RequestTest < ActiveSupport::TestCase
     assert request.lockable_by?(mentor)
 
     # Locked by mentor
-    create :mentor_request_lock, request: request, locked_by: mentor
+    create :mentor_request_lock, request:, locked_by: mentor
     assert request.lockable_by?(mentor)
 
     # Active lock by other user
-    create :mentor_request_lock, request: request, locked_by: create(:user)
+    create :mentor_request_lock, request:, locked_by: create(:user)
     refute request.lockable_by?(mentor)
   end
 

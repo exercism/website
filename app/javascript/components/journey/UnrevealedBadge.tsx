@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import { Badge as BadgeProps } from '../types'
 import { useMutation, QueryKey, useQueryCache } from 'react-query'
-import { FormButton } from '../common'
-import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { PaginatedResult } from '../common/SearchableList'
-import { BadgeModal } from '../modals/BadgeModal'
+import { typecheck } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
+import { BadgeModal } from '@/components/modals/BadgeModal'
+import type { Badge as BadgeProps, PaginatedResult } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to reveal badge')
 
@@ -39,9 +38,8 @@ export const UnrevealedBadge = ({
   )
 
   const updateCache = useCallback(() => {
-    const oldData = queryCache.getQueryData<PaginatedResult<BadgeProps>>(
-      cacheKey
-    )
+    const oldData =
+      queryCache.getQueryData<PaginatedResult<BadgeProps[]>>(cacheKey)
 
     if (!oldData || !revealedBadge) {
       return

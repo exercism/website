@@ -1,14 +1,9 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { typecheck } from '../../../../utils/typecheck'
-import { redirectTo } from '../../../../utils/redirect-to'
-import { FormButton } from '../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
-
-type Links = {
-  cancel: string
-}
+import { typecheck, redirectTo } from '@/utils'
+import { sendRequest } from '@/utils/send-request'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 type APIResponse = {
   links: {
@@ -19,16 +14,16 @@ type APIResponse = {
 const DEFAULT_ERROR = new Error('Unable to cancel subscription')
 
 export const CancellingOption = ({
-  links,
+  cancelLink,
   onClose,
 }: {
-  links: Links
+  cancelLink: string
   onClose: () => void
 }): JSX.Element => {
   const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
-        endpoint: links.cancel,
+        endpoint: cancelLink,
         method: 'PATCH',
         body: null,
       })

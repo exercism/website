@@ -5,13 +5,13 @@ class UserTrack::GenerateSummaryData::CompletedExercisesTest < ActiveSupport::Te
     freeze_time do
       track = create :track
       user = create :user
-      user_track = create :user_track, track: track, user: user
-      pe_1 = create :practice_exercise, track: track, slug: 'bob'
-      pe_2 = create :practice_exercise, track: track, slug: 'food'
-      pe_3 = create :practice_exercise, track: track, slug: 'lasagna'
-      create :practice_solution, user: user, completed_at: Time.current - 1.week, exercise: pe_1
-      create :practice_solution, user: user, completed_at: Time.current - 2.weeks, exercise: pe_2
-      create :practice_solution, user: user, exercise: pe_3
+      user_track = create(:user_track, track:, user:)
+      pe_1 = create :practice_exercise, track:, slug: 'bob'
+      pe_2 = create :practice_exercise, track:, slug: 'food'
+      pe_3 = create :practice_exercise, track:, slug: 'lasagna'
+      create :practice_solution, user:, completed_at: Time.current - 1.week, exercise: pe_1
+      create :practice_solution, user:, completed_at: Time.current - 2.weeks, exercise: pe_2
+      create :practice_solution, user:, exercise: pe_3
 
       summary = summary_for(user_track)
       assert_equal [

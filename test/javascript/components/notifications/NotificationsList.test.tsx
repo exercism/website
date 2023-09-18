@@ -5,7 +5,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { NotificationsList } from '../../../../app/javascript/components/notifications/NotificationsList'
+import { default as NotificationsList } from '@/components/notifications/NotificationsList'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { deferred } from '../../support/deferred'

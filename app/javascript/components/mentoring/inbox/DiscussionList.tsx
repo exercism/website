@@ -1,9 +1,10 @@
 import React from 'react'
-import { Pagination, Loading, GraphicalIcon } from '../../common'
-import { Discussion } from './Discussion'
-import { APIResponse } from '../Inbox'
 import { QueryStatus } from 'react-query'
-import { RefetchOptions } from 'react-query/types/core/query'
+import type { RefetchOptions } from 'react-query/types/core/query'
+import { useScrollToTop } from '@/hooks'
+import { Pagination, Loading, GraphicalIcon } from '@/components/common'
+import { Discussion } from './Discussion'
+import type { APIResponse } from '../Inbox'
 
 type Links = {
   queue: string
@@ -24,6 +25,10 @@ export const DiscussionList = ({
   refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
   links: Links
 }): JSX.Element => {
+  const scrollToTopRef = useScrollToTop<HTMLDivElement>(
+    resolvedData?.meta.currentPage
+  )
+
   return (
     <div>
       {status === 'loading' && <Loading />}
@@ -47,7 +52,7 @@ export const DiscussionList = ({
             </div>
           </>
         ) : (
-          <div className="--conversations">
+          <div className="--conversations" ref={scrollToTopRef}>
             {resolvedData && (
               <React.Fragment>
                 {resolvedData.results.map((discussion, key) => (

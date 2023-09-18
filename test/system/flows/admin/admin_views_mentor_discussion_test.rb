@@ -11,11 +11,11 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise, slug: "lasagna"
-        solution = create :concept_solution, exercise: exercise, user: student
-        submission = create :submission, solution: solution
-        create :submission_file, submission: submission, filename: 'lasagna.rb', content: "def expected_time"
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, submission: submission, solution: solution
+        solution = create :concept_solution, exercise:, user: student
+        submission = create(:submission, solution:)
+        create :submission_file, submission:, filename: 'lasagna.rb', content: "def expected_time"
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        create(:iteration, submission:, solution:)
 
         use_capybara_host do
           sign_in!(admin)

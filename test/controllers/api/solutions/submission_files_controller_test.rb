@@ -42,10 +42,10 @@ class API::Solutions::SubmissionFilesControllerTest < API::BaseTestCase
     mentor = create :user
     setup_user(mentor)
     solution = create :concept_solution
-    iteration = create :iteration, solution: solution
-    create :mentor_discussion, solution: solution, mentor: mentor
-    submission = create :submission, solution: solution, iteration: iteration
-    file = create :submission_file, filename: "bob.rb", content: "class Bob", submission: submission
+    iteration = create(:iteration, solution:)
+    create(:mentor_discussion, solution:, mentor:)
+    submission = create(:submission, solution:, iteration:)
+    file = create(:submission_file, filename: "bob.rb", content: "class Bob", submission:)
 
     sign_in(mentor)
     get api_solution_submission_files_path(solution.uuid, submission),

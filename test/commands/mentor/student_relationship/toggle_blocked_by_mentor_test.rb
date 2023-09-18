@@ -11,7 +11,7 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
+    create(:mentor_discussion, mentor:, solution:)
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(mentor, student, true)
 
@@ -25,7 +25,7 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
+    create(:mentor_discussion, mentor:, solution:)
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(mentor, student, false)
 
@@ -39,8 +39,8 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
-    rel = create :mentor_student_relationship, mentor: mentor, student: student, blocked_by_mentor: false
+    create(:mentor_discussion, mentor:, solution:)
+    rel = create :mentor_student_relationship, mentor:, student:, blocked_by_mentor: false
     refute rel.blocked_by_mentor?
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(rel.mentor, rel.student, true)
@@ -52,8 +52,8 @@ class Mentor::StudentRelationship::ToggleBlockedByMentorTest < ActiveSupport::Te
     mentor = create :user
     student = create :user
     solution = create :concept_solution, user: student
-    create :mentor_discussion, mentor: mentor, solution: solution
-    rel = create :mentor_student_relationship, mentor: mentor, student: student, blocked_by_mentor: true
+    create(:mentor_discussion, mentor:, solution:)
+    rel = create :mentor_student_relationship, mentor:, student:, blocked_by_mentor: true
     assert rel.blocked_by_mentor?
 
     Mentor::StudentRelationship::ToggleBlockedByMentor.(rel.mentor, rel.student, false)

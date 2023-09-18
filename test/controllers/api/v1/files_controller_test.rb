@@ -35,19 +35,19 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     solution = create :practice_solution, :published
 
     filename = "meh"
-    old_submission = create :submission, solution: solution
-    create :submission_file, submission: old_submission, filename: filename, content: "old-code"
+    old_submission = create(:submission, solution:)
+    create :submission_file, submission: old_submission, filename:, content: "old-code"
 
-    deleted_iteration_submission = create :submission, solution: solution
-    create :submission_file, submission: deleted_iteration_submission, filename: filename, content: "deleted-code"
-    create :iteration, solution: solution, submission: deleted_iteration_submission, deleted_at: Time.current
+    deleted_iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: deleted_iteration_submission, filename:, content: "deleted-code"
+    create :iteration, solution:, submission: deleted_iteration_submission, deleted_at: Time.current
 
-    second_deleted_iteration_submission = create :submission, solution: solution
-    create :submission_file, submission: second_deleted_iteration_submission, filename: filename, content: "more-deleted-code"
-    create :iteration, solution: solution, submission: second_deleted_iteration_submission, deleted_at: Time.current
+    second_deleted_iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: second_deleted_iteration_submission, filename:, content: "more-deleted-code"
+    create :iteration, solution:, submission: second_deleted_iteration_submission, deleted_at: Time.current
 
-    new_submission = create :submission, solution: solution
-    create :submission_file, submission: new_submission, filename: filename, content: "new-code"
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: "new-code"
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
     assert_response :not_found
@@ -70,9 +70,9 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    submission = create :submission, solution: solution
+    submission = create(:submission, solution:)
     content = "foobar!!"
-    file = create :submission_file, submission: submission, content: content
+    file = create(:submission_file, submission:, content:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{file.filename}", headers: @headers, as: :json
     assert_response :ok
@@ -84,16 +84,16 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     solution = create :practice_solution, user: @current_user
 
     filename = "meh"
-    old_submission = create :submission, solution: solution
-    create :submission_file, submission: old_submission, filename: filename, content: "old-code"
+    old_submission = create(:submission, solution:)
+    create :submission_file, submission: old_submission, filename:, content: "old-code"
 
-    iteration_submission = create :submission, solution: solution
-    create :submission_file, submission: iteration_submission, filename: filename, content: "iteration-code"
-    create :iteration, solution: solution, submission: iteration_submission
+    iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: iteration_submission, filename:, content: "iteration-code"
+    create :iteration, solution:, submission: iteration_submission
 
     correct_content = "new-code"
-    new_submission = create :submission, solution: solution
-    create :submission_file, submission: new_submission, filename: filename, content: correct_content
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: correct_content
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
     assert_response :ok
@@ -105,20 +105,20 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     solution = create :practice_solution, :published
 
     filename = "meh"
-    old_submission = create :submission, solution: solution
-    create :submission_file, submission: old_submission, filename: filename, content: "old-code"
+    old_submission = create(:submission, solution:)
+    create :submission_file, submission: old_submission, filename:, content: "old-code"
 
     correct_content = "iteration-code"
-    iteration_submission = create :submission, solution: solution
-    create :submission_file, submission: iteration_submission, filename: filename, content: correct_content
-    create :iteration, solution: solution, submission: iteration_submission
+    iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: iteration_submission, filename:, content: correct_content
+    create :iteration, solution:, submission: iteration_submission
 
-    deleted_iteration_submission = create :submission, solution: solution
-    create :submission_file, submission: deleted_iteration_submission, filename: filename, content: "deleted-code"
-    create :iteration, solution: solution, submission: deleted_iteration_submission, deleted_at: Time.current
+    deleted_iteration_submission = create(:submission, solution:)
+    create :submission_file, submission: deleted_iteration_submission, filename:, content: "deleted-code"
+    create :iteration, solution:, submission: deleted_iteration_submission, deleted_at: Time.current
 
-    new_submission = create :submission, solution: solution
-    create :submission_file, submission: new_submission, filename: filename, content: "new-code"
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: "new-code"
 
     get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
     assert_response :ok
@@ -128,8 +128,8 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special README.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    submission = create :submission, solution: solution
-    create :iteration, solution: solution, submission: submission
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/README.md", headers: @headers, as: :json
     assert_response :ok
@@ -173,8 +173,8 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special HELP.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    submission = create :submission, solution: solution
-    create :iteration, solution: solution, submission: submission
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/HELP.md", headers: @headers, as: :json
     assert_response :ok
@@ -214,8 +214,8 @@ class API::V1::FilesControllerTest < API::BaseTestCase
   test "show should return special HINTS.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user
-    submission = create :submission, solution: solution
-    create :iteration, solution: solution, submission: submission
+    submission = create(:submission, solution:)
+    create(:iteration, solution:, submission:)
 
     get "/api/v1/solutions/#{solution.uuid}/files/HINTS.md", headers: @headers, as: :json
     assert_response :ok

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
-import { FormButton } from '@/components/common'
+import { sendRequest } from '@/utils/send-request'
+import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { MentorDiscussion } from '@/components/types'
 

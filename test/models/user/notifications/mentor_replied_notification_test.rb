@@ -4,9 +4,9 @@ class User::Notifications::MentorRepliedToDiscussionNotificationTest < ActiveSup
   test "keys are valid" do
     user = create :user
     track = create :track
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, exercise: exercise, user: user
-    iteration = create :iteration, solution: solution
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, exercise:, user:)
+    iteration = create(:iteration, solution:)
     mentor = create(:user)
     discussion_post = create(:mentor_discussion_post, iteration:, author: mentor)
 

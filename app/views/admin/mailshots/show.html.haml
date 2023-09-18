@@ -1,0 +1,41 @@
+.lg-container
+  %h1.text-h1= @mailshot.slug
+
+  .text-h6.mb-8 Slug: #{@mailshot.slug}
+  .text-h6.mb-8 Subject: #{@mailshot.subject}
+  .text-h6.mb-8 Preference Key: #{@mailshot.email_communication_preferences_key}
+  .text-h6.mb-8 Num Sends: #{@send_count}
+  .text-h6.mb-8 Created at: #{format_date(@mailshot.created_at)}
+  .text-h6.mb-8 Test Sent?: #{@mailshot.test_sent ? 'Yes' : 'No'}
+
+  - if @mailshot.sent_to_audiences.present?
+    %h3.text-h3.mb-12 Sent to audiences
+    %ul.text-h6.mb-20
+      - @mailshot.sent_to_audiences.each do |audience|
+        %li= audience
+
+  %hr.my-24
+
+  %h2.text-h3.mb-12 Sending Options
+  .flex.flex-col
+    - if flash[:mailshot_status]
+      .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:mailshot_status]
+    = button_to "Send test", send_test_admin_mailshot_path(@mailshot), method: :patch, class: 'btn btn-standard btn-base'
+
+    - if @mailshot.test_sent?
+      = form_tag send_to_audience_admin_mailshot_path, method: :patch, class: "flex flex-row items-center mt-20", data: { turbo_confirm: "Are you sure you want to send it to this audience?" } do
+        .c-select
+          = select_tag :audience, options_for_select(@audiences.map { |a| (a1 = a.split("#")) && [[a1[0].titleize, a1[1]].compact.join(": "), a] })
+        = button_tag "Send to audience", class: 'btn btn-standard btn-base ml-8'
+
+  %hr.my-24
+
+  .flex
+    = link_to "Edit this mailshot", edit_admin_mailshot_path(@mailshot), class: 'btn btn-standard btn-base'
+    = link_to "Preview HTML", "/rails/mailers/mailshots/mailshot.html?slug=#{@mailshot.slug}", rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
+    = link_to "Preview Text", "/rails/mailers/mailshots/mailshot.txt?slug=#{@mailshot.slug}", rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
+    - if @send_count.zero?
+      |
+      = button_to "Destroy this mailshot", [:admin, @mailshot], method: :delete, data: { confirm: "Are you sure? Destroy #{@mailshot.slug}?" }, class: 'btn btn-warning'
+    |
+    = link_to "Back to all mailshots", admin_mailshots_path, class: 'btn btn-standard btn-base'

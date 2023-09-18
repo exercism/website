@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react'
-import { State, Action } from '../use-image-crop'
 import { useMutation } from 'react-query'
-import { typecheck } from '../../../../utils/typecheck'
-import { FormButton, GraphicalIcon } from '../../../common'
-import { ResultsZone } from '../../../ResultsZone'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
-import { User } from '../../../types'
 import { camelizeKeys } from 'humps'
+import { typecheck } from '@/utils/typecheck'
+import { GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ResultsZone } from '@/components/ResultsZone'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { User } from '@/components/types'
+import { State, Action } from '../use-image-crop'
 
 type Links = {
   update: string

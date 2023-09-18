@@ -9,7 +9,7 @@ module Components
       test "shows badges" do
         user = create :user
         rookie_badge = create :rookie_badge
-        create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user
+        create(:user_acquired_badge, revealed: true, badge: rookie_badge, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -23,9 +23,9 @@ module Components
         User::AcquiredBadge::Search.stubs(:default_per).returns(1)
         user = create :user
         member_badge = create :member_badge
-        create :user_acquired_badge, revealed: true, badge: member_badge, user: user
+        create(:user_acquired_badge, revealed: true, badge: member_badge, user:)
         rookie_badge = create :rookie_badge
-        create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user
+        create(:user_acquired_badge, revealed: true, badge: rookie_badge, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -45,9 +45,9 @@ module Components
         User::AcquiredBadge::Search.stubs(:default_per).returns(1)
         user = create :user
         rookie_badge = create :rookie_badge
-        create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user
+        create(:user_acquired_badge, revealed: true, badge: rookie_badge, user:)
         member_badge = create :member_badge
-        create :user_acquired_badge, revealed: true, badge: member_badge, user: user
+        create(:user_acquired_badge, revealed: true, badge: member_badge, user:)
 
         use_capybara_host do
           sign_in!(user)
@@ -63,9 +63,9 @@ module Components
       test "searches badges" do
         user = create :user
         rookie_badge = create :rookie_badge
-        create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user, created_at: 1.day.ago
+        create :user_acquired_badge, revealed: true, badge: rookie_badge, user:, created_at: 1.day.ago
         member_badge = create :member_badge
-        create :user_acquired_badge, revealed: true, badge: member_badge, user: user, created_at: 2.days.ago
+        create :user_acquired_badge, revealed: true, badge: member_badge, user:, created_at: 2.days.ago
 
         use_capybara_host do
           sign_in!(user)
@@ -80,9 +80,9 @@ module Components
       test "works on refresh" do
         user = create :user
         rookie_badge = create :rookie_badge
-        create :user_acquired_badge, revealed: true, badge: rookie_badge, user: user, created_at: 1.day.ago
+        create :user_acquired_badge, revealed: true, badge: rookie_badge, user:, created_at: 1.day.ago
         member_badge = create :member_badge
-        create :user_acquired_badge, revealed: true, badge: member_badge, user: user, created_at: 2.days.ago
+        create :user_acquired_badge, revealed: true, badge: member_badge, user:, created_at: 2.days.ago
 
         use_capybara_host do
           sign_in!(user)

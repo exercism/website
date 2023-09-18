@@ -3,9 +3,9 @@ require_relative "../react_component_test_case"
 class ReactComponents::Student::SolutionSummaryTest < ReactComponentTestCase
   test "component renders correctly" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise
-    iteration = create :iteration, solution: solution
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    iteration = create(:iteration, solution:)
 
     component = ReactComponents::Student::SolutionSummary.new(solution).to_s
 
@@ -48,9 +48,9 @@ class ReactComponents::Student::SolutionSummaryTest < ReactComponentTestCase
 
   test "link for in progress discussion" do
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise
-    discussion = create :mentor_discussion, solution: solution
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    discussion = create(:mentor_discussion, solution:)
 
     component = ReactComponents::Student::SolutionSummary.new(solution).to_s
     data = component.gsub("&quot;", '"')
@@ -68,7 +68,7 @@ class ReactComponents::Student::SolutionSummaryTest < ReactComponentTestCase
     assert_includes component.to_s, ERB::Util.unwrapped_html_escape('"type":"practice"')
 
     exercise = create :practice_exercise, slug: "hello-world"
-    solution = create :practice_solution, exercise: exercise
+    solution = create(:practice_solution, exercise:)
     component = ReactComponents::Student::SolutionSummary.new(solution).to_s
     assert_includes component.to_s, ERB::Util.unwrapped_html_escape('"type":"tutorial"')
   end

@@ -40,7 +40,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "with learning tracks" do
     track = create :track
     user = create :user
-    user_track = create :user_track, user: user, track: track
+    user_track = create(:user_track, user:, track:)
     UserTrack.any_instance.expects(num_exercises: 10)
     UserTrack.any_instance.expects(num_completed_exercises: 5)
     UserTrack.any_instance.expects(num_concepts_learnt: 2)
@@ -71,7 +71,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "progress charts - year" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     dates = []
     values = [1, 3, 4, 2, 1, 3, 4, 5, 2, 3, 5, 9]
@@ -93,7 +93,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
 
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     # Create a dates array containing values for each period
     dates = []
@@ -116,7 +116,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
 
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     # Create a dates array containing values for each period
     dates = []
@@ -139,7 +139,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
 
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     # Create a dates array containing values for each period
     dates = []
@@ -162,7 +162,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
 
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     # Create a dates array containing values for each period
     dates = []
@@ -187,10 +187,10 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     mentor = create :user
     student_1 = create :user
     student_2 = create :user
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_1, track: ruby)
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_1, track: js)
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_2, track: js)
-    create :mentor_discussion, mentor: mentor, solution: create(:practice_solution, user: student_1, track: js)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_1, track: ruby)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_1, track: js)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_2, track: js)
+    create :mentor_discussion, mentor:, solution: create(:practice_solution, user: student_1, track: js)
 
     # Unused records to ensure they're filtered
     create :mentor_discussion, solution: create(:practice_solution, user: student_2, track: js)
@@ -227,7 +227,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
   test "mentoring" do
     track = create :track
     user = create :user
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
     create :mentor_discussion, :awaiting_student, solution: create(:practice_solution, user:, track:)
     create :mentor_discussion, :awaiting_mentor, solution: create(:practice_solution, user:, track:)
     create :mentor_discussion, :mentor_finished, solution: create(:practice_solution, user:, track:)

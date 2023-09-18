@@ -16,7 +16,7 @@ class User::ReputationTokens::ExerciseContributionTokenTest < ActiveSupport::Tes
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseContributionToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseContributionToken, rt
     assert_equal "You contributed to <strong>#{exercise.title}</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

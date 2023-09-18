@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from './Modal'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { useConfirmation } from '../../hooks/use-confirmation'
-import { redirectTo } from '../../utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { useConfirmation } from '@/hooks/use-confirmation'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { FormButton } from '@/components/common/FormButton'
+import { Modal, ModalProps } from './Modal'
 
 type APIResponse = {
   links: {

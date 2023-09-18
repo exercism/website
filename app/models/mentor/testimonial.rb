@@ -19,8 +19,9 @@ class Mentor::Testimonial < ApplicationRecord
   scope :revealed, -> { where(revealed: true) }
   scope :unrevealed, -> { where(revealed: false) }
 
-  # TODO
+  # TODO: Move to command
   def soft_destroy!(time: Time.current)
     update!(deleted_at: time)
+    User::ResetCache.defer(mentor, :num_testimonials)
   end
 end

@@ -8,7 +8,7 @@ module Flows
 
       test "user resets api token" do
         user = create :user
-        create :user_auth_token, user: user
+        create(:user_auth_token, user:)
 
         use_capybara_host do
           sign_in!(user)

@@ -37,14 +37,7 @@
             height: 16px;
             width: 16px;
             @apply mr-12;
+            @apply filter-textColor6;
         }
-    }
-
-    & > .--spinner {
-        @apply self-center;
-        height: 30px;
-        width: 30px;
-        animation: spin 3s linear infinite;
-        filter: var(--textColor7-filter);
     }
 }

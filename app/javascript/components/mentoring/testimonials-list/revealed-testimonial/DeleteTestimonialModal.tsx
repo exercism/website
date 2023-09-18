@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react'
-import { QueryKey, useQueryCache } from 'react-query'
-import { Modal, ModalProps } from '../../../modals/Modal'
-import { Testimonial } from '../../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { FormButton } from '../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { QueryKey, useQueryCache, useMutation } from 'react-query'
+import { sendRequest } from '@/utils/send-request'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { Testimonial } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { PaginatedResult } from '../../TestimonialsList'
 
 const DEFAULT_ERROR = new Error('Unable to delete testimonial')

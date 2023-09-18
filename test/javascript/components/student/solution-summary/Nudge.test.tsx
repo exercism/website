@@ -2,11 +2,8 @@ import React from 'react'
 import { render } from '../../../test-utils'
 import { waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { Nudge } from '../../../../../app/javascript/components/student/Nudge'
-import {
-  SolutionMentoringStatus,
-  SolutionStatus,
-} from '../../../../../app/javascript/components/types'
+import { default as Nudge } from '@/components/student/Nudge'
+import { SolutionMentoringStatus, SolutionStatus } from '@/components/types'
 
 test('does not animate on initial load', async () => {
   const solution = {

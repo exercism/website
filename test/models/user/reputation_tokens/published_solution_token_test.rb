@@ -16,7 +16,7 @@ class User::ReputationTokens::PublishedSolutionTokenTest < ActiveSupport::TestCa
     assert_equal 1, student.reputation_tokens.size
     rt = student.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::PublishedSolutionToken, rt.class
+    assert_instance_of User::ReputationTokens::PublishedSolutionToken, rt
     assert_equal "You published your solution to <strong>#{exercise.title}</strong> in <strong>#{exercise.track.title}</strong>", rt.text # rubocop:disable Layout/LineLength
     assert_equal "#{student.id}|published_solution|Solution##{solution.id}", rt.uniqueness_key
     assert_equal :publishing, rt.category

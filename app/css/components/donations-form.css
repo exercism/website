@@ -17,7 +17,7 @@
         & .c-tab {
             @apply py-20;
             @apply w-1-2;
-            @apply text-18 leading-160 text-textColor6 font-semibold;
+            @apply md:text-18 text-16 leading-160 text-textColor6 font-semibold;
             @apply bg-backgroundColorG;
             @apply border-b-3 border-borderColor6;
 
@@ -31,10 +31,10 @@
 
             &.selected {
                 @apply bg-backgroundColorA;
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
                 @apply shadow-xsZ1;
                 @apply z-1;
-                @apply border-lightBlue;
+                @apply border-prominentLinkColor;
             }
         }
     }
@@ -45,8 +45,10 @@
 
         & .existing-subscription {
             @apply bg-lightOrange;
+            background: var(--backgroundColorCAlert);
+            color: var(--textColorCAlert);
             @apply border-2 border-orange rounded-8;
-            @apply text-brown text-15 leading-150;
+            @apply text-15 leading-150;
             @apply py-12 px-24 mx-24 mt-24 mb-16;
             & strong {
                 @apply font-medium text-15;
@@ -56,7 +58,8 @@
             }
         }
         & .extra-cta {
-            @apply bg-lightPurple rounded-8;
+            @apply rounded-8;
+            background: var(--backgroundColorBorderGradientLightPurple);
             @apply text-textColor6 font-medium text-center leading-150;
             @apply py-4 px-24 mx-24;
             & button {
@@ -69,7 +72,7 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.6);
+            background: var(--backgroundColorDonationFormCover);
             @apply z-overlay;
             @apply cursor-not-allowed;
         }
@@ -84,9 +87,9 @@
                     @apply text-textColor6;
 
                     &.selected {
-                        @apply text-lightBlue;
-                        @apply bg-veryLightBlue2;
-                        @apply border-2 border-lightBlue;
+                        @apply text-prominentLinkColor;
+                        @apply border-2 border-prominentLinkColor;
+                        background: var(--backgroundColorDonationsFormSelected);
                     }
                 }
             }
@@ -104,12 +107,12 @@
                     line-height: 34px;
                 }
                 &.selected {
-                    @apply bg-veryLightBlue2;
-                    @apply border-1 border-lightBlue;
+                    background: var(--backgroundColorDonationsFormSelected);
+                    @apply border-1 border-prominentLinkColor;
                     box-shadow: 0px 0px 0px 1px #2e57e8,
                         0px 0px 2px 2px var(--inputBoxShadowColorFocus);
                     & input {
-                        @apply text-lightBlue font-semibold;
+                        @apply text-prominentLinkColor font-semibold;
                     }
                 }
             }
@@ -145,19 +148,10 @@
 
                 & button {
                     @apply mt-12 w-100;
-                    & .c-icon {
-                        animation: spin 3s linear infinite;
-                    }
                 }
             }
         }
-        & .card-error {
-            @apply mt-16 text-center;
-            @apply text-15 text-darkRed font-semibold leading-150;
-            @apply border-2 border-darkRed rounded-8;
-            @apply bg-lightRed;
-            @apply py-12 px-24;
-        }
+
         & .extra-info {
             @apply mt-16;
             @apply text-13 leading-160 text-textColor6 text-center;

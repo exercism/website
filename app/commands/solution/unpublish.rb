@@ -5,6 +5,7 @@ class Solution::Unpublish
 
   def call
     solution.update!(published_iteration_id: nil, published_at: nil)
+    Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
 
@@ -13,7 +14,7 @@ class Solution::Unpublish
 
   private
   def update_num_published_solutions_on_exercise!
-    CacheNumPublishedSolutionsOnExerciseJob.perform_later(exercise)
+    Exercise::CacheNumPublishedSolutions.defer(exercise)
   end
 
   delegate :exercise, to: :solution

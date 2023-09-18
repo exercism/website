@@ -1,0 +1,17 @@
+.c-unlocked-concept {
+    @apply flex items-center;
+    @apply mr-12 mb-12 py-8 px-16;
+    @apply shadow-base rounded-5;
+    transition: box-shadow 0.2s ease-out;
+
+    & .c-concept-icon {
+        @apply mr-12;
+    }
+    & .name {
+        @apply text-16 leading-150 font-medium text-textColor2;
+    }
+}
+
+a.c-unlocked-concept:hover:not(.--locked) {
+    @apply shadow-baseZ1;
+}

@@ -39,7 +39,8 @@ module Git
 
     test "retrieves_key_features" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
-      expected = ["Modern", "Fun", "Full-featured", "Easy to learn", "Dynamic", "Expressive"]
+      expected = ["Developer happiness", "Metaprogramming magic", "Garbage Collection", "Large standard library",
+                  "Flexible package manager", "Strong, dynamic typing"]
       assert_equal(expected, track.key_features.map { |f| f[:title] })
     end
 

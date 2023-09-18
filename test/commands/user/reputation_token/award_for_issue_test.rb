@@ -140,7 +140,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
-    create :user_issue_author_reputation_token, user: user, level: :large,
+    create :user_issue_author_reputation_token, user:, level: :large,
       params: {
         repo:,
         pr_node_id: node_id,
@@ -249,7 +249,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = ['x:rep/large']
     user = create :user, handle: "User-22", github_username: "user22"
-    reputation_token = create :user_issue_author_reputation_token, user: user, level: :massive,
+    reputation_token = create :user_issue_author_reputation_token, user:, level: :massive,
       external_url: html_url,
       params: {
         repo:,
@@ -280,7 +280,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
       html_url = 'https://github.com/exercism/v3/issue/1347'
       labels = [label]
       user = create :user, handle: "User-22", github_username: "user22"
-      create :user_issue_author_reputation_token, user: user, level: :massive,
+      create :user_issue_author_reputation_token, user:, level: :massive,
         external_url: html_url,
         params: {
           repo:,
@@ -312,7 +312,7 @@ class User::ReputationToken::AwardForIssueTest < ActiveSupport::TestCase
     html_url = 'https://github.com/exercism/v3/issue/1347'
     labels = []
     user = create :user, handle: "User-22", github_username: "user22"
-    create :user_issue_author_reputation_token, user: user, level: :massive,
+    create :user_issue_author_reputation_token, user:, level: :massive,
       external_url: html_url,
       params: {
         repo:,

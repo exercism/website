@@ -31,7 +31,7 @@ class ProcessIssueUpdateJobTest < ActiveJob::TestCase
 
   test "deletes issue record and labels when action is deleted" do
     issue = create :github_issue, node_id: "MDU6SXNzdWU3MjM2MjUwMTI="
-    create :github_issue_label, issue: issue
+    create(:github_issue_label, issue:)
 
     ProcessIssueUpdateJob.perform_now(
       action: "deleted",

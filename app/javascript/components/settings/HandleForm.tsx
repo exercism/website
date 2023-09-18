@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { GraphicalIcon, FormButton, Icon } from '../common'
+import { GraphicalIcon, Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 
@@ -16,13 +17,13 @@ type RequestBody = {
 
 const DEFAULT_ERROR = new Error('Unable to change handle')
 
-export const HandleForm = ({
+export default function HandleForm({
   defaultHandle,
   links,
 }: {
   defaultHandle: string
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [state, setState] = useState({ handle: defaultHandle, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,

@@ -1,0 +1,8 @@
+.lg-container
+  %h1.text-h1 Editing mailshot
+  = render "form", mailshot: @mailshot, communication_preferences_keys: @communication_preferences_keys
+  %br/
+  %div
+    = link_to "Manage this mailshot", @amailshot
+    |
+    = link_to "Back to mailshots", admin_mailshots_path

@@ -4,6 +4,7 @@ class SerializeTasks
   initialize_with :tasks
 
   def call
-    tasks.map { |task| SerializeTask.(task) }
+    tasks.includes([:track]).
+      map { |task| SerializeTask.(task) }
   end
 end

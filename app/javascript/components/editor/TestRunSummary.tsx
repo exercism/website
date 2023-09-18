@@ -4,6 +4,7 @@ import { TestRunSummaryByStatusHeaderMessage } from './TestRunSummaryByStatusHea
 import { TestRunOutput } from './TestRunOutput'
 import { SubmitButton } from './SubmitButton'
 import { GraphicalIcon } from '../common'
+import { LoadingBar } from '../common/LoadingBar'
 
 export const TestRunSummary = ({
   testRun,
@@ -56,7 +57,7 @@ export const TestRunSummary = ({
 
   return (
     <div className="automated-feedback-pending">
-      <GraphicalIcon icon="spinner" />
+      <GraphicalIcon icon="spinner" className="animate-spin-slow" />
       <h3>We&apos;re testing your code to check it works</h3>
       <p>
         This usually takes {testRunner.averageTestDuration}-
@@ -191,11 +192,11 @@ const TestRunSummaryContent = ({
             <div className="success-box">
               <GraphicalIcon icon="balloons" category="graphics" />
               <div className="content">
-                <h3>Sweet. Looks like you’ve solved the exercise!</h3>
+                <h3>Sweet. Looks like you&apos;ve solved the exercise!</h3>
                 <p>
-                  Good job! You can continue to improve your code or, if you're
-                  done, submit an iteration to get automated feedback and
-                  optionally request mentoring.
+                  Good job! You can continue to improve your code or, if
+                  you&apos;re done, submit an iteration to get automated
+                  feedback and optionally request mentoring.
                 </p>
                 {onSubmit !== undefined && isSubmitDisabled !== undefined ? (
                   <SubmitButton
@@ -255,15 +256,8 @@ const TestRunSummaryContent = ({
     case TestRunStatus.QUEUED: {
       return (
         <div role="status" className="running">
-          <GraphicalIcon icon="spinner" />
-          <div className="progress">
-            <div
-              className="bar"
-              style={{
-                animationDuration: `${testRunner.averageTestDuration}s`,
-              }}
-            />
-          </div>
+          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+          <LoadingBar animationDuration={testRunner.averageTestDuration} />
           <p>
             <strong>Running tests...</strong>
             <span>

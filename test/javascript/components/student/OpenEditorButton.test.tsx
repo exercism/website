@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { OpenEditorButton } from '../../../../app/javascript/components/student/OpenEditorButton'
+import { default as OpenEditorButton } from '@/components/student/OpenEditorButton'
 import userEvent from '@testing-library/user-event'
 
 test('disabled when status is locked', async () => {

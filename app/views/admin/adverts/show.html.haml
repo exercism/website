@@ -1,0 +1,17 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-16 Advert #{@partner.name}##{@advert.id}
+    = render ViewComponents::Partner::Advert.new(advert: @advert, preview: true)
+    %hr.my-32.border-borderColor5
+
+    .text-h6.mb-8 Status: #{@advert.status.titleize}
+    .text-h6.mb-8 URL: #{@advert.url}
+    .text-h6.mb-8 Num Impressions: #{@advert.num_impressions}
+    .text-h6.mb-8 Num Clicks: #{@advert.num_clicks}
+
+    %hr.my-32.border-borderColor5
+
+    .flex
+      = link_to "Back to partner", [:admin, @partner], class: 'btn btn-m'
+
+

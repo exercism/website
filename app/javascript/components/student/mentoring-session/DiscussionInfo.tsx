@@ -32,7 +32,7 @@ export const DiscussionInfo = ({
     <PostsWrapper discussion={discussion}>
       <div id="panel-discussion">
         <MentorInfo mentor={mentor} />
-        <div className="discussion">
+        <div className="c-discussion-timeline">
           <DiscussionPostList
             iterations={iterations}
             userIsStudent={true}

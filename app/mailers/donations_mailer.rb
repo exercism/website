@@ -6,6 +6,6 @@ class DonationsMailer < ApplicationMailer
     @unsubscribe_key = :email_on_donations_payment
     subject = "Thank you for your donation"
     @title = "Thank you so much!"
-    mail_to_user(@user, subject)
+    transactional_mail(@user, subject)
   end
 end

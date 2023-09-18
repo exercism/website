@@ -12,18 +12,21 @@
         & .icon {
             @apply bg-easy;
         }
-        @apply text-easy border-easy bg-easyLight;
+        @apply text-easy border-easy;
+        background: var(--backgroundColorEasyTag);
     }
     &.--medium {
         & .icon {
             @apply bg-medium;
         }
-        @apply text-medium border-medium bg-mediumLight;
+        @apply text-medium border-medium;
+        background: var(--backgroundColorMediumTag);
     }
     &.--hard {
         & .icon {
             @apply bg-hard;
         }
-        @apply text-hard border-hard bg-hardLight;
+        @apply text-hard border-hard;
+        background: var(--backgroundColorMediumTag);
     }
 }

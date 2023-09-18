@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
-import { Queue } from '../../../../app/javascript/components/mentoring/Queue'
+import { default as Queue } from '@/components/mentoring/Queue'
 import { TestQueryCache } from '../../support/TestQueryCache'
 import { silenceConsole } from '../../support/silence-console'
 

@@ -145,12 +145,12 @@ class Mentor::Request::RetrieveTracksTest < ActiveSupport::TestCase
     solution = create :practice_solution
 
     2.times { create :mentor_request, solution: create(:practice_solution) }
-    create :mentor_request, solution: solution
+    create(:mentor_request, solution:)
 
     data = SerializeTracksForMentoring.(Track.all, mentor)
     assert_equal 3, data[0][:num_solutions_queued]
 
-    create :mentor_student_relationship, mentor: mentor, student: solution.user, blocked_by_student: true
+    create :mentor_student_relationship, mentor:, student: solution.user, blocked_by_student: true
     data = SerializeTracksForMentoring.(Track.all, mentor)
     assert_equal 2, data[0][:num_solutions_queued]
   end

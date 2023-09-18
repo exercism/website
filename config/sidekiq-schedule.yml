@@ -29,12 +29,22 @@ mark_outdated_reputation_month_periods:
   queue: reputation
   args: ["month"]
 
+recheck_insiders:
+  cron: "1 0 * * *"
+  class: "RecheckInsidersJob"
+  queue: dribble
+
 # 5am every date (1hr after above)
 mark_outdated_reputation_year_periods:
   cron: "15 0 * * *"
   class: "MarkOutdatedReputationPeriodsJob"
   queue: reputation
   args: ["year"]
+
+sync_payments:
+  cron: "0 5 * * *"
+  class: "SyncPaymentsJob"
+  queue: dribble
 
 # 1am Monday
 fetch_and_sync_all_pull_requests_reputation:
@@ -89,11 +99,22 @@ update_month_metrics:
   class: "UpdateMonthMetricsJob"
   queue: metrics
 
+reset_chatgpt_usage:
+  cron: "0 0 1 * *"
+  class: "ResetChatGPTUsageJob"
+  queue: dribble
+
 # Every 15 minutes
 update_last_hour_metrics:
   cron: "*/15 0 * * *"
   class: "UpdateLastHourMetricsJob"
   queue: metrics
+
+# Every 30 minutes
+create_onboarding_notifications:
+  cron: "*/30 * * * *"
+  class: "CreateOnboardingNotificationsJob"
+  queue: background
 
 # Every day at noon
 update_last_week_metrics:

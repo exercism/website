@@ -5,7 +5,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
     badge = create :v3_pioneer_badge
     assert_equal "v3 pioneer", badge.name
     assert_equal :legendary, badge.rarity
-    assert_equal :'v3-pioneer', badge.icon # rubocop:disable Naming/VariableNumber
+    assert_equal :'v3-pioneer', badge.icon
     assert_equal 'Contributed to the development of Exercism v3', badge.description
     assert badge.send_email_on_acquisition?
     assert_nil badge.notification_key
@@ -22,7 +22,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
 
     # Checks username case-insensitive
     %w[erikschierboom ERIKSCHIERBOOM ErikSchierboom].each do |github_username|
-      user = create :user, github_username: github_username
+      user = create(:user, github_username:)
       assert badge.award_to?(user)
       user.destroy
     end
@@ -195,7 +195,7 @@ class Badge::V3PioneerBadgeTest < ActiveSupport::TestCase
       Zulu-Inuoe
       zuzia-kru
     ].each do |github_username|
-      pioneer_user = create :user, github_username: github_username
+      pioneer_user = create(:user, github_username:)
 
       # Award to pioneer user
       assert badge.award_to?(pioneer_user)

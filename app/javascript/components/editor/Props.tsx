@@ -1,4 +1,14 @@
-import { File, TestFile } from '../types'
+import { MentoringStatus } from '../journey/solutions-list/MentoringStatusSelect'
+import { IterationsListRequest } from '../student/IterationsList'
+import {
+  AnalyzerFeedback,
+  File,
+  MentorDiscussion,
+  RepresenterFeedback,
+  TestFile,
+} from '../types'
+import { GptUsage } from './ChatGptFeedback/ChatGptDialog'
+import { HelpRecord } from './ChatGptFeedback/useChatGptFeedback'
 import { Submission, Assignment, EditorSettings } from './types'
 
 export type EditorFeatures = {
@@ -15,16 +25,31 @@ export type TaskContext = {
 type Links = {
   runTests: string
   back: string
+  automatedFeedbackInfo: string
+  mentoringRequest: string
+  mentorDiscussions: string
+  createMentorRequest: string
 }
 
 type Track = {
   title: string
   slug: string
+  iconUrl: string
+  medianWaitTime: number
+}
+
+type Iteration = {
+  representerFeedback: RepresenterFeedback
+  analyzerFeedback: AnalyzerFeedback
 }
 
 type Exercise = {
   title: string
   slug: string
+}
+
+export type Solution = {
+  uuid: string
 }
 
 type AutosaveConfig = {
@@ -39,6 +64,7 @@ type EditorPanels = {
     assignment: Assignment
     exampleFiles: File[]
   }
+  aiHelp: HelpRecord
   tests?: {
     testFiles: readonly TestFile[]
     highlightjsLanguage: string
@@ -52,13 +78,22 @@ type EditorPanels = {
 
 export type Props = {
   timeout?: number
+  insider: boolean
   defaultSubmissions: Submission[]
+  chatgptUsage: GptUsage
   defaultFiles: File[]
   defaultSettings: Partial<EditorSettings>
   autosave: AutosaveConfig
   panels: EditorPanels
   track: Track
   exercise: Exercise
+  iteration?: Iteration
+  solution: Solution
+  discussion?: MentorDiscussion
   links: Links
   features?: EditorFeatures
+  mentoringRequested: boolean
+  mentoringStatus: MentoringStatus
+  request: IterationsListRequest
+  trackObjectives: string
 }

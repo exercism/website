@@ -10,10 +10,10 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, solution: solution, mentor: mentor
-        create :iteration, solution: solution
-        create :mentor_student_relationship, mentor: mentor, student: student
+        solution = create :concept_solution, exercise:, user: student
+        discussion = create(:mentor_discussion, solution:, mentor:)
+        create(:iteration, solution:)
+        create(:mentor_student_relationship, mentor:, student:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -29,10 +29,10 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
-        create :iteration, solution: solution
-        create :mentor_student_relationship, mentor: mentor, student: student
+        solution = create :concept_solution, exercise:, user: student
+        discussion = create(:mentor_discussion, :mentor_finished, solution:, mentor:)
+        create(:iteration, solution:)
+        create(:mentor_student_relationship, mentor:, student:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -52,10 +52,10 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
-        create :iteration, solution: solution
-        create :mentor_student_relationship, mentor: mentor, student: student
+        solution = create :concept_solution, exercise:, user: student
+        discussion = create(:mentor_discussion, :mentor_finished, solution:, mentor:)
+        create(:iteration, solution:)
+        create(:mentor_student_relationship, mentor:, student:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -75,10 +75,10 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
-        create :iteration, solution: solution
-        create :mentor_student_relationship, mentor: mentor, student: student
+        solution = create :concept_solution, exercise:, user: student
+        discussion = create(:mentor_discussion, :mentor_finished, solution:, mentor:)
+        create(:iteration, solution:)
+        create(:mentor_student_relationship, mentor:, student:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -100,10 +100,10 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
-        create :iteration, solution: solution
-        create :mentor_student_relationship, mentor: mentor, student: student
+        solution = create :concept_solution, exercise:, user: student
+        discussion = create(:mentor_discussion, :mentor_finished, solution:, mentor:)
+        create(:iteration, solution:)
+        create(:mentor_student_relationship, mentor:, student:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -124,10 +124,10 @@ module Flows
         mentor = create :user, handle: "author"
         student = create :user, handle: "student-123"
         exercise = create :concept_exercise
-        solution = create :concept_solution, exercise: exercise, user: student
-        discussion = create :mentor_discussion, :mentor_finished, solution: solution, mentor: mentor
-        create :iteration, solution: solution
-        create :mentor_student_relationship, mentor: mentor, student: student
+        solution = create :concept_solution, exercise:, user: student
+        discussion = create(:mentor_discussion, :mentor_finished, solution:, mentor:)
+        create(:iteration, solution:)
+        create(:mentor_student_relationship, mentor:, student:)
 
         use_capybara_host do
           sign_in!(mentor)

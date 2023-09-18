@@ -1,4 +1,4 @@
-class Maintaining::ExerciseRepresentationsController < ApplicationController
+class Maintaining::ExerciseRepresentationsController < Maintaining::BaseController
   def index
     @representations = Exercise::Representation.joins(exercise: :track).
       order("tracks.title, exercises.title")

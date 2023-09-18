@@ -59,7 +59,7 @@ class Track::SearchTest < ActiveSupport::TestCase
   test "status: pivots correctly" do
     user = create :user
     joined = create :track, :random_slug
-    create :user_track, user: user, track: joined
+    create :user_track, user:, track: joined
     unjoined = create :track, :random_slug
 
     assert_equal [joined, unjoined],

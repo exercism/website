@@ -1,5 +1,5 @@
 body.namespace-community.controller-stories.action-show {
-    @apply bg-lightGray;
+    @apply bg-backgroundColorB;
 }
 #page-community-story {
     header {

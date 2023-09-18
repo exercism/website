@@ -4,8 +4,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
   test 'start a track and submit an exercise' do
     track = create :track
     concept = create :concept
-    concept_exercise_lasagna = create :concept_exercise, track: track, slug: 'lasagna', prerequisites: []
-    concept_exercise_strings = create :concept_exercise, track: track, slug: 'strings', prerequisites: []
+    concept_exercise_lasagna = create :concept_exercise, track:, slug: 'lasagna', prerequisites: []
+    concept_exercise_strings = create :concept_exercise, track:, slug: 'strings', prerequisites: []
     concept_exercise_lasagna.taught_concepts << concept
     concept_exercise_strings.prerequisites << concept
     user = create :user
@@ -13,7 +13,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
 
     # Hello world is already completed.
     # We might wnat to change this for hte context of this test.
-    create :hello_world_solution, :completed, track: track, user: user
+    create(:hello_world_solution, :completed, track:, user:)
 
     # User joins the track
     # Check it's retrieved correctly.

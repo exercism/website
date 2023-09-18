@@ -30,7 +30,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     post favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
@@ -62,7 +62,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     delete favorite_api_mentoring_student_path(student.handle), headers: @headers, as: :json
@@ -94,7 +94,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     post block_api_mentoring_student_path(student.handle), headers: @headers, as: :json
@@ -126,7 +126,7 @@ class API::Mentoring::StudentsControllerTest < API::BaseTestCase
     mentor = create :user
     student = create :user
 
-    create :mentor_discussion, mentor: mentor, solution: create(:concept_solution, user: student)
+    create :mentor_discussion, mentor:, solution: create(:concept_solution, user: student)
 
     setup_user(mentor)
     delete block_api_mentoring_student_path(student.handle), headers: @headers, as: :json

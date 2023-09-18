@@ -37,9 +37,9 @@ class SerializeSiteUpdatesTest < ActiveSupport::TestCase
   test "serializes new_exercise_update with user" do
     exercise = create :practice_exercise
     user = create :user
-    solution = create :practice_solution, exercise: exercise, user: user
-    user_track = create :user_track, user: user, track: exercise.track
-    update = create :new_exercise_site_update, exercise: exercise
+    solution = create(:practice_solution, exercise:, user:)
+    user_track = create :user_track, user:, track: exercise.track
+    update = create(:new_exercise_site_update, exercise:)
     update.stubs(expanded?: true)
 
     expected = [

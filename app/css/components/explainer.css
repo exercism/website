@@ -20,7 +20,7 @@
             @apply leading-160;
 
             & a {
-                @apply text-lightBlue;
+                @apply text-prominentLinkColor;
             }
         }
     }

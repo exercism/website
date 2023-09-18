@@ -26,8 +26,11 @@ class Submission::Representation::Process
       ActiveRecord::Base.transaction do
         handle_generated!
       end
-    rescue StandardError
+    rescue StandardError => e
       raise unless Rails.env.production?
+
+      # Alert bugsnag and mark as exceptioned
+      Bugsnag.notify(e)
 
       # Reload the record here to ensure # that it hasn't got
       # in a bad state in the transaction above.
@@ -44,7 +47,7 @@ class Submission::Representation::Process
 
   def create_submission_representation!
     @submission_representation = Submission::Representation::Create.(
-      submission, tooling_job, ast_digest
+      submission, tooling_job, ast_digest, exercise_version
     )
   end
 
@@ -88,7 +91,11 @@ class Submission::Representation::Process
   end
 
   def representer_version = metadata[:version] || 1
-  def exercise_version = submission.solution.git_exercise.representer_version
+
+  def exercise_version
+    git_exercise = Git::Exercise.for_solution(solution, git_sha:)
+    git_exercise.representer_version
+  end
 
   memoize
   def ast_digest
@@ -99,6 +106,7 @@ class Submission::Representation::Process
   def submission
     Submission.find_by!(uuid: tooling_job.submission_uuid)
   end
+  delegate :solution, :exercise, to: :submission
 
   memoize
   def ast
@@ -131,7 +139,5 @@ class Submission::Representation::Process
   end
 
   memoize
-  def git_sha
-    tooling_job.source["exercise_git_sha"]
-  end
+  def git_sha = tooling_job.source["exercise_git_sha"]
 end

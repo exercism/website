@@ -11,7 +11,7 @@ type TabIndex = 'analysis' | 'tests'
 
 export const TabsContext = createContext<TabContext>({
   current: 'analysis',
-  switchToTab: () => {},
+  switchToTab: () => null,
 })
 
 export const Information = ({

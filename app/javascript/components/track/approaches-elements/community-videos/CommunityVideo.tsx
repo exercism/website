@@ -14,7 +14,7 @@ export function CommunityVideo({
     <div className="flex">
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center bg-white shadow-sm rounded-8 px-20 py-16 mb-16 grow"
+        className="flex items-center bg-backgroundColorA shadow-sm rounded-8 px-20 py-16 mb-16 grow"
       >
         <img
           style={{ objectFit: 'cover', height: '80px', width: '143px' }}

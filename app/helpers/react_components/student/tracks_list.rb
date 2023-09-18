@@ -22,7 +22,7 @@ module ReactComponents
           endpoint: Exercism::Routes.api_tracks_path,
           options: {
             initialData: {
-              tracks: SerializeTracks.(tracks, current_user)
+              tracks: SerializeTracks.(tracks, user)
             }
           },
           query: {

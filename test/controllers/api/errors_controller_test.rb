@@ -13,6 +13,6 @@ class API::ErrorsControllerTest < API::BaseTestCase
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
 
-    assert_equal API::ErrorsController, @controller.class
+    assert_instance_of API::ErrorsController, @controller
   end
 end

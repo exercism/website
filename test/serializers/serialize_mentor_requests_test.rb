@@ -5,9 +5,9 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
     student = create :user
     mentor = create :user
     track = create :track
-    exercise = create :concept_exercise, track: track
-    solution = create :concept_solution, exercise: exercise, user: student
-    request = create :mentor_request, solution: solution
+    exercise = create(:concept_exercise, track:)
+    solution = create :concept_solution, exercise:, user: student
+    request = create(:mentor_request, solution:)
 
     expected = [
       {
@@ -38,7 +38,7 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
     create :mentor_request, solution: create(:concept_solution, user: student)
 
     mentor = create :user
-    relationship = create :mentor_student_relationship, student: student, mentor: mentor
+    relationship = create(:mentor_student_relationship, student:, mentor:)
 
     result = SerializeMentorRequests.(Mentor::Request.all, mentor)
     assert result[0][:have_mentored_previously]
@@ -61,5 +61,14 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
 
     result = SerializeMentorRequests.(Mentor::Request.all, mentor)
     assert_nil result[0][:status]
+  end
+
+  test "n+1s handled correctly" do
+    mentor = create :user
+    create_np1_data(mentor:)
+
+    Bullet.profile do
+      SerializeMentorRequests.(Mentor::Request.all, mentor)
+    end
   end
 end

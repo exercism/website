@@ -1,0 +1,8 @@
+#maintaining-site-update-form.c-site-updates-form
+  %h2.text-h3 New Site Update
+  = render "form",
+      update: @update,
+      url: %i[maintaining site_updates],
+      button_label: "Create Site Update",
+      tracks: @tracks
+

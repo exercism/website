@@ -1,7 +1,22 @@
 .c-iteration-pane {
     @apply flex-grow flex flex-col;
     @apply bg-backgroundColorB;
-
+    .c-copy-text-to-clipboard {
+        --message-top-position: 25px;
+        position: static;
+        @apply border-none border-l-1 rounded-none;
+        @apply border-borderColor7 ml-32;
+        @apply bg-transparent;
+        @apply w-auto;
+        @apply py-0 px-8;
+        height: 36px;
+        & .c-icon {
+            @apply filter-textColor6;
+            @apply m-0;
+            height: 16px;
+            width: 16px;
+        }
+    }
     & .tabs {
         @apply flex items-center;
         @apply bg-backgroundColorB;

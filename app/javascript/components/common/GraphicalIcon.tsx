@@ -1,13 +1,6 @@
 import React from 'react'
 import { assetUrl } from '../../utils/assets'
 
-type GraphicalIconProps = {
-  icon: string
-  className?: string
-  category?: string
-  hex?: boolean
-} & Pick<React.ImgHTMLAttributes<HTMLImageElement>, 'width' | 'height'>
-
 export function GraphicalIcon({
   icon,
   className = '',
@@ -15,7 +8,16 @@ export function GraphicalIcon({
   width = undefined,
   height = undefined,
   hex = false,
-}: GraphicalIconProps): JSX.Element {
+  alt,
+}: {
+  icon: string
+  className?: string
+  category?: string
+  width?: number
+  height?: number
+  hex?: boolean
+  alt?: string
+}): JSX.Element {
   const classNames = ['c-icon', className, hex ? '--hex' : ''].filter(
     (className) => className.length > 0
   )
@@ -24,16 +26,17 @@ export function GraphicalIcon({
 
   return hex ? (
     <div className={classNames.join(' ')}>
-      <img src={iconFile} alt="" role="presentation" />
+      <img src={iconFile} alt="" />
     </div>
   ) : (
     <img
       src={iconFile}
-      alt=""
+      alt={alt || ''}
       width={width}
       height={height}
-      role="presentation"
       className={classNames.join(' ')}
     />
   )
 }
+
+export default GraphicalIcon

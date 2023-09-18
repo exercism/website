@@ -1,11 +1,11 @@
 import React, { useRef } from 'react'
 import { Concept } from '../types'
-import { ConceptTooltip } from '../tooltips/ConceptTooltip'
+import { ConceptTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
 
 export type Props = { concept: Concept }
 
-export const ConceptWidget = ({ concept }: Props): JSX.Element => {
+export function ConceptWidget({ concept }: Props): JSX.Element {
   const conceptRef = useRef(null)
 
   return (
@@ -15,7 +15,7 @@ export const ConceptWidget = ({ concept }: Props): JSX.Element => {
       <a
         ref={conceptRef}
         href={concept.links.self}
-        className="unlocked-concept"
+        className="c-unlocked-concept"
       >
         <div className="c-concept-icon c--small">
           {concept.name.slice(0, 2)}
@@ -25,3 +25,5 @@ export const ConceptWidget = ({ concept }: Props): JSX.Element => {
     </ExercismTippy>
   )
 }
+
+export default ConceptWidget

@@ -37,7 +37,7 @@ module ViewComponents
         tag.div(class: "stats") do
           safe_join(
             [
-              tag.div("#{current_user.num_solutions_mentored} solutions mentored", class: "stat"),
+              tag.div("#{current_user.num_solutions_mentored} discussions completed", class: "stat"),
               (if current_user.mentor_satisfaction_percentage
                  tag.div("#{current_user.mentor_satisfaction_percentage}% satisfaction",
                    class: "stat")

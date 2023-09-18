@@ -8,6 +8,7 @@ class SerializeSolutionCommentTest < ActiveSupport::TestCase
       uuid: comment.uuid,
       author: {
         handle: comment.author.handle,
+        flair: comment.author.flair,
         avatar_url: comment.author.avatar_url,
         reputation: comment.author.formatted_reputation
       },

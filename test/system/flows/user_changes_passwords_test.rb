@@ -17,8 +17,7 @@ module Flows
         click_on "Change my password"
       end
 
-      assert_text "Your password has been changed successfully.
-"
+      assert_text "Your password has been changed successfully."
     end
 
     test "user sees errors" do

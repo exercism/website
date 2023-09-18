@@ -7,10 +7,10 @@ module Flows
 
     test "completes the tutorial succesfully" do
       user = create :user
-      solution = create :hello_world_solution, user: user
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission
-      create :user_track, user: user, track: solution.track
+      solution = create(:hello_world_solution, user:)
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
+      create :user_track, user:, track: solution.track
 
       use_capybara_host do
         sign_in!(user)

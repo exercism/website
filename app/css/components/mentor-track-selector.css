@@ -67,7 +67,8 @@
                 }
 
                 & .title {
-                    @apply text-18 leading-140 text-textColor3 font-semibold;
+                    @apply text-18 leading-140 font-semibold;
+                    color: var(--textColorMentorTrackSelectorSelected);
                     @apply mb-6;
                 }
 
@@ -80,7 +81,7 @@
                 opacity: 0;
                 &:checked + label {
                     @apply border-darkBlue;
-                    @apply bg-veryLightBlue;
+                    background: var(--backgroundColorExerciseStatusTagLocked);
 
                     & .selected-icon {
                         @apply grid;

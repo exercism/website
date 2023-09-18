@@ -12,11 +12,11 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     setup_user(student)
     solution = create :concept_solution, user: student
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Request comment",
       created_at: Time.utc(2016, 12, 25)
-    discussion = create :mentor_discussion, solution: solution, request: mentor_request
-    iteration = create :iteration, idx: 2, solution: solution
+    discussion = create :mentor_discussion, solution:, request: mentor_request
+    iteration = create(:iteration, idx: 2, solution:)
     discussion_post = create(:mentor_discussion_post,
       discussion:,
       iteration:,
@@ -33,6 +33,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           uuid: "request-comment",
           iteration_idx: 2,
           author_handle: "student",
+          author_flair: student.flair,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Request comment",
@@ -46,6 +47,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
           uuid: discussion_post.uuid,
           iteration_idx: 2,
           author_handle: "student",
+          author_flair: student.flair,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Discussion post",
@@ -68,11 +70,11 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     mentor = create :user, handle: "mentor"
     solution = create :concept_solution, user: student
     mentor_request = create :mentor_request,
-      solution: solution,
+      solution:,
       comment_markdown: "Hello",
       created_at: Time.utc(2016, 12, 25)
-    discussion = create :mentor_discussion, solution: solution, mentor: mentor, request: mentor_request
-    create :iteration, idx: 7, solution: solution
+    discussion = create :mentor_discussion, solution:, mentor:, request: mentor_request
+    create(:iteration, idx: 7, solution:)
 
     get api_solution_discussion_posts_path(solution.uuid, discussion), headers: @headers, as: :json
 
@@ -82,6 +84,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
         {
           uuid: "request-comment",
           author_handle: "student",
+          author_flair: student.flair,
           author_avatar_url: student.avatar_url,
           by_student: true,
           content_markdown: "Hello",
@@ -152,10 +155,10 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
   test "create should create correctly" do
     user = create :user
     setup_user(user)
-    solution = create :concept_solution, user: user
-    create :iteration, solution: solution, idx: 1
-    it_2 = create :iteration, solution: solution, idx: 2
-    discussion = create :mentor_discussion, solution: solution
+    solution = create(:concept_solution, user:)
+    create :iteration, solution:, idx: 1
+    it_2 = create :iteration, solution:, idx: 2
+    discussion = create(:mentor_discussion, solution:)
 
     # Check we're calling the correet class
     User::Notification::Create.expects(:call).with(
@@ -182,6 +185,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: post.uuid,
         author_handle: user.handle,
+        author_flair: user.flair,
         author_avatar_url: user.avatar_url,
         by_student: true,
         content_markdown: content,
@@ -204,7 +208,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, 1), headers: @headers, as: :json
 
@@ -239,7 +243,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
     discussion_post = create(:mentor_discussion_post, discussion:, author: create(:user))
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
@@ -256,7 +260,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
     discussion_post = create(:mentor_discussion_post, author: student, discussion:)
 
     patch api_solution_discussion_post_path(solution.uuid, discussion, discussion_post),
@@ -277,7 +281,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user, handle: "student")
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
 
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
@@ -299,6 +303,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "student",
+        author_flair: student.flair,
         author_avatar_url: student.avatar_url,
         by_student: true,
         content_markdown: "content",
@@ -321,7 +326,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
 
     delete api_solution_discussion_post_path(solution.uuid, discussion, 1), headers: @headers, as: :json
 
@@ -356,7 +361,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user)
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
     discussion_post = create(:mentor_discussion_post, discussion:, author: create(:user))
 
     delete api_solution_discussion_post_path(solution.uuid, discussion, discussion_post), headers: @headers, as: :json
@@ -373,7 +378,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
     student = create(:user, handle: "student")
     setup_user(student)
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
     iteration = create :iteration, idx: 1
     discussion_post = create(:mentor_discussion_post,
       discussion:,
@@ -390,6 +395,7 @@ class API::Solutions::MentorDiscussionPostsControllerTest < API::BaseTestCase
       item: {
         uuid: discussion_post.uuid,
         author_handle: "student",
+        author_flair: student.flair,
         author_avatar_url: student.avatar_url,
         by_student: true,
         content_markdown: "Hello",

@@ -100,7 +100,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
 
     solution = create :concept_solution, track: mentored_track
 
-    create :mentor_request, solution: solution
+    create(:mentor_request, solution:)
 
     requests = Mentor::Discussion::Retrieve.(user, :awaiting_mentor, paginated: false)
     assert requests.is_a?(ActiveRecord::Relation)
@@ -117,9 +117,9 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     solution_2 = create :practice_solution, user: student_2
     solution_3 = create :practice_solution, user: student_3
 
-    discussion_1 = create :mentor_discussion, :awaiting_mentor, solution: solution_1, mentor: mentor
-    discussion_2 = create :mentor_discussion, :awaiting_mentor, solution: solution_2, mentor: mentor
-    discussion_3 = create :mentor_discussion, :awaiting_mentor, solution: solution_3, mentor: mentor
+    discussion_1 = create(:mentor_discussion, :awaiting_mentor, solution: solution_1, mentor:)
+    discussion_2 = create(:mentor_discussion, :awaiting_mentor, solution: solution_2, mentor:)
+    discussion_3 = create(:mentor_discussion, :awaiting_mentor, solution: solution_3, mentor:)
 
     assert_equal [discussion_3, discussion_2, discussion_1], Mentor::Discussion::Retrieve.(mentor, :all) # Saniry
     assert_equal [discussion_1], Mentor::Discussion::Retrieve.(mentor, :all, student_handle: "bob")

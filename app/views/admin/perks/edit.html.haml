@@ -1,0 +1,11 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-16 Editing #{@partner.name}: Perk #{@perk.id}
+
+    = form_with(model: @perk, url: admin_partner_perk_path(@partner, @perk)) do |f|
+      = render "form", f:, partner: @partner, perk: @perk
+
+    %br/
+    %div
+      = link_to "Back to partner", [:admin, @partner]
+

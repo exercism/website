@@ -21,6 +21,7 @@ class SerializeCommunityStories
         interviewee: {
           name: story.interviewee.name,
           handle: story.interviewee.handle,
+          flair: story.interviewee.flair,
           avatar_url: story.interviewee.avatar_url,
           links: {
             profile: story.interviewee.profile ? Exercism::Routes.profile_url(story.interviewee) : nil

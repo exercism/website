@@ -1,0 +1,6 @@
+.lg-container
+  %h1.text-h1 New streaming event
+  = render "form", streaming_event: @streaming_event
+  %br/
+  %div
+  = link_to "Back to streaming events", admin_streaming_events_path

@@ -4,9 +4,9 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   test "creates concept exercise" do
     uuid = SecureRandom.uuid
     track = create :track
-    strings = create :concept, track: track, slug: 'strings'
-    conditionals = create :concept, track: track, slug: 'conditionals'
-    basics = create :concept, track: track, slug: 'basics'
+    strings = create :concept, track:, slug: 'strings'
+    conditionals = create :concept, track:, slug: 'conditionals'
+    basics = create :concept, track:, slug: 'basics'
 
     ConceptExercise::Create.(
       uuid,
@@ -41,9 +41,9 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   test "idempotent" do
     uuid = SecureRandom.uuid
     track = create :track
-    strings = create :concept, track: track, slug: 'strings'
-    conditionals = create :concept, track: track, slug: 'conditionals'
-    basics = create :concept, track: track, slug: 'basics'
+    strings = create :concept, track:, slug: 'strings'
+    conditionals = create :concept, track:, slug: 'conditionals'
+    basics = create :concept, track:, slug: 'basics'
 
     assert_idempotent_command do
       ConceptExercise::Create.(

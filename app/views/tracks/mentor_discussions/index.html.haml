@@ -15,13 +15,13 @@
       - elsif @solution.mentoring_none?
         = render "introduction", track: @track, exercise: @exercise
 
-      = render "previous_discussions", track: @track, exercise: @exercise, discussions: @solution.mentor_discussions.finished
+      = render "previous_discussions", track: @track, exercise: @exercise, discussions: @previous_discussions
 
     .rhs
       .personal-mentoring{ class: @solution.mentoring_in_progress? ? 'locked' : nil }
         - if @solution.mentoring_in_progress?
           .c-alert.locked
-            %strong You’re currently being mentored.
+            %strong You&apos;re currently being mentored.
             Please end your existing discussion before starting a new mentoring session with someone else.
 
         .content

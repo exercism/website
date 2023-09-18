@@ -33,7 +33,7 @@ class CohortsControllerTest < ActionDispatch::IntegrationTest
   test "join: redirects to show page if current user had already joined" do
     sign_in!
     cohort = create :cohort, slug: 'gohort'
-    create :cohort_membership, user: @current_user, cohort: cohort
+    create(:cohort_membership, user: @current_user, cohort:)
 
     post join_cohort_path('gohort'), params: { introduction: 'Hi!' }, headers: @headers, as: :json
 

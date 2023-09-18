@@ -16,7 +16,7 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
     assert_equal 1, User::Notification.count
     assert notification.email_only?
     assert_equal user, notification.user
-    assert_equal User::Notifications::MentorStartedDiscussionNotification, notification.class
+    assert_instance_of User::Notifications::MentorStartedDiscussionNotification, notification
     assert_equal 1, notification.version
     assert_equal "#{user.id}|mentor_started_discussion|Discussion##{discussion.id}", notification.uniqueness_key
 

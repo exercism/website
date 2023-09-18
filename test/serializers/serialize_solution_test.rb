@@ -4,8 +4,8 @@ class SerializeSolutionTest < ActiveSupport::TestCase
   test "basic to_hash" do
     solution = create :practice_solution, status: :published, published_iteration_head_tests_status: :passed,
       published_at: Time.current - 1.week, completed_at: Time.current
-    submission = create :submission, solution: solution
-    iteration = create :iteration, submission: submission
+    submission = create(:submission, solution:)
+    iteration = create(:iteration, submission:)
 
     user_track = create :user_track, user: solution.user, track: solution.track
     expected = {
@@ -59,9 +59,9 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     user = create :user
     track = create :track, :random_slug
     ut_id = create(:user_track, user:, track:).id
-    exercise = create :practice_exercise, track: track
-    solution = create :practice_solution, user: user, exercise: exercise
-    discussion = create :mentor_discussion, solution: solution
+    exercise = create(:practice_exercise, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    discussion = create(:mentor_discussion, solution:)
 
     # False without user_track
     solution_data = SerializeSolution.(solution)
@@ -76,7 +76,7 @@ class SerializeSolutionTest < ActiveSupport::TestCase
     assert solution_data[:has_notifications]
 
     # True if there is one
-    create :mentor_started_discussion_notification, user: user, params: { discussion: }, status: :unread
+    create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
     solution_data = SerializeSolution.(solution, user_track: UserTrack.find(ut_id))
     assert solution_data[:has_notifications]
   end

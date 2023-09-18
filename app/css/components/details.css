@@ -12,7 +12,7 @@
             & > .c-icon.--open-icon {
                 height: 12px;
                 width: 12px;
-                @apply ml-16;
+                @apply ml-16 filter-textColor6;
             }
         }
     }

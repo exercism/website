@@ -3,8 +3,8 @@ require "test_helper"
 class Github::IssueTest < ActiveSupport::TestCase
   test "labels" do
     issue = create :github_issue
-    label_1 = create :github_issue_label, issue: issue, name: 'help-wanted'
-    label_2 = create :github_issue_label, issue: issue, name: 'good-first-issue'
+    label_1 = create :github_issue_label, issue:, name: 'help-wanted'
+    label_2 = create :github_issue_label, issue:, name: 'good-first-issue'
     label_3 = create :github_issue_label, :random
 
     assert_includes issue.labels, label_1

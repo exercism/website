@@ -1,5 +1,11 @@
 @import "../styles";
 
+body.namespace-auth.user-signed_out {
+    turbo-frame {
+        @apply flex grow;
+    }
+}
+
 #page-auth {
     --lhs-width: 550px;
     background: linear-gradient(360deg, #5141bd 0%, #3e2ea5 100%),

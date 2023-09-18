@@ -34,7 +34,7 @@ class Badge::MentorBadgeTest < ActiveSupport::TestCase
 
     # 10th student discussion: don't award if not finished
     solution = create :practice_solution
-    discussion = create :mentor_discussion, mentor: mentor, solution: solution
+    discussion = create(:mentor_discussion, mentor:, solution:)
     refute badge.award_to?(mentor.reload)
 
     # 10th student discussion: don't award if only finished by mentor

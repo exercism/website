@@ -3,130 +3,149 @@
     .lg-container
       .flex
         .mr-auto{ class: 'max-w-[860px]' }
-          .text-purple.font-semibold.leading-150.flex.items-center.mb-4
+          .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            Month 2 of #12in23
-          %h1.text-h1.mb-8 It's Functional February! ✨
+            Month 9 of #12in23
+          %h1.text-h1.mb-8 It's Slimline September! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring functional languages. We've got interviews with language creators, lots of live streaming, exclusive functional swag and more.
+            This month for #12in23 we're exploring languages with concise syntax.
+            We're digging into the following languages: 8th, AWK, Bash, jq, Perl and Raku, with interviews and live streaming and lots of fun exercises for you to complete!
 
-          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
+          .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Functional February overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Slimline September overview video  👉
               %p.text-p-base.mb-8
-                We've put together an introductory video to get you started. Its split into two parts. In part 1, we'll tell your what's in store for the month. In part 2 we'll take a brief look at what makes functional programming so interesting!
+                Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
                 Take a watch and leave a comment!
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/uIFGx1SDnWI", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/k9QMbXPcpr4", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
+          - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::SEPTEMBER_TRACKS)
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Functional February badge for completing and publishing 5 exercises in one of the following languages.
-            Consider starting with a language with a syllabus (
-            = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
-            ).
+            Earn the Slimline September badge for completing and publishing 5 exercises in one of the following languages.
+            - if tracks.any?(&:course?)
+              Consider starting with a language with a syllabus (
+              = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+              ).
 
-          - tracks = Track.where(slug: %w[elixir fsharp clojure erlang haskell ocaml scala sml gleam])
-          .grid.grid-cols-9.gap-12.mb-32
+          .grid.grid-cols-6.gap-12.mb-32
             - tracks.each do |track|
-              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-white flex flex-col p-12 text-center relative' do
+              = link_to track, class: 'rounded-12 shadow-base hover:shadow-baseZ1 bg-backgroundColorA flex flex-col p-12 text-center relative' do
                 - if track.course?
-                  .rounded-circle.bg-white.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
+                  .rounded-circle.bg-backgroundColorA.p-4.shadow-baseZ1{ class: 'absolute top-[-7px] right-[-7px]' }
                     = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple'
                 = image_tag track.icon_url, class: 'mb-8'
-                .text-h6= track.title.gsub("Standard ML", "SML")
+                .text-h6= track.title
 
           %p.text-p-large.mb-12
-            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach from a functional perspective:
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/hamming.svg", class: "w-[25px] inline"
-              %strong.font-semibold Hamming:
-              Explore higher order functions
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/atbash-cipher.svg", class: "w-[25px] inline"
+              %strong.font-semibold Atbash Cipher:
+              Encode and decode a sentence using an ancient encryption system
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/collatz-conjecture.svg", class: "w-[25px] inline"
-              %strong.font-semibold Collatz Conjecture:
-              Try out recursion
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/darts.svg", class: "w-[25px] inline"
+              %strong.font-semibold Darts:
+              Score the points for a single toss in a darts game
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/robot-simulator.svg", class: "w-[25px] inline"
-              %strong.font-semibold Robot Simulator:
-              Explore immutability, records, pattern matching
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/gigasecond.svg", class: "w-[25px] inline"
+              %strong.font-semibold Gigasecond:
+              Add a gigasecond to a certain date and time
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/yacht.svg", class: "w-[25px] inline"
-              %strong.font-semibold Yacht:
-              Practice pattern-matching and higher-order functions
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/luhn.svg", class: "w-[25px] inline"
+              %strong.font-semibold Luhn:
+              Determine if a number is valid according to the Luhn formula
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/protein-translation.svg", class: "w-[25px] inline"
-              %strong.font-semibold Protein Translation:
-              Practice higher-order functions and pattern matching further
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/series.svg", class: "w-[25px] inline"
+              %strong.font-semibold Series:
+              Output a string's contiguous substrings of a specific length
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
-          %p.text-p-large.mb-12
-            Throughout the month we'll have interviews — including Jose Valim, the creator of Elixir, and Louis Pilfold, the creator or Gleam — walkthroughs from Exercism track contributors, and live streams of the community solving exercises.
+          %p.text-p-large.mb-12.c-highlight-links
+            Throughout the month we'll have interviews, walkthroughs from Exercism track contributors, and live streams of the community solving exercises. Our streaming team is really growing so definitely check out what's on!
             Subscribe to our
             = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
             and
             = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
             to not miss out!
-            There is a schedule at the top right of this page.
+            There's also a schedule at the top right of this page.
 
           %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
-          %ul.text-p-large.list-disc.pl-16
-            %li.mb-4
-              Help us compile the
-              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-functional-languages/3254"
-              for learning and mastering functional programming languages in our dedicated forum thread.
+          %ul.text-p-large.list-disc.pl-16.c-highlight-links
             %li.mb-4
               Join in the conversation by using the
-              = link_to "#12in23 tag on our forums", "https://forum.exercism.org/tag/12in23"
-              or the
+              #{link_to '#12in23 tag on our forums', 'https://forum.exercism.org/tag/12in23'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord'},
+              or using the
               %strong.font-semibold #12in23
               hashtag around social media!
-            %li.mb-4
-              We have exclusive "functional" swag that will only be available this month coming soon. Keep an eye on the
-              = link_to "swag store", "https://swag.exercism.org"
-              for details!
 
         .ml-80{ class: 'max-w-[450px]' }
-          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 Upcoming Schedule
-            %p.text-p-base.mb-12.italic
-              We're currently finalising the schedule for February.
-              Please keep checking back.
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 Upcoming Streaming Schedule
+            %p.text-p-base.mb-12.c-highlight-links
+              This schedule is regularly updated. All events will stream on our
+              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+              \- subscribe so not to miss out!
+              %strong.font-semibold All times in UTC.
 
             %ul.text-p-base.list-disc.pl-16
-              %li
-                Feb 9th, 4.30pm UTC.
-                %strong.font-semibold Interview with Jose Valim, creator of Elixir.
-                Live-streamed on Twitch and YouTube.
+              - StreamingEvent.next_5.each do |event|
+                %li.mb-4
+                  .font-medium.text-textColor6.text-14.leading-100
+                    = format_datetime(event.starts_at)
+                  %strong.font-semibold.text-textColor2= event.title
 
-          .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+
+          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 How does #12in23 work?
             %p.text-p-base.mb-12
               Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
-              = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-introducing-12in23.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
-                .text-center.text-h6 Take the #12in23 Challenge
+                = image_tag "https://assets.exercism.org/images/thumbnails/yt-12in23-feb-update.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
+                .text-center.text-h6 How's your #12in23 going?
 
-              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
+              = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-                = image_tag "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
+                = image_tag "https://assets.exercism.org/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
                 .text-center.text-h6 The Official #12in23 Calendar
 
-            %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
-              You can track your progress at the bottom of the page.
+            %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
+              Track your progress at the bottom of the page.
 
-          .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
             %p.text-p-base.mb-12
               We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
             = link_to "Donate now", donate_path, class: 'btn btn-primary'
+
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
+            %h2.text-h4.mb-4 The year-long #12in23 badge
+            %p.text-p-base.mb-12
+              At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
+
+              Each valid exercise will be shown below.
+              Find the full list of rules and exercises in
+              #{link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'}.
+
+            - if @badge_progress_exercises.present?
+              %h2.text-h6.mt-20.mb-12
+                Published Exercises
+                .inline.text-14 (#{@badge_progress_exercises.size} / #{@badge_progress_exercise_count} so far)
+              .grid.grid-cols-6.gap-12
+                - @badge_progress_exercises.each do |track_slug, exercise_slug|
+                  = link_to track_exercise_path(track_slug, exercise_slug) do
+                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-[48px]"
+            - else
+              %h2.text-h6.mt-20 You've not yet submitted any valid solutions.
 
   %article
     .md-container
@@ -141,8 +160,8 @@
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
           - track = @tracks[track_id]
-          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-white py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count > 5 ? 'border-successColor' : 'border-transparent'}" do
-            = image_tag track.icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
+          = link_to track_path(track), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 #{count >= 5 ? 'border-successColor' : 'border-transparent'}" do
+            = image_tag track.icon_url, alt: '', class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
               = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
@@ -155,5 +174,5 @@
         - num_placeholders = 12 - @track_counts.size
         - if num_placeholders.positive?
           - num_placeholders.times do
-            .shadow-base.bg-white.rounded-8.flex.flex-col.items-center.justify-center{ class: 'min-h-[175px]' }
+            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }
               .text-h0{ class: "opacity-[0.2]" } ?

@@ -1,0 +1,47 @@
+= form_with(model: [:admin, partner]) do |f|
+  - if partner.errors.any?
+    %div{ style: "color: red" }
+      %h2
+        = pluralize(partner.errors.count, "error")
+        prohibited this partner from being saved:
+      %ul
+        - partner.errors.each do |error|
+          %li= error.full_message
+
+  .flex.flex-col.mb-16
+    = f.label :name, class: 'text-h6 mb-4'
+    = f.text_field :name, required: true
+
+  .flex.flex-col.mb-16
+    = f.label :slug, class: 'text-h6 mb-4'
+    = f.text_field :slug, required: true
+
+  .flex.flex-col.mb-16
+    = f.label :website_url, class: 'text-h6 mb-4'
+    = f.text_field :website_url
+
+  .flex.flex-col.mb-16
+    = f.label :headline, "Headline (appears on Perks page)", class: 'text-h6 mb-4'
+    = f.text_field :headline
+
+  .flex.flex-col.mb-16
+    = f.label :light_logo, class: 'text-h6 mb-4'
+    = f.file_field :light_logo
+
+  .flex.flex-col.mb-16
+    = f.label :dark_logo, class: 'text-h6 mb-4'
+    = f.file_field :dark_logo
+
+  .flex.flex-col.mb-16
+    = f.label :description_markdown, "Description (Markdown. Appears on Perks page)", class: 'text-h6 mb-4'
+    = f.text_area :description_markdown, class: 'h-[400px]'
+
+  .flex.flex-col.mb-16
+    = f.label :support_markdown, "Support info (Optional. Markdown. Appears on Perks page)", class: 'text-h6 mb-4'
+    = f.text_area :support_markdown, class: 'h-[200px]'
+
+
+
+  %div
+    = f.submit class: 'btn btn-primary btn-base'
+

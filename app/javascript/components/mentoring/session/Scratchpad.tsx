@@ -1,22 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { sendRequest } from '../../../utils/send-request'
-import { typecheck } from '../../../utils/typecheck'
+import { useMutation } from 'react-query'
 import { camelizeKeys } from 'humps'
-import {
-  Loading,
-  TrackIcon,
-  Introducer,
-  AlertTag,
-  MarkdownEditor,
-} from '../../common'
-import {
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { Loading, TrackIcon, AlertTag } from '@/components/common'
+import Introducer from '@/components/common/Introducer'
+import { default as MarkdownEditor } from '@/components/common/MarkdownEditor'
+import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
   RepresentationTrack,
   RepresentationExercise,
-} from '../../types'
-import { Scratchpad as ScratchpadProps } from '../Session'
-import { useMutation } from 'react-query'
+} from '@/components/types'
+import type { Scratchpad as ScratchpadProps } from '../Session'
 
 type ScratchpadPage = {
   contentMarkdown: string

@@ -16,9 +16,20 @@ import {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
   DiscussionLinks,
+  DonationLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
-import { SplitPane } from '../common'
+import { SplitPane } from '../common/SplitPane'
+import { Flair } from '../common/HandleWithFlair'
+
+export type Links = {
+  exercise: string
+  learnMoreAboutPrivateMentoring: string
+  privateMentoring: string
+  mentoringGuide: string
+  createMentorRequest: string
+  donationLinks: DonationLinks
+}
 
 export type Video = {
   url: string
@@ -33,11 +44,13 @@ export type Mentor = {
   name: string
   bio: string
   handle: string
+  flair: Flair
   reputation: number
   numDiscussions: number
+  pronouns?: string[]
 }
 
-export const MentoringSession = ({
+export default function MentoringSession({
   userHandle,
   discussion,
   mentor,
@@ -61,7 +74,7 @@ export const MentoringSession = ({
   request?: Request
   links: DiscussionLinks
   outOfDate: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
 
   const handleCreateMentorRequest = useCallback((mentorRequest) => {
@@ -93,7 +106,13 @@ export const MentoringSession = ({
               <CloseButton url={links.exercise} />
               <SessionInfo track={track} exercise={exercise} mentor={mentor} />
               {discussion ? (
-                <DiscussionActions discussion={discussion} links={links} />
+                <DiscussionActions
+                  discussion={discussion}
+                  links={{
+                    exercise: exercise.links.self,
+                    donationLinks: links.donationLinks,
+                  }}
+                />
               ) : null}
             </header>
             <IterationView

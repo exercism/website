@@ -7,10 +7,7 @@ module HasMarkdownField
         html_field = "#{field}_html"
         markdown_field = "#{field}_markdown"
 
-        self[html_field] = Markdown::Parse.(
-          self[markdown_field],
-          **opts
-        )
+        self[html_field] = self[markdown_field].nil? ? nil : Markdown::Parse.(self[markdown_field], **opts)
       end
     end
   end

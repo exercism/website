@@ -1,0 +1,17 @@
+.lg-container
+  %h1.text-h1= @streaming_event.title
+
+  .text-h6.mb-8 Title: #{@streaming_event.title}
+  .text-h6.mb-8 Description: #{@streaming_event.description}
+  .text-h6.mb-8 Starts at: #{format_date(@streaming_event.starts_at)}
+  .text-h6.mb-8 Ends at: #{format_date(@streaming_event.ends_at)}
+  .text-h6.mb-8 Featured #{@streaming_event.featured? ? 'Yes' : 'No'}
+  .text-h6.mb-8 Thumbnail: #{@streaming_event.thumbnail_url}
+  .text-h6.mb-8 YouTube ID: #{@streaming_event.youtube_id}
+
+  .flex
+    = link_to "Edit this streaming event", edit_admin_streaming_event_path(@streaming_event), class: 'btn btn-standard btn-base'
+    |
+    = button_to "Destroy this event", [:admin, @streaming_event], method: :delete, data: { confirm: "Are you sure? Destroy #{@streaming_event.title}?" }, class: 'btn btn-warning'
+    |
+    = link_to "Back to all streaming events", admin_streaming_events_path, class: 'btn btn-standard btn-base'

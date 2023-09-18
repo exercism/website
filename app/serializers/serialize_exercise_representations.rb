@@ -4,7 +4,12 @@ class SerializeExerciseRepresentations
   initialize_with :representations, params: Mandate::NO_DEFAULT
 
   def call
-    representations.map { |representation| SerializeRepresentation.(representation, params) }
+    eager_loaded_representations.
+      map { |representation| SerializeRepresentation.(representation, params) }
+  end
+
+  def eager_loaded_representations
+    representations.to_active_relation.includes(:exercise, :track, :feedback_author, :feedback_editor)
   end
 
   class SerializeRepresentation
@@ -27,6 +32,9 @@ class SerializeExerciseRepresentations
         },
         num_submissions: representation.num_submissions,
         appears_frequently: representation.appears_frequently?,
+        feedback_author: { handle: representation.feedback_author&.handle },
+        feedback_editor: { handle: representation.feedback_editor&.handle },
+        feedback_added_at: representation.feedback_added_at,
         feedback_html: representation.feedback_html,
         last_submitted_at: representation.last_submitted_at,
         links: {

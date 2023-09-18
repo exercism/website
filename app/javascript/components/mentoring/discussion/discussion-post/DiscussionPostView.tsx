@@ -5,6 +5,7 @@ import { Avatar } from '../../../common/Avatar'
 import { Icon } from '../../../common/Icon'
 import { ViewingComponentType } from '../../../common/ListItem'
 import { DiscussionPostContent } from './DiscussionPostContent'
+import { HandleWithFlair } from '@/components/common/HandleWithFlair'
 
 export const DiscussionPostView = ({
   onEdit,
@@ -30,7 +31,12 @@ export const DiscussionPostView = ({
       />
       <div className="timeline-content">
         <header className="timeline-entry-header">
-          <div className="author">{post.authorHandle}</div>
+          <div className="author">
+            <HandleWithFlair
+              handle={post.authorHandle}
+              flair={post.authorFlair}
+            />
+          </div>
           <time>{shortFromNow(post.updatedAt)}</time>
 
           {isEditable ? (

@@ -4,7 +4,7 @@ class User::AuthenticateFromOmniauth
   initialize_with :auth
 
   def call
-    find_by_uid || find_by_email || create # rubocop:disable Rails/DynamicFindBy
+    find_by_uid || find_by_email || create
   end
 
   def find_by_uid
@@ -22,7 +22,6 @@ class User::AuthenticateFromOmniauth
     User::SetGithubUsername.(user, auth.info.nickname)
 
     user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
-
     user
   end
 

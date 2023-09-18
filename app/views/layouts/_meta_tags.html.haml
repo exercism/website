@@ -1,3 +1,6 @@
+- if canonical_url.present?
+  %link{ rel: "canonical", href: canonical_url }
+
 = csrf_meta_tags
 = csp_meta_tag
 = action_cable_meta_tag
@@ -7,7 +10,7 @@
 %meta{ name: "language-server-url", content: Exercism.config.language_server_url }
 %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url }
 %meta{ name: "parse-markdown-url", content: Exercism::Routes.api_parse_markdown_url }
-%meta{ name: "user-id", content: current_user ? current_user.id : nil }
+%meta{ name: "user-id", content: current_user&.id }
 - unless Rails.env.test?
   %meta{ name: "stripe-publishable-key", content: Exercism.secrets.stripe_publishable_key }
 

@@ -50,7 +50,7 @@ class Forum::RetrieveThreads
 
   ForumThread = Struct.new(:id, :title, :image_url, :posts_count, :poster_username, :poster_avatar_url) do
     def url = "https://forum.exercism.org/t/topic/#{id}"
-    def poster_avatar_url = self[:poster_avatar_url] || "https://dg8krxphbh767.cloudfront.net/placeholders/user-avatar.svg"
+    def poster_avatar_url = self[:poster_avatar_url] || "https://assets.exercism.org/placeholders/user-avatar.svg"
   end
   private_constant :ForumThread
 end

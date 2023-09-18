@@ -55,7 +55,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     create :user_track, user: solution.user, track: solution.track
 
     created_at = Time.current.getutc - 1.week
-    create :submission, solution: solution, created_at: created_at
+    create(:submission, solution:, created_at:)
 
     output = SerializeSolutionForCLI.(solution, solution.user)
     assert_equal created_at.to_i, output[:solution][:submission][:submitted_at].to_i
@@ -72,7 +72,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     student = create :user, handle: 'anne'
     create :user_track, user: student
     solution = create :practice_solution, user: student, published_at: Time.current
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     mentor = create :user
     request = Mentor::Request::Create.(solution, "Please help")
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
@@ -95,7 +95,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
   test "solution_url for unpublished solution mentored by requester" do
     user_track = create :user_track
     solution = create :practice_solution, user: user_track.user, track: user_track.track
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     mentor = create :user
     request = Mentor::Request::Create.(solution, "Please help")
     discussion = Mentor::Discussion::Create.(mentor, request, iteration.idx, "I'd love to help")
@@ -119,7 +119,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     student = create :user, handle: 'anne'
     user_track = create :user_track, user: student
     solution = create :practice_solution, user: user_track.user, track: user_track.track, published_at: Time.current
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     non_mentor = create :user
     mentor = create :user
     request = Mentor::Request::Create.(solution, "Please help")
@@ -133,7 +133,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
   test "solution_url for unpublished solution mentored by other mentor" do
     user_track = create :user_track
     solution = create :practice_solution, user: user_track.user, track: user_track.track
-    iteration = create :iteration, solution: solution
+    iteration = create(:iteration, solution:)
     non_mentor = create :user
     mentor = create :user
     request = Mentor::Request::Create.(solution, "Please help")
@@ -148,7 +148,7 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
     student = create :user, handle: 'anne'
     user_track = create :user_track, user: student
     solution = create :practice_solution, user: user_track.user, track: user_track.track
-    create :iteration, solution: solution
+    create(:iteration, solution:)
     mentor = create :user, became_mentor_at: Time.current
     request = Mentor::Request::Create.(solution, "Please help")
 
@@ -160,8 +160,8 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
   test "solution_url for unpublished solution with pending mentor request and requester is not mentor" do
     user_track = create :user_track
     solution = create :practice_solution, user: user_track.user, track: user_track.track
-    create :iteration, solution: solution
-    non_mentor = create :user, became_mentor_at: nil
+    create(:iteration, solution:)
+    non_mentor = create :user, :not_mentor
     Mentor::Request::Create.(solution, "Please help")
 
     output = SerializeSolutionForCLI.(solution, non_mentor)

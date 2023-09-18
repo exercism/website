@@ -9,8 +9,8 @@ class API::TracksControllerTest < API::BaseTestCase
     track_2 = create :track, slug: :js, title: "JS FOobar"
     create :track, slug: :ruby_unjoined, title: "Ruby Unjoined"
 
-    create :user_track, user: user, track: track_1
-    create :user_track, user: user, track: track_2
+    create :user_track, user:, track: track_1
+    create :user_track, user:, track: track_2
 
     get api_tracks_url(
       criteria: "ruby",

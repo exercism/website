@@ -22,6 +22,7 @@ module Badges
       efx
       erikschierboom
       junedev
+      meatball
       mikedamay
       mirkoperillo
       mpizenberg
@@ -29,6 +30,7 @@ module Badges
       porkostomus
       sleeplessbyte
       thelostlambda
+      vaeng
       verdammelt
       wneumann
       yawpitch

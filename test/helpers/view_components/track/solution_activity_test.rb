@@ -5,9 +5,9 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
 
   test "started" do
     track = create :track, slug: 'ruby'
-    exercise = create :concept_exercise, track: track, slug: 'bob'
-    solution = create :concept_solution, exercise: exercise
-    user_track = create :user_track, track: track, user: solution.user
+    exercise = create :concept_exercise, track:, slug: 'bob'
+    solution = create(:concept_solution, exercise:)
+    user_track = create :user_track, track:, user: solution.user
 
     comp = render(ViewComponents::Track::SolutionActivity.new(solution, user_track))
     expected = <<~HTML
@@ -32,9 +32,9 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
     skip # TODO: Implement this test. System test?
 
     track = create :track, slug: 'ruby'
-    exercise = create :concept_exercise, track: track, slug: 'bob'
-    solution = create :concept_solution, exercise: exercise
-    iteration = create :iteration, solution: solution
+    exercise = create :concept_exercise, track:, slug: 'bob'
+    solution = create(:concept_solution, exercise:)
+    iteration = create(:iteration, solution:)
     user_track = UserTrack::Exernal.new(track)
 
     expected = link_to(
@@ -52,22 +52,22 @@ class ViewComponents::Track::SolutionActivityTest < ActionView::TestCase
   test "with mentor comments to_hash" do
     skip # TODO: Implement this test. System test?
     track = create :track, slug: 'ruby'
-    exercise = create :concept_exercise, track: track, slug: 'bob'
-    solution = create :concept_solution, exercise: exercise
-    create :iteration, solution: solution
-    discussion = create :mentor_discussion, solution: solution
+    exercise = create :concept_exercise, track:, slug: 'bob'
+    solution = create(:concept_solution, exercise:)
+    create(:iteration, solution:)
+    discussion = create(:mentor_discussion, solution:)
     user_track = UserTrack::Exernal.new(track)
 
     comp = render ViewComponents::Track::SolutionActivity.new(solution.reload, user_track)
     p comp.to_s
     # assert_include expected, comp.to_s
 
-    create :mentor_discussion_post, discussion: discussion, seen_by_student: true
+    create :mentor_discussion_post, discussion:, seen_by_student: true
     comp = render ViewComponents::Track::SolutionActivity.new(solution.reload, user_track)
     p comp.to_s
     # assert_include expected, comp.to_s
 
-    create :mentor_discussion_post, discussion: discussion, seen_by_student: false
+    create :mentor_discussion_post, discussion:, seen_by_student: false
     comp = render ViewComponents::Track::SolutionActivity.new(solution.reload, user_track)
     p comp.to_s
     # assert_include expected, comp.to_s

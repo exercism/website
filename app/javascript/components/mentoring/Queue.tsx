@@ -23,7 +23,7 @@ export type Links = {
   updateTracks: string
 }
 
-export const Queue = ({
+export default function Queue({
   queueRequest,
   tracksRequest,
   defaultTrack,
@@ -37,7 +37,7 @@ export const Queue = ({
   defaultExercise: MentoredTrackExercise | null
   sortOptions: SortOption[]
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const isMounted = useRef(false)
   const {
     tracks,

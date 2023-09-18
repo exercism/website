@@ -27,7 +27,7 @@ export const DiscussionDetails = ({
   )
 
   return (
-    <div className="discussion">
+    <div className="c-discussion-timeline">
       <DiscussionPostList
         iterations={iterations}
         userIsStudent={false}

@@ -1,7 +1,8 @@
 import React from 'react'
 import pluralize from 'pluralize'
+import { Icon, TrackIcon } from '@/components/common'
+import { MedianWaitTime } from '@/components/common/MedianWaitTime'
 import { Track } from '../TrackSelector'
-import { Icon, MedianWaitTime, TrackIcon } from '../../common'
 
 export const TrackCheckbox = ({
   slug,

@@ -1,3 +1,5 @@
+# This syncs solution.published_iteration_head_tests_status to be
+# the same as the solution's actual published_iteration status
 class Solution::SyncPublishedIterationHeadTestsStatus
   include Mandate
 

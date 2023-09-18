@@ -1,0 +1,45 @@
+%p Hello there!
+
+%p
+  I hope you're enjoying your first few days on #{link_to 'Exercism', 'https://exercism.org'}.
+  As you continue to explore our platform, I wanted to take a moment to tell you about our amazing community.
+
+%p
+  Exercism is an open-source, community-powered project.
+  In fact we're one of the biggest open-source organisations on #{link_to 'GitHub', 'https://github.com/exercism/'} with over 350 repositories.
+  Our community is centered around our values of empathy, kindness, and inclusivity.
+  Check out this video or read more below 👇
+
+%p{ style: "margin-bottom: 24px" }
+  %a{ href: "https://www.youtube.com/watch?v=fSh-nGw3IP8", style: "display:block; box-shadow: 0px 2px 4px #0F0923" }
+    %img{ src: "https://assets.exercism.org/images/thumbnails/yt-onboarding-community-with-play-icon.jpg", style: "width:100%; display:block" }
+
+
+%p{ style: "margin-bottom:8px" }
+  We have several community areas that you might find interesting and enjoyable:
+%ul
+  %li
+    Our #{link_to 'Discord', 'https://exercism.org/r/discord'} channel is a the place to go to hang out with the Exercism community, join community calls, and get quick support.
+  %li
+    Our #{link_to 'forum', 'https://exercism.org/r/forum'} is a great place to ask longer-form questions, share ideas, and connect with others who are passionate about coding.
+  %li
+    Our #{link_to 'YouTube Channel', 'https://exercism.org/r/youtube'} is the space to find our best video content - educational walkthrough, Exercism updates, community stories, and interviews with industry experts.
+  %li
+    On #{link_to 'Twitch', 'https://exercism.org/r/twitch'}, we host live streams featuring both our community and guests from the coding ecosystem.
+
+
+%p
+  We would love for you to join in and become an active member of our community.
+  Whether you're a seasoned developer or just starting out, there is a place for you here.
+  So don't be shy, come say hello and get involved!
+
+%p
+  Best regards,
+
+%p
+  Jeremy Walker
+  %br
+  Exercism Co-founder &amp; CEO
+
+= email_button_to 'Visit Exercism', root_url
+

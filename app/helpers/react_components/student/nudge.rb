@@ -13,7 +13,7 @@ module ReactComponents
           discussions:,
           request:,
           exercise_type:,
-          iterations: solution.iterations.order(idx: :desc).map { |iteration| SerializeIteration.(iteration) },
+          iterations: SerializeIterations.(solution.iterations.order(idx: :desc)),
           links:
         })
       end

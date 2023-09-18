@@ -4,7 +4,7 @@ class UserTrack::DestroysTest < ActiveSupport::TestCase
   test "resets and destroys everything" do
     freeze_time do
       user = create :user
-      user_track = create :user_track, user: user
+      user_track = create(:user_track, user:)
 
       UserTrack::Reset.expects(:call).with(user_track)
 

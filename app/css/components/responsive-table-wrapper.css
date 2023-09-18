@@ -1,0 +1,3 @@
+.c-responsive-table-wrapper {
+    @apply overflow-x-auto max-w-[100%] w-fit bg-backgroundColorA my-24 rounded-8 shadow-base;
+}

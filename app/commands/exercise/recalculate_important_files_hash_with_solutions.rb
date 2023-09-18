@@ -1,5 +1,5 @@
 class Exercise
-  # This command should only be called manually when the important files hash
+  # This is a manual command that should be manually when the important files hash
   # calculation algorithm has been updated and the important files hash thus
   # must be re-calculated
   class RecalculateImportantFilesHashWithSolutions
@@ -12,8 +12,11 @@ class Exercise
 
       ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
         exercise.update!(git_important_files_hash: new_git_important_files_hash)
-        Solution.where(exercise:, git_important_files_hash: old_git_important_files_hash).
-          update_all(git_important_files_hash: new_git_important_files_hash)
+
+        # We're calling this explicitely here, but do we need to?
+        # Does it not implicitely get called anyway? Let's double check
+        # before running this command again!
+        UpdateSolutionGitData.(exercise, old_git_important_files_hash)
       end
     end
 

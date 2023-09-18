@@ -23,7 +23,7 @@ class API::ProfilesControllerTest < API::BaseTestCase
 
   test "create: redirects to existing profile" do
     user = create :user, reputation: 10
-    create :user_profile, user: user
+    create(:user_profile, user:)
     sign_in!(user)
 
     post api_profile_url, params: { user: { name: "User" } }, headers: @headers, as: :json
@@ -37,7 +37,7 @@ class API::ProfilesControllerTest < API::BaseTestCase
 
   test "create: should 400 if profile criteria are not fulfilled" do
     user = create :user, reputation: 0
-    create :user_profile, user: user
+    create(:user_profile, user:)
     sign_in!(user)
 
     post api_profile_url, params: { user: { name: "User" } }, headers: @headers, as: :json

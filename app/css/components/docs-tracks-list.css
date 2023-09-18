@@ -2,7 +2,8 @@
 
 .c-docs-tracks-list {
     & .tracks {
-        @apply flex flex-wrap items-start justify-center;
+        @apply lg:flex lg:flex-wrap grid md:grid-cols-4 grid-cols-2 lg:gap-x-0 gap-x-20;
+        @apply items-start justify-center justify-items-center;
     }
     & .track {
         @apply px-8;
@@ -23,6 +24,7 @@
         }
         & .count {
             @apply text-16 leading-170 font-mono font-medium;
+            @apply whitespace-nowrap;
         }
     }
 }

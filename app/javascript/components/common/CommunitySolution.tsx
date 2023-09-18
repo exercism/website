@@ -1,16 +1,16 @@
 import React from 'react'
-import { GraphicalIcon, Avatar, Icon } from '../common'
-import {
-  CommunitySolution as CommunitySolutionProps,
-  CommunitySolutionContext,
-  SubmissionTestsStatus,
-} from '../types'
-import { useHighlighting } from '../../utils/highlight'
-import { shortFromNow } from '../../utils/time'
+import { shortFromNow } from '@/utils/time'
+import { useHighlighting } from '@/utils/highlight'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
+import { GraphicalIcon, Avatar, Icon } from '../common'
 import { Outdated } from './exercise-widget/info/Outdated'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import {
+  type CommunitySolution as CommunitySolutionProps,
+  type CommunitySolutionContext,
+  SubmissionTestsStatus,
+} from '../types'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
   return (
@@ -94,13 +94,13 @@ const ProcessingStatus = ({
   )
 }
 
-export const CommunitySolution = ({
+export default function CommunitySolution({
   solution,
   context,
 }: {
   solution: CommunitySolutionProps
   context: CommunitySolutionContext
-}): JSX.Element => {
+}): JSX.Element {
   const snippetRef = useHighlighting<HTMLPreElement>()
 
   const url =
@@ -126,7 +126,7 @@ export const CommunitySolution = ({
         <div className="--info">
           {context == 'mentoring' ? (
             <>
-              <div className="--title"> Your Solution </div>
+              <div className="--title">Your Solution</div>
               <div className="--subtitle">
                 to {solution.exercise.title} in {solution.track.title}
               </div>
@@ -138,7 +138,7 @@ export const CommunitySolution = ({
             </>
           ) : (
             <>
-              <div className="--title">
+              <div className="--title flex">
                 {solution.author.handle}&apos;s solution
               </div>
               <div className="--subtitle">
@@ -151,7 +151,7 @@ export const CommunitySolution = ({
         <ProcessingStatus solution={solution} />
       </header>
       <pre ref={snippetRef}>
-        <code className={solution.track.highlightjsLanguage}>
+        <code className={`language-${solution.track.highlightjsLanguage}`}>
           {solution.snippet}
         </code>
       </pre>

@@ -8,6 +8,7 @@ class SerializeContributor
       rank:,
       activity:,
       handle: user.handle,
+      flair: user.flair,
       reputation: User::FormatReputation.(reputation),
       avatar_url: user.avatar_url,
       links: {
@@ -17,6 +18,6 @@ class SerializeContributor
   end
 
   private
-  def activity = contextual_data.activity
-  def reputation = contextual_data.reputation
+  def activity = contextual_data&.activity || []
+  def reputation = contextual_data&.reputation || 0
 end

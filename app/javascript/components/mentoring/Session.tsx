@@ -31,7 +31,7 @@ import {
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
-import { SplitPane } from '../common'
+import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
 
 export type Links = {
@@ -80,7 +80,7 @@ export const TabsContext = createContext<TabContext>({
   switchToTab: () => null,
 })
 
-export const Session = (props: SessionProps): JSX.Element => {
+export default function Session(props: SessionProps): JSX.Element {
   const [session, setSession] = useState(props)
   const {
     student,

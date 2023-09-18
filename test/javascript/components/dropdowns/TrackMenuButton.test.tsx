@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { TrackMenu } from '../../../../app/javascript/components/dropdowns/TrackMenu'
+import { default as TrackMenu } from '@/components/dropdowns/TrackMenu'
 import userEvent from '@testing-library/user-event'
 import { createTrack } from '../../factories/TrackFactory'
 

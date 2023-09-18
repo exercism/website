@@ -1,0 +1,34 @@
+.c-tracks-zero-section {
+    .track-icons {
+        @apply relative flex mb-20;
+
+        .c-track-icon {
+            height: 64px;
+            width: 64px;
+            margin-left: -18px;
+        }
+    }
+}
+
+.c-zero-section {
+    @apply flex flex-col items-center;
+    @apply shadow-base rounded-8 py-28 px-24;
+    @apply text-center;
+    @apply mb-24;
+
+    .c-icon {
+        width: 96px;
+        height: 96px;
+        @apply mb-16;
+    }
+    h3 {
+        @apply text-h5 mb-8;
+    }
+    p {
+        @apply text-p-base;
+        @apply text-textColor6;
+    }
+    p + * {
+        @apply mt-20;
+    }
+}

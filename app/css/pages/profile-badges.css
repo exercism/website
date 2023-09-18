@@ -6,10 +6,11 @@
         @apply pt-32;
         & .summary {
             @apply shadow-base bg-backgroundColorA py-16 mb-40 rounded-8;
-            @apply flex justify-center;
+            @apply lg:flex grid sm:grid-cols-2 grid-cols-1;
+            @apply gap-x-64 gap-y-32 place-items-center justify-center;
 
             & .section {
-                @apply flex items-center mx-32;
+                @apply flex items-center justify-items-center;
 
                 & .c-icon {
                     @apply mr-16;
@@ -31,7 +32,7 @@
             }
         }
         & .badges {
-            @apply grid grid-cols-4 gap-x-36 gap-y-32;
+            @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-36 gap-y-32;
         }
     }
 }

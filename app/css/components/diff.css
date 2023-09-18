@@ -4,11 +4,6 @@
  */
 
 .c-diff {
-    --diffDarkGreen: #a9e7c8;
-    --diffLightGreen: #e5f8ee;
-    --diffDarkRed: #f5adad;
-    --diffLightRed: #fce6e6;
-
     @apply py-12;
     & .hljs {
         background: none !important;
@@ -26,6 +21,22 @@
     & .d2h-files-diff {
         display: block;
         width: 100%;
+    }
+
+    .d2h-diff-tbody {
+        tr {
+            @apply flex;
+
+            td.d2h-del:not(.d2h-code-linenumber),
+            td.d2h-ins:not(.d2h-code-linenumber) {
+                @apply grow;
+            }
+
+            td.d2h-del,
+            td.d2h-ins {
+                @apply p-0;
+            }
+        }
     }
 
     & .d2h-code-linenumber {

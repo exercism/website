@@ -15,7 +15,7 @@ module ReactComponents
           },
           links: {
             create: Exercism::Routes.api_profile_url,
-            update: Exercism::Routes.api_user_url(current_user),
+            update: Exercism::Routes.api_user_url,
             delete: Exercism::Routes.api_user_profile_photo_url
           }
         })

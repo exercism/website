@@ -19,7 +19,8 @@ class SerializeCommunitySolution
       language: track.highlightjs_language,
       author: {
         handle: user.handle,
-        avatar_url: user.avatar_url
+        avatar_url: user.avatar_url,
+        flair: user.flair
       },
       exercise: {
         title: solution.exercise.title,

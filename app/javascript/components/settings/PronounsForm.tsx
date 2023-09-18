@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { FormButton, Icon } from '../common'
+import { Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
 
@@ -16,7 +17,7 @@ type RequestBody = {
 
 const DEFAULT_ERROR = new Error('Unable to update pronouns')
 
-export const PronounsForm = ({
+export default function PronounsForm({
   handle,
   defaultPronounParts,
   links,
@@ -24,7 +25,7 @@ export const PronounsForm = ({
   handle: string
   defaultPronounParts: readonly string[]
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [pronounParts, setPronounParts] = useState<readonly string[]>(
     defaultPronounParts || ['', '', '']
   )
@@ -77,14 +78,20 @@ export const PronounsForm = ({
           <input
             type="text"
             value={pronounParts[0] || ''}
+            required
+            pattern="^[^\s]*$"
+            title="Input cannot contain whitespace"
             placeholder="e.g. They"
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 0)}
           />
-          answered all my questions. I'll recommend
+          answered all my questions. I&apos;ll recommend
           <input
             type="text"
             value={pronounParts[1] || ''}
+            required
+            pattern="^[^\s]*$"
+            title="Input cannot contain whitespace"
             placeholder="e.g. them"
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 1)}
@@ -93,6 +100,9 @@ export const PronounsForm = ({
           <input
             type="text"
             value={pronounParts[2] || ''}
+            required
+            pattern="^[^\s]*$"
+            title="Input cannot contain whitespace"
             placeholder="e.g. their"
             maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 2)}

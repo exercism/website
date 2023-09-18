@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ViewComponents::Mentor::HeaderTest < ActionView::TestCase
+class ViewComponents::SiteFooterTest < ActionView::TestCase
   test "unauthenticed request" do
     create :track, title: 'Ruby'
 

@@ -3,13 +3,13 @@ require 'test_helper'
 class User::Notification::RetrieveTest < ActiveSupport::TestCase
   test "orders correctly" do
     user = create :user
-    unread_1 = create :notification, status: :unread, user: user
-    read_1 = create :notification, status: :read, user: user
-    read_2 = create :notification, status: :read, user: user
-    unread_2 = create :notification, status: :unread, user: user
+    unread_1 = create(:notification, status: :unread, user:)
+    read_1 = create(:notification, status: :read, user:)
+    read_2 = create(:notification, status: :read, user:)
+    unread_2 = create(:notification, status: :unread, user:)
 
     # Pending
-    create :notification, status: :pending, user: user
+    create(:notification, status: :pending, user:)
 
     # Someone else's
     create :notification, status: :unread
@@ -47,7 +47,7 @@ class User::Notification::RetrieveTest < ActiveSupport::TestCase
 
   test "returns relationship unless paginated" do
     user = create :user
-    create :notification, user: user
+    create(:notification, user:)
 
     notifications = User::Notification::Retrieve.(user, paginated: false)
     assert notifications.is_a?(ActiveRecord::Relation)

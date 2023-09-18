@@ -70,6 +70,14 @@
         }
     }
 
+    &.--cover {
+        .--modal-content-inner {
+            @apply bg-backgroundColorA;
+            @apply shadow-lgZ1 rounded-8;
+            @apply px-48 py-32;
+            @apply overflow-hidden;
+        }
+    }
     &:not(.--cover) {
         & .--modal-content {
             @apply bg-backgroundColorA;

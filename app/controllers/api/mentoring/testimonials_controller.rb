@@ -7,7 +7,7 @@ module API
     end
 
     def reveal
-      @testimonial.update!(revealed: true)
+      Mentor::Testimonial::Reveal.(@testimonial)
 
       render json: {
         testimonial: SerializeMentorTestimonial.(@testimonial)

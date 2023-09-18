@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../../modals/Modal'
-import { FormButton } from '../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
-import { MentorSessionRequest } from '../../../types'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { redirectTo } from '../../../../utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { MentorSessionRequest } from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to cancel request')
 

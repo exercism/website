@@ -4,14 +4,14 @@ class ReactComponents::Contributing::TasksListTest < ReactComponentTestCase
   test "renders correctly" do
     track = create :track, slug: 'ruby'
 
-    task_1 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',
+    task_1 = create(:github_task, issue_url: 'https://github.com/exercism/ruby/issues/888', title: 'Improve test speed',
       opened_at: Time.parse("2021-03-05T23:23:00Z").utc, opened_by_username: 'iHiD',
       action: :fix, knowledge: :elementary, area: :analyzer, size: :tiny, type: :ci,
-      repo: 'exercism/ruby', track: track
-    task_2 = create :github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
+      repo: 'exercism/ruby', track:)
+    task_2 = create(:github_task, issue_url: 'https://github.com/exercism/ruby/issues/312', title: 'Sync anagram',
       opened_at: Time.parse("2020-10-17T02:39:37Z").utc, opened_by_username: 'ErikSchierboom',
       action: :fix, knowledge: :none, area: :analyzer, size: :small, type: :ci,
-      repo: 'exercism/ruby', track: track
+      repo: 'exercism/ruby', track:)
 
     params = {
       actions: ["fix"],
@@ -47,7 +47,7 @@ class ReactComponents::Contributing::TasksListTest < ReactComponentTestCase
                 track: {
                   slug: "ruby",
                   title: "Ruby",
-                  icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg"
+                  icon_url: "https://assets.exercism.org/tracks/ruby.svg"
                 },
                 opened_by_username: "iHiD",
                 opened_at: "2021-03-05T23:23:00Z",
@@ -69,7 +69,7 @@ class ReactComponents::Contributing::TasksListTest < ReactComponentTestCase
                 track: {
                   slug: "ruby",
                   title: "Ruby",
-                  icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg"
+                  icon_url: "https://assets.exercism.org/tracks/ruby.svg"
                 },
                 opened_by_username: "ErikSchierboom",
                 opened_at: "2020-10-17T02:39:37Z",

@@ -59,7 +59,7 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
             This task involves <strong>writing Dockerfiles</strong>.
           </h3>
           <p>
-            Use your Docker expertise to help improve, optimise and shrink our
+            Use your Docker expertise to help improve, optimize and shrink our
             Dockerfiles.
           </p>
         </>

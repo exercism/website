@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import { MentorDiscussion } from '../../../types'
-import { Avatar, GraphicalIcon } from '../../../common'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { FormButton } from '../../../common'
-import { FetchingBoundary } from '../../../FetchingBoundary'
+import { sendRequest } from '@/utils/send-request'
+import { MentorDiscussion } from '@/components/types'
+import { Avatar, GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { TestimonialField } from './TestimonialField'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')

@@ -11,6 +11,7 @@ class Solution < ApplicationRecord
   belongs_to :user
   belongs_to :exercise
   belongs_to :published_iteration, class_name: "Iteration", optional: true
+  belongs_to :published_exercise_representation, class_name: "Exercise::Representation", optional: true
   has_one :track, through: :exercise
 
   # TODO: This might be horrific for performance
@@ -42,8 +43,8 @@ class Solution < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
 
-  scope :published, -> { where.not(published_at: nil) }
-  scope :not_published, -> { where(published_at: nil) }
+  scope :published, -> { where(status: :published) }
+  scope :not_published, -> { where.not(status: :published) }
 
   delegate :files_for_editor, to: :exercise, prefix: :exercise
 
@@ -107,11 +108,10 @@ class Solution < ApplicationRecord
   end
 
   def update_latest_iteration_head_tests_status!(status)
-    unless latest_iteration_head_tests_status == status.to_sym
-      update_column(:latest_iteration_head_tests_status, status)
-      Solution::SyncToSearchIndex.defer(self)
-    end
-    Solution::AutoUpdateToLatestExerciseVersion.(self)
+    return if latest_iteration_head_tests_status == status.to_sym
+
+    update_column(:latest_iteration_head_tests_status, status)
+    Solution::SyncToSearchIndex.defer(self)
   end
 
   memoize
@@ -229,19 +229,12 @@ class Solution < ApplicationRecord
 
   def broadcast!
     SolutionChannel.broadcast!(self)
+    SolutionWithLatestIterationChannel.broadcast!(self)
     LatestIterationStatusChannel.broadcast!(self)
   end
 
   def anonymised_user_handle
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
-  end
-
-  def sync_git!
-    update!(
-      git_slug: exercise.slug,
-      git_sha: exercise.git_sha,
-      git_important_files_hash: exercise.git_important_files_hash
-    )
   end
 
   def read_file(filepath)

@@ -9,7 +9,7 @@ module Flows
       test "user resends confirmation email" do
         ActionMailer::Base.deliveries.clear
         user = create :user
-        create :user_profile, user: user
+        create(:user_profile, user:)
 
         use_capybara_host do
           perform_enqueued_jobs do

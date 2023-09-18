@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
-import { CopyToClipboardButton, GraphicalIcon } from '../../common'
+import { GraphicalIcon } from '@/components/common'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { Modal } from '../Modal'
 
 type Links = {
   profile: string
 }
 
-export const FirstTimeModal = ({ links }: { links: Links }): JSX.Element => {
+export default function FirstTimeModal({
+  links,
+}: {
+  links: Links
+}): JSX.Element {
   const [open, setOpen] = useState(true)
 
   return (
@@ -21,9 +26,9 @@ export const FirstTimeModal = ({ links }: { links: Links }): JSX.Element => {
         <GraphicalIcon icon="confetti" category="graphics" />
         <h2>You now have a public profile!</h2>
         <p>
-          <strong>Good job!</strong> You'll now see your published solutions,
-          mentoring testimonials, contributions and badges on your public
-          profile.
+          <strong>Good job!</strong> You&apos;ll now see your published
+          solutions, mentoring testimonials, contributions and badges on your
+          public profile.
         </p>
       </header>
       <div className="copy-section">

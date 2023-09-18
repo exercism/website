@@ -19,12 +19,12 @@ class Badge::GrowthMindsetBadgeTest < ActiveSupport::TestCase
     refute badge.award_to?(user.reload)
 
     # Iterated solution
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     solution.update_column(:last_iterated_at, Time.current - 1.week)
     refute badge.award_to?(user.reload)
 
     # Discusssion without new iteartion
-    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    create :mentor_discussion, solution:, created_at: Time.current - 1.day
     refute badge.award_to?(user.reload)
 
     # Extra iteration

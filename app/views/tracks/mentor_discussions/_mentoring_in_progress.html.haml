@@ -1,12 +1,12 @@
 .mentoring-in-progress
   .header.c-mentor-discussion-widget
-    = avatar(current_user, css_class: 'c-avatar student-avatar')
+    = avatar(discussion.student, css_class: 'c-avatar student-avatar')
     = avatar(discussion.mentor, css_class: 'c-avatar mentor-avatar')
 
     .info
-      %h2
-        You're being mentored by
-        %strong= discussion.mentor.handle
+      %h2.flex
+        You're being mentored by&nbsp;
+        %strong= render ViewComponents::HandleWithFlair.new(discussion.mentor.handle, discussion.mentor.flair, size: :large)
 
       .details
         - if discussion.mentor_finished?

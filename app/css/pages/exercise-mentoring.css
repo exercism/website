@@ -37,6 +37,7 @@
                             @apply bg-lightOrange rounded-8;
                             @apply flex items-center justify-center;
                             @apply text-h6;
+                            color: #130b43;
                             height: 48px;
                         }
                     }

@@ -4,7 +4,6 @@ module ApplicationCable
 
     def connect
       self.current_user = env["warden"].user(:user)
-      self.current_user || reject_unauthorized_connection
     end
   end
 end

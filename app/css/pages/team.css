@@ -3,11 +3,7 @@
 #page-team {
     & > header {
         @apply relative;
-        background: linear-gradient(
-            180deg,
-            var(--backgroundColorE) 0%,
-            var(--backgroundColorA) 100%
-        );
+        background: var(--backgroundColorTeamHeader);
 
         & .lg-container {
             @apply pt-32;
@@ -36,6 +32,7 @@
         }
     }
     & .info-box {
+        background: var(--backgroundColorTeamInfoBox);
         & .c-icon {
             height: 240px;
             width: 240px;
@@ -51,6 +48,7 @@
                 height: 48px;
                 width: 48px;
                 @apply mb-16;
+                @apply filter-textColor1;
             }
         }
         & .person {
@@ -95,6 +93,7 @@
                     & .c-icon {
                         height: 16px;
                         width: 16px;
+                        @apply filter-textColor6;
                     }
                     & span {
                         @apply mx-16;

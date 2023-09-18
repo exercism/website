@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
+import React from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { typecheck } from '../../../utils/typecheck'
-import { FormButton, GraphicalIcon } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { redirectTo } from '../../../utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { redirectTo } from '@/utils/redirect-to'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { GraphicalIcon } from '@/components/common'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { FormButton } from '@/components/common/FormButton'
 
 type UserTrack = {
   links: {

@@ -1,7 +1,5 @@
 import React from 'react'
-import { RepresentationStatus, AnalysisStatus } from '../../types'
-import { GraphicalIcon } from '../../common'
-import { Icon } from '../../common/Icon'
+import { Icon } from '@/components/common'
 
 export function AnalysisStatusSummary({
   numEssentialAutomatedComments,
@@ -11,7 +9,7 @@ export function AnalysisStatusSummary({
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
-}) {
+}): JSX.Element | null {
   if (
     numEssentialAutomatedComments === 0 &&
     numActionableAutomatedComments === 0 &&

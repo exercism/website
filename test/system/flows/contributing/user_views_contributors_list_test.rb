@@ -9,9 +9,8 @@ module Flows
       test "user views contributor list" do
         create :user
         contributor = create :user, handle: "contributor"
-        token = create :user_reputation_token, user: contributor, value: 10
-        User::ReputationPeriod::MarkForToken.(token)
-        User::ReputationPeriod::Sweep.()
+        create :user_reputation_token, user: contributor, value: 10
+        generate_reputation_periods!
 
         use_capybara_host do
           visit contributing_contributors_path
@@ -25,11 +24,9 @@ module Flows
       test "user filters by period" do
         create :user
         contributor = create :user, handle: "contributor"
-        week_token = create :user_reputation_token, user: contributor, value: 10, earned_on: Time.zone.today
-        User::ReputationPeriod::MarkForToken.(week_token)
-        month_token = create :user_reputation_token, user: contributor, value: 10, earned_on: 2.months.ago
-        User::ReputationPeriod::MarkForToken.(month_token)
-        User::ReputationPeriod::Sweep.()
+        create :user_reputation_token, user: contributor, value: 10, earned_on: Time.zone.today
+        create :user_reputation_token, user: contributor, value: 10, earned_on: 2.months.ago
+        generate_reputation_periods!
 
         use_capybara_host do
           visit contributing_contributors_path
@@ -42,18 +39,16 @@ module Flows
       test "user filters by category" do
         create :user
         contributor = create :user, handle: "contributor"
-        building_token = create :user_reputation_token, user: contributor, value: 10
-        User::ReputationPeriod::MarkForToken.(building_token)
-        maintaining_token = create :user_code_merge_reputation_token, user: contributor, value: 10
-        User::ReputationPeriod::MarkForToken.(maintaining_token)
-        User::ReputationPeriod::Sweep.()
+        create :user_reputation_token, user: contributor, value: 10
+        create :user_code_merge_reputation_token, user: contributor, value: 10
+        generate_reputation_periods!
 
         use_capybara_host do
           visit contributing_contributors_path
           click_on "All categories"
           find("label", text: "Maintaining").click
 
-          assert_text "1 PR merged"
+          assert_text "1 PR reviewed and/or merged"
           assert_no_text "1 PR created"
         end
       end
@@ -62,12 +57,10 @@ module Flows
         create :user
         contributor = create :user, handle: "contributor"
         ruby = create :track, title: "Ruby", slug: "ruby"
-        ruby_token = create :user_reputation_token, user: contributor, value: 10, track: ruby
-        User::ReputationPeriod::MarkForToken.(ruby_token)
+        create :user_reputation_token, user: contributor, value: 10, track: ruby
         go = create :track, title: "Go", slug: "go"
-        go_token = create :user_reputation_token, user: contributor, value: 10, track: go
-        User::ReputationPeriod::MarkForToken.(go_token)
-        User::ReputationPeriod::Sweep.()
+        create :user_reputation_token, user: contributor, value: 10, track: go
+        generate_reputation_periods!
 
         use_capybara_host do
           visit contributing_contributors_path
@@ -83,12 +76,10 @@ module Flows
         create :user
         contributor = create :user, handle: "contributor"
         ruby = create :track, title: "Ruby", slug: "ruby"
-        ruby_token = create :user_reputation_token, user: contributor, value: 10, track: ruby
-        User::ReputationPeriod::MarkForToken.(ruby_token)
+        create :user_reputation_token, user: contributor, value: 10, track: ruby
         go = create :track, title: "Go", slug: "go"
-        go_token = create :user_reputation_token, user: contributor, value: 10, track: go
-        User::ReputationPeriod::MarkForToken.(go_token)
-        User::ReputationPeriod::Sweep.()
+        create :user_reputation_token, user: contributor, value: 10, track: go
+        generate_reputation_periods!
 
         use_capybara_host do
           visit contributing_contributors_path(track_slug: "go")

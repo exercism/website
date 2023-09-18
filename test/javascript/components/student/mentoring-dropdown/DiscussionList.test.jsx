@@ -8,7 +8,7 @@ test('renders zero state', async () => {
 
   expect(
     screen.getByText(
-      'Your discussions with mentors for this exercise will appear here once started.'
+      'Your code review discussions with mentors for this exercise will appear here once started.'
     )
   ).toBeInTheDocument()
 })

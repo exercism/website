@@ -31,7 +31,7 @@ class CommunityVideo::CreateTest < ActiveSupport::TestCase
     url = mock
     submitter = create :user
     title = "Something"
-    retrieved_video = build :community_video, title: title
+    retrieved_video = build(:community_video, title:)
     CommunityVideo::Retrieve.expects(:call).with(url).returns(retrieved_video)
 
     video = CommunityVideo::Create.(url, submitter)
@@ -43,8 +43,8 @@ class CommunityVideo::CreateTest < ActiveSupport::TestCase
   test "raises when video already exists" do
     url = mock
     exercise = create :practice_exercise
-    video = create :community_video, url: url, exercise: exercise
-    retrieved_video = build :community_video, url: url, exercise: exercise
+    video = create(:community_video, url:, exercise:)
+    retrieved_video = build(:community_video, url:, exercise:)
 
     CommunityVideo::Retrieve.expects(:call).with(video.url).returns(retrieved_video)
 

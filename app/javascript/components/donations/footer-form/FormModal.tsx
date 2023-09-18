@@ -7,9 +7,7 @@ import { Request } from '../../../hooks/request-query'
 
 type ModalStep = 'donating' | 'processingDonation' | 'donationSuccess'
 
-type Links = {
-  settings: string
-}
+type Links = Record<'settings' | 'donate', string>
 
 type Props = {
   amount: currency

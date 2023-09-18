@@ -5,7 +5,7 @@ module Badges
     ].freeze
 
     seed "Functional February",
-      :ultimate,
+      :rare,
       'functional',
       'Completed and published five exercises in a functional language in February'
 
@@ -18,7 +18,11 @@ module Badges
     def award_to?(user)
       user.solutions.published.joins(exercise: :track).
         where('tracks.slug': TRACK_SLUGS).
-        where('MONTH(published_at) = 2').
+        where('
+                (MONTH(published_at) = 1 AND DAY(published_at) = 31) OR
+                (MONTH(published_at) = 2) OR
+                (MONTH(published_at) = 3 AND DAY(published_at) = 1)
+              ').
         where.not('exercises.slug': 'hello-world').
         count >= 5
     end

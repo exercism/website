@@ -6,10 +6,10 @@ import { mappings } from '@/packs/application'
 
 // Export own set of props (even if they are the same for now) to enable clients to be more future-proof
 export type LazyTippyProps = TippyProps & {
-  renderReactComponents: boolean
+  renderReactComponents?: boolean
 }
 
-export const LazyTippy = (props: LazyTippyProps) => {
+export const LazyTippy = (props: LazyTippyProps): JSX.Element => {
   const { renderReactComponents, ...tippyProps } = props
   const [mounted, setMounted] = React.useState(false)
 

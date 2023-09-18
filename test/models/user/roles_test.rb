@@ -37,7 +37,7 @@ class User::RolesTest < ActiveSupport::TestCase
   end
 
   test "mentor?" do
-    user = create :user, became_mentor_at: nil
+    user = create :user, :not_mentor
     refute user.mentor?
 
     user.update(became_mentor_at: Time.current)

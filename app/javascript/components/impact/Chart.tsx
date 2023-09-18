@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Chart } from 'chart.js'
+import {
+  CategoryScale,
+  Chart,
+  Filler,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+} from 'chart.js'
 import { generateAccumulatedData } from './chart-elements/data'
 import { CANVAS_CUSTOM_POINTS } from './chart-elements'
 import { createChartConfig } from './chart-elements/chart-config'
@@ -14,10 +22,18 @@ export default function ImpactChart({
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [chart, setChart] = useState<Chart<'line'> | null>(null)
 
+  Chart.register(
+    LineController,
+    LineElement,
+    PointElement,
+    CategoryScale,
+    LinearScale,
+    Filler,
+    CANVAS_CUSTOM_POINTS
+  )
+
   useEffect(() => {
-    if (!canvas) {
-      return
-    }
+    if (!canvas) return
 
     const { dataArray, keys, dateMap } = generateAccumulatedData(
       JSON.parse(data.usersPerMonth)
@@ -32,11 +48,7 @@ export default function ImpactChart({
   }, [canvas, data.milestones, data.usersPerMonth])
 
   useEffect(() => {
-    if (!chart) {
-      return
-    }
-    // Chart.register(CANVAS_BACKGROUND)
-    Chart.register(CANVAS_CUSTOM_POINTS)
+    if (!chart) return
 
     chart.update()
   }, [chart])
@@ -44,7 +56,7 @@ export default function ImpactChart({
   return (
     <div className="relative">
       {/* <NumberOfStudentsLabel /> */}
-      <canvas height={480} ref={setCanvas}></canvas>
+      <canvas height={480} ref={setCanvas} />
     </div>
   )
 }

@@ -11,14 +11,10 @@
     }
 
     & ul {
-        @apply flex;
+        @apply flex gap-32 md:gap-[40px] scroll-x-hidden;
     }
     & li {
-        @apply mr-40;
-        @apply border-b-3 border-transparent;
-        &:last-child {
-            @apply mr-0;
-        }
+        @apply border-b-3 border-transparent whitespace-nowrap;
         & a {
             @apply text-16 leading-200 text-textColor6 font-medium;
             @apply block mt-8 mb-8;
@@ -26,7 +22,7 @@
             & .c-icon {
                 height: 24px;
                 width: 24px;
-                @apply text-anotherPurple;
+                filter: var(--purple-filter);
             }
         }
         &:hover {
@@ -35,10 +31,10 @@
             }
         }
         &.selected {
-            @apply border-anotherPurple;
+            @apply border-adaptivePurple;
 
             & a {
-                @apply text-anotherPurple;
+                @apply text-adaptivePurple;
             }
         }
     }

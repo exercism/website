@@ -4,7 +4,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "index: redirects if in practice mode" do
     track = create :track, course: true
     user = create :user
-    create :user_track, track: track, user: user, practice_mode: true
+    create :user_track, track:, user:, practice_mode: true
     sign_in!(user)
 
     get track_concepts_url(track)
@@ -14,7 +14,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "index: redirects if track does not have course" do
     track = create :track, course: false
     user = create :user
-    create :user_track, track: track, user: user, practice_mode: true
+    create :user_track, track:, user:, practice_mode: true
     sign_in!(user)
 
     get track_concepts_url(track)
@@ -31,7 +31,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "index: renders correctly for joined" do
     user = create :user
     track = create :track, course: true
-    create :user_track, user: user, track: track
+    create(:user_track, user:, track:)
 
     sign_in!(user)
 
@@ -86,7 +86,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :concept, :with_git_data
     concept.track.update!(active: false)
     user = create :user, roles: [:maintainer]
-    ut = create :user_track, track: concept.track, user: user
+    ut = create(:user_track, track: concept.track, user:)
 
     sign_in!(user)
 
@@ -98,7 +98,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
     concept = create :concept, :with_git_data
     concept.track.update!(active: false)
     user = create :user
-    ut = create :user_track, track: concept.track, user: user
+    ut = create(:user_track, track: concept.track, user:)
 
     sign_in!(user)
 
@@ -118,7 +118,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "show: renders correctly for available" do
     concept = create :concept, :with_git_data
     user = create :user
-    create :user_track, track: concept.track, user: user
+    create(:user_track, track: concept.track, user:)
 
     # TODO: Remove if not uncommented at launch
     # UserTrack.any_instance.stubs(concept_learnt?: false)
@@ -133,7 +133,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "show: renders correctly for learnt" do
     concept = create :concept, :with_git_data
     user = create :user
-    ut = create :user_track, track: concept.track, user: user
+    ut = create(:user_track, track: concept.track, user:)
 
     # TODO: Remove if not uncommented at launch
     # UserTrack.any_instance.stubs(concept_learnt?: true)
@@ -148,7 +148,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "show: renders correctly for locked" do
     concept = create :concept, :with_git_data
     user = create :user
-    ut = create :user_track, track: concept.track, user: user
+    ut = create(:user_track, track: concept.track, user:)
 
     # TODO: Remove if not uncommented at launch
     # UserTrack.any_instance.stubs(concept_learnt?: false)
@@ -202,7 +202,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "show: shows intro for unlearnt" do
     concept = create :concept, :with_git_data
     user = create :user
-    create :user_track, user: user, track: concept.track
+    create :user_track, user:, track: concept.track
 
     sign_in!(user)
     get track_concept_url(concept.track, concept)
@@ -214,7 +214,7 @@ class Tracks::ConceptsControllerTest < ActionDispatch::IntegrationTest
   test "show: shows about for learnt" do
     concept = create :concept, :with_git_data
     user = create :user
-    create :user_track, user: user, track: concept.track
+    create :user_track, user:, track: concept.track
 
     UserTrack.any_instance.stubs(concept_learnt?: true)
 

@@ -5,7 +5,7 @@ module ReactComponents
 
       def to_s
         super("common-solution-view", {
-          iterations: iterations.map { |iteration| SerializeIteration.(iteration) },
+          iterations: SerializeIterations.(iterations),
           language: solution.track.highlightjs_language,
           indent_size: solution.track.indent_size,
           out_of_date: solution.out_of_date?,

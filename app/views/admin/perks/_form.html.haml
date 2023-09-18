@@ -1,0 +1,64 @@
+- if perk.errors.any?
+  %div{ style: "color: red" }
+    %h2
+      = pluralize(perk.errors.count, "error")
+      prohibited this perk from being saved:
+    %ul
+      - perk.errors.each do |error|
+        %li= error.full_message
+
+.mt-20
+  .flex.flex-col.mb-16
+    = f.label :status, class: 'text-h6 mb-4'
+    .c-select
+      = f.select :status, (Partner::Perk.statuses.map { |s, _| [s.titleize, s] })
+  .flex.flex-col.mb-16
+    = f.label :preview_text, class: 'text-h6 mb-4'
+    = f.text_field :preview_text
+
+  .flex.flex-col.mb-16
+    = f.label :light_logo, class: 'text-h6 mb-4'
+    = f.file_field :light_logo
+
+  .flex.flex-col.mb-16
+    = f.label :dark_logo, class: 'text-h6 mb-4'
+    = f.file_field :dark_logo
+
+
+  %h2.text-h2.mb-16 General offer
+  .flex.flex-col.mb-16
+    = f.label :general_url, "URL", class: 'text-h6 mb-4'
+    = f.text_field :general_url
+  .flex.flex-col.mb-16
+    = f.label :general_offer_summary_markdown, "Summary (Markdown)", class: 'text-h6 mb-4'
+    = f.text_field :general_offer_summary_markdown
+  .flex.flex-col.mb-16
+    = f.label :general_button_text, "Button Text", class: 'text-h6 mb-4'
+    = f.text_field :general_button_text
+  .flex.flex-col.mb-16
+    = f.label :general_offer_details, "Offer details (appears on perk page)", class: 'text-h6 mb-4'
+    = f.text_field :general_offer_details
+  .flex.flex-col.mb-16
+    = f.label :general_voucher_code, "Voucher Code (optional)", class: 'text-h6 mb-4'
+    = f.text_field :general_voucher_code
+
+  %h2.text-h2.mb-16 Insiders offer
+  .flex.flex-col.mb-16
+    = f.label :insiders_url, "URL", class: 'text-h6 mb-4'
+    = f.text_field :insiders_url
+  .flex.flex-col.mb-16
+    = f.label :insiders_offer_summary_markdown, "Summary (Markdown)", class: 'text-h6 mb-4'
+    = f.text_field :insiders_offer_summary_markdown
+  .flex.flex-col.mb-16
+    = f.label :insiders_button_text, "Button Text", class: 'text-h6 mb-4'
+    = f.text_field :insiders_button_text
+  .flex.flex-col.mb-16
+    = f.label :insiders_offer_details, "Offer details (appears on perk page)", class: 'text-h6 mb-4'
+    = f.text_field :insiders_offer_details
+  .flex.flex-col.mb-16
+    = f.label :insiders_voucher_code, "Voucher Code (optional)", class: 'text-h6 mb-4'
+    = f.text_field :insiders_voucher_code
+
+%div
+  = f.submit class: 'btn btn-primary btn-base'
+

@@ -23,29 +23,33 @@ interface IndexAdjacentBySlug {
   ): AdjacentIndex
 }
 
-export const ConceptMap = ({
+export default function ConceptMap({
   concepts,
   levels,
   connections,
   status,
   exercisesData,
-}: IConceptMap): JSX.Element => {
+}: IConceptMap): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fontLoaded = useFontLoaded('Poppins')
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
-  const unsetActiveSlug = useCallback(() => setActiveSlug(null), [
-    setActiveSlug,
-  ])
+  const unsetActiveSlug = useCallback(
+    () => setActiveSlug(null),
+    [setActiveSlug]
+  )
 
-  const conceptsBySlug = useMemo(() => indexConceptsBySlug(concepts), [
-    concepts,
-  ])
-  const descendantsBySlug = useMemo(() => indexDescendantsBySlug(connections), [
-    connections,
-  ])
-  const parentsBySlug = useMemo(() => indexParentsBySlug(connections), [
-    connections,
-  ])
+  const conceptsBySlug = useMemo(
+    () => indexConceptsBySlug(concepts),
+    [concepts]
+  )
+  const descendantsBySlug = useMemo(
+    () => indexDescendantsBySlug(connections),
+    [connections]
+  )
+  const parentsBySlug = useMemo(
+    () => indexParentsBySlug(connections),
+    [connections]
+  )
   const activeSlugsBySlug = useMemo(
     () => indexActiveSlugsBySlug(concepts, parentsBySlug, descendantsBySlug),
     [concepts, parentsBySlug, descendantsBySlug]

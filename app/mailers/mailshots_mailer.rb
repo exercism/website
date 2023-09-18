@@ -1,48 +1,25 @@
 class MailshotsMailer < ApplicationMailer
   layout false
 
-  default from: "Jeremy Walker <hello@mail.exercism.io>", reply_to: "jonathan@exercism.org"
-
-  def community_launch
+  def mailshot
     @user = params[:user]
+    @mailshot = params[:mailshot]
 
-    subject = "Forum, Swag, Automated Feedback, and a new Dig Deeper section"
-    mail_to_user(@user, subject)
+    bulk_mail(@user, @mailshot.subject)
   end
 
-  def company_support_donor
+  def launch_trophies
     @user = params[:user]
+    acquired_trophies = @user.acquired_trophies
+    @num_trophies = acquired_trophies.count
+    @trophy_tracks = Track.where(id: acquired_trophies.map(&:track_id))
 
-    subject = "Could your company support Exercism?"
-    mail_to_user(@user, subject, reply_to: "loretta@exercism.org")
-  end
+    raise "No trophies" unless @num_trophies.positive?
 
-  def company_support_testimonial
-    @user = params[:user]
+    subject = @num_trophies == 1 ? "You have a new Track Trophy at Exercism" :
+      "You have #{@num_trophies.humanize} new Track Trophies at Exercism"
 
-    subject = "Could your company support Exercism?"
-    mail_to_user(@user, subject, reply_to: "loretta@exercism.org")
-  end
-
-  def challenge_12in23_launch
-    @user = params[:user]
-
-    subject = "Take the #12in23 Challenge"
-    mail_to_user(@user, subject)
-  end
-
-  def challenge_12in23_calendar
-    @user = params[:user]
-    @signed_up = @user.challenges.where(challenge_id: "12in23").exists?
-
-    subject = "Meet the #12in23 Calendar"
-    mail_to_user(@user, subject)
-  end
-
-  def functional_february
-    @user = params[:user]
-
-    subject = "It's Functional February!"
-    mail_to_user(@user, subject)
+    @email_communication_preferences_key = :receive_product_updates
+    bulk_mail(@user, subject)
   end
 end

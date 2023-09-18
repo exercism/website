@@ -5,7 +5,7 @@ class Exercise::Approach::AuthorshipTest < ActiveSupport::TestCase
     author = create :user
     approach = create :exercise_approach
 
-    authorship = create :exercise_approach_authorship, approach: approach, author: author
+    authorship = create(:exercise_approach_authorship, approach:, author:)
 
     assert_equal author, authorship.author
     assert_equal approach, authorship.approach

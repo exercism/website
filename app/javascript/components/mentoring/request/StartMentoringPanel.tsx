@@ -58,7 +58,7 @@ export const StartMentoringPanel = ({
         Start mentoring
       </button>
       <div className="note">
-        You have 30 minutes until the session returns to the queue for others to
+        You have 60 minutes until the session returns to the queue for others to
         mentor.
       </div>
       {status === 'loading' ? <Loading /> : null}

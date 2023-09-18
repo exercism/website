@@ -3,7 +3,7 @@ require "test_helper"
 class Github::Task::SyncRepoTest < ActiveSupport::TestCase
   test "creates task if issue is opened and not claimed" do
     issue = create :github_issue, status: :open
-    create :github_issue_label, name: 'x:action/fix', issue: issue
+    create(:github_issue_label, name: 'x:action/fix', issue:)
 
     task = Github::Task::SyncTask.(issue)
 
@@ -21,11 +21,11 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
 
   test "set task properties based on labels" do
     issue = create :github_issue, status: :open
-    create :github_issue_label, issue: issue, name: 'x:action/fix'
-    create :github_issue_label, issue: issue, name: 'x:knowledge/intermediate'
-    create :github_issue_label, issue: issue, name: 'x:module/analyzer'
-    create :github_issue_label, issue: issue, name: 'x:size/medium'
-    create :github_issue_label, issue: issue, name: 'x:type/coding'
+    create :github_issue_label, issue:, name: 'x:action/fix'
+    create :github_issue_label, issue:, name: 'x:knowledge/intermediate'
+    create :github_issue_label, issue:, name: 'x:module/analyzer'
+    create :github_issue_label, issue:, name: 'x:size/medium'
+    create :github_issue_label, issue:, name: 'x:type/coding'
 
     task = Github::Task::SyncTask.(issue)
 
@@ -38,11 +38,11 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
 
   test "updates task if task exists and issue is opened and not claimed" do
     issue = create :github_issue, status: :open
-    create :github_issue_label, issue: issue, name: 'x:action/fix'
-    create :github_issue_label, issue: issue, name: 'x:knowledge/intermediate'
-    create :github_issue_label, issue: issue, name: 'x:module/analyzer'
-    create :github_issue_label, issue: issue, name: 'x:size/medium'
-    create :github_issue_label, issue: issue, name: 'x:type/coding'
+    create :github_issue_label, issue:, name: 'x:action/fix'
+    create :github_issue_label, issue:, name: 'x:knowledge/intermediate'
+    create :github_issue_label, issue:, name: 'x:module/analyzer'
+    create :github_issue_label, issue:, name: 'x:size/medium'
+    create :github_issue_label, issue:, name: 'x:type/coding'
 
     task = create :github_task, issue_url: issue.github_url, repo: issue.repo, title: issue.title,
       opened_at: issue.opened_at, opened_by_username: issue.opened_by_username,
@@ -86,7 +86,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
 
   test "does not create task if issue has claimed label" do
     issue = create :github_issue, status: :closed
-    create :github_issue_label, issue: issue, name: 'x:status/claimed'
+    create :github_issue_label, issue:, name: 'x:status/claimed'
 
     Github::Task::SyncTask.(issue)
 
@@ -95,7 +95,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
 
   test "destroys task if issue has claimed label" do
     issue = create :github_issue, status: :closed
-    create :github_issue_label, issue: issue, name: 'x:status/claimed'
+    create :github_issue_label, issue:, name: 'x:status/claimed'
     create :github_task, issue_url: issue.github_url
 
     Github::Task::SyncTask.(issue)
@@ -113,7 +113,7 @@ class Github::Task::SyncRepoTest < ActiveSupport::TestCase
 
   test "does not create task if issue does not have at least one exercism label" do
     issue = create :github_issue, status: :open
-    create :github_issue_label, name: 'good first issue', issue: issue
+    create(:github_issue_label, name: 'good first issue', issue:)
 
     Github::Task::SyncTask.(issue)
 

@@ -17,7 +17,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     user_id = 12_348_521
     team_name = 'team11'
     org = 'exercism'
-    create :github_team_member, user_id: user_id, team_name: team_name
+    create(:github_team_member, user_id:, team_name:)
 
     Github::Organization.any_instance.stubs(:name).returns(org)
 

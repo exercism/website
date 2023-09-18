@@ -1,0 +1,12 @@
+%h2.text-h2.mb-8 Hear our Community's Stories
+%p.mb-24.text-p-large.text-textColor5 Listen to the stories of those who have built, contributed to, and learnt from Exercism.
+
+.grid.grid-cols-1.lg:grid-cols-3.gap-16
+  - @community_stories.each do |community_story|
+    = link_to community_story_path(community_story), class: 'flex flex-col shadow-sm p-16 bg-backgroundColorA rounded-8' do
+      = image_tag community_story.thumbnail_url, class: "bg-borderLight rounded-8 mb-12 w-[100%]", width: 243, height: 136
+      %h5.text-h5.mb-8= community_story.title
+      .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
+        - interviewee = community_story.interviewee
+        = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
+        = interviewee.name

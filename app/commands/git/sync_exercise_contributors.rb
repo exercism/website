@@ -8,14 +8,14 @@ class Git::SyncExerciseContributors < Git::Sync
 
   def call
     ActiveRecord::Base.transaction do
-      contributors = ::User.where(github_username: contributors_config)
+      contributors = ::User.with_data.where(data: { github_username: contributors_config })
       contributors.find_each { |contributor| ::Exercise::Contributorship::Create.(exercise, contributor) }
 
       # This is required to remove contributors that were already added
       exercise.reload.update!(contributors:)
 
       # TODO: (Optional) consider what to do with missing contributors
-      missing_contributors = contributors_config - contributors.pluck(:github_username)
+      missing_contributors = contributors_config - contributors.map(&:github_username)
       Rails.logger.error "Missing contributors: #{missing_contributors.join(', ')}" if missing_contributors.present?
     end
   end

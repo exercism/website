@@ -134,6 +134,13 @@
     &.--small {
         & * {
             @apply leading-160;
+            overflow-wrap: anywhere;
+            hyphens: auto;
+        }
+
+        table * {
+            overflow-wrap: initial;
+            hyphens: initial;
         }
 
         /******************/
@@ -158,7 +165,11 @@
         /* Inline elements */
         /*******************/
         & a {
-            @apply font-semibold text-lightBlue;
+            @apply font-semibold;
+            color: var(--c-prominent-link-color);
+            .c-icon {
+                filter: var(--c-prominent-link-icon-filter);
+            }
         }
 
         & strong {
@@ -209,11 +220,19 @@
         /* Inline code blocks */
         & :not(pre) > code {
             @apply inline-flex items-center justify-center rounded-5;
-            @apply bg-veryLightBlue px-6 text-gotToLoveAPurple leading-regular;
+            @apply px-6 text-textColor10 leading-regular;
+            background: var(--backgroundColorI);
+        }
+
+        a {
+            &:not(pre) > code {
+                @apply text-prominentLinkColor;
+            }
         }
 
         & table {
-            @apply shadow-base bg-backgroundColorA;
+            @apply my-16;
+            @apply bg-backgroundColorA;
             @apply rounded-5 overflow-hidden;
 
             & td,
@@ -233,6 +252,21 @@
                 & td {
                     @apply border-b-0;
                 }
+            }
+        }
+    }
+}
+
+@screen md {
+    .c-textual-content {
+        /* This is necessary else the rules above override
+     * the ones below */
+        &.--large,
+        &.--base,
+        &.--small {
+            & * {
+                overflow-wrap: initial;
+                hyphens: initial;
             }
         }
     }

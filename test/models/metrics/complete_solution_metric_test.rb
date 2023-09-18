@@ -11,7 +11,7 @@ class Metrics::CompleteSolutionTest < ActiveSupport::TestCase
 
       metric = Metric::Create.(:complete_solution, occurred_at, solution:, track:, user:, request_context:)
 
-      assert_equal Metrics::CompleteSolutionMetric, metric.class
+      assert_instance_of Metrics::CompleteSolutionMetric, metric
       assert_equal occurred_at, metric.occurred_at
       assert_equal user, metric.user
       assert_equal track, metric.track

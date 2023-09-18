@@ -4,23 +4,23 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
   test "only retrieves mentors testimonials" do
     mentor = create :user
     create :mentor_testimonial, :revealed
-    testimonial = create :mentor_testimonial, :revealed, mentor: mentor
+    testimonial = create(:mentor_testimonial, :revealed, mentor:)
 
     assert_equal [testimonial], Mentor::Testimonial::Retrieve.(mentor:)
   end
 
   test "only retrieves not_deleted testimonials" do
     mentor = create :user
-    testimonial = create :mentor_testimonial, :revealed, mentor: mentor, deleted_at: nil
-    create :mentor_testimonial, :revealed, mentor: mentor, deleted_at: Time.current
+    testimonial = create :mentor_testimonial, :revealed, mentor:, deleted_at: nil
+    create :mentor_testimonial, :revealed, mentor:, deleted_at: Time.current
 
     assert_equal [testimonial], Mentor::Testimonial::Retrieve.(mentor:)
   end
 
   test "honours include_unrevealed" do
     mentor = create :user
-    revealed = create :mentor_testimonial, :revealed, mentor: mentor
-    unrevealed = create :mentor_testimonial, :unrevealed, mentor: mentor
+    revealed = create(:mentor_testimonial, :revealed, mentor:)
+    unrevealed = create(:mentor_testimonial, :unrevealed, mentor:)
 
     assert_equal [revealed], Mentor::Testimonial::Retrieve.(mentor:)
     assert_equal [unrevealed, revealed], Mentor::Testimonial::Retrieve.(mentor:, include_unrevealed: true)
@@ -38,11 +38,11 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
     ruby_strings = create :concept_exercise, track: ruby, slug: "strings"
     js_strings = create :concept_exercise, track: js, slug: "strings"
 
-    ruby_bob_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: ruby_bob), mentor: mentor
-    js_bob_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: js_bob), mentor: mentor
-    ruby_strings_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: ruby_strings),
-      mentor: mentor
-    js_strings_req = create :mentor_testimonial, solution: create(:concept_solution, exercise: js_strings), mentor: mentor
+    ruby_bob_req = create(:mentor_testimonial, solution: create(:concept_solution, exercise: ruby_bob), mentor:)
+    js_bob_req = create(:mentor_testimonial, solution: create(:concept_solution, exercise: js_bob), mentor:)
+    ruby_strings_req = create(:mentor_testimonial, solution: create(:concept_solution, exercise: ruby_strings),
+      mentor:)
+    js_strings_req = create(:mentor_testimonial, solution: create(:concept_solution, exercise: js_strings), mentor:)
 
     assert_equal [
       js_strings_req, ruby_strings_req, js_bob_req, ruby_bob_req
@@ -55,9 +55,9 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
   test "orders correctly" do
     mentor = create :user
 
-    first = create :mentor_testimonial, :revealed, mentor: mentor
-    second = create :mentor_testimonial, :unrevealed, mentor: mentor
-    third = create :mentor_testimonial, :revealed, mentor: mentor
+    first = create(:mentor_testimonial, :revealed, mentor:)
+    second = create(:mentor_testimonial, :unrevealed, mentor:)
+    third = create(:mentor_testimonial, :revealed, mentor:)
 
     assert_equal [second, third, first], Mentor::Testimonial::Retrieve.(mentor:, include_unrevealed: true)
     assert_equal [first, second, third],
@@ -80,10 +80,10 @@ class Mentor::Testimonial::RetrieveTest < ActiveSupport::TestCase
   test "searches correctly" do
     mentor = create :user
     student = create :user, handle: "fred"
-    create :mentor_testimonial, mentor: mentor
-    create :mentor_testimonial, :unrevealed, mentor: mentor, student: student
-    fred = create :mentor_testimonial, :revealed, mentor: mentor, student: student
-    foobar = create :mentor_testimonial, :revealed, mentor: mentor, content: "foobar"
+    create(:mentor_testimonial, mentor:)
+    create(:mentor_testimonial, :unrevealed, mentor:, student:)
+    fred = create(:mentor_testimonial, :revealed, mentor:, student:)
+    foobar = create :mentor_testimonial, :revealed, mentor:, content: "foobar"
 
     assert_equal [foobar, fred], Mentor::Testimonial::Retrieve.(mentor:, criteria: "f")
     assert_equal [fred], Mentor::Testimonial::Retrieve.(mentor:, criteria: "fr")

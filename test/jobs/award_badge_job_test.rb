@@ -19,9 +19,9 @@ class AwardBadgeJobTest < ActiveJob::TestCase
 
   test "use badge email setting by default" do
     user = create :user
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     solution.update_column(:last_iterated_at, Time.current - 1.week)
-    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    create :mentor_discussion, solution:, created_at: Time.current - 1.day
     solution.update_column(:last_iterated_at, Time.current)
 
     perform_enqueued_jobs do
@@ -33,9 +33,9 @@ class AwardBadgeJobTest < ActiveJob::TestCase
 
   test "override badge email setting" do
     user = create :user
-    solution = create :practice_solution, user: user
+    solution = create(:practice_solution, user:)
     solution.update_column(:last_iterated_at, Time.current - 1.week)
-    create :mentor_discussion, solution: solution, created_at: Time.current - 1.day
+    create :mentor_discussion, solution:, created_at: Time.current - 1.day
     solution.update_column(:last_iterated_at, Time.current)
 
     perform_enqueued_jobs do
@@ -52,6 +52,9 @@ class AwardBadgeJobTest < ActiveJob::TestCase
 
     # The new_years_resolution badge is only queued on the first day of the year
     iteration = create :iteration, created_at: Date.ordinal(2021, 13)
-    AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
+
+    perform_enqueued_jobs do
+      AwardBadgeJob.perform_later(user, :new_years_resolution, context: iteration)
+    end
   end
 end

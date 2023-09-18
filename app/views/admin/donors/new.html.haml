@@ -1,0 +1,20 @@
+.lg-container
+  %h1.text-h1.mb-8 New donor
+
+  = form_with(url: admin_donors_path) do |form|
+    - if @error.present?
+      .mb-12.text-red
+        %p= @error
+    .flex.flex-col.mb-16
+      = form.label :email, class: 'text-h6 mb-4'
+      = form.email_field :email, required: true
+
+      = form.label :first_donated_at, class: 'text-h6 mb-4'
+      = form.date_field :first_donated_at, required: true
+
+    %div
+      = form.submit class: 'btn btn-primary btn-base'
+
+  %br/
+  %div
+    = link_to "Back to donors", admin_donors_path

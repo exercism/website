@@ -53,7 +53,7 @@ module ViewComponents
         link_to(Exercism::Routes.track_exercise_iterations_path(track, exercise, idx: solution.latest_iteration.idx),
           class: 'latest-iteration') do
           ReactComponents::Track::IterationSummary.new(solution.latest_iteration, slim: true).to_s +
-            graphical_icon('chevron-right', css_class: "action-icon")
+            graphical_icon('chevron-right', css_class: "action-icon filter-textColor6")
         end
       end
 

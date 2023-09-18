@@ -7,7 +7,7 @@ class User::ReputationToken::AwardForPullRequestAuthor
     return unless has_author?
     return unless merged?
 
-    user = User.find_by(github_username: params[:author_username])
+    user = User.with_data.find_by(data: { github_username: params[:author_username] })
 
     unless user
       # TODO: (Optional) decide what to do with user that cannot be found

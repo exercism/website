@@ -1,0 +1,21 @@
+.c-chatgpt {
+    .running {
+        @apply px-24 py-24;
+        @apply flex flex-col items-center;
+        & .c-icon {
+            height: 24px;
+            width: 24px;
+            filter: var(--textColor6-filter);
+            @apply mb-20;
+        }
+        & p {
+            @apply text-14 leading-170 font-mono font-medium;
+            @apply text-textColor6;
+            @apply mb-16;
+            & strong {
+                @apply font-semibold;
+                @apply text-textColor2;
+            }
+        }
+    }
+}

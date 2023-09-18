@@ -92,10 +92,15 @@ class Track < ApplicationRecord
       count
   end
 
+  memoize
+  def trophies
+    Track::Trophy.for_track(self)
+  end
+
   def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
-    git.highlightjs_language || slug
+    super || slug
   end
 
   def average_test_duration

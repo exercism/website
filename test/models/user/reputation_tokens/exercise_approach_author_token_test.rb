@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseApproachAuthorTokenTest < ActiveSupport::T
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     approach = create :exercise_approach
-    authorship = create :exercise_approach_authorship, author: user, approach: approach
+    authorship = create(:exercise_approach_authorship, author: user, approach:)
     exercise = approach.exercise
     track = approach.track
 
@@ -17,7 +17,7 @@ class User::ReputationTokens::ExerciseApproachAuthorTokenTest < ActiveSupport::T
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseApproachAuthorToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseApproachAuthorToken, rt
     assert_equal "You authored the <strong>Readability</strong> approach of <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

@@ -12,8 +12,8 @@ class Solution::SearchCommunitySolutions
   def initialize(exercise, page: nil, per: nil, order: nil,
                  criteria: nil, tests_status: nil, head_tests_status: nil, sync_status: nil)
     @exercise = exercise
-    @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE # rubocop:disable Style/ConditionalAssignment
-    @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per # rubocop:disable Style/ConditionalAssignment
+    @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
+    @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
     @order = order&.to_sym
     @criteria = criteria
     @tests_status = tests_status
@@ -35,10 +35,8 @@ class Solution::SearchCommunitySolutions
 
     solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["id"] }
     solutions = solution_ids.present? ?
-      Solution.where(id: solution_ids).
-        includes(*SerializeSolutions::NP1_INCLUDES).
-        order(Arel.sql("FIND_IN_SET(id, '#{solution_ids.join(',')}')")).
-        to_a : []
+      Solution.where(id: solution_ids).sort_by { |s| solution_ids.index(s.id) } :
+      []
 
     total_count = [results["hits"]["total"]["value"].to_i, MAX_ROWS].min
 

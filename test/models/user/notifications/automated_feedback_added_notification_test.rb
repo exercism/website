@@ -4,10 +4,10 @@ class User::Notifications::AutomatedFeedbackAddedNotificationTest < ActiveSuppor
   test "essential feedback" do
     user = create :user
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Lasagna", track: track
-    solution = create :concept_solution, exercise: exercise, user: user
-    iteration = create :iteration, solution: solution, idx: 1
-    representation = create :exercise_representation, :with_feedback, feedback_type: :essential, exercise: exercise
+    exercise = create(:concept_exercise, title: "Lasagna", track:)
+    solution = create(:concept_solution, exercise:, user:)
+    iteration = create :iteration, solution:, idx: 1
+    representation = create(:exercise_representation, :with_feedback, feedback_type: :essential, exercise:)
 
     notification = User::Notifications::AutomatedFeedbackAddedNotification.create!(
       user:,
@@ -25,10 +25,10 @@ class User::Notifications::AutomatedFeedbackAddedNotificationTest < ActiveSuppor
   test "non-essential feedback" do
     user = create :user
     track = create :track, title: "Ruby"
-    exercise = create :concept_exercise, title: "Lasagna", track: track
-    solution = create :concept_solution, exercise: exercise, user: user
-    iteration = create :iteration, solution: solution, idx: 1
-    representation = create :exercise_representation, :with_feedback, feedback_type: :actionable, exercise: exercise
+    exercise = create(:concept_exercise, title: "Lasagna", track:)
+    solution = create(:concept_solution, exercise:, user:)
+    iteration = create :iteration, solution:, idx: 1
+    representation = create(:exercise_representation, :with_feedback, feedback_type: :actionable, exercise:)
 
     notification = User::Notifications::AutomatedFeedbackAddedNotification.create!(
       user:,

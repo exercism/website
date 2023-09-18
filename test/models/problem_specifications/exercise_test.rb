@@ -38,7 +38,7 @@ class ProblemSpecifications::ExerciseTest < ActiveSupport::TestCase
 
   test "icon_url" do
     exercise = ProblemSpecifications::Exercise.new("bob", repo:)
-    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg", exercise.icon_url
+    assert_equal "https://assets.exercism.org/exercises/bob.svg", exercise.icon_url
   end
 
   private

@@ -8,7 +8,7 @@ module ReactComponents
           "student-publish-solution-button",
           {
             endpoint: Exercism::Routes.publish_api_solution_url(solution.uuid),
-            iterations: solution.iterations.order(idx: :desc).map { |iteration| SerializeIteration.(iteration) }
+            iterations: SerializeIterations.(solution.iterations.order(idx: :desc))
           }
         )
       end

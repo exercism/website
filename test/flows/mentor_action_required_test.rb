@@ -5,10 +5,10 @@ class MentorActionRequiredTest < ActiveSupport::TestCase
     track = create :track
     student = create :user
     mentor = create :user
-    create :user_track, user: student, track: track
+    create(:user_track, user: student, track:)
 
-    solution = create :practice_solution, user: student, track: track
-    iteration = create :iteration, solution: solution
+    solution = create(:practice_solution, user: student, track:)
+    iteration = create(:iteration, solution:)
 
     request = Mentor::Request::Create.(solution, "Please help")
 

@@ -164,13 +164,15 @@
         }
         & button {
             @apply flex items-center;
-            @apply text-16 leading-170 text-lightBlue font-semibold;
+            @apply text-16 leading-170  font-semibold;
+            color: var(--c-prominent-link-color);
             @apply py-12 px-16 w-100;
 
             & .c-icon {
                 height: 16px;
                 width: 16px;
                 @apply mr-12;
+                filter: var(--c-prominent-link-icon-filter);
             }
         }
     }

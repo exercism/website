@@ -4,7 +4,7 @@ class User::ReputationTokens::ExerciseArticleAuthorTokenTest < ActiveSupport::Te
   test "creates reputation token" do
     user = create :user, handle: "User22", github_username: "user22"
     article = create :exercise_article
-    authorship = create :exercise_article_authorship, author: user, article: article
+    authorship = create(:exercise_article_authorship, author: user, article:)
     exercise = article.exercise
     track = article.track
 
@@ -17,7 +17,7 @@ class User::ReputationTokens::ExerciseArticleAuthorTokenTest < ActiveSupport::Te
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseArticleAuthorToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseArticleAuthorToken, rt
     assert_equal "You authored the <strong>Performance</strong> article for <strong>Hamming</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

@@ -3,7 +3,8 @@ require_relative "../react_component_test_case"
 class ReactComponents::Profile::CommunitySolutionsListTest < ReactComponentTestCase
   test "component with empty concepts map rendered correctly" do
     user = create :user
-    solution = create :practice_solution, :published, user: user
+    create(:user_profile, user:)
+    solution = create(:practice_solution, :published, user:)
 
     component = ReactComponents::Profile::CommunitySolutionsList.new(user, {}).to_s
 
@@ -26,9 +27,10 @@ class ReactComponents::Profile::CommunitySolutionsListTest < ReactComponentTestC
     track_3 = create :track, slug: 'awk', title: 'AWK'
 
     user = create :user
-    create :practice_solution, :published, user: user, track: track_1
-    create :practice_solution, :published, user: user, track: track_2
-    create :practice_solution, :published, user: user, track: track_3
+    create(:user_profile, user:)
+    create :practice_solution, :published, user:, track: track_1
+    create :practice_solution, :published, user:, track: track_2
+    create :practice_solution, :published, user:, track: track_3
 
     component = ReactComponents::Profile::CommunitySolutionsList.new(user, {}).to_s
 

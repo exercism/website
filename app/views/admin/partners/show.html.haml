@@ -1,0 +1,50 @@
+.py-20
+  .lg-container
+    %h1.text-h1= @partner.name
+
+    %hr.my-32.border-borderColor5
+
+    %h2.text-h2.mb-12 Perks
+    %table.mb-12.c-admin-table
+      %tr
+        %th Perk
+        %th Status
+        %th Clicks
+        %th{ colspan: 2 }
+      - @partner.perks.each do |perk|
+        %tr
+          %td
+            %div{ class: 'max-w-[443px]' }= render ViewComponents::Partner::Perk.new(perk)
+          %td.w-arbitary= perk.status.titleize
+          %td.w-arbitary= perk.num_clicks
+          %td.w-arbitary= link_to "Details", admin_partner_perk_path(@partner, perk)
+          %td.w-arbitary= link_to "Edit", edit_admin_partner_perk_path(@partner, perk)
+    .flex
+      = link_to "Add new perk", new_admin_partner_perk_path(@partner), class: 'btn btn-primary btn-base'
+
+    %hr.my-32.border-borderColor5
+
+    %h2.text-h2.mb-12 Adverts
+    %table.mb-12.c-admin-table
+      %tr
+        %th Advert
+        %th Status
+        %th Impressions
+        %th Clicks
+        %th{ colspan: 2 }
+      - @partner.adverts.each do |advert|
+        %tr
+          %td= render ViewComponents::Partner::Advert.new(advert:, preview: true)
+          %td.w-arbitary= advert.status.titleize
+          %td.w-arbitary= advert.num_impressions
+          %td.w-arbitary= advert.num_clicks
+          %td.w-arbitary= link_to "Details", admin_partner_advert_path(@partner, advert)
+          %td.w-arbitary= link_to "Edit", edit_admin_partner_advert_path(@partner, advert)
+    .flex
+      = link_to "Add new advert", new_admin_partner_advert_path(@partner), class: 'btn btn-primary btn-base'
+
+    %hr.my-32.border-borderColor5
+
+    .flex.gap-16.mt-32
+      = link_to "Edit this partner", edit_admin_partner_path(@partner), class: 'btn btn-standard btn-base'
+      = link_to "Back to partners", admin_partners_path, class: 'btn btn-standard btn-base'

@@ -25,7 +25,7 @@ module Flows
 
       test "user updates social accounts" do
         user = create :user
-        create :user_profile, user: user
+        create(:user_profile, user:)
 
         use_capybara_host do
           sign_in!(user)

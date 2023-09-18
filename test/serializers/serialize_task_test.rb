@@ -21,7 +21,7 @@ class SerializeTaskTest < ActiveSupport::TestCase
         track: {
           slug: 'ruby',
           title: 'Ruby',
-          icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg'
+          icon_url: 'https://assets.exercism.org/tracks/ruby.svg'
         },
         opened_by_username: 'ErikSchierboom',
         opened_at: 2.days.ago.iso8601,

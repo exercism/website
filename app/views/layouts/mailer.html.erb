@@ -1,3 +1,5 @@
+<% bg_color = @hide_header ? "white" : "ghostwhite" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -64,7 +66,7 @@
 
     <!-- Some preview text. -->
     <div style="display: none; max-height: 0; overflow: hidden;">
-      <%= @title %>
+      <%= @preview_text %>
     </div>
     <!-- Get rid of unwanted preview text. -->
     <div style="display: none; max-height: 0px; overflow: hidden;">
@@ -79,27 +81,29 @@
     <!-- Default styling of text is applied to the wrapper div. Be sure to use text that is large enough and has a high contrast with the background color for people with visual impairments. -->
     <div role="article" aria-label="An email from Your Brand Name" lang="en" style="background-color: white; color: #2b2b2b; font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; font-size: 18px; font-weight: 400; line-height: 28px; margin: 0 auto; max-width: 600px; padding: 40px 20px 40px 20px;">
 
-        <!-- Logo section and header. Headers are useful landmark elements. -->
-        <header>
-            <!-- Since this is a purely decorative image, we can leave the alternative text blank. -->
-            <!-- Linking images also helps with Gmail displaying download links next to them. -->
-            <a href="https://exercism.org">
-                <center><img src="https://exercism-static.s3.eu-west-1.amazonaws.com/static/email-logo.png" alt="" height="80" width="80"></center>
-            </a>
-            <!-- The h1 is the main heading of the document and should come first. -->
-            <!-- We can override the default styles inline. -->
-            <h1 style="color: #130B43; font-size: 32px; font-weight: 700; line-height: 32px; margin: 32px 0; text-align: center;">
-              <%= @title %>
-            </h1>
-        </header>
+        <% unless @hide_header %>
+          <!-- Logo section and header. Headers are useful landmark elements. -->
+          <header>
+              <!-- Since this is a purely decorative image, we can leave the alternative text blank. -->
+              <!-- Linking images also helps with Gmail displaying download links next to them. -->
+              <a href="https://exercism.org">
+                  <center><img src="https://exercism-static.s3.eu-west-1.amazonaws.com/static/email-logo.png" alt="" height="80" width="80"></center>
+              </a>
+              <!-- The h1 is the main heading of the document and should come first. -->
+              <!-- We can override the default styles inline. -->
+              <h1 style="color: #130B43; font-size: 32px; font-weight: 700; line-height: 32px; margin: 32px 0; text-align: center;">
+                <%= @title %>
+              </h1>
+          </header>
+        <% end %>
 
         <!-- Main content section. Main is a useful landmark element. -->
         <main>
             <!-- This div is purely presentational, providing a container for the message. -->
-            <div style="background-color: ghostwhite; border-radius: 5px; padding: 24px 32px;">
+            <div style="background-color: <%= bg_color %>; border-radius: 5px; padding: <%= @hide_header ? "0" : "24px 32px;" %>">
                 <!-- This ghost table is used solely for padding in Word-based Outlook clients. -->
                 <!--[if (gte mso 9)|(IE)]>
-                <table cellspacing="0" cellpadding="0" border="0" width="600" align="center" role="presentation"><tr><td style="background-color: ghostwhite;font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; padding: 24px 48px 24px 48px;">
+                <table cellspacing="0" cellpadding="0" border="0" width="600" align="center" role="presentation"><tr><td style="background-color: <%= bg_color %>;font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; padding: 24px 48px 24px 48px;">
                 <![endif]-->
 
                 <!-- Body copy -->

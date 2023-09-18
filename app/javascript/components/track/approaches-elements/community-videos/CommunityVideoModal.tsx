@@ -19,9 +19,9 @@ export function CommunityVideoModal({
       closeButton
       onClose={onClose}
       className="items-center"
-      ReactModalClassName="max-w-[800px]"
+      ReactModalClassName="max-w-[800px] p-0"
     >
-      <h2 className="text-h2 mb-24 text-center">{video.title}</h2>
+      <h2 className="md:text-h2 text-h5 mb-24 text-center">{video.title}</h2>
       {/* reponsive top-padding for 16:9 videos */}
       <div
         className="relative overflow-hidden pb-[56.25%] mb-24"

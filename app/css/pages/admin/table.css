@@ -1,0 +1,33 @@
+table.c-admin-table {
+    @apply shadow-lg;
+    @apply rounded-8;
+    width: 100%;
+    border-collapse: collapse;
+    tr:last-child {
+        td {
+            border-bottom: none;
+        }
+    }
+    th {
+        padding: 10px;
+        text-align: left;
+        font-weight: 600px;
+    }
+    td {
+        border: 1px solid #d5d8e4;
+        padding: 10px;
+        vertical-align: top;
+        max-width: 300px;
+
+        &:first-child {
+            border-left: none;
+        }
+        &:last-child {
+            border-right: none;
+        }
+
+        a:not(".btn-primary") {
+            @apply btn-link;
+        }
+    }
+}

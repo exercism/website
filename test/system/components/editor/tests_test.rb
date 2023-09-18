@@ -9,9 +9,9 @@ module Components
       test "user views tests" do
         user = create :user
         track = create :track
-        exercise = create :practice_exercise, track: track
-        create :user_track, track: track, user: user
-        create :practice_solution, user: user, exercise: exercise
+        exercise = create(:practice_exercise, track:)
+        create(:user_track, track:, user:)
+        create(:practice_solution, user:, exercise:)
 
         use_capybara_host do
           sign_in!(user)

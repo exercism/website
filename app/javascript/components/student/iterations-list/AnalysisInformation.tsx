@@ -22,7 +22,7 @@ export const AnalysisInformation = ({
     case IterationStatus.ANALYZING:
       return (
         <div className="automated-feedback-pending">
-          <GraphicalIcon icon="spinner" />
+          <GraphicalIcon icon="spinner" className="animate-spin-slow" />
           <h3>We&apos;re analysing your code for suggestions</h3>
           <p>This usually takes 10-30 seconds.</p>
         </div>

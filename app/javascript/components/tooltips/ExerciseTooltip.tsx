@@ -1,13 +1,13 @@
 import React from 'react'
-import { Exercise, Track, SolutionForStudent } from '../types'
-import { ExerciseWidget } from '../common'
-import { useRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
+import { Exercise, Track, SolutionForStudent } from '@/components/types'
+import ExerciseWidget from '@/components/common/ExerciseWidget'
+import { useRequestQuery } from '@/hooks/request-query'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Loading } from './Loading'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-export const ExerciseTooltip = React.forwardRef<
+const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
@@ -40,3 +40,5 @@ export const ExerciseTooltip = React.forwardRef<
     </div>
   )
 })
+
+export default ExerciseTooltip

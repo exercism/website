@@ -1,6 +1,7 @@
 import React from 'react'
-import { TaskKnowledge } from '../../types'
-import { GraphicalIcon, MultipleSelect } from '../../common'
+import { TaskKnowledge } from '@/components/types'
+import { GraphicalIcon } from '@/components/common'
+import { MultipleSelect } from '@/components/common/MultipleSelect'
 import { KnowledgeIcon } from './task/KnowledgeIcon'
 
 const KnowledgeOption = ({

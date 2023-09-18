@@ -8,7 +8,7 @@ const missingImageErrorHandler = (
   missingImage: string
 ) => {
   const el = e.target as HTMLImageElement
-  if ((el.src = missingImage)) {
+  if (el.src === missingImage) {
     return
   }
   el.onerror = null
@@ -17,8 +17,8 @@ const missingImageErrorHandler = (
 
 export const missingExerciseIconErrorHandler = (
   e: React.SyntheticEvent<HTMLImageElement, Event>
-) => missingImageErrorHandler(e, missingExerciseIcon)
+): void => missingImageErrorHandler(e, missingExerciseIcon)
 
 export const missingTrackIconErrorHandler = (
   e: React.SyntheticEvent<HTMLImageElement, Event>
-) => missingImageErrorHandler(e, missingTrackIcon)
+): void => missingImageErrorHandler(e, missingTrackIcon)

@@ -1,6 +1,6 @@
-.c-tooltip-base
+.c-tooltip-base.sm:block.hidden
   .flex.gap-16
-    = graphical_icon 'test-runner'
+    = graphical_icon 'test-runner', css_class: "filter-textColor6"
     %div
       %h5.text-h5
         The #{@track.title} test runner

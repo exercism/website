@@ -1,0 +1,15 @@
+.c-admin-page
+  .lg-container
+    %h1.text-h1.mb-8 Partners
+    %table.mb-20.c-admin-table
+      %tr
+        %th Partner
+        %th{ colspan: 2 }
+      - @partners.each do |partner|
+        %tr
+          %td= partner.name
+          %td.w-arbitary= link_to "Details", [:admin, partner]
+          %td.w-arbitary= link_to "Edit", edit_admin_partner_path(partner)
+    .flex
+      = link_to "Add new partner", new_admin_partner_path, class: 'btn btn-primary btn-base'
+

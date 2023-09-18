@@ -4,7 +4,7 @@
 
 This codebase aims to achieve the following goals:
 
-- Optimise for the principle of least surprise for developers
+- Optimize for the principle of least surprise for developers
 - Aim to reduce churn and reduce the amount of different files touched during a change
 - Reduce the likelihood of bugs
 

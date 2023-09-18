@@ -15,7 +15,7 @@ class User::ReputationTokens::ArbitraryTokenTest < ActiveSupport::TestCase
       assert_equal 1, user.reputation_tokens.size
       rt = user.reputation_tokens.first
 
-      assert_equal User::ReputationTokens::ArbitraryToken, rt.class
+      assert_instance_of User::ReputationTokens::ArbitraryToken, rt
       assert_equal 'For helping troubleshoot', rt.text
       assert_equal :'For helping troubleshoot', rt.reason
       assert_equal :misc, rt.category
@@ -41,7 +41,7 @@ class User::ReputationTokens::ArbitraryTokenTest < ActiveSupport::TestCase
       assert_equal 1, user.reputation_tokens.size
       rt = user.reputation_tokens.first
 
-      assert_equal User::ReputationTokens::ArbitraryToken, rt.class
+      assert_instance_of User::ReputationTokens::ArbitraryToken, rt
       assert_equal 'For building the test runner', rt.text
       assert_equal :'For building the test runner', rt.reason
       assert_equal :misc, rt.category

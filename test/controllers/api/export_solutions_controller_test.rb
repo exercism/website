@@ -12,7 +12,7 @@ module API
       setup_user(user)
 
       track = create :track
-      exercise = create :practice_exercise, track: track
+      exercise = create(:practice_exercise, track:)
 
       get api_track_exercise_export_solutions_path(track.slug, exercise.slug), headers: @headers, as: :json
 
@@ -63,7 +63,7 @@ module API
       setup_user(user)
 
       track = create :track
-      exercise = create :practice_exercise, track: track
+      exercise = create(:practice_exercise, track:)
 
       get api_track_exercise_export_solutions_path(track.slug, exercise.slug), headers: @headers, as: :json
 
@@ -85,7 +85,7 @@ module API
         setup_user(user)
 
         track = create :track
-        exercise = create :practice_exercise, track: track
+        exercise = create(:practice_exercise, track:)
 
         get api_track_exercise_export_solutions_path(track.slug, exercise.slug), headers: @headers, as: :json
 
@@ -98,7 +98,7 @@ module API
       setup_user(user)
 
       track = create :track
-      exercise = create :practice_exercise, track: track
+      exercise = create(:practice_exercise, track:)
 
       beginning_of_week = Time.current.beginning_of_week
       travel_to beginning_of_week

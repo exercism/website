@@ -12,7 +12,6 @@ class Track::UpdateBuildStatus
     {
       health:,
       volunteers:,
-      students:,
       submissions:,
       mentor_discussions:,
       syllabus:,
@@ -62,28 +61,10 @@ class Track::UpdateBuildStatus
     }
   end
 
-  def students
-    {
-      num_students: track.num_students,
-      num_students_per_day:
-    }
-  end
-
-  def num_students_per_day
-    query = MetricPeriod::Day.where(metric_type: Metrics::JoinTrackMetric.name, track:)
-    average(query.sum(:count), query.count)
-  end
-
   def submissions
     {
-      num_submissions:,
-      num_submissions_per_day:
+      num_submissions:
     }
-  end
-
-  def num_submissions_per_day
-    query = MetricPeriod::Day.where(metric_type: Metrics::SubmitSubmissionMetric.name, track:)
-    average(query.sum(:count), query.count)
   end
 
   memoize

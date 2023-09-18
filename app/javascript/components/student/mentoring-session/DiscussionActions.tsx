@@ -1,7 +1,7 @@
 import React from 'react'
 import { DiscussionLinks, MentorDiscussion } from '@/components/types'
-import { GraphicalIcon } from '@/components/common'
 import { FinishButton } from './FinishButton'
+import GraphicalIcon from '@/components/common/GraphicalIcon'
 
 export const DiscussionActions = ({
   discussion,
@@ -19,7 +19,7 @@ export const DiscussionActions = ({
     <FinishButton
       discussion={discussion}
       links={links}
-      className="btn-keyboard-shortcut finish-button"
+      className="btn-xs btn-enhanced finish-button"
     >
       <div className="--hint">End discussion</div>
     </FinishButton>

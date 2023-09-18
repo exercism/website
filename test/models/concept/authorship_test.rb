@@ -5,7 +5,7 @@ class Concept::AuthorshipTest < ActiveSupport::TestCase
     concept = create :concept
     user = create :user
     authorship = create :concept_authorship,
-      concept: concept,
+      concept:,
       author: user
 
     assert_equal concept, authorship.concept

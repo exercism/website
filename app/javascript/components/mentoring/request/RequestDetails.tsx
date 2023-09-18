@@ -14,7 +14,7 @@ export const RequestDetails = ({
     throw 'request comment expected'
   }
   return (
-    <div className="discussion">
+    <div className="c-discussion-timeline">
       <IterationMarker iteration={iteration} userIsStudent={false} />
       {request.comment.contentHtml.length > 0 ? (
         <DiscussionPost action="viewing" post={request.comment} />

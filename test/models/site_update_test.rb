@@ -9,7 +9,7 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
     I18n.expects(:t).with(
       "site_updates.new_exercise.",
-      { user: "dangerous" }
+      user: "dangerous"
     ).returns("")
 
     update.text
@@ -17,12 +17,14 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
   test "rendering expanded data" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
     author = create :user
     title = "Check this out!!"
-    description = "I did something really cool :)"
-    update = create :site_update, exercise: exercise, track: track, author: author, title: title, description: description
+    description_markdown = "I did something really cool :)"
+    description_html = "<p>I did something really cool :)</p>\n"
+    update = create(:site_update, exercise:, track:, author:, title:,
+      description_markdown:)
 
     expected = {
       author: {
@@ -30,17 +32,17 @@ class SiteUpdateTest < ActiveSupport::TestCase
         "avatar_url" => author.avatar_url
       },
       title:,
-      description:
+      description_html:
     }.stringify_keys
     assert_equal expected, update.rendering_data[:expanded]
   end
 
   test "rendering pull request" do
     track = create :track
-    exercise = create :concept_exercise, track: track
+    exercise = create(:concept_exercise, track:)
 
     pull_request = create :github_pull_request
-    update = create :site_update, exercise: exercise, track: track, pull_request: pull_request
+    update = create(:site_update, exercise:, track:, pull_request:)
 
     expected = {
       title: pull_request.title,
@@ -83,5 +85,13 @@ class SiteUpdateTest < ActiveSupport::TestCase
 
     assert_equal [ruby_update, js_update], SiteUpdate.all # Sanity
     assert_equal [js_update], SiteUpdate.for_track(js)
+  end
+
+  test "updates description_html when description_markdown is set" do
+    site_update = create :site_update, description_markdown: nil
+    assert_nil site_update.description_html
+
+    site_update.update(description_markdown: "Hi there")
+    assert_equal "<p>Hi there</p>\n", site_update.description_html
   end
 end

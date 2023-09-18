@@ -16,7 +16,7 @@ class User::ReputationTokens::ExerciseAuthorTokenTest < ActiveSupport::TestCase
     assert_equal 1, user.reputation_tokens.size
     rt = user.reputation_tokens.first
 
-    assert_equal User::ReputationTokens::ExerciseAuthorToken, rt.class
+    assert_instance_of User::ReputationTokens::ExerciseAuthorToken, rt
     assert_equal "You authored <strong>#{exercise.title}</strong>", rt.text
     assert_equal exercise, rt.exercise
     assert_equal track, rt.track

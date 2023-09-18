@@ -1,8 +1,10 @@
 import dayjs from 'dayjs'
 import type { ConfigType } from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
+import AdvancedFormat from 'dayjs/plugin/advancedFormat'
 import pluralize from 'pluralize'
 dayjs.extend(RelativeTime)
+dayjs.extend(AdvancedFormat)
 
 const SECONDS_PER_MINUTE = 60
 const SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60

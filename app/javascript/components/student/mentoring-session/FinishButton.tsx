@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
-import { MentorDiscussion } from '../../types'
-import { DiscussionLinks } from './DiscussionActions'
+import { DiscussionLinks, MentorDiscussion } from '../../types'
 
 type Status = 'initialized' | 'confirming' | 'finishing'
 

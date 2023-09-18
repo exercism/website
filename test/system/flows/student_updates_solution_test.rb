@@ -9,17 +9,17 @@ module Flows
     test "student updates solution" do
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
+      create(:user_track, user:, track:)
       exercise = create :concept_exercise,
-        track: track,
+        track:,
         slug: "lasagna",
         git_sha: "bc42eeda40b3d99a0379cd88a3bbbd0a12bce50a",
         git_important_files_hash: "cd65371ae91f57453b8a278998db1815afb41e7c"
-      create :concept_solution,
+      create(:concept_solution,
         git_sha: "ac388147339875555f9df49d783d477492bebcf3",
         git_important_files_hash: "a75ab88416d5e437c0cef036ae557d653b41ca1b",
-        exercise: exercise,
-        user: user
+        exercise:,
+        user:)
 
       use_capybara_host do
         sign_in!(user)
@@ -72,15 +72,15 @@ module Flows
     def setup_update_scenario(old_git_sha, new_git_sha)
       user = create :user
       track = create :track
-      create :user_track, user: user, track: track
+      create(:user_track, user:, track:)
       exercise = create :concept_exercise,
-        track: track,
+        track:,
         slug: "lasagna",
         git_sha: old_git_sha,
         git_important_files_hash: "a75ab88416d5e437c0cef036ae557d653b41ca1b"
-      solution = create :concept_solution, exercise: exercise, user: user
-      submission = create :submission, solution: solution
-      create :iteration, submission: submission, solution: solution
+      solution = create(:concept_solution, exercise:, user:)
+      submission = create(:submission, solution:)
+      create(:iteration, submission:, solution:)
 
       # Make sure we're in a state that means we don't just work through
       # because the tests pass for the first time

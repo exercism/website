@@ -15,7 +15,7 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
       setup_user(student)
 
       solution = create :concept_solution, user: student
-      discussion = create :mentor_discussion, solution: solution
+      discussion = create(:mentor_discussion, solution:)
 
       # Assert we don't do things unless we're asked to
       Mentor::Request::Create.expects(:call).never
@@ -39,7 +39,7 @@ class API::Solutions::MentorDiscussionsControllerTest < API::BaseTestCase
     setup_user(student)
 
     solution = create :concept_solution, user: student
-    discussion = create :mentor_discussion, solution: solution
+    discussion = create(:mentor_discussion, solution:)
 
     # Assert we don't do things unless we're asked to
     Mentor::Discussion::FinishByStudent.expects(:call).with(

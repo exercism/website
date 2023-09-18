@@ -12,8 +12,8 @@ module Components
         test "mentor saves scratchpad page" do
           mentor = create :user, handle: "author"
           solution = create :concept_solution
-          discussion = create :mentor_discussion, solution: solution, mentor: mentor
-          create :iteration, solution: solution
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          create(:iteration, solution:)
 
           use_capybara_host do
             sign_in!(mentor)
@@ -29,11 +29,11 @@ module Components
         test "mentor sees scratchpad page" do
           mentor = create :user, handle: "author"
           track = create :track, title: "Elixir"
-          exercise = create :concept_exercise, title: "Strings", track: track
-          solution = create :concept_solution, exercise: exercise
-          discussion = create :mentor_discussion, solution: solution, mentor: mentor
-          submission = create :submission, solution: solution
-          create :iteration, solution: solution, submission: submission
+          exercise = create(:concept_exercise, title: "Strings", track:)
+          solution = create(:concept_solution, exercise:)
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          submission = create(:submission, solution:)
+          create(:iteration, solution:, submission:)
           create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
           use_capybara_host do
@@ -54,10 +54,10 @@ module Components
         test "mentor updates scratchpad page" do
           mentor = create :user, handle: "author"
           exercise = create :concept_exercise
-          solution = create :concept_solution, exercise: exercise
-          discussion = create :mentor_discussion, solution: solution, mentor: mentor
-          submission = create :submission, solution: solution
-          create :iteration, solution: solution, submission: submission
+          solution = create(:concept_solution, exercise:)
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          submission = create(:submission, solution:)
+          create(:iteration, solution:, submission:)
           create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
           use_capybara_host do
@@ -74,10 +74,10 @@ module Components
         test "mentor reverts scratchpad page" do
           mentor = create :user, handle: "author"
           exercise = create :concept_exercise
-          solution = create :concept_solution, exercise: exercise
-          discussion = create :mentor_discussion, solution: solution, mentor: mentor
-          submission = create :submission, solution: solution
-          create :iteration, solution: solution, submission: submission
+          solution = create(:concept_solution, exercise:)
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          submission = create(:submission, solution:)
+          create(:iteration, solution:, submission:)
           create :scratchpad_page, content_markdown: "# Some notes", author: mentor, about: exercise
 
           use_capybara_host do

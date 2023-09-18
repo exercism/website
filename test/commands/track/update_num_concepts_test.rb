@@ -12,18 +12,18 @@ class Track::UpdateNumConceptsTest < ActiveSupport::TestCase
     Track::UpdateNumConcepts.(track)
     assert_equal 0, track.reload.num_concepts
 
-    ce_1 = create :concept_exercise, track: track, status: :active
+    ce_1 = create :concept_exercise, track:, status: :active
     create :exercise_taught_concept, exercise: ce_1, concept: c_1
     Track::UpdateNumConcepts.(track)
     assert_equal 1, track.reload.num_concepts
 
-    ce_2 = create :concept_exercise, track: track, status: :beta
+    ce_2 = create :concept_exercise, track:, status: :beta
     create :exercise_taught_concept, exercise: ce_2, concept: c_2
     Track::UpdateNumConcepts.(track)
     assert_equal 2, track.reload.num_concepts
 
     # Sanity check: duplicate taught concept should not count
-    ce_3 = create :concept_exercise, track: track, status: :active
+    ce_3 = create :concept_exercise, track:, status: :active
     create :exercise_taught_concept, exercise: ce_3, concept: c_2
     Track::UpdateNumConcepts.(track)
     assert_equal 2, track.reload.num_concepts
@@ -35,13 +35,13 @@ class Track::UpdateNumConceptsTest < ActiveSupport::TestCase
     assert_equal 2, track.reload.num_concepts
 
     # Sanity check: taught concept of wip exercise should not count
-    ce_5 = create :concept_exercise, track: track, status: :wip
+    ce_5 = create :concept_exercise, track:, status: :wip
     create :exercise_taught_concept, exercise: ce_5, concept: c_4
     Track::UpdateNumConcepts.(track)
     assert_equal 2, track.reload.num_concepts
 
     # Sanity check: taught concept of deprecated exercise should not count
-    ce_5 = create :concept_exercise, track: track, status: :deprecated
+    ce_5 = create :concept_exercise, track:, status: :deprecated
     create :exercise_taught_concept, exercise: ce_5, concept: c_4
     Track::UpdateNumConcepts.(track)
     assert_equal 2, track.reload.num_concepts

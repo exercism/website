@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { FormButton } from '../../common'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { redirectTo } from '../../../utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { FormButton } from '@/components/common/FormButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to start exercise')
 

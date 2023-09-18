@@ -5,7 +5,7 @@ const config = {
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
   },
-  transformIgnorePatterns: ['node_modules/(?!(highlightjs-bqn)/)'],
+  transformIgnorePatterns: ['node_modules/(?!(highlightjs-(bqn|zig))/)'],
   moduleNameMapper: {
     '^[./a-zA-Z0-9$_-]+\\.svg$':
       '<rootDir>/app/javascript/images/GlobalImageStub.js',

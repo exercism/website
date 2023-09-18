@@ -14,7 +14,7 @@ class Solution::UnlockHelpTest < ActiveSupport::TestCase
 
   test "unlocks help when solution has been submitted" do
     solution = create :practice_solution
-    create :submission, solution: solution
+    create(:submission, solution:)
 
     # Sanity check
     refute solution.unlocked_help?

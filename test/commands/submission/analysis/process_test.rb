@@ -47,7 +47,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
   test "broadcast with iteration" do
     submission = create :submission
-    iteration = create :iteration, submission: submission
+    iteration = create(:iteration, submission:)
     data = { 'comments' => [] }
 
     IterationChannel.expects(:broadcast!).with(iteration)

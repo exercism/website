@@ -2,6 +2,7 @@ import React from 'react'
 import { ConceptIcon } from '../ConceptIcon'
 import { TrackIcon } from '../TrackIcon'
 import { SiteUpdate as SiteUpdateProps, SiteUpdateContext } from '../../types'
+import { missingExerciseIconErrorHandler } from '../imageErrorHandler'
 
 export const SiteUpdateIcon = ({
   context,
@@ -17,7 +18,13 @@ export const SiteUpdateIcon = ({
     case 'update':
       switch (icon.type) {
         case 'image':
-          return <img className="c-icon" src={icon.url} />
+          return (
+            <img
+              className="c-icon"
+              src={icon.url}
+              onError={missingExerciseIconErrorHandler}
+            />
+          )
         case 'concept':
           return <ConceptIcon size="large" name={icon.data} />
       }

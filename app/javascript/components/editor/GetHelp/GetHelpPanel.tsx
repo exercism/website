@@ -21,9 +21,9 @@ export function GetHelpPanel({
   return (
     <Tab.Panel id="get-help" context={TabsContext}>
       <div className="pb-12 flex flex-col">
+        <Component.Hints assignment={assignment} />
         <Component.CommunityHelp links={links} />
         <Component.TrackHelp helpHtml={helpHtml} track={track} />
-        <Component.Hints assignment={assignment} />
       </div>
     </Tab.Panel>
   )

@@ -320,9 +320,30 @@
             }
 
             #panel-get-help {
-                .c-textual-content,
-                .--summary-inner {
-                    @apply px-0;
+                .hints {
+                    .c-textual-content {
+                        @apply mr-32;
+                    }
+                    .c-textual-content,
+                    .--summary-inner {
+                        @apply px-0 pb-0;
+                    }
+                    .--summary-inner {
+                    }
+                    .c-details {
+                        &:not([open]) {
+                            .--summary {
+                                @apply pb-0;
+                            }
+                        }
+
+                        &[open] {
+                            @apply pb-0;
+                            & .--summary {
+                                @apply pb-6;
+                            }
+                        }
+                    }
                 }
             }
 

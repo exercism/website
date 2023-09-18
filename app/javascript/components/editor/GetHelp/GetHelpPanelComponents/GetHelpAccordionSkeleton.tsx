@@ -6,6 +6,7 @@ type GetHelpAccordionSkeletonProps = {
   children: React.ReactElement
   icon?: React.ReactElement
   iconSlug?: string
+  className?: string
 }
 
 export function GetHelpAccordionSkeleton({
@@ -13,10 +14,13 @@ export function GetHelpAccordionSkeleton({
   icon,
   iconSlug,
   children,
+  className,
 }: GetHelpAccordionSkeletonProps): JSX.Element {
   return (
     <details
-      className="c-details border-t-1 border-borderColor6 py-16 px-24"
+      className={`c-details border-t-1 border-borderColor6 py-16 px-24 ${
+        className ?? ''
+      }`}
       open
     >
       <summary className="flex items-center">

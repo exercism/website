@@ -15,6 +15,7 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  DiscussionLinks,
   DonationLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
@@ -71,7 +72,7 @@ export default function MentoringSession({
   videos: Video[]
   track: Track
   request?: Request
-  links: Links
+  links: DiscussionLinks
   outOfDate: boolean
 }): JSX.Element {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
@@ -109,7 +110,7 @@ export default function MentoringSession({
                   discussion={discussion}
                   links={{
                     exercise: exercise.links.self,
-                    donation: links.donationLinks,
+                    donationLinks: links.donationLinks,
                   }}
                 />
               ) : null}
@@ -136,7 +137,7 @@ export default function MentoringSession({
                 userHandle={userHandle}
                 iterations={iterations}
                 onIterationScroll={handleIterationScroll}
-                links={{ exercise: exercise.links.self }}
+                links={links}
                 status={status}
               />
             ) : (

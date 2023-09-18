@@ -1,15 +1,17 @@
 import React, { lazy, Suspense } from 'react'
-import { GraphicalIcon } from '@/components/common'
 import { DonationLinks } from '@/components/types'
 const DonationsFormWithModal = lazy(
   () => import('@/components/donations/FormWithModal')
 )
+
 export function DonationStep({
   mentorHandle,
   donationLinks,
+  exerciseLink,
 }: {
   mentorHandle: string
   donationLinks: DonationLinks
+  exerciseLink: string
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -27,7 +29,6 @@ export function DonationStep({
           </strong>{' '}
           But we need your help to keep the lights on and enable us to grow and
           expand what we&apos;re doing.{' '}
-          {/* probably remove text-p-large because it doesn't do much heavy lifting, and must force semibold because of that */}
           <strong className="!font-semibold">
             Only 1% of people give to Exercism - please be one of them!
           </strong>
@@ -51,21 +52,20 @@ export function DonationStep({
 
         <h3 className="text-h3 mb-12">Not for now?</h3>
 
-        <button className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16">
-          Continue to exercise...
-        </button>
+        <div className="flex">
+          <a
+            href={exerciseLink}
+            className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
+          >
+            Continue to exercise...
+          </a>
+        </div>
 
         <div className="text-15 text-btnBorder leading-160 font-normal">
           Don&apos;t worry, we won&apos;t show you this again for a while.
         </div>
       </div>
       <div className="flex flex-col items-end bg-transparent">
-        <GraphicalIcon
-          className="mb-40 mr-[53px] !drop-shadow-[0_4px_128px_rgba(79, 114, 205, 0.8)]"
-          icon="wizard-hat"
-          category="graphics"
-        />
-
         <div className="w-[564px]">
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal

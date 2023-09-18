@@ -6,42 +6,48 @@ module ReactComponents
       def to_s
         super(
           "student-mentoring-session",
-          {
-            user_handle: student.handle,
-            request: SerializeMentorSessionRequest.(request, student),
-            discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
-            track: SerializeMentorSessionTrack.(track),
-            exercise: SerializeMentorSessionExercise.(exercise),
-            iterations:,
-            mentor: mentor_data,
-            track_objectives: user_track&.objectives.to_s,
-            out_of_date: solution.out_of_date?,
-            videos:,
+          to_h
+        )
+      end
 
-            links: {
-              exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
-              create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
-              learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
-              private_mentoring: solution.external_mentoring_request_url,
-              mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
-              donation_links: {
-                request: {
-                  endpoint: Exercism::Routes.api_donations_active_subscription_url,
-                  options: {
-                    initial_data: AssembleActiveSubscription.(current_user)
-                  }
-                },
-                user_signed_in: user_signed_in?,
-                captcha_required: !current_user || current_user.captcha_required?,
-                recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
-                links: {
-                  settings: Exercism::Routes.donations_settings_url,
-                  donate: Exercism::Routes.donate_url
+      def to_h
+        {
+          user_handle: student.handle,
+          request: SerializeMentorSessionRequest.(request, student),
+          discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
+          track: SerializeMentorSessionTrack.(track),
+          exercise: SerializeMentorSessionExercise.(exercise),
+          iterations:,
+          mentor: mentor_data,
+          track_objectives: user_track&.objectives.to_s,
+          out_of_date: solution.out_of_date?,
+          videos:,
+
+          links: {
+            exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
+            create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
+            learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
+            private_mentoring: solution.external_mentoring_request_url,
+            mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+            donation_links: {
+              show_donation_modal:,
+              request: {
+                endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+                options: {
+                  initial_data: AssembleCurrentSubscription.(current_user)
                 }
+              },
+              # TODO: add correct endpoint and initial data
+              user_signed_in: user_signed_in?,
+              captcha_required: !current_user || current_user.captcha_required?,
+              recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+              links: {
+                settings: Exercism::Routes.donations_settings_url,
+                donate: Exercism::Routes.donate_url
               }
             }
           }
-        )
+        }
       end
 
       private
@@ -110,6 +116,11 @@ module ReactComponents
         end
 
         SerializeIterations.(solution.iterations, comment_counts:)
+      end
+
+      def show_donation_modal
+        num_testimonials = current_user.provided_testimonials.count
+        num_testimonials.zero? || ((num_testimonials + 1) % 5).zero?
       end
     end
   end

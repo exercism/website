@@ -1,22 +1,10 @@
 import React, { useState } from 'react'
-import { MentorDiscussion } from '../../types'
-import { Modal, ModalProps } from '../Modal'
-import { RateMentorStep } from './finish-mentor-discussion-modal/RateMentorStep'
-import { AddTestimonialStep } from './finish-mentor-discussion-modal/AddTestimonialStep'
-import { CelebrationStep } from './finish-mentor-discussion-modal/CelebrationStep'
-import { UnhappyStep } from './finish-mentor-discussion-modal/UnhappyStep'
-import { RequeuedStep } from './finish-mentor-discussion-modal/RequeuedStep'
-import { SatisfiedStep } from './finish-mentor-discussion-modal/SatisfiedStep'
-import { ReportStep } from './finish-mentor-discussion-modal/ReportStep'
 import { useMachine } from '@xstate/react'
 import { createMachine } from 'xstate'
-import { redirectTo } from '../../../utils/redirect-to'
-import { DonationStep } from './finish-mentor-discussion-modal/DonationStep'
-import { DiscussionLinks } from '../../student/mentoring-session/DiscussionActions'
-
-export type Links = {
-  exercise: string
-}
+import { redirectTo } from '@/utils/redirect-to'
+import { MentorDiscussion, DiscussionLinks } from '@/components/types'
+import { Modal, ModalProps } from '../Modal'
+import * as Step from './finish-mentor-discussion-modal'
 
 export type ReportReason = 'coc' | 'incorrect' | 'other'
 
@@ -65,11 +53,7 @@ const Inner = ({
   switch (currentStep.value) {
     case 'rateMentor':
       return (
-        // <DonationStep
-        //   donationLinks={links.donation}
-        //   mentorHandle={discussion.mentor.handle}
-        // />
-        <RateMentorStep
+        <Step.RateMentorStep
           discussion={discussion}
           onHappy={() => send('HAPPY')}
           onSatisfied={() => send('SATISFIED')}
@@ -78,7 +62,7 @@ const Inner = ({
       )
     case 'addTestimonial':
       return (
-        <AddTestimonialStep
+        <Step.AddTestimonialStep
           onSubmit={() => send('SUBMIT')}
           onSkip={() => redirectTo(links.exercise)}
           onBack={() => send('BACK')}
@@ -86,19 +70,24 @@ const Inner = ({
         />
       )
     case 'celebration':
-      return (
-        // <DonationStep
-        //   donationLinks={links.donation}
-        //   mentorHandle={discussion.mentor.handle}
-        // />
-        <CelebrationStep
-          mentorHandle={discussion.mentor.handle}
-          links={links}
-        />
-      )
+      if (links.donationLinks.showDonationModal) {
+        return (
+          <Step.DonationStep
+            exerciseLink={links.exercise}
+            donationLinks={links.donationLinks}
+            mentorHandle={discussion.mentor.handle}
+          />
+        )
+      } else
+        return (
+          <Step.CelebrationStep
+            mentorHandle={discussion.mentor.handle}
+            links={links}
+          />
+        )
     case 'satisfied':
       return (
-        <SatisfiedStep
+        <Step.SatisfiedStep
           discussion={discussion}
           onRequeued={() => send('REQUEUED')}
           onBack={() => send('BACK')}
@@ -108,10 +97,10 @@ const Inner = ({
         />
       )
     case 'requeued':
-      return <RequeuedStep links={links} />
+      return <Step.RequeuedStep links={links} />
     case 'report':
       return (
-        <ReportStep
+        <Step.ReportStep
           discussion={discussion}
           onSubmit={(report) => {
             setReport(report)
@@ -125,7 +114,7 @@ const Inner = ({
         throw new Error('Report should not be null')
       }
 
-      return <UnhappyStep report={report} links={links} />
+      return <Step.UnhappyStep report={report} links={links} />
     }
     default:
       throw new Error('Unknown modal step')

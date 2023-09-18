@@ -10,7 +10,6 @@ exports[`Stuckbutton tests Component snapshot test 1`] = `
       alt=""
       class="c-icon"
       height="16"
-      role="presentation"
       src="undefined/assets/undefined"
       width="16"
     />

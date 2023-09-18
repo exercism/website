@@ -24,7 +24,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
             alt=""
             class="c-icon mr-16 filter-textColor6"
             height="24"
-            role="presentation"
             src="undefined/assets/undefined"
             width="24"
           />
@@ -43,7 +42,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
                 alt=""
                 class="c-icon filter-textColor6"
                 height="12"
-                role="presentation"
                 src="undefined/assets/undefined"
                 width="12"
               />
@@ -55,7 +53,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
                 alt=""
                 class="c-icon filter-textColor6"
                 height="12"
-                role="presentation"
                 src="undefined/assets/undefined"
                 width="12"
               />
@@ -85,7 +82,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
               alt=""
               class="c-icon"
               height="32"
-              role="presentation"
               src="undefined/assets/undefined"
               width="32"
             />
@@ -112,7 +108,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
               alt=""
               class="c-icon"
               height="32"
-              role="presentation"
               src="undefined/assets/undefined"
               width="32"
             />
@@ -158,7 +153,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
                 alt=""
                 class="c-icon filter-textColor6"
                 height="12"
-                role="presentation"
                 src="undefined/assets/undefined"
                 width="12"
               />
@@ -170,7 +164,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
                 alt=""
                 class="c-icon filter-textColor6"
                 height="12"
-                role="presentation"
                 src="undefined/assets/undefined"
                 width="12"
               />
@@ -298,7 +291,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
             alt=""
             class="c-icon mr-16 filter-textColor6"
             height="24"
-            role="presentation"
             src="undefined/assets/undefined"
             width="24"
           />
@@ -317,7 +309,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
                 alt=""
                 class="c-icon filter-textColor6"
                 height="12"
-                role="presentation"
                 src="undefined/assets/undefined"
                 width="12"
               />
@@ -329,7 +320,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
                 alt=""
                 class="c-icon filter-textColor6"
                 height="12"
-                role="presentation"
                 src="undefined/assets/undefined"
                 width="12"
               />
@@ -349,13 +339,11 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
               <img
                 alt=""
                 class="c-icon --closed-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
               <img
                 alt=""
                 class="c-icon --open-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
             </div>
@@ -428,13 +416,11 @@ within the
               <img
                 alt=""
                 class="c-icon --closed-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
               <img
                 alt=""
                 class="c-icon --open-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
             </div>
@@ -506,13 +492,11 @@ subtraction
               <img
                 alt=""
                 class="c-icon --closed-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
               <img
                 alt=""
                 class="c-icon --open-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
             </div>
@@ -589,13 +573,11 @@ multiplication
               <img
                 alt=""
                 class="c-icon --closed-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
               <img
                 alt=""
                 class="c-icon --open-icon"
-                role="presentation"
                 src="undefined/assets/undefined"
               />
             </div>

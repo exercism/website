@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from 'react'
-import { GraphicalIcon } from '@/components/common'
 import { DonationLinks } from '@/components/types'
 const DonationsFormWithModal = lazy(
   () => import('@/components/donations/FormWithModal')
 )
+
 export function DonationStep({
   mentorHandle,
   donationLinks,
@@ -66,12 +66,6 @@ export function DonationStep({
         </div>
       </div>
       <div className="flex flex-col items-end bg-transparent">
-        <GraphicalIcon
-          className="mb-40 mr-[53px] !drop-shadow-[0_4px_128px_rgba(79, 114, 205, 0.8)]"
-          icon="wizard-hat"
-          category="graphics"
-        />
-
         <div className="w-[564px]">
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal

@@ -50,7 +50,7 @@ module Flows
           click_on "Finish"
           click_on "Back to the exercise"
 
-          assert_text "Nice, it looks like you’re done here!"
+          assert_text "Nice, it looks like you're done here!"
         end
       end
     end

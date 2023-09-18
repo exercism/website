@@ -31,6 +31,12 @@ module ReactComponents
             mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
             donation_links: {
               show_donation_modal:,
+              request: {
+                endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+                options: {
+                  initial_data: AssembleCurrentSubscription.(current_user)
+                }
+              },
               # TODO: add correct endpoint and initial data
               user_signed_in: user_signed_in?,
               captcha_required: !current_user || current_user.captcha_required?,

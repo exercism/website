@@ -59,11 +59,11 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           private_mentoring: solution.external_mentoring_request_url,
           mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
           donation_links: {
-            show_donation_modal: true,
+            show_donation_modal:,
             request: {
-              endpoint: Exercism::Routes.api_donations_active_subscription_url,
+              endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
               options: {
-                initial_data: AssembleActiveSubscription.(student)
+                initial_data: AssembleCurrentSubscription.(student)
               }
             },
             user_signed_in: true,
@@ -123,11 +123,11 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           private_mentoring: solution.external_mentoring_request_url,
           mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
           donation_links: {
-            show_donation_modal: true,
+            show_donation_modal:,
             request: {
-              endpoint: Exercism::Routes.api_donations_active_subscription_url,
+              endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
               options: {
-                initial_data: AssembleActiveSubscription.(student)
+                initial_data: AssembleCurrentSubscription.(student)
               }
             },
             user_signed_in: true,

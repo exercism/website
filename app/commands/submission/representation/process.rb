@@ -85,11 +85,6 @@ class Submission::Representation::Process
     tooling_job.execution_status.to_i
   end
 
-  memoize
-  def ops_success?
-    ops_status == 200
-  end
-
   def representer_version = metadata[:version] || 1
 
   def exercise_version

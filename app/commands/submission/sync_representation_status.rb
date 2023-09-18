@@ -1,13 +1,13 @@
-# This syncs submission's test status to the results of its latest test_run
+# This syncs submission's representation status to the results of its latest test_run
 class Submission::SyncRepresentationStatus
   include Mandate
 
   initialize_with :submission
 
   def call
-    return false unless submission_representation
+    return false unless representation
 
-    if submission_representation.ops_errored?
+    if representation.ops_errored?
       status = :exceptioned
     else
       status = :generated
@@ -18,5 +18,7 @@ class Submission::SyncRepresentationStatus
     true
   end
 
-  delegate :submission_representation, to: :submission
+  # Get this afresh from the database - don't use reload etc
+  memoize
+  def representation = Submission::Representation.for!(submission)
 end

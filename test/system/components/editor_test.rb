@@ -726,7 +726,7 @@ module Components
         click_on "Get help"
 
         assert_text "Hints and Tips"
-        assert_text "Track help"
+        assert_text "Ruby help"
         assert_text "Community help"
       end
     end

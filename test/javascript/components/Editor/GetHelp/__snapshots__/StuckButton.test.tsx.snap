@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stuckbutton tests Component snapshot test 1`] = `
+<DocumentFragment>
+  <button
+    class="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+    type="button"
+  >
+    <img
+      alt=""
+      class="c-icon"
+      height="16"
+      src="undefined/assets/undefined"
+      width="16"
+    />
+    <span>
+      Stuck? Get help
+    </span>
+  </button>
+</DocumentFragment>
+`;

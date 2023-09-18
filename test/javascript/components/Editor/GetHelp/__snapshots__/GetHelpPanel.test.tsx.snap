@@ -14,7 +14,400 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
       class="pb-12 flex flex-col"
     >
       <details
-        class="c-details border-t-1 border-borderColor6 py-16 px-24"
+        class="c-details border-t-1 border-borderColor6 py-16 px-24 hints"
+        open=""
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt=""
+            class="c-icon mr-16 filter-textColor6"
+            height="24"
+            src="undefined/assets/undefined"
+            width="24"
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Hints and Tips
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="pt-8 flex flex-col gap-2"
+        >
+          <p
+            class="text-p-base text-color-2 mb-8"
+          >
+            Stuck? These hints will give you nudges to the right direction to get you unblocked. Use them wisely though - remember that wrestling with a problem is where the learning occurs!
+          </p>
+          <p
+            class="text-p-base text-color-2"
+          >
+            Click a heading to expand the hints:
+          </p>
+        </div>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 1. Define the expected oven time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://www.rubyguides.com/2017/07/ruby-constants/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  constant
+                </a>
+                 that should contain the
+
+                <a
+                  href="https://ruby-doc.org/core-2.7.0/Integer.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  integer
+                </a>
+                 value specified in the recipe.
+              </li>
+              
+
+              <li>
+                The 
+                <code>
+                  ::
+                </code>
+                 used in 
+                <code>
+                  Lasagna::EXPECTED_MINUTES_IN_OVEN
+                </code>
+                 means that 
+                <code>
+                  EXPECTED_MINUTES_IN_OVEN
+                </code>
+                 needs to be defined
+within the 
+                <code>
+                  Lasagna
+                </code>
+                 class.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 2. Calculate the remaining oven time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with a single parameter for the
+actual time so far.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for
+subtraction
+                </a>
+                 to subtract values.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 3. Calculate the preparation time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with a single parameter for the
+number of layers.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for
+multiplication
+                </a>
+                 to multiply values.
+              </li>
+              
+
+              <li>
+                You could define an extra constant for the time in minutes per layer, or use a "magic number" in the code.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 4. Calculate the total working time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with two named parameters:
+
+                <code>
+                  number_of_layers
+                </code>
+                 and 
+                <code>
+                  actual_minutes_in_oven
+                </code>
+                .
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="http://ruby-for-beginners.rubymonstas.org/objects/calling.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  invoke
+                </a>
+                 one of the other methods you've
+defined previously.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for addition
+                </a>
+                
+to add values.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+      </details>
+      <details
+        class="c-details border-t-1 border-borderColor6 py-16 px-24 "
         open=""
       >
         <summary
@@ -127,7 +520,7 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
         </div>
       </details>
       <details
-        class="c-details border-t-1 border-borderColor6 py-16 px-24"
+        class="c-details border-t-1 border-borderColor6 py-16 px-24 "
         open=""
       >
         <summary
@@ -279,385 +672,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
   
           </ul>
         </div>
-      </details>
-      <details
-        class="c-details border-t-1 border-borderColor6 py-16 px-24"
-        open=""
-      >
-        <summary
-          class="flex items-center"
-        >
-          <img
-            alt=""
-            class="c-icon mr-16 filter-textColor6"
-            height="24"
-            src="undefined/assets/undefined"
-            width="24"
-          />
-          <div
-            class="flex items-center justify-between w-100"
-          >
-            <span
-              class="text-h4"
-            >
-              Hints and Tips
-            </span>
-            <span
-              class="--closed-icon"
-            >
-              <img
-                alt=""
-                class="c-icon filter-textColor6"
-                height="12"
-                src="undefined/assets/undefined"
-                width="12"
-              />
-            </span>
-            <span
-              class="--open-icon"
-            >
-              <img
-                alt=""
-                class="c-icon filter-textColor6"
-                height="12"
-                src="undefined/assets/undefined"
-                width="12"
-              />
-            </span>
-          </div>
-        </summary>
-        <details
-          class="c-details"
-        >
-          <summary
-            class="--summary"
-          >
-            <div
-              class="--summary-inner"
-            >
-              1. Define the expected oven time in minutes
-              <img
-                alt=""
-                class="c-icon --closed-icon"
-                src="undefined/assets/undefined"
-              />
-              <img
-                alt=""
-                class="c-icon --open-icon"
-                src="undefined/assets/undefined"
-              />
-            </div>
-          </summary>
-          <div
-            class="c-textual-content --small"
-          >
-            <ul>
-              
-
-              <li>
-                You need to define a 
-                <a
-                  href="https://www.rubyguides.com/2017/07/ruby-constants/"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  constant
-                </a>
-                 that should contain the
-
-                <a
-                  href="https://ruby-doc.org/core-2.7.0/Integer.html"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  integer
-                </a>
-                 value specified in the recipe.
-              </li>
-              
-
-              <li>
-                The 
-                <code>
-                  ::
-                </code>
-                 used in 
-                <code>
-                  Lasagna::EXPECTED_MINUTES_IN_OVEN
-                </code>
-                 means that 
-                <code>
-                  EXPECTED_MINUTES_IN_OVEN
-                </code>
-                 needs to be defined
-within the 
-                <code>
-                  Lasagna
-                </code>
-                 class.
-              </li>
-              
-
-            </ul>
-            
-
-          </div>
-        </details>
-        <details
-          class="c-details"
-        >
-          <summary
-            class="--summary"
-          >
-            <div
-              class="--summary-inner"
-            >
-              2. Calculate the remaining oven time in minutes
-              <img
-                alt=""
-                class="c-icon --closed-icon"
-                src="undefined/assets/undefined"
-              />
-              <img
-                alt=""
-                class="c-icon --open-icon"
-                src="undefined/assets/undefined"
-              />
-            </div>
-          </summary>
-          <div
-            class="c-textual-content --small"
-          >
-            <ul>
-              
-
-              <li>
-                You need to define a 
-                <a
-                  href="https://launchschool.com/books/ruby/read/methods"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  method
-                </a>
-                 with a single parameter for the
-actual time so far.
-              </li>
-              
-
-              <li>
-                You can 
-                <a
-                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  implicitly return an
-integer
-                </a>
-                 from
-the method.
-              </li>
-              
-
-              <li>
-                You can use the 
-                <a
-                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  mathematical operator for
-subtraction
-                </a>
-                 to subtract values.
-              </li>
-              
-
-            </ul>
-            
-
-          </div>
-        </details>
-        <details
-          class="c-details"
-        >
-          <summary
-            class="--summary"
-          >
-            <div
-              class="--summary-inner"
-            >
-              3. Calculate the preparation time in minutes
-              <img
-                alt=""
-                class="c-icon --closed-icon"
-                src="undefined/assets/undefined"
-              />
-              <img
-                alt=""
-                class="c-icon --open-icon"
-                src="undefined/assets/undefined"
-              />
-            </div>
-          </summary>
-          <div
-            class="c-textual-content --small"
-          >
-            <ul>
-              
-
-              <li>
-                You need to define a 
-                <a
-                  href="https://launchschool.com/books/ruby/read/methods"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  method
-                </a>
-                 with a single parameter for the
-number of layers.
-              </li>
-              
-
-              <li>
-                You can 
-                <a
-                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  implicitly return an
-integer
-                </a>
-                 from
-the method.
-              </li>
-              
-
-              <li>
-                You can use the 
-                <a
-                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  mathematical operator for
-multiplication
-                </a>
-                 to multiply values.
-              </li>
-              
-
-              <li>
-                You could define an extra constant for the time in minutes per layer, or use a "magic number" in the code.
-              </li>
-              
-
-            </ul>
-            
-
-          </div>
-        </details>
-        <details
-          class="c-details"
-        >
-          <summary
-            class="--summary"
-          >
-            <div
-              class="--summary-inner"
-            >
-              4. Calculate the total working time in minutes
-              <img
-                alt=""
-                class="c-icon --closed-icon"
-                src="undefined/assets/undefined"
-              />
-              <img
-                alt=""
-                class="c-icon --open-icon"
-                src="undefined/assets/undefined"
-              />
-            </div>
-          </summary>
-          <div
-            class="c-textual-content --small"
-          >
-            <ul>
-              
-
-              <li>
-                You need to define a 
-                <a
-                  href="https://launchschool.com/books/ruby/read/methods"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  method
-                </a>
-                 with two named parameters:
-
-                <code>
-                  number_of_layers
-                </code>
-                 and 
-                <code>
-                  actual_minutes_in_oven
-                </code>
-                .
-              </li>
-              
-
-              <li>
-                You can 
-                <a
-                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  implicitly return an
-integer
-                </a>
-                 from
-the method.
-              </li>
-              
-
-              <li>
-                You can 
-                <a
-                  href="http://ruby-for-beginners.rubymonstas.org/objects/calling.html"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  invoke
-                </a>
-                 one of the other methods you've
-defined previously.
-              </li>
-              
-
-              <li>
-                You can use the 
-                <a
-                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  mathematical operator for addition
-                </a>
-                
-to add values.
-              </li>
-              
-
-            </ul>
-            
-
-          </div>
-        </details>
       </details>
     </div>
   </div>

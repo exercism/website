@@ -35,5 +35,5 @@ class Mentor::Discussion::UpdateTimedOut
       where('awaiting_mentor_since < ?', timeout_date)
   end
 
-  def timeout_date = Time.now.utc - Mentor::Discussion::TIME_OUT_AFTER
+  def timeout_date = Time.now.utc - Mentor::Discussion::DAYS_BEFORE_TIME_OUT
 end

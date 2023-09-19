@@ -228,11 +228,13 @@ class NotificationsMailer < ApplicationMailer
     @discussion = notification.discussion
     @exercise = @discussion.exercise
     @track = @exercise.track
+    @num_days_waiting = notification.num_days_waiting
+    @num_days_to_time_out = notification.num_days_to_time_out
 
     @unsubscribe_key = :email_on_nudge_student_to_reply_in_discussion_notification
 
-    @title = "Your mentor has been waiting #{notification.num_days_waiting} days for your reply"
-    subject = "Your mentor has been waiting #{notification.num_days_waiting} days for your reply." # rubocop:disable Layout/LineLength
+    @title = "Your mentor has been waiting #{@num_days_waiting} days for your reply"
+    subject = "Your mentor has been waiting #{@num_days_waiting} days for your reply."
     transactional_mail(@user, subject)
   end
 
@@ -242,11 +244,13 @@ class NotificationsMailer < ApplicationMailer
     @discussion = notification.discussion
     @exercise = @discussion.exercise
     @track = @exercise.track
+    @num_days_waiting = notification.num_days_waiting
+    @num_days_to_time_out = notification.num_days_to_time_out
 
     @unsubscribe_key = :email_on_nudge_mentor_to_reply_in_discussion_notification
 
-    @title = "Your student has been waiting #{notification.num_days_waiting} days for your reply"
-    subject = "[Mentoring] #{@discussion.student.handle} is waiting for you to reply (#{notification.num_days_waiting} day nudge)" # rubocop:disable Layout/LineLength
+    @title = "Your student has been waiting #{@num_days_waiting} days for your reply"
+    subject = "[Mentoring] #{@discussion.student.handle} is waiting for you to reply (#{@num_days_waiting} day nudge)"
     transactional_mail(@user, subject)
   end
 
@@ -274,7 +278,7 @@ class NotificationsMailer < ApplicationMailer
     @unsubscribe_key = :email_on_mentor_timed_out_discussion_notification
 
     @title = "Your mentoring session has timed out"
-    subject = "[Mentoring] Your mentoring session has timed out due to lack of response by you." # rubocop:disable Layout/LineLength
+    subject = "[Mentoring] Your mentoring session has timed out due to lack of response by you."
     transactional_mail(@user, subject)
   end
 
@@ -302,7 +306,7 @@ class NotificationsMailer < ApplicationMailer
     @unsubscribe_key = :email_on_student_timed_out_discussion_notification
 
     @title = "Your student's discussion has timed-out"
-    subject = "[Mentoring] Your mentoring session has timed out due to lack of student response." # rubocop:disable Layout/LineLength
+    subject = "[Mentoring] Your mentoring session has timed out due to lack of student response."
     transactional_mail(@user, subject)
   end
 end

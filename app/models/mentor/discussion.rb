@@ -1,5 +1,6 @@
 class Mentor::Discussion < ApplicationRecord
-  TIME_OUT_AFTER = 28.days
+  NUM_DAYS_BEFORE_TIME_OUT = 28
+  DAYS_BEFORE_TIME_OUT = NUM_DAYS_BEFORE_TIME_OUT.days
 
   enum status: {
     awaiting_student: 0,

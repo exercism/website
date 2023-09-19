@@ -53,6 +53,32 @@ module Flows
       assert_no_text "author1's solution"
     end
 
+    test "loads params from the URL" do
+      user = create :user
+      author = create :user, handle: "author1"
+      other_author = create :user, handle: "author2"
+      ruby = create :track, title: "Ruby"
+      exercise = create :concept_exercise, track: ruby, title: "Strings"
+      solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
+        published_iteration_head_tests_status: :passed
+      submission = create(:submission, solution:)
+      create(:iteration, solution:, submission:)
+      other_solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_author,
+        published_iteration_head_tests_status: :passed
+      other_submission = create :submission, solution: other_solution
+      create :iteration, solution: other_solution, submission: other_submission
+
+      wait_for_opensearch_to_be_synced
+
+      use_capybara_host do
+        sign_in!(user)
+        visit track_exercise_solutions_path(exercise.track, exercise, criteria: "author2")
+      end
+
+      assert_text "author2's solution"
+      assert_no_text "author1's solution"
+    end
+
     test "filter community solutions" do
       # If we let this run it will override the solutions below
       Solution::QueueHeadTestRun.stubs(:defer)

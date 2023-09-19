@@ -42,7 +42,7 @@ export function ExerciseCommunitySolutionsList({
     setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query.criteria)
   const { status, resolvedData, latestData, isFetching, error } =
     usePaginatedRequestQuery<
       PaginatedResult<CommunitySolutionProps[]>,
@@ -54,7 +54,8 @@ export function ExerciseCommunitySolutionsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
+      if (criteria !== undefined && criteria !== null)
+        setRequestCriteria(criteria)
     }, 200)
 
     return () => {
@@ -114,7 +115,7 @@ export function ExerciseCommunitySolutionsList({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={criteria}
+          value={criteria || ''}
           placeholder="Search by user"
         />
         <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">

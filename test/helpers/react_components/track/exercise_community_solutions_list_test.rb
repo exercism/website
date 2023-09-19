@@ -47,7 +47,7 @@ class ReactComponents::Track::ExerciseCommunitySolutionsListTest < ReactComponen
           },
           options: { initial_data: {
             results: [],
-            meta: { current_page: 1,
+            meta: { current_page: 5,
                     total_count: 0,
                     total_pages: 0,
                     unscoped_total: 0 }

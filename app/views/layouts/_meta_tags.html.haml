@@ -16,10 +16,9 @@
 
 %title= meta_title
 %meta{ name: "description", content: meta_description }
-%meta{ content: "text/html; charset=UTF-8", "http-equiv": "Content-Type" }
 %meta{ name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" }
 
-/ Twitter Card data
+-# Twitter Card data
 %meta{ name: "twitter:card", content: "summary_large_image" }
 %meta{ name: "twitter:site", content: "@exercism_io" }
 %meta{ name: "twitter:creator", content: "@exercism_io" }
@@ -28,7 +27,7 @@
 %meta{ name: "twitter:description", content: meta_description }
 %meta{ name: "twitter:image", content: meta_image_url }
 
-/ Open Graph data
+-# Open Graph data
 %meta{ property: "og:title", content: meta_title }
 %meta{ property: "og:type", content: "website" }
 %meta{ property: "og:url", content: meta_url }
@@ -37,7 +36,7 @@
 %meta{ property: "og:site_name", content: "Exercism" }
 %meta{ property: "fb:admins", content: "744760440" }
 
-/ Favicon
+-# Favicon
 %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }
 %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
 %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }

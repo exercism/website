@@ -32,5 +32,8 @@ class AddDescendingIndexes < ActiveRecord::Migration[7.0]
     add_index :user_reputation_periods, [:period,:category,:about,:reputation], order: {reputation: :desc},  name: "search-2-desc"
     add_index :user_reputation_periods, [:period,:category,:about,:track_id,:user_handle,:reputation], order: {reputation: :desc},  name: "search-3-desc"
     add_index :user_reputation_periods, [:period,:category,:about,:track_id,:reputation,:id], order: {reputation: :desc},  name: "search-5-desc"
+
+    c.add_index :user_reputation_periods, [:period,:category,:about,:user_id,:reputation], order: {reputation: :desc},  name: "search-6-desc"
+    c.add_index :user_reputation_periods, [:period,:category,:about,:track_id,:user_id,:reputation], order: {reputation: :desc},  name: "search-7-desc"
   end
 end

@@ -260,7 +260,7 @@ class NotificationsMailer < ApplicationMailer
     @unsubscribe_key = :email_on_mentor_timed_out_discussion_notification
 
     @title = "Your discussion has timed out"
-    subject = "[Mentoring] the discussion on your solution to #{@track.title}/#{@exercise.title} has timed out"
+    subject = "The discussion on your solution to #{@track.title}/#{@exercise.title} has timed out"
     transactional_mail(@user, subject)
   end
 

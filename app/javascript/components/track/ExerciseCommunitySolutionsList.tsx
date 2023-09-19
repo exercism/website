@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
-import { useScrollToTop } from '@/hooks'
+import { useLogger, useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -42,7 +42,7 @@ export function ExerciseCommunitySolutionsList({
     setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const { status, resolvedData, latestData, isFetching, error } =
     usePaginatedRequestQuery<
       PaginatedResult<CommunitySolutionProps[]>,
@@ -52,9 +52,11 @@ export function ExerciseCommunitySolutionsList({
       request
     )
 
+  useLogger('criteria', criteria)
+
   useEffect(() => {
     const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
+      if (criteria) setRequestCriteria(criteria)
     }, 200)
 
     return () => {

@@ -2,14 +2,13 @@ class AssembleExerciseWidget < Assembler
   include Mandate
 
   def initialize(exercise, user_track,
-                 with_tooltip:, render_as_link:, render_blurb:, render_track:, recommended:, skinny:, solution: nil)
+                 with_tooltip:, render_blurb:, render_track:, recommended:, skinny:, solution: nil)
     super()
 
     @exercise = exercise
     @user_track = user_track
     @solution = solution
     @with_tooltip = with_tooltip
-    @render_as_link = render_as_link
     @render_blurb = render_blurb
     @render_track = render_track
     @recommended = recommended
@@ -22,14 +21,13 @@ class AssembleExerciseWidget < Assembler
       track: render_track ? SerializeTrack.(exercise.track, user_track) : nil,
       solution: solution ? SerializeSolution.(solution, user_track:) : nil,
       links:,
-      render_as_link:,
       render_blurb:,
       skinny:
     }
   end
 
   private
-  attr_reader :exercise, :user_track, :solution, :with_tooltip, :render_as_link, :render_blurb, :render_track,
+  attr_reader :exercise, :user_track, :solution, :with_tooltip, :render_blurb, :render_track,
     :recommended, :skinny
 
   def links

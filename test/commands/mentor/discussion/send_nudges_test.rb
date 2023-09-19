@@ -34,6 +34,30 @@ class Mentor::Discussion::SendNudgesTest < ActiveSupport::TestCase
     end
   end
 
+  test "only send student nudge within one day of cutoff date" do
+    freeze_time do
+      num_days_waiting = 7
+      mentor = create :user
+      student = create :user
+
+      discussion_within_cutoff_1 = create(:mentor_discussion, :awaiting_student, mentor:, student:,
+        awaiting_student_since: Time.now.utc - num_days_waiting.days - 1.hour)
+      discussion_within_cutoff_2 = create(:mentor_discussion, :awaiting_student, mentor:, student:,
+        awaiting_student_since: Time.now.utc - num_days_waiting.days - 23.hours)
+      discussion_before_cutoff = create(:mentor_discussion, :awaiting_student, mentor:, student:,
+        awaiting_student_since: Time.now.utc - num_days_waiting.days + 1.hour)
+      discussion_after_cutoff = create(:mentor_discussion, :awaiting_student, mentor:, student:,
+        awaiting_student_since: Time.now.utc - num_days_waiting.days - 25.hours)
+
+      Mentor::Discussion::NudgeStudent.expects(:call).with(discussion_within_cutoff_1, num_days_waiting).once
+      Mentor::Discussion::NudgeStudent.expects(:call).with(discussion_within_cutoff_2, num_days_waiting).once
+      Mentor::Discussion::NudgeStudent.expects(:call).with(discussion_before_cutoff, num_days_waiting).never
+      Mentor::Discussion::NudgeStudent.expects(:call).with(discussion_after_cutoff, num_days_waiting).never
+
+      Mentor::Discussion::SendNudges.()
+    end
+  end
+
   test "don't create multiple student notifications for same nudge date" do
     num_days_waiting = 7
     mentor = create :user
@@ -178,13 +202,13 @@ class Mentor::Discussion::SendNudgesTest < ActiveSupport::TestCase
   test "gracefully handle errors when sending nudge" do
     mentor = create :user
     student = create :user
-    discussion_1 = create(:mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.now.utc - 8.days, mentor:,
+    discussion_1 = create(:mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.now.utc - 7.days, mentor:,
       student:)
-    discussion_2 = create(:mentor_discussion, :awaiting_student, awaiting_student_since: Time.now.utc - 9.days, mentor:,
+    discussion_2 = create(:mentor_discussion, :awaiting_student, awaiting_student_since: Time.now.utc - 7.days, mentor:,
       student:)
-    discussion_3 = create(:mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.now.utc - 15.days, mentor:,
+    discussion_3 = create(:mentor_discussion, :awaiting_mentor, awaiting_mentor_since: Time.now.utc - 14.days, mentor:,
       student:)
-    discussion_4 = create(:mentor_discussion, :awaiting_student, awaiting_student_since: Time.now.utc - 24.days, mentor:,
+    discussion_4 = create(:mentor_discussion, :awaiting_student, awaiting_student_since: Time.now.utc - 21.days, mentor:,
       student:)
 
     User::Notification::Create.expects(:call).with(

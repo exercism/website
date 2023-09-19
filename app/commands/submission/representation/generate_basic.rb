@@ -1,6 +1,8 @@
 class Submission::Representation::GenerateBasic
   include Mandate
 
+  queue_as :dribble
+
   initialize_with :submission
 
   def call

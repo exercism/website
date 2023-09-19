@@ -15,6 +15,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     awaiting_mentor = create :mentor_discussion, :awaiting_mentor
     mentor_finished = create :mentor_discussion, :mentor_finished, rating: :great
     finished = create :mentor_discussion, :finished, rating: :problematic
+    student_timed_out = create :mentor_discussion, :student_timed_out
+    mentor_timed_out = create :mentor_discussion, :mentor_timed_out
 
     # TODO: See where these are used to decide if we need it
     assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.in_progress_for_student
@@ -26,17 +28,29 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal [mentor_finished], Mentor::Discussion.mentor_finished
     assert_equal [finished], Mentor::Discussion.finished
 
-    assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.not_negatively_rated
+    assert_equal [awaiting_student, awaiting_mentor, mentor_finished, student_timed_out, mentor_timed_out],
+      Mentor::Discussion.not_negatively_rated
 
     refute awaiting_student.finished_for_student?
     refute awaiting_mentor.finished_for_student?
     refute mentor_finished.finished_for_student?
     assert finished.finished_for_student?
+    refute student_timed_out.finished_for_student?
+    refute mentor_timed_out.finished_for_student?
 
     refute awaiting_student.finished_for_mentor?
     refute awaiting_mentor.finished_for_mentor?
     assert mentor_finished.finished_for_mentor?
     assert finished.finished_for_mentor?
+    refute student_timed_out.finished_for_student?
+    refute mentor_timed_out.finished_for_student?
+
+    refute awaiting_student.timed_out?
+    refute awaiting_mentor.timed_out?
+    refute mentor_finished.timed_out?
+    refute finished.timed_out?
+    assert student_timed_out.timed_out?
+    assert mentor_timed_out.timed_out?
   end
 
   test "#viewable_by? returns true if user is student" do

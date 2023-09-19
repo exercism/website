@@ -89,10 +89,8 @@ class Mentor::Discussion < ApplicationRecord
 
   def to_param = uuid
   def finished_for_student? = status == :finished
-
-  def finished_for_mentor?
-    %i[mentor_finished finished].include?(status)
-  end
+  def finished_for_mentor? = %i[mentor_finished finished].include?(status)
+  def timed_out? = %i[student_timed_out mentor_timed_out].include?(status)
 
   def viewable_by?(user)
     return true if user.admin?

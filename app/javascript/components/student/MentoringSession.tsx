@@ -143,6 +143,7 @@ export default function MentoringSession({
                 onIterationScroll={handleIterationScroll}
                 links={links}
                 status={status}
+                donation={donation}
               />
             ) : (
               <MentoringRequest

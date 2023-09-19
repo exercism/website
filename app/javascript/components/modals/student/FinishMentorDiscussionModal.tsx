@@ -145,6 +145,7 @@ export const FinishMentorDiscussionModal = ({
       aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
       className="m-finish-student-mentor-discussion"
       ReactModalClassName="bg-unnamed15"
+      shouldCloseOnOverlayClick={false}
       {...props}
     >
       <Inner links={links} discussion={discussion} donation={donation} />

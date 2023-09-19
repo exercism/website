@@ -15,7 +15,6 @@ export type Props = {
   track?: Track
   solution?: SolutionForStudent
   links?: Links
-  renderAsLink: boolean
   renderBlurb: boolean
   isSkinny: boolean
 }
@@ -25,7 +24,6 @@ export function ExerciseWidget({
   track,
   solution,
   links = {},
-  renderAsLink,
   renderBlurb,
   isSkinny,
 }: Props): JSX.Element {
@@ -40,7 +38,6 @@ export function ExerciseWidget({
         exercise={exercise}
         track={track}
         solution={solution}
-        renderAsLink={renderAsLink}
         renderBlurb={renderBlurb}
         isSkinny={isSkinny}
       />
@@ -54,92 +51,46 @@ const ReferenceElement = forwardRef<
     onMouseEnter?: () => void
     onMouseLeave?: () => void
   }
->(
-  (
-    {
-      exercise,
-      track,
-      solution,
-      renderAsLink,
-      renderBlurb,
-      isSkinny,
-      ...props
-    },
-    ref
-  ) => {
-    const info = (
-      <Info
-        exercise={exercise}
-        solution={solution}
-        track={track}
-        renderBlurb={renderBlurb}
-        isSkinny={isSkinny}
+>(({ exercise, track, solution, renderBlurb, isSkinny, ...props }, ref) => {
+  const info = (
+    <Info
+      exercise={exercise}
+      solution={solution}
+      track={track}
+      renderBlurb={renderBlurb}
+      isSkinny={isSkinny}
+    />
+  )
+  const classNames = [
+    'c-exercise-widget',
+    `--${
+      solution ? solution.status : exercise.isUnlocked ? 'available' : 'locked'
+    }`,
+    exercise.isRecommended ? '--recommended' : '',
+    '--interactive',
+    isSkinny ? '--skinny' : '',
+  ]
+    .filter((name) => name.length > 0)
+    .join(' ')
+
+  const url = solution ? solution.privateUrl : exercise.links.self
+
+  return (
+    <a
+      ref={ref as React.RefObject<HTMLAnchorElement>}
+      href={url}
+      className={classNames}
+      {...props}
+    >
+      <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+      {info}
+      <GraphicalIcon
+        icon={exercise.isUnlocked ? 'chevron-right' : 'lock'}
+        className="--action-icon sm:block hidden"
       />
-    )
-    if (solution || exercise.isUnlocked) {
-      const classNames = [
-        'c-exercise-widget',
-        `--${solution ? solution.status : 'available'}`,
-        exercise.isRecommended ? '--recommended' : '',
-        `--${renderAsLink ? 'interactive' : 'static'}`,
-        isSkinny ? '--skinny' : '',
-      ]
-        .filter((name) => name.length > 0)
-        .join(' ')
-
-      const url = solution
-        ? solution.privateUrl
-        : exercise.isUnlocked
-        ? exercise.links.self
-        : '#'
-      return renderAsLink ? (
-        <a
-          ref={ref as React.RefObject<HTMLAnchorElement>}
-          href={url}
-          className={classNames}
-          {...props}
-        >
-          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-          {info}
-          <GraphicalIcon
-            icon="chevron-right"
-            className="--action-icon sm:block hidden"
-          />
-        </a>
-      ) : (
-        <div
-          ref={ref as React.RefObject<HTMLDivElement>}
-          className={classNames}
-          {...props}
-        >
-          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-          {info}
-        </div>
-      )
-    } else {
-      const classNames = [
-        'c-exercise-widget',
-        '--locked',
-        `--${renderAsLink ? 'interactive' : 'static'}`,
-        isSkinny ? '--skinny' : '',
-      ]
-        .filter((name) => name.length > 0)
-        .join(' ')
-
-      return (
-        <div
-          className={classNames}
-          ref={ref as React.RefObject<HTMLDivElement>}
-          {...props}
-        >
-          <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-          {info}
-          <GraphicalIcon icon="lock" className="--action-icon" />
-        </div>
-      )
-    }
-  }
-)
+    </a>
+  )
+})
 
 ExerciseWidget.defaultProps = {
   renderAsLink: true,

@@ -1,19 +1,19 @@
-/ Fallback fonts first
+-# Fallback fonts first
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-600.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 
-/ Then the main stylesheet
+-# Then the main stylesheet
 = stylesheet_link_tag "website", "data-turbo-track": "reload"
 
-/ Then any page specific stylesheets
+-# Then any page specific stylesheets
 = yield :stylesheets
 
-/ Then other critical fonts
+-# Then other critical fonts
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-500.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-700.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 %link{ rel: "preload", href: asset_path('source-code-pro-v22-latin_latin-ext-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 
-/ Next, setup the fallback font
+-# Next, setup the fallback font
 :css
   @font-face {
     font-display: fallback;
@@ -22,7 +22,7 @@
     src: url(#{asset_path('poppins-v20-latin-regular.woff2')}) format('woff2');
   }
 
-/ Use the 600 font-weight for 500/600/700
+-# Use the 600 font-weight for 500/600/700
 - [500, 600, 700].each do |weight|
   :css
     @font-face {
@@ -39,7 +39,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-/ Then handle JavaScript and remaining assets
+-# Then handle JavaScript and remaining assets
 
 - if landing_page?
   = javascript_include_tag('landing', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)

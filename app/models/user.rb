@@ -221,6 +221,10 @@ class User < ApplicationRecord
     User::FormatReputation.(rep)
   end
 
+  def donated_in_last_35_days?
+    payments.where('created_at > ?', Time.current - 35.days).exists?
+  end
+
   memoize
   def current_subscription? = current_subscription.present?
 

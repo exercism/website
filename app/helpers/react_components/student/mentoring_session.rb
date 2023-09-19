@@ -23,9 +23,9 @@ module ReactComponents
           out_of_date: solution.out_of_date?,
           videos:,
           donation: {
-            user_signed_in: user_signed_in?,
-            captcha_required: !current_user || current_user.captcha_required?,
-            recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+            user_signed_in: true,
+            captcha_required: false,
+            recaptcha_site_key: Exercism.secrets.recaptcha_site_key,
             show_donation_modal:,
             request: {
               endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
@@ -115,8 +115,11 @@ module ReactComponents
       end
 
       def show_donation_modal
+        return false if current_user.insider?
+        return false if current_user.donated_in_last_35_days?
+
         num_testimonials = current_user.provided_testimonials.count
-        num_testimonials.zero? || ((num_testimonials + 1) % 5).zero?
+        num_testimonials.zero? || (num_testimonials % 3).zero?
       end
     end
   end

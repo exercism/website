@@ -4,7 +4,7 @@ class Mentor::Discussion::StudentTimeOut
   initialize_with :discussion
 
   def call
-    discussion.update!(status: :student_timed_out)
+    discussion.student_timed_out!
 
     create_notifications!
   end

@@ -4,6 +4,6 @@ This is a friendly reminder that your student (#{@discussion.student.handle}) ha
 \
 If it's not your turn and you're waiting on the student, please use the "It's the student's turn…" button in the mentoring UI.
 
-The discussion will time out in #{28 - notification.num_days_waiting} days if you do not reply.
+The discussion will time out in #{notification.num_days_to_time_out} days if you do not reply.
 \
 Go to the discussion: #{track_exercise_mentor_discussion_url(@track, @exercise, @discussion)}

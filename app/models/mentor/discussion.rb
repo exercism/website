@@ -1,4 +1,6 @@
 class Mentor::Discussion < ApplicationRecord
+  TIME_OUT_AFTER = 28.days
+
   enum status: {
     awaiting_student: 0,
     awaiting_mentor: 1,

@@ -17,4 +17,5 @@ class User::Notifications::NudgeMentorToReplyInDiscussionNotification < User::No
   def image_url = student.avatar_url
   def guard_params = "Discussion##{discussion.id}##{discussion.awaiting_mentor_since.to_date}##{num_days_waiting}"
   def email_communication_preferences_key = :email_on_nudge_mentor_to_reply_in_discussion_notification
+  def num_days_to_time_out = Mentor::Discussion::TIME_OUT_AFTER - num_days_waiting
 end

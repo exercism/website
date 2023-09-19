@@ -153,26 +153,26 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
     end
 
     # No testimonials shows model
-    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    assert generate_data.().dig(:donation, :show_donation_modal)
 
     # 1/2/3 testimonials doesn't
     3.times do
       create(:mentor_testimonial, student:)
-      refute generate_data.().dig(:links, :donation_links, :show_donation_modal)
+      refute generate_data.().dig(:donation, :show_donation_modal)
     end
 
     # 4 testimonials does
     create(:mentor_testimonial, student:)
-    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    assert generate_data.().dig(:donation, :show_donation_modal)
 
     # 5/6/7/8 testimonials doesn't
     4.times do
       create(:mentor_testimonial, student:)
-      refute generate_data.().dig(:links, :donation_links, :show_donation_modal)
+      refute generate_data.().dig(:donation, :show_donation_modal)
     end
 
     # 9 testimonials does
     create(:mentor_testimonial, student:)
-    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    assert generate_data.().dig(:donation, :show_donation_modal)
   end
 end

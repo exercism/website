@@ -22,30 +22,26 @@ module ReactComponents
           track_objectives: user_track&.objectives.to_s,
           out_of_date: solution.out_of_date?,
           videos:,
-
+          donation: {
+            user_signed_in: user_signed_in?,
+            captcha_required: !current_user || current_user.captcha_required?,
+            recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+            show_donation_modal:,
+            request: {
+              endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+              options: {
+                initial_data: AssembleCurrentSubscription.(current_user)
+              }
+            }
+          },
           links: {
             exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
             create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
             learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
             private_mentoring: solution.external_mentoring_request_url,
             mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
-            donation_links: {
-              show_donation_modal:,
-              request: {
-                endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
-                options: {
-                  initial_data: AssembleCurrentSubscription.(current_user)
-                }
-              },
-              # TODO: add correct endpoint and initial data
-              user_signed_in: user_signed_in?,
-              captcha_required: !current_user || current_user.captcha_required?,
-              recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
-              links: {
-                settings: Exercism::Routes.donations_settings_url,
-                donate: Exercism::Routes.donate_url
-              }
-            }
+            donations_settings: Exercism::Routes.donations_settings_url,
+            donate: Exercism::Routes.donate_url
           }
         }
       end

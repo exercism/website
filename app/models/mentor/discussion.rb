@@ -86,7 +86,7 @@ class Mentor::Discussion < ApplicationRecord
   def finished_for_student? = status == :finished
 
   def finished_for_mentor?
-    %i[mentor_finished finished].include?(status)
+    %i[mentor_finished finished student_timed_out mentored_time_out].include?(status)
   end
 
   def viewable_by?(user)

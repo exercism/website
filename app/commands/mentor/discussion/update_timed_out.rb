@@ -15,18 +15,18 @@ class Mentor::Discussion::UpdateTimedOut
     end
   end
 
-  def student_timed_out_discussions
-    Mentor::Discussion.includes(:student).
-      awaiting_student.
-      where('awaiting_student_since < ?', timeout_date)
-  end
-
   def update_mentor_timed_out!
     mentor_timed_out_discussions.find_each do |discussion|
       Mentor::Discussion::MentorTimeOut.(discussion)
     rescue StandardError => e
       Bugsnag.notify(e)
     end
+  end
+
+  def student_timed_out_discussions
+    Mentor::Discussion.includes(:student).
+      awaiting_student.
+      where('awaiting_student_since < ?', timeout_date)
   end
 
   def mentor_timed_out_discussions

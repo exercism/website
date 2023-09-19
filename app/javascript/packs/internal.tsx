@@ -24,6 +24,7 @@ import type {
   SharePlatform,
   CompleteRepresentationData,
   Guidance,
+  MentoringSessionDonation,
 } from '@/components/types'
 import type { Links as TryMentoringButtonLinks } from '@/components/mentoring/TryMentoringButton'
 import type { Links as MentoringQueueLinks } from '@/components/mentoring/Queue'
@@ -349,6 +350,7 @@ initReact({
         request={camelizeKeysAs<MentorSessionRequest>(data.request)}
         links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
         outOfDate={data.out_of_date}
+        donation={camelizeKeysAs<MentoringSessionDonation>(data.donation)}
       />
     </Suspense>
   ),

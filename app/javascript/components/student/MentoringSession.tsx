@@ -15,8 +15,8 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-  DiscussionLinks,
-  DonationLinks,
+  MentoringSessionDonation,
+  MentoringSessionLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 import { SplitPane } from '../common/SplitPane'
@@ -28,7 +28,8 @@ export type Links = {
   privateMentoring: string
   mentoringGuide: string
   createMentorRequest: string
-  donationLinks: DonationLinks
+  donationsSettings: string
+  donate: string
 }
 
 export type Video = {
@@ -62,6 +63,7 @@ export default function MentoringSession({
   request: initialRequest,
   links,
   outOfDate,
+  donation,
 }: {
   userHandle: string
   discussion?: MentorDiscussion
@@ -72,14 +74,18 @@ export default function MentoringSession({
   videos: Video[]
   track: Track
   request?: Request
-  links: DiscussionLinks
+  links: MentoringSessionLinks
   outOfDate: boolean
+  donation: MentoringSessionDonation
 }): JSX.Element {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
 
-  const handleCreateMentorRequest = useCallback((mentorRequest) => {
-    setMentorRequest(mentorRequest)
-  }, [])
+  const handleCreateMentorRequest = useCallback(
+    (mentorRequest: typeof initialRequest) => {
+      setMentorRequest(mentorRequest)
+    },
+    []
+  )
 
   const { iterations, status } = useDiscussionIterations({
     discussion: discussion,
@@ -108,10 +114,8 @@ export default function MentoringSession({
               {discussion ? (
                 <DiscussionActions
                   discussion={discussion}
-                  links={{
-                    exercise: exercise.links.self,
-                    donationLinks: links.donationLinks,
-                  }}
+                  links={{ ...links, exercise: exercise.links.self }}
+                  donation={donation}
                 />
               ) : null}
             </header>
@@ -139,6 +143,7 @@ export default function MentoringSession({
                 onIterationScroll={handleIterationScroll}
                 links={links}
                 status={status}
+                donation={donation}
               />
             ) : (
               <MentoringRequest

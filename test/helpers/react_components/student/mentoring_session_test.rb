@@ -52,29 +52,28 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         track_objectives: "",
         out_of_date: false,
         videos: [],
+        donation: {
+          user_signed_in: true,
+          captcha_required: student.captcha_required?,
+          recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+          show_donation_modal: true,
+          request: {
+            endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+            options: {
+              initial_data: AssembleCurrentSubscription.(student)
+            }
+          }
+        },
         links: {
           exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
           private_mentoring: solution.external_mentoring_request_url,
           mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
-          donation_links: {
-            show_donation_modal: true,
-            request: {
-              endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
-              options: {
-                initial_data: AssembleCurrentSubscription.(student)
-              }
-            },
-            user_signed_in: true,
-            captcha_required: student.captcha_required?,
-            recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
-            links: {
-              settings: Exercism::Routes.donations_settings_url,
-              donate: Exercism::Routes.donate_url
-            }
-          }
+          donations_settings: Exercism::Routes.donations_settings_url,
+          donate: Exercism::Routes.donate_url
         }
+
       }
   end
 
@@ -116,28 +115,26 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
             date: Date.new(2021, 9, 1).iso8601
           }
         ],
+        donation: {
+          user_signed_in: true,
+          captcha_required: student.captcha_required?,
+          recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+          show_donation_modal: true,
+          request: {
+            endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+            options: {
+              initial_data: AssembleCurrentSubscription.(student)
+            }
+          }
+        },
         links: {
           exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
           private_mentoring: solution.external_mentoring_request_url,
           mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
-          donation_links: {
-            show_donation_modal: true,
-            request: {
-              endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
-              options: {
-                initial_data: AssembleCurrentSubscription.(student)
-              }
-            },
-            user_signed_in: true,
-            captcha_required: student.captcha_required?,
-            recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
-            links: {
-              settings: Exercism::Routes.donations_settings_url,
-              donate: Exercism::Routes.donate_url
-            }
-          }
+          donations_settings: Exercism::Routes.donations_settings_url,
+          donate: Exercism::Routes.donate_url
         }
       }
   end
@@ -156,26 +153,26 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
     end
 
     # No testimonials shows model
-    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    assert generate_data.().dig(:donation, :show_donation_modal)
 
     # 1/2/3 testimonials doesn't
     3.times do
       create(:mentor_testimonial, student:)
-      refute generate_data.().dig(:links, :donation_links, :show_donation_modal)
+      refute generate_data.().dig(:donation, :show_donation_modal)
     end
 
     # 4 testimonials does
     create(:mentor_testimonial, student:)
-    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    assert generate_data.().dig(:donation, :show_donation_modal)
 
     # 5/6/7/8 testimonials doesn't
     4.times do
       create(:mentor_testimonial, student:)
-      refute generate_data.().dig(:links, :donation_links, :show_donation_modal)
+      refute generate_data.().dig(:donation, :show_donation_modal)
     end
 
     # 9 testimonials does
     create(:mentor_testimonial, student:)
-    assert generate_data.().dig(:links, :donation_links, :show_donation_modal)
+    assert generate_data.().dig(:donation, :show_donation_modal)
   end
 end

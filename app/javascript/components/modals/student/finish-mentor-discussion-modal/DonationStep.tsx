@@ -1,17 +1,22 @@
 import React, { lazy, Suspense } from 'react'
-import { DonationLinks } from '@/components/types'
+import {
+  MentoringSessionDonation,
+  MentoringSessionLinks,
+} from '@/components/types'
 const DonationsFormWithModal = lazy(
   () => import('@/components/donations/FormWithModal')
 )
 
 export function DonationStep({
   mentorHandle,
-  donationLinks,
+  donation,
   exerciseLink,
+  links,
 }: {
   mentorHandle: string
-  donationLinks: DonationLinks
+  donation: MentoringSessionDonation
   exerciseLink: string
+  links: MentoringSessionLinks
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -69,11 +74,14 @@ export function DonationStep({
         <div className="w-[564px]">
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal
-              request={donationLinks.request}
-              links={donationLinks.links}
-              userSignedIn={donationLinks.userSignedIn}
-              captchaRequired={donationLinks.captchaRequired}
-              recaptchaSiteKey={donationLinks.recaptchaSiteKey}
+              request={donation.request}
+              userSignedIn={donation.userSignedIn}
+              captchaRequired={donation.captchaRequired}
+              recaptchaSiteKey={donation.recaptchaSiteKey}
+              links={{
+                donate: links.donate,
+                settings: links.donationsSettings,
+              }}
             />
           </Suspense>
         </div>

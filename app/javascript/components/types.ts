@@ -445,11 +445,6 @@ export type MentorDiscussion = {
   }
 }
 
-export type DiscussionLinks = {
-  exercise: string
-  donationLinks: DonationLinks
-} & MentoringRequestLinks
-
 export type MentoredTrackExercise = {
   slug: string
   title: string
@@ -458,28 +453,27 @@ export type MentoredTrackExercise = {
   completedByMentor: boolean
 }
 
-export type DonationLinks = {
+export type MentoringSessionDonation = {
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
+  showDonationModal: boolean
   request: {
     endpoint: string
     options: {
       initialData: string
     }
   }
-  showDonationModal: boolean
-  userSignedIn: boolean
-  captchaRequired: boolean
-  recaptchaSiteKey: string
-  links: {
-    settings: string
-    donate: string
-  }
 }
 
-export type MentoringRequestLinks = {
+export type MentoringSessionLinks = {
+  exercise: string
   learnMoreAboutPrivateMentoring: string
   privateMentoring: string
   mentoringGuide: string
   createMentorRequest: string
+  donationsSettings: string
+  donate: string
 }
 
 export type MentoredTrack = {

@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { createMachine } from 'xstate'
 import { redirectTo } from '@/utils/redirect-to'
-import { MentorDiscussion, DiscussionLinks } from '@/components/types'
+import {
+  MentorDiscussion,
+  MentoringSessionDonation,
+  MentoringSessionLinks,
+} from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import * as Step from './finish-mentor-discussion-modal'
 
@@ -43,9 +47,11 @@ const modalStepMachine = createMachine({
 const Inner = ({
   discussion,
   links,
+  donation,
 }: {
   discussion: MentorDiscussion
-  links: DiscussionLinks
+  links: MentoringSessionLinks
+  donation: MentoringSessionDonation
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
@@ -70,12 +76,13 @@ const Inner = ({
         />
       )
     case 'celebration':
-      if (links.donationLinks.showDonationModal) {
+      if (donation.showDonationModal) {
         return (
           <Step.DonationStep
             exerciseLink={links.exercise}
-            donationLinks={links.donationLinks}
+            donation={donation}
             mentorHandle={discussion.mentor.handle}
+            links={links}
           />
         )
       } else
@@ -124,10 +131,12 @@ const Inner = ({
 export const FinishMentorDiscussionModal = ({
   links,
   discussion,
+  donation,
   ...props
 }: Omit<ModalProps, 'className'> & {
-  links: DiscussionLinks
+  links: MentoringSessionLinks
   discussion: MentorDiscussion
+  donation: MentoringSessionDonation
   onCancel: () => void
 }): JSX.Element => {
   return (
@@ -139,7 +148,7 @@ export const FinishMentorDiscussionModal = ({
       ReactModalClassName="bg-unnamed15"
       {...props}
     >
-      <Inner links={links} discussion={discussion} />
+      <Inner links={links} discussion={discussion} donation={donation} />
     </Modal>
   )
 }

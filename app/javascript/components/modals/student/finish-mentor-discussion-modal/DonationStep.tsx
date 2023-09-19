@@ -21,57 +21,55 @@ export function DonationStep({
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
       <div className="mr-64">
-        <h1 className="text-h1 mb-24">
-          Thank you for leaving a testimonial for {mentorHandle}! ✨
+        <h3 className="text-h4 mb-4 text-lightBlue">One more request…</h3>
+        <h1 className="text-h1 mb-12">
+          We need your help to keep Exercism alive.
         </h1>
-        <h3 className="text-h2 mb-12">
-          One more ask... We need your help to keep Exercism sustainable.
-        </h3>
-        <p className="text-p-large leading-170 mb-24">
+        <p className="text-p-large mb-12">
+          Exercism relies on donations from wonderful people like you to keep us
+          financially afloat. Currently, not enough people are donating to
+          Exercism and we may have to shut down the site. With your help, we can
+          keep the lights on, and also grow and expand our work.{' '}
           <strong className="font-medium">
-            We&apos;re just scratching the surface of what&apos;s possible with
-            Exercism.
-          </strong>{' '}
-          But we need your help to keep the lights on and enable us to grow and
-          expand what we&apos;re doing.{' '}
-          <strong className="!font-semibold">
-            Only 1% of people give to Exercism - please be one of them!
+            Please take one minute to watch this video and see how your donation
+            will help 👇
           </strong>
         </p>
 
-        <div className="border-2 border-gradient bg-lightPurple mb-32 py-12 px-24 rounded-8">
-          <p className="text-gradient font-semibold leading-160 text-17">
-            Please help fund Exercism to make it financially sustainable and
-            empower us with the creative freedom to build something even more
-            amazing than what&apos;s here today!
-          </p>
+        <div className="c-youtube-container mb-32">
+          <iframe
+            width="560"
+            height="315"
+            src="https://player.vimeo.com/video/855534271?h=97d3a4c8c2&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&transparent=0"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen="true"
+          />
+          <script src="https://player.vimeo.com/api/player.js" />
         </div>
 
-        <hr className="border-2 border-crayola mb-32" />
-
-        <h3 className="text-h3 mb-12">Want to help?</h3>
-        <p className="text-textColor1 text-18 font-medium leading-170 mb-24">
-          Please use the form on the right-hand side to make a one-off or
-          recurring donation. Every little helps. Thank you!
+        <h3 className="text-h3 mb-6">Want to help?</h3>
+        <p className="text-p-large mb-6">
+          If you can't afford to donate, please don't feel bad. Exercism is free
+          exactly so that people in your situation can learn. Please just go and
+          enjoy the platform! 🙂
         </p>
-
-        <h3 className="text-h3 mb-12">Not for now?</h3>
+        <p className="text-p-large mb-16">
+          However, if you can spare a few dollars, please use the form to the
+          right to support us. Every little helps. Thank you! 💙
+        </p>
 
         <div className="flex">
           <a
             href={exerciseLink}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
           >
-            Continue to exercise...
+            Continue to exercise…
           </a>
-        </div>
-
-        <div className="text-15 text-btnBorder leading-160 font-normal">
-          Don&apos;t worry, we won&apos;t show you this again for a while.
         </div>
       </div>
       <div className="flex flex-col items-end bg-transparent">
-        <div className="w-[564px]">
+        <div className="w-[564px] shadow-lgZ1 rounded-8 mb-20">
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal
               request={donation.request}
@@ -84,6 +82,13 @@ export function DonationStep({
               }}
             />
           </Suspense>
+        </div>
+
+        <div className="border-2 border-gradient bg-lightPurple py-12 px-24 rounded-8">
+          <p className="text-gradient font-semibold leading-160 text-17">
+            Fewer than 1% of who use Exercism choose to donate. If you can
+            afford to do so, please be one of them.
+          </p>
         </div>
       </div>
     </div>

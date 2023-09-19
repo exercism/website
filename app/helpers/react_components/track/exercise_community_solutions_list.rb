@@ -27,7 +27,7 @@ module ReactComponents
         booleans = %w[up_to_date passed_tests not_passed_head_tests]
         permitted.each_with_object({}) do |(k, v), h|
           h[k] = booleans.include?(k) ? ActiveModel::Type::Boolean.new.cast(v) : v
-        end
+        end.with_indifferent_access
       end
     end
   end

@@ -81,7 +81,6 @@ const Inner = ({
           <Step.DonationStep
             exerciseLink={links.exercise}
             donation={donation}
-            mentorHandle={discussion.mentor.handle}
             links={links}
           />
         )

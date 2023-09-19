@@ -8,12 +8,10 @@ const DonationsFormWithModal = lazy(
 )
 
 export function DonationStep({
-  mentorHandle,
   donation,
   exerciseLink,
   links,
 }: {
-  mentorHandle: string
   donation: MentoringSessionDonation
   exerciseLink: string
   links: MentoringSessionLinks
@@ -40,19 +38,19 @@ export function DonationStep({
           <iframe
             width="560"
             height="315"
+            frameBorder="0"
             src="https://player.vimeo.com/video/855534271?h=97d3a4c8c2&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&transparent=0"
-            frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen="true"
+            allowFullScreen
           />
           <script src="https://player.vimeo.com/api/player.js" />
         </div>
 
         <h3 className="text-h3 mb-6">Want to help?</h3>
         <p className="text-p-large mb-6">
-          If you can't afford to donate, please don't feel bad. Exercism is free
-          exactly so that people in your situation can learn. Please just go and
-          enjoy the platform! 🙂
+          If you can&apos;t afford to donate, please don&apos;t feel bad.
+          Exercism is free exactly so that people in your situation can learn.
+          Please just go and enjoy the platform! 🙂
         </p>
         <p className="text-p-large mb-16">
           However, if you can spare a few dollars, please use the form to the

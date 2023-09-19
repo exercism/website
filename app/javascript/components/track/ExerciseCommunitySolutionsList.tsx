@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
-import { useLogger, useScrollToTop } from '@/hooks'
+import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -51,8 +51,6 @@ export function ExerciseCommunitySolutionsList({
       ['exercise-community-solution-list', request.endpoint, request.query],
       request
     )
-
-  useLogger('criteria', criteria)
 
   useEffect(() => {
     const handler = setTimeout(() => {

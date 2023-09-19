@@ -302,7 +302,7 @@ class NotificationsMailer < ApplicationMailer
     @unsubscribe_key = :email_on_student_timed_out_discussion_notification
 
     @title = "Your student's discussion has timed-out"
-    subject = "[Mentoring] your mentoring session on the solution by #{@discussion.student.handle} on #{@track.title}/#{@exercise.title} has timed out" # rubocop:disable Layout/LineLength
+    subject = "[Mentoring] Your mentoring session has timed out due to lack of student response." # rubocop:disable Layout/LineLength
     transactional_mail(@user, subject)
   end
 end

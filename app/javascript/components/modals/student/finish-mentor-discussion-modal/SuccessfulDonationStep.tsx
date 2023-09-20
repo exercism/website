@@ -45,7 +45,7 @@ export function SuccessfulDonationStep({
       </div>
 
       <a href={closeLink} className="btn-primary btn-l w-[50%]">
-        Happy to help! I&apos;m done here 👍
+        Continue to Exercise
       </a>
     </div>
   )

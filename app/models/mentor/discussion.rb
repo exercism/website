@@ -10,10 +10,13 @@ class Mentor::Discussion < ApplicationRecord
     student_timed_out: 5,
     mentor_timed_out: 6
   }
+
   enum finished_by: {
     mentor: 1,
-    student: 2
-  }
+    student: 2,
+    student_timed_out: 3,
+    mentor_timed_out: 4
+  }, _suffix: true
 
   enum rating: {
     great: 5,

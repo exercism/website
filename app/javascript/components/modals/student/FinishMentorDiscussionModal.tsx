@@ -128,6 +128,7 @@ const Inner = ({
         <Step.SuccessfulDonationStep
           amount={donatedAmount}
           closeLink={links.exerciseMentorDiscussionUrl}
+          setContainerModalMaxWidth={setMaxWidth}
         />
       )
     case 'unhappy': {

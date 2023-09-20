@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import currency from 'currency.js'
 import { GraphicalIcon } from '@/components/common'
 import { BadgeMedallion } from '@/components/common/BadgeMedallion'
@@ -9,10 +9,17 @@ const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 export function SuccessfulDonationStep({
   amount,
   closeLink,
+  setContainerModalMaxWidth,
 }: {
   amount: currency | null
   closeLink: string
+  setContainerModalMaxWidth: React.Dispatch<React.SetStateAction<string>>
 }): JSX.Element {
+  useEffect(() => {
+    setContainerModalMaxWidth('900px')
+    return () => setContainerModalMaxWidth('100%')
+  }, [setContainerModalMaxWidth])
+
   return (
     <div className="successful-donation-step flex flex-col items-center text-center">
       <GraphicalIcon

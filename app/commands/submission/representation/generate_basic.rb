@@ -39,7 +39,5 @@ class Submission::Representation::GenerateBasic
     submission.files.select { |file| valid_paths.include?(file.filename) }
   end
 
-  delegate :git_sha, to: :submission
-
-  delegate :solution, to: :submission
+  delegate :git_sha, :solution, to: :submission
 end

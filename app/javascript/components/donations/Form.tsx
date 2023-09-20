@@ -38,7 +38,7 @@ type Props = {
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   userSignedIn: boolean
   captchaRequired: boolean
-  recaptchaSiteKey: string
+  recaptchaSiteKey?: string
   onProcessing?: () => void
   onSettled?: () => void
   links: FormWithModalLinks

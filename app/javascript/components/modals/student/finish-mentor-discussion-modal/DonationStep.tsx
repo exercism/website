@@ -75,7 +75,6 @@ export function DonationStep({
               }}
               userSignedIn={true}
               captchaRequired={false}
-              recaptchaSiteKey={donation.recaptchaSiteKey}
               links={{
                 confirmParamsReturnUrl: links.exerciseMentorDiscussionUrl,
                 settings: links.donationsSettings,

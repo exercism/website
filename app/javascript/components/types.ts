@@ -454,7 +454,6 @@ export type MentoredTrackExercise = {
 }
 
 export type MentoringSessionDonation = {
-  recaptchaSiteKey: string
   showDonationModal: boolean
   request: {
     endpoint: string

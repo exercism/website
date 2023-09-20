@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Mentor::Discussion::HandleStudentAbandonedTest < ActiveSupport::TestCase
+class Mentor::Discussion::FinishAbandonedTest < ActiveSupport::TestCase
   %i[mentor_finished student_timed_out].each do |status|
     test "mark discussion as finished when status is #{status} and finished at least a week ago" do
       freeze_time do
@@ -9,11 +9,11 @@ class Mentor::Discussion::HandleStudentAbandonedTest < ActiveSupport::TestCase
         discussion = create(:mentor_discussion, status:, mentor:, student:, finished_at: Time.current.utc)
 
         discussion.update(finished_at: Time.current.utc - 1.day)
-        Mentor::Discussion::HandleAbandonedByStudent.()
+        Mentor::Discussion::FinishAbandoned.()
         refute discussion.finished?
 
         discussion.update(finished_at: Time.current.utc - 1.week)
-        Mentor::Discussion::HandleAbandonedByStudent.()
+        Mentor::Discussion::FinishAbandoned.()
         assert discussion.reload.finished?
       end
     end
@@ -28,7 +28,7 @@ class Mentor::Discussion::HandleStudentAbandonedTest < ActiveSupport::TestCase
 
         refute discussion.finished?
 
-        Mentor::Discussion::HandleAbandonedByStudent.()
+        Mentor::Discussion::FinishAbandoned.()
 
         refute discussion.reload.finished?
       end
@@ -43,7 +43,7 @@ class Mentor::Discussion::HandleStudentAbandonedTest < ActiveSupport::TestCase
 
       refute discussion.finished?
 
-      Mentor::Discussion::HandleAbandonedByStudent.()
+      Mentor::Discussion::FinishAbandoned.()
 
       refute discussion.reload.finished?
     end
@@ -55,7 +55,7 @@ class Mentor::Discussion::HandleStudentAbandonedTest < ActiveSupport::TestCase
     finished_at = Time.current.utc - 1.week
     discussion = create(:mentor_discussion, status: :finished, mentor:, student:, finished_at:, updated_at: finished_at)
 
-    Mentor::Discussion::HandleAbandonedByStudent.()
+    Mentor::Discussion::FinishAbandoned.()
 
     assert finished_at, discussion.reload.updated_at
   end

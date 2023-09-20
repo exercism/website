@@ -38,7 +38,7 @@ class Mentor::Discussion < ApplicationRecord
 
   scope :in_progress_for_student, -> { where(status: %i[awaiting_student awaiting_mentor mentor_finished]) }
   scope :finished_for_student, -> { where(status: :finished) }
-  scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished]) }
+  scope :finished_for_mentor, -> { where(status: %i[mentor_finished finished student_timed_out mentor_timed_out]) }
   scope :not_negatively_rated, -> { where(rating: [nil, :acceptable, :good, :great]) }
 
   def self.between(mentor:, student:)
@@ -92,7 +92,7 @@ class Mentor::Discussion < ApplicationRecord
 
   def to_param = uuid
   def finished_for_student? = status == :finished
-  def finished_for_mentor? = %i[mentor_finished finished].include?(status)
+  def finished_for_mentor? = %i[mentor_finished finished student_timed_out mentor_timed_out].include?(status)
   def timed_out? = %i[student_timed_out mentor_timed_out].include?(status)
 
   def viewable_by?(user)

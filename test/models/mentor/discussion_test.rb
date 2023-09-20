@@ -21,7 +21,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     # TODO: See where these are used to decide if we need it
     assert_equal [awaiting_student, awaiting_mentor, mentor_finished], Mentor::Discussion.in_progress_for_student
     assert_equal [finished], Mentor::Discussion.finished_for_student
-    assert_equal [mentor_finished, finished], Mentor::Discussion.finished_for_mentor
+    assert_equal [mentor_finished, finished, student_timed_out, mentor_timed_out], Mentor::Discussion.finished_for_mentor
 
     assert_equal [awaiting_student], Mentor::Discussion.awaiting_student
     assert_equal [awaiting_mentor], Mentor::Discussion.awaiting_mentor
@@ -42,8 +42,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     refute awaiting_mentor.finished_for_mentor?
     assert mentor_finished.finished_for_mentor?
     assert finished.finished_for_mentor?
-    refute student_timed_out.finished_for_student?
-    refute mentor_timed_out.finished_for_student?
+    assert student_timed_out.finished_for_mentor?
+    assert mentor_timed_out.finished_for_mentor?
 
     refute awaiting_student.timed_out?
     refute awaiting_mentor.timed_out?

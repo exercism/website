@@ -19,7 +19,9 @@ export const RateMentorStep = ({
       <h2>It&apos;s time to review this discussion</h2>
       <div className="container">
         <div className="lhs">
-          {discussion.finishedBy === 'mentor' &&
+          {(discussion.finishedBy === 'mentor' ||
+            discussion.finishedBy === 'mentor_timed_out' ||
+            discussion.finishedBy === 'student_timed_out') &&
           discussion.finishedAt !== undefined ? (
             <div className="finished-info">
               <Avatar

@@ -403,7 +403,11 @@ export type MentorDiscussionStatus =
   | 'mentor_finished'
   | 'finished'
 
-export type MentorDiscussionFinishedBy = 'mentor' | 'student'
+export type MentorDiscussionFinishedBy =
+  | 'mentor'
+  | 'student'
+  | 'mentor_timed_out'
+  | 'student_timed_out'
 
 export type MentorDiscussion = {
   uuid: string

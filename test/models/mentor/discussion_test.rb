@@ -91,42 +91,6 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert discussion.finished?
   end
 
-  test "student_finished!" do
-    freeze_time do
-      discussion = create :mentor_discussion,
-        awaiting_mentor_since: Time.current,
-        awaiting_student_since: Time.current,
-        status: :awaiting_mentor
-
-      discussion.student_finished!
-
-      assert :finished, discussion.status
-      assert_nil discussion.awaiting_mentor_since
-      assert_nil discussion.awaiting_student_since
-      assert_equal Time.current, discussion.finished_at
-      assert_equal :student, discussion.finished_by
-    end
-  end
-
-  test "student_finished! doesn't override mentor finish" do
-    freeze_time do
-      discussion = create :mentor_discussion,
-        awaiting_mentor_since: Time.current,
-        awaiting_student_since: Time.current,
-        status: :mentor_finished,
-        finished_by: :mentor,
-        finished_at: 1.week.ago
-
-      discussion.student_finished!
-
-      assert :finished, discussion.status
-      assert_nil discussion.awaiting_mentor_since
-      assert_nil discussion.awaiting_student_since
-      assert_equal 1.week.ago, discussion.finished_at
-      assert_equal :mentor, discussion.finished_by
-    end
-  end
-
   test "awaiting_student!" do
     freeze_time do
       discussion = create :mentor_discussion,
@@ -160,7 +124,8 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "awaiting_student! doesn't override student_finished" do
     discussion = create :mentor_discussion
-    discussion.student_finished!
+
+    Mentor::Discussion::FinishByStudent.(discussion, 5)
     discussion.awaiting_student!
 
     assert :finished, discussion.status
@@ -211,7 +176,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "awaiting_mentor! doesn't override student_finished" do
     discussion = create :mentor_discussion
-    discussion.student_finished!
+    Mentor::Discussion::FinishByStudent.(discussion, 5)
     discussion.awaiting_mentor!
 
     assert :finished, discussion.status
@@ -265,7 +230,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     perform_enqueued_jobs
 
     perform_enqueued_jobs do
-      discussion_1.student_finished!
+      Mentor::Discussion::FinishByStudent.(discussion_1, 5)
     end
     mentor.data.reload
 
@@ -321,7 +286,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal 0, mentorship.num_finished_discussions
 
     perform_enqueued_jobs do
-      discussion_1.student_finished!
+      Mentor::Discussion::FinishByStudent.(discussion_1, 5)
     end
     assert_equal 1, mentorship.reload.num_finished_discussions
 
@@ -331,7 +296,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal 1, mentorship.reload.num_finished_discussions
 
     perform_enqueued_jobs do
-      discussion_3.student_finished!
+      Mentor::Discussion::FinishByStudent.(discussion_3, 5)
     end
     assert_equal 2, mentorship.reload.num_finished_discussions
   end

@@ -6,7 +6,7 @@ import SuccessModal from './SuccessModal'
 import { PaymentIntentType } from './stripe-form/useStripeForm'
 
 export type FormWithModalLinks = {
-  donate: string
+  confirmParamsReturnUrl: string
   settings: string
 }
 
@@ -56,7 +56,7 @@ export default function FormWithModal({
       <SuccessModal
         open={paymentMade}
         amount={paymentAmount}
-        closeLink={links.donate}
+        closeLink={links.confirmParamsReturnUrl}
       />
     </>
   )

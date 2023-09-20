@@ -16,7 +16,7 @@ module ReactComponents
             recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
             links: {
               settings: Exercism::Routes.donations_settings_url,
-              donate: Exercism::Routes.donate_url
+              confirm_params_return_url: Exercism::Routes.donate_url
             }
           }
         )

@@ -185,7 +185,7 @@ export const Form = ({
               }
             >
               <StripeForm
-                confirmParamsReturnUrl={links.donate}
+                confirmParamsReturnUrl={links.confirmParamsReturnUrl}
                 paymentIntentType={transactionType}
                 userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}
@@ -215,7 +215,7 @@ export const Form = ({
               }
             >
               <StripeForm
-                confirmParamsReturnUrl={links.donate}
+                confirmParamsReturnUrl={links.confirmParamsReturnUrl}
                 paymentIntentType={transactionType}
                 userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}

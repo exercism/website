@@ -104,21 +104,10 @@ class Mentor::Discussion < ApplicationRecord
     user == mentor
   end
 
-  def student_handle
-    anonymous_mode? ? "anonymous" : student.handle
-  end
-
-  def student_flair
-    anonymous_mode? ? "anonymous" : student.flair
-  end
-
-  def student_name
-    anonymous_mode? ? "User in Anonymous mode" : student.name
-  end
-
-  def student_avatar_url
-    anonymous_mode? ? nil : student.avatar_url
-  end
+  def student_handle = anonymous_mode? ? "anonymous" : student.handle
+  def student_flair = anonymous_mode? ? "anonymous" : student.flair
+  def student_name = anonymous_mode? ? "User in Anonymous mode" : student.name
+  def student_avatar_url = anonymous_mode? ? nil : student.avatar_url
 
   def update_stats!
     Mentor::UpdateStats.defer(

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Mentor::Discussion::AwaitingStudentTest < ActiveSupport::TestCase
+class Mentor::Discussion::AwaitingMentorTest < ActiveSupport::TestCase
   test "awaiting mentor" do
     freeze_time do
       discussion = create :mentor_discussion,

@@ -120,26 +120,6 @@ class Mentor::Discussion < ApplicationRecord
     anonymous_mode? ? nil : student.avatar_url
   end
 
-  def awaiting_student!
-    return if %i[mentor_finished finished].include?(status)
-
-    update!(
-      status: :awaiting_student,
-      awaiting_mentor_since: nil,
-      awaiting_student_since: awaiting_student_since || Time.current
-    )
-  end
-
-  def awaiting_mentor!
-    return if %i[mentor_finished finished].include?(status)
-
-    update!(
-      status: :awaiting_mentor,
-      awaiting_mentor_since: awaiting_mentor_since || Time.current,
-      awaiting_student_since: nil
-    )
-  end
-
   def update_stats!
     Mentor::UpdateStats.defer(
       mentor,

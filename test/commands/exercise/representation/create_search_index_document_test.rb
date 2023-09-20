@@ -59,6 +59,7 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
       featured_solution_id: solution.id,
       num_loc: solution.num_loc,
       num_solutions: num_published_solutions,
+      max_reputation: 0,
       code: [content],
       exercise: {
         id: solution.exercise.id,
@@ -73,6 +74,30 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
     }
 
     assert_equal expected, Exercise::Representation::CreateSearchIndexDocument.(representation)
+  end
+
+  test "chooses highest reputation" do
+    representation = create(:exercise_representation)
+
+    users = create_list(:user, 3) do |user|
+      solution = create :practice_solution, :published, user:,
+        published_exercise_representation: representation,
+        published_iteration_head_tests_status: :passed
+      submission = create(:submission, solution:)
+      create(:submission_file, submission:, content: "foo")
+      create(:iteration, submission:)
+    end
+
+    assert_equal 0, Exercise::Representation::CreateSearchIndexDocument.(representation)[:max_reputation]
+
+    create :user_reputation_period, user: users[0], reputation: 20,
+      period: :forever, category: :any, about: :track, track_id: representation.track_id
+    create :user_reputation_period, user: users[1], reputation: 50,
+      period: :forever, category: :any, about: :track, track_id: representation.track_id
+    create :user_reputation_period, user: users[2], reputation: 13,
+      period: :forever, category: :any, about: :track, track_id: representation.track_id
+
+    assert_equal 50, Exercise::Representation::CreateSearchIndexDocument.(representation)[:max_reputation]
   end
 
   test "chooses correct solution" do

@@ -48,10 +48,12 @@ const Inner = ({
   discussion,
   links,
   donation,
+  setMaxWidth,
 }: {
   discussion: MentorDiscussion
   links: MentoringSessionLinks
   donation: MentoringSessionDonation
+  setMaxWidth: React.Dispatch<React.SetStateAction<string>>
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
@@ -89,6 +91,7 @@ const Inner = ({
           <Step.CelebrationStep
             mentorHandle={discussion.mentor.handle}
             links={links}
+            setContainerModalMaxWidth={setMaxWidth}
           />
         )
     case 'satisfied':
@@ -138,17 +141,23 @@ export const FinishMentorDiscussionModal = ({
   donation: MentoringSessionDonation
   onCancel: () => void
 }): JSX.Element => {
+  const [maxWidth, setMaxWidth] = useState('100%')
   return (
     <Modal
-      style={{ content: { maxWidth: '100%' } }}
+      style={{ content: { maxWidth } }}
       cover
       aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
       className="m-finish-student-mentor-discussion"
       ReactModalClassName="bg-unnamed15"
-      shouldCloseOnOverlayClick={false}
+      shouldCloseOnOverlayClick
       {...props}
     >
-      <Inner links={links} discussion={discussion} donation={donation} />
+      <Inner
+        links={links}
+        discussion={discussion}
+        setMaxWidth={setMaxWidth}
+        donation={donation}
+      />
     </Modal>
   )
 }

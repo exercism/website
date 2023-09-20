@@ -210,13 +210,13 @@
         }
     }
     & section.celebrate-step {
-        @apply p-64;
+        @apply p-64 rounded-8;
         margin: -40px -48px;
 
         @apply flex flex-col items-center justify-start;
 
         &.neon-cat {
-            background: rgb(15, 68, 113);
+            background: rgb(17, 49, 97);
 
             & .gif {
                 height: 160px;
@@ -227,9 +227,9 @@
             }
             & p {
                 @apply text-20 leading-150 text-white text-center;
-                @apply mb-48;
+                @apply mb-20;
                 & strong {
-                    @apply block mb-8;
+                    @apply block mb-4;
                     @apply font-semibold;
                 }
             }

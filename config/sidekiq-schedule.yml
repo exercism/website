@@ -46,9 +46,9 @@ sync_payments:
   class: "SyncPaymentsJob"
   queue: dribble
 
-finish_abandoned_discussions:
+finish_abandoned_mentor_discussions:
   cron: "0 5 * * *"
-  class: "FinishAbandonedDiscussions"
+  class: "FinishAbandonedMentorDiscussionsJob"
   queue: dribble
 
 # 1am Monday

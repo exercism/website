@@ -50,7 +50,7 @@ module Flows
           click_on "Finish"
           click_on "Continue without donating"
 
-          assert_text "Want to try another mentor?"
+          assert_text "Nice, it looks like you're done here! "
         end
       end
     end

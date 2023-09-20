@@ -52,7 +52,6 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         out_of_date: false,
         videos: [],
         donation: {
-          recaptcha_site_key: Exercism.secrets.recaptcha_site_key,
           show_donation_modal: true,
           request: {
             endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
@@ -112,7 +111,6 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           }
         ],
         donation: {
-          recaptcha_site_key: Exercism.secrets.recaptcha_site_key,
           show_donation_modal: true,
           request: {
             endpoint: Exercism::Routes.current_api_payments_subscriptions_url,

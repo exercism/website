@@ -1,21 +1,17 @@
 import React, { lazy, Suspense } from 'react'
-import {
-  MentoringSessionDonation,
-  MentoringSessionLinks,
-} from '@/components/types'
+import { MentoringSessionDonation } from '@/components/types'
 import currency from 'currency.js'
+import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
 const DonationsFormWithModal = lazy(
   () => import('@/components/donations/FormWithModal')
 )
 
 export function DonationStep({
   donation,
-  exerciseLink,
   links,
 }: {
   donation: MentoringSessionDonation
-  exerciseLink: string
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -60,7 +56,7 @@ export function DonationStep({
 
         <div className="flex">
           <a
-            href={exerciseLink}
+            href={links.exercise}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
           >
             Continue without donating
@@ -80,7 +76,7 @@ export function DonationStep({
               captchaRequired={false}
               recaptchaSiteKey={donation.recaptchaSiteKey}
               links={{
-                donate: links.donate,
+                donate: links.exerciseMentorDiscussionUrl,
                 settings: links.donationsSettings,
               }}
             />

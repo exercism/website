@@ -8,12 +8,12 @@ import {
   MentorDiscussion,
   Iteration,
   MentoringSessionDonation,
-  MentoringSessionLinks,
 } from '../../types'
 import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
 import { QueryStatus } from 'react-query'
+import { DiscussionActionsLinks } from './DiscussionActions'
 
 export const DiscussionInfo = ({
   discussion,
@@ -30,7 +30,7 @@ export const DiscussionInfo = ({
   userHandle: string
   iterations: readonly Iteration[]
   onIterationScroll: (iteration: Iteration) => void
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
   status: QueryStatus
   donation: MentoringSessionDonation
 }): JSX.Element => {

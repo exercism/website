@@ -2,13 +2,10 @@ import React, { useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { createMachine } from 'xstate'
 import { redirectTo } from '@/utils/redirect-to'
-import {
-  MentorDiscussion,
-  MentoringSessionDonation,
-  MentoringSessionLinks,
-} from '@/components/types'
+import { MentorDiscussion, MentoringSessionDonation } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import * as Step from './finish-mentor-discussion-modal'
+import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
 
 export type ReportReason = 'coc' | 'incorrect' | 'other'
 
@@ -51,7 +48,7 @@ const Inner = ({
   setMaxWidth,
 }: {
   discussion: MentorDiscussion
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
   donation: MentoringSessionDonation
   setMaxWidth: React.Dispatch<React.SetStateAction<string>>
 }): JSX.Element => {
@@ -79,13 +76,7 @@ const Inner = ({
       )
     case 'celebration':
       if (donation.showDonationModal) {
-        return (
-          <Step.DonationStep
-            exerciseLink={links.exercise}
-            donation={donation}
-            links={links}
-          />
-        )
+        return <Step.DonationStep donation={donation} links={links} />
       } else
         return (
           <Step.CelebrationStep
@@ -136,7 +127,7 @@ export const FinishMentorDiscussionModal = ({
   donation,
   ...props
 }: Omit<ModalProps, 'className'> & {
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
   discussion: MentorDiscussion
   donation: MentoringSessionDonation
   onCancel: () => void

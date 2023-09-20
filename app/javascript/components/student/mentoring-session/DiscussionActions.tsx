@@ -10,7 +10,11 @@ import GraphicalIcon from '@/components/common/GraphicalIcon'
 type DiscussionActionsProps = {
   discussion: MentorDiscussion
   donation: MentoringSessionDonation
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
+}
+
+export type DiscussionActionsLinks = MentoringSessionLinks & {
+  exerciseMentorDiscussionUrl: string
 }
 
 export const DiscussionActions = ({

@@ -3,6 +3,7 @@ import {
   MentoringSessionDonation,
   MentoringSessionLinks,
 } from '@/components/types'
+import currency from 'currency.js'
 const DonationsFormWithModal = lazy(
   () => import('@/components/donations/FormWithModal')
 )
@@ -71,6 +72,10 @@ export function DonationStep({
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal
               request={donation.request}
+              defaultAmount={{
+                payment: currency(16),
+                subscription: currency(16),
+              }}
               userSignedIn={true}
               captchaRequired={false}
               recaptchaSiteKey={donation.recaptchaSiteKey}

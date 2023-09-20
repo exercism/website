@@ -17,7 +17,7 @@ const TabsContext = createContext<TabContext>({
   switchToTab: () => null,
 })
 
-type FormAmount = {
+export type FormAmount = {
   subscription: currency
   payment: currency
 }

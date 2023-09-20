@@ -140,19 +140,6 @@ class Mentor::Discussion < ApplicationRecord
     )
   end
 
-  def student_timed_out!
-    cols = {
-      status: :student_timed_out,
-      awaiting_mentor_since: nil,
-      awaiting_student_since: nil
-    }
-    unless finished_at
-      cols[:finished_at] = Time.current
-      cols[:finished_by] = :student_timed_out
-    end
-    update!(cols)
-  end
-
   def student_abandoned!
     update!(
       status: :finished,

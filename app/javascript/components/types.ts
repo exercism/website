@@ -454,8 +454,6 @@ export type MentoredTrackExercise = {
 }
 
 export type MentoringSessionDonation = {
-  userSignedIn: boolean
-  captchaRequired: boolean
   recaptchaSiteKey: string
   showDonationModal: boolean
   request: {

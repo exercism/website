@@ -52,8 +52,6 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         out_of_date: false,
         videos: [],
         donation: {
-          user_signed_in: true,
-          captcha_required: false,
           recaptcha_site_key: Exercism.secrets.recaptcha_site_key,
           show_donation_modal: true,
           request: {
@@ -114,8 +112,6 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
           }
         ],
         donation: {
-          user_signed_in: true,
-          captcha_required: false,
           recaptcha_site_key: Exercism.secrets.recaptcha_site_key,
           show_donation_modal: true,
           request: {

@@ -62,7 +62,7 @@ export function DonationStep({
             href={exerciseLink}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
           >
-            Continue to exercise…
+            Continue without donating
           </a>
         </div>
       </div>
@@ -71,8 +71,8 @@ export function DonationStep({
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <DonationsFormWithModal
               request={donation.request}
-              userSignedIn={donation.userSignedIn}
-              captchaRequired={donation.captchaRequired}
+              userSignedIn={true}
+              captchaRequired={false}
               recaptchaSiteKey={donation.recaptchaSiteKey}
               links={{
                 donate: links.donate,

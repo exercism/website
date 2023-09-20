@@ -230,7 +230,7 @@
             background: rgb(17, 49, 97);
 
             & .gif {
-                height: 160px;
+                height: 80px;
                 @apply mb-24;
             }
             & h2 {

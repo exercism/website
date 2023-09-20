@@ -33,7 +33,7 @@ class MentorActionRequiredTest < ActiveSupport::TestCase
     assert discussion.awaiting_student_since
 
     Mentor::Discussion::ReplyByStudent.(discussion, iteration, "Sure, I'll try that now.")
-    discussion.awaiting_student!
+    Mentor::Discussion::AwaitingStudent.(discussion)
     assert_nil discussion.awaiting_mentor_since
     assert discussion.awaiting_student_since
   end

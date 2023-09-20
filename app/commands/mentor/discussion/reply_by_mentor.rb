@@ -12,7 +12,7 @@ class Mentor::Discussion::ReplyByMentor
       seen_by_mentor: true
     )
 
-    discussion.awaiting_student!
+    Mentor::Discussion::AwaitingStudent.(discussion)
 
     Submission::Representation::UpdateMentor.defer(iteration.submission)
 

@@ -91,58 +91,6 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert discussion.finished?
   end
 
-  test "awaiting_student!" do
-    freeze_time do
-      discussion = create :mentor_discussion,
-        awaiting_mentor_since: Time.current,
-        awaiting_student_since: nil,
-        status: :awaiting_mentor
-
-      discussion.awaiting_student!
-
-      assert :awaiting_student, discussion.status
-      assert_nil discussion.awaiting_mentor_since
-      assert_equal Time.current, discussion.awaiting_student_since
-    end
-  end
-
-  test "awaiting_student! doesn't modernize existing time" do
-    freeze_time do
-      original = Time.current - 2.weeks
-
-      discussion = create :mentor_discussion,
-        awaiting_mentor_since: Time.current - 1.week,
-        awaiting_student_since: original,
-        status: :awaiting_mentor
-
-      discussion.awaiting_student!
-
-      assert_nil discussion.awaiting_mentor_since
-      assert_equal original, discussion.awaiting_student_since
-    end
-  end
-
-  test "awaiting_student! doesn't override student_finished" do
-    discussion = create :mentor_discussion
-
-    Mentor::Discussion::FinishByStudent.(discussion, 5)
-    discussion.awaiting_student!
-
-    assert :finished, discussion.status
-    assert_nil discussion.awaiting_mentor_since
-    assert_nil discussion.awaiting_student_since
-  end
-
-  test "awaiting_student! doesn't override mentor_finished" do
-    discussion = create :mentor_discussion
-    Mentor::Discussion::FinishByMentor.(discussion)
-    discussion.awaiting_student!
-
-    discussion.reload
-    assert :finished, discussion.status
-    assert_nil discussion.awaiting_mentor_since
-  end
-
   test "awaiting_mentor!" do
     freeze_time do
       discussion = create :mentor_discussion,

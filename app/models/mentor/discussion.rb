@@ -140,14 +140,6 @@ class Mentor::Discussion < ApplicationRecord
     )
   end
 
-  def student_abandoned!
-    update!(
-      status: :finished,
-      awaiting_mentor_since: nil,
-      awaiting_student_since: nil
-    )
-  end
-
   def update_stats!
     Mentor::UpdateStats.defer(
       mentor,

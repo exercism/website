@@ -5,6 +5,8 @@ class Mentor::Discussion::HandleAbandonedByStudent
     Mentor::Discussion.
       where(status: %i[mentor_finished student_timed_out]).
       where('finished_at <= ?', Time.current.utc - 1.week).
-      each(&:student_abandoned!)
+      each do |discussion|
+      Mentor::Discussion::AbandonedByStudent.(discussion)
+    end
   end
 end

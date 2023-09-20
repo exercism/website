@@ -127,38 +127,6 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     end
   end
 
-  test "mentor_finished!" do
-    freeze_time do
-      discussion = create :mentor_discussion,
-        awaiting_mentor_since: Time.current,
-        awaiting_student_since: nil,
-        status: :awaiting_mentor
-
-      discussion.mentor_finished!
-
-      assert :mentor_finished, discussion.status
-      assert_nil discussion.awaiting_mentor_since
-      assert_equal Time.current, discussion.finished_at
-      assert_equal Time.current, discussion.awaiting_student_since
-    end
-  end
-
-  test "mentor_finished! doesn't modernize existing time" do
-    freeze_time do
-      original = Time.current - 2.weeks
-
-      discussion = create :mentor_discussion,
-        awaiting_mentor_since: Time.current - 1.week,
-        awaiting_student_since: original,
-        status: :awaiting_mentor
-
-      discussion.mentor_finished!
-
-      assert_nil discussion.awaiting_mentor_since
-      assert_equal original, discussion.awaiting_student_since
-    end
-  end
-
   test "awaiting_student!" do
     freeze_time do
       discussion = create :mentor_discussion,
@@ -202,7 +170,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "awaiting_student! doesn't override mentor_finished" do
     discussion = create :mentor_discussion
-    discussion.mentor_finished!
+    Mentor::Discussion::FinishByMentor.(discussion)
     discussion.awaiting_student!
 
     discussion.reload
@@ -253,7 +221,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
 
   test "awaiting_mentor! doesn't override mentor_finished" do
     discussion = create :mentor_discussion
-    discussion.mentor_finished!
+    Mentor::Discussion::FinishByMentor.(discussion)
     discussion.awaiting_mentor!
 
     assert :finished, discussion.status
@@ -358,7 +326,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal 1, mentorship.reload.num_finished_discussions
 
     perform_enqueued_jobs do
-      discussion_2.mentor_finished!
+      Mentor::Discussion::FinishByMentor.(discussion_2)
     end
     assert_equal 1, mentorship.reload.num_finished_discussions
 

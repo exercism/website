@@ -6,7 +6,8 @@ class Tracks::MentorDiscussionsController < ApplicationController
   def index
     return redirect_to track_exercise_path(@track, @exercise) unless @solution&.iterated?
 
-    @previous_discussions = @solution.mentor_discussions.finished.includes(:mentor)
+    @previous_discussions = @solution.mentor_discussions.includes(:mentor).where(status: %i[finished student_timed_out
+                                                                                            mentor_timed_out])
   end
 
   def show; end

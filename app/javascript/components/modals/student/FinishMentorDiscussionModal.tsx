@@ -86,8 +86,8 @@ const Inner = ({
             donation={donation}
             links={links}
             onSuccessfulDonation={(_, amount) => {
-              send('SUCCESSFUL_DONATION')
               setDonatedAmount(amount)
+              send('SUCCESSFUL_DONATION')
             }}
           />
         )
@@ -162,7 +162,7 @@ export const FinishMentorDiscussionModal = ({
       aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
       className="m-finish-student-mentor-discussion"
       ReactModalClassName="bg-unnamed15"
-      shouldCloseOnOverlayClick
+      shouldCloseOnOverlayClick={false}
       {...props}
     >
       <Inner

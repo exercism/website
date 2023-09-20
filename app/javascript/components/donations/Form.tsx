@@ -232,3 +232,5 @@ export const Form = ({
     </TabsContext.Provider>
   )
 }
+
+export default Form

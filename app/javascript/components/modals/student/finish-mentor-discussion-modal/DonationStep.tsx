@@ -2,16 +2,17 @@ import React, { lazy, Suspense } from 'react'
 import { MentoringSessionDonation } from '@/components/types'
 import currency from 'currency.js'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
-const DonationsFormWithModal = lazy(
-  () => import('@/components/donations/FormWithModal')
-)
+import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
+const Form = lazy(() => import('@/components/donations/Form'))
 
 export function DonationStep({
   donation,
   links,
+  onSuccessfulDonation,
 }: {
   donation: MentoringSessionDonation
   links: DiscussionActionsLinks
+  onSuccessfulDonation: (type: PaymentIntentType, amount: currency) => void
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -66,7 +67,7 @@ export function DonationStep({
       <div className="flex flex-col items-end bg-transparent">
         <div className="w-[564px] shadow-lgZ1 rounded-8 mb-20">
           <Suspense fallback={<div className="c-loading-suspense" />}>
-            <DonationsFormWithModal
+            <Form
               request={donation.request}
               defaultAmount={{
                 payment: currency(16),
@@ -79,6 +80,7 @@ export function DonationStep({
                 confirmParamsReturnUrl: links.exerciseMentorDiscussionUrl,
                 settings: links.donationsSettings,
               }}
+              onSuccess={onSuccessfulDonation}
             />
           </Suspense>
         </div>

@@ -6,6 +6,7 @@ import { MentorDiscussion, MentoringSessionDonation } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import * as Step from './finish-mentor-discussion-modal'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
+import currency from 'currency.js'
 
 export type ReportReason = 'coc' | 'incorrect' | 'other'
 
@@ -32,12 +33,15 @@ const modalStepMachine = createMachine({
     addTestimonial: {
       on: { SUBMIT: 'celebration', BACK: 'rateMentor' },
     },
-    celebration: {},
+    celebration: {
+      on: { SUCCESSFUL_DONATION: 'successfulDonation' },
+    },
     requeued: {},
     report: {
       on: { SUBMIT: 'unhappy', BACK: 'rateMentor' },
     },
     unhappy: {},
+    successfulDonation: {},
   },
 })
 
@@ -54,6 +58,7 @@ const Inner = ({
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
+  const [donatedAmount, setDonatedAmount] = useState<currency>(currency(0))
 
   switch (currentStep.value) {
     case 'rateMentor':
@@ -76,7 +81,16 @@ const Inner = ({
       )
     case 'celebration':
       if (donation.showDonationModal) {
-        return <Step.DonationStep donation={donation} links={links} />
+        return (
+          <Step.DonationStep
+            donation={donation}
+            links={links}
+            onSuccessfulDonation={(_, amount) => {
+              send('SUCCESSFUL_DONATION')
+              setDonatedAmount(amount)
+            }}
+          />
+        )
       } else
         return (
           <Step.CelebrationStep
@@ -107,6 +121,13 @@ const Inner = ({
             send('SUBMIT')
           }}
           onBack={() => send('BACK')}
+        />
+      )
+    case 'successfulDonation':
+      return (
+        <Step.SuccessfulDonationStep
+          amount={donatedAmount}
+          closeLink={links.exerciseMentorDiscussionUrl}
         />
       )
     case 'unhappy': {

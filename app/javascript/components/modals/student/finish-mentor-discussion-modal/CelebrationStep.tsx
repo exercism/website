@@ -21,10 +21,7 @@ export const CelebrationStep = ({
 
   return (
     <section className="celebrate-step neon-cat">
-      <img
-        src="https://media.tenor.com/xzjlrhYq_lQAAAAj/cat-nyan-cat.gif"
-        className="gif"
-      />
+      <img src="https://i.gifer.com/17xo.gif" className="gif" />
       <h2>Thank you for leaving a testimonial 💙</h2>
       <p>
         <strong>You&apos;ve helped make {mentorHandle}&apos;s day.</strong>

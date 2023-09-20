@@ -120,19 +120,6 @@ class Mentor::Discussion < ApplicationRecord
     anonymous_mode? ? nil : student.avatar_url
   end
 
-  def student_finished!
-    cols = {
-      status: :finished,
-      awaiting_mentor_since: nil,
-      awaiting_student_since: nil
-    }
-    unless finished_at
-      cols[:finished_at] = Time.current
-      cols[:finished_by] = :student
-    end
-    update!(cols)
-  end
-
   def awaiting_student!
     return if %i[mentor_finished finished].include?(status)
 
@@ -151,19 +138,6 @@ class Mentor::Discussion < ApplicationRecord
       awaiting_mentor_since: awaiting_mentor_since || Time.current,
       awaiting_student_since: nil
     )
-  end
-
-  def mentor_timed_out!
-    cols = {
-      status: :mentor_timed_out,
-      awaiting_mentor_since: nil,
-      awaiting_student_since: nil
-    }
-    unless finished_at
-      cols[:finished_at] = Time.current
-      cols[:finished_by] = :mentor_timed_out
-    end
-    update!(cols)
   end
 
   def student_timed_out!

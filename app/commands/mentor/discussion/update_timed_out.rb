@@ -17,7 +17,7 @@ class Mentor::Discussion::UpdateTimedOut
 
   def update_mentor_timed_out!
     mentor_timed_out_discussions.find_each do |discussion|
-      Mentor::Discussion::MentorTimeOut.(discussion)
+      Mentor::Discussion::MentorTimedOut.(discussion)
     rescue StandardError => e
       Bugsnag.notify(e)
     end

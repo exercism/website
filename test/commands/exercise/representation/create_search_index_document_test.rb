@@ -59,6 +59,7 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
       featured_solution_id: solution.id,
       num_loc: solution.num_loc,
       num_solutions: num_published_solutions,
+      max_reputation: 0,
       code: [content],
       exercise: {
         id: solution.exercise.id,

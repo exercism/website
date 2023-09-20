@@ -95,7 +95,7 @@ update_minute_metrics:
 # At start of every hour
 send_mentor_discussion_nudges:
   cron: "0 * * * *"
-  class: "SendDiscussionNudgesJob"
+  class: "SendMentorDiscussionNudgesJob"
   queue: dribble
 
 # At start of every day

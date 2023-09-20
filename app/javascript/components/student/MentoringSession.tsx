@@ -114,7 +114,11 @@ export default function MentoringSession({
               {discussion ? (
                 <DiscussionActions
                   discussion={discussion}
-                  links={{ ...links, exercise: exercise.links.self }}
+                  links={{
+                    ...links,
+                    exercise: exercise.links.self,
+                    exerciseMentorDiscussionUrl: links.exercise,
+                  }}
                   donation={donation}
                 />
               ) : null}
@@ -141,7 +145,11 @@ export default function MentoringSession({
                 userHandle={userHandle}
                 iterations={iterations}
                 onIterationScroll={handleIterationScroll}
-                links={links}
+                links={{
+                  ...links,
+                  exercise: exercise.links.self,
+                  exerciseMentorDiscussionUrl: links.exercise,
+                }}
                 status={status}
                 donation={donation}
               />

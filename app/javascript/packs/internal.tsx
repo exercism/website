@@ -71,6 +71,7 @@ import type {
   UserPreferences,
 } from '@/components/settings'
 import type { FooterFormProps } from '@/components/donations/FooterForm'
+import type { FormWithModalLinks } from '@/components/donations/FormWithModal'
 
 // Component imports
 const Editor = lazy(() => import('@/components/Editor'))
@@ -592,7 +593,7 @@ initReact({
     <Suspense fallback={RenderLoader()}>
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
+        links={camelizeKeysAs<FormWithModalLinks>(data.links)}
         userSignedIn={data.user_signed_in}
         captchaRequired={data.captcha_required}
         recaptchaSiteKey={data.recaptcha_site_key}

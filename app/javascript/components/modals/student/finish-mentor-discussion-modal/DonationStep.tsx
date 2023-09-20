@@ -1,20 +1,18 @@
 import React, { lazy, Suspense } from 'react'
-import {
-  MentoringSessionDonation,
-  MentoringSessionLinks,
-} from '@/components/types'
-const DonationsFormWithModal = lazy(
-  () => import('@/components/donations/FormWithModal')
-)
+import { MentoringSessionDonation } from '@/components/types'
+import currency from 'currency.js'
+import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
+import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
+const Form = lazy(() => import('@/components/donations/Form'))
 
 export function DonationStep({
   donation,
-  exerciseLink,
   links,
+  onSuccessfulDonation,
 }: {
   donation: MentoringSessionDonation
-  exerciseLink: string
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
+  onSuccessfulDonation: (type: PaymentIntentType, amount: currency) => void
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -59,25 +57,29 @@ export function DonationStep({
 
         <div className="flex">
           <a
-            href={exerciseLink}
+            href={links.exercise}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
           >
-            Continue to exercise…
+            Continue without donating
           </a>
         </div>
       </div>
       <div className="flex flex-col items-end bg-transparent">
         <div className="w-[564px] shadow-lgZ1 rounded-8 mb-20">
           <Suspense fallback={<div className="c-loading-suspense" />}>
-            <DonationsFormWithModal
+            <Form
               request={donation.request}
-              userSignedIn={donation.userSignedIn}
-              captchaRequired={donation.captchaRequired}
-              recaptchaSiteKey={donation.recaptchaSiteKey}
+              defaultAmount={{
+                payment: currency(16),
+                subscription: currency(16),
+              }}
+              userSignedIn={true}
+              captchaRequired={false}
               links={{
-                donate: links.donate,
+                confirmParamsReturnUrl: links.exerciseMentorDiscussionUrl,
                 settings: links.donationsSettings,
               }}
+              onSuccess={onSuccessfulDonation}
             />
           </Suspense>
         </div>

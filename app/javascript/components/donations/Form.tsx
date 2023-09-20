@@ -17,7 +17,7 @@ const TabsContext = createContext<TabContext>({
   switchToTab: () => null,
 })
 
-type FormAmount = {
+export type FormAmount = {
   subscription: currency
   payment: currency
 }
@@ -38,7 +38,7 @@ type Props = {
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   userSignedIn: boolean
   captchaRequired: boolean
-  recaptchaSiteKey: string
+  recaptchaSiteKey?: string
   onProcessing?: () => void
   onSettled?: () => void
   links: FormWithModalLinks
@@ -185,7 +185,7 @@ export const Form = ({
               }
             >
               <StripeForm
-                confirmParamsReturnUrl={links.donate}
+                confirmParamsReturnUrl={links.confirmParamsReturnUrl}
                 paymentIntentType={transactionType}
                 userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}
@@ -215,7 +215,7 @@ export const Form = ({
               }
             >
               <StripeForm
-                confirmParamsReturnUrl={links.donate}
+                confirmParamsReturnUrl={links.confirmParamsReturnUrl}
                 paymentIntentType={transactionType}
                 userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}
@@ -232,3 +232,5 @@ export const Form = ({
     </TabsContext.Provider>
   )
 }
+
+export default Form

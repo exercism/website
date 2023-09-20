@@ -23,9 +23,6 @@ module ReactComponents
           out_of_date: solution.out_of_date?,
           videos:,
           donation: {
-            user_signed_in: true,
-            captcha_required: false,
-            recaptcha_site_key: Exercism.secrets.recaptcha_site_key,
             show_donation_modal:,
             request: {
               endpoint: Exercism::Routes.current_api_payments_subscriptions_url,

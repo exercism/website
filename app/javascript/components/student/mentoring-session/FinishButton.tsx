@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
-import {
-  MentorDiscussion,
-  MentoringSessionDonation,
-  MentoringSessionLinks,
-} from '../../types'
+import { MentorDiscussion, MentoringSessionDonation } from '../../types'
+import { DiscussionActionsLinks } from './DiscussionActions'
 
 type Status = 'initialized' | 'confirming' | 'finishing'
 
@@ -19,7 +16,7 @@ export const FinishButton = ({
   className: string
   discussion: MentorDiscussion
   donation: MentoringSessionDonation
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
 }>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
 

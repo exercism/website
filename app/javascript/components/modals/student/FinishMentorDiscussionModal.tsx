@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { createMachine } from 'xstate'
 import { redirectTo } from '@/utils/redirect-to'
-import {
-  MentorDiscussion,
-  MentoringSessionDonation,
-  MentoringSessionLinks,
-} from '@/components/types'
+import { MentorDiscussion, MentoringSessionDonation } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import * as Step from './finish-mentor-discussion-modal'
+import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
+import currency from 'currency.js'
 
 export type ReportReason = 'coc' | 'incorrect' | 'other'
 
@@ -35,12 +33,15 @@ const modalStepMachine = createMachine({
     addTestimonial: {
       on: { SUBMIT: 'celebration', BACK: 'rateMentor' },
     },
-    celebration: {},
+    celebration: {
+      on: { SUCCESSFUL_DONATION: 'successfulDonation' },
+    },
     requeued: {},
     report: {
       on: { SUBMIT: 'unhappy', BACK: 'rateMentor' },
     },
     unhappy: {},
+    successfulDonation: {},
   },
 })
 
@@ -48,13 +49,16 @@ const Inner = ({
   discussion,
   links,
   donation,
+  setMaxWidth,
 }: {
   discussion: MentorDiscussion
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
   donation: MentoringSessionDonation
+  setMaxWidth: React.Dispatch<React.SetStateAction<string>>
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
+  const [donatedAmount, setDonatedAmount] = useState<currency>(currency(0))
 
   switch (currentStep.value) {
     case 'rateMentor':
@@ -79,9 +83,12 @@ const Inner = ({
       if (donation.showDonationModal) {
         return (
           <Step.DonationStep
-            exerciseLink={links.exercise}
             donation={donation}
             links={links}
+            onSuccessfulDonation={(_, amount) => {
+              setDonatedAmount(amount)
+              send('SUCCESSFUL_DONATION')
+            }}
           />
         )
       } else
@@ -89,6 +96,7 @@ const Inner = ({
           <Step.CelebrationStep
             mentorHandle={discussion.mentor.handle}
             links={links}
+            setContainerModalMaxWidth={setMaxWidth}
           />
         )
     case 'satisfied':
@@ -115,6 +123,14 @@ const Inner = ({
           onBack={() => send('BACK')}
         />
       )
+    case 'successfulDonation':
+      return (
+        <Step.SuccessfulDonationStep
+          amount={donatedAmount}
+          closeLink={links.exerciseMentorDiscussionUrl}
+          setContainerModalMaxWidth={setMaxWidth}
+        />
+      )
     case 'unhappy': {
       if (!report) {
         throw new Error('Report should not be null')
@@ -133,14 +149,15 @@ export const FinishMentorDiscussionModal = ({
   donation,
   ...props
 }: Omit<ModalProps, 'className'> & {
-  links: MentoringSessionLinks
+  links: DiscussionActionsLinks
   discussion: MentorDiscussion
   donation: MentoringSessionDonation
   onCancel: () => void
 }): JSX.Element => {
+  const [maxWidth, setMaxWidth] = useState('100%')
   return (
     <Modal
-      style={{ content: { maxWidth: '100%' } }}
+      style={{ content: { maxWidth } }}
       cover
       aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
       className="m-finish-student-mentor-discussion"
@@ -148,7 +165,12 @@ export const FinishMentorDiscussionModal = ({
       shouldCloseOnOverlayClick={false}
       {...props}
     >
-      <Inner links={links} discussion={discussion} donation={donation} />
+      <Inner
+        links={links}
+        discussion={discussion}
+        setMaxWidth={setMaxWidth}
+        donation={donation}
+      />
     </Modal>
   )
 }

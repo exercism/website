@@ -116,7 +116,7 @@ module ReactComponents
         return false if current_user.donated_in_last_35_days?
 
         num_testimonials = current_user.provided_testimonials.count
-        num_testimonials.zero? || (num_testimonials % 3).zero?
+        (num_testimonials % 3).zero?
       end
     end
   end

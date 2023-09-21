@@ -458,7 +458,13 @@ export type MentoringSessionDonation = {
   request: {
     endpoint: string
     options: {
-      initialData: string
+      initialData: {
+        subscription?: {
+          provider: string
+          interval: string
+          amountInCents: string
+        }
+      }
     }
   }
 }

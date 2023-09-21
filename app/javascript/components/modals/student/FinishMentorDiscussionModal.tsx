@@ -80,7 +80,7 @@ const Inner = ({
         />
       )
     case 'celebration':
-      if (donation.showDonationModal) {
+      if (!donation.showDonationModal) {
         return (
           <Step.DonationStep
             donation={donation}
@@ -91,14 +91,14 @@ const Inner = ({
             }}
           />
         )
-      } else
-        return (
-          <Step.CelebrationStep
-            mentorHandle={discussion.mentor.handle}
-            links={links}
-            setContainerModalMaxWidth={setMaxWidth}
-          />
-        )
+      }
+      return (
+        <Step.CelebrationStep
+          mentorHandle={discussion.mentor.handle}
+          links={links}
+          setContainerModalMaxWidth={setMaxWidth}
+        />
+      )
     case 'satisfied':
       return (
         <Step.SatisfiedStep

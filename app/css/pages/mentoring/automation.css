@@ -1,5 +1,3 @@
-@import "../../styles";
-
 .c-mentor-inbox {
     & .tabs {
         @apply mb-20;

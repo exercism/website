@@ -220,10 +220,6 @@
 @import "../pages/track-build";
 @import "../pages/mentoring/external-request";
 @import "../pages/mentoring/external";
-@import "../pages/mentoring/inbox";
-@import "../pages/mentoring/automation";
-@import "../pages/mentoring/queue";
-@import "../pages/mentoring/testimonials";
 @import "../pages/maintaining/dashboard";
 @import "../pages/maintaining/track";
 @import "../pages/maintaining/site-updates-form";

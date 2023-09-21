@@ -1,11 +1,47 @@
-@import "../styles";
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
 
-@keyframes progress0To100 {
-    from {
-        width: 0%;
-    }
-    to {
-        width: 100%;
+@import "../modals/editor-hints";
+@import "../components/chatgpt";
+
+@layer base {
+    .scroll-x-editor-rhs {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        -webkit-overflow-scrolling: touch;
+
+        @apply overflow-x-auto;
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
+        @apply pl-20 pr-[5%];
+
+        &::-webkit-scrollbar {
+            @apply h-[6px];
+        }
+
+        &::-webkit-scrollbar-thumb {
+            @apply rounded-8 bg-gray;
+            --tw-bg-opacity: 0.5;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            --tw-bg-opacity: 1;
+        }
     }
 }
 

@@ -22,9 +22,12 @@ export const DiscussionDetails = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element => {
-  const [defaultWizardStep, setDefaultWizardStep] = useState<ModalStep>(
+  const [defaultWizardStep] = useState<ModalStep>(
     discussion.isFinished ? 'finish' : 'mentorAgain'
   )
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
   return (
     <div className="c-discussion-timeline">
@@ -41,6 +44,11 @@ export const DiscussionDetails = ({
           student={student}
           defaultStep={defaultWizardStep}
           setStudent={setStudent}
+          timelineContent={
+            timedOut
+              ? 'This discussion timed out'
+              : `You&apos;ve finished your discussion with ${student.handle}.`
+          }
         />
       ) : null}
     </div>

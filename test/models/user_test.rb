@@ -461,9 +461,11 @@ class UserTest < ActiveSupport::TestCase
       refute user.donated_in_last_35_days?
 
       create :payments_payment, user:, created_at: Time.current - 36.days
+      user.reload
       refute user.donated_in_last_35_days?
 
       create :payments_payment, user:, created_at: Time.current - 34.days
+      user.reload
       assert user.donated_in_last_35_days?
     end
   end

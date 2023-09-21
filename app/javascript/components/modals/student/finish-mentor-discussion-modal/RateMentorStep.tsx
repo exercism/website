@@ -14,6 +14,10 @@ export const RateMentorStep = ({
   onSatisfied: () => void
   onUnhappy: () => void
 }): JSX.Element => {
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
+
   return (
     <section className="rate-step">
       <h2>It&apos;s time to review this discussion</h2>
@@ -30,7 +34,9 @@ export const RateMentorStep = ({
               />
               <div className="info">
                 <div className="mentor">
-                  {discussion.mentor.handle} has finished mentoring you on
+                  {timedOut
+                    ? 'Your discussion timed out'
+                    : `${discussion.mentor.handle} has finished mentoring you on`}
                 </div>
                 <div className="exercise">
                   <ExerciseIcon iconUrl={discussion.exercise.iconUrl} />
@@ -42,8 +48,8 @@ export const RateMentorStep = ({
             </div>
           ) : null}
           <p className="explanation">
-            To help us and our mentors understand how well we're doing, we’d
-            love some feedback on your discussion with{' '}
+            To help us and our mentors understand how well we&apos;re doing,
+            we&apos;d love some feedback on your discussion with{' '}
             {discussion.mentor.handle}. Good mentors will answer your questions,
             introduce you to new ideas, or encourage you to try new things.
           </p>

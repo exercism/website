@@ -14,6 +14,10 @@ export const DiscussionActions = ({
   discussion: MentorDiscussion
   links: Links
 }): JSX.Element => {
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
+
   return discussion.isFinished || discussion.status === 'mentor_finished' ? (
     <div className="finished">
       <GraphicalIcon icon="completed-check-circle" />
@@ -23,9 +27,13 @@ export const DiscussionActions = ({
     <FinishButton
       discussion={discussion}
       links={links}
-      className="btn-xs btn-enhanced finish-button"
+      className={`btn-xs ${
+        timedOut ? 'btn-primary' : 'btn-enhanced'
+      } finish-button`}
     >
-      <div className="--hint">End discussion</div>
+      <div className="--hint">
+        {timedOut ? 'Review discussion' : 'End discussion'}
+      </div>
     </FinishButton>
   )
 }

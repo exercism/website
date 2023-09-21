@@ -24,7 +24,6 @@
 
   .gradient-container.py-56
     .lg-container
-
       %h2.text-h2.mb-4.text-center Insider Benefits
       %p.text-p-large.mb-32.text-center Here are some of the ways we say thank you for supporting us.
       .features
@@ -33,6 +32,14 @@
             = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
             %h4= feature[:title]
             %p= feature[:desc]
+
+  .gradient-container.py-56
+    .lg-container
+      %h2.text-h2.mb-4.text-center Exclusive Insider Content
+      %p.text-p-large.mb-32.text-center Join Insiders to get behind-the-scenes content as we grow and evolve Exercism.
+      .grid.grid-cols-3.gap-32
+        - @videos.each do |_, _, img|
+          = image_tag "https://assets.exercism.org/images/thumbnails/#{img}", class: 'block w-100 shadow-md rounded-8 border-1 border-purple'
 
   .gradient-container.faqs.py-56
     .lg-container

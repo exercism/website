@@ -1,0 +1,12 @@
+@config "../../tailwind.minimal.config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+/* This line is used as a flag for post-processing */
+/* Do not change it!! */
+.exercism-delete-before-this {
+    color: red;
+}

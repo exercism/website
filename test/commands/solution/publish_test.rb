@@ -348,6 +348,32 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::SlimlineSeptemberBadge
   end
 
+  test "awards object-oriented october badge when published five or more exercises in an Object-oriented October track" do
+    travel_to Time.utc(2022, 10, 12)
+
+    track = create :track, slug: 'csharp'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::ObjectOrientedOctoberBadge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track

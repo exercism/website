@@ -56,6 +56,7 @@ export const DiscussionInfo = ({
               discussion={discussion}
               mentor={mentor}
               links={links}
+              donation={donation}
             />
           )}
           {timedOut && (
@@ -79,10 +80,12 @@ function DiscussionMentorFinished({
   mentor,
   discussion,
   links,
+  donation,
 }: {
   mentor: Mentor
   discussion: MentorDiscussion
   links: Links
+  donation: MentoringSessionDonation
 }) {
   return (
     <div className="student-review timeline-entry">
@@ -116,10 +119,12 @@ function DiscussionMentorTimedOut({
   mentor,
   discussion,
   links,
+  donation,
 }: {
   mentor: Mentor
   discussion: MentorDiscussion
   links: Links
+  donation: MentoringSessionDonation
 }) {
   return (
     <div className="student-review timeline-entry">

@@ -80,7 +80,7 @@ const Inner = ({
         />
       )
     case 'celebration':
-      if (!donation.showDonationModal) {
+      if (donation.showDonationModal) {
         return (
           <Step.DonationStep
             donation={donation}

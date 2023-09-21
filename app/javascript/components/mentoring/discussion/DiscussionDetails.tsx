@@ -47,7 +47,7 @@ export const DiscussionDetails = ({
           timelineContent={
             timedOut
               ? 'This discussion timed out'
-              : `You&apos;ve finished your discussion with ${student.handle}.`
+              : `You've finished your discussion with ${student.handle}.`
           }
         />
       ) : null}

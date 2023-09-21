@@ -22,6 +22,7 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
     create :mentor_discussion_post, discussion:, iteration: iteration_3, seen_by_student: false
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, discussion)
+    component.stubs(current_user: student)
 
     assert_component component,
       "student-mentoring-session",
@@ -50,13 +51,25 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         track_objectives: "",
         out_of_date: false,
         videos: [],
+        donation: {
+          show_donation_modal: true,
+          request: {
+            endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+            options: {
+              initial_data: AssembleCurrentSubscription.(student)
+            }
+          }
+        },
         links: {
           exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
           private_mentoring: solution.external_mentoring_request_url,
-          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
+          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+          donations_settings: Exercism::Routes.donations_settings_url,
+          donate: Exercism::Routes.donate_url
         }
+
       }
   end
 
@@ -73,6 +86,7 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
     iteration = create(:iteration, solution:)
 
     component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+    component.stubs(current_user: student)
 
     assert_component component,
       "student-mentoring-session",
@@ -96,13 +110,102 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
             date: Date.new(2021, 9, 1).iso8601
           }
         ],
+        donation: {
+          show_donation_modal: true,
+          request: {
+            endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
+            options: {
+              initial_data: AssembleCurrentSubscription.(student)
+            }
+          }
+        },
         links: {
           exercise: Exercism::Routes.track_exercise_mentor_discussions_url(track, exercise),
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           learn_more_about_private_mentoring: Exercism::Routes.doc_path(:using, "feedback/private"),
           private_mentoring: solution.external_mentoring_request_url,
-          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored")
+          mentoring_guide: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
+          donations_settings: Exercism::Routes.donations_settings_url,
+          donate: Exercism::Routes.donate_url
         }
       }
+  end
+
+  test "doesn't shows modal to insiders" do
+    student = create :user
+    solution = create :concept_solution, user: student
+    create(:iteration, solution:)
+    mentor_request = create(:mentor_request, solution:)
+
+    generate_data = proc do
+      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+      component.stubs(current_user: student)
+      component.to_h
+    end
+
+    # Not an insider shows model
+    assert generate_data.().dig(:donation, :show_donation_modal)
+
+    # Being an insider doesn't
+    student.update!(insiders_status: :active)
+    refute generate_data.().dig(:donation, :show_donation_modal)
+  end
+
+  test "doesn't shows modal to recent donors" do
+    student = create :user
+    solution = create :concept_solution, user: student
+    create(:iteration, solution:)
+    mentor_request = create(:mentor_request, solution:)
+
+    generate_data = proc do
+      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+      component.stubs(current_user: student)
+      component.to_h
+    end
+
+    # No recent donations shows modal
+    student.expects(donated_in_last_35_days?: false)
+    assert generate_data.().dig(:donation, :show_donation_modal)
+
+    # Recent donations block it
+    create :payments_payment, user: student, created_at: Time.current - 34.days
+    student.expects(donated_in_last_35_days?: true)
+    refute generate_data.().dig(:donation, :show_donation_modal)
+  end
+
+  test "sets show_donation_modal correctly" do
+    student = create :user
+    solution = create :concept_solution, user: student
+    create(:iteration, solution:)
+    mentor_request = create(:mentor_request, solution:)
+
+    generate_data = proc do
+      component = ReactComponents::Student::MentoringSession.new(solution, mentor_request, nil)
+      component.stubs(current_user: student)
+      component.to_h
+    end
+
+    # No testimonials shows model
+    assert generate_data.().dig(:donation, :show_donation_modal)
+
+    # 1/2 testimonials doesn't
+    2.times do
+      create(:mentor_testimonial, student:)
+      refute generate_data.().dig(:donation, :show_donation_modal)
+    end
+
+    # 3 testimonials does
+    create(:mentor_testimonial, student:)
+    assert generate_data.().dig(:donation, :show_donation_modal)
+
+    # 4/5 testimonials don't
+    2.times do
+      create(:mentor_testimonial, student:)
+      refute generate_data.().dig(:donation, :show_donation_modal)
+    end
+
+    # 6 testimonials does
+    create(:mentor_testimonial, student:)
+    assert generate_data.().dig(:donation, :show_donation_modal)
   end
 end

@@ -24,6 +24,7 @@ import type {
   SharePlatform,
   CompleteRepresentationData,
   Guidance,
+  MentoringSessionDonation,
 } from '@/components/types'
 import type { Links as TryMentoringButtonLinks } from '@/components/mentoring/TryMentoringButton'
 import type { Links as MentoringQueueLinks } from '@/components/mentoring/Queue'
@@ -70,6 +71,7 @@ import type {
   UserPreferences,
 } from '@/components/settings'
 import type { FooterFormProps } from '@/components/donations/FooterForm'
+import type { StripeFormLinks } from '@/components/donations/Form'
 
 // Component imports
 const Editor = lazy(() => import('@/components/Editor'))
@@ -349,6 +351,7 @@ initReact({
         request={camelizeKeysAs<MentorSessionRequest>(data.request)}
         links={camelizeKeysAs<StudentMentoringSessionLinks>(data.links)}
         outOfDate={data.out_of_date}
+        donation={camelizeKeysAs<MentoringSessionDonation>(data.donation)}
       />
     </Suspense>
   ),
@@ -590,7 +593,7 @@ initReact({
     <Suspense fallback={RenderLoader()}>
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
-        links={data.links}
+        links={camelizeKeysAs<StripeFormLinks>(data.links)}
         userSignedIn={data.user_signed_in}
         captchaRequired={data.captcha_required}
         recaptchaSiteKey={data.recaptcha_site_key}

@@ -19,7 +19,7 @@ export const RateMentorStep = ({
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
   return (
-    <section className="rate-step">
+    <section id="a11y-finish-mentor-discussion" className="rate-step">
       <h2>It&apos;s time to review this discussion</h2>
       <div className="container">
         <div className="lhs">

@@ -1,15 +1,26 @@
 import React from 'react'
+import {
+  MentorDiscussion,
+  MentoringSessionDonation,
+  MentoringSessionLinks,
+} from '@/components/types'
 import { FinishButton } from './FinishButton'
-import { MentorDiscussion } from '../../types'
-import { GraphicalIcon } from '../../common'
+import GraphicalIcon from '@/components/common/GraphicalIcon'
 
-type Links = {
-  exercise: string
+type DiscussionActionsProps = {
+  discussion: MentorDiscussion
+  donation: MentoringSessionDonation
+  links: DiscussionActionsLinks
+}
+
+export type DiscussionActionsLinks = MentoringSessionLinks & {
+  exerciseMentorDiscussionUrl: string
 }
 
 export const DiscussionActions = ({
   discussion,
   links,
+  donation,
 }: {
   discussion: MentorDiscussion
   links: Links
@@ -27,6 +38,7 @@ export const DiscussionActions = ({
     <FinishButton
       discussion={discussion}
       links={links}
+      donation={donation}
       className={`btn-xs ${
         timedOut ? 'btn-primary' : 'btn-enhanced'
       } finish-button`}

@@ -6,15 +6,9 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
-} from '../../types'
+  DiscussionLinks,
+} from '@/components/types'
 import { Video } from '../MentoringSession'
-
-type Links = {
-  learnMoreAboutPrivateMentoring: string
-  privateMentoring: string
-  mentoringGuide: string
-  createMentorRequest: string
-}
 
 export const MentoringRequest = ({
   trackObjectives,
@@ -32,7 +26,7 @@ export const MentoringRequest = ({
   request?: Request
   latestIteration: Iteration
   videos: Video[]
-  links: Links
+  links: DiscussionLinks
   onCreate: (mentorRequest: Request) => void
 }): JSX.Element => {
   return request ? (

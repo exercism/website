@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
-import { MentorDiscussion } from '../../types'
+import { MentorDiscussion, MentoringSessionDonation } from '../../types'
+import { DiscussionActionsLinks } from './DiscussionActions'
 
 type Links = {
   exercise: string
@@ -11,13 +12,15 @@ type Status = 'initialized' | 'confirming' | 'finishing'
 
 export const FinishButton = ({
   discussion,
+  donation,
   className,
   children,
   links,
 }: React.PropsWithChildren<{
   className: string
   discussion: MentorDiscussion
-  links: Links
+  donation: MentoringSessionDonation
+  links: DiscussionActionsLinks
 }>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
 
@@ -55,6 +58,7 @@ export const FinishButton = ({
         onCancel={() => {
           setStatus('initialized')
         }}
+        donation={donation}
       />
     </React.Fragment>
   )

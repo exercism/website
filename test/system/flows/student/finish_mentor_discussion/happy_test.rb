@@ -30,9 +30,9 @@ module Flows
             click_on "It was good!"
             fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
             click_on "Finish"
-            click_on "Back to the exercise"
+            click_on "Continue without donating"
 
-            assert_text "Nice, it looks like you’re done here!"
+            assert_text "Nice, it looks like you're done here!"
           end
         end
 
@@ -58,7 +58,7 @@ module Flows
             click_on "Skip"
 
             wait_for_redirect
-            assert_text "Nice, it looks like you’re done here!"
+            assert_text "Nice, it looks like you're done here!"
           end
         end
       end

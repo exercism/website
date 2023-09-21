@@ -53,8 +53,15 @@ class Submission::Representation::GenerateBasicTest < ActiveSupport::TestCase
     code_2 = "bar wwww \n aaaa"
 
     # Check things are normalised correctly
-    digest = Submission::Representation.digest_ast("#{filename_1}\n#{code_1.gsub(/\s/,
-      '')}\n\n#{filename_2}\n#{code_2.gsub(/\s/, '')}")
+# Check things are normalised correctly
+    expected_ast = <<~AST
+      start.rb
+      fooeeee
+
+      end.rb
+      barwwwwaaaa
+    AST
+    digest = Submission::Representation.digest_ast(expected_ast.chomp)
     submission = create :submission
     create :submission_file, submission:, filename: filename_1, content: code_1
     create :submission_file, submission:, filename: filename_2, content: code_2

@@ -10,7 +10,11 @@ import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { useQueryCache } from 'react-query'
-import { FormWithModalLinks } from './FormWithModal'
+
+export type StripeFormLinks = {
+  success: string
+  settings: string
+}
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
@@ -41,7 +45,7 @@ type Props = {
   recaptchaSiteKey?: string
   onProcessing?: () => void
   onSettled?: () => void
-  links: FormWithModalLinks
+  links: StripeFormLinks
   id?: string
 }
 
@@ -185,7 +189,7 @@ export const Form = ({
               }
             >
               <StripeForm
-                confirmParamsReturnUrl={links.confirmParamsReturnUrl}
+                confirmParamsReturnUrl={links.success}
                 paymentIntentType={transactionType}
                 userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}
@@ -215,7 +219,7 @@ export const Form = ({
               }
             >
               <StripeForm
-                confirmParamsReturnUrl={links.confirmParamsReturnUrl}
+                confirmParamsReturnUrl={links.success}
                 paymentIntentType={transactionType}
                 userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}

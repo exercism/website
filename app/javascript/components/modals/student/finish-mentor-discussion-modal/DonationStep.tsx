@@ -76,7 +76,7 @@ export function DonationStep({
               userSignedIn={true}
               captchaRequired={false}
               links={{
-                confirmParamsReturnUrl: links.exerciseMentorDiscussionUrl,
+                success: links.exerciseMentorDiscussionUrl,
                 settings: links.donationsSettings,
               }}
               onSuccess={onSuccessfulDonation}

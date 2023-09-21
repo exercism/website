@@ -2,17 +2,15 @@ import React, { useState, useCallback } from 'react'
 import { Modal, ModalProps } from '../../modals/Modal'
 import currency from 'currency.js'
 import SuccessModal from '../SuccessModal'
-import { Form } from '../Form'
+import { Form, StripeFormLinks } from '../Form'
 import { Request } from '../../../hooks/request-query'
 
 type ModalStep = 'donating' | 'processingDonation' | 'donationSuccess'
 
-type Links = Record<'settings' | 'confirmParamsReturnUrl', string>
-
 type Props = {
   amount: currency
   request: Request
-  links: Links
+  links: StripeFormLinks
   userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string

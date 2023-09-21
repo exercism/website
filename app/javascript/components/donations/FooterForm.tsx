@@ -5,15 +5,14 @@ import { CustomAmountInput } from './donation-form/CustomAmountInput'
 import { FormModal } from './footer-form/FormModal'
 import { GraphicalIcon } from '../common'
 import { Request } from '../../hooks/request-query'
-
-type Links = Record<'settings' | 'confirmParamsReturnUrl', string>
+import { StripeFormLinks } from './Form'
 
 const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
 const DEFAULT_AMOUNT = currency(16)
 
 export type FooterFormProps = {
   request: Request
-  links: Links
+  links: StripeFormLinks
   userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string

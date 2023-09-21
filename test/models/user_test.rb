@@ -454,4 +454,19 @@ class UserTest < ActiveSupport::TestCase
     user.email_status_invalid!
     refute user.may_receive_emails?
   end
+
+  test "donated_in_last_35_days?" do
+    freeze_time do
+      user = create :user
+      refute user.donated_in_last_35_days?
+
+      create :payments_payment, user:, created_at: Time.current - 36.days
+      user.reload
+      refute user.donated_in_last_35_days?
+
+      create :payments_payment, user:, created_at: Time.current - 34.days
+      user.reload
+      assert user.donated_in_last_35_days?
+    end
+  end
 end

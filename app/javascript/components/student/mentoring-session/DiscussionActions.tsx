@@ -1,19 +1,27 @@
 import React from 'react'
+import {
+  MentorDiscussion,
+  MentoringSessionDonation,
+  MentoringSessionLinks,
+} from '@/components/types'
 import { FinishButton } from './FinishButton'
-import { MentorDiscussion } from '../../types'
-import { GraphicalIcon } from '../../common'
+import GraphicalIcon from '@/components/common/GraphicalIcon'
 
-type Links = {
-  exercise: string
+type DiscussionActionsProps = {
+  discussion: MentorDiscussion
+  donation: MentoringSessionDonation
+  links: DiscussionActionsLinks
+}
+
+export type DiscussionActionsLinks = MentoringSessionLinks & {
+  exerciseMentorDiscussionUrl: string
 }
 
 export const DiscussionActions = ({
   discussion,
   links,
-}: {
-  discussion: MentorDiscussion
-  links: Links
-}): JSX.Element => {
+  donation,
+}: DiscussionActionsProps): JSX.Element => {
   return discussion.isFinished || discussion.status === 'mentor_finished' ? (
     <div className="finished">
       <GraphicalIcon icon="completed-check-circle" />
@@ -24,6 +32,7 @@ export const DiscussionActions = ({
       discussion={discussion}
       links={links}
       className="btn-xs btn-enhanced finish-button"
+      donation={donation}
     >
       <div className="--hint">End discussion</div>
     </FinishButton>

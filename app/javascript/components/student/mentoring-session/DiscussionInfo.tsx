@@ -4,15 +4,16 @@ import { AddDiscussionPost } from '../../mentoring/discussion/AddDiscussionPost'
 import { NewMessageAlert } from '../../mentoring/discussion/NewMessageAlert'
 import { PostsWrapper } from '../../mentoring/discussion/PostsContext'
 import { MentorInfo } from './MentorInfo'
-import { MentorDiscussion, Iteration } from '../../types'
+import {
+  MentorDiscussion,
+  Iteration,
+  MentoringSessionDonation,
+} from '../../types'
 import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
 import { QueryStatus } from 'react-query'
-
-type Links = {
-  exercise: string
-}
+import { DiscussionActionsLinks } from './DiscussionActions'
 
 export const DiscussionInfo = ({
   discussion,
@@ -22,14 +23,16 @@ export const DiscussionInfo = ({
   onIterationScroll,
   links,
   status,
+  donation,
 }: {
   discussion: MentorDiscussion
   mentor: Mentor
   userHandle: string
   iterations: readonly Iteration[]
   onIterationScroll: (iteration: Iteration) => void
-  links: Links
+  links: DiscussionActionsLinks
   status: QueryStatus
+  donation: MentoringSessionDonation
 }): JSX.Element => {
   return (
     <PostsWrapper discussion={discussion}>
@@ -63,6 +66,7 @@ export const DiscussionInfo = ({
                   discussion={discussion}
                   links={links}
                   className="btn-primary btn-s"
+                  donation={donation}
                 >
                   Review &amp; finish discussion
                 </FinishButton>

@@ -453,6 +453,32 @@ export type MentoredTrackExercise = {
   completedByMentor: boolean
 }
 
+export type MentoringSessionDonation = {
+  showDonationModal: boolean
+  request: {
+    endpoint: string
+    options: {
+      initialData: {
+        subscription?: {
+          provider: string
+          interval: string
+          amountInCents: string
+        }
+      }
+    }
+  }
+}
+
+export type MentoringSessionLinks = {
+  exercise: string
+  learnMoreAboutPrivateMentoring: string
+  privateMentoring: string
+  mentoringGuide: string
+  createMentorRequest: string
+  donationsSettings: string
+  donate: string
+}
+
 export type MentoredTrack = {
   slug: string
   title: string

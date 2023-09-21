@@ -197,16 +197,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      ###
-      # Install bundler and yarn dependencies
-      - name: Install dependencies
+      - name: Install yarn dependencies
+        run: yarn install
+
+      - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          yarn install
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
 
@@ -365,16 +365,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      ###
-      # Install bundler and yarn dependencies
-      - name: Install dependencies
+      - name: Install yarn dependencies
+        run: yarn install
+
+      - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          yarn install
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
 

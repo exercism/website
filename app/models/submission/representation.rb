@@ -36,6 +36,10 @@ class Submission::Representation < ApplicationRecord
 
   delegate :has_feedback?, to: :exercise_representation
 
+  def self.for!(submission)
+    where(submission:).last
+  end
+
   def ops_success? = ops_status == OPS_STATUS_SUCCESS
   def ops_errored? = !ops_success?
 

@@ -39,7 +39,7 @@
             = graphical_icon 'concept-exercise'
             Learning Exercise
         - elsif exercise.difficulty_category == :easy
-          / TODO: Use the React component for these
+          -# TODO: Use the React component for these
           .c-difficulty-tag.--easy
             .icon
             Easy
@@ -52,5 +52,6 @@
             .icon
             Hard
 
-    / TODO: Cache this
-    -# = render ReactComponents::Track::ExerciseMakersButton.new(exercise)
+    -#
+      TODO: Cache this
+      = render ReactComponents::Track::ExerciseMakersButton.new(exercise)

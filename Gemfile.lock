@@ -115,6 +115,9 @@ GEM
     aws-sdk-secretsmanager (1.75.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-sesv2 (1.33.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.2.0)
@@ -142,7 +145,7 @@ GEM
       xpath (~> 3.2)
     commonmarker (0.23.8)
     concurrent-ruby (1.2.2)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -168,7 +171,7 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.114.0)
+    exercism-config (0.116.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -407,6 +410,8 @@ GEM
       ffi (~> 1.0)
     recursive-open-struct (1.1.3)
     redis (4.8.1)
+    redis-client (0.17.0)
+      connection_pool
     regexp_parser (2.8.1)
     responders (3.1.0)
       actionpack (>= 5.2)
@@ -464,10 +469,11 @@ GEM
       websocket (~> 1.0)
     show_me_the_cookies (6.0.0)
       capybara (>= 2, < 4)
-    sidekiq (6.5.8)
-      connection_pool (>= 2.2.5, < 3)
-      rack (~> 2.0)
-      redis (>= 4.5.0, < 5)
+    sidekiq (7.1.3)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.14.0)
     sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
     sidekiq-scheduler (5.0.2)
@@ -549,6 +555,7 @@ DEPENDENCIES
   aws-sdk-cloudfront
   aws-sdk-ecr
   aws-sdk-s3 (~> 1)
+  aws-sdk-sesv2
   bootsnap (>= 1.4.2)
   bugsnag
   bullet
@@ -560,7 +567,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
-  exercism-config (>= 0.114.0)
+  exercism-config (>= 0.116.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)
@@ -604,7 +611,7 @@ DEPENDENCIES
   rugged
   selenium-webdriver
   show_me_the_cookies
-  sidekiq (~> 6.3)
+  sidekiq (~> 7.1)
   sidekiq-failures
   sidekiq-scheduler
   skylight

@@ -1,6 +1,5 @@
-export { ChatGptTab as Tab } from './ChatGptTab'
-export { ChatGptPanel as Panel } from './ChatGptPanel'
-export { ChatGptUpsellPanel as UpsellPanel } from './ChatGptUpsellPanel'
+export { ChatGptWrapper as Wrapper } from './ChatGptWrapper'
+export { ChatGptUpsellContent as UpsellContent } from './ChatGptUpsellContent'
 export { AskChatGptButton as Button } from './AskChatGptButton'
 export { useChatGptFeedback as Hook } from './useChatGptFeedback'
 export {

@@ -4,8 +4,8 @@ import { TabsContext } from '../../Editor'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 
 export const ChatGptTab = (): JSX.Element => (
-  <Tab id="chatgpt" context={TabsContext}>
+  <Tab id="chat-gpt" context={TabsContext}>
     <GraphicalIcon icon="automation" />
-    <span data-text="ChatGpt">ChatGPT</span>
+    <span data-text="ChatGPT">ChatGPT</span>
   </Tab>
 )

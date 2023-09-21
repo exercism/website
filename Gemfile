@@ -15,6 +15,7 @@ gem 'mongo'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
 gem 'aws-sdk-cloudfront'
+gem 'aws-sdk-sesv2'
 gem 'anycable-rails', '~> 1.2.0'
 gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
@@ -38,13 +39,13 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.114.0'
+gem 'exercism-config', '>= 0.116.0'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'friendly_id', '~> 5.4.0'
-gem 'sidekiq', '~> 6.3'
+gem 'sidekiq', '~> 7.1'
 gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 

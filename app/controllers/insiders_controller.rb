@@ -3,12 +3,15 @@ class InsidersController < ApplicationController
 
   def show
     return external unless current_user&.insider?
+
+    @videos = VIDEOS
   end
 
   def external
     User::InsidersStatus::TriggerUpdate.(current_user) if user_signed_in? && current_user.insiders_status_unset?
 
     @features = FEATURES
+    @videos = VIDEOS
 
     render action: :external
   end
@@ -17,10 +20,23 @@ class InsidersController < ApplicationController
 
   def paypal_cancelled; end
 
+  VIDEOS = [
+    [:vimeo, "865572872?h=aab9cef911", "insiders-8.jpg"],
+    [:vimeo, "855963806?h=7d8d19ca9e", "insiders-7.jpg"],
+    [:youtube, "XjypvEa6kgM", "insiders-trophies.jpg"],
+    [:vimeo, "853494393?h=3f8e06d609", "insiders-6.jpg"],
+    [:vimeo, "853051394?h=c9bde0cbd4", "insiders-5.jpg"],
+    [:youtube, "nroPGD11hkw", "insiders-tooling.jpg"],
+    [:youtube, "GOPmj_AMbP8", "insiders-4.jpg"],
+    [:youtube, "7xSHBBDzJzQ", "insiders-3.jpg"],
+    [:youtube, "qOijcXroPQU", "insiders-2.jpg"],
+    [:youtube, "WDUqfCMbh_8", "insiders-1.jpg"]
+  ].freeze
+
   # rubocop:disable Layout/LineLength
   FEATURES = [
     { icon: 'feature-youtube', title: 'Behind-the-scenes content',
-      desc: "Keep up to date with what we're planning and building with private Insiders livestreams (rewatchable on demand) and technical deep-dives into Exercism's stack.", filter: true },
+      desc: "Keep up to date with what we're planning and building with private Insiders livestreams (rewatchable on demand) and technical deep-dives into Exercism's stack. See below for more!", filter: true },
     { icon: 'moon', title: 'Dark Mode',
       desc: "Our most requested feature is available exclusive for Insiders. Our slick dark theme elevates the Exercism experience and gives your eyes an easier time while coding into the night.", filter: true },
     { icon: 'feature-discord', title: 'Private Discord channel',

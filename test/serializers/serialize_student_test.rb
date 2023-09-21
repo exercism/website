@@ -123,4 +123,19 @@ class SerializeStudentTest < ActiveSupport::TestCase
 
     assert_equal objectives, result[:track_objectives]
   end
+
+  test "pronouns" do
+    user = create :user, pronouns: "he/him/his"
+    user_track = create(:user_track, user:)
+
+    result = SerializeStudent.(
+      user,
+      create(:user),
+      user_track:,
+      relationship: nil,
+      anonymous_mode: false
+    )
+
+    assert_equal %w[he him his], result[:pronouns]
+  end
 end

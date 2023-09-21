@@ -119,7 +119,10 @@ function DiscussionMentorTimedOut({
 }) {
   return (
     <div className="student-review timeline-entry">
-      <GraphicalIcon icon="warning" className="timeline-marker" />
+      <GraphicalIcon
+        icon="completed-check-circle"
+        className="timeline-marker"
+      />
       <div className="--details timeline-content">
         <h3>This discussion timed out.</h3>
         <p>

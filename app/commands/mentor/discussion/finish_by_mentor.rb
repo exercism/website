@@ -4,9 +4,12 @@ class Mentor::Discussion::FinishByMentor
   initialize_with :discussion
 
   def call
-    return if discussion.finished?
+    discussion.transaction do
+      return if discussion.finished?
 
-    update!
+      update!
+    end
+
     notify!
   end
 

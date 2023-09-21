@@ -20,7 +20,10 @@ class Mentor::Discussion::FinishByStudent
   end
 
   def call
-    update!
+    discussion.transaction do
+      update!
+    end
+
     requeue!
     report!
     block!

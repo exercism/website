@@ -4,12 +4,14 @@ class Mentor::Discussion::AwaitingMentor
   initialize_with :discussion
 
   def call
-    return if discussion.mentor_finished? || discussion.finished?
+    discussion.transaction do
+      return if discussion.mentor_finished? || discussion.finished?
 
-    discussion.update!(
-      status: :awaiting_mentor,
-      awaiting_mentor_since: discussion.awaiting_mentor_since || Time.current,
-      awaiting_student_since: nil
-    )
+      discussion.update!(
+        status: :awaiting_mentor,
+        awaiting_mentor_since: discussion.awaiting_mentor_since || Time.current,
+        awaiting_student_since: nil
+      )
+    end
   end
 end

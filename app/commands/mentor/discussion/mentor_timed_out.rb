@@ -4,7 +4,10 @@ class Mentor::Discussion::MentorTimedOut
   initialize_with :discussion
 
   def call
-    update!
+    discussion.transaction do
+      update!
+    end
+
     create_notifications!
   end
 

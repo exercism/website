@@ -54,9 +54,6 @@
 @import "../components/accordion-section";
 @import "../components/underline";
 @import "../components/about-nav";
-@import "../components/docs-main-nav";
-@import "../components/docs-side-nav";
-@import "../components/docs-tracks-list";
 @import "../components/iterations-footer";
 @import "../components/solution-iterations";
 @import "../components/loading-bar";
@@ -185,9 +182,6 @@
 @import "../pages/settings";
 @import "../pages/auth";
 @import "../pages/dashboard";
-@import "../pages/docs-show";
-@import "../pages/docs-index";
-@import "../pages/docs-tracks";
 @import "../pages/onboarding";
 @import "../pages/profile-intro";
 @import "../pages/profile-new";

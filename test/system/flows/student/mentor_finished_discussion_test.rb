@@ -122,6 +122,7 @@ module Flows
             assert_text "Review discussion"
             click_on "Review discussion"
           end
+          refute_css ".m-confirm-finish-student-mentor-discussion"
           assert_text "Your discussion timed out"
           click_on "It was good!"
           fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
@@ -160,6 +161,41 @@ module Flows
             refute_text "Review and end discussion"
             refute_text "Review discussion"
           end
+        end
+      end
+
+      test "mentor sees timed out discussion" do
+        mentor = create :user, :external_avatar_url, handle: "author"
+        student = create :user, :external_avatar_url, handle: "student"
+        solution = create :concept_solution, user: student
+        request = create :mentor_request, solution:, comment_markdown: "Hello, Mentor",
+          created_at: 30.days.ago, updated_at: 29.days.ago
+        discussion = create(:mentor_discussion, solution:, mentor:, request:, status: :student_timed_out,
+          finished_by: :student_timed_out)
+        submission = create(:submission, solution:)
+        create(:iteration, idx: 2, solution:, created_at: 31.days.ago, submission:)
+        submission = create(:submission, solution:)
+        iteration = create(:iteration, idx: 1, solution:, created_at: 31.days.ago, submission:)
+        create(:mentor_discussion_post,
+          discussion:,
+          iteration:,
+          author: mentor,
+          content_markdown: "Please fix this and this",
+          updated_at: 29.days.ago)
+
+        use_capybara_host do
+          sign_in!(mentor)
+          visit mentoring_discussion_path(discussion)
+
+          within(".discussion-header") do
+            refute_text "End discussion"
+            assert_text "Ended"
+          end
+          within("#panel-discussion") do
+            assert_text "This discussion timed out"
+            assert_text "Thanks for mentoring student."
+          end
+          sleep(5)
         end
       end
     end

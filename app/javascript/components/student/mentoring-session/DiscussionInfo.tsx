@@ -38,6 +38,10 @@ export const DiscussionInfo = ({
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
+  const timedOutStatus =
+    discussion.status &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.status)
+
   return (
     <PostsWrapper discussion={discussion}>
       <div id="panel-discussion">
@@ -59,7 +63,7 @@ export const DiscussionInfo = ({
               donation={donation}
             />
           )}
-          {timedOut && (
+          {timedOut && timedOutStatus && (
             <DiscussionMentorTimedOut
               discussion={discussion}
               donation={donation}

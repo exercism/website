@@ -85,6 +85,7 @@ const Inner = ({
           <Step.DonationStep
             donation={donation}
             links={links}
+            setContainerModalMaxWidth={setMaxWidth}
             onSuccessfulDonation={(_, amount) => {
               setDonatedAmount(amount)
               send('SUCCESSFUL_DONATION')
@@ -143,6 +144,7 @@ const Inner = ({
   }
 }
 
+export const MODAL_MAX_WIDTH_DEFAULT_VALUE = 'fit-content'
 export const FinishMentorDiscussionModal = ({
   links,
   discussion,
@@ -154,7 +156,7 @@ export const FinishMentorDiscussionModal = ({
   donation: MentoringSessionDonation
   onCancel: () => void
 }): JSX.Element => {
-  const [maxWidth, setMaxWidth] = useState('100%')
+  const [maxWidth, setMaxWidth] = useState(MODAL_MAX_WIDTH_DEFAULT_VALUE)
   return (
     <Modal
       style={{ content: { maxWidth } }}

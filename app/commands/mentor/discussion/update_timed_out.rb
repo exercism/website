@@ -15,10 +15,10 @@ class Mentor::Discussion::UpdateTimedOut
     end
   end
 
-  def mentor_timed_out_discussions
-    Mentor::Discussion.includes(:mentor).
-      awaiting_mentor.
-      where('awaiting_mentor_since < ?', timeout_date)
+  def student_timed_out_discussions
+    Mentor::Discussion.includes(:student).
+      awaiting_student.
+      where('awaiting_student_since < ?', timeout_date)
   end
 
   def update_mentor_timed_out!
@@ -29,10 +29,10 @@ class Mentor::Discussion::UpdateTimedOut
     end
   end
 
-  def student_timed_out_discussions
-    Mentor::Discussion.includes(:student).
-      awaiting_student.
-      where('awaiting_student_since < ?', timeout_date)
+  def mentor_timed_out_discussions
+    Mentor::Discussion.includes(:mentor).
+      awaiting_mentor.
+      where('awaiting_mentor_since < ?', timeout_date)
   end
 
   def timeout_date = Time.now.utc - Mentor::Discussion::DAYS_BEFORE_TIME_OUT

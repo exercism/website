@@ -3,6 +3,7 @@ import currency from 'currency.js'
 import { GraphicalIcon } from '@/components/common'
 import { BadgeMedallion } from '@/components/common/BadgeMedallion'
 import type { BadgeRarity } from '@/components/types'
+import { MODAL_MAX_WIDTH_DEFAULT_VALUE } from '../FinishMentorDiscussionModal'
 
 const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
@@ -17,7 +18,7 @@ export function SuccessfulDonationStep({
 }): JSX.Element {
   useEffect(() => {
     setContainerModalMaxWidth('900px')
-    return () => setContainerModalMaxWidth('100%')
+    return () => setContainerModalMaxWidth(MODAL_MAX_WIDTH_DEFAULT_VALUE)
   }, [setContainerModalMaxWidth])
 
   return (

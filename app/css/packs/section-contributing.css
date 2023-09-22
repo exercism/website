@@ -4,3 +4,5 @@
 @import "../pages/contributing-dashboard";
 @import "../pages/contributing-contributors";
 @import "../pages/contributing-tasks";
+
+@import "../components/contributing/header";

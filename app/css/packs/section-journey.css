@@ -1,0 +1,8 @@
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
+
+@import "../pages/journey";
+@import "../pages/journey/overview";
+@import "../pages/journey/solutions";
+@import "../pages/journey/reputation";
+@import "../pages/journey/badges";

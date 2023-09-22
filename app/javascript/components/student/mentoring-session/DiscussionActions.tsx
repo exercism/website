@@ -21,10 +21,7 @@ export const DiscussionActions = ({
   discussion,
   links,
   donation,
-}: {
-  discussion: MentorDiscussion
-  links: Links
-}): JSX.Element => {
+}: DiscussionActionsProps): JSX.Element => {
   const timedOut =
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)

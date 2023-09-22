@@ -62,6 +62,7 @@ export const DiscussionInfo = ({
           {timedOut && (
             <DiscussionMentorTimedOut
               discussion={discussion}
+              donation={donation}
               mentor={mentor}
               links={links}
             />
@@ -84,7 +85,7 @@ function DiscussionMentorFinished({
 }: {
   mentor: Mentor
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
   return (
@@ -123,7 +124,7 @@ function DiscussionMentorTimedOut({
 }: {
   mentor: Mentor
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
   return (

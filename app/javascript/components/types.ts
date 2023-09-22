@@ -1,6 +1,7 @@
 import { Props as ConceptWidgetProps } from './common/ConceptWidget'
 import { Props as ExerciseWidgetProps } from './common/ExerciseWidget'
 import { Flair } from './common/HandleWithFlair'
+import { StripeFormLinks } from './donations/Form'
 import { DiscussionPostProps } from './mentoring/discussion/DiscussionPost'
 import { Scratchpad } from './mentoring/Session'
 
@@ -479,9 +480,7 @@ export type MentoringSessionLinks = {
   privateMentoring: string
   mentoringGuide: string
   createMentorRequest: string
-  donationsSettings: string
-  donate: string
-}
+} & StripeFormLinks
 
 export type MentoredTrack = {
   slug: string

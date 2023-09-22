@@ -4,10 +4,6 @@ import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/Confirm
 import { MentorDiscussion, MentoringSessionDonation } from '../../types'
 import { DiscussionActionsLinks } from './DiscussionActions'
 
-type Links = {
-  exercise: string
-}
-
 type Status = 'initialized' | 'confirming' | 'finishing'
 
 export const FinishButton = ({

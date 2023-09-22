@@ -38,6 +38,10 @@ export const DiscussionInfo = ({
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
+  const timedOutStatus =
+    discussion.status &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.status)
+
   return (
     <PostsWrapper discussion={discussion}>
       <div id="panel-discussion">
@@ -59,9 +63,10 @@ export const DiscussionInfo = ({
               donation={donation}
             />
           )}
-          {timedOut && (
+          {timedOut && timedOutStatus && (
             <DiscussionMentorTimedOut
               discussion={discussion}
+              donation={donation}
               mentor={mentor}
               links={links}
             />
@@ -84,7 +89,7 @@ function DiscussionMentorFinished({
 }: {
   mentor: Mentor
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
   return (
@@ -123,7 +128,7 @@ function DiscussionMentorTimedOut({
 }: {
   mentor: Mentor
   discussion: MentorDiscussion
-  links: Links
+  links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
   return (

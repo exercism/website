@@ -184,9 +184,6 @@
 @import "../pages/donate";
 @import "../pages/landing";
 @import "../pages/settings";
-@import "../pages/contributing-dashboard";
-@import "../pages/contributing-contributors";
-@import "../pages/contributing-tasks";
 @import "../pages/auth";
 @import "../pages/dashboard";
 @import "../pages/docs-show";

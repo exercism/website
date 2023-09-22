@@ -1,3 +1,6 @@
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
+
 #page-notifications {
     & header.notifications-header {
         @apply flex items-center;

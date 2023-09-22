@@ -17,6 +17,7 @@ export type Props = {
   links?: Links
   renderBlurb: boolean
   isSkinny: boolean
+  isStatic?: boolean
 }
 
 export function ExerciseWidget({
@@ -26,6 +27,7 @@ export function ExerciseWidget({
   links = {},
   renderBlurb,
   isSkinny,
+  isStatic,
 }: Props): JSX.Element {
   return (
     <ExercismTippy
@@ -40,6 +42,7 @@ export function ExerciseWidget({
         solution={solution}
         renderBlurb={renderBlurb}
         isSkinny={isSkinny}
+        isStatic={isStatic}
       />
     </ExercismTippy>
   )
@@ -51,50 +54,59 @@ const ReferenceElement = forwardRef<
     onMouseEnter?: () => void
     onMouseLeave?: () => void
   }
->(({ exercise, track, solution, renderBlurb, isSkinny, ...props }, ref) => {
-  const info = (
-    <Info
-      exercise={exercise}
-      solution={solution}
-      track={track}
-      renderBlurb={renderBlurb}
-      isSkinny={isSkinny}
-    />
-  )
-  const classNames = [
-    'c-exercise-widget',
-    `--${
-      solution ? solution.status : exercise.isUnlocked ? 'available' : 'locked'
-    }`,
-    exercise.isRecommended ? '--recommended' : '',
-    '--interactive',
-    isSkinny ? '--skinny' : '',
-  ]
-    .filter((name) => name.length > 0)
-    .join(' ')
-
-  const url = solution ? solution.privateUrl : exercise.links.self
-
-  return (
-    <a
-      ref={ref as React.RefObject<HTMLAnchorElement>}
-      href={url}
-      className={classNames}
-      {...props}
-    >
-      <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
-      {info}
-      <GraphicalIcon
-        icon={exercise.isUnlocked ? 'chevron-right' : 'lock'}
-        className="--action-icon sm:block hidden"
+>(
+  (
+    { exercise, track, solution, renderBlurb, isSkinny, isStatic, ...props },
+    ref
+  ) => {
+    const info = (
+      <Info
+        exercise={exercise}
+        solution={solution}
+        track={track}
+        renderBlurb={renderBlurb}
+        isSkinny={isSkinny}
       />
-    </a>
-  )
-})
+    )
+    const classNames = [
+      'c-exercise-widget',
+      `--${
+        solution
+          ? solution.status
+          : exercise.isUnlocked
+          ? 'available'
+          : 'locked'
+      }`,
+      exercise.isRecommended ? '--recommended' : '',
+      isStatic ? '--static' : '--interactive',
+      isSkinny ? '--skinny' : '',
+    ]
+      .filter((name) => name.length > 0)
+      .join(' ')
+
+    const url = solution ? solution.privateUrl : exercise.links.self
+
+    return (
+      <a
+        ref={ref as React.RefObject<HTMLAnchorElement>}
+        href={url}
+        className={classNames}
+        {...props}
+      >
+        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
+        {info}
+        <GraphicalIcon
+          icon={exercise.isUnlocked ? 'chevron-right' : 'lock'}
+          className="--action-icon sm:block hidden"
+        />
+      </a>
+    )
+  }
+)
 
 ExerciseWidget.defaultProps = {
-  renderAsLink: true,
   renderBlurb: true,
   isSkinny: false,
+  isStatic: false,
 }
 export default ExerciseWidget

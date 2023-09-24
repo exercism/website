@@ -53,7 +53,7 @@ class Submission::Representation::GenerateBasicTest < ActiveSupport::TestCase
     code_2 = "bar wwww \n aaaa"
 
     # Check things are normalised correctly
-# Check things are normalised correctly
+    # Check things are normalised correctly
     expected_ast = <<~AST
       start.rb
       fooeeee

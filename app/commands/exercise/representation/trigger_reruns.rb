@@ -1,7 +1,7 @@
 class Exercise::Representation::TriggerReruns
   include Mandate
 
-  queue_as :dribble
+  queue_as :background
 
   initialize_with :exercise_representation, :git_sha
 

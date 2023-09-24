@@ -17,7 +17,7 @@ export const FinishButton = ({
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
   const [mutation, { status, error }] = useMutation<Discussion>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

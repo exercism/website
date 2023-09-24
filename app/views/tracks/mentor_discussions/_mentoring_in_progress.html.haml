@@ -9,7 +9,7 @@
         %strong= render ViewComponents::HandleWithFlair.new(discussion.mentor.handle, discussion.mentor.flair, size: :large)
 
       .details
-        - if discussion.mentor_finished?
+        - if discussion.mentor_finished? || discussion.timed_out?
           .--turn Review your mentor
         - else
           .--turn Your turn to respond

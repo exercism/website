@@ -87,7 +87,7 @@ module API
       return render_403(:mentor_discussion_not_accessible) unless discussion.viewable_by?(current_user)
       return render_403(:mentor_discussion_not_accessible) unless current_user == discussion.mentor
 
-      discussion.awaiting_student!
+      Mentor::Discussion::AwaitingStudent.(discussion)
 
       render json: {
         id: discussion.uuid

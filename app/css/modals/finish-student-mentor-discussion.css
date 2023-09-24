@@ -86,7 +86,7 @@
                 }
             }
             & time {
-                @apply ml-48;
+                @apply ml-auto;
             }
         }
         & .buttons-section {

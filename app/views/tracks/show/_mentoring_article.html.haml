@@ -56,7 +56,7 @@
           - if discussion.awaiting_student?
             .--turn Your turn to respond
 
-          - if discussion.mentor_finished?
+          - if discussion.mentor_finished? || discussion.timed_out?
             .--turn Review your mentor
 
           .--comments

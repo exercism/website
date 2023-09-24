@@ -1,0 +1,5 @@
+Hi #{@user.handle},
+\
+The discussion with #{@discussion.mentor.handle} on your solution to #{@exercise.title} on the #{@track.title} track has timed out.
+\
+Go to the discussion: #{track_exercise_mentor_discussion_url(@track, @exercise, @discussion)}

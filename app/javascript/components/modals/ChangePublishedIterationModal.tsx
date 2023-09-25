@@ -60,9 +60,16 @@ export const ChangePublishedIterationModal = ({
   )
 
   return (
-    <Modal {...props}>
-      <h3>Change published iterations</h3>
-      <p>
+    <Modal
+      aria={{
+        modal: true,
+        labelledby: 'change-published-iteration-label',
+        describedby: 'change-published-iteration-description',
+      }}
+      {...props}
+    >
+      <h3 id="change-published-iteration-label">Change published iterations</h3>
+      <p id="change-published-iteration-description">
         We recommend publishing all iterations to help others learn from your
         journey, but you can also choose just your favourite iteration to
         showcase instead.

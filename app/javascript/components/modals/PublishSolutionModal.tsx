@@ -49,10 +49,18 @@ export const PublishSolutionModal = ({
   )
 
   return (
-    <Modal {...props} className="m-change-published-iteration">
+    <Modal
+      {...props}
+      aria={{
+        modal: true,
+        labelledby: 'publish-solution-label',
+        describedby: 'publish-solution-description',
+      }}
+      className="m-change-published-iteration"
+    >
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h3>Publish your solution</h3>
-        <p>
+        <h3 id="publish-solution-label">Publish your solution</h3>
+        <p id="publish-solution-description">
           We recommend publishing all iterations to help others learn from your
           journey, but you can also choose just your favourite iteration to
           showcase instead.

@@ -13,7 +13,7 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   cover?: boolean
   celebratory?: boolean
   theme?: Theme
-  aria?: Pick<Aria, 'describedby' | 'labelledby'>
+  aria?: Aria
   ReactModalClassName?: string
 }
 

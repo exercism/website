@@ -1,5 +1,3 @@
-@import "../styles";
-
 #page-profile-badges {
     @apply mb-80;
     & article {

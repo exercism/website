@@ -1,5 +1,3 @@
-@import "../styles";
-
 #page-profile-testimonials {
     @apply mb-80 bg-backgroundColorB;
     & article {

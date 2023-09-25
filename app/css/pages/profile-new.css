@@ -1,5 +1,3 @@
-@import "../styles";
-
 #page-profile-new {
     @apply pb-80;
     & .container {

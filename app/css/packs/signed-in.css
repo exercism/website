@@ -10,3 +10,38 @@
 
 /* Notifications */
 @import "../pages/notifications";
+@import "../dropdowns/notifications";
+@import "../dropdowns/reputation";
+
+/* Track/exercise */
+@import "../modals/activate-track-mode";
+@import "../modals/completed-tutorial-exercise";
+@import "../modals/completed-exercise";
+@import "../modals/publish-exercise";
+@import "../modals/unpublish-solution";
+@import "../modals/change-published-iteration";
+@import "../dropdowns/request-mentoring";
+@import "../dropdowns/open-editor-button";
+@import "../components/mentoring-request-form";
+
+/* Mentoring */
+@import "../components/mentor-discussion-post-editor";
+@import "../modals/mentoring-sessions";
+@import "../modals/confirm-finish-student-mentor-discussion";
+@import "../modals/finish-student-mentor-discussion";
+@import "../modals/become-mentor";
+@import "../modals/change-mentor-tracks";
+@import "../modals/select-exercise-for-mentoring";
+@import "../components/mentor-discussion-widget";
+
+/* Profile */
+@import "../pages/profile-intro";
+@import "../pages/profile-new";
+
+/* Settings */
+@import "../pages/settings";
+@import "../modals/crop-avatar";
+
+/* Misc */
+@import "../modals/bug-report";
+@import "../components/markdown-editor";

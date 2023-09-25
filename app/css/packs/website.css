@@ -199,10 +199,6 @@
 @import "../pages/track-build";
 @import "../pages/mentoring/external-request";
 @import "../pages/mentoring/external";
-@import "../pages/mentoring/inbox";
-@import "../pages/mentoring/automation";
-@import "../pages/mentoring/queue";
-@import "../pages/mentoring/testimonials";
 @import "../pages/journey";
 @import "../pages/journey/overview";
 @import "../pages/journey/solutions";

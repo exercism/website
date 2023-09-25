@@ -14,12 +14,18 @@ export const RateMentorStep = ({
   onSatisfied: () => void
   onUnhappy: () => void
 }): JSX.Element => {
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
+
   return (
     <section id="a11y-finish-mentor-discussion" className="rate-step">
       <h2>It&apos;s time to review this discussion</h2>
       <div className="container">
         <div className="lhs">
-          {discussion.finishedBy === 'mentor' &&
+          {(discussion.finishedBy === 'mentor' ||
+            discussion.finishedBy === 'mentor_timed_out' ||
+            discussion.finishedBy === 'student_timed_out') &&
           discussion.finishedAt !== undefined ? (
             <div className="finished-info">
               <Avatar
@@ -28,7 +34,9 @@ export const RateMentorStep = ({
               />
               <div className="info">
                 <div className="mentor">
-                  {discussion.mentor.handle} has finished mentoring you on
+                  {timedOut
+                    ? 'Your discussion timed out'
+                    : `${discussion.mentor.handle} has finished mentoring you on`}
                 </div>
                 <div className="exercise">
                   <ExerciseIcon iconUrl={discussion.exercise.iconUrl} />

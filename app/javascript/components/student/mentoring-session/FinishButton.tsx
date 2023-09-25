@@ -20,13 +20,17 @@ export const FinishButton = ({
 }>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
 
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
+
   return (
     <React.Fragment>
       <button
         type="button"
         className={className}
         onClick={() => {
-          setStatus('confirming')
+          timedOut ? setStatus('finishing') : setStatus('confirming')
         }}
       >
         {children}

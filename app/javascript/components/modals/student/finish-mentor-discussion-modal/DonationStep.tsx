@@ -1,19 +1,27 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
 import { MentoringSessionDonation } from '@/components/types'
 import currency from 'currency.js'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
 import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
+import { MODAL_MAX_WIDTH_DEFAULT_VALUE } from '../FinishMentorDiscussionModal'
 const Form = lazy(() => import('@/components/donations/Form'))
 
 export function DonationStep({
   donation,
   links,
   onSuccessfulDonation,
+  setContainerModalMaxWidth,
 }: {
   donation: MentoringSessionDonation
   links: DiscussionActionsLinks
+  setContainerModalMaxWidth: React.Dispatch<React.SetStateAction<string>>
   onSuccessfulDonation: (type: PaymentIntentType, amount: currency) => void
 }): JSX.Element {
+  useEffect(() => {
+    setContainerModalMaxWidth('100%')
+    return () => setContainerModalMaxWidth(MODAL_MAX_WIDTH_DEFAULT_VALUE)
+  }, [setContainerModalMaxWidth])
+
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
       <div className="mr-64">

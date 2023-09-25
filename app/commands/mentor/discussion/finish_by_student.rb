@@ -20,8 +20,9 @@ class Mentor::Discussion::FinishByStudent
   end
 
   def call
-    discussion.student_finished!
-    discussion.update(rating: rating.to_i)
+    discussion.transaction do
+      update!
+    end
 
     requeue!
     report!
@@ -36,6 +37,20 @@ class Mentor::Discussion::FinishByStudent
   end
 
   private
+  def update!
+    cols = {
+      status: :finished,
+      awaiting_mentor_since: nil,
+      awaiting_student_since: nil,
+      rating: rating.to_i
+    }
+    unless discussion.finished_at
+      cols[:finished_at] = Time.current
+      cols[:finished_by] = :student
+    end
+    discussion.update!(cols)
+  end
+
   def requeue!
     return unless should_requeue
 

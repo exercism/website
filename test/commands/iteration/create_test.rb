@@ -94,13 +94,33 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
-  test "do not create representation if there's no representer" do
+  test "does not create representation if representation was already queued" do
+    track = create :track, has_representer: false
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:, representation_status: :queued)
+
+    Submission::Representation::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
+  test "creates representation if there's no representer" do
     track = create :track, has_representer: false
     exercise = create(:concept_exercise, track:)
     solution = create(:concept_solution, exercise:)
     submission = create(:submission, solution:)
 
-    Submission::Representation::Init.expects(:call).never
+    Submission::Representation::Init.expects(:call).once
+    Iteration::Create.(solution, submission)
+  end
+
+  test "creates representation if there's a representer" do
+    track = create :track, has_representer: true
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    Submission::Representation::Init.expects(:call).once
     Iteration::Create.(solution, submission)
   end
 

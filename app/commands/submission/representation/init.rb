@@ -11,19 +11,27 @@ class Submission::Representation::Init
   end
 
   def call
-    ToolingJob::Create.(
-      submission,
-      :representer,
-      git_sha:,
-      run_in_background:,
-      context:
-    ).tap do
+    queue_job!.tap do
       update_status!
     end
   end
 
   private
   attr_reader :submission, :type, :git_sha, :run_in_background
+
+  def queue_job!
+    return Submission::Representation::GenerateBasic.defer(submission) unless track.has_representer?
+
+    ToolingJob::Create.(
+      submission,
+      :representer,
+      git_sha:,
+      run_in_background:,
+      context:
+    )
+  end
+
+  delegate :track, to: :submission
 
   def update_status!
     return if type == :exercise

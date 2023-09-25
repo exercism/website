@@ -21,7 +21,7 @@
         @apply text-p-large;
     }
     & .lhs .explanation {
-        max-width: 640px;
+        max-width: 720px;
     }
     & .form-buttons {
         @apply flex;
@@ -86,7 +86,7 @@
                 }
             }
             & time {
-                @apply ml-48;
+                @apply ml-auto;
             }
         }
         & .buttons-section {

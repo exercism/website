@@ -72,7 +72,7 @@ export default ({
   }, [setRequestCriteria, criteria])
 
   return (
-    <div className="c-tracks-list">
+    <div className="tracks-list">
       <section className="c-search-bar">
         <div className="lg-container container">
           <input

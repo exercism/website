@@ -14,6 +14,6 @@ class Track::Trophies::MentoredTrophy < Track::Trophy
   # rubocop:enable Layout/LineLength
 
   def award?(user, track)
-    Mentor::Discussion.finished.joins(:request).where(request: { student: user, track: }).exists?
+    Mentor::Discussion.joins(:request).where(status: %i[finished student_timed_out], request: { student: user, track: }).exists?
   end
 end

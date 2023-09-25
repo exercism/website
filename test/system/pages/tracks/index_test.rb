@@ -24,7 +24,7 @@ module Pages
 
           # Assert only the track that matches the criteria
           # is retrieved and served.
-          within ".c-tracks-list" do
+          within ".tracks-list" do
             assert_text ruby.title
             refute_text js.title
           end

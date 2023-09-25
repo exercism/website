@@ -1,5 +1,3 @@
-@import "../styles";
-
 #page-blog {
     @apply bg-backgroundColorB;
     & header {

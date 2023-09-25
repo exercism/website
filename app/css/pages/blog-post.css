@@ -1,5 +1,3 @@
-@import "../styles";
-
 #page-blog-post {
     & header {
         background: linear-gradient(180deg, #271b72 0%, #420d62 100%),

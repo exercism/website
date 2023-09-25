@@ -1,6 +1,7 @@
 - content_for :meta_title, "Supporting Exercism"
 - content_for :meta_description, "These wonderful people have helped financially support Exercism"
 - content_for :canonical_url, individual_supporters_about_url
+- require_stylesheet "about"
 
 = render ViewComponents::AboutNav.new(:individual_supporters)
 

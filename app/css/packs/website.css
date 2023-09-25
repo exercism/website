@@ -13,7 +13,6 @@
 @import "../tooltips/task";
 
 @import "../components/advert";
-@import "../components/perk";
 @import "../components/textblock";
 @import "../components/spinner";
 @import "../components/tooltip-spinner";
@@ -136,13 +135,6 @@
 @import "../dropdowns/generic-menu";
 @import "../dropdowns/share";
 
-@import "../pages/partners/gdn";
-@import "../pages/about";
-@import "../pages/hiring";
-@import "../pages/team";
-@import "../pages/individual_supporters";
-@import "../pages/organisation_supporters";
-@import "../pages/organisation_supporter";
 @import "../pages/approach";
 @import "../pages/article";
 @import "../pages/donate";
@@ -163,13 +155,10 @@
 @import "../pages/track-build";
 @import "../pages/mentoring/external-request";
 @import "../pages/mentoring/external";
-@import "../pages/impact";
 @import "../pages/community";
 @import "../pages/community-story";
 @import "../pages/challenges/external";
 @import "../pages/challenges/12in23";
-@import "../pages/perks";
-@import "../pages/perk";
 
 /* @import "../highlighters/highlightjs-light";
 @import "../highlighters/highlightjs-dark"; */

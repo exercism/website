@@ -55,9 +55,6 @@
 @import "../components/accordion-section";
 @import "../components/underline";
 @import "../components/about-nav";
-@import "../components/docs-main-nav";
-@import "../components/docs-side-nav";
-@import "../components/docs-tracks-list";
 @import "../components/iterations-footer";
 @import "../components/solution-iterations";
 @import "../components/loading-bar";
@@ -171,7 +168,6 @@
 
 @import "../pages/partners/gdn";
 @import "../pages/about";
-@import "../pages/insiders";
 @import "../pages/hiring";
 @import "../pages/team";
 @import "../pages/individual_supporters";
@@ -190,9 +186,6 @@
 @import "../pages/contributing-tasks";
 @import "../pages/auth";
 @import "../pages/dashboard";
-@import "../pages/docs-show";
-@import "../pages/docs-index";
-@import "../pages/docs-tracks";
 @import "../pages/onboarding";
 @import "../pages/profile-intro";
 @import "../pages/profile-new";

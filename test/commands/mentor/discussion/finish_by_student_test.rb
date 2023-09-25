@@ -3,14 +3,38 @@ require 'test_helper'
 class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
   test "finishes" do
     freeze_time do
-      discussion = create :mentor_discussion
+      discussion = create :mentor_discussion,
+        awaiting_mentor_since: Time.current,
+        awaiting_student_since: Time.current,
+        status: :awaiting_mentor
 
       Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
 
-      assert_equal :finished, discussion.status
-      assert_equal :student, discussion.finished_by
+      assert :finished, discussion.status
+      assert_nil discussion.awaiting_mentor_since
+      assert_nil discussion.awaiting_student_since
       assert_equal Time.current, discussion.finished_at
+      assert_equal :student, discussion.finished_by
       assert_equal :good, discussion.rating
+    end
+  end
+
+  test "doesn't override mentor finish" do
+    freeze_time do
+      discussion = create :mentor_discussion,
+        awaiting_mentor_since: Time.current,
+        awaiting_student_since: Time.current,
+        status: :mentor_finished,
+        finished_by: :mentor,
+        finished_at: 1.week.ago
+
+      Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+
+      assert :finished, discussion.status
+      assert_nil discussion.awaiting_mentor_since
+      assert_nil discussion.awaiting_student_since
+      assert_equal 1.week.ago, discussion.finished_at
+      assert_equal :mentor, discussion.finished_by
     end
   end
 

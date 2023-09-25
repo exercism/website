@@ -133,13 +133,15 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission = create(:submission, exercise:)
 
     job = create_representer_job!(submission, execution_status: 200, ast:)
-    cmd = Submission::Representation::Process.new(job)
-    cmd.expects(:handle_generated!).raises
+    Mocha::Configuration.override(stubbing_non_public_method: :allow) do
+      Submission::Representation::ProcessResults.any_instance.expects(:handle_generated!).raises
+    end
 
     # We have a guard to reraise in dev/test here, so
     # stimulate production for this step
     Rails.env.expects(:production?).returns(true)
-    cmd.()
+
+    Submission::Representation::Process.(job)
 
     assert submission.reload.representation_exceptioned?
   end

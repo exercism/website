@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_121539) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -545,7 +545,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.datetime "awaiting_mentor_since", precision: nil
     t.datetime "mentor_reminder_sent_at", precision: nil
     t.string "uuid", null: false
-    t.datetime "requires_student_action_since", precision: nil
     t.integer "num_posts", limit: 3, default: 0, null: false
     t.boolean "anonymous_mode", default: false, null: false
     t.datetime "awaiting_student_since", precision: nil
@@ -557,6 +556,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.index ["mentor_id", "status"], name: "index_mentor_discussions_on_mentor_id_and_status"
     t.index ["request_id"], name: "fk_rails_38162d0a13"
     t.index ["solution_id"], name: "fk_rails_704ccdde73"
+    t.index ["status", "awaiting_mentor_since"], name: "index_mentor_discussions_on_status_and_awaiting_mentor_since"
+    t.index ["status", "awaiting_student_since"], name: "index_mentor_discussions_on_status_and_awaiting_student_since"
     t.index ["uuid"], name: "index_mentor_discussions_on_uuid", unique: true
   end
 
@@ -1224,6 +1225,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.boolean "receive_onboarding_emails", default: true, null: false    
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
+    t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
+    t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
+    t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
+    t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end

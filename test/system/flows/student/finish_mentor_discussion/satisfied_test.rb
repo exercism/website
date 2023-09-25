@@ -31,7 +31,7 @@ module Flows
             click_on "No thanks"
 
             wait_for_redirect
-            assert_text "Nice, it looks like you’re done here!"
+            assert_text "Nice, it looks like you're done here!"
           end
         end
 

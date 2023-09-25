@@ -1,19 +1,31 @@
 import React from 'react'
+import {
+  MentorDiscussion,
+  MentoringSessionDonation,
+  MentoringSessionLinks,
+} from '@/components/types'
 import { FinishButton } from './FinishButton'
-import { MentorDiscussion } from '../../types'
-import { GraphicalIcon } from '../../common'
+import GraphicalIcon from '@/components/common/GraphicalIcon'
 
-type Links = {
-  exercise: string
+type DiscussionActionsProps = {
+  discussion: MentorDiscussion
+  donation: MentoringSessionDonation
+  links: DiscussionActionsLinks
+}
+
+export type DiscussionActionsLinks = MentoringSessionLinks & {
+  exerciseMentorDiscussionUrl: string
 }
 
 export const DiscussionActions = ({
   discussion,
   links,
-}: {
-  discussion: MentorDiscussion
-  links: Links
-}): JSX.Element => {
+  donation,
+}: DiscussionActionsProps): JSX.Element => {
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
+
   return discussion.isFinished || discussion.status === 'mentor_finished' ? (
     <div className="finished">
       <GraphicalIcon icon="completed-check-circle" />
@@ -23,9 +35,14 @@ export const DiscussionActions = ({
     <FinishButton
       discussion={discussion}
       links={links}
-      className="btn-xs btn-enhanced finish-button"
+      donation={donation}
+      className={`btn-xs ${
+        timedOut ? 'btn-primary' : 'btn-enhanced'
+      } finish-button`}
     >
-      <div className="--hint">End discussion</div>
+      <div className="--hint">
+        {timedOut ? 'Review discussion' : 'End discussion'}
+      </div>
     </FinishButton>
   )
 }

@@ -118,7 +118,6 @@
 @import "../components/exercise-dot";
 @import "../components/results-zone";
 @import "../components/introducer";
-@import "../components/profile-header";
 @import "../components/track-filter";
 @import "../components/mentor-discussion-widget";
 @import "../components/completed-exercise-progress";
@@ -148,7 +147,6 @@
 @import "../modals/test-run";
 @import "../modals/activate-track-mode";
 @import "../modals/crop-avatar";
-@import "../modals/profile-first-time";
 @import "../modals/completed-tutorial-exercise";
 @import "../modals/completed-exercise";
 @import "../modals/publish-exercise";
@@ -198,11 +196,6 @@
 @import "../pages/onboarding";
 @import "../pages/profile-intro";
 @import "../pages/profile-new";
-@import "../pages/profile";
-@import "../pages/profile-badges";
-@import "../pages/profile-solutions";
-@import "../pages/profile-contributions";
-@import "../pages/profile-testimonials";
 @import "../pages/track-shared-index";
 @import "../pages/concepts-index";
 @import "../pages/concept-show";

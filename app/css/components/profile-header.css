@@ -1,5 +1,3 @@
-@import "../styles";
-
 header.c-profile-header {
     @apply bg-backgroundColorA;
     @apply relative shadow-base;

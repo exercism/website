@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { GraphicalIcon } from '../../../common'
-import { MODAL_MAX_WIDTH_DEFAULT_VALUE } from '../FinishMentorDiscussionModal'
 
 type Links = {
   exercise: string
@@ -9,17 +8,10 @@ type Links = {
 export const CelebrationStep = ({
   mentorHandle,
   links,
-  setContainerModalMaxWidth,
 }: {
   mentorHandle: string
   links: Links
-  setContainerModalMaxWidth: React.Dispatch<React.SetStateAction<string>>
 }): JSX.Element => {
-  useEffect(() => {
-    setContainerModalMaxWidth('900px')
-    return () => setContainerModalMaxWidth(MODAL_MAX_WIDTH_DEFAULT_VALUE)
-  }, [setContainerModalMaxWidth])
-
   return (
     <section className="celebrate-step neon-cat">
       <img src="https://i.gifer.com/17xo.gif" className="gif" />

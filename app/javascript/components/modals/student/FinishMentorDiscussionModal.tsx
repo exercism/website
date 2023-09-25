@@ -49,12 +49,10 @@ const Inner = ({
   discussion,
   links,
   donation,
-  setMaxWidth,
 }: {
   discussion: MentorDiscussion
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
-  setMaxWidth: React.Dispatch<React.SetStateAction<string>>
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
@@ -85,7 +83,6 @@ const Inner = ({
           <Step.DonationStep
             donation={donation}
             links={links}
-            setContainerModalMaxWidth={setMaxWidth}
             onSuccessfulDonation={(_, amount) => {
               setDonatedAmount(amount)
               send('SUCCESSFUL_DONATION')
@@ -97,7 +94,6 @@ const Inner = ({
         <Step.CelebrationStep
           mentorHandle={discussion.mentor.handle}
           links={links}
-          setContainerModalMaxWidth={setMaxWidth}
         />
       )
     case 'satisfied':
@@ -129,7 +125,6 @@ const Inner = ({
         <Step.SuccessfulDonationStep
           amount={donatedAmount}
           closeLink={links.exerciseMentorDiscussionUrl}
-          setContainerModalMaxWidth={setMaxWidth}
         />
       )
     case 'unhappy': {
@@ -144,7 +139,6 @@ const Inner = ({
   }
 }
 
-export const MODAL_MAX_WIDTH_DEFAULT_VALUE = 'fit-content'
 export const FinishMentorDiscussionModal = ({
   links,
   discussion,
@@ -156,10 +150,9 @@ export const FinishMentorDiscussionModal = ({
   donation: MentoringSessionDonation
   onCancel: () => void
 }): JSX.Element => {
-  const [maxWidth, setMaxWidth] = useState(MODAL_MAX_WIDTH_DEFAULT_VALUE)
   return (
     <Modal
-      style={{ content: { maxWidth } }}
+      style={{ content: { maxWidth: 'fit-content' } }}
       cover
       aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
       className="m-finish-student-mentor-discussion"
@@ -167,12 +160,7 @@ export const FinishMentorDiscussionModal = ({
       shouldCloseOnOverlayClick={false}
       {...props}
     >
-      <Inner
-        links={links}
-        discussion={discussion}
-        setMaxWidth={setMaxWidth}
-        donation={donation}
-      />
+      <Inner links={links} discussion={discussion} donation={donation} />
     </Modal>
   )
 }

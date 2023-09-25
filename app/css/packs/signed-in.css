@@ -7,11 +7,14 @@
 @import "../pages/journey/solutions";
 @import "../pages/journey/reputation";
 @import "../pages/journey/badges";
+@import "../components/community-rank-tag";
 
-/* Notifications */
+/* Header + Notifications */
 @import "../pages/notifications";
 @import "../dropdowns/notifications";
 @import "../dropdowns/reputation";
+@import "../components/notification";
+@import "../components/theme-toggle-button";
 
 /* Track/exercise */
 @import "../modals/activate-track-mode";
@@ -23,6 +26,7 @@
 @import "../dropdowns/request-mentoring";
 @import "../dropdowns/open-editor-button";
 @import "../components/mentoring-request-form";
+@import "../components/completed-exercise-progress";
 @import "../pages/exercise-mentoring";
 
 /* Mentoring */
@@ -35,9 +39,14 @@
 @import "../modals/select-exercise-for-mentoring";
 @import "../components/mentor-discussion-widget";
 
+/* Mentoring + Editor */
+@import "../components/code-pane";
+@import "../components/discussion-timeline";
+
 /* Profile */
 @import "../pages/profile-intro";
 @import "../pages/profile-new";
+@import "../components/avatar-selector";
 
 /* Settings */
 @import "../pages/settings";

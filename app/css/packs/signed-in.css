@@ -23,6 +23,7 @@
 @import "../dropdowns/request-mentoring";
 @import "../dropdowns/open-editor-button";
 @import "../components/mentoring-request-form";
+@import "../pages/exercise-mentoring";
 
 /* Mentoring */
 @import "../components/mentor-discussion-post-editor";

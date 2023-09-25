@@ -12,7 +12,7 @@ class Mentor::Discussion::ReplyByStudent
       seen_by_student: true
     )
 
-    discussion.awaiting_mentor!
+    Mentor::Discussion::AwaitingMentor.(discussion)
 
     User::Notification::Create.(
       discussion.mentor,

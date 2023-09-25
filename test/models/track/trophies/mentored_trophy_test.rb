@@ -30,7 +30,13 @@ class Track::Trophies::MentoredTrophyTest < ActiveSupport::TestCase
 
     # A student finished discussion counts
     solution = create(:practice_solution, user:, track:)
-    create(:mentor_discussion, :student_finished, solution:)
+    discussion = create(:mentor_discussion, :student_finished, solution:)
+    assert trophy.award?(user, track)
+
+    # A student timed-out discussion counts
+    discussion.destroy!
+    solution = create(:practice_solution, user:, track:)
+    create(:mentor_discussion, :student_timed_out, solution:)
     assert trophy.award?(user, track)
   end
 end

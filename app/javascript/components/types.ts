@@ -403,7 +403,11 @@ export type MentorDiscussionStatus =
   | 'mentor_finished'
   | 'finished'
 
-export type MentorDiscussionFinishedBy = 'mentor' | 'student'
+export type MentorDiscussionFinishedBy =
+  | 'mentor'
+  | 'student'
+  | 'mentor_timed_out'
+  | 'student_timed_out'
 
 export type MentorDiscussion = {
   uuid: string
@@ -451,6 +455,32 @@ export type MentoredTrackExercise = {
   iconUrl: string
   count: number
   completedByMentor: boolean
+}
+
+export type MentoringSessionDonation = {
+  showDonationModal: boolean
+  request: {
+    endpoint: string
+    options: {
+      initialData: {
+        subscription?: {
+          provider: string
+          interval: string
+          amountInCents: string
+        }
+      }
+    }
+  }
+}
+
+export type MentoringSessionLinks = {
+  exercise: string
+  learnMoreAboutPrivateMentoring: string
+  privateMentoring: string
+  mentoringGuide: string
+  createMentorRequest: string
+  donationsSettings: string
+  donate: string
 }
 
 export type MentoredTrack = {

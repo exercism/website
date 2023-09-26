@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback } from 'react'
+import React, { useState, createContext, useCallback, useEffect } from 'react'
 
 import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -33,6 +33,11 @@ import {
 import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
+import { useLogger } from '@/hooks'
+import {
+  MentorRequestChannel,
+  ChannelResponse as MentorRequestChannelResponse,
+} from '@/channels/mentorRequestChannel'
 
 export type Links = {
   mentorDashboard: string
@@ -114,9 +119,24 @@ export default function Session(props: SessionProps): JSX.Element {
     iterations: initialIterations,
   })
 
+  useLogger('request', request)
+
   const [isLinked, setIsLinked] = useState(false)
   const { currentIteration, handleIterationClick, handleIterationScroll } =
     useIterationScrolling({ iterations: iterations, on: isLinked })
+
+  useEffect(() => {
+    const mentorRequestChannel = new MentorRequestChannel(
+      request,
+      (response: MentorRequestChannelResponse) => {
+        console.log('RESPONSE FROM CHANNEL:', response)
+      }
+    )
+
+    return () => {
+      mentorRequestChannel.disconnect()
+    }
+  }, [request])
 
   return (
     <div className="c-mentor-discussion">

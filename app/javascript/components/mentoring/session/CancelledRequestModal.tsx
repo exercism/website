@@ -1,6 +1,7 @@
 import { Modal } from '@/components/modals'
 import React from 'react'
 import { Links } from '../Session'
+import { GraphicalIcon } from '@/components/common'
 
 export function CancelledRequestModal({
   open,
@@ -25,22 +26,40 @@ export function CancelledRequestModal({
         describedby: 'cancelled-mentoring-request-description',
       }}
     >
-      <h3
-        id="cancelled-mentoring-request-description"
-        className="text-h3 mb-16 text-center"
-      >
-        The student has cancelled this mentoring request. <br />
-        Sorry for the inconvenience!
-      </h3>
-      <div className="flex justify-center gap-16">
-        <a href={links.mentorQueue} className="btn-m btn-primary">
-          Back to mentor requests
-        </a>
-        {isLocked && (
-          <button className="btn-m btn-secondary" onClick={onClose}>
-            Close this modal
-          </button>
-        )}
+      <div class="flex items-start">
+        <div className="flex flex-col mr-32">
+          <h3
+            id="cancelled-mentoring-request-description"
+            className="text-h3 mb-6"
+          >
+            Mentoring request cancelled
+          </h3>
+          <p className="text-p-large mb-8">
+            The student has cancelled this mentoring request. We know this is
+            extremely frustrating once you've started responding 😞 Sorry for
+            the annoyance!
+          </p>
+          <p className="text-p-large mb-16">
+            Thank you for being a mentor at Exercism 💙
+          </p>
+          <div className="flex gap-16">
+            <a href={links.mentorQueue} className="btn-m btn-primary">
+              Back to mentor requests
+            </a>
+            {isLocked && (
+              <button className="btn-m btn-secondary" onClick={onClose}>
+                Close this modal
+              </button>
+            )}
+          </div>
+        </div>
+        <GraphicalIcon
+          icon="cancelled"
+          category="graphics"
+          className="ml-auto"
+          height={128}
+          width={128}
+        />
       </div>
     </Modal>
   )

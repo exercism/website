@@ -240,6 +240,7 @@ export type MentorSessionRequest = {
     lock: string
     discussion: string
     cancel: string
+    extendLock: string
   }
 }
 export type MentorSessionTrack = {

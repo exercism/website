@@ -20,6 +20,7 @@ class SerializeMentorSessionRequest
       },
       links: {
         lock: Exercism::Routes.lock_api_mentoring_request_path(request),
+        extend_lock: Exercism::Routes.extend_lock_api_mentoring_request_path(request.uuid),
         cancel: Exercism::Routes.cancel_api_mentoring_request_path(request),
         discussion: Exercism::Routes.api_mentoring_discussions_path
       }

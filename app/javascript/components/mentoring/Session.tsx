@@ -33,14 +33,15 @@ import {
 import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
-import { useLogger } from '@/hooks'
 import {
   MentorRequestChannel,
   ChannelResponse as MentorRequestChannelResponse,
 } from '@/channels/mentorRequestChannel'
+import { CancelledRequestModal } from './session/CancelledRequestModal'
 
 export type Links = {
   mentorDashboard: string
+  mentorQueue: string
   improveNotes: string
   mentoringDocs: string
 }
@@ -119,9 +120,9 @@ export default function Session(props: SessionProps): JSX.Element {
     iterations: initialIterations,
   })
 
-  useLogger('request', request)
-
   const [isLinked, setIsLinked] = useState(false)
+  const [cancelledRequestModalOpen, setCancelledRequestModalOpen] =
+    useState(false)
   const { currentIteration, handleIterationClick, handleIterationScroll } =
     useIterationScrolling({ iterations: iterations, on: isLinked })
 
@@ -129,7 +130,9 @@ export default function Session(props: SessionProps): JSX.Element {
     const mentorRequestChannel = new MentorRequestChannel(
       request,
       (response: MentorRequestChannelResponse) => {
-        console.log('RESPONSE FROM CHANNEL:', response)
+        if (response.status === 'cancelled') {
+          setCancelledRequestModalOpen(true)
+        }
       }
     )
 
@@ -254,6 +257,12 @@ export default function Session(props: SessionProps): JSX.Element {
             </TabsContext.Provider>
           </PostsWrapper>
         }
+      />
+      <CancelledRequestModal
+        open={cancelledRequestModalOpen}
+        onClose={() => setCancelledRequestModalOpen(false)}
+        links={links}
+        isLocked={request.isLocked}
       />
     </div>
   )

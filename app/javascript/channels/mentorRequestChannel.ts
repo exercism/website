@@ -2,10 +2,8 @@ import consumer from '../utils/action-cable-consumer'
 import { MentorSessionRequest } from '../components/types'
 
 export type ChannelResponse = {
-  mentor_request: {
-    uuid: string
-    status: string
-  }
+  uuid: string
+  status: 'cancelled' | 'pending' | 'fulfilled'
 }
 export class MentorRequestChannel {
   subscription: ActionCable.Channel

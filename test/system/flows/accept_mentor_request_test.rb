@@ -78,6 +78,58 @@ module Flows
       end
     end
 
+    test "student cancels mentor request before locking" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+        request.update(status: :cancelled)
+        sleep(1)
+        MentorRequestChannel.broadcast!(request)
+        sleep(1)
+        assert_text "Mentoring request cancelled"
+        assert_text "Back to mentor requests"
+        refute_text "Close this modal"
+
+        click_on "Back to mentor requests"
+        assert_text "Queue"
+      end
+    end
+
+    test "student cancels mentor request after locking" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        request.update(status: :cancelled)
+        sleep(1)
+        MentorRequestChannel.broadcast!(request)
+        sleep(1)
+        assert_text "Mentoring request cancelled"
+        assert_text "Back to mentor requests"
+        refute_text "Close this modal"
+
+        click_on "Back to mentor requests"
+        assert_text "Queue"
+      end
+    end
+
     test "favorite button is hidden when there is no discussion yet" do
       solution = create :concept_solution
       request = create(:mentor_request, solution:)

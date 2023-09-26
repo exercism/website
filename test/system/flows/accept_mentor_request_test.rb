@@ -79,21 +79,23 @@ module Flows
     end
 
     test "student cancels mentor request before locking" do
-      mentor = create :user, handle: "author"
+      mentor = create :user, handle: "mentor"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
-        updated_at: 2.days.ago
       submission = create(:submission, solution:)
-      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+      create(:submission_file, submission:)
+      create(:iteration, submission:)
+
+      request = create :mentor_request, :pending, solution:, comment_markdown: "How to do this?"
 
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_request_path(request)
-        request.update(status: :cancelled)
-        sleep(1)
-        MentorRequestChannel.broadcast!(request)
-        sleep(1)
+        sleep(1) # Let the page load before we fire the websocket
+
+        Mentor::Request::Cancel.(request)
+        wait_for_websockets
+
         assert_text "Mentoring request cancelled"
         assert_text "Back to mentor requests"
         refute_text "Close this modal"
@@ -104,23 +106,26 @@ module Flows
     end
 
     test "student cancels mentor request after locking" do
-      mentor = create :user, handle: "author"
+      mentor = create :user, handle: "mentor"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
-        updated_at: 2.days.ago
       submission = create(:submission, solution:)
-      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+      create(:submission_file, submission:)
+      create(:iteration, submission:)
+
+      request = create :mentor_request, :pending, solution:, comment_markdown: "How to do this?"
 
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_request_path(request)
+        sleep(1) # Let the page load before we fire the websocket
+
         click_on "Start mentoring"
         fill_in_editor "# Hello", within: ".comment-section"
-        request.update(status: :cancelled)
-        sleep(1)
-        MentorRequestChannel.broadcast!(request)
-        sleep(1)
+
+        Mentor::Request::Cancel.(request)
+        wait_for_websockets
+
         assert_text "Mentoring request cancelled"
         assert_text "Back to mentor requests"
         assert_text "Close this modal"

@@ -123,7 +123,7 @@ module Flows
         sleep(1)
         assert_text "Mentoring request cancelled"
         assert_text "Back to mentor requests"
-        refute_text "Close this modal"
+        assert_text "Close this modal"
 
         click_on "Back to mentor requests"
         assert_text "Queue"

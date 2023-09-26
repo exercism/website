@@ -10,6 +10,7 @@ class SerializeMentorSessionRequest
       uuid: request.uuid,
       comment: SerializeMentorDiscussionPost.(Mentor::RequestComment.from(request), user),
       is_locked: request.locked?,
+      locked_until:,
       student: {
         handle: request.student_handle,
         avatar_url: request.student_avatar_url
@@ -23,5 +24,9 @@ class SerializeMentorSessionRequest
         discussion: Exercism::Routes.api_mentoring_discussions_path
       }
     }
+  end
+
+  def locked_until
+    Mentor::RequestLock.find_by(request_id: request.id)&.locked_until
   end
 end

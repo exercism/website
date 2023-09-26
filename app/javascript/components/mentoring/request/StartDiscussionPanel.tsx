@@ -92,7 +92,7 @@ export const StartDiscussionPanel = ({
         defaultError={DEFAULT_ERROR}
         action="new"
       />
-      <MentoringNote links={links} />
+      <MentoringNote links={links} request={request} />
     </section>
   )
 }

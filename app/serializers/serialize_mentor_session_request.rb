@@ -10,7 +10,6 @@ class SerializeMentorSessionRequest
       uuid: request.uuid,
       comment: SerializeMentorDiscussionPost.(Mentor::RequestComment.from(request), user),
       is_locked: request.locked?,
-      status: request.status,
       student: {
         handle: request.student_handle,
         avatar_url: request.student_avatar_url

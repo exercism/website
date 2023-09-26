@@ -14,6 +14,7 @@
 @import "../dropdowns/notifications";
 @import "../dropdowns/reputation";
 @import "../components/notification";
+@import "../components/notification-dot";
 @import "../components/theme-toggle-button";
 
 /* Track/exercise */
@@ -23,6 +24,7 @@
 @import "../modals/publish-exercise";
 @import "../modals/unpublish-solution";
 @import "../modals/change-published-iteration";
+@import "../modals/update-exercise";
 @import "../dropdowns/request-mentoring";
 @import "../dropdowns/open-editor-button";
 @import "../components/mentoring-request-form";
@@ -38,10 +40,15 @@
 @import "../modals/change-mentor-tracks";
 @import "../modals/select-exercise-for-mentoring";
 @import "../components/mentor-discussion-widget";
+@import "../components/mentor-discussion-summary";
+@import "../components/mentor-track-selector";
 
 /* Mentoring + Editor */
 @import "../components/code-pane";
 @import "../components/discussion-timeline";
+
+/* Mentoring + Editor + Track */
+@import "../modals/automated-feedback";
 
 /* Profile */
 @import "../pages/profile-intro";
@@ -55,3 +62,5 @@
 /* Misc */
 @import "../modals/bug-report";
 @import "../components/markdown-editor";
+@import "../modals/generic-confirmation";
+@import "../modals/generic-destructive";

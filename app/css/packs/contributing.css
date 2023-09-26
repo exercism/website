@@ -6,3 +6,5 @@
 @import "../pages/contributing-tasks";
 
 @import "../components/contributing/header";
+
+@import "../tooltips/task";

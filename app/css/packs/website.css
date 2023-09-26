@@ -5,11 +5,8 @@
 
 @import "../tooltips/generic";
 @import "../tooltips/base";
-@import "../tooltips/mentoring-link";
 @import "../tooltips/user";
 @import "../tooltips/exercise";
-@import "../tooltips/student";
-@import "../tooltips/task";
 
 @import "../components/advert";
 @import "../components/textblock";
@@ -36,7 +33,6 @@
 @import "../components/copy-text-to-clipboard";
 @import "../components/details";
 @import "../components/combo-button";
-@import "../components/exercise-header";
 @import "../components/flash";
 @import "../components/icon";
 @import "../components/iteration-summary";
@@ -84,6 +80,7 @@
 @import "../components/track-filter";
 @import "../components/search-input";
 @import "../components/zero-section";
+@import "../components/iteration-processing-status";
 
 @import "../components/test-run";
 @import "../components/alert";

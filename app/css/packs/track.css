@@ -34,7 +34,7 @@
 @import "../components/difficulty-tag";
 @import "../components/community-solution";
 @import "../components/community-solutions-list";
-@import "../components/iteration-processing-status";
+@import "../components/exercise-header";
 
 /* General */
 @import "../modals/makers";

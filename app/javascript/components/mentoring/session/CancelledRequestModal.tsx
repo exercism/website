@@ -24,17 +24,18 @@ export function CancelledRequestModal({
       aria={{
         modal: true,
         describedby: 'cancelled-mentoring-request-description',
+        labelledby: 'cancelled-mentoring-request-label',
       }}
     >
       <div className="flex items-start">
         <div className="flex flex-col mr-32">
-          <h3
-            id="cancelled-mentoring-request-description"
-            className="text-h3 mb-6"
-          >
+          <h3 id="cancelled-mentoring-request-label" className="text-h3 mb-6">
             Mentoring request cancelled
           </h3>
-          <p className="text-p-large mb-8">
+          <p
+            id="cancelled-mentoring-request-description"
+            className="text-p-large mb-8"
+          >
             The student has cancelled this mentoring request. We know this is
             extremely frustrating once you&apos;ve started responding 😞 Sorry
             for the annoyance!

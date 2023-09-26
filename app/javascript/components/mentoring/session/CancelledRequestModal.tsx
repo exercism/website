@@ -26,7 +26,7 @@ export function CancelledRequestModal({
         describedby: 'cancelled-mentoring-request-description',
       }}
     >
-      <div class="flex items-start">
+      <div className="flex items-start">
         <div className="flex flex-col mr-32">
           <h3
             id="cancelled-mentoring-request-description"
@@ -36,8 +36,8 @@ export function CancelledRequestModal({
           </h3>
           <p className="text-p-large mb-8">
             The student has cancelled this mentoring request. We know this is
-            extremely frustrating once you've started responding 😞 Sorry for
-            the annoyance!
+            extremely frustrating once you&apos;ve started responding 😞 Sorry
+            for the annoyance!
           </p>
           <p className="text-p-large mb-16">
             Thank you for being a mentor at Exercism 💙

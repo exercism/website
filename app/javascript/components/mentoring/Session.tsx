@@ -130,7 +130,7 @@ export default function Session(props: SessionProps): JSX.Element {
     const mentorRequestChannel = new MentorRequestChannel(
       request,
       (response: MentorRequestChannelResponse) => {
-        if (response.status === 'cancelled') {
+        if (response.mentorRequest.status === 'cancelled') {
           setCancelledRequestModalOpen(true)
         }
       }

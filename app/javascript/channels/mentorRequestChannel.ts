@@ -1,9 +1,12 @@
 import consumer from '../utils/action-cable-consumer'
 import { MentorSessionRequest } from '../components/types'
+import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 
 export type ChannelResponse = {
-  uuid: string
-  status: 'cancelled' | 'pending' | 'fulfilled'
+  mentorRequest: {
+    uuid: string
+    status: 'cancelled' | 'pending' | 'fulfilled'
+  }
 }
 export class MentorRequestChannel {
   subscription: ActionCable.Channel
@@ -19,7 +22,7 @@ export class MentorRequestChannel {
       },
       {
         received: (response: ChannelResponse) => {
-          onReceive(response)
+          onReceive(camelizeKeysAs<ChannelResponse>(response))
         },
       }
     )

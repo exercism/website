@@ -9,8 +9,10 @@ class MentorRequestChannel < ApplicationCable::Channel
 
   def self.broadcast!(request)
     broadcast_to request, {
-      uuid: request.uuid,
-      status: request.status
+      mentor_request: {
+        uuid: request.uuid,
+        status: request.status
+      }
     }
   end
 end

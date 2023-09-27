@@ -72,6 +72,7 @@ export type SessionProps = {
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string
+  studentSolutionUuid: string
 }
 
 export type SessionGuidance = Pick<
@@ -105,6 +106,7 @@ export default function Session(props: SessionProps): JSX.Element {
     scratchpad,
     userHandle,
     downloadCommand,
+    studentSolutionUuid,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -118,6 +120,7 @@ export default function Session(props: SessionProps): JSX.Element {
   const { iterations, status } = useDiscussionIterations({
     discussion: discussion,
     iterations: initialIterations,
+    studentSolutionUuid,
   })
 
   const [isLinked, setIsLinked] = useState(false)

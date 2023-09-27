@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { DiscussionPostProps } from './DiscussionPost'
 import { MentorDiscussion, Iteration } from '../../types'
 import { QueryStatus } from 'react-query'
+import { SolutionWithLatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
 
 const matchIterationsToPosts = ({
   iterations,
@@ -24,19 +26,39 @@ const matchIterationsToPosts = ({
 export const useDiscussionIterations = ({
   discussion,
   iterations,
+  studentSolutionUuid,
 }: {
   discussion?: MentorDiscussion
   iterations: readonly Iteration[]
+  studentSolutionUuid: string
 }): { iterations: readonly Iteration[]; status: QueryStatus } => {
+  const [iterationList, setIterationList] = useState<Iteration[]>(
+    iterations as Iteration[]
+  )
   const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
     `posts-discussion-${discussion?.uuid}`,
     { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
 
+  useEffect(() => {
+    const solutionWithLatestIterationChannel =
+      new SolutionWithLatestIterationChannel(
+        { uuid: studentSolutionUuid },
+        (response) => {
+          setIterationList((i) => [...i, response.iteration])
+        }
+      )
+
+    return () => {
+      solutionWithLatestIterationChannel.disconnect()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return {
     iterations: data
-      ? matchIterationsToPosts({ iterations: iterations, posts: data.items })
-      : iterations,
+      ? matchIterationsToPosts({ iterations: iterationList, posts: data.items })
+      : iterationList,
     status: status,
   }
 }

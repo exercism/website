@@ -9,7 +9,7 @@ module GenerateJSConfig
   def self.write_manifest
     File.write(
       Rails.root / 'app' / 'javascript' / '.config' / 'manifest.json',
-      Propshaft::Assembly.new(Rails.application.config.assets).load_path.manifest.
+      Propshaft::Assembly.new('https://assets.exercism.org').load_path.manifest.
         to_json
     )
   end
@@ -19,7 +19,7 @@ module GenerateJSConfig
   def self.write_env
     File.write(
       Rails.root / 'app' / 'javascript' / '.config' / 'env.json',
-      Exercism.config.to_h.slice(:website_assets_host).to_json
+      { website_assets_host: "https://assets.exercism.org" }.to_json
     )
   end
 end

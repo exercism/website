@@ -23,7 +23,7 @@ export function useLockedSolutionMentoringNote(
 ): useLockedSolutionMentoringNoteReturns {
   const [lockedUntil, setLockedUntil] = useState(dayjs(request.lockedUntil))
   const [diff, setDiff] = useState(lockedUntil.diff(dayjs(), 'minute'))
-  const [extendModalOpen, setExtendModalOpen] = useState(diff <= 10)
+  const [extendModalOpen, setExtendModalOpen] = useState(diff <= 10 && diff > 0)
 
   const [extendLockedUntil] = useMutation<APIResponse>(
     () => {
@@ -51,9 +51,9 @@ export function useLockedSolutionMentoringNote(
     const interval = setInterval(() => {
       const diffInMinute = lockedUntil.diff(dayjs(), 'minute')
       setDiff(diffInMinute)
-      if (diffInMinute <= 10) {
+      if (diffInMinute <= 10 && diffInMinute > 0) {
         setExtendModalOpen(true)
-      }
+      } else setExtendModalOpen(false)
     }, 60000)
 
     return () => clearInterval(interval)

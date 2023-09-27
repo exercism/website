@@ -82,8 +82,7 @@ module Flows
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
-        updated_at: 2.days.ago
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
       submission = create(:submission, solution:)
       create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
@@ -101,8 +100,7 @@ module Flows
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
-        updated_at: 2.days.ago
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
       submission = create(:submission, solution:)
       create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
@@ -126,8 +124,7 @@ module Flows
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
-        updated_at: 2.days.ago
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
       submission = create(:submission, solution:)
       create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
@@ -158,8 +155,7 @@ module Flows
       mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
-      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
-        updated_at: 2.days.ago
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
       submission = create(:submission, solution:)
       create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
@@ -181,8 +177,31 @@ module Flows
         assert_text "Yes, extend for 30 minutes"
         assert_text "No, thank you"
         click_on "No, thank you"
-        sleep 1
         assert_text "9 mins from now"
+      end
+    end
+
+    test "mentor sees the lock is expired" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+
+        Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current)
+        visit current_path
+
+        refute_css ".--modal-container"
+        assert_text "This solution is no longer locked"
       end
     end
 

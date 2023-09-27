@@ -16,6 +16,7 @@ export const LockedSolutionMentoringNote = ({
 }): JSX.Element => {
   const {
     lockedUntil,
+    diff,
     diffMins,
     diffMinutes,
     extendModalOpen,
@@ -30,8 +31,11 @@ export const LockedSolutionMentoringNote = ({
         <a href={links.mentoringDocs} target="_blank" rel="noreferrer">
           mentoring docs
         </a>{' '}
-        for more information. This solution is locked until {lockedUntil} (
-        {diffMins} from now.)
+        for more information.{' '}
+        {diff > 0
+          ? `This solution is locked until ${lockedUntil} (
+        ${diffMins} from now.)`
+          : 'This solution is no longer locked and another mentor may pick it up'}
       </div>
       <ExtendLockedUntilModal
         open={extendModalOpen}

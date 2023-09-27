@@ -11,6 +11,7 @@ type APIResponse = {
 
 type useLockedSolutionMentoringNoteReturns = {
   extendLockedUntil: () => void
+  diff: number
   diffMins: string
   diffMinutes: string
   lockedUntil: string
@@ -60,6 +61,7 @@ export function useLockedSolutionMentoringNote(
 
   return {
     extendLockedUntil,
+    diff,
     diffMins: `${diff} ${diff === 1 ? 'min' : 'mins'}`,
     diffMinutes: `${diff} ${diff === 1 ? 'minute' : 'minutes'}`,
     lockedUntil: lockedUntil.format('HH:mm'),

@@ -1,7 +1,7 @@
 require "test_helper"
 
 class User::UpdateAutomatorRoleTest < ActiveSupport::TestCase
-  test "adds or removes supermentor role depending on criteria being met" do
+  test "adds automator role if appropriate" do
     track = create :track
     user = create :user, roles: []
     mentorship = create(:user_track_mentorship, user:, track:)

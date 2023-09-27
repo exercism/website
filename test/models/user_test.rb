@@ -479,7 +479,7 @@ class UserTest < ActiveSupport::TestCase
     tm = create(:user_track_mentorship, user:, track:)
     refute user.automator?(track)
 
-    # Differnet track
+    # Different track
     create :user_track_mentorship, :automator, user:, track: create(:track, :random_slug)
     refute user.automator?(track)
 

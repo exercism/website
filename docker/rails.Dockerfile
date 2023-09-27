@@ -45,6 +45,8 @@ WORKDIR /opt/exercism/website
 COPY . ./
 
 # Speed things up by precompiling bootsnap
+ENV RAILS_ENV=development
+ENV NODE_ENV=production
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # This compiles the assets

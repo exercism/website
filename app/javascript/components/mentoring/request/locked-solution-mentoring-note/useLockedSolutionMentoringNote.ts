@@ -50,7 +50,7 @@ export function useLockedSolutionMentoringNote(
     const interval = setInterval(() => {
       const diffInMinute = lockedUntil.diff(dayjs(), 'minute')
       setDiff(diffInMinute)
-      if (diffInMinute === 10) {
+      if (diffInMinute <= 10) {
         setExtendModalOpen(true)
       }
     }, 60000)

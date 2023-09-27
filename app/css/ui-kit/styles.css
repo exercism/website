@@ -87,8 +87,4 @@
         @apply text-textColor2 font-normal leading-140;
         @apply border-b-1 border-textColor2;
     }
-
-    .uses-suspense {
-        @apply relative;
-    }
 }

@@ -1,0 +1,15 @@
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
+
+@import "../pages/mentoring/inbox";
+@import "../pages/mentoring/queue";
+@import "../pages/mentoring/testimonials";
+@import "../pages/mentoring/automation";
+
+@import "../components/mentor/header";
+@import "../components/mentor/solution-row";
+@import "../components/mentor/discussion";
+@import "../components/mentor/representer-row";
+
+@import "../tooltips/mentoring-link";
+@import "../tooltips/student";

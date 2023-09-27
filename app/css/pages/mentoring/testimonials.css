@@ -1,5 +1,3 @@
-@import "../../styles";
-
 #mentor-testimonials-page {
     & article {
         @apply rounded-8 shadow-lg bg-backgroundColorA;

@@ -29,6 +29,7 @@ type Props = {
   student: FavoritableStudent
   setStudent: (student: FavoritableStudent) => void
   defaultStep: ModalStep
+  timelineContent: string
 }
 
 function reducer(state: State, action: Action): State {
@@ -55,7 +56,12 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export const FinishedWizard = ({ student, setStudent, defaultStep }: Props) => {
+export const FinishedWizard = ({
+  student,
+  setStudent,
+  defaultStep,
+  timelineContent,
+}: Props): JSX.Element => {
   const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     student: student,
@@ -77,7 +83,7 @@ export const FinishedWizard = ({ student, setStudent, defaultStep }: Props) => {
         className="timeline-marker"
       />
       <div className="--details timeline-content">
-        <h3>You&apos;ve finished your discussion with {student.handle}.</h3>
+        <h3>{timelineContent}</h3>
         <div className="--step">
           {state.step === 'mentorAgain' ? (
             <MentorAgainStep

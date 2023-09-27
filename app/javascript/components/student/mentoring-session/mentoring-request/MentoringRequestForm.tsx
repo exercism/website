@@ -4,14 +4,12 @@ import { MedianWaitTime } from '@/components/common/MedianWaitTime'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
-import {
-  type Links,
-  useMentoringRequest,
-} from './MentoringRequestFormComponents'
+import { useMentoringRequest } from './MentoringRequestFormComponents'
 import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
   MentorSessionRequest as Request,
+  DiscussionLinks,
 } from '@/components/types'
 import {
   TrackObjectivesTextArea,
@@ -30,7 +28,7 @@ export const MentoringRequestForm = ({
   trackObjectives: string
   track: Track
   exercise: Exercise
-  links: Links
+  links: DiscussionLinks
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
   const {

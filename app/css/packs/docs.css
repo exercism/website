@@ -1,0 +1,10 @@
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
+
+@import "../pages/docs-show";
+@import "../pages/docs-index";
+@import "../pages/docs-tracks";
+
+@import "../components/docs-main-nav";
+@import "../components/docs-side-nav";
+@import "../components/docs-tracks-list";

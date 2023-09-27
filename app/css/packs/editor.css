@@ -1,0 +1,6 @@
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
+
+@import "../pages/editor";
+@import "../modals/editor-hints";
+@import "../components/chatgpt";

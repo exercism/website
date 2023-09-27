@@ -7,8 +7,14 @@ class Mentor::RequestLock < ApplicationRecord
   scope :expired, -> { where("locked_until < ?", Time.current) }
 
   def extend!(duration = 30.minutes)
-    # TODO: Guard to check if lock is active.
-    # If it's not, raise an exception.
-    update!(locked_until: Time.current + duration)
+    with_lock do
+      raise RequestLockHasExpired if expired?
+
+      update!(locked_until: Time.current + duration)
+    end
+  end
+
+  def expired?
+    locked_until < Time.current
   end
 end

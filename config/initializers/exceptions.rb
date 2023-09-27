@@ -64,3 +64,5 @@ class InvalidCommunityVideoUrlError < RuntimeError; end
 class ChatGPTTooManyRequestsError < RuntimeError; end
 
 class NoPublishedSolutionForRepresentationError < RuntimeError; end
+
+class RequestLockHasExpired < RuntimeError; end

@@ -12,6 +12,7 @@ type APIResponse = {
 type useLockedSolutionMentoringNoteReturns = {
   extendLockedUntil: () => void
   diffMins: string
+  diffMinutes: string
   lockedUntil: string
   extendModalOpen: boolean
   setExtendModalOpen: Dispatch<SetStateAction<boolean>>
@@ -21,7 +22,7 @@ export function useLockedSolutionMentoringNote(
 ): useLockedSolutionMentoringNoteReturns {
   const [lockedUntil, setLockedUntil] = useState(dayjs(request.lockedUntil))
   const [diff, setDiff] = useState(lockedUntil.diff(dayjs(), 'minute'))
-  const [extendModalOpen, setExtendModalOpen] = useState(false)
+  const [extendModalOpen, setExtendModalOpen] = useState(diff <= 10)
 
   const [extendLockedUntil] = useMutation<APIResponse>(
     () => {
@@ -60,6 +61,7 @@ export function useLockedSolutionMentoringNote(
   return {
     extendLockedUntil,
     diffMins: `${diff} ${diff === 1 ? 'min' : 'mins'}`,
+    diffMinutes: `${diff} ${diff === 1 ? 'minute' : 'minutes'}`,
     lockedUntil: lockedUntil.format('HH:mm'),
     extendModalOpen,
     setExtendModalOpen,

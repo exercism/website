@@ -6,10 +6,12 @@ export function ExtendLockedUntilModal({
   open,
   onClose,
   onExtend,
+  diffMinutes,
 }: {
   open: boolean
   onClose: () => void
   onExtend: () => void
+  diffMinutes: string
 }): JSX.Element {
   return (
     <Modal
@@ -32,7 +34,7 @@ export function ExtendLockedUntilModal({
             Mentor Lock close to expiring
           </h3>
           <p className="text-p-large mb-8">
-            You only have 10 minutes remaining to submit your comment before
+            You only have {diffMinutes} remaining to submit your comment before
             this mentor request is unlocked for other mentors to reply to.
           </p>
           <p className="text-p-large mb-20">Would you like more time?</p>

@@ -17,6 +17,7 @@ export const LockedSolutionMentoringNote = ({
   const {
     lockedUntil,
     diffMins,
+    diffMinutes,
     extendModalOpen,
     setExtendModalOpen,
     extendLockedUntil,
@@ -34,6 +35,7 @@ export const LockedSolutionMentoringNote = ({
       </div>
       <ExtendLockedUntilModal
         open={extendModalOpen}
+        diffMinutes={diffMinutes}
         onClose={() => setExtendModalOpen(false)}
         onExtend={extendLockedUntil}
       />

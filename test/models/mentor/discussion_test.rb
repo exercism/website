@@ -231,7 +231,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       discussion = create(:mentor_discussion, mentor:, status: :finished)
 
       perform_enqueued_jobs do
-        Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never
+        Mentor::UpdateNumFinishedDiscussions.expects(:call).never
 
         discussion.update(status:)
       end

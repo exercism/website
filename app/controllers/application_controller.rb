@@ -104,7 +104,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_automator!
-    return if staff?
+    return if current_user&.staff?
     return if current_user&.track_mentorships&.automator&.exists?
 
     redirect_to mentoring_path

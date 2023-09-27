@@ -42,7 +42,7 @@ module API
     end
 
     def ensure_automator!
-      return if staff?
+      return if current_user&.staff?
       return if current_user&.track_mentorships&.automator&.exists?
 
       render_403(:not_supermentor)

@@ -1,5 +1,5 @@
 class Mentoring::AutomationController < ApplicationController
-  before_action :ensure_supermentor!, except: :tooltip_locked
+  before_action :ensure_automator!, except: :tooltip_locked
   before_action :use_representation!, only: %i[edit]
 
   def index
@@ -33,6 +33,6 @@ class Mentoring::AutomationController < ApplicationController
     @representation = Exercise::Representation.find_by!(uuid: params[:uuid])
     return unless @representation.track
 
-    redirect_to mentoring_path unless Mentor::Supermentor.for_track?(current_user, @representation.track)
+    redirect_to mentoring_path unless current_user.automator?(@representation.track)
   end
 end

@@ -3,8 +3,8 @@ FactoryBot.define do
     user
     track
 
-    trait :supermentor_frequency do
-      num_finished_discussions { 100 }
+    trait :automator do
+      automator { true }
     end
   end
 end

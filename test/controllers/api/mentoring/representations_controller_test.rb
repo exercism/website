@@ -56,7 +56,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_response :forbidden
     expected = {
       error: {
-        type: "not_supermentor_for_track",
+        type: "not_automator_for_track",
         message: "You do not have supermentor permissions for this track"
       }
     }

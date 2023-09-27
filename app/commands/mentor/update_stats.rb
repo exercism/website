@@ -3,9 +3,7 @@ class Mentor::UpdateStats
 
   queue_as :default
 
-  initialize_with :mentor,
-    update_counts: false,
-    update_satisfaction_rating: false
+  initialize_with :mentor, :track
 
   # This command:
   # - Gets the old values
@@ -21,10 +19,18 @@ class Mentor::UpdateStats
     ]
     new_values = old_values.clone
 
-    new_values[0] = User::ResetCache.(mentor, :num_students_mentored) if update_counts
-    new_values[1] = User::ResetCache.(mentor, :num_solutions_mentored) if update_counts
-    new_values[2] = Mentor::UpdateSatisfactionPercentage.(mentor) if update_satisfaction_rating
+    new_values[0] = User::ResetCache.(mentor, :num_students_mentored)
+    new_values[1] = User::ResetCache.(mentor, :num_solutions_mentored)
+    new_values[2] = Mentor::UpdateSatisfactionPercentage.(mentor)
 
-    User::UpdateMentorRoles.defer(mentor) if old_values != new_values
+    # This should happen in band at the same time as the above code
+    Mentor::UpdateNumFinishedDiscussions.(mentor, track)
+
+    return unless old_values != new_values
+
+    # These can safely be defered into other jobs
+    User::UpdateSupermentorRole.defer(mentor)
+    User::UpdateAutomatorRole.defer(mentor, track)
+    AwardBadgeJob.perform_later(mentor, :mentor)
   end
 end

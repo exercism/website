@@ -103,8 +103,9 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_path
   end
 
-  def ensure_supermentor!
-    return if current_user&.supermentor?
+  def ensure_automator!
+    return if staff?
+    return if current_user&.track_mentorships&.automator&.exists?
 
     redirect_to mentoring_path
   end

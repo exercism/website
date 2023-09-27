@@ -6,7 +6,7 @@ class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
       track = create :track
       user = create :user, role
       create(:exercise_representation, feedback_type: nil, num_submissions: 3, track:)
-      create(:user_track_mentorship, :supermentor_frequency, user:, track:)
+      create(:user_track_mentorship, :automator, user:, track:)
       sign_in!(user)
 
       get mentoring_automation_index_path

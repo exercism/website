@@ -19,6 +19,13 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     end
   end
 
+  test "proxies out to ProcessFinished" do
+    discussion = create :mentor_discussion
+
+    Mentor::Discussion::ProcessFinished.expects(:call).with(discussion)
+    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
+  end
+
   test "doesn't override mentor finish" do
     freeze_time do
       discussion = create :mentor_discussion,
@@ -146,68 +153,6 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     assert_equal 2, Mentor::StudentRelationship.count
   end
 
-  [3, 4, 5].each do |rating|
-    test "reputation awarded for #{rating}" do
-      discussion = create(:mentor_discussion)
-
-      User::ReputationToken::Create.expects(:defer).with(
-        discussion.mentor,
-        :mentored,
-        discussion:
-      )
-
-      Mentor::Discussion::FinishByStudent.(discussion, rating)
-    end
-  end
-
-  test "reputation not awarded for 1" do
-    User::ReputationToken::Create.expects(:defer).never
-    Mentor::Discussion::FinishByStudent.(create(:mentor_discussion), 1)
-  end
-
-  test "awards mentor badge" do
-    mentor = create :user
-    9.times do |_idx|
-      create :mentor_discussion, :student_finished, mentor:
-    end
-
-    discussion = create(:mentor_discussion, mentor:)
-    refute mentor.badges.present?
-
-    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
-    perform_enqueued_jobs
-    assert_includes mentor.reload.badges.map(&:class), Badges::MentorBadge
-  end
-
-  test "awards mentored trophy" do
-    mentor = create :user
-    student = create :user
-
-    request = create(:mentor_request, student:)
-    discussion = create(:mentor_discussion, mentor:, student:, request:)
-    refute student.badges.present?
-
-    perform_enqueued_jobs do
-      Mentor::Discussion::FinishByStudent.(discussion, 4)
-    end
-
-    assert_includes student.reload.trophies.map(&:class), Track::Trophies::MentoredTrophy
-  end
-
-  test "adds metric" do
-    discussion = create :mentor_discussion
-
-    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
-    perform_enqueued_jobs
-
-    assert_equal 1, Metric.count
-    metric = Metric.last
-    assert_instance_of Metrics::FinishMentoringMetric, metric
-    assert_equal discussion.finished_at, metric.occurred_at
-    assert_equal discussion.track, metric.track
-    assert_equal discussion.student, metric.user
-  end
-
   test "sends notification to mentor" do
     student = create :user, handle: "student"
     mentor = create :user, email: "mentor@exercism.org"
@@ -228,22 +173,5 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     assert_equal [mentor.email], email.to
 
     ActionMailer::Base.deliveries.clear
-  end
-
-  test "updates supermentor role" do
-    track = create :track
-    mentor = create :user
-    create :user_track_mentorship, track:, user: mentor
-
-    99.times do
-      create :mentor_discussion, :student_finished, rating: :great, mentor:
-    end
-
-    discussion = create(:mentor_discussion, :student_finished, rating: :great, mentor:)
-
-    Mentor::Discussion::FinishByStudent.(discussion, 4, requeue: false)
-    perform_enqueued_jobs
-
-    assert mentor.reload.supermentor?
   end
 end

@@ -343,4 +343,10 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def flair = super&.to_sym
+
+  def automator?(track)
+    return true if staff?
+
+    track_mentorships.automator.where(track:).exists?
+  end
 end

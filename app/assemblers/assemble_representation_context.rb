@@ -42,7 +42,7 @@ class AssembleRepresentationContext
     def supermentored_tracks
       return Track.all if mentor.staff?
 
-      Track.where(id: mentor.track_mentorships.supermentor_frequency.select(:track_id)).order(title: :asc)
+      Track.where(id: mentor.track_mentorships.automator.select(:track_id)).order(title: :asc)
     end
 
     memoize

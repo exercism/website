@@ -10,4 +10,11 @@ class Mentor::Request::CancelTest < ActiveSupport::TestCase
     assert request.cancelled?
     assert :none, solution.mentoring_status
   end
+
+  test "broadcasts request" do
+    request = create :mentor_request
+
+    MentorRequestChannel.expects(:broadcast!).with(request)
+    Mentor::Request::Cancel.(request)
+  end
 end

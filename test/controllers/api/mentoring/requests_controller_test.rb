@@ -108,30 +108,25 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   end
 
   test "locked_until should be updated to 30 mins from now" do
-    user = create :user
-    setup_user(user)
-    solution = create :concept_solution
-    request = create(:mentor_request, solution:)
-    create(:iteration, solution:)
+    freeze_time do
+      user = create :user
+      setup_user(user)
+      solution = create :concept_solution
+      request = create(:mentor_request, solution:)
+      create(:iteration, solution:)
 
-    patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
+      patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    assert_response :ok
+      assert_response :ok
+      assert request.reload.locked?
 
-    assert request.reload.locked?
-    request_lock = Mentor::RequestLock.find_by(request_id: request.id)
-    expected_locked_until = 60.minutes.from_now
+      assert Mentor::RequestLock.where(request:, locked_until: 60.minutes.from_now).exists?
 
-    # 2 secs margin of error
-    assert_in_delta expected_locked_until.to_i, request_lock.locked_until.to_i, 2
+      patch extend_lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 
-    patch extend_lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
-    request_lock.reload
-    new_expected_locked_until = 30.minutes.from_now
-
-    assert_in_delta new_expected_locked_until.to_i, request_lock.locked_until.to_i, 2
-
-    assert_equal user, request.reload.locks.last.locked_by
+      assert Mentor::RequestLock.where(request:, locked_until: 30.minutes.from_now).exists?
+      assert_equal user, request.reload.locks.last.locked_by
+    end
   end
 
   ###

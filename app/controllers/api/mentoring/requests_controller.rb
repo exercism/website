@@ -45,6 +45,8 @@ module API
           locked_until: lock.locked_until
         }
       }
+    rescue RequestLockHasExpired
+      render json: { error: "Lock has expired" }, status: :unprocessable_entity
     end
 
     def cancel

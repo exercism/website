@@ -16,7 +16,7 @@ export function DonationStep({
 }): JSX.Element {
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
-      <div className="mr-64">
+      <div className="mr-64 max-w-[700px]">
         <h3 className="text-h4 mb-4 text-lightBlue">One more request…</h3>
         <h1 className="text-h1 mb-12">
           We need your help to keep Exercism alive.
@@ -84,7 +84,7 @@ export function DonationStep({
           </Suspense>
         </div>
 
-        <div className="border-2 border-gradient bg-lightPurple py-12 px-24 rounded-8">
+        <div className="w-[564px] border-2 border-gradient bg-lightPurple py-12 px-24 rounded-8">
           <p className="text-gradient font-semibold leading-160 text-17">
             Fewer than 1% of who use Exercism choose to donate. If you can
             afford to do so, please be one of them.

@@ -28,12 +28,8 @@ class Mentor::Discussion::FinishByStudent
     report!
     block!
     create_testimonial!
-    award_reputation!
-    award_badges!
-    award_trophies!
-    update_roles!
+    Mentor::Discussion::ProcessFinished.(discussion)
     notify!
-    log_metric!
   end
 
   private
@@ -84,32 +80,6 @@ class Mentor::Discussion::FinishByStudent
     return if testimonial.blank?
 
     Mentor::Testimonial::Create.(discussion, testimonial)
-  end
-
-  def award_reputation!
-    return if rating < 3
-
-    User::ReputationToken::Create.defer(
-      discussion.mentor,
-      :mentored,
-      discussion:
-    )
-  end
-
-  def award_badges!
-    AwardBadgeJob.perform_later(discussion.mentor, :mentor)
-  end
-
-  def award_trophies!
-    AwardTrophyJob.perform_later(discussion.student, track, :mentored)
-  end
-
-  def update_roles!
-    User::UpdateMentorRoles.defer(discussion.mentor)
-  end
-
-  def log_metric!
-    Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
   end
 
   delegate :track, to: :discussion

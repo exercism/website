@@ -36,7 +36,7 @@ module API
       mentor_request = Mentor::Request.find_by(uuid: params[:uuid])
       return render_404(:mentor_request_not_found) unless mentor_request
 
-      lock = Mentor::RequestLock.find_by(mentor_request_id: mentor_request.id, user_id: current_user)
+      lock = Mentor::RequestLock.find_by(request_id: mentor_request.id)
       lock.extend!
       # TODO: Catch raised exception from out of date lock and return accordingly
 
@@ -45,6 +45,8 @@ module API
           locked_until: lock.locked_until
         }
       }
+    rescue RequestLockHasExpired
+      render json: { error: "Lock has expired" }, status: :unprocessable_entity
     end
 
     def cancel

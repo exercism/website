@@ -228,6 +228,7 @@ export type MentorSessionRequest = {
   uuid: string
   comment?: DiscussionPostProps
   isLocked: boolean
+  lockedUntil?: string
   track: {
     title: string
   }
@@ -239,6 +240,7 @@ export type MentorSessionRequest = {
     lock: string
     discussion: string
     cancel: string
+    extendLock: string
   }
 }
 export type MentorSessionTrack = {

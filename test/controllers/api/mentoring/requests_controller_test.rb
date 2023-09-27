@@ -3,6 +3,7 @@ require_relative '../base_test_case'
 class API::Mentoring::RequestsControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_mentoring_requests_path
   guard_incorrect_token! :lock_api_mentoring_request_path, args: 1, method: :patch
+  guard_incorrect_token! :extend_lock_api_mentoring_request_path, args: 1, method: :patch
   guard_incorrect_token! :cancel_api_mentoring_request_path, args: 1, method: :patch
 
   ###
@@ -104,6 +105,28 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
 
     assert request.reload.locked?
     assert_equal user, request.reload.locks.last.locked_by
+  end
+
+  test "locked_until should be updated to 30 mins from now" do
+    freeze_time do
+      user = create :user
+      setup_user(user)
+      solution = create :concept_solution
+      request = create(:mentor_request, solution:)
+      create(:iteration, solution:)
+
+      patch lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
+
+      assert_response :ok
+      assert request.reload.locked?
+
+      assert Mentor::RequestLock.where(request:, locked_until: 60.minutes.from_now).exists?
+
+      patch extend_lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
+
+      assert Mentor::RequestLock.where(request:, locked_until: 30.minutes.from_now).exists?
+      assert_equal user, request.reload.locks.last.locked_by
+    end
   end
 
   ###

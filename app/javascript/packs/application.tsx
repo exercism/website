@@ -689,3 +689,13 @@ if (!Object.entries) {
     return resArray
   }
 }
+
+//
+// Leave this code here so that we can easily add components to test during development.
+//
+
+// import { ExtendLockedUntilModal } from '../components/mentoring/request/locked-solution-mentoring-note/ExtendLockedUntilModal'
+// const elem = <ExtendLockedUntilModal open={true} />
+
+// import ReactDOM from 'react-dom'
+// ReactDOM.render(elem, document.body)

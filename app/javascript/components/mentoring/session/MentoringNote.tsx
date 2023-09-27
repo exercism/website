@@ -11,7 +11,7 @@ export const MentoringNote = ({ links }: { links: Links }): JSX.Element => {
       <a href={links.mentoringDocs} target="_blank" rel="noreferrer">
         mentoring docs
       </a>{' '}
-      and be the best mentor you can be.
+      for more information.
     </div>
   )
 }

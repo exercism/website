@@ -1,7 +1,7 @@
 class Mentor::Discussion::ProcessFinished
   include Mandate
 
-  initialize_with :discussion, :rating
+  initialize_with :discussion
 
   def call
     award_reputation!
@@ -13,7 +13,7 @@ class Mentor::Discussion::ProcessFinished
 
   private
   def award_reputation!
-    return unless rating.nil? || rating >= 3
+    return if rating == :problematic
 
     User::ReputationToken::Create.defer(
       mentor,
@@ -38,5 +38,5 @@ class Mentor::Discussion::ProcessFinished
     Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
   end
 
-  delegate :track, :student, :mentor, to: :discussion
+  delegate :track, :student, :mentor, :rating, to: :discussion
 end

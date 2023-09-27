@@ -28,7 +28,7 @@ class Mentor::Discussion::FinishByStudent
     report!
     block!
     create_testimonial!
-    Mentor::Discussion::ProcessFinished.(discussion, rating)
+    Mentor::Discussion::ProcessFinished.(discussion)
     notify!
   end
 

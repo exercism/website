@@ -23,7 +23,7 @@ export function ExtendLockedUntilModal({
         describedby: 'cancelled-mentoring-request-description',
       }}
     >
-      <div class="flex items-start">
+      <div className="flex items-start">
         <div className="flex flex-col mr-32">
           <h3
             id="cancelled-mentoring-request-description"

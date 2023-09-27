@@ -93,7 +93,7 @@ module Flows
         visit mentoring_request_path(request)
         sleep(1) # Let the page load before we fire the websocket
 
-        Mentor::Request::Cancel.(request)
+        ::Mentor::Request::Cancel.(request)
         wait_for_websockets
 
         assert_text "Mentoring request cancelled"
@@ -123,7 +123,7 @@ module Flows
         click_on "Start mentoring"
         fill_in_editor "# Hello", within: ".comment-section"
 
-        Mentor::Request::Cancel.(request)
+        ::Mentor::Request::Cancel.(request)
         wait_for_websockets
 
         assert_text "Mentoring request cancelled"

@@ -110,7 +110,7 @@ module Flows
 
             within(".mentoring-in-progress") { assert_text "yamikani" }
 
-            discussion.finished!
+            Mentor::Discussion::FinishByStudent.(discussion, 5)
 
             # Reload page
             visit track_exercise_mentor_discussions_path(track, exercise)

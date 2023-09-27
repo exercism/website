@@ -135,12 +135,12 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal 1, mentor.reload.num_solutions_mentored
 
     perform_enqueued_jobs do
-      discussion_2.finished!
+      Mentor::Discussion::FinishByStudent.(discussion_2, 5)
     end
     assert_equal 2, mentor.reload.num_solutions_mentored
 
     perform_enqueued_jobs do
-      discussion_3.finished!
+      Mentor::Discussion::FinishByStudent.(discussion_3, 5)
     end
     assert_equal 3, mentor.reload.num_solutions_mentored
   end

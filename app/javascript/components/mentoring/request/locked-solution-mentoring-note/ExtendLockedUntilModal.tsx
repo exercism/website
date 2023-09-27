@@ -22,18 +22,19 @@ export function ExtendLockedUntilModal({
       shouldCloseOnOverlayClick={false}
       aria={{
         modal: true,
-        describedby: 'cancelled-mentoring-request-description',
+        labelledby: 'extend-mentoring-request-lock-label',
+        describedby: 'extend-mentoring-request-lock-description',
       }}
     >
       <div className="flex items-start">
         <div className="flex flex-col mr-32">
-          <h3
-            id="cancelled-mentoring-request-description"
-            className="text-h3 mb-6"
-          >
+          <h3 id="extend-mentoring-request-lock-label" className="text-h3 mb-6">
             Mentor Lock close to expiring
           </h3>
-          <p className="text-p-large mb-8">
+          <p
+            className="text-p-large mb-8"
+            id="extend-mentoring-request-lock-description"
+          >
             You only have {diffMinutes} remaining to submit your comment before
             this mentor request is unlocked for other mentors to reply to.
           </p>

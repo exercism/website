@@ -1,6 +1,6 @@
 class MentorRequestChannel < ApplicationCable::Channel
   def subscribed
-    mentor_request = MentorRequest.find_by!(uuid: params[:uuid])
+    mentor_request = Mentor::Request.find_by!(uuid: params[:uuid])
 
     stream_for mentor_request
   end

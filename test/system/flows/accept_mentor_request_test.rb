@@ -78,6 +78,63 @@ module Flows
       end
     end
 
+    test "student cancels mentor request before locking" do
+      mentor = create :user, handle: "mentor"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      submission = create(:submission, solution:)
+      create(:submission_file, submission:)
+      create(:iteration, submission:)
+
+      request = create :mentor_request, :pending, solution:, comment_markdown: "How to do this?"
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+        sleep(1) # Let the page load before we fire the websocket
+
+        Mentor::Request::Cancel.(request)
+        wait_for_websockets
+
+        assert_text "Mentoring request cancelled"
+        assert_text "Back to mentor requests"
+        refute_text "Close this modal"
+
+        click_on "Back to mentor requests"
+        assert_text "Queue"
+      end
+    end
+
+    test "student cancels mentor request after locking" do
+      mentor = create :user, handle: "mentor"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      submission = create(:submission, solution:)
+      create(:submission_file, submission:)
+      create(:iteration, submission:)
+
+      request = create :mentor_request, :pending, solution:, comment_markdown: "How to do this?"
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+        sleep(1) # Let the page load before we fire the websocket
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+
+        Mentor::Request::Cancel.(request)
+        wait_for_websockets
+
+        assert_text "Mentoring request cancelled"
+        assert_text "Back to mentor requests"
+        assert_text "Close this modal"
+
+        click_on "Back to mentor requests"
+        assert_text "Queue"
+      end
+    end
+
     test "favorite button is hidden when there is no discussion yet" do
       solution = create :concept_solution
       request = create(:mentor_request, solution:)

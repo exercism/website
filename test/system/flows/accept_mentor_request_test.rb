@@ -78,6 +78,114 @@ module Flows
       end
     end
 
+    test "mentor sees locked until information before sending first message" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+      end
+    end
+
+    test "mentor does not see locked until information after sending first message" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        click_on "Send"
+
+        wait_for_redirect
+        assert_css "img[src='#{mentor.avatar_url}']"
+        assert_text "author"
+        assert_text "Hello"
+        refute_text "This solution is locked until"
+      end
+    end
+
+    test "mentor sees extend lock modal and extends locked until" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+
+        Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
+
+        visit current_path
+
+        assert_text "9 mins from now"
+        assert_css ".--modal-container"
+        assert_text "Mentor Lock close to expiring"
+        assert_text "You only have 9 minutes remaining to submit your comment"
+        assert_text "Yes, extend for 30 minutes"
+        assert_text "No, thank you"
+        click_on "Yes, extend for 30 minutes"
+        assert_text "29 mins from now"
+      end
+    end
+
+    test "mentor sees extend lock modal and does not extend locked until" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?",
+        updated_at: 2.days.ago
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+
+        Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
+        visit current_path
+
+        assert_text "9 mins from now"
+        assert_css ".--modal-container"
+        assert_text "Mentor Lock close to expiring"
+        assert_text "You only have 9 minutes remaining to submit your comment"
+        assert_text "Yes, extend for 30 minutes"
+        assert_text "No, thank you"
+        click_on "No, thank you"
+        sleep 1
+        assert_text "9 mins from now"
+      end
+    end
+
     test "favorite button is hidden when there is no discussion yet" do
       solution = create :concept_solution
       request = create(:mentor_request, solution:)

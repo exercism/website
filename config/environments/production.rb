@@ -3,7 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
-    config.action_cable.url = ActionCable.server.config.url = "#{Exercism.config.websockets_url}/cable" if AnyCable::Rails.enabled?
+    # config.action_cable.url = ActionCable.server.config.url = "#{Exercism.config.websockets_url}/cable" if AnyCable::Rails.enabled?
 
     Bullet.enable = false # Also change this in config/initializers/bullet.rb
     Bullet.raise  = false
@@ -117,12 +117,12 @@ Rails.application.configure do
   # SMTP setup
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: Exercism.secrets.transactional_smtp_username,
-    password: Exercism.secrets.transactional_smtp_password,
-    address: Exercism.secrets.transactional_smtp_address,
-    domain: Exercism.secrets.transactional_smtp_address,
-    port: Exercism.secrets.transactional_smtp_port,
-    authentication: Exercism.secrets.transactional_smtp_authentication
+    # user_name: Exercism.secrets.transactional_smtp_username,
+    # password: Exercism.secrets.transactional_smtp_password,
+    # address: Exercism.secrets.transactional_smtp_address,
+    # domain: Exercism.secrets.transactional_smtp_address,
+    # port: Exercism.secrets.transactional_smtp_port,
+    # authentication: Exercism.secrets.transactional_smtp_authentication
   }
 end
 

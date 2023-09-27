@@ -8,8 +8,8 @@ local:
 
 amazon:
   service: S3
-  region: <%= Exercism.config.aws_attachments_region %>
-  bucket: <%= Exercism.config.aws_attachments_bucket %>
+  region: "eu-west-1"
+  bucket: "exercism-uploads"
 
 amazon_v2:
   service: S3

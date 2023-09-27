@@ -15,44 +15,7 @@ class Mentor::Discussion::FinishAbandonedTest < ActiveSupport::TestCase
         assert discussion.reload.finished?
       end
     end
-  end
 
-  %i[awaiting_student awaiting_mentor].each do |status|
-    test "don't mark discussion as finished when status is #{status} and finished at least a week ago" do
-      freeze_time do
-        discussion = create(:mentor_discussion, status:, finished_at: Time.current.utc - 1.week)
-
-        refute discussion.finished?
-
-        Mentor::Discussion::FinishAbandoned.()
-
-        refute discussion.reload.finished?
-      end
-    end
-  end
-
-  test "don't mark discussion as finished when status is mentor_timed_out and finished at least a week ago" do
-    freeze_time do
-      discussion = create(:mentor_discussion, status: :mentor_timed_out, finished_at: Time.current.utc - 1.week)
-
-      refute discussion.finished?
-
-      Mentor::Discussion::FinishAbandoned.()
-
-      refute discussion.reload.finished?
-    end
-  end
-
-  test "don't mark discussion as finished when status is already finished" do
-    finished_at = Time.current.utc - 1.week
-    discussion = create(:mentor_discussion, status: :finished, finished_at:, updated_at: finished_at)
-
-    Mentor::Discussion::FinishAbandoned.()
-
-    assert finished_at, discussion.reload.updated_at
-  end
-
-  %i[mentor_finished student_timed_out].each do |status|
     test "reputation awarded when abandoning from status #{status}" do
       finished_at = Time.current.utc - 1.week
       discussion = create(:mentor_discussion, status:, finished_at:, updated_at: finished_at)
@@ -113,5 +76,40 @@ class Mentor::Discussion::FinishAbandonedTest < ActiveSupport::TestCase
       assert_equal discussion.track, metric.track
       assert_equal discussion.student, metric.user
     end
+  end
+
+  %i[awaiting_student awaiting_mentor].each do |status|
+    test "don't mark discussion as finished when status is #{status} and finished at least a week ago" do
+      freeze_time do
+        discussion = create(:mentor_discussion, status:, finished_at: Time.current.utc - 1.week)
+
+        refute discussion.finished?
+
+        Mentor::Discussion::FinishAbandoned.()
+
+        refute discussion.reload.finished?
+      end
+    end
+  end
+
+  test "don't mark discussion as finished when status is mentor_timed_out and finished at least a week ago" do
+    freeze_time do
+      discussion = create(:mentor_discussion, status: :mentor_timed_out, finished_at: Time.current.utc - 1.week)
+
+      refute discussion.finished?
+
+      Mentor::Discussion::FinishAbandoned.()
+
+      refute discussion.reload.finished?
+    end
+  end
+
+  test "don't mark discussion as finished when status is already finished" do
+    finished_at = Time.current.utc - 1.week
+    discussion = create(:mentor_discussion, status: :finished, finished_at:, updated_at: finished_at)
+
+    Mentor::Discussion::FinishAbandoned.()
+
+    assert finished_at, discussion.reload.updated_at
   end
 end

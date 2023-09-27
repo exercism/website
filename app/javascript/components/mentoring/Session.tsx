@@ -139,7 +139,10 @@ export default function Session(props: SessionProps): JSX.Element {
     return () => {
       mentorRequestChannel.disconnect()
     }
-  }, [request])
+    // Only run this hook on mount, we don't want to re-establish channel connection when the request updates,
+    // because the only relevant information for this hook is the uuid of the request which should never change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="c-mentor-discussion">

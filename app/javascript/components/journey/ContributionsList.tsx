@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { scrollToTop } from '@/utils/scroll-to-top'
 import { ContributionResults } from './ContributionResults'
-import { useScrollToTop } from '@/hooks'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
@@ -72,10 +72,11 @@ export function ContributionsList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  useScrollToTop(requestQuery.page)
-
   return (
-    <article className="reputation-tab theme-dark">
+    <article
+      data-scroll-top-anchor="contributions-list"
+      className="reputation-tab theme-dark"
+    >
       <div className="md-container container">
         <div className="c-search-bar">
           <input
@@ -104,7 +105,10 @@ export function ContributionsList({
                   disabled={latestData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('contributions-list')
+                  }}
                 />
               </React.Fragment>
             ) : null}

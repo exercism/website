@@ -26,5 +26,24 @@ module Git
       actual = Git::WebsiteCopy.new.automators
       assert_equal expected, actual
     end
+
+    test "update! will update automator roles of listed users" do
+      user_1 = create :user, handle: "iHiD"
+      user_2 = create :user, handle: "ErikSchierboom"
+      ruby = create :track, slug: "ruby"
+      nim = create :track, slug: "nim"
+      kotlin = create :track, slug: "kotlin"
+
+      create(:user_track_mentorship, user: user_1, track: ruby)
+      create(:user_track_mentorship, user: user_2, track: nim)
+      create(:user_track_mentorship, user: user_2, track: kotlin)
+
+      User::UpdateAutomatorRole.expects(:defer).with(user_1, ruby)
+      User::UpdateAutomatorRole.expects(:defer).with(user_2, nim)
+      User::UpdateAutomatorRole.expects(:defer).with(user_2, kotlin)
+
+      website_copy = Git::WebsiteCopy.new
+      website_copy.update!
+    end
   end
 end

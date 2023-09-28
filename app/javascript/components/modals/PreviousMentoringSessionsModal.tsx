@@ -1,6 +1,5 @@
 import React from 'react'
 import pluralize from 'pluralize'
-import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { fromNow } from '@/utils/date'
@@ -23,6 +22,7 @@ import type {
   MentorDiscussion,
   Student,
 } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to load discussions')
 
@@ -46,8 +46,6 @@ export const PreviousMentoringSessionsModal = ({
     >([request.endpoint, request.query], request)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
-
-  useScrollToTop(request.query.page)
 
   return (
     <Modal
@@ -89,7 +87,10 @@ export const PreviousMentoringSessionsModal = ({
                   disabled={latestData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop()
+                  }}
                 />
               </React.Fragment>
             ) : null}

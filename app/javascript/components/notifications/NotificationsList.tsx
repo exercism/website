@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { useQueryCache } from 'react-query'
-import { useScrollToTop } from '@/hooks'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -14,6 +13,7 @@ import {
   MarkAllNotificationsAsReadModal,
 } from './notifications-list'
 import type { Notification } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
@@ -116,8 +116,6 @@ export default function NotificationsList({
 
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')
 
-  useScrollToTop(request.query.page)
-
   useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
@@ -178,7 +176,10 @@ export default function NotificationsList({
                 disabled={latestData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop()
+                }}
               />
             </React.Fragment>
           ) : null}

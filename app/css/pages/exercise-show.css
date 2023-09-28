@@ -447,7 +447,7 @@ body.namespace-.controller-tracks {
             }
         }
         & .prereqs {
-            @apply flex flex-wrap;
+            @apply flex flex-wrap gap-4;
 
             & .c-exercise-widget {
                 @apply mr-8 mb-8;

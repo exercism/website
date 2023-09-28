@@ -102,8 +102,7 @@ export type User = {
 }
 
 export type Exercise =
-  | (ExerciseCore & { isUnlocked: true; links: { self: string } })
-  | (ExerciseCore & { isUnlocked: false })
+  | ExerciseCore & { isUnlocked: boolean; links: { self: string } }
 
 export type Student = {
   id: number

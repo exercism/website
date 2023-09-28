@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import pluralize from 'pluralize'
 import { Pagination } from '@/components/common'
-import { useScrollToTop } from '@/hooks'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import {
   usePaginatedRequestQuery,
@@ -32,6 +31,7 @@ import type {
   TaskModule,
   PaginatedResult,
 } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'
@@ -105,10 +105,8 @@ export default function TasksList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  useScrollToTop(requestQuery.page)
-
   return (
-    <div className="lg-container container">
+    <div data-scroll-top-anchor="tasks-list" className="lg-container container">
       <div className="c-search-bar">
         <TrackSelect
           tracks={tracks}
@@ -169,7 +167,10 @@ export default function TasksList({
                   disabled={latestData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('tasks-list')
+                  }}
                 />
               </div>
             </React.Fragment>

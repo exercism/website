@@ -45,7 +45,7 @@ module API
       return if current_user&.staff?
       return if current_user&.track_mentorships&.automator&.exists?
 
-      render_403(:not_supermentor)
+      render_403(:not_automator)
     end
 
     def ensure_maintainer!

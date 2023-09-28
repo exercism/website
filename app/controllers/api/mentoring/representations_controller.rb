@@ -27,7 +27,7 @@ class API::Mentoring::RepresentationsController < API::BaseController
   def use_representation
     @representation = Exercise::Representation.find_by!(uuid: params[:uuid])
 
-    render_403(:not_automator_for_track) unless current_user.automator?(@representation.track)
+    render_403(:not_automator) unless current_user.automator?(@representation.track)
   rescue ActiveRecord::RecordNotFound
     render_404(:representation_not_found)
   end

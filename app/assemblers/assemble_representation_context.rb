@@ -20,7 +20,7 @@ class AssembleRepresentationContext
 
     private
     def tracks
-      supermentored_tracks.filter_map do |track|
+      automator_tracks.filter_map do |track|
         next unless track_num_representations.key?(track.id)
 
         SerializeTrackForSelect.(track).merge(num_submissions: track_num_representations[track.id])
@@ -33,13 +33,13 @@ class AssembleRepresentationContext
         mode:,
         sorted: false,
         paginated: false,
-        track: supermentored_tracks
+        track: automator_tracks
       )
       representations.count
     end
 
     memoize
-    def supermentored_tracks
+    def automator_tracks
       return Track.all if mentor.staff?
 
       Track.where(id: mentor.track_mentorships.automator.select(:track_id)).order(title: :asc)
@@ -48,7 +48,7 @@ class AssembleRepresentationContext
     memoize
     def track_num_representations
       Exercise::Representation::Search.(mentor:, mode:, sorted: false, paginated: false,
-        track: supermentored_tracks).
+        track: automator_tracks).
         group(:track_id).
         count
     end

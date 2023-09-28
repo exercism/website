@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useScrollToTop } from '@/hooks'
 import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -12,6 +11,7 @@ import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '../types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 export type TrackData = {
   iconUrl: string
@@ -68,10 +68,11 @@ export default function CommunitySolutionsList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  useScrollToTop(request.query.page)
-
   return (
-    <div className="lg-container">
+    <div
+      data-scroll-top-anchor="community-solutions-list"
+      className="lg-container"
+    >
       <div className="c-search-bar">
         <TrackDropdown
           tracks={tracks}
@@ -114,7 +115,10 @@ export default function CommunitySolutionsList({
                 disabled={latestData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop('community-solutions-list')
+                }}
               />
             </React.Fragment>
           ) : null}

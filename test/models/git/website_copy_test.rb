@@ -17,5 +17,14 @@ module Git
       actual = Git::WebsiteCopy.new.mentor_notes_for_exercise('ruby', 'clock')
       assert_equal expected, actual
     end
+
+    test "automators" do
+      expected = [
+        { "username": "iHiD", "tracks": ["ruby"] },
+        { "username": "ErikSchierboom", "tracks": %w[nim kotlin] }
+      ]
+      actual = Git::WebsiteCopy.new.automators
+      assert_equal expected, actual
+    end
   end
 end

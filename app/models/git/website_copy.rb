@@ -27,13 +27,10 @@ module Git
       repo.read_text_blob(head_commit, filepath)
     end
 
-    def update!
-      repo.fetch!
-    end
+    def automators = repo.read_json_blob(head_commit, "automators.json")
+    def walkthrough = repo.read_text_blob(head_commit, "walkthrough/index.html")
 
-    def walkthrough
-      repo.read_text_blob(head_commit, "walkthrough/index.html")
-    end
+    def update! = repo.fetch!
 
     private
     attr_reader :repo

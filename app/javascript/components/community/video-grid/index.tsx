@@ -92,7 +92,7 @@ export function VideoGrid({
             total={resolvedData.meta.totalPages}
             setPage={(p) => {
               setPage(p)
-              scrollToTop('videogrid-header-container')
+              scrollToTop('video-grid')
             }}
           />
         )}
@@ -111,10 +111,7 @@ function VideoGridHeader({
   selectedTrack: VideoTrack
 }): JSX.Element {
   return (
-    <div
-      id="videogrid-header-container"
-      className="flex mb-24 sm:flex-row flex-col"
-    >
+    <div className="flex mb-24 sm:flex-row flex-col">
       <GraphicalIcon
         icon="community-video-gradient"
         height={48}

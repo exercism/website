@@ -86,7 +86,7 @@
         %span Get some swag
         = graphical_icon "arrow-right"
 
-  .lg-container
+  .lg-container{ data: { 'scroll-top-anchor': 'video-grid' } }
     .sm:p-40.p-24.bg-backgroundColorA.shadow-lgZ1.rounded-16.mb-64
       = render ReactComponents::Community::VideoGrid.new(params)
 

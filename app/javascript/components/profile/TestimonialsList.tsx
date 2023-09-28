@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react'
-import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { Pagination } from '@/components/common'
@@ -10,6 +9,7 @@ import type {
   PaginatedResult,
   Testimonial as TestimonialProps,
 } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
@@ -42,8 +42,6 @@ export default function TestimonialsList({
     setSelected(null)
   }, [setSelected])
 
-  useScrollToTop(request.query.page)
-
   return (
     <ResultsZone isFetching={isFetching}>
       <FetchingBoundary
@@ -70,7 +68,10 @@ export default function TestimonialsList({
               disabled={latestData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </>
         ) : null}

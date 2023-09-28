@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
-import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
+import { scrollToTop } from '@/utils/scroll-to-top'
 import { Checkbox, Icon, Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -96,8 +96,6 @@ export function ExerciseCommunitySolutionsList({
     },
     [request.query, setQuery]
   )
-
-  useScrollToTop(request.query.page)
 
   return (
     <div className="lg-container c-community-solutions-list">
@@ -200,7 +198,10 @@ export function ExerciseCommunitySolutionsList({
                 disabled={latestData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop()
+                }}
               />
             </React.Fragment>
           ) : null}

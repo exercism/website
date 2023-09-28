@@ -43,9 +43,10 @@ class User::UpdateAutomatorRoleTest < ActiveSupport::TestCase
   end
 
   test "adds automator role if user and track combination in automators.json" do
-    Git::WebsiteCopy.any_instance.stubs(:automators).returns([
-                                                               { "username": "ErikSchierboom", "tracks": %w[nim kotlin] }
-                                                             ])
+    automators = [
+      { "username": "ErikSchierboom", "tracks": %w[nim kotlin] }
+    ]
+    Git::WebsiteCopy.any_instance.stubs(:automators).returns(automators)
 
     ruby = create :track, slug: 'ruby'
     nim = create :track, slug: 'nim'

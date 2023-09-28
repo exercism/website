@@ -1,6 +1,5 @@
 import React from 'react'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
-import { useScrollToTop } from '@/hooks'
 import { useList } from '@/hooks/use-list'
 import { fromNow } from '@/utils/date'
 import {
@@ -15,6 +14,7 @@ import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import type { Links } from '@/components/student/RequestMentoringButton'
 import type { PaginatedResult, SolutionForStudent } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -32,8 +32,6 @@ export const RequestMentoringModal = ({
       PaginatedResult<SolutionForStudent[]>,
       Error | Response
     >(['exercises-for-mentoring', request.query], request)
-
-  useScrollToTop(request.query.page)
 
   return (
     <Modal
@@ -99,7 +97,10 @@ export const RequestMentoringModal = ({
               disabled={latestData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </React.Fragment>
         ) : null}

@@ -27,7 +27,10 @@ module Git
       repo.read_text_blob(head_commit, filepath)
     end
 
+    memoize
     def automators = repo.read_json_blob(head_commit, "automators.json")
+
+    memoize
     def walkthrough = repo.read_text_blob(head_commit, "walkthrough/index.html")
 
     def update! = repo.fetch!

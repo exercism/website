@@ -1,11 +1,11 @@
 import React from 'react'
 import type { QueryStatus } from 'react-query'
-import { useScrollToTop } from '@/hooks'
 import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
 import type { APIResponse } from './useMentoringAutomation'
 import { SelectedTab } from './Representation'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -41,7 +41,6 @@ function Component({
   setPage,
   selectedTab,
 }: Props) {
-  useScrollToTop(page)
   return (
     <>
       {resolvedData && resolvedData.results && (
@@ -66,7 +65,10 @@ function Component({
               disabled={latestData === undefined}
               current={page}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </footer>
         </React.Fragment>

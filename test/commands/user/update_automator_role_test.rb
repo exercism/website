@@ -41,4 +41,42 @@ class User::UpdateAutomatorRoleTest < ActiveSupport::TestCase
     User::UpdateAutomatorRole.(user, track)
     assert mentorship.reload.automator?
   end
+
+  test "adds automator role if user and track combination in automators.json" do
+    Git::WebsiteCopy.any_instance.stubs(:automators).returns([
+                                                               { "username": "ErikSchierboom", "tracks": %w[nim kotlin] }
+                                                             ])
+
+    ruby = create :track, slug: 'ruby'
+    nim = create :track, slug: 'nim'
+    kotlin = create :track, slug: 'kotlin'
+    automator = create :user, handle: 'ErikSchierboom', roles: []
+    non_automator = create :user, handle: 'iHiD', roles: []
+
+    mentorship_automator_ruby = create(:user_track_mentorship, user: automator, track: ruby)
+    mentorship_automator_nim = create(:user_track_mentorship, user: automator, track: nim)
+    mentorship_automator_kotlin = create(:user_track_mentorship, user: automator, track: kotlin)
+
+    mentorship_non_automator_ruby = create(:user_track_mentorship, user: non_automator, track: ruby)
+    mentorship_non_automator_nim = create(:user_track_mentorship, user: non_automator, track: nim)
+    mentorship_non_automator_kotlin = create(:user_track_mentorship, user: non_automator, track: kotlin)
+
+    User::UpdateAutomatorRole.(automator, ruby)
+    refute mentorship_automator_ruby.reload.automator?
+
+    User::UpdateAutomatorRole.(automator, nim)
+    assert mentorship_automator_nim.reload.automator?
+
+    User::UpdateAutomatorRole.(automator, kotlin)
+    assert mentorship_automator_kotlin.reload.automator?
+
+    User::UpdateAutomatorRole.(non_automator, ruby)
+    refute mentorship_non_automator_ruby.reload.automator?
+
+    User::UpdateAutomatorRole.(non_automator, nim)
+    refute mentorship_non_automator_nim.reload.automator?
+
+    User::UpdateAutomatorRole.(non_automator, kotlin)
+    refute mentorship_non_automator_kotlin.reload.automator?
+  end
 end

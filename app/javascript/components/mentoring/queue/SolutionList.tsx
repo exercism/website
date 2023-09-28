@@ -1,10 +1,10 @@
 import React from 'react'
 import { QueryStatus } from 'react-query'
-import { useScrollToTop } from '@/hooks'
 import { Pagination } from '@/components/common/Pagination'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Solution } from './Solution'
 import type { APIResponse } from './useMentoringQueue'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -32,8 +32,6 @@ export const SolutionList = ({
 }
 
 const Component = ({ resolvedData, latestData, page, setPage }: Props) => {
-  useScrollToTop(page)
-
   return (
     <>
       {resolvedData && resolvedData.results.length > 0 ? (
@@ -50,7 +48,10 @@ const Component = ({ resolvedData, latestData, page, setPage }: Props) => {
               disabled={latestData === undefined}
               current={page}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </footer>
         </React.Fragment>

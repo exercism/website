@@ -10,10 +10,10 @@ import {
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
-import { useScrollToTop } from '@/hooks'
 import { type Request } from '@/hooks/request-query'
 import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 export type VideoGridProps = {
   tracks: VideoTrack[]
@@ -51,8 +51,6 @@ export function VideoGrid({
 
     [criteria, setPage]
   )
-
-  useScrollToTop(page)
 
   return (
     <>
@@ -92,7 +90,10 @@ export function VideoGrid({
           <Pagination
             current={page}
             total={resolvedData.meta.totalPages}
-            setPage={setPage}
+            setPage={(p) => {
+              setPage(p)
+              scrollToTop('videogrid-header-container')
+            }}
           />
         )}
       </ResultsZone>
@@ -110,7 +111,10 @@ function VideoGridHeader({
   selectedTrack: VideoTrack
 }): JSX.Element {
   return (
-    <div className="flex mb-24 sm:flex-row flex-col">
+    <div
+      id="videogrid-header-container"
+      className="flex mb-24 sm:flex-row flex-col"
+    >
       <GraphicalIcon
         icon="community-video-gradient"
         height={48}

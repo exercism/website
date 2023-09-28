@@ -4,7 +4,7 @@ class User::UpdateAutomatorRole
   initialize_with :user, :track
 
   def call
-    # Don't undo this if not elligible as some people are manually added
+    # Don't undo this if not eligible as some people are manually added
     mentorship.update!(automator: true) if eligible?
   end
 

@@ -51,6 +51,11 @@ process_timed_out_mentor_discussions:
   class: "ProcessTimedOutMentorDiscussionsJob"
   queue: dribble
 
+update_automator_roles:
+  cron: "0 5 * * *"
+  class: "UpdateAutomatorRolesJob"
+  queue: dribble
+
 # 1am Monday
 fetch_and_sync_all_pull_requests_reputation:
   cron: "0 1 * * 1"

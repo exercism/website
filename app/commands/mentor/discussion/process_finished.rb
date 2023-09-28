@@ -4,14 +4,16 @@ class Mentor::Discussion::ProcessFinished
   initialize_with :discussion
 
   def call
+    update_mentor_stats!
+    award_student_trophies!
     award_reputation!
-    award_badges!
-    award_trophies!
-    update_roles!
     log_metric!
   end
 
   private
+  def update_mentor_stats! = Mentor::UpdateStats.defer(mentor, track)
+  def award_student_trophies! = AwardTrophyJob.perform_later(student, track, :mentored)
+
   def award_reputation!
     return if rating == :problematic
 
@@ -20,18 +22,6 @@ class Mentor::Discussion::ProcessFinished
       :mentored,
       discussion:
     )
-  end
-
-  def award_badges!
-    AwardBadgeJob.perform_later(mentor, :mentor)
-  end
-
-  def award_trophies!
-    AwardTrophyJob.perform_later(student, track, :mentored)
-  end
-
-  def update_roles!
-    User::UpdateMentorRoles.defer(mentor)
   end
 
   def log_metric!

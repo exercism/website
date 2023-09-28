@@ -135,12 +135,12 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     assert_equal 1, mentor.reload.num_solutions_mentored
 
     perform_enqueued_jobs do
-      discussion_2.finished!
+      Mentor::Discussion::FinishByStudent.(discussion_2, 5)
     end
     assert_equal 2, mentor.reload.num_solutions_mentored
 
     perform_enqueued_jobs do
-      discussion_3.finished!
+      Mentor::Discussion::FinishByStudent.(discussion_3, 5)
     end
     assert_equal 3, mentor.reload.num_solutions_mentored
   end
@@ -231,7 +231,7 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
       discussion = create(:mentor_discussion, mentor:, status: :finished)
 
       perform_enqueued_jobs do
-        Mentor::Discussion::UpdateNumFinishedDiscussions.expects(:call).never
+        Mentor::UpdateNumFinishedDiscussions.expects(:call).never
 
         discussion.update(status:)
       end

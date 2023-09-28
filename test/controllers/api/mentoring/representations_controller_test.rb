@@ -11,7 +11,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   # update #
   ##########
   test "update renders 404 when representation not found" do
-    user = create :user, :supermentor
+    user = create :user
+    create(:user_track_mentorship, :automator, user:)
     setup_user(user)
 
     patch api_mentoring_representation_path('xxx'), headers: @headers, as: :json
@@ -27,7 +28,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "update renders 403 if the user is not a supermentor" do
+  test "update renders 403 if the user is not a automator" do
     setup_user
 
     representation = create :exercise_representation, num_submissions: 2
@@ -37,16 +38,17 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_response :forbidden
     expected = {
       error: {
-        type: "not_supermentor",
-        message: "You do not have supermentor permissions"
+        type: "not_automator",
+        message: "You do not have automator permissions for this track"
       }
     }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
   end
 
-  test "update renders 403 if the user is a supermentor but not for representation's track" do
-    user = create :user, :supermentor
+  test "update renders 403 if the user is a automator but not for representation's track" do
+    user = create :user
+    create :user_track_mentorship, :automator, user:, track: create(:track, :random_slug)
     setup_user(user)
 
     representation = create :exercise_representation, num_submissions: 2
@@ -56,8 +58,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_response :forbidden
     expected = {
       error: {
-        type: "not_supermentor_for_track",
-        message: "You do not have supermentor permissions for this track"
+        type: "not_automator",
+        message: "You do not have automator permissions for this track"
       }
     }
     actual = JSON.parse(response.body, symbolize_names: true)
@@ -66,8 +68,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates a representation" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
-    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
+    user = create :user
+    create :user_track_mentorship, :automator, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -129,8 +131,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to editor if representation already had author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
-    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
+    user = create :user
+    create :user_track_mentorship, :automator, user:, track: exercise.track, num_finished_discussions: 100
     author = create :user
     setup_user(user)
 
@@ -155,8 +157,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
 
   test "updates sets current user to author if representation doesn't have author" do
     exercise = create :practice_exercise
-    user = create :user, :supermentor
-    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
+    user = create :user
+    create :user_track_mentorship, :automator, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
     representation = create :exercise_representation, feedback_author: nil, feedback_editor: nil,
@@ -185,8 +187,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     travel_to beginning_of_minute
 
     exercise = create :practice_exercise
-    user = create :user, :supermentor
-    create :user_track_mentorship, user:, track: exercise.track, num_finished_discussions: 100
+    user = create :user
+    create :user_track_mentorship, :automator, user:, track: exercise.track, num_finished_discussions: 100
     setup_user(user)
 
     representation = create :exercise_representation, last_submitted_at: Time.utc(2012, 6, 20), num_submissions: 2
@@ -217,8 +219,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   ####################
   test "without_feedback retrieves representations" do
     track = create :track
-    user = create :user, :supermentor
-    create(:user_track_mentorship, user:, track:)
+    user = create :user
+    create(:user_track_mentorship, :automator, user:, track:)
     exercise = create(:practice_exercise, track:)
     setup_user(user)
 
@@ -247,7 +249,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
 
-  test "without_feedback renders 403 when user is not a supermentor" do
+  test "without_feedback renders 403 when user is not a automator" do
     setup_user
 
     get without_feedback_api_mentoring_representations_path, headers: @headers, as: :json
@@ -256,8 +258,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal(
       {
         "error" => {
-          "type" => "not_supermentor",
-          "message" => "You do not have supermentor permissions"
+          "type" => "not_automator",
+          "message" => "You do not have automator permissions for this track"
         }
       },
       JSON.parse(response.body)
@@ -269,7 +271,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
   #################
   test "with_feedback retrieves representations" do
     track = create :track
-    user = create :user, :supermentor
+    user = create :user
+    create(:user_track_mentorship, :automator, user:, track:)
     setup_user(user)
 
     representations = Array.new(25) do |idx|
@@ -295,7 +298,7 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
 
-  test "with_feedback renders 403 when user is not a supermentor" do
+  test "with_feedback renders 403 when user is not a automator" do
     setup_user
 
     get with_feedback_api_mentoring_representations_path, headers: @headers, as: :json
@@ -304,8 +307,8 @@ class API::Mentoring::RepresentationsControllerTest < API::BaseTestCase
     assert_equal(
       {
         "error" => {
-          "type" => "not_supermentor",
-          "message" => "You do not have supermentor permissions"
+          "type" => "not_automator",
+          "message" => "You do not have automator permissions for this track"
         }
       },
       JSON.parse(response.body)

@@ -27,12 +27,25 @@ module Git
       repo.read_text_blob(head_commit, filepath)
     end
 
+    memoize
+    def automators = repo.read_json_blob(head_commit, "automators.json")
+
+    memoize
+    def walkthrough = repo.read_text_blob(head_commit, "walkthrough/index.html")
+
     def update!
       repo.fetch!
+      update_automator_roles!
     end
 
-    def walkthrough
-      repo.read_text_blob(head_commit, "walkthrough/index.html")
+    def update_automator_roles!
+      automators.each do |automator|
+        user = User.for!(automator[:username])
+        automator[:tracks].each do |track_slug|
+          track = ::Track.for!(track_slug)
+          User::UpdateAutomatorRole.defer(user, track)
+        end
+      end
     end
 
     private

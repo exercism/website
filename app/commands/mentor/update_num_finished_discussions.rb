@@ -1,9 +1,8 @@
-class Mentor::Discussion::UpdateNumFinishedDiscussions
+class Mentor::UpdateNumFinishedDiscussions
   include Mandate
 
   queue_as :default
-  delegate :mentor, :track, to: :discussion
-  initialize_with :discussion
+  initialize_with :mentor, :track
 
   def call
     # We're updating in a single query instead of two queries to avoid race-conditions

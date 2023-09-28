@@ -469,4 +469,30 @@ class UserTest < ActiveSupport::TestCase
       assert user.donated_in_last_35_days?
     end
   end
+
+  test "automator?" do
+    track = create :track
+    user = create :user
+
+    refute user.automator?(track)
+
+    tm = create(:user_track_mentorship, user:, track:)
+    refute user.automator?(track)
+
+    # Different track
+    create :user_track_mentorship, :automator, user:, track: create(:track, :random_slug)
+    refute user.automator?(track)
+
+    tm.update!(automator: true)
+    assert user.automator?(track)
+  end
+
+  %i[admin staff].each do |role|
+    test "automator? enabled for #{role}" do
+      track = create :track
+      user = create :user, role
+
+      assert user.automator?(track)
+    end
+  end
 end

@@ -1,5 +1,5 @@
 class API::Mentoring::RepresentationsController < API::BaseController
-  before_action :ensure_supermentor!
+  before_action :ensure_automator!
   before_action :use_representation, only: :update
 
   def update
@@ -27,7 +27,7 @@ class API::Mentoring::RepresentationsController < API::BaseController
   def use_representation
     @representation = Exercise::Representation.find_by!(uuid: params[:uuid])
 
-    render_403(:not_supermentor_for_track) unless Mentor::Supermentor.for_track?(current_user, @representation.track)
+    render_403(:not_automator) unless current_user.automator?(@representation.track)
   rescue ActiveRecord::RecordNotFound
     render_404(:representation_not_found)
   end

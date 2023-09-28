@@ -23,10 +23,10 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
       feedback_author: user, num_submissions: 3
 
-    create :user_track_mentorship, user:, track: csharp, num_finished_discussions: 100
-    create :user_track_mentorship, user:, track: clojure, num_finished_discussions: 100
-    create :user_track_mentorship, user:, track: javascript, num_finished_discussions: 100
-    create :user_track_mentorship, user:, track: ruby, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user:, track: csharp, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user:, track: clojure, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user:, track: javascript, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user:, track: ruby, num_finished_discussions: 100
 
     expected = {
       tracks: [
@@ -49,7 +49,7 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     create :exercise_representation, exercise:, feedback_type: :actionable, num_submissions: 3
     create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
 
-    create :user_track_mentorship, user:, track:, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user:, track:, num_finished_discussions: 100
 
     expected = {
       tracks: [
@@ -71,7 +71,7 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
     create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 3
 
-    create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user: user_1, track:, num_finished_discussions: 100
 
     expected = {
       tracks: [
@@ -93,7 +93,7 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_1, num_submissions: 3
     create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 3
 
-    create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user: user_1, track:, num_finished_discussions: 100
 
     expected = {
       tracks: [
@@ -114,7 +114,7 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 2
     create :exercise_representation, exercise:, feedback_type: :actionable, feedback_author: user_2, num_submissions: 1
 
-    create :user_track_mentorship, user: user_1, track:, num_finished_discussions: 100
+    create :user_track_mentorship, :automator, user: user_1, track:, num_finished_discussions: 100
 
     expected = {
       tracks: [
@@ -125,7 +125,7 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     assert_equal expected, AssembleRepresentationContext.(user_1)[:with_feedback]
   end
 
-  test "only considers tracks where user has mentored 100 or more solutions" do
+  test "only considers tracks where user is an automator" do
     mentor = create :user
     staff = create :user, :staff
     other_user = create :user
@@ -150,15 +150,15 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
       create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: clojure), feedback_type: :actionable,
         feedback_author: user, num_submissions: 3
 
-      create :user_track_mentorship, user:, track: csharp, num_finished_discussions: 101
-      create :user_track_mentorship, user:, track: clojure, num_finished_discussions: 333
+      create :user_track_mentorship, :automator, user:, track: csharp
+      create :user_track_mentorship, :automator, user:, track: clojure
 
-      # Sanity check: ignore track with too few finished discussions
-      create :user_track_mentorship, user:, track: ruby, num_finished_discussions: 6
+      # Sanity check: ignore track where not an automator
+      create :user_track_mentorship, user:, track: ruby
     end
 
     # Sanity check: ignore track with enough finished discussion but by other user
-    create :user_track_mentorship, user: other_user, track: javascript, num_finished_discussions: 222
+    create :user_track_mentorship, :automator, user: other_user, track: javascript
 
     expected = {
       tracks: [

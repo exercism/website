@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_121539) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_27_174831) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1222,9 +1222,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_121539) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false    
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
@@ -1418,6 +1418,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_121539) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "last_viewed", default: false, null: false
     t.integer "num_finished_discussions", limit: 3, default: 0, null: false
+    t.boolean "automator", default: false, null: false
     t.index ["track_id"], name: "fk_rails_4a81f96f88"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "fk_rails_283ecc719a"

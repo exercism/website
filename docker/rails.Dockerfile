@@ -45,8 +45,6 @@ WORKDIR /opt/exercism/website
 COPY . ./
 
 # Speed things up by precompiling bootsnap
-ENV RAILS_ENV=development
-ENV NODE_ENV=production
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
 
 # This compiles the assets
@@ -55,6 +53,7 @@ RUN bundle exec bootsnap precompile --gemfile app/ lib/
 # used leave the assets on here.
 RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
+RUN bin/cleanup-css
 
 RUN groupadd -g 2222 exercism-git
 RUN usermod -a -G exercism-git root

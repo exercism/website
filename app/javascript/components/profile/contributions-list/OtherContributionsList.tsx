@@ -50,7 +50,7 @@ export const OtherContributionsList = ({
               total={resolvedData.meta.totalPages}
               setPage={(p) => {
                 setPage(p)
-                scrollToTop()
+                scrollToTop('profile-contributions', 32)
               }}
             />
           </React.Fragment>

@@ -117,7 +117,7 @@ export default function CommunitySolutionsList({
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {
                   setPage(p)
-                  scrollToTop('community-solutions-list')
+                  scrollToTop('community-solutions-list', 32)
                 }}
               />
             </React.Fragment>

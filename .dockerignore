@@ -12,3 +12,4 @@ storage/
 test/
 tmp/
 vendor/
+docker/*.Dockerfile

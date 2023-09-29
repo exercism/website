@@ -4,7 +4,7 @@
 #contributing-contributors
   = render ViewComponents::Contributing::Header.new(:contributors)
 
-  .lg-container.container
+  .lg-container.container{ data: { 'scroll-top-anchor': 'contributors-list' } }
     -# .highlights.grid-cols-1.md:grid-cols-2
       = link_to profile_path(@featured_contributor), class: "featured-contributor highlight" do
         .emoji 🚀

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useScrollToTop } from '@/hooks'
+import { scrollToTop } from '@/utils/scroll-to-top'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -47,12 +47,13 @@ export const BadgesList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
-    <article className="badges-tab theme-dark">
+    <article
+      data-scroll-top-anchor="badges-list"
+      className="badges-tab theme-dark"
+    >
       <div className="md-container container">
-        <div className="c-search-bar" ref={scrollToTopRef}>
+        <div className="c-search-bar">
           <input
             className="--search"
             onChange={(e) => {
@@ -79,7 +80,10 @@ export const BadgesList = ({
                   disabled={latestData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('badges-list')
+                  }}
                 />
               </React.Fragment>
             ) : null}

@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { useScrollToTop } from '@/hooks'
 import {
   usePaginatedRequestQuery,
   type Request as BaseRequest,
@@ -20,6 +19,7 @@ import type {
   SharePlatform,
   Testimonial,
 } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 export type PaginatedResult = DefaultPaginatedResult<Testimonial[]>
 export type Track = {
@@ -88,12 +88,10 @@ export default function TestimonialsList({
     }
   }, [setRequestCriteria, criteria])
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
     <div className="lg-container">
       <article className="content">
-        <div className="c-search-bar" ref={scrollToTopRef}>
+        <div className="c-search-bar">
           <TrackDropdown
             tracks={tracks}
             value={request.query.trackSlug || ''}
@@ -169,7 +167,10 @@ export default function TestimonialsList({
           disabled={latestData === undefined}
           current={request.query.page || 1}
           total={resolvedData.meta.totalPages}
-          setPage={setPage}
+          setPage={(p) => {
+            setPage(p)
+            scrollToTop()
+          }}
         />
       ) : null}
     </div>

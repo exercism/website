@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import pluralize from 'pluralize'
+import { scrollToTop } from '@/utils/scroll-to-top'
 import { SolutionProps, Solution } from './Solution'
-import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -96,11 +96,12 @@ export const SolutionsList = ({
     })
   }, [request.query, setQuery])
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
-    <article className="solutions-tab theme-dark">
-      <div className="c-search-bar" ref={scrollToTopRef}>
+    <article
+      data-scroll-top-anchor="solutions-list"
+      className="solutions-tab theme-dark"
+    >
+      <div className="c-search-bar">
         <div className="md-container container">
           <input
             className="--search"
@@ -151,7 +152,10 @@ export const SolutionsList = ({
                   disabled={latestData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('solutions-list')
+                  }}
                 />
               </React.Fragment>
             ) : null}

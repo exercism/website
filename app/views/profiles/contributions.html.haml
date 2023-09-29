@@ -7,7 +7,7 @@
   = render ViewComponents::Profile::Header.new(@user, @profile, :contributions)
 
   %article
-    .lg-container
+    .lg-container{ data: { 'scroll-top-anchor': 'profile-contributions' } }
       = render ReactComponents::Common::Introducer.new(:profile_contributions, "solutions") do
         %h2 Exercism is built by people like #{@user.handle} and you
         %p See #{@user.handle}'s contributions to Exercism, along with the exercises and concepts they authored for various tracks.

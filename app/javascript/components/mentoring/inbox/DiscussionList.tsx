@@ -1,10 +1,10 @@
 import React from 'react'
 import { QueryStatus } from 'react-query'
 import type { RefetchOptions } from 'react-query/types/core/query'
-import { useScrollToTop } from '@/hooks'
 import { Pagination, Loading, GraphicalIcon } from '@/components/common'
 import { Discussion } from './Discussion'
 import type { APIResponse } from '../Inbox'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 type Links = {
   queue: string
@@ -25,10 +25,6 @@ export const DiscussionList = ({
   refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
   links: Links
 }): JSX.Element => {
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(
-    resolvedData?.meta.currentPage
-  )
-
   return (
     <div>
       {status === 'loading' && <Loading />}
@@ -52,7 +48,7 @@ export const DiscussionList = ({
             </div>
           </>
         ) : (
-          <div className="--conversations" ref={scrollToTopRef}>
+          <div className="--conversations">
             {resolvedData && (
               <React.Fragment>
                 {resolvedData.results.map((discussion, key) => (
@@ -63,7 +59,10 @@ export const DiscussionList = ({
                     disabled={latestData === undefined}
                     current={resolvedData.meta.currentPage}
                     total={resolvedData.meta.totalPages}
-                    setPage={setPage}
+                    setPage={(p) => {
+                      setPage(p)
+                      scrollToTop()
+                    }}
                   />
                 </footer>
               </React.Fragment>

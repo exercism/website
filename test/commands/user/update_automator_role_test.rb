@@ -80,4 +80,28 @@ class User::UpdateAutomatorRoleTest < ActiveSupport::TestCase
     User::UpdateAutomatorRole.(non_automator, kotlin)
     refute mentorship_non_automator_kotlin.reload.automator?
   end
+
+  test "adds automator role if user and track combination in automators.json is case-insensitive" do
+    track = create :track, slug: 'ruby'
+    user = create :user, handle: 'ErikSchierboom', roles: []
+    mentorship = create(:user_track_mentorship, user:, track:)
+
+    # Same casing
+    automators = [{ "username": "ErikSchierboom", "tracks": ["ruby"] }]
+    Git::WebsiteCopy.any_instance.stubs(:automators).returns(automators)
+    User::UpdateAutomatorRole.(user, track)
+    assert mentorship.reload.automator?
+
+    # Different casing
+    automators = [{ "username": "ERIKSCHIERBOOM", "tracks": ["RUBY"] }]
+    Git::WebsiteCopy.any_instance.stubs(:automators).returns(automators)
+    User::UpdateAutomatorRole.(user, track)
+    assert mentorship.reload.automator?
+
+    # Another casing difference
+    automators = [{ "username": "ErIKSCHierBooM", "tracks": ["RuBy"] }]
+    Git::WebsiteCopy.any_instance.stubs(:automators).returns(automators)
+    User::UpdateAutomatorRole.(user, track)
+    assert mentorship.reload.automator?
+  end
 end

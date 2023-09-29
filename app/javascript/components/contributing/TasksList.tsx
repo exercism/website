@@ -169,7 +169,7 @@ export default function TasksList({
                   total={resolvedData.meta.totalPages}
                   setPage={(p) => {
                     setPage(p)
-                    scrollToTop('tasks-list')
+                    scrollToTop('tasks-list', 32)
                   }}
                 />
               </div>

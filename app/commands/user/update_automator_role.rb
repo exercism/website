@@ -21,11 +21,13 @@ class User::UpdateAutomatorRole
   def mentorship = user.track_mentorships.find_by(track:)
 
   memoize
-  def explicit? = automators.fetch(user.handle, []).include?(track.slug)
+  def explicit? = automators.fetch(user.handle.downcase, []).include?(track.slug.downcase)
 
   memoize
   def automators
-    Git::WebsiteCopy.new.automators.map { |automator| [automator[:username], automator[:tracks]] }.to_h
+    Git::WebsiteCopy.new.automators.map do |automator|
+      [automator[:username].downcase, automator[:tracks].map(&:downcase)]
+    end.to_h
   end
 
   MIN_SATISFACTION_PERCENTAGE = 95

@@ -33,11 +33,11 @@ module Components
           end
         end
 
-        test "mentor receives latest iteration via channel" do
+        test "mentor receives latest iteration via channel clicks on new then new label disappears" do
           mentor = create :user
-          student = create :user, name: "Apprentice", handle: "student", reputation: 1500, pronouns: "They/them/Their"
-          ruby = create :track, title: "Ruby"
-          running = create :concept_exercise, title: "Running", track: ruby
+          student = create :user
+          create :track
+          running = create :concept_exercise
           solution = create :concept_solution, exercise: running, user: student
           discussion = create(:mentor_discussion, solution:, mentor:)
           submission = create(:submission, solution:)
@@ -53,6 +53,8 @@ module Components
             assert_css ".c-iterations-footer"
             within(".c-iterations-footer") do
               assert_text "NEW"
+              click_on "2"
+              refute_text "NEW"
             end
           end
         end

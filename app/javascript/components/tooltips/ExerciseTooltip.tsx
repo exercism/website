@@ -31,7 +31,7 @@ const ExerciseTooltip = React.forwardRef<
           <ExerciseWidget
             exercise={data.exercise}
             solution={data.solution}
-            renderAsLink={false}
+            isStatic
           />
         ) : (
           <span>Unable to load information</span>

@@ -1,4 +1,4 @@
-/ TODO: This can be cached against track.updated_at and track.num_contributors
+-# TODO: This can be cached against track.updated_at and track.num_contributors
 
 %a{ name: "mentoring" }
 %article.mentoring-article
@@ -56,7 +56,7 @@
           - if discussion.awaiting_student?
             .--turn Your turn to respond
 
-          - if discussion.mentor_finished?
+          - if discussion.mentor_finished? || discussion.timed_out?
             .--turn Review your mentor
 
           .--comments

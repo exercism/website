@@ -3,7 +3,7 @@ class ProcessIterationForDiscussionsJob < ApplicationJob
 
   def perform(iteration)
     iteration.solution.mentor_discussions.awaiting_student.each do |discussion|
-      discussion.awaiting_mentor!
+      Mentor::Discussion::AwaitingMentor.(discussion)
 
       User::Notification::Create.(
         discussion.mentor,

@@ -38,11 +38,11 @@ class Badge::MentorBadgeTest < ActiveSupport::TestCase
     refute badge.award_to?(mentor.reload)
 
     # 10th student discussion: don't award if only finished by mentor
-    discussion.mentor_finished!
+    Mentor::Discussion::FinishByMentor.(discussion)
     refute badge.award_to?(mentor.reload)
 
     # 10th student discussion: award if finished by student
-    discussion.student_finished!
+    Mentor::Discussion::FinishByStudent.(discussion, 5)
     assert badge.award_to?(mentor.reload)
   end
 end

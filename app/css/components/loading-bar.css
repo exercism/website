@@ -1,3 +1,12 @@
+@keyframes progress0To100 {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
 .c-loading-bar {
     @apply w-100 rounded-100;
     @apply bg-veryLightBlue;

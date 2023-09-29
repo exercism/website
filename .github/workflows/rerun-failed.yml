@@ -16,7 +16,7 @@ jobs:
         id: check-opensearch
         run: |
           jobs=$(gh api ${{ github.event.workflow_run.jobs_url }})
-          failed=$(echo "${jobs}" | jq '.jobs | any(.steps | any(.name == "Wait for open search to become ready" and .conclusion == "failure"))')
+          failed=$(echo "${jobs}" | jq '.jobs | any(.steps | any((.name == "Wait for open search to become ready" or .name == "Setup Exercism services") and .conclusion == "failure"))')
           echo "failed=${failed}" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}

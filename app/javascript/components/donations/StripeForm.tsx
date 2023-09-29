@@ -13,7 +13,7 @@ export type StripeFormProps = {
   onSettled?: () => void
   userSignedIn: boolean
   captchaRequired: boolean
-  recaptchaSiteKey: string
+  recaptchaSiteKey?: string
   amount: currency
   submitButtonDisabled?: boolean
   confirmParamsReturnUrl: string
@@ -75,7 +75,7 @@ export function StripeForm({
           />
         </div>
       ) : null}
-      {captchaRequired ? (
+      {captchaRequired && recaptchaSiteKey ? (
         <div className="flex items-center mb-16">
           <ReCAPTCHA
             sitekey={recaptchaSiteKey}
@@ -101,9 +101,9 @@ export function StripeForm({
       ) : null}
 
       <PaymentElement
-        options={paymentElementOptions}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
+        options={paymentElementOptions}
         onChange={handlePaymentElementChange}
       />
       <button

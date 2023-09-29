@@ -21,7 +21,11 @@ export const GenericTooltip = (props: ExercismTippyProps): JSX.Element => {
     <ExercismTippy
       arrow={roundArrow}
       {...props}
-      content={<div className="c-generic-tooltip">{props.content}</div>}
+      content={
+        <div className={`c-generic-tooltip ${props.className}`}>
+          {props.content}
+        </div>
+      }
     />
   )
 }

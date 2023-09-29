@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback } from 'react'
+import React, { useState, createContext, useCallback, useEffect } from 'react'
 
 import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -33,9 +33,15 @@ import {
 import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
+import {
+  MentorRequestChannel,
+  ChannelResponse as MentorRequestChannelResponse,
+} from '@/channels/mentorRequestChannel'
+import { CancelledRequestModal } from './session/CancelledRequestModal'
 
 export type Links = {
   mentorDashboard: string
+  mentorQueue: string
   improveNotes: string
   mentoringDocs: string
 }
@@ -115,8 +121,28 @@ export default function Session(props: SessionProps): JSX.Element {
   })
 
   const [isLinked, setIsLinked] = useState(false)
+  const [cancelledRequestModalOpen, setCancelledRequestModalOpen] =
+    useState(false)
   const { currentIteration, handleIterationClick, handleIterationScroll } =
     useIterationScrolling({ iterations: iterations, on: isLinked })
+
+  useEffect(() => {
+    const mentorRequestChannel = new MentorRequestChannel(
+      request,
+      (response: MentorRequestChannelResponse) => {
+        if (response.mentorRequest.status === 'cancelled') {
+          setCancelledRequestModalOpen(true)
+        }
+      }
+    )
+
+    return () => {
+      mentorRequestChannel.disconnect()
+    }
+    // Only run this hook on mount, we don't want to re-establish channel connection when the request updates,
+    // because the only relevant information for this hook is the uuid of the request which should never change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="c-mentor-discussion">
@@ -234,6 +260,12 @@ export default function Session(props: SessionProps): JSX.Element {
             </TabsContext.Provider>
           </PostsWrapper>
         }
+      />
+      <CancelledRequestModal
+        open={cancelledRequestModalOpen}
+        onClose={() => setCancelledRequestModalOpen(false)}
+        links={links}
+        isLocked={request.isLocked}
       />
     </div>
   )

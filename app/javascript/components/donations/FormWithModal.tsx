@@ -1,21 +1,17 @@
 import React, { useState, useCallback } from 'react'
 import currency from 'currency.js'
 import { Request } from '@/hooks/request-query'
-import { Form } from './Form'
+import { Form, FormAmount, StripeFormLinks } from './Form'
 import SuccessModal from './SuccessModal'
 import { PaymentIntentType } from './stripe-form/useStripeForm'
-
-export type FormWithModalLinks = {
-  donate: string
-  settings: string
-}
 
 type FormWithModalProps = {
   request: Request
   userSignedIn: boolean
-  links: FormWithModalLinks
+  links: StripeFormLinks
   captchaRequired: boolean
   recaptchaSiteKey: string
+  defaultAmount?: Partial<FormAmount>
 }
 
 export default function FormWithModal({
@@ -24,6 +20,7 @@ export default function FormWithModal({
   links,
   captchaRequired,
   recaptchaSiteKey,
+  defaultAmount,
 }: FormWithModalProps): JSX.Element {
   const [paymentMade, setPaymentMade] = useState(false)
 
@@ -49,11 +46,12 @@ export default function FormWithModal({
         links={links}
         recaptchaSiteKey={recaptchaSiteKey}
         captchaRequired={captchaRequired}
+        defaultAmount={defaultAmount}
       />
       <SuccessModal
         open={paymentMade}
         amount={paymentAmount}
-        closeLink={links.donate}
+        closeLink={links.success}
       />
     </>
   )

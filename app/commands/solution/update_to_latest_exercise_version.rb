@@ -45,7 +45,7 @@ class Solution::UpdateToLatestExerciseVersion
   def rerun_tests!
     # We might have already run this when running the head test run
     # If we do, then sync the status to it
-    # (reload as submission's test run will be cached)
+    # (reload as submission's test run will be cached to nil)
     if submission.reload_test_run
       Submission::SyncTestsStatus.(submission)
     else
@@ -58,7 +58,7 @@ class Solution::UpdateToLatestExerciseVersion
 
     # We might have already run this when running the head test run
     # If we do, then sync the status to it
-    # (reload as submission's test run will be cached)
+    # (reload as submission's test run will be cached to nil)
     if submission.reload_submission_representation
       Submission::SyncRepresentationStatus.(submission)
     else

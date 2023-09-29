@@ -1,11 +1,41 @@
-@import "../styles";
+@layer base {
+    .scroll-x-editor-rhs {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
-@keyframes progress0To100 {
-    from {
-        width: 0%;
-    }
-    to {
-        width: 100%;
+        -webkit-overflow-scrolling: touch;
+
+        @apply overflow-x-auto;
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            white 20px,
+            white 95%,
+            transparent
+        );
+        @apply pl-20 pr-[5%];
+
+        &::-webkit-scrollbar {
+            @apply h-[6px];
+        }
+
+        &::-webkit-scrollbar-thumb {
+            @apply rounded-8 bg-gray;
+            --tw-bg-opacity: 0.5;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            --tw-bg-opacity: 1;
+        }
     }
 }
 
@@ -77,6 +107,7 @@
         }
 
         & .hints-btn,
+        & .help-btn,
         & .keyboard-shortcuts-btn,
         & .settings-btn,
         & .more-btn {
@@ -85,6 +116,15 @@
         }
 
         & .hints-btn {
+            @apply px-6;
+            & .c-icon {
+                filter: var(--orange-filter);
+                height: 24px;
+                width: 24px;
+            }
+        }
+
+        & .help-btn {
             @apply px-6;
             & .c-icon {
                 filter: var(--orange-filter);
@@ -104,6 +144,7 @@
         }
 
         & .hints-btn,
+        & .help-btn,
         & .keyboard-shortcuts-btn,
         & .settings-btn {
             @apply mr-24;
@@ -306,6 +347,34 @@
             #panel-instructions,
             #panel-chatgpt {
                 @apply border-t-1 border-borderColor7 pt-16;
+            }
+
+            #panel-get-help {
+                .hints {
+                    .c-textual-content {
+                        @apply mr-32;
+                    }
+                    .c-textual-content,
+                    .--summary-inner {
+                        @apply px-0 pb-0;
+                    }
+                    .--summary-inner {
+                    }
+                    .c-details {
+                        &:not([open]) {
+                            .--summary {
+                                @apply pb-0;
+                            }
+                        }
+
+                        &[open] {
+                            @apply pb-0;
+                            & .--summary {
+                                @apply pb-6;
+                            }
+                        }
+                    }
+                }
             }
 
             section.feedback-pane {

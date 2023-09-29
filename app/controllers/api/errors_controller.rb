@@ -3,7 +3,5 @@
 # config/routes allows us to quickly spot all such routing
 # errors in the logs.
 
-module API
-  class ErrorsController < BaseController
-  end
+class API::ErrorsController < API::BaseController
 end

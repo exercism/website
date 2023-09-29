@@ -1,0 +1,266 @@
+#page-tracks {
+    & header.tracks-header {
+        @apply bg-backgroundColorA;
+        & .container {
+            @apply pt-28 pb-32;
+            @apply flex flex-col items-center;
+            @apply text-center;
+        }
+
+        & .track-icons {
+            @apply relative flex mb-12;
+
+            & .c-track-icon {
+                height: 64px;
+                width: 64px;
+                margin-left: -18px;
+            }
+        }
+        & h1 {
+            @apply text-h1 mb-8;
+        }
+        & p {
+            max-width: 740px;
+        }
+    }
+
+    .tracks-list {
+        & .c-search-bar {
+            @apply bg-backgroundColorA shadow-base;
+            @apply py-12 mb-32;
+
+            & .--tag-option-list {
+                @apply absolute left-0 right-0;
+                @apply bg-backgroundColorA;
+                @apply z-dropdown;
+
+                top: 60px;
+
+                box-shadow: 0px 18px 24px rgba(var(--shadowColorMain), 0.15);
+
+                &:focus {
+                    @apply outline-none;
+                }
+
+                & .container {
+                    @apply py-24;
+                }
+
+                & .--categories {
+                    @apply flex flex-row gap-72;
+                }
+
+                & .--category {
+                    @apply flex flex-col gap-8;
+
+                    & h4 {
+                        @apply text-14 font-semibold font-mono;
+                        @apply mb-12;
+                    }
+                    & .--option {
+                        & input {
+                            @apply mr-8;
+                        }
+                    }
+                }
+                & .--buttons {
+                    @apply flex gap-16 mt-72;
+
+                    & .--apply-btn,
+                    & .--close-btn {
+                        @apply px-24 py-12 rounded-5 border-2 leading-none;
+                        @apply font-semibold;
+                    }
+
+                    & .--apply-btn {
+                        @apply text-white bg-purple border-purple;
+                    }
+
+                    & .--close-btn {
+                        @apply border-darkGray;
+                    }
+                }
+            }
+            & .--state {
+                @apply hidden items-center;
+                @apply px-20;
+                @apply rounded-5;
+                @apply mr-48;
+                background: var(--backgroundColorTracksListState);
+                height: 48px;
+
+                & p {
+                    @apply text-16 font-medium;
+                    color: var(--textColorTracksListState);
+                }
+                & .--reset-btn {
+                    @apply ml-24;
+                }
+                @apply lg:flex;
+            }
+            & .--filter-btn {
+                @apply mr-0 lg:mr-40;
+            }
+            & .c-single-select {
+                @apply hidden ml-auto lg:flex;
+            }
+        }
+        & .joined-tracks {
+            @apply mb-64;
+        }
+        & .unjoined-tracks {
+            @apply mb-40;
+        }
+        & .joined-tracks,
+        & .unjoined-tracks {
+            @apply grid gap-16 md:grid-cols-2;
+        }
+
+        & .--track {
+            @apply bg-backgroundColorA shadow-base rounded-8;
+            @apply flex items-start py-20 px-24;
+
+            &:hover {
+                @apply shadow-lgZ1 z-shadow;
+            }
+
+            & > .c-track-icon {
+                height: 80px;
+                width: 80px;
+                @apply mr-20;
+            }
+            & .--info {
+                @apply flex-grow;
+
+                & .--heading {
+                    @apply flex items-center mb-16;
+
+                    & > .c-track-icon {
+                        height: 48px;
+                        width: 48px;
+                        @apply mr-12;
+                    }
+
+                    & .--title {
+                        @apply mr-12;
+                        @apply text-h4;
+                    }
+                    & .--v3,
+                    & .--new {
+                        @apply flex items-center justify-center flex-shrink-0;
+                        @apply text-13 leading-170 font-semibold;
+                        @apply px-12 rounded-100;
+                        @apply mr-12;
+                        height: 28px;
+
+                        & .c-icon {
+                            height: 16px;
+                            width: 16px;
+                            @apply mr-8;
+                        }
+                    }
+
+                    & .--new {
+                        color: var(--textColorTracksListNew);
+                        background: var(--backgroundColorTracksListNew);
+                        border-width: 1px;
+                        & .c-icon {
+                            filter: var(--orange-filter);
+                        }
+                    }
+                    & .--v3 {
+                        @apply bg-purple text-white;
+
+                        @apply border-1;
+                        border-color: var(--borderColorTracksListV3);
+                        & .c-icon {
+                            filter: var(--dark-green-filter);
+                        }
+                    }
+
+                    & .--joined {
+                        @apply flex items-center;
+                        @apply flex-shrink-0;
+                        @apply text-14 leading-170 font-semibold;
+                        @apply ml-auto;
+                        @apply py-4 px-12 rounded-5;
+                        height: 32px;
+                        background: var(--backgroundColorTracksListJoined);
+                        color: var(--textColorTracksListJoined);
+                        & .c-icon {
+                            height: 12px;
+                            width: 12px;
+                            filter: var(--c-prominent-link-icon-filter);
+                        }
+                    }
+                }
+
+                & .--counts {
+                    @apply flex items-center mb-12;
+                    @apply font-medium text-15 leading-150;
+                    & li {
+                        @apply flex items-center;
+                        &:first-child {
+                            @apply mr-24;
+                        }
+
+                        & .c-icon {
+                            height: 21px;
+                            width: 21px;
+                            @apply mr-8;
+                            filter: var(--textColor6-filter);
+                            @apply md:mr-12;
+                        }
+                    }
+                }
+
+                & .--progress-bar {
+                    @apply mb-16;
+                    height: 6px;
+                    @apply flex flex-row;
+                    background: var(--backgroundColorI);
+                    @apply rounded-8;
+
+                    & .--fill {
+                        background: var(--fillColorProgress);
+                        @apply rounded-8;
+                        min-width: 6px;
+                        height: 100%;
+                    }
+                }
+
+                & .--tags {
+                    /* This flex behaviour and max-height combo causes
+                     * the tags to wrap but to be hidden if they overflow
+                     * one line. This means we only see whole tags on
+                     * the cards but we only ever see one row. */
+                    @apply flex flex-wrap overflow-hidden gap-8;
+                    max-height: 32px;
+
+                    & li {
+                        @apply border-borderColor7 border-1 rounded-100;
+                        @apply font-medium text-13 text-textColor6 leading-200;
+                        @apply px-12;
+                        @apply whitespace-nowrap;
+                    }
+                }
+                & .--last-touched {
+                    @apply text-textColor6 leading-170 mt-12;
+                }
+            }
+        }
+        & .empty-state {
+            @apply flex flex-col items-center;
+            @apply py-32;
+
+            & h3 {
+                @apply text-textColor6;
+            }
+            & > .c-icon {
+                height: 52px;
+                width: 60px;
+                filter: var(--textColor6-filter);
+            }
+        }
+    }
+}

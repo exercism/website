@@ -4,7 +4,6 @@ module ReactComponents
       def initialize(exercise, user_track,
                      solution: nil,
                      with_tooltip: false,
-                     render_as_link: true,
                      render_blurb: true,
                      render_track: true,
                      recommended: false,
@@ -15,7 +14,6 @@ module ReactComponents
         @user_track = user_track
         @solution = solution
         @with_tooltip = with_tooltip
-        @render_as_link = render_as_link
         @render_blurb = render_blurb
         @render_track = render_track
         @recommended = recommended
@@ -28,7 +26,6 @@ module ReactComponents
           user_track,
           solution:,
           with_tooltip:,
-          render_as_link:,
           render_blurb:,
           render_track:,
           recommended:,
@@ -39,7 +36,7 @@ module ReactComponents
       end
 
       private
-      attr_reader :exercise, :user_track, :solution, :with_tooltip, :render_as_link, :render_blurb, :render_track,
+      attr_reader :exercise, :user_track, :solution, :with_tooltip, :render_blurb, :render_track,
         :recommended, :skinny
     end
   end

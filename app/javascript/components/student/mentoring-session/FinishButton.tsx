@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { FinishMentorDiscussionModal } from '../../modals/student/FinishMentorDiscussionModal'
 import { ConfirmFinishMentorDiscussionModal } from '../../modals/student/ConfirmFinishMentorDiscussionModal'
-import { MentorDiscussion } from '../../types'
-import Mousetrap from 'mousetrap'
-
-type Links = {
-  exercise: string
-}
+import { MentorDiscussion, MentoringSessionDonation } from '../../types'
+import { DiscussionActionsLinks } from './DiscussionActions'
 
 type Status = 'initialized' | 'confirming' | 'finishing'
 
 export const FinishButton = ({
   discussion,
+  donation,
   className,
   children,
   links,
 }: React.PropsWithChildren<{
   className: string
   discussion: MentorDiscussion
-  links: Links
+  donation: MentoringSessionDonation
+  links: DiscussionActionsLinks
 }>): JSX.Element => {
   const [status, setStatus] = useState<Status>('initialized')
+
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
   return (
     <React.Fragment>
@@ -28,7 +30,7 @@ export const FinishButton = ({
         type="button"
         className={className}
         onClick={() => {
-          setStatus('confirming')
+          timedOut ? setStatus('finishing') : setStatus('confirming')
         }}
       >
         {children}
@@ -52,6 +54,7 @@ export const FinishButton = ({
         onCancel={() => {
           setStatus('initialized')
         }}
+        donation={donation}
       />
     </React.Fragment>
   )

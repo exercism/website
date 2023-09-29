@@ -197,7 +197,7 @@ class User < ApplicationRecord
 
   def pronoun_parts
     a = pronouns.to_s.split("/")
-    a.fill("", a.length...3)
+    a.size == 3 && a.exclude?('') ? a : nil
   end
 
   def pronoun_parts=(parts)
@@ -219,6 +219,11 @@ class User < ApplicationRecord
   def formatted_reputation(*args)
     rep = reputation(*args)
     User::FormatReputation.(rep)
+  end
+
+  memoize
+  def donated_in_last_35_days?
+    payments.where('created_at > ?', Time.current - 35.days).exists?
   end
 
   memoize
@@ -338,4 +343,10 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def flair = super&.to_sym
+
+  def automator?(track)
+    return true if staff?
+
+    track_mentorships.automator.where(track:).exists?
+  end
 end

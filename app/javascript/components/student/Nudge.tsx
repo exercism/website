@@ -207,7 +207,7 @@ const CompleteExerciseNudge = ({
     <section className={classNames.join(' ')}>
       <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
-        <h3>Nice, it looks like you’re done here!</h3>
+        <h3>Nice, it looks like you&apos;re done here!</h3>
         <p>
           Complete the exercise to unlock new concepts and exercises.{' '}
           <strong>

@@ -226,7 +226,7 @@ class UserTest < ActiveSupport::TestCase
   test "pronoun_parts" do
     user = create :user
     assert_nil user.pronouns
-    assert_equal ['', '', ''], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = %w[he him his]
     assert_equal "he/him/his", user.pronouns
@@ -234,19 +234,19 @@ class UserTest < ActiveSupport::TestCase
 
     user.pronoun_parts = ["she", "", "her"]
     assert_equal "she//her", user.pronouns
-    assert_equal ["she", "", "her"], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = ["they", "their", ""]
     assert_equal "they/their/", user.pronouns
-    assert_equal ["they", "their", ""], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = { 2 => "his", 0 => "he", 1 => "" }
     assert_equal "he//his", user.pronouns
-    assert_equal ["he", "", "his"], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = { '2' => "her", '0' => "she", '1' => "" }
     assert_equal "she//her", user.pronouns
-    assert_equal ["she", "", "her"], user.pronoun_parts
+    assert_nil user.pronoun_parts
   end
 
   test "dismiss_introducer!" do
@@ -453,5 +453,46 @@ class UserTest < ActiveSupport::TestCase
     user = create :user, disabled_at: Time.current
     user.email_status_invalid!
     refute user.may_receive_emails?
+  end
+
+  test "donated_in_last_35_days?" do
+    freeze_time do
+      user = create :user
+      refute user.donated_in_last_35_days?
+
+      create :payments_payment, user:, created_at: Time.current - 36.days
+      user.reload
+      refute user.donated_in_last_35_days?
+
+      create :payments_payment, user:, created_at: Time.current - 34.days
+      user.reload
+      assert user.donated_in_last_35_days?
+    end
+  end
+
+  test "automator?" do
+    track = create :track
+    user = create :user
+
+    refute user.automator?(track)
+
+    tm = create(:user_track_mentorship, user:, track:)
+    refute user.automator?(track)
+
+    # Different track
+    create :user_track_mentorship, :automator, user:, track: create(:track, :random_slug)
+    refute user.automator?(track)
+
+    tm.update!(automator: true)
+    assert user.automator?(track)
+  end
+
+  %i[admin staff].each do |role|
+    test "automator? enabled for #{role}" do
+      track = create :track
+      user = create :user, role
+
+      assert user.automator?(track)
+    end
   end
 end

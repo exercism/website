@@ -102,8 +102,7 @@ export type User = {
 }
 
 export type Exercise =
-  | (ExerciseCore & { isUnlocked: true; links: { self: string } })
-  | (ExerciseCore & { isUnlocked: false })
+  | ExerciseCore & { isUnlocked: boolean; links: { self: string } }
 
 export type Student = {
   id: number
@@ -120,6 +119,7 @@ export type Student = {
   trackObjectives: string
   numTotalDiscussions: number
   numDiscussionsWithMentor: number
+  pronouns?: string[]
   links: {
     block: string
     favorite?: string
@@ -404,7 +404,11 @@ export type MentorDiscussionStatus =
   | 'mentor_finished'
   | 'finished'
 
-export type MentorDiscussionFinishedBy = 'mentor' | 'student'
+export type MentorDiscussionFinishedBy =
+  | 'mentor'
+  | 'student'
+  | 'mentor_timed_out'
+  | 'student_timed_out'
 
 export type MentorDiscussion = {
   uuid: string
@@ -452,6 +456,32 @@ export type MentoredTrackExercise = {
   iconUrl: string
   count: number
   completedByMentor: boolean
+}
+
+export type MentoringSessionDonation = {
+  showDonationModal: boolean
+  request: {
+    endpoint: string
+    options: {
+      initialData: {
+        subscription?: {
+          provider: string
+          interval: string
+          amountInCents: string
+        }
+      }
+    }
+  }
+}
+
+export type MentoringSessionLinks = {
+  exercise: string
+  learnMoreAboutPrivateMentoring: string
+  privateMentoring: string
+  mentoringGuide: string
+  createMentorRequest: string
+  donationsSettings: string
+  donate: string
 }
 
 export type MentoredTrack = {

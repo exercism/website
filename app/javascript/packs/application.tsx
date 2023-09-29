@@ -339,7 +339,6 @@ export const mappings = {
         track={camelizeKeysAs<Track>(data.track)}
         solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
         links={data.links}
-        renderAsLink={data.render_as_link}
         renderBlurb={data.render_blurb}
         isSkinny={data.skinny}
       />

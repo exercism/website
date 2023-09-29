@@ -1,7 +1,10 @@
+- require_stylesheet "track"
+
 #page-iterations-index
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :iterations)
-  / TODO: This component needs to cope without a solution
-  / as there's often not a solution when there are no iterations
+  -#
+    TODO: This component needs to cope without a solution
+    as there's often not a solution when there are no iterations
   - if @solution
     = ReactComponents::Student::IterationsList.new(@solution)
   - else

@@ -35,7 +35,7 @@ class Iteration::Create
     return unless solution.exercise.has_test_runner?
 
     Submission::TestRun::Init.(submission) if submission.tests_not_queued?
-    Submission::Representation::Init.(submission) if solution.track.has_representer?
+    Submission::Representation::Init.(submission) if submission.representation_not_queued?
     Submission::Analysis::Init.(submission) if solution.track.has_analyzer?
   end
 

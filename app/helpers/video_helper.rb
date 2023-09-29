@@ -1,4 +1,12 @@
 module VideoHelper
+  def video_embed(type, id)
+    if type == :vimeo
+      vimeo_embed(id)
+    else
+      youtube_embed(id)
+    end
+  end
+
   def youtube_embed(id)
     src = "https://www.youtube-nocookie.com/embed/#{id}"
     tag.div class: 'c-youtube-container' do

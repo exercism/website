@@ -1,4 +1,4 @@
-class Admin::AdvertsController < ApplicationController
+class Admin::AdvertsController < Admin::BaseController
   before_action :use_partner
   before_action :use_advert, only: %i[show edit update destroy]
 

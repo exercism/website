@@ -19,7 +19,7 @@ module ViewComponents
       parts << ::Track.active.count
       parts << user_part
       parts << stripe_version
-      parts << "v1"
+      parts << "v3"
 
       parts.join(':')
     end

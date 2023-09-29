@@ -1,6 +1,16 @@
 require 'test_helper'
 
 class Submission::Representation::InitTest < ActiveSupport::TestCase
+  test "uses generic representer if the track doesn't have one" do
+    submission = create :submission
+    submission.track.stubs(has_representer?: false)
+
+    Submission::Representation::GenerateBasic.expects(:defer).with(submission)
+
+    Submission::Representation::Init.(submission)
+    assert_equal 'queued', submission.representation_status
+  end
+
   test "calls to publish_message" do
     solution = create :concept_solution
     submission = create(:submission, solution:)

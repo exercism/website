@@ -22,5 +22,7 @@ class Submission::SyncTestsStatus
     true
   end
 
-  delegate :test_run, to: :submission
+  # Get this afresh from the database - don't use reload etc
+  memoize
+  def test_run = Submission::TestRun.for!(submission)
 end

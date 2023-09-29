@@ -1,16 +1,19 @@
-/ Fallback fonts first
+-# Fallback fonts first
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-600.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 
-/ Then the main stylesheet
+-# Then the main stylesheet
 = stylesheet_link_tag "website", "data-turbo-track": "reload"
 
-/ Then other critical fonts
+-# Then any page specific stylesheets
+= yield :stylesheets
+
+-# Then other critical fonts
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-500.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 %link{ rel: "preload", href: asset_path('poppins-v20-latin-700.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 %link{ rel: "preload", href: asset_path('source-code-pro-v22-latin_latin-ext-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
 
-/ Next, setup the fallback font
+-# Next, setup the fallback font
 :css
   @font-face {
     font-display: fallback;
@@ -19,7 +22,7 @@
     src: url(#{asset_path('poppins-v20-latin-regular.woff2')}) format('woff2');
   }
 
-/ Use the 600 font-weight for 500/600/700
+-# Use the 600 font-weight for 500/600/700
 - [500, 600, 700].each do |weight|
   :css
     @font-face {
@@ -36,7 +39,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-/ Then handle JavaScript and remaining assets
+-# Then handle JavaScript and remaining assets
 
 - if landing_page?
   = javascript_include_tag('landing', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
@@ -47,11 +50,14 @@
     %link{ href: asset_path("application.js"), rel: "prefetch", as: :script }
 
 - else
-  = stylesheet_link_tag "internal", "data-turbo-track": "reload"
   = stylesheet_link_tag "application", "data-turbo-track": "reload"
   = javascript_include_tag('core', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false)
   - js_packs.each do |pack|
     = javascript_include_tag(pack, type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
+
+- if user_signed_in?
+  = stylesheet_link_tag "internal", "data-turbo-track": "reload"
+  = stylesheet_link_tag "signed-in", "data-turbo-track": "reload"
 
 - if Rails.env.production?
   %script{ async: true, src: "/usage/js/script.js", data: { domain: "exercism.org", api: "/usage/api/event" } }

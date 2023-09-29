@@ -318,6 +318,7 @@ export type Iteration = {
   isLatest: boolean
   files?: File[]
   posts?: DiscussionPostProps[]
+  new?: boolean
   links: {
     self: string
     delete: string

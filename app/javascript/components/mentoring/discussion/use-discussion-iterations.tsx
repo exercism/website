@@ -31,7 +31,11 @@ export const useDiscussionIterations = ({
   discussion?: MentorDiscussion
   iterations: readonly Iteration[]
   studentSolutionUuid: string
-}): { iterations: readonly Iteration[]; status: QueryStatus } => {
+}): {
+  iterations: readonly Iteration[]
+  status: QueryStatus
+  setIterations: React.Dispatch<React.SetStateAction<Iteration[]>>
+} => {
   const [iterationList, setIterationList] = useState<Iteration[]>(
     iterations as Iteration[]
   )
@@ -45,7 +49,7 @@ export const useDiscussionIterations = ({
       new SolutionWithLatestIterationChannel(
         { uuid: studentSolutionUuid },
         (response) => {
-          setIterationList((i) => [...i, response.iteration])
+          setIterationList((i) => [...i, { ...response.iteration, new: true }])
         }
       )
 
@@ -60,5 +64,6 @@ export const useDiscussionIterations = ({
       ? matchIterationsToPosts({ iterations: iterationList, posts: data.items })
       : iterationList,
     status: status,
+    setIterations: setIterationList,
   }
 }

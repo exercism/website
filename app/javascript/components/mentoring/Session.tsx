@@ -117,7 +117,7 @@ export default function Session(props: SessionProps): JSX.Element {
     [session]
   )
 
-  const { iterations, status } = useDiscussionIterations({
+  const { iterations, setIterations, status } = useDiscussionIterations({
     discussion: discussion,
     iterations: initialIterations,
     studentSolutionUuid,
@@ -127,7 +127,11 @@ export default function Session(props: SessionProps): JSX.Element {
   const [cancelledRequestModalOpen, setCancelledRequestModalOpen] =
     useState(false)
   const { currentIteration, handleIterationClick, handleIterationScroll } =
-    useIterationScrolling({ iterations: iterations, on: isLinked })
+    useIterationScrolling({
+      iterations: iterations,
+      on: isLinked,
+      setIterations,
+    })
 
   useEffect(() => {
     const mentorRequestChannel = new MentorRequestChannel(

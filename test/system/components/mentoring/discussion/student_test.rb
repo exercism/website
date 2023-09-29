@@ -33,6 +33,32 @@ module Components
           end
         end
 
+        test "mentor receives latest iteration via channel clicks on new then new label disappears" do
+          mentor = create :user
+          student = create :user
+          create :track
+          running = create :concept_exercise
+          solution = create :concept_solution, exercise: running, user: student
+          discussion = create(:mentor_discussion, solution:, mentor:)
+          submission = create(:submission, solution:)
+          create(:iteration, idx: 1, solution:, submission:)
+
+          use_capybara_host do
+            sign_in!(mentor)
+            visit mentoring_discussion_path(discussion)
+            sleep 1
+            create(:iteration, idx: 2, solution:)
+            SolutionWithLatestIterationChannel.broadcast!(solution)
+            wait_for_websockets
+            assert_css ".c-iterations-footer"
+            within(".c-iterations-footer") do
+              assert_text "NEW"
+              click_on "2"
+              refute_text "NEW"
+            end
+          end
+        end
+
         test "views track objectives" do
           mentor = create :user
           student = create :user, handle: "student"

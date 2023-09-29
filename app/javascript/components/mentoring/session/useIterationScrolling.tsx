@@ -7,9 +7,11 @@ export const iterationId = (iteration: Iteration): string => {
 
 export const useIterationScrolling = ({
   iterations,
+  setIterations,
   on,
 }: {
   iterations: readonly Iteration[]
+  setIterations: React.Dispatch<React.SetStateAction<Iteration[]>>
   on: boolean
 }) => {
   const [currentIteration, setCurrentIteration] = useState(
@@ -28,8 +30,18 @@ export const useIterationScrolling = ({
   )
 
   const handleIterationClick = useCallback(
-    (iteration) => {
+    (iteration: Iteration) => {
       setCurrentIteration(iteration)
+      if (iteration.new) {
+        setIterations((iters: Iteration[]) => {
+          return iters.map((iter) => {
+            if (iter.idx === iteration.idx) {
+              return { ...iter, new: false }
+            }
+            return iter
+          })
+        })
+      }
 
       if (!on) {
         return

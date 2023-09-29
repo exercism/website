@@ -31,6 +31,7 @@ module ReactComponents
               anonymous_mode: discussion&.anonymous_mode?,
               discussion:
             ),
+            student_solution_uuid: solution.uuid,
             mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
             guidance: {

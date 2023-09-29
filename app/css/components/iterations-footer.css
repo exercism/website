@@ -36,6 +36,15 @@
                 }
             }
 
+            & .new {
+                top: -12px;
+                left: 20px;
+
+                @apply absolute py-4 px-6 rounded-5;
+                @apply border-1 border-borderLight bg-yellowPrompt;
+                @apply text-darkGray text-12 font-semibold font-mono uppercase;
+            }
+
             &.active {
                 color: var(--textColorIterationActive);
                 border-color: var(--borderColorIterationActive);

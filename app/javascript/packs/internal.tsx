@@ -290,6 +290,7 @@ initReact({
         >(data.guidance)}
         outOfDate={data.out_of_date}
         downloadCommand={data.download_command}
+        studentSolutionUuid={data.student_solution_uuid}
       />
     </Suspense>
   ),

@@ -136,7 +136,7 @@ module Flows
         fill_in_editor "# Hello", within: ".comment-section"
         assert_text "This solution is locked until"
 
-        Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
+        ::Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
 
         visit current_path
 
@@ -167,7 +167,7 @@ module Flows
         fill_in_editor "# Hello", within: ".comment-section"
         assert_text "This solution is locked until"
 
-        Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
+        ::Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
         visit current_path
 
         assert_text "9 mins from now"
@@ -197,7 +197,7 @@ module Flows
         fill_in_editor "# Hello", within: ".comment-section"
         assert_text "This solution is locked until"
 
-        Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current)
+        ::Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current)
         visit current_path
 
         refute_css ".--modal-container"

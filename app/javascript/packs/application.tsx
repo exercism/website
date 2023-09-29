@@ -693,9 +693,8 @@ if (!Object.entries) {
 // Leave this code here so that we can easily add components to test during development.
 //
 
-if (process.env.NODE_ENV !== 'production') {
-  // import { CancelledRequestModal } from '../components/mentoring/session/CancelledRequestModal'
-  // const elem = <CancelledRequestModal open={true} links={ {} }/>
-  // import ReactDOM from 'react-dom'
-  // ReactDOM.render(elem, document.body)
-}
+// import { ExtendLockedUntilModal } from '../components/mentoring/request/locked-solution-mentoring-note/ExtendLockedUntilModal'
+// const elem = <ExtendLockedUntilModal open={true} />
+
+// import ReactDOM from 'react-dom'
+// ReactDOM.render(elem, document.body)

@@ -31,6 +31,23 @@ class API::Mentoring::RequestsController < API::BaseController
     }
   end
 
+  def extend_lock
+    mentor_request = Mentor::Request.find_by(uuid: params[:uuid])
+    return render_404(:mentor_request_not_found) unless mentor_request
+
+    lock = Mentor::RequestLock.find_by(request_id: mentor_request.id)
+    lock.extend!
+    # TODO: Catch raised exception from out of date lock and return accordingly
+
+    render json: {
+      mentor_request_lock: {
+        locked_until: lock.locked_until
+      }
+    }
+  rescue RequestLockHasExpired
+    render json: { error: "Lock has expired" }, status: :unprocessable_entity
+  end
+
   def cancel
     mentor_request = current_user.solution_mentor_requests.find_by(uuid: params[:uuid])
     return render_404(:mentor_request_not_found) unless mentor_request

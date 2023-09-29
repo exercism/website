@@ -78,60 +78,130 @@ module Flows
       end
     end
 
-    test "student cancels mentor request before locking" do
-      mentor = create :user, handle: "mentor"
+    test "mentor sees locked until information before sending first message" do
+      mentor = create :user, handle: "author"
       student = create :user, handle: "student"
       solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
       submission = create(:submission, solution:)
-      create(:submission_file, submission:)
-      create(:iteration, submission:)
-
-      request = create :mentor_request, :pending, solution:, comment_markdown: "How to do this?"
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
       use_capybara_host do
         sign_in!(mentor)
         visit mentoring_request_path(request)
-        sleep(1) # Let the page load before we fire the websocket
-
-        ::Mentor::Request::Cancel.(request)
-        wait_for_websockets
-
-        assert_text "Mentoring request cancelled"
-        assert_text "Back to mentor requests"
-        refute_text "Close this modal"
-
-        click_on "Back to mentor requests"
-        assert_text "Queue"
-      end
-    end
-
-    test "student cancels mentor request after locking" do
-      mentor = create :user, handle: "mentor"
-      student = create :user, handle: "student"
-      solution = create :concept_solution, user: student
-      submission = create(:submission, solution:)
-      create(:submission_file, submission:)
-      create(:iteration, submission:)
-
-      request = create :mentor_request, :pending, solution:, comment_markdown: "How to do this?"
-
-      use_capybara_host do
-        sign_in!(mentor)
-        visit mentoring_request_path(request)
-        sleep(1) # Let the page load before we fire the websocket
 
         click_on "Start mentoring"
         fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+      end
+    end
 
-        ::Mentor::Request::Cancel.(request)
-        wait_for_websockets
+    test "mentor does not see locked until information after sending first message" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
 
-        assert_text "Mentoring request cancelled"
-        assert_text "Back to mentor requests"
-        assert_text "Close this modal"
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
 
-        click_on "Back to mentor requests"
-        assert_text "Queue"
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        click_on "Send"
+
+        wait_for_redirect
+        assert_css "img[src='#{mentor.avatar_url}']"
+        assert_text "author"
+        assert_text "Hello"
+        refute_text "This solution is locked until"
+      end
+    end
+
+    test "mentor sees extend lock modal and extends locked until" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+
+        ::Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
+
+        visit current_path
+
+        assert_text "9 mins from now"
+        assert_css ".--modal-container"
+        assert_text "Mentor Lock close to expiring"
+        assert_text "You only have 9 minutes remaining to submit your comment"
+        assert_text "Yes, extend for 30 minutes"
+        assert_text "No, thank you"
+        click_on "Yes, extend for 30 minutes"
+        assert_text "29 mins from now"
+      end
+    end
+
+    test "mentor sees extend lock modal and does not extend locked until" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+
+        ::Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current + 10.minutes)
+        visit current_path
+
+        assert_text "9 mins from now"
+        assert_css ".--modal-container"
+        assert_text "Mentor Lock close to expiring"
+        assert_text "You only have 9 minutes remaining to submit your comment"
+        assert_text "Yes, extend for 30 minutes"
+        assert_text "No, thank you"
+        click_on "No, thank you"
+        assert_text "9 mins from now"
+      end
+    end
+
+    test "mentor sees the lock is expired" do
+      mentor = create :user, handle: "author"
+      student = create :user, handle: "student"
+      solution = create :concept_solution, user: student
+      request = create :mentor_request, solution:, comment_markdown: "How to do this?"
+      submission = create(:submission, solution:)
+      create(:iteration, idx: 1, solution:, created_at: Date.new(2016, 12, 25), submission:)
+
+      use_capybara_host do
+        sign_in!(mentor)
+        visit mentoring_request_path(request)
+
+        click_on "Start mentoring"
+        fill_in_editor "# Hello", within: ".comment-section"
+        assert_text "This solution is locked until"
+
+        ::Mentor::RequestLock.find_by(request_id: request.id).update!(locked_until: Time.current)
+        visit current_path
+
+        refute_css ".--modal-container"
+        assert_text "This solution is no longer locked"
       end
     end
 

@@ -98,7 +98,10 @@ export function ExerciseCommunitySolutionsList({
   )
 
   return (
-    <div className="lg-container c-community-solutions-list">
+    <div
+      data-scroll-top-anchor="exercise-community-solutions-list"
+      className="lg-container c-community-solutions-list"
+    >
       {resolvedData ? (
         <h2>
           {resolvedData.meta.unscopedTotal}{' '}
@@ -200,7 +203,7 @@ export function ExerciseCommunitySolutionsList({
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {
                   setPage(p)
-                  scrollToTop()
+                  scrollToTop('exercise-community-solutions-list', 32)
                 }}
               />
             </React.Fragment>

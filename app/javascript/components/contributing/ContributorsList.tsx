@@ -130,7 +130,7 @@ export default function ContributorsList({
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {
                   setPage(p)
-                  scrollToTop('contributors-list')
+                  scrollToTop('contributors-list', 32)
                 }}
               />
             </>

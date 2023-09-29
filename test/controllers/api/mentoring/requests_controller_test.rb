@@ -120,7 +120,11 @@ class API::Mentoring::RequestsControllerTest < API::BaseTestCase
       assert_response :ok
       assert request.reload.locked?
 
-      assert Mentor::RequestLock.where(request:, locked_until: 60.minutes.from_now).exists?
+      assert Mentor::RequestLock.where(request:, locked_until: 30.minutes.from_now).exists?
+
+      travel 10.minutes
+
+      assert Mentor::RequestLock.where(request:, locked_until: 20.minutes.from_now).exists?
 
       patch extend_lock_api_mentoring_request_path(request.uuid), headers: @headers, as: :json
 

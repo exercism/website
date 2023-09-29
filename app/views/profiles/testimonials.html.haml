@@ -6,7 +6,7 @@
   = render ViewComponents::Profile::Header.new(@user, @profile, :testimonials)
 
   %article
-    .lg-container
+    .lg-container{ data: { 'scroll-top-anchor': 'profile-testimonials' } }
       = render ReactComponents::Common::Introducer.new(:profile_testimonials, "badges") do
         %h2 Exercism mentors receive testimonials for outstanding mentoring
         %p Students leave testimonials for mentors that have helped them on their learning journey. Small tokens of thanks that make a huge difference.

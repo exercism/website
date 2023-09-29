@@ -70,7 +70,7 @@ export default function TestimonialsList({
               total={resolvedData.meta.totalPages}
               setPage={(p) => {
                 setPage(p)
-                scrollToTop()
+                scrollToTop('profile-testimonials', 32)
               }}
             />
           </>

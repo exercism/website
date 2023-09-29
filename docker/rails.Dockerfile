@@ -28,7 +28,10 @@ RUN gem install nokogiri -v 1.14.2 && \
 COPY Gemfile Gemfile.lock ./
 RUN bundle config set deployment 'true' && \
     bundle config set without 'development test' && \
-    bundle install
+    bundle install && \
+    grpc_path="$(bundle show --paths grpc)/src/ruby/ext/grpc" && \
+    make -C "${grpc_path}" clean && \
+    rm -rf "${grpc_path}/libs" "${grpc_path}/objs"
 
 # Only package.json and yarn.lock changes require a new yarn install
 COPY package.json yarn.lock ./

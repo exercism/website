@@ -2,57 +2,56 @@ require "test_helper"
 
 class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
   test "indexes representation" do
-    skip
-    user = create :user, id: 7, handle: 'jane'
     track = create :track, id: 11, slug: 'fsharp', title: 'F#'
     exercise = create(:practice_exercise, id: 13, slug: 'bob', title: 'Bob', track:)
-    solution = create :practice_solution,
-      id: 17,
-      num_stars: 3,
-      num_loc: 55,
-      num_views: 20,
-      num_comments: 2,
-      user:,
-      exercise:,
-      published_iteration_head_tests_status: :failed
-    submission = create :submission, solution:, tests_status: :passed
-    create :submission_file, submission:, content: "module LogLineParser"
-    iteration = create(:iteration, submission:)
+    content = "module LogLineParser"
+    num_published_solutions = 20
+    reputation = 1234
+    num_loc = 42
 
-    solution.update!(
-      published_iteration: iteration,
-      published_at: Time.parse("2020-10-17T02:39:37.000Z").utc,
-      last_iterated_at: Time.parse("2021-02-22T11:22:33.000Z").utc
+    solutions = Array.new(2).map do
+      create(:practice_solution, :published, published_iteration_head_tests_status: :passed).tap do |solution|
+        submission = create(:submission, solution:)
+        create(:iteration, submission:)
+      end
+    end
+
+    oldest_solution = solutions.first
+    oldest_solution.update(num_loc:)
+    prestigious_solution = solutions.second
+    prestigious_solution.user.update(reputation:)
+
+    source_submission = create(:submission)
+    create(:submission_file, submission: source_submission, content:)
+
+    representation = create(
+      :exercise_representation,
+      exercise:,
+      num_published_solutions:,
+      source_submission:,
+      oldest_solution:,
+      prestigious_solution:
     )
 
-    Solution::SyncToSearchIndex.(solution)
+    Exercise::Representation::SyncToSearchIndex.(representation)
 
-    doc = get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
+    doc = get_opensearch_doc(Exercise::Representation::OPENSEARCH_INDEX, representation.id)
     expected = {
-      "_index" => "test-solutions",
-      "_id" => "17",
+      "_index" => "test-exercise-representation",
+      "_id" => representation.id.to_s,
       "found" => true,
       "_source" => {
-        "id" => 17,
-        "last_iterated_at" => "2021-02-22T11:22:33.000Z",
-        "published_at" => "2020-10-17T02:39:37.000Z",
-        "num_stars" => 3,
-        "num_loc" => 55,
-        "num_comments" => 2,
-        "num_views" => 20,
-        "out_of_date" => false,
-        "status" => "published",
-        "mentoring_status" => "none",
-        "exercise" => {
-          "id" => 13,
-          "slug" => "bob",
-          "title" => "Bob"
-        },
-        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" },
-        "user" => { "id" => 7, "handle" => "jane" },
-        "published_iteration" => { "tests_status" => "passed", "head_tests_status" => "failed", "code" => ["module LogLineParser"] },
-        "latest_iteration" => { "tests_status" => "passed", "head_tests_status" => "not_queued", "code" => ["module LogLineParser"] }
+        "id" => representation.id,
+        "oldest_solution_id" => oldest_solution.id,
+        "prestigious_solution_id" => prestigious_solution.id,
+        "num_loc" => num_loc,
+        "num_solutions" => num_published_solutions,
+        "max_reputation" => reputation,
+        "code" => ["module LogLineParser"],
+        "exercise" => { "id" => 13, "slug" => "bob", "title" => "Bob" },
+        "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" }
       }
+
     }
     assert_equal expected, doc.except("_version", "_seq_no", "_primary_term")
   end

@@ -52,8 +52,7 @@
             in
             = link_to @track.title, @track
 
-      .decorations.hidden.lg:block
-      .buttons.lg:ml-96.mt-24.lg:mt-0
+      .buttons.lg:ml-auto.mt-24.lg:mt-0
         = render ViewComponents::CommunitySolutions::ShareSolutionButton.new(@solution)
 
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
@@ -105,7 +104,9 @@
               .text-15 First submitted
 
             .flex.flex-col
-              .text-20.font-medium.mb-8= number_with_delimiter(@exercise_representation.max_reputation)
+              .text-20.font-medium.mb-8.flex.items-center.justify-center
+                = icon "reputation", "Reputation", css_class: "w-[16px] h-[16px] mr-6"
+                = number_with_delimiter(@exercise_representation.max_reputation)
               .text-15 Highest rep user
 
       .about

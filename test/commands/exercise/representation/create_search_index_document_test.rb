@@ -9,6 +9,7 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
     end
   end
 
+<<<<<<< HEAD
   test "raises if not published" do
     representation = create(:exercise_representation)
     solution = create :practice_solution, published_exercise_representation: representation,
@@ -132,6 +133,8 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
     create(:submission_file, submission:)
     create(:iteration, submission:)
 
+    representation.update!(oldest_solution: solution_1, prestigious_solution: solution_1)
+
     assert_raises NoPublishedSolutionForRepresentationError do
       Exercise::Representation::CreateSearchIndexDocument.(representation)
     end
@@ -197,5 +200,57 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
 
     actual_tags = Exercise::Representation::CreateSearchIndexDocument.(representation)[:tags]
     assert_equal submission_3_tags, actual_tags
+
+  test "indexes representation" do
+    content = "CONTENT!!"
+    num_published_solutions = 20
+    reputation = 1234
+    num_loc = 42
+
+    solutions = Array.new(2).map do
+      create(:practice_solution, :published, published_iteration_head_tests_status: :passed).tap do |solution|
+        submission = create(:submission, solution:)
+        create(:iteration, submission:)
+      end
+    end
+
+    oldest_solution = solutions.first
+    oldest_solution.update(num_loc:)
+    prestigious_solution = solutions.second
+    prestigious_solution.user.update(reputation:)
+
+    source_submission = create(:submission)
+    create(:submission_file, submission: source_submission, content:)
+
+    representation = create(
+      :exercise_representation,
+      num_published_solutions:,
+      source_submission:,
+      oldest_solution:,
+      prestigious_solution:
+    )
+
+    expected = {
+      id: representation.id,
+      oldest_solution_id: oldest_solution.id,
+      prestigious_solution_id: prestigious_solution.id,
+      num_loc:,
+      num_solutions: num_published_solutions,
+      max_reputation: reputation,
+      code: [content],
+      exercise: {
+        id: representation.exercise.id,
+        slug: representation.exercise.slug,
+        title: representation.exercise.title
+      },
+      track: {
+        id: representation.track.id,
+        slug: representation.track.slug,
+        title: representation.track.title
+      }
+    }
+
+    assert_equal expected, Exercise::Representation::CreateSearchIndexDocument.(representation)
+>>>>>>> 3c46403c6 (Refactor)
   end
 end

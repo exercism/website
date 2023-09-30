@@ -28,6 +28,9 @@ class User::Challenges::FeaturedExercisesProgress12In23
   SEPTEMBER_TRACKS = %w[8th awk bash jq perl5 raku].freeze
   SEPTEMBER_EXERCISES = %w[atbash-cipher darts gigasecond luhn series].freeze
 
+  OCTOBER_TRACKS = %w[crystal csharp java pharo-smalltalk ruby powershell].freeze
+  OCTOBER_EXERCISES = %w[binary-search-tree circular-buffer clock matrix simple-cipher].freeze
+
   def call
     exercises = self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
       next unless solutions.key?(exercise_slug)
@@ -56,7 +59,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       JUNE_EXERCISES.map { |e| [e, JUNE_TRACKS] } +
       JULY_EXERCISES.map { |e| [e, JULY_TRACKS] } +
       AUGUST_EXERCISES.map { |e| [e, AUGUST_TRACKS] } +
-      SEPTEMBER_EXERCISES.map { |e| [e, SEPTEMBER_TRACKS] }
+      SEPTEMBER_EXERCISES.map { |e| [e, SEPTEMBER_TRACKS] } +
+      OCTOBER_EXERCISES.map { |e| [e, OCTOBER_TRACKS] }
     ).to_h
   end
 

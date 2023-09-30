@@ -56,6 +56,9 @@ class Exercise::Representation < ApplicationRecord
 
   def appears_frequently? = num_submissions >= APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
 
+  def first_submitted_at = Time.current - 1.year
+  def max_reputation = 23_411
+
   APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS = 5
   private_constant :APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
 end

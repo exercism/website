@@ -104,11 +104,7 @@ export function ExerciseCommunitySolutionsList({
       className="lg-container c-community-solutions-list"
     >
       {resolvedData ? (
-        <h2>
-          {resolvedData.meta.unscopedTotal}{' '}
-          {pluralize('person', resolvedData.meta.unscopedTotal)} published
-          solutions
-        </h2>
+        <h2>Explore {resolvedData.meta.unscopedTotal} unique solutions</h2>
       ) : null}
       <div className="c-search-bar md:flex-row flex-col">
         <input

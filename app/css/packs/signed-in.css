@@ -44,7 +44,6 @@
 @import "../components/mentor-track-selector";
 
 /* Mentoring + Editor */
-@import "../components/code-pane";
 @import "../components/discussion-timeline";
 
 /* Mentoring + Editor + Track */

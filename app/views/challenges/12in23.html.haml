@@ -132,18 +132,24 @@
             %p.text-p-base.mb-12
               At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
 
-              Each valid exercise will be shown below.
-              Find the full list of rules and exercises in
-              #{link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'}.
+              Hover over the exercises below or view
+              = link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'
+              for more details.
 
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
                 Published Exercises
                 .inline.text-14 (#{@badge_progress_exercises.size} / #{@badge_progress_exercise_count} so far)
               .grid.grid-cols-6.gap-12
-                - @badge_progress_exercises.each do |track_slug, exercise_slug|
-                  = link_to track_exercise_path(track_slug, exercise_slug) do
-                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-[48px]"
+                - @featured_exercises.each do |exercise_slug, track_slugs|
+                  - earned_for = track_slugs.find { |ts| !!@badge_progress_exercises.include?([ts, exercise_slug]) }
+
+                  - if earned_for
+                    = link_to track_exercise_path(earned_for, exercise_slug), class: "relative block" do
+                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-100"
+                      = icon "completed-check-circle", "Completed", css_class: "w-[16px] !absolute right-[2px] top-[2px]"
+                  - else
+                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-100 opacity-[0.7] grayscale", title: "Solve #{exercise_slug} in #{track_slugs.to_sentence(last_word_connector: ', or ', two_words_connector: ', or ')}"
             - else
               %h2.text-h6.mt-20 You've not yet submitted any valid solutions.
 

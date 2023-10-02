@@ -131,8 +131,8 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     solution_3.update(published_exercise_representation: representation_1)
 
     # Sanity check
-    Exercise::Representation::UpdatePublishedSolutions.(representation_1)
-    Exercise::Representation::UpdatePublishedSolutions.(representation_2)
+    Exercise::Representation::Recache.(representation_1)
+    Exercise::Representation::Recache.(representation_2)
     assert_equal 2, representation_1.num_published_solutions
     assert_equal 1, representation_2.num_published_solutions
 

@@ -8,6 +8,7 @@ import { Iteration, SolutionForStudent } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
+import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
 
 const DEFAULT_ERROR = new Error('Unable to change published iteration')
 export type RedirectType = 'public' | 'private'
@@ -59,17 +60,12 @@ export const ChangePublishedIterationModal = ({
     [mutation]
   )
 
+  const ariaObject = generateAriaFieldIds('change-published-iteration')
+
   return (
-    <Modal
-      aria={{
-        modal: true,
-        labelledby: 'change-published-iteration-label',
-        describedby: 'change-published-iteration-description',
-      }}
-      {...props}
-    >
-      <h3 id="change-published-iteration-label">Change published iterations</h3>
-      <p id="change-published-iteration-description">
+    <Modal aria={ariaObject} {...props}>
+      <h3 id={ariaObject.labelledby}>Change published iterations</h3>
+      <p id={ariaObject.describedby}>
         We recommend publishing all iterations to help others learn from your
         journey, but you can also choose just your favourite iteration to
         showcase instead.

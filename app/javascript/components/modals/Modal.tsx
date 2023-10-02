@@ -39,14 +39,13 @@ export function Modal({
 
   return (
     <ReactModal
-      aria={aria}
-      ariaHideApp={process.env.NODE_ENV !== 'test'}
+      aria={{ modal: true, ...aria }}
+      ariaHideApp={false}
       isOpen={open}
       onRequestClose={onClose}
       shouldCloseOnOverlayClick={!closeButton}
       className={`--modal-content ${ReactModalClassName}`}
       overlayClassName={overlayClassNames.join(' ')}
-      appElement={document.querySelector('body') as HTMLElement}
       overlayElement={(props, contentElement) => (
         <div {...props}>
           <Wrapper

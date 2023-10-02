@@ -11,8 +11,8 @@ class Exercise::Representation::SyncToSearchIndex
     else
       create_document!
     end
-    # rescue NoPublishedSolutionForRepresentationError
-    #   delete_document!
+  rescue NoPublishedSolutionForRepresentationError
+    delete_document!
   end
 
   private

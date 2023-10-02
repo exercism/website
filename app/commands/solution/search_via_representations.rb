@@ -29,7 +29,7 @@ class Solution::SearchViaRepresentations
       allow_partial_search_results: false
     )
 
-    solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["oldest_solution_id"] }
+    solution_ids = results["hits"]["hits"].map { |hit| hit["_source"]["#{featured_solution_type}_solution_id"] }
     solutions = solution_ids.present? ?
       Solution.where(id: solution_ids).sort_by { |s| solution_ids.index(s.id) } :
       []
@@ -52,13 +52,15 @@ class Solution::SearchViaRepresentations
       sort: search_sort,
 
       # Only return the solution IDs, not the entire document, to improve performance
-      _source: [:oldest_solution_id],
+      _source: ["#{featured_solution_type}_solution_id"],
 
       # Paging information
       from:,
       size: per
     }
   end
+
+  def featured_solution_type = order == :highest_reputation ? :prestigious : :oldest
 
   memoize
   def from

@@ -198,6 +198,3 @@ You need to run and set `solargraph.useBundler` to `true` in your config. I have
 
 - `bundle exec yard gems`
 - `solargraph bundle`
-
-- Ordering by oldest/newest should always return oldest_solutions
-- Ordering by reputation should always return prestigous solutions

@@ -40,6 +40,7 @@ export function Modal({
   return (
     <ReactModal
       aria={{ modal: true, ...aria }}
+      role="dialog"
       ariaHideApp={false}
       isOpen={open}
       onRequestClose={onClose}

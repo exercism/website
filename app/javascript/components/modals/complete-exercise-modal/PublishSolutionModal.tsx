@@ -23,7 +23,6 @@ export const PublishSolutionModal = ({
     <Modal
       cover={true}
       open={open}
-      role="dialog"
       aria={ariaObject}
       className="m-publish-exercise"
       closeButton

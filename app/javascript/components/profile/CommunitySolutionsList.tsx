@@ -39,7 +39,7 @@ export default function CommunitySolutionsList({
     setOrder,
     setQuery,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const { status, resolvedData, latestData, isFetching, error } =
     usePaginatedRequestQuery<
       PaginatedResult<CommunitySolutionProps[]>,
@@ -58,7 +58,8 @@ export default function CommunitySolutionsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
+      if (criteria !== undefined && criteria !== null)
+        setRequestCriteria(criteria)
     }, 200)
 
     return () => {

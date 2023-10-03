@@ -34,7 +34,7 @@ export default ({
     setCriteria: setRequestCriteria,
     setQuery,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
   const { resolvedData, isError, isFetching } =
     usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
@@ -63,6 +63,7 @@ export default ({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -80,7 +81,7 @@ export default ({
             placeholder="Search language tracks"
             className="--search"
             onChange={(e) => setCriteria(e.target.value)}
-            value={criteria}
+            value={criteria || ''}
           />
           <TagsFilter
             setTags={setTags}

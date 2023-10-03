@@ -141,15 +141,13 @@
                 Published Exercises
                 .inline.text-14 (#{@badge_progress_exercises.size} / #{@badge_progress_exercise_count} so far)
               .grid.grid-cols-6.gap-12
-                - @featured_exercises.each do |exercise_slug, track_slugs|
-                  - earned_for = track_slugs.find { |ts| !!@badge_progress_exercises.include?([ts, exercise_slug]) }
-
-                  - if earned_for
-                    = link_to track_exercise_path(earned_for, exercise_slug), class: "relative block" do
-                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-100"
+                - @badge_progress_exercises.each do |exercise_progress|
+                  - if exercise_progress[:earned_for].present?
+                    = link_to track_exercise_path(exercise_progress[:earned_for], exercise_progress[:slug]), class: "relative block" do
+                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100"
                       = icon "completed-check-circle", "Completed", css_class: "w-[16px] !absolute right-[2px] top-[2px]"
                   - else
-                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_slug}.svg", class: "w-100 opacity-[0.7] grayscale", title: "Solve #{exercise_slug} in #{track_slugs.to_sentence(last_word_connector: ', or ', two_words_connector: ', or ')}"
+                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100 opacity-[0.7] grayscale", title: "Solve #{exercise_progress[:slug]} in #{exercise_progress[:track_slugs].to_sentence(last_word_connector: ', or ', two_words_connector: ', or ')}"
             - else
               %h2.text-h6.mt-20 You've not yet submitted any valid solutions.
 

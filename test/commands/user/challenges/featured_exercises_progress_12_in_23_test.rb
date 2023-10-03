@@ -14,11 +14,12 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
 
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
 
-    expected = [
-      [nim.slug, nim_exercise.slug],
-      [prolog.slug, prolog_exercise.slug]
-    ]
-    assert_equal expected, progress
+    expected_sieve = { slug: 'sieve', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_equal expected_sieve, (progress.find { |exercise_progress| exercise_progress[:slug] == 'sieve' })
+
+    expected_raindrops = { slug: 'raindrops', earned_for: 'prolog',
+                           track_slugs: %w[ballerina pharo-smalltalk prolog red rust tcl unison] }
+    assert_equal expected_raindrops, (progress.find { |exercise_progress| exercise_progress[:slug] == 'raindrops' })
   end
 
   test "returns single result per exercise" do
@@ -34,8 +35,8 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
 
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
 
-    expected = [[nim.slug, nim_exercise.slug]]
-    assert_equal expected, progress
+    expected = { slug: 'sieve', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_equal expected, (progress.find { |exercise_progress| exercise_progress[:slug] == 'sieve' })
   end
 
   test "ignore invalid track/exercise combination" do
@@ -46,7 +47,8 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
 
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
 
-    assert_empty progress
+    expected = { slug: 'sieve', earned_for: nil, track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_equal expected, (progress.find { |exercise_progress| exercise_progress[:slug] == 'sieve' })
   end
 
   test "include exercise if not published in 2023 and published for all featured tracks before 2023 " do
@@ -59,21 +61,26 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
     r_exercise_etl = create :practice_exercise, slug: 'etl', track: r
 
     # Sanity check
-    assert_empty User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    expected = { slug: 'etl', earned_for: nil, track_slugs: %w[julia python r] }
+    assert_equal expected, (progress.find { |exercise_progress| exercise_progress[:slug] == 'etl' })
 
     # Sanity check
     create :practice_solution, :published, user:, exercise: julia_exercise_etl, published_at: Time.utc(2021, 2, 7)
-    assert_empty User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    expected = { slug: 'etl', earned_for: nil, track_slugs: %w[julia python r] }
+    assert_equal expected, (progress.find { |exercise_progress| exercise_progress[:slug] == 'etl' })
 
     # Sanity check
     create :practice_solution, :published, user:, exercise: python_exercise_etl, published_at: Time.utc(2021, 12, 30)
-    assert_empty User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    expected = { slug: 'etl', earned_for: nil, track_slugs: %w[julia python r] }
+    assert_equal expected, (progress.find { |exercise_progress| exercise_progress[:slug] == 'etl' })
 
     create :practice_solution, :published, user:, exercise: r_exercise_etl, published_at: Time.utc(2018, 8, 8)
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
-
-    expected = [[julia.slug, julia_exercise_etl.slug]]
-    assert_equal expected, progress
+    expected = { slug: 'etl', earned_for: 'julia', track_slugs: %w[julia python r] }
+    assert_equal expected, (progress.find { |exercise_progress| exercise_progress[:slug] == 'etl' })
   end
 
   test "don't double count linked-list and simple-linked-list exercises" do
@@ -91,19 +98,28 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
       published_at: Time.utc(2023, 3, 17)
 
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
-    assert_equal [[nim.slug, linked_list_exercise.slug]], progress
+    expected_linked_list = { slug: 'linked-list', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_equal expected_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
+    assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
 
     simple_linked_list_solution = create :practice_solution, :published, user:, exercise: simple_linked_list_exercise,
       published_at: Time.utc(2023, 3, 24)
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
-    assert_equal [[nim.slug, linked_list_exercise.slug]], progress
+    expected_linked_list = { slug: 'linked-list', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_equal expected_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
+    assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
 
     linked_list_solution.update(published_at: nil)
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
-    assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
+    expected_simple_linked_list = { slug: 'simple-linked-list', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
+    assert_equal expected_simple_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
 
     simple_linked_list_solution.update(published_at: nil)
-    assert_empty User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
+    expected_linked_list = { slug: 'linked-list', earned_for: nil, track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_equal expected_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
+    assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
 
     Solution.destroy_all
 
@@ -113,7 +129,9 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
     create :practice_solution, :published, user:, exercise: linked_list_exercise_kotlin,
       published_at: Time.utc(2023, 3, 24)
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
-    assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
+    expected_simple_linked_list = { slug: 'simple-linked-list', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
+    assert_equal expected_simple_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
 
     Solution.destroy_all
 
@@ -123,6 +141,8 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
     create :practice_solution, :published, user:, exercise: linked_list_exercise_go,
       published_at: Time.utc(2022, 3, 24)
     progress = User::Challenges::FeaturedExercisesProgress12In23.(user.reload)
-    assert_equal [[nim.slug, simple_linked_list_exercise.slug]], progress
+    expected_simple_linked_list = { slug: 'simple-linked-list', earned_for: 'nim', track_slugs: %w[c cpp d nim go rust vlang zig] }
+    assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
+    assert_equal expected_simple_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
   end
 end

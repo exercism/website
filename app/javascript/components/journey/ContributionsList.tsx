@@ -39,7 +39,7 @@ export function ContributionsList({
     setCriteria: setRequestCriteria,
     setQuery,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     'contributions-list',
     request.endpoint,
@@ -62,6 +62,7 @@ export function ContributionsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -84,7 +85,7 @@ export function ContributionsList({
             onChange={(e) => {
               setCriteria(e.target.value)
             }}
-            value={criteria}
+            value={criteria || ''}
             placeholder="Search by contribution name"
           />
           <CategorySelect

@@ -77,7 +77,7 @@ export function useVideoGrid(
     }
 
     const handler = setTimeout(() => {
-      if (criteria === undefined && criteria === null) return
+      if (criteria === undefined || criteria === null) return
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
         setQuery({ ...request.query, criteria })

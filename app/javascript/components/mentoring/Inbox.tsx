@@ -68,8 +68,8 @@ export default function Inbox({
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (criteria !== undefined && criteria !== null)
-        setRequestCriteria(criteria)
+      if (criteria === undefined || criteria === null) return
+      setRequestCriteria(criteria)
     }, 200)
 
     return () => {

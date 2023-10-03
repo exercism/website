@@ -144,7 +144,7 @@
                 - @badge_progress_exercises.each do |exercise_progress|
                   - if exercise_progress[:earned_for].present?
                     = link_to track_exercise_path(exercise_progress[:earned_for], exercise_progress[:slug]), class: "relative block" do
-                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100"
+                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100", title: "Solved in #{exercise_progress[:earned_for]}"
                       = icon "completed-check-circle", "Completed", css_class: "w-[16px] !absolute right-[2px] top-[2px]"
                   - else
                     = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100 opacity-[0.7] grayscale", title: "Solve #{exercise_progress[:slug]} in #{exercise_progress[:track_slugs].to_sentence(last_word_connector: ', or ', two_words_connector: ', or ')}"

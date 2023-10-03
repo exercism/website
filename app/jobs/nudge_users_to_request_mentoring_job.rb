@@ -21,14 +21,14 @@ class NudgeUsersToRequestMentoringJob < ApplicationJob
       # Just the user ids
       distinct.pluck('solutions.user_id')
 
+    # Not for users who have mentor requests
+    being_mentored_subquery_sql = Mentor::Request.where('student_id = users.id').select('1').to_sql
+
     user_ids.in_groups_of(100) do |batch|
-      User.find(batch).each do |user|
+      User.where(id: batch).where("NOT EXISTS (#{being_mentored_subquery_sql})").each do |user|
         track = PracticeSolution.where(user:).where.not(status: :started).
           joins(:exercise).where.not('exercises.slug': 'hello-world').
           last.track
-
-        # Not for users who have mentor requests
-        next if Mentor::Request.where(student_id: user.id).exists?
 
         User::Notification::Create.(
           user,

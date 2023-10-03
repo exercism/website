@@ -55,7 +55,7 @@ export const SearchableList = <
     setQuery,
     setOrder,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     cacheKeyPrefix,
     request.endpoint,
@@ -78,7 +78,8 @@ export const SearchableList = <
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
+      if (criteria !== undefined && criteria !== null)
+        setRequestCriteria(criteria)
     }, 200)
 
     return () => {
@@ -96,7 +97,7 @@ export const SearchableList = <
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={criteria}
+          value={criteria || ''}
           placeholder={placeholder}
         />
         <FilterPanel

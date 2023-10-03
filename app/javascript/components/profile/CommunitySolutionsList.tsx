@@ -85,7 +85,7 @@ export default function CommunitySolutionsList({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={criteria}
+          value={criteria || ''}
           placeholder="Filter by exercise"
         />
         <OrderSelect

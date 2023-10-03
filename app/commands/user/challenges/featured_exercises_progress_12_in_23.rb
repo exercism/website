@@ -33,15 +33,17 @@ class User::Challenges::FeaturedExercisesProgress12In23
 
   def call
     exercises = self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
-      next unless solutions.key?(exercise_slug)
+      next { slug: exercise_slug, earned_for: nil, track_slugs: } unless solutions.key?(exercise_slug)
 
       solved_in_featured_tracks = solutions[exercise_slug].select { |track_slug| track_slugs.include?(track_slug) }
 
       solved_in_23 = solved_in_featured_tracks.select { |_, year| year == 2023 }
-      next [solved_in_23.keys.first, exercise_slug] if solved_in_23.any?
+      next { slug: exercise_slug, earned_for: solved_in_23.keys.first, track_slugs: } if solved_in_23.any?
 
       solved_before_23 = solved_in_featured_tracks.select { |_, year| year < 2023 }
-      next [solved_before_23.keys.first, exercise_slug] if solved_before_23.size == track_slugs.size
+      next { slug: exercise_slug, earned_for: solved_before_23.keys.first, track_slugs: } if solved_before_23.size == track_slugs.size
+
+      { slug: exercise_slug, earned_for: nil, track_slugs: }
     end
 
     remove_march_duplicates(exercises)
@@ -74,12 +76,18 @@ class User::Challenges::FeaturedExercisesProgress12In23
       transform_values { |solutions| solutions.map { |solution| [solution[1], solution[2].year] }.to_h }
   end
 
-  def remove_march_duplicates(exercises)
-    exercise_slugs = exercises.map(&:second)
-    duplicate_exercises = %w[linked-list simple-linked-list]
+  def remove_march_duplicates(exercises_progress)
+    linked_list_exercise_progress = exercises_progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' }
+    simple_linked_list_exercise_progress = exercises_progress.find do |exercise_progress|
+      exercise_progress[:slug] == 'simple-linked-list'
+    end
 
-    return exercises unless duplicate_exercises & exercise_slugs == duplicate_exercises
+    if linked_list_exercise_progress[:earned_for].nil? && simple_linked_list_exercise_progress[:earned_for].present?
+      exercises_progress.delete(linked_list_exercise_progress)
+    else
+      exercises_progress.delete(simple_linked_list_exercise_progress)
+    end
 
-    exercises.reject { |(_, exercise_slug)| exercise_slug == 'simple-linked-list' }
+    exercises_progress
   end
 end

@@ -6,7 +6,7 @@ class Payments::Payment < ApplicationRecord
 
   scope :subscription, -> { where.not(subscription_id: nil) }
 
-  enum provider: { stripe: 0, github: 1, paypal: 2 }
+  enum provider: { stripe: 0, github: 1, paypal: 2, crypto: 3 }
 
   def self.total_supporters = select(:user_id).distinct.count
   def self.total_donated_in_dollars = sum(:amount_in_cents) / BigDecimal(100)

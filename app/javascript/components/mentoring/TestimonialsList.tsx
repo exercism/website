@@ -56,7 +56,7 @@ export default function TestimonialsList({
     setPage,
     setOrder,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     'mentor-testimonials',
     request.endpoint,
@@ -80,6 +80,7 @@ export default function TestimonialsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -100,7 +101,7 @@ export default function TestimonialsList({
           <input
             className="--search"
             placeholder="Search by student name or testimonial"
-            value={criteria}
+            value={criteria || ''}
             onChange={(e) => {
               setCriteria(e.target.value)
             }}

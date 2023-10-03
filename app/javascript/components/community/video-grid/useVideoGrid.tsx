@@ -38,7 +38,7 @@ export function useVideoGrid(
     tracks.find((t) => t.slug === videoRequest.query?.videoTrackSlug) ||
     tracks[0]
 
-  const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
+  const [criteria, setCriteria] = useState(videoRequest.query?.criteria)
   const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
 
   const {
@@ -77,6 +77,7 @@ export function useVideoGrid(
     }
 
     const handler = setTimeout(() => {
+      if (criteria === undefined && criteria === null) return
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
         setQuery({ ...request.query, criteria })

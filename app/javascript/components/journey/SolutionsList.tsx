@@ -38,7 +38,7 @@ export const SolutionsList = ({
     setQuery,
     setOrder,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     'contributions-list',
     request.endpoint,
@@ -53,6 +53,7 @@ export const SolutionsList = ({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -108,7 +109,7 @@ export const SolutionsList = ({
             onChange={(e) => {
               setCriteria(e.target.value)
             }}
-            value={criteria}
+            value={criteria || ''}
             placeholder="Search by exercise or track name"
           />
           <SolutionFilter request={request} onApply={handleApply} />

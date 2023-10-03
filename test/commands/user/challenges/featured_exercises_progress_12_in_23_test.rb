@@ -145,4 +145,11 @@ class User::Challenges::FeaturedExercisesProgress12In23Test < ActiveSupport::Tes
     assert_nil(progress.find { |exercise_progress| exercise_progress[:slug] == 'linked-list' })
     assert_equal expected_simple_linked_list, (progress.find { |exercise_progress| exercise_progress[:slug] == 'simple-linked-list' })
   end
+
+  test "lists exercises by order of appearance" do
+    user = create :user
+    expected = User::Challenges::FeaturedExercisesProgress12In23.featured_exercises.keys.flatten - ["simple-linked-list"]
+    actual = User::Challenges::FeaturedExercisesProgress12In23.(user)
+    assert_equal expected, actual.pluck(:slug)
+  end
 end

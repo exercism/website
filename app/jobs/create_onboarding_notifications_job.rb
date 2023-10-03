@@ -2,10 +2,13 @@ class CreateOnboardingNotificationsJob < ApplicationJob
   queue_as :background
 
   OnboardingEmail = Struct.new(:day, :slug, keyword_init: true) do
+    extend Mandate::Memoize
+
     def notification_type
       "onboarding_#{slug}".to_sym
     end
 
+    memoize
     def has_notification?
       text = I18n.backend.send(:translations)[:en][:notifications][notification_type][1]
       text.present?

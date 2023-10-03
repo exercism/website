@@ -48,7 +48,7 @@ export function useAutomation(
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
-    representationsRequest.query?.criteria || ''
+    representationsRequest.query?.criteria
   )
 
   const {
@@ -74,6 +74,7 @@ export function useAutomation(
   const debouncedCriteria = useDebounce(criteria, 500)
 
   useEffect(() => {
+    if (debouncedCriteria === undefined || debouncedCriteria === null) return
     if (debouncedCriteria.length > 2 || debouncedCriteria === '') {
       setRequestCriteria(debouncedCriteria)
     }

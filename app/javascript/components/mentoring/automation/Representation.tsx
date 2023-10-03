@@ -133,7 +133,7 @@ export function Representations({
                 setCriteria(input)
                 handlePageResetOnInputChange(input)
               }}
-              filter={criteria}
+              filter={criteria || ''}
               placeholder="Filter by exercise (min 3 chars)"
             />
             <Sorter

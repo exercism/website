@@ -4,15 +4,17 @@ class Exercise::Representation::Search
   # Use class method rather than constant for easier stubbing during testing
   def self.requests_per_page = 20
 
-  initialize_with mode: Mandate::NO_DEFAULT, mentor: nil, criteria: nil, track: Mandate::NO_DEFAULT,
-    order: :most_submissions, page: 1, paginated: true, sorted: true, only_mentored_solutions: false do
+  initialize_with mode: Mandate::NO_DEFAULT, representer_version: Mandate::NO_DEFAULT, track: Mandate::NO_DEFAULT,
+    mentor: nil, criteria: nil, only_mentored_solutions: false,
+    order: :most_submissions, page: 1, paginated: true, sorted: true do
     @order = order.try(&:to_sym)
   end
 
   def call
     @representations = Exercise::Representation.
       includes(:exercise, :track).
-      where('num_submissions > 1')
+      where('num_submissions > 1').
+      where(representer_version:)
     filter_mode!
     filter_track!
     filter_exercises!

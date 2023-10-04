@@ -27,6 +27,38 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
     assert_equal expected, AssembleExerciseRepresentationsWithoutFeedback.(user, params)
   end
 
+  test "should have correct defaults" do
+    track = create :track
+    mentor = create :user
+
+    Exercise::Representation::Search.expects(:call).with(
+      mode: :without_feedback,
+      representer_version: 1,
+      mentor:,
+      track:,
+      page: 1,
+      order: :most_submissions,
+      criteria: nil,
+      only_mentored_solutions: nil
+    ).returns(Exercise::Representation.page(1).per(20))
+
+    AssembleExerciseRepresentationsWithoutFeedback.(mentor, { track_slug: track.slug })
+  end
+
+  test "should select correct representer version and defaults" do
+    track = create :track
+    mentor = create :user
+    create :exercise_representation, track:, representer_version: 2
+    create :exercise_representation, track:, representer_version: 5
+    create :exercise_representation, track:, representer_version: 1
+
+    Exercise::Representation::Search.expects(:call).with do |kwargs|
+      assert_equal 5, kwargs[:representer_version]
+    end.returns(Exercise::Representation.page(1).per(20))
+
+    AssembleExerciseRepresentationsWithoutFeedback.(mentor, { track_slug: track.slug })
+  end
+
   test "should proxy correctly" do
     track = create :track
     mentor = create :user
@@ -37,6 +69,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
 
     Exercise::Representation::Search.expects(:call).with(
       mode: :without_feedback,
+      representer_version: 1,
       mentor:,
       track:,
       page:,

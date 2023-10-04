@@ -529,7 +529,7 @@ to add values.
           <img
             alt="icon for Ruby track"
             class="c-icon c-track-icon w-[24px] h-[24px] mr-16"
-            src=""
+            src="undefined/assets/undefined"
           />
           <div
             class="flex items-center justify-between w-100"

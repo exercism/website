@@ -30,7 +30,7 @@ class AssembleRepresentationContext
     def representation_count
       # TODO: This is a hack. I'm not sure how we actually achieve this
       # as we want to filter using a different value for each track.
-      representer_version = (0..10)
+      representer_version = nil
       representations = Exercise::Representation::Search.(
         mode:,
         representer_version:,
@@ -53,7 +53,7 @@ class AssembleRepresentationContext
     def track_num_representations
       # TODO: This is a hack. I'm not sure how we actually achieve this
       # as we want to filter using a different value for each track.
-      representer_version = (0..10)
+      representer_version = nil
       Exercise::Representation::Search.(
         mode:, representer_version:, mentor:, track: automator_tracks,
         sorted: false, paginated: false

@@ -13,8 +13,9 @@ class Exercise::Representation::Search
   def call
     @representations = Exercise::Representation.
       includes(:exercise, :track).
-      where('num_submissions > 1').
-      where(representer_version:)
+      where('num_submissions > 1')
+
+    @representations = @representations.where(representer_version:) if representer_version.present?
     filter_mode!
     filter_track!
     filter_exercises!

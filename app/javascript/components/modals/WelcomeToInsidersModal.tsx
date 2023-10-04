@@ -50,7 +50,7 @@ export default function WelcomeToInsidersModal({
       {...props}
       onClose={() => null}
       theme="dark"
-      className="m-community-launch"
+      className="m-welcome"
     >
       <div className="lhs">
         <header>

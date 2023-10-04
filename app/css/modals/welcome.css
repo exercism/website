@@ -1,6 +1,6 @@
 @import "../styles";
 
-.m-community-launch.c-modal.--cover {
+.m-welcome.c-modal.--cover {
     background: var(--modalBackgroundColor);
 
     & .--modal-container {

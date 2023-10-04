@@ -28,9 +28,13 @@ class AssembleRepresentationContext
     end
 
     def representation_count
+      # TODO: This is a hack. I'm not sure how we actually achieve this
+      # as we want to filter using a different value for each track.
+      representer_version = (0..10)
       representations = Exercise::Representation::Search.(
-        mentor:,
         mode:,
+        representer_version:,
+        mentor:,
         sorted: false,
         paginated: false,
         track: automator_tracks
@@ -47,8 +51,13 @@ class AssembleRepresentationContext
 
     memoize
     def track_num_representations
-      Exercise::Representation::Search.(mentor:, mode:, sorted: false, paginated: false,
-        track: automator_tracks).
+      # TODO: This is a hack. I'm not sure how we actually achieve this
+      # as we want to filter using a different value for each track.
+      representer_version = (0..10)
+      Exercise::Representation::Search.(
+        mode:, representer_version:, mentor:, track: automator_tracks,
+        sorted: false, paginated: false
+      ).
         group(:track_id).
         count
     end

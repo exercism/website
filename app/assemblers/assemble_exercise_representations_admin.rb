@@ -20,9 +20,10 @@ class AssembleExerciseRepresentationsAdmin
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor:,
-      track:,
       mode: :admin,
+      representer_version:,
+      track:,
+      mentor:,
       only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
@@ -31,4 +32,5 @@ class AssembleExerciseRepresentationsAdmin
   end
 
   def track = Track.find_by(slug: params[:track_slug])
+  def representer_version = track.representations.maximum(:representer_version) || 1
 end

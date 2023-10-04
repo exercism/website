@@ -20,9 +20,10 @@ class AssembleExerciseRepresentationsWithFeedback
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor:,
-      track:,
       mode: :with_feedback,
+      representer_version:,
+      track:,
+      mentor:,
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
       order: params.fetch(:order, :most_submissions)
@@ -30,4 +31,5 @@ class AssembleExerciseRepresentationsWithFeedback
   end
 
   def track = Track.find_by(slug: params[:track_slug])
+  def representer_version = track.representations.maximum(:representer_version) || 1
 end

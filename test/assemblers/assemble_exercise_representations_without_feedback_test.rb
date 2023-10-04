@@ -45,7 +45,7 @@ class AssembleExerciseRepresentationsWithoutFeedbackTest < ActiveSupport::TestCa
     AssembleExerciseRepresentationsWithoutFeedback.(mentor, { track_slug: track.slug })
   end
 
-  test "should select correct representer version and defaults" do
+  test "should select correct representer version" do
     track = create :track
     mentor = create :user
     create :exercise_representation, track:, representer_version: 2

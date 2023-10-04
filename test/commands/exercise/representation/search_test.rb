@@ -103,9 +103,10 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     assert_equal [representation_1],
       Exercise::Representation::Search.(mode: :without_feedback, representer_version: 1, mentor: nil, track:)
 
-    assert_equal [representation_2, representation_3], Exercise::Representation::Search.(mode: :with_feedback, mentor:, track:)
+    assert_equal [representation_2, representation_3],
+      Exercise::Representation::Search.(mode: :with_feedback, representer_version: 1, mentor:, track:)
     assert_equal [representation_2, representation_3, representation_4],
-      Exercise::Representation::Search.(mode: :admin, mentor:, track:)
+      Exercise::Representation::Search.(mode: :admin, representer_version: 1, mentor:, track:)
   end
 
   test "filter: mentor when status is :without_feedback returns representations for mentored tracks" do
@@ -152,9 +153,10 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
       track:)
 
     assert_equal [representation_1, representation_2],
-      Exercise::Representation::Search.(mentor: mentor_1, mode: :with_feedback, track:)
-    assert_equal [representation_3], Exercise::Representation::Search.(mentor: mentor_2, mode: :with_feedback, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, mode: :with_feedback, track:)
+      Exercise::Representation::Search.(mentor: mentor_1, mode: :with_feedback, representer_version: 1, track:)
+    assert_equal [representation_3],
+      Exercise::Representation::Search.(mentor: mentor_2, mode: :with_feedback, representer_version: 1, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, mode: :with_feedback, representer_version: 1, track:)
   end
 
   test "filter: track" do
@@ -181,7 +183,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_submissions: 4, track:)
     create(:exercise_representation, exercise:, num_submissions: 3, track:)
 
-    assert_empty Exercise::Representation::Search.(track: nil, mode: :without_feedback)
+    assert_empty Exercise::Representation::Search.(mode: :without_feedback, representer_version: 1, track: nil)
   end
 
   test "filter: only_mentored_solutions" do
@@ -202,14 +204,20 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     create :submission_representation, ast_digest: representation_3.ast_digest, submission: create(:submission, exercise:)
 
     assert_equal [representation_1],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, mode: :with_feedback, track:)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: true, mode: :with_feedback,
+        representer_version: 1, track:)
     assert_equal [representation_1, representation_3],
-      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, mode: :with_feedback, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, mode: :with_feedback, track:)
+      Exercise::Representation::Search.(mentor: mentor_1.reload, only_mentored_solutions: false, mode: :with_feedback,
+        representer_version: 1, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: true, mode: :with_feedback,
+      representer_version: 1, track:)
     assert_equal [representation_2],
-      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, mode: :with_feedback, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, mode: :with_feedback, track:)
-    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, mode: :with_feedback, track:)
+      Exercise::Representation::Search.(mentor: mentor_2, only_mentored_solutions: false, mode: :with_feedback,
+        representer_version: 1, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: true, mode: :with_feedback,
+      representer_version: 1, track:)
+    assert_empty Exercise::Representation::Search.(mentor: mentor_3, only_mentored_solutions: false, mode: :with_feedback,
+      representer_version: 1, track:)
   end
 
   test "paginates" do

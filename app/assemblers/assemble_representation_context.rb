@@ -20,11 +20,13 @@ class AssembleRepresentationContext
 
     private
     def tracks
-      automator_tracks.filter_map do |track|
+      filtered_tracks = automator_tracks.filter_map do |track|
         next unless track_num_representations.key?(track.id)
 
         SerializeTrackForSelect.(track).merge(num_submissions: track_num_representations[track.id])
       end
+
+      filtered_tracks.sort_by { |t| t[:title] }
     end
 
     def representation_count

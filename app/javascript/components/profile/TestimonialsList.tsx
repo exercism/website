@@ -10,6 +10,7 @@ import type {
   Testimonial as TestimonialProps,
 } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
@@ -41,6 +42,8 @@ export default function TestimonialsList({
   const handleTestimonialClose = useCallback(() => {
     setSelected(null)
   }, [setSelected])
+
+  useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <ResultsZone isFetching={isFetching}>

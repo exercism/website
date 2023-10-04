@@ -4,7 +4,7 @@ class SerializeTrackForSelect
   ALL_TRACK = {
     slug: nil,
     title: "All Tracks",
-    icon_url: "ICON"
+    icon_url: nil
   }.freeze
 
   initialize_with :track

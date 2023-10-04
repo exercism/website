@@ -64,7 +64,7 @@ export function VideoGrid({
         <input
           className="grow --search --right"
           placeholder="Search community content"
-          value={criteria}
+          value={criteria || ''}
           onChange={(e) => {
             setCriteria(e.target.value)
             handlePageResetOnInputChange(e.target.value)

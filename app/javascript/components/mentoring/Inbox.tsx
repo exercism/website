@@ -52,9 +52,7 @@ export default function Inbox({
   sortOptions: readonly SortOption[]
   links: Links
 }): JSX.Element {
-  const [criteria, setCriteria] = useState(
-    discussionsRequest.query?.criteria || ''
-  )
+  const [criteria, setCriteria] = useState(discussionsRequest.query?.criteria)
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -70,6 +68,7 @@ export default function Inbox({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 

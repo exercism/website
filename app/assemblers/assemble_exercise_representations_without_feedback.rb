@@ -32,6 +32,11 @@ class AssembleExerciseRepresentationsWithoutFeedback
     )
   end
 
-  def track = Track.find_by(slug: params[:track_slug])
   def representer_version = track.representations.maximum(:representer_version) || 1
+
+  memoize
+  def track
+    Track.find_by(slug: params[:track_slug]) ||
+      mentor.track_mentorships.automator.first.track
+  end
 end

@@ -340,8 +340,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_120817) do
     t.text "draft_feedback_markdown"
     t.string "exercise_id_and_ast_digest_idx_cache"
     t.integer "num_published_solutions", limit: 2, default: 0, null: false
-    t.bigint "oldest_solution_id"
-    t.bigint "prestigious_solution_id"
     t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["exercise_id", "representer_version", "feedback_added_at"], name: "search_ex_4", order: { representer_version: :desc, feedback_added_at: :desc }

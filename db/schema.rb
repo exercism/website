@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_27_174831) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_04_120817) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -342,6 +342,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_174831) do
     t.integer "num_published_solutions", limit: 2, default: 0, null: false
     t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
+    t.index ["exercise_id", "representer_version", "feedback_added_at"], name: "search_ex_4", order: { representer_version: :desc, feedback_added_at: :desc }
+    t.index ["exercise_id", "representer_version", "feedback_added_at"], name: "search_ex_5", order: { representer_version: :desc }
+    t.index ["exercise_id", "representer_version", "last_submitted_at"], name: "search_ex_3", order: { representer_version: :desc, last_submitted_at: :desc }
+    t.index ["exercise_id", "representer_version", "num_submissions", "last_submitted_at"], name: "search_ex_2", order: { representer_version: :desc, last_submitted_at: :desc }
+    t.index ["exercise_id", "representer_version", "num_submissions"], name: "search_ex_1", order: { representer_version: :desc }
     t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep"
     t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at"
     t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions"
@@ -353,6 +358,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_27_174831) do
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at"
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions"
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
+    t.index ["track_id", "representer_version", "feedback_added_at"], name: "search_track_4", order: { representer_version: :desc, feedback_added_at: :desc }
+    t.index ["track_id", "representer_version", "feedback_added_at"], name: "search_track_5", order: { representer_version: :desc }
+    t.index ["track_id", "representer_version", "feedback_type", "num_submissions"], name: "search_track_2", order: { representer_version: :desc, num_submissions: :desc }
+    t.index ["track_id", "representer_version", "last_submitted_at"], name: "search_track_3", order: { representer_version: :desc, last_submitted_at: :desc }
+    t.index ["track_id", "representer_version", "num_submissions"], name: "search_track_1", order: { representer_version: :desc, num_submissions: :desc }
+    t.index ["track_id", "representer_version"], name: "index_exercise_representations_track_version_desc", order: { representer_version: :desc }
     t.index ["track_id"], name: "index_exercise_representations_on_track_id"
     t.index ["uuid"], name: "index_exercise_representations_on_uuid", unique: true
   end

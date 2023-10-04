@@ -104,6 +104,21 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     assert_equal expected, AssembleRepresentationContext.(user_1)[:admin]
   end
 
+  test "should select correct representer version" do
+    skip # TODO: Work this out
+    track = create :track
+    mentor = create :user
+    create :exercise_representation, track:, representer_version: 2
+    create :exercise_representation, track:, representer_version: 5
+    create :exercise_representation, track:, representer_version: 1
+
+    Exercise::Representation::Search.expects(:call).with do |kwargs|
+      assert_equal 5, kwargs[:representer_version]
+    end.returns(Exercise::Representation.page(1).per(20))
+
+    AssembleRepresentationContext.(mentor)
+  end
+
   test "only considers representations with > 1 submissions" do
     user_1 = create :user
     user_2 = create :user

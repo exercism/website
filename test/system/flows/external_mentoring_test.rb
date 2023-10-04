@@ -20,9 +20,23 @@ module Flows
       end
     end
 
-    test "not a mentor" do
+    test "not a mentor with not enough rep" do
       solution = create :concept_solution
-      user = create :user, :not_mentor
+      user = create :user, :not_mentor, reputation: 19
+
+      use_capybara_host do
+        sign_in!(user)
+        visit solution.external_mentoring_request_url
+
+        assert_text "Want to mentor #{solution.user.handle}?"
+        refute_button "Register as mentor"
+        assert_text "Ability to mentor unlocks at"
+      end
+    end
+
+    test "not a mentor with enough reps" do
+      solution = create :concept_solution
+      user = create :user, :not_mentor, reputation: 20
 
       use_capybara_host do
         sign_in!(user)
@@ -30,6 +44,9 @@ module Flows
 
         assert_text "Want to mentor #{solution.user.handle}?"
         assert_button "Register as mentor"
+        assert_link "Learn more"
+        click_on "Register as mentor"
+        assert_text "Select the tracks you want to mentor"
       end
     end
 

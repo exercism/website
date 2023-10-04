@@ -49,7 +49,7 @@ export default function WelcomeModal({
       open={open}
       {...props}
       onClose={() => null}
-      className="m-community-launch"
+      className="m-welcome"
     >
       <div className="lhs">
         <header>

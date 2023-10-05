@@ -322,6 +322,7 @@ Rails.application.routes.draw do
   # Special routes #
   ##################
   get "site.webmanifest" => "meta#site_webmanifest"
+  get ".well-known/apple-developer-merchantid-domain-association" => "meta#apple_developer_merchantid_domain_association"
   get "avatars/:id/:version" => "avatars#show"
 
   #################

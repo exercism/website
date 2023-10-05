@@ -1,6 +1,10 @@
 class MetaController < ApplicationController
   skip_before_action :authenticate_user!
 
+  def apple_developer_merchantid_domain_association
+    render layout: false
+  end
+
   def site_webmanifest
     expires_in 1.day, public: true
 

@@ -10,7 +10,7 @@ export const MultipleSelect = <T extends unknown>({
   SelectedComponent,
   OptionComponent,
   ResetComponent,
-  componentClassName = '',
+  className = '',
 }: {
   value: T[]
   options: readonly T[]
@@ -19,7 +19,7 @@ export const MultipleSelect = <T extends unknown>({
   SelectedComponent: React.ComponentType<{ value: T[] }>
   OptionComponent: React.ComponentType<{ option: T }>
   ResetComponent: React.ComponentType
-  componentClassName?: string
+  className?: string
 }): JSX.Element => {
   const [selected, setSelected] = useState<T[]>(value)
   const [changed, setChanged] = useState(false)
@@ -88,7 +88,7 @@ export const MultipleSelect = <T extends unknown>({
   }, [changed, open, selected, setValue])
 
   return (
-    <div className={`c-multi-select ${componentClassName}`}>
+    <div className={`c-multi-select ${className}`}>
       <button {...buttonAttributes}>
         <div className="--info">
           <div className="--label">{label}</div>

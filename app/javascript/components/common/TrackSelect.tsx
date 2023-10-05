@@ -70,7 +70,7 @@ export const TrackSelect = <T extends Track>({
       setValue={setValue}
       SelectedComponent={SelectedComponent}
       OptionComponent={OptionComponent}
-      componentClassName={`c-track-select --size-${size}`}
+      className={`c-track-select --size-${size}`}
     />
   )
 }

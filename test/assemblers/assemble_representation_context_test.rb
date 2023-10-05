@@ -172,9 +172,9 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
     expected = {
       tracks: [
         { slug: csharp.slug, title: csharp.title, icon_url: csharp.icon_url, num_submissions: 1 },
-        { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 },
+        { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 },
         { slug: javascript.slug, title: javascript.title, icon_url: javascript.icon_url, num_submissions: 1 },
-        { slug: clojure.slug, title: clojure.title, icon_url: clojure.icon_url, num_submissions: 3 }
+        { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, num_submissions: 2 }
       ],
       representation_count: 7
     }

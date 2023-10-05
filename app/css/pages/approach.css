@@ -47,3 +47,14 @@
         }
     }
 }
+
+#page-approaches-index {
+    .dig-deeper-snippet {
+        .c-responsive-table-wrapper {
+            all: unset;
+            table {
+                @apply w-100 text-left;
+            }
+        }
+    }
+}

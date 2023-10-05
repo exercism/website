@@ -1,7 +1,7 @@
 @import "../styles";
 
 #page-about {
-    @apply bg-backgroundColorA;
+    @apply bg-backgroundColorB;
 
     & > header {
         & .md-container {
@@ -23,7 +23,7 @@
 
     & .purpose {
         @apply border-purple;
-        background: var(--backgroundColorTracksListJoined);
+        background: var(--backgroundColorI);
         & h2 {
             & .c-icon {
                 height: 32px;

@@ -137,7 +137,7 @@ export function Representations({
               placeholder="Filter by exercise (min 3 chars)"
             />
             <Sorter
-              componentClassName="automation-sorter"
+              className="automation-sorter"
               sortOptions={sortOptions}
               order={order}
               setOrder={setOrder}

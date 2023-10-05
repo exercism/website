@@ -68,7 +68,7 @@ function AskingChatGpt() {
       <GraphicalIcon icon="spinner" className="animate-spin-slow" />
       <LoadingBar animationDuration={15} />
       <p>
-        <strong>Asking ChatGPT...</strong>
+        <strong>Asking ChatGPT…</strong>
         <span>Estimated running time 15s</span>
       </p>
     </div>

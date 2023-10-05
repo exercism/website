@@ -48,7 +48,7 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
               type="button"
               className="btn-xs btn-enhanced"
             >
-              <div className="--hint">It&apos;s the student&apos;s turn...</div>
+              <div className="--hint">It&apos;s the student&apos;s turn…</div>
             </button>
             <ConfirmationModal
               isOpen={isModalOpen}

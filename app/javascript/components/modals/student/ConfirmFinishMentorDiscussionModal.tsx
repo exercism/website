@@ -35,7 +35,7 @@ export const ConfirmFinishMentorDiscussionModal = ({
           className="btn-primary btn-s"
           onClick={() => onConfirm()}
         >
-          Review and end discussion...
+          Review and end discussion…
         </button>
       </div>
     </Modal>

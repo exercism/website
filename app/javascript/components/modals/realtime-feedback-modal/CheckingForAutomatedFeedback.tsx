@@ -14,9 +14,7 @@ export function CheckingForAutomatedFeedback({
     <>
       <div className="flex gap-40 items-start">
         <div className="flex flex-col">
-          <div className="text-h4 mb-12">
-            Checking for automated feedback...{' '}
-          </div>
+          <div className="text-h4 mb-12">Checking for automated feedback… </div>
           <p className="text-16 leading-150  mb-4">
             Our systems are inspecting your code to find both automated feedback
             and feedback given by mentors on similar solutions.

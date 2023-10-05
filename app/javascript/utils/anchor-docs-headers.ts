@@ -1,15 +1,14 @@
 import { assetUrl } from './assets'
 import { copyToClipboard } from './copyToClipboard'
 
-export function anchorDocsHeaders() {
+export function appendAnchorButtonsToDocsHeaders() {
   const currentPath = window.location.pathname
 
   if (currentPath.includes('/docs')) {
     const docsHeaders = document.querySelectorAll('[id^="h-"')
 
     const anchorIcon = document.createElement('img')
-    anchorIcon.src = assetUrl('icons/lock.svg')
-    anchorIcon.className = 'filter-textColor6'
+    anchorIcon.src = assetUrl('icons/link.svg')
     anchorIcon.height = 16
     anchorIcon.width = 16
 

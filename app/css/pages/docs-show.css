@@ -52,8 +52,30 @@ body.controller-docs.action-track_index {
 
     .anchored-header {
         @apply relative;
+
         .copy-header-link-button {
-            @apply absolute -left-32 top-[50%] -translate-y-[50%] p-16 pl-0;
+            @apply absolute opacity-0 -left-32 top-[50%] -translate-y-[50%] p-16 pl-0;
+
+            &:hover,
+            &:focus {
+                @apply opacity-100;
+
+                img {
+                    @apply filter-prominentLinkColor;
+                }
+            }
+
+            img {
+                @apply filter-textColor6;
+
+                &:active {
+                    @apply filter-textColor1;
+                }
+            }
+        }
+
+        &:hover .copy-header-link-button {
+            @apply opacity-100;
         }
     }
 }

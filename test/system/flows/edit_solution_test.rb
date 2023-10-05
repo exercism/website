@@ -158,7 +158,7 @@ module Components
           visit edit_track_exercise_path(solution.track, solution.exercise)
           within(".lhs-footer") { click_on "Submit" }
 
-          assert_text "Checking for automated feedback..."
+          assert_text "Checking for automated feedback…"
           assert_text "Continue without waiting"
           sleep(10)
           assert_text "Sorry, this is taking a little longer than expected."
@@ -378,7 +378,7 @@ module Components
 
       private
       def wait_for_submission
-        assert_text "Running tests..."
+        assert_text "Running tests…"
       end
     end
   end

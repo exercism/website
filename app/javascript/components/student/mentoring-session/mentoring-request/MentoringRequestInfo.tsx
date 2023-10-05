@@ -62,7 +62,7 @@ export const MentoringRequestInfo = ({
       <div className="content">
         <div className="status">
           <div className="info">
-            <h3>Waiting on a mentor...</h3>
+            <h3>Waiting on a mentor…</h3>
             <MedianWaitTime seconds={track.medianWaitTime} />
           </div>
           <CancelRequestButton request={request} />

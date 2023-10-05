@@ -67,7 +67,7 @@
         = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do
           = exercise_icon request.exercise
           .exercise-title= request.exercise.title
-          %h4 Waiting on a mentor...
+          %h4 Waiting on a mentor…
 
       - user_track.num_available_mentoring_slots.times do
         = render ReactComponents::Student::RequestMentoringButton.new(track)

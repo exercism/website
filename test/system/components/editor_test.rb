@@ -759,7 +759,7 @@ module Components
 
     private
     def wait_for_submission
-      assert_text "Running tests..."
+      assert_text "Running tests…"
     end
   end
 end

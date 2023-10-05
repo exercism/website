@@ -28,7 +28,7 @@ export const LegacyFileBanner = ({
           className="btn-xs btn-secondary mr-24 ml-auto"
         >
           <GraphicalIcon icon="trash" />
-          <span>Delete file...</span>
+          <span>Delete file…</span>
         </button>
         {/* TODO: Power from Rails */}
         <ProminentLink

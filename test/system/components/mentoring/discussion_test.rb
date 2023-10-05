@@ -510,18 +510,18 @@ module Components
         use_capybara_host do
           sign_in!(mentor)
           visit mentoring_discussion_path(discussion)
-          assert_text "It's the student's turn..."
-          click_on "It's the student's turn..."
+          assert_text "It's the student's turn…"
+          click_on "It's the student's turn…"
 
           assert_text "Pass this discussion back to the student?"
           click_on "Cancel"
 
-          assert_text "It's the student's turn..."
-          click_on "It's the student's turn..."
+          assert_text "It's the student's turn…"
+          click_on "It's the student's turn…"
 
           click_on "Continue"
 
-          refute_text "It's the student's turn..."
+          refute_text "It's the student's turn…"
         end
       end
 

@@ -28,6 +28,7 @@ module Badges
       efx
       erikschierboom
       gilescope
+      glennj
       ihid
       isaacg
       itamargal

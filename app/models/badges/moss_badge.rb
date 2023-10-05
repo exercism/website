@@ -18,6 +18,7 @@ module Badges
       bethanyg
       bobahop
       erikschierboom
+      glennj
       ihid
       isaacg
       jimpjorps

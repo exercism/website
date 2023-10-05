@@ -53,8 +53,7 @@
         .c-responsive-table-wrapper {
             all: unset;
             table {
-                @apply w-100;
-                @apply text-left;
+                @apply w-100 text-left;
             }
         }
     }

@@ -22,6 +22,7 @@ class Badge::ArchitectBadgeTest < ActiveSupport::TestCase
       davidgerva
       efx
       erikschierboom
+      glennj
       junedev
       mikedamay
       mirkoperillo

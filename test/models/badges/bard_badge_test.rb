@@ -29,6 +29,7 @@ class Badge::BardBadgeTest < ActiveSupport::TestCase
       efx
       erikschierboom
       gilescope
+      glennj
       ihid
       isaacg
       itamargal

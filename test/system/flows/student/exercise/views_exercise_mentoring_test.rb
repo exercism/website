@@ -44,7 +44,7 @@ module Flows
             visit track_exercise_mentor_discussions_path(track, exercise)
 
             assert_text "requested mentoring"
-            assert_text "Waiting on a mentor..."
+            assert_text "Waiting on a mentor…"
           end
         end
 

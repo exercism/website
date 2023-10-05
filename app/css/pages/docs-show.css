@@ -56,8 +56,7 @@ body.controller-docs.action-track_index {
         .copy-header-link-button {
             @apply absolute opacity-0 -left-32 top-[50%] -translate-y-[50%] p-16 pl-0;
 
-            &:hover,
-            &:focus {
+            &:hover {
                 @apply opacity-100;
 
                 img {

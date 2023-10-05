@@ -16,10 +16,16 @@ export function appendAnchorButtonsToDocsHeaders() {
     button.className = 'copy-header-link-button'
     button.appendChild(anchorIcon)
 
-    docsHeaders.forEach((header) => {
+    docsHeaders.forEach((headerElement) => {
+      const header = headerElement as HTMLElement
       header.classList.add('anchored-header')
 
-      const buttonClone = button.cloneNode(true)
+      const buttonClone = button.cloneNode(true) as HTMLElement
+      const headerText = header.textContent || header.innerText
+      buttonClone.setAttribute(
+        'aria-label',
+        `Copy link for header: ${headerText}`
+      )
       header.insertBefore(buttonClone, header.firstChild)
 
       buttonClone.addEventListener('click', (event) => {

@@ -49,4 +49,11 @@ body.controller-docs.action-track_index {
             @apply my-20;
         }
     }
+
+    .anchored-header {
+        @apply relative;
+        .copy-header-link-button {
+            @apply absolute -left-32 top-[50%] -translate-y-[50%] p-16 pl-0;
+        }
+    }
 }

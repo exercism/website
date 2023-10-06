@@ -7,18 +7,17 @@ class UnsubscribeController < ApplicationController
 
   def update
     if params[:communication_preferences].present?
-      @communication_preferences.update(
-        params.require(:communication_preferences).reject do |k, _v|
-          %w[user_id created_at updated_at token].include?(k)
-        end.permit!
-      )
+      prefs = params.require(:communication_preferences).
+        permit(*User::CommunicationPreferences.keys)
+      prefs.transform_values! { |v| ActiveModel::Type::Boolean.new.cast(v) }
+      @communication_preferences.update!(prefs)
     end
 
-    User::UnsubscribeFromAllEmails.(@communication_preferences.user)
     redirect_to({ action: :show, token: @token, key: @email_key }, notice: "You have been unsubscribed successfully")
   end
 
   def all
+    User::UnsubscribeFromAllEmails.(@communication_preferences.user)
     redirect_to({ action: :show, token: @token }, notice: "You have been unsubscribed from all emails successfully")
   end
 

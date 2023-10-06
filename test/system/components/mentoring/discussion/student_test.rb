@@ -53,6 +53,8 @@ module Components
             assert_css ".c-iterations-footer"
             within(".c-iterations-footer") do
               assert_text "NEW"
+              assert_selector ".new", count: 1
+
               click_on "2"
               refute_text "NEW"
             end

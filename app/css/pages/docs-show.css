@@ -63,14 +63,30 @@ body.controller-docs.action-track_index {
                     @apply filter-prominentLinkColor;
                 }
             }
-
-            img {
-                @apply filter-textColor6;
-
-                &:active {
+            &:active {
+                img {
                     @apply filter-textColor1;
                 }
             }
+
+            img {
+                @apply filter-textColor6;
+            }
+        }
+
+        .copy-header-link-feedback {
+            @apply absolute opacity-100 -left-32 top-0 -translate-y-[100%] -translate-x-[50%];
+            @apply bg-backgroundColorI;
+            @apply z-tooltip;
+            @apply pl-40 pr-16 py-8;
+            @apply text-textColor1 leading-150;
+            @apply rounded-8;
+            @apply font-body font-semibold;
+            box-shadow: 0px 4px 24px 0px #00000026;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjgiIGZpbGw9IiM1OUQyQUUiLz4KPHBhdGggZD0iTTEwLjg1NjkgNS4xNDI2NEw3LjAyMzk3IDEwLjYxNzlDNi45MjEzOCAxMC43NjU0IDYuNzU0MTggMTAuODU0NSA2LjU3NDYgMTAuODU3NEM2LjM5NTAzIDEwLjg2MDQgNi4yMjQ5NyAxMC43NzY5IDYuMTE3NTYgMTAuNjMyOUw1LjE0MjU4IDkuMzMzMTIiIHN0cm9rZT0iIzEzMEI0MyIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K");
+            background-repeat: no-repeat;
+            background-position: 16px center;
+            animation: copiedFadeOut 0.7s ease-in forwards;
         }
 
         &:hover .copy-header-link-button {

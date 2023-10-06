@@ -4,6 +4,7 @@ class API::Settings::CommunicationPreferencesController < API::BaseController
   end
 
   private
+  memoize
   def communication_preferences_params
     params.
       require(:communication_preferences).

@@ -49,14 +49,25 @@ export const useDiscussionIterations = ({
       new SolutionWithLatestIterationChannel(
         { uuid: studentSolutionUuid },
         (response) => {
-          setIterationList((i) => [...i, { ...response.iteration, new: true }])
+          setIterationList((existingIterations) => {
+            if (
+              existingIterations.some(
+                (iteration) => iteration.idx === response.iteration.idx
+              )
+            )
+              return existingIterations
+            else
+              return [
+                ...existingIterations,
+                { ...response.iteration, new: true },
+              ]
+          })
         }
       )
 
     return () => {
       solutionWithLatestIterationChannel.disconnect()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return {

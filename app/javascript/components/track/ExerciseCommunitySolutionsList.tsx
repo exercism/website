@@ -14,6 +14,7 @@ import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '@/components/types'
+import { ExerciseTagFilter } from './exercise-community-solutions-list/ExerciseTagFilter'
 
 export type Order = 'most_starred' | 'newest'
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
@@ -119,6 +120,7 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by user"
         />
+        <ExerciseTagFilter />
         <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
           <div className="flex">
             <GenericTooltip

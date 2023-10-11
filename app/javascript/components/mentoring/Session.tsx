@@ -1,4 +1,10 @@
-import React, { useState, createContext, useCallback, useEffect } from 'react'
+import React, {
+  useState,
+  createContext,
+  useCallback,
+  useEffect,
+  useContext,
+} from 'react'
 
 import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -38,6 +44,7 @@ import {
   ChannelResponse as MentorRequestChannelResponse,
 } from '@/channels/mentorRequestChannel'
 import { CancelledRequestModal } from './session/CancelledRequestModal'
+import { ScreenSizeContext } from './session/ScreenSizeContext'
 
 export type Links = {
   mentorDashboard: string
@@ -148,8 +155,9 @@ export default function Session(props: SessionProps): JSX.Element {
     }
     // Only run this hook on mount, we don't want to re-establish channel connection when the request updates,
     // because the only relevant information for this hook is the uuid of the request which should never change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
   return (
     <div className="c-mentor-discussion">
@@ -201,6 +209,12 @@ export default function Session(props: SessionProps): JSX.Element {
             >
               <>
                 <div className="tabs" role="tablist">
+                  {isBelowLgWidth && (
+                    <Tab id="code" context={TabsContext}>
+                      <GraphicalIcon icon="comment" />
+                      <Tab.Title text="Code" />
+                    </Tab>
+                  )}
                   <Tab id="discussion" context={TabsContext}>
                     <GraphicalIcon icon="comment" />
                     <Tab.Title text="Discussion" />
@@ -214,6 +228,39 @@ export default function Session(props: SessionProps): JSX.Element {
                     <Tab.Title text="Guidance" />
                   </Tab>
                 </div>
+                {isBelowLgWidth && (
+                  <Tab.Panel id="code" context={TabsContext}>
+                    <header className="discussion-header">
+                      <CloseButton url={links.mentorDashboard} />
+                      <SessionInfo
+                        student={student}
+                        track={track}
+                        exercise={exercise}
+                      />
+                      {discussion ? (
+                        <DiscussionActions
+                          {...discussion}
+                          session={session}
+                          setSession={setSession}
+                        />
+                      ) : null}
+                    </header>
+                    <IterationView
+                      iterations={iterations}
+                      instructions={instructions}
+                      testFiles={testFiles}
+                      currentIteration={currentIteration}
+                      onClick={handleIterationClick}
+                      isOutOfDate={outOfDate}
+                      language={track.highlightjsLanguage}
+                      indentSize={track.indentSize}
+                      isLinked={isLinked}
+                      setIsLinked={setIsLinked}
+                      discussion={discussion}
+                      downloadCommand={downloadCommand}
+                    />
+                  </Tab.Panel>
+                )}
                 <Tab.Panel id="discussion" context={TabsContext}>
                   <StudentInfo student={student} setStudent={setStudent} />
                   {discussion ? (

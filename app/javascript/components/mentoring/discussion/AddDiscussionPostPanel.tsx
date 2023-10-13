@@ -4,6 +4,7 @@ import { AddDiscussionPost } from './AddDiscussionPost'
 import { NewMessageAlert } from './NewMessageAlert'
 import { MentorDiscussion as Discussion } from '../../types'
 import { MentoringNote } from '../session/MentoringNote'
+import { ScreenSizeContext } from '../session/ScreenSizeContext'
 
 type Links = {
   mentoringDocs: string
@@ -18,6 +19,8 @@ export const AddDiscussionPostPanel = ({
 }): JSX.Element => {
   const { switchToTab } = useContext(TabsContext)
 
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   return (
     <section className="comment-section --comment">
       <NewMessageAlert
@@ -31,7 +34,7 @@ export const AddDiscussionPostPanel = ({
           switchToTab('discussion')
         }}
       >
-        <MentoringNote links={links} />
+        {!isBelowLgWidth && <MentoringNote links={links} />}
       </AddDiscussionPost>
     </section>
   )

@@ -48,18 +48,17 @@ type PanelProps = {
 }
 
 const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
-  ({ id, className, children, context }, ref) => {
+  ({ id, className, children, context }, ref): JSX.Element | null => {
     const { current } = useContext(context)
-    const style = id !== current ? { display: 'none' } : undefined
 
+    if (id !== current) return null
     return (
       <div
         id={`panel-${id}`}
         role="tabpanel"
         aria-labelledby={`tab-${id}`}
         tabIndex={0}
-        className={`--tab-panel ${className}`}
-        style={style}
+        className={`--tab-panel ${className || ''}`}
         ref={ref}
       >
         {children}

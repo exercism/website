@@ -2,7 +2,7 @@ import { assetUrl } from './assets'
 import { copyToClipboard } from './copyToClipboard'
 
 export function addAnchorsToDocsHeaders() {
-  if (!window.location.pathname.includes('/docs')) return
+  if (!window.location.pathname.startsWith('/docs')) return
 
   const docsHeaders = document.querySelectorAll('[id^="h-"')
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_04_120817) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_123032) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -940,6 +940,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_120817) do
     t.datetime "updated_at", null: false
     t.integer "num_comments", limit: 1, default: 0, null: false
     t.bigint "track_id"
+    t.text "tags_data"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
     t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id"
     t.index ["track_id", "num_comments"], name: "index_submission_analyses_on_track_id_and_num_comments"

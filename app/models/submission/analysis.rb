@@ -3,6 +3,7 @@ class Submission::Analysis < ApplicationRecord
   include HasToolingJob
 
   serialize :data, JSON
+  serialize :tags_data, JSON
 
   belongs_to :submission
   belongs_to :track
@@ -58,6 +59,8 @@ class Submission::Analysis < ApplicationRecord
     data[:summary].presence
   end
 
+  def tags = tags_data[:tags].to_a
+
   memoize
   def comments
     repo = Git::WebsiteCopy.new
@@ -96,9 +99,10 @@ class Submission::Analysis < ApplicationRecord
   end
 
   memoize
-  def data
-    HashWithIndifferentAccess.new(super)
-  end
+  def data = HashWithIndifferentAccess.new(super)
+
+  memoize
+  def tags_data = HashWithIndifferentAccess.new(super)
 
   def analyzer_repo = "#{submission.track.slug}-analyzer"
 

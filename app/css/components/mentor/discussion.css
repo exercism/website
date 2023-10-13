@@ -127,7 +127,7 @@
         .iteration-header.mobile {
             @apply px-12;
             .close-btn {
-                @apply mr-12;
+                @apply mr-24 ml-12;
                 .c-icon {
                     height: 24px;
                     width: 24px;

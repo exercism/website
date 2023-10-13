@@ -60,6 +60,7 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
       num_loc: solution.num_loc,
       num_solutions: num_published_solutions,
       max_reputation: 0,
+      tags: [],
       code: [content],
       exercise: {
         id: solution.exercise.id,
@@ -155,5 +156,46 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
     assert_nothing_raised do
       assert Exercise::Representation::CreateSearchIndexDocument.(representation)
     end
+  end
+
+  test "uses tags from last analyzed submission" do
+    exercise = create :practice_exercise
+    representation = create(:exercise_representation, exercise:)
+
+    solution_1 = create :practice_solution, :published, exercise:,
+      published_exercise_representation: representation,
+      published_iteration_head_tests_status: :passed
+    create(:iteration, solution: solution_1)
+    submission_1 = create(:submission, solution: solution_1, analysis_status: :queued)
+    submission_1_tags = ["construct:throw", "paradigm:object-oriented"]
+    create(:submission_representation, submission: submission_1, ast_digest: representation.ast_digest)
+    create(:submission_analysis, submission: submission_1, tags_data: { tags: submission_1_tags })
+
+    actual_tags = Exercise::Representation::CreateSearchIndexDocument.(representation)[:tags]
+    assert_empty actual_tags
+
+    solution_2 = create :practice_solution, :published, exercise:,
+      published_exercise_representation: representation,
+      published_iteration_head_tests_status: :passed
+    create(:iteration, solution: solution_2)
+    submission_2 = create(:submission, solution: solution_2, analysis_status: :completed)
+    submission_2_tags = ["construct:if", "paradigm:functional"]
+    create(:submission_representation, submission: submission_2, ast_digest: representation.ast_digest)
+    create(:submission_analysis, submission: submission_2, tags_data: { tags: submission_2_tags })
+
+    actual_tags = Exercise::Representation::CreateSearchIndexDocument.(representation)[:tags]
+    assert_equal submission_2_tags, actual_tags
+
+    solution_3 = create :practice_solution, :published, exercise:,
+      published_exercise_representation: representation,
+      published_iteration_head_tests_status: :passed
+    create(:iteration, solution: solution_3)
+    submission_3 = create(:submission, solution: solution_3, analysis_status: :completed)
+    submission_3_tags = ["construct:while-loop", "paradigm:imperative"]
+    create(:submission_representation, submission: submission_3, ast_digest: representation.ast_digest)
+    create(:submission_analysis, submission: submission_3, tags_data: { tags: submission_3_tags })
+
+    actual_tags = Exercise::Representation::CreateSearchIndexDocument.(representation)[:tags]
+    assert_equal submission_3_tags, actual_tags
   end
 end

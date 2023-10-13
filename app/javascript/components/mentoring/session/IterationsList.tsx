@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Iteration } from '../../types'
 import { IterationButton } from './IterationButton'
 import { Icon } from '../../common/Icon'
+import { ScreenSizeContext } from './ScreenSizeContext'
 
 const NavigationButtons = ({
   iterations,
@@ -53,6 +54,8 @@ export const IterationsList = ({
   current: Iteration
   onClick: (iteration: Iteration) => void
 }): JSX.Element => {
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   return (
     <>
       <nav className="iterations">
@@ -67,7 +70,7 @@ export const IterationsList = ({
       </nav>
 
       {/* TODO: (optional) Move this into a component that can take either an icon or a character as the contents of --kb */}
-      {iterations.length > 1 ? (
+      {iterations.length > 1 && !isBelowLgWidth ? (
         <NavigationButtons
           iterations={iterations}
           current={current}

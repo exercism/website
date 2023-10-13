@@ -424,7 +424,7 @@
                 @apply mb-20;
             }
             & .title {
-                @apply flex items-center mb-12;
+                @apply flex items-center;
                 @apply leading-160;
 
                 & strong {

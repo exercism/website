@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { Student } from '@/components/types'
-import { Avatar, GraphicalIcon, Reputation } from '@/components/common'
+import { Avatar, GraphicalIcon, Icon, Reputation } from '@/components/common'
 import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 import { HandleWithFlair } from '@/components/common/HandleWithFlair'
@@ -13,39 +13,96 @@ export const StudentInfo = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  return (
-    <div className="student-info">
-      <div className="flex mb-8">
-        <div className="flex-grow">
-          <div className="subtitle">Who you&apos;re mentoring</div>
-          <div className="handle-block">
-            <div className="handle">
-              <HandleWithFlair
-                handle={student.handle}
-                flair={student.flair}
-                size="medium"
+  const [showMoreInformation, setShowMoreInformation] = useState(false)
+
+  if (!showMoreInformation)
+    return (
+      <div className="student-info">
+        <div className="flex">
+          <div className="flex-grow">
+            <div className="handle-block">
+              <div className="handle">
+                <HandleWithFlair
+                  handle={student.handle}
+                  flair={student.flair}
+                  size="medium"
+                />
+              </div>
+              <Reputation
+                value={student.reputation.toString()}
+                type="primary"
+                size="small"
               />
             </div>
-            <Reputation
-              value={student.reputation.toString()}
-              type="primary"
-              size="small"
-            />
+            <div className="name">{student.name}</div>
           </div>
-          <div className="name">{student.name}</div>
-          <Pronouns handle={student.handle} pronouns={student.pronouns} />
+          <Avatar src={student.avatarUrl} handle={student.handle} />
         </div>
-        <Avatar src={student.avatarUrl} handle={student.handle} />
+
+        <ToggleMoreInformationButton
+          onClick={() => setShowMoreInformation(true)}
+        />
       </div>
-      <div className="bio">{student.bio}</div>
-      <div className="options">
-        {student.links ? (
-          <StudentInfoActions student={student} setStudent={setStudent} />
-        ) : null}
-        <PreviousSessionsLink student={student} setStudent={setStudent} />
+    )
+  else
+    return (
+      <div className="student-info">
+        <div className="flex mb-8">
+          <div className="flex-grow">
+            <div className="subtitle">Who you&apos;re mentoring</div>
+            <div className="handle-block">
+              <div className="handle">
+                <HandleWithFlair
+                  handle={student.handle}
+                  flair={student.flair}
+                  size="medium"
+                />
+              </div>
+              <Reputation
+                value={student.reputation.toString()}
+                type="primary"
+                size="small"
+              />
+            </div>
+            <div className="name">{student.name}</div>
+            <Pronouns handle={student.handle} pronouns={student.pronouns} />
+          </div>
+          <Avatar src={student.avatarUrl} handle={student.handle} />
+        </div>
+        <div className="bio">{student.bio}</div>
+        <div className="options">
+          {student.links ? (
+            <StudentInfoActions student={student} setStudent={setStudent} />
+          ) : null}
+          <PreviousSessionsLink student={student} setStudent={setStudent} />
+        </div>
+        <StudentTrackObjectives student={student} />
+
+        <ToggleMoreInformationButton
+          rotate
+          onClick={() => setShowMoreInformation(false)}
+        />
       </div>
-      <StudentTrackObjectives student={student} />
-    </div>
+    )
+}
+
+function ToggleMoreInformationButton({
+  onClick,
+  rotate,
+}: {
+  onClick: () => void
+  rotate?: boolean
+}) {
+  return (
+    <button className="self-center mt-8" onClick={onClick}>
+      <Icon
+        icon="chevron-down"
+        alt="expand"
+        height={16}
+        width={16}
+        className={rotate ? 'rotate-180' : ''}
+      />
+    </button>
   )
 }
 

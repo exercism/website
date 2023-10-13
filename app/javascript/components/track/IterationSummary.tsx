@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
@@ -7,6 +7,7 @@ import { ProcessingStatusSummary } from '../common'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
@@ -59,6 +60,7 @@ export function IterationSummary({
   showFeedbackIndicator,
   OutOfDateNotice,
 }: IterationSummaryProps): JSX.Element {
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   return (
     <div className={`c-iteration-summary ${className ?? ''}`}>
       {showSubmissionMethod ? (
@@ -83,7 +85,7 @@ export function IterationSummary({
           ) : null}
         </div>
         <div className="--details" data-testid="details">
-          Submitted{' '}
+          {!isBelowLgWidth && 'Submitted '}
           {showSubmissionMethod
             ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}, `
             : null}

@@ -34,7 +34,6 @@ export function MobileCodePanel({
   instructions,
   testFiles,
   outOfDate,
-  downloadCommand,
   session,
   setSession,
   onClick,

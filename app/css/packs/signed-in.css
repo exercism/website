@@ -39,6 +39,7 @@
 @import "../modals/become-mentor";
 @import "../modals/change-mentor-tracks";
 @import "../modals/select-exercise-for-mentoring";
+@import "../modals/session-info";
 @import "../components/mentor-discussion-widget";
 @import "../components/mentor-discussion-summary";
 @import "../components/mentor-track-selector";

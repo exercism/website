@@ -45,6 +45,7 @@ import {
 } from '@/channels/mentorRequestChannel'
 import { CancelledRequestModal } from './session/CancelledRequestModal'
 import { ScreenSizeContext } from './session/ScreenSizeContext'
+import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
 
 export type Links = {
   mentorDashboard: string
@@ -165,7 +166,7 @@ export default function Session(props: SessionProps): JSX.Element {
         id="mentoring-session"
         defaultLeftWidth="90%"
         leftMinWidth={550}
-        rightMinWidth={625}
+        rightMinWidth={isBelowLgWidth ? 0 : 625}
         left={
           <>
             <header className="discussion-header">
@@ -229,37 +230,24 @@ export default function Session(props: SessionProps): JSX.Element {
                   </Tab>
                 </div>
                 {isBelowLgWidth && (
-                  <Tab.Panel id="code" context={TabsContext}>
-                    <header className="discussion-header">
-                      <CloseButton url={links.mentorDashboard} />
-                      <SessionInfo
-                        student={student}
-                        track={track}
-                        exercise={exercise}
-                      />
-                      {discussion ? (
-                        <DiscussionActions
-                          {...discussion}
-                          session={session}
-                          setSession={setSession}
-                        />
-                      ) : null}
-                    </header>
-                    <IterationView
-                      iterations={iterations}
-                      instructions={instructions}
-                      testFiles={testFiles}
-                      currentIteration={currentIteration}
-                      onClick={handleIterationClick}
-                      isOutOfDate={outOfDate}
-                      language={track.highlightjsLanguage}
-                      indentSize={track.indentSize}
-                      isLinked={isLinked}
-                      setIsLinked={setIsLinked}
-                      discussion={discussion}
-                      downloadCommand={downloadCommand}
-                    />
-                  </Tab.Panel>
+                  <MobileCodePanel
+                    currentIteration={currentIteration}
+                    discussion={discussion}
+                    downloadCommand={downloadCommand}
+                    exercise={exercise}
+                    instructions={instructions}
+                    isLinked={isLinked}
+                    setIsLinked={setIsLinked}
+                    iterations={iterations}
+                    links={links}
+                    onClick={handleIterationClick}
+                    outOfDate={outOfDate}
+                    session={session}
+                    setSession={setSession}
+                    student={student}
+                    testFiles={testFiles}
+                    track={track}
+                  />
                 )}
                 <Tab.Panel id="discussion" context={TabsContext}>
                   <StudentInfo student={student} setStudent={setStudent} />

@@ -123,6 +123,19 @@
                 }
             }
         }
+
+        .iteration-header.mobile {
+            @apply px-12;
+            .close-btn {
+                @apply mr-12;
+                .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply filter-textColor6;
+                }
+            }
+        }
+
         & .c-results-zone {
             @apply flex-grow h-arbitary;
             & .c-iteration-pane {
@@ -225,15 +238,16 @@
         }
 
         &:not(#code-panel) > .tabs {
-            @apply flex relative;
+            @apply flex lg:relative fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: var(--header-height);
+            @apply lg:h-[var(--header-height)] h-auto;
 
             @apply bg-backgroundColorA;
             @apply shadow-sm;
-            @apply px-24 pt-20 pb-12;
+            @apply px-24 lg:pt-20 lg:pb-12 py-8;
+            @apply overflow-x-auto;
 
             & .c-tab {
                 height: 36px;
@@ -243,6 +257,9 @@
                     height: 16px;
                     width: 16px;
                 }
+            }
+            & + .--tab-panel {
+                @apply lg:mt-0 mt-52;
             }
         }
 

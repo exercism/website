@@ -5,7 +5,7 @@ module ViewComponents
     def initialize(docs, selected_doc, track: nil)
       super()
 
-      @docs = docs
+      @docs = docs.includes(:track)
       @selected_doc = selected_doc
       @track = track
     end

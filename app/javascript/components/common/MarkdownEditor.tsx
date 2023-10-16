@@ -108,7 +108,7 @@ export default function MarkdownEditor({
       },
       ...options,
     }
-  }, [contextId, options, url])
+  }, [contextId, options, url, isBelowLgWidth])
 
   return (
     <SimpleMDE

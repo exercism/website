@@ -54,13 +54,21 @@ const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
     const style = id !== current ? { display: 'none' } : undefined
     const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
+    const classNames = [
+      '--tab-panel',
+      isBelowLgWidth ? 'mobile' : '',
+      className,
+    ]
+      .filter((truthy) => truthy)
+      .join(' ')
+
     return (
       <div
         id={`panel-${id}`}
         role="tabpanel"
         aria-labelledby={`tab-${id}`}
         tabIndex={0}
-        className={`--tab-panel ${isBelowLgWidth ? 'mobile' : ''} ${className}`}
+        className={classNames}
         style={style}
         ref={ref}
       >

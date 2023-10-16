@@ -32,6 +32,8 @@ export const Scratchpad = ({
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
 
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   const handleChange = useCallback((content) => {
     setContent(content)
   }, [])
@@ -116,8 +118,6 @@ export const Scratchpad = ({
   if (!page) {
     return <Loading />
   }
-
-  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
   return (
     <>

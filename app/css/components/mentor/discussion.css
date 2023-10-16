@@ -258,16 +258,16 @@
                     width: 16px;
                 }
             }
+
+            + .--tab-panel.mobile {
+                @apply lg:mt-0 mt-52;
+            }
         }
 
         & .--tab-panel {
             @apply flex-grow;
             overflow-y: scroll;
             scroll-behavior: smooth;
-
-            &.mobile {
-                @apply lg:mt-0 mt-52;
-            }
         }
 
         & #panel-discussion {

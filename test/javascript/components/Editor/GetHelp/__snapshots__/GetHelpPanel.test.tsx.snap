@@ -7,7 +7,6 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
     class="--tab-panel"
     id="panel-get-help"
     role="tabpanel"
-    style="display: none;"
     tabindex="0"
   >
     <div

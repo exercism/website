@@ -21,7 +21,9 @@
         height: 99px;
         &:before {
             content: "Add a comment";
-            @apply py-12 px-16;
+            /* 'pr-[100%]' increases touch area to open MD editor on mobile devices */
+            @apply py-12 pl-16 pr-[100%];
+            @apply whitespace-nowrap;
             @apply text-16 leading-160 text-textColor7;
             @apply absolute z-1;
             top: 0;

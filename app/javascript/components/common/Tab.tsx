@@ -49,9 +49,8 @@ type PanelProps = {
 }
 
 const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
-  ({ id, className, children, context }, ref) => {
+  ({ id, className, children, context }, ref): JSX.Element | null => {
     const { current } = useContext(context)
-    const style = id !== current ? { display: 'none' } : undefined
     const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
     const classNames = [
@@ -62,6 +61,7 @@ const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
       .filter((truthy) => truthy)
       .join(' ')
 
+    if (id !== current) return null
     return (
       <div
         id={`panel-${id}`}
@@ -69,7 +69,6 @@ const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
         aria-labelledby={`tab-${id}`}
         tabIndex={0}
         className={classNames}
-        style={style}
         ref={ref}
       >
         {children}

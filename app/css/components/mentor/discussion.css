@@ -247,7 +247,7 @@
             @apply bg-backgroundColorA;
             @apply shadow-sm;
             @apply px-24 lg:pt-20 lg:pb-12 py-8;
-            @apply overflow-x-auto;
+            @apply overflow-x-auto lg:overflow-x-visible;
 
             & .c-tab {
                 height: 36px;

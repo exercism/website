@@ -2,10 +2,10 @@
 
 #maintaining-site-updates.c-admin-page
   .lg-container
-    %h1.text-h1.mb-8 Site updates
+    %h1.text-h1.mb-16.mt-32 Site updates
     - if flash[:site_updates_notice]
       .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
-    %table.mb-8.c-admin-table
+    %table.mb-16.c-admin-table
       %thead
         %tr
           %th Type
@@ -37,7 +37,7 @@
             %td= update.pull_request&.title
             %td
               - if update.editable_by?(current_user)
-                = link_to "Edit", edit_maintaining_site_update_path(update)
+                = link_to "Edit", edit_maintaining_site_update_path(update), class: 'text-prominentLinkColor font-bold'
 
     .flex
       = link_to "New site update", new_maintaining_site_update_path, class: 'btn btn-primary btn-base'

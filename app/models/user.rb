@@ -344,9 +344,13 @@ class User < ApplicationRecord
 
   def flair = super&.to_sym
 
-  def automator?(track)
+  def automator?(track = nil)
     return true if staff?
 
-    track_mentorships.automator.where(track:).exists?
+    if track
+      track_mentorships.automator.where(track:).exists?
+    else
+      track_mentorships.automator.exists?
+    end
   end
 end

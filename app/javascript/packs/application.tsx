@@ -665,11 +665,13 @@ initReact(mappings)
 
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
+import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
+  addAnchorsToDocsHeaders()
   document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 
   // Do this last

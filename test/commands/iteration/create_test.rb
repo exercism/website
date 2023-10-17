@@ -51,12 +51,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal iteration, activity.iteration
   end
 
-  test "enqueues snippet job" do
+  test "enqueues snippet creation" do
     solution = create :concept_solution
     submission = create(:submission, solution:)
 
-    assert_enqueued_with job: GenerateIterationSnippetJob do
-      Iteration::Create.(solution, submission)
+    Iteration::Create.(solution, submission)
+    assert enqueued_jobs.find do |job|
+      job["job_class"] == "MandateJob" &&
+        job["arguments"][0] == "Iteration::GenerateSnippet"
     end
   end
 
@@ -64,8 +66,10 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     submission = create(:submission, solution:)
 
-    assert_enqueued_with job: CalculateLinesOfCodeJob do
-      Iteration::Create.(solution, submission)
+    Iteration::Create.(solution, submission)
+    assert enqueued_jobs.find do |job|
+      job["job_class"] == "MandateJob" &&
+        job["arguments"][0] == "Iteration::CalculateLinesOfCode"
     end
   end
 

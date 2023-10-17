@@ -21,12 +21,12 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
       <div className="--counts">
         {solution.numLoc ? (
           <div className="--count">
-            <GraphicalIcon icon="loc" />
+            <Icon icon="loc" alt="Number of lines of code in the solution" />
             <div className="--num">{solution.numLoc}</div>
           </div>
         ) : null}
         <div className="--count">
-          <Icon icon="star" alt="Number of times solution has been stared" />
+          <Icon icon="star" alt="Number of times solution has been starred" />
           <div className="--num">{solution.numStars}</div>
         </div>
         <div className="--count">

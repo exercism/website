@@ -67,7 +67,7 @@ class Exercise::Representation::CreateSearchIndexDocument
       submission_representations.
       joins(submission: :analysis).
       where(submission: { analysis_status: :completed }).
-      last&.submission&.analysis&.tags.to_a
+      last&.submission.analysis.tags.to_a
   end
 
   attr_reader :solution, :published_iteration

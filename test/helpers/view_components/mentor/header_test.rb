@@ -27,15 +27,16 @@ class ViewComponents::Mentor::HeaderTest < ActionView::TestCase
     refute_includes html, "satisfaction"
   end
 
-  test "automation tab is unlocked if user is a supermentor" do
-    user = create :user, :supermentor
+  test "automation tab is unlocked if user is a automator" do
+    user = create :user
+    create(:user_track_mentorship, :automator, user:)
     sign_in! user
 
     html = render(ViewComponents::Mentor::Header.new(:automation))
     assert_includes html, 'href="/mentoring/automation"'
   end
 
-  test "automation tab is locked if user not a supermentor" do
+  test "automation tab is locked if user not a automator" do
     user = create :user, roles: []
     sign_in! user
 

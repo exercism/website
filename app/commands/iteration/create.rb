@@ -19,8 +19,8 @@ class Iteration::Create
       solution.update_iteration_status!
       Solution.reset_counters(solution.id, :iterations)
 
-      GenerateIterationSnippetJob.perform_later(iteration)
-      CalculateLinesOfCodeJob.perform_later(iteration)
+      Iteration::GenerateSnippet.defer(iteration)
+      Iteration::CalculateLinesOfCode.defer(iteration)
       ProcessIterationForDiscussionsJob.perform_later(iteration)
       record_activity!(iteration)
       award_badges!(iteration)

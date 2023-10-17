@@ -1,6 +1,6 @@
 require "test_helper"
 
-class GenerateIterationSnippetJobTest < ActiveJob::TestCase
+class Iteration::GenerateSnippetTest < ActiveJob::TestCase
   setup do
     code = "Some source code"
     @snippet = "Some generated snippet"
@@ -18,7 +18,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
   test "snippet is updated for iteration and solution" do
     iteration = create :iteration, submission: @submission
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    Iteration::GenerateSnippet.(iteration)
 
     assert_equal @snippet, iteration.reload.snippet
     assert_equal @snippet, iteration.solution.reload.snippet
@@ -29,7 +29,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     latest_iteration = create :iteration, submission: @submission
     create :iteration, solution: @submission.solution, deleted_at: Time.current # Last iteration
 
-    GenerateIterationSnippetJob.perform_now(latest_iteration)
+    Iteration::GenerateSnippet.(latest_iteration)
 
     assert_equal @snippet, latest_iteration.reload.snippet
     assert_equal @snippet, latest_iteration.solution.reload.snippet
@@ -39,7 +39,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     iteration = create :iteration, submission: @submission
     create :iteration, solution: @submission.solution
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    Iteration::GenerateSnippet.(iteration)
 
     assert_equal @snippet, iteration.reload.snippet
     assert_nil iteration.solution.reload.snippet
@@ -51,7 +51,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     create :iteration, solution: @submission.solution
     @submission.solution.update(published_iteration: iteration, published_at: Time.current)
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    Iteration::GenerateSnippet.(iteration)
 
     assert_equal @snippet, iteration.reload.snippet
     assert_equal @snippet, iteration.solution.reload.snippet
@@ -63,7 +63,7 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
     create :iteration, solution: @submission.solution
     @submission.solution.update(published_iteration: older_iteration)
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    Iteration::GenerateSnippet.(iteration)
 
     assert_equal @snippet, iteration.reload.snippet
     assert_nil iteration.solution.reload.snippet
@@ -74,14 +74,14 @@ class GenerateIterationSnippetJobTest < ActiveJob::TestCase
 
     RestClient.stubs(:post).raises(JSON::GeneratorError, "Invalid Unicode [fa ed fe 07 00]")
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    Iteration::GenerateSnippet.(iteration)
   end
 
   test "handle long snippets" do
     @snippet << ("x" * 1500)
     iteration = create :iteration, submission: @submission
 
-    GenerateIterationSnippetJob.perform_now(iteration)
+    Iteration::GenerateSnippet.(iteration)
     snippet = iteration.reload.snippet
     assert snippet.ends_with?("\n\n...")
     assert_equal 1405, snippet.length

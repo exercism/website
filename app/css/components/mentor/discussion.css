@@ -238,7 +238,7 @@
         }
 
         &:not(#code-panel) > .tabs {
-            @apply flex lg:relative fixed;
+            @apply flex lg:relative fixed z-menu;
             top: 0;
             left: 0;
             right: 0;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_123032) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -366,6 +366,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_123032) do
     t.index ["track_id", "representer_version"], name: "index_exercise_representations_track_version_desc", order: { representer_version: :desc }
     t.index ["track_id"], name: "index_exercise_representations_on_track_id"
     t.index ["uuid"], name: "index_exercise_representations_on_uuid", unique: true
+  end
+
+  create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
+    t.boolean "filterable", default: true, null: false
+    t.bigint "exercise_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_exercise_tags_on_exercise_id"
   end
 
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -850,6 +859,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_123032) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["solution_id", "user_id"], name: "index_solution_stars_on_solution_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_solution_stars_on_user_id"
+  end
+
+  create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
+    t.bigint "solution_id", null: false
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_solution_tags_on_exercise_id"
+    t.index ["solution_id"], name: "index_solution_tags_on_solution_id"
+    t.index ["user_id"], name: "index_solution_tags_on_user_id"
   end
 
   create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1542,6 +1563,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_123032) do
   add_foreign_key "exercise_representations", "tracks"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
+  add_foreign_key "exercise_tags", "exercises"
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
@@ -1575,6 +1597,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_123032) do
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_comments", "solutions"
+  add_foreign_key "solution_tags", "exercises"
+  add_foreign_key "solution_tags", "solutions"
+  add_foreign_key "solution_tags", "users"
   add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"

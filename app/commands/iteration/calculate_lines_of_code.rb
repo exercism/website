@@ -1,9 +1,11 @@
-class CalculateLinesOfCodeJob < ApplicationJob
-  extend Mandate::Memoize
+class Iteration::CalculateLinesOfCode
+  include Mandate
 
   queue_as :snippets
 
-  def perform(iteration)
+  initialize_with :iteration
+
+  def call
     # Sometimes the iteration might be deleted
     # before we get to the job. There *shouldn't* be
     # a DB race condition because of the way this is called

@@ -83,7 +83,7 @@ module ViewComponents
       end
 
       def automation_tab
-        unless current_user.supermentor? || current_user.admin?
+        unless current_user.automator?
           return tag.div(
             class: "#{tab_class(:automation)} locked",
             'aria-label': 'This tab is locked',

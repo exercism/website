@@ -55,10 +55,10 @@ class Submission::Analysis < ApplicationRecord
     end
   end
 
-  def summary
-    data[:summary].presence
-  end
+  memoize
+  def summary = data[:summary].presence
 
+  memoize
   def tags = tags_data[:tags].to_a
 
   memoize

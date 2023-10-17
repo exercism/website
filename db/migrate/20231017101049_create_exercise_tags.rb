@@ -8,6 +8,8 @@ class CreateExerciseTags < ActiveRecord::Migration[7.0]
 
       t.references :exercise, null: false, foreign_key: true
 
+      t.index %i[exercise_id tag], unique: true
+
       t.timestamps
     end
   end

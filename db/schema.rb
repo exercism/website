@@ -374,6 +374,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
     t.index ["exercise_id"], name: "index_exercise_tags_on_exercise_id"
   end
 
@@ -869,6 +870,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_solution_tags_on_exercise_id"
+    t.index ["solution_id", "tag"], name: "index_solution_tags_on_solution_id_and_tag", unique: true
     t.index ["solution_id"], name: "index_solution_tags_on_solution_id"
     t.index ["user_id"], name: "index_solution_tags_on_user_id"
   end

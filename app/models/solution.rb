@@ -40,6 +40,8 @@ class Solution < ApplicationRecord
   has_many :mentor_discussions, class_name: "Mentor::Discussion", dependent: :destroy
   has_many :mentors, through: :mentor_discussions
 
+  has_many :tags, dependent: :destroy
+
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
 

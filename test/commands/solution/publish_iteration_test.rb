@@ -72,4 +72,19 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
 
     Solution::Publish.(solution, user_track, nil)
   end
+
+  test "updates tags" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+
+    create(:exercise_representation, exercise:)
+    solution = create(:concept_solution)
+    create(:iteration, submission: create(:submission, solution:))
+
+    Solution::UpdateTags.expects(:call).with(solution)
+
+    Solution::Publish.(solution, user_track, nil)
+  end
 end

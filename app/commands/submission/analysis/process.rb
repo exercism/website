@@ -39,6 +39,7 @@ class Submission::Analysis::Process
 
   def handle_completed!
     submission.analysis_completed!
+    Solution::UpdateTags.(submission.solution)
   end
 
   memoize

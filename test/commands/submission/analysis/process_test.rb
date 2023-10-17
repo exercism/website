@@ -6,8 +6,10 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     ops_status = 200
     comments = [{ 'foo' => 'bar' }]
     data = { 'comments' => comments }
+    tags = ["construct:while-loop", "paradigm:logic"]
+    tags_data = { 'tags' => tags }
 
-    job = create_analyzer_job!(submission, execution_status: ops_status, data:)
+    job = create_analyzer_job!(submission, execution_status: ops_status, data:, tags_data:)
     Submission::Analysis::Process.(job)
 
     analysis = submission.reload.analysis
@@ -15,6 +17,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     assert_equal job.id, analysis.tooling_job_id
     assert_equal ops_status, analysis.ops_status
     assert_equal data, analysis.send(:data)
+    assert_equal tags_data, analysis.send(:tags_data)
   end
 
   test "handle ops error" do

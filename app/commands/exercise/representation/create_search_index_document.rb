@@ -63,11 +63,18 @@ class Exercise::Representation::CreateSearchIndexDocument
   end
 
   def tags
+    return [] if last_analyzed_submission_representation.nil?
+
+    last_analyzed_submission_representation.submission.analysis.tags
+  end
+
+  memoize
+  def last_analyzed_submission_representation
     representation.
       submission_representations.
       joins(submission: :analysis).
       where(submission: { analysis_status: :completed }).
-      last&.submission.analysis.tags.to_a
+      last
   end
 
   attr_reader :solution, :published_iteration

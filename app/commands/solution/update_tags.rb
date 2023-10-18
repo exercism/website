@@ -12,9 +12,15 @@ class Solution::UpdateTags
   def tags
     return [] if latest_analysis.nil?
 
-    latest_analysis.tags.map do |tag|
-      Solution::Tag.find_or_create_by(tag:, solution:)
+    analysis_tags = latest_analysis.tags
+    existing_tags = Solution::Tag.where(solution:).where(tag: analysis_tags).select(:id, :tag).to_a
+    solution_tags = existing_tags.map(&:tag)
+
+    new_tags = (analysis_tags - solution_tags).map do |tag|
+      Solution::Tag.find_or_create_by!(tag:, solution:)
     end
+
+    existing_tags + new_tags
   end
 
   memoize

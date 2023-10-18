@@ -2,7 +2,7 @@ import { MentorSessionRequest } from '@/components/types'
 import { sendRequest } from '@/utils/send-request'
 import dayjs from 'dayjs'
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 type APIResponse = {
   mentorRequestLock: {
     lockedUntil: string
@@ -25,7 +25,7 @@ export function useLockedSolutionMentoringNote(
   const [diff, setDiff] = useState(lockedUntil.diff(dayjs(), 'minute'))
   const [extendModalOpen, setExtendModalOpen] = useState(diff <= 10 && diff > 0)
 
-  const [extendLockedUntil] = useMutation<APIResponse>(
+  const { mutate: extendLockedUntil } = useMutation<APIResponse>(
     () => {
       const { fetch } = sendRequest({
         endpoint: request.links.extendLock,

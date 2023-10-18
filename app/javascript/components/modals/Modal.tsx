@@ -13,7 +13,7 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   cover?: boolean
   celebratory?: boolean
   theme?: Theme
-  aria?: Pick<Aria, 'describedby' | 'labelledby'>
+  aria?: Aria
   ReactModalClassName?: string
 }
 
@@ -39,14 +39,14 @@ export function Modal({
 
   return (
     <ReactModal
-      aria={aria}
-      ariaHideApp={process.env.NODE_ENV !== 'test'}
+      aria={{ modal: true, ...aria }}
+      role="dialog"
+      ariaHideApp={false}
       isOpen={open}
       onRequestClose={onClose}
       shouldCloseOnOverlayClick={!closeButton}
       className={`--modal-content ${ReactModalClassName}`}
       overlayClassName={overlayClassNames.join(' ')}
-      appElement={document.querySelector('body') as HTMLElement}
       overlayElement={(props, contentElement) => (
         <div {...props}>
           <Wrapper

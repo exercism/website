@@ -20,22 +20,33 @@ class Mentor::Discussion::FinishByStudent
   end
 
   def call
-    discussion.student_finished!
-    discussion.update(rating: rating.to_i)
+    discussion.transaction do
+      update!
+    end
 
     requeue!
     report!
     block!
     create_testimonial!
-    award_reputation!
-    award_badges!
-    award_trophies!
-    update_roles!
+    Mentor::Discussion::ProcessFinished.(discussion)
     notify!
-    log_metric!
   end
 
   private
+  def update!
+    cols = {
+      status: :finished,
+      awaiting_mentor_since: nil,
+      awaiting_student_since: nil,
+      rating: rating.to_i
+    }
+    unless discussion.finished_at
+      cols[:finished_at] = Time.current
+      cols[:finished_by] = :student
+    end
+    discussion.update!(cols)
+  end
+
   def requeue!
     return unless should_requeue
 
@@ -69,32 +80,6 @@ class Mentor::Discussion::FinishByStudent
     return if testimonial.blank?
 
     Mentor::Testimonial::Create.(discussion, testimonial)
-  end
-
-  def award_reputation!
-    return if rating < 3
-
-    User::ReputationToken::Create.defer(
-      discussion.mentor,
-      :mentored,
-      discussion:
-    )
-  end
-
-  def award_badges!
-    AwardBadgeJob.perform_later(discussion.mentor, :mentor)
-  end
-
-  def award_trophies!
-    AwardTrophyJob.perform_later(discussion.student, track, :mentored)
-  end
-
-  def update_roles!
-    User::UpdateMentorRoles.defer(discussion.mentor)
-  end
-
-  def log_metric!
-    Metric::Queue.(:finish_mentoring, discussion.finished_at, discussion:, track:, user: student)
   end
 
   delegate :track, to: :discussion

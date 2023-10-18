@@ -1,0 +1,10 @@
+%p Hi #{@user.handle},
+
+%p This is a friendly reminder that your mentor (#{@discussion.mentor.handle}) has been waiting #{@num_days_waiting} days for you to reply in #{link_to 'the discussion', track_exercise_mentor_discussion_url(@track, @exercise, @discussion)} on your solution to #{@exercise.title} on the #{@track.title} track.
+
+%p If you are actually waiting for the mentor, please add a comment to the discussion to let them know.
+
+%p The discussion will time out in #{@num_days_to_time_out} days if you do not reply.
+
+= email_button_to "Go to the discussion", track_exercise_mentor_discussion_url(@track, @exercise, @discussion)
+

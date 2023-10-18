@@ -83,6 +83,7 @@ test('highlights currently selected iteration', async () => {
         exemplarFiles={[]}
         links={{}}
         guidance={guidance}
+        request={{ isLocked: true }}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))
@@ -146,6 +147,7 @@ test('shows back button', async () => {
       scratchpad={scratchpad}
       exemplarFiles={[]}
       guidance={guidance}
+      request={{ isLocked: true }}
     />
   )
 
@@ -213,6 +215,7 @@ test('hides latest label if on old iteration', async () => {
       scratchpad={scratchpad}
       exemplarFiles={[]}
       guidance={guidance}
+      request={{ isLocked: true }}
     />
   )
   await awaitPopper()
@@ -282,6 +285,7 @@ test('switches to posts tab when comment success', async () => {
       scratchpad={scratchpad}
       exemplarFiles={[]}
       guidance={guidance}
+      request={{ isLocked: true }}
     />
   )
 
@@ -361,6 +365,7 @@ test('switches tabs', async () => {
       scratchpad={scratchpad}
       exemplarFiles={[]}
       guidance={guidance}
+      request={{ isLocked: true }}
     />
   )
   userEvent.click(screen.getByRole('tab', { name: 'Scratchpad' }))
@@ -436,6 +441,7 @@ test('go to previous iteration', async () => {
         scratchpad={scratchpad}
         exemplarFiles={[]}
         guidance={guidance}
+        request={{ isLocked: true }}
       />
     )
   })
@@ -507,6 +513,7 @@ test('go to next iteration', async () => {
       scratchpad={scratchpad}
       exemplarFiles={[]}
       guidance={guidance}
+      request={{ isLocked: true }}
     />
   )
   userEvent.click(screen.getByRole('button', { name: 'Go to iteration 1' }))

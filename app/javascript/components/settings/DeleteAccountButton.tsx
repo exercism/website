@@ -8,11 +8,9 @@ type Links = {
 export default function DeleteAccountButton({
   handle,
   links,
-  ariaHideApp = true,
 }: {
   handle: string
   links: Links
-  ariaHideApp?: boolean
 }): JSX.Element {
   const [open, setOpen] = useState(false)
 
@@ -30,7 +28,6 @@ export default function DeleteAccountButton({
         onClose={() => setOpen(false)}
         handle={handle}
         endpoint={links.delete}
-        ariaHideApp={ariaHideApp}
       />
     </React.Fragment>
   )

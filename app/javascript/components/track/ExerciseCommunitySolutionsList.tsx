@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import pluralize from 'pluralize'
-import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -15,6 +14,7 @@ import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 export type Order = 'most_starred' | 'newest'
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
@@ -43,7 +43,7 @@ export function ExerciseCommunitySolutionsList({
     setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+
   const {
     status,
     data: resolvedData,
@@ -57,10 +57,12 @@ export function ExerciseCommunitySolutionsList({
     request
   )
   const latestData = useLatestData(resolvedData)
+  const [criteria, setCriteria] = useState(request.query.criteria)
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setRequestCriteria(criteria)
+      if (criteria !== undefined && criteria !== null)
+        setRequestCriteria(criteria)
     }, 200)
 
     return () => {
@@ -103,10 +105,11 @@ export function ExerciseCommunitySolutionsList({
     [request.query, setQuery]
   )
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
-    <div className="lg-container c-community-solutions-list">
+    <div
+      data-scroll-top-anchor="exercise-community-solutions-list"
+      className="lg-container c-community-solutions-list"
+    >
       {resolvedData ? (
         <h2>
           {resolvedData.meta.unscopedTotal}{' '}
@@ -120,7 +123,7 @@ export function ExerciseCommunitySolutionsList({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={criteria}
+          value={criteria || ''}
           placeholder="Search by user"
         />
         <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
@@ -191,10 +194,7 @@ export function ExerciseCommunitySolutionsList({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div
-                className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-                ref={scrollToTopRef}
-              >
+              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution
@@ -209,7 +209,10 @@ export function ExerciseCommunitySolutionsList({
                 disabled={latestData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop('exercise-community-solutions-list', 32)
+                }}
               />
             </React.Fragment>
           ) : null}

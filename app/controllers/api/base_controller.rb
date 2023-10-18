@@ -41,11 +41,11 @@ module API
       render_403(:not_onboarded)
     end
 
-    def ensure_supermentor!
-      return if current_user&.supermentor?
-      return if current_user&.admin? # Admins have supermentor permissions
+    def ensure_automator!
+      return if current_user&.staff?
+      return if current_user&.track_mentorships&.automator&.exists?
 
-      render_403(:not_supermentor)
+      render_403(:not_automator)
     end
 
     def ensure_maintainer!

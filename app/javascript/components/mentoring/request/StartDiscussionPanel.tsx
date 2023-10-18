@@ -9,7 +9,7 @@ import { typecheck } from '../../../utils/typecheck'
 import { useMutation } from '@tanstack/react-query'
 import { MarkdownEditorForm } from '../../common/MarkdownEditorForm'
 import { redirectTo } from '../../../utils/redirect-to'
-import { MentoringNote } from '../session/MentoringNote'
+import { LockedSolutionMentoringNote } from './locked-solution-mentoring-note/LockedSolutionMentoringNote'
 
 const DEFAULT_ERROR = new Error('Unable to start discussion')
 
@@ -96,7 +96,7 @@ export const StartDiscussionPanel = ({
         defaultError={DEFAULT_ERROR}
         action="new"
       />
-      <MentoringNote links={links} />
+      <LockedSolutionMentoringNote links={links} request={request} />
     </section>
   )
 }

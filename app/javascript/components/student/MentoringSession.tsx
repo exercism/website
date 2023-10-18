@@ -15,6 +15,8 @@ import {
   MentorSessionRequest as Request,
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
+  MentoringSessionDonation,
+  MentoringSessionLinks,
 } from '../types'
 import { MentoringRequest } from './mentoring-session/MentoringRequest'
 import { SplitPane } from '../common/SplitPane'
@@ -26,6 +28,8 @@ export type Links = {
   privateMentoring: string
   mentoringGuide: string
   createMentorRequest: string
+  donationsSettings: string
+  donate: string
 }
 
 export type Video = {
@@ -44,6 +48,7 @@ export type Mentor = {
   flair: Flair
   reputation: number
   numDiscussions: number
+  pronouns?: string[]
 }
 
 export default function MentoringSession({
@@ -58,6 +63,7 @@ export default function MentoringSession({
   request: initialRequest,
   links,
   outOfDate,
+  donation,
 }: {
   userHandle: string
   discussion?: MentorDiscussion
@@ -68,14 +74,18 @@ export default function MentoringSession({
   videos: Video[]
   track: Track
   request?: Request
-  links: Links
+  links: MentoringSessionLinks
   outOfDate: boolean
+  donation: MentoringSessionDonation
 }): JSX.Element {
   const [mentorRequest, setMentorRequest] = useState(initialRequest)
 
-  const handleCreateMentorRequest = useCallback((mentorRequest) => {
-    setMentorRequest(mentorRequest)
-  }, [])
+  const handleCreateMentorRequest = useCallback(
+    (mentorRequest: typeof initialRequest) => {
+      setMentorRequest(mentorRequest)
+    },
+    []
+  )
 
   const { iterations, status } = useDiscussionIterations({
     discussion: discussion,
@@ -104,7 +114,12 @@ export default function MentoringSession({
               {discussion ? (
                 <DiscussionActions
                   discussion={discussion}
-                  links={{ exercise: exercise.links.self }}
+                  links={{
+                    ...links,
+                    exercise: exercise.links.self,
+                    exerciseMentorDiscussionUrl: links.exercise,
+                  }}
+                  donation={donation}
                 />
               ) : null}
             </header>
@@ -130,8 +145,13 @@ export default function MentoringSession({
                 userHandle={userHandle}
                 iterations={iterations}
                 onIterationScroll={handleIterationScroll}
-                links={{ exercise: exercise.links.self }}
+                links={{
+                  ...links,
+                  exercise: exercise.links.self,
+                  exerciseMentorDiscussionUrl: links.exercise,
+                }}
                 status={status}
+                donation={donation}
               />
             ) : (
               <MentoringRequest

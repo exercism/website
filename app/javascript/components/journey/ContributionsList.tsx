@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { scrollToTop } from '@/utils/scroll-to-top'
 import { ContributionResults } from './ContributionResults'
-import { useScrollToTop } from '@/hooks'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
@@ -40,7 +40,7 @@ export function ContributionsList({
     setCriteria: setRequestCriteria,
     setQuery,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     'contributions-list',
     request.endpoint,
@@ -68,6 +68,7 @@ export function ContributionsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -78,18 +79,19 @@ export function ContributionsList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(requestQuery.page)
-
   return (
-    <article className="reputation-tab theme-dark">
+    <article
+      data-scroll-top-anchor="contributions-list"
+      className="reputation-tab theme-dark"
+    >
       <div className="md-container container">
-        <div className="c-search-bar" ref={scrollToTopRef}>
+        <div className="c-search-bar">
           <input
             className="--search"
             onChange={(e) => {
               setCriteria(e.target.value)
             }}
-            value={criteria}
+            value={criteria || ''}
             placeholder="Search by contribution name"
           />
           <CategorySelect
@@ -110,7 +112,10 @@ export function ContributionsList({
                   disabled={latestData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('contributions-list')
+                  }}
                 />
               </React.Fragment>
             ) : null}

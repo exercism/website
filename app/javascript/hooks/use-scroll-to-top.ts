@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
  * @param stateUpdate The state the dependency array listens to
  * @returns a ref that will be scrolled to top of the screen on state update
  */
-export function useScrollToTop<T extends HTMLElement>(
+export function _useScrollToTop<T extends HTMLElement>(
   stateUpdate: unknown
 ): React.RefObject<T> | undefined {
   const scrollToTopRef = useRef<T>(null)
@@ -25,4 +25,10 @@ export function useScrollToTop<T extends HTMLElement>(
   }, [stateUpdate])
 
   return scrollToTopRef
+}
+
+export function useScrollToTop(stateUpdate: unknown): void {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [stateUpdate])
 }

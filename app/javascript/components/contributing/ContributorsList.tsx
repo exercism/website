@@ -4,7 +4,7 @@ import { TrackSelect } from '@/components/common/TrackSelect'
 import type { PaginatedResult, Contributor, Track } from '@/components/types'
 import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
-import { useScrollToTop } from '@/hooks'
+import { scrollToTop } from '@/utils/scroll-to-top'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
@@ -65,12 +65,11 @@ export default function ContributorsList({
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
   useQueryParams(request.query)
 
   return (
     <div>
-      <div className="c-search-bar" ref={scrollToTopRef}>
+      <div className="c-search-bar">
         <div className="tabs overflow-x-auto">
           <PeriodButton
             period="week"
@@ -135,7 +134,10 @@ export default function ContributorsList({
                 disabled={latestData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop('contributors-list', 32)
+                }}
               />
             </>
           ) : null}

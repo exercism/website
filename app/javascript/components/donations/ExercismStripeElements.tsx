@@ -69,7 +69,7 @@ export const ExercismStripeElements = ({
   const { stripe, error } = useLazyLoadStripe()
 
   if (error) return <div className="c-alert--danger my-12 mx-24">{error}</div>
-  if (!stripe) return <div className="c-alert my-12 mx-24">Loading...</div>
+  if (!stripe) return <div className="c-alert my-12 mx-24">Loading…</div>
 
   return (
     <Elements stripe={stripe} options={options}>

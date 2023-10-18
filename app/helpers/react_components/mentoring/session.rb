@@ -31,6 +31,7 @@ module ReactComponents
               anonymous_mode: discussion&.anonymous_mode?,
               discussion:
             ),
+            student_solution_uuid: solution.uuid,
             mentor_solution:,
             exemplar_files: SerializeExemplarFiles.(exercise.exemplar_files),
             guidance: {
@@ -67,6 +68,7 @@ module ReactComponents
       def links
         {
           mentor_dashboard: Exercism::Routes.mentoring_inbox_path,
+          mentor_queue: Exercism::Routes.mentoring_queue_path,
           exercise: Exercism::Routes.track_exercise_path(track, exercise),
           mentoring_docs: Exercism::Routes.docs_section_path(:mentoring)
         }

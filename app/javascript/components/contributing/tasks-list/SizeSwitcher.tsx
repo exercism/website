@@ -107,7 +107,7 @@ export const SizeSwitcher = ({
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={SizeOption}
-      componentClassName="size-switcher"
+      className="size-switcher"
     />
   )
 }

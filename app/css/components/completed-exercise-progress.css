@@ -45,10 +45,14 @@
                 }
             }
             & .list {
-                @apply flex flex-wrap;
-            }
-            & .c-exercise-widget {
-                @apply mr-12 mb-12;
+                @apply flex flex-wrap gap-12;
+                .c-unlocked-concept {
+                    @apply m-0;
+                }
+
+                .c-exercise-widget {
+                    @apply w-auto;
+                }
             }
         }
     }

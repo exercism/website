@@ -261,9 +261,10 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_analyzer_job!(submission, execution_status: nil, data: nil)
+  def create_analyzer_job!(submission, execution_status: nil, data: nil, tags_data: nil)
     execution_output = {
-      "analysis.json" => data&.to_json
+      "analysis.json" => data&.to_json,
+      "tags.json" => tags_data&.to_json
     }
     create_tooling_job!(
       submission,

@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { getCacheKey } from '@/components/student'
+import { redirectTo } from '@/utils'
 import type { File } from './types'
 import { type TabContext } from './common'
 import { SplitPane } from './common/SplitPane'
@@ -42,13 +43,22 @@ import {
   TestsPanel,
   ResultsPanel,
   FeedbackPanel,
+  GetHelpPanel,
+  GetHelpTab,
+  StuckButton,
+  TestContentWrapper,
+  ChatGPT,
 } from './editor/index'
-import { TestContentWrapper } from './editor/TestContentWrapper'
 import { RealtimeFeedbackModal } from './modals'
-import * as ChatGPT from './editor/ChatGptFeedback'
-import { redirectTo } from '@/utils'
+import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
+import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
 
-type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
+export type TabIndex =
+  | 'instructions'
+  | 'tests'
+  | 'results'
+  | 'get-help'
+  | 'chat-gpt'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -84,6 +94,7 @@ export default ({
   defaultSettings,
   autosave,
   panels,
+  help,
   track,
   exercise,
   solution,
@@ -390,7 +401,7 @@ export default ({
 
   const invokeChatGpt = useCallback(() => {
     const status = chatGptFetchingStatus
-    setTab('chatgpt')
+    setTab('get-help')
     if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
       pokeChatGpt()
       setSubmissionUuid(submission?.uuid)
@@ -425,7 +436,6 @@ export default ({
               exerciseTitle={exercise.title}
             />
             <div className="options">
-              <Header.ActionHints assignment={panels.instructions.assignment} />
               <Header.ActionSettings
                 settings={settings}
                 setSettings={setSettings}
@@ -461,21 +471,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <ChatGPT.Button
-                    insider={insider}
-                    noSubmission={!submission}
-                    sameSubmission={
-                      submission ? submission.uuid === submissionUuid : false
-                    }
-                    isProcessing={isProcessing}
-                    passingTests={testRunStatus === TestRunStatus.PASS}
-                    chatGptFetchingStatus={chatGptFetchingStatus}
-                    onClick={
-                      insider
-                        ? () => setChatGptDialogOpen(true)
-                        : () => setTab('chatgpt')
-                    }
-                  />
+                  <StuckButton insider={insider} tab={tab} setTab={setTab} />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -506,7 +502,8 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  <ChatGPT.Tab />
+                  <ChatGptTab />
+                  <GetHelpTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -542,26 +539,36 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {insider ? (
-                  <ChatGPT.Panel
-                    helpRecord={helpRecord}
-                    status={chatGptFetchingStatus}
-                  >
-                    <ChatGPT.Button
-                      insider={insider}
-                      noSubmission={!submission}
-                      sameSubmission={
-                        submission ? submission.uuid === submissionUuid : false
-                      }
-                      isProcessing={isProcessing}
-                      passingTests={testRunStatus === TestRunStatus.PASS}
-                      chatGptFetchingStatus={chatGptFetchingStatus}
-                      onClick={() => setChatGptDialogOpen(true)}
-                    />
-                  </ChatGPT.Panel>
-                ) : (
-                  <ChatGPT.UpsellPanel />
-                )}
+                <ChatGptPanel>
+                  {insider ? (
+                    <ChatGPT.Wrapper
+                      helpRecord={helpRecord}
+                      status={chatGptFetchingStatus}
+                    >
+                      <ChatGPT.Button
+                        insider={insider}
+                        noSubmission={!submission}
+                        sameSubmission={
+                          submission
+                            ? submission.uuid === submissionUuid
+                            : false
+                        }
+                        isProcessing={isProcessing}
+                        passingTests={testRunStatus === TestRunStatus.PASS}
+                        chatGptFetchingStatus={chatGptFetchingStatus}
+                        onClick={() => setChatGptDialogOpen(true)}
+                      />
+                    </ChatGPT.Wrapper>
+                  ) : (
+                    <ChatGPT.UpsellContent />
+                  )}
+                </ChatGptPanel>
+                <GetHelpPanel
+                  assignment={panels.instructions.assignment}
+                  helpHtml={help.html}
+                  links={links}
+                  track={track}
+                />
               </TasksContext.Provider>
             }
           />

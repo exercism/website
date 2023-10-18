@@ -1,6 +1,5 @@
 import React from 'react'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
-import { useScrollToTop } from '@/hooks'
 import { useList } from '@/hooks/use-list'
 import { useLatestData } from '@/hooks/use-latest-data'
 import { fromNow } from '@/utils/date'
@@ -16,6 +15,7 @@ import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import type { Links } from '@/components/student/RequestMentoringButton'
 import type { PaginatedResult, SolutionForStudent } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -39,8 +39,6 @@ export const RequestMentoringModal = ({
   >(['exercises-for-mentoring', request.query], request)
   const latestData = useLatestData(resolvedData)
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
     <Modal
       closeButton={true}
@@ -48,7 +46,7 @@ export const RequestMentoringModal = ({
       {...props}
     >
       <h2>Select an exercise to request mentoring on</h2>
-      <div className="c-search-bar" ref={scrollToTopRef}>
+      <div className="c-search-bar">
         <input
           value={request.query.criteria || ''}
           onChange={(e) => {
@@ -105,7 +103,10 @@ export const RequestMentoringModal = ({
               disabled={latestData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </React.Fragment>
         ) : null}

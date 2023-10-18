@@ -6,6 +6,7 @@ class Solution::PublishIteration
   def call
     solution.update!(published_iteration: iteration)
 
+    Solution::UpdateTags.(solution)
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)

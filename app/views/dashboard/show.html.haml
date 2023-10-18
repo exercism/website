@@ -7,7 +7,7 @@
       .info
         .handle= render ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair, size: :medium)
         .extra= current_user.name
-      / TODO: Add tests for this
+      -# TODO: Add tests for this
       = link_to badges_journey_path(anchor: "journey-content") do
         .badges
           - @featured_badges.each do |badge|
@@ -35,7 +35,7 @@
             Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.
 
-      %h2.text-h3.mb-16 Where to start...
+      %h2.text-h3.mb-16 Where to start…
       %section.actions-section
         = link_to tracks_path, class: 'action e-hover-grow' do
           = graphical_icon "bookworm", category: 'graphics'
@@ -90,9 +90,9 @@
           .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
             Month 9 of #12in23
-          %h2.text-h3 It's Slimline September
+          %h2.text-h3 It's Object-Oriented October
           %p.text-p-base.mb-6
-            This month we're exploring languages with concise syntax: 8th, AWK, Bash, jq, Perl and Raku!
+            This month we're exploring object-oriented languages: C#, Crystal, Java, Pharo, Ruby and PowerShell!
             Have fun!
           = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
             %span Explore #12in23

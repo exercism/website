@@ -124,4 +124,40 @@ class NotificationsMailerPreview < ActionMailer::Preview
       notification: User::Notifications::JoinedInsidersNotification.first
     ).expired_premium
   end
+
+  def nudge_student_to_reply_in_discussion
+    NotificationsMailer.with(
+      notification: User::Notifications::NudgeStudentToReplyInDiscussionNotification.first
+    ).nudge_student_to_reply_in_discussion
+  end
+
+  def nudge_mentor_to_reply_in_discussion
+    NotificationsMailer.with(
+      notification: User::Notifications::NudgeMentorToReplyInDiscussionNotification.first
+    ).nudge_mentor_to_reply_in_discussion
+  end
+
+  def mentor_timed_out_discussion_student
+    NotificationsMailer.with(
+      notification: User::Notifications::MentorTimedOutDiscussionStudentNotification.first
+    ).mentor_timed_out_discussion_student
+  end
+
+  def mentor_timed_out_discussion_mentor
+    NotificationsMailer.with(
+      notification: User::Notifications::MentorTimedOutDiscussionMentorNotification.first
+    ).mentor_timed_out_discussion_mentor
+  end
+
+  def student_timed_out_discussion_student
+    NotificationsMailer.with(
+      notification: User::Notifications::StudentTimedOutDiscussionStudentNotification.first
+    ).student_timed_out_discussion_student
+  end
+
+  def student_timed_out_discussion_mentor
+    NotificationsMailer.with(
+      notification: User::Notifications::StudentTimedOutDiscussionMentorNotification.first
+    ).student_timed_out_discussion_mentor
+  end
 end

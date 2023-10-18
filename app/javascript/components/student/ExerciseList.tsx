@@ -99,7 +99,7 @@ export default ({
   defaultStatus?: string
 }): JSX.Element => {
   const { request, setCriteria: setRequestCriteria } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const [statusFilter, setStatusFilter] = useState<StatusFilter>(
     STATUS_FILTERS.find((filter) => filter.id === defaultStatus) ||
       STATUS_FILTERS[0]
@@ -124,6 +124,7 @@ export default ({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 

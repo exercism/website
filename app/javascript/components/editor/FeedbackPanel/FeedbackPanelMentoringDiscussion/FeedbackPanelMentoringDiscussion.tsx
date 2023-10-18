@@ -24,7 +24,7 @@ export function MentoringDiscussion({
     return (
       <FeedbackDetail open={open} summary="Code Review">
         {status === 'loading' ? (
-          <div>Loading...</div>
+          <div>Loading…</div>
         ) : (
           <div className="c-discussion-timeline">
             <p className="text-p-base">

@@ -24,6 +24,8 @@ class Exercise::Representation::CreateSearchIndexDocument
       num_loc: solution.num_loc,
       num_solutions: representation.num_published_solutions,
       code: published_iteration.submission.files.map(&:content) || [],
+      max_reputation:,
+      tags:,
       exercise: {
         id: solution.exercise.id,
         slug: solution.exercise.slug,
@@ -48,6 +50,31 @@ class Exercise::Representation::CreateSearchIndexDocument
     !representation.published_solutions.
       where(published_iteration_head_tests_status: %i[failed errored]).
       exists?
+  end
+
+  def max_reputation
+    User::ReputationPeriod.where(
+      period: :forever,
+      category: :any,
+      about: :track,
+      track_id: representation.track_id,
+      user_id: representation.published_solutions.select(:user_id)
+    ).maximum(:reputation).to_i
+  end
+
+  def tags
+    return [] if last_analyzed_submission_representation.nil?
+
+    last_analyzed_submission_representation.submission.analysis.tags
+  end
+
+  memoize
+  def last_analyzed_submission_representation
+    representation.
+      submission_representations.
+      joins(submission: :analysis).
+      where(submission: { analysis_status: :completed }).
+      last
   end
 
   attr_reader :solution, :published_iteration

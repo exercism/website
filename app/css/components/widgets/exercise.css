@@ -119,7 +119,7 @@
     }
 
     &.--locked {
-        cursor: not-allowed;
+        cursor: pointer;
         &:hover:not(.--static) {
             @apply shadow-sm;
         }

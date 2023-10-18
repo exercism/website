@@ -1,3 +1,5 @@
+- content_for :canonical_url, journey_url
+
 #page-journey
   = render "journey/hero", user_tracks: @user_tracks
   = render ReactComponents::Journey::JourneyPage.new("overview", params)

@@ -208,6 +208,7 @@ namespace :api do
         end
         member do
           patch :lock
+          patch :extend_lock
           patch :cancel
         end
       end

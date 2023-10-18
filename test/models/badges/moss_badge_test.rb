@@ -18,6 +18,7 @@ class Badge::MossBadgeTest < ActiveSupport::TestCase
       andrerfcsantos
       BethanyG
       erikschierboom
+      glennj
       ihid
       kotp
       NobbZ

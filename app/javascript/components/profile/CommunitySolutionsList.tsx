@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useScrollToTop } from '@/hooks'
 import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -13,6 +12,7 @@ import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '../types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 export type TrackData = {
   iconUrl: string
@@ -40,7 +40,6 @@ export default function CommunitySolutionsList({
     setOrder,
     setQuery,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
   const {
     status,
     data: resolvedData,
@@ -54,6 +53,7 @@ export default function CommunitySolutionsList({
     request
   )
   const latestData = useLatestData(resolvedData)
+  const [criteria, setCriteria] = useState(request.query?.criteria)
 
   const setTrack = useCallback(
     (slug) => {
@@ -64,6 +64,7 @@ export default function CommunitySolutionsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -74,11 +75,12 @@ export default function CommunitySolutionsList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
-    <div className="lg-container">
-      <div className="c-search-bar" ref={scrollToTopRef}>
+    <div
+      data-scroll-top-anchor="community-solutions-list"
+      className="lg-container"
+    >
+      <div className="c-search-bar">
         <TrackDropdown
           tracks={tracks}
           value={request.query.trackSlug || ''}
@@ -89,7 +91,7 @@ export default function CommunitySolutionsList({
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={criteria}
+          value={criteria || ''}
           placeholder="Filter by exercise"
         />
         <OrderSelect
@@ -120,7 +122,10 @@ export default function CommunitySolutionsList({
                 disabled={latestData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop('community-solutions-list', 32)
+                }}
               />
             </React.Fragment>
           ) : null}

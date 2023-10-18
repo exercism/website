@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -342,6 +342,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.integer "num_published_solutions", limit: 2, default: 0, null: false
     t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
+    t.index ["exercise_id", "representer_version", "feedback_added_at"], name: "search_ex_4", order: { representer_version: :desc, feedback_added_at: :desc }
+    t.index ["exercise_id", "representer_version", "feedback_added_at"], name: "search_ex_5", order: { representer_version: :desc }
+    t.index ["exercise_id", "representer_version", "last_submitted_at"], name: "search_ex_3", order: { representer_version: :desc, last_submitted_at: :desc }
+    t.index ["exercise_id", "representer_version", "num_submissions", "last_submitted_at"], name: "search_ex_2", order: { representer_version: :desc, last_submitted_at: :desc }
+    t.index ["exercise_id", "representer_version", "num_submissions"], name: "search_ex_1", order: { representer_version: :desc }
     t.index ["exercise_id_and_ast_digest_idx_cache", "id"], name: "index_sub_rep"
     t.index ["feedback_author_id", "exercise_id", "last_submitted_at"], name: "index_exercise_representation_author_exercise_last_submitted_at"
     t.index ["feedback_author_id", "exercise_id", "num_submissions"], name: "index_exercise_representation_author_exercise_num_submissions"
@@ -353,8 +358,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.index ["feedback_type", "track_id", "last_submitted_at"], name: "index_exercise_representation_type_track_last_submitted_at"
     t.index ["feedback_type", "track_id", "num_submissions"], name: "index_exercise_representation_type_track_num_submissions"
     t.index ["source_submission_id"], name: "index_exercise_representations_on_source_submission_id"
+    t.index ["track_id", "representer_version", "feedback_added_at"], name: "search_track_4", order: { representer_version: :desc, feedback_added_at: :desc }
+    t.index ["track_id", "representer_version", "feedback_added_at"], name: "search_track_5", order: { representer_version: :desc }
+    t.index ["track_id", "representer_version", "feedback_type", "num_submissions"], name: "search_track_2", order: { representer_version: :desc, num_submissions: :desc }
+    t.index ["track_id", "representer_version", "last_submitted_at"], name: "search_track_3", order: { representer_version: :desc, last_submitted_at: :desc }
+    t.index ["track_id", "representer_version", "num_submissions"], name: "search_track_1", order: { representer_version: :desc, num_submissions: :desc }
+    t.index ["track_id", "representer_version"], name: "index_exercise_representations_track_version_desc", order: { representer_version: :desc }
     t.index ["track_id"], name: "index_exercise_representations_on_track_id"
     t.index ["uuid"], name: "index_exercise_representations_on_uuid", unique: true
+  end
+
+  create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
+    t.boolean "filterable", default: true, null: false
+    t.bigint "exercise_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
+    t.index ["exercise_id"], name: "index_exercise_tags_on_exercise_id"
   end
 
   create_table "exercise_taught_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -545,7 +566,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.datetime "awaiting_mentor_since", precision: nil
     t.datetime "mentor_reminder_sent_at", precision: nil
     t.string "uuid", null: false
-    t.datetime "requires_student_action_since", precision: nil
     t.integer "num_posts", limit: 3, default: 0, null: false
     t.boolean "anonymous_mode", default: false, null: false
     t.datetime "awaiting_student_since", precision: nil
@@ -557,6 +577,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.index ["mentor_id", "status"], name: "index_mentor_discussions_on_mentor_id_and_status"
     t.index ["request_id"], name: "fk_rails_38162d0a13"
     t.index ["solution_id"], name: "fk_rails_704ccdde73"
+    t.index ["status", "awaiting_mentor_since"], name: "index_mentor_discussions_on_status_and_awaiting_mentor_since"
+    t.index ["status", "awaiting_student_since"], name: "index_mentor_discussions_on_status_and_awaiting_student_since"
     t.index ["uuid"], name: "index_mentor_discussions_on_uuid", unique: true
   end
 
@@ -840,6 +862,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.index ["user_id"], name: "index_solution_stars_on_user_id"
   end
 
+  create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
+    t.bigint "solution_id", null: false
+    t.bigint "exercise_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_solution_tags_on_exercise_id"
+    t.index ["solution_id", "tag"], name: "index_solution_tags_on_solution_id_and_tag", unique: true
+    t.index ["solution_id"], name: "index_solution_tags_on_solution_id"
+    t.index ["user_id"], name: "index_solution_tags_on_user_id"
+  end
+
   create_table "solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "uuid", null: false
@@ -928,6 +963,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.datetime "updated_at", null: false
     t.integer "num_comments", limit: 1, default: 0, null: false
     t.bigint "track_id"
+    t.text "tags_data"
     t.index ["submission_id"], name: "index_submission_analyses_on_submission_id"
     t.index ["track_id", "id"], name: "index_submission_analyses_on_track_id_and_id"
     t.index ["track_id", "num_comments"], name: "index_submission_analyses_on_track_id_and_num_comments"
@@ -1221,9 +1257,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.boolean "email_on_automated_feedback_added_notification", default: true, null: false
     t.boolean "email_about_fundraising_campaigns", default: true, null: false
     t.boolean "email_about_events", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false    
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
+    t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
+    t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
+    t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
+    t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1413,6 +1453,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "last_viewed", default: false, null: false
     t.integer "num_finished_discussions", limit: 3, default: 0, null: false
+    t.boolean "automator", default: false, null: false
     t.index ["track_id"], name: "fk_rails_4a81f96f88"
     t.index ["user_id", "track_id"], name: "index_user_track_mentorships_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "fk_rails_283ecc719a"
@@ -1524,6 +1565,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
   add_foreign_key "exercise_representations", "tracks"
   add_foreign_key "exercise_representations", "users", column: "feedback_author_id"
   add_foreign_key "exercise_representations", "users", column: "feedback_editor_id"
+  add_foreign_key "exercise_tags", "exercises"
   add_foreign_key "exercise_taught_concepts", "exercises"
   add_foreign_key "exercise_taught_concepts", "track_concepts"
   add_foreign_key "exercises", "tracks"
@@ -1557,6 +1599,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_231141) do
   add_foreign_key "site_updates", "tracks"
   add_foreign_key "site_updates", "users", column: "author_id"
   add_foreign_key "solution_comments", "solutions"
+  add_foreign_key "solution_tags", "exercises"
+  add_foreign_key "solution_tags", "solutions"
+  add_foreign_key "solution_tags", "users"
   add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"

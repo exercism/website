@@ -83,12 +83,6 @@ export const AddTestimonialStep = ({
               value={value}
               onChange={handleChange}
             />
-            {/*<p className="help">
-              Testimonials are a place to write what impressed you about a
-              mentor.
-              <br />
-              Mentors can choose to display them on their profiles.
-            </p>*/}
             <div className="form-buttons">
               <FormButton
                 type="button"

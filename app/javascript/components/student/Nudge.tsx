@@ -207,7 +207,7 @@ const CompleteExerciseNudge = ({
     <section className={classNames.join(' ')}>
       <GraphicalIcon icon="complete" category="graphics" />
       <div className="info">
-        <h3>Nice, it looks like you’re done here!</h3>
+        <h3>Nice, it looks like you&apos;re done here!</h3>
         <p>
           Complete the exercise to unlock new concepts and exercises.{' '}
           <strong>
@@ -339,7 +339,7 @@ const MentoringRequestedNudge = ({
     <section className={classNames.join(' ')}>
       <div className="info">
         <h3>You&apos;ve requested mentoring</h3>
-        <p>Waiting on a mentor...</p>
+        <p>Waiting on a mentor…</p>
       </div>
       <a href={links.pendingMentorRequest} className="btn-primary btn-s">
         Open request

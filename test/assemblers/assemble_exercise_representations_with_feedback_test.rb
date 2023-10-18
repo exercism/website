@@ -23,6 +23,20 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
     assert_equal expected, AssembleExerciseRepresentationsWithFeedback.(user, params)
   end
 
+  test "should select correct representer version" do
+    track = create :track
+    mentor = create :user
+    create :exercise_representation, track:, representer_version: 2
+    create :exercise_representation, track:, representer_version: 5
+    create :exercise_representation, track:, representer_version: 1
+
+    Exercise::Representation::Search.expects(:call).with do |kwargs|
+      assert_equal 5, kwargs[:representer_version]
+    end.returns(Exercise::Representation.page(1).per(20))
+
+    AssembleExerciseRepresentationsWithFeedback.(mentor, { track_slug: track.slug })
+  end
+
   test "should proxy correctly" do
     track = create :track
     mentor = create :user
@@ -32,6 +46,7 @@ class AssembleExerciseRepresentationsWithFeedbackTest < ActiveSupport::TestCase
 
     Exercise::Representation::Search.expects(:call).with(
       mode: :with_feedback,
+      representer_version: 1,
       mentor:,
       track:,
       page:,

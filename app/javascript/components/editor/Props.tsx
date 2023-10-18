@@ -29,6 +29,8 @@ type Links = {
   mentoringRequest: string
   mentorDiscussions: string
   createMentorRequest: string
+  discordRedirectPath: string
+  forumRedirectPath: string
 }
 
 type Track = {
@@ -76,6 +78,10 @@ type EditorPanels = {
   }
 }
 
+type Help = {
+  html: string
+}
+
 export type Props = {
   timeout?: number
   insider: boolean
@@ -85,6 +91,7 @@ export type Props = {
   defaultSettings: Partial<EditorSettings>
   autosave: AutosaveConfig
   panels: EditorPanels
+  help: Help
   track: Track
   exercise: Exercise
   iteration?: Iteration

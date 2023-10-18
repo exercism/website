@@ -1,5 +1,4 @@
 import React from 'react'
-import { useScrollToTop } from '@/hooks'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { useLatestData } from '@/hooks/use-latest-data'
@@ -8,6 +7,7 @@ import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import type { ExerciseAuthorship, PaginatedResult } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to load authoring contributions')
 
@@ -28,8 +28,6 @@ export const AuthoringContributionsList = ({
   >([request.endpoint, request.query], request)
   const latestData = useLatestData(resolvedData)
 
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(request.query.page)
-
   return (
     <ResultsZone isFetching={isFetching}>
       <FetchingBoundary
@@ -39,7 +37,7 @@ export const AuthoringContributionsList = ({
       >
         {resolvedData ? (
           <React.Fragment>
-            <div className="authoring" ref={scrollToTopRef}>
+            <div className="authoring">
               <div className="exercises">
                 {resolvedData.results.map((authorship) => {
                   return (
@@ -57,7 +55,10 @@ export const AuthoringContributionsList = ({
               disabled={latestData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop('profile-contributions', 32)
+              }}
             />
           </React.Fragment>
         ) : null}

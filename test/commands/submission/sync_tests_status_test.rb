@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Submission::SyncTestsStatusTest < ActiveSupport::TestCase
-  test "returns false with no representation" do
+  test "returns false with no test_run" do
     submission = create :submission
     refute Submission::SyncTestsStatus.(submission)
   end
@@ -48,5 +48,22 @@ class Submission::SyncTestsStatusTest < ActiveSupport::TestCase
 
     assert Submission::SyncTestsStatus.(submission)
     assert_equal 'errored', submission.tests_status
+  end
+
+  test "uses latest test_run, even if a previous one is cached" do
+    submission = create :submission, tests_status: :queued
+    test_run_1 = create :submission_test_run, submission:, ops_status: 500
+    assert_equal test_run_1, submission.test_run # Sanity
+
+    Submission::SyncTestsStatus.(submission)
+    assert_equal 'exceptioned', submission.tests_status
+
+    create :submission_test_run, submission:, ops_status: 200
+    # Sanity - Check that Rails has this cached to test_run_1, so that
+    # we're actually testing the correct behaviour
+    assert_equal test_run_1, submission.test_run
+
+    Submission::SyncTestsStatus.(submission)
+    assert_equal 'passed', submission.tests_status
   end
 end

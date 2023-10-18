@@ -1,7 +1,7 @@
 class Submission::Representation::TriggerRerunsForExercise
   include Mandate
 
-  queue_as :dribble
+  queue_as :background
 
   initialize_with :exercise
 

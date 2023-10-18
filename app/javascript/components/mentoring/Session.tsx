@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback } from 'react'
+import React, { useState, createContext, useCallback, useEffect } from 'react'
 
 import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -33,9 +33,15 @@ import {
 import { useIterationScrolling } from './session/useIterationScrolling'
 import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
+import {
+  MentorRequestChannel,
+  ChannelResponse as MentorRequestChannelResponse,
+} from '@/channels/mentorRequestChannel'
+import { CancelledRequestModal } from './session/CancelledRequestModal'
 
 export type Links = {
   mentorDashboard: string
+  mentorQueue: string
   improveNotes: string
   mentoringDocs: string
 }
@@ -66,6 +72,7 @@ export type SessionProps = {
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string
+  studentSolutionUuid: string
 }
 
 export type SessionGuidance = Pick<
@@ -99,6 +106,7 @@ export default function Session(props: SessionProps): JSX.Element {
     scratchpad,
     userHandle,
     downloadCommand,
+    studentSolutionUuid,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -109,14 +117,39 @@ export default function Session(props: SessionProps): JSX.Element {
     [session]
   )
 
-  const { iterations, status } = useDiscussionIterations({
+  const { iterations, setIterations, status } = useDiscussionIterations({
     discussion: discussion,
     iterations: initialIterations,
+    studentSolutionUuid,
   })
 
   const [isLinked, setIsLinked] = useState(false)
+  const [cancelledRequestModalOpen, setCancelledRequestModalOpen] =
+    useState(false)
   const { currentIteration, handleIterationClick, handleIterationScroll } =
-    useIterationScrolling({ iterations: iterations, on: isLinked })
+    useIterationScrolling({
+      iterations: iterations,
+      on: isLinked,
+      setIterations,
+    })
+
+  useEffect(() => {
+    const mentorRequestChannel = new MentorRequestChannel(
+      request,
+      (response: MentorRequestChannelResponse) => {
+        if (response.mentorRequest.status === 'cancelled') {
+          setCancelledRequestModalOpen(true)
+        }
+      }
+    )
+
+    return () => {
+      mentorRequestChannel.disconnect()
+    }
+    // Only run this hook on mount, we don't want to re-establish channel connection when the request updates,
+    // because the only relevant information for this hook is the uuid of the request which should never change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="c-mentor-discussion">
@@ -234,6 +267,12 @@ export default function Session(props: SessionProps): JSX.Element {
             </TabsContext.Provider>
           </PostsWrapper>
         }
+      />
+      <CancelledRequestModal
+        open={cancelledRequestModalOpen}
+        onClose={() => setCancelledRequestModalOpen(false)}
+        links={links}
+        isLocked={request.isLocked}
       />
     </div>
   )

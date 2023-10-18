@@ -23,10 +23,11 @@ class UnsubscribeTest < ApplicationSystemTestCase
     refute preferences.reload.email_on_mentor_started_discussion_notification
   end
 
-  test "user unsubscribes using form" do
+  test "user unsubscribes using form if logged in" do
     user = create :user
-    preferences = create(:user_communication_preferences, user:)
+    preferences = user.communication_preferences
     assert preferences.email_on_mentor_started_discussion_notification
+    assert preferences.receive_product_updates
 
     use_capybara_host do
       sign_in!(user)
@@ -35,5 +36,39 @@ class UnsubscribeTest < ApplicationSystemTestCase
       click_on "Change preferences"
       assert_text "Your preferences have been updated"
     end
+
+    refute preferences.reload.email_on_mentor_started_discussion_notification
+    assert preferences.receive_product_updates
+  end
+
+  test "user unsubscribes using email key" do
+    user = create :user
+    preferences = create(:user_communication_preferences, user:)
+    assert preferences.email_on_mentor_started_discussion_notification
+    assert preferences.receive_product_updates
+
+    use_capybara_host do
+      visit unsubscribe_path(token: preferences.token, key: 'email_on_mentor_started_discussion_notification')
+      click_on "Unsubscribe from email"
+      assert_text "You have been unsubscribed successfully"
+    end
+
+    refute preferences.reload.email_on_mentor_started_discussion_notification
+    assert preferences.receive_product_updates
+  end
+
+  test "user unsubscribes from all emails" do
+    preferences = create(:user_communication_preferences)
+    assert preferences.email_on_mentor_started_discussion_notification
+    assert preferences.receive_product_updates
+
+    use_capybara_host do
+      visit unsubscribe_path(token: preferences.token, key: 'email_on_mentor_started_discussion_notification')
+      click_on "Unsubscribe from all emails"
+      assert_text "You have been unsubscribed from all emails successfully"
+    end
+
+    refute preferences.reload.email_on_mentor_started_discussion_notification
+    refute preferences.receive_product_updates
   end
 end

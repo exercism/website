@@ -26,7 +26,6 @@ class SerializeSiteUpdates
       user_tracks[update.track_id],
       solution: solutions[update.exercise_id],
       with_tooltip: false,
-      render_as_link: true,
       render_blurb: true,
       render_track: true,
       recommended: false,

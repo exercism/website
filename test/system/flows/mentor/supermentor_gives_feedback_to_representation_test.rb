@@ -8,7 +8,7 @@ module Flows
       include CapybaraHelpers
       include MarkdownEditorHelpers
 
-      test "mentor sees only supermentor frequency tracks on need feedback page" do
+      test "mentor sees only automator tracks on need feedback page" do
         mentor = create :user, :supermentor
 
         csharp = create :track, slug: :csharp, title: 'C#'
@@ -22,9 +22,9 @@ module Flows
         create :exercise_representation, exercise: csharp_exercise, feedback_type: nil, num_submissions: 3
         create :exercise_representation, exercise: ruby_exercise, feedback_type: nil, num_submissions: 2
 
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: csharp
+        create :user_track_mentorship, :automator, user: mentor, track: csharp
         create :user_track_mentorship, user: mentor, track: javascript
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: ruby
+        create :user_track_mentorship, :automator, user: mentor, track: ruby
 
         use_capybara_host do
           sign_in!(mentor)
@@ -52,8 +52,8 @@ module Flows
         create :exercise_representation, exercise: csharp_exercise, feedback_type: nil, num_submissions: 3
         create :exercise_representation, exercise: ruby_exercise, feedback_type: nil, num_submissions: 2
 
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: csharp
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: ruby
+        create :user_track_mentorship, :automator, user: mentor, track: csharp
+        create :user_track_mentorship, :automator, user: mentor, track: ruby
 
         use_capybara_host do
           sign_in!(mentor)
@@ -78,7 +78,7 @@ module Flows
         track = create :track, slug: :csharp, title: 'C#'
         exercise = create(:practice_exercise, :random_slug, track:)
         create :exercise_representation, exercise:, feedback_type: nil, num_submissions: 3
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor, track:)
+        create(:user_track_mentorship, :automator, user: mentor, track:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -121,7 +121,7 @@ module Flows
           ast_digest: 'digest_3', exercise: exercise_3, track:)
         create :submission_representation, ast_digest: representation_3.ast_digest, mentored_by: mentor_1,
           submission: create(:submission, exercise: exercise_3)
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor_1, track:)
+        create(:user_track_mentorship, :automator, user: mentor_1, track:)
 
         use_capybara_host do
           sign_in!(mentor_1)
@@ -145,7 +145,7 @@ module Flows
         end
       end
 
-      test "mentor sees only supermentor frequency tracks where feedback has been given on with feedback page" do
+      test "mentor sees only automator tracks where feedback has been given on with feedback page" do
         mentor = create :user, :supermentor
 
         csharp = create :track, slug: :csharp, title: 'C#'
@@ -157,8 +157,8 @@ module Flows
         create :exercise_representation, :with_feedback, exercise: csharp_exercise, num_submissions: 3, feedback_author: mentor
         create :exercise_representation, exercise: ruby_exercise, feedback_type: nil, num_submissions: 3
 
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: csharp
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: ruby
+        create :user_track_mentorship, :automator, user: mentor, track: csharp
+        create :user_track_mentorship, :automator, user: mentor, track: ruby
 
         use_capybara_host do
           sign_in!(mentor)
@@ -188,8 +188,8 @@ module Flows
         create :exercise_representation, feedback_type: nil, exercise: exercise_1, num_submissions: 3, created_at: time_2
         create :exercise_representation, feedback_type: nil, exercise: exercise_2, num_submissions: 2, created_at: time_1
 
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor, track:)
-        create(:user_track_mentorship, :supermentor_frequency, user: other_mentor, track:)
+        create(:user_track_mentorship, :automator, user: mentor, track:)
+        create(:user_track_mentorship, :automator, user: other_mentor, track:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -236,8 +236,8 @@ module Flows
         create :exercise_representation, feedback_type: nil, exercise: exercise_1, num_submissions: 3, created_at: time_2
         create :exercise_representation, feedback_type: nil, exercise: exercise_2, num_submissions: 2, created_at: time_1
 
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor, track:)
-        create(:user_track_mentorship, :supermentor_frequency, user: other_mentor, track:)
+        create(:user_track_mentorship, :automator, user: mentor, track:)
+        create(:user_track_mentorship, :automator, user: other_mentor, track:)
 
         use_capybara_host do
           sign_in!(mentor)

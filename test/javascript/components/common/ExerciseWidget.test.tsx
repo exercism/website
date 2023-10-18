@@ -8,37 +8,59 @@ import {
   Track,
 } from '../../../../app/javascript/components/types'
 
-test('renders a solution when passed in', async () => {
-  const exercise: Exercise = {
-    slug: 'lasagna',
-    type: 'practice',
-    title: "Lucian's Luscious Lasagna",
-    iconUrl: 'https://exercism.test/exercise_icon',
-    blurb: 'Tasty exercise',
-    difficulty: 'easy',
-    isUnlocked: true,
-    isRecommended: true,
-    links: {
-      self: 'https://exercism.test/exercise',
-    },
-  }
-  const solution: SolutionForStudent = {
-    privateUrl: 'https://exercism.test/solution',
-    status: 'completed',
-    mentoringStatus: 'requested',
-    hasNotifications: true,
-    exercise: {
-      slug: 'ruby',
-    },
-    isOutOfDate: true,
-    numIterations: 3,
-  }
-  const track: Track = {
-    id: '1',
-    title: 'Ruby',
-    iconUrl: 'https://exercism.test/track_icon',
-  }
+const track: Track = {
+  slug: 'ruby',
+  title: 'Ruby',
+  iconUrl: 'https://exercism.test/track_icon',
+  course: false,
+  numConcepts: 0,
+  numExercises: 0,
+  numSolutions: 0,
+  links: {
+    self: '',
+    exercises: '',
+    concepts: '',
+  },
+}
 
+const exercise: Exercise = {
+  slug: 'lasagna',
+  type: 'practice',
+  title: "Lucian's Luscious Lasagna",
+  iconUrl: 'https://exercism.test/exercise_icon',
+  blurb: 'Tasty exercise',
+  difficulty: 'easy',
+  isExternal: false,
+  isUnlocked: true,
+  isRecommended: true,
+  links: {
+    self: 'https://exercism.test/exercise',
+  },
+}
+
+const solution: SolutionForStudent = {
+  privateUrl: 'https://exercism.test/solution',
+  status: 'completed',
+  mentoringStatus: 'requested',
+  hasNotifications: true,
+  exercise: {
+    slug: 'ruby',
+    iconUrl: '',
+    title: 'Ruby',
+  },
+  isOutOfDate: true,
+  numIterations: 3,
+  uuid: '',
+  publicUrl: '',
+  updatedAt: '',
+  track: {
+    slug: '',
+    title: '',
+    iconUrl: '',
+  },
+}
+
+test('renders a solution when passed in', async () => {
   render(
     <ExerciseWidget exercise={exercise} track={track} solution={solution} />
   )
@@ -76,25 +98,6 @@ test('renders a solution when passed in', async () => {
 })
 
 test('renders an available exercise', async () => {
-  const exercise: Exercise = {
-    slug: 'lasagna',
-    type: 'practice',
-    title: "Lucian's Luscious Lasagna",
-    iconUrl: 'https://exercism.test/exercise_icon',
-    blurb: 'Tasty exercise',
-    difficulty: 'easy',
-    isUnlocked: true,
-    isRecommended: true,
-    links: {
-      self: 'https://exercism.test/exercise',
-    },
-  }
-  const track: Track = {
-    id: '1',
-    title: 'Ruby',
-    iconUrl: 'https://exercism.test/track_icon',
-  }
-
   render(<ExerciseWidget exercise={exercise} track={track} />)
 
   expect(screen.getByRole('link')).toHaveAttribute(
@@ -124,24 +127,11 @@ test('renders an available exercise', async () => {
 })
 
 test('renders a locked exercise', async () => {
-  const exercise: Exercise = {
-    slug: 'lasagna',
-    type: 'practice',
-    title: "Lucian's Luscious Lasagna",
-    iconUrl: 'https://exercism.test/exercise_icon',
-    blurb: 'Tasty exercise',
-    difficulty: 'easy',
-    isUnlocked: false,
-    isRecommended: false,
-  }
-  const track: Track = {
-    id: '1',
-    title: 'Ruby',
-    iconUrl: 'https://exercism.test/track_icon',
-  }
+  exercise.isUnlocked = false
+  exercise.isRecommended = false
 
   const { container } = render(
-    <ExerciseWidget exercise={exercise} size="medium" track={track} />
+    <ExerciseWidget exercise={exercise} track={track} />
   )
 
   expect(container.firstChild).toHaveAttribute(

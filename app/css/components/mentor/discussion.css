@@ -261,28 +261,52 @@
             & .student-info,
             & .mentor-info {
                 @apply bg-backgroundColorA shadow-xsZ1;
-                @apply flex;
+                @apply flex flex-col;
 
                 @apply py-16 px-24;
+
+                .track-objectives {
+                    @apply border-t-1 border-borderColor6;
+                    @apply mt-20 pt-12;
+                    &:open {
+                        .--summary-inner {
+                            @apply text-textColor2;
+                        }
+                    }
+                    p {
+                        @apply mt-4 text-14 leading-150;
+                    }
+                    .--summary-inner {
+                        @apply flex items-center;
+                        @apply font-semibold text-textColor6 leading-150;
+                        .c-icon {
+                            height: 14px;
+                            width: 14px;
+                            @apply ml-12;
+                        }
+                    }
+                }
 
                 & .info {
                     @apply flex-grow;
                 }
                 & .subtitle {
-                    @apply text-textColor6 leading-paragraph mb-4;
+                    @apply text-textColor6 leading-paragraph mb-6;
                 }
                 & .handle-block {
-                    @apply flex items-center;
+                    @apply flex items-center mb-6;
                     & .handle {
                         @apply text-h5 mr-12;
                     }
                 }
                 & .name {
                     @apply text-16 text-textColor6 font-medium leading-regular;
-                    @apply mb-6;
+                    &:not(:last-child) {
+                        @apply mb-6;
+                    }
                 }
                 & .bio {
-                    @apply text-15 leading-huge mr-40;
+                    @apply text-15 leading-150;
                     & .flags {
                         @apply ml-8;
                     }

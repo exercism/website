@@ -49,7 +49,7 @@ module Flows
         visit tracks_path
         fill_in "Search language tracks", with: "Go"
 
-        assert_selector(".c-tracks-list .--track", count: 1)
+        assert_selector(".tracks-list .--track", count: 1)
         within(".--track") { assert_text "Go" }
       end
     end
@@ -66,7 +66,7 @@ module Flows
         check "Dynamic"
         click_on "Apply"
 
-        assert_selector(".c-tracks-list .--track", count: 1)
+        assert_selector(".tracks-list .--track", count: 1)
         within(".--track") { assert_text "Ruby" }
       end
     end

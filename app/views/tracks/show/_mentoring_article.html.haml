@@ -1,4 +1,4 @@
-/ TODO: This can be cached against track.updated_at and track.num_contributors
+-# TODO: This can be cached against track.updated_at and track.num_contributors
 
 %a{ name: "mentoring" }
 %article.mentoring-article
@@ -56,7 +56,7 @@
           - if discussion.awaiting_student?
             .--turn Your turn to respond
 
-          - if discussion.mentor_finished?
+          - if discussion.mentor_finished? || discussion.timed_out?
             .--turn Review your mentor
 
           .--comments
@@ -67,7 +67,7 @@
         = link_to track_exercise_mentor_request_path(track, request.exercise), class: "request" do
           = exercise_icon request.exercise
           .exercise-title= request.exercise.title
-          %h4 Waiting on a mentor...
+          %h4 Waiting on a mentor…
 
       - user_track.num_available_mentoring_slots.times do
         = render ReactComponents::Student::RequestMentoringButton.new(track)

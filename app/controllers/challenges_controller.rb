@@ -42,6 +42,7 @@ class ChallengesController < ApplicationController
 
     @tracks = Track.includes(:concepts).where(id: @track_counts.keys).index_by(&:id)
     @badge_progress_exercises = User::Challenges::FeaturedExercisesProgress12In23.(current_user)
+    @badge_progress_exercise_earned_count = @badge_progress_exercises.count { |progress| progress[:earned_for].present? }
     @badge_progress_exercise_count = User::Challenges::FeaturedExercisesProgress12In23.num_featured_exercises
   end
 end

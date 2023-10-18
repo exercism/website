@@ -1,0 +1,9 @@
+Hi #{@user.handle},
+\
+This is a friendly reminder that your mentor (#{@discussion.mentor.handle}) has been waiting #{@num_days_waiting} days for you to reply in the discussion on your solution to #{@exercise.title} on the #{@track.title} track.
+\
+If you are actually waiting for the mentor, please add a comment to the discussion to let them know.
+\
+The discussion will time out in #{@num_days_to_time_out} days if you do not reply.
+\
+Go to the discussion: #{track_exercise_mentor_discussion_url(@track, @exercise, @discussion)}

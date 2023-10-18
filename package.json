@@ -33,6 +33,7 @@
     "abortcontroller-polyfill": "^1.7.3",
     "ace-builds": "^1.4.12",
     "actioncable": "^5.2.4-3",
+    "autoprefixer": "^10.4.0",
     "browserslist-to-esbuild": "^1.1.1",
     "chart.js": "^3.1.0",
     "codemirror-lang-elixir": "https://github.com/sachinraja/codemirror-lang-elixir",
@@ -83,7 +84,7 @@
     "reconnecting-websocket": "3.2.2",
     "regenerator-runtime": "^0.13.7",
     "rough-notation": "^0.5.1",
-    "tailwindcss": "^3.0.7",
+    "tailwindcss": "^3.3.3",
     "use-is-mounted": "^1.0.0",
     "use-memory-value": "^1.2.0",
     "uuid": "^8.3.1",
@@ -118,7 +119,6 @@
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
-    "autoprefixer": "^10.4.0",
     "babel-jest": "^26.5.0",
     "babel-plugin-dynamic-import-node-babel-7": "^2.0.7",
     "babel-plugin-macros": "^3.1.0",
@@ -144,7 +144,7 @@
     "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
     "test-watch": "jest --watchAll",
-    "build:css": "postcss ./app/css/application.postcss.css -o .built-assets/website.css",
+    "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets",
     "build": "./app/javascript/esbuild.js",
     "prepare": "husky install"
   }

@@ -340,7 +340,6 @@ export const mappings = {
         track={camelizeKeysAs<Track>(data.track)}
         solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
         links={data.links}
-        renderAsLink={data.render_as_link}
         renderBlurb={data.render_blurb}
         isSkinny={data.skinny}
       />
@@ -667,11 +666,13 @@ initReact(mappings)
 
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
+import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
+  addAnchorsToDocsHeaders()
   document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 
   // Do this last
@@ -690,3 +691,13 @@ if (!Object.entries) {
     return resArray
   }
 }
+
+//
+// Leave this code here so that we can easily add components to test during development.
+//
+
+// import { ExtendLockedUntilModal } from '../components/mentoring/request/locked-solution-mentoring-note/ExtendLockedUntilModal'
+// const elem = <ExtendLockedUntilModal open={true} />
+
+// import ReactDOM from 'react-dom'
+// ReactDOM.render(elem, document.body)

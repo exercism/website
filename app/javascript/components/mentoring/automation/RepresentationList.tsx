@@ -6,6 +6,7 @@ import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
 import type { APIResponse } from './useMentoringAutomation'
 import { SelectedTab } from './Representation'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
@@ -41,12 +42,11 @@ function Component({
   setPage,
   selectedTab,
 }: Props) {
-  const scrollToTopRef = useScrollToTop<HTMLDivElement>(page)
   return (
     <>
       {resolvedData && resolvedData.results && (
         <React.Fragment>
-          <div className="--solutions" ref={scrollToTopRef}>
+          <div className="--solutions">
             {resolvedData.results.length > 0 ? (
               resolvedData.results.map((representation, key) => (
                 <AutomationListElement
@@ -66,7 +66,10 @@ function Component({
               disabled={latestData === undefined}
               current={page}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </footer>
         </React.Fragment>

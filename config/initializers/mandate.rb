@@ -2,8 +2,39 @@ require 'mandate'
 require 'application_job'
 
 class MandateJob < ApplicationJob
-  def perform(cmd, ...)
-    cmd.constantize.new(...).()
+  class PreqJobNotFinishedError < RuntimeError
+    def initialize(job_id)
+      @job_id = job_id
+      super(nil)
+    end
+
+    def to_s
+      "Unfinished job: #{job_id}"
+    end
+
+    private
+    attr_reader :job_id
+  end
+
+  def perform(cmd, *args, **kwargs)
+    __guard_prereq_jobs__!(kwargs.delete(:prereq_jobs))
+
+    cmd.constantize.new(*args, **kwargs).()
+  end
+
+  def __guard_prereq_jobs__!(prereq_jobs)
+    return unless prereq_jobs.present?
+
+    prereq_jobs.each do |job|
+      jid = job[:job_id]
+
+      # If the job is either in its queue, or in the retry queue
+      # then we raise an exception and abort the job.
+      if Sidekiq::Queue.all.find { |q| q.name == job[:queue_name] }.find_job(jid) ||
+         Sidekiq::RetrySet.new.find_job(jid)
+        raise PreqJobNotFinishedError, job_id
+      end
+    end
   end
 end
 
@@ -22,6 +53,15 @@ module Mandate
     end
 
     def defer(*args, wait: nil, **kwargs)
+      if kwargs[:prereq_jobs]
+        kwargs[:prereq_jobs] = kwargs[:prereq_jobs].map do |job|
+          {
+            job_id: job.provider_job_id,
+            queue_name: job.queue_name
+          }
+        end
+      end
+
       MandateJob.set(
         queue: active_job_queue,
         wait:

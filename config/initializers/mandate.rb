@@ -30,9 +30,9 @@ class MandateJob < ApplicationJob
 
       # If the job is either in its queue, or in the retry queue
       # then we raise an exception to abort the job and retry later.
-      if Sidekiq::Queue.all.find { |q| q.name == job[:queue_name] }.find_job(jid) ||
+      if Sidekiq::Queue.new(job[:queue_name]).find_job(jid) ||
          Sidekiq::RetrySet.new.find_job(jid)
-        raise PreqJobNotFinishedError, job_id
+        raise PreqJobNotFinishedError, jid
       end
     end
   end

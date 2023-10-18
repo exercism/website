@@ -24,6 +24,17 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert_nil analysis.summary
   end
 
+  test "tags is empty if nil" do
+    analysis = create :submission_analysis, tags_data: { tags: nil }
+    assert_empty analysis.tags
+  end
+
+  test "tags returns tags from tags_data" do
+    tags = ["construct:if", "paradigm:functional"]
+    analysis = create :submission_analysis, tags_data: { tags: }
+    assert_equal tags, analysis.tags
+  end
+
   test "comments doesn't raise" do
     TestHelpers.use_website_copy_test_repo!
     Github::Issue::Open.expects(:call)

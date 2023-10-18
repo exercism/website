@@ -9,7 +9,8 @@ class Submission::Analysis::Process
     analysis = submission.create_analysis!(
       tooling_job_id: tooling_job.id,
       ops_status: tooling_job.execution_status.to_i,
-      data:
+      data:,
+      tags_data:
     )
 
     begin
@@ -39,6 +40,7 @@ class Submission::Analysis::Process
 
   def handle_completed!
     submission.analysis_completed!
+    Solution::UpdateTags.(submission.solution)
   end
 
   memoize
@@ -50,7 +52,20 @@ class Submission::Analysis::Process
   def data
     res = JSON.parse(tooling_job.execution_output['analysis.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
-  rescue StandardError
+  rescue StandardError => e
+    Bugsnag.notify(e)
+    {}
+  end
+
+  memoize
+  def tags_data
+    tags_json = tooling_job.execution_output['tags.json']
+    return {} if tags_json.empty?
+
+    res = JSON.parse(tags_json)
+    res.is_a?(Hash) ? res.symbolize_keys : {}
+  rescue StandardError => e
+    Bugsnag.notify(e)
     {}
   end
 end

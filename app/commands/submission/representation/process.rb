@@ -32,7 +32,8 @@ class Submission::Representation::Process
   memoize
   def ast
     tooling_job.execution_output['representation.txt']
-  rescue StandardError
+  rescue StandardError => e
+    Bugsnag.notify(e)
     nil
   end
 
@@ -40,15 +41,20 @@ class Submission::Representation::Process
   def mapping
     res = JSON.parse(tooling_job.execution_output['mapping.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
-  rescue StandardError
+  rescue StandardError => e
+    Bugsnag.notify(e)
     {}
   end
 
   memoize
   def metadata
-    res = JSON.parse(tooling_job.execution_output['representation.json'])
+    representation_json = tooling_job.execution_output['representation.json']
+    return {} if representation_json.empty?
+
+    res = JSON.parse(representation_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}
-  rescue StandardError
+  rescue StandardError => e
+    Bugsnag.notify(e)
     {}
   end
 

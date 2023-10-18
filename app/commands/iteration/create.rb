@@ -23,7 +23,7 @@ class Iteration::Create
       loc_job = Iteration::CalculateLinesOfCode.defer(iteration)
 
       # When the other things have finished, call publish iteration to
-      # sync up the this as the most recent iteration to the search indexes etc
+      # set this as the most recent iteration to the search indexes etc.
       if solution.latest_published_iteration == iteration
         Solution::PublishIteration.defer(solution, solution.published_iteration_id, prereq_jobs: [snippet_job, loc_job])
       end

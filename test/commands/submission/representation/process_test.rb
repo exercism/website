@@ -230,4 +230,39 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     representation = Exercise::Representation.last
     assert_equal 2, representation.exercise_version
   end
+
+  test "gracefully handle representation.json not being there" do
+    ops_status = 200
+    ast = "my ast"
+    ast_digest = Submission::Representation.digest_ast(ast)
+    submission = create :submission
+    mapping = { 'foo' => 'bar' }
+
+    Bugsnag.expects(:notify).never
+
+    job = create_representer_job!(submission, execution_status: ops_status, ast:, mapping:)
+
+    execution_output = {
+      "representation.txt" => ast,
+      "mapping.json" => mapping.to_json
+    }
+    create_tooling_job!(
+      submission,
+      :representer,
+      execution_status: 200,
+      execution_output:,
+      context: { reason: nil },
+      source: {
+        'exercise_git_sha' => submission.git_sha
+      }
+    )
+
+    Submission::Representation::Process.(job)
+
+    representation = submission.reload.submission_representation
+
+    assert_equal job.id, representation.tooling_job_id
+    assert_equal ops_status, representation.ops_status
+    assert_equal ast_digest, representation.ast_digest
+  end
 end

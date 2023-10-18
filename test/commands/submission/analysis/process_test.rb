@@ -71,4 +71,30 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     job = create_analyzer_job!(submission, execution_status: 200, data:)
     Submission::Analysis::Process.(job)
   end
+
+  test "gracefully handle tags.json not being there" do
+    submission = create :submission
+    ops_status = 200
+    comments = [{ 'foo' => 'bar' }]
+    data = { 'comments' => comments }
+    execution_output = {
+      "analysis.json" => data&.to_json
+    }
+    job = create_tooling_job!(
+      submission,
+      :analyzer,
+      execution_status: ops_status,
+      execution_output:
+    )
+
+    Bugsnag.expects(:notify).never
+
+    Submission::Analysis::Process.(job)
+
+    analysis = submission.reload.analysis
+    assert_equal job.id, analysis.tooling_job_id
+    assert_equal ops_status, analysis.ops_status
+    assert_equal data, analysis.send(:data)
+    assert_equal ({}), analysis.send(:tags_data)
+  end
 end

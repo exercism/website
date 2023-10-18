@@ -1,4 +1,4 @@
-FROM ruby:3.2.1-bullseye
+FROM ruby:3.2.1-bullseye AS build
 
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER
@@ -58,7 +58,21 @@ RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
 RUN bin/cleanup-css
 
+FROM ruby:3.2.1-bullseye AS runtime
+
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
+
+RUN apt-get update && \
+    apt-get install -y graphicsmagick libvips42
+
 RUN groupadd -g 2222 exercism-git
 RUN usermod -a -G exercism-git root
+
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /opt/exercism/website /opt/exercism/website
+COPY --from=build /usr/share/GeoIP /usr/share/GeoIP
+
+WORKDIR /opt/exercism/website
 
 ENTRYPOINT bin/start_webserver

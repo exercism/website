@@ -49,7 +49,7 @@ class Submission::Representation::Process
   memoize
   def metadata
     representation_json = tooling_job.execution_output['representation.json']
-    return {} if representation_json.empty?
+    return {} if representation_json.blank?
 
     res = JSON.parse(representation_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}

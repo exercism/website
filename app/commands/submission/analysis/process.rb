@@ -60,7 +60,7 @@ class Submission::Analysis::Process
   memoize
   def tags_data
     tags_json = tooling_job.execution_output['tags.json']
-    return {} if tags_json.empty?
+    return {} if tags_json.blank?
 
     res = JSON.parse(tags_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}

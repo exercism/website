@@ -44,7 +44,6 @@ class Exercise::Representation::CreateSearchIndexDocument
   end
 
   def code = source_submission.files.map(&:content) || []
-  def num_loc = oldest_solution.num_loc
   def max_reputation = prestigious_solution.user.reputation.to_i
   def num_solutions = representation.num_published_solutions
 
@@ -69,4 +68,5 @@ class Exercise::Representation::CreateSearchIndexDocument
   delegate :exercise, :source_submission,
     :oldest_solution, :prestigious_solution,
     to: :representation
+  delegate :num_loc, to: :oldest_solution
 end

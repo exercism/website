@@ -10,7 +10,7 @@ export default function RepresentationsAdmin({
   return (
     <Representations
       {...data}
-      trackCacheKey="automation-admin-track-cache-key"
+      trackCacheKey={['automation-admin-track-cache-key']}
       selectedTab="admin"
     />
   )

@@ -10,7 +10,7 @@ export default function RepresentationsWithoutFeedback({
   return (
     <Representations
       {...data}
-      trackCacheKey="automation-without-feedback-track-cache-key"
+      trackCacheKey={['automation-without-feedback-track-cache-key']}
       selectedTab="without_feedback"
     />
   )

@@ -19,8 +19,15 @@ class Iteration::Create
       solution.update_iteration_status!
       Solution.reset_counters(solution.id, :iterations)
 
-      Iteration::GenerateSnippet.defer(iteration)
-      Iteration::CalculateLinesOfCode.defer(iteration)
+      snippet_job = Iteration::GenerateSnippet.defer(iteration)
+      loc_job = Iteration::CalculateLinesOfCode.defer(iteration)
+
+      # When the other things have finished, call publish iteration to
+      # set this as the most recent iteration to the search indexes etc.
+      if solution.latest_published_iteration == iteration
+        Solution::PublishIteration.defer(solution, solution.published_iteration_id, prereq_jobs: [snippet_job, loc_job])
+      end
+
       ProcessIterationForDiscussionsJob.perform_later(iteration)
       record_activity!(iteration)
       award_badges!(iteration)

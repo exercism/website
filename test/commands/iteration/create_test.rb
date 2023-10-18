@@ -73,6 +73,19 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     end
   end
 
+  test "enqueues PublishIteration job" do
+    solution = create :concept_solution
+    submission = create(:submission, solution:)
+
+    Iteration::Create.(solution, submission)
+    assert enqueued_jobs.find do |job|
+      job["job_class"] == "MandateJob" &&
+        job["arguments"][0] == "Iteration::PublishIteration" &&
+        job["arguments"][1] == solution &&
+        job["arguments"][2] == solution.published_iteration_id
+    end
+  end
+
   test "starts test run if untested" do
     solution = create :concept_solution
     submission = create(:submission, solution:)

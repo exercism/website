@@ -424,6 +424,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "practice_exercises: unimplemented" do
+    fix_prob_specs_repo_sha
+
     track = create :track
 
     Track::UpdateBuildStatus.(track)
@@ -458,6 +460,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "practice_exercises: num_active_target" do
+    fix_prob_specs_repo_sha
+
     track = create :track
     Track::UpdateBuildStatus.(track)
     assert_equal 20, track.reload.build_status.practice_exercises.num_active_target
@@ -899,6 +903,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
     assert_equal "healthy", track.reload.build_status.health
+  end
+
+  private
+  def fix_prob_specs_repo_sha
+    git_prob_specs_repo = Git::Repository.new(repo_url: Git::ProblemSpecifications::DEFAULT_REPO_URL, branch_ref: "957c0c258679ad78a38aa12bc475d72a3debd279")
+    git_prob_specs = Git::ProblemSpecifications.new(repo: git_prob_specs_repo)
+    Git::ProblemSpecifications.stubs(:new).returns(git_prob_specs)
   end
 end
 # rubocop:enable Layout/LineLength

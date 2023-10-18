@@ -6,8 +6,8 @@ class Solution::Tag < ApplicationRecord
   belongs_to :user
 
   before_validation on: :create do
-    self.exercise = solution.exercise unless exercise
-    self.user = solution.user unless user
+    self.exercise_id = solution.exercise_id unless exercise_id
+    self.user_id = solution.user_id unless user_id
   end
 
   memoize

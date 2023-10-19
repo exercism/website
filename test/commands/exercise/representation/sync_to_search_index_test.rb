@@ -47,6 +47,7 @@ class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
         "num_loc" => num_loc,
         "num_solutions" => num_published_solutions,
         "max_reputation" => reputation,
+        "tags" => [],
         "code" => ["module LogLineParser"],
         "exercise" => { "id" => 13, "slug" => "bob", "title" => "Bob" },
         "track" => { "id" => 11, "slug" => "fsharp", "title" => "F#" }

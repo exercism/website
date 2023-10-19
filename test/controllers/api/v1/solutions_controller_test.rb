@@ -298,7 +298,7 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
 
     # Ensure representer and analyzer are called once
     ToolingJob::Create.expects(:call).with(anything, :representer, git_sha: "HEAD", run_in_background: false, context: {})
-    ToolingJob::Create.expects(:call).with(anything, :analyzer)
+    ToolingJob::Create.expects(:call).with(anything, :analyzer, run_in_background: false)
 
     # Ensure test runner is called once, in the foreground, and not again in the background
     ToolingJob::Create.expects(:call).with(anything, :test_runner, git_sha: "HEAD", run_in_background: false)

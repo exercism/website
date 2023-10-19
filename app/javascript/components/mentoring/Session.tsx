@@ -46,6 +46,7 @@ import {
 import { CancelledRequestModal } from './session/CancelledRequestModal'
 import { ScreenSizeContext } from './session/ScreenSizeContext'
 import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
+import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
 
 export type Links = {
   mentorDashboard: string
@@ -88,7 +89,7 @@ export type SessionGuidance = Pick<
   'exercise' | 'track' | 'links'
 >
 
-export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
+export type TabIndex = 'discussion' | 'scratchpad' | 'guidance' | 'code'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
@@ -159,6 +160,8 @@ export default function Session(props: SessionProps): JSX.Element {
   }, [])
 
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
+  usePanelFallback({ tab, setTab, isBelowLgWidth })
 
   return (
     <div className="c-mentor-discussion">

@@ -2,29 +2,30 @@ require 'test_helper'
 
 class ToolingJob::ProcessTest < ActiveSupport::TestCase
   test "proxies to test run" do
-    submission = create :submission
-    execution_status = "job-status"
-    results = { 'some' => 'result' }
-    job = create_test_runner_job!(
-      submission,
-      execution_status:,
-      results:
-    )
+    job = create_test_runner_job!(create(:submission))
 
     Submission::TestRun::Process.expects(:call).with(job)
 
     ToolingJob::Process.(job.id)
   end
 
+  test "guards duplicate test run processing" do
+    job = create_test_runner_job!(create(:submission))
+
+    # Simulate a race condition by retreiving both first
+    # then running the first command then the second sequentially
+    cmd_1 = ToolingJob::Process.new(job.id)
+    cmd_1.send(:job)
+    cmd_2 = ToolingJob::Process.new(job.id)
+    cmd_2.send(:job)
+    cmd_1.()
+
+    Submission::TestRun::Process.expects(:call).with(job).never
+    cmd_2.()
+  end
+
   test "proxies to representer" do
-    submission = create :submission
-    execution_status = "job-status"
-    job = create_representer_job!(
-      submission,
-      execution_status:,
-      ast: nil,
-      mapping: nil
-    )
+    job = create_representer_job!(create(:submission))
 
     Submission::Representation::Process.expects(:call).with(job)
 
@@ -32,13 +33,7 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
   end
 
   test "proxies to analyzer" do
-    submission = create :submission
-    execution_status = "job-status"
-    job = create_analyzer_job!(
-      submission,
-      execution_status:,
-      data: nil
-    )
+    job = create_analyzer_job!(create(:submission))
 
     Submission::Analysis::Process.expects(:call).with(job)
 

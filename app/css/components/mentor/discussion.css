@@ -155,7 +155,7 @@
         overflow: hidden;
 
         & .comment-section {
-            @apply flex flex-col relative;
+            @apply flex flex-col relative z-1;
             bottom: 0;
             left: 0;
             right: 0;

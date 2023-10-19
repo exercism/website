@@ -1,5 +1,6 @@
-import Icon from '@/components/common/Icon'
 import React from 'react'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import Icon from '@/components/common/Icon'
 
 export function ToggleMoreInformationButton({
   onClick,
@@ -9,13 +10,19 @@ export function ToggleMoreInformationButton({
   rotate?: boolean
 }) {
   return (
-    <button className="self-center mt-8" onClick={onClick}>
+    <button
+      className="self-stretch flex justify-center items-center mt-8 -mx-24 -mb-16 py-4 bg-backgroundColorD"
+      onClick={onClick}
+    >
       <Icon
         icon="chevron-down"
         alt="expand"
         height={16}
         width={16}
-        className={rotate ? 'rotate-180' : ''}
+        className={assembleClassNames(
+          rotate ? 'rotate-180' : '',
+          'filter-textColor6'
+        )}
       />
     </button>
   )

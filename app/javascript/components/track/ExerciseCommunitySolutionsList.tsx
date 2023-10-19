@@ -105,8 +105,11 @@ export function ExerciseCommunitySolutionsList({
     >
       {resolvedData ? (
         <h2>
-          Explore {resolvedData.meta.unscopedTotal} unique{' '}
-          {pluralize('solution', resolvedData.meta.unscopedTotal)}
+          {resolvedData.meta.unscopedTotal}{' '}
+          {pluralize('person', resolvedData.meta.unscopedTotal)} published
+          solutions
+          {/*Explore {resolvedData.meta.unscopedTotal} unique{' '}
+            {pluralize('solution', resolvedData.meta.unscopedTotal)}*/}
         </h2>
       ) : null}
       <div className="c-search-bar md:flex-row flex-col">

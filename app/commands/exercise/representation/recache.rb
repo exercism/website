@@ -29,7 +29,7 @@ class Exercise::Representation::Recache
 
   def prestigious_solution
     user_ids = representation.published_solutions.
-      where.not(user_id: User::GHOST_USER_ID).
+      where(user_id: User::GHOST_USER_ID).
       select(:user_id)
     return nil unless user_ids
 

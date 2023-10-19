@@ -71,6 +71,12 @@ module API
       create :concept_solution, published_at: Time.current, num_stars: 33
 
       exercise.update(num_published_solutions: 2)
+
+      # perform_enqueued_jobs do
+      #   Exercise::Representation::Recache.(exercise_representation_1)
+      #   Exercise::Representation::Recache.(exercise_representation_2)
+      # end
+
       wait_for_opensearch_to_be_synced
 
       get api_track_exercise_community_solutions_path(

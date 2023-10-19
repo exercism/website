@@ -14,7 +14,7 @@ class Solution::UpdatePublishedExerciseRepresentation
     solution.update!(published_exercise_representation: new_representation)
 
     # This is commonly called within transactions, so give it 30secs to update
-    Exercise::Representation::UpdatePublishedSolutions.defer(old_representation, wait: 30.seconds) if old_representation
-    Exercise::Representation::UpdatePublishedSolutions.defer(new_representation, wait: 30.seconds) if new_representation
+    Exercise::Representation::Recache.defer(old_representation, wait: 30.seconds) if old_representation
+    Exercise::Representation::Recache.defer(new_representation, wait: 30.seconds) if new_representation
   end
 end

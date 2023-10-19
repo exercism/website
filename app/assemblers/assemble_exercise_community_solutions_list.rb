@@ -13,6 +13,7 @@ class AssembleExerciseCommunitySolutionsList
       serializer: SerializeCommunitySolutions,
       meta: {
         unscoped_total: exercise.num_published_solutions
+        # unscoped_total: solutions.total_count
       }
     )
   end

@@ -340,6 +340,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.text "draft_feedback_markdown"
     t.string "exercise_id_and_ast_digest_idx_cache"
     t.integer "num_published_solutions", limit: 2, default: 0, null: false
+    t.bigint "oldest_solution_id"
+    t.bigint "prestigious_solution_id"
     t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
     t.index ["exercise_id", "ast_digest", "representer_version", "exercise_version"], name: "exercise_representations_guard", unique: true
     t.index ["exercise_id", "representer_version", "feedback_added_at"], name: "search_ex_4", order: { representer_version: :desc, feedback_added_at: :desc }
@@ -1259,11 +1261,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
     t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end

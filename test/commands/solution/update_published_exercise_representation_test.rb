@@ -10,8 +10,8 @@ class Solution::UpdatePublishedExerciseRepresentationTest < ActiveSupport::TestC
     iteration = create(:iteration, submission:)
     create :submission_representation, submission: iteration.submission, ast: new_representation.ast
 
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).with(old_representation, wait: 30.seconds)
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).with(new_representation, wait: 30.seconds)
+    Exercise::Representation::Recache.expects(:defer).with(old_representation, wait: 30.seconds)
+    Exercise::Representation::Recache.expects(:defer).with(new_representation, wait: 30.seconds)
 
     solution.update!(published_iteration: iteration)
     Solution::UpdatePublishedExerciseRepresentation.(solution)
@@ -27,7 +27,7 @@ class Solution::UpdatePublishedExerciseRepresentationTest < ActiveSupport::TestC
     iteration = create(:iteration, submission:)
     create :submission_representation, submission: iteration.submission, ast: new_representation.ast
 
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).with(new_representation, wait: 30.seconds)
+    Exercise::Representation::Recache.expects(:defer).with(new_representation, wait: 30.seconds)
 
     solution.update!(published_iteration: iteration)
     Solution::UpdatePublishedExerciseRepresentation.(solution)
@@ -42,7 +42,7 @@ class Solution::UpdatePublishedExerciseRepresentationTest < ActiveSupport::TestC
     submission = create(:submission, solution:)
     iteration = create(:iteration, submission:)
 
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).with(old_representation, wait: 30.seconds)
+    Exercise::Representation::Recache.expects(:defer).with(old_representation, wait: 30.seconds)
 
     solution.update!(published_iteration: iteration)
     Solution::UpdatePublishedExerciseRepresentation.(solution)
@@ -55,7 +55,7 @@ class Solution::UpdatePublishedExerciseRepresentationTest < ActiveSupport::TestC
     old_representation = create(:exercise_representation, exercise:)
     solution = create(:concept_solution, published_exercise_representation: old_representation, exercise:)
 
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).with(old_representation, wait: 30.seconds)
+    Exercise::Representation::Recache.expects(:defer).with(old_representation, wait: 30.seconds)
 
     Solution::UpdatePublishedExerciseRepresentation.(solution)
 
@@ -65,7 +65,7 @@ class Solution::UpdatePublishedExerciseRepresentationTest < ActiveSupport::TestC
   test "copes if not published and no old representation" do
     solution = create(:concept_solution)
 
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).never
+    Exercise::Representation::Recache.expects(:defer).never
 
     Solution::UpdatePublishedExerciseRepresentation.(solution)
 
@@ -80,7 +80,7 @@ class Solution::UpdatePublishedExerciseRepresentationTest < ActiveSupport::TestC
     iteration = create(:iteration, submission:)
     create :submission_representation, submission: iteration.submission, ast: representation.ast
 
-    Exercise::Representation::UpdatePublishedSolutions.expects(:defer).never
+    Exercise::Representation::Recache.expects(:defer).never
 
     solution.update!(published_iteration: iteration)
     Solution::UpdatePublishedExerciseRepresentation.(solution)

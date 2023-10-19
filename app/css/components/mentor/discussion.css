@@ -239,6 +239,7 @@
 
         &:not(#code-panel) > .tabs {
             @apply flex lg:relative fixed z-menu;
+            @apply gap-24;
             top: 0;
             left: 0;
             right: 0;
@@ -251,7 +252,7 @@
 
             & .c-tab {
                 height: 36px;
-                @apply mr-24;
+                @apply mr-0;
 
                 & .c-icon {
                     height: 16px;

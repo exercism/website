@@ -1,40 +1,31 @@
 class Exercise::Representation::CreateSearchIndexDocument
   include Mandate
 
-  initialize_with :representation do
-    # Check a maximum of 5 solutions until we find one that's not broken.
-    # This is just an extra guard in case one or two solutions get in a weird state.
-    5.times do
-      @solution = representation.published_solutions.
-        where.not(user_id: User::GHOST_USER_ID).
-        first
-      @published_iteration = @solution&.latest_published_iteration
-      break if @published_iteration
-    end
-  end
+  initialize_with :representation
 
   def call
-    raise NoPublishedSolutionForRepresentationError unless solution
-    raise NoPublishedSolutionForRepresentationError unless published_iteration
+    raise NoPublishedSolutionForRepresentationError unless oldest_solution
+    raise NoPublishedSolutionForRepresentationError unless prestigious_solution
     raise NoPublishedSolutionForRepresentationError unless passes_latest_tests?
 
     {
       id: representation.id,
-      featured_solution_id: solution.id,
-      num_loc: solution.num_loc,
-      num_solutions: representation.num_published_solutions,
-      code: published_iteration.submission.files.map(&:content) || [],
+      oldest_solution_id: representation.oldest_solution_id,
+      prestigious_solution_id: representation.prestigious_solution_id,
+      num_loc:,
+      num_solutions:,
       max_reputation:,
       tags:,
+      code:,
       exercise: {
-        id: solution.exercise.id,
-        slug: solution.exercise.slug,
-        title: solution.exercise.title
+        id: exercise.id,
+        slug: exercise.slug,
+        title: exercise.title
       },
       track: {
-        id: solution.track.id,
-        slug: solution.track.slug,
-        title: solution.track.title
+        id: track.id,
+        slug: track.slug,
+        title: track.title
       }
     }
   end
@@ -52,15 +43,9 @@ class Exercise::Representation::CreateSearchIndexDocument
       exists?
   end
 
-  def max_reputation
-    User::ReputationPeriod.where(
-      period: :forever,
-      category: :any,
-      about: :track,
-      track_id: representation.track_id,
-      user_id: representation.published_solutions.select(:user_id)
-    ).maximum(:reputation).to_i
-  end
+  def code = source_submission.files.map(&:content) || []
+  def max_reputation = prestigious_solution.user.reputation.to_i
+  def num_solutions = representation.num_published_solutions
 
   def tags
     return [] if last_analyzed_submission_representation.nil?
@@ -78,4 +63,10 @@ class Exercise::Representation::CreateSearchIndexDocument
   end
 
   attr_reader :solution, :published_iteration
+
+  delegate :track, to: :exercise
+  delegate :exercise, :source_submission,
+    :oldest_solution, :prestigious_solution,
+    to: :representation
+  delegate :num_loc, to: :oldest_solution
 end

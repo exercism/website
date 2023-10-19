@@ -170,20 +170,13 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     uid = SecureRandom.hex
     user = create :user, :maintainer, discord_uid: uid
 
-    RestClient.expects(:delete).with(
-      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681",
-      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
-    )
-    RestClient.expects(:delete).with(
-      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
-      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
-    )
-    RestClient.expects(:put).with(
-      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559",
-      {},
-      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
-    ).raises(RestClient::TooManyRequests)
+    retry_after_seconds = 5
+    response = OpenStruct.new({ headers: { "code" => 429, "Retry-After" => retry_after_seconds } })
+    RestClient.expects(:put).raises(RestClient::TooManyRequests.new(response))
+    RestClient.expects(:delete).twice
 
-    User::SetDiscordRoles.(user)
+    perform_enqueued_jobs do
+      User::SetDiscordRoles.defer(user)
+    end
   end
 end

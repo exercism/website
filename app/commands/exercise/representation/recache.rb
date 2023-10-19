@@ -28,7 +28,9 @@ class Exercise::Representation::Recache
   end
 
   def prestigious_solution
-    user_ids = representation.published_solutions.select(:user_id)
+    user_ids = representation.published_solutions.
+      where(user_id: User::GHOST_USER_ID).
+      select(:user_id)
     return nil unless user_ids
 
     user_id = User::ReputationPeriod.where(

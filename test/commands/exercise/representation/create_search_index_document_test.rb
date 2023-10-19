@@ -47,17 +47,17 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
     reputation = 1234
     num_loc = 42
 
-    solutions = Array.new(2).map do
-      create(:practice_solution, :published, published_iteration_head_tests_status: :passed).tap do |solution|
-        submission = create(:submission, solution:)
-        create(:iteration, submission:)
-      end
+    oldest_solution = create(:practice_solution, :published, published_iteration_head_tests_status: :passed,
+      num_loc:).tap do |solution|
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
     end
 
-    oldest_solution = solutions.first
-    oldest_solution.update(num_loc:)
-    prestigious_solution = solutions.second
-    prestigious_solution.user.update(reputation:)
+    prestigious_solution = create(:practice_solution, :published, published_iteration_head_tests_status: :passed).tap do |solution|
+      submission = create(:submission, solution:)
+      create(:iteration, submission:)
+    end
+    prestigious_solution.user.update!(reputation:)
 
     source_submission = create(:submission)
     create(:submission_file, submission: source_submission, content:)

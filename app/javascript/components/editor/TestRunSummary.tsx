@@ -259,7 +259,7 @@ const TestRunSummaryContent = ({
           <GraphicalIcon icon="spinner" className="animate-spin-slow" />
           <LoadingBar animationDuration={testRunner.averageTestDuration} />
           <p>
-            <strong>Running tests…</strong>
+            <strong>Running tests…</strong>&nbsp;
             <span>
               Estimated running time ~ {testRunner.averageTestDuration}s
             </span>

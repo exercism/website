@@ -170,13 +170,24 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     uid = SecureRandom.hex
     user = create :user, :maintainer, discord_uid: uid
 
-    retry_after_seconds = 5
-    response = OpenStruct.new({ headers: { "code" => 429, "Retry-After" => retry_after_seconds } })
-    RestClient.expects(:put).raises(RestClient::TooManyRequests.new(response))
-    RestClient.expects(:delete).twice
+    # The first two calls are fine, no rate limit issues
+    stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681").
+      to_return(status: 200, body: "", headers: {})
 
-    perform_enqueued_jobs do
-      User::SetDiscordRoles.defer(user)
+    stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578").
+      to_return(status: 200, body: "", headers: {})
+
+    # The third call hits the rate limit
+    stub_request(:put, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559").
+      to_return(
+        status: 429,
+        headers: { "Retry-After": 25 }
+      )
+
+    Mocha::Configuration.override(stubbing_non_existent_method: :allow) do
+      cmd = User::SetDiscordRoles.new(user)
+      cmd.expects(:requeue_job!).with(25)
+      cmd.()
     end
   end
 end

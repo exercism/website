@@ -5,7 +5,7 @@
 [![View performance data on Skylight](https://badges.skylight.io/typical/VNpB7GqXZDpQ.svg)](https://oss.skylight.io/app/applications/VNpB7GqXZDpQ)
 
 This is the website component of Exercism.
-It is Ruby on Rails app, backed by various services.
+It is Ruby on Rails app, backed by various other services.
 
 **Please note: This repo is an internal repo. That means the source code is public, but we do not accept Pull Requests, we do not support the app being run locally, and we do not encourage people to fork or reuse this repository.**
 

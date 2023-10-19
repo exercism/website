@@ -121,9 +121,9 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     concept_exercise = create(:concept_exercise, track:)
     practice_exercise = create(:practice_exercise, track:)
     user_track = create(:user_track, user:, track:)
-    solution_1 = create(:concept_solution, :published, exercise: concept_exercise, user:)
-    solution_2 = create(:practice_solution, :published, exercise: practice_exercise, user:)
-    solution_3 = create(:practice_solution, :published, exercise: practice_exercise, user: other_user)
+    solution_1 = create(:concept_solution, exercise: concept_exercise, user:)
+    solution_2 = create(:practice_solution, exercise: practice_exercise, user:)
+    solution_3 = create(:practice_solution, exercise: practice_exercise, user: other_user)
     representation_1 = create(:exercise_representation, exercise: concept_exercise)
     representation_2 = create(:exercise_representation, exercise: practice_exercise)
     solution_1.update(published_exercise_representation: representation_1)
@@ -131,8 +131,8 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     solution_3.update(published_exercise_representation: representation_1)
 
     # Sanity check
-    Exercise::Representation::Recache.(representation_1)
-    Exercise::Representation::Recache.(representation_2)
+    Exercise::Representation::UpdatePublishedSolutions.(representation_1)
+    Exercise::Representation::UpdatePublishedSolutions.(representation_2)
     assert_equal 2, representation_1.num_published_solutions
     assert_equal 1, representation_2.num_published_solutions
 

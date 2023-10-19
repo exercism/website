@@ -190,7 +190,6 @@ module.exports = {
       anotherPurple: '#604FCD' /* Remove this */,
       russianViolet: '#302b42',
       englishViolet: '#4A475F',
-      lightPurple: '#B0A8E3',
       lightPurpleDarkened: '#f2f0fc',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',

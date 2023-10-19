@@ -49,7 +49,7 @@
     "focus-visible": "^5.2.0",
     "fontfaceobserver": "^2.1.0",
     "global": "^4.4.0",
-    "highlight.js": "^11.5.1",
+    "highlight.js": "11.9.0",
     "highlightjs-bqn": "^0.0.1",
     "highlightjs-cobol": "^0.3.1",
     "highlightjs-sap-abap": "^0.2.0",

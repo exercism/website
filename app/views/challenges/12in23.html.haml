@@ -6,14 +6,14 @@
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
             Month 10 of #12in23
-          %h1.text-h1.mb-8 It's Object-Oriented October! ✨
+          %h1.text-h1.mb-8 It's Nibbly November! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring object-oriented languages.
-            We're digging into the following languages: C#, Crystal, Java, Pharo, Ruby and PowerShell, with interviews and live streaming and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring assembly languages.
+            We're digging into the following languages: x86-64 Assembly, MIPS Assembly and WebAssembly, with interviews and live streaming and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Object-Oriented October overview video  👉
+              %h2.text-h4.mb-2 Start by watching our Nibbly November overview video  👉
               %p.text-p-base.mb-8
                 Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
@@ -24,10 +24,10 @@
                 .c-youtube-container
                   %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/YUmbekwFUa0", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-          - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::OCTOBER_TRACKS)
+          - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::NOVEMBER_TRACKS)
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Object-Oriented October badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the Nibbly November badge for completing and publishing 5 exercises in one of the following languages.
             - if tracks.any?(&:course?)
               Consider starting with a language with a syllabus (
               = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
@@ -46,25 +46,25 @@
             You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
           %ul.text-p-large.mb-12
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/binary-search-tree.svg", class: "w-[25px] inline"
-              %strong.font-semibold Binary Search Tree:
-              Insert and search for numbers in a binary tree.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/eliuds-eggs.svg", class: "w-[25px] inline"
+              %strong.font-semibold Eliud's Eggs:
+              Count the 1 bits in a number.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/circular-buffer.svg", class: "w-[25px] inline"
-              %strong.font-semibold Circular Buffer:
-              Implement an end-to-end connected data structure.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/grains.svg", class: "w-[25px] inline"
+              %strong.font-semibold Grains:
+              Calculate the number of grains on a chessboard with doubling squares.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/clock.svg", class: "w-[25px] inline"
-              %strong.font-semibold Clock:
-              Implement a clock that handles times without dates.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/resistor-color.svg", class: "w-[25px] inline"
+              %strong.font-semibold Resistor Color:
+              Convert a resistor band's color to its numeric representation.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/matrix.svg", class: "w-[25px] inline"
-              %strong.font-semibold Matrix:
-              Return the rows and columns of a matrix represented as a string.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/rotational-cipher.svg", class: "w-[25px] inline"
+              %strong.font-semibold Rotational Cipher:
+              Implement the rotational cipher (aka the Caesar cipher).
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/simple-cipher.svg", class: "w-[25px] inline"
-              %strong.font-semibold Simple Cipher:
-              Implement a substitution cipher.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/nucleotide-count.svg", class: "w-[25px] inline"
+              %strong.font-semibold Nucleotide Count:
+              Compute how many times each nucleotide occurs in a DNA string.
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12.c-highlight-links

@@ -165,4 +165,29 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
 
     User::SetDiscordRoles.(user)
   end
+
+  test "requeues when rate limit is reached" do
+    uid = SecureRandom.hex
+    user = create :user, :maintainer, discord_uid: uid
+
+    # The first two calls are fine, no rate limit issues
+    stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681").
+      to_return(status: 200, body: "", headers: {})
+
+    stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578").
+      to_return(status: 200, body: "", headers: {})
+
+    # The third call hits the rate limit
+    stub_request(:put, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559").
+      to_return(
+        status: 429,
+        headers: {
+          "Retry-After": 25
+        }
+      )
+
+    # TODO: verify job being created
+
+    User::SetDiscordRoles.(user)
+  end
 end

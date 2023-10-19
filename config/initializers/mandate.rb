@@ -2,6 +2,15 @@ require 'mandate'
 require 'application_job'
 
 class MandateJob < ApplicationJob
+  class MandateJobNeedsRequeuing < RuntimeError
+    attr_reader :wait
+
+    def initialize(wait)
+      @wait = wait
+      super(nil)
+    end
+  end
+
   class PreqJobNotFinishedError < RuntimeError
     def initialize(job_id)
       @job_id = job_id
@@ -19,7 +28,14 @@ class MandateJob < ApplicationJob
   def perform(cmd, *args, **kwargs)
     __guard_prereq_jobs__!(kwargs.delete(:prereq_jobs))
 
-    cmd.constantize.new(*args, **kwargs).()
+    instance = cmd.constantize.new(*args, **kwargs)
+    instance.define_singleton_method(:requeue_job!) { |wait| raise MandateJobNeedsRequeuing, wait }
+    instance.()
+  rescue MandateJobNeedsRequeuing => e
+    cmd.constantize.defer(
+      *args,
+      **kwargs.merge(wait: e.wait)
+    )
   end
 
   def __guard_prereq_jobs__!(prereq_jobs)

@@ -25,7 +25,7 @@ class UserTrack::Reset
     User::ReputationTokens::PublishedSolutionToken.where(user:, track:).destroy_all
     Solution::RemoveUserSolutionsForTrackFromSearchIndex.defer(user.id, track.id)
     published_exercise_representations.each do |representation|
-      Exercise::Representation::Recache.defer(representation, wait: 10.seconds)
+      Exercise::Representation::UpdatePublishedSolutions.defer(representation, wait: 10.seconds)
     end
   end
 end

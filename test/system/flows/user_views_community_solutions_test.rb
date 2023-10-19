@@ -10,15 +10,10 @@ module Flows
       author = create :user, handle: "author"
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      exercise_representation = create(:exercise_representation, exercise:)
       solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
         published_iteration_head_tests_status: :passed
       submission = create(:submission, solution:)
       create(:iteration, solution:, submission:)
-
-      perform_enqueued_jobs do
-        Exercise::Representation::Recache.(exercise_representation)
-      end
 
       wait_for_opensearch_to_be_synced
 

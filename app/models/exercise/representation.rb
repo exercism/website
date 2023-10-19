@@ -5,8 +5,6 @@ class Exercise::Representation < ApplicationRecord
   has_markdown_field :feedback
 
   belongs_to :exercise
-  belongs_to :oldest_solution, class_name: "Solution", optional: true
-  belongs_to :prestigious_solution, class_name: "Solution", optional: true
   belongs_to :source_submission, class_name: "Submission"
   belongs_to :feedback_author, optional: true, class_name: "User"
   belongs_to :feedback_editor, optional: true, class_name: "User"
@@ -24,8 +22,7 @@ class Exercise::Representation < ApplicationRecord
   # This is too inefficient. Get the representations and then their submissions instead.
   # has_many :submission_representation_submissions, through: :submission_representations, source: :submission
 
-  has_many :published_solutions, -> { where(status: :published) },
-    foreign_key: "published_exercise_representation", class_name: "Solution",
+  has_many :published_solutions, foreign_key: "published_exercise_representation", class_name: "Solution",
     inverse_of: :published_exercise_representation
 
   scope :without_feedback, -> { where(feedback_type: nil) }
@@ -58,9 +55,6 @@ class Exercise::Representation < ApplicationRecord
   end
 
   def appears_frequently? = num_submissions >= APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS
-
-  def first_submitted_at = oldest_solution.published_iterations.last.created_at
-  def max_reputation = prestigious_solution.user.reputation
 
   APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS = 5
   private_constant :APPEARS_FREQUENTLY_MIN_NUM_SUBMISSIONS

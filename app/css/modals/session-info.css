@@ -33,4 +33,15 @@
     .finish-button {
         @apply ml-0;
     }
+
+    .finished {
+        @apply flex items-center;
+        @apply text-16 leading-170 font-semibold text-textColor2;
+
+        .c-icon {
+            height: 24px;
+            width: 24px;
+            @apply mr-16;
+        }
+    }
 }

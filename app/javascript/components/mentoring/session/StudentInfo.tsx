@@ -57,7 +57,9 @@ export const StudentInfo = ({
           {student.links ? (
             <StudentInfoActions student={student} setStudent={setStudent} />
           ) : null}
-          <PreviousSessionsLink student={student} setStudent={setStudent} />
+          {!isBelowLgWidth && (
+            <PreviousSessionsLink student={student} setStudent={setStudent} />
+          )}
         </div>
         <StudentTrackObjectives student={student} />
 

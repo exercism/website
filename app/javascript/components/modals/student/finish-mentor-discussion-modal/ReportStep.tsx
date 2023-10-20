@@ -14,16 +14,19 @@ export const ReportStep = ({
   discussion,
   onSubmit,
   onBack,
+  send,
 }: {
   onSubmit: (report: MentorReport) => void
   onBack: () => void
   discussion: MentorDiscussion
+  send: (step: string) => void
 }): JSX.Element => {
   const [state, setState] = useState<MentorReport>({
     requeue: true,
     report: false,
     reason: 'coc',
   })
+
   const messageRef = useRef<HTMLTextAreaElement>(null)
   const {
     mutate: mutation,
@@ -48,6 +51,9 @@ export const ReportStep = ({
     {
       onSuccess: () => {
         onSubmit(state)
+      },
+      onError: (e) => {
+        console.error('Error running mutation in ReportStep.tsx', e)
       },
     }
   )

@@ -21,9 +21,8 @@ export function useContinuousHighlighting<T extends HTMLElement>(
   const parentRef = useRef<T | null>(null)
 
   useLayoutEffect(() => {
-    if (!parentRef.current) {
-      return
-    }
+    if (!parentRef.current) return
+
     highlightAllAlways(parentRef.current as unknown as ParentNode)
   }, [html])
 

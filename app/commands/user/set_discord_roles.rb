@@ -41,6 +41,9 @@ class User::SetDiscordRoles
     RestClient.put(url, {}, Authorization: AUTH_HEADER)
   rescue RestClient::NotFound
     # If the user could not be found, ignore the error
+  rescue RestClient::TooManyRequests => e
+    retry_after = (e.http_headers[:retry_after].presence || 60).to_i
+    requeue_job!(retry_after.seconds)
   end
 
   def remove_role!(role_id)
@@ -48,6 +51,9 @@ class User::SetDiscordRoles
     RestClient.delete(url, Authorization: AUTH_HEADER)
   rescue RestClient::NotFound
     # If the user could not be found, ignore the error
+  rescue RestClient::TooManyRequests => e
+    retry_after = (e.http_headers[:retry_after].presence || 60).to_i
+    requeue_job!(retry_after.seconds)
   end
 
   API_URL =  "https://discord.com/api/guilds/%s/members/%s/roles/%s".freeze

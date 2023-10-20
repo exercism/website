@@ -156,11 +156,11 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
   }
 
   root.render(
-    <React.StrictMode>
-      <QueryClientProvider client={window.queryClient}>
-        <ErrorBoundary>{component}</ErrorBoundary>
-      </QueryClientProvider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <QueryClientProvider client={window.queryClient}>
+      <ErrorBoundary>{component}</ErrorBoundary>
+    </QueryClientProvider>
+    // </React.StrictMode>
   )
   document.addEventListener('turbo:before-frame-render', () => {
     root.unmount()

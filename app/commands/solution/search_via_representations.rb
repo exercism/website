@@ -15,7 +15,7 @@ class Solution::SearchViaRepresentations
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
     @order = order&.to_sym || :most_popular
     @criteria = criteria&.split.to_a
-    @tags = tags&.split.to_a
+    @tags = tags.present? && tags.is_a?(String) ? tags.split : tags.to_a
   end
 
   def call

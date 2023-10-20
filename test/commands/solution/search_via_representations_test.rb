@@ -160,6 +160,8 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [data[:another][:solution]], Solution::SearchViaRepresentations.(exercise, tags: 'construct:lambda')
     assert_equal [data[:my][:solution], data[:your][:solution]],
       Solution::SearchViaRepresentations.(exercise, tags: 'paradigm:object-oriented')
+    assert_equal [data[:your][:solution]],
+      Solution::SearchViaRepresentations.(exercise, tags: ["construct:if", "paradigm:object-oriented"])
   end
 
   test "pagination" do

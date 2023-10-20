@@ -1,4 +1,10 @@
-import React, { useState, createContext, useCallback, useEffect } from 'react'
+import React, {
+  useState,
+  createContext,
+  useCallback,
+  useEffect,
+  useContext,
+} from 'react'
 
 import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -38,6 +44,9 @@ import {
   ChannelResponse as MentorRequestChannelResponse,
 } from '@/channels/mentorRequestChannel'
 import { CancelledRequestModal } from './session/CancelledRequestModal'
+import { ScreenSizeContext } from './session/ScreenSizeContext'
+import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
+import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
 
 export type Links = {
   mentorDashboard: string
@@ -80,7 +89,7 @@ export type SessionGuidance = Pick<
   'exercise' | 'track' | 'links'
 >
 
-export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
+export type TabIndex = 'discussion' | 'scratchpad' | 'guidance' | 'code'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
@@ -148,8 +157,11 @@ export default function Session(props: SessionProps): JSX.Element {
     }
     // Only run this hook on mount, we don't want to re-establish channel connection when the request updates,
     // because the only relevant information for this hook is the uuid of the request which should never change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
+  usePanelFallback({ tab, setTab, isBelowLgWidth })
 
   return (
     <div className="c-mentor-discussion">
@@ -157,7 +169,7 @@ export default function Session(props: SessionProps): JSX.Element {
         id="mentoring-session"
         defaultLeftWidth="90%"
         leftMinWidth={550}
-        rightMinWidth={625}
+        rightMinWidth={isBelowLgWidth ? 0 : 625}
         left={
           <>
             <header className="discussion-header">
@@ -201,6 +213,12 @@ export default function Session(props: SessionProps): JSX.Element {
             >
               <>
                 <div className="tabs" role="tablist">
+                  {isBelowLgWidth && (
+                    <Tab id="code" context={TabsContext}>
+                      <GraphicalIcon icon="comment" />
+                      <Tab.Title text="Code" />
+                    </Tab>
+                  )}
                   <Tab id="discussion" context={TabsContext}>
                     <GraphicalIcon icon="comment" />
                     <Tab.Title text="Discussion" />
@@ -214,6 +232,26 @@ export default function Session(props: SessionProps): JSX.Element {
                     <Tab.Title text="Guidance" />
                   </Tab>
                 </div>
+                {isBelowLgWidth && (
+                  <MobileCodePanel
+                    currentIteration={currentIteration}
+                    discussion={discussion}
+                    downloadCommand={downloadCommand}
+                    exercise={exercise}
+                    instructions={instructions}
+                    isLinked={isLinked}
+                    setIsLinked={setIsLinked}
+                    iterations={iterations}
+                    links={links}
+                    onClick={handleIterationClick}
+                    outOfDate={outOfDate}
+                    session={session}
+                    setSession={setSession}
+                    student={student}
+                    testFiles={testFiles}
+                    track={track}
+                  />
+                )}
                 <Tab.Panel id="discussion" context={TabsContext}>
                   <StudentInfo student={student} setStudent={setStudent} />
                   {discussion ? (

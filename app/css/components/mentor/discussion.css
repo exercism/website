@@ -8,7 +8,8 @@
     width: 100%;
     height: 100%;
 
-    & .--split-lhs {
+    & .--split-lhs,
+    #panel-code {
         overflow: hidden;
         height: 100%;
 
@@ -122,6 +123,19 @@
                 }
             }
         }
+
+        .iteration-header.mobile {
+            @apply px-12;
+            .close-btn {
+                @apply mr-24 ml-12;
+                .c-icon {
+                    height: 24px;
+                    width: 24px;
+                    @apply filter-textColor6;
+                }
+            }
+        }
+
         & .c-results-zone {
             @apply flex-grow h-arbitary;
             & .c-iteration-pane {
@@ -141,7 +155,7 @@
         overflow: hidden;
 
         & .comment-section {
-            @apply flex flex-col relative;
+            @apply flex flex-col relative z-1;
             bottom: 0;
             left: 0;
             right: 0;
@@ -223,25 +237,31 @@
             }
         }
 
-        & .tabs {
-            @apply flex relative;
+        &:not(#code-panel) > .tabs {
+            @apply flex lg:relative fixed z-menu;
+            @apply gap-24;
             top: 0;
             left: 0;
             right: 0;
-            height: var(--header-height);
+            @apply lg:h-[var(--header-height)] h-auto;
 
             @apply bg-backgroundColorA;
             @apply shadow-sm;
-            @apply px-24 pt-20 pb-12;
+            @apply px-24 lg:pt-20 lg:pb-12 py-8;
+            @apply overflow-x-auto lg:overflow-x-visible;
 
             & .c-tab {
                 height: 36px;
-                @apply mr-24;
+                @apply mr-0;
 
                 & .c-icon {
                     height: 16px;
                     width: 16px;
                 }
+            }
+
+            + .--tab-panel.mobile {
+                @apply lg:mt-0 mt-52;
             }
         }
 
@@ -406,7 +426,7 @@
                 @apply mb-20;
             }
             & .title {
-                @apply flex items-center mb-12;
+                @apply flex items-center;
                 @apply leading-160;
 
                 & strong {

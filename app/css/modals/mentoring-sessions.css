@@ -1,8 +1,17 @@
 @import "../styles";
 
 .m-mentoring-sessions {
+    &.mobile {
+        .--modal-content {
+            @apply py-16 px-24;
+        }
+        header {
+            @apply flex-col;
+        }
+    }
+
     & .--modal-content {
-        width: 100%;
+        @apply w-auto lg:w-100;
         max-width: 1150px;
         @apply py-32 px-48 bg-backgroundColorA;
 
@@ -41,6 +50,18 @@
         }
         & .discussions {
             & .discussion {
+                &.mobile {
+                    .c-track-icon,
+                    .action-icon,
+                    .exercise-icon,
+                    .num-comments,
+                    .num-iterations {
+                        @apply m-0;
+                    }
+
+                    @apply gap-8;
+                }
+
                 @apply flex items-center;
                 @apply border-1 border-borderColor5 rounded-8;
                 @apply py-8 px-16;

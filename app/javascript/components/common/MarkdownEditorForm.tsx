@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
 import {
   default as MarkdownEditor,
   MarkdownEditorHandle,
@@ -6,6 +6,8 @@ import {
 import { FormFooter } from './markdown-editor-form/FormFooter'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { QueryStatus } from 'react-query'
+import { MobileIdleFormFooter } from './markdown-editor-form/MobileIdleFormFooter'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 
 const ErrorMessage = ({
   error,
@@ -57,6 +59,7 @@ export const MarkdownEditorForm = ({
     'c-markdown-editor',
     expanded ? '--expanded' : '--compressed',
   ].filter((className) => className.length > 0)
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
   const handleSubmit = useCallback(
     (e) => {
@@ -142,6 +145,8 @@ export const MarkdownEditorForm = ({
             status={status}
             action={action}
           />
+        ) : isBelowLgWidth ? (
+          <MobileIdleFormFooter />
         ) : null}
       </form>
     </>

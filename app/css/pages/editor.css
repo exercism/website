@@ -245,7 +245,8 @@
     }
 
     & .c-split-pane {
-        & .--split-lhs {
+        & .--split-lhs,
+        #code-panel {
             @apply flex flex-col;
             @apply bg-backgroundColorB;
             @apply overflow-hidden;

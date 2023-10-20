@@ -32,7 +32,9 @@ export function useGetLatestIteration({
 
   const [queryEnabled, setQueryEnabled] = useState(false)
 
-  const { data: resolvedData } = usePaginatedRequestQuery<{
+  queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+
+  const { data: resolvedData, isRefetching } = usePaginatedRequestQuery<{
     iteration: ResolvedIteration
   }>([CACHE_KEY], {
     ...request,

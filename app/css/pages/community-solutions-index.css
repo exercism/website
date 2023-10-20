@@ -9,7 +9,7 @@
 
         & .--search {
             @apply md:w-[450px] w-100;
-            @apply md:mr-24 mr-0 md:mb-0 mb-24;
+            @apply md:mr-24 mr-0 md:mb-0 mb-12;
         }
     }
     & .solutions {

@@ -9,12 +9,13 @@ class Solution::SearchViaRepresentations
     DEFAULT_PER
   end
 
-  def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil)
+  def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil, tags: nil)
     @exercise = exercise
     @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
     @order = order&.to_sym || :most_popular
-    @criteria = criteria
+    @criteria = criteria&.split.to_a
+    @tags = tags&.split.to_a
   end
 
   def call
@@ -40,11 +41,11 @@ class Solution::SearchViaRepresentations
       page(page).per(per)
   rescue StandardError => e
     Bugsnag.notify(e)
-    Fallback.(exercise, page, per, order, criteria)
+    Fallback.(exercise, page, per, order, criteria, tags)
   end
 
   private
-  attr_reader :exercise, :per, :page, :order, :solutions, :criteria
+  attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tags
 
   def search_body
     {
@@ -68,19 +69,21 @@ class Solution::SearchViaRepresentations
   end
 
   def search_query
-    {
-      bool: {
-        must: [
-          { term: { 'exercise.id': exercise.id } },
-          @criteria.blank? ? nil : {
-            query_string: {
-              query: criteria.split(' ').map { |c| "*#{c}*" }.join(' AND '),
-              fields: ['code']
-            }
-          }
-        ].compact
-      }
-    }
+    parts = [
+      { term: { 'exercise.id': exercise.id } }
+    ]
+
+    # We match criteria via wildcards to allow for partial matching
+    criteria.each do |value|
+      parts << { wildcard: { code: { value: "*#{value}*" } } }
+    end
+
+    # Tags are matched exactly
+    tags.each do |tag|
+      parts << { terms: { "tags.keyword": [tag] } }
+    end
+
+    { bool: { must: parts } }
   end
 
   def search_sort
@@ -110,7 +113,7 @@ class Solution::SearchViaRepresentations
   class Fallback
     include Mandate
 
-    initialize_with :exercise, :page, :per, :order, :criteria
+    initialize_with :exercise, :page, :per, :order, :criteria, :tags
 
     def call
       @solutions = Solution.joins(:published_exercise_representation).where(exercise:)
@@ -128,6 +131,10 @@ class Solution::SearchViaRepresentations
     def filter!
       # By grouping, we force MySQL to return just one result per group
       @solutions = @solutions.group(:published_exercise_representation_id)
+
+      # We can't filter on criteria as code is not stored in the database
+
+      @solutions = @solutions.joins(:tags).where(tags: { tag: tags }) if tags.present?
     end
 
     def sort!

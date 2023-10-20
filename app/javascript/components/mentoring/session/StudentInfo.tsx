@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { Avatar, Reputation } from '@/components/common'
 import type { Student } from '@/components/types'
-import { Avatar, GraphicalIcon, Reputation } from '@/components/common'
-import { FavoritableStudent, FavoriteButton } from './FavoriteButton'
 import { PreviousSessionsLink } from './PreviousSessionsLink'
 import { HandleWithFlair } from '@/components/common/HandleWithFlair'
 import { Pronouns } from '@/components/common/Pronouns'
+import { ScreenSizeContext } from './ScreenSizeContext'
+import { ToggleMoreInformationButton } from './student-info/ToggleMoreInformationButton'
+import { StudentInfoActions } from './student-info/StudentInfoActions'
+import { StudentTrackObjectives } from './student-info/StudentTrackObjectives'
+import { ReducedStudentInfo } from './student-info/ReducedStudentInfo'
 
 export const StudentInfo = ({
   student,
@@ -13,78 +17,58 @@ export const StudentInfo = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  return (
-    <div className="student-info">
-      <div className="flex mb-8">
-        <div className="flex-grow">
-          <div className="subtitle">Who you&apos;re mentoring</div>
-          <div className="handle-block">
-            <div className="handle">
-              <HandleWithFlair
-                handle={student.handle}
-                flair={student.flair}
-                size="medium"
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+  const [showMoreInformation, setShowMoreInformation] = useState(false)
+
+  if (!showMoreInformation && isBelowLgWidth)
+    return (
+      <ReducedStudentInfo
+        student={student}
+        onClick={() => setShowMoreInformation(true)}
+      />
+    )
+  else
+    return (
+      <div className="student-info">
+        <div className="flex mb-8">
+          <div className="flex-grow">
+            <div className="subtitle">Who you&apos;re mentoring</div>
+            <div className="handle-block">
+              <div className="handle">
+                <HandleWithFlair
+                  handle={student.handle}
+                  flair={student.flair}
+                  size="medium"
+                />
+              </div>
+              <Reputation
+                value={student.reputation.toString()}
+                type="primary"
+                size="small"
               />
             </div>
-            <Reputation
-              value={student.reputation.toString()}
-              type="primary"
-              size="small"
-            />
+            <div className="name">{student.name}</div>
+            <Pronouns handle={student.handle} pronouns={student.pronouns} />
           </div>
-          <div className="name">{student.name}</div>
-          <Pronouns handle={student.handle} pronouns={student.pronouns} />
+          <Avatar src={student.avatarUrl} handle={student.handle} />
         </div>
-        <Avatar src={student.avatarUrl} handle={student.handle} />
-      </div>
-      <div className="bio">{student.bio}</div>
-      <div className="options">
-        {student.links ? (
-          <StudentInfoActions student={student} setStudent={setStudent} />
-        ) : null}
-        <PreviousSessionsLink student={student} setStudent={setStudent} />
-      </div>
-      <StudentTrackObjectives student={student} />
-    </div>
-  )
-}
-
-const StudentInfoActions = ({
-  student,
-  setStudent,
-}: {
-  student: Student
-  setStudent: (student: Student) => void
-}) => {
-  return (
-    <React.Fragment>
-      {student.links.favorite ? (
-        <FavoriteButton
-          student={student as FavoritableStudent}
-          onSuccess={(student) => setStudent(student)}
-        />
-      ) : null}
-    </React.Fragment>
-  )
-}
-
-function StudentTrackObjectives({
-  student,
-}: {
-  student: Student
-}): JSX.Element | null {
-  if (!student.trackObjectives) return null
-
-  return (
-    <details className="track-objectives c-details">
-      <summary>
-        <div className="--summary-inner justify-between select-none">
-          Explore {student.handle}&apos;s track goal(s)
-          <GraphicalIcon icon="chevron-right" className="--closed-icon" />
-          <GraphicalIcon icon="chevron-down" className="--open-icon" />
+        <div className="bio">{student.bio}</div>
+        <div className="options">
+          {student.links ? (
+            <StudentInfoActions student={student} setStudent={setStudent} />
+          ) : null}
+          {!isBelowLgWidth && (
+            <PreviousSessionsLink student={student} setStudent={setStudent} />
+          )}
         </div>
-      </summary>
-      <p>{student.trackObjectives}</p>
-    </details>
-  )
+        <StudentTrackObjectives student={student} />
+
+        {isBelowLgWidth && (
+          <ToggleMoreInformationButton
+            rotate
+            onClick={() => setShowMoreInformation(false)}
+          />
+        )}
+      </div>
+    )
 }

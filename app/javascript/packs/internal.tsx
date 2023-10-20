@@ -202,6 +202,7 @@ const DonationsSubscriptionForm = lazy(
 )
 
 import { RenderLoader } from '@/components/common'
+import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -269,29 +270,35 @@ initReact({
   ),
   'mentoring-session': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <Session
-        userHandle={data.user_handle}
-        discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
-        mentorSolution={camelizeKeysAs<CommunitySolution>(data.mentor_solution)}
-        exemplarFiles={camelizeKeysAs<readonly MentoringSessionExemplarFile[]>(
-          data.exemplar_files
-        )}
-        student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
-        track={camelizeKeysAs<MentorSessionTrack>(data.track)}
-        exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
-        iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
-        instructions={data.instructions}
-        testFiles={data.test_files}
-        links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
-        request={camelizeKeysAs<MentorSessionRequest>(data.request)}
-        scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(data.scratchpad)}
-        guidance={camelizeKeysAs<
-          Pick<Guidance, 'exercise' | 'track' | 'links'>
-        >(data.guidance)}
-        outOfDate={data.out_of_date}
-        downloadCommand={data.download_command}
-        studentSolutionUuid={data.student_solution_uuid}
-      />
+      <ScreenSizeWrapper>
+        <Session
+          userHandle={data.user_handle}
+          discussion={camelizeKeysAs<MentorDiscussion>(data.discussion)}
+          mentorSolution={camelizeKeysAs<CommunitySolution>(
+            data.mentor_solution
+          )}
+          exemplarFiles={camelizeKeysAs<
+            readonly MentoringSessionExemplarFile[]
+          >(data.exemplar_files)}
+          student={camelizeKeysAs<MentoringSessionStudent>(data.student)}
+          track={camelizeKeysAs<MentorSessionTrack>(data.track)}
+          exercise={camelizeKeysAs<MentorSessionExercise>(data.exercise)}
+          iterations={camelizeKeysAs<Iteration[]>(data.iterations)}
+          instructions={data.instructions}
+          testFiles={data.test_files}
+          links={camelizeKeysAs<MentoringSessionLinks>(data.links)}
+          request={camelizeKeysAs<MentorSessionRequest>(data.request)}
+          scratchpad={camelizeKeysAs<MentoringSessionScratchpad>(
+            data.scratchpad
+          )}
+          guidance={camelizeKeysAs<
+            Pick<Guidance, 'exercise' | 'track' | 'links'>
+          >(data.guidance)}
+          outOfDate={data.out_of_date}
+          downloadCommand={data.download_command}
+          studentSolutionUuid={data.student_solution_uuid}
+        />
+      </ScreenSizeWrapper>
     </Suspense>
   ),
   'mentoring-representations-with-feedback': (data: any) => (

@@ -4,10 +4,9 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
 <DocumentFragment>
   <div
     aria-labelledby="tab-get-help"
-    class="--tab-panel undefined"
+    class="--tab-panel"
     id="panel-get-help"
     role="tabpanel"
-    style="display: none;"
     tabindex="0"
   >
     <div

@@ -1,5 +1,5 @@
 .c-iterations-footer {
-    @apply flex items-center px-24 py-16;
+    @apply flex items-center px-24;
     @apply overflow-x-auto;
     z-index: 1;
 
@@ -11,15 +11,18 @@
     box-shadow: 0px -4px 16px var(--backgroundColorB);
 
     & .iterations {
-        @apply flex flex-grow items-center;
+        @apply flex flex-grow gap-20 items-center;
         @apply mr-24;
+        @apply overflow-x-auto overflow-y-visible;
+        @apply py-16;
 
         & .iteration {
             height: 32px;
             width: 32px;
-            @apply relative flex items-center justify-center ml-20;
+            @apply relative flex items-center justify-center;
             @apply rounded-circle border-1 border-borderLight;
             @apply font-semibold font-mono text-13;
+            @apply shrink-0;
 
             & .comments {
                 top: -12px;

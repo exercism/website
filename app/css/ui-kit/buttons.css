@@ -20,13 +20,6 @@
             @apply ml-8;
             line-height: 1;
         }
-
-        &:disabled {
-            /* This needs to be important to override
-             * any previous fade-in animations */
-            opacity: 0.5 !important;
-            cursor: not-allowed;
-        }
     }
 
     .btn-i-filled {
@@ -168,9 +161,6 @@
         & .--hint {
             @apply text-textColor6 font-semibold;
         }
-        &:disabled {
-            opacity: 0.5;
-        }
     }
 
     .btn-xs {
@@ -233,5 +223,11 @@
         & > .kb-shortcut {
             @apply text-15;
         }
+    }
+
+    [class^="btn"]:disabled {
+        /* This needs to be important to override any previous fade-in animations */
+        opacity: 0.5 !important;
+        cursor: not-allowed;
     }
 }

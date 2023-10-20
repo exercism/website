@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { sendRequest } from '@/utils/send-request'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 
 export type MarkdownEditorHandle = {
   value: (value: string | void) => string | void
@@ -51,7 +52,9 @@ export default function MarkdownEditor({
     [editorDidMount]
   )
 
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   options = useDeepMemo(options)
+
   const editorOptions = useMemo<SimpleMDEReactProps['options']>(() => {
     return {
       autosave: contextId
@@ -62,17 +65,19 @@ export default function MarkdownEditor({
         italic: '_',
       },
       indentWithTabs: false,
-      toolbar: [
-        'heading',
-        'bold',
-        'italic',
-        'quote',
-        'code',
-        'link',
-        'unordered-list',
-        'ordered-list',
-        'preview',
-      ],
+      toolbar: isBelowLgWidth
+        ? ['preview']
+        : [
+            'heading',
+            'bold',
+            'italic',
+            'quote',
+            'code',
+            'link',
+            'unordered-list',
+            'ordered-list',
+            'preview',
+          ],
       status: ['autosave'],
       previewRender: (markdown, preview) => {
         if (!url) {
@@ -103,7 +108,7 @@ export default function MarkdownEditor({
       },
       ...options,
     }
-  }, [contextId, options, url])
+  }, [contextId, options, url, isBelowLgWidth])
 
   return (
     <SimpleMDE

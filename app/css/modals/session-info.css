@@ -1,0 +1,47 @@
+.m-session-info {
+    .session-info-header {
+        @apply -mx-48 -mt-32 mb-32 py-12 px-16;
+        @apply flex items-center justify-between;
+        @apply border-b-1 border-borderColor7;
+
+        .c-track-icon {
+            height: 42px;
+            width: 42px;
+            @apply mr-16;
+        }
+        .student {
+            @apply flex-grow flex items-center;
+            .c-avatar {
+                height: 48px;
+                width: 48px;
+                @apply mr-16;
+            }
+
+            .info {
+                @apply flex flex-col;
+                .handle {
+                    @apply font-medium text-16 text-textColor1 leading-huge;
+                }
+
+                .exercise {
+                    @apply text-14 text-textColor6 leading-regular;
+                }
+            }
+        }
+    }
+
+    .finish-button {
+        @apply ml-0;
+    }
+
+    .finished {
+        @apply flex items-center;
+        @apply text-16 leading-170 font-semibold text-textColor2;
+
+        .c-icon {
+            height: 24px;
+            width: 24px;
+            @apply mr-16;
+        }
+    }
+}

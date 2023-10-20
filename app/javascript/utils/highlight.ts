@@ -117,6 +117,7 @@ export const highlightAll = (parent: ParentNode = document): void => {
 
 export const highlightAllAlways = (parent: ParentNode = document): void => {
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    block.removeAttribute('data-highlighted')
     highlightBlock(block)
   })
 }

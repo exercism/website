@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { camelizeKeys } from 'humps'
 import { sendRequest } from '@/utils/send-request'
@@ -13,6 +13,7 @@ import type {
   RepresentationExercise,
 } from '@/components/types'
 import type { Scratchpad as ScratchpadProps } from '../Session'
+import { ScreenSizeContext } from './ScreenSizeContext'
 
 type ScratchpadPage = {
   contentMarkdown: string
@@ -30,6 +31,8 @@ export const Scratchpad = ({
   const [content, setContent] = useState('')
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
+
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
   const handleChange = useCallback((content) => {
     setContent(content)
@@ -139,14 +142,17 @@ export const Scratchpad = ({
           </p>
         </Introducer>
       )}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mb-12 items-center">
         <div className="title">
           Your notes for <strong>{exercise.title}</strong> in
           <TrackIcon iconUrl={track.iconUrl} title={track.title} />
           <strong>{track.title}</strong>
         </div>
 
-        {content === page.contentMarkdown ? null : <AlertTag>Unsaved</AlertTag>}
+        <UnsavedWidget
+          isBelowLgWidth={isBelowLgWidth}
+          isUnchanged={content === page.contentMarkdown}
+        />
       </div>
 
       <form
@@ -179,4 +185,16 @@ export const Scratchpad = ({
       {error ? <p>{error}</p> : null}
     </>
   )
+}
+
+function UnsavedWidget({
+  isUnchanged,
+  isBelowLgWidth,
+}: Record<'isUnchanged' | 'isBelowLgWidth', boolean>): JSX.Element | null {
+  if (isUnchanged) return null
+  if (isBelowLgWidth)
+    return (
+      <div className="bg-red animate-fadeIn w-[8px] h-[8px] rounded-circle" />
+    )
+  return <AlertTag>Unsaved</AlertTag>
 }

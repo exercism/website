@@ -19,7 +19,7 @@ module Flows
       create(:iteration, solution:, submission:)
 
       perform_enqueued_jobs do
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation)
+        Exercise::Representation::Recache.(exercise_representation)
       end
 
       wait_for_opensearch_to_be_synced
@@ -61,8 +61,8 @@ module Flows
       create(:iteration, solution: solution_2, submission:)
 
       perform_enqueued_jobs do
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation_1)
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation_2)
+        Exercise::Representation::Recache.(exercise_representation_1)
+        Exercise::Representation::Recache.(exercise_representation_2)
       end
 
       wait_for_opensearch_to_be_synced
@@ -106,8 +106,8 @@ module Flows
       create(:iteration, solution: solution_2, submission:)
 
       perform_enqueued_jobs do
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation_1)
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation_2)
+        Exercise::Representation::Recache.(exercise_representation_1)
+        Exercise::Representation::Recache.(exercise_representation_2)
       end
 
       wait_for_opensearch_to_be_synced

@@ -47,8 +47,8 @@ module API
 
       exercise.update(num_published_solutions: 2)
       perform_enqueued_jobs do
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation_1)
-        Exercise::Representation::UpdatePublishedSolutions.(exercise_representation_2)
+        Exercise::Representation::Recache.(exercise_representation_1)
+        Exercise::Representation::Recache.(exercise_representation_2)
       end
 
       wait_for_opensearch_to_be_synced

@@ -145,4 +145,28 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     assert_equal 1, representation_1.reload.num_published_solutions
     assert_equal 0, representation_2.reload.num_published_solutions
   end
+
+  test "remove pending and cancelled mentoring requests" do
+    create :user, :ghost
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+    user_track = create(:user_track, user:, track:)
+    create(:user_track, user:, track: other_track)
+    fulfilled_request = create :mentor_request, :fulfilled, student: user, exercise: create(:practice_exercise, track:)
+    pending_request = create :mentor_request, :pending, student: user, exercise: create(:practice_exercise, track:)
+    cancelled_request = create :mentor_request, :cancelled, student: user, exercise: create(:practice_exercise, track:)
+    pending_request_other_track = create :mentor_request, :pending, student: user,
+      exercise: create(:practice_exercise, track: other_track)
+    cancelled_request_other_track = create :mentor_request, :cancelled, student: user,
+      exercise: create(:practice_exercise, track: other_track)
+
+    UserTrack::Reset.(user_track)
+
+    assert_raises ActiveRecord::RecordNotFound, &proc { pending_request.reload }
+    assert_raises ActiveRecord::RecordNotFound, &proc { cancelled_request.reload }
+    assert_nothing_raised { fulfilled_request.reload }
+    assert_nothing_raised { pending_request_other_track.reload }
+    assert_nothing_raised { cancelled_request_other_track.reload }
+  end
 end

@@ -10,6 +10,9 @@ class UserTrack::Reset
     published_exercise_representations = Exercise::Representation.where(
       id: user_track.solutions.select(:published_exercise_representation_id)
     ).to_a
+    user.solution_mentor_requests.joins(:solution).
+      where(student: user, solution: user_track.solutions.select(:id), status: %i[pending cancelled]).
+      destroy_all
     user_track.viewed_community_solutions.destroy_all
     user_track.solutions.update_all(%{
       user_id = #{User::GHOST_USER_ID},

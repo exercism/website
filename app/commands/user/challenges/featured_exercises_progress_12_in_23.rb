@@ -32,7 +32,7 @@ class User::Challenges::FeaturedExercisesProgress12In23
   OCTOBER_EXERCISES = %w[binary-search-tree circular-buffer clock matrix simple-cipher].freeze
 
   NOVEMBER_TRACKS = %w[x86-64-assembly mips wasm].freeze
-  NOVEMBER_EXERCISES = %w[eliuds-eggs grains resistor-color rotational-cipher nucleotide-count].freeze
+  NOVEMBER_EXERCISES = %w[pop-count grains resistor-color rotational-cipher nucleotide-count].freeze
 
   def call
     exercises = self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|

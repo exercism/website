@@ -69,7 +69,7 @@ export const TrackSummary = ({
             </strong>{' '}
             in progress and{' '}
             <strong>
-              {track.numInProgressMentoringDiscussions === 0
+              {track.numQueuedMentoringRequests === 0
                 ? 'none'
                 : `${track.numQueuedMentoringRequests} ${pluralize(
                     'solution',

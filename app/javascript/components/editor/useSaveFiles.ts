@@ -5,20 +5,20 @@ import { File } from '../types'
 export const useSaveFiles = ({
   key,
   saveInterval,
-  getFiles,
+  currentFiles,
 }: {
   key: string
   saveInterval: number
-  getFiles: () => File[]
+  currentFiles: File[]
 }) => {
   const [files, setFiles] = useLocalStorage<File[]>(
     `solution-files-${key}`,
-    getFiles()
+    currentFiles
   )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newFiles = getFiles()
+      const newFiles = currentFiles
 
       if (JSON.stringify(files) === JSON.stringify(newFiles)) {
         return
@@ -28,7 +28,7 @@ export const useSaveFiles = ({
     }, saveInterval)
 
     return () => clearInterval(interval)
-  }, [JSON.stringify(files), getFiles, saveInterval, setFiles])
+  }, [JSON.stringify(files), currentFiles, saveInterval, setFiles])
 
   return [files]
 }

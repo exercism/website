@@ -56,6 +56,8 @@ const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
 
     const style = id !== current ? { display: 'none' } : undefined
 
+    if (id !== current) return null
+
     return (
       <div
         id={`panel-${id}`}

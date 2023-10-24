@@ -1,5 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { EditorView, keymap, KeyBinding } from '@codemirror/view'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+  forwardRef,
+  useImperativeHandle,
+} from 'react'
+import { EditorView, keymap, KeyBinding, ViewUpdate } from '@codemirror/view'
 import { basicSetup } from '@codemirror/basic-setup'
 import { EditorState, Compartment, StateEffect } from '@codemirror/state'
 import { indentUnit } from '@codemirror/language'
@@ -9,6 +17,8 @@ import { Themes } from '../editor/types'
 import { loadLanguageCompartment } from './CodeMirror/languageCompartment'
 import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
 import { useTabBinding } from './CodeMirror/use-tab-binding'
+import { EditorFileContext } from '../editor/EditorFileContext'
+import { TabsContext } from '../editor/FileEditorCodeMirror'
 
 const wrapCompartment = new Compartment()
 const themeCompartment = new Compartment()
@@ -21,31 +31,37 @@ export type Handler = {
   getValue: () => string
   focus: () => void
 }
-export default function CodeMirror({
-  value,
-  language,
-  commands,
-  theme,
-  wrap,
-  useSoftTabs,
-  tabSize,
-  isTabCaptured,
-  editorDidMount,
-  readonly = false,
-}: {
-  value: string
-  language: string
-  theme: Themes
-  commands: KeyBinding[]
-  wrap: boolean
-  useSoftTabs: boolean
-  isTabCaptured: boolean
-  tabSize: number
-  editorDidMount: (handler: Handler) => void
-  readonly?: boolean
-}): JSX.Element {
+function CodeMirror(
+  {
+    value,
+    language,
+    commands,
+    theme,
+    wrap,
+    useSoftTabs,
+    tabSize,
+    isTabCaptured,
+    editorDidMount,
+    readonly = false,
+  }: {
+    value: string
+    language: string
+    theme: Themes
+    commands: KeyBinding[]
+    wrap: boolean
+    useSoftTabs: boolean
+    isTabCaptured: boolean
+    tabSize: number
+    editorDidMount: (handler: Handler) => void
+    readonly?: boolean
+  },
+  ref: any
+): JSX.Element {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
   const viewRef = useRef<EditorView | null>(null)
+
+  const { setFiles } = useContext(EditorFileContext)
+  const { current: currentTab } = useContext(TabsContext)
 
   const setValue = (text: string) => {
     if (!viewRef.current) {
@@ -63,9 +79,50 @@ export default function CodeMirror({
     viewRef.current.dispatch(transaction)
   }
 
+  useImperativeHandle(ref, () => ({
+    setValue,
+    currentTab,
+  }))
+
   const getValue = () => {
     return (value = viewRef.current?.state.doc.toString() || '')
   }
+
+  const latestContentRef = useRef(value)
+
+  const _transactionListener = useCallback((update: ViewUpdate) => {
+    // maybe save it into local storage only?
+  }, [])
+  const transactionListener = useCallback((update: ViewUpdate) => {
+    if (update.changes) {
+      const docContent = update.state.doc.toString()
+      latestContentRef.current = docContent
+
+      setFiles((prevFiles) => {
+        const index = prevFiles.findIndex(
+          (file) => file.filename === currentTab
+        )
+
+        if (
+          index === -1 ||
+          prevFiles[index].content === latestContentRef.current
+        ) {
+          return prevFiles
+        }
+
+        const updatedFile = {
+          ...prevFiles[index],
+          content: latestContentRef.current,
+        }
+
+        return [
+          ...prevFiles.slice(0, index),
+          updatedFile,
+          ...prevFiles.slice(index + 1),
+        ]
+      })
+    }
+  }, [])
 
   const indentChar = Array.from({ length: tabSize }, () => ' ').join('')
   const tabBinding = useTabBinding(indentChar, useSoftTabs)
@@ -83,6 +140,7 @@ export default function CodeMirror({
       state: EditorState.create({
         doc: value,
         extensions: [
+          EditorView.updateListener.of(transactionListener),
           keymapCompartment.of(keymap.of(commands)),
           basicSetup,
           a11yTabBindingPanel(),
@@ -175,3 +233,5 @@ export default function CodeMirror({
 
   return <div className="editor" ref={setTextarea} />
 }
+
+export default forwardRef(CodeMirror)

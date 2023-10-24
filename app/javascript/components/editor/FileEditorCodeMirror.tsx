@@ -6,6 +6,7 @@ import React, {
   createContext,
   lazy,
   Suspense,
+  useContext,
 } from 'react'
 import { File } from '../types'
 import type { Handler } from '../misc/CodeMirror'
@@ -14,11 +15,12 @@ import { EditorSettings } from '../editor/types'
 import { LegacyFileBanner } from './LegacyFileBanner'
 import { RenderLoader } from '@/components/common'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { EditorFileContext } from './EditorFileContext'
 const CodeMirror = lazy(() => import('../misc/CodeMirror'))
 
 export type FileEditorHandle = {
-  getFiles: () => File[]
-  setFiles: (files: File[]) => void
+  // getFiles: () => File[]
+  // setFiles: (files: File[]) => void
   focus: () => void
 }
 
@@ -33,6 +35,7 @@ export function FileEditorCodeMirror({
   files: defaultFiles,
   settings,
   readonly,
+  codeMirrorRef,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
@@ -41,8 +44,9 @@ export function FileEditorCodeMirror({
   settings: EditorSettings
   files: File[]
   readonly: boolean
+  codeMirrorRef: any
 }): JSX.Element {
-  const [files, setFiles] = useState(defaultFiles)
+  const { files, setFiles } = useContext(EditorFileContext)
   const [tab, setTab] = useState(files[0].filename)
   const containerRef = useRef<HTMLDivElement>(null)
   const editorRefs = useRef<Record<string, Handler>>({})
@@ -64,32 +68,12 @@ export function FileEditorCodeMirror({
     })
 
     editorRefs.current = editors
-  }, [cachedFiles])
-
-  const getFiles = useCallback(() => {
-    return Object.keys(editorRefs.current)
-      .map((filename) => {
-        const editor = editorRefs.current[filename]
-        const file = files.find((f) => f.filename === filename)
-
-        if (!file) {
-          return
-        }
-
-        return {
-          filename: file.filename,
-          content: editor.getValue() || '',
-          type: file.type,
-        }
-      })
-      .filter((f): f is File => f !== undefined)
-  }, [files])
+  }, [tab])
 
   const handleDelete = useCallback(
     (fileToDelete: File) => {
       return () => {
-        const currentFiles = getFiles()
-        const index = currentFiles.findIndex(
+        const index = files.findIndex(
           (f) => f.filename === fileToDelete.filename
         )
 
@@ -98,17 +82,15 @@ export function FileEditorCodeMirror({
         }
 
         if (index === 0) {
-          setTab(currentFiles[1].filename)
+          setTab(files[1].filename)
         } else {
-          setTab(currentFiles[index - 1].filename)
+          setTab(files[index - 1].filename)
         }
 
-        setFiles(
-          currentFiles.filter((f) => f.filename !== fileToDelete.filename)
-        )
+        setFiles(files.filter((f) => f.filename !== fileToDelete.filename))
       }
     },
-    [files, getFiles, setFiles]
+    [files, setFiles]
   )
 
   const focus = useCallback(() => {
@@ -118,8 +100,8 @@ export function FileEditorCodeMirror({
   }, [tab])
 
   useEffect(() => {
-    editorDidMount({ getFiles, setFiles, focus })
-  }, [editorDidMount, getFiles, setFiles, focus])
+    editorDidMount({ focus })
+  }, [editorDidMount, focus])
 
   return (
     <TabsContext.Provider
@@ -147,6 +129,7 @@ export function FileEditorCodeMirror({
             ) : null}
             <Suspense fallback={RenderLoader()}>
               <CodeMirror
+                ref={codeMirrorRef}
                 key={file.filename}
                 value={file.content}
                 editorDidMount={(editor) => {

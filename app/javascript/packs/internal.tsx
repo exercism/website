@@ -203,6 +203,7 @@ const DonationsSubscriptionForm = lazy(
 
 import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
+import { EditorFileWrapper } from '@/components/editor/EditorFileContext'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -215,7 +216,9 @@ initReact({
 
   editor: (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
+      <EditorFileWrapper defaultFiles={data.default_files}>
+        <Editor {...camelizeKeysAs<EditorProps>(data)} />
+      </EditorFileWrapper>
     </Suspense>
   ),
 

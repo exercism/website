@@ -4,6 +4,7 @@ import React, {
   useState,
   useEffect,
   createContext,
+  useContext,
 } from 'react'
 import { useQueryCache } from 'react-query'
 import { getCacheKey } from '@/components/student'
@@ -52,6 +53,7 @@ import {
 import { RealtimeFeedbackModal } from './modals'
 import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
 import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
+import { EditorFileContext } from './editor/EditorFileContext'
 
 export type TabIndex =
   | 'instructions'
@@ -108,6 +110,7 @@ export default ({
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
+  const codeMirrorRef = useRef()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -128,11 +131,19 @@ export default ({
   } = useSubmissionsList(defaultSubmissions, { create: links.runTests })
   const { revertToExerciseStart, revertToLastIteration } = useFileRevert()
   const { create: createIteration } = useIteration()
-  const { get: getFiles, set: setFiles } = useEditorFiles({
-    defaultFiles,
-    editorRef,
-  })
-  const [files] = useSaveFiles({ getFiles, ...autosave })
+
+  const { files: contextFiles, setFiles } = useContext(EditorFileContext)
+
+  // const { get: getFiles, set: setFiles } = useEditorFiles({
+  //   defaultFiles,
+  //   editorRef,
+  // })
+  const [files] = useSaveFiles({ currentFiles: contextFiles, ...autosave })
+
+  useEffect(() => {
+    setFiles(files)
+  }, [])
+
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
     testRunStatus !== TestRunStatus.PASS || !filesEqual(submissionFiles, files)
@@ -313,6 +324,8 @@ export default ({
 
   const handleRevertToExerciseStart = useCallback(() => {
     if (!submission) {
+      console.log(codeMirrorRef)
+      codeMirrorRef.current?.setValue()
       return setFiles(defaultFiles)
     }
 
@@ -448,6 +461,7 @@ export default ({
             left={
               <>
                 <FileEditorCodeMirror
+                  codeMirrorRef={codeMirrorRef}
                   editorDidMount={editorDidMount}
                   files={files}
                   language={track.slug}

@@ -47,14 +47,21 @@ type PanelProps = {
   className?: string
   children: React.ReactNode
   context: React.Context<TabContext>
+  alwaysAttachToDOM?: boolean
 }
 
 const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
-  ({ id, className, children, context }, ref): JSX.Element | null => {
+  (
+    { id, className, children, context, alwaysAttachToDOM = false },
+    ref
+  ): JSX.Element | null => {
     const { current } = useContext(context)
     const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
     const style = id !== current ? { display: 'none' } : undefined
+
+    // Editor' file tabs must be attached to DOM, otherwise CodeMirror will lose state
+    if (id !== current && !alwaysAttachToDOM) return null
 
     return (
       <div

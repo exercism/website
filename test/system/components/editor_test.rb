@@ -63,6 +63,39 @@ module Components
       end
     end
 
+    test "user switches files and code persists" do
+      user = create :user
+      track = create :track
+      exercise = create(:concept_exercise, track:)
+      create(:user_track, track:, user:)
+      solution = create(:concept_solution, user:, exercise:)
+      submission = create(:submission, solution:)
+      create :submission_file,
+        submission:,
+        content: "class LogLineParser",
+        filename: "log_line_parser.rb",
+        digest: Digest::SHA1.hexdigest("class LogLineParser")
+      create :submission_file,
+        submission:,
+        content: "class log_line_parser_test",
+        filename: "log_line_parser_test.rb",
+        digest: Digest::SHA1.hexdigest("class log_line_parser_test")
+
+      use_capybara_host do
+        sign_in!(user)
+        visit edit_track_exercise_path(track, exercise)
+
+        fill_in_editor ' This text must persist'
+
+        click_on "log_line_parser_test.rb"
+        assert_text "class log_line_parser_test"
+        refute_text ' This text must persist'
+
+        click_on "log_line_parser.rb"
+        assert_text ' This text must persist'
+      end
+    end
+
     test "hides hints button if there are no hints" do
       user = create :user
       track = create :track

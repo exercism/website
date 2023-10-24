@@ -9,7 +9,7 @@ export type GetHelpPanelProps = {
   helpHtml: string
   assignment: Assignment
   links: Record<'discordRedirectPath' | 'forumRedirectPath', string>
-  track: Track
+  track: Pick<Track, 'title' | 'iconUrl'>
 }
 
 export function GetHelpPanel({

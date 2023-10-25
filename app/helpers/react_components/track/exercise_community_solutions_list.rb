@@ -22,7 +22,7 @@ module ReactComponents
 
       memoize
       def search_params
-        params.permit(*AssembleExerciseCommunitySolutionsList.keys).to_h
+        params.permit(*AssembleExerciseCommunitySolutionsList.permitted_params).to_h
       end
     end
   end

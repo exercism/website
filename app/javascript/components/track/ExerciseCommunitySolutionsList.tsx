@@ -14,7 +14,7 @@ import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '@/components/types'
-import { ExerciseTagFilter } from './exercise-community-solutions-list/ExerciseTagFilter'
+import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
 
 export type Order =
   | 'most_popular'
@@ -38,8 +38,10 @@ const DEFAULT_ORDER: Order = 'most_popular'
 
 export function ExerciseCommunitySolutionsList({
   request: initialRequest,
+  tags,
 }: {
   request: Request
+  tags: any
 }): JSX.Element {
   const {
     request,
@@ -85,7 +87,7 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by code"
         />
-        <ExerciseTagFilter />
+        <ExerciseTagFilter tags={tags} setQuery={setQuery} request={request} />
         <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
           <OrderSelect
             value={request.query.order || DEFAULT_ORDER}

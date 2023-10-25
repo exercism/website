@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :exercise, :params
 
       def to_s
-        super("track-exercise-community-solutions-list", { request: })
+        super("track-exercise-community-solutions-list", { request:, tags: mock_tags })
       end
 
       private
@@ -19,6 +19,48 @@ module ReactComponents
       def data
         AssembleExerciseCommunitySolutionsList.(exercise, search_params)
       end
+
+      MOCK_TAGS = [
+        'construct:char',
+        'construct:class',
+        'construct:implicit-conversion',
+        'construct:int',
+        'construct:integral-number',
+        'construct:invocation',
+        'construct:lambda',
+        'construct:linq',
+        'construct:method',
+        'construct:number',
+        'construct:parameter',
+        'construct:return',
+        'construct:string',
+        'construct:using-directive',
+        'construct:visibility-modifiers',
+        'paradigm:functional',
+        'paradigm:object-oriented',
+        'technique:higher-order-functions',
+        'uses:Enumerable.GroupBy'
+      ].freeze
+
+      # TODO: adjust this
+      # def tags
+      #   Exercise.for('csharp', 'two-fer').tags.distinct.select(:tag).
+      #     group_by(&:category).map { |c, tags| [c.titleize, tags.map(&:tag)] }.
+      #     to_h
+      # end
+
+      def group_tags(tag_list)
+        grouped_tags = {}
+
+        tag_list.each do |tag|
+          key, = tag.split(':')
+          grouped_tags[key] = grouped_tags[key].to_a << tag
+        end
+
+        grouped_tags.map { |key, values| { key.capitalize => values } }
+      end
+
+      def mock_tags = group_tags(MOCK_TAGS)
 
       memoize
       def search_params

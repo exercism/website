@@ -3,6 +3,8 @@ class Exercise::Tag < ApplicationRecord
 
   belongs_to :exercise
 
+  scope :filterable, -> { where(filterable: true) }
+
   memoize
   def category = tag.split(':').first
 

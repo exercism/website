@@ -1,6 +1,7 @@
 import React from 'react'
 import { Checkbox } from '@/components/common'
 import { TagArray } from './ExerciseTagFilter.types'
+import { capitalize } from '@/utils/capitalize'
 
 export function ExerciseTagFilterGroup({
   tagGroup,
@@ -26,7 +27,7 @@ export function ExerciseTagFilterGroup({
           }}
           className="leading-160"
         >
-          {tagName.split(':')[1]}
+          {capitalize(tagName.split(':')[1])}
         </Checkbox>
       ))}
     </div>

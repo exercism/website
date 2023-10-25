@@ -27,5 +27,5 @@ class Solution::PublishIteration
   end
 
   memoize
-  def latest_published_iteration = solution.latest_published_iteration
+  def latest_published_iteration = iteration || solution.latest_published_iteration
 end

@@ -16,7 +16,7 @@ export function ExerciseTagFilterGroup({
 }) {
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-h5">{groupName}</h1>
+      <h3 className="text-16 font-semibold mb-2">Filter by {groupName}</h3>
 
       {tagGroup.map((tagName, index) => (
         <Checkbox
@@ -25,7 +25,7 @@ export function ExerciseTagFilterGroup({
           setChecked={(isChecked) => {
             handleToggleTag(tagName, isChecked)
           }}
-          className="leading-160"
+          className="leading-160 text-16"
         >
           {capitalize(tagName.split(':')[1])}
         </Checkbox>

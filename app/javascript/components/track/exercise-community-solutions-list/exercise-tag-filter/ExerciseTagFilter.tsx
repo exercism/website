@@ -17,7 +17,10 @@ export function ExerciseTagFilter({
 }): JSX.Element | null {
   if (Object.keys(tags).length === 0) return null
 
-  const { buttonAttributes, panelAttributes, setOpen, open } = usePanel()
+  const { buttonAttributes, panelAttributes, setOpen, open } = usePanel({
+    placement: 'bottom-start',
+    arrow: true,
+  })
 
   const { tagState, handleToggleTag } = useExerciseTagFilter({
     setQuery,
@@ -31,7 +34,7 @@ export function ExerciseTagFilter({
         {...buttonAttributes}
         onClick={() => setOpen((o) => !o)}
       >
-        <div className="value">Filter by tag</div>
+        <div className="value">Filter</div>
         <Icon
           icon="chevron-down"
           alt="Click to change"
@@ -39,7 +42,10 @@ export function ExerciseTagFilter({
         />
       </button>
       {open ? (
-        <div {...panelAttributes} className="--options flex flex-wrap gap-12">
+        <div
+          {...panelAttributes}
+          className="--options flex flex-wrap gap-12 w-[200%] mt-8 !p-16"
+        >
           {Object.keys(tags).map((tagCategory: string, index) => {
             return (
               <ExerciseTagFilterGroup

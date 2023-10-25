@@ -97,14 +97,14 @@
           %p.text-p-base.mb-12 We automatically group similar solutions and generate statistics about how popular they are.
           .py-16.shadow-base.rounded-8.bg-white.text-center.grid.grid-cols-3.leading-150
             .flex.flex-col
-              .text-20.font-medium.mb-8.text-textColor2= @exercise_representation.num_published_solutions
+              .text-18.font-medium.mb-8.text-textColor2= @exercise_representation.num_published_solutions
               .text-15= "Submission".pluralize(@exercise_representation.num_published_solutions)
             .flex.flex-col
-              .text-20.font-medium.mb-8.text-textColor2 #{time_ago_in_words(@exercise_representation.first_submitted_at, short: true)} ago
+              .text-18.font-medium.mb-8.text-textColor2 #{time_ago_in_words(@exercise_representation.first_submitted_at, short: true)} ago
               .text-15 First submitted
 
             .flex.flex-col
-              .text-20.font-medium.mb-8.flex.items-center.justify-center
+              .text-18.font-medium.text-textColor2.mb-8.flex.items-center.justify-center
                 = icon "reputation", "Reputation", css_class: "w-[16px] h-[16px] mr-6"
                 = number_with_delimiter(@exercise_representation.max_reputation)
               .text-15 Highest rep user

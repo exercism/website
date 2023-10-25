@@ -63,7 +63,7 @@ function Tag({
 }: {
   tagName: string
   isActive: boolean
-  onClick: (tag: string) => void
+  onClick: (tagName: string) => void
 }) {
   return (
     <button

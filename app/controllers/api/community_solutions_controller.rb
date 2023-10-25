@@ -14,6 +14,6 @@ class API::CommunitySolutionsController < API::BaseController
   end
 
   def search_params
-    params.permit(AssembleExerciseCommunitySolutionsList.keys)
+    params.permit(AssembleExerciseCommunitySolutionsList.permitted_params)
   end
 end

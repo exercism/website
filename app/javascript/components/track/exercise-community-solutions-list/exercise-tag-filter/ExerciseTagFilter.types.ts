@@ -1,5 +1,3 @@
 export type TagArray = string[]
 
-export type TagCategory = Record<string, TagArray>
-
-export type Tags = TagCategory[]
+export type Tags = Record<string, TagArray>

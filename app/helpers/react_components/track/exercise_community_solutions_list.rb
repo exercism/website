@@ -53,11 +53,12 @@ module ReactComponents
         grouped_tags = {}
 
         tag_list.each do |tag|
-          key, = tag.split(':')
-          grouped_tags[key] = grouped_tags[key].to_a << tag
+          key, = tag.split(':', 2)
+          grouped_tags[key] ||= []
+          grouped_tags[key] << tag
         end
 
-        grouped_tags.map { |key, values| { key.capitalize => values } }
+        grouped_tags.transform_keys(&:capitalize)
       end
 
       def mock_tags = group_tags(MOCK_TAGS)

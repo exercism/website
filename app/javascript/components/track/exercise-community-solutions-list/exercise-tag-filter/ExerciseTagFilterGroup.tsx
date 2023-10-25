@@ -1,25 +1,26 @@
 import React from 'react'
 import { Checkbox } from '@/components/common'
-import { TagCategory, TagArray } from './ExerciseTagFilter.types'
+import { TagArray } from './ExerciseTagFilter.types'
 
 export function ExerciseTagFilterGroup({
-  tagCategory,
-  tagState,
+  tagGroup,
+  checkedTags,
   handleToggleTag,
+  groupName,
 }: {
-  tagCategory: TagCategory
-  tagState: TagArray
+  tagGroup: TagArray
+  checkedTags: TagArray
   handleToggleTag: (tagName: string, isChecked: boolean) => void
+  groupName: string
 }) {
-  const groupName = Object.keys(tagCategory)[0]
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-h5">{groupName}</h1>
 
-      {tagCategory[groupName].map((tagName, index) => (
+      {tagGroup.map((tagName, index) => (
         <Checkbox
           key={`${tagName}_${index}`}
-          checked={tagState.indexOf(tagName) !== -1}
+          checked={checkedTags.indexOf(tagName) !== -1}
           setChecked={(isChecked) => {
             handleToggleTag(tagName, isChecked)
           }}

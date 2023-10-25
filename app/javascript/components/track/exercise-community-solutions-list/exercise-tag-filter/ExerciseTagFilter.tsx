@@ -1,10 +1,10 @@
 import React from 'react'
 import { usePanel } from '@/hooks/use-panel'
 import { Icon } from '@/components/common'
-import { Tags } from './ExerciseTagFilter.types'
 import { ExerciseTagFilterGroup } from './ExerciseTagFilterGroup'
 import { useExerciseTagFilter } from './useExerciseTagFilter'
-import { Request } from '@/hooks/request-query'
+import type { Tags } from './ExerciseTagFilter.types'
+import type { Request } from '@/hooks/request-query'
 
 export function ExerciseTagFilter({
   tags,
@@ -15,7 +15,7 @@ export function ExerciseTagFilter({
   setQuery: (query: any) => void
   request: Request
 }): JSX.Element | null {
-  if (tags.length === 0) return null
+  if (Object.keys(tags).length === 0) return null
 
   const { buttonAttributes, panelAttributes, setOpen, open } = usePanel()
 
@@ -40,13 +40,14 @@ export function ExerciseTagFilter({
       </button>
       {open ? (
         <div {...panelAttributes} className="--options flex flex-wrap gap-12">
-          {tags.map((tagCategory, index) => {
+          {Object.keys(tags).map((tagCategory: string, index) => {
             return (
               <ExerciseTagFilterGroup
-                tagCategory={tagCategory}
-                key={index}
+                groupName={tagCategory}
+                tagGroup={tags[tagCategory]}
+                key={`${tagCategory}_${index}`}
                 handleToggleTag={handleToggleTag}
-                tagState={request.query?.tags || tagState}
+                checkedTags={request.query?.tags || tagState}
               />
             )
           })}

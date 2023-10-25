@@ -87,4 +87,20 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
 
     Solution::Publish.(solution, user_track, nil)
   end
+
+  test "calculate lines of code for latest published iteration when not already done" do
+    track = create :track
+    exercise = create(:concept_exercise, track:)
+
+    create(:exercise_representation, exercise:)
+    solution = create(:concept_solution, :published)
+    first_iteration = create(:iteration, submission: create(:submission, solution:), idx: 1)
+    second_iteration = create(:iteration, submission: create(:submission, solution:), idx: 2)
+
+    Iteration::CalculateLinesOfCode.expects(:defer).with(second_iteration)
+    Solution::PublishIteration.(solution, nil)
+
+    Iteration::CalculateLinesOfCode.expects(:defer).with(first_iteration)
+    Solution::PublishIteration.(solution.reload, first_iteration.idx)
+  end
 end

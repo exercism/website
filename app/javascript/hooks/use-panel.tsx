@@ -18,7 +18,7 @@ export function usePanel(options?: any) {
     buttonElement,
     panelElement,
     options || {
-      placement: options.placement || 'bottom-end',
+      placement: options?.placement || 'bottom-end',
       modifiers: modifiers,
     }
   )

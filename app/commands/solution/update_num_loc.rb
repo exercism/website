@@ -4,6 +4,12 @@ class Solution::UpdateNumLoc
   initialize_with :solution
 
   def call
+    if iteration && iteration.num_loc.nil?
+      calc_job = Iteration::CalculateLinesOfCode.defer(iteration)
+      Solution::UpdateNumLoc.defer(prereq_jobs: [calc_job])
+      return
+    end
+
     return if num_loc == solution.num_loc
 
     solution.update!(num_loc:)
@@ -11,10 +17,13 @@ class Solution::UpdateNumLoc
   end
 
   private
-  memoize
   def num_loc
-    iteration = solution.latest_published_iteration || solution.latest_iteration
     iteration&.num_loc.to_i
+  end
+
+  memoize
+  def iteration
+    solution.latest_published_iteration || solution.latest_iteration
   end
 
   def resync_representation_to_search_index!

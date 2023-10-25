@@ -10,12 +10,6 @@ class Solution::PublishIteration
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
-
-    # Calculate the solution latest published iteration's num_loc
-    # when that has not yet been done
-    return unless latest_published_iteration && latest_published_iteration.num_loc.nil?
-
-    Iteration::CalculateLinesOfCode.defer(latest_published_iteration)
   end
 
   private
@@ -25,7 +19,4 @@ class Solution::PublishIteration
 
     solution.iterations.find_by(idx: iteration_idx)
   end
-
-  memoize
-  def latest_published_iteration = iteration || solution.latest_published_iteration
 end

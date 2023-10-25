@@ -97,8 +97,9 @@
           %p.text-p-base.mb-12 We automatically group similar solutions and generate statistics about how popular they are.
           .py-16.shadow-base.rounded-8.bg-white.text-center.grid.grid-cols-3.leading-150
             .flex.flex-col
-              .text-18.font-medium.mb-8.text-textColor2= @exercise_representation.num_published_solutions
+              .text-18.font-medium.mb-8.text-textColor2= number_with_delimiter(@exercise_representation.num_published_solutions)
               .text-15= "Submission".pluralize(@exercise_representation.num_published_solutions)
+
             .flex.flex-col
               .text-18.font-medium.mb-8.text-textColor2 #{time_ago_in_words(@exercise_representation.first_submitted_at, short: true)} ago
               .text-15 First submitted

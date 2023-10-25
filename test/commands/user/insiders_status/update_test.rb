@@ -37,6 +37,22 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     assert_equal :ineligible, user.reload.insiders_status
   end
 
+  test "active -> ineligible: reset theme to light" do
+    user = create :user, insiders_status: :active
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
+
+    User::SetDiscordRoles.expects(:defer).with(user)
+    User::SetDiscourseGroups.expects(:defer).with(user)
+    User::Notification::Create.expects(:defer).never
+    User::UpdateFlair.expects(:defer).with(user)
+
+    user.preferences.update(theme: "dark")
+
+    User::InsidersStatus::Update.(user)
+
+    assert_equal "light", user.preferences.reload.theme
+  end
+
   %i[ineligible eligible eligible_lifetime].each do |status|
     test "unset -> #{status}: set discord roles" do
       user = create :user, insiders_status: :unset

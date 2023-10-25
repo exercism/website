@@ -78,5 +78,6 @@ class User::InsidersStatus::Update
 
   def update_to_ineligible
     user.update!(insiders_status: :ineligible)
+    user.preferences.update(theme: "light") if user.preferences.theme == "dark"
   end
 end

@@ -74,12 +74,7 @@ export function ExerciseCommunitySolutionsList({
       data-scroll-top-anchor="exercise-community-solutions-list"
       className="lg-container c-community-solutions-list"
     >
-      {resolvedData ? (
-        <h2>
-          Explore {resolvedData.meta.unscopedTotal} unique{' '}
-          {pluralize('solution', resolvedData.meta.unscopedTotal)}
-        </h2>
-      ) : null}
+      {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
       <div className="c-search-bar md:flex-row flex-col">
         <input
           className="--search"

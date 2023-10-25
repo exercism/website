@@ -28,7 +28,7 @@ export function ExerciseTagFilter({
   })
 
   return (
-    <div className="c-single-select mr-24">
+    <div className="c-single-select md:w-[unset] w-100">
       <button
         type="button"
         {...buttonAttributes}

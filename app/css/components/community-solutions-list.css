@@ -2,6 +2,10 @@
 
 .c-community-solutions-list {
     & > .c-search-bar {
+        input.--search {
+            @apply !m-0;
+        }
+
         & .c-checkbox-wrapper {
             @apply mr-16;
             & .c-checkbox {

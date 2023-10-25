@@ -78,7 +78,7 @@ export function ExerciseCommunitySolutionsList({
       className="lg-container c-community-solutions-list"
     >
       {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
-      <div className="c-search-bar md:flex-row flex-col">
+      <div className="c-search-bar md:flex-row flex-col gap-24">
         <input
           className="--search"
           onChange={(e) => {

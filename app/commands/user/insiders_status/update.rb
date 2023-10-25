@@ -78,9 +78,12 @@ class User::InsidersStatus::Update
 
   def update_to_ineligible
     user.update!(insiders_status: :ineligible)
-
-    return unless %w[dark system].include?(user.preferences.theme)
-
-    user.preferences.update(theme: "light")
+    user.preferences.update(theme: DEFAULT_THEME) if uses_insiders_only_theme?
   end
+
+  def uses_insiders_only_theme? = INSIDERS_ONLY_THEMES.include?(user.preferences.theme)
+
+  DEFAULT_THEME = "light".freeze
+  INSIDERS_ONLY_THEMES = %w[dark system].freeze
+  private_constant :DEFAULT_THEME, :INSIDERS_ONLY_THEMES
 end

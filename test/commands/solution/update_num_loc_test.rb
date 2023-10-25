@@ -24,7 +24,7 @@ class Solution::UpdateNumLocTest < ActiveSupport::TestCase
   end
 
   test "set solution num_loc to 0 when there are no active iterations" do
-    solution = create :concept_solution, num_loc: 0
+    solution = create :concept_solution, num_loc: 2
     create :iteration, :deleted, solution:, num_loc: 5
     create :iteration, :deleted, solution:, num_loc: 8
     solution.update(published_iteration: nil, published_at: nil)
@@ -32,5 +32,16 @@ class Solution::UpdateNumLocTest < ActiveSupport::TestCase
     Solution::UpdateNumLoc.(solution)
 
     assert_equal 0, solution.num_loc
+  end
+
+  test "resync solution to search index when set as oldest solution of exercise representation" do
+    exercise = create :concept_exercise
+    oldest_solution = create(:concept_solution, exercise:, num_loc: 2)
+    create :iteration, solution: oldest_solution, num_loc: 5
+    representation = create :exercise_representation, exercise:, oldest_solution_id: oldest_solution.id
+
+    Exercise::Representation::SyncToSearchIndex.expects(:defer).with(representation)
+
+    Solution::UpdateNumLoc.(oldest_solution)
   end
 end

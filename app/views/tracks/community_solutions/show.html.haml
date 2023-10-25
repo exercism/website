@@ -89,28 +89,26 @@
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
     .rhs.lg:ml-48
-      - if @exercise_representation
+      - if @exercise_representation&.oldest_solution && @exercise_representation&.prestigious_solution
         .border-b-1.border-borderColor7.mb-24.pb-24
           %h2.flex.items-center.mb-8.text-h4
-            = graphical_icon "stats", css_class: 'mr-16 h-[24px] w-[24px]'
+            = graphical_icon "stats", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'
             About this solution
           %p.text-p-base.mb-12 We automatically group similar solutions and generate statistics about how popular they are.
-          .py-16.shadow-base.rounded-8.bg-white.text-center.grid.grid-cols-3.leading-150
+          .py-16.shadow-base.rounded-8.bg-backgroundColorA.text-center.grid.grid-cols-3.leading-150
             .flex.flex-col
               .text-18.font-medium.mb-8.text-textColor2= number_with_delimiter(@exercise_representation.num_published_solutions)
               .text-15= "Submission".pluralize(@exercise_representation.num_published_solutions)
 
-            - if @exercise_representation.oldest_solution
-              .flex.flex-col
-                .text-18.font-medium.mb-8.text-textColor2 #{time_ago_in_words(@exercise_representation.first_submitted_at, short: true)} ago
-                .text-15 First submitted
+            .flex.flex-col
+              .text-18.font-medium.mb-8.text-textColor2 #{time_ago_in_words(@exercise_representation.first_submitted_at, short: true)} ago
+              .text-15 First submitted
 
-            - if @exercise_representation.prestigious_solution
-              .flex.flex-col
-                .text-18.font-medium.text-textColor2.mb-8.flex.items-center.justify-center
-                  = icon "reputation", "Reputation", css_class: "w-[16px] h-[16px] mr-6"
-                  = number_with_delimiter(@exercise_representation.max_reputation)
-                .text-15 Highest rep user
+            .flex.flex-col
+              .text-18.font-medium.text-textColor2.mb-8.flex.items-center.justify-center
+                = icon "reputation", "Reputation", css_class: "w-[16px] h-[16px] mr-6 filter-textColor2"
+                = number_with_delimiter(@exercise_representation.max_reputation)
+              .text-15 Highest rep user
 
       .about
         %h2

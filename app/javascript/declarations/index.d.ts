@@ -88,3 +88,10 @@ declare module '@gleam-lang/highlight.js-gleam' {
 
   export default setup
 }
+
+declare module '@ballerina/highlightjs-ballerina' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}

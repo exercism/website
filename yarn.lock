@@ -1011,6 +1011,11 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+"@ballerina/highlightjs-ballerina@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ballerina/highlightjs-ballerina/-/highlightjs-ballerina-1.0.1.tgz#ba053daf89a04ae0811157d5581ef76148226049"
+  integrity sha512-FOgWHYLhNhAk0i9gjB8+K2x52lGN44xLgvCNYduoQzPFG89qwtEtFk3guE8w8v7xRUNno6mlqn2bF6dG316mYg==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"

@@ -141,6 +141,7 @@ export function FileEditorCodeMirror({
             context={TabsContext}
             key={file.filename}
             id={file.filename}
+            alwaysAttachToDOM
           >
             {file.type === 'legacy' ? (
               <LegacyFileBanner onDelete={handleDelete(file)} />

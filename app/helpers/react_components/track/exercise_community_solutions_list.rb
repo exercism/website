@@ -67,6 +67,16 @@ module ReactComponents
       def search_params
         params.permit(*AssembleExerciseCommunitySolutionsList.permitted_params).to_h
       end
+
+      def tags
+        order = %w[Technique Paradigm Construct]
+
+        exercise.tags.distinct.pluck(:tag).
+          reject { |t| t.starts_with?("uses:") }.
+          group_by { |t| t.split(":").first }.
+          map { |category, tags| [category.titleize, tags] }.
+          sort_by { |(c, _)| order.index(c) }.to_h
+      end
     end
   end
 end

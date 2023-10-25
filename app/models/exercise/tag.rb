@@ -6,11 +6,16 @@ class Exercise::Tag < ApplicationRecord
   scope :filterable, -> { where(filterable: true) }
 
   memoize
-  def category = tag.split(':').first
+  def category = split_string.first
 
   memoize
-  def name = tag.split(':').second
+  def name = split_string.second
 
   memoize
   def to_s = "#{category.titleize}: #{name.titleize}"
+
+  memoize
+  def split_string
+    tag.split(':')
+  end
 end

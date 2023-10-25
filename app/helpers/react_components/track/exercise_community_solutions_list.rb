@@ -27,14 +27,16 @@ module ReactComponents
 
       memoize
       def tags
-        order = %w[Technique Paradigm Construct]
-
-        exercise.tags.distinct.pluck(:tag).
-          reject { |t| t.starts_with?("uses:") }.
-          group_by { |t| t.split(":").first }.
-          map { |category, tags| [category.titleize, tags] }.
-          sort_by { |(c, _)| order.index(c) }.to_h
+        exercise.tags.
+          reject { |t| t.category == "uses" }.
+          group_by(&:category).
+          map { |category, tags| [category.titleize, tags.map(&:tag)] }.
+          sort_by { |(c, _)| TAG_CATEGORY_ORDER.index(c) }.
+          to_h
       end
+
+      TAG_CATEGORY_ORDER = %w[Technique Paradigm Construct].freeze
+      private_constant :TAG_CATEGORY_ORDER
     end
   end
 end

@@ -4,11 +4,10 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'
-import { Checkbox, Icon, Pagination } from '@/components/common'
+import { Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
-import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import type {
   CommunitySolution as CommunitySolutionProps,
@@ -47,6 +46,7 @@ export function ExerciseCommunitySolutionsList({
     request,
     setPage,
     setOrder,
+    setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query.criteria)

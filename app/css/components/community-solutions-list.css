@@ -23,4 +23,16 @@
             }
         }
     }
+
+    .c-single-select {
+        button {
+            @apply justify-between;
+            .value {
+                @apply mr-0;
+            }
+            .c-icon.action-icon {
+                @apply ml-0;
+            }
+        }
+    }
 }

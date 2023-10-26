@@ -99,6 +99,7 @@ module.exports = {
       backgroundColorG: 'var(--backgroundColorG)',
       backgroundColorH: 'var(--backgroundColorH)',
       backgroundColorI: 'var(--backgroundColorI)',
+      backgroundColorHoverMenuTrack: 'var(--backgroundColorHoverMenuTrack)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',

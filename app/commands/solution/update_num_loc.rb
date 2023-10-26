@@ -5,8 +5,9 @@ class Solution::UpdateNumLoc
 
   def call
     if iteration && iteration.num_loc.nil?
-      calc_job = Iteration::CalculateLinesOfCode.defer(iteration)
-      Solution::UpdateNumLoc.defer(prereq_jobs: [calc_job])
+      Solution::UpdateNumLoc.defer(solution, prereq_jobs: [
+                                     Iteration::CalculateLinesOfCode.defer(iteration)
+                                   ])
       return
     end
 

@@ -37,6 +37,42 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     assert_equal :ineligible, user.reload.insiders_status
   end
 
+  %w[dark system].each do |theme|
+    test "active -> ineligible: reset insider-only #{theme} theme to light theme" do
+      user = create :user, insiders_status: :active
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
+
+      User::SetDiscordRoles.expects(:defer).with(user)
+      User::SetDiscourseGroups.expects(:defer).with(user)
+      User::Notification::Create.expects(:defer).never
+      User::UpdateFlair.expects(:defer).with(user)
+
+      user.preferences.update(theme:)
+
+      User::InsidersStatus::Update.(user)
+
+      assert_equal "light", user.preferences.reload.theme
+    end
+  end
+
+  %w[accessibility-dark sepia light].each do |theme|
+    test "active -> ineligible: don't reset #{theme}" do
+      user = create :user, insiders_status: :active
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
+
+      User::SetDiscordRoles.expects(:defer).with(user)
+      User::SetDiscourseGroups.expects(:defer).with(user)
+      User::Notification::Create.expects(:defer).never
+      User::UpdateFlair.expects(:defer).with(user)
+
+      user.preferences.update(theme:)
+
+      User::InsidersStatus::Update.(user)
+
+      assert_equal theme, user.preferences.reload.theme
+    end
+  end
+
   %i[ineligible eligible eligible_lifetime].each do |status|
     test "unset -> #{status}: set discord roles" do
       user = create :user, insiders_status: :unset

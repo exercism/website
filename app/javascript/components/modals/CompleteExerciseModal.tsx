@@ -13,6 +13,7 @@ export type ExerciseCompletion = {
     from: number
     to: number
     total: number
+    links: { self: string }
   }[]
   unlockedExercises: Exercise[]
   unlockedConcepts: Concept[]
@@ -22,6 +23,9 @@ export type CompletedExercise = Exercise & { links: { self: string } }
 
 export type Concept = {
   name: string
+  links: {
+    self: string
+  }
 }
 
 export const CompleteExerciseModal = ({

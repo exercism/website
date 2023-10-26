@@ -3,7 +3,7 @@ import { UnlockedConcept } from './UnlockedConcept'
 import { UnlockedExercise } from './UnlockedExercise'
 import { Concept } from '../../CompleteExerciseModal'
 import { GraphicalIcon } from '../../../common'
-import { Exercise, Track } from '../../../types'
+import { Exercise } from '../../../types'
 import pluralize from 'pluralize'
 
 export const Unlocks = ({

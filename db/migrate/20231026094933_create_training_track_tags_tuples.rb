@@ -1,5 +1,7 @@
 class CreateTrainingTrackTagsTuples < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :training_track_tags_tuples do |t|
       t.belongs_to :track, null: false
       t.belongs_to :exercise, null: true

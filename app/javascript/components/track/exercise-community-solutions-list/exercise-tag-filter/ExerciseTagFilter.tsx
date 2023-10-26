@@ -28,13 +28,13 @@ export function ExerciseTagFilter({
   })
 
   return (
-    <div className="c-single-select md:w-[unset] w-100">
+    <div className="c-single-select md:w-[150px] w-100">
       <button
         type="button"
         {...buttonAttributes}
         onClick={() => setOpen((o) => !o)}
       >
-        <div className="value">Filter</div>
+        <div className="value">Filter{showSelectedTagCount(tagState)}</div>
         <Icon
           icon="chevron-down"
           alt="Click to change"
@@ -61,4 +61,11 @@ export function ExerciseTagFilter({
       ) : null}
     </div>
   )
+}
+
+function showSelectedTagCount(selectedTags: string[]) {
+  const length = selectedTags.length
+  if (length === 0) return null
+
+  return ` (${length})`
 }

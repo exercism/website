@@ -37,7 +37,7 @@ export const OrderSelect = ({
       setValue={setValue}
       SelectedComponent={OptionComponent}
       OptionComponent={OptionComponent}
-      componentClassName="md:w-[290px] w-100"
+      className="md:w-[290px] w-100"
     />
   )
 }

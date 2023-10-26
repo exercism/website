@@ -4,16 +4,16 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'
-import { Checkbox, Icon, Pagination } from '@/components/common'
+import { Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
-import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '@/components/types'
+import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
 
 export type Order =
   | 'most_popular'
@@ -37,13 +37,16 @@ const DEFAULT_ORDER: Order = 'most_popular'
 
 export function ExerciseCommunitySolutionsList({
   request: initialRequest,
+  tags,
 }: {
   request: Request
+  tags: any
 }): JSX.Element {
   const {
     request,
     setPage,
     setOrder,
+    setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query.criteria)
@@ -75,7 +78,7 @@ export function ExerciseCommunitySolutionsList({
       className="lg-container c-community-solutions-list"
     >
       {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
-      <div className="c-search-bar md:flex-row flex-col">
+      <div className="c-search-bar md:flex-row flex-col gap-24">
         <input
           className="--search"
           onChange={(e) => {
@@ -84,6 +87,7 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by code"
         />
+        <ExerciseTagFilter tags={tags} setQuery={setQuery} request={request} />
         <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
           <OrderSelect
             value={request.query.order || DEFAULT_ORDER}

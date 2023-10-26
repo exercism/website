@@ -59,12 +59,12 @@ class API::SolutionsController < API::BaseController
         {
           slug: data[:concept].slug,
           name: data[:concept].name,
-          links: {
-            self: Exercism::Routes.track_concept_path(data[:concept].track, data[:concept])
-          },
           from: data[:from],
           to: data[:to],
-          total: data[:total]
+          total: data[:total],
+          links: {
+            self: Exercism::Routes.track_concept_path(data[:concept].track, data[:concept])
+          }
         }
       end
     }

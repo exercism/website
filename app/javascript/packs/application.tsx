@@ -280,6 +280,7 @@ export const mappings = {
     <Suspense fallback={RenderLoader()}>
       <ExerciseCommunitySolutionsList
         request={camelizeKeysAs<Request>(data.request)}
+        tags={data.tags}
       />
     </Suspense>
   ),

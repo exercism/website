@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -339,7 +339,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.integer "draft_feedback_type", limit: 1
     t.text "draft_feedback_markdown"
     t.string "exercise_id_and_ast_digest_idx_cache"
-    t.integer "num_published_solutions", limit: 2, default: 0, null: false
+    t.integer "num_published_solutions", default: 0, null: false
     t.bigint "oldest_solution_id"
     t.bigint "prestigious_solution_id"
     t.index ["ast_digest"], name: "index_exercise_representations_on_ast_digest"
@@ -371,9 +371,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
   end
 
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
     t.string "tag", null: false
     t.boolean "filterable", default: true, null: false
-    t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -865,10 +865,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
   end
 
   create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "tag", null: false
     t.bigint "solution_id", null: false
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
+    t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_solution_tags_on_exercise_id"
@@ -1004,6 +1004,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.index ["submission_id"], name: "index_submission_representations_on_submission_id"
     t.index ["track_id", "id"], name: "index_submission_representations_on_track_id_and_id"
     t.index ["track_id"], name: "index_submission_representations_on_track_id"
+  end
+
+  create_table "submission_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1172,6 +1177,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_101049) do
     t.string "highlightjs_language"
     t.index ["active"], name: "index_tracks_on_active"
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
+  end
+
+  create_table "training_track_tags_tuples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id", null: false
+    t.bigint "exercise_id"
+    t.bigint "solution_id"
+    t.integer "status", default: 0, null: false
+    t.integer "dataset", default: 0, null: false
+    t.text "code", null: false
+    t.text "tags"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_training_track_tags_tuples_on_exercise_id"
+    t.index ["solution_id"], name: "index_training_track_tags_tuples_on_solution_id"
+    t.index ["track_id"], name: "index_training_track_tags_tuples_on_track_id"
   end
 
   create_table "user_acquired_badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

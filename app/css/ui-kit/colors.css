@@ -204,6 +204,7 @@
     --backgroundColorReputationInfo: theme(colors.trueDarkGray);
     --backgroundColorNavDropdown: theme(colors.aliceBlue);
     --backgroundColorDonationFormCover: rgba(255, 255, 255, 0.6);
+    --backgroundColorHoverMenuTrack: #fafaff;
 
     --backgroundImpactPageHeader: linear-gradient(
             180deg,
@@ -479,6 +480,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorReputationInfo: theme(colors.russianViolet);
     --backgroundColorNavDropdown: theme(colors.eerieBlack);
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
+    --backgroundColorHoverMenuTrack: #3a3557;
 
     --backgroundImpactPageHeader: theme(colors.eerieBlack);
 

@@ -1,5 +1,6 @@
 import React, { forwardRef, useContext } from 'react'
 import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export type TabContext = {
   current: string
@@ -46,30 +47,35 @@ type PanelProps = {
   className?: string
   children: React.ReactNode
   context: React.Context<TabContext>
+  alwaysAttachToDOM?: boolean
 }
 
 const TabPanel = forwardRef<HTMLDivElement, PanelProps>(
-  ({ id, className, children, context }, ref): JSX.Element | null => {
+  (
+    { id, className, children, context, alwaysAttachToDOM = false },
+    ref
+  ): JSX.Element | null => {
     const { current } = useContext(context)
     const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
-    const classNames = [
-      '--tab-panel',
-      isBelowLgWidth ? 'mobile' : '',
-      className,
-    ]
-      .filter((truthy) => truthy)
-      .join(' ')
+    const style = id !== current ? { display: 'none' } : undefined
 
-    if (id !== current) return null
+    // Editor' file tabs must be attached to DOM, otherwise CodeMirror will lose state
+    if (id !== current && !alwaysAttachToDOM) return null
+
     return (
       <div
         id={`panel-${id}`}
         role="tabpanel"
         aria-labelledby={`tab-${id}`}
         tabIndex={0}
-        className={classNames}
+        className={assembleClassNames(
+          '--tab-panel',
+          isBelowLgWidth ? 'mobile' : '',
+          className
+        )}
         ref={ref}
+        style={style}
       >
         {children}
       </div>

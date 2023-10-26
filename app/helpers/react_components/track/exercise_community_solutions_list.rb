@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :exercise, :params
 
       def to_s
-        super("track-exercise-community-solutions-list", { request: })
+        super("track-exercise-community-solutions-list", { request:, tags: })
       end
 
       private
@@ -22,13 +22,21 @@ module ReactComponents
 
       memoize
       def search_params
-        permitted = params.permit(*AssembleExerciseCommunitySolutionsList.keys).to_h
-
-        booleans = %w[up_to_date passed_tests not_passed_head_tests]
-        permitted.each_with_object({}) do |(k, v), h|
-          h[k] = booleans.include?(k) ? ActiveModel::Type::Boolean.new.cast(v) : v
-        end.with_indifferent_access
+        params.permit(*AssembleExerciseCommunitySolutionsList.permitted_params).to_h
       end
+
+      memoize
+      def tags
+        exercise.tags.
+          reject { |t| t.category == "uses" }.
+          group_by(&:category).
+          map { |category, tags| [category.titleize, tags.map(&:tag)] }.
+          sort_by { |(c, _)| TAG_CATEGORY_ORDER.index(c) }.
+          to_h
+      end
+
+      TAG_CATEGORY_ORDER = %w[Technique Paradigm Construct].freeze
+      private_constant :TAG_CATEGORY_ORDER
     end
   end
 end

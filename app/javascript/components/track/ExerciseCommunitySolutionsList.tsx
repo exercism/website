@@ -4,19 +4,24 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { useLatestData } from '@/hooks/use-latest-data'
-import { Checkbox, Icon, Pagination } from '@/components/common'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
-import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { OrderSelect } from './exercise-community-solutions-list/OrderSelect'
 import type {
   CommunitySolution as CommunitySolutionProps,
   PaginatedResult,
 } from '@/components/types'
-import { scrollToTop } from '@/utils/scroll-to-top'
+import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
 
-export type Order = 'most_starred' | 'newest'
+export type Order =
+  | 'most_popular'
+  | 'newest'
+  | 'oldest'
+  | 'fewest_loc'
+  | 'highest_reputation'
 export type SyncStatus = undefined | 'up_to_date' | 'out_of_date'
 export type TestsStatus =
   | undefined
@@ -29,12 +34,14 @@ export type TestsStatus =
   | 'cancelled'
 
 const DEFAULT_ERROR = new Error('Unable to pull solutions')
-const DEFAULT_ORDER = 'most_starred'
+const DEFAULT_ORDER: Order = 'most_popular'
 
 export function ExerciseCommunitySolutionsList({
   request: initialRequest,
+  tags,
 }: {
   request: Request
+  tags: any
 }): JSX.Element {
   const {
     request,
@@ -72,116 +79,23 @@ export function ExerciseCommunitySolutionsList({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
-  const setUpToDate = useCallback(
-    (upToDate) => {
-      setQuery({
-        ...request.query,
-        upToDate: upToDate ? true : null,
-        page: undefined,
-      })
-    },
-    [request.query, setQuery]
-  )
-
-  const setPassedTests = useCallback(
-    (passedTests) => {
-      setQuery({
-        ...request.query,
-        passedTests: passedTests ? true : null,
-        page: undefined,
-      })
-    },
-    [request.query, setQuery]
-  )
-
-  const setPassedHeadTests = useCallback(
-    (passedHeadTests) => {
-      setQuery({
-        ...request.query,
-        notPassedHeadTests: passedHeadTests === false ? true : null,
-        page: undefined,
-      })
-    },
-    [request.query, setQuery]
-  )
-
   return (
     <div
       data-scroll-top-anchor="exercise-community-solutions-list"
       className="lg-container c-community-solutions-list"
     >
-      {resolvedData ? (
-        <h2>
-          {resolvedData.meta.unscopedTotal}{' '}
-          {pluralize('person', resolvedData.meta.unscopedTotal)} published
-          solutions
-          {/*Explore {resolvedData.meta.unscopedTotal} unique{' '}
-            {pluralize('solution', resolvedData.meta.unscopedTotal)}*/}
-        </h2>
-      ) : null}
-      <div className="c-search-bar md:flex-row flex-col">
+      {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
+      <div className="c-search-bar md:flex-row flex-col gap-24">
         <input
           className="--search"
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
           value={criteria || ''}
-          placeholder="Search by user"
+          placeholder="Search by code"
         />
+        <ExerciseTagFilter tags={tags} setQuery={setQuery} request={request} />
         <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
-          <div className="flex">
-            <GenericTooltip
-              content={
-                <>
-                  Only show solutions that pass the <strong>latest</strong>{' '}
-                  tests.
-                </>
-              }
-            >
-              <div>
-                <Checkbox
-                  checked={!request.query.notPassedHeadTests}
-                  setChecked={setPassedHeadTests}
-                >
-                  <Icon
-                    icon="golden-check"
-                    alt="Only show solution that pass the tests of the latest version of this exercise"
-                  />
-                </Checkbox>
-              </div>
-            </GenericTooltip>
-            <GenericTooltip content="Only show solutions that pass the tests as they were at the time when the student solved the exercise.">
-              <div>
-                <Checkbox
-                  checked={request.query.passedTests}
-                  setChecked={setPassedTests}
-                >
-                  <div
-                    className={`c-iteration-processing-status --passed`}
-                    role="status"
-                    aria-label="Only show solutions that pass the tests"
-                  >
-                    <div role="presentation" className="--dot"></div>
-                    <div className="--status">Passed</div>
-                  </div>
-                </Checkbox>
-              </div>
-            </GenericTooltip>
-
-            <GenericTooltip content="Only show solutions that are up to date.">
-              <div>
-                <Checkbox
-                  checked={request.query.upToDate}
-                  setChecked={setUpToDate}
-                >
-                  <Icon
-                    icon="up-to-date"
-                    alt="Only show solutions that are up-to-date with the latest version of this exercise"
-                  />
-                </Checkbox>
-              </div>
-            </GenericTooltip>
-          </div>
           <OrderSelect
             value={request.query.order || DEFAULT_ORDER}
             setValue={setOrder}

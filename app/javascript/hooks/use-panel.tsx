@@ -2,6 +2,15 @@ import { useEffect, useState, useCallback } from 'react'
 import { usePopper } from 'react-popper'
 
 export function usePanel(options?: any) {
+  let modifiers = [
+    {
+      name: 'offset',
+      options: {
+        offset: [0, 2],
+      },
+    },
+  ]
+
   const [open, setOpen] = useState(false)
   const [buttonElement, setButtonElement] = useState<HTMLElement | null>(null)
   const [panelElement, setPanelElement] = useState<HTMLDivElement | null>(null)
@@ -9,15 +18,8 @@ export function usePanel(options?: any) {
     buttonElement,
     panelElement,
     options || {
-      placement: 'bottom-end',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 2],
-          },
-        },
-      ],
+      placement: options?.placement || 'bottom-end',
+      modifiers: modifiers,
     }
   )
 

@@ -2,6 +2,10 @@
 
 .c-community-solutions-list {
     & > .c-search-bar {
+        input.--search {
+            @apply !m-0;
+        }
+
         & .c-checkbox-wrapper {
             @apply mr-16;
             & .c-checkbox {
@@ -16,6 +20,18 @@
         & .c-iteration-processing-status {
             & .--status {
                 @apply hidden;
+            }
+        }
+    }
+
+    .c-single-select {
+        button {
+            @apply justify-between;
+            .value {
+                @apply mr-0;
+            }
+            .c-icon.action-icon {
+                @apply ml-0;
             }
         }
     }

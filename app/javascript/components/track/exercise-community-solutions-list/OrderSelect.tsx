@@ -4,11 +4,6 @@ import { Order } from '../ExerciseCommunitySolutionsList'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
   switch (order) {
-    case 'most_starred':
-      return <React.Fragment>Sort by Most Starred</React.Fragment>
-    case 'newest':
-      return <React.Fragment>Sort by Newest</React.Fragment>
-    /*
     case 'most_popular':
       return <React.Fragment>Sort by Most Submitted</React.Fragment>
     case 'newest':
@@ -19,7 +14,6 @@ const OptionComponent = ({ option: order }: { option: Order }) => {
       return <React.Fragment>Sort by Fewest Lines</React.Fragment>
     case 'highest_reputation':
       return <React.Fragment>Sort by Highest Rep User</React.Fragment>
-    */
   }
 }
 
@@ -32,12 +26,18 @@ export const OrderSelect = ({
 }): JSX.Element => {
   return (
     <SingleSelect<Order>
-      options={['most_starred', 'newest']}
+      options={[
+        'most_popular',
+        'newest',
+        'oldest',
+        'fewest_loc',
+        'highest_reputation',
+      ]}
       value={value}
       setValue={setValue}
       SelectedComponent={OptionComponent}
       OptionComponent={OptionComponent}
-      componentClassName="md:w-[290px] w-100"
+      className="md:w-[290px] w-100"
     />
   )
 }

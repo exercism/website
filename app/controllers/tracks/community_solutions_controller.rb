@@ -41,7 +41,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     # We want to manually exclude (after SQL!) the solution id, and then just select 3
     (os_ids - [@solution.id])[0, 3]
 
-    @other_solutions = Solution.where(id: os_ids).includes(*SerializeSolutions::NP1_INCLUDES)
+    @other_solutions = Solution.where(id: os_ids).includes(*SerializeSolutions::NP1_INCLUDES + [:published_exercise_representation])
     @mentor_discussions = @solution.mentor_discussions.finished.not_negatively_rated.includes(:mentor)
     @exercise_representation = @solution.published_exercise_representation
 

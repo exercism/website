@@ -19,23 +19,43 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
         solution.publishedAt
       )}`}</time>
       <div className="--counts">
+        {solution.representationNumPublishedSolutions ? (
+          <div
+            className="--count"
+            title="Number of times someone has published a solution similar to this"
+          >
+            <GraphicalIcon icon="upload" />
+            <div className="--num">
+              {solution.representationNumPublishedSolutions}
+            </div>
+          </div>
+        ) : null}
         {solution.numLoc ? (
-          <div className="--count">
-            <Icon icon="loc" alt="Number of lines of code in the solution" />
+          <div
+            className="--count"
+            title="Number of lines of code in the solution"
+          >
+            <GraphicalIcon icon="loc" />
             <div className="--num">{solution.numLoc}</div>
           </div>
         ) : null}
-        <div className="--count">
-          <Icon icon="star" alt="Number of times solution has been starred" />
+        <div
+          className="--count"
+          title="Number of times solution has been starred"
+        >
+          <GraphicalIcon icon="star" />
           <div className="--num">{solution.numStars}</div>
         </div>
-        <div className="--count">
-          <Icon
-            icon="comment"
-            alt="Number of times solution has been commented on"
-          />
-          <div className="--num">{solution.numComments}</div>
-        </div>
+        {solution.numComments &&
+        !solution.representationNumPublishedSolutions ? (
+          <div
+            className="--count"
+            title="Number of times solution has been commented on"
+          >
+            <GraphicalIcon icon="comment" />
+            <div className="--num">{solution.numComments}</div>
+          </div>
+        ) : null}
       </div>
     </>
   )

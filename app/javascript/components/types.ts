@@ -169,6 +169,7 @@ export type CommunitySolution = {
   numLoc?: string
   numStars: string
   numComments: string
+  representationNumPublishedSolutions: string
   publishedAt: string
   language: string
   iterationStatus: IterationStatus

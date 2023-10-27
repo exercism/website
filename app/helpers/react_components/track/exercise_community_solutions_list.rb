@@ -31,8 +31,11 @@ module ReactComponents
           reject { |t| t.category == "uses" }.
           group_by(&:category).
           map { |category, tags| [category.titleize, tags.map(&:tag)] }.
+          filter { |c, _| TAG_CATEGORY_ORDER.include?(c) }.
           sort_by { |(c, _)| TAG_CATEGORY_ORDER.index(c) }.
           to_h
+      rescue StandardError
+        nil
       end
 
       TAG_CATEGORY_ORDER = %w[Technique Paradigm Construct].freeze

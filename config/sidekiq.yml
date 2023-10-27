@@ -5,7 +5,7 @@
   - default
   - mailers
 
-  # Import but none-blocking
+  # Important but not blocking
   - notifications
   - reputation
   - snippets

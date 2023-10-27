@@ -1,7 +1,7 @@
 class Iteration::GenerateSnippet
   include Mandate
 
-  queue_as :snippets
+  queue_as :solution_processing
 
   initialize_with :iteration
 

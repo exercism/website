@@ -388,7 +388,10 @@ class API::SolutionsControllerTest < API::BaseTestCase
         "unlocked_concepts" => [
           {
             "slug" => concept_2.slug,
-            "name" => concept_2.name
+            "name" => concept_2.name,
+            "links" => {
+              "self" => Exercism::Routes.track_concept_path(concept_2.track, concept_2)
+            }
           }
         ],
         "concept_progressions" => [
@@ -397,7 +400,10 @@ class API::SolutionsControllerTest < API::BaseTestCase
             "name" => concept_1.name,
             "from" => 0,
             "to" => 1,
-            "total" => 2
+            "total" => 2,
+            "links" => {
+              "self" => Exercism::Routes.track_concept_path(concept_1.track, concept_1)
+            }
           }
         ]
       }.to_json

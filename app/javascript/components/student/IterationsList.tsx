@@ -59,12 +59,19 @@ export default function IterationsList({
   track: Track
   links: Links
 }): JSX.Element {
-  const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState<boolean[]>([])
+
+  const queryClient = useQueryClient()
   const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
-  const { data: resolvedData } = usePaginatedRequestQuery<{
+
+  queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+
+  const { data: resolvedData, isFetching } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
-  }>([CACHE_KEY], request)
+  }>([CACHE_KEY], {
+    ...request,
+    options: { ...request.options, staleTime: 30 * 1000 },
+  })
 
   const handleDelete = (deletedIteration: Iteration) => {
     queryClient.setQueryData<{ iterations: readonly Iteration[] }>(

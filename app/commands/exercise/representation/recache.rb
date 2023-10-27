@@ -1,6 +1,8 @@
 class Exercise::Representation::Recache
   include Mandate
 
+  queue_as :solution_processing
+
   initialize_with :representation, last_submitted_at: nil
 
   def call

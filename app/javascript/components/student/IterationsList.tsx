@@ -64,7 +64,7 @@ export default function IterationsList({
   const queryClient = useQueryClient()
   const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
 
-  queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+  // queryClient.setQueryData([CACHE_KEY], request.options.initialData)
 
   const { data: resolvedData, isFetching } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]

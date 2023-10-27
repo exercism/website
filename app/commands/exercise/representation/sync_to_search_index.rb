@@ -6,6 +6,8 @@ class Exercise::Representation::SyncToSearchIndex
   initialize_with :representation
 
   def call
+    return unless representation
+
     if representation.num_published_solutions.zero?
       delete_document!
     else

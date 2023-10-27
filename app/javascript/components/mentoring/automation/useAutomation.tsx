@@ -4,7 +4,7 @@ import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { useLatestData } from '@/hooks/use-latest-data'
-import type { QueryStatus } from '@tanstack/react-query'
+import { useQueryClient, type QueryStatus } from '@tanstack/react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
 
 export type APIResponse = {
@@ -66,15 +66,26 @@ export function useAutomation(
       BLANK_TRACK_DATA
   )
 
+  const CACHE_KEY = [
+    'mentor-representations-list',
+    ...Object.values(request.query),
+  ]
+
+  const queryClient = useQueryClient()
+
+  queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+
   const {
     status,
     error,
     data: resolvedData,
     isFetching,
-  } = usePaginatedRequestQuery<APIResponse>(
-    ['mentor-representations-list', request],
-    request
-  )
+    isRefetching,
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
+    ...request,
+    options: { ...request.options },
+  })
+
   const latestData = useLatestData(resolvedData)
 
   const debouncedCriteria = useDebounce(criteria, 500)

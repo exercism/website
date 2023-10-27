@@ -11,6 +11,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       num_views: solution.num_views,
       num_stars: solution.num_stars,
       num_comments: solution.num_comments,
+      representation_num_published_solutions: solution.published_exercise_representation&.num_published_solutions,
       num_iterations: solution.num_iterations,
       num_loc: nil,
       iteration_status: iteration.status.to_s.to_sym,

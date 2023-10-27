@@ -48,7 +48,6 @@ export function usePaginatedRequestQuery<TResult = unknown, TError = unknown>(
     queryFn: handleFetch(request),
     refetchOnWindowFocus: false,
     keepPreviousData: true,
-    staleTime: 1000,
     ...camelizeKeys(request.options),
   })
 }

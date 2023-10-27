@@ -8,6 +8,7 @@
   # Important but not blocking
   - notifications
   - reputation
+  - solution_processing
   - snippets
   - cron
   - background

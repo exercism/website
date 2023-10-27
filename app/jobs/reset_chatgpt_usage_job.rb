@@ -1,5 +1,5 @@
 class ResetChatGPTUsageJob < ApplicationJob
-  queue_as :default
+  queue_as :cron
 
   def perform
     User.with_data.insiders.find_each do |user|

@@ -34,13 +34,14 @@ export function useGetLatestIteration({
 
   queryClient.setQueryData([CACHE_KEY], request.options.initialData)
 
-  const { data: resolvedData, isRefetching } = usePaginatedRequestQuery<{
+  const { data: resolvedData } = usePaginatedRequestQuery<{
     iteration: ResolvedIteration
   }>([CACHE_KEY], {
     ...request,
     options: {
       ...request?.options,
       refetchInterval: queryEnabled ? REFETCH_INTERVAL : false,
+      staleTime: 1000,
     },
   })
 

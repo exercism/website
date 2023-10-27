@@ -44,7 +44,7 @@ export const MentorChangeTracksModal = ({
         onSuccess()
       },
       onSettled: () => {
-        queryClient.invalidateQueries(cacheKey)
+        queryClient.invalidateQueries({ queryKey: cacheKey })
       },
     }
   )

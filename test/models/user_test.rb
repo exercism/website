@@ -42,30 +42,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal handle, user.name
   end
 
-  test "reputation sums correctly" do
+  test "reputation_for_track" do
     user = create :user
-    create :user_code_contribution_reputation_token # Random token for different user
+    track = create :track
+    rep = 100
+    create :user_reputation_period, user:, track_id: track.id, period: :forever, category: :any, about: :track, reputation: rep
+    create :user_reputation_period, user:, track_id: 2, period: :forever, about: :track, category: :any, reputation: 5
+    create :user_reputation_period, user:, track_id: 2, period: :year, about: :track, category: :any, reputation: 5
 
-    create(:user_exercise_contribution_reputation_token, user:)
-    create(:user_exercise_author_reputation_token, user:)
-    create :user_code_contribution_reputation_token, user:, level: :large
-    create :user_code_contribution_reputation_token, user:, level: :medium
-
-    assert_equal 72, user.reload.reputation
-    # assert_equal 20, user.reputation(track_slug: :ruby)
-    assert_equal 30, user.reputation(category: :authoring)
-  end
-
-  test "reputation raises with both track_slug and category specified" do
-    user = create :user
-
-    # Sanity check the individuals work
-    # before testing them both together
-    assert user.reputation(track_slug: :ruby)
-    assert user.reputation(category: :docs)
-    assert_raises do
-      user.reputation(track_slug: :ruby, category: :docs)
-    end
+    assert_equal rep, user.reputation_for_track(track)
   end
 
   test "formatted_reputation works" do

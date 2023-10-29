@@ -35,6 +35,9 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
   end
 
   test "updates num_published_solutions" do
+    Solution::UpdateNumLoc.any_instance.expects(:call)
+    Solution::UpdateSnippet.any_instance.expects(:call)
+
     exercise = create(:concept_exercise)
     solution = create(:concept_solution, :published, exercise:)
     create(:iteration, solution:)

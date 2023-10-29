@@ -89,6 +89,8 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
   end
 
   test "calculate lines of code for latest published iteration when not already done" do
+    Solution::UpdateNumLoc.expects(:defer).twice
+
     track = create :track
     exercise = create(:concept_exercise, track:)
 

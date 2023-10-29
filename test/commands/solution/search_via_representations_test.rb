@@ -419,6 +419,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
 
   test "sort: highest reputation" do
     exercise = create :practice_exercise
+    track = exercise.track
     exercise_representation_1 = create(:exercise_representation, exercise:)
     exercise_representation_2 = create(:exercise_representation, exercise:)
 
@@ -432,15 +433,10 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     end
 
     # We want the middle one to be the prestigious one that's returned
-    create :user_reputation_period, user: solutions[0].user, reputation: 20,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
-    create :user_reputation_period, user: solutions[1].user, reputation: 50,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
-    create :user_reputation_period, user: solutions[2].user, reputation: 15,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
-
-    create :user_reputation_period, user: solutions[3].user, reputation: 30,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
+    create :user_arbitrary_reputation_token, user: solutions[0].user, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: solutions[1].user, track:, params: { arbitrary_value: 50, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: solutions[2].user, track:, params: { arbitrary_value: 15, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: solutions[3].user, track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
 
     perform_enqueued_jobs do
       Exercise::Representation::Recache.(exercise_representation_1)

@@ -45,12 +45,12 @@ class UserTest < ActiveSupport::TestCase
   test "reputation_for_track" do
     user = create :user
     track = create :track
-    rep = 100
-    create :user_reputation_period, user:, track_id: track.id, period: :forever, category: :any, about: :track, reputation: rep
-    create :user_reputation_period, user:, track_id: 2, period: :forever, about: :track, category: :any, reputation: 5
-    create :user_reputation_period, user:, track_id: 2, period: :year, about: :track, category: :any, reputation: 5
 
-    assert_equal rep, user.reputation_for_track(track)
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 18, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
+
+    assert_equal 20 + 18 + 30, user.reputation_for_track(track)
   end
 
   test "formatted_reputation works" do

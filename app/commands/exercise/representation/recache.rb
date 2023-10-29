@@ -30,7 +30,7 @@ class Exercise::Representation::Recache
   end
 
   def prestigious_solution
-    User::ReputationToken.where(
+    user_id = User::ReputationToken.where(
       track_id: exercise.track_id,
       user_id: representation.published_solutions.select(:user_id)
     ).

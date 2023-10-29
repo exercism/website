@@ -73,8 +73,6 @@ module Mandate
       # format for a job. We do this here to avoid cluttering the codebase with this logic.
       if (prereqs = kwargs.delete(:prereq_jobs))
         prereqs.map! do |job|
-          next unless job&.provider_job_id
-
           {
             job_id: job.provider_job_id,
             queue_name: job.queue_name

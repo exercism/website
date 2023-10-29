@@ -80,7 +80,6 @@ module Mandate
             queue_name: job.queue_name
           }
         end
-        prereqs.compact!
         kwargs[:prereq_jobs] = prereqs if prereqs.present?
       end
 

@@ -116,45 +116,44 @@ class Solution::SearchViaRepresentations
     initialize_with :exercise, :page, :per, :order, :criteria, :tags
 
     def call
-      @solutions = Solution.joins(:published_exercise_representation).where(exercise:)
+      @representations = exercise.representations.where('num_published_solutions > 0')
 
       sort!
       filter!
       paginate!
 
-      @solutions
+      @representations = @representations.includes(:prestigious_solution).page(page).per(per)
+
+      Kaminari.paginate_array(@representations.map(&:prestigious_solution), total_count: @representations.total_count).
+        page(page).per(per)
     end
 
     private
     attr_reader :solutions
 
     def filter!
-      # By grouping, we force MySQL to return just one result per group
-      @solutions = @solutions.group(:published_exercise_representation_id)
-
       # We can't filter on criteria as code is not stored in the database
-
-      @solutions = @solutions.joins(:tags).where(tags: { tag: tags }) if tags.present?
+      @representations = @representations.joins(prestigious_solution: :tags).where(tags: { tag: tags }) if tags.present?
     end
 
     def sort!
       case order
       when :newest
-        @solutions = @solutions.order(id: :desc)
+        @representations = @representations.joins(:prestigious_solution).order('solutions.id': :desc)
       when :oldest
-        @solutions = @solutions.order(id: :asc)
+        @representations = @representations.joins(:prestigious_solution).order('solutions.id': :asc)
       when :fewest_loc
-        @solutions = @solutions.order(num_loc: :desc)
+        @representations = @representations.joins(:prestigious_solution).order('solutions.num_loc': :asc)
       when :highest_reputation
         # This is not track-specific reputation, but it's fine for the fallback
-        @solutions = @solutions.joins(:user).order(reputation: :desc)
+        @representations = @representations.joins(prestigious_solution: :user).order('users.reputation': :desc)
       else # :most_popular
-        @solutions = @solutions.order(num_published_solutions: :desc, id: :asc)
+        @representations = @representations.order(num_published_solutions: :desc, id: :asc)
       end
     end
 
     def paginate!
-      @solutions = @solutions.
+      @representations = @representations.
         page(page).
         per(per)
     end

@@ -26,7 +26,6 @@ class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
     exercise = create(:practice_exercise, id: 13, slug: 'bob', title: 'Bob', track:)
     content = "module LogLineParser"
     num_published_solutions = 20
-    reputation = 1234
     num_loc = 42
 
     solutions = Array.new(2).map do
@@ -39,7 +38,11 @@ class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
     oldest_solution = solutions.first
     oldest_solution.update(num_loc:)
     prestigious_solution = solutions.second
-    prestigious_solution.user.update(reputation:)
+    prestigious_solution.user.update(reputation: 1234)
+    create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: exercise.track,
+      params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: exercise.track,
+      params: { arbitrary_value: 50, arbitrary_reason: "" }
 
     source_submission = create(:submission)
     create(:submission_file, submission: source_submission, content:)
@@ -66,7 +69,7 @@ class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
         "prestigious_solution_id" => prestigious_solution.id,
         "num_loc" => num_loc,
         "num_solutions" => num_published_solutions,
-        "max_reputation" => reputation,
+        "max_reputation" => 20 + 50,
         "tags" => [],
         "code" => ["module LogLineParser"],
         "exercise" => { "id" => 13, "slug" => "bob", "title" => "Bob" },

@@ -1,7 +1,7 @@
 class Submission::Representation::GenerateBasic
   include Mandate
 
-  queue_as :dribble
+  queue_as :solution_processing
 
   initialize_with :submission
 

@@ -26,7 +26,7 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
           >
             <GraphicalIcon icon="upload" />
             <div className="--num">
-              {solution.representationNumPublishedSolutions}
+              {solution.representationNumPublishedSolutions.toLocaleString()}
             </div>
           </div>
         ) : null}
@@ -36,7 +36,7 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
             title="Number of lines of code in the solution"
           >
             <GraphicalIcon icon="loc" />
-            <div className="--num">{solution.numLoc}</div>
+            <div className="--num">{solution.numLoc.toLocaleString()}</div>
           </div>
         ) : null}
         <div
@@ -44,7 +44,7 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
           title="Number of times solution has been starred"
         >
           <GraphicalIcon icon="star" />
-          <div className="--num">{solution.numStars}</div>
+          <div className="--num">{solution.numStars.toLocaleString()}</div>
         </div>
         {solution.numComments &&
         !solution.representationNumPublishedSolutions ? (
@@ -53,7 +53,7 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
             title="Number of times solution has been commented on"
           >
             <GraphicalIcon icon="comment" />
-            <div className="--num">{solution.numComments}</div>
+            <div className="--num">{solution.numComments.toLocaleString()}</div>
           </div>
         ) : null}
       </div>

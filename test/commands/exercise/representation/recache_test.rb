@@ -4,10 +4,31 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
   test "defers subsequent commands" do
     representation = create(:exercise_representation)
 
+    # Add new solution so that the count changes
+    create :concept_solution, :published, published_exercise_representation: representation
+
     Exercise::Representation::UpdateNumSubmissions.expects(:defer).with(representation)
     Exercise::Representation::SyncToSearchIndex.expects(:defer).with(representation)
 
     Exercise::Representation::Recache.(representation)
+  end
+
+  test "doesn't call follow ups if nothing changes" do
+    representation = create(:exercise_representation)
+
+    Exercise::Representation::UpdateNumSubmissions.expects(:defer).never
+    Exercise::Representation::SyncToSearchIndex.expects(:defer).never
+
+    Exercise::Representation::Recache.(representation)
+  end
+
+  test "force calls follow ups even if nothing changes" do
+    representation = create(:exercise_representation)
+
+    Exercise::Representation::UpdateNumSubmissions.expects(:defer).with(representation)
+    Exercise::Representation::SyncToSearchIndex.expects(:defer).with(representation)
+
+    Exercise::Representation::Recache.(representation, force: true)
   end
 
   test "doesn't change last_submitted_at if not provided" do

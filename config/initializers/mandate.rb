@@ -71,13 +71,14 @@ module Mandate
     def defer(*args, wait: nil, **kwargs)
       # We need to convert the jobs to a hash before we serialize as there's no serialization
       # format for a job. We do this here to avoid cluttering the codebase with this logic.
-      if kwargs[:prereq_jobs]
-        kwargs[:prereq_jobs] = kwargs[:prereq_jobs].map do |job|
+      if (prereqs = kwargs.delete(:prereq_jobs))
+        prereqs.map! do |job|
           {
             job_id: job.provider_job_id,
             queue_name: job.queue_name
           }
         end
+        kwargs[:prereq_jobs] = prereqs if prereqs.present?
       end
 
       MandateJob.set(

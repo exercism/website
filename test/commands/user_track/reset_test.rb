@@ -76,6 +76,8 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
   end
 
   test "removes track-specification reputation" do
+    Solution::PublishIteration.stubs(:call)
+
     freeze_time do
       create :user, :ghost
 

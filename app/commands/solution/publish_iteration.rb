@@ -19,8 +19,4 @@ class Solution::PublishIteration
 
     solution.iterations.find_by(idx: iteration_idx)
   end
-
-  def num_loc
-    iteration ? iteration.num_loc : solution.latest_iteration&.num_loc
-  end
 end

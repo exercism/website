@@ -121,6 +121,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards anybody_there badge" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     user = create :user
 
     # 4 hello worlds is not enough
@@ -141,6 +143,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards functional february badge when published five or more exercises in Functional February track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 2, 24)
 
     track = create :track, slug: 'fsharp'
@@ -167,6 +171,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards mechanical march badge when published five or more exercises in Mechanical March track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 3, 12)
 
     track = create :track, slug: 'rust'
@@ -193,6 +199,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards analytical april badge when published five or more exercises in an Analytical April track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 4, 12)
 
     track = create :track, slug: 'python'
@@ -219,6 +227,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards mind-shifting may badge when published five or more exercises in a Mind Shifting May track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 5, 12)
 
     track = create :track, slug: 'unison'
@@ -245,6 +255,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards summer-of-sexps badge when published five or more exercises in a Summer of Sexps track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 6, 12)
 
     track = create :track, slug: 'clojure'
@@ -271,6 +283,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards jurassic-july badge when published five or more exercises in a Jurassic July track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 7, 12)
 
     track = create :track, slug: 'fortran'
@@ -297,6 +311,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards apps august badge when published five or more exercises in an Appy August track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 8, 12)
 
     track = create :track, slug: 'kotlin'
@@ -323,6 +339,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards slimline september badge when published five or more exercises in a Slimline September track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 9, 12)
 
     track = create :track, slug: 'jq'
@@ -349,6 +367,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards object-oriented october badge when published five or more exercises in an Object-oriented October track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 10, 12)
 
     track = create :track, slug: 'csharp'
@@ -397,6 +417,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "adds metric" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     track = create :track
     user = create :user
     exercise = create(:concept_exercise, track:)
@@ -417,6 +439,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "updates num_published_solutions" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     track = create :track
     user = create :user
     exercise = create(:concept_exercise, track:)
@@ -432,6 +456,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "updates user's num_published_solutions" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     track = create :track
     user = create :user
     exercise = create(:concept_exercise, track:)

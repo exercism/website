@@ -38,6 +38,8 @@ class User::DestroyAccountTest < ActiveSupport::TestCase
   end
 
   test "removes their solutions from the index" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     create :user, :ghost
 
     user = create :user

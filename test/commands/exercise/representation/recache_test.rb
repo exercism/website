@@ -13,7 +13,7 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
     Exercise::Representation::Recache.(representation)
   end
 
-  test "doesn't call follow ups if nething changes" do
+  test "doesn't call follow ups if nothing changes" do
     representation = create(:exercise_representation)
 
     Exercise::Representation::UpdateNumSubmissions.expects(:defer).never

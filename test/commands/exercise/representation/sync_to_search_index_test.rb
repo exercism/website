@@ -1,6 +1,26 @@
 require "test_helper"
 
 class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
+  test "does not index hello world" do
+    Exercise::Representation::CreateSearchIndexDocument.stubs(:call).returns("")
+
+    hello_world = create :hello_world_exercise
+
+    representation = create(
+      :exercise_representation,
+      exercise: hello_world,
+      num_published_solutions: 5
+    )
+
+    OpenSearch::Client.any_instance.expects(:index).never
+    Exercise::Representation::SyncToSearchIndex.(representation)
+
+    # Assert works if it's not hello-world
+    representation.update!(exercise: create(:practice_exercise))
+    OpenSearch::Client.any_instance.expects(:index)
+    Exercise::Representation::SyncToSearchIndex.(representation)
+  end
+
   test "indexes representation" do
     track = create :track, id: 11, slug: 'fsharp', title: 'F#'
     exercise = create(:practice_exercise, id: 13, slug: 'bob', title: 'Bob', track:)

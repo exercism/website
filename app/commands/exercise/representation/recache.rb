@@ -3,15 +3,20 @@ class Exercise::Representation::Recache
 
   queue_as :solution_processing
 
-  initialize_with :representation, last_submitted_at: nil
+  initialize_with :representation, last_submitted_at: nil, force: false
 
   def call
     update_model!
+
+    return unless representation_changed? || force
+
     Exercise::Representation::UpdateNumSubmissions.defer(representation)
-    Exercise::Representation::SyncToSearchIndex.defer(representation) unless exercise.tutorial?
+    Exercise::Representation::SyncToSearchIndex.defer(representation)
   end
 
   private
+  delegate :exercise, to: :representation
+
   def update_model!
     attrs = {
       oldest_solution:,
@@ -44,5 +49,8 @@ class Exercise::Representation::Recache
     representation.published_solutions.find_by!(user_id:)
   end
 
-  delegate :exercise, to: :representation
+  memoize
+  def representation_changed?
+    representation.previous_changes.present?
+  end
 end

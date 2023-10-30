@@ -7,7 +7,6 @@ class Partner
     def call
       return unless valid_click?
 
-      mongodb_collection.insert_one(doc)
       Perk.where(id: perk.id).update_all('num_clicks = num_clicks + 1')
     end
 
@@ -23,15 +22,6 @@ class Partner
         perk_id: perk.id,
         clicked_at:
       }
-    end
-
-    def mongodb_collection
-      mongodb_client[:perk_clicks]
-    end
-
-    memoize
-    def mongodb_client
-      Exercism.mongodb_client
     end
   end
 end

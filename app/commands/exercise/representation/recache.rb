@@ -8,9 +8,14 @@ class Exercise::Representation::Recache
   def call
     update_model!
 
+    # If the representation has changed, or we're actively specifying a new
+    # last_submitted_at (even if it's the same as previous), then we should
+    # recaculate num submissions to be safae.
+    Exercise::Representation::UpdateNumSubmissions.defer(representation) if representation_changed? || last_submitted_at || force
+
+    # If the representation has changed then resync it, else don't waste the cycles.
     return unless representation_changed? || force
 
-    Exercise::Representation::UpdateNumSubmissions.defer(representation)
     Exercise::Representation::SyncToSearchIndex.defer(representation)
   end
 

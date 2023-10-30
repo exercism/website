@@ -19,7 +19,7 @@ module Flows
       create(:iteration, solution:, submission:)
 
       perform_enqueued_jobs do
-        Exercise::Representation::Recache.(exercise_representation)
+        Exercise::Representation::Recache.(exercise_representation, force: true)
       end
 
       wait_for_opensearch_to_be_synced

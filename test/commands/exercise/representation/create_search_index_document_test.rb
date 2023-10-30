@@ -44,7 +44,6 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
   test "indexes representation" do
     content = "CONTENT!!"
     num_published_solutions = 20
-    reputation = 1234
     num_loc = 42
 
     oldest_solution = create(:practice_solution, :published, published_iteration_head_tests_status: :passed,
@@ -57,7 +56,11 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
       submission = create(:submission, solution:)
       create(:iteration, submission:)
     end
-    prestigious_solution.user.update!(reputation:)
+    prestigious_solution.user.update!(reputation: 1234)
+    create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: prestigious_solution.track,
+      params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: prestigious_solution.track,
+      params: { arbitrary_value: 50, arbitrary_reason: "" }
 
     source_submission = create(:submission)
     create(:submission_file, submission: source_submission, content:)
@@ -76,7 +79,7 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
       prestigious_solution_id: prestigious_solution.id,
       num_loc:,
       num_solutions: num_published_solutions,
-      max_reputation: reputation,
+      max_reputation: 20 + 50,
       tags: [],
       code: [content],
       exercise: {

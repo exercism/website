@@ -5,19 +5,25 @@ class Exercise::Representation::Recache
 
   initialize_with :representation, last_submitted_at: nil, force: false
 
+  # rubocop:disable Style/IfUnlessModifier
+  # rubocop:disable Style/GuardClause
   def call
     update_model!
 
     # If the representation has changed, or we're actively specifying a new
     # last_submitted_at (even if it's the same as previous), then we should
     # recaculate num submissions to be safae.
-    Exercise::Representation::UpdateNumSubmissions.defer(representation) if representation_changed? || last_submitted_at || force
+    if representation_changed? || last_submitted_at || force
+      Exercise::Representation::UpdateNumSubmissions.defer(representation)
+    end
 
     # If the representation has changed then resync it, else don't waste the cycles.
-    return unless representation_changed? || force
-
-    Exercise::Representation::SyncToSearchIndex.defer(representation)
+    if representation_changed? || force
+      Exercise::Representation::SyncToSearchIndex.defer(representation)
+    end
   end
+  # rubocop:enable Style/IfUnlessModifier
+  # rubocop:enable Style/GuardClause
 
   private
   delegate :exercise, to: :representation

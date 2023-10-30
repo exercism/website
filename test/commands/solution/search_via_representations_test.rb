@@ -627,6 +627,18 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 2, 1, :most_popular, nil, [])
   end
 
+  test "fallback: doesn't include nil records" do
+    exercise = create :practice_exercise
+
+    solution = create :concept_solution, exercise:, published_at: 2.days.ago
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution)
+
+    # Add a second without a prestigious solution
+    create(:exercise_representation, exercise:, num_published_solutions: 2)
+
+    assert_equal [solution], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
+  end
+
   test "fallback: sort: most popular" do
     exercise = create :practice_exercise
 

@@ -124,7 +124,7 @@ class Solution::SearchViaRepresentations
 
       @representations = @representations.includes(:prestigious_solution).page(page).per(per)
 
-      Kaminari.paginate_array(@representations.map(&:prestigious_solution), total_count: @representations.total_count).
+      Kaminari.paginate_array(@representations.map(&:prestigious_solution).compact, total_count: @representations.total_count).
         page(page).per(per)
     end
 

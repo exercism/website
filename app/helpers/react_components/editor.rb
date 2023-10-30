@@ -81,8 +81,7 @@ module ReactComponents
         options: {
           initial_data: {
             iteration: latest_iteration
-          },
-          initial_data_updated_at: Time.current.to_i
+          }
         }
       }
     end

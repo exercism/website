@@ -44,7 +44,7 @@ class Exercise::Representation::CreateSearchIndexDocument
   end
 
   def code = source_submission.files.map(&:content) || []
-  def max_reputation = prestigious_solution.user.reputation.to_i
+  def max_reputation = prestigious_solution.user.reputation_for_track(track).to_i
   def num_solutions = representation.num_published_solutions
 
   def tags

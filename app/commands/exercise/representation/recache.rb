@@ -1,7 +1,7 @@
 class Exercise::Representation::Recache
   include Mandate
 
-  queue_as :solution_processing
+  queue_as :background
 
   initialize_with :representation, last_submitted_at: nil, force: false
 

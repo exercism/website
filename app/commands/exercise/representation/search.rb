@@ -38,6 +38,8 @@ class Exercise::Representation::Search
   end
 
   def filter_track!
+    return if track == :all
+
     if track.blank?
       # Force no records being returned when no track was specified
       @representations = @representations.none

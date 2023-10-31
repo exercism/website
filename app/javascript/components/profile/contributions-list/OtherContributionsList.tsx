@@ -33,7 +33,11 @@ export const OtherContributionsList = ({
   } = usePaginatedRequestQuery<
     PaginatedResult<ContributionProps[]>,
     Error | Response
-  >([request.endpoint, request.query], request)
+  >([request.endpoint, request.query], {
+    ...request,
+    options: { ...request.options, staleTime: 1000 },
+  })
+
   const latestData = useLatestData(resolvedData)
 
   return (

@@ -10,6 +10,8 @@ import { typecheck } from '@/utils/typecheck'
 type ComponentProps = {
   endpoint: string
   onSuccess: (student: FavoritableStudent) => void
+  isRemoveButtonHoverable: boolean
+  setIsRemoveButtonHoverable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -25,6 +27,8 @@ const DEFAULT_ERROR = new Error('Unable to remove student as a favorite')
 const Component = ({
   endpoint,
   onSuccess,
+  isRemoveButtonHoverable,
+  setIsRemoveButtonHoverable,
   ...props
 }: ComponentProps): JSX.Element | null => {
   const [isHovering, setIsHovering] = useState(false)
@@ -68,8 +72,15 @@ const Component = ({
       }
       // TODO: (required) These do not work on tab (a11y).
       // When tabbing this should be set to true.
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={() => {
+        if (isRemoveButtonHoverable) {
+          setIsHovering(true)
+        }
+      }}
+      onMouseLeave={() => {
+        setIsHovering(false)
+        setIsRemoveButtonHoverable(true)
+      }}
       status={status}
     >
       {isHovering ? (

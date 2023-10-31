@@ -10,6 +10,7 @@ import { typecheck } from '@/components/../utils/typecheck'
 type ComponentProps = {
   endpoint: string
   onSuccess: (student: FavoritableStudent) => void
+  setIsRemoveButtonHoverable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -25,6 +26,7 @@ const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 const Component = ({
   endpoint,
   onSuccess,
+  setIsRemoveButtonHoverable,
 }: ComponentProps): JSX.Element | null => {
   const {
     mutate: mutation,
@@ -54,6 +56,8 @@ const Component = ({
     <FormButton
       onClick={() => {
         mutation()
+        // Disable `isHoverable` in RemoveFavoriteButton to prevent immediate hover after click.
+        setIsRemoveButtonHoverable(false)
       }}
       type="button"
       className="btn-small"

@@ -75,6 +75,8 @@ class Solution::SearchViaRepresentations
 
     # We match criteria via wildcards to allow for partial matching
     criteria.each do |value|
+      next if value.size < MIN_CRITERIA_LEN
+
       parts << { wildcard: { code: { value: "*#{value}*" } } }
     end
 
@@ -108,7 +110,8 @@ class Solution::SearchViaRepresentations
   end
 
   TIMEOUT = '400ms'.freeze
-  private_constant :TIMEOUT
+  MIN_CRITERIA_LEN = 3
+  private_constant :TIMEOUT, :MIN_CRITERIA_LEN
 
   class Fallback
     include Mandate

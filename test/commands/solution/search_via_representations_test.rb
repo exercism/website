@@ -116,6 +116,11 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [data[:your][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'your_main')
     assert_equal [data[:another][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'another_main')
     assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'main')
+    assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'mai')
+
+    # The minimum search length is three. We'll ignore queries of less length
+    assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'z')
+    assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'zz')
   end
 
   test "filter: tag" do

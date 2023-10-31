@@ -36,7 +36,11 @@ class AssembleExerciseRepresentationsWithoutFeedback
 
   memoize
   def track
-    Track.find_by(slug: params[:track_slug]) ||
-      mentor.track_mentorships.automator.first.track
+    t = Track.find_by(slug: params[:track_slug])
+    return t if t
+
+    return Track.first if mentor.staff?
+
+    mentor.track_mentorships.automator.first.track
   end
 end

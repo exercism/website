@@ -20,7 +20,10 @@ class AssembleRepresentationContext
 
     private
     def tracks
-      automator_tracks.filter_map do |track|
+      ts = mentor.staff? ? Track.all :
+        Track.where(id: mentor.track_mentorships.automator.select(:track_id))
+
+      ts.order(title: :asc).filter_map do |track|
         next unless track_num_representations.key?(track.id)
 
         SerializeTrackForSelect.(track).merge(num_submissions: track_num_representations[track.id])
@@ -37,16 +40,9 @@ class AssembleRepresentationContext
         mentor:,
         sorted: false,
         paginated: false,
-        track: automator_tracks
+        track: search_tracks
       )
       representations.count
-    end
-
-    memoize
-    def automator_tracks
-      return Track.all.order(title: :asc) if mentor.staff?
-
-      Track.where(id: mentor.track_mentorships.automator.select(:track_id)).order(title: :asc)
     end
 
     memoize
@@ -55,11 +51,17 @@ class AssembleRepresentationContext
       # as we want to filter using a different value for each track.
       representer_version = nil
       Exercise::Representation::Search.(
-        mode:, representer_version:, mentor:, track: automator_tracks,
+        mode:, representer_version:, mentor:, track: search_tracks,
         sorted: false, paginated: false
       ).
         group(:track_id).
         count
+    end
+
+    memoize
+    def search_tracks
+      mentor.staff? ? :all :
+        mentor.track_mentorships.automator.includes(:track).select(:track_id).map(&:track_id)
     end
   end
 end

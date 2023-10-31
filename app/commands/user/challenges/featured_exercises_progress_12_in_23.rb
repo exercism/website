@@ -31,6 +31,9 @@ class User::Challenges::FeaturedExercisesProgress12In23
   OCTOBER_TRACKS = %w[crystal csharp java pharo-smalltalk ruby powershell].freeze
   OCTOBER_EXERCISES = %w[binary-search-tree circular-buffer clock matrix simple-cipher].freeze
 
+  NOVEMBER_TRACKS = %w[x86-64-assembly mips wasm].freeze
+  NOVEMBER_EXERCISES = %w[pop-count grains resistor-color rotational-cipher nucleotide-count].freeze
+
   def call
     exercises = self.class.featured_exercises.filter_map do |exercise_slug, track_slugs|
       next { slug: exercise_slug, earned_for: nil, track_slugs: } unless solutions.key?(exercise_slug)
@@ -62,7 +65,8 @@ class User::Challenges::FeaturedExercisesProgress12In23
       JULY_EXERCISES.map { |e| [e, JULY_TRACKS] } +
       AUGUST_EXERCISES.map { |e| [e, AUGUST_TRACKS] } +
       SEPTEMBER_EXERCISES.map { |e| [e, SEPTEMBER_TRACKS] } +
-      OCTOBER_EXERCISES.map { |e| [e, OCTOBER_TRACKS] }
+      OCTOBER_EXERCISES.map { |e| [e, OCTOBER_TRACKS] } +
+      NOVEMBER_EXERCISES.map { |e| [e, NOVEMBER_TRACKS] }
     ).to_h
   end
 

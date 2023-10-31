@@ -61,7 +61,11 @@ export function ExerciseCommunitySolutionsList({
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (criteria !== undefined && criteria !== null)
+      if (
+        criteria !== undefined &&
+        criteria !== null &&
+        (criteria.length >= 3 || criteria.length === 0)
+      )
         setRequestCriteria(criteria)
     }, 200)
 

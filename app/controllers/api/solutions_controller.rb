@@ -49,7 +49,10 @@ class API::SolutionsController < API::BaseController
       unlocked_concepts: changes[:unlocked_concepts].map do |concept|
         {
           slug: concept.slug,
-          name: concept.name
+          name: concept.name,
+          links: {
+            self: Exercism::Routes.track_concept_path(concept.track, concept)
+          }
         }
       end,
       concept_progressions: changes[:concept_progressions].map do |data|
@@ -58,7 +61,10 @@ class API::SolutionsController < API::BaseController
           name: data[:concept].name,
           from: data[:from],
           to: data[:to],
-          total: data[:total]
+          total: data[:total],
+          links: {
+            self: Exercism::Routes.track_concept_path(data[:concept].track, data[:concept])
+          }
         }
       end
     }

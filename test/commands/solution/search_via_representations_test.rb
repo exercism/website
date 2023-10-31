@@ -419,6 +419,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
 
   test "sort: highest reputation" do
     exercise = create :practice_exercise
+    track = exercise.track
     exercise_representation_1 = create(:exercise_representation, exercise:)
     exercise_representation_2 = create(:exercise_representation, exercise:)
 
@@ -432,15 +433,10 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     end
 
     # We want the middle one to be the prestigious one that's returned
-    create :user_reputation_period, user: solutions[0].user, reputation: 20,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
-    create :user_reputation_period, user: solutions[1].user, reputation: 50,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
-    create :user_reputation_period, user: solutions[2].user, reputation: 15,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
-
-    create :user_reputation_period, user: solutions[3].user, reputation: 30,
-      period: :forever, category: :any, about: :track, track_id: exercise.track_id
+    create :user_arbitrary_reputation_token, user: solutions[0].user, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: solutions[1].user, track:, params: { arbitrary_value: 50, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: solutions[2].user, track:, params: { arbitrary_value: 15, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: solutions[3].user, track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
 
     perform_enqueued_jobs do
       Exercise::Representation::Recache.(exercise_representation_1)
@@ -631,133 +627,77 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 2, 1, :most_popular, nil, [])
   end
 
+  test "fallback: doesn't include nil records" do
+    exercise = create :practice_exercise
+
+    solution = create :concept_solution, exercise:, published_at: 2.days.ago
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution)
+
+    # Add a second without a prestigious solution
+    create(:exercise_representation, exercise:, num_published_solutions: 2)
+
+    assert_equal [solution], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
+  end
+
   test "fallback: sort: most popular" do
     exercise = create :practice_exercise
-    exercise_representation_1 = create(:exercise_representation, exercise:)
-    exercise_representation_2 = create(:exercise_representation, exercise:)
 
-    solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_1
-    submission = create :submission, solution: solution_1, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_1.ast
-    create(:submission_file, submission:)
-    create(:iteration, solution: solution_1, submission:)
-
-    solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_2
-    submission = create :submission, solution: solution_2, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_2.ast
-    create(:submission_file, submission:)
-    create(:iteration, solution: solution_2, submission:)
-
-    solution_3 = create :concept_solution, exercise:, published_at: 2.days.ago,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_2
-    submission = create :submission, solution: solution_3, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_2.ast
-    create(:submission_file, submission:)
-    create(:iteration, solution: solution_3, submission:)
-
-    exercise_representation_1.update(num_published_solutions: 1)
-    exercise_representation_2.update(num_published_solutions: 2)
+    solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago
+    solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
+    create(:exercise_representation, exercise:, num_published_solutions: 2, prestigious_solution: solution_2)
 
     assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
   end
 
   test "fallback: sort: oldest" do
     exercise = create :practice_exercise
-    exercise_representation_1 = create(:exercise_representation, exercise:)
-    exercise_representation_2 = create(:exercise_representation, exercise:)
 
-    solutions = [
-      exercise_representation_1,
-      exercise_representation_2,
-      exercise_representation_2
-    ].map do |representation|
-      create_solution(exercise:, representation:)
-    end
+    solution_1 = create(:concept_solution, exercise:)
+    solution_2 = create(:concept_solution, exercise:)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_2)
 
-    assert_equal [solutions[0], solutions[1]], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest, nil, [])
+    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest, nil, [])
   end
 
   test "fallback: sort: newest" do
     exercise = create :practice_exercise
-    exercise_representation_1 = create(:exercise_representation, exercise:)
-    exercise_representation_2 = create(:exercise_representation, exercise:)
 
-    solutions = [
-      exercise_representation_1,
-      exercise_representation_2,
-      exercise_representation_2
-    ].map do |representation|
-      create_solution(exercise:, representation:)
-    end
+    solution_1 = create(:concept_solution, exercise:)
+    solution_2 = create(:concept_solution, exercise:)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_2)
 
-    assert_equal [solutions[1], solutions[0]], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :newest, nil, [])
+    assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :newest, nil, [])
   end
 
   test "fallback: sort: num_loc" do
     exercise = create :practice_exercise
-    exercise_representation_1 = create(:exercise_representation, exercise:)
-    exercise_representation_2 = create(:exercise_representation, exercise:)
 
-    solutions = [
-      [exercise_representation_1, 20],
-      [exercise_representation_2, 50],
-      [exercise_representation_2, 10]
-    ].map do |(representation, num_loc)|
-      create_solution(exercise:, representation:, num_loc:)
-    end
+    solution_1 = create :concept_solution, exercise:, num_loc: 5
+    solution_2 = create :concept_solution, exercise:, num_loc: 2
+    solution_3 = create :concept_solution, exercise:, num_loc: 7
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_2)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_3)
 
-    assert_equal [solutions[1], solutions[0]], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :fewest_loc, nil, [])
+    assert_equal [solution_2, solution_1, solution_3].map(&:id),
+      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :fewest_loc, nil, []).map(&:id)
   end
 
   test "fallback: sort: highest_reputation" do
-    user = create :user, handle: 'john', reputation: 15
-    other_user = create :user, handle: 'jane', reputation: 50
-    another_user = create :user, handle: 'june', reputation: 30
-    ruby = create :track, title: "Ruby"
+    exercise = create :practice_exercise
 
-    exercise = create :practice_exercise, track: ruby
-    exercise_representation_1 = create(:exercise_representation, exercise:)
-    exercise_representation_2 = create(:exercise_representation, exercise:)
+    solution_1 = create :concept_solution, exercise:, user: create(:user, reputation: 5)
+    solution_2 = create :concept_solution, exercise:, user: create(:user, reputation: 3)
+    solution_3 = create :concept_solution, exercise:, user: create(:user, reputation: 7)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_2)
+    create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_3)
 
-    solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago, user:,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_1,
-      num_loc: 20
-    submission = create :submission, solution: solution_1, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_1.ast
-    create :submission_file, submission:, filename: "main.rb", content: "def my_main; end"
-    create(:iteration, solution: solution_1, submission:)
-
-    solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_user,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_2,
-      num_loc: 50
-    submission = create :submission, solution: solution_2, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_2.ast
-    create :submission_file, submission:, filename: "main.rb", content: "def your_main; end"
-    create(:iteration, solution: solution_2, submission:)
-
-    solution_3 = create :concept_solution, exercise:, published_at: 2.days.ago, user: another_user,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_2,
-      num_loc: 10
-    submission = create :submission, solution: solution_3, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_2.ast
-    create :submission_file, submission:, filename: "main.rb", content: "def another_main; end"
-    create(:iteration, solution: solution_3, submission:)
-
-    assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :highest_reputation, nil, [])
+    assert_equal [solution_3, solution_1, solution_2].map(&:id),
+      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :highest_reputation, nil, []).map(&:id)
   end
 
   private

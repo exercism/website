@@ -118,11 +118,9 @@ export const ExerciseCompletedModal = ({
       onClose={() => null}
       {...props}
     >
-      <>
-        <ExerciseIcon iconUrl={exercise.iconUrl} />
-        <h2>You&apos;ve completed {exercise.title}!</h2>
-        {content}
-      </>
+      <ExerciseIcon iconUrl={exercise.iconUrl} />
+      <h2>You&apos;ve completed {exercise.title}!</h2>
+      {content}
     </Modal>
   )
 }

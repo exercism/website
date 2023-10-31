@@ -9,10 +9,7 @@ class Partner
     def call
       return unless valid_impression?
 
-      mongodb_collection.insert_one(doc)
       Advert.where(id: advert.id).update_all('num_impressions = num_impressions + 1')
-    ensure
-      mongodb_client.close
     end
 
     private
@@ -38,15 +35,6 @@ class Partner
 
     def track_slug
       %r{^/tracks/([^/]+)}.match(request_path)&.captures&.first
-    end
-
-    def mongodb_collection
-      mongodb_client[:advert_impressions]
-    end
-
-    memoize
-    def mongodb_client
-      Exercism.mongodb_client
     end
   end
 end

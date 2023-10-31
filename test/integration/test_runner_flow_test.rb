@@ -27,8 +27,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "runs the tests for an iteration submission" do
     # Stub things we don't care about here
-    Iteration::GenerateSnippet.any_instance.expects(:call)
-    Iteration::CalculateLinesOfCode.any_instance.expects(:call)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CalculateLinesOfCode.any_instance.stubs(:call)
 
     solution = create(:concept_solution)
     user_track = create :user_track, user: solution.user, track: solution.track
@@ -73,8 +74,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "handles a new git sha being pushed: failing" do
     # Stub things we don't care about here
-    Iteration::GenerateSnippet.any_instance.expects(:call)
-    Iteration::CalculateLinesOfCode.any_instance.expects(:call)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CalculateLinesOfCode.any_instance.stubs(:call)
 
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
     solution = create(:practice_solution, exercise:)
@@ -175,8 +177,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "handles a new git sha being pushed: passing auto updates" do
     # Stub things we don't care about here
-    Iteration::GenerateSnippet.any_instance.expects(:call)
-    Iteration::CalculateLinesOfCode.any_instance.expects(:call)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CalculateLinesOfCode.any_instance.stubs(:call)
 
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
     solution = create(:practice_solution, exercise:)
@@ -267,8 +270,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "honours [no important files changed] and auto-updates" do
     # Stub things we don't care about here
-    Iteration::GenerateSnippet.any_instance.expects(:call)
-    Iteration::CalculateLinesOfCode.any_instance.expects(:call)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CalculateLinesOfCode.any_instance.stubs(:call)
 
     # This exercise contains the right set of things to
     # go with this commit for this test.

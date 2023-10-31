@@ -19,23 +19,43 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
         solution.publishedAt
       )}`}</time>
       <div className="--counts">
-        {solution.numLoc ? (
-          <div className="--count">
-            <Icon icon="loc" alt="Number of lines of code in the solution" />
-            <div className="--num">{solution.numLoc}</div>
+        {solution.representationNumPublishedSolutions ? (
+          <div
+            className="--count"
+            title="Number of times someone has published a solution similar to this"
+          >
+            <GraphicalIcon icon="upload" />
+            <div className="--num">
+              {solution.representationNumPublishedSolutions.toLocaleString()}
+            </div>
           </div>
         ) : null}
-        <div className="--count">
-          <Icon icon="star" alt="Number of times solution has been starred" />
-          <div className="--num">{solution.numStars}</div>
+        {solution.numLoc ? (
+          <div
+            className="--count"
+            title="Number of lines of code in the solution"
+          >
+            <GraphicalIcon icon="loc" />
+            <div className="--num">{solution.numLoc.toLocaleString()}</div>
+          </div>
+        ) : null}
+        <div
+          className="--count"
+          title="Number of times solution has been starred"
+        >
+          <GraphicalIcon icon="star" />
+          <div className="--num">{solution.numStars.toLocaleString()}</div>
         </div>
-        <div className="--count">
-          <Icon
-            icon="comment"
-            alt="Number of times solution has been commented on"
-          />
-          <div className="--num">{solution.numComments}</div>
-        </div>
+        {solution.numComments &&
+        !solution.representationNumPublishedSolutions ? (
+          <div
+            className="--count"
+            title="Number of times solution has been commented on"
+          >
+            <GraphicalIcon icon="comment" />
+            <div className="--num">{solution.numComments.toLocaleString()}</div>
+          </div>
+        ) : null}
       </div>
     </>
   )

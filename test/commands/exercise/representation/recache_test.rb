@@ -4,10 +4,31 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
   test "defers subsequent commands" do
     representation = create(:exercise_representation)
 
+    # Add new solution so that the count changes
+    create :concept_solution, :published, published_exercise_representation: representation
+
     Exercise::Representation::UpdateNumSubmissions.expects(:defer).with(representation)
     Exercise::Representation::SyncToSearchIndex.expects(:defer).with(representation)
 
     Exercise::Representation::Recache.(representation)
+  end
+
+  test "doesn't call follow ups if nothing changes" do
+    representation = create(:exercise_representation)
+
+    Exercise::Representation::UpdateNumSubmissions.expects(:defer).never
+    Exercise::Representation::SyncToSearchIndex.expects(:defer).never
+
+    Exercise::Representation::Recache.(representation)
+  end
+
+  test "force calls follow ups even if nothing changes" do
+    representation = create(:exercise_representation)
+
+    Exercise::Representation::UpdateNumSubmissions.expects(:defer).with(representation)
+    Exercise::Representation::SyncToSearchIndex.expects(:defer).with(representation)
+
+    Exercise::Representation::Recache.(representation, force: true)
   end
 
   test "doesn't change last_submitted_at if not provided" do
@@ -56,6 +77,7 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
 
   test "correctly chooses presigtious solution" do
     representation = create(:exercise_representation)
+    track = representation.track
 
     users = create_list(:user, 3) do |user|
       solution = create :practice_solution, :published, user:,
@@ -70,12 +92,10 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
     Exercise::Representation::Recache.(representation)
     assert_equal users[0].solutions.first, representation.prestigious_solution
 
-    create :user_reputation_period, user: users[0], reputation: 20,
-      period: :forever, category: :any, about: :track, track_id: representation.track_id
-    create :user_reputation_period, user: users[1], reputation: 50,
-      period: :forever, category: :any, about: :track, track_id: representation.track_id
-    create :user_reputation_period, user: users[2], reputation: 13,
-      period: :forever, category: :any, about: :track, track_id: representation.track_id
+    create :user_arbitrary_reputation_token, user: users[0], track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: users[1], track:, params: { arbitrary_value: 18, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: users[1], track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: users[2], track:, params: { arbitrary_value: 13, arbitrary_reason: "" }
 
     # And then be the solution of the highest rated user
     Exercise::Representation::Recache.(representation)

@@ -121,6 +121,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards anybody_there badge" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     user = create :user
 
     # 4 hello worlds is not enough
@@ -141,6 +143,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards functional february badge when published five or more exercises in Functional February track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 2, 24)
 
     track = create :track, slug: 'fsharp'
@@ -167,6 +171,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards mechanical march badge when published five or more exercises in Mechanical March track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 3, 12)
 
     track = create :track, slug: 'rust'
@@ -193,6 +199,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards analytical april badge when published five or more exercises in an Analytical April track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 4, 12)
 
     track = create :track, slug: 'python'
@@ -219,6 +227,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards mind-shifting may badge when published five or more exercises in a Mind Shifting May track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 5, 12)
 
     track = create :track, slug: 'unison'
@@ -245,6 +255,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards summer-of-sexps badge when published five or more exercises in a Summer of Sexps track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 6, 12)
 
     track = create :track, slug: 'clojure'
@@ -271,6 +283,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards jurassic-july badge when published five or more exercises in a Jurassic July track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 7, 12)
 
     track = create :track, slug: 'fortran'
@@ -297,6 +311,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards apps august badge when published five or more exercises in an Appy August track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 8, 12)
 
     track = create :track, slug: 'kotlin'
@@ -323,6 +339,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards slimline september badge when published five or more exercises in a Slimline September track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 9, 12)
 
     track = create :track, slug: 'jq'
@@ -349,6 +367,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "awards object-oriented october badge when published five or more exercises in an Object-oriented October track" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     travel_to Time.utc(2022, 10, 12)
 
     track = create :track, slug: 'csharp'
@@ -374,6 +394,32 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::ObjectOrientedOctoberBadge
   end
 
+  test "awards nibbly november badge when published five or more exercises in an Nibbly November track" do
+    travel_to Time.utc(2022, 11, 12)
+
+    track = create :track, slug: 'wasm'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::NibblyNovemberBadge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track
@@ -397,6 +443,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "adds metric" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     track = create :track
     user = create :user
     exercise = create(:concept_exercise, track:)
@@ -417,6 +465,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "updates num_published_solutions" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     track = create :track
     user = create :user
     exercise = create(:concept_exercise, track:)
@@ -432,6 +482,8 @@ class Solution::PublishTest < ActiveSupport::TestCase
   end
 
   test "updates user's num_published_solutions" do
+    Solution::PublishIteration.any_instance.stubs(:call)
+
     track = create :track
     user = create :user
     exercise = create(:concept_exercise, track:)

@@ -44,6 +44,7 @@ class Solution::QueueHeadTestRun
       solution.update_latest_iteration_head_tests_status!(:queued)
       return false
     end
+
     # Do run if the latest head sync doesn't work
     return true unless Solution::SyncLatestIterationHeadTestsStatus.(solution)
 

@@ -4,9 +4,9 @@ class Training::TrackTagsTuple::GenerateTags
   initialize_with :tuple, :model, :openai_key
 
   def call
-    return if checked?
+    return if tuple.checked?
 
-    tuple.update(tags:, status: machine_tagged)
+    tuple.update(tags:, status: :machine_tagged)
   end
 
   private

@@ -25,17 +25,20 @@ test('shows information', async () => {
         from: 4,
         to: 5,
         total: 5,
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedConcepts: [
       {
         name: 'Strings',
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedExercises: [
       {
         iconName: 'bob',
         title: 'Bob',
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
   }
@@ -81,6 +84,7 @@ test('hides unlocks section when there are no unlocked exercises and concepts', 
         from: 4,
         to: 5,
         total: 5,
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedConcepts: [],
@@ -117,11 +121,13 @@ test('hides unlocked exercises section when there are no unlocked exercises', as
         from: 4,
         to: 5,
         total: 5,
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedConcepts: [
       {
         name: 'Strings',
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedExercises: [],
@@ -159,6 +165,7 @@ test('hides unlocked concepts section when there are no unlocked concepts', asyn
         from: 4,
         to: 5,
         total: 5,
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedConcepts: [],
@@ -197,6 +204,7 @@ test('hides concepts link when there is no link to concepts', async () => {
         from: 4,
         to: 5,
         total: 5,
+        links: { self: 'https://exercism.test/exercise' },
       },
     ],
     unlockedConcepts: [],

@@ -6,6 +6,9 @@ class Exercise::Representation::SyncToSearchIndex
   initialize_with :representation
 
   def call
+    return unless representation
+    return if exercise.tutorial?
+
     if representation.num_published_solutions.zero?
       delete_document!
     else
@@ -16,6 +19,8 @@ class Exercise::Representation::SyncToSearchIndex
   end
 
   private
+  delegate :exercise, to: :representation
+
   def create_document!
     Exercism.opensearch_client.index(
       index: Exercise::Representation::OPENSEARCH_INDEX,

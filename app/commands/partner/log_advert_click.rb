@@ -9,10 +9,7 @@ class Partner
     def call
       return unless valid_click?
 
-      mongodb_collection.insert_one(doc)
       Advert.where(id: advert.id).update_all('num_clicks = num_clicks + 1')
-    ensure
-      mongodb_client.close
     end
 
     private
@@ -28,15 +25,6 @@ class Partner
         impression_uuid:,
         clicked_at:
       }
-    end
-
-    def mongodb_collection
-      mongodb_client[:advert_clicks]
-    end
-
-    memoize
-    def mongodb_client
-      Exercism.mongodb_client
     end
   end
 end

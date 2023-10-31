@@ -245,16 +245,11 @@ class User < ApplicationRecord
     total_donated_in_cents / BigDecimal(100)
   end
 
-  def reputation(track_slug: nil, category: nil)
-    return super() unless track_slug || category
-
-    raise if track_slug && category
-
-    category = "track_#{track_slug}" if track_slug
-
-    q = reputation_tokens
-    q.where!(category:) if category
-    q.sum(:value)
+  def reputation_for_track(track)
+    User::ReputationToken.where(
+      track:,
+      user_id: id
+    ).sum(:value)
   end
 
   def joined_track?(track)

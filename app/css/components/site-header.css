@@ -6,6 +6,7 @@ body.namespace-mentoring.controller-automation.action-edit,
 body.namespace-tracks.controller-mentor_requests.action-new,
 body.namespace-tracks.controller-mentor_requests.action-show,
 body.namespace-tracks.controller-mentor_discussions.action-show,
+body.namespace-.controller-solution_tagger,
 body.controller-user_onboarding.action-show,
 body.devise {
     & #site-header,

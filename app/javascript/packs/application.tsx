@@ -386,7 +386,7 @@ export const mappings = {
 
   'contributing-solution-tagger': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <SolutionTagger />
+      <SolutionTagger data={data} />
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (

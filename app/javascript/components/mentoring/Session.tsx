@@ -47,6 +47,7 @@ import { CancelledRequestModal } from './session/CancelledRequestModal'
 import { ScreenSizeContext } from './session/ScreenSizeContext'
 import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
 import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
+import { useLogger } from '@/hooks'
 
 export type Links = {
   mentorDashboard: string

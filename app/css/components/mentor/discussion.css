@@ -645,4 +645,15 @@
             @apply mb-12;
         }
     }
+
+    &.solution-tagger {
+        input {
+            all: unset;
+        }
+        .creatable-select-component {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
 }

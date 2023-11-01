@@ -83,6 +83,7 @@
     "react-popper": "^2.2.3",
     "react-query": "^2.26.4",
     "react-query-devtools": "^2.6.3",
+    "react-select": "^5.7.7",
     "react-simplemde-editor": "^5",
     "reconnecting-websocket": "3.2.2",
     "regenerator-runtime": "^0.13.7",

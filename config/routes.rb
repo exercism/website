@@ -99,6 +99,8 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
+  resources :solution_tagger, only: [:index]
+
   resource :insiders, only: [:show], controller: "insiders" do
     get :payment_pending
   end

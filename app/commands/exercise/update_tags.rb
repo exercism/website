@@ -23,7 +23,7 @@ class Exercise::UpdateTags
       exercise_id: exercise.id,
       solution: {
         status: :published,
-        published_iteration_head_tests_status: "passed"
+        published_iteration_head_tests_status: :passed
       }
     ).distinct.pluck(:tag)
   end

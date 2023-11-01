@@ -86,6 +86,13 @@ class SubmissionTest < ActiveSupport::TestCase
     er = create :exercise_representation, exercise: submission.exercise, ast_digest: sr.ast_digest
     submission = Submission.find(submission.id)
     assert_equal er, submission.exercise_representation
+
+    # another exercise_representation present
+    another_ast = "baz"
+    another_sr = create :submission_representation, submission:, ast: another_ast, ops_status: 200
+    another_er = create :exercise_representation, exercise: submission.exercise, ast_digest: another_sr.ast_digest
+    submission = Submission.find(submission.id)
+    assert_equal another_er, submission.exercise_representation
   end
 
   test "exercise_representation" do

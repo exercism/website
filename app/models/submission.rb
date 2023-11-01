@@ -33,7 +33,7 @@ class Submission < ApplicationRecord
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
   has_one :submission_representation, # rubocop:disable Rails/InverseOf
-    ->(s) { where(exercise_representer_version: s.exercise_representer_version) },
+    ->(s) { where(exercise_representer_version: s.exercise_representer_version).order(id: :desc) },
     class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
   has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy

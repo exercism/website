@@ -228,6 +228,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_054652) do
     t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
   end
 
+  create_table "exercise_approach_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_approach_id", null: false
+    t.integer "condition_type", default: 0, null: false
+    t.string "tag", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_approach_id", "tag", "condition_type"], name: "index_exercise_approach_tags_approach_tag_condition_type"
+    t.index ["exercise_approach_id", "tag"], name: "index_exercise_approach_tags_on_exercise_approach_id_and_tag", unique: true
+    t.index ["exercise_approach_id"], name: "index_exercise_approach_tags_on_exercise_approach_id"
+  end
+
   create_table "exercise_approaches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false

@@ -20,14 +20,14 @@ class Solution::QueueHeadTestRun
     return unless latest_submission
 
     # If we don't have a test runner then we shouldn't run anything so get out of here
-    return solution.update_latest_iteration_head_tests_status!(:not_queued) unless exercise.has_test_runner?
+    return Solution::UpdateLatestIterationHeadTestsStatus.(solution, :not_queued) unless exercise.has_test_runner?
 
     return unless should_run_latest?
 
     begin
       process_submission!(latest_submission)
     rescue Rugged::TreeError
-      solution.update_latest_iteration_head_tests_status!(:exceptioned)
+      Solution::UpdateLatestIterationHeadTestsStatus.(solution, :exceptioned)
     end
   end
 
@@ -41,7 +41,7 @@ class Solution::QueueHeadTestRun
     if latest_submission.tests_queued? &&
        latest_submission.git_important_files_hash == exercise.git_important_files_hash
 
-      solution.update_latest_iteration_head_tests_status!(:queued)
+      Solution::UpdateLatestIterationHeadTestsStatus.(solution, :queued)
       return false
     end
 

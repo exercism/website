@@ -8,4 +8,9 @@ class Exercise::Approach::TagTest < ActiveSupport::TestCase
     assert_equal approach, tag.approach
     assert_equal [tag], approach.tags
   end
+
+  test "condition_type uses symbol" do
+    tag = create(:exercise_approach_tag, condition_type: :all)
+    assert_equal :all, tag.condition_type
+  end
 end

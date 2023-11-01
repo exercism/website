@@ -22,7 +22,7 @@ class Exercise::UpdateTags
     Solution::Tag.joins(:solution).where(
       exercise_id: exercise.id,
       solution: {
-        status: Solution.statuses[:published],
+        status: :published,
         published_iteration_head_tests_status: "passed"
       }
     ).distinct.pluck(:tag)

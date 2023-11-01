@@ -78,28 +78,36 @@ export function Representations({
             currentStatus={selectedTab}
             setStatus={() => null}
           >
-            <a href={links.withoutFeedback}>Need feedback</a>
-            {resolvedData ? (
-              <div className="count">{counts.withoutFeedback}</div>
-            ) : null}
+            <a href={links.withoutFeedback}>
+              Need feedback
+              {resolvedData ? (
+                <div className="count">{counts.withoutFeedback}</div>
+              ) : null}
+            </a>
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="with_feedback"
             currentStatus={selectedTab}
             setStatus={() => null}
           >
-            <a href={links.withFeedback}>Feedback submitted</a>
-            {resolvedData ? (
-              <div className="count">{counts.withFeedback}</div>
-            ) : null}
+            <a href={links.withFeedback}>
+              Feedback submitted
+              {resolvedData ? (
+                <div className="count">{counts.withFeedback}</div>
+              ) : null}
+            </a>
           </StatusTab>
           <StatusTab<AutomationStatus>
             status="admin"
             currentStatus={selectedTab}
             setStatus={() => null}
           >
-            <a href={links.admin}>Admin</a>
-            {resolvedData ? <div className="count">{counts.admin}</div> : null}
+            <a href={links.admin}>
+              Admin
+              {resolvedData ? (
+                <div className="count">{counts.admin}</div>
+              ) : null}
+            </a>
           </StatusTab>
         </div>
         {!withFeedback && (

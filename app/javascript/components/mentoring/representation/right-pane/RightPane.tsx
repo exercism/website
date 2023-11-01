@@ -19,7 +19,7 @@ export function RightPane({
   )
 
   return (
-    <div className="!h-100 flex flex-col justify-between">
+    <>
       <UtilityTabs data={data} />
       <div className="comment-section --comment">
         <HowImportant
@@ -29,6 +29,6 @@ export function RightPane({
 
         <MentoringConversation feedbackType={feedbackType} data={data} />
       </div>
-    </div>
+    </>
   )
 }

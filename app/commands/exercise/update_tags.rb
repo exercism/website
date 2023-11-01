@@ -7,7 +7,6 @@ class Exercise::UpdateTags
 
   private
   def tags
-    solution_tags = Solution::Tag.where(exercise:).distinct.pluck(:tag)
     existing_tags = Exercise::Tag.where(exercise:).where(tag: solution_tags).select(:id, :tag).to_a
     exercise_tags = existing_tags.map(&:tag)
 
@@ -16,5 +15,16 @@ class Exercise::UpdateTags
     end
 
     existing_tags + new_tags
+  end
+
+  memoize
+  def solution_tags
+    Solution::Tag.joins(:solution).where(
+      exercise_id: exercise.id,
+      solution: {
+        status: Solution.statuses[:published],
+        published_iteration_head_tests_status: "passed"
+      }
+    ).distinct.pluck(:tag)
   end
 end

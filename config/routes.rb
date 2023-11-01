@@ -154,6 +154,11 @@ Rails.application.routes.draw do
       get :tooltip, on: :member
     end
   end
+  namespace :ml_trainer do
+    root to: "dashboard#index"
+
+    resources :solution_tags, only: [:index]
+  end
 
   resource :community, only: %i[show], controller: "community"
 

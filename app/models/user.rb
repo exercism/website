@@ -5,6 +5,7 @@ class User < ApplicationRecord
   GHOST_USER_ID = 720_036
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
+  MIN_REP_TO_TRAIN_ML = 10
 
   enum flair: {
     founder: 0,

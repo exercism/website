@@ -34,7 +34,7 @@ class Submission::TestRun::Init
     end
 
     if submission == solution.latest_published_iteration_submission
-      solution.update_published_iteration_head_tests_status!(:queued)
+      Solution::UpdatePublishedIterationHeadTestsStatus.(solution, :queued)
     end
   end
   # rubocop:enable Style/GuardClause

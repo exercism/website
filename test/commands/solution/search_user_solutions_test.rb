@@ -132,20 +132,21 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
     # We have to set these via the update_column so they don't get
     # overriden by all the processes that kick off
-    perform_enqueued_jobs
+    perform_enqueued_jobs_until_empty
+
     submission_1.reload.update_column(:tests_status, :passed)
     submission_2.reload.update_column(:tests_status, :passed)
     submission_3.reload.update_column(:tests_status, :failed)
+    Solution::SyncToSearchIndex.(solution_1)
+    Solution::SyncToSearchIndex.(solution_2)
+    Solution::SyncToSearchIndex.(solution_3)
+    wait_for_opensearch_to_be_synced
 
     # Sanity check: ensure that the results are not returned using the fallback
     Solution::SearchUserSolutions::Fallback.expects(:call).never
 
     # A different user
     create :concept_solution
-
-    perform_enqueued_jobs
-
-    wait_for_opensearch_to_be_synced
 
     assert_equal [solution_3, solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: nil)
     assert_equal [solution_2, solution_1], Solution::SearchUserSolutions.(user, tests_status: :passed)

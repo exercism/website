@@ -30,7 +30,7 @@ class Submission::TestRun::Init
     submission.tests_queued!
 
     if submission == solution.latest_iteration_submission
-      solution.update_latest_iteration_head_tests_status!(:queued)
+      Solution::UpdateLatestIterationHeadTestsStatus.(solution, :queued)
     end
 
     if submission == solution.latest_published_iteration_submission

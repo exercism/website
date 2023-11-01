@@ -102,13 +102,6 @@ class Solution < ApplicationRecord
 
   delegate :instructions, :introduction, :hints, :test_files, :source, :source_url, to: :git_exercise
 
-  def update_latest_iteration_head_tests_status!(status)
-    return if latest_iteration_head_tests_status == status.to_sym
-
-    update_column(:latest_iteration_head_tests_status, status)
-    Solution::SyncToSearchIndex.defer(self)
-  end
-
   memoize
   def latest_published_iteration = published_iterations.last
 

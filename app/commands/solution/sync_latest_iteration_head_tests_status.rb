@@ -20,7 +20,7 @@ class Solution::SyncLatestIterationHeadTestsStatus
 
     # Always call this as it also updates the git_sha
     # and git_important_files_hash
-    solution.update_latest_iteration_head_tests_status!(status)
+    Solution::UpdateLatestIterationHeadTestsStatus.(solution, status)
 
     Solution::AutoUpdateToLatestExerciseVersion.(solution)
 

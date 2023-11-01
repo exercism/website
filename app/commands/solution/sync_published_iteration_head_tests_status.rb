@@ -20,7 +20,7 @@ class Solution::SyncPublishedIterationHeadTestsStatus
 
     return true if solution.published_iteration_head_tests_status == status
 
-    solution.update_published_iteration_head_tests_status!(status)
+    Solution::UpdatePublishedIterationHeadTestsStatus.(solution, status)
 
     true
   end

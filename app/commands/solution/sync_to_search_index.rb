@@ -6,6 +6,8 @@ class Solution::SyncToSearchIndex
   initialize_with :solution
 
   def call
+    Solution::CreateSearchIndexDocument.(solution)
+
     if solution.user.ghost?
       delete_document!
     else

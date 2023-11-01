@@ -317,6 +317,15 @@ class ActiveSupport::TestCase
     end
   end
 
+  def perform_enqueued_jobs_until_empty
+    loop do
+      perform_enqueued_jobs
+      break if queue_adapter.enqueued_jobs.size.zero?
+    end
+
+    assert_no_enqueued_jobs
+  end
+
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
   end

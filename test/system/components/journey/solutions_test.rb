@@ -222,10 +222,12 @@ module Components
         solution_1.update!(published_iteration: create(:iteration, solution: solution_1, submission: submission_1))
         solution_2.update!(published_iteration: create(:iteration, solution: solution_2, submission: submission_2))
 
-        perform_enqueued_jobs
+        perform_enqueued_jobs_until_empty
         submission_1.reload.update_column(:tests_status, :failed)
         submission_2.reload.update_column(:tests_status, :passed)
-        perform_enqueued_jobs
+
+        Solution::SyncToSearchIndex.(solution_1)
+        Solution::SyncToSearchIndex.(solution_2)
         wait_for_opensearch_to_be_synced
 
         use_capybara_host do

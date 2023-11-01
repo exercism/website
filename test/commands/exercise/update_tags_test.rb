@@ -19,7 +19,7 @@ class Exercise::UpdateTagsTest < ActiveSupport::TestCase
 
     # Unpublished solution
     solution = create(:practice_solution, exercise:, published_iteration_head_tests_status: :passed)
-    unpublished_exercise_tag = create(:exercise_tag, tag: 'construct:sanity', exercise:)
+    unpublished_exercise_tag = create(:exercise_tag, tag: 'construct:unpublished', exercise:)
     create(:solution_tag, tag: unpublished_exercise_tag.tag, exercise:, solution:)
 
     # Failing solution

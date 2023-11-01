@@ -70,7 +70,7 @@ module Flows
       use_capybara_host do
         sign_in!(user)
         visit track_exercise_solutions_path(exercise.track, exercise)
-        fill_in "Search by code", with: "your_main"
+        fill_in "Search by code (min 3 chars)", with: "your_main"
       end
 
       assert_text "author2's solution"

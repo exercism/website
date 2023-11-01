@@ -7,7 +7,7 @@ import { TrackFilterList } from './TrackFilterList'
 import { AutomationIntroducer } from './AutomationIntroducer'
 import { RepresentationList } from './RepresentationList'
 import { Sorter } from '../Sorter'
-import { StatusTab } from '../inbox/StatusTab'
+import { StatusTabLink } from '../inbox/StatusTab'
 import { SortOption } from '../Inbox'
 import type { Request } from '@/hooks/request-query'
 import type { AutomationStatus, AutomationTrack } from '@/components/types'
@@ -73,34 +73,40 @@ export function Representations({
       )}
       <div className="flex justify-between items-center">
         <div className="tabs">
-          <StatusTab<AutomationStatus>
+          <StatusTabLink<AutomationStatus>
             status="without_feedback"
             currentStatus={selectedTab}
-            setStatus={() => null}
+            href={links.withoutFeedback!}
           >
-            <a href={links.withoutFeedback}>Need feedback</a>
+            Need feedback
             {resolvedData ? (
-              <div className="count">{counts.withoutFeedback}</div>
+              <div className="count">
+                {counts.withoutFeedback.toLocaleString()}
+              </div>
             ) : null}
-          </StatusTab>
-          <StatusTab<AutomationStatus>
+          </StatusTabLink>
+          <StatusTabLink<AutomationStatus>
             status="with_feedback"
             currentStatus={selectedTab}
-            setStatus={() => null}
+            href={links.withFeedback!}
           >
-            <a href={links.withFeedback}>Feedback submitted</a>
+            Feedback submitted
             {resolvedData ? (
-              <div className="count">{counts.withFeedback}</div>
+              <div className="count">
+                {counts.withFeedback.toLocaleString()}
+              </div>
             ) : null}
-          </StatusTab>
-          <StatusTab<AutomationStatus>
+          </StatusTabLink>
+          <StatusTabLink<AutomationStatus>
             status="admin"
             currentStatus={selectedTab}
-            setStatus={() => null}
+            href={links.admin!}
           >
-            <a href={links.admin}>Admin</a>
-            {resolvedData ? <div className="count">{counts.admin}</div> : null}
-          </StatusTab>
+            Admin
+            {resolvedData ? (
+              <div className="count">{counts.admin.toLocaleString()}</div>
+            ) : null}
+          </StatusTabLink>
         </div>
         {!withFeedback && (
           <Checkbox

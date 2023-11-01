@@ -237,7 +237,7 @@
             }
         }
 
-        &:not(#code-panel) > .tabs {
+        & > .tabs {
             @apply flex lg:relative fixed z-menu;
             @apply gap-24;
             top: 0;

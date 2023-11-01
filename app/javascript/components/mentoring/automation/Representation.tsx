@@ -81,7 +81,9 @@ export function Representations({
             <a href={links.withoutFeedback}>
               Need feedback
               {resolvedData ? (
-                <div className="count">{counts.withoutFeedback}</div>
+                <div className="count">
+                  {counts.withoutFeedback.toLocaleString()}
+                </div>
               ) : null}
             </a>
           </StatusTab>
@@ -93,7 +95,9 @@ export function Representations({
             <a href={links.withFeedback}>
               Feedback submitted
               {resolvedData ? (
-                <div className="count">{counts.withFeedback}</div>
+                <div className="count">
+                  {counts.withFeedback.toLocaleString()}
+                </div>
               ) : null}
             </a>
           </StatusTab>
@@ -105,7 +109,7 @@ export function Representations({
             <a href={links.admin}>
               Admin
               {resolvedData ? (
-                <div className="count">{counts.admin}</div>
+                <div className="count">{counts.admin.toLocaleString()}</div>
               ) : null}
             </a>
           </StatusTab>

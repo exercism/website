@@ -4,6 +4,8 @@ class Tooling::RetrieveSha
   initialize_with :track, :tool
 
   def call
+    return "abcdef12345678" if Rails.env.development?
+
     resp = Exercism.ecr_client.describe_images(
       repository_name: repo_name,
       image_ids: [

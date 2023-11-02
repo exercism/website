@@ -28,8 +28,6 @@ class Exercise::Approach::LinkMatchingSubmissions
 
   def update_submissions!(submissions)
     submissions.includes(:analysis).find_each do |submission|
-      next unless submission.tags.present?
-
       new_approach = approach.matching_tags?(submission.tags) ? approach : nil
       submission.update(approach: new_approach)
     end

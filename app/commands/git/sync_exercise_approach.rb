@@ -5,7 +5,11 @@ class Git::SyncExerciseApproach
 
   def call
     find_or_create!.tap do |approach|
+      old_tags = approach.tags.pluck(:tag).sort
       approach.update!(attributes_for_update(approach))
+      new_tags = approach.tags.pluck(:tag).sort
+
+      Exercise::Approach::LinkSubmissions.(approach) if old_tags != new_tags
     end
   end
 

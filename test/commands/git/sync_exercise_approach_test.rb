@@ -155,4 +155,71 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     refute_nil imperative_tag
     assert_equal :not, imperative_tag.condition_type
   end
+
+  test "link submissions when creating approach with tags" do
+    exercise = create :practice_exercise
+    config = {
+      uuid: SecureRandom.uuid,
+      slug: "performance",
+      title: "Performance",
+      blurb: "Speed up!",
+      tags: {
+        all: ["paradigm:functional"]
+      }
+    }
+
+    Exercise::Approach::LinkSubmissions.expects(:call).once
+
+    Git::SyncExerciseApproach.(exercise, config)
+  end
+
+  test "don't link submissions when creating approach without tags" do
+    exercise = create :practice_exercise
+    config = { uuid: SecureRandom.uuid, slug: "performance", title: "Performance", blurb: "Speed up!" }
+
+    Exercise::Approach::LinkSubmissions.expects(:call).never
+
+    Git::SyncExerciseApproach.(exercise, config)
+  end
+
+  test "link submissions when tags are updated from config" do
+    exercise = create :practice_exercise
+    approach = create(:exercise_approach, exercise:)
+    create(:exercise_approach_tag, approach:, tag: "paradigm:imperative", condition_type: :all)
+
+    config = {
+      uuid: approach.uuid,
+      slug: approach.slug,
+      title: approach.title,
+      blurb: approach.blurb,
+      tags: {
+        all: ["paradigm:functional"]
+      }
+    }
+
+    Exercise::Approach::LinkSubmissions.expects(:call).with(approach)
+
+    Git::SyncExerciseApproach.(exercise, config)
+  end
+
+  test "don't link submissions when tags haven't changed" do
+    exercise = create :practice_exercise
+    approach = create(:exercise_approach, exercise:)
+    create(:exercise_approach_tag, approach:, tag: "paradigm:imperative", condition_type: :any)
+    create(:exercise_approach_tag, approach:, tag: "paradigm:functional", condition_type: :any)
+
+    config = {
+      uuid: approach.uuid,
+      slug: approach.slug,
+      title: approach.title,
+      blurb: approach.blurb,
+      tags: {
+        any: ["paradigm:imperative", "paradigm:functional"]
+      }
+    }
+
+    Exercise::Approach::LinkSubmissions.expects(:call).with(approach).never
+
+    Git::SyncExerciseApproach.(exercise, config)
+  end
 end

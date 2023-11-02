@@ -167,8 +167,10 @@ const ContributorsList = lazy(
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
 
 const SolutionTagger = lazy(
-  () => import('@/components/contributing/SolutionTagger')
+  () => import('@/components/ml-trainer/SolutionTagger')
 )
+
+const Dashboard = lazy(() => import('@/components/ml-trainer/Dashboard'))
 
 const PaymentPending = lazy(
   () => import('@/components/insiders/PaymentPending')
@@ -384,7 +386,12 @@ export const mappings = {
     </Suspense>
   ),
 
-  'contributing-solution-tagger': (data: any) => (
+  'ml-trainer-dashboard': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <Dashboard {...data} />
+    </Suspense>
+  ),
+  'ml-trainer-solution-tagger': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <SolutionTagger data={data} />
     </Suspense>

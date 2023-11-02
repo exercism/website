@@ -1,8 +1,8 @@
 module ReactComponents
-  module Contributing
+  module MLTrainer
     class SolutionTagger < ReactComponent
       def to_s
-        super("contributing-solution-tagger", {
+        super("ml-trainer-solution-tagger", {
           solution: SerializeSolution.(Solution.last),
           tags: {
             'Boolean': "concept:boolean"

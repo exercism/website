@@ -158,7 +158,7 @@ Rails.application.routes.draw do
     end
   end
   namespace :ml_trainer do
-    root to: "dashboard#index"
+    root to: "external#index"
 
     resources :solution_tags, only: %i[index show]
   end

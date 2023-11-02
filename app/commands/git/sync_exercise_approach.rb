@@ -23,7 +23,8 @@ class Git::SyncExerciseApproach
   def attributes_for_update(approach)
     attributes_for_create.merge({
       authorships: authorships(approach),
-      contributorships: contributorships(approach)
+      contributorships: contributorships(approach),
+      tags: tags(approach)
     })
   end
 
@@ -35,5 +36,15 @@ class Git::SyncExerciseApproach
   def contributorships(approach)
     ::User.with_data.where(data: { github_username: config[:contributors].to_a }).
       map { |contributor| ::Exercise::Approach::Contributorship::Create.(approach, contributor) }
+  end
+
+  def tags(approach)
+    config_tags = config[:tags].to_h
+
+    %i[all any not].flat_map do |condition_type|
+      config_tags[condition_type].to_a.map do |tag|
+        Exercise::Approach::Tag::Create.(approach, tag, condition_type)
+      end
+    end
   end
 end

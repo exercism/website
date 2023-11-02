@@ -80,4 +80,79 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     approach.reload
     assert_equal updated_at, approach.updated_at
   end
+
+  test "creates tags from config" do
+    exercise = create :practice_exercise
+    config = {
+      uuid: SecureRandom.uuid,
+      slug: "performance",
+      title: "Performance",
+      blurb: "Speed up!",
+      tags: {
+        all: ["paradigm:functional"],
+        any: ["construct:lambda", "technique:higher-order-function"],
+        not: ["paradigm:imperative"]
+      }
+    }
+
+    approach = Git::SyncExerciseApproach.(exercise, config)
+
+    assert_equal 4, approach.tags.count
+
+    functional_tag = approach.tags.find { |tag| tag.tag == "paradigm:functional" }
+    refute_nil functional_tag
+    assert_equal :all, functional_tag.condition_type
+
+    lambda_tag = approach.tags.find { |tag| tag.tag == "construct:lambda" }
+    refute_nil lambda_tag
+    assert_equal :any, lambda_tag.condition_type
+
+    higher_order_functions_tag = approach.tags.find { |tag| tag.tag == "technique:higher-order-function" }
+    refute_nil higher_order_functions_tag
+    assert_equal :any, higher_order_functions_tag.condition_type
+
+    imperative_tag = approach.tags.find { |tag| tag.tag == "paradigm:imperative" }
+    refute_nil imperative_tag
+    assert_equal :not, imperative_tag.condition_type
+  end
+
+  test "updates tags from config" do
+    exercise = create :practice_exercise
+    approach = create(:exercise_approach, exercise:)
+    create(:exercise_approach_tag, approach:, tag: "paradigm:functional", condition_type: :not)
+    create(:exercise_approach_tag, approach:, tag: "technique:higher-order-function", condition_type: :any)
+    create(:exercise_approach_tag, approach:, tag: "construct:string", condition_type: :all)
+
+    config = {
+      uuid: approach.uuid,
+      slug: approach.slug,
+      title: approach.title,
+      blurb: approach.blurb,
+      tags: {
+        all: ["paradigm:functional"],
+        any: ["construct:lambda", "technique:higher-order-function"],
+        not: ["paradigm:imperative"]
+      }
+    }
+
+    approach = Git::SyncExerciseApproach.(exercise, config)
+
+    assert_equal 4, approach.tags.count
+
+    functional_tag = approach.tags.find { |tag| tag.tag == "paradigm:functional" }
+    refute_nil functional_tag
+    assert_equal :all, functional_tag.condition_type
+
+    lambda_tag = approach.tags.find { |tag| tag.tag == "construct:lambda" }
+    refute_nil lambda_tag
+    assert_equal :any, lambda_tag.condition_type
+
+    higher_order_functions_tag = approach.tags.find { |tag| tag.tag == "technique:higher-order-function" }
+    refute_nil higher_order_functions_tag
+    assert_equal :any, higher_order_functions_tag.condition_type
+
+    imperative_tag = approach.tags.find { |tag| tag.tag == "paradigm:imperative" }
+    refute_nil imperative_tag
+    assert_equal :not, imperative_tag.condition_type
+  end
 end

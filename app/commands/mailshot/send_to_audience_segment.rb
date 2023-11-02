@@ -14,8 +14,9 @@ class Mailshot
 
       send_to_segment!
 
-      # If we were able to fulfil the full page, then schedule the next page
-      schedule_next_segment! if records.length == limit
+      # If we had some records, schedule some more. Once this is zero,
+      # we can safely finish the job.
+      schedule_next_segment! if records.length.positive?
     end
 
     private

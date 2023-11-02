@@ -18,9 +18,7 @@ export default function SolutionInfo({
       <div className="student">
         <Avatar src={exercise.iconUrl} />
         <div className="info">
-          <div className="exercise">
-            You’re giving feedback on a solution set for
-          </div>
+          <div className="exercise">You are signing tags for</div>
           <div className="handle">
             {exercise.title} in {track.title}
           </div>

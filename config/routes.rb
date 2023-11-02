@@ -160,7 +160,7 @@ Rails.application.routes.draw do
   namespace :ml_trainer do
     root to: "dashboard#index"
 
-    resources :solution_tags, only: [:index]
+    resources :solution_tags, only: %i[index show]
   end
 
   resource :community, only: %i[show], controller: "community"

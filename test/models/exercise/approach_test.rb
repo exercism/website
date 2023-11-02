@@ -48,4 +48,48 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
 
     assert_equal "READABILITY", approach.snippet
   end
+
+  test "matching_tags?" do
+    approach = create(:exercise_approach)
+
+    refute approach.matching_tags?([])
+
+    create(:exercise_approach_tag, :all, approach:, tag: "construct:if")
+    refute approach.matching_tags?([])
+    assert approach.matching_tags?(["construct:if"])
+
+    create(:exercise_approach_tag, :any, approach:, tag: "construct:for")
+    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    refute approach.matching_tags?([])
+    refute approach.matching_tags?(["construct:if"])
+    assert approach.matching_tags?(["construct:if", "construct:for"])
+
+    create(:exercise_approach_tag, :not, approach:, tag: "construct:do")
+    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    refute approach.matching_tags?([])
+    refute approach.matching_tags?(["construct:if"])
+    assert approach.matching_tags?(["construct:if", "construct:for"])
+    refute approach.matching_tags?(["construct:if", "construct:for", "construct:do"])
+
+    create(:exercise_approach_tag, :any, approach:, tag: "construct:repeat")
+    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    refute approach.matching_tags?([])
+    refute approach.matching_tags?(["construct:if"])
+    refute approach.matching_tags?(["construct:repeat"])
+    refute approach.matching_tags?(["construct:for", "construct:repeat"])
+    assert approach.matching_tags?(["construct:if", "construct:for"])
+    assert approach.matching_tags?(["construct:repeat", "construct:if"])
+
+    create(:exercise_approach_tag, :all, approach:, tag: "construct:while")
+    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    refute approach.matching_tags?([])
+    refute approach.matching_tags?(["construct:if"])
+    refute approach.matching_tags?(["construct:repeat"])
+    refute approach.matching_tags?(["construct:for", "construct:repeat"])
+    refute approach.matching_tags?(["construct:if", "construct:for"])
+    refute approach.matching_tags?(["construct:repeat", "construct:if"])
+    refute approach.matching_tags?(["construct:if", "construct:for"])
+    assert approach.matching_tags?(["construct:repeat", "construct:if", "construct:while"])
+    refute approach.matching_tags?(["construct:repeat", "construct:if", "construct:do", "construct:while"])
+  end
 end

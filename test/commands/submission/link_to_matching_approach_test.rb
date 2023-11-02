@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Submission::LinkToApproachTest < ActiveSupport::TestCase
+class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
   test "link to approach with matching tag conditions" do
     exercise = create :practice_exercise
     approach = create(:exercise_approach, exercise:)
@@ -8,22 +8,14 @@ class Submission::LinkToApproachTest < ActiveSupport::TestCase
     create(:exercise_approach_tag, :any, approach:, tag: "construct:lambda")
     create(:exercise_approach_tag, :any, approach:, tag: "technique:higher-order-function")
     create(:exercise_approach_tag, :not, approach:, tag: "paradigm:imperative")
-
-    # This submission matches the requirements
-    submission_1 = create(:submission, exercise:)
-    create(:submission_analysis, submission: submission_1, tags_data: {
+    submission = create(:submission, exercise:)
+    create(:submission_analysis, submission:, tags_data: {
       tags: ["paradigm:functional", "construct:lambda"]
     })
-    Submission::LinkToApproach.(submission_1)
-    assert_equal approach, submission_1.approach
 
-    # This submission matches the requirements via another :any tag
-    submission_2 = create(:submission, exercise:)
-    create(:submission_analysis, submission: submission_2, tags_data: {
-      tags: ["paradigm:functional", "technique:higher-order-function"]
-    })
-    Submission::LinkToApproach.(submission_2)
-    assert_equal approach, submission_2.approach
+    Submission::LinkToMatchingApproach.(submission)
+
+    assert_equal approach, submission.approach
   end
 
   test "don't link to approach when none of the :any tag conditions match" do
@@ -36,7 +28,7 @@ class Submission::LinkToApproachTest < ActiveSupport::TestCase
       tags: ["construct:if"]
     })
 
-    Submission::LinkToApproach.(submission)
+    Submission::LinkToMatchingApproach.(submission)
 
     assert_nil submission.approach
   end
@@ -51,7 +43,7 @@ class Submission::LinkToApproachTest < ActiveSupport::TestCase
       tags: ["paradigm:functional", "paradigm:imperative"]
     })
 
-    Submission::LinkToApproach.(submission)
+    Submission::LinkToMatchingApproach.(submission)
 
     assert_nil submission.approach
   end
@@ -63,7 +55,7 @@ class Submission::LinkToApproachTest < ActiveSupport::TestCase
     submission = create(:submission, exercise:)
     create(:submission_analysis, submission:, tags_data: { tags: ["construct:if"] })
 
-    Submission::LinkToApproach.(submission)
+    Submission::LinkToMatchingApproach.(submission)
 
     assert_nil submission.approach
   end
@@ -75,7 +67,7 @@ class Submission::LinkToApproachTest < ActiveSupport::TestCase
     submission = create(:submission, exercise:)
     create(:submission_analysis, submission:, tags_data: nil)
 
-    Submission::LinkToApproach.(submission)
+    Submission::LinkToMatchingApproach.(submission)
 
     assert_nil submission.approach
   end

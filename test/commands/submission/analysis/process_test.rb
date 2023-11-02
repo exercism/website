@@ -78,7 +78,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     create(:iteration, submission:)
     data = { 'comments' => [] }
 
-    Submission::LinkToApproach.expects(:defer).with(submission)
+    Submission::LinkToMatchingApproach.expects(:defer).with(submission)
 
     job = create_analyzer_job!(submission, execution_status: 200, data:)
     Submission::Analysis::Process.(job)

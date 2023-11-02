@@ -46,6 +46,8 @@ class Submission < ApplicationRecord
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
+  delegate :tags, to: :analysis
+
   before_validation on: :create do
     self.track = solution.track unless track
     self.exercise = solution.exercise unless exercise

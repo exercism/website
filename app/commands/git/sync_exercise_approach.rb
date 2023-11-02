@@ -9,7 +9,7 @@ class Git::SyncExerciseApproach
       approach.update!(attributes_for_update(approach))
       new_tags = approach.tags.pluck(:tag).sort
 
-      Exercise::Approach::LinkSubmissions.(approach) if old_tags != new_tags
+      Exercise::Approach::LinkMatchingSubmissions.(approach) if old_tags != new_tags
     end
   end
 

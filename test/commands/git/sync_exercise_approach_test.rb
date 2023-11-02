@@ -168,7 +168,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       }
     }
 
-    Exercise::Approach::LinkSubmissions.expects(:call).once
+    Exercise::Approach::LinkMatchingSubmissions.expects(:call).once
 
     Git::SyncExerciseApproach.(exercise, config)
   end
@@ -177,7 +177,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
     config = { uuid: SecureRandom.uuid, slug: "performance", title: "Performance", blurb: "Speed up!" }
 
-    Exercise::Approach::LinkSubmissions.expects(:call).never
+    Exercise::Approach::LinkMatchingSubmissions.expects(:call).never
 
     Git::SyncExerciseApproach.(exercise, config)
   end
@@ -197,7 +197,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       }
     }
 
-    Exercise::Approach::LinkSubmissions.expects(:call).with(approach)
+    Exercise::Approach::LinkMatchingSubmissions.expects(:call).with(approach)
 
     Git::SyncExerciseApproach.(exercise, config)
   end
@@ -218,7 +218,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       }
     }
 
-    Exercise::Approach::LinkSubmissions.expects(:call).with(approach).never
+    Exercise::Approach::LinkMatchingSubmissions.expects(:call).with(approach).never
 
     Git::SyncExerciseApproach.(exercise, config)
   end

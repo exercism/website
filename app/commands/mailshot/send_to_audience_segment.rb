@@ -34,7 +34,7 @@ class Mailshot
     def schedule_next_segment!
       Mailshot::SendToAudienceSegment.defer(
         mailshot, audience_type, audience_slug, limit, offset + limit,
-        wait: 15.seconds
+        wait: 5.seconds
       )
     end
 

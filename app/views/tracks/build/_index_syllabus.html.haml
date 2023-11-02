@@ -1,0 +1,82 @@
+- if track.course?
+  .track-team-group
+    .track-header.mb-16
+      .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
+        %h3.--syllabus-gradient #{track.title} syllabus
+        = link_to doc_path(:building, "tracks/syllabus"), class: "learn-more-new-tab" do
+          Learn More
+      %p Help create the track syllabus: is a set of concepts and learning exercises put together to teach foundational elements of the programming language.
+
+    - if status.syllabus.concepts.active.size < status.syllabus.concepts.num_active_target
+      .action-required.mb-24
+        Next goal: Create a complete syllabus with at least #{status.syllabus.concepts.num_active_target} concepts.
+        = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+          Find out more.
+
+    - unless status.syllabus.health == "missing"
+
+      %details.mb-10
+        %summary.--syllabus
+          #{status.syllabus.concepts.active.size} concepts being taught
+          = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+        - status.syllabus.concepts.active.each do |concept|
+          .record-row
+            .record-name
+              = render ViewComponents::ConceptIcon.new(concept, :small)
+              = concept.name
+            .record-value #{number_with_delimiter(concept.num_students_learnt)} learnt
+
+      %details
+        %summary.--lightbulb
+          #{status.syllabus.concept_exercises.active.size} active learning exercises
+          = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+        .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
+          .record-name.mb-0
+          .record-value
+            .record-element Started
+            .record-element Attempts
+            .record-element Completions
+            .record-element Mentoring requests
+        - status.syllabus.concept_exercises.active.each do |exercise|
+          .record-row
+            .record-name
+              = exercise_icon exercise
+              = exercise.title
+            .record-value
+              .record-element{ data: { record_label: 'Started' } }
+                %strong= number_with_delimiter(exercise.num_started)
+              .record-element{ data: { record_label: 'Attempts' } }
+                %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+              .record-element{ data: { record_label: 'Completions' } }
+                %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+              .record-element{ data: { record_label: 'Mentoring requests' } }
+                %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+      - if status.syllabus.concept_exercises.deprecated.size.positive?
+        %details.mt-10
+          %summary.--lightbulb
+            #{status.syllabus.concept_exercises.deprecated.size} deprecated learning exercises
+            = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+          .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
+            .record-name.mb-0
+            .record-value
+              .record-element Started
+              .record-element Attempts
+              .record-element Completions
+              .record-element Mentoring requests
+          - status.syllabus.concept_exercises.deprecated.each do |exercise|
+            .record-row
+              .record-name
+                = exercise_icon exercise
+                = exercise.title
+              .record-value
+                .record-element{ data: { record_label: 'Started' } }
+                  %strong= number_with_delimiter(exercise.num_started)
+                .record-element{ data: { record_label: 'Attempts' } }
+                  %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+                .record-element{ data: { record_label: 'Completions' } }
+                  %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+                .record-element{ data: { record_label: 'Mentoring requests' } }
+                  %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+

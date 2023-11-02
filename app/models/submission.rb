@@ -4,9 +4,9 @@ class Submission < ApplicationRecord
   belongs_to :track
   belongs_to :exercise
   belongs_to :solution
+  belongs_to :approach
   has_one :user, through: :solution
   has_one :iteration, dependent: :destroy
-  has_one :approach, class_name: "Exercise::Approach", dependent: :destroy
 
   has_many :files, class_name: "Submission::File", dependent: :destroy
 

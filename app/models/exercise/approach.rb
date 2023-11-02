@@ -26,6 +26,11 @@ class Exercise::Approach < ApplicationRecord
     inverse_of: :approach,
     dependent: :destroy
 
+  has_many :submissions,
+    foreign_key: :exercise_approach_id,
+    inverse_of: :approach,
+    dependent: :destroy
+
   has_one :track, through: :exercise
 
   scope :random, -> { order('RAND()') }

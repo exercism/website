@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_02_054652) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1062,6 +1062,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_054652) do
     t.integer "track_id", limit: 2
     t.integer "exercise_id", limit: 3
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
+    t.bigint "exercise_approach_id"
+    t.index ["exercise_approach_id"], name: "index_submissions_on_exercise_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
     t.index ["git_sha", "solution_id", "git_important_files_hash"], name: "submissions-git-optimiser-1"
@@ -1657,6 +1659,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_054652) do
   add_foreign_key "submission_representations", "users", column: "mentor_id"
   add_foreign_key "submission_representations", "users", column: "mentored_by_id"
   add_foreign_key "submission_test_runs", "submissions"
+  add_foreign_key "submissions", "exercise_approaches"
   add_foreign_key "submissions", "solutions"
   add_foreign_key "team_invitations", "teams"
   add_foreign_key "team_invitations", "users", column: "invited_by_id"

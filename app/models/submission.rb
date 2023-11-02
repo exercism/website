@@ -6,6 +6,7 @@ class Submission < ApplicationRecord
   belongs_to :solution
   has_one :user, through: :solution
   has_one :iteration, dependent: :destroy
+  has_one :approach, class_name: "Exercise::Approach", dependent: :destroy
 
   has_many :files, class_name: "Submission::File", dependent: :destroy
 

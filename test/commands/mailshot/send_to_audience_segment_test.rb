@@ -23,13 +23,12 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Array.new(2) { create :user, :admin }
     mailshot = create :mailshot
 
-    assert_no_enqueued_jobs only: MandateJob do
-      Mailshot::SendToAudienceSegment.(mailshot, :admins, :foobar, 3, 0)
-    end
+    Mailshot::SendToAudienceSegment.(mailshot, :admins, :foobar, 3, 0)
+    perform_enqueued_jobs_until_empty # This shouldn't loop forever!
   end
 
-  test "schedules if record counts matched" do
-    Array.new(3) { create :user, :admin }
+  test "schedules if there were any jobs returned" do
+    create :user, :admin
     mailshot = create :mailshot
 
     assert_enqueued_with(job: MandateJob) do

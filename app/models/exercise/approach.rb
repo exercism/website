@@ -27,7 +27,6 @@ class Exercise::Approach < ApplicationRecord
     dependent: :destroy
 
   has_many :submissions,
-    foreign_key: :exercise_approach_id,
     inverse_of: :approach,
     dependent: :destroy
 

@@ -67,4 +67,16 @@ class Submission::LinkToApproachTest < ActiveSupport::TestCase
 
     assert_nil submission.approach
   end
+
+  test "don't link to approach when submission does not have tags" do
+    exercise = create :practice_exercise
+    approach = create(:exercise_approach, exercise:)
+    create(:exercise_approach_tag, :all, approach:, tag: "paradigm:functional")
+    submission = create(:submission, exercise:)
+    create(:submission_analysis, submission:, tags_data: nil)
+
+    Submission::LinkToApproach.(submission)
+
+    assert_nil submission.approach
+  end
 end

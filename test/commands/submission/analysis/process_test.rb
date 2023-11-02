@@ -72,6 +72,18 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     Submission::Analysis::Process.(job)
   end
 
+  test "links to approach" do
+    solution = create :practice_solution
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    data = { 'comments' => [] }
+
+    Submission::LinkToApproach.expects(:defer).with(submission)
+
+    job = create_analyzer_job!(submission, execution_status: 200, data:)
+    Submission::Analysis::Process.(job)
+  end
+
   test "gracefully handle tags.json not being there" do
     submission = create :submission
     ops_status = 200

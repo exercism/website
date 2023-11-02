@@ -41,6 +41,7 @@ class Submission::Analysis::Process
   def handle_completed!
     submission.analysis_completed!
     Solution::UpdateTags.(submission.solution)
+    Submission::LinkToApproach.defer(submission)
   end
 
   memoize

@@ -1,6 +1,8 @@
 class Submission::LinkToMatchingApproach
   include Mandate
 
+  queue_as :solution_processing
+
   initialize_with :submission
 
   def call

@@ -83,7 +83,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     job = create_analyzer_job!(submission, execution_status: 200, data:, tags_data:)
     Submission::Analysis::Process.(job)
 
-    assert_equal tags, submission.tags
+    assert_equal tags, submission.reload.tags
   end
 
   test "links to approach" do

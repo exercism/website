@@ -50,29 +50,34 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
   end
 
   test "matching_tags?" do
-    approach = create(:exercise_approach)
-
+    tags = nil
+    approach = create(:exercise_approach, tags:)
     refute approach.matching_tags?([])
 
-    create(:exercise_approach_tag, :all, approach:, tag: "construct:if")
+    tags = {}
+    approach.update(tags:)
+    refute approach.matching_tags?([])
+
+    tags["all"] = ["construct:if"]
+    approach.update(tags:)
     refute approach.matching_tags?([])
     assert approach.matching_tags?(["construct:if"])
 
-    create(:exercise_approach_tag, :any, approach:, tag: "construct:for")
-    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    tags["any"] = ["construct:for"]
+    approach.update(tags:)
     refute approach.matching_tags?([])
     refute approach.matching_tags?(["construct:if"])
     assert approach.matching_tags?(["construct:if", "construct:for"])
 
-    create(:exercise_approach_tag, :not, approach:, tag: "construct:do")
-    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    tags["not"] = ["construct:do"]
+    approach.update(tags:)
     refute approach.matching_tags?([])
     refute approach.matching_tags?(["construct:if"])
     assert approach.matching_tags?(["construct:if", "construct:for"])
     refute approach.matching_tags?(["construct:if", "construct:for", "construct:do"])
 
-    create(:exercise_approach_tag, :any, approach:, tag: "construct:repeat")
-    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    tags["any"] << "construct:repeat"
+    approach.update(tags:)
     refute approach.matching_tags?([])
     refute approach.matching_tags?(["construct:if"])
     refute approach.matching_tags?(["construct:repeat"])
@@ -80,8 +85,8 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
     assert approach.matching_tags?(["construct:if", "construct:for"])
     assert approach.matching_tags?(["construct:repeat", "construct:if"])
 
-    create(:exercise_approach_tag, :all, approach:, tag: "construct:while")
-    approach = Exercise::Approach.find(approach.id) # Work around memoization
+    tags["all"] << "construct:while"
+    approach.update(tags:)
     refute approach.matching_tags?([])
     refute approach.matching_tags?(["construct:if"])
     refute approach.matching_tags?(["construct:repeat"])

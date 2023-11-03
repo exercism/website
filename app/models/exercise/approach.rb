@@ -39,24 +39,15 @@ class Exercise::Approach < ApplicationRecord
   def matching_tags?(check_tags)
     return false if check_tags.empty?
 
-    all_tags = tag_conditions[:all].to_a
+    all_tags = tags["all"].to_a
     return false if all_tags.present? && (all_tags - check_tags).present?
 
-    any_tags = tag_conditions[:any].to_a
+    any_tags = tags["any"].to_a
     return false if any_tags.present? && (any_tags & check_tags).empty?
 
-    not_tags = tag_conditions[:not].to_a
+    not_tags = tags["not"].to_a
     return false if not_tags.present? && (not_tags & check_tags).present?
 
     true
-  end
-
-  memoize
-  def tag_conditions
-    tags.
-      pluck(:condition_type, :tag).
-      group_by(&:first).
-      transform_keys(&:to_sym).
-      transform_values { |v| v.map(&:second) }
   end
 end

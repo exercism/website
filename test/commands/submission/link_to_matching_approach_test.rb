@@ -3,15 +3,13 @@ require "test_helper"
 class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
   test "link to approach with matching tag conditions" do
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, :all, approach:, tag: "paradigm:functional")
-    create(:exercise_approach_tag, :any, approach:, tag: "construct:lambda")
-    create(:exercise_approach_tag, :any, approach:, tag: "technique:higher-order-function")
-    create(:exercise_approach_tag, :not, approach:, tag: "paradigm:imperative")
-    submission = create(:submission, exercise:)
-    create(:submission_analysis, submission:, tags_data: {
-      tags: ["paradigm:functional", "construct:lambda"]
+    approach = create(:exercise_approach, exercise:, tags: {
+      "all" => ["paradigm:functional"],
+      "any" => %w[construct:lambda technique:higher-order-function],
+      "not" => ["paradigm:imperative"]
     })
+
+    submission = create(:submission, exercise:, tags: %w[paradigm:functional construct:lambda])
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -20,13 +18,8 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
 
   test "don't link to approach when none of the :any tag conditions match" do
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, :any, approach:, tag: "construct:while")
-    create(:exercise_approach_tag, :any, approach:, tag: "construct:for")
-    submission = create(:submission, exercise:)
-    create(:submission_analysis, submission:, tags_data: {
-      tags: ["construct:if"]
-    })
+    create(:exercise_approach, exercise:, tags: { "any" => %w[construct:while construct:for] })
+    submission = create(:submission, exercise:, tags: ["construct:if"])
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -35,13 +28,11 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
 
   test "don't link to approach when :not tag condition matches" do
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, :all, approach:, tag: "paradigm:functional")
-    create(:exercise_approach_tag, :not, approach:, tag: "paradigm:imperative")
-    submission = create(:submission, exercise:)
-    create(:submission_analysis, submission:, tags_data: {
-      tags: ["paradigm:functional", "paradigm:imperative"]
+    create(:exercise_approach, exercise:, tags: {
+      "all" => ["paradigm:functional"],
+      "not" => ["paradigm:imperative"]
     })
+    submission = create(:submission, exercise:, tags: %w[paradigm:functional paradigm:imperative])
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -50,10 +41,8 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
 
   test "don't link to approach when no tag condition matches" do
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, :all, approach:, tag: "paradigm:functional")
-    submission = create(:submission, exercise:)
-    create(:submission_analysis, submission:, tags_data: { tags: ["construct:if"] })
+    create(:exercise_approach, exercise:, tags: { "all" => ["paradigm:functional"] })
+    submission = create(:submission, exercise:, tags: ["construct:if"])
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -62,10 +51,8 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
 
   test "don't link to approach when submission does not have tags" do
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, :all, approach:, tag: "paradigm:functional")
-    submission = create(:submission, exercise:)
-    create(:submission_analysis, submission:, tags_data: nil)
+    create(:exercise_approach, exercise:, tags: { "all" => ["paradigm:functional"] })
+    submission = create(:submission, exercise:, tags: nil)
 
     Submission::LinkToMatchingApproach.(submission)
 

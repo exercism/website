@@ -8,9 +8,9 @@ class Submission::LinkToMatchingApproach
   end
 
   def matching_approach
-    return nil unless submission.tags.present?
+    return nil if submission.tags.blank?
 
-    submission.exercise.approaches.includes(:tags).find do |approach|
+    submission.exercise.approaches.find do |approach|
       approach.matching_tags?(submission.tags)
     end
   end

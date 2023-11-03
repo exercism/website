@@ -8,9 +8,7 @@ module ReactComponents
             { filename: "hello_world.rb", code: "Hello World" },
             { filename: "some_lib.foo", code: "URGH" }
           ],
-          tags: {
-            'Boolean': "concept:boolean"
-          },
+          tags: ["concept:boolean"],
           status: :untagged
         })
       end

@@ -1051,7 +1051,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_102049) do
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
     t.json "tags"
-    t.index "`exercise_id`, `approach_id`, (json_value(`tags`, _utf8mb4\\'$[0]\\' returning char(512) null on empty))", name: "submissions_exercise_approach_tags"
+    t.index "`exercise_id`, `approach_id`, (json_value(`tags`, _utf8mb4\\'$[0]\\' returning char(512) null on empty))", name: "index_submissions_exercise_approach_tags"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"

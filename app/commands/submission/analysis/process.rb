@@ -40,6 +40,7 @@ class Submission::Analysis::Process
 
   def handle_completed!
     submission.analysis_completed!
+    submission.update(tags: tags_data)
     Solution::UpdateTags.(submission.solution)
     Submission::LinkToMatchingApproach.defer(submission)
   end

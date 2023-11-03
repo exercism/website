@@ -60,7 +60,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     Submission::Analysis::Process.(job)
   end
 
-  test "updates tags" do
+  test "updates tags of solution" do
     solution = create :practice_solution
     submission = create(:submission, solution:)
     create(:iteration, submission:)
@@ -70,6 +70,20 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
     job = create_analyzer_job!(submission, execution_status: 200, data:)
     Submission::Analysis::Process.(job)
+  end
+
+  test "updates tags of submission" do
+    solution = create :practice_solution
+    submission = create(:submission, solution:)
+    create(:iteration, submission:)
+    data = { 'comments' => [] }
+    tags = ["construct:while-loop", "paradigm:logic"]
+    tags_data = { 'tags' => tags }
+
+    job = create_analyzer_job!(submission, execution_status: 200, data:, tags_data:)
+    Submission::Analysis::Process.(job)
+
+    assert_equal tags, submission.tags
   end
 
   test "links to approach" do

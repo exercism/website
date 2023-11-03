@@ -4,14 +4,10 @@ class Exercise::Approach::LinkMatchingSubmissionsTest < ActiveSupport::TestCase
   test "link to submissions matching the conditions that are not yet linked to any approach" do
     tag = "paradigm:imperative"
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    other_approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach:, tag:, condition_type: :any)
-    create(:exercise_approach_tag, approach: other_approach, tag:, condition_type: :all)
-    submission_1 = create(:submission, exercise:, approach: nil, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_1, tags_data: { tags: [tag] })
-    submission_2 = create(:submission, exercise:, approach: nil, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_2, tags_data: { tags: [tag] })
+    approach = create(:exercise_approach, exercise:, tags: { "any" => [tag] })
+    create(:exercise_approach, exercise:, tags: { "all" => [tag] })
+    submission_1 = create(:submission, exercise:, approach: nil, tags: [tag])
+    submission_2 = create(:submission, exercise:, approach: nil, tags: [tag])
 
     # Sanity check
     assert_nil submission_1.approach
@@ -26,12 +22,9 @@ class Exercise::Approach::LinkMatchingSubmissionsTest < ActiveSupport::TestCase
   test "don't change submissions matching the conditions that are already linked to approach" do
     tag = "paradigm:imperative"
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach:, tag:, condition_type: :any)
-    submission_1 = create(:submission, exercise:, approach:, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_1, tags_data: { tags: [tag] })
-    submission_2 = create(:submission, exercise:, approach:, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_2, tags_data: { tags: [tag] })
+    approach = create(:exercise_approach, exercise:, tags: { "any" => [tag] })
+    submission_1 = create(:submission, exercise:, approach:, tags: [tag])
+    submission_2 = create(:submission, exercise:, approach:, tags: [tag])
 
     Exercise::Approach::LinkMatchingSubmissions.(approach)
 
@@ -42,14 +35,10 @@ class Exercise::Approach::LinkMatchingSubmissionsTest < ActiveSupport::TestCase
   test "don't link to submissions already linked to other approach" do
     tag = "paradigm:imperative"
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    other_approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach:, tag:, condition_type: :any)
-    create(:exercise_approach_tag, approach: other_approach, tag:, condition_type: :all)
-    submission_1 = create(:submission, exercise:, approach: other_approach, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_1, tags_data: { tags: [tag] })
-    submission_2 = create(:submission, exercise:, approach: other_approach, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_2, tags_data: { tags: [tag] })
+    approach = create(:exercise_approach, exercise:, tags: { "any" => [tag] })
+    other_approach = create(:exercise_approach, exercise:, tags: { "all" => [tag] })
+    submission_1 = create(:submission, exercise:, approach: other_approach, tags: [tag])
+    submission_2 = create(:submission, exercise:, approach: other_approach, tags: [tag])
 
     Exercise::Approach::LinkMatchingSubmissions.(approach)
 
@@ -61,12 +50,9 @@ class Exercise::Approach::LinkMatchingSubmissionsTest < ActiveSupport::TestCase
     tag = "paradigm:imperative"
     exercise = create :practice_exercise
     approach = create(:exercise_approach, exercise:)
-    other_approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach: other_approach, tag:, condition_type: :any)
-    submission_1 = create(:submission, exercise:, approach:, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_1, tags_data: { tags: [tag] })
-    submission_2 = create(:submission, exercise:, approach:, analysis_status: :completed)
-    create(:submission_analysis, submission: submission_2, tags_data: { tags: [tag] })
+    other_approach = create(:exercise_approach, exercise:, tags: { "any" => [tag] })
+    submission_1 = create(:submission, exercise:, approach:, tags: [tag])
+    submission_2 = create(:submission, exercise:, approach:, tags: [tag])
 
     perform_enqueued_jobs do
       Exercise::Approach::LinkMatchingSubmissions.(approach)

@@ -3,6 +3,8 @@ class Exercise::Approach::LinkMatchingSubmissions
 
   initialize_with :approach
 
+  delegate :exercise, to: :approach
+
   def call
     return relink_submissions!(linked_submissions) if approach.tags.blank?
 
@@ -12,20 +14,13 @@ class Exercise::Approach::LinkMatchingSubmissions
 
   private
   memoize
-  def analyzed_exercise_submissions
-    Submission.includes(:analysis).
-      where(exercise: approach.exercise).
-      where(analysis_status: :completed)
-  end
+  def linked_submissions = Submission.where(exercise:).where(approach:)
 
   memoize
-  def linked_submissions = analyzed_exercise_submissions.where(approach:)
-
-  memoize
-  def unlinked_submissions = analyzed_exercise_submissions.where(approach: nil)
+  def unlinked_submissions = Submission.where(exercise:).where(approach: nil)
 
   def update_submissions!(submissions)
-    submissions.includes(:analysis).find_each do |submission|
+    submissions.find_each do |submission|
       new_approach = approach.matching_tags?(submission.tags) ? approach : nil
       submission.update(approach: new_approach)
     end
@@ -34,7 +29,7 @@ class Exercise::Approach::LinkMatchingSubmissions
   end
 
   def relink_submissions!(submissions)
-    submissions.includes(:analysis).find_each do |submission|
+    submissions.find_each do |submission|
       Submission::LinkToMatchingApproach.defer(submission)
     end
   rescue StandardError => e

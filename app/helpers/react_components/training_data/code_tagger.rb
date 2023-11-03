@@ -3,10 +3,11 @@ module ReactComponents
     class CodeTagger < ReactComponent
       def to_s
         super("training-data-code-tagger", {
-          code: {
-            "hello_world.rb" => "Hello World",
-            "some_lib.foo" => "URGH"
-          },
+          track: { slug: 'ruby' },
+          files: [
+            { filename: "hello_world.rb", code: "Hello World" },
+            { filename: "some_lib.foo", code: "URGH" }
+          ],
           tags: {
             'Boolean': "concept:boolean"
           },

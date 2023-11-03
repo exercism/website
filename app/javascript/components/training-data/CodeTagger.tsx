@@ -5,8 +5,13 @@ import { RightPane } from './code-tagger/right-pane'
 import type { CommunitySolution } from '../types'
 import { useLogger } from '@/hooks'
 
+type CodeTaggerFile = {
+  filename: string
+  code: string
+}
+
 type CodeTaggerProps = {
-  solution: CommunitySolution
+  files: CodeTaggerFile[]
   tags: Record<string, string>
 }
 
@@ -23,7 +28,7 @@ export default function CodeTagger({
         leftMinWidth={550}
         rightMinWidth={625}
         id="mentoring-session"
-        left={<LeftPane solution={data.solution} />}
+        left={<LeftPane solution={data.files[0].code} />}
         right={<RightPane tags={data.tags} />}
       />
     </div>

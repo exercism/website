@@ -4,8 +4,7 @@ class Exercise::Approach::LinkMatchingSubmissions
   initialize_with :approach
 
   def call
-    if approach.tags.empty?
-      relink_submissions!(linked_submissions)
+    return relink_submissions!(linked_submissions) if approach.tags.empty?
     else
       update_submissions!(linked_submissions)
       update_submissions!(unlinked_submissions)

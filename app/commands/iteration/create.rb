@@ -20,7 +20,7 @@ class Iteration::Create
       Solution.reset_counters(solution.id, :iterations)
 
       snippet_job = Iteration::GenerateSnippet.defer(iteration)
-      loc_job = Iteration::CalculateLinesOfCode.defer(iteration)
+      loc_job = Iteration::CountLinesOfCode.defer(iteration)
 
       # When the other things have finished, call publish iteration to
       # set this as the most recent iteration to the search indexes etc.

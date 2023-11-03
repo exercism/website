@@ -99,10 +99,10 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
     first_iteration = create(:iteration, submission: create(:submission, solution:), idx: 1)
     second_iteration = create(:iteration, submission: create(:submission, solution:), idx: 2)
 
-    Iteration::CalculateLinesOfCode.expects(:defer).with(second_iteration)
+    Iteration::CountLinesOfCode.expects(:defer).with(second_iteration)
     Solution::PublishIteration.(solution, nil)
 
-    Iteration::CalculateLinesOfCode.expects(:defer).with(first_iteration)
+    Iteration::CountLinesOfCode.expects(:defer).with(first_iteration)
     Solution::PublishIteration.(solution.reload, first_iteration.idx)
   end
 end

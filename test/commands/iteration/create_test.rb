@@ -69,7 +69,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
     assert enqueued_jobs.find do |job|
       job["job_class"] == "MandateJob" &&
-        job["arguments"][0] == "Iteration::CalculateLinesOfCode"
+        job["arguments"][0] == "Iteration::CountLinesOfCode"
     end
   end
 

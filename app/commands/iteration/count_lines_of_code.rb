@@ -1,4 +1,4 @@
-class Iteration::CalculateLinesOfCode
+class Iteration::CountLinesOfCode
   include Mandate
 
   queue_as :solution_processing

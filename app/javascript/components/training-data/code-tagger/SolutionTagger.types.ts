@@ -1,14 +1,14 @@
 import { File } from '@/components/types'
 
-export type SolutionTaggerProps = {
-  solution: SolutionTaggerSolution
+export type CodeTaggerProps = {
+  code: CodeTaggerCode
   tags: Tags
   links: {
     confirmTagsEndpoint: string
   }
 }
 
-export type SolutionTaggerSolution = {
+export type CodeTaggerCode = {
   track: {
     title: string
     iconUrl: string
@@ -25,6 +25,6 @@ export type SolutionTaggerSolution = {
 
 export type Tags = string[]
 
-export type SolutionTaggerConfirmTagsAPIResponse = {
+export type CodeTaggerConfirmTagsAPIResponse = {
   nextExerciseLink: string
 }

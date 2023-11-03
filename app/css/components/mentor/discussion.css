@@ -646,7 +646,7 @@
         }
     }
 
-    &.solution-tagger {
+    &.code-tagger {
         input {
             all: unset;
         }

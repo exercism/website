@@ -1,2 +1,0 @@
-class SolutionTaggerController < ApplicationController
-end

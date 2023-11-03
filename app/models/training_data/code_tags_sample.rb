@@ -1,4 +1,4 @@
-class Training::TrackTagsTuple < ApplicationRecord
+class TrainingData::CodeTagsSample < ApplicationRecord
   serialize :tags, JSON
   belongs_to :track
   belongs_to :exercise, optional: true

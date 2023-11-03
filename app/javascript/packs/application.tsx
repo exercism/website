@@ -166,11 +166,9 @@ const ContributorsList = lazy(
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
 
-const SolutionTagger = lazy(
-  () => import('@/components/ml-trainer/SolutionTagger')
-)
+const CodeTagger = lazy(() => import('@/components/training-data/CodeTagger'))
 
-const Dashboard = lazy(() => import('@/components/ml-trainer/Dashboard'))
+const Dashboard = lazy(() => import('@/components/training-data/Dashboard'))
 
 const PaymentPending = lazy(
   () => import('@/components/insiders/PaymentPending')
@@ -386,14 +384,14 @@ export const mappings = {
     </Suspense>
   ),
 
-  'ml-trainer-dashboard': (data: any) => (
+  'training-data-dashboard': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <Dashboard {...data} />
     </Suspense>
   ),
-  'ml-trainer-solution-tagger': (data: any) => (
+  'training-data-code-tagger': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <SolutionTagger data={data} />
+      <CodeTagger {...data} />
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (

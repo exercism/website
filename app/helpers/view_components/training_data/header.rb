@@ -1,5 +1,5 @@
 module ViewComponents
-  module MLTrainer
+  module TrainingData
     class Header < ViewComponent
       def to_s
         tag.nav(class: 'c-mentor-header') do
@@ -13,7 +13,7 @@ module ViewComponents
         tag.nav(class: "top") do
           tag.div(class: "title") do
             graphical_icon(:mentoring, hex: true) +
-              tag.span("ML Trainer")
+              tag.span("Training Data")
           end
         end
       end

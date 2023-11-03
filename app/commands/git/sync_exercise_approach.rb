@@ -43,6 +43,6 @@ class Git::SyncExerciseApproach
   def tags
     return nil if config[:tags].blank?
 
-    config[:tags].slice("all", "any", "not")
+    config[:tags].symbolize_keys.slice(:all, :any, :not)
   end
 end

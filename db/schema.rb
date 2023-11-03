@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_03_085543) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -228,17 +228,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
     t.index ["user_id"], name: "index_exercise_approach_introduction_contributorships_on_user_id"
   end
 
-  create_table "exercise_approach_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_approach_id", null: false
-    t.integer "condition_type", default: 0, null: false
-    t.string "tag", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["exercise_approach_id", "tag", "condition_type"], name: "index_exercise_approach_tags_approach_tag_condition_type"
-    t.index ["exercise_approach_id", "tag"], name: "index_exercise_approach_tags_on_exercise_approach_id_and_tag", unique: true
-    t.index ["exercise_approach_id"], name: "index_exercise_approach_tags_on_exercise_approach_id"
-  end
-
   create_table "exercise_approaches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.string "uuid", null: false
@@ -248,6 +237,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "tags"
     t.index ["exercise_id", "uuid"], name: "index_exercise_approaches_on_exercise_id_and_uuid", unique: true
     t.index ["exercise_id"], name: "index_exercise_approaches_on_exercise_id"
     t.index ["uuid"], name: "index_exercise_approaches_on_uuid"
@@ -384,7 +374,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.string "tag", null: false
-    t.boolean "filterable", default: true, null: false
+    t.boolean "filterable", default: true, null: false    
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -925,9 +915,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
     t.bigint "published_exercise_representation_id"
+    t.bigint "exercise_approach_id"
     t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_1"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_2"
+    t.index ["exercise_approach_id"], name: "index_solutions_on_exercise_approach_id"
     t.index ["exercise_id", "approved_by_id", "completed_at", "mentoring_requested_at", "id"], name: "mentor_selection_idx_3"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_solutions_on_exercise_id_and_git_important_files_hash"
     t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat"
@@ -1018,11 +1010,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
     t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
-  create_table "submission_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "submission_id", null: false
@@ -1063,6 +1050,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
     t.integer "exercise_id", limit: 3
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
+    t.json "tags"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
@@ -1647,6 +1635,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_084920) do
   add_foreign_key "solution_tags", "exercises"
   add_foreign_key "solution_tags", "solutions"
   add_foreign_key "solution_tags", "users"
+  add_foreign_key "solutions", "exercise_approaches"
   add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"

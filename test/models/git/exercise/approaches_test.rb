@@ -12,14 +12,22 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
         title: "Functional",
         blurb: "All those functions",
         authors: ["erikschierboom"],
-        contributors: ["ihid"]
+        contributors: ["ihid"],
+        tags: {
+          all: ["paradigm:functional"],
+          any: ["construct:linq", "technique:higher-order-functions"],
+          not: ["paradigm:imperative", "paradigm:logic"]
+        }
       },
       {
         uuid: "954be92c-a79e-4ed6-bd0f-f4db3c09a668",
         slug: "readability",
         title: "Readability",
         blurb: "This reads well!",
-        authors: %w[erikschierboom ihid]
+        authors: %w[erikschierboom ihid],
+        tags: {
+          all: ["construct:var", "construct:comment"]
+        }
       }
     ]
     assert_equal expected, approaches.approaches

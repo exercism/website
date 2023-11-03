@@ -3,14 +3,12 @@ import { SplitPane } from '../common/SplitPane'
 import { CompleteRepresentationData } from '../types'
 import { LeftPane } from './representation/left-pane'
 import { RightPane } from './representation/right-pane'
-import { useLogger } from '@/hooks'
 
 export default function Representation({
   data,
 }: {
   data: CompleteRepresentationData
 }): JSX.Element {
-  useLogger('data', data)
   return (
     <div className="c-mentor-discussion">
       <SplitPane

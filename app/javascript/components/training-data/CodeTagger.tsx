@@ -16,8 +16,8 @@ export default function CodeTagger({
         leftMinWidth={550}
         rightMinWidth={625}
         id="mentoring-session"
-        left={<LeftPane code={code} />}
-        right={<RightPane links={links} tags={tags} />}
+        left={<LeftPane code={code} links={links} />}
+        right={<RightPane tags={tags} links={links} />}
       />
     </div>
   )

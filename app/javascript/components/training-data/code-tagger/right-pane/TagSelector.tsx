@@ -14,7 +14,9 @@ export function TagSelector({
       className="creatable-select-component"
       isMulti
       options={formatTags(tags)}
-      onChange={(e) => console.log(e)}
+      onChange={(selected): void =>
+        setSelectedTags(selected.map((s) => s.label))
+      }
     />
   )
 }

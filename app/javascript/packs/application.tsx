@@ -166,9 +166,7 @@ const ContributorsList = lazy(
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
 
-const SolutionTagger = lazy(
-  () => import('@/components/training-data/CodeTagger')
-)
+const CodeTagger = lazy(() => import('@/components/training-data/CodeTagger'))
 
 const Dashboard = lazy(() => import('@/components/training-data/Dashboard'))
 
@@ -393,7 +391,7 @@ export const mappings = {
   ),
   'training-data-code-tagger': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <CodeTagger data={data} />
+      <CodeTagger {...data} />
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (

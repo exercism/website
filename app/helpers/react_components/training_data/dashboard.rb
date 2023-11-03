@@ -1,8 +1,8 @@
 module ReactComponents
-  module MLTrainer
+  module TrainingData
     class Dashboard < ReactComponent
       def to_s
-        super("ml-trainer-dashboard", {})
+        super("training-data-dashboard", {})
       end
     end
   end

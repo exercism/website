@@ -25,7 +25,6 @@ class ApplicationJobTest < ActiveJob::TestCase
   end
 
   test "deadlock raises but skips bugsnag" do
-    skip
     exception = assert_raises ActiveRecord::Deadlocked do
       TestDeadlockedJob.perform_now
     end
@@ -34,7 +33,6 @@ class ApplicationJobTest < ActiveJob::TestCase
   end
 
   test "Deserialization raises for non-active-record exception" do
-    skip
     exception = assert_raises ActiveJob::DeserializationError do
       TestDeserializationJob.perform_now
     end
@@ -46,7 +44,6 @@ class ApplicationJobTest < ActiveJob::TestCase
   end
 
   test "Deserialization drops the job with a missing model" do
-    skip
     # Don't sleep when testing things else we'll be here all day!
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       ApplicationJob.any_instance.stubs(:sleep)
@@ -62,7 +59,6 @@ class ApplicationJobTest < ActiveJob::TestCase
   end
 
   test "Deserialization drops silently if record is gone" do
-    skip
     # Don't sleep when testing things else we'll be here all day!
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       ApplicationJob.any_instance.stubs(:sleep)
@@ -80,7 +76,6 @@ class ApplicationJobTest < ActiveJob::TestCase
   end
 
   test "Deserialization retries then runs if model appears successfully" do
-    skip
     user = create :user
     user.destroy
 

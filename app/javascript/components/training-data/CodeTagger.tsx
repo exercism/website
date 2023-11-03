@@ -1,23 +1,23 @@
 import React from 'react'
 import { SplitPane } from '../common/SplitPane'
-import { LeftPane } from './solution-tagger/left-pane'
-import { RightPane } from './solution-tagger/right-pane'
+import { LeftPane } from './code-tagger/left-pane'
+import { RightPane } from './code-tagger/right-pane'
 import type { CommunitySolution } from '../types'
 import { useLogger } from '@/hooks'
 
-type SolutionTaggerProps = {
+type CodeTaggerProps = {
   solution: CommunitySolution
   tags: Record<string, string>
 }
 
-export default function SolutionTagger({
+export default function CodeTagger({
   data,
 }: {
-  data: SolutionTaggerProps
+  data: CodeTaggerProps
 }): JSX.Element {
   useLogger('data', data)
   return (
-    <div className="c-mentor-discussion solution-tagger">
+    <div className="c-mentor-discussion code-tagger">
       <SplitPane
         defaultLeftWidth="90%"
         leftMinWidth={550}

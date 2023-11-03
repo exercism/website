@@ -20,7 +20,9 @@ module ReactComponents
           },
           tags: ["concept:boolean"],
           links: {
-            confirm_tags_endpoint: ''
+            # TODO: rename these, adjust CodeTagger.types.ts
+            confirm_tags_endpoint: '',
+            go_back_to_dashboard: ''
           },
           status: :untagged
         })

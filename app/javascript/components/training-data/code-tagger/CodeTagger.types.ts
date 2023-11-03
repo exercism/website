@@ -5,6 +5,7 @@ export type CodeTaggerProps = {
   tags: Tags
   links: {
     confirmTagsEndpoint: string
+    goBackToDashboard: string
   }
 }
 

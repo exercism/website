@@ -3,6 +3,7 @@ import CodeInfo from './CodeInfo'
 import { FilePanel } from '@/components/mentoring/session/FilePanel'
 import { CloseButton } from '@/components/mentoring/session/CloseButton'
 import { CodeTaggerCode } from '../CodeTagger.types'
+import { ResultsZone } from '@/components/ResultsZone'
 
 export function LeftPane({ code }: { code: CodeTaggerCode }): JSX.Element {
   return (
@@ -11,11 +12,13 @@ export function LeftPane({ code }: { code: CodeTaggerCode }): JSX.Element {
         <CloseButton url="#" />
         <CodeInfo exercise={code.exercise} track={code.track} />
       </header>
-      <FilePanel
-        files={code.files}
-        language={code.track.highlightjsLanguage}
-        indentSize={2}
-      />
+      <ResultsZone isFetching={false}>
+        <FilePanel
+          files={code.files}
+          language={code.track.highlightjsLanguage}
+          indentSize={2}
+        />
+      </ResultsZone>
     </>
   )
 }

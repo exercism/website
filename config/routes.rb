@@ -157,10 +157,10 @@ Rails.application.routes.draw do
       get :tooltip, on: :member
     end
   end
-  namespace :ml_trainer do
+  namespace :training_data do
     root to: "external#index"
 
-    resources :solution_tags, only: %i[index show]
+    resources :code_tags_samples, only: %i[index show]
   end
 
   resource :community, only: %i[show], controller: "community"

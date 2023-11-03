@@ -1,2 +1,2 @@
-class SolutionTaggerController < ApplicationController
+class TrainingData::CodeTagsRecordsController < ApplicationController
 end

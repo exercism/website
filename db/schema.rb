@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_03_085543) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_03_102049) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1051,6 +1051,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_085543) do
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
     t.json "tags"
+    t.index "`exercise_id`, `approach_id`, (json_value(`tags`, _utf8mb4\\'$[0]\\' returning char(512) null on empty))", name: "submissions_exercise_approach_tags"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"

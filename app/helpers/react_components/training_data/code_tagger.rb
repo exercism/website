@@ -3,12 +3,25 @@ module ReactComponents
     class CodeTagger < ReactComponent
       def to_s
         super("training-data-code-tagger", {
-          track: { slug: 'ruby' },
-          files: [
-            { filename: "hello_world.rb", code: "Hello World" },
-            { filename: "some_lib.foo", code: "URGH" }
-          ],
+          code: {
+            track: {
+              title: 'Ruby',
+              iconUrl: 'ruby_icon_url',
+              highlightjsLanguage: 'ruby'
+            },
+            exercise: {
+              title: 'Two Fer',
+              iconUrl: 'twofer_icon_url'
+            },
+            files: [
+              { filename: "hello_world.rb", content: "Hello World", type: 'readonly' },
+              { filename: "some_lib.foo", content: "URGH", type: 'readonly' }
+            ]
+          },
           tags: ["concept:boolean"],
+          links: {
+            confirm_tags_endpoint: ''
+          },
           status: :untagged
         })
       end

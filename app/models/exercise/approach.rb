@@ -20,12 +20,6 @@ class Exercise::Approach < ApplicationRecord
     dependent: :destroy
   has_many :contributors, through: :contributorships, source: :contributor
 
-  has_many :tags,
-    class_name: "Exercise::Approach::Tag",
-    foreign_key: :exercise_approach_id,
-    inverse_of: :approach,
-    dependent: :destroy
-
   has_many :submissions,
     inverse_of: :approach,
     dependent: :destroy

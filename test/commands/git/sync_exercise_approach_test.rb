@@ -12,6 +12,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     assert_equal config[:title], approach.title
     assert_equal config[:blurb], approach.blurb
     assert_equal approach.git.head_sha, approach.synced_to_git_sha
+    assert_nil approach.tags
   end
 
   test "creates authors and contributors from config" do
@@ -82,78 +83,51 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
   end
 
   test "creates tags from config" do
+    tags = {
+      "all" => ["paradigm:functional"],
+      "any" => ["construct:lambda", "technique:higher-order-function"],
+      "not" => ["paradigm:imperative"]
+    }
     exercise = create :practice_exercise
     config = {
       uuid: SecureRandom.uuid,
       slug: "performance",
       title: "Performance",
       blurb: "Speed up!",
-      tags: {
-        all: ["paradigm:functional"],
-        any: ["construct:lambda", "technique:higher-order-function"],
-        not: ["paradigm:imperative"]
-      }
+      tags:
     }
 
     approach = Git::SyncExerciseApproach.(exercise, config)
 
-    assert_equal 4, approach.tags.count
-
-    functional_tag = approach.tags.find { |tag| tag.tag == "paradigm:functional" }
-    refute_nil functional_tag
-    assert_equal :all, functional_tag.condition_type
-
-    lambda_tag = approach.tags.find { |tag| tag.tag == "construct:lambda" }
-    refute_nil lambda_tag
-    assert_equal :any, lambda_tag.condition_type
-
-    higher_order_functions_tag = approach.tags.find { |tag| tag.tag == "technique:higher-order-function" }
-    refute_nil higher_order_functions_tag
-    assert_equal :any, higher_order_functions_tag.condition_type
-
-    imperative_tag = approach.tags.find { |tag| tag.tag == "paradigm:imperative" }
-    refute_nil imperative_tag
-    assert_equal :not, imperative_tag.condition_type
+    assert_equal tags, approach.tags
   end
 
   test "updates tags from config" do
+    tags = {
+      "all" => ["construct:string"],
+      "any" => ["technique:higher-order-function"],
+      "not" => ["paradigm:functional"]
+    }
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach:, tag: "paradigm:functional", condition_type: :not)
-    create(:exercise_approach_tag, approach:, tag: "technique:higher-order-function", condition_type: :any)
-    create(:exercise_approach_tag, approach:, tag: "construct:string", condition_type: :all)
+    approach = create(:exercise_approach, exercise:, tags:)
+
+    new_tags = {
+      "all" => ["paradigm:functional"],
+      "any" => ["construct:lambda", "technique:higher-order-function"],
+      "not" => ["paradigm:imperative"]
+    }
 
     config = {
       uuid: approach.uuid,
       slug: approach.slug,
       title: approach.title,
       blurb: approach.blurb,
-      tags: {
-        all: ["paradigm:functional"],
-        any: ["construct:lambda", "technique:higher-order-function"],
-        not: ["paradigm:imperative"]
-      }
+      tags: new_tags
     }
 
-    approach = Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config)
 
-    assert_equal 4, approach.tags.count
-
-    functional_tag = approach.tags.find { |tag| tag.tag == "paradigm:functional" }
-    refute_nil functional_tag
-    assert_equal :all, functional_tag.condition_type
-
-    lambda_tag = approach.tags.find { |tag| tag.tag == "construct:lambda" }
-    refute_nil lambda_tag
-    assert_equal :any, lambda_tag.condition_type
-
-    higher_order_functions_tag = approach.tags.find { |tag| tag.tag == "technique:higher-order-function" }
-    refute_nil higher_order_functions_tag
-    assert_equal :any, higher_order_functions_tag.condition_type
-
-    imperative_tag = approach.tags.find { |tag| tag.tag == "paradigm:imperative" }
-    refute_nil imperative_tag
-    assert_equal :not, imperative_tag.condition_type
+    assert_equal new_tags, approach.reload.tags
   end
 
   test "link submissions when creating approach with tags" do
@@ -164,7 +138,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       title: "Performance",
       blurb: "Speed up!",
       tags: {
-        all: ["paradigm:functional"]
+        "all" => ["paradigm:functional"]
       }
     }
 
@@ -183,19 +157,12 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
   end
 
   test "link submissions when tags are updated from config" do
+    tags = { "any" => %w[paradigm:imperative paradigm:functional] }
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach:, tag: "paradigm:imperative", condition_type: :all)
+    approach = create(:exercise_approach, exercise:, tags:)
 
-    config = {
-      uuid: approach.uuid,
-      slug: approach.slug,
-      title: approach.title,
-      blurb: approach.blurb,
-      tags: {
-        all: ["paradigm:functional"]
-      }
-    }
+    config = approach.slice(:uuid, :slug, :title, :blurb)
+    config[:tags] = { "all" => %w[paradigm:imperative] }
 
     Exercise::Approach::LinkMatchingSubmissions.expects(:call).with(approach)
 
@@ -203,20 +170,11 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
   end
 
   test "don't link submissions when tags haven't changed" do
+    tags = { "any" => %w[paradigm:imperative paradigm:functional] }
     exercise = create :practice_exercise
-    approach = create(:exercise_approach, exercise:)
-    create(:exercise_approach_tag, approach:, tag: "paradigm:imperative", condition_type: :any)
-    create(:exercise_approach_tag, approach:, tag: "paradigm:functional", condition_type: :any)
+    approach = create(:exercise_approach, exercise:, tags:)
 
-    config = {
-      uuid: approach.uuid,
-      slug: approach.slug,
-      title: approach.title,
-      blurb: approach.blurb,
-      tags: {
-        any: ["paradigm:imperative", "paradigm:functional"]
-      }
-    }
+    config = approach.slice(:uuid, :slug, :title, :blurb, :tags)
 
     Exercise::Approach::LinkMatchingSubmissions.expects(:call).with(approach).never
 

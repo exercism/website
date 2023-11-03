@@ -5,11 +5,9 @@ class Git::SyncExerciseApproach
 
   def call
     find_or_create!.tap do |approach|
-      old_tags = approach.tags.pluck(:tag).sort
       approach.update!(attributes_for_update(approach))
-      new_tags = approach.tags.pluck(:tag).sort
 
-      Exercise::Approach::LinkMatchingSubmissions.(approach) if old_tags != new_tags
+      Exercise::Approach::LinkMatchingSubmissions.(approach) if approach.tags_previously_changed?
     end
   end
 
@@ -28,7 +26,7 @@ class Git::SyncExerciseApproach
     attributes_for_create.merge({
       authorships: authorships(approach),
       contributorships: contributorships(approach),
-      tags: tags(approach)
+      tags:
     })
   end
 
@@ -42,13 +40,9 @@ class Git::SyncExerciseApproach
       map { |contributor| ::Exercise::Approach::Contributorship::Create.(approach, contributor) }
   end
 
-  def tags(approach)
-    config_tags = config[:tags].to_h
+  def tags
+    return nil if config[:tags].blank?
 
-    %i[all any not].flat_map do |condition_type|
-      config_tags[condition_type].to_a.map do |tag|
-        Exercise::Approach::Tag::Create.(approach, tag, condition_type)
-      end
-    end
+    config[:tags].slice("all", "any", "not")
   end
 end

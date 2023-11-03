@@ -11,7 +11,11 @@ export function LeftPane({ code }: { code: CodeTaggerCode }): JSX.Element {
         <CloseButton url="#" />
         <CodeInfo exercise={code.exercise} track={code.track} />
       </header>
-      <FilePanel files={code.files} language={code.language} indentSize={2} />
+      <FilePanel
+        files={code.files}
+        language={code.track.highlightjsLanguage}
+        indentSize={2}
+      />
     </>
   )
 }

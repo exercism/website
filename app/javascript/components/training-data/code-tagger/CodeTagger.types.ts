@@ -20,7 +20,6 @@ export type CodeTaggerCode = {
   }
 
   files: readonly File[]
-  language: string
 }
 
 export type Tags = string[]

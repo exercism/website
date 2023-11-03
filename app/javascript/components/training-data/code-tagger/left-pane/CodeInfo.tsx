@@ -1,7 +1,7 @@
 import React from 'react'
 import { TrackIcon, Avatar } from '@/components/common'
 
-export default function SolutionInfo({
+export default function CodeInfo({
   track,
   exercise,
 }: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'
-import { Tags } from '../SolutionTagger.types'
+import { Tags } from '../CodeTagger.types'
 
 export function TagSelector({
   tags,

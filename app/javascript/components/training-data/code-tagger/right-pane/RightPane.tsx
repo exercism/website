@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { PlaceholderStuff } from './PlaceholderStuff'
 import { TagSelector } from './TagSelector'
 import {
-  SolutionTaggerConfirmTagsAPIResponse,
-  SolutionTaggerProps,
+  CodeTaggerConfirmTagsAPIResponse,
+  CodeTaggerProps,
   Tags,
-} from '../SolutionTagger.types'
+} from '../CodeTagger.types'
 import { useMutation } from 'react-query'
 import { redirectTo, typecheck } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
@@ -13,9 +13,9 @@ import { sendRequest } from '@/utils/send-request'
 export function RightPane({
   tags,
   links,
-}: Pick<SolutionTaggerProps, 'tags' | 'links'>): JSX.Element {
+}: Pick<CodeTaggerProps, 'tags' | 'links'>): JSX.Element {
   const [selectedTags, setSelectedTags] = useState<Tags>([])
-  const [confirmTags] = useMutation<SolutionTaggerConfirmTagsAPIResponse>(
+  const [confirmTags] = useMutation<CodeTaggerConfirmTagsAPIResponse>(
     async () => {
       const { fetch } = sendRequest({
         endpoint: links.confirmTagsEndpoint,

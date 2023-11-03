@@ -2,7 +2,7 @@ import React from 'react'
 import { SplitPane } from '../common/SplitPane'
 import { LeftPane } from './code-tagger/left-pane'
 import { RightPane } from './code-tagger/right-pane'
-import { CodeTaggerProps } from './code-tagger/SolutionTagger.types'
+import { CodeTaggerProps } from './code-tagger/CodeTagger.types'
 
 export default function CodeTagger({
   code,
@@ -16,7 +16,7 @@ export default function CodeTagger({
         leftMinWidth={550}
         rightMinWidth={625}
         id="mentoring-session"
-        left={<LeftPane solution={code.files[0]} />}
+        left={<LeftPane code={code} />}
         right={<RightPane links={links} tags={tags} />}
       />
     </div>

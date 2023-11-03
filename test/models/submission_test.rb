@@ -602,4 +602,12 @@ class SubmissionTest < ActiveSupport::TestCase
 
     assert_equal solution.exercise, submission.exercise
   end
+
+  test "tagged and untagged scopes" do
+    tagged = create(:submission, tags: ["construct:if"])
+    untagged = create(:submission, tags: nil)
+
+    assert_equal [tagged], Submission.tagged
+    assert_equal [untagged], Submission.untagged
+  end
 end

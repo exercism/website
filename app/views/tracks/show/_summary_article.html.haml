@@ -73,6 +73,7 @@
         - if user_track.num_completed_exercises.zero? && user_track.num_locked_exercises.positive?
           - boxes << render("tracks/show/stats_box_locked_exercises", track:, user_track:)
 
+      - boxes = boxes.first(2)
       .grid.gap-24{ class: "grid-cols-#{boxes.size}" }
         - boxes.each do |box|
           = raw box

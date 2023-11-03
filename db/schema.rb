@@ -374,7 +374,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_03_085543) do
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "exercise_id", null: false
     t.string "tag", null: false
-    t.boolean "filterable", default: true, null: false    
+    t.boolean "filterable", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true

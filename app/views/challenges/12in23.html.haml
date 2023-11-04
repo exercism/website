@@ -140,7 +140,7 @@
               %h2.text-h6.mt-20.mb-12
                 Published Exercises
                 .inline.text-14 (#{@badge_progress_exercise_earned_count} / #{@badge_progress_exercise_count} so far)
-              .grid.grid-cols-6.gap-12
+              .grid.grid-cols-5.gap-12
                 - @badge_progress_exercises.each do |exercise_progress|
                   - if exercise_progress[:earned_for].present?
                     = link_to track_exercise_path(exercise_progress[:earned_for], exercise_progress[:slug]), class: "relative block" do

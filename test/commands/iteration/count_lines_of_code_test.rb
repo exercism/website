@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
+class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
   test "num_loc is updated for iteration" do
     submission = create :submission
     create :submission_file, submission:, content: "Some source code"
@@ -17,7 +17,7 @@ class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
-    Iteration::CalculateLinesOfCode.(iteration)
+    Iteration::CountLinesOfCode.(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
     assert_equal num_loc, iteration.solution.reload.num_loc
@@ -26,14 +26,14 @@ class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
   test "ignores nil iteration" do
     iteration = nil
 
-    Iteration::CalculateLinesOfCode.(iteration)
+    Iteration::CountLinesOfCode.(iteration)
   end
 
   test "ignores iteration without valid filepaths" do
     submission = create :submission
     iteration = create(:iteration, submission:)
 
-    Iteration::CalculateLinesOfCode.(iteration)
+    Iteration::CountLinesOfCode.(iteration)
 
     assert_nil iteration.reload.num_loc
     assert_nil iteration.solution.reload.num_loc
@@ -57,7 +57,7 @@ class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
-    Iteration::CalculateLinesOfCode.(latest_iteration)
+    Iteration::CountLinesOfCode.(latest_iteration)
 
     assert_equal num_loc, latest_iteration.reload.num_loc
     assert_equal num_loc, latest_iteration.solution.reload.num_loc
@@ -82,7 +82,7 @@ class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
-    Iteration::CalculateLinesOfCode.(iteration)
+    Iteration::CountLinesOfCode.(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
     assert_equal other_iteration.num_loc, solution.reload.num_loc
@@ -108,7 +108,7 @@ class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
-    Iteration::CalculateLinesOfCode.(iteration)
+    Iteration::CountLinesOfCode.(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
     assert_equal iteration.num_loc, solution.reload.num_loc
@@ -134,7 +134,7 @@ class Iteration::CalculateLinesOfCodeTest < ActiveJob::TestCase
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
 
-    Iteration::CalculateLinesOfCode.(iteration)
+    Iteration::CountLinesOfCode.(iteration)
 
     assert_equal num_loc, iteration.reload.num_loc
     assert_equal published_iteration.num_loc, solution.reload.num_loc

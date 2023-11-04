@@ -7,7 +7,7 @@ class Solution::UpdateNumLoc
     if iteration && iteration.num_loc.nil?
       Solution::UpdateNumLoc.defer(solution,
         prereq_jobs: [
-          Iteration::CalculateLinesOfCode.defer(iteration)
+          Iteration::CountLinesOfCode.defer(iteration)
         ])
       return
     end

@@ -546,7 +546,9 @@ Track::Trophies::Reseed.create!
 Solution.published.each do |solution|
   TrainingData::CodeTagsSample.create!(
     solution: solution,
-    code: solution.iterations.last.files.first.content
+    files: solution.iterations.last.files.map { |file|
+      { filename: file.filename, code: file.content }
+    }
   )
 end
 

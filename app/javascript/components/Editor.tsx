@@ -191,10 +191,9 @@ export default ({
         }
 
         if (editorError) {
-          const errorResult = await editorError
           dispatch({
             status: EditorStatus.CREATE_SUBMISSION_FAILED,
-            error: errorResult,
+            error: await editorError,
           })
         }
       },
@@ -305,10 +304,9 @@ export default ({
         }
 
         if (editorError) {
-          const errorResult = await editorError
           dispatch({
             status: EditorStatus.REVERT_FAILED,
-            error: errorResult,
+            error: await editorError,
           })
         }
       },
@@ -349,10 +347,9 @@ export default ({
         }
 
         if (editorError) {
-          const errorResult = await editorError
           dispatch({
             status: EditorStatus.REVERT_FAILED,
-            error: errorResult,
+            error: await editorError,
           })
         }
       },

@@ -7,7 +7,6 @@ import { Modal, ModalProps } from '../Modal'
 import * as Step from './finish-mentor-discussion-modal'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
 import currency from 'currency.js'
-import { useLogger } from '@/hooks'
 
 export type ReportReason = 'coc' | 'incorrect' | 'other'
 
@@ -57,7 +56,6 @@ const Inner = ({
 }): JSX.Element => {
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
-  useLogger('report', report)
   const [donatedAmount, setDonatedAmount] = useState<currency>(currency(0))
 
   // React 18 renders components async, we need to wait for report to arrive,

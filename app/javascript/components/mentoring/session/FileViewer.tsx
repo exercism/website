@@ -20,8 +20,9 @@ export const FileViewer = ({
         data-highlight-line-numbers={true}
         data-highlight-line-number-start={1}
         style={{ tabSize: indentSize }}
-        dangerouslySetInnerHTML={{ __html: file.content }}
-      />
+      >
+        {file.content}
+      </code>
     </pre>
   )
 }

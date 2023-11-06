@@ -1,6 +1,7 @@
 import React from 'react'
 import type { TrackStatusTagsType, Tag } from './TrackStatusTags.types'
 import { TagTogglerButton } from './TagTogglerButton'
+import { capitalize } from '@/utils/capitalize'
 
 export function RecordRow({
   status,
@@ -16,7 +17,7 @@ export function RecordRow({
       <div className="record-name">
         {tag.tag
           .split(':')
-          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .map((part) => capitalize(part))
           .join(' → ')}
       </div>
       <div className="record-value dynamic">

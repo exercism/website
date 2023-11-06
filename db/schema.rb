@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_06_074640) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "add_uuid_to_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -871,6 +876,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
     t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "track_id", null: false
     t.index ["exercise_id"], name: "index_solution_tags_on_exercise_id"
     t.index ["solution_id", "tag"], name: "index_solution_tags_on_solution_id_and_tag", unique: true
     t.index ["solution_id"], name: "index_solution_tags_on_solution_id"
@@ -1145,6 +1151,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
     t.index ["uuid"], name: "index_track_concepts_on_uuid", unique: true
   end
 
+  create_table "track_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "track_id", null: false
+    t.string "tag", null: false
+    t.boolean "enabled", default: true, null: false
+    t.boolean "filterable", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "track_trophies", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.json "valid_track_slugs"
@@ -1179,7 +1194,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
-  create_table "training_track_tags_tuples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "training_data_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.bigint "exercise_id"
     t.bigint "solution_id"
@@ -1189,9 +1204,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_26_094933) do
     t.text "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["exercise_id"], name: "index_training_track_tags_tuples_on_exercise_id"
-    t.index ["solution_id"], name: "index_training_track_tags_tuples_on_solution_id"
-    t.index ["track_id"], name: "index_training_track_tags_tuples_on_track_id"
+    t.string "uuid", null: false
+    t.index ["exercise_id"], name: "index_training_data_code_tags_samples_on_exercise_id"
+    t.index ["solution_id"], name: "index_training_data_code_tags_samples_on_solution_id"
+    t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"
   end
 
   create_table "user_acquired_badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

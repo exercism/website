@@ -8,8 +8,11 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   enum status: { untagged: 0, machine_tagged: 1, human_tagged: 2, community_checked: 3, admin_checked: 4 }
 
   before_create do
+    self.uuid = SecureRandom.compact_uuid unless self.uuid
     self.dataset = (rand < 0.9 ? :training : :validation) unless dataset
   end
+
+  def to_param = uuid
 
   def dataset = super.to_sym
   def status = super.to_sym

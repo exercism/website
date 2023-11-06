@@ -544,6 +544,8 @@ kaido.perks.create!(
 Track::Trophies::Reseed.create!
 
 Solution.published.each do |solution|
+  next if solution.iterations.last.files.map(&:content).all?(&:empty?)
+
   TrainingData::CodeTagsSample.create!(
     solution: solution,
     files: solution.iterations.last.files.map { |file|

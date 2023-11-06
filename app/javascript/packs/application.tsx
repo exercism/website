@@ -323,6 +323,12 @@ export const mappings = {
       />
     </Suspense>
   ),
+
+  'track-build-track-status-tags': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <TrackStatusTags />
+    </Suspense>
+  ),
   'common-credits': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <Credits
@@ -668,6 +674,7 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
+import { TrackStatusTags } from '@/components/track/build/TrackStatusTags'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

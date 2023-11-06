@@ -28,7 +28,7 @@ class API::SolutionsController < API::BaseController
     output = {
       solution: SerializeSolution.(@solution)
     }
-    output[:iterations] = SerializeIterations.(@solution.iterations, sideload: %i[files automated_feedback]) if sideload?(:iterations)
+    output[:iterations] = SerializeIterations.(@solution.iterations) if sideload?(:iterations)
     render json: output
   end
 

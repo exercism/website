@@ -64,13 +64,15 @@ export default function IterationsList({
   const queryClient = useQueryClient()
   const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
 
-  // queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+  useEffect(() => {
+    queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+  }, [])
 
-  const { data: resolvedData, isFetching } = usePaginatedRequestQuery<{
+  const { data: resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
   }>([CACHE_KEY], {
     ...request,
-    options: { ...request.options, staleTime: 30 * 1000 },
+    options: { ...request.options, staleTime: 1000 },
   })
 
   const handleDelete = (deletedIteration: Iteration) => {
@@ -88,8 +90,7 @@ export default function IterationsList({
           ),
         }
       }
-    ),
-      []
+    )
   }
 
   useEffect(() => {

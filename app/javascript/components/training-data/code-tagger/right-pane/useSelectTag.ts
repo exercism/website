@@ -22,8 +22,8 @@ export function useSelectTag({ links }: Pick<CodeTaggerProps, 'links'>) {
       return fetch
     },
     {
-      onSuccess: (data) => {
-        redirectTo(data.nextExerciseLink)
+      onSuccess: () => {
+        redirectTo(links.nextTaggableCodeLink)
       },
     }
   )

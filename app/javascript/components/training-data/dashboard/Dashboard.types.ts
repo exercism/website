@@ -50,3 +50,5 @@ export type TrainingData = {
     self: string
   }
 }
+
+export type TrainingDataStatuses = TrainingDataStatus[]

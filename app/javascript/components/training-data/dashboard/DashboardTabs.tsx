@@ -1,48 +1,31 @@
 import React from 'react'
 import { StatusTab } from '@/components/mentoring/inbox/StatusTab'
-import { TrainingDataStatus } from './Dashboard.types'
+import { TrainingDataStatus, TrainingDataStatuses } from './Dashboard.types'
+import { useLogger } from '@/hooks'
+import { capitalize } from '@/utils/capitalize'
 
 export function DashboardTabs({
   setStatus,
   currentStatus,
-  resolvedData,
+  statuses,
 }: {
   setStatus: (status: TrainingDataStatus) => void
   currentStatus: TrainingDataStatus
-  resolvedData?: any
+  statuses: TrainingDataStatuses
 }) {
   return (
     <div className="tabs">
-      <StatusTab<TrainingDataStatus>
-        status="untagged"
-        currentStatus={currentStatus}
-        setStatus={setStatus}
-      >
-        Untagged
-        {resolvedData ? (
-          <div className="count">{resolvedData.meta.awaitingMentorTotal}</div>
-        ) : null}
-      </StatusTab>
-      <StatusTab<TrainingDataStatus>
-        status="machine_tagged"
-        currentStatus={currentStatus}
-        setStatus={setStatus}
-      >
-        Machine Tagged
-        {resolvedData ? (
-          <div className="count">{resolvedData.meta.awaitingStudentTotal}</div>
-        ) : null}
-      </StatusTab>
-      <StatusTab<TrainingDataStatus>
-        status="human_tagged"
-        currentStatus={currentStatus}
-        setStatus={setStatus}
-      >
-        Human tagged
-        {resolvedData ? (
-          <div className="count">{resolvedData.meta.finishedTotal}</div>
-        ) : null}
-      </StatusTab>
+      {statuses.map((status) => {
+        return (
+          <StatusTab<TrainingDataStatus>
+            status={status}
+            currentStatus={currentStatus}
+            setStatus={setStatus}
+          >
+            {capitalize(status).replace('_', ' ')}
+          </StatusTab>
+        )
+      })}
     </div>
   )
 }

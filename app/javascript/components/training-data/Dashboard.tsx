@@ -2,7 +2,10 @@ import React from 'react'
 import { TaggableCodeList } from './dashboard/TaggableCodeList'
 import { Request } from '@/hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
-import { TrainingDataRequest } from './dashboard/Dashboard.types'
+import {
+  TrainingDataRequest,
+  TrainingDataStatuses,
+} from './dashboard/Dashboard.types'
 import { DashboardTabs } from './dashboard/DashboardTabs'
 import { DashboardHeader } from './dashboard/DashboardHeader'
 import { useDashboard } from './dashboard/useDashboard'
@@ -10,9 +13,11 @@ import { useDashboard } from './dashboard/useDashboard'
 export default function Dashboard({
   tracksRequest,
   trainingDataRequest,
+  statuses,
 }: {
   tracksRequest: Request
   trainingDataRequest: TrainingDataRequest
+  statuses: TrainingDataStatuses
 }): JSX.Element {
   const {
     request,
@@ -34,6 +39,7 @@ export default function Dashboard({
       <DashboardTabs
         currentStatus={request.query.status}
         setStatus={setStatus}
+        statuses={statuses}
       />
       <div className="container">
         <DashboardHeader

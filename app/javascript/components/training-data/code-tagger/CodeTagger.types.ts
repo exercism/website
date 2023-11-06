@@ -6,6 +6,7 @@ export type CodeTaggerProps = {
   links: {
     confirmTagsApi: string
     trainingDataDashboard: string
+    nextTaggableCodeLink: string
   }
 }
 

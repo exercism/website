@@ -9,7 +9,7 @@ export function UnlockHelpButton({
 }: {
   unlockUrl: string
 }): JSX.Element {
-  async function UnlockHelp() {
+  function UnlockHelp() {
     const { fetch } = sendRequest({
       endpoint: unlockUrl,
       body: '',
@@ -39,7 +39,7 @@ export function UnlockHelpButton({
     )
   }
 
-  const { mutate: unlockHelp, error } = useMutation(async () => UnlockHelp(), {
+  const { mutate: unlockHelp, error } = useMutation(UnlockHelp, {
     onSuccess: () => window.location.reload(),
   })
 

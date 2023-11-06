@@ -47,10 +47,7 @@ export default function ContributorsList({
     error,
   } = usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
     ['contributors-list', request.endpoint, request.query],
-    {
-      ...request,
-      options: { ...request.options },
-    }
+    request
   )
   const latestData = useLatestData(resolvedData)
 

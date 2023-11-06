@@ -71,19 +71,14 @@ export function useAutomation(
     ...Object.values(request.query),
   ]
 
-  const queryClient = useQueryClient()
-
-  queryClient.setQueryData([CACHE_KEY], request.options.initialData)
-
   const {
     status,
     error,
     data: resolvedData,
     isFetching,
-    isRefetching,
   } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
     ...request,
-    options: { ...request.options },
+    options: { ...request.options, staleTime: 1000 },
   })
 
   const latestData = useLatestData(resolvedData)

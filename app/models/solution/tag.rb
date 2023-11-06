@@ -3,6 +3,7 @@ class Solution::Tag < ApplicationRecord
 
   belongs_to :solution
   belongs_to :exercise
+  belongs_to :track
   belongs_to :user
 
   before_validation on: :create do

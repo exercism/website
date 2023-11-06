@@ -6,12 +6,12 @@ module ReactComponents
           code: {
             track: {
               title: 'Ruby',
-              iconUrl: 'ruby_icon_url',
-              highlightjsLanguage: 'ruby'
+              icon_url: 'ruby_icon_url',
+              highlightjs_language: 'ruby'
             },
             exercise: {
               title: 'Two Fer',
-              iconUrl: 'twofer_icon_url'
+              icon_url: 'twofer_icon_url'
             },
             files: [
               { filename: "hello_world.rb", content: "Hello World", type: 'readonly' },

@@ -5,12 +5,8 @@ module ReactComponents
         super("training-data-dashboard", {
           tranining_data_request:,
           tracks_request:
-
         })
       end
-
-      DEFAULT_STATUS = "untagged".freeze
-      private_constant :DEFAULT_STATUS
 
       private
       def training_data_request
@@ -33,6 +29,9 @@ module ReactComponents
           options: { stale_time: 0 }
         }
       end
+
+      DEFAULT_STATUS = :untagged
+      private_constant :DEFAULT_STATUS
     end
   end
 end

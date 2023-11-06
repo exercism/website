@@ -1,4 +1,4 @@
-class Training::TrackTagsTuple::GenerateTags
+class TrainingData::CodeTagsSample::GenerateTags
   include Mandate
 
   initialize_with :tuple, :model, :openai_key

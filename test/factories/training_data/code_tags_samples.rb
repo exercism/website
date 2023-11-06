@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :training_track_tags_tuples, class: 'Training::TrackTagsTuple' do
+  factory :training_data_code_tags_sample, class: 'TrainingData::CodeTagsSample' do
     track { create :track }
     code { "Hello, World!" }
   end

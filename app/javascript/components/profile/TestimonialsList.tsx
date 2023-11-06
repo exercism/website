@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -34,7 +33,6 @@ export default function TestimonialsList({
     ['profile-testimonials-list-key', request.endpoint, request.query],
     request
   )
-  const latestData = useLatestData(resolvedData)
 
   const handleTestimonialOpen = useCallback(
     (uuid: string) => {
@@ -74,7 +72,7 @@ export default function TestimonialsList({
               })}
             </div>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

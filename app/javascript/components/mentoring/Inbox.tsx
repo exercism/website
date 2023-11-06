@@ -10,7 +10,6 @@ import {
 } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '../ResultsZone'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 
@@ -70,7 +69,6 @@ export default function Inbox({
     ['mentor-discussion-list', request.endpoint, request.query],
     request
   )
-  const latestData = useLatestData(resolvedData)
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -154,7 +152,6 @@ export default function Inbox({
         </header>
         <ResultsZone isFetching={isFetching}>
           <DiscussionList
-            latestData={latestData}
             resolvedData={resolvedData}
             status={status}
             refetch={refetch}

@@ -5,7 +5,6 @@ import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -56,7 +55,6 @@ export function ContributionsList({
     query: removeEmpty(request.query),
     options: { ...request.options, enabled: isEnabled },
   })
-  const latestData = useLatestData(resolvedData)
 
   const requestQuery = useDeepMemo(request.query)
   const setCategory = useCallback(
@@ -109,7 +107,7 @@ export function ContributionsList({
               <React.Fragment>
                 <ContributionResults data={resolvedData} cacheKey={cacheKey} />
                 <Pagination
-                  disabled={latestData === undefined}
+                  disabled={resolvedData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={(p) => {

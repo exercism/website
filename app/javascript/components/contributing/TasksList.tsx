@@ -8,7 +8,6 @@ import {
 } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { TrackSelect } from '@/components/common/TrackSelect'
@@ -76,7 +75,6 @@ export default function TasksList({
     ['contributing-tasks', request.endpoint, request.query],
     request
   )
-  const latestData = useLatestData(resolvedData)
 
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
@@ -171,7 +169,7 @@ export default function TasksList({
                   <Task task={task} key={task.uuid} />
                 ))}
                 <Pagination
-                  disabled={latestData === undefined}
+                  disabled={resolvedData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={(p) => {

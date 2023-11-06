@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import pluralize from 'pluralize'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { fromNow } from '@/utils/date'
 import {
   Avatar,
@@ -50,7 +49,6 @@ export const PreviousMentoringSessionsModal = ({
     PaginatedResult<readonly MentorDiscussion[]>,
     Error | Response
   >([request.endpoint, request.query], request)
-  const latestData = useLatestData(resolvedData)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 
@@ -85,7 +83,7 @@ export const PreviousMentoringSessionsModal = ({
                     />
                   ))}
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={request.query.page || 1}
                     total={resolvedData.meta.totalPages}
                     setPage={(p) => {
@@ -139,7 +137,7 @@ export const PreviousMentoringSessionsModal = ({
                     />
                   ))}
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={request.query.page || 1}
                     total={resolvedData.meta.totalPages}
                     setPage={(p) => {

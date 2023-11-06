@@ -47,7 +47,6 @@ export const useMentoringAutomation = ({
   page: number
   setPage: (page: number) => void
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   isFetching: boolean
   status: QueryStatus
   error: unknown
@@ -63,7 +62,6 @@ export const useMentoringAutomation = ({
   const debouncedQuery = useDebounce(query, 500)
   const {
     data: resolvedData,
-    latestData,
     isFetching,
     status,
     error,
@@ -83,7 +81,6 @@ export const useMentoringAutomation = ({
 
   return {
     resolvedData,
-    latestData,
     status,
     isFetching,
     criteria: request.query.criteria,

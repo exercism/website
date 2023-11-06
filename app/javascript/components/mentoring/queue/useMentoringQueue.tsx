@@ -4,7 +4,6 @@ import { useDebounce } from '@/hooks'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {
@@ -49,7 +48,6 @@ export const useMentoringQueue = ({
   page: number
   setPage: (page: number) => void
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   isFetching: boolean
   status: QueryStatus
   error: unknown
@@ -81,13 +79,11 @@ export const useMentoringQueue = ({
       },
     }
   )
-  const latestData = useLatestData(resolvedData)
 
   useHistory({ pushOn: debouncedQuery })
 
   return {
     resolvedData,
-    latestData,
     status,
     isFetching,
     criteria: request.query.criteria,

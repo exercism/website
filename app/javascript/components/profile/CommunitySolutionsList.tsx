@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { Pagination } from '../common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '../FetchingBoundary'
@@ -52,7 +51,6 @@ export default function CommunitySolutionsList({
     ['profile-community-solution-list', request.endpoint, request.query],
     request
   )
-  const latestData = useLatestData(resolvedData)
   const [criteria, setCriteria] = useState(request.query?.criteria)
 
   const setTrack = useCallback(
@@ -119,7 +117,7 @@ export default function CommunitySolutionsList({
                 })}
               </div>
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

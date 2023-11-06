@@ -52,7 +52,6 @@ export function Representations({
     error,
     isFetching,
     resolvedData,
-    latestData,
     criteria,
     setCriteria,
     order,
@@ -151,7 +150,6 @@ export function Representations({
             error={error}
             withFeedback={withFeedback}
             selectedTab={selectedTab}
-            latestData={latestData}
             page={page}
             setPage={setPage}
             resolvedData={resolvedData}

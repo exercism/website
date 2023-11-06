@@ -3,7 +3,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'
@@ -62,7 +61,6 @@ export default function NotificationsList({
     error,
     isFetching,
   } = usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
-  const latestData = useLatestData(resolvedData)
 
   const [selected, setSelected] = useState<Notification[]>([])
 
@@ -179,7 +177,7 @@ export default function NotificationsList({
                 disabled={disabled}
               />
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

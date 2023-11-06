@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDebounce, useLogger } from '@/hooks'
+import { useDebounce } from '@/hooks'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
-import { useQueryClient, type QueryStatus } from '@tanstack/react-query'
+import { type QueryStatus } from '@tanstack/react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
 
 export type APIResponse = {
@@ -22,7 +21,6 @@ type returnMentoringAutomation = {
   error: unknown
   isFetching: boolean
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   criteria?: string
   setCriteria: (criteria: string) => void
   order: string
@@ -77,8 +75,6 @@ export function useAutomation(
     data: resolvedData,
     isFetching,
   } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
-
-  const latestData = useLatestData(resolvedData)
 
   const debouncedCriteria = useDebounce(criteria, 500)
 
@@ -137,7 +133,6 @@ export function useAutomation(
     error,
     isFetching,
     resolvedData,
-    latestData,
     criteria,
     setCriteria,
     order: request.query.order,

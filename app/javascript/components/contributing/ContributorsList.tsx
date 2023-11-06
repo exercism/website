@@ -9,7 +9,6 @@ import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { useList } from '@/hooks/use-list'
 import { useQueryParams } from '@/hooks/use-query-params'
-import { useLatestData } from '@/hooks/use-latest-data'
 import {
   ContributorRow,
   PeriodButton,
@@ -49,7 +48,6 @@ export default function ContributorsList({
     ['contributors-list', request.endpoint, request.query],
     request
   )
-  const latestData = useLatestData(resolvedData)
 
   const requestQuery = useDeepMemo(request.query)
   const setQueryValue = useCallback(
@@ -128,7 +126,7 @@ export default function ContributorsList({
                 ))}
               </div>
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

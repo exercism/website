@@ -5,7 +5,6 @@ import { SolutionProps, Solution } from './Solution'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { ResultsZone } from '@/components/ResultsZone'
 import { Pagination, GraphicalIcon } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -55,7 +54,6 @@ export const SolutionsList = ({
     query: removeEmpty(request.query),
     options: { ...request.options, enabled: isEnabled },
   })
-  const latestData = useLatestData(resolvedData)
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -156,7 +154,7 @@ export const SolutionsList = ({
                   </div>
                 </div>
                 <Pagination
-                  disabled={latestData === undefined}
+                  disabled={resolvedData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={(p) => {

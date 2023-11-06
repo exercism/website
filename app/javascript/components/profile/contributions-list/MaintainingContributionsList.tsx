@@ -1,7 +1,6 @@
 import React from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { fromNow } from '@/utils/date'
 import { scrollToTop } from '@/utils/scroll-to-top'
 import {
@@ -34,7 +33,6 @@ export const MaintainingContributionsList = ({
     PaginatedResult<ContributionProps[]>,
     Error | Response
   >([request.endpoint, request.query], request)
-  const latestData = useLatestData(resolvedData)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -51,7 +49,7 @@ export const MaintainingContributionsList = ({
               ))}
             </div>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

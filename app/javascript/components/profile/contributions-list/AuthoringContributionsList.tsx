@@ -1,7 +1,6 @@
 import React from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
-import { useLatestData } from '@/hooks/use-latest-data'
 import { Pagination } from '@/components/common'
 import ExerciseWidget from '@/components/common/ExerciseWidget'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
@@ -26,7 +25,6 @@ export const AuthoringContributionsList = ({
     PaginatedResult<ExerciseAuthorship[]>,
     Error | Response
   >([request.endpoint, request.query], request)
-  const latestData = useLatestData(resolvedData)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -52,7 +50,7 @@ export const AuthoringContributionsList = ({
               </div>
             </div>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

@@ -11,14 +11,12 @@ type Links = {
 
 export const DiscussionList = ({
   resolvedData,
-  latestData,
   refetch,
   status,
   setPage,
   links,
 }: {
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   status: QueryStatus
   setPage: (page: number) => void
   links: Links
@@ -55,7 +53,7 @@ export const DiscussionList = ({
                 ))}
                 <footer>
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={resolvedData.meta.currentPage}
                     total={resolvedData.meta.totalPages}
                     setPage={(p) => {

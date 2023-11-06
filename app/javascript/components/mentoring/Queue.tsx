@@ -59,7 +59,6 @@ export default function Queue({
     useState<MentoredTrackExercise | null>(defaultExercise)
   const {
     resolvedData,
-    latestData,
     isFetching,
     criteria,
     setCriteria,
@@ -137,7 +136,6 @@ export default function Queue({
             error={error}
             page={page}
             resolvedData={resolvedData}
-            latestData={latestData}
             setPage={setPage}
           />
         </ResultsZone>

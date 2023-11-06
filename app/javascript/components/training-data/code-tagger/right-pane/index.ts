@@ -1,1 +1,0 @@
-export { RightPane } from './RightPane'

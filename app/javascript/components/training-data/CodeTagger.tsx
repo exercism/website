@@ -1,7 +1,7 @@
 import React from 'react'
 import { SplitPane } from '../common/SplitPane'
-import { LeftPane } from './code-tagger/left-pane'
-import { RightPane } from './code-tagger/right-pane'
+import { LeftPane } from './code-tagger/left-pane/LeftPane'
+import { RightPane } from './code-tagger/right-pane/RightPane'
 import { CodeTaggerProps } from './code-tagger/CodeTagger.types'
 
 export default function CodeTagger({

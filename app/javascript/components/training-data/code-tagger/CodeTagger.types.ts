@@ -4,8 +4,8 @@ export type CodeTaggerProps = {
   code: CodeTaggerCode
   tags: Tags
   links: {
-    confirmTagsEndpoint: string
-    goBackToDashboard: string
+    confirmTagsApi: string
+    trainingDataDashboard: string
   }
 }
 

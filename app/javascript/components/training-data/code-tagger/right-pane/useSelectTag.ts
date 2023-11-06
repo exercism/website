@@ -14,7 +14,7 @@ export function useSelectTag({ links }: Pick<CodeTaggerProps, 'links'>) {
   const [confirmTags] = useMutation<CodeTaggerConfirmTagsAPIResponse>(
     async () => {
       const { fetch } = sendRequest({
-        endpoint: links.confirmTagsEndpoint,
+        endpoint: links.confirmTagsApi,
         method: 'POST',
         body: JSON.stringify({ tags: selectedTags }),
       })

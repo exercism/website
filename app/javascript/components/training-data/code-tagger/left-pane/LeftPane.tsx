@@ -12,7 +12,7 @@ export function LeftPane({
   return (
     <>
       <header className="discussion-header">
-        <CloseButton url={links.goBackToDashboard} />
+        <CloseButton url={links.trainingDataDashboard} />
         <CodeInfo exercise={code.exercise} track={code.track} />
       </header>
       <ResultsZone isFetching={false}>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDebounce } from '@/hooks'
+import { useDebounce, useLogger } from '@/hooks'
 import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -76,10 +76,7 @@ export function useAutomation(
     error,
     data: resolvedData,
     isFetching,
-  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
-    ...request,
-    options: { ...request.options, staleTime: 1000 },
-  })
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
 
   const latestData = useLatestData(resolvedData)
 

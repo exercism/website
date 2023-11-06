@@ -99,6 +99,8 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
+  resources :solution_tagger, only: [:index]
+
   resource :insiders, only: [:show], controller: "insiders" do
     get :payment_pending
   end
@@ -154,10 +156,10 @@ Rails.application.routes.draw do
       get :tooltip, on: :member
     end
   end
-  namespace :ml_trainer do
-    root to: "dashboard#index"
+  namespace :training_data do
+    root to: "external#index"
 
-    resources :solution_tags, only: [:index]
+    resources :code_tags_samples, only: %i[index show]
   end
 
   resource :community, only: %i[show], controller: "community"

@@ -166,6 +166,10 @@ const ContributorsList = lazy(
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
 
+const CodeTagger = lazy(() => import('@/components/training-data/CodeTagger'))
+
+const Dashboard = lazy(() => import('@/components/training-data/Dashboard'))
+
 const PaymentPending = lazy(
   () => import('@/components/insiders/PaymentPending')
 )
@@ -377,6 +381,17 @@ export const mappings = {
         request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
         tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
       />
+    </Suspense>
+  ),
+
+  'training-data-dashboard': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <Dashboard {...data} />
+    </Suspense>
+  ),
+  'training-data-code-tagger': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <CodeTagger {...data} />
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (

@@ -1,31 +1,36 @@
 module ReactComponents
   module TrainingData
     class CodeTagger < ReactComponent
+      include Mandate
+
+      initialize_with :sample
+
       def to_s
         super("training-data-code-tagger", {
           code: {
             track: {
-              title: 'Ruby',
-              icon_url: 'ruby_icon_url',
-              highlightjs_language: 'ruby'
+              title: track.title,
+              icon_url: track.icon_url,
+              highlightjs_language: track.highlightjs_language
             },
             exercise: {
-              title: 'Two Fer',
-              icon_url: 'twofer_icon_url'
+              title: exercise.title,
+              icon_url: exercise.icon_url
             },
-            files: [
-              { filename: "hello_world.rb", content: "Hello World", type: 'readonly' },
-              { filename: "some_lib.foo", content: "URGH", type: 'readonly' }
-            ]
+            files: sample.files.map do |file|
+              { filename: file['filename'], content: file['code'], type: 'readonly' }
+            end
           },
-          tags: ["concept:boolean"],
+          tags: sample.tags,
           links: {
             confirm_tags_api: '',
             training_data_dashboard: ''
           },
-          status: :untagged
+          status: sample.status
         })
       end
+
+      delegate :track, :exercise, to: :sample
     end
   end
 end

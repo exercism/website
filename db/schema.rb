@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_06_074640) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_06_122534) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1200,11 +1200,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_074640) do
     t.bigint "solution_id"
     t.integer "status", default: 0, null: false
     t.integer "dataset", default: 0, null: false
-    t.text "code", null: false
     t.text "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uuid", null: false
+    t.text "files", null: false
     t.index ["exercise_id"], name: "index_training_data_code_tags_samples_on_exercise_id"
     t.index ["solution_id"], name: "index_training_data_code_tags_samples_on_solution_id"
     t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"

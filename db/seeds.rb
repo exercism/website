@@ -542,3 +542,11 @@ kaido.perks.create!(
 #     advert.logo.attach(io: File.open(Rails.root.join('app', 'images', 'partners', 'config-cat.png')), filename: "config-cat.png")
 
 Track::Trophies::Reseed.create!
+
+Solution.published.each do |solution|
+  TrainingData::CodeTagsSample.create!(
+    solution: solution,
+    code: solution.iterations.last.files.first.content
+  )
+end
+

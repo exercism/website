@@ -1,11 +1,7 @@
 import React from 'react'
 import { TaggableCodeList } from './dashboard/TaggableCodeList'
-import { Request } from '@/hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
-import {
-  TrainingDataRequest,
-  TrainingDataStatuses,
-} from './dashboard/Dashboard.types'
+import { DashboardProps } from './dashboard/Dashboard.types'
 import { DashboardTabs } from './dashboard/DashboardTabs'
 import { DashboardHeader } from './dashboard/DashboardHeader'
 import { useDashboard } from './dashboard/useDashboard'
@@ -14,11 +10,7 @@ export default function Dashboard({
   tracksRequest,
   trainingDataRequest,
   statuses,
-}: {
-  tracksRequest: Request
-  trainingDataRequest: TrainingDataRequest
-  statuses: TrainingDataStatuses
-}): JSX.Element {
+}: DashboardProps): JSX.Element {
   const {
     request,
     setStatus,

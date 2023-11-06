@@ -1,5 +1,12 @@
-import type { Request as BaseRequest } from '@/hooks/request-query'
+import type { Request as BaseRequest, Request } from '@/hooks/request-query'
 import { useDashboardReturnType } from './useDashboard'
+
+export type DashboardProps = {
+  tracksRequest: Request
+  trainingDataRequest: TrainingDataRequest
+  statuses: TrainingDataStatuses
+}
+
 export type TrainingDataStatus =
   | 'untagged'
   | 'machine_tagged'

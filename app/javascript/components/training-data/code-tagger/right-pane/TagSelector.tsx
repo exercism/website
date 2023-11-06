@@ -8,7 +8,8 @@ export function TagSelector({
 }: {
   tags: Tags
   setSelectedTags: React.Dispatch<React.SetStateAction<Tags>>
-}): JSX.Element {
+}): JSX.Element | null {
+  if (!tags) return null
   return (
     <CreatableSelect
       className="creatable-select-component"

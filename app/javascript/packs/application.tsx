@@ -386,12 +386,12 @@ export const mappings = {
 
   'training-data-dashboard': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <Dashboard {...data} />
+      <Dashboard {...camelizeKeysAs<DashboardProps>(data)} />
     </Suspense>
   ),
   'training-data-code-tagger': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <CodeTagger {...data} />
+      <CodeTagger {...camelizeKeysAs<CodeTaggerProps>(data)} />
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (
@@ -682,6 +682,8 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
+import { CodeTaggerProps } from '@/components/training-data/code-tagger/CodeTagger.types'
+import { DashboardProps } from '@/components/training-data/dashboard/Dashboard.types'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

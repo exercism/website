@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { TaggableCodeList } from './dashboard/TaggableCodeList'
-import { TextFilter } from '@/components/mentoring/TextFilter'
-import { Sorter } from '@/components/mentoring/Sorter'
-import { TrackFilter } from '@/components/mentoring/inbox/TrackFilter'
-import {
-  usePaginatedRequestQuery,
-  type Request as BaseRequest,
-  Request,
-} from '@/hooks/request-query'
-import { useHistory, removeEmpty } from '@/hooks/use-history'
-import { useList } from '@/hooks/use-list'
+import { Request } from '@/hooks/request-query'
 import { ResultsZone } from '../ResultsZone'
-import {
-  TrainingDataRequest,
-  TrainingDataStatus,
-} from './dashboard/Dashboard.types'
-import { SolutionProps } from '../journey/Solution'
+import { TrainingDataRequest } from './dashboard/Dashboard.types'
 import { DashboardTabs } from './dashboard/DashboardTabs'
 import { DashboardHeader } from './dashboard/DashboardHeader'
 import { useDashboard } from './dashboard/useDashboard'

@@ -24,6 +24,7 @@ module ReactComponents
           tags: sample.tags,
           links: {
             confirm_tags_api: '',
+            next_sample: Exercism::Routes.next_training_data_code_tags_samples_path(track_id: track.id, status: sample.status),
             training_data_dashboard: ''
           },
           status: sample.status

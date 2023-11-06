@@ -5,9 +5,12 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   belongs_to :track
   belongs_to :exercise, optional: true
   belongs_to :solution, optional: true
+  belongs_to :locked_by, class_name: "User", optional: true
 
   enum dataset: { training: 0, validation: 1 }
   enum status: { untagged: 0, machine_tagged: 1, human_tagged: 2, community_checked: 3, admin_checked: 4 }
+
+  scope :unlocked, -> { where(locked_until: nil).or(self.where('locked_until < NOW()')) }
 
   before_validation on: :create do
     self.uuid = SecureRandom.compact_uuid unless self.uuid
@@ -24,5 +27,20 @@ class TrainingData::CodeTagsSample < ApplicationRecord
 
   def checked?
     status == :human_tagged || status == :admin_tagged
+  end
+
+  def locked?
+    locked_until && locked_until > Time.current
+  end
+
+  def lock_for_editing!(user)
+    with_lock do
+      raise "Already locked" if locked?
+
+      update!(
+        locked_until: Time.current + 30.minutes,
+        locked_by: user
+      )
+    end
   end
 end

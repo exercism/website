@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_06_122534) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_06_131251) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1205,6 +1205,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_122534) do
     t.datetime "updated_at", null: false
     t.string "uuid", null: false
     t.text "files", null: false
+    t.datetime "locked_until"
+    t.bigint "locked_by_id"
     t.index ["exercise_id"], name: "index_training_data_code_tags_samples_on_exercise_id"
     t.index ["solution_id"], name: "index_training_data_code_tags_samples_on_solution_id"
     t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"

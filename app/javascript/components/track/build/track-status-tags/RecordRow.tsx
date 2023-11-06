@@ -19,29 +19,23 @@ export function RecordRow({
           .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
           .join(' → ')}
       </div>
-      <div className="record-value">
+      <div className="record-value dynamic">
         <div className="record-element">
           <strong>{tag.tag}</strong>
         </div>
         <div className="record-element justify-end">
-          {editMode ? (
-            <TagTogglerButton
-              isActive={tag.enabled}
-              onClick={() => console.log('clicked')}
-            />
-          ) : (
-            <strong>{tag.enabled ? 'Yes' : 'No'}</strong>
-          )}
+          <TagTogglerButton
+            isActive={tag.enabled}
+            onClick={() => console.log('clicked')}
+            readOnly={!editMode}
+          />
         </div>
         <div className="record-element justify-end">
-          {editMode ? (
-            <TagTogglerButton
-              isActive={tag.filterable}
-              onClick={() => console.log('something')}
-            />
-          ) : (
-            <strong>{tag.filterable ? 'Yes' : 'No'}</strong>
-          )}
+          <TagTogglerButton
+            isActive={tag.filterable}
+            onClick={() => console.log('something')}
+            readOnly={!editMode}
+          />
         </div>
         <div className="record-element justify-end">
           <strong>

@@ -1,29 +1,29 @@
 import React from 'react'
 import CreatableSelect from 'react-select/creatable'
+import { Tags } from '../CodeTagger.types'
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-]
 export function TagSelector({
   tags,
+  setSelectedTags,
 }: {
-  tags: Record<string, string>
+  tags: Tags
+  setSelectedTags: React.Dispatch<React.SetStateAction<Tags>>
 }): JSX.Element {
   return (
     <CreatableSelect
       className="creatable-select-component"
       isMulti
-      options={transformObject(tags)}
-      onChange={(e) => console.log(e)}
+      options={formatTags(tags)}
+      onChange={(selected): void =>
+        setSelectedTags(selected.map((s) => s.label))
+      }
     />
   )
 }
 
-function transformObject(obj: Record<string, string>) {
-  return Object.entries(obj).map(([key, value]) => ({
-    label: key,
-    value: value,
+function formatTags(tags: Tags) {
+  return tags.map((tag) => ({
+    label: tag,
+    value: tag,
   }))
 }

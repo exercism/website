@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Icon } from './common/Icon'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 const DELAY_MS = 250
 
@@ -11,9 +12,6 @@ export const ResultsZone = (
 ): JSX.Element => {
   const [isFetching, setIsFetching] = useState(false)
   const timerRef = useRef<number | null>(null)
-  const classNames = `c-results-zone ${isFetching ? '--fetching' : ''} ${
-    props.className ?? ''
-  }`
 
   useEffect(() => {
     if (props.isFetching) {
@@ -36,7 +34,13 @@ export const ResultsZone = (
   }, [props.isFetching])
 
   return (
-    <div className={classNames}>
+    <div
+      className={assembleClassNames(
+        'c-results-zone',
+        isFetching ? '--fetching' : '',
+        props.className ?? ''
+      )}
+    >
       {props.children}
       <div className="--fetching-overlay">
         <Icon icon="spinner" className="animate-spin-slow" alt="Loading data" />

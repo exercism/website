@@ -1,25 +1,27 @@
 import React from 'react'
-import SolutionInfo from './SolutionInfo'
+import CodeInfo from './CodeInfo'
 import { FilePanel } from '@/components/mentoring/session/FilePanel'
 import { CloseButton } from '@/components/mentoring/session/CloseButton'
-import type { CommunitySolution } from '@/components/types'
+import { CodeTaggerProps } from '../CodeTagger.types'
+import { ResultsZone } from '@/components/ResultsZone'
 
-export type PanesProps = {
-  solution: CommunitySolution
-}
-
-export function LeftPane({ solution }: PanesProps): JSX.Element {
+export function LeftPane({
+  code,
+  links,
+}: Pick<CodeTaggerProps, 'code' | 'links'>): JSX.Element {
   return (
     <>
       <header className="discussion-header">
-        <CloseButton url="#" />
-        <SolutionInfo exercise={solution.exercise} track={solution.track} />
+        <CloseButton url={links.trainingDataDashboard} />
+        <CodeInfo exercise={code.exercise} track={code.track} />
       </header>
-      {/* <FilePanel
-        files={solution.files}
-        language={'ruby'}
-        indentSize={2}
-      /> */}
+      <ResultsZone isFetching={false}>
+        <FilePanel
+          files={code.files}
+          language={code.track.highlightjsLanguage}
+          indentSize={2}
+        />
+      </ResultsZone>
     </>
   )
 }

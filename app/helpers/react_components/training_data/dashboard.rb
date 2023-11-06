@@ -1,11 +1,12 @@
 module ReactComponents
   module TrainingData
     class Dashboard < ReactComponent
+      initialize_with :params, :statuses
       def to_s
         super("training-data-dashboard", {
-          tranining_data_request:,
+          training_data_request:,
           tracks_request:,
-          statuses: TrainingData::CodeTagsSample.statuses
+          statuses:
         })
       end
 

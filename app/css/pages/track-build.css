@@ -319,12 +319,6 @@
         }
     }
 
-    .record-value.dynamic {
-        strong {
-            @apply mt-0;
-        }
-    }
-
     .record-row {
         &.sticky {
             @apply md:flex hidden;

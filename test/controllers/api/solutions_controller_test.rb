@@ -133,7 +133,7 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :ok
     expected = {
       solution: SerializeSolution.(solution),
-      iterations: [SerializeIteration.(iteration, sideload: %i[files automated_feedback])]
+      iterations: [SerializeIteration.(iteration)]
     }
     assert_equal expected.to_json, response.body
   end

@@ -8,6 +8,7 @@ class Solution::Tag < ApplicationRecord
 
   before_validation on: :create do
     self.exercise_id = solution.exercise_id unless exercise_id
+    self.track_id = exercise.track_id unless track_id
     self.user_id = solution.user_id unless user_id
   end
 

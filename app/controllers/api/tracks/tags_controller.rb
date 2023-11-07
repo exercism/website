@@ -13,6 +13,16 @@ class API::Tracks::TagsController < API::BaseController
     render json: {}
   end
 
+  def enabled
+    @tag.update!(enabled: true)
+    render json: {}
+  end
+
+  def not_enabled
+    @tag.update!(enabled: false)
+    render json: {}
+  end
+
   private
   def use_track
     @track = Track.find(params[:track_slug])

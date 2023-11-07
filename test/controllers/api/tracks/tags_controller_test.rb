@@ -49,5 +49,51 @@ module API
       assert_response :ok
       refute tag.reload.filterable
     end
+
+    ##########
+    # Enabled #
+    ###########
+    test "enabled: fails for non-maintainers" do
+      setup_user
+      post enabled_api_track_tag_path('ruby', 'foo'),
+        headers: @headers, as: :json
+
+      assert_response 403
+    end
+
+    test "enabled: should make enabled" do
+      tag = create :track_tag, enabled: false
+      refute tag.reload.enabled
+
+      setup_user(create(:user, :maintainer))
+      post enabled_api_track_tag_path(tag.track.slug, tag.tag),
+        headers: @headers, as: :json
+
+      assert_response :ok
+      assert tag.reload.enabled
+    end
+
+    ##############
+    # Not enabled #
+    ###############
+    test "not_enabled: fails for non-maintainers" do
+      setup_user
+      delete not_enabled_api_track_tag_path('ruby', 'foo'),
+        headers: @headers, as: :json
+
+      assert_response 403
+    end
+
+    test "not_enabled: should make not enabled" do
+      tag = create :track_tag, enabled: true
+      assert tag.reload.enabled
+
+      setup_user(create(:user, :maintainer))
+      delete not_enabled_api_track_tag_path(tag.track.slug, tag.tag),
+        headers: @headers, as: :json
+
+      assert_response :ok
+      refute tag.reload.enabled
+    end
   end
 end

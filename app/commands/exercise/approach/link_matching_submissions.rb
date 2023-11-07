@@ -3,10 +3,8 @@ class Exercise::Approach::LinkMatchingSubmissions
 
   initialize_with :approach
 
-  delegate :exercise, to: :approach
-
   def call
-    return relink_submissions!(linked_submissions) if approach.tags.blank?
+    return relink_submissions! if approach.tags.blank?
 
     update_submissions!(linked_submissions)
     update_submissions!(unlinked_submissions.tagged)
@@ -25,11 +23,13 @@ class Exercise::Approach::LinkMatchingSubmissions
     end
   end
 
-  def relink_submissions!(submissions)
-    submissions.find_each do |submission|
+  def relink_submissions!
+    linked_submissions.find_each do |submission|
       Submission::LinkToMatchingApproach.defer(submission)
     rescue StandardError => e
       Bugsnag.notify(e)
     end
   end
+
+  delegate :exercise, to: :approach
 end

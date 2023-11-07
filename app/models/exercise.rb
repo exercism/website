@@ -133,7 +133,7 @@ class Exercise < ApplicationRecord
   delegate :has_representer?, to: :track
 
   def to_param = slug
-  def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
+  def download_cmd = "exercism download --track=#{track.slug} --exercise=#{slug}".freeze
 
   def difficulty_category
     case difficulty

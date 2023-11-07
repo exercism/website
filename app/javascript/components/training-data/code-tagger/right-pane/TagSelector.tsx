@@ -12,7 +12,7 @@ export function TagSelector({
   if (!tags) return null
   return (
     <CreatableSelect
-      className="creatable-select-component"
+      className="creatable-select-component text-p-base"
       isMulti
       options={formatTags(tags)}
       onChange={(selected): void =>

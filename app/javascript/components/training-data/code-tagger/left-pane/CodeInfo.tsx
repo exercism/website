@@ -18,7 +18,7 @@ export default function CodeInfo({
       <div className="student">
         <Avatar src={exercise.iconUrl} />
         <div className="info">
-          <div className="exercise">You are signing tags for</div>
+          <div className="exercise">You are assigning tags for</div>
           <div className="handle">
             {exercise.title} in {track.title}
           </div>

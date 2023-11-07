@@ -13,12 +13,12 @@ export function RightPane({
   return (
     <div className="px-24 h-100 flex flex-col">
       <PlaceholderStuff />
-      <TagSelector tags={tags} setSelectedTags={setSelectedTags} />
+      <TagSelector tags={tags || []} setSelectedTags={setSelectedTags} />
       <button
         onClick={() => confirmTags()}
         className="btn-m btn-primary mt-auto mb-64"
       >
-        Save, next!
+        Save and tag another…
       </button>
     </div>
   )

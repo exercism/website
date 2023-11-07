@@ -10,6 +10,7 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
     })
 
     submission = create(:submission, exercise:, tags: %w[paradigm:functional construct:lambda])
+    create(:iteration, submission:)
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -20,6 +21,7 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
     create(:exercise_approach, exercise:, tags: { "any" => %w[construct:while construct:for] })
     submission = create(:submission, exercise:, tags: ["construct:if"])
+    create(:iteration, submission:)
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -33,6 +35,7 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
       "not" => ["paradigm:imperative"]
     })
     submission = create(:submission, exercise:, tags: %w[paradigm:functional paradigm:imperative])
+    create(:iteration, submission:)
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -43,6 +46,7 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
     create(:exercise_approach, exercise:, tags: { "all" => ["paradigm:functional"] })
     submission = create(:submission, exercise:, tags: ["construct:if"])
+    create(:iteration, submission:)
 
     Submission::LinkToMatchingApproach.(submission)
 
@@ -53,6 +57,18 @@ class Submission::LinkToMatchingApproachTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
     create(:exercise_approach, exercise:, tags: { "all" => ["paradigm:functional"] })
     submission = create(:submission, exercise:, tags: nil)
+    create(:iteration, submission:)
+
+    Submission::LinkToMatchingApproach.(submission)
+
+    assert_nil submission.approach
+  end
+
+  test "don't link to approach when submission does not have iteration" do
+    exercise = create :practice_exercise
+    create(:exercise_approach, exercise:, tags: { "all" => ["paradigm:functional"] })
+
+    submission = create(:submission, exercise:, tags: ["paradigm:functional"])
 
     Submission::LinkToMatchingApproach.(submission)
 

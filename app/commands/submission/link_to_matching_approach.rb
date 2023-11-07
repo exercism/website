@@ -11,6 +11,7 @@ class Submission::LinkToMatchingApproach
 
   def matching_approach
     return nil if submission.tags.blank?
+    return nil if submission.iteration.nil?
 
     submission.exercise.approaches.find do |approach|
       approach.matches_tags?(submission.tags)

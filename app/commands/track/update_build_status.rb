@@ -99,11 +99,9 @@ class Track::UpdateBuildStatus
   end
 
   def tags
-    tags = track.analyzer_tags.order(:tag).map(&:attributes)
     solution_counts = track.solution_tags.group(:tag).count
 
     {
-      tags:,
       solution_counts:
     }
   end

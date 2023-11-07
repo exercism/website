@@ -1,0 +1,104 @@
+.track-team-group
+  .track-header.mb-16
+    .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
+      %h3.--practice-exercises-gradient Practice Exercises
+      = link_to doc_path(:building, "tracks/new/add-initial-exercises"), class: "learn-more-new-tab" do
+        Learn More
+    %p Practice Exercises are exercises designed to allow students to solve an arbitrary problem, with the aim of them making use of the concepts they have learned so far.
+
+    %p.text-16.mt-16
+      Synced primary repo:
+      %strong= track.synced_to_git_sha
+      %span.italic (Updates should be instant)
+
+  - if status.practice_exercises.active.size < status.practice_exercises.num_active_target
+    .action-required.mb-24
+      Next goal: Implement #{%w[exemplar health].include?(status.practice_exercises.health) ? '' : 'at least '}#{status.practice_exercises.num_active_target} practice exercises.
+      = link_to doc_path(:building, "tracks/syllabus/next-exercises") do
+        Find out more.
+
+  - unless status.practice_exercises.health == "missing"
+
+    - if status.practice_exercises.active.size.positive?
+      %details
+        %summary.--practice-exercises
+          #{status.practice_exercises.active.size} active practice exercises
+          = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+        .record-row.sticky.z-1{ class: 'lg:top-0 top-[65px]' }
+          .record-name
+          .record-value
+            .record-element Started
+            .record-element Attempts
+            .record-element Completions
+            .record-element Mentoring requests
+        - status.practice_exercises.active.each do |exercise|
+          .record-row
+            .record-name
+              = exercise_icon exercise
+              = exercise.title
+            .record-value
+              .record-element{ data: { record_label: 'Started' } }
+                %strong= number_with_delimiter(exercise.num_started)
+              .record-element{ data: { record_label: 'Attempts' } }
+                %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+              .record-element{ data: { record_label: 'Completions' } }
+                %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+              .record-element{ data: { record_label: 'Mentoring requests' } }
+                %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+
+    - if status.practice_exercises.deprecated.size.positive?
+      %details.mt-10
+        %summary.--practice-exercises
+          #{status.practice_exercises.deprecated.size} deprecated practice exercises
+          = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+        .record-row.sticky{ class: 'top-[65px] z-1 lg:top-0' }
+          .record-name
+          .record-value
+            .record-element Started
+            .record-element Attempts
+            .record-element Completions
+            .record-element Mentoring requests
+        - status.practice_exercises.deprecated.each do |exercise|
+          .record-row
+            .record-name
+              = exercise_icon exercise
+              = exercise.title
+            .record-value
+              .record-element{ data: { record_label: 'Started' } }
+                %strong= number_with_delimiter(exercise.num_started)
+              .record-element{ data: { record_label: 'Attempts' } }
+                %strong #{number_with_delimiter(exercise.num_submitted)} (avg. #{exercise.num_submitted_average})
+              .record-element{ data: { record_label: 'Completions' } }
+                %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
+              .record-element{ data: { record_label: 'Mentoring requests' } }
+                %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
+
+    - if status.practice_exercises.unimplemented.size.positive?
+      %details.mt-10
+        %summary.--practice-exercises
+          #{status.practice_exercises.unimplemented.size} unimplemented practice #{'exercise'.pluralize(status.practice_exercises.unimplemented.size)}
+          = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+        - status.practice_exercises.unimplemented.each do |exercise|
+          .record-row
+            .record-name
+              = exercise_icon exercise
+              = exercise.title
+            .record-value
+              .record-element
+                = external_link_to "View data", exercise.links.self, class: 'external-link'
+
+    - if status.practice_exercises.foregone.size.positive?
+      %details.mt-10
+        %summary.--practice-exercises
+          #{status.practice_exercises.foregone.size} foregone practice #{'exercise'.pluralize(status.practice_exercises.foregone.size)}
+          = graphical_icon 'chevron-right', css_class: 'summary-chevron'
+        - status.practice_exercises.foregone.each do |exercise|
+          .record-row
+            .record-name
+              = exercise_icon exercise
+              = exercise.title
+            .record-value
+              .record-element
+                = external_link_to "View data", exercise.links.self, class: 'external-link'
+

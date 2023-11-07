@@ -323,6 +323,12 @@ export const mappings = {
       />
     </Suspense>
   ),
+
+  'track-build-analyzer-tags': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <AnalyzerTags {...camelizeKeysAs<AnalyzerTagsType>(data)} />
+    </Suspense>
+  ),
   'common-credits': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <Credits
@@ -668,6 +674,8 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
+import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
+import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

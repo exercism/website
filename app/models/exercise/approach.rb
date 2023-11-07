@@ -36,7 +36,7 @@ class Exercise::Approach < ApplicationRecord
   memoize
   def content_html = Markdown::Parse.(content)
 
-  def matching_tags?(check_tags)
+  def matches_tags?(check_tags)
     return false if check_tags.empty?
 
     all_tags = tags["all"].to_a

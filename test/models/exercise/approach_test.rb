@@ -49,52 +49,52 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
     assert_equal "READABILITY", approach.snippet
   end
 
-  test "matching_tags?" do
+  test "matches_tags?" do
     tags = nil
     approach = create(:exercise_approach, tags:)
-    refute approach.matching_tags?([])
+    refute approach.matches_tags?([])
 
     tags = {}
     approach.update(tags:)
-    refute approach.matching_tags?([])
+    refute approach.matches_tags?([])
 
     tags["all"] = ["construct:if"]
     approach.update(tags:)
-    refute approach.matching_tags?([])
-    assert approach.matching_tags?(["construct:if"])
+    refute approach.matches_tags?([])
+    assert approach.matches_tags?(["construct:if"])
 
     tags["any"] = ["construct:for"]
     approach.update(tags:)
-    refute approach.matching_tags?([])
-    refute approach.matching_tags?(["construct:if"])
-    assert approach.matching_tags?(["construct:if", "construct:for"])
+    refute approach.matches_tags?([])
+    refute approach.matches_tags?(["construct:if"])
+    assert approach.matches_tags?(["construct:if", "construct:for"])
 
     tags["not"] = ["construct:do"]
     approach.update(tags:)
-    refute approach.matching_tags?([])
-    refute approach.matching_tags?(["construct:if"])
-    assert approach.matching_tags?(["construct:if", "construct:for"])
-    refute approach.matching_tags?(["construct:if", "construct:for", "construct:do"])
+    refute approach.matches_tags?([])
+    refute approach.matches_tags?(["construct:if"])
+    assert approach.matches_tags?(["construct:if", "construct:for"])
+    refute approach.matches_tags?(["construct:if", "construct:for", "construct:do"])
 
     tags["any"] << "construct:repeat"
     approach.update(tags:)
-    refute approach.matching_tags?([])
-    refute approach.matching_tags?(["construct:if"])
-    refute approach.matching_tags?(["construct:repeat"])
-    refute approach.matching_tags?(["construct:for", "construct:repeat"])
-    assert approach.matching_tags?(["construct:if", "construct:for"])
-    assert approach.matching_tags?(["construct:repeat", "construct:if"])
+    refute approach.matches_tags?([])
+    refute approach.matches_tags?(["construct:if"])
+    refute approach.matches_tags?(["construct:repeat"])
+    refute approach.matches_tags?(["construct:for", "construct:repeat"])
+    assert approach.matches_tags?(["construct:if", "construct:for"])
+    assert approach.matches_tags?(["construct:repeat", "construct:if"])
 
     tags["all"] << "construct:while"
     approach.update(tags:)
-    refute approach.matching_tags?([])
-    refute approach.matching_tags?(["construct:if"])
-    refute approach.matching_tags?(["construct:repeat"])
-    refute approach.matching_tags?(["construct:for", "construct:repeat"])
-    refute approach.matching_tags?(["construct:if", "construct:for"])
-    refute approach.matching_tags?(["construct:repeat", "construct:if"])
-    refute approach.matching_tags?(["construct:if", "construct:for"])
-    assert approach.matching_tags?(["construct:repeat", "construct:if", "construct:while"])
-    refute approach.matching_tags?(["construct:repeat", "construct:if", "construct:do", "construct:while"])
+    refute approach.matches_tags?([])
+    refute approach.matches_tags?(["construct:if"])
+    refute approach.matches_tags?(["construct:repeat"])
+    refute approach.matches_tags?(["construct:for", "construct:repeat"])
+    refute approach.matches_tags?(["construct:if", "construct:for"])
+    refute approach.matches_tags?(["construct:repeat", "construct:if"])
+    refute approach.matches_tags?(["construct:if", "construct:for"])
+    assert approach.matches_tags?(["construct:repeat", "construct:if", "construct:while"])
+    refute approach.matches_tags?(["construct:repeat", "construct:if", "construct:do", "construct:while"])
   end
 end

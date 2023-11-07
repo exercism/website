@@ -16,7 +16,7 @@ class Exercise::Approach::LinkMatchingSubmissions
 
   def update_submissions!(submissions)
     submissions.find_each do |submission|
-      new_approach = approach.matching_tags?(submission.tags) ? approach : nil
+      new_approach = approach.matches_tags?(submission.tags) ? approach : nil
       submission.update(approach: new_approach)
     rescue StandardError => e
       Bugsnag.notify(e)

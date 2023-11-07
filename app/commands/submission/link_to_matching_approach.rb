@@ -6,14 +6,14 @@ class Submission::LinkToMatchingApproach
   initialize_with :submission
 
   def call
-    submission.update(approach: matching_approach)
+    submission.update!(approach: matching_approach)
   end
 
   def matching_approach
     return nil if submission.tags.blank?
 
     submission.exercise.approaches.find do |approach|
-      approach.matching_tags?(submission.tags)
+      approach.matches_tags?(submission.tags)
     end
   end
 end

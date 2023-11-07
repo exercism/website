@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { capitalize } from '@/utils/capitalize'
 import { TagTogglerButton } from './TagTogglerButton'
-import type { Tag } from './AnalyzerTags.types'
+import type { AnalyzerTagsEndpoints, Tag } from './AnalyzerTags.types'
+import { useTagToggler } from './useTagToggler'
 
-export function RecordRow({ tag, editMode }: { tag: Tag; editMode: boolean }) {
+export function RecordRow({
+  tag,
+  editMode,
+  setLocalTags,
+  endpoints,
+}: {
+  tag: Tag
+  editMode: boolean
+  setLocalTags: React.Dispatch<React.SetStateAction<Tag[]>>
+  endpoints: AnalyzerTagsEndpoints
+}) {
+  const { handleToggle } = useTagToggler({ endpoints, setLocalTags })
+
   return (
     <div className="record-row">
       <div className="record-name">
@@ -19,14 +32,14 @@ export function RecordRow({ tag, editMode }: { tag: Tag; editMode: boolean }) {
         <div className="record-element justify-end">
           <TagTogglerButton
             isActive={tag.enabled}
-            onClick={() => console.log('clicked')}
+            onClick={() => handleToggle(tag, 'enabled')}
             readOnly={!editMode}
           />
         </div>
         <div className="record-element justify-end">
           <TagTogglerButton
             isActive={tag.filterable}
-            onClick={() => console.log('something')}
+            onClick={() => handleToggle(tag, 'filterable')}
             readOnly={!editMode}
           />
         </div>

@@ -3,7 +3,11 @@ import { RecordRow } from './analyzer-tags/RecordRow'
 import { FirstRow } from './analyzer-tags/FirstRow'
 import type { AnalyzerTagsType } from './analyzer-tags/AnalyzerTags.types'
 
-export function AnalyzerTags({ tags, editor }: AnalyzerTagsType): JSX.Element {
+export function AnalyzerTags({
+  tags,
+  editor,
+  endpoints,
+}: AnalyzerTagsType): JSX.Element {
   const [localTags, setLocalTags] = useState(tags)
   const [editMode, setEditMode] = useState(false)
 
@@ -11,7 +15,13 @@ export function AnalyzerTags({ tags, editor }: AnalyzerTagsType): JSX.Element {
     <>
       <FirstRow />
       {localTags.map((tag, index) => (
-        <RecordRow editMode={editMode} tag={tag} key={index} />
+        <RecordRow
+          editMode={editMode}
+          tag={tag}
+          setLocalTags={setLocalTags}
+          key={index}
+          endpoints={endpoints}
+        />
       ))}
       {editor && (
         <button

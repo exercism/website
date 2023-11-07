@@ -10,7 +10,6 @@ class Exercise::Representation::UpdateNumSubmissions
   end
 
   private
-  memoize
   def num_submissions
     representation.submission_representations.joins(:submission).
       where(submissions: { tests_status: :passed }).

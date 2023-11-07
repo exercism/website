@@ -195,4 +195,18 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
 
     assert_equal exercise.git_sha, solution.reload.git_sha
   end
+
+  test "calls update num submissions on representation" do
+    solution = create :practice_solution, :published
+    exercise = solution.exercise
+    submission = create(:submission, solution:)
+    representation = create :exercise_representation, ast_digest: 'foo', exercise:, source_submission: submission
+    create(:submission_representation, ast_digest: representation.ast_digest, submission:)
+
+    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
+    job = create_test_runner_job!(submission, execution_status: 200, results:)
+
+    Exercise::Representation::UpdateNumSubmissions.expects(:defer).with(representation)
+    Submission::TestRun::Process.(job)
+  end
 end

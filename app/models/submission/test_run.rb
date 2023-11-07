@@ -19,6 +19,8 @@ class Submission::TestRun < ApplicationRecord
     self.status = raw_results.fetch(:status, :error) unless self.status
     self.uuid = SecureRandom.uuid unless self.uuid
 
+    self.message = self.message.byteslice(0, MESSAGE_MAX_LEN - 1) if self.message.bytesize > MESSAGE_MAX_LEN
+
     self.ops_status = 400 if ops_success? && !raw_results[:status]
 
     self.git_sha = submission.git_sha if self.git_sha.blank?
@@ -87,5 +89,7 @@ class Submission::TestRun < ApplicationRecord
 
     def as_json(*_args) = to_h
   end
-  private_constant :TestResult
+
+  MESSAGE_MAX_LEN = 65_536
+  private_constant :TestResult, :MESSAGE_MAX_LEN
 end

@@ -67,6 +67,13 @@ namespace :api do
     end
 
     resources :tracks, only: [], controller: "user_tracks", param: :slug do
+      resources :tags, only: %i[], controller: "tracks/tags", param: :tag do
+        member do
+          post :filterable
+          delete :filterable, to: 'tracks/tags#not_filterable', as: "not_filterable"
+        end
+      end
+
       resources :solutions_for_mentoring, only: %i[index], controller: "tracks/solutions_for_mentoring"
       member do
         patch :activate_practice_mode

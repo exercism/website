@@ -71,12 +71,12 @@
           = link_to "", class: "btn btn-primary btn-large border-1 border-textColor1 rounded-8 shadow-xsZ1v3" do
             Learn more
 
-        = render "index_syllabus", track: @track, status: @status
-        = render "index_practice_exercises", track: @track, status: @status
-        = render "index_tags", track: @track, status: @status
-        = render "index_test_runner", track: @track, status: @status, current_sha: @test_runner_sha
-        = render "index_representer", track: @track, status: @status, current_sha: @representer_sha
-        = render "index_analyzer", track: @track, status: @status, current_sha: @analyzer_sha
+        = render "show_syllabus", track: @track, status: @status
+        = render "show_practice_exercises", track: @track, status: @status
+        -# = render "show_tags", track: @track, status: @status
+        = render "show_test_runner", track: @track, status: @status, current_sha: @test_runner_sha
+        = render "show_representer", track: @track, status: @status, current_sha: @representer_sha
+        = render "show_analyzer", track: @track, status: @status, current_sha: @analyzer_sha
 
       .hidden.xl:block.col-span-1
         %div{ class: 'h-[284px]' }

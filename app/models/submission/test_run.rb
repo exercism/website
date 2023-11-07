@@ -19,7 +19,7 @@ class Submission::TestRun < ApplicationRecord
     self.status = raw_results.fetch(:status, :error) unless self.status
     self.uuid = SecureRandom.uuid unless self.uuid
 
-    self.message = self.message.byteslice(0, MESSAGE_MAX_LEN - 1) if self.message.bytesize > MESSAGE_MAX_LEN
+    self.message = self.message.byteslice(0, MESSAGE_MAX_LEN - 1) if self.message&.bytesize > MESSAGE_MAX_LEN
 
     self.ops_status = 400 if ops_success? && !raw_results[:status]
 

@@ -13,8 +13,12 @@ export function useTagToggler({
 }) {
   const { mutate } = useMutation(
     ({ tag, field }: { tag: Tag; field: TagFlags }) => {
+      const endpoint = endpoints[field].replace(
+        ':tag',
+        encodeURIComponent(tag.tag)
+      )
       const { fetch } = sendRequest({
-        endpoint: endpoints[field].replace(':tag', tag.tag),
+        endpoint,
         method: tag[field] ? 'DELETE' : 'POST',
         body: null,
       })

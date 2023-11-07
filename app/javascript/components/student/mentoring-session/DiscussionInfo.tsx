@@ -12,8 +12,11 @@ import {
 import { Mentor } from '../MentoringSession'
 import { GraphicalIcon } from '../../common'
 import { FinishButton } from './FinishButton'
-import { QueryStatus } from 'react-query'
-import { DiscussionActionsLinks } from './DiscussionActions'
+import { QueryStatus } from '@tanstack/react-query'
+
+type Links = {
+  exercise: string
+}
 
 export const DiscussionInfo = ({
   discussion,

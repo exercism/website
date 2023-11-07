@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { sendRequest } from '@/utils/send-request'
 import { typecheck } from '@/utils/typecheck'
@@ -18,8 +18,12 @@ export const DeletePhotoModal = ({
   endpoint: string
   onSuccess: (user: User) => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',

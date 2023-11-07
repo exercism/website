@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { createMachine } from 'xstate'
 import { redirectTo } from '@/utils/redirect-to'
@@ -58,6 +58,12 @@ const Inner = ({
   const [report, setReport] = useState<MentorReport | null>(null)
   const [donatedAmount, setDonatedAmount] = useState<currency>(currency(0))
 
+  // React 18 renders components async, we need to wait for report to arrive,
+  // otherwise it will start rendering `unhappy` step before report arrives from mutation in ReportStep.tsx
+  useEffect(() => {
+    if (report) send('SUBMIT')
+  }, [report])
+
   switch (currentStep.value) {
     case 'rateMentor':
       return (
@@ -113,10 +119,8 @@ const Inner = ({
       return (
         <Step.ReportStep
           discussion={discussion}
-          onSubmit={(report) => {
-            setReport(report)
-            send('SUBMIT')
-          }}
+          send={send}
+          onSubmit={setReport}
           onBack={() => send('BACK')}
         />
       )

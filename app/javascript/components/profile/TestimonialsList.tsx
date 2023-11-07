@@ -24,11 +24,15 @@ export default function TestimonialsList({
   const [selected, setSelected] = useState<string | null>(defaultSelected)
 
   const { request, setPage } = useList(initialRequest)
-  const { resolvedData, isFetching, status, error, latestData } =
-    usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
-      ['profile-testimonials-list-key', request.endpoint, request.query],
-      request
-    )
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<TestimonialProps[]>>(
+    ['profile-testimonials-list-key', request.endpoint, request.query],
+    request
+  )
 
   const handleTestimonialOpen = useCallback(
     (uuid: string) => {
@@ -68,7 +72,7 @@ export default function TestimonialsList({
               })}
             </div>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

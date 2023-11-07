@@ -40,11 +40,15 @@ export const PreviousMentoringSessionsModal = ({
     endpoint: student.links.previousSessions,
     options: {},
   })
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<readonly MentorDiscussion[]>,
-      Error | Response
-    >([request.endpoint, request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<readonly MentorDiscussion[]>,
+    Error | Response
+  >([request.endpoint, request.query], request)
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 
@@ -79,7 +83,7 @@ export const PreviousMentoringSessionsModal = ({
                     />
                   ))}
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={request.query.page || 1}
                     total={resolvedData.meta.totalPages}
                     setPage={(p) => {
@@ -133,7 +137,7 @@ export const PreviousMentoringSessionsModal = ({
                     />
                   ))}
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={request.query.page || 1}
                     total={resolvedData.meta.totalPages}
                     setPage={(p) => {

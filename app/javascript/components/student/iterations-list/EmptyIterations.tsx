@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useIsMounted } from 'use-is-mounted'
 import { redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
@@ -30,8 +30,12 @@ export const EmptyIterations = ({
   links: Links
 }): JSX.Element => {
   const isMountedRef = useIsMounted()
-  const [mutation, { status, error }] = useMutation<Solution>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<Solution>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.startExercise,
         method: 'PATCH',

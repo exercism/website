@@ -1,11 +1,10 @@
 import React from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { Student } from '../../../types'
 import { FavoritableStudent } from '../../session/FavoriteButton'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
@@ -25,8 +24,12 @@ export const FavoriteStep = ({
   onFavorite: (student: FavoritableStudent) => void
   onSkip: () => void
 }): JSX.Element => {
-  const [handleFavorite, { status, error }] = useMutation<FavoritableStudent>(
-    () => {
+  const {
+    mutate: handleFavorite,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: student.links.favorite,
         method: 'POST',

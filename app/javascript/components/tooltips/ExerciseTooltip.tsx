@@ -15,7 +15,7 @@ const ExerciseTooltip = React.forwardRef<
     track: Track
     exercise: Exercise
     solution: SolutionForStudent
-  }>(endpoint, { endpoint: endpoint, options: {} })
+  }>([endpoint], { endpoint: endpoint, options: {} })
 
   return (
     <div className="c-exercise-tooltip" {...props} ref={ref}>

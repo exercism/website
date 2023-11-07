@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { QueryStatus } from 'react-query'
+import { MutationStatus } from '@tanstack/react-query'
 import { useDebounce } from '@/hooks'
 import { useSettingsMutation } from '../useSettingsMutation'
 import { setThemeClassName } from './utils'
@@ -16,7 +16,7 @@ type useThemeReturns = {
     t: Pick<Theme, 'value'>,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void
-  status: QueryStatus
+  status: MutationStatus
   error: unknown
   theme: string
 }

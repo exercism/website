@@ -3,16 +3,20 @@ import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import { DeleteAccountModal } from '../../../../app/javascript/components/modals/DeleteAccountModal'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { queryClient } from '../../setupTests'
 
 test('form is disabled when handle is wrong', async () => {
   render(
-    <DeleteAccountModal
-      open
-      onClose={jest.fn()}
-      handle="handle"
-      endpoint=""
-      ariaHideApp={false}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <DeleteAccountModal
+        open
+        onClose={jest.fn()}
+        handle="handle"
+        endpoint=""
+        ariaHideApp={false}
+      />
+    </TestQueryCache>
   )
 
   userEvent.type(
@@ -27,13 +31,15 @@ test('form is disabled when handle is wrong', async () => {
 
 test('form is enabled when handle is correct', async () => {
   render(
-    <DeleteAccountModal
-      open
-      onClose={jest.fn()}
-      handle="handle"
-      endpoint=""
-      ariaHideApp={false}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <DeleteAccountModal
+        open
+        onClose={jest.fn()}
+        handle="handle"
+        endpoint=""
+        ariaHideApp={false}
+      />
+    </TestQueryCache>
   )
 
   userEvent.type(

@@ -1,13 +1,12 @@
 import React from 'react'
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, screen, waitFor } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { CommitStep } from '../../../../../app/javascript/components/modals/mentor-registration-modal/CommitStep'
 import userEvent from '@testing-library/user-event'
-import { TestQueryCache } from '../../../support/TestQueryCache'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { expectConsoleError } from '../../../support/silence-console'
-import { queryCache } from 'react-query'
 import flushPromises from 'flush-promises'
 import { awaitPopper } from '../../../support/await-popper'
 
@@ -57,11 +56,7 @@ test('continue and back button are disabled while request is sending', async () 
   )
   server.listen()
 
-  render(
-    <TestQueryCache>
-      <CommitStep links={links} onContinue={() => {}} />
-    </TestQueryCache>
-  )
+  render(<CommitStep links={links} onContinue={() => null} />)
 
   userEvent.click(
     await screen.findByRole('checkbox', {
@@ -88,14 +83,14 @@ test('continue and back button are disabled while request is sending', async () 
   })
   await awaitPopper()
 
-  waitFor(() => {
+  await waitFor(() => {
     expect(screen.getByRole('button', { name: /Continue/ })).toBeDisabled()
     expect(screen.getByRole('button', { name: /Back/ })).toBeDisabled()
   })
 
   await flushPromises()
   await awaitPopper()
-  queryCache.cancelQueries()
+  // queryClient.cancelQueries()
   server.close()
 })
 test('shows API errors', async () => {
@@ -116,11 +111,7 @@ test('shows API errors', async () => {
   )
   server.listen()
 
-  render(
-    <TestQueryCache>
-      <CommitStep links={links} onContinue={() => {}} />
-    </TestQueryCache>
-  )
+  render(<CommitStep links={links} onContinue={() => null} />)
 
   userEvent.click(
     screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })
@@ -146,7 +137,6 @@ test('shows API errors', async () => {
   })
 
   flushPromises()
-  queryCache.cancelQueries()
   server.close()
 })
 
@@ -155,7 +145,7 @@ test('shows generic errors', async () => {
     registration: 'wrong',
   }
 
-  render(<CommitStep links={links} onContinue={() => {}} />)
+  render(<CommitStep links={links} onContinue={() => null} />)
 
   userEvent.click(
     screen.getByRole('checkbox', { name: /Abide by the Code of Conduct/ })

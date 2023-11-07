@@ -104,7 +104,12 @@ export default ({
     STATUS_FILTERS.find((filter) => filter.id === defaultStatus) ||
       STATUS_FILTERS[0]
   )
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
     { solutions: SolutionForStudent[]; exercises: Exercise[] },
     Error | Response
   >(['exercise-list', request], request)

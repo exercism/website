@@ -27,11 +27,15 @@ export const RequestMentoringModal = ({
   links: Links
 }): JSX.Element => {
   const { request, setPage, setCriteria } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<SolutionForStudent[]>,
-      Error | Response
-    >(['exercises-for-mentoring', request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<SolutionForStudent[]>,
+    Error | Response
+  >(['exercises-for-mentoring', request.query], request)
 
   return (
     <Modal
@@ -94,7 +98,7 @@ export const RequestMentoringModal = ({
               </div>
             </ResultsZone>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

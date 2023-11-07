@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { useQueryCache } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -49,14 +49,18 @@ export default function NotificationsList({
   request: Request
   links: Links
 }): JSX.Element {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const { request, setPage } = useList(initialRequest)
   const cacheKey = useMemo(
     () => ['notifications-list', removeEmpty(request.query)],
     [request.query]
   )
-  const { status, resolvedData, latestData, error, isFetching } =
-    usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
+  const {
+    status,
+    data: resolvedData,
+    error,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
 
   const [selected, setSelected] = useState<Notification[]>([])
 
@@ -105,13 +109,13 @@ export default function NotificationsList({
           {
             onSuccess: () => {
               setSelected([])
-              queryCache.invalidateQueries(cacheKey)
+              queryClient.invalidateQueries(cacheKey)
             },
           }
         )
       }
     },
-    [cacheKey, selected, queryCache]
+    [cacheKey, selected, queryClient]
   )
 
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')
@@ -173,7 +177,7 @@ export default function NotificationsList({
                 disabled={disabled}
               />
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

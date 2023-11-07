@@ -62,11 +62,15 @@ export default function TestimonialsList({
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+  })
 
   const setTrack = useCallback(
     (trackSlug) => {
@@ -165,7 +169,7 @@ export default function TestimonialsList({
       </article>
       {resolvedData ? (
         <Pagination
-          disabled={latestData === undefined}
+          disabled={resolvedData === undefined}
           current={request.query.page || 1}
           total={resolvedData.meta.totalPages}
           setPage={(p) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { Pagination } from '@/components/common/Pagination'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { Solution } from './Solution'
@@ -10,7 +10,6 @@ const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
 type Props = {
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   page: number
   setPage: (page: number) => void
 }
@@ -31,7 +30,7 @@ export const SolutionList = ({
   )
 }
 
-const Component = ({ resolvedData, latestData, page, setPage }: Props) => {
+const Component = ({ resolvedData, page, setPage }: Props) => {
   return (
     <>
       {resolvedData && resolvedData.results.length > 0 ? (
@@ -45,7 +44,7 @@ const Component = ({ resolvedData, latestData, page, setPage }: Props) => {
           </div>
           <footer>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={page}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

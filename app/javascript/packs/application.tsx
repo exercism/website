@@ -178,15 +178,16 @@ const PerksExternalModalButton = lazy(
 
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
+import { QueryClient } from '@tanstack/react-query'
 declare global {
   interface Window {
     Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
-    queryCache: QueryCache
+    queryClient: QueryClient
   }
 }
-
-import { QueryCache } from 'react-query'
-window.queryCache = new QueryCache()
+// use query client by pulling it out of the provider with useQueryClient hook
+// const queryClient = useQueryClient()
+window.queryClient = new QueryClient()
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components

@@ -45,7 +45,7 @@ export default function Queue({
     error: trackListError,
     isFetching: isTrackListFetching,
   } = useTrackList({
-    cacheKey: TRACKS_LIST_CACHE_KEY,
+    cacheKey: [TRACKS_LIST_CACHE_KEY],
     request: tracksRequest,
   })
   const [selectedTrack, setSelectedTrack] =
@@ -59,7 +59,6 @@ export default function Queue({
     useState<MentoredTrackExercise | null>(defaultExercise)
   const {
     resolvedData,
-    latestData,
     isFetching,
     criteria,
     setCriteria,
@@ -137,7 +136,6 @@ export default function Queue({
             error={error}
             page={page}
             resolvedData={resolvedData}
-            latestData={latestData}
             setPage={setPage}
           />
         </ResultsZone>
@@ -150,7 +148,7 @@ export default function Queue({
           isFetching={isTrackListFetching}
           value={selectedTrack}
           setValue={handleTrackChange}
-          cacheKey={TRACKS_LIST_CACHE_KEY}
+          cacheKey={[TRACKS_LIST_CACHE_KEY]}
           links={links}
         />
         <ExerciseFilterList

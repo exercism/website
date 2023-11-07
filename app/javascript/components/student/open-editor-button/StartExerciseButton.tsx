@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils/redirect-to'
 import { FormButton } from '@/components/common/FormButton'
@@ -14,10 +14,14 @@ export const StartExerciseButton = ({
   endpoint: string
   className?: string
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<{
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<{
     links: { exercise: string }
   }>(
-    () => {
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

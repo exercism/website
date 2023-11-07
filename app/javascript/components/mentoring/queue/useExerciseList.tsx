@@ -1,4 +1,4 @@
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { MentoredTrack, MentoredTrackExercise } from '../../types'
 import { usePaginatedRequestQuery } from '../../../hooks/request-query'
 
@@ -13,7 +13,7 @@ export const useExerciseList = ({
   error: unknown
 } => {
   const {
-    resolvedData: exercises,
+    data: exercises,
     status,
     isFetching,
     error,

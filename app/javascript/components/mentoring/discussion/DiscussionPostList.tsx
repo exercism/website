@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
-import { QueryStatus, useQueryCache } from 'react-query'
+import { QueryStatus, useQueryClient } from '@tanstack/react-query'
 import { DiscussionPostProps } from './DiscussionPost'
 import { Loading } from '../../common/Loading'
 import { Iteration } from '../../types'
@@ -31,7 +31,7 @@ export const DiscussionPostList = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element | null => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const { cacheKey } = useContext(PostsContext)
   const posts = usePosts(iterations)
   const { highlightedPost, highlightedPostRef } = usePostHighlighting(
@@ -44,13 +44,13 @@ export const DiscussionPostList = ({
     handleEditCancel,
     handleUpdate,
     handleDelete,
-  } = useItemList<DiscussionPostProps>(cacheKey)
+  } = useItemList<DiscussionPostProps>([cacheKey])
   const { iterationsWithRef } = usePostScrolling({
     iterations: iterations,
     onScroll: onIterationScroll,
   })
   const iterationsToShow = useListTrimming<IterationWithRef>(iterationsWithRef)
-  useChannel(discussionUuid, () => queryCache.invalidateQueries(cacheKey))
+  useChannel(discussionUuid, () => queryClient.invalidateQueries([cacheKey]))
 
   if (status === 'loading') {
     return (

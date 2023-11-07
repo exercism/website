@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils/redirect-to'
 import { typecheck } from '@/utils/typecheck'
@@ -27,8 +27,12 @@ export const ExerciseUpdateForm = ({
 }): JSX.Element => {
   const [tab, setTab] = useState(diff.files[0].relativePath)
 
-  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<SolutionForStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: diff.links.update,
         method: 'PATCH',

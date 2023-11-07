@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContinuousHighlighting } from '@/hooks/use-syntax-highlighting'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import type { File } from '@/components/types'
 
 export const FileViewer = ({
@@ -11,7 +11,7 @@ export const FileViewer = ({
   indentSize: number
   file: File
 }): JSX.Element => {
-  const parentRef = useContinuousHighlighting<HTMLPreElement>(file.content)
+  const parentRef = useHighlighting<HTMLPreElement>(file.content)
 
   return (
     <pre ref={parentRef}>

@@ -39,9 +39,14 @@ export const IterationView = ({
   downloadCommand: string
 }): JSX.Element => {
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
-  const { resolvedData, error, status, isFetching } = usePaginatedRequestQuery<{
+  const {
+    data: resolvedData,
+    error,
+    status,
+    isFetching,
+  } = usePaginatedRequestQuery<{
     files: readonly File[]
-  }>(currentIteration.links.files, {
+  }>([currentIteration.links.files], {
     endpoint: currentIteration.links.files,
     options: {},
   })

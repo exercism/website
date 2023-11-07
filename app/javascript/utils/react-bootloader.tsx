@@ -1,9 +1,9 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import Bugsnag from '@bugsnag/js'
 import BugsnagPluginReact from '@bugsnag/plugin-react'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
-import { ReactQueryCacheProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 type ErrorBoundaryType = React.ComponentType<any>
 
@@ -146,17 +146,25 @@ export function initReact(mappings: Mappings): void {
   }
 }
 
+const roots = new WeakMap()
 const render = (elem: HTMLElement, component: React.ReactNode) => {
-  ReactDOM.render(
+  let root = roots.get(elem)
+
+  if (!root) {
+    root = createRoot(elem)
+    roots.set(elem, root)
+  }
+
+  root.render(
     <React.StrictMode>
-      <ReactQueryCacheProvider queryCache={window.queryCache}>
+      <QueryClientProvider client={window.queryClient}>
         <ErrorBoundary>{component}</ErrorBoundary>
-      </ReactQueryCacheProvider>
-    </React.StrictMode>,
-    elem
+      </QueryClientProvider>
+    </React.StrictMode>
   )
   document.addEventListener('turbo:before-frame-render', () => {
-    ReactDOM.unmountComponentAtNode(elem)
+    root.unmount()
+    roots.delete(elem)
   })
 }
 

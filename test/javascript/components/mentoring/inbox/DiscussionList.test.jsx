@@ -1,6 +1,5 @@
 import React from 'react'
-import { setConsole } from 'react-query'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
@@ -11,13 +10,6 @@ const server = setupServer(
     return res(ctx.status(500, 'Internal server error'))
   })
 )
-
-// Don't output logging from react-query
-setConsole({
-  log: () => {},
-  warn: () => {},
-  error: () => {},
-})
 
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
@@ -38,5 +30,6 @@ test('allow retry after loading error', async () => {
     />
   )
 
-  await waitFor(() => expect(screen.getByText('Retry')).toBeInTheDocument())
+  const text = await screen.findByText('Retry')
+  expect(text).toBeInTheDocument()
 })

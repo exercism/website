@@ -1,14 +1,12 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../../test-utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { MentoringRequestForm } from '../../../../../../app/javascript/components/student/mentoring-session/mentoring-request/MentoringRequestForm'
 import userEvent from '@testing-library/user-event'
-import {
-  expectConsoleError,
-  silenceConsole,
-} from '../../../../support/silence-console'
+import { expectConsoleError } from '../../../../support/silence-console'
 
 const server = setupServer(
   rest.post('https://exercism.test/mentor_requests', (req, res, ctx) => {
@@ -95,7 +93,7 @@ test('shows API error message', async () => {
         }}
         exercise={{}}
         track={{}}
-        onSuccess={() => {}}
+        onSuccess={() => null}
       />
     )
     userEvent.click(
@@ -115,7 +113,7 @@ test('shows generic error message', async () => {
         }}
         exercise={{}}
         track={{}}
-        onSuccess={() => {}}
+        onSuccess={() => null}
       />
     )
     userEvent.click(

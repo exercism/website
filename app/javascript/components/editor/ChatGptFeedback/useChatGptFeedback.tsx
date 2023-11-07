@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
-import { MutateFunction, QueryStatus, useMutation } from 'react-query'
+import {
+  MutationStatus,
+  UseMutateFunction,
+  useMutation,
+} from '@tanstack/react-query'
 import { AIHelpRecordsChannel } from '@/channels/aiHelpRecordsChannel'
 import { sendRequest } from '@/utils/send-request'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
@@ -22,12 +26,12 @@ export type FetchingStatus = 'unfetched' | 'fetching' | 'received'
 export type useChatGptFeedbackProps = {
   helpRecord: HelpRecord | undefined | null
   unfetched: boolean
-  mutation: MutateFunction<void, unknown, undefined, unknown>
+  mutation: UseMutateFunction<void, unknown, void, unknown>
   setStatus: React.Dispatch<React.SetStateAction<FetchingStatus>>
   status: FetchingStatus
   submissionUuid: string | undefined
   setSubmissionUuid: React.Dispatch<React.SetStateAction<string | undefined>>
-  mutationStatus: QueryStatus
+  mutationStatus: MutationStatus
   mutationError: unknown
   exceededLimit: boolean
   chatGptUsage: GptUsage
@@ -60,20 +64,23 @@ export function useChatGptFeedback({
     }
   }, [])
 
-  const [mutation, { status: mutationStatus, error: mutationError }] =
-    useMutation<void>(
-      async () => {
-        if (!submission) return
-        const { fetch } = sendRequest({
-          endpoint: submission?.links.aiHelp,
-          method: 'POST',
-          body: JSON.stringify({ chatgpt_version: GPTModel }),
-        })
+  const {
+    mutate: mutation,
+    status: mutationStatus,
+    error: mutationError,
+  } = useMutation<void>(
+    async () => {
+      if (!submission) return
+      const { fetch } = sendRequest({
+        endpoint: submission?.links.aiHelp,
+        method: 'POST',
+        body: JSON.stringify({ chatgpt_version: GPTModel }),
+      })
 
-        return fetch.then(() => setStatus('fetching'))
-      },
-      { onError }
-    )
+      return fetch.then(() => setStatus('fetching'))
+    },
+    { onError }
+  )
 
   useEffect(() => {
     if (!submission) return

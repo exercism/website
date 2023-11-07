@@ -31,6 +31,6 @@ class API::Tracks::TagsController < API::BaseController
   end
 
   def use_tag
-    @tag = @track.analyzer_tags.find_by!(tag: params[:tag])
+    @tag = @track.analyzer_tags.find_by!(tag: params[:tag].gsub(':dot:', '.'))
   end
 end

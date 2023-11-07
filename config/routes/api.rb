@@ -69,10 +69,10 @@ namespace :api do
     resources :tracks, only: [], controller: "user_tracks", param: :slug do
       resources :tags, only: %i[], controller: "tracks/tags", param: :tag do
         member do
-          post :filterable, constraints: { tag: %r{[^/]+} }
-          delete :filterable, to: 'tracks/tags#not_filterable', as: "not_filterable", constraints: { tag: %r{[^/]+} }
-          post :enabled, constraints: { tag: %r{[^/]+} }
-          delete :enabled, to: 'tracks/tags#not_enabled', as: "not_enabled", constraints: { tag: %r{[^/]+} }
+          post :filterable
+          delete :filterable, to: 'tracks/tags#not_filterable', as: "not_filterable"
+          post :enabled
+          delete :enabled, to: 'tracks/tags#not_enabled', as: "not_enabled"
         end
       end
 

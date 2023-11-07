@@ -28,7 +28,7 @@ module API
     end
 
     test "should accept tag with dot in it" do
-      tag = create :track_tag, filterable: false, tag: "uses:string.Contains(char, System.StringComparison)"
+      tag = create :track_tag, filterable: false, tag: "uses:string:dot:Contains(char, System:dot:StringComparison)"
       refute tag.reload.filterable
 
       setup_user(create(:user, :maintainer))

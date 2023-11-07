@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { GraphicalIcon } from '@/components/common'
 import { RecordRow } from './track-status-tags/RecordRow'
 import { FirstRow } from './track-status-tags/FirstRow'
-import { TrackHeader } from './track-status-tags/TrackHeader'
 import type {
   Links,
   TrackStatusTagsType,
@@ -32,29 +30,17 @@ export function TrackStatusTags({
   const [editMode, setEditMode] = useState(false)
 
   return (
-    <div className="track-team-group">
-      <TrackHeader links={links} />
-      <details>
-        <summary>
-          {status.tags.tags.length} tags
-          <GraphicalIcon icon="chevron-right" className="summary-chevron" />
-        </summary>
-        <FirstRow />
-        {status.tags.tags.map((tag, index) => (
-          <RecordRow
-            editMode={editMode}
-            status={status}
-            tag={tag}
-            key={index}
-          />
-        ))}
-        <button
-          onClick={() => setEditMode((e) => !e)}
-          className="btn-m btn-primary"
-        >
-          Edit
-        </button>
-      </details>
-    </div>
+    <>
+      <FirstRow />
+      {status.tags.tags.map((tag, index) => (
+        <RecordRow editMode={editMode} status={status} tag={tag} key={index} />
+      ))}
+      <button
+        onClick={() => setEditMode((e) => !e)}
+        className="btn-s btn-secondary w-100 mt-24"
+      >
+        Toggle Edit Mode
+      </button>
+    </>
   )
 }

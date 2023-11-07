@@ -73,7 +73,7 @@
 
         = render "show_syllabus", track: @track, status: @status
         = render "show_practice_exercises", track: @track, status: @status
-        = render "show_tags", track: @track, status: @status
+        = render "show_tags", track: @track, status: @status, tags: @tags
         = render "show_test_runner", track: @track, status: @status, current_sha: @test_runner_sha
         = render "show_representer", track: @track, status: @status, current_sha: @representer_sha
         = render "show_analyzer", track: @track, status: @status, current_sha: @analyzer_sha

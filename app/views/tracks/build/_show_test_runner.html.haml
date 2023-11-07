@@ -15,7 +15,7 @@
     %p.text-16
       Current version:
       %strong= current_sha
-      %span.italic (It may take a few mins to deploy new versions across all servers).
+      %span.italic (Takes up to 10 mins to deploy)
     - if status.test_runner.version_target
       .action-required.mt-16
         Next goal: Get Test Runners to Version #{status.test_runner.version_target}. #{track.title} is currently utilising a Version #{status.test_runner.version} Test Runner.
@@ -37,7 +37,4 @@
       .record-row
         .record-name Test Run Error Rate
         .record-value #{status.test_runner.num_errored_percentage}% (#{status.test_runner.num_errored})
-
-  = render ReactComponents::Common::Credits.new(status.test_runner.volunteers.users, status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
-
 

@@ -92,7 +92,6 @@ class Track::UpdateBuildStatus
       num_passed_percentage: percentage(num_passed, num_runs),
       num_failed_percentage: percentage(num_failed, num_runs),
       num_errored_percentage: percentage(num_errored, num_runs),
-      volunteers: serialize_tooling_volunteers(track.test_runner_repo_url),
       health: test_runner_health,
       version: test_runner_version,
       version_target: test_runner_version_target

@@ -17,12 +17,22 @@ class SerializeMentorRequests
     {
       uuid: request.uuid,
 
-      track_title: request.track_title,
-      exercise_icon_url: request.exercise_icon_url,
-      exercise_title: request.exercise_title,
+      track: {
+        title: request.track_title
+      },
+      exercise: {
+        icon_url: request.exercise_icon_url,
+        title: request.exercise_title
+      },
 
-      student_handle: request.student_handle,
-      student_avatar_url: request.student_avatar_url,
+      student: {
+        handle: request.student_handle,
+        avatar_url: request.student_avatar_url
+      },
+
+      solution: {
+        uuid: request.solution.uuid
+      },
 
       # TODO: Should this be requested_at?
       updated_at: request.created_at.iso8601,

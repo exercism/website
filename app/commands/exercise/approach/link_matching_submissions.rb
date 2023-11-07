@@ -4,28 +4,29 @@ class Exercise::Approach::LinkMatchingSubmissions
   initialize_with :approach
 
   def call
-    return relink_submissions! if approach.tags.blank?
+    # Check if the submissions currently linked to this approach should retain their
+    # link to this approach. If not, check if they can be linked to another approach (or not)
+    relink_matched_submissions!
 
-    update_submissions!(linked_submissions)
-    update_submissions!(unlinked_submissions.tagged)
+    # Check if the submissions not yet linked to an approach, but that could be,
+    # can be linked to this approach
+    link_unmatched_submissions!
   end
 
   private
-  def linked_submissions = Submission.where(exercise:, approach:)
-  def unlinked_submissions = Submission.where(exercise:, approach: nil)
+  def relink_matched_submissions!
+    Submission.has_iteration.tagged.where(exercise:, approach:).find_each do |submission|
+      next if approach.matches_tags?(submission.tags)
 
-  def update_submissions!(submissions)
-    submissions.find_each do |submission|
-      new_approach = approach.matches_tags?(submission.tags) ? approach : nil
-      submission.update(approach: new_approach)
+      Submission::LinkToMatchingApproach.defer(submission)
     rescue StandardError => e
       Bugsnag.notify(e)
     end
   end
 
-  def relink_submissions!
-    linked_submissions.find_each do |submission|
-      Submission::LinkToMatchingApproach.defer(submission)
+  def link_unmatched_submissions!
+    Submission.has_iteration.tagged.where(exercise:, approach: nil).find_each do |submission|
+      submission.update!(approach:) if approach.matches_tags?(submission.tags)
     rescue StandardError => e
       Bugsnag.notify(e)
     end

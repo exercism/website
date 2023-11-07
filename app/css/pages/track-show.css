@@ -482,6 +482,12 @@
         }
     }
 
+    & section.live-section {
+        .cover {
+            width: 0;
+        }
+    }
+
     & article.updates-article {
         @apply pt-64 pb-40;
 

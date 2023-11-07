@@ -5,7 +5,7 @@ module ReactComponents
       def to_s
         super("track-build-analyzer-tags", {
           tags: combined_tags,
-          editor: current_user.maintainer?,
+          editor: current_user&.maintainer?,
           endpoints: {
             filterable: Exercism::Routes.filterable_api_track_tag_path(track_slug, ':tag'),
             enabled: Exercism::Routes.enabled_api_track_tag_path(track_slug, ':tag')

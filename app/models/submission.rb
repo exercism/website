@@ -48,6 +48,7 @@ class Submission < ApplicationRecord
 
   scope :tagged, -> { where.not(tags: nil) }
   scope :untagged, -> { where(tags: nil) }
+  scope :has_iteration, -> { joins(:iteration) }
 
   before_validation on: :create do
     self.track = solution.track unless track

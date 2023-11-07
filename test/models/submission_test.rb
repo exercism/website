@@ -610,4 +610,11 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal [tagged], Submission.tagged
     assert_equal [untagged], Submission.untagged
   end
+
+  test "has_iteration scope" do
+    has_iteration = create(:submission, iteration: create(:iteration))
+    create(:submission, iteration: nil)
+
+    assert_equal [has_iteration], Submission.has_iteration
+  end
 end

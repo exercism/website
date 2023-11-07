@@ -22,6 +22,7 @@ module ReactComponents
             end
           },
           tags: sample.tags,
+          all_tags:,
           links: {
             confirm_tags_api: '',
             next_sample: Exercism::Routes.next_training_data_code_tags_samples_path(track_id: track.id, status: sample.status),
@@ -32,6 +33,10 @@ module ReactComponents
       end
 
       delegate :track, :exercise, to: :sample
+
+      def all_tags
+        Track::Tag.enabled.order(:tag).pluck(&:tag)
+      end
     end
   end
 end

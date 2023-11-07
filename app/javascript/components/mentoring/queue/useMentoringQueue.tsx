@@ -8,12 +8,10 @@ import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {
   uuid: string
-  trackTitle: string
-  trackIconUrl: string
-  exerciseTitle: string
-  exerciseIconUrl: string
-  studentHandle: string
-  studentAvatarUrl: string
+  track: { title: string }
+  exercise: { title: string; iconUrl: string }
+  student: { handle: string; avatarUrl: string }
+  solution: { uuid: string }
   updatedAt: string
   isFavorited: boolean
   haveMentoredPreviously: boolean

@@ -1,9 +1,9 @@
 module ReactComponents
   module Track
-    class Build::TrackStatusTags < ReactComponent
+    class Build::AnalyzerTags < ReactComponent
       initialize_with :tags, :solution_counts
       def to_s
-        super("track-build-track-status-tags", {
+        super("track-build-analyzer-tags", {
           tags: combined_tags,
           editor: current_user.maintainer?
         })

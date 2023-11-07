@@ -3,7 +3,7 @@ export type Tag = {
   enabled: boolean
   filterable: boolean
 }
-export type TrackStatusTagsType = {
+export type AnalyzerTagsType = {
   tags: {
     tags: Tag[]
     solutionCounts: Record<string, number>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { RecordRow } from './track-status-tags/RecordRow'
-import { FirstRow } from './track-status-tags/FirstRow'
+import { RecordRow } from './analyzer-tags/RecordRow'
+import { FirstRow } from './analyzer-tags/FirstRow'
 import type {
+  AnalyzerTagsType,
   Links,
-  TrackStatusTagsType,
-} from './track-status-tags/TrackStatusTags.types'
+} from './analyzer-tags/AnalyzerTags.types'
 
-const statusMockData: TrackStatusTagsType = {
+const statusMockData: AnalyzerTagsType = {
   tags: {
     tags: [
       { tag: 'construct:add', enabled: true, filterable: true },
@@ -19,11 +19,11 @@ const statusMockData: TrackStatusTagsType = {
   },
 }
 
-export function TrackStatusTags({
+export function AnalyzerTags({
   buildStatus = statusMockData,
   links,
 }: {
-  buildStatus: TrackStatusTagsType
+  buildStatus: AnalyzerTagsType
   links?: Links
 }): JSX.Element {
   const [status, setStatus] = useState(buildStatus)

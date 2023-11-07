@@ -1,5 +1,5 @@
 import React from 'react'
-import type { TrackStatusTagsType, Tag } from './TrackStatusTags.types'
+import type { AnalyzerTagsType, Tag } from './AnalyzerTags.types'
 import { TagTogglerButton } from './TagTogglerButton'
 import { capitalize } from '@/utils/capitalize'
 
@@ -8,7 +8,7 @@ export function RecordRow({
   tag,
   editMode,
 }: {
-  status: TrackStatusTagsType
+  status: AnalyzerTagsType
   tag: Tag
   editMode: boolean
 }) {

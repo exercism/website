@@ -10,5 +10,5 @@
     %summary
       #{tags.size} tags
       = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-    = render ReactComponents::Track::Build::TrackStatusTags.new(tags, status.tags.solution_counts)
+    = render ReactComponents::Track::Build::AnalyzerTags.new(tags, status.tags.solution_counts)
 

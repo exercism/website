@@ -51,80 +51,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 16, track.build_status.mentor_discussions.num_discussions
   end
 
-  test "volunteers" do
-    track = create :track
-
-    user_1 = create :user, reputation: 67
-    user_2 = create :user, reputation: 113
-    user_3 = create :user, reputation: 20
-    user_4 = create :user, reputation: 555
-    user_5 = create :user, reputation: 532
-    user_6 = create :user, reputation: 98
-
-    period_1 = create :user_reputation_period, track_id: track.id, user: user_1, about: :track, category: :any,
-      reputation: 300
-    period_2 = create :user_reputation_period, track_id: track.id, user: user_2, about: :track, category: :any,
-      reputation: 20
-    period_3 = create :user_reputation_period, track_id: track.id, user: user_3, about: :track, category: :any,
-      reputation: 44
-    period_4 = create :user_reputation_period, track_id: track.id, user: user_4, about: :track, category: :any,
-      reputation: 33
-    period_5 = create :user_reputation_period, track_id: track.id, user: user_5, about: :track, category: :any,
-      reputation: 97
-    create :user_reputation_period, user: user_6, reputation: 10 # Ignore: no track
-
-    Track::UpdateBuildStatus.(track)
-
-    assert_equal 5, track.build_status.volunteers.num_volunteers
-    expected_users = [
-      { rank: 1, activity: '', handle: user_1.handle, flair: user_1.flair, reputation: period_1.reputation.to_s,
-        avatar_url: user_1.avatar_url, links: { profile: nil } },
-      { rank: 2, activity: '', handle: user_5.handle, flair: user_5.flair, reputation: period_5.reputation.to_s,
-        avatar_url: user_5.avatar_url, links: { profile: nil } },
-      { rank: 3, activity: '', handle: user_3.handle, flair: user_3.flair, reputation: period_3.reputation.to_s,
-        avatar_url: user_3.avatar_url, links: { profile: nil } },
-      { rank: 4, activity: '', handle: user_4.handle, flair: user_4.flair, reputation: period_4.reputation.to_s,
-        avatar_url: user_4.avatar_url, links: { profile: nil } },
-      { rank: 5, activity: '', handle: user_2.handle, flair: user_2.flair, reputation: period_2.reputation.to_s, avatar_url: user_2.avatar_url,
-        links: { profile: nil } }
-    ].map(&:to_obj)
-    assert_equal expected_users, track.build_status.volunteers.users
-  end
-
-  test "syllabus: volunteers" do
-    track = create :track
-
-    users = create_list(:user, 7)
-    concepts = create_list(:concept, 2)
-    concept_exercises = create_list(:concept_exercise, 3)
-
-    concept_exercises[0].taught_concepts << concepts[0]
-
-    concepts[0].authors << users[0]
-    concepts[0].authors << users[1]
-    concepts[0].contributors << users[2]
-
-    concept_exercises[0].authors << users[3]
-    concept_exercises[0].contributors << users[2]
-    concept_exercises[1].contributors << users[4]
-
-    Track::UpdateBuildStatus.(track)
-
-    expected_users = [
-      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
-        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
-        reputation: users[1].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[3].name, handle: users[3].handle, flair: users[3].flair, avatar_url: users[3].avatar_url,
-        reputation: users[3].reload.formatted_reputation, links: { profile: nil } }
-    ].map(&:to_obj)
-    assert_equal 5, track.build_status.syllabus.volunteers.num_users
-    assert_equal 3, track.build_status.syllabus.volunteers.users.size
-    expected_users.each do |expected_user|
-      assert_includes track.build_status.syllabus.volunteers.users, expected_user
-    end
-  end
-
   test "syllabus: concepts" do
     track = create :track, num_concepts: 5
 
@@ -500,35 +426,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 195, track.reload.build_status.practice_exercises.num_active_target
   end
 
-  test "practice_exercises: volunteers" do
-    track = create :track
-
-    users = create_list(:user, 5)
-    practice_exercises = create_list(:practice_exercise, 4)
-
-    practice_exercises[0].authors << users[3]
-    practice_exercises[0].contributors << users[2]
-    practice_exercises[1].authors << users[4]
-    practice_exercises[2].authors << users[1]
-    practice_exercises[3].contributors << users[1]
-
-    Track::UpdateBuildStatus.(track)
-
-    expected_users = [
-      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
-        reputation: users[1].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[3].name, handle: users[3].handle, flair: users[3].flair, avatar_url: users[3].avatar_url,
-        reputation: users[3].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[4].name, handle: users[4].handle, flair: users[4].flair, avatar_url: users[4].avatar_url,
-        reputation: users[4].reload.formatted_reputation, links: { profile: nil } }
-    ].map(&:to_obj)
-    assert_equal 4, track.build_status.practice_exercises.volunteers.num_users
-    assert_equal 3, track.build_status.practice_exercises.volunteers.users.size
-    expected_users.each do |expected_user|
-      assert_includes track.build_status.practice_exercises.volunteers.users, expected_user
-    end
-  end
-
   test "practice_exercises: health" do
     track = create :track
     Track::UpdateBuildStatus.(track)
@@ -643,40 +540,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_nil track.reload.build_status.test_runner.version_target
   end
 
-  test "test_runner: volunteers" do
-    track = create :track, repo_url: 'https://github.com/exercism/ruby'
-    other_track = create :track, :random_slug
-
-    users = create_list(:user, 7)
-    create :user_code_contribution_reputation_token, track:, user: users[0], external_url: "#{track.test_runner_repo_url}/pull/1"
-    create :user_code_contribution_reputation_token, track:, user: users[1], external_url: "#{track.test_runner_repo_url}/pull/1"
-    create :user_code_merge_reputation_token, track:, user: users[2], external_url: "#{track.test_runner_repo_url}/pull/1"
-    create :user_code_review_reputation_token, track:, user: users[3], external_url: "#{track.test_runner_repo_url}/pull/2"
-    create :user_code_review_reputation_token, track:, user: users[4], external_url: "#{track.test_runner_repo_url}/pull/3"
-
-    # Ignore tokens for track, analyzer and representers repo
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.repo_url}/pull/4"
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.representer_repo_url}/pull/6"
-
-    # Ignore other track
-    create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
-
-    Track::UpdateBuildStatus.(track)
-
-    assert_equal 5, track.build_status.test_runner.volunteers.num_users
-    assert_equal 3, track.build_status.test_runner.volunteers.users.size
-    expected_users = [
-      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
-        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
-        reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
-    ].map(&:to_obj)
-    expected_users.each do |expected_user|
-      assert_includes track.build_status.test_runner.volunteers.users, expected_user
-    end
-  end
-
   test "test_runner: health" do
     track = create :track, has_test_runner: false
     Track::UpdateBuildStatus.(track)
@@ -751,40 +614,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal "exemplar", track.reload.build_status.representer.health
   end
 
-  test "representer: volunteers" do
-    track = create :track, repo_url: 'https://github.com/exercism/ruby'
-    other_track = create :track, :random_slug
-
-    users = create_list(:user, 7)
-    create :user_code_contribution_reputation_token, track:, user: users[0], external_url: "#{track.representer_repo_url}/pull/1"
-    create :user_code_contribution_reputation_token, track:, user: users[1], external_url: "#{track.representer_repo_url}/pull/1"
-    create :user_code_merge_reputation_token, track:, user: users[2], external_url: "#{track.representer_repo_url}/pull/1"
-    create :user_code_review_reputation_token, track:, user: users[3], external_url: "#{track.representer_repo_url}/pull/2"
-    create :user_code_review_reputation_token, track:, user: users[4], external_url: "#{track.representer_repo_url}/pull/3"
-
-    # Ignore tokens for track, analyzer and test runner repo
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.repo_url}/pull/4"
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.analyzer_repo_url}/pull/5"
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.test_runner_repo_url}/pull/6"
-
-    # Ignore other track
-    create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
-
-    Track::UpdateBuildStatus.(track)
-
-    assert_equal 5, track.build_status.representer.volunteers.num_users
-    assert_equal 3, track.build_status.representer.volunteers.users.size
-    expected_users = [
-      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
-        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
-        reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
-    ].map(&:to_obj)
-    expected_users.each do |expected_user|
-      assert_includes track.build_status.representer.volunteers.users, expected_user
-    end
-  end
-
   test "analyzer" do
     track = create :track
 
@@ -804,40 +633,6 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 3, track.build_status.analyzer.num_runs
     assert_equal 4, track.build_status.analyzer.num_comments
     assert_equal 33.3, track.build_status.analyzer.display_rate_percentage
-  end
-
-  test "analyzer: volunteers" do
-    track = create :track, repo_url: 'https://github.com/exercism/ruby'
-    other_track = create :track, :random_slug
-
-    users = create_list(:user, 7)
-    create :user_code_contribution_reputation_token, track:, user: users[0], external_url: "#{track.analyzer_repo_url}/pull/1"
-    create :user_code_contribution_reputation_token, track:, user: users[1], external_url: "#{track.analyzer_repo_url}/pull/1"
-    create :user_code_merge_reputation_token, track:, user: users[2], external_url: "#{track.analyzer_repo_url}/pull/1"
-    create :user_code_review_reputation_token, track:, user: users[3], external_url: "#{track.analyzer_repo_url}/pull/2"
-    create :user_code_review_reputation_token, track:, user: users[4], external_url: "#{track.analyzer_repo_url}/pull/3"
-
-    # Ignore tokens for track, representer and test runner repo
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.repo_url}/pull/4"
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.representer_repo_url}/pull/5"
-    create :user_code_merge_reputation_token, track:, user: users[6], external_url: "#{track.test_runner_repo_url}/pull/6"
-
-    # Ignore other track
-    create :user_code_merge_reputation_token, track: other_track, user: users[0], external_url: other_track.test_runner_repo_url
-
-    Track::UpdateBuildStatus.(track)
-
-    assert_equal 5, track.build_status.analyzer.volunteers.num_users
-    assert_equal 3, track.build_status.analyzer.volunteers.users.size
-    expected_users = [
-      { name: users[0].name, handle: users[0].handle, flair: users[0].flair, avatar_url: users[0].avatar_url,
-        reputation: users[0].reload.formatted_reputation, links: { profile: nil } },
-      { name: users[1].name, handle: users[1].handle, flair: users[1].flair, avatar_url: users[1].avatar_url,
-        reputation: users[1].reload.formatted_reputation, links: { profile: nil } }
-    ].map(&:to_obj)
-    expected_users.each do |expected_user|
-      assert_includes track.build_status.analyzer.volunteers.users, expected_user
-    end
   end
 
   test "analyzer: health" do

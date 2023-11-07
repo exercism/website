@@ -2,12 +2,11 @@ export type Tag = {
   tag: string
   enabled: boolean
   filterable: boolean
+  numSolution: number
 }
 export type AnalyzerTagsType = {
-  tags: {
-    tags: Tag[]
-    solutionCounts: Record<string, number>
-  }
+  tags: Tag[]
+  editor: boolean
 }
 
 export type Links = {

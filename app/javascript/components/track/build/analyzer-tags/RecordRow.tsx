@@ -1,17 +1,9 @@
 import React from 'react'
-import type { AnalyzerTagsType, Tag } from './AnalyzerTags.types'
-import { TagTogglerButton } from './TagTogglerButton'
 import { capitalize } from '@/utils/capitalize'
+import { TagTogglerButton } from './TagTogglerButton'
+import type { Tag } from './AnalyzerTags.types'
 
-export function RecordRow({
-  status,
-  tag,
-  editMode,
-}: {
-  status: AnalyzerTagsType
-  tag: Tag
-  editMode: boolean
-}) {
+export function RecordRow({ tag, editMode }: { tag: Tag; editMode: boolean }) {
   return (
     <div className="record-row">
       <div className="record-name">
@@ -39,11 +31,7 @@ export function RecordRow({
           />
         </div>
         <div className="record-element justify-end">
-          <strong>
-            {status.tags.solutionCounts[tag.tag]
-              ? status.tags.solutionCounts[tag.tag].toLocaleString()
-              : 0}
-          </strong>
+          <strong>{tag.numSolution.toLocaleString()}</strong>
         </div>
       </div>
     </div>

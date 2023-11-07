@@ -37,7 +37,8 @@ class Exercise::Approach < ApplicationRecord
   def content_html = Markdown::Parse.(content)
 
   def matches_tags?(check_tags)
-    return false if check_tags.empty?
+    return false if check_tags.blank?
+    return false if tags.blank?
 
     all_tags = tags["all"].to_a
     return false if all_tags.present? && (all_tags - check_tags).present?

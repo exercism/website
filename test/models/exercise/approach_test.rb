@@ -53,10 +53,12 @@ class Exercise::ApproachTest < ActiveSupport::TestCase
     tags = nil
     approach = create(:exercise_approach, tags:)
     refute approach.matches_tags?([])
+    refute approach.matches_tags?(["construct:if"])
 
     tags = {}
     approach.update(tags:)
     refute approach.matches_tags?([])
+    refute approach.matches_tags?(["construct:if"])
 
     tags["all"] = ["construct:if"]
     approach.update(tags:)

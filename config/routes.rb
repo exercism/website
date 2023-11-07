@@ -144,7 +144,6 @@ Rails.application.routes.draw do
     root to: "dashboard#show"
     resources :submissions, only: [:index]
     resources :exercise_representations
-    resources :tracks, only: [:show]
     resources :site_updates, except: [:destroy]
   end
 

@@ -284,7 +284,7 @@
     }
 
     .action-required {
-        @apply py-8 px-16 mb-24;
+        @apply py-8 px-16;
         @apply label-large text-16;
         @apply border-1 border-gradient-lightPurple rounded-16;
 
@@ -295,15 +295,13 @@
 
     .usage-stats-header {
         h4 {
-            @apply text-h4 mb-8;
+            @apply text-h5 mb-8 pb-8;
             @apply c-build-page-before-icon;
+            @apply border-b-1 border-borderColor7;
             &:before {
                 content: url("icons/graph-stats.svg");
             }
         }
-    }
-    .test-runner .record-value {
-        @apply w-1-2;
     }
 
     .sticky {
@@ -354,18 +352,19 @@
         .record-value {
             @apply text-label-timestamp flex md:flex-row flex-col font-semibold;
             .record-element {
-                &[data-record-label="Started"] {
-                    @apply flex-row xs:justify-between justify-start;
-                }
                 @apply md:grid flex xs:flex-row flex-col;
                 @apply md:justify-start justify-between md:w-[128px] md:gap-2;
                 @apply text-14 font-normal md:items-center items-baseline;
+
                 &[data-record-label] {
                     &:before {
                         @apply block md:hidden;
                         @apply mr-8;
                         content: attr(data-record-label) ":";
                     }
+                }
+                &[data-record-label="Started"] {
+                    @apply flex-row xs:justify-between justify-start;
                 }
                 strong {
                     @apply font-semibold;
@@ -376,6 +375,9 @@
                         @apply filter-textColor6;
                         @apply w-[12px];
                     }
+                }
+                &.justify-end {
+                    justify-content: flex-end;
                 }
             }
         }

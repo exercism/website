@@ -1,0 +1,43 @@
+.track-team-group
+  .track-header.mb-16
+    .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
+      %h3.--test-runner-gradient Test Runner
+      = link_to doc_path(:building, "tooling/test-runners"), class: "learn-more-new-tab" do
+        Learn More
+    %p Create Test Runners that have the single responsibility of taking a solution, running all tests and returning a standardized output.
+
+  - if status.test_runner.health == "missing"
+    .action-required
+      Next goal: Build a Test Runner.
+      = link_to doc_path(:building, "tooling/test-runners/interface") do
+        Find out more.
+  - else
+    %p.text-16
+      Current version:
+      %strong= current_sha
+      %span.italic (It may take a few mins to deploy new versions across all servers).
+    - if status.test_runner.version_target
+      .action-required.mt-16
+        Next goal: Get Test Runners to Version #{status.test_runner.version_target}. #{track.title} is currently utilising a Version #{status.test_runner.version} Test Runner.
+        = link_to doc_path(:building, "tooling/test-runners/interface") do
+          Find out more.
+
+  - unless status.test_runner.health == "missing"
+    .border-t-1.border-borderColor6.mt-20.mb-16
+    .c-build-page-stats-container
+      .record-row
+        .record-name Total Test Runner Runs
+        .record-value= number_with_delimiter(status.test_runner.num_runs)
+      .record-row
+        .record-name Test Run Pass Rate
+        .record-value #{status.test_runner.num_passed_percentage}% (#{status.test_runner.num_passed})
+      .record-row
+        .record-name Test Run Fail Rate
+        .record-value #{status.test_runner.num_failed_percentage}% (#{status.test_runner.num_failed})
+      .record-row
+        .record-name Test Run Error Rate
+        .record-value #{status.test_runner.num_errored_percentage}% (#{status.test_runner.num_errored})
+
+  = render ReactComponents::Common::Credits.new(status.test_runner.volunteers.users, status.test_runner.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
+
+

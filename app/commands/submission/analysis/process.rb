@@ -40,7 +40,9 @@ class Submission::Analysis::Process
 
   def handle_completed!
     submission.analysis_completed!
+    submission.update!(tags:)
     Solution::UpdateTags.(submission.solution)
+    Submission::LinkToMatchingApproach.(submission)
   end
 
   memoize
@@ -68,4 +70,7 @@ class Submission::Analysis::Process
     Bugsnag.notify(e)
     {}
   end
+
+  memoize
+  def tags = tags_data[:tags]
 end

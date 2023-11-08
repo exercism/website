@@ -6,6 +6,8 @@ class Git::SyncExerciseApproach
   def call
     find_or_create!.tap do |approach|
       approach.update!(attributes_for_update(approach))
+
+      Exercise::Approach::LinkMatchingSubmissions.(approach) if approach.tags_previously_changed?
     end
   end
 
@@ -23,7 +25,8 @@ class Git::SyncExerciseApproach
   def attributes_for_update(approach)
     attributes_for_create.merge({
       authorships: authorships(approach),
-      contributorships: contributorships(approach)
+      contributorships: contributorships(approach),
+      tags:
     })
   end
 
@@ -35,5 +38,11 @@ class Git::SyncExerciseApproach
   def contributorships(approach)
     ::User.with_data.where(data: { github_username: config[:contributors].to_a }).
       map { |contributor| ::Exercise::Approach::Contributorship::Create.(approach, contributor) }
+  end
+
+  def tags
+    return nil if config[:tags].blank?
+
+    config[:tags].symbolize_keys.slice(:all, :any, :not)
   end
 end

@@ -27,6 +27,18 @@ module API
       assert tag.reload.filterable
     end
 
+    test "should accept tag with dot in it" do
+      tag = create :track_tag, filterable: false, tag: "uses:string.Contains(char, System.StringComparison)"
+      refute tag.reload.filterable
+
+      setup_user(create(:user, :maintainer))
+      post filterable_api_track_tag_path(tag.track.slug, tag.tag),
+        headers: @headers, as: :json
+
+      assert_response :ok
+      assert tag.reload.filterable
+    end
+
     ##################
     # Not filterable #
     ##################

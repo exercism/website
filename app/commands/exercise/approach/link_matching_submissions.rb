@@ -26,7 +26,7 @@ class Exercise::Approach::LinkMatchingSubmissions
 
   def link_unmatched_submissions!
     Submission.has_iteration.tagged.where(exercise:, approach: nil).find_each do |submission|
-      submission.update!(approach:) if approach.matches_tags?(submission.tags)
+      Submission::LinkApproach.(submission, approach) if approach.matches_tags?(submission.tags)
     rescue StandardError => e
       Bugsnag.notify(e)
     end

@@ -6,7 +6,7 @@ class Submission::LinkToMatchingApproach
   initialize_with :submission
 
   def call
-    submission.update!(approach: matching_approach)
+    Submission::LinkApproach.(submission, matching_approach)
   end
 
   def matching_approach

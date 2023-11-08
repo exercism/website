@@ -239,7 +239,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_140031) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "tags"
-    t.integer "num_submissions", default: 0, null: false
+    t.integer "num_solutions", default: 0, null: false
     t.index ["exercise_id", "uuid"], name: "index_exercise_approaches_on_exercise_id_and_uuid", unique: true
     t.index ["exercise_id"], name: "index_exercise_approaches_on_exercise_id"
     t.index ["uuid"], name: "index_exercise_approaches_on_uuid"

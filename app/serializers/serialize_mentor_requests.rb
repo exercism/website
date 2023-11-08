@@ -49,7 +49,7 @@ class SerializeMentorRequests
 
   memoize
   def eager_loaded_requests
-    requests.includes(:exercise, :track, :student).to_a
+    requests.includes(:exercise, :track, :student, :solution).to_a
   end
 
   memoize

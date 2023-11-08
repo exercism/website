@@ -10,11 +10,11 @@ module Flows
       author = create :user, handle: "author"
       ruby = create :track, title: "Ruby"
       exercise = create :concept_exercise, track: ruby, title: "Strings"
-      exercise_representation = create(:exercise_representation, exercise:)
       solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
-        published_iteration_head_tests_status: :passed,
-        published_exercise_representation: exercise_representation
+        published_iteration_head_tests_status: :passed
       submission = create(:submission, solution:, tests_status: :passed)
+      exercise_representation = create(:exercise_representation, source_submission: submission)
+      solution.update!(published_exercise_representation: exercise_representation)
       create :submission_representation, submission:, ast: exercise_representation.ast
       create(:iteration, solution:, submission:)
 
@@ -26,7 +26,7 @@ module Flows
 
       use_capybara_host do
         sign_in!(user)
-        visit track_exercise_solutions_path(exercise.track, exercise)
+        visit track_exercise_solutions_path(ruby, exercise)
       end
 
       assert_text "author's solution"

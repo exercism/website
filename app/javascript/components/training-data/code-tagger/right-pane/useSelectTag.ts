@@ -8,8 +8,11 @@ import {
   CodeTaggerProps,
 } from '../CodeTagger.types'
 
-export function useSelectTag({ links }: Pick<CodeTaggerProps, 'links'>) {
-  const [selectedTags, setSelectedTags] = useState<Tags>([])
+export function useSelectTag({
+  links,
+  defaultSelectedTags,
+}: Pick<CodeTaggerProps, 'links'> & { defaultSelectedTags: Tags }) {
+  const [selectedTags, setSelectedTags] = useState<Tags>(defaultSelectedTags)
 
   const { mutate: confirmTags } = useMutation<CodeTaggerConfirmTagsAPIResponse>(
     () => {

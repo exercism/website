@@ -4,9 +4,11 @@ import { Tags } from '../CodeTagger.types'
 
 export function TagSelector({
   tags,
+  allTags,
   setSelectedTags,
 }: {
   tags: Tags
+  allTags: Tags
   setSelectedTags: React.Dispatch<React.SetStateAction<Tags>>
 }): JSX.Element | null {
   if (!tags) return null
@@ -14,7 +16,8 @@ export function TagSelector({
     <CreatableSelect
       className="creatable-select-component text-p-base"
       isMulti
-      options={formatTags(tags)}
+      defaultValue={formatTags(tags)}
+      options={formatTags(allTags)}
       onChange={(selected): void =>
         setSelectedTags(selected.map((s) => s.label))
       }

@@ -9,12 +9,19 @@ export function RightPane({
   allTags,
   links,
 }: Pick<CodeTaggerProps, 'tags' | 'links' | 'allTags'>): JSX.Element {
-  const { confirmTags, setSelectedTags } = useSelectTag({ links })
+  const { confirmTags, setSelectedTags } = useSelectTag({
+    links,
+    defaultSelectedTags: tags,
+  })
 
   return (
     <div className="px-24 h-100 flex flex-col">
       <PlaceholderStuff />
-      <TagSelector tags={allTags || []} setSelectedTags={setSelectedTags} />
+      <TagSelector
+        tags={tags || []}
+        allTags={allTags || []}
+        setSelectedTags={setSelectedTags}
+      />
       <button
         onClick={() => confirmTags()}
         className="btn-m btn-primary mt-auto mb-64"

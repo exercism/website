@@ -19,7 +19,7 @@ module ReactComponents
             tag: tag.tag,
             enabled: tag.enabled?,
             filterable: tag.filterable?,
-            num_solution: solution_counts[tag.tag]
+            num_solution: solution_counts[tag.tag].to_i
           }
         end
       end

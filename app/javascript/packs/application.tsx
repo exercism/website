@@ -388,7 +388,10 @@ export const mappings = {
   ),
   'student-tracks-list': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <StudentTracksList request={data.request} tagOptions={data.tag_options} />
+      <StudentTracksList
+        request={camelizeKeysAs<Request>(data.request)}
+        tagOptions={data.tag_options}
+      />
     </Suspense>
   ),
   'student-exercise-list': (data: any): JSX.Element => (

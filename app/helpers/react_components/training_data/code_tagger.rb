@@ -35,7 +35,7 @@ module ReactComponents
       delegate :track, :exercise, to: :sample
 
       def all_tags
-        Track::Tag.enabled.order(:tag).pluck(&:tag)
+        ::Track::Tag.enabled.order(:tag).map { |tag_object| tag_object[:tag] }
       end
     end
   end

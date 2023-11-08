@@ -71,11 +71,9 @@ function initEventListeners() {
   document.addEventListener('turbo:before-frame-render', (e: Event) => {
     if (!(e instanceof CustomEvent)) return
 
-    const links: HTMLCollectionOf<HTMLLinkElement> =
-      e.detail.newFrame.getElementsByTagName('link')
-    const hrefs = Array.from(links)
-      .filter((link) => link.getAttribute('rel') == 'stylesheet')
-      .map((link) => link.getAttribute('href'))
+    const hrefs = Array.from(
+      e.detail.newFrame.querySelectorAll('link[rel="stylesheet"]')
+    ).map((link) => (link as HTMLLinkElement).getAttribute('href'))
 
     // If we have no stylesheets, just continue
     if (hrefs.length == 0) {

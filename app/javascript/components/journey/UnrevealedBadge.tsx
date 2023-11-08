@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation, QueryKey, useQueryCache } from 'react-query'
+import { useMutation, QueryKey, useQueryClient } from '@tanstack/react-query'
 import { typecheck } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
@@ -16,11 +16,15 @@ export const UnrevealedBadge = ({
   badge: BadgeProps
   cacheKey: QueryKey
 }): JSX.Element => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [revealedBadge, setRevealedBadge] = useState<BadgeProps | null>(null)
-  const [mutation, { status, error }] = useMutation<BadgeProps>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<BadgeProps>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: badge.links.reveal,
         method: 'PATCH',
@@ -39,19 +43,19 @@ export const UnrevealedBadge = ({
 
   const updateCache = useCallback(() => {
     const oldData =
-      queryCache.getQueryData<PaginatedResult<BadgeProps[]>>(cacheKey)
+      queryClient.getQueryData<PaginatedResult<BadgeProps[]>>(cacheKey)
 
     if (!oldData || !revealedBadge) {
       return
     }
 
-    queryCache.setQueryData(cacheKey, {
+    queryClient.setQueryData(cacheKey, {
       ...oldData,
       results: oldData.results.map((oldBadge) => {
         return oldBadge.uuid === revealedBadge.uuid ? revealedBadge : oldBadge
       }),
     })
-  }, [cacheKey, revealedBadge, queryCache])
+  }, [cacheKey, revealedBadge, queryClient])
 
   return (
     <React.Fragment>

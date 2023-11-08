@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import $ from 'jquery'
 import Story from '@exercism/twine2-story-format/src/story'
 
@@ -9,15 +9,18 @@ declare global {
 }
 
 export default ({ html }: { html: string }): JSX.Element => {
+  const hasRun = useRef(false)
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0 })
+  }
   useEffect(() => {
-    window.story = new Story($('tw-storydata'))
-    window.story.start($('#main'))
+    if (!hasRun.current) {
+      window.story = new Story($('tw-storydata'))
+      window.story.start($('#main'))
 
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0 })
+      $(window).on('shown.sm.passage', scrollToTop)
     }
-
-    $(window).on('shown.sm.passage', scrollToTop)
+    hasRun.current = true
 
     return () => {
       $(window).off('shown.sm.passage', scrollToTop)

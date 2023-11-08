@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { QueryKey } from 'react-query'
+import { QueryKey } from '@tanstack/react-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
@@ -61,12 +61,14 @@ export const SearchableList = <
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<U, Error | Response>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    })
+  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
+    U,
+    Error | Response
+  >(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
 
   const requestQuery = useDeepMemo(request.query)
   const setFilter = useCallback(
@@ -124,7 +126,6 @@ export const SearchableList = <
             setOrder={setOrder}
             setPage={setPage}
             resolvedData={resolvedData}
-            latestData={latestData}
             ResultsComponent={ResultsComponent}
           />
         </ResultsZone>
@@ -139,7 +140,6 @@ const Results = <T extends unknown, U extends PaginatedResult<T>>({
   setOrder,
   setPage,
   resolvedData,
-  latestData,
   error,
   ResultsComponent,
 }: {
@@ -148,7 +148,6 @@ const Results = <T extends unknown, U extends PaginatedResult<T>>({
   setOrder: (order: string) => void
   setPage: (page: number) => void
   resolvedData: U | undefined
-  latestData: U | undefined
   error: Error | Response | null
   ResultsComponent: React.ComponentType<ResultsType<U>>
 }) => {
@@ -167,7 +166,7 @@ const Results = <T extends unknown, U extends PaginatedResult<T>>({
         cacheKey={cacheKey}
       />
       <Pagination
-        disabled={latestData === undefined}
+        disabled={resolvedData === undefined}
         current={query.page}
         total={resolvedData.meta.totalPages}
         setPage={setPage}

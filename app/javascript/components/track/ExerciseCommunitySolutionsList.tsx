@@ -49,15 +49,20 @@ export function ExerciseCommunitySolutionsList({
     setQuery,
     setCriteria: setRequestCriteria,
   } = useList(initialRequest)
+
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<CommunitySolutionProps[]>,
+    Error | Response
+  >(
+    ['exercise-community-solution-list', request.endpoint, request.query],
+    request
+  )
   const [criteria, setCriteria] = useState(request.query.criteria)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<CommunitySolutionProps[]>,
-      Error | Response
-    >(
-      ['exercise-community-solution-list', request.endpoint, request.query],
-      request
-    )
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -119,7 +124,7 @@ export function ExerciseCommunitySolutionsList({
                 })}
               </div>
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

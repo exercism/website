@@ -67,6 +67,15 @@ namespace :api do
     end
 
     resources :tracks, only: [], controller: "user_tracks", param: :slug do
+      resources :tags, only: %i[], controller: "tracks/tags", param: :tag do
+        member do
+          post :filterable, constraints: { tag: %r{[^/]+} }
+          delete :filterable, to: 'tracks/tags#not_filterable', as: "not_filterable", constraints: { tag: %r{[^/]+} }
+          post :enabled, constraints: { tag: %r{[^/]+} }
+          delete :enabled, to: 'tracks/tags#not_enabled', as: "not_enabled", constraints: { tag: %r{[^/]+} }
+        end
+      end
+
       resources :solutions_for_mentoring, only: %i[index], controller: "tracks/solutions_for_mentoring"
       member do
         patch :activate_practice_mode

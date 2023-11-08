@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../../utils/send-request'
 import { typecheck } from '../../../../utils/typecheck'
 import { Loading } from '../../../common'
@@ -28,8 +28,12 @@ export const MentorAgainStep = ({
   onNo: SuccessFn
 }): JSX.Element => {
   const [choice, setChoice] = useState<Choice | null>(null)
-  const [mutate, { status, error }] = useMutation<FavoritableStudent>(
-    () => {
+  const {
+    mutate: mutate,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>(
+    async () => {
       const method = choice === 'yes' ? 'DELETE' : 'POST'
 
       const { fetch } = sendRequest({

@@ -39,15 +39,19 @@ export default function CommunitySolutionsList({
     setOrder,
     setQuery,
   } = useList(initialRequest)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<CommunitySolutionProps[]>,
+    Error | Response
+  >(
+    ['profile-community-solution-list', request.endpoint, request.query],
+    request
+  )
   const [criteria, setCriteria] = useState(request.query?.criteria)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<CommunitySolutionProps[]>,
-      Error | Response
-    >(
-      ['profile-community-solution-list', request.endpoint, request.query],
-      request
-    )
 
   const setTrack = useCallback(
     (slug) => {
@@ -113,7 +117,7 @@ export default function CommunitySolutionsList({
                 })}
               </div>
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

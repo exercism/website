@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
@@ -45,7 +45,7 @@ export function PreviewAutomationModal({
     return fetch
   }
 
-  const [submitFeedback] = useMutation(SubmitFeedback, {
+  const { mutate: submitFeedback } = useMutation(SubmitFeedback, {
     onSuccess: onSuccessfulSubmit,
   })
 

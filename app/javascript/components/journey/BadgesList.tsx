@@ -9,6 +9,7 @@ import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { BadgeResults } from './BadgeResults'
 import { OrderSwitcher } from './badges-list/OrderSwitcher'
 import type { PaginatedResult, Badge } from '@/components/types'
+import type { QueryKey } from '@tanstack/react-query'
 
 const DEFAULT_ORDER = 'unrevealed_first'
 const DEFAULT_ERROR = new Error('Unable to load badge list')
@@ -27,13 +28,21 @@ export const BadgesList = ({
     setOrder,
   } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria || '')
-  const cacheKey = ['badges-list', request.endpoint, removeEmpty(request.query)]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<Badge[]>>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    })
+  const cacheKey: QueryKey = [
+    'badges-list',
+    request.endpoint,
+    removeEmpty(request.query),
+  ]
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<Badge[]>>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -78,7 +87,7 @@ export const BadgesList = ({
               <React.Fragment>
                 <BadgeResults data={resolvedData} cacheKey={cacheKey} />
                 <Pagination
-                  disabled={latestData === undefined}
+                  disabled={resolvedData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={(p) => {

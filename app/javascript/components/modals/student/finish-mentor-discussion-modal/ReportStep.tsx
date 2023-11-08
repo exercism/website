@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useRef } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { MentorDiscussion } from '@/components/types'
 import { Avatar, GraphicalIcon } from '@/components/common'
@@ -14,19 +14,26 @@ export const ReportStep = ({
   discussion,
   onSubmit,
   onBack,
+  send,
 }: {
   onSubmit: (report: MentorReport) => void
   onBack: () => void
   discussion: MentorDiscussion
+  send: (step: string) => void
 }): JSX.Element => {
   const [state, setState] = useState<MentorReport>({
     requeue: true,
     report: false,
     reason: 'coc',
   })
+
   const messageRef = useRef<HTMLTextAreaElement>(null)
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
@@ -44,6 +51,9 @@ export const ReportStep = ({
     {
       onSuccess: () => {
         onSubmit(state)
+      },
+      onError: (e) => {
+        console.error('Error running mutation in ReportStep.tsx', e)
       },
     }
   )

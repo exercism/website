@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { useSettingsMutation } from '../useSettingsMutation'
 import { CommentsPreferenceFormProps } from './CommentsPreferenceForm'
 
+type ExtendedQueryStatus = QueryStatus | 'idle'
 type useCommentPreferencesFormReturns = {
   commentStatusPhrase: string
-  mutationsStatus: QueryStatus
+  mutationsStatus: ExtendedQueryStatus
   mutationsError: unknown
   successId: number
   allowCommentsByDefault: boolean
@@ -33,9 +34,8 @@ export function useCommentsPreferenceForm({
     numSolutionsWithCommentsEnabled
   )
   const [commentStatusPhrase, setCommentStatusPhrase] = useState('')
-  const [mutationsStatus, setMutationsStatus] = useState<QueryStatus>(
-    QueryStatus.Idle
-  )
+  const [mutationsStatus, setMutationsStatus] =
+    useState<ExtendedQueryStatus>('idle')
   const [mutationsError, setMutationsError] = useState<unknown>(null)
 
   const [successId, setSuccessId] = useState(0)
@@ -49,7 +49,7 @@ export function useCommentsPreferenceForm({
       },
     },
     onSuccess: () => {
-      setMutationsStatus(QueryStatus.Success)
+      setMutationsStatus('success')
       setSuccessId((s) => s + 1)
     },
     onError: (e) => {
@@ -68,7 +68,7 @@ export function useCommentsPreferenceForm({
       }) => {
         setNumPublished(d.numPublishedSolutions)
         setNumCommentsEnabled(d.numSolutionsWithCommentsEnabled)
-        setMutationsStatus(QueryStatus.Success)
+        setMutationsStatus('success')
         setSuccessId((s) => s + 1)
       },
       onError: (e) => {

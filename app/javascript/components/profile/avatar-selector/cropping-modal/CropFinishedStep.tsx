@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { camelizeKeys } from 'humps'
 import { typecheck } from '@/utils/typecheck'
 import { GraphicalIcon } from '@/components/common'
@@ -26,8 +26,12 @@ export const CropFinishedStep = ({
   links: Links
   onUpload: (user: User) => void
 }): JSX.Element => {
-  const [submit, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: submit,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       if (!state.croppedImage) {
         throw new Error('Cropped image was expected')
       }

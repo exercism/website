@@ -51,7 +51,7 @@ export default function CommentsList({
           {allowComments ? (
             <React.Fragment>
               <NewCommentForm
-                cacheKey={request.endpoint}
+                cacheKey={[request.endpoint]}
                 endpoint={links.create}
               />
               <Reminder />
@@ -60,7 +60,7 @@ export default function CommentsList({
         </React.Fragment>
       ) : null}
       {allowComments ? (
-        <ListContainer cacheKey={request.endpoint} request={request} />
+        <ListContainer cacheKey={[request.endpoint]} request={request} />
       ) : (
         <ListDisabled isAuthor={isAuthor} />
       )}

@@ -34,9 +34,15 @@ export const TrackSelector = ({
     endpoint: tracksEndpoint,
     options: {},
   })
-  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
-    APIResponse
-  >(['tracks', request.endpoint, request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['tracks', request.endpoint, request.query],
+    request
+  )
 
   const handleContinue = useCallback(() => {
     onContinue()

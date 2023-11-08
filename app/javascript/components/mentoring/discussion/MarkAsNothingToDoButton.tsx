@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Loading } from '@/components/common'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
@@ -22,7 +22,11 @@ const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
 
 const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [mutation, { status, error }] = useMutation(() => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(async () => {
     const { fetch } = sendRequest({
       endpoint: endpoint,
       method: 'PATCH',

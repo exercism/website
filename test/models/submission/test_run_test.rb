@@ -229,4 +229,11 @@ class Submission::TestRunTest < ActiveSupport::TestCase
 
     assert_equal submission.track, test_run.track
   end
+
+  test "truncate message" do
+    message = 'a' * 66_000
+    test_run = create(:submission_test_run, raw_results: { message: })
+
+    assert test_run.message.bytesize < 65_536
+  end
 end

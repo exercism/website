@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { typecheck, redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
@@ -20,7 +20,11 @@ export const CancellingOption = ({
   cancelLink: string
   onClose: () => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<APIResponse>(
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>(
     async () => {
       const { fetch } = sendRequest({
         endpoint: cancelLink,

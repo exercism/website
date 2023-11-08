@@ -1,5 +1,5 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
+import { MutationStatus } from '@tanstack/react-query'
 import { Loading } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
@@ -23,7 +23,7 @@ export const FinishMentorDiscussionModal = ({
 }: {
   endpoint: string
   open: boolean
-  status: QueryStatus
+  status: MutationStatus
   error: unknown
   onFinish: () => void
   onCancel: () => void

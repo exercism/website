@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { DeleteIterationModal } from '../../../../../app/javascript/components/student/iterations-list/DeleteIterationModal'
 import { createIteration } from '../../../factories/IterationFactory'
@@ -53,8 +54,10 @@ test('disables buttons when submitting', async () => {
   const cancelButton = screen.getByRole('button', { name: /cancel/i })
   userEvent.click(deleteButton)
 
-  expect(deleteButton).toBeDisabled()
-  expect(cancelButton).toBeDisabled()
+  await waitFor(() => {
+    expect(deleteButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+  })
 })
 test('unable to close modal when submitting', async () => {
   const { promise } = deferred()

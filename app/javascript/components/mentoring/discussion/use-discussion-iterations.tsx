@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRequestQuery } from '../../../hooks/request-query'
 import { DiscussionPostProps } from './DiscussionPost'
 import { MentorDiscussion, Iteration } from '../../types'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { SolutionWithLatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
 
 const matchIterationsToPosts = ({
@@ -40,7 +40,7 @@ export const useDiscussionIterations = ({
     iterations as Iteration[]
   )
   const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
-    `posts-discussion-${discussion?.uuid}`,
+    [`posts-discussion-${discussion?.uuid}`],
     { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
 

@@ -16,11 +16,15 @@ export const AuthoringContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<ExerciseAuthorship[]>,
-      Error | Response
-    >([request.endpoint, request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<ExerciseAuthorship[]>,
+    Error | Response
+  >([request.endpoint, request.query], request)
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -46,7 +50,7 @@ export const AuthoringContributionsList = ({
               </div>
             </div>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

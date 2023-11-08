@@ -182,15 +182,16 @@ const PerksExternalModalButton = lazy(
 
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
+import { QueryClient } from '@tanstack/react-query'
 declare global {
   interface Window {
     Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
-    queryCache: QueryCache
+    queryClient: QueryClient
   }
 }
-
-import { QueryCache } from 'react-query'
-window.queryCache = new QueryCache()
+// use query client by pulling it out of the provider with useQueryClient hook
+// const queryClient = useQueryClient()
+window.queryClient = new QueryClient()
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -324,6 +325,12 @@ export const mappings = {
         numContributors={data.num_contributors}
         links={data.links}
       />
+    </Suspense>
+  ),
+
+  'track-build-analyzer-tags': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <AnalyzerTags {...camelizeKeysAs<AnalyzerTagsType>(data)} />
     </Suspense>
   ),
   'common-credits': (data: any): JSX.Element => (
@@ -684,6 +691,8 @@ import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
 import { CodeTaggerProps } from '@/components/training-data/code-tagger/CodeTagger.types'
 import { DashboardProps } from '@/components/training-data/dashboard/Dashboard.types'
+import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
+import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

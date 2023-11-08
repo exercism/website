@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import currency from 'currency.js'
 import { typecheck, redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
@@ -70,7 +70,7 @@ export default function Status({
     setStripeModalOpen(true)
   }, [])
 
-  const [mutation] = useMutation<Response>(
+  const { mutate: mutation } = useMutation<Response>(
     async () => {
       const { fetch } = sendRequest({
         endpoint: insidersStatusRequest,
@@ -85,7 +85,7 @@ export default function Status({
     }
   )
 
-  const [activateInsider] = useMutation(
+  const { mutate: activateInsider } = useMutation(
     async () => {
       const { fetch } = sendRequest({
         endpoint: activateInsiderLink,

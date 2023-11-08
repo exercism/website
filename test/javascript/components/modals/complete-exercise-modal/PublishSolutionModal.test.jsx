@@ -1,10 +1,6 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -61,7 +57,7 @@ test('shows errors', async () => {
         endpoint="https://exercism.test/publish"
         open={true}
         ariaHideApp={false}
-        onSuccess={() => {}}
+        onSuccess={() => null}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Confirm' }))
@@ -79,7 +75,7 @@ test('shows generic errors', async () => {
         endpoint="weirdendpoint"
         open={true}
         ariaHideApp={false}
-        onSuccess={() => {}}
+        onSuccess={() => null}
       />
     )
     userEvent.click(screen.getByRole('button', { name: 'Confirm' }))

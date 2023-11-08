@@ -41,7 +41,7 @@ const Component = ({
   const { data, error, status } = useRequestQuery<
     { files: File[] },
     Error | Response
-  >(endpoint, { endpoint: endpoint, options: {} })
+  >([endpoint], { endpoint: endpoint, options: {} })
   const [tab, setTab] = useState<string | null>(null)
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })

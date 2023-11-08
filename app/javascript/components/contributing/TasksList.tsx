@@ -66,11 +66,16 @@ export default function TasksList({
   tracks: readonly Track[]
 }): JSX.Element {
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<TaskProps[]>, Error | Response>(
-      ['contributing-tasks', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<TaskProps[]>, Error | Response>(
+    ['contributing-tasks', request.endpoint, request.query],
+    request
+  )
+
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
   const isFiltering =
@@ -164,7 +169,7 @@ export default function TasksList({
                   <Task task={task} key={task.uuid} />
                 ))}
                 <Pagination
-                  disabled={latestData === undefined}
+                  disabled={resolvedData === undefined}
                   current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
                   setPage={(p) => {

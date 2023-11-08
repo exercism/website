@@ -60,11 +60,15 @@ export default function Inbox({
     setPage,
     setQuery,
   } = useList(discussionsRequest)
-  const { status, resolvedData, latestData, isFetching, refetch } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentor-discussion-list', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    refetch,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentor-discussion-list', request.endpoint, request.query],
+    request
+  )
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -148,7 +152,6 @@ export default function Inbox({
         </header>
         <ResultsZone isFetching={isFetching}>
           <DiscussionList
-            latestData={latestData}
             resolvedData={resolvedData}
             status={status}
             refetch={refetch}

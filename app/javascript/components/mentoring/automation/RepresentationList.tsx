@@ -1,5 +1,6 @@
 import React from 'react'
-import type { QueryStatus } from 'react-query'
+import type { QueryStatus } from '@tanstack/react-query'
+import { useScrollToTop } from '@/hooks'
 import { Pagination, FilterFallback } from '@/components/common/'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { AutomationListElement } from './AutomationListElement'
@@ -11,7 +12,6 @@ const DEFAULT_ERROR = new Error('Unable to fetch queue')
 
 type Props = {
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   page: number
   setPage: (page: number) => void
   withFeedback: boolean
@@ -34,13 +34,7 @@ export const RepresentationList = ({
   )
 }
 
-function Component({
-  resolvedData,
-  latestData,
-  page,
-  setPage,
-  selectedTab,
-}: Props) {
+function Component({ resolvedData, page, setPage, selectedTab }: Props) {
   return (
     <>
       {resolvedData && resolvedData.results && (
@@ -62,7 +56,7 @@ function Component({
           </div>
           <footer>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={page}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

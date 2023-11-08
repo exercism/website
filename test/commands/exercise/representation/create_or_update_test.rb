@@ -41,7 +41,7 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     ast_digest = 'hq471b'
     mapping = { 'a' => 'test' }
     exercise = create :practice_exercise
-    submission = create(:submission, exercise:)
+    submission = create(:submission, exercise:, tests_status: :passed)
     create(:submission_representation, ast_digest:, submission:)
 
     representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current,
@@ -57,10 +57,10 @@ class Exercise::Representation::CreateOrUpdateTest < ActiveSupport::TestCase
     ast_digest = 'hq471b'
     mapping = { 'a' => 'test' }
     exercise = create :practice_exercise
-    submission = create(:submission, exercise:)
+    submission = create(:submission, exercise:, tests_status: :passed)
     create(:submission_representation, ast_digest:, submission:)
-    create :submission_representation, ast_digest:, submission: create(:submission, exercise:)
-    create :submission_representation, ast_digest:, submission: create(:submission, exercise:)
+    create :submission_representation, ast_digest:, submission: create(:submission, exercise:,  tests_status: :passed)
+    create :submission_representation, ast_digest:, submission: create(:submission, exercise:,  tests_status: :passed)
 
     representation = Exercise::Representation::CreateOrUpdate.(submission, ast, ast_digest, mapping, 1, 1, Time.current,
       "some_git_sha")

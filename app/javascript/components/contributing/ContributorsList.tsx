@@ -39,14 +39,15 @@ export default function ContributorsList({
   tracks: readonly Track[]
 }): JSX.Element {
   const { request, setPage, setQuery } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
-      ['contributors-list', request.endpoint, request.query],
-      {
-        ...request,
-        options: { ...request.options },
-      }
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
+    ['contributors-list', request.endpoint, request.query],
+    request
+  )
 
   const requestQuery = useDeepMemo(request.query)
   const setQueryValue = useCallback(
@@ -125,7 +126,7 @@ export default function ContributorsList({
                 ))}
               </div>
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
                 setPage={(p) => {

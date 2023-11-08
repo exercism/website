@@ -73,7 +73,7 @@
 
         = render "show_syllabus", track: @track, status: @status
         = render "show_practice_exercises", track: @track, status: @status
-        -# = render "show_tags", track: @track, status: @status
+        = render "show_tags", track: @track, status: @status, tags: @tags
         = render "show_test_runner", track: @track, status: @status, current_sha: @test_runner_sha
         = render "show_representer", track: @track, status: @status, current_sha: @representer_sha
         = render "show_analyzer", track: @track, status: @status, current_sha: @analyzer_sha
@@ -95,14 +95,13 @@
                 = volunteer.handle
               = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
 
-          .inline-grid.grid-cols-6.gap-16.mt-20.mb-16
+          .flex.flex-wrap.gap-16.mt-20.mb-16
             - @status.volunteers.users[3..].to_a.each do |volunteer|
               = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle")
             - if @status.volunteers.num_volunteers > @status.volunteers.users.size
               .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
                 = link_to contributing_contributors_path(track_slug: @track.slug) do
                   + #{number_with_delimiter(@status.volunteers.num_volunteers - @status.volunteers.users.size)} more
-
 
           .rounded-8.py-16.px-20.bg-backgroundColorG
             %h6.text-h6.leading-150.mb-4 We 💙 our volunteers

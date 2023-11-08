@@ -24,11 +24,18 @@ export const OtherContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<
-      PaginatedResult<ContributionProps[]>,
-      Error | Response
-    >([request.endpoint, request.query], request)
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<ContributionProps[]>,
+    Error | Response
+  >([request.endpoint, request.query], {
+    ...request,
+    options: { ...request.options, staleTime: 1000 },
+  })
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -45,7 +52,7 @@ export const OtherContributionsList = ({
               ))}
             </div>
             <Pagination
-              disabled={latestData === undefined}
+              disabled={resolvedData === undefined}
               current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
               setPage={(p) => {

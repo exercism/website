@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { APIResponse, Track } from '../TrackSelector'
 import { TrackCheckbox } from './TrackCheckbox'
 import { FetchingBoundary } from '../../FetchingBoundary'

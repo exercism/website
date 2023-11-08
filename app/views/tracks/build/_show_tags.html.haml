@@ -8,28 +8,7 @@
 
   %details
     %summary
-      #{status.tags.tags.size} tags
+      #{tags.size} tags
       = graphical_icon 'chevron-right', css_class: 'summary-chevron'
-    .record-row.sticky.z-1{ class: 'lg:top-0 top-[65px]' }
-      .record-name
-      .record-value
-        .record-element Tag
-        .record-element.justify-end Enabled
-        .record-element.justify-end Filterable
-        .record-element.justify-end Num Solutions
-    - status.tags.tags.each do |tag|
-      .record-row
-        .record-name
-          = tag.tag.split(":").first.titleize
-          →
-          = tag.tag.split(":").last.titleize
-        .record-value
-          .record-element
-            %strong= tag.tag
-          .record-element.justify-end
-            %strong= tag.enabled ? "Yes" : "No"
-          .record-element.justify-end
-            %strong= tag.filterable ? "Yes" : "No"
-          .record-element.justify-end
-            %strong= number_with_delimiter(status.tags.solution_counts[tag.tag].to_i)
+    = render ReactComponents::Track::Build::AnalyzerTags.new(tags, status.tags.solution_counts, track.slug)
 

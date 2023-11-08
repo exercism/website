@@ -7,7 +7,7 @@ import { StartDiscussionPanel } from '../../../../../app/javascript/components/m
 import { silenceConsole } from '../../../support/silence-console'
 import { stubRange } from '../../../support/code-mirror-helpers'
 import userEvent from '@testing-library/user-event'
-
+import { TestQueryCache } from '../../../support/TestQueryCache'
 stubRange()
 
 test('disables button while locking mentoring request', async () => {
@@ -28,12 +28,14 @@ test('disables button while locking mentoring request', async () => {
   server.listen()
 
   render(
-    <StartDiscussionPanel
-      request={request}
-      iterations={iterations}
-      setDiscussion={jest.fn()}
-      links={links}
-    />
+    <TestQueryCache>
+      <StartDiscussionPanel
+        request={request}
+        iterations={iterations}
+        setDiscussion={jest.fn()}
+        links={links}
+      />
+    </TestQueryCache>
   )
   await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
   const textarea = screen.getByRole('textbox')
@@ -75,11 +77,13 @@ test('shows API errors', async () => {
   server.listen()
 
   render(
-    <StartDiscussionPanel
-      request={request}
-      iterations={iterations}
-      links={links}
-    />
+    <TestQueryCache>
+      <StartDiscussionPanel
+        request={request}
+        iterations={iterations}
+        links={links}
+      />
+    </TestQueryCache>
   )
   await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
   const textarea = screen.getByRole('textbox')
@@ -108,11 +112,13 @@ test('shows generic errors', async () => {
   const iterations = [{ idx: 1 }]
 
   render(
-    <StartDiscussionPanel
-      request={request}
-      iterations={iterations}
-      links={links}
-    />
+    <TestQueryCache>
+      <StartDiscussionPanel
+        request={request}
+        iterations={iterations}
+        links={links}
+      />
+    </TestQueryCache>
   )
   await act(async () => userEvent.click(screen.getByTestId('markdown-editor')))
   const textarea = screen.getByRole('textbox')

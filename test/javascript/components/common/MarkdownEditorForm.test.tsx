@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { MarkdownEditorForm } from '../../../../app/javascript/components/common/MarkdownEditorForm'
 import { expectConsoleError } from '../../support/silence-console'
 import { stubRange } from '../../support/code-mirror-helpers'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import userEvent from '@testing-library/user-event'
 
 stubRange()

@@ -99,11 +99,9 @@ class Track::UpdateBuildStatus
   end
 
   def tags
-    tags = track.analyzer_tags.order(:tag).map(&:attributes)
     solution_counts = track.solution_tags.group(:tag).count
 
     {
-      tags:,
       solution_counts:
     }
   end
@@ -374,7 +372,7 @@ class Track::UpdateBuildStatus
 
   NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
-  NUM_TRACK_VOLUNTEERS = 12
+  NUM_TRACK_VOLUNTEERS = 16
   NUM_VOLUNTEERS = 3
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [20, 30, 40, 50].freeze

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { sendRequest } from '@/utils/send-request'
@@ -14,8 +14,12 @@ export default function WelcomeToInsidersModal({
   endpoint: string
 }): JSX.Element {
   const [open, setOpen] = useState(true)
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

@@ -1,10 +1,10 @@
 import React from 'react'
 import {
-  render,
   screen,
   waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react'
+import { render } from '../../test-utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'

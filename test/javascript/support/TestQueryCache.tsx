@@ -1,18 +1,21 @@
 import React from 'react'
-import { makeQueryCache, ReactQueryCacheProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export const TestQueryCache = ({
   children,
+  queryClient,
 }: {
-  children?: React.ReactNode
+  children?: React.ReactElement
+  queryClient: any
 }): JSX.Element => {
-  const queryCache = makeQueryCache({
-    defaultConfig: { queries: { retry: false } },
+  const localQueryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+    },
   })
-
   return (
-    <ReactQueryCacheProvider queryCache={queryCache}>
+    <QueryClientProvider client={queryClient || localQueryClient}>
       {children}
-    </ReactQueryCacheProvider>
+    </QueryClientProvider>
   )
 }

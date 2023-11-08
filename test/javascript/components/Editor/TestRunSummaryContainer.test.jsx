@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import { TestRunSummaryContainer } from '../../../../app/javascript/components/editor/TestRunSummaryContainer'
 import {
@@ -8,7 +9,7 @@ import {
 } from '../../../../app/javascript/components/editor/types'
 
 test('hides cancel button if test run has resolved', async () => {
-  const { queryByText } = render(
+  render(
     <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
@@ -24,11 +25,11 @@ test('hides cancel button if test run has resolved', async () => {
     />
   )
 
-  expect(queryByText('Cancel')).not.toBeInTheDocument()
+  expect(screen.queryByText('Cancel')).not.toBeInTheDocument()
 })
 
 test('show header when all tests pass', async () => {
-  const { queryByText } = render(
+  render(
     <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
@@ -44,11 +45,11 @@ test('show header when all tests pass', async () => {
     />
   )
 
-  expect(queryByText('All tests passed')).toBeInTheDocument()
+  expect(screen.queryByText('All tests passed')).toBeInTheDocument()
 })
 
 test('show header when test run fails', async () => {
-  const { queryByText } = render(
+  render(
     <TestRunSummaryContainer
       onUpdate={jest.fn()}
       testRun={{
@@ -73,8 +74,8 @@ test('show header when test run fails', async () => {
     />
   )
 
-  expect(queryByText('Tests failed')).toBeInTheDocument()
-  expect(queryByText('All tests passed')).not.toBeInTheDocument()
+  expect(screen.queryByText('Tests failed')).toBeInTheDocument()
+  expect(screen.queryByText('All tests passed')).not.toBeInTheDocument()
 })
 
 test('shows test failures', async () => {

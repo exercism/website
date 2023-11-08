@@ -3,15 +3,19 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { default as OpenEditorButton } from '@/components/student/OpenEditorButton'
 import userEvent from '@testing-library/user-event'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { queryClient } from '../../setupTests'
 
 test('disabled when status is locked', async () => {
   const { container } = render(
-    <OpenEditorButton
-      command="command"
-      status="locked"
-      editorEnabled
-      links={{ local: 'https://exercism.test/solving-locally ' }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <OpenEditorButton
+        command="command"
+        status="locked"
+        editorEnabled
+        links={{ local: 'https://exercism.test/solving-locally ' }}
+      />
+    </TestQueryCache>
   )
 
   expect(container.firstChild).toHaveAttribute(
@@ -23,12 +27,14 @@ test('disabled when status is locked', async () => {
 
 test('shows button to start exercise when available', async () => {
   render(
-    <OpenEditorButton
-      command="command"
-      status="available"
-      editorEnabled
-      links={{ start: '', local: 'https://exercism.test/solving-locally' }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <OpenEditorButton
+        command="command"
+        status="available"
+        editorEnabled
+        links={{ start: '', local: 'https://exercism.test/solving-locally' }}
+      />
+    </TestQueryCache>
   )
 
   expect(
@@ -38,15 +44,17 @@ test('shows button to start exercise when available', async () => {
 
 test('shows link to exercise when completed', async () => {
   render(
-    <OpenEditorButton
-      status="completed"
-      command="command"
-      editorEnabled
-      links={{
-        exercise: 'https://exercism.test/exercise',
-        local: 'https://exercism.test/solving-locally',
-      }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <OpenEditorButton
+        status="completed"
+        command="command"
+        editorEnabled
+        links={{
+          exercise: 'https://exercism.test/exercise',
+          local: 'https://exercism.test/solving-locally',
+        }}
+      />
+    </TestQueryCache>
   )
 
   expect(screen.getByRole('link', { name: 'Open in editor' })).toHaveAttribute(
@@ -57,15 +65,17 @@ test('shows link to exercise when completed', async () => {
 
 test('shows link to exercise when published', async () => {
   render(
-    <OpenEditorButton
-      status="published"
-      command="command"
-      editorEnabled
-      links={{
-        exercise: 'https://exercism.test/exercise',
-        local: 'https://exercism.test/solving-locally',
-      }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <OpenEditorButton
+        status="published"
+        command="command"
+        editorEnabled
+        links={{
+          exercise: 'https://exercism.test/exercise',
+          local: 'https://exercism.test/solving-locally',
+        }}
+      />
+    </TestQueryCache>
   )
 
   expect(screen.getByRole('link', { name: 'Open in editor' })).toHaveAttribute(
@@ -76,15 +86,17 @@ test('shows link to exercise when published', async () => {
 
 test('shows link to exercise when other status', async () => {
   render(
-    <OpenEditorButton
-      status="iterated"
-      command="command"
-      editorEnabled
-      links={{
-        exercise: 'https://exercism.test/exercise',
-        local: 'https://exercism.test/solving-locally',
-      }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <OpenEditorButton
+        status="iterated"
+        command="command"
+        editorEnabled
+        links={{
+          exercise: 'https://exercism.test/exercise',
+          local: 'https://exercism.test/solving-locally',
+        }}
+      />
+    </TestQueryCache>
   )
 
   expect(
@@ -94,15 +106,17 @@ test('shows link to exercise when other status', async () => {
 
 test('disables primary button when editor is disabled', async () => {
   render(
-    <OpenEditorButton
-      status="iterated"
-      command="command"
-      editorEnabled={false}
-      links={{
-        exercise: 'https://exercism.test/exercise',
-        local: 'https://exercism.test/solving-locally',
-      }}
-    />
+    <TestQueryCache queryClient={queryClient}>
+      <OpenEditorButton
+        status="iterated"
+        command="command"
+        editorEnabled={false}
+        links={{
+          exercise: 'https://exercism.test/exercise',
+          local: 'https://exercism.test/solving-locally',
+        }}
+      />
+    </TestQueryCache>
   )
 
   expect(

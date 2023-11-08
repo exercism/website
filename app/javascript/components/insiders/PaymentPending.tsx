@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { camelizeKeys } from 'humps'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { redirectTo } from '@/utils'
 
 export type PaymentPendingProps = {
@@ -20,7 +20,7 @@ export default function PaymentPending({
     return response.json()
   }
 
-  const { data } = useQuery('paypalStatus', fetchPaymentPending, {
+  const { data } = useQuery(['paypalStatus'], fetchPaymentPending, {
     refetchInterval: 1000,
   })
 

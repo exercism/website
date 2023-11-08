@@ -15,7 +15,7 @@
     %p.text-16
       Current version:
       %strong= current_sha
-      %span.italic (It may take a few mins to deploy new versions across all servers).
+      %span.italic (Takes up to 10 mins to deploy)
 
     .border-t-1.border-borderColor6.mt-20.mb-16
     .c-build-page-stats-container
@@ -28,7 +28,3 @@
       .record-row
         .record-name Feedback Given Frequency
         .record-value #{status.analyzer.display_rate_percentage}%
-
-  = render ReactComponents::Common::Credits.new(status.analyzer.volunteers.users, status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')
-
-

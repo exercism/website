@@ -3,7 +3,7 @@ import { RecordRow } from './analyzer-tags/RecordRow'
 import { FirstRow } from './analyzer-tags/FirstRow'
 import type { AnalyzerTagsType } from './analyzer-tags/AnalyzerTags.types'
 
-export function AnalyzerTags({
+export default function AnalyzerTags({
   tags,
   editor,
   endpoints,

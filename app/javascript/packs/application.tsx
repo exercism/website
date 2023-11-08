@@ -38,6 +38,7 @@ import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExte
 import type { VideoGridProps } from '@/components/community/video-grid/index.js'
 import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
 import type { TrophiesProps, Trophy } from '@/components/track/Trophies'
+import type { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
 
 const CLIWalkthrough = lazy(() => import('@/components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
@@ -165,6 +166,8 @@ const ContributorsList = lazy(
   () => import('@/components/contributing/ContributorsList')
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
+
+const AnalyzerTags = lazy(() => import('@/components/track/build/AnalyzerTags'))
 
 const PaymentPending = lazy(
   () => import('@/components/insiders/PaymentPending')
@@ -674,8 +677,6 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
-import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
-import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

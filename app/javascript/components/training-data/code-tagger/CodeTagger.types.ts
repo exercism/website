@@ -8,6 +8,7 @@ export type CodeTaggerProps = {
     trainingDataDashboard: string
     nextTaggableCodeLink: string
   }
+  allTags: Tags
 }
 
 export type CodeTaggerCode = {

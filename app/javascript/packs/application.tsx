@@ -38,6 +38,8 @@ import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExte
 import type { VideoGridProps } from '@/components/community/video-grid/index.js'
 import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
 import type { TrophiesProps, Trophy } from '@/components/track/Trophies'
+import type { CodeTaggerProps } from '@/components/training-data/code-tagger/CodeTagger.types'
+import type { DashboardProps } from '@/components/training-data/dashboard/Dashboard.types'
 
 const CLIWalkthrough = lazy(() => import('@/components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
@@ -689,8 +691,6 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
-import { CodeTaggerProps } from '@/components/training-data/code-tagger/CodeTagger.types'
-import { DashboardProps } from '@/components/training-data/dashboard/Dashboard.types'
 import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
 import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
 

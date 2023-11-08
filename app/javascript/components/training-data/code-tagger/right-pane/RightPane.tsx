@@ -6,14 +6,15 @@ import { useSelectTag } from './useSelectTag'
 
 export function RightPane({
   tags,
+  allTags,
   links,
-}: Pick<CodeTaggerProps, 'tags' | 'links'>): JSX.Element {
+}: Pick<CodeTaggerProps, 'tags' | 'links' | 'allTags'>): JSX.Element {
   const { confirmTags, setSelectedTags } = useSelectTag({ links })
 
   return (
     <div className="px-24 h-100 flex flex-col">
       <PlaceholderStuff />
-      <TagSelector tags={tags || []} setSelectedTags={setSelectedTags} />
+      <TagSelector tags={allTags || []} setSelectedTags={setSelectedTags} />
       <button
         onClick={() => confirmTags()}
         className="btn-m btn-primary mt-auto mb-64"

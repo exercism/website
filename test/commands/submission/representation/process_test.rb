@@ -20,7 +20,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
   test "creates exercise representation" do
     ast = "my ast"
     ast_digest = Submission::Representation.digest_ast(ast)
-    submission = create :submission
+    submission = create :submission, tests_status: :passed
     mapping = { 'foo' => 'bar' }
 
     job = create_representer_job!(submission, execution_status: 200, ast:, mapping:)

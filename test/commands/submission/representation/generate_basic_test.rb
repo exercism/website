@@ -26,7 +26,7 @@ class Submission::Representation::GenerateBasicTest < ActiveSupport::TestCase
     code = "foo"
     normalised_code = "#{filename}\n#{code}"
     digest = Submission::Representation.digest_ast(normalised_code)
-    submission = create :submission
+    submission = create :submission, tests_status: :passed
     create :submission_file, submission:, filename:, content: code
 
     Submission::Representation::GenerateBasic.(submission)

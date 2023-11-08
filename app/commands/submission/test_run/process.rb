@@ -78,6 +78,9 @@ class Submission::TestRun::Process
       return if submission.tests_cancelled?
 
       submission.send("tests_#{status}!")
+
+      representation = submission.exercise_representation
+      Exercise::Representation::UpdateNumSubmissions.defer(representation) if representation
     end
   end
 

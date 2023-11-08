@@ -10,17 +10,19 @@ class Submission::LinkApproachTest < ActiveSupport::TestCase
     assert_equal approach, submission.approach
   end
 
-  test "update num submissions of old and new approach" do
+  test "update num solutions of old and new approach" do
     old_approach = create :exercise_approach
     new_approach = create :exercise_approach
-    submission = create(:submission, approach: old_approach)
-    create(:submission, approach: old_approach)
-    create(:submission, approach: new_approach)
+    solution = create :practice_solution
+    other_solution = create :practice_solution
+    submission = create(:submission, approach: old_approach, solution:)
+    create(:submission, approach: old_approach, solution:)
+    create(:submission, approach: new_approach, solution: other_solution)
 
     Submission::LinkApproach.(submission, new_approach)
 
-    assert_equal 1, old_approach.reload.num_submissions
-    assert_equal 2, new_approach.reload.num_submissions
+    assert_equal 1, old_approach.reload.num_solutions
+    assert_equal 2, new_approach.reload.num_solutions
   end
 
   test "noop when approach is the same as current approach" do

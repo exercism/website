@@ -590,7 +590,9 @@ body.namespace-tracks.controller-exercises.action-show {
             }
         }
 
-        &.join {
+        &.join-box {
+            @apply bg-backgroundColorA shadow-lg py-20 px-20 rounded-8 lg:py-24 lg:px-32;
+
             & .icons {
                 @apply flex items-center;
                 @apply mb-12;

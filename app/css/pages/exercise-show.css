@@ -476,6 +476,13 @@ body.namespace-tracks.controller-exercises.action-show {
             & > *:last-child {
                 @apply !mb-0;
             }
+
+            div {
+                .c-react-wrapper-student-unpublish-solution-modal-button,
+                .c-react-wrapper-student-change-published-iteration-modal-button {
+                    @apply inline-block;
+                }
+            }
         }
         & .inner-box {
             @apply relative flex ml-10;

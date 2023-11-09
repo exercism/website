@@ -1,5 +1,5 @@
 import React from 'react'
-import { IterationSummary } from '../../track/IterationSummary'
+import IterationSummaryWithWebsockets from '../../track/IterationSummary'
 import { Iteration } from '../../types'
 
 export default function LatestIterationLink({
@@ -9,7 +9,7 @@ export default function LatestIterationLink({
 }): JSX.Element {
   return (
     <a className="latest-iteration-link mt-16" href={iteration.links.self}>
-      <IterationSummary
+      <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={true}
         showTestsStatusAsButton={false}

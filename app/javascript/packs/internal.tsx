@@ -72,6 +72,8 @@ import type {
 } from '@/components/settings'
 import type { FooterFormProps } from '@/components/donations/FooterForm'
 import type { StripeFormLinks } from '@/components/donations/Form'
+import type { ChangePublishedIterationModalButtonProps } from '@/components/student/published-solution/ChangePublishedIterationModalButton'
+import type { UnpublishSolutionModalButtonProps } from '@/components/student/published-solution/UnpublishSolutionModalButton'
 
 // Component imports
 const Editor = lazy(() => import('@/components/Editor'))
@@ -203,6 +205,18 @@ const DonationsSubscriptionForm = lazy(
 
 import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
+const ChangePublishedIterationModalButton = lazy(
+  () =>
+    import(
+      '@/components/student/published-solution/ChangePublishedIterationModalButton'
+    )
+)
+const UnpublishSolutionModalButton = lazy(
+  () =>
+    import(
+      '@/components/student/published-solution/UnpublishSolutionModalButton'
+    )
+)
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -581,6 +595,20 @@ initReact({
         publishedIterationIdx={data.published_iteration_idx}
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
         links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
+      />
+    </Suspense>
+  ),
+  'student-change-published-iteration-modal-button': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <ChangePublishedIterationModalButton
+        {...camelizeKeysAs<ChangePublishedIterationModalButtonProps>(data)}
+      />
+    </Suspense>
+  ),
+  'student-unpublish-solution-modal-button': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <UnpublishSolutionModalButton
+        {...camelizeKeysAs<UnpublishSolutionModalButtonProps>(data)}
       />
     </Suspense>
   ),

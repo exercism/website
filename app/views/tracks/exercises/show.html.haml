@@ -4,7 +4,7 @@
 #page-exercise-show
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
   - if @user_track.external?
-    = render "tracks/exercises/show/external", track: @track, exercise: @exercise, user_track: @user_track
+    = render "tracks/exercises/show/external", track: @track, exercise: @exercise, user_track: @user_track, solution: @solution
   - else
     .lg-container.flex.flex-col.lg:flex-row
       .flex-shrink-0.mb-32.lg:mb-0{ class: 'lg:w-[40%]' }
@@ -32,7 +32,7 @@
         = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
         /= ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
-        - if @exercise.concept_exercise?
+        - elseif @exercise.concept_exercise?
           = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
       .lg:ml-32.w-arbitary.flex-grow

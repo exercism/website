@@ -12,6 +12,8 @@ class Exercise::UpdateTags
 
     new_tags = (solution_tags - exercise_tags).map do |tag|
       Exercise::Tag.find_or_create_by!(tag:, exercise:)
+    rescue ActiveRecord::RecordNotUnique
+      Exercise::Tag.find_by!(tag:, exercise:)
     end
 
     existing_tags + new_tags

@@ -1,14 +1,17 @@
 import React from 'react'
 import { PlaceholderStuff } from './PlaceholderStuff'
 import { TagSelector } from './TagSelector'
-import { CodeTaggerProps } from '../CodeTagger.types'
+import { CodeTaggerProps, Tags } from '../CodeTagger.types'
 import { useSelectTag } from './useSelectTag'
+
+type RightPaneProps = Pick<CodeTaggerProps, 'links'> &
+  Record<'tags' | 'allEnabledTrackTags', Tags>
 
 export function RightPane({
   tags,
-  allTags,
+  allEnabledTrackTags,
   links,
-}: Pick<CodeTaggerProps, 'tags' | 'links' | 'allTags'>): JSX.Element {
+}: RightPaneProps): JSX.Element {
   const { confirmTags, setSelectedTags } = useSelectTag({
     links,
     defaultSelectedTags: tags,
@@ -19,7 +22,7 @@ export function RightPane({
       <PlaceholderStuff />
       <TagSelector
         tags={tags || []}
-        allTags={allTags || []}
+        allEnabledTrackTags={allEnabledTrackTags || []}
         setSelectedTags={setSelectedTags}
       />
       <button

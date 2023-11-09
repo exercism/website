@@ -7,8 +7,7 @@ import { CodeTaggerProps } from './code-tagger/CodeTagger.types'
 export default function CodeTagger({
   code,
   links,
-  tags,
-  allTags,
+  sample,
 }: CodeTaggerProps): JSX.Element {
   return (
     <div className="c-mentor-discussion code-tagger">
@@ -18,7 +17,13 @@ export default function CodeTagger({
         rightMinWidth={625}
         id="mentoring-session"
         left={<LeftPane code={code} links={links} />}
-        right={<RightPane allTags={allTags} tags={tags} links={links} />}
+        right={
+          <RightPane
+            allEnabledTrackTags={code.track.tags}
+            tags={sample.tags}
+            links={links}
+          />
+        }
       />
     </div>
   )

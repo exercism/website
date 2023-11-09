@@ -1,14 +1,17 @@
 import { File } from '@/components/types'
+import { TrainingDataStatus } from '../dashboard/Dashboard.types'
 
 export type CodeTaggerProps = {
   code: CodeTaggerCode
-  tags: Tags
+  sample: {
+    tags: Tags
+    status: TrainingDataStatus
+  }
   links: {
     confirmTagsApi: string
     trainingDataDashboard: string
     nextTaggableCodeLink: string
   }
-  allTags: Tags
 }
 
 export type CodeTaggerCode = {
@@ -16,6 +19,7 @@ export type CodeTaggerCode = {
     title: string
     iconUrl: string
     highlightjsLanguage: string
+    tags: Tags
   }
   exercise: {
     title: string

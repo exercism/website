@@ -11,7 +11,8 @@ module ReactComponents
             track: {
               title: track.title,
               icon_url: track.icon_url,
-              highlightjs_language: track.highlightjs_language
+              highlightjs_language: track.highlightjs_language,
+              tags: enabled_track_tags
             },
             exercise: {
               title: exercise.title,
@@ -21,20 +22,21 @@ module ReactComponents
               { filename: file['filename'], content: file['code'], type: 'readonly' }
             end
           },
-          tags: sample.tags,
-          all_tags:,
           links: {
-            confirm_tags_api: '',
+            confirm_tags_api: Exercism::Routes.update_tags_api_training_data_code_tags_sample_path(sample.id),
             next_sample: Exercism::Routes.next_training_data_code_tags_samples_path(track_id: track.id, status: sample.status),
             training_data_dashboard: ''
           },
-          status: sample.status
+          sample: {
+            status: sample.status,
+            tags: sample.tags
+          }
         })
       end
 
       delegate :track, :exercise, to: :sample
 
-      def all_tags
+      def enabled_track_tags
         ::Track::Tag.enabled.order(:tag).map { |tag_object| tag_object[:tag] }
       end
     end

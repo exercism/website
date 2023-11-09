@@ -26,7 +26,7 @@ export function useSelectTag({
     },
     {
       onSuccess: () => {
-        redirectTo(links.nextTaggableCodeLink)
+        redirectTo(links.nextSample)
       },
     }
   )

@@ -16,6 +16,13 @@
   .lg-container
     = render ReactComponents::Student::UpdateExerciseNotice.new(solution)
 
+- elsif solution&.completed?
+  .lg-container
+    %section.completed-heading
+      = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
+      .text You've completed #{exercise.title}.
+      = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(track))
+
 .flex
   .content.lg-container.container.flex.items-center.relative
     = exercise_icon exercise, css_class: "self-start md:self-center"

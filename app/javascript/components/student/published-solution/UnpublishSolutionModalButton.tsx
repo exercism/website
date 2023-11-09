@@ -3,7 +3,6 @@ import { UnpublishSolutionModal } from '@/components/modals/UnpublishSolutionMod
 import { inlineButtonClassNames } from './ChangePublishedIterationModalButton'
 
 type Links = {
-  changeIteration: string
   unpublish: string
 }
 
@@ -11,7 +10,7 @@ export type UnpublishSolutionModalButtonProps = {
   links: Links
   label: string
 }
-export function UnpublishSolutionModalButton({
+export default function UnpublishSolutionModalButton({
   links,
   label,
 }: UnpublishSolutionModalButtonProps): JSX.Element {

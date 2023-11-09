@@ -20,7 +20,7 @@ export type ChangePublishedIterationModalButtonProps = {
 export const inlineButtonClassNames =
   'inline-block text-prominentLinkColor border-b-1 border-prominentLinkColor font-medium'
 
-export function ChangePublishedIterationModalButton({
+export default function ChangePublishedIterationModalButton({
   redirectType,
   publishedIterationIdx,
   iterations,

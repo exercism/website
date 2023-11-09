@@ -68,10 +68,12 @@ function initEventListeners() {
   // render those when the frame changes. We want the CSS to load BEFORE
   // then HTML renders, so we get any stylesheets downloaded and THEN render
   // continnue processing the frame render.
-  document.addEventListener('turbo:before-frame-render', (e) => {
-    const hrefs = Array.from(event.detail.newFrame.getElementsByTagName('link'))
-      .filter((el) => el.getAttribute('rel') == 'stylesheet')
-      .map((el) => el.getAttribute('href'))
+  document.addEventListener('turbo:before-frame-render', (e: Event) => {
+    if (!(e instanceof CustomEvent)) return
+
+    const hrefs = Array.from(
+      e.detail.newFrame.querySelectorAll('link[rel="stylesheet"]')
+    ).map((link) => (link as HTMLLinkElement).getAttribute('href'))
 
     // If we have no stylesheets, just continue
     if (hrefs.length == 0) {

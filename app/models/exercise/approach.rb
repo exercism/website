@@ -20,6 +20,10 @@ class Exercise::Approach < ApplicationRecord
     dependent: :destroy
   has_many :contributors, through: :contributorships, source: :contributor
 
+  has_many :submissions,
+    inverse_of: :approach,
+    dependent: :destroy
+
   has_one :track, through: :exercise
 
   scope :random, -> { order('RAND()') }
@@ -31,4 +35,20 @@ class Exercise::Approach < ApplicationRecord
 
   memoize
   def content_html = Markdown::Parse.(content)
+
+  def matches_tags?(check_tags)
+    return false if check_tags.blank?
+    return false if tags.blank?
+
+    all_tags = tags["all"].to_a
+    return false if all_tags.present? && (all_tags - check_tags).present?
+
+    any_tags = tags["any"].to_a
+    return false if any_tags.present? && (any_tags & check_tags).empty?
+
+    not_tags = tags["not"].to_a
+    return false if not_tags.present? && (not_tags & check_tags).present?
+
+    true
+  end
 end

@@ -193,7 +193,7 @@ class Solution < ApplicationRecord
   end
 
   def update_iteration_status!
-    new_status = iterations.last&.status.to_s
+    new_status = iterations.last&.status&.to_sym
     update_column(:iteration_status, new_status) if iteration_status != new_status
   end
 

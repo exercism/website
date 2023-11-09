@@ -4,6 +4,7 @@ class Submission < ApplicationRecord
   belongs_to :track
   belongs_to :exercise
   belongs_to :solution
+  belongs_to :approach, class_name: "Exercise::Approach", optional: true
   has_one :user, through: :solution
   has_one :iteration, dependent: :destroy
 
@@ -44,6 +45,10 @@ class Submission < ApplicationRecord
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests"
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
+
+  scope :tagged, -> { where.not(tags: nil) }
+  scope :untagged, -> { where(tags: nil) }
+  scope :has_iteration, -> { joins(:iteration) }
 
   before_validation on: :create do
     self.track = solution.track unless track

@@ -44,6 +44,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
     @other_solutions = Solution.where(id: os_ids).includes(*SerializeSolutions::NP1_INCLUDES + [:published_exercise_representation])
     @mentor_discussions = @solution.mentor_discussions.finished.not_negatively_rated.includes(:mentor)
     @exercise_representation = @solution.published_exercise_representation
+    @approach = @solution.latest_published_iteration_submission&.approach
 
     UserTrack::ViewedCommunitySolution::Create.defer(current_user, @track, @solution) if user_signed_in?
   rescue ActiveRecord::RecordNotFound

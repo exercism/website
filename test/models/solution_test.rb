@@ -46,6 +46,36 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal :published, solution.reload.status.to_sym
   end
 
+  test "update_iteration_status!" do
+    solution = create :concept_solution
+
+    solution.expects(:update_column).with(:iteration_status, :testing)
+    create(:iteration, solution:, submission: create(:submission, tests_status: :queued))
+
+    # Manually repeat the stubbed call
+    solution.update!(iteration_status: :testing)
+
+    solution.expects(:update_column).never
+    solution.update_iteration_status!
+  end
+
+  test "update_iteration_status! does not call unncessarily" do
+    solution = create :concept_solution
+
+    solution.update_iteration_status!
+    assert_nil solution.reload.iteration_status
+
+    create(:iteration, solution:, submission: create(:submission, tests_status: :queued))
+    solution.update_iteration_status!
+    assert_equal :testing, solution.reload.iteration_status
+
+    create(:iteration, solution:, submission: create(:submission, tests_status: :passed))
+    solution.update_iteration_status!
+    assert_equal :no_automated_feedback, solution.reload.iteration_status
+
+    solution.expects(:update_column).never
+  end
+
   test "published_iterations" do
     solution = create :concept_solution
     it_1 = create(:iteration, solution:)

@@ -572,14 +572,8 @@ body.namespace-tracks.controller-exercises.action-show {
         }
 
         & .complete {
-            @apply mb-24 pb-20 border-b-1 border-borderColor5;
-
             & button {
                 @apply w-100;
-            }
-
-            & .explanation {
-                @apply text-14 leading-160 mt-12;
             }
         }
         & .publish-section {

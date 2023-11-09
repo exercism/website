@@ -13,7 +13,7 @@
             - if @solution.status_completed? || @solution.status_published?
               = render "tracks/exercises/show/timeline_completed", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
             - elsif @solution.status_iterated?
-              = render "tracks/exercises/show/action_box_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
+              = render "tracks/exercises/show/timeline_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
             - elsif @solution.status_started?
               = render "tracks/exercises/show/action_box_started", track: @track, exercise: @exercise, solution: @solution
 
@@ -28,12 +28,12 @@
         .mt-28.ml-8
           = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
 
-        = ReactComponents::Student::Nudge.new(@solution) if @solution
+        /= ReactComponents::Student::Nudge.new(@solution) if @solution
         = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
-        = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
+        /= ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
         - if @exercise.concept_exercise?
           = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
-      .lg:ml-32
-        = render "tracks/exercises/show/instructions", track: @track, exercise: @exercise
+      .lg:ml-32.w-arbitary.flex-grow
+        = render "tracks/exercises/show/instructions", track: @track, exercise: @exercise, solution: @solution

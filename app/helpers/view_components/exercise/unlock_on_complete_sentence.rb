@@ -6,7 +6,7 @@ module ViewComponents
       return unless exercise.concept_exercise?
       return if num_unlocked_exercises.zero?
 
-      tag.div(class: "explanation") do
+      tag.div(class: "text-14 leading-160 mt-12") do
         t = "By marking #{exercise.title} as complete, you’ll unlock "
 
         if unlocked_concept_names.present?

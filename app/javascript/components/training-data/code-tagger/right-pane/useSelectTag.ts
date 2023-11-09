@@ -18,7 +18,7 @@ export function useSelectTag({
     () => {
       const { fetch } = sendRequest({
         endpoint: links.confirmTagsApi,
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify({ tags: selectedTags }),
       })
 

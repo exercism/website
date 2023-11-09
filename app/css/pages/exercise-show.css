@@ -577,31 +577,13 @@ body.namespace-tracks.controller-exercises.action-show {
             }
         }
         & .publish-section {
-            & .header {
-                @apply flex items-center;
-                @apply mb-16;
-                & h3 {
-                    @apply text-h4 mb-0;
-                }
-                & button.publish-settings-button {
-                    @apply ml-auto;
-                    @apply px-0 border-borderColor6;
-                    & .c-icon {
-                        filter: var(--textColor6-filter);
-                    }
-                }
-                & .published-solution-menu {
-                    @apply pt-10;
-                    min-width: 380px;
-                }
-            }
-            & p {
-                @apply mb-16;
-            }
-            & button.publish-btn {
-                @apply w-100;
+            @apply text-16 leading-140 mb-16;
+            .c-react-wrapper-student-unpublish-solution-modal-button,
+            .c-react-wrapper-student-change-published-iteration-modal-button {
+                @apply inline-block;
             }
             & .c-community-solution {
+                @apply mt-16;
                 & pre {
                     @apply hidden;
                 }

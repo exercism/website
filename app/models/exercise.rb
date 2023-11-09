@@ -124,12 +124,10 @@ class Exercise < ApplicationRecord
 
   def concept_exercise? = is_a?(ConceptExercise)
   def practice_exercise? = is_a?(PracticeExercise)
-
-  def tutorial?
-    slug == "hello-world"
-  end
-
+  def approaches? = approaches.exists?
+  def tutorial? = slug == "hello-world"
   def has_test_runner? = super && track.has_test_runner?
+
   delegate :has_representer?, to: :track
 
   def to_param = slug

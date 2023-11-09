@@ -17,6 +17,9 @@ export type ChangePublishedIterationModalButtonProps = {
   label: string
 }
 
+export const inlineButtonClassNames =
+  'inline-block text-prominentLinkColor border-b-1 border-prominentLinkColor font-medium'
+
 export function ChangePublishedIterationModalButton({
   redirectType,
   publishedIterationIdx,
@@ -28,7 +31,10 @@ export function ChangePublishedIterationModalButton({
 
   return (
     <>
-      <button className="inline-block" onClick={() => setIsOpen(true)}>
+      <button
+        className={inlineButtonClassNames}
+        onClick={() => setIsOpen(true)}
+      >
         {label}
       </button>
       <ChangePublishedIterationModal

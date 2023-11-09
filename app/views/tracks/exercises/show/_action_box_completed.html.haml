@@ -2,13 +2,12 @@
   .action-box.completed
     .action-box-content
       %h3 Exercise Published
-      %div
+      %span.text-16.leading-140
         You've published your exercise for others to learn from. Thank you! You can view and manage your published solution below.
         You can
         = render ReactComponents::Student::ChangePublishedIterationModalButton.new(solution, "change published iteration")
         or
-        = render ReactComponents::Student::UnpublishSolutionModalButton.new(solution, "unpublish your solution")
-        = render ReactComponents::Student::PublishedSolution.new(solution)
+        = render ReactComponents::Student::UnpublishSolutionModalButton.new(solution, "unpublish your solution.")
 
 - else
   .action-box.completed

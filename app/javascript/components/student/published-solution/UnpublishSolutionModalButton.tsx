@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { UnpublishSolutionModal } from '@/components/modals/UnpublishSolutionModal'
+import { inlineButtonClassNames } from './ChangePublishedIterationModalButton'
 
 type Links = {
   changeIteration: string
@@ -18,7 +19,10 @@ export function UnpublishSolutionModalButton({
 
   return (
     <>
-      <button className="inline-block" onClick={() => setIsOpen(true)}>
+      <button
+        className={inlineButtonClassNames}
+        onClick={() => setIsOpen(true)}
+      >
         {label}
       </button>
       <UnpublishSolutionModal

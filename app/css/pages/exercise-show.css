@@ -477,10 +477,10 @@ body.namespace-tracks.controller-exercises.action-show {
                 @apply !mb-0;
             }
 
-            div {
+            span {
                 .c-react-wrapper-student-unpublish-solution-modal-button,
                 .c-react-wrapper-student-change-published-iteration-modal-button {
-                    @apply inline-block;
+                    @apply inline-block underline;
                 }
             }
         }

@@ -1,0 +1,7 @@
+.action-box.pending
+  .action-box-content.complete
+    %h3 Finished with the exercise?
+    %p.mb-8 Taken this exercise as far as you want to? Tick it off your list, and optionally publish your solution for the community to learn from.
+    = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
+    = render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise, user_track)
+

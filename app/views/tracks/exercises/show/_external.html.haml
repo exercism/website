@@ -1,6 +1,6 @@
 .lg-container.flex.flex-col.lg:flex-row
-  .lg:mr-32
-    = render("tracks/exercises/show/instructions", track:, exercise:)
+  %section.lg:mr-32.w-arbitary.flex-grow
+    = render("tracks/exercises/show/instructions", track:, exercise:, solution: nil)
   .flex-shrink-0.mb-32.lg:mb-0.lg:w-1-3
     - if user_signed_in?
       = render("tracks/exercises/show/action_box_join_track", exercise:, user_track:)

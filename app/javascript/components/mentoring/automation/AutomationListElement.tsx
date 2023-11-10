@@ -84,7 +84,10 @@ export const AutomationListElement = ({
                 icon="authoring"
                 className="filter-textColor6"
               />
-              <span className="truncate">
+              <span
+                title={representation.feedbackAuthor?.handle}
+                className="truncate"
+              >
                 {representation.feedbackAuthor?.handle}
               </span>
             </div>
@@ -97,7 +100,10 @@ export const AutomationListElement = ({
                 icon="edit"
                 className="filter-textColor6"
               />
-              <span className="truncate">
+              <span
+                title={representation.feedbackEditor?.handle}
+                className="truncate"
+              >
                 {representation.feedbackEditor?.handle}
               </span>
             </div>

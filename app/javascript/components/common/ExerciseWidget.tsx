@@ -5,6 +5,7 @@ import { GraphicalIcon } from './GraphicalIcon'
 import { Info } from './exercise-widget/Info'
 import { ExerciseTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
+import { useLogger } from '@/hooks'
 
 type Links = {
   tooltip?: string
@@ -96,13 +97,25 @@ const ReferenceElement = forwardRef<
         <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
         {info}
         <GraphicalIcon
-          icon={exercise.isUnlocked ? 'chevron-right' : 'lock'}
+          icon={generateWidgetIcon(solution, exercise.isUnlocked)}
           className="--action-icon sm:block hidden"
         />
       </a>
     )
   }
 )
+
+function generateWidgetIcon(
+  solution: SolutionForStudent | null | undefined,
+  isUnlocked: boolean
+): string {
+  const iconMap = { completed: 'completed-check-circle', iterated: 'iteration' }
+  return solution
+    ? iconMap[solution.status]
+    : isUnlocked
+    ? 'chevron-right'
+    : 'lock'
+}
 
 ExerciseWidget.defaultProps = {
   renderBlurb: true,

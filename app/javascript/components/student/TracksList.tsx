@@ -29,6 +29,7 @@ export default ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
+  const [staleTime, setStaleTime] = useState(1000)
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -40,7 +41,14 @@ export default ({
     data: resolvedData,
     isError,
     isFetching,
-  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
+    ...request,
+    options: { ...request.options, staleTime },
+  })
+
+  useEffect(() => {
+    setTimeout(() => setStaleTime(0), 1000)
+  }, [])
 
   const setTags = useCallback(
     (tags) => {

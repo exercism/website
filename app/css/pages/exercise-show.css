@@ -53,10 +53,10 @@ body.namespace-tracks.controller-exercises.action-show {
         }
     }
     & section.completed-info {
-        @apply bg-backgroundColorA py-24 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorA py-24 px-32 shadow-lg rounded-8 mb-20;
 
-        & h2 {
-            @apply text-h4 mb-16;
+        & h3 {
+            @apply text-20 font-semibold leading-140;
         }
 
         & .progressed-concepts {
@@ -78,13 +78,10 @@ body.namespace-tracks.controller-exercises.action-show {
         }
     }
     & section.taught-concepts {
-        @apply bg-backgroundColorB py-16 px-32 shadow-lg rounded-8 mb-32;
+        @apply bg-backgroundColorA py-16 px-32 shadow-lg rounded-8 mb-20;
 
         & h3 {
-            @apply text-18 font-medium mb-8 leading-paragraph;
-            & strong {
-                @apply font-semibold;
-            }
+            @apply text-20 font-semibold leading-140;
         }
         & .concepts {
             @apply flex flex-wrap;

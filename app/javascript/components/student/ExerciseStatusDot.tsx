@@ -16,10 +16,7 @@ export default function ExerciseStatusDot({
   }
 }): JSX.Element {
   return (
-    <ExercismTippy
-      delay={100}
-      content={<ExerciseTooltip endpoint={links.tooltip} />}
-    >
+    <ExercismTippy content={<ExerciseTooltip endpoint={links.tooltip} />}>
       <ReferenceElement
         className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}

@@ -73,6 +73,7 @@
         }
 
         & .--feedback-glimpse {
+            @apply flex items-center h-48;
             @apply text-right mr-60 leading-150 text-textColor6;
             @apply truncate;
             width: 300px;

@@ -107,7 +107,7 @@ export const AutomationListElement = ({
       <div
         className="--feedback-glimpse"
         dangerouslySetInnerHTML={{ __html: representation.feedbackHtml }}
-      ></div>
+      />
       {!isAdminTab && (
         <div className="--occurencies">{ELEMENT_LABELS['counterElement']}</div>
       )}

@@ -1,0 +1,26 @@
+%p.mb-16
+  Solving the exercise is just the first step to improving. It's now time to learn from others.
+
+.inner-box.pending
+  .inner-box-content
+    .text-h6.mb-2 Request Code Review
+    %p.mb-4 Exercism's most powerful feature. Get help from a real mentor who can help you spot your knowledge gaps. It's 100% free.
+    = link_to "Request code review", "#", class: 'btn-s btn-secondary self-start'
+
+.inner-box.completed
+  .inner-box-content
+    .text-h6.mb-2 Explore Community Solutions
+    %p.mb-4
+      Explore how others have solved this exercise and learn new ideas in our
+      = succeed(".") do
+        = link_to "Community Solutions", "#", class: "text-linkColor border-b-1"
+
+- if exercise.approaches?
+  .inner-box.pending
+    .inner-box-content
+      .text-h6.mb-2 Discover different approaches
+      %p.mb-4
+        Explore the different common approaches to this exercise in our
+        = succeed(".") do
+          = link_to "Dig Deeper section", "#", class: "text-linkColor border-b-1"
+

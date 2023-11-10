@@ -3,9 +3,9 @@
   .icons= track_icon track
   %h3
     Ready to start #{exercise.title}?
-  %p
+  %p.mb-12
     Join the #{track.title} track with
-    - if @track.course?
+    - if track.course?
       = link_to "#{user_track.num_concepts} #{'concept'.pluralize(user_track.num_concepts)}", track_concepts_path(track)
       and
     = link_to "#{user_track.num_exercises} #{'exercise'.pluralize(user_track.num_exercises)}", track_exercises_path(track)

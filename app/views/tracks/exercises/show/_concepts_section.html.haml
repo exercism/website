@@ -1,41 +1,25 @@
-- return unless exercise.concept_exercise? && solution&.completed?
-
-%section.completed-info.c-completed-exercise-progress
-  %h2 You’ve learnt #{pluralize exercise.taught_concepts.size, 'concept'} by completing this exercise.
-  .progressed-concepts
-    - exercise.taught_concepts.includes(:concept_exercises, :practice_exercises).each do |concept|
-      .concept
-        = link_to Exercism::Routes.track_concept_path(track, concept), class: "flex items-center" do
-          = render ViewComponents::ConceptIcon.new(concept, :medium)
-          .name= concept.name
-        .exercises
-          - user_track.concept_exercises_for_concept(concept).each do |exercise|
-            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
-          - user_track.practice_exercises_for_concept(concept).each do |exercise|
-            = ReactComponents::Student::ExerciseStatusDot.new(exercise, user_track)
-
-  = render ViewComponents::ProminentLink.new("See how your concept map has changed", track_concepts_path(track), with_bg: true)
+%section.completed-info
+  %h3.mb-8 Exercise Learning Goals
+  %p.text-p-base.mb-8 This learning exercise helped evolve your knowledge of #{raw exercise.taught_concepts.map { |c| link_to(c.name, track_concept_path(track, c)) }.to_sentence}.
 
   - unlocked_concepts = user_track.unlocked_concepts_for_exercise(exercise)
   - unlocked_exercises = user_track.unlocked_exercises_for_exercise(exercise)
   - if unlocked_concepts.present? || unlocked_exercises.present?
     .unlocks
       - if unlocked_concepts.present?
-        .unlocked-concepts
-          %h3
-            You've unlocked
-            = graphical_icon :concepts
+        %p.text-p-base.p.mb-8.font-semibold
+          You've unlocked
+          = succeed(":") do
             = pluralize unlocked_concepts.size, "concept"
-          .list
-            - unlocked_concepts.each do |unlocked_concept|
-              = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
+        .flex.gap-8.flex-wrap.mb-20
+          - unlocked_concepts.each do |unlocked_concept|
+            = render ReactComponents::Common::ConceptWidget.new(unlocked_concept)
 
       - if unlocked_exercises.present?
-        .unlocked-exercises
-          %h3
-            You've unlocked
-            = graphical_icon :exercises
+        %p.text-p-base.p.mb-8.font-semibold
+          You've unlocked
+          = succeed(":") do
             = pluralize unlocked_exercises.size, "exercise"
-          .list
-            - unlocked_exercises.each do |unlocked_exercise|
-              = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, skinny: true, with_tooltip: true)
+        .flex.gap-8.flex-wrap
+          - unlocked_exercises.each do |unlocked_exercise|
+            = ReactComponents::Common::ExerciseWidget.new(unlocked_exercise, user_track, skinny: true, with_tooltip: true)

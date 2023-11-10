@@ -18,6 +18,7 @@ type IterationSummaryProps = {
   iteration: Iteration
   className?: string
   showSubmissionMethod: boolean
+  showTimeStamp?: boolean
   showTestsStatusAsButton: boolean
   showFeedbackIndicator: boolean
   OutOfDateNotice?: React.ReactNode
@@ -55,6 +56,7 @@ export function IterationSummary({
   showTestsStatusAsButton,
   showFeedbackIndicator,
   OutOfDateNotice,
+  showTimeStamp = true,
 }: IterationSummaryProps): JSX.Element {
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   return (
@@ -83,14 +85,18 @@ export function IterationSummary({
         <div className="--details" data-testid="details">
           {!isBelowLgWidth && 'Submitted '}
           {showSubmissionMethod
-            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}, `
+            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}${
+                showTimeStamp ? ',' : ''
+              } `
             : null}
-          <time
-            dateTime={iteration.createdAt.toString()}
-            title={iteration.createdAt.toString()}
-          >
-            {fromNow(iteration.createdAt)}
-          </time>
+          {showTimeStamp && (
+            <time
+              dateTime={iteration.createdAt.toString()}
+              title={iteration.createdAt.toString()}
+            >
+              {fromNow(iteration.createdAt)}
+            </time>
+          )}
         </div>
       </div>
       {OutOfDateNotice}

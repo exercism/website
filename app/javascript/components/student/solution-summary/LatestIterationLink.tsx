@@ -14,6 +14,7 @@ export default function LatestIterationLink({
         showSubmissionMethod={true}
         showTestsStatusAsButton={false}
         showFeedbackIndicator={true}
+        showTimeStamp={false}
       />
     </a>
   )

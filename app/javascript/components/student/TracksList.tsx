@@ -43,12 +43,8 @@ export default ({
     isFetching,
   } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
     ...request,
-    options: { ...request.options, staleTime },
+    options: { ...request.options, refetchOnMount: false },
   })
-
-  useEffect(() => {
-    setTimeout(() => setStaleTime(0), 1000)
-  }, [])
 
   const setTags = useCallback(
     (tags) => {

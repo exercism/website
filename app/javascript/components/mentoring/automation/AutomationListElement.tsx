@@ -75,39 +75,45 @@ export const AutomationListElement = ({
         </div>
       </div>
       {isAdminTab && (
-        <>
-          <div className="flex w-[100px] gap-8">
-            {representation.feedbackAuthor?.handle && (
-              <>
-                <GraphicalIcon
-                  height={14}
-                  width={14}
-                  icon="authoring"
-                  className="filter-textColor6"
-                />
-                <span>{representation.feedbackAuthor?.handle}</span>
-              </>
-            )}
-          </div>
-          <div className="flex w-[100px] gap-8 mr-60">
-            {representation.feedbackEditor?.handle && (
-              <>
-                <GraphicalIcon
-                  height={14}
-                  width={14}
-                  icon="edit"
-                  className="filter-textColor6"
-                />
-                <span>{representation.feedbackEditor?.handle}</span>
-              </>
-            )}
-          </div>
-        </>
+        <div className="flex flex-col gap-8 mr-60 w-[160px] text-left">
+          {representation.feedbackAuthor?.handle && (
+            <div className="flex gap-8 leading-150">
+              <GraphicalIcon
+                height={14}
+                width={14}
+                icon="authoring"
+                className="filter-textColor6"
+              />
+              <span
+                title={representation.feedbackAuthor?.handle}
+                className="truncate"
+              >
+                {representation.feedbackAuthor?.handle}
+              </span>
+            </div>
+          )}
+          {representation.feedbackEditor?.handle && (
+            <div className="flex gap-8 leading-150">
+              <GraphicalIcon
+                height={14}
+                width={14}
+                icon="edit"
+                className="filter-textColor6"
+              />
+              <span
+                title={representation.feedbackEditor?.handle}
+                className="truncate"
+              >
+                {representation.feedbackEditor?.handle}
+              </span>
+            </div>
+          )}
+        </div>
       )}
       <div
         className="--feedback-glimpse"
         dangerouslySetInnerHTML={{ __html: representation.feedbackHtml }}
-      ></div>
+      />
       {!isAdminTab && (
         <div className="--occurencies">{ELEMENT_LABELS['counterElement']}</div>
       )}

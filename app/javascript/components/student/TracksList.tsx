@@ -29,7 +29,6 @@ export default ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
-  const [staleTime, setStaleTime] = useState(1000)
   const {
     request,
     setCriteria: setRequestCriteria,

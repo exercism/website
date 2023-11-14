@@ -1,12 +1,17 @@
-.action-box
-  %h3
-    = icon :lock, "This exercise is locked"
-    Unlock #{exercise.title}
-  %p
-    This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
-    %strong #{exercise.title}.
+.action-box.pending
+  .action-box-content
+    %h3 Unlock #{exercise.title}
+    %p.mb-20
+      This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
+      %strong #{exercise.title}.
 
-  .prereqs
-    - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|
-      = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, skinny: true)
+    .prereqs
+      - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|
+        = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, skinny: true)
+
+= render "tracks/exercises/show/action_box_solve_locked"
+= render("tracks/exercises/show/action_box_dig_deeper_locked", exercise:)
+= render "tracks/exercises/show/action_box_complete_locked"
+= render "tracks/exercises/show/action_box_publish_locked"
+
 

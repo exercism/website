@@ -35,7 +35,7 @@
 @import "../components/community-solution";
 @import "../components/community-solutions-list";
 @import "../components/exercise-header";
-@import "../components/completed-heading";
+@import "../components/completed-exercise-heading";
 
 /* General */
 @import "../modals/makers";

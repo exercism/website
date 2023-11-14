@@ -15,11 +15,11 @@
             - elsif @solution.status_iterated?
               = render "tracks/exercises/show/timeline_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
             - elsif @solution.status_started?
-              = render "tracks/exercises/show/action_box_started", track: @track, exercise: @exercise, solution: @solution
+              = render "tracks/exercises/show/timeline_pending", track: @track, exercise: @exercise, solution: @solution
 
           - else
             - if @user_track.exercise_unlocked?(@exercise)
-              = render "tracks/exercises/show/timeline_pending", track: @track, exercise: @exercise
+              = render "tracks/exercises/show/timeline_pending", track: @track, exercise: @exercise, solution: nil
             - elsif @user_track.tutorial_exercise_completed?
               = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
             - else
@@ -29,11 +29,13 @@
           = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
 
         /= ReactComponents::Student::Nudge.new(@solution) if @solution
-        = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
         /= ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
-        - if @exercise.concept_exercise?
-          = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
 
       .lg:ml-32.w-arbitary.flex-grow
+        - if @exercise.concept_exercise?
+          - if @solution&.completed?
+            = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
+          - else
+            = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
         = render "tracks/exercises/show/instructions", track: @track, exercise: @exercise, solution: @solution

@@ -1,9 +1,9 @@
-- return unless exercise.concept_exercise? && !solution&.completed?
-
 %section.taught-concepts
-  %h3
+  %h3.mb-4 Exercise Learning goals
+  %p.text-p-base.mb-12
     While completing #{exercise.title}, you'll learn
-    %strong= pluralize exercise.taught_concepts.size, 'concept'
+    = succeed(":") do
+      %strong= pluralize exercise.taught_concepts.size, 'concept'
   .concepts
     - exercise.taught_concepts.each.each do |concept|
       = link_to track_concept_path(track, concept), class: 'concept' do

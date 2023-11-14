@@ -41,10 +41,7 @@ export default ({
     data: resolvedData,
     isError,
     isFetching,
-  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, {
-    ...request,
-    options: { ...request.options, refetchOnMount: false },
-  })
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
 
   const setTags = useCallback(
     (tags) => {

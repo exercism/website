@@ -124,10 +124,6 @@
             @apply shadow-sm;
         }
 
-        & > .c-exercise-icon {
-            opacity: 0.8;
-            filter: grayscale(1);
-        }
         & > .--info {
             & > .--title {
                 @apply text-textColor6;

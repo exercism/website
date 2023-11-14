@@ -13,12 +13,18 @@ class SerializeMentorRequestsTest < ActiveSupport::TestCase
       {
         uuid: request.uuid,
 
-        track_title: track.title,
-        exercise_title: exercise.title,
-        exercise_icon_url: exercise.icon_url,
-
-        student_handle: student.handle,
-        student_avatar_url: student.avatar_url,
+        track: { title: track.title },
+        exercise: {
+          title: exercise.title,
+          icon_url: exercise.icon_url
+        },
+        student: {
+          handle: student.handle,
+          avatar_url: student.avatar_url
+        },
+        solution: {
+          uuid: solution.uuid
+        },
         updated_at: request.created_at.iso8601,
 
         have_mentored_previously: false,

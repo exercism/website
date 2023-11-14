@@ -599,4 +599,20 @@ body.namespace-tracks.controller-exercises.action-show {
             }
         }
     }
+
+    a.latest-iteration-link {
+        @apply rounded-8 shadow-sm border-1 border-borderColor5;
+        @apply py-8 px-24 mb-16;
+        @apply flex items-center;
+
+        h3 {
+            @apply text-h5;
+        }
+
+        .--published,
+        .--latest,
+        .--upload-method-icon {
+            @apply hidden;
+        }
+    }
 }

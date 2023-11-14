@@ -187,7 +187,6 @@ const IterationSummaryWithWebsockets = lazy(
 const NotificationsList = lazy(
   () => import('@/components/notifications/NotificationsList')
 )
-
 const WelcomeModal = lazy(() => import('@/components/modals/WelcomeModal'))
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')
@@ -203,8 +202,10 @@ const DonationsSubscriptionForm = lazy(
   () => import('@/components/donations/SubscriptionForm')
 )
 
-import { RenderLoader } from '@/components/common'
-import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
+const LatestIterationLink = lazy(
+  () => import('@/components/student/solution-summary/LatestIterationLink')
+)
+
 const ChangePublishedIterationModalButton = lazy(
   () =>
     import(
@@ -217,6 +218,9 @@ const UnpublishSolutionModalButton = lazy(
       '@/components/student/published-solution/UnpublishSolutionModalButton'
     )
 )
+
+import { RenderLoader } from '@/components/common'
+import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -548,6 +552,13 @@ initReact({
         exercise={camelizeKeysAs<IterationsListExercise>(data.exercise)}
         track={camelizeKeysAs<IterationsListTrack>(data.track)}
         links={camelizeKeysAs<IterationsListLinks>(data.links)}
+      />
+    </Suspense>
+  ),
+  'student-latest-iteration-link': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <LatestIterationLink
+        iteration={camelizeKeysAs<Iteration>(data.latest_iteration)}
       />
     </Suspense>
   ),

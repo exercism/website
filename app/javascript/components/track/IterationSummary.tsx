@@ -44,7 +44,11 @@ export default function IterationSummaryWithWebsockets({
     return () => {
       iterationChannel.disconnect()
     }
-  }, [])
+  }, [channel, iteration, setIteration])
+
+  useEffect(() => {
+    setIteration(initialIteration)
+  }, [initialIteration])
 
   return <IterationSummary iteration={iteration} {...props} />
 }

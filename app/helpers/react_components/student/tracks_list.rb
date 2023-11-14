@@ -21,7 +21,7 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_tracks_path,
           options: {
-            initialData: {
+            initial_data: {
               tracks: SerializeTracks.(tracks, user)
             }
           },

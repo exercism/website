@@ -20,6 +20,7 @@ export default function ExerciseStatusDot({
       <ReferenceElement
         className={`c-ed --${exerciseStatus} --${type}`}
         link={links.exercise}
+        status={exerciseStatus}
       />
     </ExercismTippy>
   )
@@ -28,10 +29,22 @@ export default function ExerciseStatusDot({
 const ReferenceElement = forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLDivElement> &
-    React.HTMLProps<HTMLAnchorElement> & { link?: string }
->(({ link, ...props }, ref) => {
+    React.HTMLProps<HTMLAnchorElement> & {
+      link?: string
+      status: ExerciseStatus
+    }
+>(({ link, status, ...props }, ref) => {
   return link ? (
-    <a href={link} ref={ref as React.RefObject<HTMLAnchorElement>} {...props} />
+    <a
+      href={link}
+      onClick={(e) => {
+        if (status === 'locked') {
+          e.preventDefault()
+        }
+      }}
+      ref={ref as React.RefObject<HTMLAnchorElement>}
+      {...props}
+    />
   ) : (
     <div ref={ref as React.RefObject<HTMLDivElement>} {...props} />
   )

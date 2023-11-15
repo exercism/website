@@ -1,4 +1,4 @@
 {
-  "localstack": "localstack/localstack:2.2.0",
-  "opensearch": "opensearchproject/opensearch:2.9.0"
+  "localstack": "localstack/localstack:2.3.2",
+  "opensearch": "opensearchproject/opensearch:2.11.0"
 }

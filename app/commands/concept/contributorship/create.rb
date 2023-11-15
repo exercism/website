@@ -4,7 +4,7 @@ class Concept::Contributorship::Create
   initialize_with :concept, :contributor
 
   def call
-    concept.contributorships.find_or_create_by(contributor:).tap do |contributorship|
+    concept.contributorships.find_create_or_find_by!(contributor:).tap do |contributorship|
       User::ReputationToken::Create.defer(
         contributor,
         :concept_contribution,

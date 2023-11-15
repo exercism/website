@@ -440,6 +440,16 @@ class UserTest < ActiveSupport::TestCase
     refute user.may_receive_emails?
   end
 
+  test "refute may receive email for ghost user" do
+    user = create :user, :ghost
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for system user" do
+    user = create :user, :system
+    refute user.may_receive_emails?
+  end
+
   test "donated_in_last_35_days?" do
     freeze_time do
       user = create :user

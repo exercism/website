@@ -80,6 +80,7 @@ export default function PronounsForm({
             value={pronounParts[0] || ''}
             required
             pattern="^[^\s]*$"
+            max={255}
             title="Input cannot contain whitespace"
             placeholder="e.g. They"
             maxLength={100}

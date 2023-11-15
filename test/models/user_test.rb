@@ -490,4 +490,33 @@ class UserTest < ActiveSupport::TestCase
       assert user.automator?(track)
     end
   end
+
+  test "validates" do
+    user = create :user
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(name: 'a' * 256)
+    end
+    user.update!(name: 'a' * 255)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(handle: 'a' * 191)
+    end
+    user.update!(handle: 'a' * 190)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(email: "#{'a' * 182}@test.org")
+    end
+    user.update!(email: "#{'a' * 181}@test.org")
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(pronouns: 'a' * 256)
+    end
+    user.update!(pronouns: 'a' * 255)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(location: 'a' * 256)
+    end
+    user.update!(location: 'a' * 255)
+  end
 end

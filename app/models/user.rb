@@ -350,11 +350,13 @@ class User < ApplicationRecord
     end
   end
 
-  def trainer?(_track = nil)
+  def trainer?(track = nil)
     return true if staff?
-    return true if maintainer?
-    return true if supermentor?
+    return reputation_for_track(track) >= MIN_TRACK_REP_FOR_TRAINER if track.present?
 
     false
   end
+
+  MIN_TRACK_REP_FOR_TRAINER = 50
+  private_constant :MIN_TRACK_REP_FOR_TRAINER
 end

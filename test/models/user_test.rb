@@ -480,4 +480,31 @@ class UserTest < ActiveSupport::TestCase
       assert user.automator?(track)
     end
   end
+
+  test "trainer?" do
+    user = create :user
+
+    refute user.automator?(nil)
+
+    track = create :track
+    refute user.automator?(track)
+
+    create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 49, arbitrary_reason: "Great work" })
+    refute user.trainer?(track)
+
+    create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 1, arbitrary_reason: "Nice!" })
+    assert user.trainer?(track)
+
+    other_track = create :track, :random_slug
+    refute user.automator?(other_track)
+  end
+
+  %i[admin staff].each do |role|
+    test "trainer? enabled for #{role}" do
+      track = create :track
+      user = create :user, role
+
+      assert user.trainer?(track)
+    end
+  end
 end

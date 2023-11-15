@@ -2,3 +2,5 @@
 
 #mentor-inbox-page
   = render ViewComponents::TrainingData::Header.new
+  .lg-container
+    = render ReactComponents::TrainingData::Dashboard.new(@training_data_dashboard_params, @statuses)

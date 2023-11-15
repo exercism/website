@@ -15,7 +15,6 @@ export default function Dashboard({
     request,
     setStatus,
     isFetching,
-    latestData,
     resolvedData,
     status,
     refetch,
@@ -45,7 +44,6 @@ export default function Dashboard({
         />
         <ResultsZone isFetching={isFetching}>
           <TaggableCodeList
-            latestData={latestData}
             resolvedData={resolvedData}
             status={status}
             refetch={refetch}

@@ -4,7 +4,7 @@ module TrainingData
 
     def index
       @training_data_dashboard_params = params.permit(:status, :order, :criteria, :page, :track_slug)
-      @statuses = TrainingData::CodeTagsSample.statuses
+      @statuses = TrainingData::CodeTagsSample.statuses.keys.map(&:to_s)
     end
 
     def guard_trainer!

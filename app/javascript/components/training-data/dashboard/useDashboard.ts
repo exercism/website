@@ -23,11 +23,15 @@ export function useDashboard({
     setPage,
     setQuery,
   } = useList(trainingDataRequest)
-  const { status, resolvedData, latestData, isFetching, refetch } =
-    usePaginatedRequestQuery<TrainingDataRequestAPIResponse>(
-      ['ml-trainer-list', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    refetch,
+  } = usePaginatedRequestQuery<TrainingDataRequestAPIResponse>(
+    ['ml-trainer-list', request.endpoint, request.query],
+    request
+  )
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -58,9 +62,9 @@ export function useDashboard({
     setPage,
     status,
     resolvedData,
-    latestData,
     isFetching,
     refetch,
+    refetchType: typeof refetch,
     setTrack,
     setStatus,
   }

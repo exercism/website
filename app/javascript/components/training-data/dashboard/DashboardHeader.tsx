@@ -24,7 +24,7 @@ export function DashboardHeader({
         filter={criteria}
         setFilter={setCriteria}
         id="discussion-filter"
-        placeholder="Filter by student or exercise name"
+        placeholder="Filter exercise name"
       />
     </header>
   )

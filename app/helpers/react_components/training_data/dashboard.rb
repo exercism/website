@@ -27,8 +27,7 @@ module ReactComponents
       def tracks_request
         {
           endpoint: 'endpoint to retrieve tracks for filtering purposes',
-          query: { status: params[:status] || DEFAULT_STATUS },
-          options: { stale_time: 0 }
+          query: { status: params[:status] || DEFAULT_STATUS }
         }
       end
 

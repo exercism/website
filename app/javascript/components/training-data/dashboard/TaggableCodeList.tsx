@@ -1,5 +1,9 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
+import {
+  QueryObserverResult,
+  QueryStatus,
+  RefetchQueryFilters,
+} from '@tanstack/react-query'
 import { Pagination, Loading, GraphicalIcon } from '@/components/common'
 import { TaggableCode } from './TaggableCode'
 import { scrollToTop } from '@/utils/scroll-to-top'
@@ -8,18 +12,16 @@ import type { RefetchOptions } from 'react-query/types/core/query'
 
 export const TaggableCodeList = ({
   resolvedData,
-  latestData,
   refetch,
   status,
   setPage,
 }: {
   resolvedData: TrainingDataRequestAPIResponse | undefined
-  latestData: TrainingDataRequestAPIResponse | undefined
   status: QueryStatus
   setPage: (page: number) => void
-  refetch: (
-    options?: RefetchOptions
-  ) => Promise<TrainingDataRequestAPIResponse | undefined>
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<TrainingDataRequestAPIResponse, unknown>>
 }): JSX.Element => {
   return (
     <div>
@@ -49,7 +51,7 @@ export const TaggableCodeList = ({
                 ))}
                 <footer>
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={resolvedData.meta.currentPage}
                     total={resolvedData.meta.totalPages}
                     setPage={(p) => {

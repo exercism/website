@@ -80,10 +80,9 @@ export default function PronounsForm({
             value={pronounParts[0] || ''}
             required
             pattern="^[^\s]*$"
-            max={255}
+            maxLength={255}
             title="Input cannot contain whitespace"
             placeholder="e.g. They"
-            maxLength={100}
             onChange={(e) => setPronounPart(e.target.value, 0)}
           />
           answered all my questions. I&apos;ll recommend
@@ -94,7 +93,7 @@ export default function PronounsForm({
             pattern="^[^\s]*$"
             title="Input cannot contain whitespace"
             placeholder="e.g. them"
-            maxLength={100}
+            maxLength={255}
             onChange={(e) => setPronounPart(e.target.value, 1)}
           />
           to others because
@@ -105,7 +104,7 @@ export default function PronounsForm({
             pattern="^[^\s]*$"
             title="Input cannot contain whitespace"
             placeholder="e.g. their"
-            maxLength={100}
+            maxLength={255}
             onChange={(e) => setPronounPart(e.target.value, 2)}
           />
           advice was very helpful.

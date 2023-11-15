@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
+import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
-import { LocationInput } from './inputs/LocationInput'
-import { TextInputWithValidation } from './inputs/TextInputWithValidation'
+import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
+import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
 
 type User = {
@@ -63,7 +63,7 @@ export default function ProfileForm({
           <label htmlFor="user_name" className="label">
             Name
           </label>
-          <TextInputWithValidation
+          <InputWithValidation
             id="user_name"
             value={user.name || ''}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
@@ -75,9 +75,12 @@ export default function ProfileForm({
           <label htmlFor="user_location" className="label">
             Location
           </label>
-          <LocationInput
+          <FauxInputWithValidation
+            id="user_location"
             value={user.location || ''}
             onChange={(e) => setUser({ ...user, location: e.target.value })}
+            icon="location"
+            {...createMaxLengthAttributes('Location', 255)}
           />
         </div>
       </div>
@@ -101,7 +104,7 @@ export default function ProfileForm({
             <label htmlFor="profile_github" className="label">
               Github (Handle)
             </label>
-            <TextInputWithValidation
+            <InputWithValidation
               id="profile_github"
               placeholder="Your GitHub handle"
               value={profile.github || ''}
@@ -116,7 +119,7 @@ export default function ProfileForm({
               Twitter (Handle)
             </label>
 
-            <TextInputWithValidation
+            <InputWithValidation
               id="profile_twitter"
               placeholder="Your Twitter handle"
               value={profile.twitter || ''}

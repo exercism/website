@@ -1,3 +1,4 @@
+import { useLogger } from '@/hooks'
 import React, { useCallback, useState } from 'react'
 
 const INVALID_CLASSNAMES = '!border-1 !border-orange mb-8'
@@ -5,22 +6,26 @@ const INVALID_CLASSNAMES = '!border-1 !border-orange mb-8'
 export function useInvalidField() {
   const [invalidMessage, setInvalidMessage] = useState<string>('')
 
-  const isInvalid = useCallback(() => {
-    return invalidMessage.length > 0
-  }, [invalidMessage])
+  const isInvalid = invalidMessage.length > 0
 
   const applyInvalidClassName = useCallback(() => {
-    return isInvalid() ? INVALID_CLASSNAMES : null
-  }, [invalidMessage, isInvalid])
+    return isInvalid ? INVALID_CLASSNAMES : null
+  }, [invalidMessage])
 
   const handleInvalid = useCallback((e) => {
-    console.log(e)
     e.preventDefault()
     setInvalidMessage(e.target.title)
   }, [])
 
+  useLogger('invalidMessage', invalidMessage)
+
+  const clearInvalidMessage = useCallback(() => {
+    console.log('inside clear invalid')
+    setInvalidMessage('')
+  }, [invalidMessage])
+
   function ValidationErrorMessage() {
-    return isInvalid() ? (
+    return isInvalid ? (
       <span className="text-orange font-semibold">{invalidMessage}</span>
     ) : null
   }
@@ -30,6 +35,7 @@ export function useInvalidField() {
     isInvalid,
     applyInvalidClassName,
     handleInvalid,
+    clearInvalidMessage,
     ValidationErrorMessage,
   }
 }

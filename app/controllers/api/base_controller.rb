@@ -55,6 +55,12 @@ module API
       render_403(:not_maintainer)
     end
 
+    def ensure_trainer!
+      return if current_user&.trainer?(@track)
+
+      render_403(:not_trainer)
+    end
+
     def sideload?(item)
       return false unless params[:sideload]
 

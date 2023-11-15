@@ -4,6 +4,7 @@ en:
       not_onboarded: "You have not yet onboarded on the website"
       not_supermentor: "You do not have supermentor permissions"
       not_automator: "You do not have automator permissions for this track"
+      not_trainer: "You do not have trainer permissions for this track"
       not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
       duplicate_video: "The video has already been submitted by someone else"
@@ -34,6 +35,7 @@ en:
       # TODO: Add max size to this
       file_too_large: "The submitted file was too large"
       too_many_requests: "A rate limit has been hit"
+      sample_not_found: "The sample was not found"
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."

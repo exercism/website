@@ -297,6 +297,8 @@ class User < ApplicationRecord
     return false if disabled?
     return false if email.ends_with?("users.noreply.github.com")
     return false if email_status_invalid?
+    return false if system?
+    return false if ghost?
 
     true
   end

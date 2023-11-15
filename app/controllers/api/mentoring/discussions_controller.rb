@@ -98,7 +98,7 @@ class API::Mentoring::DiscussionsController < API::BaseController
   def finish
     discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])
     Mentor::Discussion::FinishByMentor.(discussion)
-    relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
+    relationship = Mentor::StudentRelationship.find_create_or_find_by!(mentor: discussion.mentor, student: discussion.student)
 
     render json: {
       discussion: {

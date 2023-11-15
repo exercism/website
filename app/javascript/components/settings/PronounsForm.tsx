@@ -79,9 +79,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[0] || ''}
             required
-            pattern="^[^\s]*$"
-            maxLength={255}
-            title="Input cannot contain whitespace"
+            pattern="^[^\s]{0,255}$"
+            title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
             placeholder="e.g. They"
             onChange={(e) => setPronounPart(e.target.value, 0)}
           />
@@ -90,10 +89,9 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[1] || ''}
             required
-            pattern="^[^\s]*$"
-            title="Input cannot contain whitespace"
+            pattern="^[^\s]{0,255}$"
+            title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
             placeholder="e.g. them"
-            maxLength={255}
             onChange={(e) => setPronounPart(e.target.value, 1)}
           />
           to others because
@@ -101,10 +99,9 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[2] || ''}
             required
-            pattern="^[^\s]*$"
-            title="Input cannot contain whitespace"
+            pattern="^[^\s]{0,255}$"
+            title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
             placeholder="e.g. their"
-            maxLength={255}
             onChange={(e) => setPronounPart(e.target.value, 2)}
           />
           advice was very helpful.

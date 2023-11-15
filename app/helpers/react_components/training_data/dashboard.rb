@@ -2,6 +2,7 @@ module ReactComponents
   module TrainingData
     class Dashboard < ReactComponent
       initialize_with :params, :statuses
+
       def to_s
         super("training-data-dashboard", {
           training_data_request:,
@@ -16,7 +17,6 @@ module ReactComponents
           endpoint: 'endpoint to retrieve training data list',
           query: {
             status: params[:status] || DEFAULT_STATUS,
-            order: params[:order],
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
             track_slug: params[:track_slug]

@@ -3,16 +3,20 @@ class API::Mentoring::DiscussionsController < API::BaseController
 
   # TODO: (Optional) Add filters (the criteria aren't the filters?)
   def index
-    discussions = ::Mentor::Discussion::Retrieve.(
-      current_user,
-      params[:status],
-      page: params[:page],
-      track_slug: params[:track_slug],
-      student_handle: params[:student],
-      criteria: params[:criteria],
-      exclude_uuid: params[:exclude_uuid],
-      order: params[:order]
-    )
+    begin
+      discussions = ::Mentor::Discussion::Retrieve.(
+        current_user,
+        params[:status],
+        page: params[:page],
+        track_slug: params[:track_slug],
+        student_handle: params[:student],
+        criteria: params[:criteria],
+        exclude_uuid: params[:exclude_uuid],
+        order: params[:order]
+      )
+    rescue InvalidDiscussionStatusError
+      return render_error(400, :invalid_discussion_status)
+    end
 
     if sideload?(:all_discussion_counts)
       meta = {

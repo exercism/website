@@ -349,4 +349,12 @@ class User < ApplicationRecord
       track_mentorships.automator.exists?
     end
   end
+
+  def trainer?(_track = nil)
+    return true if staff?
+    return true if maintainer?
+    return true if supermentor?
+
+    false
+  end
 end

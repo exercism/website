@@ -157,7 +157,9 @@ Rails.application.routes.draw do
     end
   end
   namespace :training_data do
-    root to: "external#index"
+    root to: "dashboard#index"
+
+    get "external" => "external#index"
 
     resources :code_tags_samples, only: %i[index show] do
       get :next, on: :collection

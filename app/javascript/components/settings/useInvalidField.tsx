@@ -1,7 +1,7 @@
 import { useLogger } from '@/hooks'
 import React, { useCallback, useState } from 'react'
 
-const INVALID_CLASSNAMES = '!border-1 !border-orange mb-8'
+const INVALID_INPUT_STYLES = '!border-1 !border-orange mb-8'
 
 export function useInvalidField() {
   const [invalidMessage, setInvalidMessage] = useState<string>('')
@@ -17,10 +17,8 @@ export function useInvalidField() {
     setInvalidMessage(e.target.title)
   }, [])
 
-  useLogger('invalidMessage', invalidMessage)
 
   const clearInvalidMessage = useCallback(() => {
-    console.log('inside clear invalid')
     setInvalidMessage('')
   }, [invalidMessage])
 

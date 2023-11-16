@@ -2,7 +2,61 @@ require_relative '../base_test_case'
 
 module API
   class TrainingData::CodeTagsSamplesControllerTest < API::BaseTestCase
+    guard_incorrect_token! :api_training_data_code_tags_samples_path, args: 0, method: :get
     guard_incorrect_token! :update_tags_api_training_data_code_tags_sample_path, args: 1, method: :patch
+
+    #########
+    # index #
+    #########
+    test "index returns samples" do
+      track = create :track
+      user = create :user
+      create_list(:training_data_code_tags_sample, 25, track:)
+      create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 50, arbitrary_reason: "Great work" })
+
+      setup_user(user)
+      get api_training_data_code_tags_samples_path,
+        params: { status: 'untagged', track_slug: track.slug },
+        headers: @headers, as: :json
+
+      assert_response :ok
+      expected = SerializePaginatedCollection.(::TrainingData::CodeTagsSample.page(1).per(20), serializer: SerializeCodeTagsSamples)
+      assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
+    end
+
+    test "index returns 403 if user is not trainer of track" do
+      track = create :track
+
+      setup_user
+      get api_training_data_code_tags_samples_path,
+        params: { status: 'untagged', track_slug: track.slug },
+        headers: @headers, as: :json
+
+      assert_response :forbidden
+      expected = {
+        error: {
+          type: "not_trainer",
+          message: I18n.t('api.errors.not_trainer')
+        }
+      }
+      assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    end
+
+    test "index returns 404 if track could not be found" do
+      setup_user
+      get api_training_data_code_tags_samples_path,
+        params: { status: 'untagged', track_slug: 'unknown' },
+        headers: @headers, as: :json
+
+      assert_response :not_found
+      expected = {
+        error: {
+          type: "track_not_found",
+          message: I18n.t('api.errors.track_not_found')
+        }
+      }
+      assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    end
 
     ###############
     # update_tags #
@@ -23,7 +77,7 @@ module API
       assert_equal tags, sample.reload.tags
     end
 
-    test "update tags returns 403 is user is not trainer of sample's track" do
+    test "update tags returns 403 if user is not trainer of sample's track" do
       track = create :track
       sample = create(:training_data_code_tags_sample, track:)
       tags = %w[foo bar]

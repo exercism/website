@@ -25,9 +25,9 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
 
   private
   def use_track
-    return if Track.params[:track_slug].blank?
+    return if params[:track_slug].blank?
 
-    @track = Track.for!(Track.params[:track_slug])
+    @track = Track.for!(params[:track_slug])
   rescue ActiveRecord::RecordNotFound
     render_404(:track_not_found)
   end

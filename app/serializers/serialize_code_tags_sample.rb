@@ -18,7 +18,7 @@ class SerializeCodeTagsSample
       created_at: sample.created_at,
       updated_at: sample.updated_at,
       links: {
-        edit: 'TODO'
+        edit: Exercism::Routes.training_data_code_tags_sample_url(sample)
       }
     }
   end

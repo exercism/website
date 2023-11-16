@@ -266,7 +266,7 @@ namespace :api do
     resources :community_stories, only: %i[index]
 
     namespace :training_data do
-      resources :code_tags_samples, only: [] do
+      resources :code_tags_samples, only: %i[index] do
         member do
           patch :update_tags
         end

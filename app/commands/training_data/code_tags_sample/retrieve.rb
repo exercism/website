@@ -2,10 +2,8 @@ class TrainingData::CodeTagsSample::Retrieve
   include Mandate
 
   initialize_with :status, track: nil, criteria: nil, dataset: :training, page: 1 do
-    raise "The 'status' parameter must not be nil or empty" if status.blank?
+    raise "Invalid 'status' parameter" unless STATUSES.include?(status&.to_sym)
   end
-
-  SAMPLES_PER_PAGE = 20
 
   def self.samples_per_page = SAMPLES_PER_PAGE
 
@@ -34,7 +32,14 @@ class TrainingData::CodeTagsSample::Retrieve
   def filter_status!
     return if status.blank?
 
-    @samples = @samples.where(status:)
+    case status&.to_sym
+    when :needs_tagging
+      @samples = @samples.where(status: :untagged)
+    when :needs_checking
+      @samples = @samples.where(status: %i[machine_tagged human_tagged])
+    when :needs_checking_admin
+      @samples = @samples.where(status: %i[community_checked])
+    end
   end
 
   def filter_track!
@@ -52,4 +57,8 @@ class TrainingData::CodeTagsSample::Retrieve
   def paginate!
     @samples = @samples.page(page).per(self.class.samples_per_page)
   end
+
+  SAMPLES_PER_PAGE = 20
+  STATUSES = %i[needs_tagging needs_checking needs_checking_admin].freeze
+  private_constant :SAMPLES_PER_PAGE, :STATUSES
 end

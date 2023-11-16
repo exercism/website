@@ -5,7 +5,7 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
 
   def index
     samples = ::TrainingData::CodeTagsSample::Retrieve.(
-      params[:status],
+      params[:status]&.to_sym,
       criteria: params[:criteria],
       track: @track,
       page:

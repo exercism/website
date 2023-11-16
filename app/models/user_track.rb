@@ -25,6 +25,12 @@ class UserTrack < ApplicationRecord
     primary_key: :user_id,
     inverse_of: :user_track
 
+  has_many :viewed_exercise_approaches, # rubocop:disable Rails/HasManyOrHasOneDependent
+    ->(ut) { where(track_id: ut.track_id) },
+    foreign_key: :user_id,
+    primary_key: :user_id,
+    inverse_of: :user_track
+
   delegate :num_concepts, to: :track
   delegate :title, to: :track, prefix: true
 

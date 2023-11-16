@@ -1335,6 +1335,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
     t.json "cache"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "premium_until"
+    t.boolean "trainer", default: false, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"

@@ -352,8 +352,15 @@ class User < ApplicationRecord
 
   def trainer?(track = nil)
     return true if staff?
-    return UserTrack.for(self, track).trainer? if track.present?
+    return false unless super()
+    return eligible_for_trainer?(track) if track.present?
 
-    user_tracks.where(trainer: true).exists?
+    true
+  end
+
+  def eligible_for_trainer?(track = nil)
+    eligible_tracks = user_tracks.where('reputation >= ?', MIN_REP_TO_TRAIN_ML)
+    eligible_tracks = eligible_tracks.where(track:) if track.present?
+    eligible_tracks.exists?
   end
 end

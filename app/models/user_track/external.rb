@@ -18,7 +18,6 @@ class UserTrack
     def tutorial_exercise_completed? = false
     def anonymous_during_mentoring? = true
     def maintainer? = false
-    def trainer? = false
     def completed? = false
     def completed_course? = false
 

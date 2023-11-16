@@ -490,15 +490,20 @@ class UserTest < ActiveSupport::TestCase
     refute user.trainer?(track)
     refute user.trainer?(other_track)
 
-    create(:user_track, user:, track:, trainer: false)
-    refute user.trainer?(nil)
+    user.update(trainer: true)
+    assert user.trainer?(nil)
     refute user.trainer?(track)
     refute user.trainer?(other_track)
 
-    create(:user_track, user:, track: other_track, trainer: true)
-    assert user.trainer?(nil)
-    refute user.trainer?(track)
-    assert user.trainer?(other_track)
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
   end
 
   %i[admin staff].each do |role|
@@ -508,5 +513,25 @@ class UserTest < ActiveSupport::TestCase
 
       assert user.trainer?(track)
     end
+  end
+
+  test "eligible_for_trainer?" do
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
   end
 end

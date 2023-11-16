@@ -34,7 +34,6 @@ export default function ActivityTicker({
       )
         return
 
-      console.log(metric)
       setIsVisible(false)
       setTimeout(() => {
         setMetric(metric)

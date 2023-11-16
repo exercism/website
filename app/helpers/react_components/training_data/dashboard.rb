@@ -14,7 +14,7 @@ module ReactComponents
       private
       def training_data_request
         {
-          endpoint: 'endpoint to retrieve training data list',
+          endpoint: Exercism::Routes.api_training_data_code_tags_samples_url,
           query: {
             status: params[:status] || DEFAULT_STATUS,
             criteria: params[:criteria],

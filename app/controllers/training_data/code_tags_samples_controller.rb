@@ -4,7 +4,9 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
 
   def index; end
 
-  def show; end
+  def show
+    return render_403(:not_trainer) unless current_user.trainer?(@sample.track)
+  end
 
   def next
     status = params[:status] || :untagged
@@ -29,6 +31,7 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
 
   def use_sample
     @sample = TrainingData::CodeTagsSample.find_by(uuid: params[:id])
+    @track = @sample.track
   rescue StandardError
     redirect_to(action: :index)
   end

@@ -5,9 +5,7 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
 
   def index; end
 
-  def show
-    return render_403(:not_trainer) unless current_user.trainer?(@sample.track)
-  end
+  def show; end
 
   def next
     status = params[:status] || :untagged

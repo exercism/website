@@ -1,10 +1,11 @@
-class UserTrack::UpdateTrainer
+class UserTrack::ToggleTrainer
   include Mandate
 
-  initialize_with :user_track
+  initialize_with :user_track, :enable
 
-  def call = user_track.update!(trainer:)
+  def call
+    raise TrainerCriteriaNotFulfilledError if enable && user_track.reputation < User::MIN_REP_TO_TRAIN_ML
 
-  private
-  def trainer = user_track.reputation >= User::MIN_REP_TO_TRAIN_ML
+    user_track.update!(trainer: enable)
+  end
 end

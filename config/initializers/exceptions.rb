@@ -2,6 +2,8 @@ class BadgeCriteriaNotFulfilledError < RuntimeError; end
 
 class TrophyCriteriaNotFulfilledError < RuntimeError; end
 
+class TrainerCriteriaNotFulfilledError < RuntimeError; end
+
 class DuplicateSubmissionError < RuntimeError; end
 
 class DuplicateVideoError < RuntimeError; end

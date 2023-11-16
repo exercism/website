@@ -6,8 +6,8 @@ module ReactComponents
       def to_s
         super("training-data-dashboard", {
           training_data_request:,
-          tracks_request:,
-          statuses:
+          statuses:,
+          tracks:
         })
       end
 
@@ -24,11 +24,16 @@ module ReactComponents
         }
       end
 
-      def tracks_request
-        {
-          endpoint: 'endpoint to retrieve tracks for filtering purposes',
-          query: { status: params[:status] || DEFAULT_STATUS }
-        }
+      def tracks
+        # TODO: optimize this
+        track_ids = User::ReputationPeriod.
+          where(period: :forever, about: :track, user: current_user).
+          group(:track_id).
+          sum(:reputation).
+          select { |_, reputation| reputation >= User::MIN_REP_TO_TRAIN_ML }.
+          keys
+
+        AssembleTracksForSelect.(::Track.where(id: track_ids))
       end
 
       DEFAULT_STATUS = :needs_tagging

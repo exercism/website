@@ -5,7 +5,7 @@ class User < ApplicationRecord
   GHOST_USER_ID = 720_036
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
-  MIN_REP_TO_TRAIN_ML = 10
+  MIN_REP_TO_TRAIN_ML = 50
 
   enum flair: {
     founder: 0,
@@ -352,11 +352,8 @@ class User < ApplicationRecord
 
   def trainer?(track = nil)
     return true if staff?
-    return reputation_for_track(track) >= MIN_TRACK_REP_FOR_TRAINER if track.present?
+    return reputation_for_track(track) >= MIN_REP_TO_TRAIN_ML if track.present?
 
     false
   end
-
-  MIN_TRACK_REP_FOR_TRAINER = 50
-  private_constant :MIN_TRACK_REP_FOR_TRAINER
 end

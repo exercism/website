@@ -25,6 +25,8 @@ class UserTrack < ApplicationRecord
     primary_key: :user_id,
     inverse_of: :user_track
 
+  scope :trainer, -> { where('reputation >= ?', User::MIN_REP_TO_TRAIN_ML) }
+
   delegate :num_concepts, to: :track
   delegate :title, to: :track, prefix: true
 

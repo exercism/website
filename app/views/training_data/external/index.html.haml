@@ -10,10 +10,10 @@
       %p.unsure Bonus: Helping us out earns reputation!
 
       - if user_signed_in?
-        - if current_user.reputation >= User::MIN_REP_TO_TRAIN_ML
+        - if @eligible
           = link_to "Get Started in our Training Hub →", "#", class: "btn btn-primary btn-l"
         - else
-          = render "locked", profile_min_reputation: User::MIN_REP_TO_TRAIN_ML
+          = render "locked", max_reputation_track: @max_reputation_track, track_min_reputation: User::MIN_REP_TO_TRAIN_ML
       - else
         .flex.items-center
           = link_to "Sign up to help us out", new_user_registration_path, class: 'btn-m btn-primary'

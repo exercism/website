@@ -1526,7 +1526,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
     t.datetime "last_touched_at", null: false
     t.boolean "practice_mode", default: false, null: false
     t.text "objectives"
-    t.boolean "trainer", default: false, null: false
     t.integer "reputation", default: 0, null: false
     t.index ["track_id", "user_id"], name: "index_user_tracks_on_track_id_and_user_id", unique: true
     t.index ["user_id"], name: "fk_rails_99e944edbc"

@@ -487,33 +487,18 @@ class UserTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
 
     refute user.trainer?(nil)
-
-    create(:user_reputation_period, period: :forever, about: :track, track_id: track.id, user:, reputation: 49,
-      category: :any)
-    refute user.trainer?(nil)
-
-    create(:user_reputation_period, period: :forever, about: :track, track_id: other_track.id, user:, reputation: 20,
-      category: :maintaining)
-    refute user.trainer?(nil)
-
-    create(:user_reputation_period, period: :forever, about: :track, track_id: track.id, user:, reputation: 1, category: :building)
-    assert user.trainer?(nil)
-  end
-
-  test "trainer? for track" do
-    user = create :user
-
-    track = create :track
     refute user.trainer?(track)
-
-    create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 49, arbitrary_reason: "Great work" })
-    refute user.trainer?(track)
-
-    create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 1, arbitrary_reason: "Nice!" })
-    assert user.trainer?(track)
-
-    other_track = create :track, :random_slug
     refute user.trainer?(other_track)
+
+    create(:user_track, user:, track:, trainer: false)
+    refute user.trainer?(nil)
+    refute user.trainer?(track)
+    refute user.trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, trainer: true)
+    assert user.trainer?(nil)
+    refute user.trainer?(track)
+    assert user.trainer?(other_track)
   end
 
   %i[admin staff].each do |role|

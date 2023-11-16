@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_08_140031) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1525,6 +1525,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_140031) do
     t.datetime "last_touched_at", null: false
     t.boolean "practice_mode", default: false, null: false
     t.text "objectives"
+    t.boolean "trainer", default: false, null: false
+    t.integer "reputation", default: 0, null: false
     t.index ["track_id", "user_id"], name: "index_user_tracks_on_track_id_and_user_id", unique: true
     t.index ["user_id"], name: "fk_rails_99e944edbc"
   end

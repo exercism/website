@@ -26,13 +26,13 @@ export default function Dashboard({
   } = useDashboard({ trainingDataRequest })
 
   return (
-    <div className="c-mentor-inbox">
+    <div className="c-training-data">
       <DashboardTabs
         currentStatus={request.query.status}
         setStatus={setStatus}
         statuses={statuses}
       />
-      <div className="container">
+      <div className="container overflow-hidden">
         <DashboardHeader
           request={request}
           criteria={criteria}

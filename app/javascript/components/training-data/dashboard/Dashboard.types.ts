@@ -55,7 +55,7 @@ export type TrainingData = {
   createdAt: string
   updatedAt: string
   links: {
-    self: string
+    edit: string
   }
 }
 

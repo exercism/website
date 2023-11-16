@@ -4,7 +4,6 @@ class Metric < ApplicationRecord
 
   belongs_to :track, optional: true
   belongs_to :user, optional: true
-  belongs_to :exercise, optional: true
 
   before_create do
     self.uniqueness_key = generate_uniqueness_key!
@@ -36,7 +35,7 @@ class Metric < ApplicationRecord
         }
       end
 
-      if exercise
+      if respond_to?(:exercise)
         hash[:exercise] = {
           title: exercise.title
         }
@@ -82,7 +81,6 @@ class Metric < ApplicationRecord
 
     self.track = hash.delete(:track) if hash.key?(:track)
     self.user = hash.delete(:user) if hash.key?(:user)
-    self.exercise = hash.delete(:exercise) if hash.key?(:exercise)
 
     self[:params] = hash.each_with_object({}) do |(k, v), h|
       h[k.to_s] = v.respond_to?(:to_global_id) ? v.to_global_id.to_s : v

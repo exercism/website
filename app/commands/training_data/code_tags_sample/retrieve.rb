@@ -5,14 +5,14 @@ class TrainingData::CodeTagsSample::Retrieve
     raise "The 'status' parameter must not be nil or empty" if status.blank?
   end
 
-  SAMPLES_PER_PAGE = 10
+  SAMPLES_PER_PAGE = 20
 
   def self.samples_per_page = SAMPLES_PER_PAGE
 
   def call
     setup!
-    filter_dataset!
     filter_status!
+    filter_dataset!
     filter_track!
     filter_criteria!
     paginate!

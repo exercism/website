@@ -1,8 +1,12 @@
 import React from 'react'
 import { StatusTab } from '@/components/mentoring/inbox/StatusTab'
 import { TrainingDataStatus, TrainingDataStatuses } from './Dashboard.types'
-import { useLogger } from '@/hooks'
-import { capitalize } from '@/utils/capitalize'
+
+const STATUS_MAP = {
+  needs_tagging: 'Needs tagging',
+  needs_checking: 'Needs checking',
+  needs_checking_admin: 'Needs checking(admin)',
+}
 
 export function DashboardTabs({
   setStatus,
@@ -22,7 +26,7 @@ export function DashboardTabs({
             currentStatus={currentStatus}
             setStatus={setStatus}
           >
-            {capitalize(status).replace('_', ' ')}
+            {STATUS_MAP[status]}
           </StatusTab>
         )
       })}

@@ -3,7 +3,7 @@ class TrainingData::DashboardController < ApplicationController
 
   def index
     @training_data_dashboard_params = params.permit(:status, :order, :criteria, :page, :track_slug)
-    @statuses = TrainingData::CodeTagsSample.statuses.keys.map(&:to_s)
+    @statuses = %w[needs_tagging needs_checking needs_checking_admin]
   end
 
   def guard_trainer!

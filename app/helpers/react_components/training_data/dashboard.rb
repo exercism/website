@@ -31,7 +31,7 @@ module ReactComponents
         }
       end
 
-      DEFAULT_STATUS = :untagged
+      DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS
     end
   end

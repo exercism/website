@@ -1,11 +1,10 @@
 class TrainingData::CodeTagsSamplesController < ApplicationController
   before_action :use_track, only: [:next]
+  before_action :use_sample, only: [:show]
 
   def index; end
 
-  def show
-    @sample = TrainingData::CodeTagsSample.first
-  end
+  def show; end
 
   def next
     status = params[:status] || :untagged
@@ -21,8 +20,15 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
     redirect_to action: :show, id: sample.id
   end
 
+  private
   def use_track
     @track = Track.find(params[:track_id])
+  rescue StandardError
+    redirect_to(action: :index)
+  end
+
+  def use_sample
+    @sample = TrainingData::CodeTagsSample.find_by(uuid: params[:id])
   rescue StandardError
     redirect_to(action: :index)
   end

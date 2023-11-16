@@ -483,6 +483,7 @@
     }
 
     & section.live-section {
+        @apply h-[100px];
         .cover {
             width: 0;
         }

@@ -340,7 +340,7 @@ export const mappings = {
 
   'track-activity-ticker': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <ActivityTicker trackTitle={data.track_title} />
+      <ActivityTicker {...camelizeKeysAs<ActivityTickerProps>(data)} />
     </Suspense>
   ),
 
@@ -705,6 +705,7 @@ import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
 import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
 import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
+import { ActivityTickerProps } from '@/components/track/ActivityTicker'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

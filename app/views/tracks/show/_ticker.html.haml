@@ -1,13 +1,8 @@
 %section.live-section
-  %h3.text-h4.mb-8 Now on the C# track
+  %h3.text-h4.mb-8.flex.items-center 
+    Now on the #{track.title} track
+    .animate-pulse.bg-alert.rounded-circle.ml-16{ class: "w-[10px] h-[10px]" } 
 
-  .flex.items-start
-    = image_tag "team/jeremy-walker.jpg", class: 'w-[36px] h-[36px] rounded-circle mr-12 mt-4'
-    .flex.flex-col
-      .text-16.leading-140.mb-4
-        = link_to "@iHiD", "#", class: 'text-linkColor font-semibold'
-        published a
-        = link_to "new solution", "#", class: 'text-linkColor font-semibold'
-        to Some Really Long Exercise Name.
-      .text-14.text-textColor7
-        25 minutes ago
+  = render ReactComponents::Track::ActivityTicker.new(track)
+
+

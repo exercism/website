@@ -7,7 +7,7 @@ import { DashboardHeader } from './dashboard/DashboardHeader'
 import { useDashboard } from './dashboard/useDashboard'
 
 export default function Dashboard({
-  tracksRequest,
+  tracks,
   trainingDataRequest,
   statuses,
 }: DashboardProps): JSX.Element {
@@ -34,12 +34,11 @@ export default function Dashboard({
       />
       <div className="container">
         <DashboardHeader
+          request={request}
           criteria={criteria}
           setCriteria={setCriteria}
-          request={request}
-          tracksRequest={tracksRequest}
+          tracks={tracks}
           setTrack={setTrack}
-          setOrder={setOrder}
           setPage={setPage}
         />
         <ResultsZone isFetching={isFetching}>

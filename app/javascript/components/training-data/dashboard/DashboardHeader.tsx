@@ -1,10 +1,10 @@
 import React from 'react'
 import { TextFilter } from '@/components/mentoring/TextFilter'
-import { TrackFilter } from '@/components/mentoring/inbox/TrackFilter'
 import { DashboardHeaderProps } from './Dashboard.types'
+import { TrackList } from '@/components/mentoring/inbox/TrackList'
 
 export function DashboardHeader({
-  tracksRequest,
+  tracks,
   request,
   setTrack,
   criteria,
@@ -12,14 +12,13 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   return (
     <header className="c-search-bar inbox-header">
-      <TrackFilter
-        request={{
-          ...tracksRequest,
-          query: { status: request.query.status },
-        }}
-        value={request.query.trackSlug || null}
-        setTrack={setTrack}
-      />
+      <div className="c-track-filter">
+        <TrackList
+          tracks={tracks}
+          setTrack={setTrack}
+          value={request.query.trackSlug || null}
+        />
+      </div>
       <TextFilter
         filter={criteria}
         setFilter={setCriteria}

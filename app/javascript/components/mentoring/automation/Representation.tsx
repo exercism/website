@@ -46,7 +46,7 @@ export function Representations({
   const withFeedback = selectedTab === 'with_feedback'
   const trackCountText = ['with_feedback', 'admin'].includes(selectedTab)
     ? 'submission'
-    : 'request'
+    : 'representation'
   const {
     status,
     error,

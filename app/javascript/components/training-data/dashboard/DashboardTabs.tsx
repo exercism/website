@@ -5,7 +5,7 @@ import { TrainingDataStatus, TrainingDataStatuses } from './Dashboard.types'
 const STATUS_MAP = {
   needs_tagging: 'Needs tagging',
   needs_checking: 'Needs checking',
-  needs_checking_admin: 'Needs checking(admin)',
+  needs_checking_admin: 'Needs checking (admin)',
 }
 
 export function DashboardTabs({
@@ -22,6 +22,7 @@ export function DashboardTabs({
       {statuses.map((status) => {
         return (
           <StatusTab<TrainingDataStatus>
+            key={status}
             status={status}
             currentStatus={currentStatus}
             setStatus={setStatus}

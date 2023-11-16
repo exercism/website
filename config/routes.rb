@@ -160,6 +160,7 @@ Rails.application.routes.draw do
     root to: "dashboard#index"
 
     get "external" => "external#index"
+    patch "become_trainer" => "dashboard#become_trainer"
 
     resources :code_tags_samples, only: %i[index show] do
       get :next, on: :collection

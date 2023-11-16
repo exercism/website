@@ -9,7 +9,7 @@ class TrainingData::DashboardController < ApplicationController
   def become_trainer
     User::BecomeTrainer.(current_user) unless current_user.trainer?
 
-    redirect_to training_data_root_path if current_user.trainer?
+    redirect_to training_data_root_path
   end
 
   def guard_trainer!

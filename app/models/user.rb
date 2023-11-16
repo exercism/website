@@ -354,6 +354,11 @@ class User < ApplicationRecord
     return true if staff?
     return reputation_for_track(track) >= MIN_REP_TO_TRAIN_ML if track.present?
 
-    false
+    # TODO: optimize this
+    User::ReputationPeriod.
+      where(period: :forever, about: :track, user: self).
+      group(:track_id).
+      sum(:reputation).
+      any? { |_, reputation| reputation >= User::MIN_REP_TO_TRAIN_ML }
   end
 end

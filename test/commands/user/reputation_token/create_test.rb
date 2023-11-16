@@ -164,4 +164,54 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
       )
     end
   end
+
+  test "updates user track reputation when token is linked to track and user track could be found" do
+    track = create :track
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    UserTrack::UpdateReputation.expects(:call).with(user_track)
+
+    User::ReputationToken::Create.(
+      user,
+      :arbitrary,
+      arbitrary_value: 20,
+      arbitrary_reason: 'Cool cool',
+      track:
+    )
+  end
+
+  test "does not update user track reputation when token is linked to track but no user track was found" do
+    track = create :track
+    user = create :user
+
+    UserTrack::UpdateReputation.expects(:call).never
+    UserTrack::UpdateReputation.expects(:defer).never
+
+    User::ReputationToken::Create.(
+      user,
+      :arbitrary,
+      arbitrary_value: 20,
+      arbitrary_reason: 'Cool cool',
+      track:
+    )
+  end
+
+  test "does not update user track reputation when token is not linked to track" do
+    track = create :track
+    other_track = create(:track, :random_slug)
+    user = create :user
+    create(:user_track, user:, track:)
+
+    UserTrack::UpdateReputation.expects(:call).never
+    UserTrack::UpdateReputation.expects(:defer).never
+
+    User::ReputationToken::Create.(
+      user,
+      :arbitrary,
+      arbitrary_value: 20,
+      arbitrary_reason: 'Cool cool',
+      track: other_track
+    )
+  end
 end

@@ -116,4 +116,29 @@ class Tracks::ApproachesControllerTest < ActionDispatch::IntegrationTest
 
     assert_template "tracks/approaches/show"
   end
+
+  test "show: registers approach as viewed" do
+    user = create :user
+    track = create :track
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
+    solution = create :concept_solution, user:, exercise:, unlocked_help: true
+    create(:iteration, solution:, user:)
+
+    UserTrack::ViewedExerciseApproach::Create.expects(:defer).with(user, track, approach)
+
+    sign_in!(user)
+    get track_exercise_approach_url(track, exercise, approach)
+  end
+
+  test "show: does not register community solution as viewed for non-logged in user" do
+    track = create :track
+    exercise = create(:practice_exercise, track:)
+    approach = create(:exercise_approach, exercise:)
+
+    UserTrack::ViewedExerciseApproach::Create.expects(:defer).never
+
+    get track_exercise_approach_url(track, exercise, approach)
+  end
 end

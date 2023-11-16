@@ -112,6 +112,8 @@ const ExerciseMakersButton = lazy(
   () => import('@/components/track/ExerciseMakersButton')
 )
 
+const ActivityTicker = lazy(() => import('@/components/track/ActivityTicker'))
+
 const ConceptMap = lazy(() => import('@/components/concept-map/ConceptMap'))
 
 // TODO: Move this out of /types, as this is not a type
@@ -335,6 +337,13 @@ export const mappings = {
       <AnalyzerTags {...camelizeKeysAs<AnalyzerTagsType>(data)} />
     </Suspense>
   ),
+
+  'track-activity-ticker': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <ActivityTicker trackTitle={data.track_title} />
+    </Suspense>
+  ),
+
   'common-credits': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <Credits

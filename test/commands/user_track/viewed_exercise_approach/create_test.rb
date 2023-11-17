@@ -18,6 +18,6 @@ class UserTrack::ViewedExerciseApproach::CreateTest < ActiveSupport::TestCase
     actual = UserTrack::ViewedExerciseApproach::Create.(user, track, exercise_approach)
     assert_equal user, actual.user
     assert_equal track, actual.track
-    assert_equal exercise_approach, actual.exercise_approach
+    assert_equal exercise_approach, actual.approach
   end
 end

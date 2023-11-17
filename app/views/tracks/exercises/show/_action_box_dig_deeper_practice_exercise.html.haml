@@ -1,11 +1,7 @@
 %p.mb-16
-  Solving the exercise is just the first step to improving. It's now time to learn from others.
+  Solving the exercise is just the first step to improving. It's now time to learn from others. These steps are optional but will vastly enhance your knowledge.
 
-.inner-box.pending
-  .inner-box-content
-    .text-h6.mb-2 Request Code Review
-    %p.mb-4 Exercism's most powerful feature. Get help from a real mentor who can help you spot your knowledge gaps. It's 100% free.
-    = link_to "Request code review", "#", class: 'btn-s btn-secondary self-start'
+= render("tracks/exercises/show/action_box_dig_deeper_mentoring", track:, exercise:, solution:)
 
 .inner-box.completed
   .inner-box-content
@@ -13,7 +9,7 @@
     %p.mb-4
       Explore how others have solved this exercise and learn new ideas in our
       = succeed(".") do
-        = link_to "Community Solutions", "#", class: "text-linkColor border-b-1"
+        = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
 
 - if exercise.approaches?
   .inner-box.pending

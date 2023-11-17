@@ -18,6 +18,25 @@ export function TagSelector({
       isMulti
       defaultValue={formatTags(tags)}
       options={formatTags(allEnabledTrackTags)}
+      isClearable={false}
+      styles={{
+        multiValue: (base) => ({
+          ...base,
+          borderRadius: '8px',
+          overflow: 'hidden',
+          backgroundColor: 'var(--backgroundColorI)',
+        }),
+        multiValueLabel: (base) => ({
+          ...base,
+          fontSize: '16px',
+        }),
+        multiValueRemove: (base, state) => ({
+          ...base,
+          '&:hover': {
+            background: '#D8505055',
+          },
+        }),
+      }}
       onChange={(selected): void =>
         setSelectedTags(selected.map((s) => s.label))
       }

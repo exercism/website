@@ -27,7 +27,7 @@ export function RightPane({
       />
       <button
         onClick={() => confirmTags()}
-        className="btn-m btn-primary mt-auto mb-64"
+        className="btn-m btn-primary mb-32 mt-auto"
       >
         Save and tag another…
       </button>

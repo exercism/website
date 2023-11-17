@@ -2,7 +2,8 @@ class TrainingData::CodeTagsSample::Retrieve
   include Mandate
 
   initialize_with :status, track: nil, criteria: nil, dataset: :training, page: 1 do
-    raise "Invalid 'status' parameter" unless STATUSES.include?(status&.to_sym)
+    @status = status&.to_sym
+    raise "Invalid 'status' parameter" unless STATUSES.include?(@status)
   end
 
   def self.samples_per_page = SAMPLES_PER_PAGE
@@ -32,7 +33,7 @@ class TrainingData::CodeTagsSample::Retrieve
   def filter_status!
     return if status.blank?
 
-    case status.to_sym
+    case status
     when :needs_tagging
       @samples = @samples.where(status: :untagged)
     when :needs_checking

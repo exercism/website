@@ -14,7 +14,7 @@
           = form_tag training_data_become_trainer_path, method: :patch, class: "flex flex-row items-center mt-20" do
             = button_tag "Become a Trainer →", class: "btn btn-primary btn-l"
         - else
-          = render "locked", max_reputation_track: @max_reputation_track, track_min_reputation: User::MIN_REP_TO_TRAIN_ML
+          = render "locked", max_reputation_track: @max_reputation_track, track_min_reputation: UserTrack::MIN_REP_TO_TRAIN_ML
       - else
         .flex.items-center
           = link_to "Sign up to help us out", new_user_registration_path, class: 'btn-m btn-primary'

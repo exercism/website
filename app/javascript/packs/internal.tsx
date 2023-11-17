@@ -58,7 +58,6 @@ import type {
   Links as NudgeLinks,
   Track as NudgeTrack,
 } from '@/components/student/Nudge'
-import type { Links as PublishedSolutionLinks } from '@/components/student/PublishedSolution'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
 import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
@@ -106,9 +105,6 @@ const PublishSolutionButton = lazy(
 )
 const RequestMentoringButton = lazy(
   () => import('@/components/student/RequestMentoringButton')
-)
-const PublishedSolution = lazy(
-  () => import('@/components/student/PublishedSolution')
 )
 
 const UpdateExerciseNotice = lazy(
@@ -596,16 +592,6 @@ initReact({
       <PublishSolutionButton
         endpoint={data.endpoint}
         iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-      />
-    </Suspense>
-  ),
-  'student-published-solution': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <PublishedSolution
-        solution={camelizeKeysAs<CommunitySolution>(data.solution)}
-        publishedIterationIdx={data.published_iteration_idx}
-        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-        links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
       />
     </Suspense>
   ),

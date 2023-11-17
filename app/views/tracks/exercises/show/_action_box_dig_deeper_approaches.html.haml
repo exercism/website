@@ -1,5 +1,5 @@
 - if exercise.approaches?
-  - if user_track.viewed_exercise_approaches.where(approach: exercise.approaches).exists?
+  - if user_track.viewed_exercise_approaches.where(exercise:).exists?
     .inner-box.completed
       .inner-box-content
         .text-h6.mb-2 Viewed approach

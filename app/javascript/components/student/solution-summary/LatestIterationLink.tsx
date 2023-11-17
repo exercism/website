@@ -8,7 +8,7 @@ export default function LatestIterationLink({
   iteration: Iteration
 }): JSX.Element {
   return (
-    <a className="latest-iteration-link mt-16" href={iteration.links.self}>
+    <a className="latest-iteration-link" href={iteration.links.self}>
       <IterationSummaryWithWebsockets
         iteration={iteration}
         showSubmissionMethod={true}

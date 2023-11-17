@@ -7,7 +7,7 @@ class CreateUserTrackViewedExerciseApproach < ActiveRecord::Migration[7.0]
       t.references :track, null: false, foreign_key: true
       t.references :approach, null: false, foreign_key: true, index: { name: , name: "index_user_track_viewed_exercise_approaches_on_approach_id" }
 
-      t.index %i[user_id track_id exercise_approach_id], unique: true, name: "index_user_track_viewed_exercise_approaches_uniq"
+      t.index %i[user_id track_id approach_id], unique: true, name: "index_user_track_viewed_exercise_approaches_uniq"
 
       t.timestamps
     end

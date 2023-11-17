@@ -95,10 +95,12 @@ const ReferenceElement = forwardRef<
       >
         <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
         {info}
-        <GraphicalIcon
-          icon={exercise.isUnlocked ? 'chevron-right' : 'lock'}
-          className="--action-icon sm:block hidden"
-        />
+        {!exercise.isUnlocked && (
+          <GraphicalIcon
+            icon="lock"
+            className="--action-icon sm:block hidden"
+          />
+        )}
       </a>
     )
   }

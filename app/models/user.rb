@@ -352,9 +352,10 @@ class User < ApplicationRecord
 
   def trainer?(track = nil)
     return true if staff?
-    return super() && eligible_for_trainer?(track) if track.present?
+    return false unless super() 
+    return eligible_for_trainer?(track) if track.present?
 
-    super()
+    true
   end
 
   def eligible_for_trainer?(track = nil)

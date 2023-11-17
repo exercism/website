@@ -12,7 +12,7 @@
       - if user_signed_in?
         - if @eligible
           = form_tag training_data_become_trainer_path, method: :patch, class: "flex flex-row items-center mt-20" do
-            = button_tag "Become a Trainer and Get Started in our Training Hub →", class: "btn btn-primary btn-l"
+            = button_tag "Become a Trainer →", class: "btn btn-primary btn-l"
         - else
           = render "locked", max_reputation_track: @max_reputation_track, track_min_reputation: User::MIN_REP_TO_TRAIN_ML
       - else

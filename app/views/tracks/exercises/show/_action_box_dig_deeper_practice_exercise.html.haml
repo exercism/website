@@ -11,4 +11,4 @@
       = succeed(".") do
         = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
 
-= render("tracks/exercises/show/action_box_dig_deeper_approaches", track:, exercise:, solution:)
+= render("tracks/exercises/show/action_box_dig_deeper_approaches", track:, exercise:, solution:, user_track:)

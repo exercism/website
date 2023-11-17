@@ -10,13 +10,13 @@ module API
     #########
     test "index returns samples" do
       track = create :track
-      user = create :user
+      user = create :user, :trainer
+      create(:user_track, user:, track:, reputation: 50)
       create_list(:training_data_code_tags_sample, 25, track:)
-      create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 50, arbitrary_reason: "Great work" })
 
       setup_user(user)
       get api_training_data_code_tags_samples_path,
-        params: { status: 'untagged', track_slug: track.slug },
+        params: { status: 'needs_tagging', track_slug: track.slug },
         headers: @headers, as: :json
 
       assert_response :ok
@@ -62,10 +62,10 @@ module API
     # update_tags #
     ###############
     test "should update tags" do
-      user = create :user
+      user = create :user, :trainer
       track = create :track
+      create(:user_track, user:, track:, reputation: 50)
       sample = create(:training_data_code_tags_sample, track:)
-      create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 50, arbitrary_reason: "Great work" })
       tags = %w[foo bar]
 
       setup_user(user)

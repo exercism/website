@@ -32,7 +32,7 @@ class TrainingData::CodeTagsSample::Retrieve
   def filter_status!
     return if status.blank?
 
-    case status&.to_sym
+    case status.to_sym
     when :needs_tagging
       @samples = @samples.where(status: :untagged)
     when :needs_checking

@@ -51,7 +51,7 @@ module Flows
           click_on "Finish"
           click_on "Continue without donating"
 
-          assert_text "Nice, it looks like you're done here! "
+          assert_text "Finished with the exercise?"
         end
       end
 
@@ -90,7 +90,7 @@ module Flows
           click_on "Finish"
           click_on "Continue without donating"
 
-          assert_text "Nice, it looks like you're done here!"
+          assert_text "Finished with the exercise?"
         end
       end
 
@@ -129,7 +129,7 @@ module Flows
           click_on "Finish"
           click_on "Continue without donating"
 
-          assert_text "Nice, it looks like you're done here!"
+          assert_text "Finished with the exercise?"
         end
       end
 

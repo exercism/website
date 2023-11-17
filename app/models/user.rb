@@ -5,7 +5,6 @@ class User < ApplicationRecord
   GHOST_USER_ID = 720_036
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
-  MIN_REP_TO_TRAIN_ML = 50
 
   enum flair: {
     founder: 0,
@@ -352,15 +351,16 @@ class User < ApplicationRecord
 
   def trainer?(track = nil)
     return true if staff?
-    return false unless super() 
-    return eligible_for_trainer?(track) if track.present?
+    return super() && eligible_for_trainer?(track) if track.present?
 
-    true
+    super()
   end
 
   def eligible_for_trainer?(track = nil)
-    uts = user_tracks.trainer
-    uts = query.where(track:) if track
-    uts.exists?
+    if track
+      user_tracks.trainer.where(track:).exists?
+    else
+      user_tracks.trainer.exists?
+    end
   end
 end

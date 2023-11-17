@@ -3,7 +3,7 @@
 
 = render("tracks/exercises/show/action_box_dig_deeper_mentoring", track:, exercise:, solution:)
 
-- if user_track.viewed_community_solutions.where(exercise:).count >= 5
+- if user_track.num_viewed_community_solutions(exercise) >= 5
   .inner-box.completed
     .inner-box-content
       .text-h6.mb-2 Explored Community Solutions

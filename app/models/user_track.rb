@@ -192,6 +192,9 @@ class UserTrack < ApplicationRecord
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
+  def num_viewed_community_solutions(exercise) = viewed_community_solutions.where(exercise:).count
+  def viewed_approach?(exercise) = viewed_exercise_approaches.where(exercise:).exists?
+
   private
   # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing

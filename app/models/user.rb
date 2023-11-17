@@ -359,10 +359,8 @@ class User < ApplicationRecord
   end
 
   def eligible_for_trainer?(track = nil)
-    if track
-      user_tracks.trainer.where(track:).exists?
-    else
-      user_tracks.trainer.exists?
-    end
+    uts = user_tracks.trainer
+    uts = query.where(track:) if track
+    uts.exists?
   end
 end

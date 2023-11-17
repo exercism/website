@@ -54,10 +54,6 @@ import type {
   Track as SolutionSummaryTrack,
   SolutionSummaryRequest,
 } from '@/components/student/SolutionSummary'
-import type {
-  Links as NudgeLinks,
-  Track as NudgeTrack,
-} from '@/components/student/Nudge'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
 import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
@@ -110,8 +106,6 @@ const RequestMentoringButton = lazy(
 const UpdateExerciseNotice = lazy(
   () => import('@/components/student/UpdateExerciseNotice')
 )
-
-const StudentNudge = lazy(() => import('@/components/student/Nudge'))
 
 const StudentIterationsList = lazy(
   () => import('@/components/student/IterationsList')
@@ -567,22 +561,6 @@ initReact({
         links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
         track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
         exercise={data.exercise}
-      />
-    </Suspense>
-  ),
-
-  'student-nudge': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <StudentNudge
-        solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-        track={camelizeKeysAs<NudgeTrack>(data.track)}
-        discussions={camelizeKeysAs<readonly MentorDiscussion[]>(
-          data.discussions
-        )}
-        request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
-        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-        exerciseType={data.exercise_type}
-        links={camelizeKeysAs<NudgeLinks>(data.links)}
       />
     </Suspense>
   ),

@@ -28,7 +28,6 @@
         .mt-28.ml-8
           = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
 
-        /= ReactComponents::Student::Nudge.new(@solution) if @solution
         /= ReactComponents::Student::SolutionSummary.new(@solution) if @solution
 
 

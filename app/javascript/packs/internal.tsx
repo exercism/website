@@ -49,11 +49,6 @@ import type {
   Links as IterationsListLinks,
   IterationsListRequest,
 } from '@/components/student/IterationsList'
-import type {
-  SolutionSummaryLinks,
-  Track as SolutionSummaryTrack,
-  SolutionSummaryRequest,
-} from '@/components/student/SolutionSummary'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
 import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
@@ -109,9 +104,6 @@ const UpdateExerciseNotice = lazy(
 
 const StudentIterationsList = lazy(
   () => import('@/components/student/IterationsList')
-)
-const StudentSolutionSummary = lazy(
-  () => import('@/components/student/SolutionSummary')
 )
 
 const StudentMentoringSession = lazy(
@@ -549,18 +541,6 @@ initReact({
     <Suspense fallback={RenderLoader()}>
       <LatestIterationLink
         iteration={camelizeKeysAs<Iteration>(data.latest_iteration)}
-      />
-    </Suspense>
-  ),
-  'student-solution-summary': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <StudentSolutionSummary
-        discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
-        solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-        request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
-        links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
-        track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
-        exercise={data.exercise}
       />
     </Suspense>
   ),

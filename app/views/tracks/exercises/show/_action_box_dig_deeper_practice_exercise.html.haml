@@ -3,12 +3,21 @@
 
 = render("tracks/exercises/show/action_box_dig_deeper_mentoring", track:, exercise:, solution:)
 
-.inner-box.completed
-  .inner-box-content
-    .text-h6.mb-2 Explore Community Solutions
-    %p.mb-4
-      Explore how others have solved this exercise and learn new ideas in our
-      = succeed(".") do
-        = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
+- if user_track.viewed_community_solutions.joins(:solution).where.not(solution:).where(solution: { exercise: }).count >= 5
+  .inner-box.completed
+    .inner-box-content
+      .text-h6.mb-2 Explored Community Solutions
+      %p.mb-4
+        Explore how others have solved this exercise and learn new ideas in our
+        = succeed(".") do
+          = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
+- else
+  .inner-box.pending
+    .inner-box-content
+      .text-h6.mb-2 Explore Community Solutions
+      %p.mb-4
+        Explore how others have solved this exercise and learn new ideas in our
+        = succeed(".") do
+          = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
 
 = render("tracks/exercises/show/action_box_dig_deeper_approaches", track:, exercise:, solution:, user_track:)

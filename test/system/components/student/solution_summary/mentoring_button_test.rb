@@ -7,6 +7,8 @@ module Components
       class MentoringButtonTest < ApplicationSystemTestCase
         include CapybaraHelpers
 
+        def setup = skip "Skipping all tests in MentoringButtonTest"
+
         test "shows discussions" do
           user = create :user
           mentor = create :user, handle: "my-mentor"

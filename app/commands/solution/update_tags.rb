@@ -17,7 +17,7 @@ class Solution::UpdateTags
     solution_tags = existing_tags.map(&:tag)
 
     new_tags = (analysis_tags - solution_tags).map do |tag|
-      Solution::Tag.find_or_create_by!(tag:, solution:)
+      Solution::Tag.find_create_or_find_by!(tag:, solution:)
     end
 
     existing_tags + new_tags

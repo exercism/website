@@ -3,6 +3,8 @@ import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { InputWithValidation } from './inputs/InputWithValidation'
+import { createMaxLengthAttributes } from './useInvalidField'
 
 type Links = {
   update: string
@@ -53,12 +55,13 @@ export default function EmailForm({
         <label htmlFor="user_email" className="label">
           Your email address
         </label>
-        <input
+        <InputWithValidation
           type="email"
           id="user_email"
           value={state.email}
           onChange={(e) => setState({ ...state, email: e.target.value })}
           required
+          {...createMaxLengthAttributes('Email', 255)}
         />
       </div>
       <div className="field">

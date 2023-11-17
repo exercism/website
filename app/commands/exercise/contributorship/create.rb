@@ -4,7 +4,7 @@ class Exercise::Contributorship::Create
   initialize_with :exercise, :contributor
 
   def call
-    exercise.contributorships.find_or_create_by(contributor:).tap do |contributorship|
+    exercise.contributorships.find_create_or_find_by!(contributor:).tap do |contributorship|
       User::ReputationToken::Create.defer(
         contributor,
         :exercise_contribution,

@@ -3,16 +3,20 @@ class API::Mentoring::DiscussionsController < API::BaseController
 
   # TODO: (Optional) Add filters (the criteria aren't the filters?)
   def index
-    discussions = ::Mentor::Discussion::Retrieve.(
-      current_user,
-      params[:status],
-      page: params[:page],
-      track_slug: params[:track_slug],
-      student_handle: params[:student],
-      criteria: params[:criteria],
-      exclude_uuid: params[:exclude_uuid],
-      order: params[:order]
-    )
+    begin
+      discussions = ::Mentor::Discussion::Retrieve.(
+        current_user,
+        params[:status],
+        page: params[:page],
+        track_slug: params[:track_slug],
+        student_handle: params[:student],
+        criteria: params[:criteria],
+        exclude_uuid: params[:exclude_uuid],
+        order: params[:order]
+      )
+    rescue InvalidDiscussionStatusError
+      return render_error(400, :invalid_discussion_status)
+    end
 
     if sideload?(:all_discussion_counts)
       meta = {
@@ -98,7 +102,7 @@ class API::Mentoring::DiscussionsController < API::BaseController
   def finish
     discussion = current_user.mentor_discussions.find_by(uuid: params[:uuid])
     Mentor::Discussion::FinishByMentor.(discussion)
-    relationship = Mentor::StudentRelationship.find_or_create_by!(mentor: discussion.mentor, student: discussion.student)
+    relationship = Mentor::StudentRelationship.find_create_or_find_by!(mentor: discussion.mentor, student: discussion.student)
 
     render json: {
       discussion: {

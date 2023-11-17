@@ -115,12 +115,9 @@
           %h2.flex.items-center.mb-8.text-h4
             = graphical_icon "dig-deeper", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'
             This solution's approach
-          %p.text-p-base.mb-12 Dig deeper into the approach this solution is taking to solve the #{@exercise.title} exercise.
+          %p.text-p-base.mb-12 Explore the pros and cons of this approach in our community-written deep dive…
 
           = link_to track_exercise_approach_path(@track, @exercise, @approach), class: "block bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16" do
-            %pre.border-1.border-borderColor7.rounded-8.p-16.mb-16
-              %code.block.overflow-hidden.text-ellipsis{ class: "max-h-[180px] #{@track.slug}" }
-                = @approach.snippet
             %h5.text-h5.mb-2= @approach.title
             %p.text-p-base.text-textColor6.mb-6= @approach.blurb
             .flex.items-center

@@ -4,7 +4,7 @@ class Concept::Authorship::Create
   initialize_with :concept, :author
 
   def call
-    concept.authorships.find_or_create_by(author:).tap do |authorship|
+    concept.authorships.find_create_or_find_by!(author:).tap do |authorship|
       User::ReputationToken::Create.defer(
         author,
         :concept_author,

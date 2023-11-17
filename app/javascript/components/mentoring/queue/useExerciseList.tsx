@@ -23,8 +23,6 @@ export const useExerciseList = ({
       endpoint: track?.links.exercises,
       options: {
         enabled: !!track,
-        staleTime: 0,
-        cacheTime: 0,
         initialData: track?.exercises ? track.exercises : undefined,
       },
     }

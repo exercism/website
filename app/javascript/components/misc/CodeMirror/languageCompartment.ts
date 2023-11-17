@@ -208,6 +208,7 @@ export const loadLanguageCompartment = async (
       const { scala } = await import('@codemirror/legacy-modes/mode/clike')
       return compartment.of(StreamLanguage.define(scala))
     }
+    case 'racket':
     case 'scheme': {
       const { scheme } = await import('@codemirror/legacy-modes/mode/scheme')
       return compartment.of(StreamLanguage.define(scheme))

@@ -137,8 +137,11 @@ class User < ApplicationRecord
   scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
 
   # TODO: Validate presence of name
-
-  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
+  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true, length: { maximum: 190 }
+  validates :name, length: { maximum: 255 }
+  validates :email, length: { maximum: 190 }
+  validates :pronouns, length: { maximum: 255 }
+  validates :location, length: { maximum: 255 }
 
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_fill: [200, 200]
@@ -298,6 +301,8 @@ class User < ApplicationRecord
     return false if disabled?
     return false if email.ends_with?("users.noreply.github.com")
     return false if email_status_invalid?
+    return false if system?
+    return false if ghost?
 
     true
   end

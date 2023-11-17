@@ -1,8 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
+import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
+import { InputWithValidation } from './inputs/InputWithValidation'
+import { createMaxLengthAttributes } from './useInvalidField'
 
 type User = {
   name: string
@@ -60,27 +63,25 @@ export default function ProfileForm({
           <label htmlFor="user_name" className="label">
             Name
           </label>
-          <input
+          <InputWithValidation
             id="user_name"
-            type="text"
             value={user.name || ''}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
             required
+            {...createMaxLengthAttributes('Name', 255)}
           />
         </div>
         <div className="location field">
           <label htmlFor="user_location" className="label">
             Location
           </label>
-          <label className="c-faux-input">
-            <GraphicalIcon icon="location" />
-            <input
-              id="user_location"
-              type="text"
-              value={user.location || ''}
-              onChange={(e) => setUser({ ...user, location: e.target.value })}
-            />
-          </label>
+          <FauxInputWithValidation
+            id="user_location"
+            value={user.location || ''}
+            onChange={(e) => setUser({ ...user, location: e.target.value })}
+            icon="location"
+            {...createMaxLengthAttributes('Location', 255)}
+          />
         </div>
       </div>
       <div className="bio field">
@@ -103,28 +104,29 @@ export default function ProfileForm({
             <label htmlFor="profile_github" className="label">
               Github (Handle)
             </label>
-            <input
-              type="text"
+            <InputWithValidation
               id="profile_github"
               placeholder="Your GitHub handle"
               value={profile.github || ''}
               onChange={(e) =>
                 setProfile({ ...profile, github: e.target.value })
               }
+              {...createMaxLengthAttributes('GitHub handle', 190)}
             />
           </div>
           <div className="field">
             <label htmlFor="profile_twitter" className="label">
               Twitter (Handle)
             </label>
-            <input
-              type="text"
+
+            <InputWithValidation
               id="profile_twitter"
               placeholder="Your Twitter handle"
               value={profile.twitter || ''}
               onChange={(e) =>
                 setProfile({ ...profile, twitter: e.target.value })
               }
+              {...createMaxLengthAttributes('Twitter handle', 190)}
             />
           </div>
           <div className="field">

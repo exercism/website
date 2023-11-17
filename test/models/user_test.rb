@@ -497,33 +497,23 @@ class UserTest < ActiveSupport::TestCase
     other_track = create :track, :random_slug
 
     refute user.trainer?(nil)
-
-    create(:user_reputation_period, period: :forever, about: :track, track_id: track.id, user:, reputation: 49,
-      category: :any)
-    refute user.trainer?(nil)
-
-    create(:user_reputation_period, period: :forever, about: :track, track_id: other_track.id, user:, reputation: 20,
-      category: :maintaining)
-    refute user.trainer?(nil)
-
-    create(:user_reputation_period, period: :forever, about: :track, track_id: track.id, user:, reputation: 1, category: :building)
-    assert user.trainer?(nil)
-  end
-
-  test "trainer? for track" do
-    user = create :user
-
-    track = create :track
     refute user.trainer?(track)
-
-    create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 49, arbitrary_reason: "Great work" })
-    refute user.trainer?(track)
-
-    create(:user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 1, arbitrary_reason: "Nice!" })
-    assert user.trainer?(track)
-
-    other_track = create :track, :random_slug
     refute user.trainer?(other_track)
+
+    user.update(trainer: true)
+    assert user.trainer?(nil)
+    refute user.trainer?(track)
+    refute user.trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
   end
 
   %i[admin staff].each do |role|
@@ -534,7 +524,27 @@ class UserTest < ActiveSupport::TestCase
       assert user.trainer?(track)
     end
   end
-  
+
+  test "eligible_for_trainer?" do
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
+  end
+
   test "validates" do
     user = create :user
 
@@ -561,7 +571,7 @@ class UserTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordInvalid do
       user.update!(location: 'a' * 256)
     end
-    
+
     user.update!(location: 'a' * 255)
   end
 end

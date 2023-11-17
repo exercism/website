@@ -7,7 +7,7 @@ class TrainingData::DashboardController < ApplicationController
   end
 
   def guard_trainer!
-    return true if current_user&.trainer?
+    return true if current_user.trainer?
 
     redirect_to training_data_external_path
   end

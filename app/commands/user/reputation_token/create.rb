@@ -19,6 +19,9 @@ class User::ReputationToken::Create
       AwardBadgeJob.perform_later(user, :contributor, context: token)
       User::ReputationPeriod::MarkForToken.(token)
       User::ResetCache.defer(user, :has_unseen_reputation_tokens?)
+
+      user_track = token.track.present? ? UserTrack.find_by(user:, track: token.track) : nil
+      UserTrack::UpdateReputation.(user_track) if user_track.present?
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(user:, uniqueness_key: token.uniqueness_key)
     end

@@ -5,7 +5,6 @@ class User < ApplicationRecord
   GHOST_USER_ID = 720_036
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
-  MIN_REP_TO_TRAIN_ML = 50
 
   enum flair: {
     founder: 0,
@@ -348,22 +347,22 @@ class User < ApplicationRecord
   def automator?(track = nil)
     return true if staff?
 
-    if track
-      track_mentorships.automator.where(track:).exists?
-    else
-      track_mentorships.automator.exists?
-    end
+    tms = track_mentorships.automator
+    tms = tms.where(track:) if track
+    tms.exists?
   end
 
   def trainer?(track = nil)
     return true if staff?
-    return reputation_for_track(track) >= MIN_REP_TO_TRAIN_ML if track.present?
+    return false unless super()
+    return eligible_for_trainer?(track) if track.present?
 
-    # TODO: optimize this
-    User::ReputationPeriod.
-      where(period: :forever, about: :track, user: self).
-      group(:track_id).
-      sum(:reputation).
-      any? { |_, reputation| reputation >= User::MIN_REP_TO_TRAIN_ML }
+    true
+  end
+
+  def eligible_for_trainer?(track = nil)
+    uts = user_tracks.trainer
+    uts = uts.where(track:) if track
+    uts.exists?
   end
 end

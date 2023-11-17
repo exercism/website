@@ -9,6 +9,7 @@ class TrainingData::CodeTagsSample::RetrieveTest < ActiveSupport::TestCase
     create :training_data_code_tags_sample, status: :admin_checked
 
     assert_equal [untagged], TrainingData::CodeTagsSample::Retrieve.(:needs_tagging)
+    assert_equal [untagged], TrainingData::CodeTagsSample::Retrieve.('needs_tagging')
     assert_equal [machine_tagged, human_tagged], TrainingData::CodeTagsSample::Retrieve.(:needs_checking).order(:id)
     assert_equal [community_checked], TrainingData::CodeTagsSample::Retrieve.(:needs_checking_admin).order(:id)
   end

@@ -25,15 +25,8 @@ module ReactComponents
       end
 
       def tracks
-        # TODO: optimize this
-        track_ids = User::ReputationPeriod.
-          where(period: :forever, about: :track, user: current_user).
-          group(:track_id).
-          sum(:reputation).
-          select { |_, reputation| reputation >= User::MIN_REP_TO_TRAIN_ML }.
-          keys
-
-        AssembleTracksForSelect.(::Track.where(id: track_ids))
+        tracks = ::Track.where(id: current_user.user_tracks.trainer.select(:track_id))
+        AssembleTracksForSelect.(tracks)
       end
 
       DEFAULT_STATUS = :needs_tagging

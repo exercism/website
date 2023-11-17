@@ -2,6 +2,8 @@ class UserTrack < ApplicationRecord
   extend Mandate::Memoize
   include UserTrack::MentoringSlots
 
+  MIN_REP_TO_TRAIN_ML = 50
+
   serialize :summary_data, JSON
 
   belongs_to :user
@@ -24,6 +26,8 @@ class UserTrack < ApplicationRecord
     foreign_key: :user_id,
     primary_key: :user_id,
     inverse_of: :user_track
+
+  scope :trainer, -> { where('reputation >= ?', MIN_REP_TO_TRAIN_ML) }
 
   delegate :num_concepts, to: :track
   delegate :title, to: :track, prefix: true

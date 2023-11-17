@@ -347,25 +347,22 @@ class User < ApplicationRecord
   def automator?(track = nil)
     return true if staff?
 
-    if track
-      track_mentorships.automator.where(track:).exists?
-    else
-      track_mentorships.automator.exists?
-    end
+    tms = track_mentorships.automator
+    tms = tms.where(track:) if track
+    tms.exists?
   end
 
   def trainer?(track = nil)
     return true if staff?
-    return super() && eligible_for_trainer?(track) if track.present?
+    return false unless super()
+    return eligible_for_trainer?(track) if track.present?
 
-    super()
+    true
   end
 
   def eligible_for_trainer?(track = nil)
-    if track
-      user_tracks.trainer.where(track:).exists?
-    else
-      user_tracks.trainer.exists?
-    end
+    uts = user_tracks.trainer
+    uts = uts.where(track:) if track
+    uts.exists?
   end
 end

@@ -544,7 +544,7 @@ class UserTest < ActiveSupport::TestCase
     refute user.eligible_for_trainer?(track)
     assert user.eligible_for_trainer?(other_track)
   end
-  
+
   test "validates" do
     user = create :user
 
@@ -571,7 +571,7 @@ class UserTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordInvalid do
       user.update!(location: 'a' * 256)
     end
-    
+
     user.update!(location: 'a' * 255)
   end
 end

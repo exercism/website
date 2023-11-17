@@ -1,8 +1,9 @@
-import type { Request as BaseRequest, Request } from '@/hooks/request-query'
-import { useDashboardReturnType } from './useDashboard'
+import type { Request as BaseRequest } from '@/hooks/request-query'
+import type { useDashboardReturnType } from './useDashboard'
+import type { Track } from '@/components/types'
 
 export type DashboardProps = {
-  tracksRequest: Request
+  tracks: Track[]
   trainingDataRequest: TrainingDataRequest
   statuses: TrainingDataStatuses
 }
@@ -16,9 +17,9 @@ export type TrainingDataStatus =
 
 export type DashboardHeaderProps = Pick<
   useDashboardReturnType,
-  'setTrack' | 'criteria' | 'setCriteria' | 'setOrder' | 'setPage' | 'request'
+  'setTrack' | 'criteria' | 'setCriteria' | 'setPage' | 'request'
 > & {
-  tracksRequest: BaseRequest
+  tracks: Track[]
 }
 
 export type TrainingDataRequest = BaseRequest<{
@@ -54,7 +55,7 @@ export type TrainingData = {
   createdAt: string
   updatedAt: string
   links: {
-    self: string
+    edit: string
   }
 }
 

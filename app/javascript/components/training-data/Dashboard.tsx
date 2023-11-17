@@ -7,7 +7,7 @@ import { DashboardHeader } from './dashboard/DashboardHeader'
 import { useDashboard } from './dashboard/useDashboard'
 
 export default function Dashboard({
-  tracksRequest,
+  tracks,
   trainingDataRequest,
   statuses,
 }: DashboardProps): JSX.Element {
@@ -26,20 +26,19 @@ export default function Dashboard({
   } = useDashboard({ trainingDataRequest })
 
   return (
-    <div className="c-mentor-inbox">
+    <div className="c-training-data">
       <DashboardTabs
         currentStatus={request.query.status}
         setStatus={setStatus}
         statuses={statuses}
       />
-      <div className="container">
+      <div className="container overflow-hidden">
         <DashboardHeader
+          request={request}
           criteria={criteria}
           setCriteria={setCriteria}
-          request={request}
-          tracksRequest={tracksRequest}
+          tracks={tracks}
           setTrack={setTrack}
-          setOrder={setOrder}
           setPage={setPage}
         />
         <ResultsZone isFetching={isFetching}>

@@ -11,6 +11,7 @@ export const ExercismTippy = (props: ExercismTippyProps): JSX.Element => {
       followCursor="horizontal"
       maxWidth="none"
       plugins={[followCursor]}
+      delay={100}
       {...props}
     />
   )

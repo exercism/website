@@ -11,7 +11,7 @@ class Exercise::UpdateTags
     exercise_tags = existing_tags.map(&:tag)
 
     new_tags = (solution_tags - exercise_tags).map do |tag|
-      Exercise::Tag.find_or_create_by!(tag:, exercise:)
+      Exercise::Tag.find_create_or_find_by!(tag:, exercise:)
     end
 
     existing_tags + new_tags

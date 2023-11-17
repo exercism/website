@@ -4,7 +4,7 @@ class Exercise::Authorship::Create
   initialize_with :exercise, :author
 
   def call
-    exercise.authorships.find_or_create_by(author:).tap do |authorship|
+    exercise.authorships.find_create_or_find_by!(author:).tap do |authorship|
       User::ReputationToken::Create.defer(
         author,
         :exercise_author,

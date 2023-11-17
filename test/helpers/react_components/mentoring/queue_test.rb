@@ -47,9 +47,7 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
             exercise_slug: "bob"
           },
           options: {
-            initial_data: AssembleMentorRequests.(user, params),
-            stale_time: 0,
-            cache_time: 0
+            initial_data: AssembleMentorRequests.(user, params)
           }
         },
         tracks_request: {
@@ -88,9 +86,7 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
                   }
                 }
               ]
-            },
-            stale_time: 0,
-            cache_time: 0
+            }
           }
         },
         default_track: {
@@ -180,9 +176,7 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
           endpoint: Exercism::Routes.api_mentoring_requests_path,
           query: { track_slug: "csharp" },
           options: {
-            initial_data: AssembleMentorRequests.(user, { track_slug: "csharp" }),
-            stale_time: 0,
-            cache_time: 0
+            initial_data: AssembleMentorRequests.(user, { track_slug: "csharp" })
           }
         },
         tracks_request: {
@@ -211,9 +205,7 @@ class ReactComponents::Mentoring::QueueTest < ReactComponentTestCase
                   }
                 }
               ]
-            },
-            stale_time: 0,
-            cache_time: 0
+            }
           }
         },
         default_track: {

@@ -9,11 +9,11 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
 
   def next
     sample = TrainingData::CodeTagsSample::RetrieveNext.(@track, params[:status])
-    redirect_to action: :index if sample.nil?
+    redirect_to training_data_root_path if sample.nil?
 
     sample.lock_for_editing!(current_user)
 
-    redirect_to action: :show, uuid: sample.uuid, status: params[:status]
+    redirect_to training_data_code_tags_sample_path(sample, status: params[:status])
   end
 
   private

@@ -19,7 +19,7 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
   end
 
   def update_tags
-    @sample.update!(tags: params[:tags])
+    TrainingData::CodeTagsSample::UpdateTags.(@sample, params[:tags])
 
     render json: {}
   end

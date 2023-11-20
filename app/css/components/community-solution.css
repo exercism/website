@@ -2,7 +2,7 @@
 
 .c-community-solution {
     @apply flex flex-col;
-    @apply shadow-base bg-backgroundColorA;
+    @apply shadow-base bg-backgroundColorA rounded-8;
     @apply py-16 px-24;
 
     & > .--header {

@@ -1,0 +1,20 @@
+.action-box.pending
+  .action-box-content.complete
+    - if exercise.tutorial?
+      %h3 Complete the exercise
+      %p.mb-6
+        Once you've finished with an exercise, mark it as completed.
+        You can also publish your solution to share with others when completing an exercise.
+      %p.mb-12 Marking Hello World as completed unlocks the first exercises in the track.
+
+    - elsif exercise.concept_exercise?
+      %h3 Finished with the exercise?
+      %p.mb-8 Feel like you understand the concepts this exercise teaches? Mark it as complete to move on.
+      %p.mb-8= render ViewComponents::Exercise::UnlockOnCompleteSentence.new(exercise, user_track)
+
+    - else
+      %h3 Finished with the exercise?
+      %p.mb-8 Taken this exercise as far as you want to? Tick it off your list, and optionally publish your solution for the community to learn from.
+
+    = ReactComponents::Student::CompleteExerciseButton.new(current_user, exercise)
+

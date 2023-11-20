@@ -1,14 +1,17 @@
 import React from 'react'
-import { GraphicalIcon, Icon } from '../../common'
-import { Iteration, IterationStatus } from '../../types'
-import { Exercise } from '../SolutionSummary'
 import pluralize from 'pluralize'
+import { GraphicalIcon, Icon } from '../../common'
 import { toSentence } from '../../../utils/toSentence'
+import { ExerciseType, Iteration, IterationStatus } from '../../types'
 
 export type SolutionSummaryLinks = {
   testsPassLocallyArticle: string
 }
 
+export type Exercise = {
+  title: string
+  type: ExerciseType
+}
 const TutorialHeader = ({ exercise }: { exercise: Exercise }) => {
   return (
     <header>

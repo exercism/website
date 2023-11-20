@@ -11,6 +11,8 @@
       .details
         - if discussion.mentor_finished? || discussion.timed_out?
           .--turn Review your mentor
+        - elsif discussion.awaiting_mentor?
+          .--turn Waiting for mentor
         - else
           .--turn Your turn to respond
         .--comments

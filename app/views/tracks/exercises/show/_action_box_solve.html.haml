@@ -1,0 +1,26 @@
+.action-box.pending
+  .action-box-content
+    %h3
+      = solution ? "Solve" : "Start"
+      #{exercise.title}
+
+    %p.mb-20
+      - if solution
+        %strong Continue work on this exercise.
+      - else
+        %strong This exercise is available for you to start.
+      Solve it via Exercism's in-browser editor or locally in your own environment, using our CLI to download and submit.
+
+    - if exercise.has_test_runner?
+      %h4 Via Exercism Editor
+      = link_to edit_track_exercise_path(track, exercise), class: "editor-btn btn-primary btn-m" do
+        = graphical_icon :editor
+        Start in editor
+
+    %h4 Work locally (via CLI)
+    - unless current_user.recently_used_cli?
+      = render ReactComponents::Common::CLIWalkthroughButton.new(current_user)
+
+    = ReactComponents::Common::CopyToClipboardButton.new(exercise.download_cmd)
+
+    = render ViewComponents::ProminentLink.new("Learn more about solving exercises locally", Exercism::Routes.solving_exercises_locally_path)

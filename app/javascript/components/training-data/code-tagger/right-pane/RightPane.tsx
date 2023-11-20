@@ -3,9 +3,13 @@ import { TaggerInformation } from './TaggerInformation'
 import { TagSelector } from './TagSelector'
 import { CodeTaggerProps, Tags } from '../CodeTagger.types'
 import { useSelectTag } from './useSelectTag'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { ErrorFallback } from '@/components/common/ErrorFallback'
 
 type RightPaneProps = Pick<CodeTaggerProps, 'links'> &
   Record<'tags' | 'allEnabledTrackTags', Tags>
+
+const defaultError = new Error('Unable to confirm tags')
 
 export function RightPane({
   tags,
@@ -28,9 +32,13 @@ export function RightPane({
       <button onClick={() => confirmTags()} className="btn-m btn-primary mb-32">
         Save and tag another…
       </button>
-      {error instanceof Error && (
-        <div className="c-alert--danger mb-16">{error.message}</div>
-      )}
+      <ErrorBoundary
+        FallbackComponent={(props) => (
+          <ErrorFallback error={props.error} className="mb-12" />
+        )}
+      >
+        <ErrorMessage error={error} defaultError={defaultError} />
+      </ErrorBoundary>
     </div>
   )
 }

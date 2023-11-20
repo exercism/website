@@ -3,7 +3,6 @@ import { TaggerInformation } from './TaggerInformation'
 import { TagSelector } from './TagSelector'
 import { CodeTaggerProps, Tags } from '../CodeTagger.types'
 import { useSelectTag } from './useSelectTag'
-import ApiError from '@/utils/fetch-json'
 
 type RightPaneProps = Pick<CodeTaggerProps, 'links'> &
   Record<'tags' | 'allEnabledTrackTags', Tags>
@@ -29,7 +28,7 @@ export function RightPane({
       <button onClick={() => confirmTags()} className="btn-m btn-primary mb-32">
         Save and tag another…
       </button>
-      {error instanceof ApiError && (
+      {error instanceof Error && (
         <div className="c-alert--danger mb-16">{error.message}</div>
       )}
     </div>

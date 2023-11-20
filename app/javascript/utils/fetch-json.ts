@@ -1,13 +1,5 @@
 import { camelizeKeys } from 'humps'
 
-export class ApiError extends Error {
-  constructor(public type: string, public message: string) {
-    super(message)
-    this.name = this.constructor.name
-    Object.setPrototypeOf(this, ApiError.prototype)
-  }
-}
-
 export async function fetchJSON<T extends any>(
   input: RequestInfo,
   options: RequestInit
@@ -30,9 +22,8 @@ export async function fetchJSON<T extends any>(
 
       if (!response.ok) {
         const errorData = await response.json()
-        const errorType = errorData.error.type
         const errorMessage = errorData.error.message || 'An error occurred'
-        throw new ApiError(errorType, errorMessage)
+        throw new Error(errorMessage)
       }
 
       return response.json()

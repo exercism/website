@@ -8,17 +8,12 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
   def show; end
 
   def next
-    status = params[:status] || :untagged
-    sample = TrainingData::CodeTagsSample.unlocked.where(
-      track: @track,
-      status:
-    ).first
-
-    raise unless sample
+    sample = TrainingData::CodeTagsSample::RetrieveNext.(@track, params[:status])
+    redirect_to action: :index if sample.nil?
 
     sample.lock_for_editing!(current_user)
 
-    redirect_to action: :show, id: sample.id
+    redirect_to action: :show, uuid: sample.uuid, status: params[:status]
   end
 
   private

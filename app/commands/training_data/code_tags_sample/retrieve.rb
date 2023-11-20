@@ -39,7 +39,7 @@ class TrainingData::CodeTagsSample::Retrieve
     when :needs_checking
       @samples = @samples.where(status: %i[machine_tagged human_tagged])
     when :needs_checking_admin
-      @samples = @samples.where(status: %i[community_checked])
+      @samples = @samples.where(status: :community_checked)
     end
   end
 

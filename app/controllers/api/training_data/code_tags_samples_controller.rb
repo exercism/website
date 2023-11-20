@@ -5,7 +5,7 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
 
   def index
     samples = ::TrainingData::CodeTagsSample::Retrieve.(
-      params[:status]&.to_sym,
+      status,
       criteria: params[:criteria],
       track: @track,
       page:
@@ -13,7 +13,8 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
 
     render json: SerializePaginatedCollection.(
       samples,
-      serializer: SerializeCodeTagsSamples
+      serializer: SerializeCodeTagsSamples,
+      serializer_kwargs: { status: }
     )
   end
 
@@ -40,4 +41,5 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
   end
 
   def page = [params[:page].to_i, 1].max
+  def status = params.fetch(:status, :needs_tagging).to_sym
 end

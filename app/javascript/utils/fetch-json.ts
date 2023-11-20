@@ -17,14 +17,10 @@ export async function fetchJSON<T extends any>(
         (!contentType.includes('+json') &&
           !contentType.includes('application/json'))
       ) {
-        throw new Error('Received non-JSON response')
+        throw response
       }
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        const errorMessage = errorData.error.message || 'An error occurred'
-        throw new Error(errorMessage)
-      }
+      if (!response.ok) throw response
 
       return response.json()
     })

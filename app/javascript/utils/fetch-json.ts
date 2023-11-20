@@ -1,35 +1,46 @@
 import { camelizeKeys } from 'humps'
 
-export const fetchJSON = <T extends any>(
+export class ApiError extends Error {
+  type: string
+
+  constructor(type: string, message: string) {
+    super(message)
+    this.name = this.constructor.name
+    this.type = type
+    Object.setPrototypeOf(this, ApiError.prototype)
+  }
+}
+
+export default ApiError
+
+export async function fetchJSON<T extends any>(
   input: RequestInfo,
   options: RequestInit
-): Promise<T> => {
+): Promise<T> {
   const headers = {
     'content-type': 'application/json',
     accept: 'application/json',
   }
 
-  return fetch(input, Object.assign(options, { headers: headers }))
-    .then((response) => {
-      if (!response.ok) {
-        throw response
-      }
-
+  return fetch(input, Object.assign(options, { headers }))
+    .then(async (response) => {
       const contentType = response.headers.get('Content-Type')
       if (
         !contentType ||
         (!contentType.includes('+json') &&
           !contentType.includes('application/json'))
       ) {
-        throw response
+        throw new Error('Received non-JSON response')
       }
 
-      return response
-    })
-    .then((response) => {
+      if (!response.ok) {
+        const errorData = await response.json()
+        const errorType = errorData.error.type
+        const errorMessage = errorData.error.message || 'An error occurred'
+        throw new ApiError(errorType, errorMessage)
+      }
+
       return response.json()
     })
-    .then((json) => {
-      return camelizeKeys(json) as T
-    })
+    .then((json) => camelizeKeys(json) as T)
 }

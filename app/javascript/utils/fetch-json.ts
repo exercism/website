@@ -4,7 +4,6 @@ export class ApiError extends Error {
   constructor(public type: string, public message: string) {
     super(message)
     this.name = this.constructor.name
-    this.type = type
     Object.setPrototypeOf(this, ApiError.prototype)
   }
 }

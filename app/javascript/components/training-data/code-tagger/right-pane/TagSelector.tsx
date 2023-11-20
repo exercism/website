@@ -14,26 +14,34 @@ export function TagSelector({
   if (!tags) return null
   return (
     <CreatableSelect
-      className="creatable-select-component text-p-base"
+      className="creatable-select-component text-p-base mt-auto mb-64"
       isMulti
       defaultValue={formatTags(tags)}
       options={formatTags(allEnabledTrackTags)}
       isClearable={false}
+      maxMenuHeight={100}
       styles={{
         multiValue: (base) => ({
           ...base,
-          borderRadius: '8px',
+          borderRadius: '50px',
           overflow: 'hidden',
           backgroundColor: 'var(--backgroundColorI)',
+          border: '1px solid',
+          borderColor: '#2E57E8',
         }),
         multiValueLabel: (base) => ({
           ...base,
           fontSize: '16px',
+          padding: '4px',
+          paddingLeft: '8px',
         }),
-        multiValueRemove: (base, state) => ({
+        multiValueRemove: (base) => ({
           ...base,
+          paddingRight: '8px',
+          color: 'var(--textColor6)',
           '&:hover': {
-            background: '#D8505055',
+            background: '#E27979',
+            color: 'var(--textColor1)',
           },
         }),
       }}

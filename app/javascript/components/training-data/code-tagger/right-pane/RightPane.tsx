@@ -1,5 +1,5 @@
 import React from 'react'
-import { PlaceholderStuff } from './PlaceholderStuff'
+import { TaggerInformation } from './TaggerInformation'
 import { TagSelector } from './TagSelector'
 import { CodeTaggerProps, Tags } from '../CodeTagger.types'
 import { useSelectTag } from './useSelectTag'
@@ -19,16 +19,13 @@ export function RightPane({
 
   return (
     <div className="px-24 h-100 flex flex-col">
-      <PlaceholderStuff />
+      <TaggerInformation />
       <TagSelector
         tags={tags || []}
         allEnabledTrackTags={allEnabledTrackTags || []}
         setSelectedTags={setSelectedTags}
       />
-      <button
-        onClick={() => confirmTags()}
-        className="btn-m btn-primary mb-32 mt-auto"
-      >
+      <button onClick={() => confirmTags()} className="btn-m btn-primary mb-32">
         Save and tag another…
       </button>
     </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import AutomationRules from './AutomationRules'
 import Considerations from './Considerations'
 
-export function PlaceholderStuff(): JSX.Element {
+export function TaggerInformation(): JSX.Element {
   return (
     <div className="flex flex-col mb-20">
       <Considerations />

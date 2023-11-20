@@ -91,7 +91,7 @@ module ViewComponents
         },
         {
           title: "Training Hub",
-          description: "Boost Exercism's AI with neural training",
+          description: "Help train Exercism's neural network",
           path: Exercism::Routes.training_data_root_path,
           icon: :robot,
           icon_filter: "textColor6"

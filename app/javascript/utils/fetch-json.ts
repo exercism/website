@@ -1,17 +1,13 @@
 import { camelizeKeys } from 'humps'
 
 export class ApiError extends Error {
-  type: string
-
-  constructor(type: string, message: string) {
+  constructor(public type: string, public message: string) {
     super(message)
     this.name = this.constructor.name
     this.type = type
     Object.setPrototypeOf(this, ApiError.prototype)
   }
 }
-
-export default ApiError
 
 export async function fetchJSON<T extends any>(
   input: RequestInfo,

@@ -1,23 +1,13 @@
-%p.mb-16
-  Solving the exercise is just the first step to improving. It's now time to learn from others. These steps are optional but will vastly enhance your knowledge.
+- community_solutions_completed = user_track.viewed_community_solution?(exercise)
+- approaches_completed = user_track.viewed_approach?(exercise)
+- completed = solution.mentoring_finished? && community_solutions_completed && (approaches_completed || !exercise.approaches?)
 
-= render("tracks/exercises/show/action_box_dig_deeper_mentoring", track:, exercise:, solution:)
+.action-box{ class: completed ? 'completed' : 'pending' }
+  .action-box-content
+    %h3 Dig Deeper
+    %p.mb-16
+      Solving the exercise is just the first step to improving. It's now time to learn from others. These steps are optional but will vastly enhance your knowledge.
 
-- if user_track.num_viewed_community_solutions(exercise) >= 5
-  .inner-box.completed
-    .inner-box-content
-      .text-h6.mb-2 Explored Community Solutions
-      %p.mb-4
-        Explore how others have solved this exercise and learn new ideas in our
-        = succeed(".") do
-          = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
-- else
-  .inner-box.pending
-    .inner-box-content
-      .text-h6.mb-2 Explore Community Solutions
-      %p.mb-4
-        Explore how others have solved this exercise and learn new ideas in our
-        = succeed(".") do
-          = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"
-
-= render("tracks/exercises/show/action_box_dig_deeper_approaches", track:, exercise:, solution:, user_track:)
+    = render("tracks/exercises/show/action_box_dig_deeper_mentoring", track:, exercise:, solution:)
+    = render "tracks/exercises/show/action_box_dig_deeper_community_solutions", track:, exercise:, solution:, user_track:, completed: community_solutions_completed
+    = render "tracks/exercises/show/action_box_dig_deeper_approaches", track:, exercise:, solution:, user_track:, completed: approaches_completed

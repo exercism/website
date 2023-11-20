@@ -192,7 +192,7 @@ class UserTrack < ApplicationRecord
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
-  def num_viewed_community_solutions(exercise) = viewed_community_solutions.where(exercise:).count
+  def viewed_community_solution?(exercise) = viewed_community_solutions.where(exercise:).exists?
   def viewed_approach?(exercise) = viewed_exercise_approaches.where(exercise:).exists?
 
   private

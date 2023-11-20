@@ -89,14 +89,13 @@ module ViewComponents
           icon: :mentoring,
           icon_filter: "textColor6"
         },
-        # {
-        #   title: "Explore tasks",
-        #   description: nil,
-        #   path: Exercism::Routes.contributing_tasks_path,
-        #   icon: :tasks,
-        #   view: :mentoring
-        # },
-
+        {
+          title: "Training Hub",
+          description: "Boost Exercism's AI with neural training",
+          path: Exercism::Routes.training_data_root_path,
+          icon: :robot,
+          icon_filter: "textColor6"
+        },
         {
           title: "Docs",
           description: "Everything you need to help",
@@ -104,7 +103,6 @@ module ViewComponents
           icon: :docs,
           icon_filter: "textColor6"
         },
-
         {
           title: "Contributors",
           description: "Meet the people behind Exercism",

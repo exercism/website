@@ -20,6 +20,8 @@ class UserTrack
     def maintainer? = false
     def completed? = false
     def completed_course? = false
+    def num_viewed_community_solutions(_) = 0
+    def viewed_approach?(_) = false
 
     memoize
     def exercises

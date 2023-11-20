@@ -1,0 +1,21 @@
+.c-completed-exercise-heading {
+    @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-24;
+    @apply border-2 border-darkGreen;
+    background: var(--backgroundColorCompletedHeading);
+
+    & .check-mark-icon {
+        height: 32px;
+        width: 32px;
+        @apply mr-16;
+    }
+    & .text {
+        @apply text-h5 flex-grow;
+    }
+
+    .c-prominent-link {
+        color: var(--backgroundColorNotificationsUnreadDot);
+        .c-icon {
+            filter: var(--iconFilterNotificationsProminentLink);
+        }
+    }
+}

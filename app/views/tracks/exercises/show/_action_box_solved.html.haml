@@ -1,0 +1,9 @@
+.action-box.completed
+  .action-box-content
+    %h3 Exercise Solved
+    %p.mb-12
+      You have submitted
+      = link_to pluralize(solution.iterations.size, "iteration"), track_exercise_iterations_path(track, exercise)
+      for this exercise. You can submit more iterations as you continue you evolve your knowledge or want to experiment with new ideas.
+    = render ReactComponents::Student::LatestIterationLink.new(solution)
+

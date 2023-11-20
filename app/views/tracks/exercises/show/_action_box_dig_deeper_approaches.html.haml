@@ -1,0 +1,18 @@
+- if exercise.approaches?
+  - if completed
+    .inner-box.completed
+      .inner-box-content
+        .text-h6.mb-2 Viewed approach
+        %p.mb-4
+          Explore the different common approaches to this exercise in our
+          = succeed(".") do
+            = link_to "Dig Deeper section", track_exercise_dig_deeper_path(track, exercise), class: "text-linkColor border-b-1"
+  - else
+    .inner-box.pending
+      .inner-box-content
+        .text-h6.mb-2 Discover different approaches
+        %p.mb-4
+          Explore the different common approaches to this exercise in our
+          = succeed(".") do
+            = link_to "Dig Deeper section", track_exercise_dig_deeper_path(track, exercise), class: "text-linkColor border-b-1"
+

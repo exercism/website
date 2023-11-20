@@ -49,16 +49,6 @@ import type {
   Links as IterationsListLinks,
   IterationsListRequest,
 } from '@/components/student/IterationsList'
-import type {
-  SolutionSummaryLinks,
-  Track as SolutionSummaryTrack,
-  SolutionSummaryRequest,
-} from '@/components/student/SolutionSummary'
-import type {
-  Links as NudgeLinks,
-  Track as NudgeTrack,
-} from '@/components/student/Nudge'
-import type { Links as PublishedSolutionLinks } from '@/components/student/PublishedSolution'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
 import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
@@ -72,6 +62,8 @@ import type {
 } from '@/components/settings'
 import type { FooterFormProps } from '@/components/donations/FooterForm'
 import type { StripeFormLinks } from '@/components/donations/Form'
+import type { ChangePublishedIterationModalButtonProps } from '@/components/student/published-solution/ChangePublishedIterationModalButton'
+import type { UnpublishSolutionModalButtonProps } from '@/components/student/published-solution/UnpublishSolutionModalButton'
 
 // Component imports
 const Editor = lazy(() => import('@/components/Editor'))
@@ -105,21 +97,13 @@ const PublishSolutionButton = lazy(
 const RequestMentoringButton = lazy(
   () => import('@/components/student/RequestMentoringButton')
 )
-const PublishedSolution = lazy(
-  () => import('@/components/student/PublishedSolution')
-)
 
 const UpdateExerciseNotice = lazy(
   () => import('@/components/student/UpdateExerciseNotice')
 )
 
-const StudentNudge = lazy(() => import('@/components/student/Nudge'))
-
 const StudentIterationsList = lazy(
   () => import('@/components/student/IterationsList')
-)
-const StudentSolutionSummary = lazy(
-  () => import('@/components/student/SolutionSummary')
 )
 
 const StudentMentoringSession = lazy(
@@ -185,7 +169,6 @@ const IterationSummaryWithWebsockets = lazy(
 const NotificationsList = lazy(
   () => import('@/components/notifications/NotificationsList')
 )
-
 const WelcomeModal = lazy(() => import('@/components/modals/WelcomeModal'))
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')
@@ -199,6 +182,23 @@ const DonationsFormWithModal = lazy(
 
 const DonationsSubscriptionForm = lazy(
   () => import('@/components/donations/SubscriptionForm')
+)
+
+const LatestIterationLink = lazy(
+  () => import('@/components/student/solution-summary/LatestIterationLink')
+)
+
+const ChangePublishedIterationModalButton = lazy(
+  () =>
+    import(
+      '@/components/student/published-solution/ChangePublishedIterationModalButton'
+    )
+)
+const UnpublishSolutionModalButton = lazy(
+  () =>
+    import(
+      '@/components/student/published-solution/UnpublishSolutionModalButton'
+    )
 )
 
 import { RenderLoader } from '@/components/common'
@@ -537,31 +537,10 @@ initReact({
       />
     </Suspense>
   ),
-  'student-solution-summary': (data: any) => (
+  'student-latest-iteration-link': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <StudentSolutionSummary
-        discussions={camelizeKeysAs<MentorDiscussion[]>(data.discussions)}
-        solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-        request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
-        links={camelizeKeysAs<SolutionSummaryLinks>(data.links)}
-        track={camelizeKeysAs<SolutionSummaryTrack>(data.track)}
-        exercise={data.exercise}
-      />
-    </Suspense>
-  ),
-
-  'student-nudge': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <StudentNudge
-        solution={camelizeKeysAs<SolutionForStudent>(data.solution)}
-        track={camelizeKeysAs<NudgeTrack>(data.track)}
-        discussions={camelizeKeysAs<readonly MentorDiscussion[]>(
-          data.discussions
-        )}
-        request={camelizeKeysAs<SolutionSummaryRequest>(data.request)}
-        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-        exerciseType={data.exercise_type}
-        links={camelizeKeysAs<NudgeLinks>(data.links)}
+      <LatestIterationLink
+        iteration={camelizeKeysAs<Iteration>(data.latest_iteration)}
       />
     </Suspense>
   ),
@@ -574,13 +553,17 @@ initReact({
       />
     </Suspense>
   ),
-  'student-published-solution': (data: any) => (
+  'student-change-published-iteration-modal-button': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <PublishedSolution
-        solution={camelizeKeysAs<CommunitySolution>(data.solution)}
-        publishedIterationIdx={data.published_iteration_idx}
-        iterations={camelizeKeysAs<readonly Iteration[]>(data.iterations)}
-        links={camelizeKeysAs<PublishedSolutionLinks>(data.links)}
+      <ChangePublishedIterationModalButton
+        {...camelizeKeysAs<ChangePublishedIterationModalButtonProps>(data)}
+      />
+    </Suspense>
+  ),
+  'student-unpublish-solution-modal-button': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <UnpublishSolutionModalButton
+        {...camelizeKeysAs<UnpublishSolutionModalButtonProps>(data)}
       />
     </Suspense>
   ),

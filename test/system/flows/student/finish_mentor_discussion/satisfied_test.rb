@@ -31,7 +31,7 @@ module Flows
             click_on "No thanks"
 
             wait_for_redirect
-            assert_text "Nice, it looks like you're done here!"
+            assert_text "Finished with the exercise?"
           end
         end
 
@@ -58,7 +58,7 @@ module Flows
             click_on "Yes please"
             click_on "Go back to your solution"
 
-            assert_text "View request"
+            assert_text "View mentoring request"
           end
         end
       end

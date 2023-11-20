@@ -11,8 +11,6 @@ class TrainingData::CodeTagsSample::RetrieveNext
   end
 
   private
-  delegate :track, to: :sample
-
   def status
     case filter_status
     when :needs_tagging

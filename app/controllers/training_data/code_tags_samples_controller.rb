@@ -9,7 +9,7 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
 
   def next
     sample = TrainingData::CodeTagsSample::RetrieveNext.(@track, params[:status])
-    redirect_to training_data_root_path if sample.nil?
+    return redirect_to training_data_root_path if sample.nil?
 
     sample.lock_for_editing!(current_user)
 
@@ -18,16 +18,16 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
 
   private
   def use_track
-    @track = Track.find(params[:track_id])
-  rescue StandardError
-    redirect_to(action: :index)
+    @track = Track.for!(params[:track])
+  rescue ActiveRecord::RecordNotFound
+    render_404(:track_not_found)
   end
 
   def use_sample
-    @sample = TrainingData::CodeTagsSample.find_by(uuid: params[:id])
+    @sample = TrainingData::CodeTagsSample.find_by!(uuid: params[:id])
     @track = @sample.track
-  rescue StandardError
-    redirect_to(action: :index)
+  rescue ActiveRecord::RecordNotFound
+    render_404(:sample_not_found)
   end
 
   def ensure_trainer!

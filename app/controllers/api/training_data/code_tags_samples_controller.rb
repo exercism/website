@@ -19,9 +19,10 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
   end
 
   def update_tags
-    TrainingData::CodeTagsSample::UpdateTags.(@sample, params[:tags])
-
+    TrainingData::CodeTagsSample::UpdateTags.(@sample, params[:tags], current_user)
     render json: {}
+  rescue ::TrainingDataCodeTagsSampleLockedByAnotherUserError
+    render_400(:training_data_code_tags_sample_locked)
   end
 
   private

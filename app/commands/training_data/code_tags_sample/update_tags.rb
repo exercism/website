@@ -1,10 +1,16 @@
 class TrainingData::CodeTagsSample::UpdateTags
   include Mandate
 
-  initialize_with :sample, :tags
+  initialize_with :sample, :tags, :user
 
   def call
-    sample.update!(tags:, status: new_status)
+    ActiveRecord::Base.transaction do
+      sample.lock!
+
+      raise TrainingDataCodeTagsSampleLockedByAnotherUserError unless sample.lockable_by?(user)
+
+      sample.update!(tags:, status: new_status, locked_until: nil, locked_by: nil)
+    end
   end
 
   private

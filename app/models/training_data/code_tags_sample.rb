@@ -33,6 +33,12 @@ class TrainingData::CodeTagsSample < ApplicationRecord
     locked_until && locked_until > Time.current
   end
 
+  def lockable_by?(user)
+    return true unless locked?
+
+    locked_by == user
+  end
+
   def lock_for_editing!(user)
     with_lock do
       raise "Already locked" if locked?

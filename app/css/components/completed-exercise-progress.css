@@ -6,7 +6,7 @@
 
         & .concept {
             @apply flex items-center;
-            @apply shadow-baseZ1 rounded-8;
+            @apply shadow-base rounded-8;
             @apply mb-8 py-16 px-24;
 
             & .c-concept-icon {

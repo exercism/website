@@ -8,12 +8,21 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
   def show; end
 
   def next
-    sample = TrainingData::CodeTagsSample::RetrieveNext.(@track, params[:status])
-    return redirect_to training_data_root_path if sample.nil?
+    3.times do
+      sample = TrainingData::CodeTagsSample::RetrieveNext.(@track, params[:status])
+      next if sample.nil?
 
-    sample.lock_for_editing!(current_user)
+      begin
+        sample.lock_for_editing!(current_user)
+      rescue ::TrainingDataCodeTagsSampleLockedError
+        # We'll retry when we could not lock the sample
+        next
+      end
 
-    redirect_to training_data_code_tags_sample_path(sample, status: params[:status])
+      return redirect_to training_data_code_tags_sample_path(sample, status: params[:status])
+    end
+
+    redirect_to training_data_root_path
   end
 
   private

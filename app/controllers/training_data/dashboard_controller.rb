@@ -1,4 +1,5 @@
 class TrainingData::DashboardController < ApplicationController
+  skip_before_action :authenticate_user!
   before_action :ensure_trainer!
 
   def index

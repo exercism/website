@@ -1,39 +1,68 @@
-export function scrollIntoView(): void {
-  const elements = document.querySelectorAll('[data-scroll-into-view="true"]')
+type ScrollAxis = 'X' | 'Y'
 
-  if (elements.length > 0) {
-    scrollElementsIntoView(elements)
-  }
+export function scrollIntoView(): void {
+  collectAndScroll('X')
+  collectAndScroll('Y')
 
   const docsSideMenuTrigger = document.getElementById(
     'side-menu-trigger'
-  ) as HTMLInputElement
-
-  // when docs side menu is opened, rerun the scroll fn
+  ) as HTMLInputElement | null
   if (docsSideMenuTrigger) {
-    docsSideMenuTrigger.addEventListener('change', function () {
+    docsSideMenuTrigger.addEventListener('change', () => {
       if (docsSideMenuTrigger.checked) {
-        scrollElementsIntoView(elements)
+        collectAndScroll('Y')
       }
     })
   }
 }
 
-function scrollElementsIntoView(elements: NodeListOf<Element>): void {
-  elements.forEach((element) => {
-    if (isInViewport(element)) {
-      return
-    }
+const collectAndScroll = (axis: ScrollAxis) => {
+  document
+    .querySelectorAll<HTMLElement>('[data-scrollable-container="true"]')
+    .forEach((container) => {
+      console.log('containr', container)
+      const elements = Array.from(
+        container.querySelectorAll<HTMLElement>(
+          `[data-scroll-into-view="${axis}"]`
+        )
+      )
 
-    element.scrollIntoView({
-      behavior: 'instant',
-      block: 'center',
-      inline: 'center',
+      if (elements.length > 0) {
+        scrollElementsIntoView(elements, container, axis)
+      }
     })
+}
+
+function scrollElementsIntoView(
+  elements: HTMLElement[],
+  container: HTMLElement,
+  axis: ScrollAxis
+): void {
+  elements.forEach((element) => {
+    scrollToElementWithinContainer(element, container, axis)
   })
 }
 
-function isInViewport(element) {
+function scrollToElementWithinContainer(
+  element: HTMLElement,
+  container: HTMLElement,
+  axis: ScrollAxis
+) {
+  const elementRect = element.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
+
+  if (axis === 'Y') {
+    const topPosition =
+      elementRect.top - containerRect.top + container.scrollTop
+    container.scrollTop = topPosition - container.clientHeight / 2
+  } else if (axis === 'X') {
+    const leftPosition =
+      elementRect.left - containerRect.left + container.scrollLeft
+    container.scrollLeft = leftPosition - container.clientWidth / 2
+  }
+}
+
+function _isInViewport(element: HTMLElement): boolean {
   const rect = element.getBoundingClientRect()
   return (
     rect.top >= 0 &&

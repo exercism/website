@@ -98,7 +98,7 @@ module ViewComponents
       end
 
       def scroll_into_view(tab)
-        { scroll_into_view: (tab == selected_tab ? 'true' : 'false') }
+        { scroll_into_view: (tab == selected_tab ? 'X' : nil) }
       end
 
       def guard!

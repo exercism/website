@@ -15,7 +15,7 @@ module ViewComponents
     end
 
     def lhs
-      tag.ul do
+      tag.ul(data: { scrollable_container: true }) do
         safe_join(
           [
             li_link("About Exercism"),
@@ -24,7 +24,7 @@ module ViewComponents
             # li_link("Jobs", :hiring),
             li_link("Supporters", :individual_supporters),
             tag.li(link_to("Partners", Exercism::Routes.about_partners_path),
-              class: selected_section == :organisation_supporters ? "selected" : nil)
+              class: selected_section == :organisation_supporters ? "selected" : nil, data: scroll_into_view(:organisation_supporters))
             # li_link("Community", :community),
             # li_link("Not-for-profit", :organisation),
             # li_link("Track-specific", :tracks)
@@ -35,9 +35,13 @@ module ViewComponents
 
     def li_link(title, section = nil)
       css_class = section == selected_section ? "selected" : nil
-      scroll_into_view = section == selected_section ? true : nil
+      scroll_into_view = section == selected_section ? 'X' : nil
       url = Exercism::Routes.send([section, "about_path"].compact.join("_"))
       tag.li(link_to(title, url), class: css_class, data: { scroll_into_view: })
+    end
+
+    def scroll_into_view(tab)
+      { scroll_into_view: tab == selected_section ? 'X' : nil }
     end
 
     private

@@ -29,19 +29,13 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
   def use_track
     @track = Track.for!(params[:track])
   rescue ActiveRecord::RecordNotFound
-    render_404(:track_not_found)
+    render_404
   end
 
   def use_sample
     @sample = TrainingData::CodeTagsSample.find_by!(uuid: params[:id])
     @track = @sample.track
   rescue ActiveRecord::RecordNotFound
-    render_404(:sample_not_found)
-  end
-
-  def ensure_trainer!
-    return if current_user.trainer?(@track)
-
-    render_403(:not_trainer)
+    render_404
   end
 end

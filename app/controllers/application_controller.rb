@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_trainer!
-    return if current_user&.trainer?
+    return if current_user&.trainer?(@track)
 
     redirect_to training_data_external_path
   end

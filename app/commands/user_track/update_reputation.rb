@@ -1,6 +1,8 @@
 class UserTrack::UpdateReputation
   include Mandate
 
+  queue_as :reputation
+
   initialize_with :user_track
 
   def call = user_track.update!(reputation:)

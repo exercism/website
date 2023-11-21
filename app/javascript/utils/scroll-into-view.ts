@@ -4,6 +4,7 @@ export function scrollIntoView(): void {
   collectAndScroll('X')
   collectAndScroll('Y')
 
+  // when docs side menu is opened, rerun the scroll fn
   const docsSideMenuTrigger = document.getElementById(
     'side-menu-trigger'
   ) as HTMLInputElement | null

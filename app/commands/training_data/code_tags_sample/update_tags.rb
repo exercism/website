@@ -6,10 +6,9 @@ class TrainingData::CodeTagsSample::UpdateTags
   def call
     ActiveRecord::Base.transaction do
       sample.lock!
-
-      raise TrainingDataCodeTagsSampleLockedByAnotherUserError unless sample.lockable_by?(user)
-
-      sample.update!(tags:, status: new_status, locked_until: nil, locked_by: nil)
+      sample.lock_for_editing!(user)
+      sample.update!(tags:, status: new_status)
+      sample.unlock!
     end
   end
 

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
-  test "updates tags" do
+  test "updates tags when locked by user" do
     user = create :user
     tags = ['construct:if']
     sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: user, locked_until: Time.current + 1.day)
@@ -9,6 +9,18 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
 
     assert_equal tags, sample.tags
+    refute sample.locked?
+  end
+
+  test "updates tags when not locked" do
+    user = create :user
+    tags = ['construct:if']
+    sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: nil, locked_until: nil)
+
+    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
+
+    assert_equal tags, sample.tags
+    refute sample.locked?
   end
 
   [
@@ -51,5 +63,10 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     assert_raises TrainingDataCodeTagsSampleLockedByAnotherUserError do
       TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
     end
+
+    assert_nil sample.tags
+    assert sample.locked?
+    refute_nil sample.locked_until
+    assert_equal lock_user, sample.locked_by
   end
 end

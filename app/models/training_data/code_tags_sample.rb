@@ -29,23 +29,28 @@ class TrainingData::CodeTagsSample < ApplicationRecord
     status == :human_tagged || status == :admin_tagged
   end
 
-  def locked?
-    locked_until && locked_until > Time.current
-  end
-
-  def lockable_by?(user)
-    return true unless locked?
-
-    locked_by == user
-  end
+  def locked? = locked_until && locked_until > Time.current
+  def locked_by?(user) = locked? && locked_by == user
 
   def lock_for_editing!(user)
     with_lock do
-      raise "Already locked" if locked?
+      return if locked_by?(user)
+      raise TrainingDataCodeTagsSampleLockedByAnotherUserError if locked?
 
       update!(
         locked_until: Time.current + 30.minutes,
         locked_by: user
+      )
+    end
+  end
+
+  def unlock!
+    with_lock do
+      return unless locked?
+
+      update!(
+        locked_until: nil,
+        locked_by: nil
       )
     end
   end

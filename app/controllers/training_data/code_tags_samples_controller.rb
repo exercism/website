@@ -3,7 +3,10 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
   before_action :use_sample, only: [:show]
   before_action :ensure_trainer!
 
-  def index; end
+  def index
+    @training_data_dashboard_params = params.permit(:status, :order, :criteria, :page, :track_slug)
+    @statuses = %w[needs_tagging needs_checking needs_checking_admin]
+  end
 
   def show; end
 

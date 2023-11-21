@@ -35,7 +35,7 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   def lock_for_editing!(user)
     with_lock do
       return if locked_by?(user)
-      raise TrainingDataCodeTagsSampleLockedByAnotherUserError if locked?
+      raise TrainingDataCodeTagsSampleLockedError if locked?
 
       update!(
         locked_until: Time.current + 30.minutes,

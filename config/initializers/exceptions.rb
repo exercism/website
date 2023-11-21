@@ -71,4 +71,4 @@ class RequestLockHasExpired < RuntimeError; end
 
 class InvalidDiscussionStatusError < RuntimeError; end
 
-class TrainingDataCodeTagsSampleLockedByAnotherUserError < RuntimeError; end
+class TrainingDataCodeTagsSampleLockedError < RuntimeError; end

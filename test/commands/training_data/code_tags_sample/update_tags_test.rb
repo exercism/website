@@ -60,7 +60,7 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     tags = ['construct:if']
     sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: lock_user, locked_until: Time.current + 1.day)
 
-    assert_raises TrainingDataCodeTagsSampleLockedByAnotherUserError do
+    assert_raises TrainingDataCodeTagsSampleLockedError do
       TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
     end
 

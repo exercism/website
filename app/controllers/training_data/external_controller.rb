@@ -9,7 +9,7 @@ class TrainingData::ExternalController < ApplicationController
   end
 
   def become_trainer
-    User::BecomeTrainer.(current_user) unless current_user.trainer?
+    User::BecomeTrainer.(current_user)
 
     redirect_to training_data_root_path
   end

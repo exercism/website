@@ -89,13 +89,13 @@ module ViewComponents
           icon: :mentoring,
           icon_filter: "textColor6"
         },
-        {
-          title: "Training Hub",
-          description: "Help train Exercism's neural network",
-          path: Exercism::Routes.training_data_root_path,
-          icon: :robot,
-          icon_filter: "textColor6"
-        },
+        # {
+        #   title: "Training Hub",
+        #   description: "Help train Exercism's neural network",
+        #   path: Exercism::Routes.training_data_root_path,
+        #   icon: :robot,
+        #   icon_filter: "textColor6"
+        # },
         {
           title: "Docs",
           description: "Everything you need to help",

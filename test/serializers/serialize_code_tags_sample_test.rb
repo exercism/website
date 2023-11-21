@@ -5,6 +5,7 @@ class SerializeCodeTagsSampleTest < ActiveSupport::TestCase
     track = create :track
     exercise = create(:practice_exercise, track:)
     sample = create(:training_data_code_tags_sample, track:, exercise:)
+    status = :needs_checking
 
     expected = {
       uuid: sample.uuid,
@@ -20,9 +21,9 @@ class SerializeCodeTagsSampleTest < ActiveSupport::TestCase
       created_at: sample.created_at,
       updated_at: sample.updated_at,
       links: {
-        edit: Exercism::Routes.training_data_code_tags_sample_url(sample)
+        edit: Exercism::Routes.training_data_code_tags_sample_url(sample, status:)
       }
     }
-    assert_equal expected, SerializeCodeTagsSample.(sample)
+    assert_equal expected, SerializeCodeTagsSample.(sample, status:)
   end
 end

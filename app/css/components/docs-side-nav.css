@@ -26,6 +26,7 @@
 
     .c-docs-side-nav-ul {
         @apply h-100 overflow-auto;
+        @apply -mr-16 pr-16;
     }
 
     .side-menu-trigger:checked {

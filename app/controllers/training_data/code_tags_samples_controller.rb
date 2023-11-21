@@ -25,7 +25,7 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
       return redirect_to training_data_code_tags_sample_path(sample, status: params[:status])
     end
 
-    redirect_to training_data_root_path
+    redirect_to training_data_code_tags_samples_path(status: params[:status])
   end
 
   private

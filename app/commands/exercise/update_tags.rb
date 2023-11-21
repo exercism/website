@@ -3,7 +3,11 @@ class Exercise::UpdateTags
 
   initialize_with :exercise
 
-  def call = exercise.update(tags:)
+  def call
+    exercise.update(tags:)
+
+    Track::UpdateTags.(exercise.track)
+  end
 
   private
   def tags

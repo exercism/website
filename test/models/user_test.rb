@@ -491,6 +491,60 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "trainer?" do
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+
+    refute user.trainer?(nil)
+    refute user.trainer?(track)
+    refute user.trainer?(other_track)
+
+    user.update(trainer: true)
+    assert user.trainer?(nil)
+    refute user.trainer?(track)
+    refute user.trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
+  end
+
+  %i[admin staff].each do |role|
+    test "trainer? enabled for #{role}" do
+      track = create :track
+      user = create :user, role
+
+      assert user.trainer?(track)
+    end
+  end
+
+  test "eligible_for_trainer?" do
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
+  end
+
   test "validates" do
     user = create :user
 
@@ -517,6 +571,7 @@ class UserTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordInvalid do
       user.update!(location: 'a' * 256)
     end
+
     user.update!(location: 'a' * 255)
   end
 end

@@ -108,5 +108,11 @@ FactoryBot.define do
         user.data.update(github_username: user.handle)
       end
     end
+
+    trait :trainer do
+      after(:create) do |user, _evaluator|
+        user.data.update(trainer: true)
+      end
+    end
   end
 end

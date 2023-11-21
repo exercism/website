@@ -38,6 +38,8 @@ import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExte
 import type { VideoGridProps } from '@/components/community/video-grid/index.js'
 import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
 import type { TrophiesProps, Trophy } from '@/components/track/Trophies'
+import type { CodeTaggerProps } from '@/components/training-data/code-tagger/CodeTagger.types'
+import type { DashboardProps } from '@/components/training-data/dashboard/Dashboard.types'
 
 const CLIWalkthrough = lazy(() => import('@/components/common/CLIWalkthrough'))
 const CLIWalkthroughButton = lazy(
@@ -165,6 +167,10 @@ const ContributorsList = lazy(
   () => import('@/components/contributing/ContributorsList')
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
+
+const CodeTagger = lazy(() => import('@/components/training-data/CodeTagger'))
+
+const Dashboard = lazy(() => import('@/components/training-data/Dashboard'))
 
 const PaymentPending = lazy(
   () => import('@/components/insiders/PaymentPending')
@@ -384,6 +390,17 @@ export const mappings = {
         request={camelizeKeysAs<ContributingTasksRequest>(data.request)}
         tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
       />
+    </Suspense>
+  ),
+
+  'training-data-dashboard': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <Dashboard {...camelizeKeysAs<DashboardProps>(data)} />
+    </Suspense>
+  ),
+  'training-data-code-tagger': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <CodeTagger {...camelizeKeysAs<CodeTaggerProps>(data)} />
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (

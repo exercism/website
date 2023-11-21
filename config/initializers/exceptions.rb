@@ -2,6 +2,8 @@ class BadgeCriteriaNotFulfilledError < RuntimeError; end
 
 class TrophyCriteriaNotFulfilledError < RuntimeError; end
 
+class TrainerCriteriaNotFulfilledError < RuntimeError; end
+
 class DuplicateSubmissionError < RuntimeError; end
 
 class DuplicateVideoError < RuntimeError; end
@@ -68,3 +70,5 @@ class NoPublishedSolutionForRepresentationError < RuntimeError; end
 class RequestLockHasExpired < RuntimeError; end
 
 class InvalidDiscussionStatusError < RuntimeError; end
+
+class TrainingDataCodeTagsSampleLockedError < RuntimeError; end

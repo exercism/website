@@ -373,9 +373,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
   end
 
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
     t.string "tag", null: false
     t.boolean "filterable", default: true, null: false
+    t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -867,10 +867,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
   end
 
   create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
     t.bigint "solution_id", null: false
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
-    t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id", null: false
@@ -1191,19 +1191,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
-  create_table "training_track_tags_tuples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "training_data_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.bigint "exercise_id"
     t.bigint "solution_id"
     t.integer "status", default: 0, null: false
     t.integer "dataset", default: 0, null: false
-    t.text "code", null: false
     t.text "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["exercise_id"], name: "index_training_track_tags_tuples_on_exercise_id"
-    t.index ["solution_id"], name: "index_training_track_tags_tuples_on_solution_id"
-    t.index ["track_id"], name: "index_training_track_tags_tuples_on_track_id"
+    t.string "uuid", null: false
+    t.text "files", null: false
+    t.datetime "locked_until"
+    t.bigint "locked_by_id"
+    t.index ["exercise_id"], name: "index_training_data_code_tags_samples_on_exercise_id"
+    t.index ["solution_id"], name: "index_training_data_code_tags_samples_on_solution_id"
+    t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"
   end
 
   create_table "user_acquired_badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1293,11 +1296,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
     t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1327,6 +1330,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
     t.json "cache"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "premium_until"
+    t.boolean "trainer", default: false, null: false
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"
@@ -1533,6 +1537,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
     t.datetime "last_touched_at", null: false
     t.boolean "practice_mode", default: false, null: false
     t.text "objectives"
+    t.integer "reputation", default: 0, null: false
     t.index ["track_id", "user_id"], name: "index_user_tracks_on_track_id_and_user_id", unique: true
     t.index ["user_id"], name: "fk_rails_99e944edbc"
   end

@@ -5,7 +5,7 @@ export type Track = {
   slug: string
   title: string
   iconUrl: string
-  count: number
+  count?: number
 }
 
 const OptionComponent = ({ option: track }: { option: Track }) => {
@@ -14,6 +14,7 @@ const OptionComponent = ({ option: track }: { option: Track }) => {
       <TrackLogo track={track} />
       <div className="title">{track.title}</div>
       <div className="count">{track.count}</div>
+      {/* TODO: {track.count && <div className="count">{track.count}</div>} */}
     </React.Fragment>
   )
 }

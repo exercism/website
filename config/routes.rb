@@ -99,6 +99,8 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
+  resources :solution_tagger, only: [:index]
+
   resource :insiders, only: [:show], controller: "insiders" do
     get :payment_pending
   end
@@ -152,6 +154,16 @@ Rails.application.routes.draw do
     resources :contributors, only: [:index]
     resources :tasks, only: [:index], param: :uuid do
       get :tooltip, on: :member
+    end
+  end
+  namespace :training_data do
+    root to: "dashboard#index"
+
+    get "external" => "external#index"
+    patch "become_trainer" => "external#become_trainer"
+
+    resources :code_tags_samples, only: %i[index show] do
+      get :next, on: :collection
     end
   end
 

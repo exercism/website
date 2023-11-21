@@ -1,0 +1,6 @@
+- require_stylesheet "mentoring"
+
+#training-data-dashboard
+  = render ViewComponents::TrainingData::Header.new(:tags)
+  .lg-container
+    = render ReactComponents::TrainingData::Dashboard.new(@training_data_dashboard_params, @statuses)

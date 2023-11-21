@@ -1,8 +1,13 @@
 type ScrollAxis = 'X' | 'Y'
 
 export function scrollIntoView(): void {
-  collectAndScroll('X')
-  collectAndScroll('Y')
+  if (document.querySelector('[data-scroll-into-view="X"]')) {
+    collectAndScroll('X')
+  }
+
+  if (document.querySelector('[data-scroll-into-view="Y"]')) {
+    collectAndScroll('Y')
+  }
 
   // when docs side menu is opened, rerun the scroll fn
   const docsSideMenuTrigger = document.getElementById(
@@ -48,11 +53,13 @@ const axisProps = {
     size: 'clientWidth',
     scroll: 'scrollLeft',
     start: 'left',
+    end: 'right',
   },
   Y: {
     size: 'clientHeight',
     scroll: 'scrollTop',
     start: 'top',
+    end: 'bottom',
   },
 }
 
@@ -64,8 +71,15 @@ function scrollToElementWithinContainer(
   const elementRect = element.getBoundingClientRect()
   const containerRect = container.getBoundingClientRect()
 
-  const { size, scroll, start } = axisProps[axis]
+  const { size, scroll, start, end } = axisProps[axis]
 
-  const position = elementRect[start] - containerRect[start] + container[scroll]
-  container[scroll] = position - container[size] / 2
+  const isElementVisible =
+    elementRect[start] >= containerRect[start] &&
+    elementRect[end] <= containerRect[end]
+
+  if (!isElementVisible) {
+    const position =
+      elementRect[start] - containerRect[start] + container[scroll]
+    container[scroll] = position - container[size] / 2
+  }
 }

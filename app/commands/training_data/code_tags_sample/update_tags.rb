@@ -4,8 +4,7 @@ class TrainingData::CodeTagsSample::UpdateTags
   initialize_with :sample, :tags, :user
 
   def call
-    ActiveRecord::Base.transaction do
-      sample.lock!
+    sample.with_lock do
       sample.lock_for_editing!(user)
       sample.update!(tags:, status: new_status)
       sample.unlock!

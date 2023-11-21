@@ -6,7 +6,7 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     tags = ['construct:if']
     sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: user, locked_until: Time.current + 1.day)
 
-    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
+    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :human_tagged, user)
 
     assert_equal tags, sample.tags
     refute sample.locked?
@@ -17,26 +17,19 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     tags = ['construct:if']
     sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: nil, locked_until: nil)
 
-    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
+    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :human_tagged, user)
 
     assert_equal tags, sample.tags
     refute sample.locked?
   end
 
-  [
-    %i[untagged human_tagged],
-    %i[machine_tagged community_checked],
-    %i[human_tagged community_checked],
-    %i[community_checked admin_checked]
-  ].each do |(from_status, to_status)|
-    test "updates status from #{from_status} to #{to_status}" do
-      user = create :user
-      sample = create(:training_data_code_tags_sample, status: from_status, locked_by: user, locked_until: Time.current + 1.day)
+  test "updates status" do
+    user = create :user
+    sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: user, locked_until: Time.current + 1.day)
 
-      TrainingData::CodeTagsSample::UpdateTags.(sample, ['construct:if'], user)
+    TrainingData::CodeTagsSample::UpdateTags.(sample, ['construct:if'], :human_tagged, user)
 
-      assert_equal to_status, sample.status
-    end
+    assert_equal :human_tagged, sample.status
   end
 
   test "removes lock" do
@@ -47,7 +40,7 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     # Sanity check
     assert sample.locked?
 
-    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
+    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :human_tagged, user)
 
     refute sample.locked?
     assert_nil sample.locked_until
@@ -61,7 +54,7 @@ class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
     sample = create(:training_data_code_tags_sample, status: :untagged, locked_by: lock_user, locked_until: Time.current + 1.day)
 
     assert_raises TrainingDataCodeTagsSampleLockedError do
-      TrainingData::CodeTagsSample::UpdateTags.(sample, tags, user)
+      TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :human_tagged, user)
     end
 
     assert_nil sample.tags

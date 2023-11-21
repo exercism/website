@@ -1,29 +1,13 @@
 class TrainingData::CodeTagsSample::UpdateTags
   include Mandate
 
-  initialize_with :sample, :tags, :user
+  initialize_with :sample, :tags, :status, :user
 
   def call
     sample.with_lock do
       sample.lock_for_editing!(user)
-      sample.update!(tags:, status: new_status)
+      sample.update!(tags:, status:)
       sample.unlock!
-    end
-  end
-
-  private
-  def new_status
-    case sample.status
-    when :untagged
-      :human_tagged
-    when :machine_tagged
-      :community_checked
-    when :human_tagged
-      :community_checked
-    when :community_checked
-      :admin_checked
-    else
-      sample.status
     end
   end
 end

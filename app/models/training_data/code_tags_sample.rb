@@ -54,4 +54,19 @@ class TrainingData::CodeTagsSample < ApplicationRecord
       )
     end
   end
+
+  def next_status
+    case status
+    when :untagged
+      :human_tagged
+    when :machine_tagged
+      :community_checked
+    when :human_tagged
+      :community_checked
+    when :community_checked
+      :admin_checked
+    else
+      status
+    end
+  end
 end

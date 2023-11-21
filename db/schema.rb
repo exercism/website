@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_17_103434) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -378,9 +378,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
   end
 
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
     t.string "tag", null: false
     t.boolean "filterable", default: true, null: false
+    t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -872,10 +872,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
   end
 
   create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
     t.bigint "solution_id", null: false
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
-    t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id", null: false
@@ -1301,11 +1301,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
     t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1508,10 +1508,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
     t.bigint "solution_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "exercise_id", null: false
+    t.index ["exercise_id"], name: "index_user_track_viewed_community_solutions_on_exercise_id"
     t.index ["solution_id"], name: "index_user_track_viewed_community_solutions_on_solution_id"
     t.index ["track_id"], name: "index_user_track_viewed_community_solutions_on_track_id"
     t.index ["user_id", "track_id", "solution_id"], name: "index_user_track_viewed_community_solutions_uniq", unique: true
     t.index ["user_id"], name: "index_user_track_viewed_community_solutions_on_user_id"
+  end
+
+  create_table "user_track_viewed_exercise_approaches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "track_id", null: false
+    t.bigint "approach_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "exercise_id", null: false
+    t.index ["approach_id"], name: "index_user_track_viewed_exercise_approaches_on_approach_id"
+    t.index ["exercise_id"], name: "index_user_track_viewed_exercise_approaches_on_exercise_id"
+    t.index ["track_id"], name: "index_user_track_viewed_exercise_approaches_on_track_id"
+    t.index ["user_id", "track_id", "approach_id"], name: "index_user_track_viewed_exercise_approaches_uniq", unique: true
+    t.index ["user_id"], name: "index_user_track_viewed_exercise_approaches_on_user_id"
   end
 
   create_table "user_tracks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1692,9 +1708,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_16_124259) do
   add_foreign_key "user_reputation_tokens", "users"
   add_foreign_key "user_track_mentorships", "tracks"
   add_foreign_key "user_track_mentorships", "users"
+  add_foreign_key "user_track_viewed_community_solutions", "exercises"
   add_foreign_key "user_track_viewed_community_solutions", "solutions"
   add_foreign_key "user_track_viewed_community_solutions", "tracks"
   add_foreign_key "user_track_viewed_community_solutions", "users"
+  add_foreign_key "user_track_viewed_exercise_approaches", "exercise_approaches", column: "approach_id"
+  add_foreign_key "user_track_viewed_exercise_approaches", "exercises"
+  add_foreign_key "user_track_viewed_exercise_approaches", "tracks"
+  add_foreign_key "user_track_viewed_exercise_approaches", "users"
   add_foreign_key "user_tracks", "tracks"
   add_foreign_key "user_tracks", "users"
 end

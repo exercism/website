@@ -14,6 +14,7 @@ class UserTrack::Reset
       where(student: user, solution: user_track.solutions.select(:id), status: %i[pending cancelled]).
       destroy_all
     user_track.viewed_community_solutions.destroy_all
+    user_track.viewed_exercise_approaches.destroy_all
     user_track.solutions.update_all(%{
       user_id = #{User::GHOST_USER_ID},
       unique_key = UUID(),

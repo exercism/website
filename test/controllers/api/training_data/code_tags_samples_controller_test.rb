@@ -13,14 +13,21 @@ module API
       user = create :user, :trainer
       create(:user_track, user:, track:, reputation: 50)
       create_list(:training_data_code_tags_sample, 25, track:)
+      status = 'needs_tagging'
 
       setup_user(user)
       get api_training_data_code_tags_samples_path,
-        params: { status: 'needs_tagging', track_slug: track.slug },
+        params: { status:, track_slug: track.slug },
         headers: @headers, as: :json
 
       assert_response :ok
-      expected = SerializePaginatedCollection.(::TrainingData::CodeTagsSample.page(1).per(20), serializer: SerializeCodeTagsSamples)
+      expected = SerializePaginatedCollection.(
+        ::TrainingData::CodeTagsSample.page(1).per(20),
+        serializer: SerializeCodeTagsSamples,
+        serializer_kwargs: {
+          status:
+        }
+      )
       assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
     end
 
@@ -69,7 +76,7 @@ module API
       tags = %w[foo bar]
 
       setup_user(user)
-      patch update_tags_api_training_data_code_tags_sample_path(sample),
+      patch update_tags_api_training_data_code_tags_sample_path(sample, tags:),
         params: { tags: },
         headers: @headers, as: :json
 

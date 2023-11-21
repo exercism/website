@@ -3,41 +3,42 @@ class TrainingData::CodeTagsSamplesController < ApplicationController
   before_action :use_sample, only: [:show]
   before_action :ensure_trainer!
 
-  def index; end
+  def index
+    @training_data_dashboard_params = params.permit(:status, :order, :criteria, :page, :track_slug)
+    @statuses = %w[needs_tagging needs_checking needs_checking_admin]
+  end
 
   def show; end
 
   def next
-    status = params[:status] || :untagged
-    sample = TrainingData::CodeTagsSample.unlocked.where(
-      track: @track,
-      status:
-    ).first
+    3.times do
+      sample = TrainingData::CodeTagsSample::RetrieveNext.(@track, params[:status])
+      next if sample.nil?
 
-    raise unless sample
+      begin
+        sample.lock_for_editing!(current_user)
+      rescue ::TrainingDataCodeTagsSampleLockedError
+        # We'll retry when we could not lock the sample
+        next
+      end
 
-    sample.lock_for_editing!(current_user)
+      return redirect_to training_data_code_tags_sample_path(sample, status: params[:status])
+    end
 
-    redirect_to action: :show, id: sample.id
+    redirect_to training_data_code_tags_samples_path(status: params[:status])
   end
 
   private
   def use_track
-    @track = Track.find(params[:track_id])
-  rescue StandardError
-    redirect_to(action: :index)
+    @track = Track.for!(params[:track])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def use_sample
-    @sample = TrainingData::CodeTagsSample.find_by(uuid: params[:id])
+    @sample = TrainingData::CodeTagsSample.find_by!(uuid: params[:id])
     @track = @sample.track
-  rescue StandardError
-    redirect_to(action: :index)
-  end
-
-  def ensure_trainer!
-    return if current_user.trainer?(@track)
-
-    render_403(:not_trainer)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

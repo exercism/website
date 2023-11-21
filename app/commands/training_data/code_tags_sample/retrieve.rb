@@ -6,8 +6,6 @@ class TrainingData::CodeTagsSample::Retrieve
     raise "Invalid 'status' parameter" unless STATUSES.include?(@status)
   end
 
-  def self.samples_per_page = SAMPLES_PER_PAGE
-
   def call
     setup!
     filter_status!
@@ -39,7 +37,7 @@ class TrainingData::CodeTagsSample::Retrieve
     when :needs_checking
       @samples = @samples.where(status: %i[machine_tagged human_tagged])
     when :needs_checking_admin
-      @samples = @samples.where(status: %i[community_checked])
+      @samples = @samples.where(status: :community_checked)
     end
   end
 
@@ -56,7 +54,7 @@ class TrainingData::CodeTagsSample::Retrieve
   end
 
   def paginate!
-    @samples = @samples.page(page).per(self.class.samples_per_page)
+    @samples = @samples.page(page).per(SAMPLES_PER_PAGE)
   end
 
   SAMPLES_PER_PAGE = 20

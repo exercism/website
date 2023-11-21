@@ -8,7 +8,7 @@ class UserTrack::UpdateReputation
   private
   def reputation
     User::ReputationToken.where(
-      track: user_track.track,
+      track_id: user_track.track_id,
       user_id: user_track.user_id
     ).sum(:value)
   end

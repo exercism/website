@@ -4,7 +4,7 @@ class TrainingData::CodeTagsSample::GenerateTags
   initialize_with :tuple, :model, :openai_key
 
   def call
-    return if tuple.checked?
+    return if tuple.safe_to_override?
 
     tuple.update(tags:, status: :machine_tagged)
   end

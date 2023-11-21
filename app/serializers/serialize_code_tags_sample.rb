@@ -1,7 +1,7 @@
 class SerializeCodeTagsSample
   include Mandate
 
-  initialize_with :sample
+  initialize_with :sample, status: Mandate::NO_DEFAULT
 
   def call
     {
@@ -15,10 +15,8 @@ class SerializeCodeTagsSample
         title: exercise.title,
         icon_url: exercise.icon_url
       },
-      created_at: sample.created_at,
-      updated_at: sample.updated_at,
       links: {
-        edit: Exercism::Routes.training_data_code_tags_sample_url(sample)
+        edit: Exercism::Routes.training_data_code_tags_sample_url(sample, status:)
       }
     }
   end

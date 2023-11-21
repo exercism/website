@@ -25,22 +25,48 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   def dataset = super.to_sym
   def status = super.to_sym
 
-  def checked?
-    status == :human_tagged || status == :admin_tagged
+  def safe_to_override?
+    %i[human_tagged admin_tagged community_checked].include?(status)
   end
 
-  def locked?
-    locked_until && locked_until > Time.current
-  end
+  def locked? = locked_until && locked_until > Time.current
+  def locked_by?(user) = locked? && locked_by == user
 
   def lock_for_editing!(user)
     with_lock do
-      raise "Already locked" if locked?
+      return if locked_by?(user)
+      raise TrainingDataCodeTagsSampleLockedError if locked?
 
       update!(
         locked_until: Time.current + 30.minutes,
         locked_by: user
       )
+    end
+  end
+
+  def unlock!
+    with_lock do
+      return unless locked?
+
+      update!(
+        locked_until: nil,
+        locked_by: nil
+      )
+    end
+  end
+
+  def next_status
+    case status
+    when :untagged
+      :human_tagged
+    when :machine_tagged
+      :community_checked
+    when :human_tagged
+      :community_checked
+    when :community_checked
+      :admin_checked
+    else
+      status
     end
   end
 end

@@ -4,29 +4,27 @@ module ViewComponents
 
     def to_s
       return unless exercise.concept_exercise?
-      return if num_unlocked_exercises.zero?
+      return if num_unlockable_exercises.zero?
 
-      tag.div(class: "explanation") do
-        t = "By marking #{exercise.title} as complete, you’ll unlock "
+      t = "By marking #{exercise.title} as complete, you’ll unlock "
 
-        if unlocked_concept_names.present?
-          t << "#{pluralize unlocked_concept_names.size, 'concept'} "
-          t << "(#{unlocked_concept_names.to_sentence}) and "
-        end
-
-        t + "#{pluralize num_unlocked_exercises, 'new exercise'}."
+      if unlockable_concept_names.present?
+        t << "#{pluralize unlockable_concept_names.size, 'concept'} "
+        t << "(#{unlockable_concept_names.to_sentence}) and "
       end
+
+      t + "#{pluralize num_unlockable_exercises, 'new exercise'}."
     end
 
     private
     memoize
-    def num_unlocked_exercises
-      user_track.unlocked_exercises_for_exercise(exercise).count
+    def num_unlockable_exercises
+      user_track.unlockable_exercises_for_exercise(exercise).count
     end
 
     memoize
-    def unlocked_concept_names
-      user_track.unlocked_concepts_for_exercise(exercise).pluck(:name)
+    def unlockable_concept_names
+      user_track.unlockable_concepts_for_exercise(exercise).pluck(:name)
     end
   end
 end

@@ -1,0 +1,12 @@
+- community_solutions_completed = user_track.viewed_community_solution?(exercise)
+- approaches_completed = user_track.viewed_approach?(exercise)
+- completed = community_solutions_completed && (approaches_completed || !exercise.approaches?)
+
+.action-box{ class: completed ? "completed" : "pending" }
+  .action-box-content
+    %h3 Dig Deeper
+    %p.mb-16
+      There aren't too many correct ways to solve our learning exercises, but it's still helpful to explore how other people approach the exercise.
+
+    = render "tracks/exercises/show/action_box_dig_deeper_community_solutions", track:, exercise:, solution:, user_track:, completed: community_solutions_completed
+    = render "tracks/exercises/show/action_box_dig_deeper_approaches", track:, exercise:, solution:, user_track:, completed: approaches_completed

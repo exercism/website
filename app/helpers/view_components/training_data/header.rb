@@ -30,11 +30,11 @@ module ViewComponents
         end
       end
 
-      def tabs = [workspace_tab]
+      def tabs = [tags_tab]
 
-      def workspace_tab
+      def tags_tab
         link_to(
-          Exercism::Routes.mentoring_inbox_path,
+          Exercism::Routes.training_data_root_path,
           class: tab_class(:tags)
         ) do
           graphical_icon(:overview) +

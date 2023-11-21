@@ -13,7 +13,8 @@ const OptionComponent = ({ option: track }: { option: Track }) => {
     <React.Fragment>
       <TrackLogo track={track} />
       <div className="title">{track.title}</div>
-      {track.count && <div className="count">{track.count}</div>}
+      <div className="count">{track.count}</div>
+      {/* TODO: {track.count && <div className="count">{track.count}</div>} */}
     </React.Fragment>
   )
 }

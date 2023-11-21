@@ -75,6 +75,30 @@ class UserTrack::ResetTest < ActiveSupport::TestCase
     assert user_track_for_other_user.viewed_community_solutions.exists?
   end
 
+  test "remove viewed exercise approaches" do
+    create :user, :ghost
+    user = create :user
+    other_user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+    user_track = create(:user_track, user:, track:)
+    user_track_for_other_track = create(:user_track, user:, track: other_track)
+    user_track_for_other_user = create(:user_track, user: other_user, track:)
+    create(:user_track_viewed_exercise_approach, user:, track:)
+    create(:user_track_viewed_exercise_approach, user:, track: other_track)
+    create(:user_track_viewed_exercise_approach, user: other_user.user, track:)
+
+    assert user_track.viewed_exercise_approaches.exists?
+    assert user_track_for_other_track.viewed_exercise_approaches.exists?
+    assert user_track_for_other_user.viewed_exercise_approaches.exists?
+
+    UserTrack::Reset.(user_track)
+
+    refute user_track.viewed_exercise_approaches.exists?
+    assert user_track_for_other_track.viewed_exercise_approaches.exists?
+    assert user_track_for_other_user.viewed_exercise_approaches.exists?
+  end
+
   test "removes track-specification reputation" do
     Solution::PublishIteration.stubs(:call)
 

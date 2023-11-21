@@ -52,8 +52,6 @@ export type TrainingData = {
     title: string
     iconUrl: string
   }
-  createdAt: string
-  updatedAt: string
   links: {
     edit: string
   }

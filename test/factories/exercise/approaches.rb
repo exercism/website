@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :exercise_approach, class: 'Exercise::Approach' do
-    exercise { create :practice_exercise, slug: 'hamming' }
+    track do
+      Track.find_by(slug: 'ruby') || build(:track, slug: 'ruby')
+    end
+    exercise { create :practice_exercise, slug: 'hamming', track: }
     uuid { SecureRandom.uuid }
     slug { 'readability' }
     blurb { "Learn all about #{slug}" }

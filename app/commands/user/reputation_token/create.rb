@@ -20,7 +20,7 @@ class User::ReputationToken::Create
       User::ReputationPeriod::MarkForToken.(token)
       User::ResetCache.defer(user, :has_unseen_reputation_tokens?)
 
-      user_track = token.track.present? ? UserTrack.find_by(user:, track: token.track) : nil
+      user_track = token.track.present? && UserTrack.find_by(user:, track: token.track)
       UserTrack::UpdateReputation.(user_track) if user_track.present?
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(user:, uniqueness_key: token.uniqueness_key)

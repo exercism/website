@@ -133,11 +133,12 @@ module Flows
       hello_world = create :concept_exercise, track:, slug: "hello-world"
 
       # completed hello world
-      create :concept_solution,
+      solution = create :concept_solution,
         exercise: hello_world,
         user:,
         completed_at: 2.days.ago,
         status: :completed
+      create(:iteration, solution:)
 
       use_capybara_host do
         sign_in!(user)

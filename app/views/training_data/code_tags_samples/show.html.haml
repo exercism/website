@@ -2,4 +2,4 @@
 - require_stylesheet "track"
 
 #page-code-tagger
-  = ReactComponents::TrainingData::CodeTagger.new(@sample)
+  = ReactComponents::TrainingData::CodeTagger.new(@sample, params[:status])

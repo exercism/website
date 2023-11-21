@@ -5,7 +5,7 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
 
   def index
     samples = ::TrainingData::CodeTagsSample::Retrieve.(
-      params[:status]&.to_sym,
+      status,
       criteria: params[:criteria],
       track: @track,
       page:
@@ -13,14 +13,16 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
 
     render json: SerializePaginatedCollection.(
       samples,
-      serializer: SerializeCodeTagsSamples
+      serializer: SerializeCodeTagsSamples,
+      serializer_kwargs: { status: }
     )
   end
 
   def update_tags
-    @sample.update!(tags: params[:tags])
-
+    TrainingData::CodeTagsSample::UpdateTags.(@sample, params[:tags], @sample.next_status, current_user)
     render json: {}
+  rescue ::TrainingDataCodeTagsSampleLockedError
+    render_400(:training_data_code_tags_sample_locked)
   end
 
   private
@@ -40,4 +42,5 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
   end
 
   def page = [params[:page].to_i, 1].max
+  def status = params.fetch(:status, :needs_tagging).to_sym
 end

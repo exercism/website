@@ -1,5 +1,4 @@
 import React from 'react'
-import { fromNow } from '@/utils/date'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '@/components/common'
 import { TrainingData } from './Dashboard.types'
 
@@ -14,7 +13,6 @@ export const TaggableCode = ({ code }: { code: TrainingData }): JSX.Element => {
       <div className="--info">
         <div className="--handle">{code.exercise.title}</div>
       </div>
-      <time className="-updated-at">{fromNow(code.createdAt)}</time>
       <GraphicalIcon icon="chevron-right" className="action-icon" />
     </a>
   )

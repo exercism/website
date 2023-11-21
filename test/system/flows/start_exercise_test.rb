@@ -18,7 +18,7 @@ module Flows
 
         visit track_exercise_url(track, exercise)
 
-        within(".action-box") { click_on "Start" }
+        within(".action-box.pending") { click_on "Start in editor" }
 
         assert_page "editor"
 

@@ -3,7 +3,7 @@ module ReactComponents
     class CodeTagger < ReactComponent
       include Mandate
 
-      initialize_with :sample
+      initialize_with :sample, :status
 
       def to_s
         super("training-data-code-tagger", {
@@ -12,7 +12,7 @@ module ReactComponents
               title: track.title,
               icon_url: track.icon_url,
               highlightjs_language: track.highlightjs_language,
-              tags: enabled_track_tags
+              tags:
             },
             exercise: {
               title: exercise.title,
@@ -23,8 +23,8 @@ module ReactComponents
             end
           },
           links: {
-            confirm_tags_api: Exercism::Routes.update_tags_api_training_data_code_tags_sample_path(sample.id),
-            next_sample: Exercism::Routes.next_training_data_code_tags_samples_path(track_id: track.id, status: sample.status),
+            confirm_tags_api: Exercism::Routes.update_tags_api_training_data_code_tags_sample_path(sample.uuid),
+            next_sample: Exercism::Routes.next_training_data_code_tags_samples_path(track:, status:),
             training_data_dashboard: Exercism::Routes.training_data_root_path
           },
           sample: {
@@ -34,11 +34,10 @@ module ReactComponents
         })
       end
 
+      private
       delegate :track, :exercise, to: :sample
 
-      def enabled_track_tags
-        ::Track::Tag.enabled.order(:tag).map { |tag_object| tag_object[:tag] }
-      end
+      def tags = track.analyzer_tags.enabled.order(:tag).pluck(:tag)
     end
   end
 end

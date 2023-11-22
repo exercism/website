@@ -17,7 +17,7 @@ module ViewComponents
       private
       def tabs
         tag.div(class: "lg-container navbar") do
-          tag.div(class: "tabs") do
+          tag.div(class: "tabs", data: { scrollable_container: 'true' }) do
             safe_join(
               [
                 link_to(
@@ -134,7 +134,7 @@ module ViewComponents
       end
 
       def tab_scroll_into_view(tab)
-        { scroll_into_view: true } if tab == selected_tab
+        { scroll_into_view: ScrollAxis::X } if tab == selected_tab
       end
 
       def guard!

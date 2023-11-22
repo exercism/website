@@ -5,8 +5,6 @@
     @apply bg-backgroundColorA xl:bg-backgroundColorB xl:z-1 z-[100];
     @apply xl:border-r-1 border-borderColor6;
     @apply xl:pt-32 xl:pr-32 xl:pl-0 p-16 pb-0;
-    @apply overflow-auto;
-
     @apply shadow-[0_0_10px_10px_rgba(0,0,0,0.2)] xl:shadow-none;
 
     .trigger-label {
@@ -24,6 +22,11 @@
         .middle-bar {
             opacity: 1;
         }
+    }
+
+    .c-docs-side-nav-ul {
+        @apply h-100 overflow-auto;
+        @apply -mr-16 pr-16;
     }
 
     .side-menu-trigger:checked {

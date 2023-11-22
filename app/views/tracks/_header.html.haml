@@ -14,7 +14,7 @@
                 students
             .tags.lg:hidden.mt-8= raw tags
 
-        .tabs.overflow-x-auto= raw tabs
+        .tabs.overflow-x-auto{ data: { scrollable_container: "true" } }= raw tabs
       .mr-84.hidden.lg:flex.items-center.ml-auto
         .tags.mr-32= raw tags
         = link_to(Exercism::Routes.contributing_contributors_path(track_slug: track.slug), class: "people hidden lg:flex whitespace-nowrap") do

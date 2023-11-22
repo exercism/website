@@ -18,7 +18,7 @@ module ReactComponents
               title: exercise.title,
               icon_url: exercise.icon_url
             },
-            files: sample.files.map do |file|
+            files: sample.files.to_a.map do |file|
               { filename: file['filename'], content: file['code'], type: 'readonly' }
             end
           },

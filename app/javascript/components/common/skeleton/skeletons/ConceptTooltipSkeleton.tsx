@@ -7,25 +7,27 @@ export function ConceptTooltipSkeleton() {
       blocks={[
         {
           elements: [
-            { type: 'rect', width: '48px', height: '48px' },
-            { type: 'text', lines: 2 },
+            {
+              type: 'rect',
+              props: { style: { width: '48px', height: '48px' } },
+            },
+            { type: 'text', props: { lines: 2 } },
           ],
-          style: {},
         },
-
         {
-          elements: [{ type: 'text', lines: 2 }],
-          style: {},
+          elements: [{ type: 'text', props: { lines: 2 } }],
         },
         {
           elements: [
-            { type: 'circle', width: '24px', height: '24px' },
-            { type: 'text', lines: 1 },
+            {
+              type: 'circle',
+              props: { style: { width: '24px', height: '24px' } },
+            },
+            { type: 'text', props: { lines: 1 } },
           ],
-          style: {},
         },
       ]}
-      gap="20px"
+      style={{ gap: '20px' }}
     />
   )
 }

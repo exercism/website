@@ -1,7 +1,13 @@
 import React from 'react'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
-type SkeletonCircleProps = Record<'width' | 'height', string | number>
-
-export function SkeletonCircle({ width, height }: SkeletonCircleProps) {
-  return <div className="skeleton-box circle" style={{ width, height }} />
+export function SkeletonShape(
+  { shape },
+  props: React.HTMLProps<HTMLDivElement>
+): JSX.Element {
+  return (
+    <div
+      className={assembleClassNames('skeleton-box', shape, props.className)}
+    />
+  )
 }

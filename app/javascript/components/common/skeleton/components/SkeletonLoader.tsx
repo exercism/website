@@ -1,51 +1,62 @@
 import React from 'react'
-import { SkeletonCircle } from './SkeletonCircle'
+
+// Assuming SkeletonCircle, SkeletonRect, and SkeletonText are updated to accept a `style` prop
+import { SkeletonShape } from './SkeletonCircle'
 import { SkeletonText } from './SkeletonText'
-import { SkeletonRect } from './SkeletonRect'
+
+type DivProps = React.HTMLProps<HTMLDivElement>
 
 type SkeletonShapeElement = {
   type: 'circle' | 'rect'
-  width: string | number
-  height: string | number
+  props: DivProps & {
+    style: { width: number | string; height: number | string }
+  }
 }
 
 type SkeletonTextElement = {
   type: 'text'
-  lines?: number
+  props: { lines: number }
 }
 
 type SkeletonElement = SkeletonShapeElement | SkeletonTextElement
 
-type SkeletonLoaderProps = {
-  blocks: SkeletonElement[][]
-  gap: string | number
+type SkeletonBlock = React.HTMLProps<HTMLDivElement> & {
+  elements: SkeletonElement[]
 }
 
-export function SkeletonLoader({ blocks, gap }: SkeletonLoaderProps) {
+type SkeletonLoaderProps = {
+  blocks: SkeletonBlock[]
+  style?: React.CSSProperties
+}
+
+export function SkeletonLoader({ blocks, style }: SkeletonLoaderProps) {
   const renderElement = (element: SkeletonElement) => {
     switch (element.type) {
       case 'circle':
-        return <SkeletonCircle height={element.height} width={element.width} />
       case 'rect':
-        return <SkeletonRect height={element.height} width={element.width} />
+        return <SkeletonShape shape={element.type} {...element.props} />
       case 'text':
-        return <SkeletonText lines={element.lines || 1} />
+        return <SkeletonText {...element.props} />
       default:
         return null
     }
   }
 
-  const renderRows = () => {
-    return blocks.map((row, rowIndex) => (
-      <div key={rowIndex} className="flex flex-row w-100 gap-16">
-        {row.map((element) => renderElement(element))}
-      </div>
-    ))
-  }
-
   return (
-    <div className="c-skeleton-loader" style={{ gap }}>
-      {renderRows()}
+    <div className="c-skeleton-loader" style={style}>
+      {blocks.map((block, blockIndex) => (
+        <div
+          key={blockIndex}
+          {...block}
+          className={`flex flex-row ${block.className || ''}`}
+        >
+          {block.elements.map((element, elementIdx) => (
+            <div key={elementIdx} className="flex flex-row">
+              {renderElement(element)}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   )
 }

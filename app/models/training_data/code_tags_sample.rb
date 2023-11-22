@@ -26,9 +26,7 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   def dataset = super.to_sym
   def status = super.to_sym
 
-  def safe_to_override?
-    %i[human_tagged admin_tagged community_checked].include?(status)
-  end
+  def safe_to_override? = %i[untagged machine_tagged].include?(status)
 
   def locked? = locked_until && locked_until > Time.current
   def locked_by?(user) = locked? && locked_by == user

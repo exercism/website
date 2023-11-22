@@ -1,0 +1,45 @@
+.c-skeleton-loader {
+    @apply flex flex-col opacity-50;
+
+    @keyframes skeletonShimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .skeleton-text {
+        @apply flex flex-col gap-2;
+        @apply w-100;
+    }
+
+    .skeleton-box {
+        @apply inline-block relative overflow-hidden bg-textColor6;
+
+        &::after {
+            @apply absolute inset-0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(#fff, 0) 0,
+                rgba(#fff, 0.2) 20%,
+                rgba(#fff, 0.5) 60%,
+                rgba(#fff, 0)
+            );
+            animation: skeletonShimmer 1s infinite;
+            content: "";
+        }
+
+        &.line {
+            @apply rounded-3 h-[1em];
+        }
+
+        &.circle {
+            @apply rounded-circle;
+        }
+
+        &.circle,
+        &.rect {
+            @apply flex-shrink-0;
+        }
+    }
+}

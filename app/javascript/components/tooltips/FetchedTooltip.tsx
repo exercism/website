@@ -2,6 +2,8 @@ import React from 'react'
 import { useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Loading } from './Loading'
+import { SkeletonLoader } from '../common/skeleton/components/SkeletonLoader'
+import { ConceptTooltipSkeleton } from '../common/skeleton/skeletons/ConceptTooltipSkeleton'
 
 export const FetchedTooltip = ({
   endpoint,
@@ -28,8 +30,9 @@ export const FetchedTooltip = ({
         status={status}
         error={error}
         defaultError={defaultError}
-        LoadingComponent={() => <Loading alt={loadingAlt} />}
+        LoadingComponent={() => <ConceptTooltipSkeleton />}
       >
+        {/* <ConceptTooltipSkeleton /> */}
         {data ? <div dangerouslySetInnerHTML={{ __html: data.html }} /> : null}
       </FetchingBoundary>
     </div>

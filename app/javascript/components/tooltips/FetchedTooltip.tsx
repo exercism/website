@@ -32,7 +32,6 @@ export const FetchedTooltip = ({
         defaultError={defaultError}
         LoadingComponent={() => <ConceptTooltipSkeleton />}
       >
-        {/* <ConceptTooltipSkeleton /> */}
         {data ? <div dangerouslySetInnerHTML={{ __html: data.html }} /> : null}
       </FetchingBoundary>
     </div>

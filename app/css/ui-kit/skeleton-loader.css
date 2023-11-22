@@ -8,7 +8,7 @@
     }
 
     .skeleton-text {
-        @apply flex flex-col gap-2;
+        @apply flex flex-col;
         @apply w-100;
     }
 

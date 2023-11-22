@@ -1,21 +1,52 @@
 import React, { useMemo } from 'react'
 import { SkeletonLine } from './SkeletonLine'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
-export function SkeletonText({ lines }) {
-  const lineLength = useMemo(() => generateRandomLineLength(lines), [lines])
+export function SkeletonText({
+  lines,
+  minLength = 65,
+  maxLength = 95,
+  skeletonLineProps,
+  ...props
+}: {
+  lines: number
+  minLength?: number
+  maxLength?: number
+  skeletonLineProps?: React.HTMLProps<HTMLDivElement>
+} & React.HTMLProps<HTMLDivElement>) {
+  const lineLength = useMemo(
+    () => generateRandomLineLength(lines, minLength, maxLength),
+    [lines]
+  )
   return (
-    <div className="skeleton-text">
+    <div
+      {...props}
+      className={assembleClassNames('skeleton-text gap-8', props.className)}
+    >
       {Array.from({ length: lines }).map((_, idx) => (
-        <SkeletonLine width={lineLength[idx] + '%'} height="1em" />
+        <SkeletonLine
+          key={idx}
+          {...skeletonLineProps}
+          style={{
+            width: skeletonLineProps?.style?.width || lineLength[idx] + '%',
+            height: skeletonLineProps?.style?.height || '1em',
+          }}
+        />
       ))}
     </div>
   )
 }
 
-function randomIntFromInterval(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1) + min)
+function generateRandomLineLength(
+  lines: number,
+  min: number,
+  max: number
+): number[] {
+  return Array.from({ length: lines }).map(() =>
+    randomIntFromInterval(min, max)
+  )
 }
 
-function generateRandomLineLength(lines: number): number[] {
-  return Array.from({ length: lines }).map(() => randomIntFromInterval(70, 100))
+function randomIntFromInterval(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

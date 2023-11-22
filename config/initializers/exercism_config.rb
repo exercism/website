@@ -25,3 +25,8 @@ end
 # in tests, so we set a constant here to use instead.
 Exercism::READ_COMMITTED = Rails.env.test? ? nil : :read_committed
 Exercism::READ_UNCOMMITTED = Rails.env.test? ? nil : :read_uncommitted
+
+module ScrollAxis
+  X = "X".freeze
+  Y = "X".freeze
+end

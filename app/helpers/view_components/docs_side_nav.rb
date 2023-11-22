@@ -77,7 +77,7 @@ module ViewComponents
 
       css_classes = []
       css_classes << "selected expanded" if doc.slug == selected_doc&.slug
-      scroll_into_view = 'Y' if doc.slug == selected_doc&.slug
+      scroll_into_view = ScrollAxis::Y if doc.slug == selected_doc&.slug
       css_classes << "header" if slugs_with_children.include?(doc.slug)
       css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc&.slug }
 

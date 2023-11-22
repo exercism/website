@@ -81,7 +81,7 @@ module ViewComponents
       end
 
       def scroll_into_view(tab)
-        { scroll_into_view: tab == selected_tab ? 'X' : nil }
+        { scroll_into_view: tab == selected_tab ? ScrollAxis::X : nil }
       end
 
       def guard!

@@ -35,13 +35,13 @@ module ViewComponents
 
     def li_link(title, section = nil)
       css_class = section == selected_section ? "selected" : nil
-      scroll_into_view = section == selected_section ? 'X' : nil
+      scroll_into_view = section == selected_section ? ScrollAxis::X : nil
       url = Exercism::Routes.send([section, "about_path"].compact.join("_"))
       tag.li(link_to(title, url), class: css_class, data: { scroll_into_view: })
     end
 
     def scroll_into_view(tab)
-      { scroll_into_view: tab == selected_section ? 'X' : nil }
+      { scroll_into_view: tab == selected_section ? ScrollAxis::X : nil }
     end
 
     private

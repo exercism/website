@@ -31,14 +31,7 @@ class TrainingData::CodeTagsSample::Retrieve
   def filter_status!
     return if status.blank?
 
-    case status
-    when :needs_tagging
-      @samples = @samples.where(status: :untagged)
-    when :needs_checking
-      @samples = @samples.where(status: %i[machine_tagged human_tagged])
-    when :needs_checking_admin
-      @samples = @samples.where(status: :community_checked)
-    end
+    @samples = @samples.where(status: TrainingData::CodeTagsSample.sample_status(status))
   end
 
   def filter_track!

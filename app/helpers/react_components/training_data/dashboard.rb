@@ -16,7 +16,7 @@ module ReactComponents
         {
           endpoint: Exercism::Routes.api_training_data_code_tags_samples_url,
           query: {
-            status: params[:status] || DEFAULT_STATUS,
+            status: filter_status,
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
             track_slug: params[:track_slug]
@@ -25,9 +25,13 @@ module ReactComponents
       end
 
       def tracks
-        tracks = ::Track.where(id: current_user.user_tracks.trainer.select(:track_id))
-        AssembleTracksForSelect.(tracks)
+        ts = ::Track.where(id: ::TrainingData::CodeTagsSample.where(status: sample_status).select(:track_id))
+        ts = ts.where(id: current_user.user_tracks.trainer.select(:track_id)) unless current_user.staff?
+        AssembleTracksForSelect.(ts)
       end
+
+      def filter_status = params[:status] || DEFAULT_STATUS
+      def sample_status = ::TrainingData::CodeTagsSample.sample_status(filter_status.to_sym)
 
       DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS

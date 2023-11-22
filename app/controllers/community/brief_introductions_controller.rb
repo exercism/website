@@ -2,9 +2,11 @@ class Community::BriefIntroductionsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
+    @latest_id = "xVl1NZaJYIg" # C#
     @ids = [
       "SVthw_d9nwE", # C
       "9RL8ZssWg5Q", # C++
+      "xVl1NZaJYIg", # C#
       "8DgYr-V5xkg", # Elixir
       "yUPMVgvl4vo", # Gleam
       "LajgcyqjWOs", # Go

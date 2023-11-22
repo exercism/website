@@ -2,19 +2,19 @@ import React from 'react'
 import { useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Loading } from './Loading'
-import { SkeletonLoader } from '../common/skeleton/components/SkeletonLoader'
-import { ConceptTooltipSkeleton } from '../common/skeleton/skeletons/ConceptTooltipSkeleton'
 
 export const FetchedTooltip = ({
   endpoint,
   loadingAlt,
   className,
   defaultError,
+  LoadingComponent = <Loading alt={loadingAlt} />,
 }: {
   endpoint: string
   loadingAlt: string
   className: string
   defaultError: Error
+  LoadingComponent?: JSX.Element
 }): JSX.Element | null => {
   const { data, error, status } = useRequestQuery<{ html: string }>(
     [endpoint],
@@ -30,7 +30,7 @@ export const FetchedTooltip = ({
         status={status}
         error={error}
         defaultError={defaultError}
-        LoadingComponent={() => <ConceptTooltipSkeleton />}
+        LoadingComponent={() => LoadingComponent}
       >
         {data ? <div dangerouslySetInnerHTML={{ __html: data.html }} /> : null}
       </FetchingBoundary>

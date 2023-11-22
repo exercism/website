@@ -19,7 +19,6 @@ class TrainingData::CodeTagsSample < ApplicationRecord
 
     self.exercise_id = solution.exercise_id unless exercise_id
     self.track_id = exercise.track_id unless track_id
-    self.llm_tags = tags unless llm_tags
   end
 
   def to_param = uuid

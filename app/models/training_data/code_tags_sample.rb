@@ -1,4 +1,6 @@
 class TrainingData::CodeTagsSample < ApplicationRecord
+  extend Mandate::Memoize
+
   serialize :tags, JSON
   serialize :llm_tags, JSON
   serialize :files, JSON
@@ -68,4 +70,7 @@ class TrainingData::CodeTagsSample < ApplicationRecord
       status
     end
   end
+
+  memoize
+  def code = files.to_a.pluck("code").join('\n')
 end

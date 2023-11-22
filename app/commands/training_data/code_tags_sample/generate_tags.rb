@@ -4,7 +4,7 @@ class TrainingData::CodeTagsSample::GenerateTags
   initialize_with :sample, :model, :openai_key
 
   def call
-    return if sample.safe_to_override?
+    return unless sample.safe_to_override?
 
     sample.update(tags:, llm_tags: tags, status: :machine_tagged)
   end

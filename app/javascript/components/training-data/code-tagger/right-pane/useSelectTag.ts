@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
-import {
-  Tags,
-  CodeTaggerConfirmTagsAPIResponse,
-  CodeTaggerProps,
-} from '../CodeTagger.types'
+import { Tags, CodeTaggerProps } from '../CodeTagger.types'
 
 export function useSelectTag({
   links,
@@ -14,7 +10,7 @@ export function useSelectTag({
 }: Pick<CodeTaggerProps, 'links'> & { defaultSelectedTags: Tags }) {
   const [selectedTags, setSelectedTags] = useState<Tags>(defaultSelectedTags)
 
-  const { mutate: confirmTags } = useMutation<CodeTaggerConfirmTagsAPIResponse>(
+  const { mutate: confirmTags, error } = useMutation(
     () => {
       const { fetch } = sendRequest({
         endpoint: links.confirmTagsApi,
@@ -31,5 +27,5 @@ export function useSelectTag({
     }
   )
 
-  return { confirmTags, setSelectedTags }
+  return { confirmTags, setSelectedTags, error }
 }

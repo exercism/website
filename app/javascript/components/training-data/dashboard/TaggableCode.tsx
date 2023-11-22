@@ -1,5 +1,4 @@
 import React from 'react'
-import { fromNow } from '@/utils/date'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '@/components/common'
 import { TrainingData } from './Dashboard.types'
 

@@ -14,20 +14,35 @@ export function TagSelector({
   if (!tags) return null
   return (
     <CreatableSelect
-      className="creatable-select-component text-p-base mt-auto mb-64"
+      className="creatable-select-component text-p-base mt-auto mb-20"
       isMulti
       defaultValue={formatTags(tags)}
       options={formatTags(allEnabledTrackTags)}
       isClearable={false}
       maxMenuHeight={100}
       styles={{
+        valueContainer: (base) => ({
+          ...base,
+          padding: '8px',
+        }),
+
+        indicatorSeparator: (base) => ({
+          ...base,
+          display: 'none',
+        }),
+        indicatorsContainer: (base) => ({
+          ...base,
+          display: 'none',
+        }),
+
         multiValue: (base) => ({
           ...base,
-          borderRadius: '50px',
+          borderRadius: '8px',
           overflow: 'hidden',
           backgroundColor: 'var(--backgroundColorI)',
           border: '1px solid',
           borderColor: '#2E57E8',
+          margin: '4px',
         }),
         multiValueLabel: (base) => ({
           ...base,

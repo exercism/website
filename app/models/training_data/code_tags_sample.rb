@@ -1,5 +1,6 @@
 class TrainingData::CodeTagsSample < ApplicationRecord
   serialize :tags, JSON
+  serialize :llm_tags, JSON
   serialize :files, JSON
 
   belongs_to :track

@@ -1,12 +1,12 @@
 class TrainingData::CodeTagsSample::GenerateTags
   include Mandate
 
-  initialize_with :tuple, :model, :openai_key
+  initialize_with :sample, :model, :openai_key
 
   def call
-    return if tuple.safe_to_override?
+    return if sample.safe_to_override?
 
-    tuple.update(tags:, llm_tags: tags, status: :machine_tagged)
+    sample.update(tags:, llm_tags: tags, status: :machine_tagged)
   end
 
   private
@@ -32,7 +32,7 @@ class TrainingData::CodeTagsSample::GenerateTags
   def messages
     [
       { "role": "system", "content": SYSTEM_MESSAGE },
-      { "role": "user", "content": INSTRUCTION % { lang: tuple.track.title, code: tuple.code } }
+      { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.code } }
     ]
   end
 

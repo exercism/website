@@ -6,7 +6,7 @@ class TrainingData::CodeTagsSample::GenerateTags
   def call
     return if tuple.safe_to_override?
 
-    tuple.update(tags:, status: :machine_tagged)
+    tuple.update(tags:, llm_tags: tags, status: :machine_tagged)
   end
 
   private

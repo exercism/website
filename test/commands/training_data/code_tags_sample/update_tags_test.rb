@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TrainingData::CodeTagsSample::UpdatesTest < ActiveSupport::TestCase
+class TrainingData::CodeTagsSample::UpdateTagsTest < ActiveSupport::TestCase
   test "updates tags when locked by user" do
     user = create :user
     tags = ['construct:if']

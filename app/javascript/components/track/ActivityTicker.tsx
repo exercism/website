@@ -1,12 +1,12 @@
 import React from 'react'
 import { fromNow } from '@/utils/time'
-import * as Component from './activity-ticker'
+import * as Elements from './activity-ticker'
 
 export default function ActivityTicker({
   trackTitle,
   initialData,
-}: Component.ActivityTickerProps) {
-  const { metric, isVisible } = Component.useActivityTicker({
+}: Elements.ActivityTickerProps) {
+  const { metric, isVisible } = Elements.useActivityTicker({
     trackTitle,
     initialData,
   })
@@ -18,14 +18,14 @@ export default function ActivityTicker({
         isVisible ? 'animate-fadeIn' : 'animate-fadeOut'
       }`}
     >
-      <Component.UserAvatar user={metric.user} />
+      <Elements.UserAvatar user={metric.user} />
       <div className="flex flex-col">
         <div className="text-16 leading-160 mb-4 ">
-          <Component.Handle user={metric.user} />
+          <Elements.Handle user={metric.user} />
           &nbsp;
-          {Component.METRIC_TEXT[metric.type]}
+          {Elements.METRIC_TEXT[metric.type]}
           {metric.exercise && (
-            <Component.ExerciseWidget exercise={metric.exercise} />
+            <Elements.ExerciseWidget exercise={metric.exercise} />
           )}
         </div>
         <div className="text-14 text-textColor7">

@@ -15,6 +15,7 @@ FactoryBot.define do
     discourser chatterbox mind_shifting_may lifetime_insider insider
     summer_of_sexps jurassic_july apps_august slimline_september
     object_oriented_october nibbly_november december_diversions
+    completed_12_in_23
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

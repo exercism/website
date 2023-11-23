@@ -1,23 +1,20 @@
 import React from 'react'
 import { fromNow } from '@/utils/time'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import * as Elements from './activity-ticker'
 
 export default function ActivityTicker({
   trackTitle,
   initialData,
 }: Elements.ActivityTickerProps) {
-  const { metric, isVisible } = Elements.useActivityTicker({
+  const { metric, animation } = Elements.useActivityTicker({
     trackTitle,
     initialData,
   })
 
   if (!metric) return
   return (
-    <div
-      className={`flex items-start ${
-        isVisible ? 'animate-fadeIn' : 'animate-fadeOut'
-      }`}
-    >
+    <div className={assembleClassNames('flex items-start', animation)}>
       <Elements.UserAvatar user={metric.user} />
       <div className="flex flex-col">
         <div className="text-16 leading-160 mb-4 ">

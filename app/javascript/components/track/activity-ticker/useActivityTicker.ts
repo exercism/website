@@ -3,7 +3,10 @@ import { Metric } from '@/components/types'
 import { useState, useEffect } from 'react'
 import { METRIC_TYPES, allowedMetricTypes } from './ActivityTicker.types'
 
-export function useActivityTicker({ initialData, trackTitle }) {
+export function useActivityTicker({ initialData, trackTitle }): {
+  metric: Metric
+  animation: 'animate-fadeIn' | 'animate-fadeOut'
+} {
   const [metric, setMetric] = useState<Metric>(initialData)
   const [isVisible, setIsVisible] = useState(true)
 
@@ -24,5 +27,5 @@ export function useActivityTicker({ initialData, trackTitle }) {
     return () => connection.disconnect()
   }, [])
 
-  return { metric, isVisible }
+  return { metric, animation: isVisible ? 'animate-fadeIn' : 'animate-fadeOut' }
 }

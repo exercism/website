@@ -6,7 +6,7 @@ export function ExerciseWidget({
 }) {
   return (
     <span className="inline-flex">
-      &nbsp;to&nbsp;
+      &nbsp;
       <a
         href={exercise.exerciseUrl}
         className="flex flex-row items-center font-semibold text-prominentLinkColor"

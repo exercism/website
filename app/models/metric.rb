@@ -37,7 +37,9 @@ class Metric < ApplicationRecord
 
       if respond_to?(:exercise)
         hash[:exercise] = {
-          title: exercise.title
+          title: exercise.title,
+          icon_url: exercise.icon_url,
+          exercise_url: Exercism::Routes.track_exercise_url(exercise.track, exercise.slug)
         }
       end
 

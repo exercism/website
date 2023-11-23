@@ -830,6 +830,11 @@ export type Metric = {
     title: string
     iconUrl: string
   }
+  exercise: {
+    title: string
+    exerciseUrl: string
+    iconUrl: string
+  }
   occurredAt: string
 }
 

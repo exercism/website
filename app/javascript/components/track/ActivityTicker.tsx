@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { MetricsChannel } from '@/channels/metricsChannel'
 import { Metric, MetricUser } from '../types'
 import { fromNow } from '@/utils/time'
+import { useLogger } from '@/hooks'
 
 export type ActivityTickerProps = { trackTitle: string; initialData: Metric }
 
@@ -43,6 +44,8 @@ export default function ActivityTicker({
     return () => connection.disconnect()
   }, [])
 
+  useLogger('metric', metric)
+
   if (!metric) return
   return (
     <div
@@ -52,10 +55,11 @@ export default function ActivityTicker({
     >
       <UserAvatar user={metric.user} />
       <div className="flex flex-col">
-        <div className="text-16 leading-140 mb-4">
+        <div className="text-16 leading-160 mb-4 ">
           <Handle user={metric.user} />
           &nbsp;
           {METRIC_TEXT[metric.type]}
+          {metric.exercise && <ExerciseWidget exercise={metric.exercise} />}
         </div>
         <div className="text-14 text-textColor7">
           {fromNow(metric.occurredAt)}
@@ -65,13 +69,32 @@ export default function ActivityTicker({
   )
 }
 
+function ExerciseWidget({
+  exercise,
+}: {
+  exercise: Record<'exerciseUrl' | 'iconUrl' | 'title', string>
+}) {
+  return (
+    <span className="inline-flex">
+      &nbsp;to&nbsp;
+      <a
+        href={exercise.exerciseUrl}
+        className="flex flex-row items-center font-semibold text-prominentLinkColor"
+      >
+        <img src={exercise.iconUrl} className="w-[24px] h-[24px] mr-8" />
+        {exercise.title}
+      </a>
+    </span>
+  )
+}
+
 function UserAvatar({ user }: { user?: MetricUser }): JSX.Element | null {
   if (!user) return null
   return (
     <img
       src={user.avatarUrl}
       alt={`${user.handle}'s avatar`}
-      className="w-[36px] h-[36px] rounded-circle mr-12 mt-4"
+      className="w-[36px] h-[36px] rounded-circle mr-12"
     />
   )
 }
@@ -82,7 +105,7 @@ function Handle({ user }: { user?: MetricUser }) {
   const { handle, links } = user
 
   return links?.self ? (
-    <a href={links.self} className="text-linkColor font-semibold">
+    <a href={links.self} className="text-prominentLinkColor font-semibold">
       {handle}
     </a>
   ) : (

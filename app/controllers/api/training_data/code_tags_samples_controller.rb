@@ -4,18 +4,7 @@ class API::TrainingData::CodeTagsSamplesController < API::BaseController
   before_action :ensure_trainer!
 
   def index
-    samples = ::TrainingData::CodeTagsSample::Retrieve.(
-      status,
-      criteria: params[:criteria],
-      track: @track,
-      page:
-    )
-
-    render json: SerializePaginatedCollection.(
-      samples,
-      serializer: SerializeCodeTagsSamples,
-      serializer_kwargs: { status: }
-    )
+    render json: AssembleCodeTagSamples.(params)
   end
 
   def update_tags

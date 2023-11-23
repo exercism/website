@@ -32,25 +32,10 @@ module ReactComponents
         AssembleTracksForSelect.(tracks)
       end
 
+      def initial_data = AssembleCodeTagSamples.(params)
+
       DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS
-
-      def initial_data
-        status = params.fetch(:status, :needs_tagging).to_sym
-        page = [params[:page].to_i, 1].max
-        samples = ::TrainingData::CodeTagsSample::Retrieve.(
-          status,
-          criteria: params[:criteria],
-          track: @track,
-          page:
-        )
-
-        SerializePaginatedCollection.(
-          samples,
-          serializer: SerializeCodeTagsSamples,
-          serializer_kwargs: { status: }
-        )
-      end
     end
   end
 end

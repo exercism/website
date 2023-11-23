@@ -47,11 +47,11 @@ export function useDashboard({
   useHistory({ pushOn: removeEmpty(request.query) })
 
   const setTrack = (trackSlug: string | null) => {
-    setQuery({ ...request.query, trackSlug: trackSlug, page: undefined })
+    setQuery({ ...request.query, trackSlug, page: undefined })
   }
 
   const setStatus = (status: TrainingDataStatus) => {
-    setQuery({ ...request.query, status: status, page: undefined })
+    setQuery({ ...request.query, status, page: undefined })
   }
 
   return {

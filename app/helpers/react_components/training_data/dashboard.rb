@@ -20,7 +20,10 @@ module ReactComponents
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
             track_slug: params[:track_slug]
-          }.compact
+          }.compact,
+          options: {
+            initial_data:
+          }
         }
       end
 
@@ -31,6 +34,23 @@ module ReactComponents
 
       DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS
+
+      def initial_data
+        status = params.fetch(:status, :needs_tagging).to_sym
+        page = [params[:page].to_i, 1].max
+        samples = ::TrainingData::CodeTagsSample::Retrieve.(
+          status,
+          criteria: params[:criteria],
+          track: @track,
+          page:
+        )
+
+        SerializePaginatedCollection.(
+          samples,
+          serializer: SerializeCodeTagsSamples,
+          serializer_kwargs: { status: }
+        )
+      end
     end
   end
 end

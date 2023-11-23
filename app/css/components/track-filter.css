@@ -7,7 +7,6 @@
         & .c-track-icon {
             width: 42px;
             height: 42px;
-            @apply mr-20;
         }
         & .action-icon {
             width: 13px;

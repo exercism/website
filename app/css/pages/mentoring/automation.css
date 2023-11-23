@@ -26,12 +26,6 @@
             }
         }
 
-        & header.inbox-header {
-            & .c-single-select {
-                margin-left: auto;
-            }
-        }
-
         & header.automation-header {
             & .c-track-select {
                 @apply mr-24;

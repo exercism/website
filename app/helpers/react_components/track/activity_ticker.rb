@@ -10,13 +10,7 @@ module ReactComponents
         })
       end
 
-      def initial_data
-        last_metric = Metric.where(track_id: track.id, type: ALLOWED_METRIC_TYPES).last
-
-        return nil if last_metric.nil?
-
-        last_metric.to_broadcast_hash
-      end
+      def initial_data = Metric.where(track_id: track.id, type: ALLOWED_METRIC_TYPES).last&.to_broadcast_hash
 
       ALLOWED_METRIC_TYPES = [
         'Metrics::PublishSolutionMetric',

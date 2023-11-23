@@ -37,6 +37,10 @@
             @apply rounded-circle;
         }
 
+        &.tag {
+            @apply rounded-100;
+        }
+
         &.circle,
         &.rect {
             @apply flex-shrink-0;

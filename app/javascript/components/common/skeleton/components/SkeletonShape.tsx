@@ -5,7 +5,7 @@ export function SkeletonShape({
   shape,
   ...props
 }: {
-  shape: 'rect' | 'circle'
+  shape: 'rect' | 'circle' | 'tag'
 } & React.HTMLProps<HTMLDivElement>): JSX.Element {
   return (
     <div

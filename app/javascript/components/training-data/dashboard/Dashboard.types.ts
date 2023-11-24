@@ -9,15 +9,13 @@ export type DashboardProps = {
 }
 
 export type TrainingDataStatus =
-  | 'untagged'
-  | 'machine_tagged'
-  | 'human_tagged'
-  | 'community_checked'
-  | 'admin_checked'
+  | 'needs_tagging'
+  | 'needs_checking'
+  | 'needs_checking_admin'
 
 export type DashboardHeaderProps = Pick<
   useDashboardReturnType,
-  'setTrack' | 'criteria' | 'setCriteria' | 'setPage' | 'request'
+  'setTrack' | 'criteria' | 'setCriteria' | 'request'
 > & {
   tracks: Track[]
 }

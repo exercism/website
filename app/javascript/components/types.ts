@@ -832,6 +832,9 @@ export type Metric = {
     title: string
     iconUrl: string
   }
+  pullRequest?: {
+    htmlUrl: string
+  }
   exercise: {
     title: string
     exerciseUrl: string

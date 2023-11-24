@@ -41,6 +41,12 @@ class Metric < ApplicationRecord
         }
       end
 
+      if respond_to?(:pull_request)
+        hash[:pull_request] = {
+          html_url: pull_request.data[:html_url]
+        }
+      end
+
       if respond_to?(:exercise)
         hash[:exercise] = {
           title: exercise.title,

@@ -63,7 +63,7 @@ export function Representations({
     handleTrackChange,
     handleOnlyMentoredSolutions,
     handlePageResetOnInputChange,
-  } = useAutomation(representationsRequest, tracks)
+  } = useAutomation(representationsRequest, tracks, selectedTab)
 
   return (
     <div className="c-mentor-automation">

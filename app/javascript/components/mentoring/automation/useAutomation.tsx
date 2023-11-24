@@ -43,7 +43,8 @@ const BLANK_TRACK_DATA: AutomationTrack = {
 
 export function useAutomation(
   representationsRequest: Request,
-  tracks: AutomationTrack[]
+  tracks: AutomationTrack[],
+  selectedTab: string
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
@@ -66,6 +67,7 @@ export function useAutomation(
 
   const CACHE_KEY = [
     'mentor-representations-list',
+    selectedTab,
     ...Object.values(request.query),
   ]
 

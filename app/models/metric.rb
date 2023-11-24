@@ -25,7 +25,8 @@ class Metric < ApplicationRecord
     {
       type: type.underscore.split('/').last,
       id:,
-      coordinates: broadcast_coordinates
+      coordinates: broadcast_coordinates,
+      occurred_at:
     }.tap do |hash|
       if track
         hash[:track] = {
@@ -34,10 +35,22 @@ class Metric < ApplicationRecord
         }
       end
 
+      if respond_to?(:exercise)
+        hash[:exercise] = {
+          title: exercise.title,
+          icon_url: exercise.icon_url,
+          exercise_url: Exercism::Routes.track_exercise_url(exercise.track, exercise.slug)
+        }
+      end
+
       if user_public? && user
         hash[:user] = {
           handle: user.handle,
-          avatar_url: user.avatar_url
+          avatar_url: user.avatar_url,
+          links: {
+            self: user.profile? ?
+            Exercism::Routes.profile_path(user) : nil
+          }
         }
       end
     end

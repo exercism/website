@@ -817,17 +817,25 @@ export type SharePlatform =
   | 'linkedin'
   | 'devto'
 
+export type MetricUser = {
+  handle: string
+  avatarUrl: string
+  links: { self: string | null }
+}
 export type Metric = {
   type: string
   coordinates: number[]
-  user?: {
-    handle: string
-    avatarUrl: string
-  }
+  user?: MetricUser
   track?: {
     title: string
     iconUrl: string
   }
+  exercise: {
+    title: string
+    exerciseUrl: string
+    iconUrl: string
+  }
+  occurredAt: string
 }
 
 export type Modifier =

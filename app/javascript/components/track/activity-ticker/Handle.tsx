@@ -8,7 +8,7 @@ export function Handle({
   user?: MetricUser
   countryName: string
 }) {
-  if (!user) return `Someone in ${countryName}`
+  if (!user) return `Someone${countryName ? ' in ' + countryName : ''}`
 
   const { handle, links } = user
 

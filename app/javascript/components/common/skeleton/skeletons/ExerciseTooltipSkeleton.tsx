@@ -1,7 +1,7 @@
 import React from 'react'
 import { SkeletonLoader } from '../components/SkeletonLoader'
 import { SkeletonShape } from '../components/SkeletonShape'
-import { SkeletonText } from '../components/SkeletonText'
+import { SkeletonText, randomIntBetween } from '../components/SkeletonText'
 import { SkeletonLine } from '../components/SkeletonLine'
 
 export function ExerciseTooltipSkeleton() {
@@ -17,11 +17,11 @@ export function ExerciseTooltipSkeleton() {
           <div className="flex gap-8">
             <SkeletonShape
               shape="tag"
-              style={{ width: '90px', height: '2em' }}
+              style={{ width: randomIntBetween(80, 90), height: '2em' }}
             />
             <SkeletonShape
               shape="tag"
-              style={{ width: '90px', height: '2em' }}
+              style={{ width: randomIntBetween(80, 90), height: '2em' }}
             />
           </div>
         </div>

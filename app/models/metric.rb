@@ -25,6 +25,8 @@ class Metric < ApplicationRecord
     {
       type: type.underscore.split('/').last,
       id:,
+      country_code: country_code.downcase,
+      country_name:,
       coordinates: broadcast_coordinates,
       occurred_at:
     }.tap do |hash|

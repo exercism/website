@@ -11,7 +11,7 @@ export function UserAvatar({
     <img
       src={user.avatarUrl}
       alt={`${user.handle}'s avatar`}
-      className="w-[36px] h-[36px] rounded-circle mr-12"
+      className="w-[36px] h-[36px] rounded-circle mr-12 flex-shrink-0"
     />
   )
 }

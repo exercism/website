@@ -1,8 +1,14 @@
 import React from 'react'
 import type { MetricUser } from '@/components/types'
 
-export function Handle({ user }: { user?: MetricUser }) {
-  if (!user) return 'Someone'
+export function Handle({
+  user,
+  countryName,
+}: {
+  user?: MetricUser
+  countryName: string
+}) {
+  if (!user) return `Someone in ${countryName}`
 
   const { handle, links } = user
 

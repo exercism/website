@@ -11,9 +11,9 @@ export function ExerciseWidget({
         href={exercise.exerciseUrl}
         className="flex flex-row items-center font-semibold text-prominentLinkColor"
       >
-        <img src={exercise.iconUrl} className="w-[24px] h-[24px] mr-8" />
         {exercise.title}
       </a>
+      .
     </span>
   )
 }

@@ -28,6 +28,11 @@ export default function ActivityTicker({
           />
           &nbsp;
           {Elements.METRIC_TEXT[metric.type]}{' '}
+          {metric.publishedSolutionUrl && (
+            <Elements.PublishedSolutionLink
+              publishedSolutionUrl={metric.publishedSolutionUrl}
+            />
+          )}
           {metric.exercise && (
             <Elements.ExerciseWidget exercise={metric.exercise} />
           )}

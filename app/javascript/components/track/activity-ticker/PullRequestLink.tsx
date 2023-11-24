@@ -1,16 +1,17 @@
 import React from 'react'
-export function ExerciseWidget({
-  exercise,
+export function PullRequestLink({
+  pullRequest,
 }: {
-  exercise: Record<'exerciseUrl' | 'iconUrl' | 'title', string>
+  pullRequest: Record<'htmlUrl', string>
 }) {
   return (
     <span className="inline-flex">
+      &nbsp;
       <a
-        href={exercise.exerciseUrl}
+        href={pullRequest.htmlUrl}
         className="flex flex-row items-center font-semibold text-prominentLinkColor"
       >
-        {exercise.title}
+        Pull Request
       </a>
       .
     </span>

@@ -31,6 +31,9 @@ export default function ActivityTicker({
           {metric.exercise && (
             <Elements.ExerciseWidget exercise={metric.exercise} />
           )}
+          {metric.pullRequest && (
+            <Elements.PullRequestLink pullRequest={metric.pullRequest} />
+          )}
         </div>
         <div className="text-14 text-textColor7">
           {fromNow(metric.occurredAt)}

@@ -1,5 +1,6 @@
 export { Flag } from './Flag'
 export { ExerciseWidget } from './ExerciseWidget'
+export { PullRequestLink } from './PullRequestLink'
 export { Handle } from './Handle'
 export { UserAvatar } from './UserAvatar'
 export { useActivityTicker } from './useActivityTicker'

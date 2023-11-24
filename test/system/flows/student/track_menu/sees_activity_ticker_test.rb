@@ -7,86 +7,82 @@ module Flows
       class SeesActivityTickerTest < ApplicationSystemTestCase
         include CapybaraHelpers
 
+        setup do
+          Geocoder::Lookup::Test.add_stub(
+            "133.200.0.160",
+            [{ 'country_code' => 'JP', 'country' => 'Japan', 'coordinates' => [35.6837, 139.6805] }]
+          )
+
+          @user = create :user
+          @track = create :track, title: "Ruby"
+          create(:concept_exercise, track: @track)
+          create(:user_track, user: @user, track: @track)
+
+          @request_context = { remote_ip: "133.200.0.160" }
+
+          stub_latest_track_forum_threads(@track)
+        end
+
         test "user sees submit_submission activity" do
-          user = create :user
-          track = create :track, title: "Ruby"
-          create(:concept_exercise, track:)
-          create(:user_track, user:, track:)
           submission = create :submission
 
-          stub_latest_track_forum_threads(track)
-
-          metric = Metric::Create.('submit_submission', Time.current, submission:, track:)
+          metric = Metric::Create.('submit_submission', Time.current, submission:, track: @track, request_context: @request_context)
 
           use_capybara_host do
-            sign_in!(user)
-            visit track_url(track)
+            sign_in!(@user)
+            visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text "Someone submitted"
+            assert_text "Someone in Japan submitted"
             assert_text submission.exercise.title
           end
         end
 
         test "user sees publish_solution activity" do
-          user = create :user
-          track = create :track, title: "Ruby"
-          create(:concept_exercise, track:)
-          create(:user_track, user:, track:)
           submission = create :submission
           iteration = create(:iteration, submission:)
 
-          stub_latest_track_forum_threads(track)
-
-          metric = Metric::Create.('publish_solution', Time.current, solution: iteration, track:, user:)
+          metric = Metric::Create.('publish_solution', Time.current, solution: iteration, track: @track, user: @user,
+            request_context: @request_context)
 
           use_capybara_host do
-            sign_in!(user)
-            visit track_url(track)
+            sign_in!(@user)
+            visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text user.handle
+            assert_text @user.handle
             assert_text "published a new solution for"
             assert_text submission.exercise.title
           end
         end
 
         test "user sees complete_solution activity" do
-          user = create :user
-          track = create :track, title: "Ruby"
-          create(:concept_exercise, track:)
-          create(:user_track, user:, track:)
           submission = create :submission
           iteration = create(:iteration, submission:)
 
-          stub_latest_track_forum_threads(track)
-
-          metric = Metric::Create.('complete_solution', Time.current, solution: iteration, track:, user:)
+          metric = Metric::Create.('complete_solution', Time.current, solution: iteration, track: @track, user: @user,
+            request_context: @request_context)
 
           use_capybara_host do
-            sign_in!(user)
-            visit track_url(track)
+            sign_in!(@user)
+            visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text "Someone completed"
+            assert_text "Someone in Japan completed"
             assert_text submission.exercise.title
           end
         end
 
         test "user sees start_solution activity" do
-          # TODO: Fix solution
           skip
-          track = create :track, title: "Ruby"
-          create(:user_track, user:, track:)
-          solution = create(:practice_solution, user:, track:)
+          # TODO: Add a solution that fits
+          solution = create(:practice_solution, user: @user, track: @track)
 
-          stub_latest_track_forum_threads(track)
-
-          metric = Metric::Create.('start_solution', Time.current, solution:, track:)
+          metric = Metric::Create.('start_solution', Time.current, solution:, track: @track, request_context: @request_context)
 
           use_capybara_host do
-            sign_in!(user)
-            visit track_url(track)
+            sign_in!(@user)
+            visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
             assert_text "Someone started"
@@ -95,41 +91,33 @@ module Flows
         end
 
         test "user sees open_pull_request activity" do
-          user = create :user
-          track = create :track, title: "Ruby"
-          create(:user_track, user:, track:)
-          pr = create :github_pull_request, repo: track.repo_url
+          pr = create :github_pull_request, repo: @track.repo_url
 
-          stub_latest_track_forum_threads(track)
-
-          metric = Metric::Create.('open_pull_request', Time.current, pull_request: pr, track:, user:)
+          metric = Metric::Create.('open_pull_request', Time.current, pull_request: pr, track: @track, user: @user,
+            request_context: @request_context)
 
           use_capybara_host do
-            sign_in!(user)
-            visit track_url(track)
+            sign_in!(@user)
+            visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text user.handle
+            assert_text @user.handle
             assert_text "opened a Pull Request"
           end
         end
 
         test "user sees merge_pull_request activity" do
-          user = create :user
-          track = create :track, title: "Ruby"
-          create(:user_track, user:, track:)
-          pr = create :github_pull_request, repo: track.repo_url
+          pr = create :github_pull_request, repo: @track.repo_url
 
-          stub_latest_track_forum_threads(track)
-
-          metric = Metric::Create.('merge_pull_request', Time.current, pull_request: pr, track:, user:)
+          metric = Metric::Create.('merge_pull_request', Time.current, pull_request: pr, track: @track, user: @user,
+            request_context: @request_context)
 
           use_capybara_host do
-            sign_in!(user)
-            visit track_url(track)
+            sign_in!(@user)
+            visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text user.handle
+            assert_text @user.handle
             assert_text "had a Pull Request merged"
           end
         end

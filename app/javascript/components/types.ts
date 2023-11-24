@@ -826,6 +826,8 @@ export type Metric = {
   type: string
   coordinates: number[]
   user?: MetricUser
+  countryCode: string
+  countryName: string
   track?: {
     title: string
     iconUrl: string

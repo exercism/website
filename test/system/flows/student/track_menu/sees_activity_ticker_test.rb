@@ -118,7 +118,7 @@ module Flows
             MetricsChannel.broadcast!(metric)
 
             assert_text @user.handle
-            assert_text "had a Pull Request merged"
+            assert_text "merged a Pull Request"
           end
         end
       end

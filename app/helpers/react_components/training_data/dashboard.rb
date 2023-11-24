@@ -20,7 +20,10 @@ module ReactComponents
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
             track_slug: params[:track_slug]
-          }.compact
+          }.compact,
+          options: {
+            initial_data:
+          }
         }
       end
 
@@ -28,6 +31,8 @@ module ReactComponents
         tracks = ::Track.where(id: current_user.user_tracks.trainer.select(:track_id))
         AssembleTracksForSelect.(tracks)
       end
+
+      def initial_data = AssembleCodeTagSamples.(params)
 
       DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS

@@ -22,7 +22,6 @@ export default function Dashboard({
     criteria,
     setCriteria,
     setTrack,
-    setOrder,
   } = useDashboard({ trainingDataRequest })
 
   return (
@@ -39,7 +38,6 @@ export default function Dashboard({
           setCriteria={setCriteria}
           tracks={tracks}
           setTrack={setTrack}
-          setPage={setPage}
         />
         <ResultsZone isFetching={isFetching}>
           <TaggableCodeList

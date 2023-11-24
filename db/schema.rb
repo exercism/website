@@ -1,4 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead
+  # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_082820) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_24_100011) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -694,6 +694,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_082820) do
     t.datetime "updated_at", null: false
     t.string "country_code", limit: 2
     t.string "coordinates"
+    t.string "country_name"
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true

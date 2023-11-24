@@ -1,3 +1,4 @@
+export { Flag } from './Flag'
 export { ExerciseWidget } from './ExerciseWidget'
 export { Handle } from './Handle'
 export { UserAvatar } from './UserAvatar'

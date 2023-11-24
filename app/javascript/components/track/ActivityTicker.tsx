@@ -15,10 +15,17 @@ export default function ActivityTicker({
   if (!metric) return
   return (
     <div className={assembleClassNames('flex items-start', animation)}>
-      <Elements.UserAvatar user={metric.user} />
+      {metric.user ? (
+        <Elements.UserAvatar user={metric.user} />
+      ) : (
+        <Elements.Flag countryCode={metric.countryCode} />
+      )}
       <div className="flex flex-col">
         <div className="text-16 leading-160 mb-4 ">
-          <Elements.Handle user={metric.user} />
+          <Elements.Handle
+            user={metric.user}
+            countryName={metric.countryName}
+          />
           &nbsp;
           {Elements.METRIC_TEXT[metric.type]}
           {metric.exercise && (

@@ -27,7 +27,7 @@ export default function ActivityTicker({
             countryName={metric.countryName}
           />
           &nbsp;
-          {Elements.METRIC_TEXT[metric.type]}
+          {Elements.METRIC_TEXT[metric.type]}{' '}
           {metric.exercise && (
             <Elements.ExerciseWidget exercise={metric.exercise} />
           )}

@@ -23,7 +23,7 @@ module Flows
             visit track_url(track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text "A user ran the tests for"
+            assert_text "Someone submitted"
             assert_text submission.exercise.title
           end
         end
@@ -68,7 +68,7 @@ module Flows
             visit track_url(track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text "A user completed"
+            assert_text "Someone completed"
             assert_text submission.exercise.title
           end
         end
@@ -89,7 +89,7 @@ module Flows
             visit track_url(track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text "A user started"
+            assert_text "Someone started"
             assert_text solution.exercise.title
           end
         end
@@ -110,7 +110,7 @@ module Flows
             MetricsChannel.broadcast!(metric)
 
             assert_text user.handle
-            assert_text "submitted a Pull Request on Exercism's GitHub"
+            assert_text "opened a Pull Request"
           end
         end
 
@@ -130,7 +130,7 @@ module Flows
             MetricsChannel.broadcast!(metric)
 
             assert_text user.handle
-            assert_text "had a Pull Request merged on Exercism's GitHub"
+            assert_text "had a Pull Request merged"
           end
         end
       end

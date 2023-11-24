@@ -2,7 +2,7 @@ import React from 'react'
 import type { MetricUser } from '@/components/types'
 
 export function Handle({ user }: { user?: MetricUser }) {
-  if (!user) return 'A user'
+  if (!user) return 'Someone'
 
   const { handle, links } = user
 

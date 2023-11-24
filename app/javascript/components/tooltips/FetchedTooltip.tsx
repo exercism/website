@@ -8,11 +8,13 @@ export const FetchedTooltip = ({
   loadingAlt,
   className,
   defaultError,
+  LoadingComponent = <Loading alt={loadingAlt} />,
 }: {
   endpoint: string
   loadingAlt: string
   className: string
   defaultError: Error
+  LoadingComponent?: JSX.Element
 }): JSX.Element | null => {
   const { data, error, status } = useRequestQuery<{ html: string }>(
     [endpoint],
@@ -28,7 +30,7 @@ export const FetchedTooltip = ({
         status={status}
         error={error}
         defaultError={defaultError}
-        LoadingComponent={() => <Loading alt={loadingAlt} />}
+        LoadingComponent={() => LoadingComponent}
       >
         {data ? <div dangerouslySetInnerHTML={{ __html: data.html }} /> : null}
       </FetchingBoundary>

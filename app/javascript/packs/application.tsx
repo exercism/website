@@ -429,7 +429,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-exercise-status-chart': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ExerciseStatusChartSkeleton />}>
       <ExerciseStatusChart
         exercisesData={data.exercises_data}
         links={data.links}
@@ -738,6 +738,7 @@ import { ConceptTooltipSkeleton } from '@/components/common/skeleton/skeletons/C
 import { StudentTooltipSkeleton } from '@/components/common/skeleton/skeletons/StudentTooltipSkeleton'
 import { ConceptMapSkeleton } from '@/components/common/skeleton/skeletons/ConceptMapSkeleton'
 import { ExerciseListSkeleton } from '@/components/common/skeleton/skeletons/ExerciseListSkeleton'
+import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skeletons/ExerciseStatusChartSkeleton'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

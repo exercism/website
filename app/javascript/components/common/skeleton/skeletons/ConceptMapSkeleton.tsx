@@ -1,23 +1,23 @@
 import React from 'react'
 import * as Skeleton from '../components'
 import { randomIntBetween } from '@/utils/random-int-between'
-import { generateComponents } from '@/utils/generateComponents'
+import { repeatComponents } from '@/utils/repeatComponents'
 
 export function ConceptMapSkeleton() {
   return (
     <div className="flex flex-col gap-[80px]">
-      <ConceptRow length={1} />
-      <ConceptRow length={2} />
-      <ConceptRow length={3} />
+      <ConceptRow times={1} />
+      <ConceptRow times={2} />
+      <ConceptRow times={3} />
     </div>
   )
 }
 
-function ConceptRow({ length }: { length: number }) {
+function ConceptRow({ times }: { times: number }) {
   return (
     <div className="flex justify-around">
-      {generateComponents({
-        length,
+      {repeatComponents({
+        times,
         render: (index) => <Concept key={index} />,
       })}
     </div>
@@ -38,8 +38,8 @@ function Concept() {
         </div>
 
         <div className="flex py-10 px-24 border-t-1 border-borderColor7 justify-center">
-          {generateComponents({
-            length: randomIntBetween(1, 12),
+          {repeatComponents({
+            times: randomIntBetween(1, 12),
             render: (index) => (
               <Skeleton.Shape
                 key={index}

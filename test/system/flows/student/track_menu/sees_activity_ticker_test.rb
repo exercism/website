@@ -15,7 +15,7 @@ module Flows
 
           @user = create :user
           @track = create :track, title: "Ruby"
-          create(:concept_exercise, track: @track)
+          @exercise = create(:concept_exercise, track: @track)
           create(:user_track, user: @user, track: @track)
 
           @request_context = { remote_ip: "133.200.0.160" }
@@ -39,10 +39,9 @@ module Flows
         end
 
         test "user sees publish_solution activity" do
-          submission = create :submission
-          iteration = create(:iteration, submission:)
+          solution = create(:practice_solution, :published, exercise: @exercise, user: @user)
 
-          metric = Metric::Create.('publish_solution', Time.current, solution: iteration, track: @track, user: @user,
+          metric = Metric::Create.('publish_solution', Time.current, solution:, track: @track, user: @user,
             request_context: @request_context)
 
           use_capybara_host do
@@ -52,7 +51,7 @@ module Flows
 
             assert_text @user.handle
             assert_text "published a new solution for"
-            assert_text submission.exercise.title
+            assert_text solution.exercise.title
           end
         end
 

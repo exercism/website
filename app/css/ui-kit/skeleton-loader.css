@@ -1,5 +1,5 @@
 .c-skeleton-loader {
-    @apply flex flex-col opacity-50;
+    @apply flex flex-col;
 
     @keyframes skeletonShimmer {
         100% {
@@ -13,7 +13,7 @@
     }
 
     .skeleton-box {
-        @apply inline-block relative overflow-hidden bg-textColor6;
+        @apply inline-block relative overflow-hidden bg-textColor6 opacity-20;
 
         &::after {
             @apply absolute inset-0;

@@ -413,7 +413,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<TracksListSkeleton />}>
       <StudentTracksList
         request={camelizeKeysAs<Request>(data.request)}
         tagOptions={data.tag_options}
@@ -739,6 +739,7 @@ import { StudentTooltipSkeleton } from '@/components/common/skeleton/skeletons/S
 import { ConceptMapSkeleton } from '@/components/common/skeleton/skeletons/ConceptMapSkeleton'
 import { ExerciseListSkeleton } from '@/components/common/skeleton/skeletons/ExerciseListSkeleton'
 import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skeletons/ExerciseStatusChartSkeleton'
+import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

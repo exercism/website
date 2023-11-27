@@ -464,7 +464,7 @@ export const mappings = {
     </Suspense>
   ),
   'concept-map': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ConceptMapSkeleton />}>
       <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
     </Suspense>
   ),
@@ -736,6 +736,7 @@ import { TooltipBase } from '@/components/tooltips/TooltipBase'
 import { ExerciseTooltipSkeleton } from '@/components/common/skeleton/skeletons/ExerciseTooltipSkeleton'
 import { ConceptTooltipSkeleton } from '@/components/common/skeleton/skeletons/ConceptTooltipSkeleton'
 import { StudentTooltipSkeleton } from '@/components/common/skeleton/skeletons/StudentTooltipSkeleton'
+import { ConceptMapSkeleton } from '@/components/common/skeleton/skeletons/ConceptMapSkeleton'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

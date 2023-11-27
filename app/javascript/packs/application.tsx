@@ -470,17 +470,35 @@ export const mappings = {
   ),
 
   'mentored-student-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={350}>
+          <StudentTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <StudentTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'user-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={460}>
+          <UserTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <UserTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'exercise-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={400}>
+          <ExerciseTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <ExerciseTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
@@ -492,7 +510,13 @@ export const mappings = {
   ),
 
   'concept-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={460}>
+          <ConceptTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <ConceptTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
@@ -705,7 +729,13 @@ import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
 import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
 import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
-import { ActivityTickerProps } from '@/components/track/ActivityTicker'
+import { ActivityTickerProps } from '@/components/track/activity-ticker/ActivityTicker.types'
+
+import { UserTooltipSkeleton } from '@/components/common/skeleton/skeletons/UserTooltipSkeleton'
+import { TooltipBase } from '@/components/tooltips/TooltipBase'
+import { ExerciseTooltipSkeleton } from '@/components/common/skeleton/skeletons/ExerciseTooltipSkeleton'
+import { ConceptTooltipSkeleton } from '@/components/common/skeleton/skeletons/ConceptTooltipSkeleton'
+import { StudentTooltipSkeleton } from '@/components/common/skeleton/skeletons/StudentTooltipSkeleton'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

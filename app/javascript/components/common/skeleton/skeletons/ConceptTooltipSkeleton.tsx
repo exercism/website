@@ -1,14 +1,15 @@
 import React from 'react'
-import { SkeletonLoader } from '../components/SkeletonLoader'
-import { SkeletonShape } from '../components/SkeletonShape'
-import { SkeletonText } from '../components/SkeletonText'
+import * as Skeleton from '../components'
 
 export function ConceptTooltipSkeleton() {
   return (
-    <SkeletonLoader className="flex flex-col gap-20">
+    <Skeleton.Wrapper className="flex flex-col gap-20">
       <div className="flex flex-row gap-12">
-        <SkeletonShape shape="rect" style={{ width: '48px', height: '48px' }} />
-        <SkeletonText
+        <Skeleton.Shape
+          shape="rect"
+          style={{ width: '48px', height: '48px' }}
+        />
+        <Skeleton.Text
           className="justify-around"
           lines={2}
           minLength={25}
@@ -16,16 +17,16 @@ export function ConceptTooltipSkeleton() {
         />
       </div>
 
-      <SkeletonText lines={3} className="flex flex-col gap-8" />
+      <Skeleton.Text lines={3} className="flex flex-col gap-8" />
 
       <div className="flex flex-row gap-12 items-center">
-        <SkeletonShape shape="circle" style={{ width: 24, height: 24 }} />
-        <SkeletonText lines={1} />
+        <Skeleton.Shape shape="circle" style={{ width: 24, height: 24 }} />
+        <Skeleton.Text lines={1} />
       </div>
-      <SkeletonText
+      <Skeleton.Text
         lines={1}
         skeletonLineProps={{ style: { width: '100%', height: '2em' } }}
       />
-    </SkeletonLoader>
+    </Skeleton.Wrapper>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { SkeletonLine } from './SkeletonLine'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { randomIntBetween } from '@/utils/random-int-between'
 
 export function SkeletonText({
   lines,
@@ -43,8 +44,4 @@ function generateRandomLineLength(
   max: number
 ): number[] {
   return Array.from({ length: lines }).map(() => randomIntBetween(min, max))
-}
-
-export function randomIntBetween(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1) + min)
 }

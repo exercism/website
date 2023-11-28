@@ -4,7 +4,7 @@ import { useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Avatar, GraphicalIcon, Icon, Reputation } from '../common'
 import pluralize from 'pluralize'
-import { Loading } from './Loading'
+import { StudentTooltipSkeleton } from '../common/skeleton/skeletons/StudentTooltipSkeleton'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
@@ -23,7 +23,7 @@ const StudentTooltip = React.forwardRef<
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
-        LoadingComponent={() => <Loading alt="Loading student data" />}
+        LoadingComponent={() => <StudentTooltipSkeleton />}
       >
         {data ? (
           /* If we want the track we need to add a pivot to this,

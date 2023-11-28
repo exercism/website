@@ -32,6 +32,7 @@ module ReactComponents
 
       def filter_status = params[:status] || DEFAULT_STATUS
       def statuses_for_filter = ::TrainingData::CodeTagsSample.statuses_for_filter(filter_status.to_sym)
+      def initial_data = AssembleCodeTagSamples.(params)
 
       DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS

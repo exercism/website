@@ -69,7 +69,7 @@ class Github::Issue::SyncRepo
       }
     QUERY
 
-    Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
+    Exercism.octokit_graphql_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
   end
 
   def issues_from_page_data(response)

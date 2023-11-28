@@ -20,7 +20,10 @@ module ReactComponents
             criteria: params[:criteria],
             page: params[:page] ? params[:page].to_i : 1,
             track_slug: params[:track_slug]
-          }.compact
+          }.compact,
+          options: {
+            initial_data:
+          }
         }
       end
 

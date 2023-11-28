@@ -14,7 +14,7 @@ class Github::Organization
     # TODO: remove below line and enable commented line below that
     # once organization functionality has been tested properly
     Github::Issue::OpenForOrganizationMemberRemove.(name, github_username)
-    # Exercism.octokit_client.remove_organization_member(name, github_username)
+    # Exercism.octokit_graphql_client.remove_organization_member(name, github_username)
   end
 
   def team_membership_count_for_user(github_username)
@@ -28,7 +28,7 @@ class Github::Organization
       }
     QUERY
 
-    response = Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
+    response = Exercism.octokit_graphql_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
     response.dig(:data, :organization, :teams, :totalCount)
   end
 
@@ -68,7 +68,7 @@ class Github::Organization
       }
     QUERY
 
-    Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
+    Exercism.octokit_graphql_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
   end
 
   def team_member_usernames
@@ -134,7 +134,7 @@ class Github::Organization
       }
     QUERY
 
-    Exercism.octokit_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
+    Exercism.octokit_graphql_client.post("https://api.github.com/graphql", { query: }.to_json).to_h
   end
 
   def handle_rate_limit(rate_limit_data)

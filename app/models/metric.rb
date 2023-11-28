@@ -25,8 +25,15 @@ class Metric < ApplicationRecord
     {
       type: type.underscore.split('/').last,
       id:,
-      coordinates: broadcast_coordinates
+
+      coordinates: broadcast_coordinates,
+      occurred_at:
     }.tap do |hash|
+      if store_country_code?
+        hash[:country_code] = country_code&.downcase
+        hash[:country_name] = country_name
+      end
+
       if track
         hash[:track] = {
           title: track.title,
@@ -34,10 +41,28 @@ class Metric < ApplicationRecord
         }
       end
 
+      if respond_to?(:pull_request)
+        hash[:pull_request] = {
+          html_url: pull_request.data[:html_url]
+        }
+      end
+
+      if respond_to?(:exercise)
+        hash[:exercise] = {
+          title: exercise.title,
+          icon_url: exercise.icon_url,
+          exercise_url: Exercism::Routes.track_exercise_url(exercise.track, exercise.slug)
+        }
+      end
+
       if user_public? && user
         hash[:user] = {
           handle: user.handle,
-          avatar_url: user.avatar_url
+          avatar_url: user.avatar_url,
+          links: {
+            self: user.profile? ?
+            Exercism::Routes.profile_path(user) : nil
+          }
         }
       end
     end

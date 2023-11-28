@@ -1,0 +1,6 @@
+%section.live-section
+  %h3.text-h4.mb-8.flex.items-center
+    Live on the #{track.title} track…
+    -# .animate-pulse.bg-alert.rounded-circle.ml-16{ class: "w-[10px] h-[10px]" }
+
+  = render ReactComponents::Track::ActivityTicker.new(track)

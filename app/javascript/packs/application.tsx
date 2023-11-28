@@ -112,6 +112,8 @@ const ExerciseMakersButton = lazy(
   () => import('@/components/track/ExerciseMakersButton')
 )
 
+const ActivityTicker = lazy(() => import('@/components/track/ActivityTicker'))
+
 const ConceptMap = lazy(() => import('@/components/concept-map/ConceptMap'))
 
 // TODO: Move this out of /types, as this is not a type
@@ -335,6 +337,13 @@ export const mappings = {
       <AnalyzerTags {...camelizeKeysAs<AnalyzerTagsType>(data)} />
     </Suspense>
   ),
+
+  'track-activity-ticker': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <ActivityTicker {...camelizeKeysAs<ActivityTickerProps>(data)} />
+    </Suspense>
+  ),
+
   'common-credits': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <Credits
@@ -404,7 +413,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-tracks-list': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<TracksListSkeleton />}>
       <StudentTracksList
         request={camelizeKeysAs<Request>(data.request)}
         tagOptions={data.tag_options}
@@ -412,7 +421,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-exercise-list': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ExerciseListSkeleton />}>
       <StudentExerciseList
         request={camelizeKeysAs<Request>(data.request)}
         defaultStatus={data.status}
@@ -420,7 +429,7 @@ export const mappings = {
     </Suspense>
   ),
   'student-exercise-status-chart': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ExerciseStatusChartSkeleton />}>
       <ExerciseStatusChart
         exercisesData={data.exercises_data}
         links={data.links}
@@ -455,23 +464,41 @@ export const mappings = {
     </Suspense>
   ),
   'concept-map': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ConceptMapSkeleton />}>
       <ConceptMap {...camelizeKeysAs<IConceptMap>(data.graph)} />
     </Suspense>
   ),
 
   'mentored-student-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={350}>
+          <StudentTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <StudentTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'user-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={460}>
+          <UserTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <UserTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
   'exercise-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={400}>
+          <ExerciseTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <ExerciseTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
@@ -483,7 +510,13 @@ export const mappings = {
   ),
 
   'concept-tooltip': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense
+      fallback={
+        <TooltipBase width={460}>
+          <ConceptTooltipSkeleton />
+        </TooltipBase>
+      }
+    >
       <ConceptTooltip endpoint={data.endpoint} />
     </Suspense>
   ),
@@ -696,6 +729,17 @@ import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
 import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
 import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
+import { ActivityTickerProps } from '@/components/track/activity-ticker/ActivityTicker.types'
+
+import { UserTooltipSkeleton } from '@/components/common/skeleton/skeletons/UserTooltipSkeleton'
+import { TooltipBase } from '@/components/tooltips/TooltipBase'
+import { ExerciseTooltipSkeleton } from '@/components/common/skeleton/skeletons/ExerciseTooltipSkeleton'
+import { ConceptTooltipSkeleton } from '@/components/common/skeleton/skeletons/ConceptTooltipSkeleton'
+import { StudentTooltipSkeleton } from '@/components/common/skeleton/skeletons/StudentTooltipSkeleton'
+import { ConceptMapSkeleton } from '@/components/common/skeleton/skeletons/ConceptMapSkeleton'
+import { ExerciseListSkeleton } from '@/components/common/skeleton/skeletons/ExerciseListSkeleton'
+import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skeletons/ExerciseStatusChartSkeleton'
+import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

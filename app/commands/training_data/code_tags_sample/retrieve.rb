@@ -31,7 +31,7 @@ class TrainingData::CodeTagsSample::Retrieve
   def filter_status!
     return if status.blank?
 
-    @samples = @samples.where(status: TrainingData::CodeTagsSample.sample_status(status))
+    @samples = @samples.where(status: TrainingData::CodeTagsSample.statuses_for_filter(status))
   end
 
   def filter_track!

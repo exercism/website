@@ -74,7 +74,7 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   memoize
   def code = files.to_a.pluck("code").join('\n')
 
-  def self.sample_status(filter_status)
+  def self.statuses_for_filter(filter_status)
     case filter_status
     when :needs_tagging
       :untagged

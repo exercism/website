@@ -25,13 +25,13 @@ module ReactComponents
       end
 
       def tracks
-        ts = ::Track.where(id: ::TrainingData::CodeTagsSample.where(status: sample_status).select(:track_id))
+        ts = ::Track.where(id: ::TrainingData::CodeTagsSample.where(status: statuses_for_filter).select(:track_id))
         ts = ts.where(id: current_user.user_tracks.trainer.select(:track_id)) unless current_user.staff?
         AssembleTracksForSelect.(ts)
       end
 
       def filter_status = params[:status] || DEFAULT_STATUS
-      def sample_status = ::TrainingData::CodeTagsSample.sample_status(filter_status.to_sym)
+      def statuses_for_filter = ::TrainingData::CodeTagsSample.statuses_for_filter(filter_status.to_sym)
 
       DEFAULT_STATUS = :needs_tagging
       private_constant :DEFAULT_STATUS

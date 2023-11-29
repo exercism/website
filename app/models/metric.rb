@@ -47,6 +47,10 @@ class Metric < ApplicationRecord
         }
       end
 
+      if respond_to?(:solution) && solution.published?
+        hash[:published_solution_url] = Exercism::Routes.published_solution_url(solution)
+      end
+
       if respond_to?(:exercise)
         hash[:exercise] = {
           title: exercise.title,

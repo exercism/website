@@ -2,7 +2,7 @@ import { allowedMetricTypes } from './ActivityTicker.types'
 
 // {handle} {METRIC_TEXT} {exercise? | pull_request?}
 export const METRIC_TEXT: Record<allowedMetricTypes, string> = {
-  publish_solution_metric: 'published a new solution for',
+  publish_solution_metric: 'published a',
   open_pull_request_metric: 'opened a',
   merge_pull_request_metric: 'merged a',
   complete_solution_metric: 'completed',

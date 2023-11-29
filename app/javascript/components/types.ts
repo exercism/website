@@ -828,6 +828,7 @@ export type Metric = {
   user?: MetricUser
   countryCode: string
   countryName: string
+  publishedSolutionUrl?: string
   track?: {
     title: string
     iconUrl: string
@@ -835,6 +836,7 @@ export type Metric = {
   pullRequest?: {
     htmlUrl: string
   }
+
   exercise: {
     title: string
     exerciseUrl: string

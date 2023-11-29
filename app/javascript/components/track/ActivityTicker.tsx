@@ -15,7 +15,7 @@ export default function ActivityTicker({
   if (!metric) return
   return (
     <div className={assembleClassNames('flex items-start', animation)}>
-      {metric.user ? (
+      {metric.user || !metric.countryCode ? (
         <Elements.UserAvatar user={metric.user} />
       ) : (
         <Elements.Flag countryCode={metric.countryCode} />
@@ -28,6 +28,11 @@ export default function ActivityTicker({
           />
           &nbsp;
           {Elements.METRIC_TEXT[metric.type]}{' '}
+          {metric.publishedSolutionUrl && (
+            <Elements.PublishedSolutionLink
+              publishedSolutionUrl={metric.publishedSolutionUrl}
+            />
+          )}
           {metric.exercise && (
             <Elements.ExerciseWidget exercise={metric.exercise} />
           )}

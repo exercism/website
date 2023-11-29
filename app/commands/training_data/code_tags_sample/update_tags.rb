@@ -6,7 +6,7 @@ class TrainingData::CodeTagsSample::UpdateTags
   def call
     sample.with_lock do
       sample.lock_for_editing!(user)
-      sample.update!(tags:, status:)
+      sample.update!(tags: tags&.uniq, status:)
       sample.unlock!
     end
   end

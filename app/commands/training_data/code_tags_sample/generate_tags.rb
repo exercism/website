@@ -30,7 +30,7 @@ class TrainingData::CodeTagsSample::GenerateTags
 
   memoize
   def messages
-    [
+    p [ # rubocop:disable Rails/Output
       { "role": "system", "content": SYSTEM_MESSAGE },
       { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.files.to_a.pluck("code").join("\n") } }
     ]
@@ -38,6 +38,6 @@ class TrainingData::CodeTagsSample::GenerateTags
 
   # rubocop:disable Layout/LineLength
   SYSTEM_MESSAGE = "You are a expert in EXERCISM_REPRESENTATION_TAGS".freeze
-  INSTRUCTION = "In JSON, list the set of programming concepts, paradigms and techniques as EXERCISM_REPRESENTATION_TAGS for this %<lang>s code:\n\n---\n\n%<code>s".freeze
+  INSTRUCTION = "Respond with a JSON object containing one top-level key called `tags` containing an array of programming concepts, paradigms and techniques as EXERCISM_REPRESENTATION_TAGS for this %<lang>s code:\n\n---\n\n%<code>s".freeze
   # rubocop:enable Layout/LineLength
 end

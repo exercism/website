@@ -4,7 +4,7 @@ class Badge::Completed12In23BadgeTest < ActiveSupport::TestCase
   test "attributes" do
     badge = create :completed_12_in_23_badge
     assert_equal "Completed #12in23 Challenge", badge.name
-    assert_equal :rare, badge.rarity
+    assert_equal :legendary, badge.rarity
     assert_equal :'badge-completed-12-in-23', badge.icon # rubocop:disable Naming/VariableNumber
     assert_equal 'Completed and published all featured exercises in the #12in23 challenge', badge.description
     assert badge.send_email_on_acquisition?

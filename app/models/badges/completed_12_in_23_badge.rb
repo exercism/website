@@ -1,7 +1,7 @@
 module Badges
   class Completed12In23Badge < Badge
     seed "Completed #12in23 Challenge",
-      :rare,
+      :legendary,
       'badge-completed-12-in-23',
       'Completed and published all featured exercises in the #12in23 challenge'
 

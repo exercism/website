@@ -17,7 +17,7 @@ class TrainingData::CodeTagsSample::GenerateTags
       {
         model:,
         messages:,
-        temperature: 0.2
+        temperature: 0.1
       }.to_json,
       {
         Authorization: "Bearer #{openai_key}",
@@ -30,7 +30,7 @@ class TrainingData::CodeTagsSample::GenerateTags
 
   memoize
   def messages
-    p [ # rubocop:disable Rails/Output
+    [
       { "role": "system", "content": SYSTEM_MESSAGE },
       { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.files.to_a.pluck("code").join("\n") } }
     ]

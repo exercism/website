@@ -11,7 +11,7 @@ class TrainingData::CodeTagsSample::Create
       sample.dataset = dataset
       sample.status = :untagged
       sample.files = submission.files.map do |file|
-        { "filename" => file.filename, "code" => file.file_contents }
+        { "filename" => file.filename, "code" => file.content }
       end
     end
 

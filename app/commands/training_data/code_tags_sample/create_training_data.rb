@@ -71,7 +71,7 @@ class TrainingData::CodeTagsSample::CreateTrainingData
 
         solution_files = submission.files.select do |file|
           next unless exercise_solution_filepaths.include?(file.filename)
-          next unless file.file_contents.present?
+          next unless file.content.present?
 
           true
         end

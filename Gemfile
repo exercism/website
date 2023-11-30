@@ -129,4 +129,5 @@ gem 'maxminddb', '~> 0.1.22'
 
 gem 'rubyzip', '~> 2.3'
 
+gem 'toml', '~> 0.3.0'
 gem 'ruby-openai'

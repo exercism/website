@@ -32,7 +32,7 @@ class TrainingData::CodeTagsSample::GenerateTags
   def messages
     [
       { "role": "system", "content": SYSTEM_MESSAGE },
-      { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.code } }
+      { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.files.to_a.pluck("code").join("\n") } }
     ]
   end
 

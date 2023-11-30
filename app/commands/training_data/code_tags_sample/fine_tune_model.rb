@@ -31,12 +31,7 @@ class TrainingData::CodeTagsSample::FineTuneModel
   end
 
   memoize
-  def client
-    require "openai"
-
-    # TODO: update once config support has been added
-    OpenAI::Client.new(access_token: 'TODO')
-  end
+  def client = Exercism.openai_client
 
   FINE_TUNE_MODEL = 'gpt-3.5-turbo-1106'.freeze
   private_constant :FINE_TUNE_MODEL

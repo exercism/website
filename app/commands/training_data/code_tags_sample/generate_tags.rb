@@ -37,6 +37,6 @@ class TrainingData::CodeTagsSample::GenerateTags
 
   # rubocop:disable Layout/LineLength
   SYSTEM_MESSAGE = "You are a expert in EXERCISM_REPRESENTATION_TAGS".freeze
-  INSTRUCTION = "Respond with a JSON object containing one top-level key called tags containing an array of EXERCISM_REPRESENTATION_TAGS (programming concepts, paradigms and techniques) for this %<lang>s code:\n\n---\n\n%<code>s".freeze
+  INSTRUCTION = "Respond with a JSON object containing one top-level key called tags containing an array of EXERCISM_REPRESENTATION_TAGS (programming concepts, paradigms and techniques) for this %<lang>s code:\n\n---\n\n```\n%<code>s\n```".freeze
   # rubocop:enable Layout/LineLength
 end

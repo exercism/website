@@ -1,4 +1,4 @@
-  # This file is auto-generated from the current state of the database. Instead
+# This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_24_100011) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_01_115917) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -817,6 +817,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_24_100011) do
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
   end
 
+  create_table "site_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "tag", null: false
+    t.string "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag"], name: "index_site_tags_on_tag", unique: true
+  end
+
   create_table "site_updates", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.string "uniqueness_key", null: false
@@ -1206,6 +1214,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_24_100011) do
     t.datetime "locked_until"
     t.bigint "locked_by_id"
     t.text "llm_tags"
+    t.bigint "tagged_by_id"
+    t.bigint "checked_by_id"
     t.index ["exercise_id"], name: "index_training_data_code_tags_samples_on_exercise_id"
     t.index ["solution_id"], name: "index_training_data_code_tags_samples_on_solution_id"
     t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"

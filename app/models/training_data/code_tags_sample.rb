@@ -9,6 +9,8 @@ class TrainingData::CodeTagsSample < ApplicationRecord
   belongs_to :exercise, optional: true
   belongs_to :solution, optional: true
   belongs_to :locked_by, class_name: "User", optional: true
+  belongs_to :tagged_by, class_name: "User", optional: true
+  belongs_to :checked_by, class_name: "User", optional: true
 
   enum dataset: { training: 0, validation: 1 }
   enum status: { untagged: 0, machine_tagged: 1, human_tagged: 2, community_checked: 3, admin_checked: 4 }

@@ -1,7 +1,7 @@
 class TrainingData::CodeTagsSample::GenerateTags
   include Mandate
 
-  initialize_with :sample, :model, :openai_key
+  initialize_with :sample
 
   def call
     return unless sample.safe_to_override?
@@ -12,20 +12,14 @@ class TrainingData::CodeTagsSample::GenerateTags
   private
   memoize
   def tags
-    output = RestClient.post(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        model:,
+    response = client.chat(
+      parameters: {
+        model: Exercism.secrets.openai_tags_model,
         messages:,
         temperature: 0.1
-      }.to_json,
-      {
-        Authorization: "Bearer #{openai_key}",
-        content_type: :json, accept: :json
       }
     )
-    content = JSON.parse(output)['choices'][0]['message']['content']
-    JSON.parse(content)
+    JSON.parse(response.dig("choices", 0, "message", "content"))
   end
 
   memoize
@@ -35,6 +29,9 @@ class TrainingData::CodeTagsSample::GenerateTags
       { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.files.to_a.pluck("code").join("\n") } }
     ]
   end
+
+  memoize
+  def client = Exercism.openai_client
 
   # rubocop:disable Layout/LineLength
   SYSTEM_MESSAGE = "You are a expert in EXERCISM_REPRESENTATION_TAGS".freeze

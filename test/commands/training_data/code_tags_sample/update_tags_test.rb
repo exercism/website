@@ -83,20 +83,18 @@ class TrainingData::CodeTagsSample::UpdateTagsTest < ActiveSupport::TestCase
     assert_equal lock_user, sample.locked_by
   end
 
-  %i[machine_tagged human_tagged].each do |status|
-    test "sets community_checked_by to user when current status is #{status}" do
-      user = create :user
-      tags = ['construct:if']
-      sample = create(:training_data_code_tags_sample, status:, locked_by: nil, locked_until: nil)
+  test "sets community_checked_by to user when new status is community_checked" do
+    user = create :user
+    tags = ['construct:if']
+    sample = create(:training_data_code_tags_sample, status: :machine_tagged, locked_by: nil, locked_until: nil)
 
-      TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :community_checked, user)
+    TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :community_checked, user)
 
-      assert_equal user, sample.community_checked_by
-      assert_nil sample.admin_checked_by
-    end
+    assert_equal user, sample.community_checked_by
+    assert_nil sample.admin_checked_by
   end
 
-  test "sets admin_checked_by to user when current status is community_checked" do
+  test "sets admin_checked_by to user when new status is admin_checked" do
     user = create :user
     community_checked_by_user = create :user
     tags = ['construct:if']

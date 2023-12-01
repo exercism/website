@@ -15,7 +15,7 @@ class TrainingData::CodeTagsSample::GenerateTagsTest < ActiveSupport::TestCase
           model:,
           messages: [
             { role: "system", content: "You are a expert in EXERCISM_REPRESENTATION_TAGS" },
-            { role: "user", content: "Respond with a JSON object containing one top-level key called `tags` containing an array of programming concepts, paradigms and techniques as EXERCISM_REPRESENTATION_TAGS for this Ruby code:\n\n---\n\nHello, World!" } # rubocop:disable Layout/LineLength
+            { role: "user", content: "Respond with a JSON object containing one top-level key called tags containing an array of EXERCISM_REPRESENTATION_TAGS (programming concepts, paradigms and techniques) for this Ruby code:\n\n---\n\nHello, World!" } # rubocop:disable Layout/LineLength
           ],
           temperature: 0.1
         }.to_json,

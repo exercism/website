@@ -18,13 +18,13 @@ class TrainingData::CodeTagsSample::UpdateTags
 
   private
   def community_checked_by
-    return user if sample.status == :machine_tagged || sample.status == :human_tagged
+    return user if status == :community_checked
 
     sample.community_checked_by
   end
 
   def admin_checked_by
-    return user if sample.status == :community_checked
+    return user if status == :admin_checked
 
     sample.admin_checked_by
   end

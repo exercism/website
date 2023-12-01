@@ -89,7 +89,7 @@ class TrainingData::CodeTagsSample::UpdateTagsTest < ActiveSupport::TestCase
       tags = ['construct:if']
       sample = create(:training_data_code_tags_sample, status:, locked_by: nil, locked_until: nil)
 
-      TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :human_tagged, user)
+      TrainingData::CodeTagsSample::UpdateTags.(sample, tags, :community_checked, user)
 
       assert_equal user, sample.community_checked_by
       assert_nil sample.admin_checked_by

@@ -3,7 +3,7 @@ class CreateSiteTags < ActiveRecord::Migration[7.0]
     return if Rails.env.production?
 
     create_table :site_tags do |t|
-      t.string :tag, null: false
+      t.string :tag, null: false, index: { unique: true }
       t.string :description, null: false
 
       t.timestamps

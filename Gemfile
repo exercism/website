@@ -38,7 +38,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.116.0'
+gem 'exercism-config', '>= 0.117.0'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
@@ -129,4 +129,5 @@ gem 'maxminddb', '~> 0.1.22'
 
 gem 'rubyzip', '~> 2.3'
 
-gem "toml", "~> 0.3.0"
+gem 'toml', '~> 0.3.0'
+gem 'ruby-openai'

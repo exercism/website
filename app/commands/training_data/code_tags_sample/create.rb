@@ -15,7 +15,7 @@ class TrainingData::CodeTagsSample::Create
       end
     end
 
-    TrainingData::CodeTagsSample::GenerateTags.defer(sample) if generate_tags?
+    TrainingData::CodeTagsSample::GenerateTags.defer(sample) if generate_tags?(sample)
 
     sample
   end
@@ -24,7 +24,7 @@ class TrainingData::CodeTagsSample::Create
   memoize
   def submission = solution.latest_published_iteration_submission
 
-  def generate_tags?
+  def generate_tags?(sample)
     sample.status == :untagged &&
       sample.dataset == :training &&
       sample.llm_tags.blank?

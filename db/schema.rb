@@ -817,14 +817,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_115917) do
     t.index ["user_id"], name: "index_scratchpad_pages_on_user_id"
   end
 
-  create_table "site_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "tag", null: false
-    t.string "description", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tag"], name: "index_site_tags_on_tag", unique: true
-  end
-
   create_table "site_updates", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.string "uniqueness_key", null: false

@@ -15,7 +15,7 @@ class TrainingData::CodeTagsSample::Create
       end
     end
 
-    # TODO: schedule fetching tags via LLM in background
+    TrainingData::CodeTagsSample::GenerateTags.defer(sample)
   end
 
   private

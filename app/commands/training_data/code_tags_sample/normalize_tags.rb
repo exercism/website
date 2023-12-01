@@ -198,8 +198,8 @@ class TrainingData::CodeTagsSample::NormalizeTags
     'technique:regular-expressions' => ['technique:regular-expression'],
     'technique:search' => [],
     'technique:set-algebra' => [],
-    'uses.math.cosin' => 'uses:math.cosin',
-    'uses.math.sin' => 'uses:math.sin'
+    'uses.math.cosin' => ['uses:math.cosin'],
+    'uses.math.sin' => ['uses:math.sin']
   }.freeze
   private_constant :MAPPING
 end

@@ -1,7 +1,9 @@
 class TrainingData::CodeTagsSample::GenerateTags
   include Mandate
 
-  initialize_with :sample, :model, :openai_key
+  queue_as :background
+
+  initialize_with :sample
 
   def call
     return unless sample.safe_to_override?
@@ -12,32 +14,29 @@ class TrainingData::CodeTagsSample::GenerateTags
   private
   memoize
   def tags
-    output = RestClient.post(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        model:,
+    response = client.chat(
+      parameters: {
+        model: Exercism.secrets.openai_tags_model,
         messages:,
-        temperature: 0.2
-      }.to_json,
-      {
-        Authorization: "Bearer #{openai_key}",
-        content_type: :json, accept: :json
+        temperature: 0.1
       }
     )
-    content = JSON.parse(output)['choices'][0]['message']['content']
-    JSON.parse(content)
+    JSON.parse(response.dig("choices", 0, "message", "content"))
   end
 
   memoize
   def messages
     [
       { "role": "system", "content": SYSTEM_MESSAGE },
-      { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.code } }
+      { "role": "user", "content": INSTRUCTION % { lang: sample.track.title, code: sample.files.to_a.pluck("code").join("\n") } }
     ]
   end
 
+  memoize
+  def client = Exercism.openai_client
+
   # rubocop:disable Layout/LineLength
   SYSTEM_MESSAGE = "You are a expert in EXERCISM_REPRESENTATION_TAGS".freeze
-  INSTRUCTION = "In JSON, list the set of programming concepts, paradigms and techniques as EXERCISM_REPRESENTATION_TAGS for this %<lang>s code:\n\n---\n\n%<code>s".freeze
+  INSTRUCTION = "Respond with a JSON object containing one top-level key called `tags` containing an array of programming concepts, paradigms and techniques as EXERCISM_REPRESENTATION_TAGS for this %<lang>s code:\n\n---\n\n%<code>s".freeze
   # rubocop:enable Layout/LineLength
 end

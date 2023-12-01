@@ -63,10 +63,10 @@ export function Representations({
     handleTrackChange,
     handleOnlyMentoredSolutions,
     handlePageResetOnInputChange,
-  } = useAutomation(representationsRequest, tracks)
+  } = useAutomation(representationsRequest, tracks, selectedTab)
 
   return (
-    <div className="c-mentor-inbox">
+    <div className="c-mentor-automation">
       {!isIntroducerHidden && (
         <AutomationIntroducer hideEndpoint={links.hideIntroducer} />
       )}

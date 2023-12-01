@@ -16,6 +16,7 @@ class Metric::Create
     klass.new(occurred_at:, params:).tap do |metric|
       if metric.store_country_code?
         metric.country_code = country_code
+        metric.country_name = country_name
         metric.coordinates = coordinates
       end
       metric.save!
@@ -31,6 +32,10 @@ class Metric::Create
 
   def country_code
     geocoded&.country_code.presence
+  end
+
+  def country_name
+    geocoded&.country.presence
   end
 
   def coordinates

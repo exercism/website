@@ -420,6 +420,68 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::NibblyNovemberBadge
   end
 
+  test "awards december diversions badge when published five or more exercises in a December Diversions track" do
+    travel_to Time.utc(2022, 12, 12)
+
+    track = create :track, slug: 'wren'
+    user = create :user
+    user_track = create(:user_track, user:, track:)
+
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    4.times do
+      exercise = create(:practice_exercise, :random_slug, track:)
+      create(:practice_solution, :published, user:, track:, exercise:)
+      refute user.badges.present?
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, exercise:)
+    create :iteration, solution:, idx: 1
+    refute user.badges.present?
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::DecemberDiversionsBadge
+  end
+
+  test "awards completed 12 in 23 badge when published all featured exercises" do
+    travel_to Time.utc(2023, 12, 25)
+
+    user = create :user
+    create :user_challenge, user:, challenge_id: '12in23'
+
+    User::Challenges::FeaturedExercisesProgress12In23.featured_exercises.values.flatten.uniq.each do |track_slug|
+      track = create(:track, slug: track_slug)
+      create(:user_track, user:, track:)
+    end
+
+    User::Challenges::FeaturedExercisesProgress12In23.featured_exercises.to_a[0..-2].each do |(exercise_slug, track_slugs)|
+      track = Track.for!(track_slugs.sample)
+      exercise = create(:practice_exercise, track:, slug: exercise_slug)
+      create(:practice_solution, :published, user:, track:, exercise:)
+    end
+
+    # Sanity check: don't award badge when not yet published all exercises
+    perform_enqueued_jobs
+    refute_includes user.reload.badges.map(&:class), Badges::Completed12In23Badge
+
+    exercise_slug, track_slugs = User::Challenges::FeaturedExercisesProgress12In23.featured_exercises.to_a.last
+    track = Track.for!(track_slugs.sample)
+    exercise = create(:practice_exercise, track:, slug: exercise_slug)
+    create(:practice_solution, :completed, user:, track:, exercise:)
+
+    perform_enqueued_jobs
+    refute_includes user.reload.badges.map(&:class), Badges::Completed12In23Badge
+
+    perform_enqueued_jobs do
+      Solution::Publish.(user.solutions.last, user.solutions.last.user_track, 1)
+    end
+
+    assert_includes user.reload.badges.map(&:class), Badges::Completed12In23Badge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track

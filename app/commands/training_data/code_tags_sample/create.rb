@@ -15,7 +15,7 @@ class TrainingData::CodeTagsSample::Create
       end
     end
 
-    TrainingData::CodeTagsSample::GenerateTags.defer(sample)
+    TrainingData::CodeTagsSample::GenerateTags.defer(sample) if sample.llm_tags.blank?
   end
 
   private

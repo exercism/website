@@ -5,15 +5,15 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            Month 11 of #12in23
-          %h1.text-h1.mb-8 It's Nibbly November! ✨
+            Month 12 of #12in23
+          %h1.text-h1.mb-8 It's December Diversions! ✨
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring assembly languages.
-            We're digging into the following languages: x86-64 Assembly, MIPS Assembly and WebAssembly, with interviews and live streaming and lots of fun exercises for you to complete!
+            This month for #12in23 we're exploring these.
+            We're digging into the following languages: ColdFusion, Groovy, Lua, VimScript and Wren, with interviews and live streaming and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Nibbly November overview video  👉
+              %h2.text-h4.mb-2 Start by watching our December Diversions overview video  👉
               %p.text-p-base.mb-8
                 Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
@@ -22,12 +22,12 @@
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/Dc_eaC19vVo", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/_w5Q3Tc1kqY", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-          - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::NOVEMBER_TRACKS)
+          - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::DECEMBER_TRACKS)
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            Earn the Nibbly November badge for completing and publishing 5 exercises in one of the following languages.
+            Earn the December Diversions badge for completing and publishing 5 exercises in one of the following languages.
             - if tracks.any?(&:course?)
               Consider starting with a language with a syllabus (
               = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
@@ -45,26 +45,27 @@
           %p.text-p-large.mb-12
             You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
           %ul.text-p-large.mb-12
+
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/pop-count.svg", class: "w-[25px] inline"
-              %strong.font-semibold Eliud's Eggs:
-              Count the number of 1 bits in a binary representation.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/all-your-base.svg", class: "w-[25px] inline"
+              %strong.font-semibold All Your Base:
+              Convert a number, represented as a sequence of digits, to another base.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/grains.svg", class: "w-[25px] inline"
-              %strong.font-semibold Grains:
-              Calculate the number of grains on a chessboard with doubling squares.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/flatten-array.svg", class: "w-[25px] inline"
+              %strong.font-semibold Flatten Array:
+              Take a nested collection and return a single, non-nested collection.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/resistor-color.svg", class: "w-[25px] inline"
-              %strong.font-semibold Resistor Color:
-              Convert a resistor band's color to its numeric representation.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/queen-attack.svg", class: "w-[25px] inline"
+              %strong.font-semibold Queen Attack:
+              Determine whether two queens on a chess board can attack each other.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/rotational-cipher.svg", class: "w-[25px] inline"
-              %strong.font-semibold Rotational Cipher:
-              Implement the rotational cipher (aka the Caesar cipher).
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/dnd-character.svg", class: "w-[25px] inline"
+              %strong.font-semibold DND Character:
+              Randomly generate Dungeons & Dragons characters.
             %li.mb-2
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/nucleotide-count.svg", class: "w-[25px] inline"
-              %strong.font-semibold Nucleotide Count:
-              Compute how many times each nucleotide occurs in a DNA string.
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/run-length-encoding.svg", class: "w-[25px] inline"
+              %strong.font-semibold Run-Length Encoding:
+              Implement run-length encoding and decoding.
 
           %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12.c-highlight-links

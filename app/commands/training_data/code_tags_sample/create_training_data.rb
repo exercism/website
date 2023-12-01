@@ -6,7 +6,7 @@ class TrainingData::CodeTagsSample::CreateTrainingData
   def call
     @solutions = []
 
-    find_solutions(PREFERENTIAL_EXERCISE_SLUGS)
+    find_solutions(PREFERENTIAL_EXERCISE_SLUGS.dup)
     find_solutions(non_preferential_exercise_slugs)
 
     create_data!
@@ -43,7 +43,7 @@ class TrainingData::CodeTagsSample::CreateTrainingData
       exercise_slugs << exercise_slug if exercises[exercise_slug][:num_published_solutions].present?
 
       exercise = exercises[exercise_slug][:exercise]
-      solution = find_solution(exercise, num_published_solutions, solutions)
+      solution = find_solution(exercise, num_published_solutions)
 
       next if solution.nil?
 

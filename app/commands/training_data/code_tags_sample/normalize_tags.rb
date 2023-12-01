@@ -5,8 +5,13 @@ class TrainingData::CodeTagsSample::NormalizeTags
 
   def call
     return nil if tags.nil?
+    return nil if normalized_tags.empty?
 
-    tags.flat_map { |tag| MAPPING.fetch(tag, tag) }.uniq
+    normalized_tags
+  end
+
+  def normalized_tags
+    tags.flat_map { |tag| MAPPING.fetch(tag, tag) }.reject(&:blank?).uniq
   end
 
   MAPPING = {

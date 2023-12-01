@@ -4,6 +4,7 @@ class Track::Tag < ApplicationRecord
   belongs_to :track
 
   scope :enabled, -> { where(enabled: true) }
+  scope :disabled, -> { where(enabled: false) }
   scope :filterable, -> { where(filterable: true) }
 
   memoize

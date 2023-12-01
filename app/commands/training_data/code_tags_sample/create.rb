@@ -7,15 +7,17 @@ class TrainingData::CodeTagsSample::Create
     return if submission.nil?
     return if submission.files.blank?
 
-    TrainingData::CodeTagsSample.find_create_or_find_by!(solution:) do |sample|
-      sample.dataset = dataset
-      sample.status = :untagged
-      sample.files = submission.files.map do |file|
+    sample = TrainingData::CodeTagsSample.find_create_or_find_by!(solution:) do |attributes|
+      attributes.dataset = dataset
+      attributes.status = :untagged
+      attributes.files = submission.files.map do |file|
         { "filename" => file.filename, "code" => file.content }
       end
     end
 
-    TrainingData::CodeTagsSample::GenerateTags.defer(sample) if sample.llm_tags.blank?
+    sample.tap do
+      TrainingData::CodeTagsSample::GenerateTags.defer(sample) if sample.llm_tags.blank?
+    end
   end
 
   private

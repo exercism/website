@@ -1,6 +1,8 @@
 class TrainingData::CodeTagsSample::GenerateTags
   include Mandate
 
+  queue_as :background
+
   initialize_with :sample
 
   def call

@@ -30,7 +30,7 @@ class TrainingData::CodeTagsSample::CreateTrainingData
   end
 
   def find_solutions(exercise_slugs)
-    while solutions.size < 50 && exercise_slugs.present?
+    while solutions.size < MAX_NUM_SOLUTIONS && exercise_slugs.present?
       exercise_slug = exercise_slugs.shift
 
       next unless exercises.key?(exercise_slug)
@@ -88,7 +88,7 @@ class TrainingData::CodeTagsSample::CreateTrainingData
       pluck(:slug)
   end
 
-  MAX_NUM_SOLUTIONS = 50
+  MAX_NUM_SOLUTIONS = 20
   PREFERENTIAL_EXERCISE_SLUGS = %w[
     acronym
     collatz-conjecture

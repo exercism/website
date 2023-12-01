@@ -38,12 +38,4 @@ class Exercise::UpdateTagsTest < ActiveSupport::TestCase
     assert_equal [solution_tag_to_keep.tag, solution_tag_to_add.tag], exercise.reload.tags.order(:id).pluck(:tag)
     assert_raises ActiveRecord::RecordNotFound, &proc { existing_tag_to_remove.reload }
   end
-
-  test "update track tags" do
-    exercise = create :practice_exercise
-
-    Track::UpdateTags.expects(:call).with(exercise.track)
-
-    Exercise::UpdateTags.(exercise)
-  end
 end

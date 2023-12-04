@@ -33,7 +33,7 @@ module Flows
             visit track_url(@track)
             MetricsChannel.broadcast!(metric)
 
-            assert_text "Someone in Japan submitted"
+            assert_text "Someone in Japan attempted"
             assert_text submission.exercise.title
           end
         end

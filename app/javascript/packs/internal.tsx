@@ -203,6 +203,7 @@ const UnpublishSolutionModalButton = lazy(
 
 import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
+import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -500,7 +501,7 @@ initReact({
     </Suspense>
   ),
   'dropdowns-track-menu': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<TrackMenuDropdownSkeleton />}>
       <TrackMenuDropdown
         track={data.track}
         links={camelizeKeysAs<TrackMenuLinks>(data.links)}

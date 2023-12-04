@@ -205,6 +205,7 @@ import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
+import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -493,7 +494,7 @@ initReact({
     </Suspense>
   ),
   'dropdowns-reputation': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ReputationDropdownSkeleton />}>
       <ReputationDropdown
         endpoint={data.endpoint}
         defaultIsSeen={data.is_seen}

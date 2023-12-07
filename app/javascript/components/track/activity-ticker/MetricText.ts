@@ -7,5 +7,5 @@ export const METRIC_TEXT: Record<allowedMetricTypes, string> = {
   merge_pull_request_metric: 'merged a',
   complete_solution_metric: 'completed',
   start_solution_metric: 'started',
-  submit_submission_metric: 'submitted',
+  submit_submission_metric: 'attempted',
 }

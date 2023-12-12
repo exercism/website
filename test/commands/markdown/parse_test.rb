@@ -157,6 +157,21 @@ Done')
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
+  test 'adds data-turbo="false" to internal links with anchor' do
+    expected = '<p><a href="https://exercism.org#about" data-turbo="false">Some link</a></p>'
+    assert_equal expected.chomp, Markdown::Parse.('[Some link](https://exercism.org#about)').chomp
+  end
+
+  test 'does not add data-turbo="false" to internal links without anchor' do
+    expected = '<p><a href="https://exercism.org">Some link</a></p>'
+    assert_equal expected.chomp, Markdown::Parse.('[Some link](https://exercism.org)').chomp
+  end
+
+  test 'does not add data-turbo="false" to external links with anchor' do
+    expected = '<p><a href="http://example.com#faq" target="_blank" rel="noreferrer">Some link</a></p>'
+    assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com#faq)').chomp
+  end
+
   test "parses double tildes as strikethrough" do
     assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
   end
@@ -240,7 +255,7 @@ Done')
   end
 
   test "render internal link ending with hash" do
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/concepts/basics#intro" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/concepts/basics#intro" data-turbo="false" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[basics](https://exercism.org/tracks/ruby/concepts/basics#intro)")
   end
 

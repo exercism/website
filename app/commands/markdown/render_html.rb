@@ -44,13 +44,16 @@ class Markdown::RenderHTML
       # TODO: re-enable once we figure out how to do custom scrubbing
       # return vimeo_link(node) if vimeo_link?(node)
 
+      uri = Addressable::URI.parse(node.url)
+
       out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
-      if external_url?(node.url)
+      if external_url?(uri)
         out(' target="_blank"')
         out(' rel="noreferrer', nofollow_links ? ' nofollow' : '', '"')
-      elsif nofollow_links
-        out(' rel="nofollow"')
+      else
+        out(' rel="nofollow"') if nofollow_links
+        out(' data-turbo="false"') if uri.fragment.present?
       end
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
@@ -64,8 +67,7 @@ class Markdown::RenderHTML
       end
     end
 
-    def external_url?(url)
-      uri = Addressable::URI.parse(url)
+    def external_url?(uri)
       return false if uri.scheme.nil?
       return true unless %w[https http].include?(uri.scheme)
       return false if %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.io].include?(uri.host)

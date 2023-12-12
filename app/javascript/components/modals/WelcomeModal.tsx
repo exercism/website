@@ -32,9 +32,6 @@ export default function WelcomeModal({
       onSuccess: () => {
         setOpen(false)
       },
-      onError: (e) => {
-        console.log('this is an error:', e)
-      },
     }
   )
 

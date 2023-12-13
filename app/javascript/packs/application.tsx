@@ -528,7 +528,7 @@ export const mappings = {
     </Suspense>
   ),
   'dropdowns-dropdown': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<UserMenuDropdownSkeleton />}>
       <Dropdown menuButton={data.menu_button} menuItems={data.menu_items} />
     </Suspense>
   ),
@@ -543,7 +543,7 @@ export const mappings = {
       default_theme: string
     }
   ): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<ThemeToggleButtonSkeleton />}>
       <ThemeToggleButton {...data} defaultTheme={data.default_theme} />
     </Suspense>
   ),
@@ -740,6 +740,8 @@ import { ConceptMapSkeleton } from '@/components/common/skeleton/skeletons/Conce
 import { ExerciseListSkeleton } from '@/components/common/skeleton/skeletons/ExerciseListSkeleton'
 import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skeletons/ExerciseStatusChartSkeleton'
 import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
+import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
+import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

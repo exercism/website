@@ -203,6 +203,9 @@ const UnpublishSolutionModalButton = lazy(
 
 import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
+import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
+import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
+import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -486,21 +489,25 @@ initReact({
     </Suspense>
   ),
   'dropdowns-notifications': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<NotificationsDropdownSkeleton />}>
       <NotificationsDropdown endpoint={data.endpoint} />
     </Suspense>
   ),
   'dropdowns-reputation': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <ReputationDropdown
-        endpoint={data.endpoint}
-        defaultIsSeen={data.is_seen}
-        defaultReputation={data.reputation}
-      />
+    <Suspense
+      fallback={<ReputationDropdownSkeleton reputation={data.reputation} />}
+    >
+      <div className="flex gap-8">
+        <ReputationDropdown
+          endpoint={data.endpoint}
+          defaultIsSeen={data.is_seen}
+          defaultReputation={data.reputation}
+        />
+      </div>
     </Suspense>
   ),
   'dropdowns-track-menu': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
+    <Suspense fallback={<TrackMenuDropdownSkeleton />}>
       <TrackMenuDropdown
         track={data.track}
         links={camelizeKeysAs<TrackMenuLinks>(data.links)}

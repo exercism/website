@@ -19,7 +19,7 @@ export default function WelcomeModal({
     status,
     error,
   } = useMutation(
-    async () => {
+    () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,7 +30,7 @@ export default function WelcomeModal({
     },
     {
       onSuccess: () => {
-        handleClose()
+        setOpen(false)
       },
     }
   )
@@ -38,14 +38,6 @@ export default function WelcomeModal({
   const handleClick = useCallback(() => {
     mutation()
   }, [mutation])
-
-  const handleClose = useCallback(() => {
-    if (status === 'loading') {
-      return
-    }
-
-    setOpen(false)
-  }, [status])
 
   return (
     <Modal

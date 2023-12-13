@@ -22,7 +22,7 @@ export const Pronouns = ({
       content={content}
       className="text-15 leading-140 !max-w-[420px]"
     >
-      <div className="cursor-default text-textColor6 font-semibold flex items-center gap-8 mb-6">
+      <div className="w-fit cursor-default text-textColor6 font-semibold flex items-center gap-8 mb-6">
         <GraphicalIcon
           icon="pronouns"
           className="filter-textColor6"

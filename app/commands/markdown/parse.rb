@@ -28,6 +28,7 @@ class Markdown::Parse
         next if ALLOWED_ATTRIBUTE_NAMES.include?(attr_node.node_name)
         next if attr_node.node_name == 'data-tooltip-type' && ALLOWED_TOOLTIP_TYPES.include?(attr_node.value)
         next if attr_node.node_name == 'data-endpoint' && attr_node.value.start_with?('/')
+        next if attr_node.node_name == 'data-turbo'
 
         attr_node.remove
       end

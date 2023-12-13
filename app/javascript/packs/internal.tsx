@@ -494,12 +494,16 @@ initReact({
     </Suspense>
   ),
   'dropdowns-reputation': (data: any) => (
-    <Suspense fallback={<ReputationDropdownSkeleton />}>
-      <ReputationDropdown
-        endpoint={data.endpoint}
-        defaultIsSeen={data.is_seen}
-        defaultReputation={data.reputation}
-      />
+    <Suspense
+      fallback={<ReputationDropdownSkeleton reputation={data.reputation} />}
+    >
+      <div className="flex gap-8">
+        <ReputationDropdown
+          endpoint={data.endpoint}
+          defaultIsSeen={data.is_seen}
+          defaultReputation={data.reputation}
+        />
+      </div>
     </Suspense>
   ),
   'dropdowns-track-menu': (data: any) => (

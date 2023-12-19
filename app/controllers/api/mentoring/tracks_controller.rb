@@ -17,8 +17,7 @@ class API::Mentoring::TracksController < API::BaseController
 
   def update
     tracks = Track.where(slug: params[:track_slugs])
-
-    current_user.update!(mentored_tracks: tracks)
+    Mentor::UpdateMentoredTracks.(current_user, tracks)
 
     render json: {
       tracks: SerializeTracksForMentoring.(current_user.mentored_tracks, current_user)

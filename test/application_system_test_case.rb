@@ -65,6 +65,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.register_driver :selenium_chrome_headless do |app|
     options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless window-size=1400,1000])
 
+    options.add_argument("headless=new")
+
     # Specify the download directory to allow retrieving files in system tests
     options.add_preference("download.default_directory", TestHelpers.download_dir.to_s)
 

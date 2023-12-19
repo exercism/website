@@ -5,5 +5,6 @@ class Mentor::UpdateMentoredTracks
 
   def call
     mentor.update!(mentored_tracks: tracks)
+    User::UpdateSupermentorRole.defer(mentor)
   end
 end

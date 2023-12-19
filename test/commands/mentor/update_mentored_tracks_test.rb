@@ -41,4 +41,12 @@ class Mentor::UpdateMentoredTracksTest < ActiveSupport::TestCase
       track_mentorship.reload
     end
   end
+
+  test "updates supermentor role" do
+    mentor = create :user
+
+    User::UpdateSupermentorRole.expects(:defer).with(mentor)
+
+    Mentor::UpdateMentoredTracks.(mentor, [])
+  end
 end

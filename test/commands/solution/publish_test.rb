@@ -482,6 +482,33 @@ class Solution::PublishTest < ActiveSupport::TestCase
     assert_includes user.reload.badges.map(&:class), Badges::Completed12In23Badge
   end
 
+  test "awards polyglot badge" do
+    travel_to Time.utc(2023, 6, 3)
+    user = create :user
+
+    create_list(:track, 11, :random_slug).each do |track|
+      create_list(:practice_exercise, 5, track:) do |exercise|
+        create(:practice_solution, :published, user:, track:, exercise:)
+      end
+    end
+
+    track = create :track, :random_slug
+    user_track = create(:user_track, user:, track:)
+
+    create_list(:practice_exercise, 4, track:) do |exercise|
+      create(:practice_solution, :published, user:, track:, exercise:)
+    end
+
+    exercise = create(:practice_exercise, :random_slug, track:)
+    solution = create(:practice_solution, user:, track:, exercise:)
+    create :iteration, solution:, idx: 1
+
+    Solution::Publish.(solution, user_track, 1)
+
+    perform_enqueued_jobs
+    assert_includes user.reload.badges.map(&:class), Badges::PolyglotBadge
+  end
+
   test "solution snippet updated to published iteration's snippet when single iteration is published" do
     solution = create :practice_solution, snippet: 'my snippet'
     create :user_track, user: solution.user, track: solution.track

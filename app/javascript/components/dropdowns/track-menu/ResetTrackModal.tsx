@@ -97,6 +97,19 @@ export const ResetTrackModal = ({
               {track.title}
             </li>
           </ul>
+          <p>
+            <strong>You will keep:</strong>
+          </p>
+          <ul>
+            <li>
+              The local version of any {track.title} solutions you wrote outside
+              Exercism
+            </li>
+            <li>
+              Any badges earned as a result of your work on the {track.title}{' '}
+              track
+            </li>
+          </ul>
         </div>
         <hr />
         <label htmlFor="confirmation">

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon } from './Icon'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export type Flair = 'insider' | 'lifetime_insider' | 'founder' | 'staff'
 
@@ -38,14 +39,16 @@ export function HandleWithFlair({
   flair,
   size = 'base',
   iconClassName,
+  className,
 }: {
   handle: string
   flair: Flair
   size?: keyof typeof FLAIR_SIZE
   iconClassName?: string
+  className?: string
 }): JSX.Element | null {
   return (
-    <span className="flex items-center">
+    <span className={assembleClassNames('flex items-center', className)}>
       {handle}
       {Object.prototype.hasOwnProperty.call(FLAIRS, flair) && (
         <>

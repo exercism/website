@@ -24,7 +24,6 @@ class ChallengesController < ApplicationController
   private
   def use_challenge_id!
     @challenge_id = params[:id]
-
     redirect_to root_path unless User::Challenge::CHALLENGES.include?(@challenge_id)
   end
 

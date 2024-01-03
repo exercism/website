@@ -105,6 +105,8 @@ body.namespace-.controller-about.action-impact {
             & .content {
                 @apply text-20 leading-130 font-medium;
                 @apply mb-8;
+                width: 300px;
+                @apply truncate;
             }
             & .student-name {
                 @apply text-16 text-textColor2 font-medium leading-160;

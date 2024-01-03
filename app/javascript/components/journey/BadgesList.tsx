@@ -57,6 +57,10 @@ export const BadgesList = ({
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
+  useEffect(() => {
+    scrollToTop('badges-list', 0, 'smooth')
+  }, [])
+
   return (
     <article
       data-scroll-top-anchor="badges-list"

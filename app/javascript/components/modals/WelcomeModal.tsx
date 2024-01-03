@@ -99,13 +99,6 @@ export default function WelcomeModal({
             allowFullScreen
           />
         </div>
-        <h2 className="text-h4 mb-4">Where can I join #12in23?</h2>
-        <p className="text-p-base mb-8">
-          Discovered Exercism because of #12in23 or one of our featured months?
-          Good stuff! Once you&apos;ve watched the video above, close this modal
-          and you&apos;ll see a big graphic on the right-hand side advertising
-          #12in23. Click on that and follow the instructions to get started!
-        </p>
       </div>
     </Modal>
   )

@@ -3,11 +3,12 @@ require 'test_helper'
 class SerializeMentorTestimonialsTest < ActiveSupport::TestCase
   test "basic testimonial" do
     student = create :user, handle: "student"
+    mentor = create :user, handle: "mentor"
     track = create :track
     exercise = create(:concept_exercise, track:)
     solution = create(:concept_solution, exercise:)
     discussion = create(:mentor_discussion, solution:)
-    testimonial = create(:mentor_testimonial, content: "Great mentor!", student:, discussion:)
+    testimonial = create(:mentor_testimonial, content: "Great mentor!", student:, mentor:, discussion:)
 
     expected = [
       {
@@ -17,6 +18,11 @@ class SerializeMentorTestimonialsTest < ActiveSupport::TestCase
           avatar_url: student.avatar_url,
           handle: "student",
           flair: student&.flair
+        },
+        mentor: {
+          avatar_url: mentor.avatar_url,
+          handle: "mentor",
+          flair: mentor&.flair
         },
         exercise: {
           title: exercise.title,

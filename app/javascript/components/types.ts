@@ -70,6 +70,11 @@ export type Testimonial = {
     handle: string
     flair: Flair
   }
+  mentor: {
+    avatarUrl: string
+    handle: string
+    flair: Flair
+  }
   exercise: {
     title: string
     iconUrl: string

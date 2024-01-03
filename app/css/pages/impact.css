@@ -96,19 +96,11 @@ body.namespace-.controller-about.action-impact {
             @apply relative;
             @apply text-left;
 
-            & .c-avatar {
-                @apply absolute;
-                top: -24px;
-                height: 48px;
-                width: 48px;
-            }
             & .content {
                 @apply text-20 leading-130 font-medium;
                 @apply mb-8;
-            }
-            & .student-name {
-                @apply text-16 text-textColor2 font-medium leading-160;
-                @apply mb-2;
+                width: 300px;
+                @apply truncate;
             }
             & .exercise {
                 @apply flex items-center mb-8;

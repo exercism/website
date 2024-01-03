@@ -1,7 +1,12 @@
 import React from 'react'
 import { fromNow } from '@/utils/date'
 import { Testimonial as TestimonialProps } from '@/components/types'
-import { Avatar, HandleWithFlair, TrackIcon } from '@/components/common'
+import {
+  Avatar,
+  GraphicalIcon,
+  HandleWithFlair,
+  TrackIcon,
+} from '@/components/common'
 import { TestimonialModal } from './TestimonialModal'
 
 export const Testimonial = ({
@@ -18,16 +23,30 @@ export const Testimonial = ({
   return (
     <React.Fragment>
       <button className="testimonial" type="button" onClick={onClick}>
-        <Avatar
-          handle={testimonial.student.handle}
-          src={testimonial.student.avatarUrl}
-        />
-        <div className="content">{testimonial.content}</div>
-        <div className="student-name">
-          <HandleWithFlair
+        <div className="absolute flex gap-8 items-center -top-24">
+          <Avatar
             handle={testimonial.student.handle}
-            flair={testimonial.student.flair}
+            src={testimonial.student.avatarUrl}
+            className="h-[48px] w-[48px]"
           />
+
+          <GraphicalIcon
+            icon="arrow-right"
+            width={16}
+            height={16}
+            className="filter-textColor6 -translate-y-[0.5px]"
+          />
+          <Avatar
+            handle={testimonial.mentor.handle}
+            src={testimonial.mentor.avatarUrl}
+            className="h-[48px] w-[48px]"
+          />
+        </div>
+        <div className="content">{testimonial.content}</div>
+        <div className="inline-flex flex-wrap items-center gap-x-4 text-16 text-textColor2 leading-160">
+          <span className="font-medium">{testimonial.student.handle}</span> said
+          this about{' '}
+          <span className="font-medium">{testimonial.mentor.handle}</span>
         </div>
         <div className="exercise">
           {testimonial.exercise.title} on{' '}

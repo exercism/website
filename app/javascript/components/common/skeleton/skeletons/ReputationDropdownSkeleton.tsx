@@ -1,8 +1,6 @@
 import React from 'react'
 import { SkeletonShape } from '../components/SkeletonShape'
 import { SkeletonLoader } from '../components/SkeletonLoader'
-import { useLogger } from '@/hooks'
-import { getTextWidth } from '@/utils/get-text-width'
 
 // pl-70 comes from:
 // px-16 + 24px icon with mr-8 + 3px border
@@ -12,7 +10,6 @@ export function ReputationDropdownSkeleton({
 }: {
   reputation: string
 }) {
-  useLogger('reputation', reputation)
   return (
     <SkeletonLoader>
       <SkeletonShape

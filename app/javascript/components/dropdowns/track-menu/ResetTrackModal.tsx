@@ -98,16 +98,16 @@ export const ResetTrackModal = ({
             </li>
           </ul>
           <p>
-            <strong>You will keep:</strong>
+            <strong>However:</strong>
           </p>
           <ul>
             <li>
-              The local version of any {track.title} solutions you wrote outside
-              Exercism
+              Any local versions of solutions stored on your machine will be
+              unaffected
             </li>
             <li>
-              Any badges earned as a result of your work on the {track.title}{' '}
-              track
+              You will keep any badges earned as a result of your work on the{' '}
+              {track.title} track
             </li>
           </ul>
         </div>

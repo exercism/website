@@ -17,7 +17,11 @@
  * scrollToTop("contributors-list", 32);  // Scrolls to 32 pixels above the element.
  * ```
  */
-export function scrollToTop(anchorName?: string, yOffset?: number): void {
+export function scrollToTop(
+  anchorName?: string,
+  yOffset?: number,
+  behavior?: ScrollBehavior
+): void {
   if (!anchorName) {
     window.scrollTo(0, 0)
   } else {
@@ -30,7 +34,7 @@ export function scrollToTop(anchorName?: string, yOffset?: number): void {
       window.scrollY || document.documentElement.scrollTop
     window.scrollTo({
       top: currentScrollPosition + rect.top - (yOffset || 0),
-      behavior: 'instant',
+      behavior: behavior || 'instant',
     })
   }
 }

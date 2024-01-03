@@ -11,14 +11,6 @@ module ViewComponents
         },
 
         {
-          title: "#12in23 Challenge",
-          description: "Try out 12 languages in 2023",
-          path: Exercism::Routes.challenge_path('12in23'),
-          icon: 'nav-12in23',
-          view: :challenge_12in23 # rubocop:disable Naming/VariableNumber
-        },
-
-        {
           title: "Your Journey",
           description: "Explore your Exercism journey",
           path: Exercism::Routes.journey_path,

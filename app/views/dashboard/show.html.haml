@@ -85,27 +85,6 @@
             - else
               %iframe{ src: "https://player.twitch.tv/?channel=exercismlive&parent=exercism.org", height: "240", width: "100%", allowfullscreen: true }
 
-      - if current_user.challenges.exists?
-        .flex.flex-col.items-start.mb-28
-          .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
-            %span.emoji.mr-6 📆
-            Month 12 of #12in23
-          %h2.text-h3 It's December Diversions
-          %p.text-p-base.mb-6
-            This month we're exploring these languages: ColdFusion, Groovy, Lua, VimScript and Wren.
-            Have fun!
-          = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
-            %span Explore #12in23
-            = graphical_icon "arrow-right"
-      - else
-        = link_to challenge_path('12in23'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
-          %h2.text-h3.text-white.text-center.mb-8
-            The #12in23 Challenge
-          %p.text-p-base.text-white.text-center.mb-16
-            Broaden your horizons. Try 12 languages during 2023 and become a better developer!
-            %br
-            %strong{ class: "!font-semibold !text-white" } Which will you choose?
-
           .flex.flex-wrap.justify-center.gap-2
             - Track.active.map(&:icon_url).shuffle.each do |icon_url|
               = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[30px] w-[30px]"

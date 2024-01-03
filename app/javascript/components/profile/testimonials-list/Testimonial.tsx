@@ -44,17 +44,9 @@ export const Testimonial = ({
         </div>
         <div className="content">{testimonial.content}</div>
         <div className="inline-flex flex-wrap items-center gap-x-4 text-16 text-textColor2 leading-160">
-          <HandleWithFlair
-            handle={testimonial.student.handle}
-            flair={testimonial.student.flair}
-            className="font-medium"
-          />
-          said this about
-          <HandleWithFlair
-            handle={testimonial.mentor.handle}
-            flair={testimonial.mentor.flair}
-            className="font-medium"
-          />
+          <span className="font-medium">{testimonial.student.handle}</span> said
+          this about{' '}
+          <span className="font-medium">{testimonial.mentor.handle}</span>
         </div>
         <div className="exercise">
           {testimonial.exercise.title} on{' '}

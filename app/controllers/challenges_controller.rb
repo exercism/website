@@ -25,8 +25,6 @@ class ChallengesController < ApplicationController
   def use_challenge_id!
     @challenge_id = params[:id]
 
-    render_404 if @challenge_id == '12in23'
-
     redirect_to root_path unless User::Challenge::CHALLENGES.include?(@challenge_id)
   end
 

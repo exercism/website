@@ -13,6 +13,7 @@ class User::SetDiscordRoles
     set_insiders_role!
   end
 
+  private
   def set_maintainer_role!
     if user.maintainer?
       add_role!(MAINTAINER_ROLE_ID)

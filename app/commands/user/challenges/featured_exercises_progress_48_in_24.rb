@@ -29,9 +29,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     return :bronze if num_iterations_in_2024 < 3
 
     iterated_featured_tracks = (exercise[:featured_tracks] - iterated_exercises.map(&:first)).empty?
-    return :silver unless iterated_featured_tracks
-
-    :gold
+    iterated_featured_tracks ? :gold : :silver
   end
 
   memoize

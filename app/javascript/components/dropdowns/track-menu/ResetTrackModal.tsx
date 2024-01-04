@@ -97,6 +97,19 @@ export const ResetTrackModal = ({
               {track.title}
             </li>
           </ul>
+          <p>
+            <strong>However:</strong>
+          </p>
+          <ul>
+            <li>
+              Any local versions of solutions stored on your machine will be
+              unaffected
+            </li>
+            <li>
+              You will keep any badges earned as a result of your work on the{' '}
+              {track.title} track
+            </li>
+          </ul>
         </div>
         <hr />
         <label htmlFor="confirmation">

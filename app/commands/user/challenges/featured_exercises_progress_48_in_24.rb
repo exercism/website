@@ -8,13 +8,16 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 4, slug: 'leap', featured_tracks: %w[haskell clojure zig] }
   ].freeze
 
-  def call
-    EXERCISES.map do |exercise|
+  def call = EXERCISES.map { |exercise| exercise_progress(exercise) }
+
+  private
+  def exercise_progress(exercise)
+    OpenStruct.new(
       exercise.merge({
         iterated_tracks: iterations[exercise[:slug]].to_a.map(&:first),
         status: status(exercise)
       })
-    end
+    )
   end
 
   def status(exercise)
@@ -31,7 +34,6 @@ class User::Challenges::FeaturedExercisesProgress48In24
     :gold
   end
 
-  private
   memoize
   def iterations
     user.solutions.

@@ -97,10 +97,8 @@ body.namespace-.controller-about.action-impact {
             @apply text-left;
 
             & .content {
-                @apply text-20 leading-130 font-medium;
+                @apply text-20 leading-130 font-medium break-words;
                 @apply mb-8;
-                width: 300px;
-                @apply truncate;
             }
             & .exercise {
                 @apply flex items-center mb-8;

@@ -1,12 +1,7 @@
 import React from 'react'
 import { fromNow } from '@/utils/date'
 import { Testimonial as TestimonialProps } from '@/components/types'
-import {
-  Avatar,
-  GraphicalIcon,
-  HandleWithFlair,
-  TrackIcon,
-} from '@/components/common'
+import { Avatar, GraphicalIcon, TrackIcon } from '@/components/common'
 import { TestimonialModal } from './TestimonialModal'
 
 export const Testimonial = ({

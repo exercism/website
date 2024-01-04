@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import pluralize from 'pluralize'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'
-import { Pagination } from '@/components/common'
+import { Icon, Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -14,6 +13,7 @@ import type {
   PaginatedResult,
 } from '@/components/types'
 import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export type Order =
   | 'most_popular'
@@ -63,6 +63,8 @@ export function ExerciseCommunitySolutionsList({
     request
   )
   const [criteria, setCriteria] = useState(request.query.criteria)
+  const [layout, setLayout] =
+    useState<`${'grid' | 'lines'}-layout`>('grid-layout')
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -103,6 +105,23 @@ export function ExerciseCommunitySolutionsList({
             setValue={setOrder}
           />
         </div>
+
+        <div className="border-1 border-borderColor1 rounded-3">
+          <LayoutButton
+            onClick={() => {
+              setLayout('grid-layout')
+            }}
+            selected={layout === 'grid-layout'}
+            layout={'grid-layout'}
+          />
+          <LayoutButton
+            onClick={() => {
+              setLayout('lines-layout')
+            }}
+            selected={layout === 'lines-layout'}
+            layout={'lines-layout'}
+          />
+        </div>
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
@@ -112,8 +131,8 @@ export function ExerciseCommunitySolutionsList({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                {resolvedData.results.map((solution) => {
+              <div className={assembleClassNames('solutions', layout)}>
+                {MOCK_ARR.map((solution) => {
                   return (
                     <CommunitySolution
                       key={solution.uuid}
@@ -141,3 +160,64 @@ export function ExerciseCommunitySolutionsList({
 }
 
 export default ExerciseCommunitySolutionsList
+
+const MOCK_OBJ = {
+  uuid: 'a194acd61da8435b9a4765e509eaaba2',
+  snippet: `class TwoFer
+  def self.two_fer(name = 'you')
+    "One for #{name}, one for me."
+  end
+end`,
+  numViews: 0,
+  numStars: 0,
+  numComments: 0,
+  representationNumPublishedSolutions: 2,
+  numIterations: 35,
+  numLoc: 0,
+  iterationStatus: 'essential_automated_feedback',
+  publishedIterationHeadTestsStatus: 'passed',
+  publishedAt: '2023-10-25T14:17:05.760Z',
+  isOutOfDate: false,
+  language: 'ruby',
+  author: {
+    handle: 'insanelyveryLongIhidHandle',
+    avatarUrl: '/avatars/720037/1',
+    flair: 'staff',
+  },
+  exercise: {
+    title: 'Two Fer',
+    iconUrl: 'https://assets.exercism.org/exercises/two-fer.svg',
+  },
+  track: {
+    title: 'Ruby',
+    iconUrl: 'https://assets.exercism.org/tracks/ruby.svg',
+    highlightjsLanguage: 'ruby',
+  },
+  links: {
+    publicUrl:
+      'http://local.exercism.io:3020/tracks/ruby/exercises/two-fer/solutions/insanelyveryLongIhidHandle',
+    privateIterationsUrl:
+      'http://local.exercism.io:3020/tracks/ruby/exercises/two-fer/iterations',
+  },
+}
+
+const MOCK_ARR = new Array(24).fill(MOCK_OBJ)
+
+function LayoutButton({ onClick, layout, selected }) {
+  return (
+    <button
+      onClick={onClick}
+      className={assembleClassNames('p-6', selected && 'bg-purple')}
+    >
+      <Icon
+        width={16}
+        height={16}
+        icon={layout}
+        alt={`${layout}-button`}
+        className={assembleClassNames(
+          selected ? 'filter-white' : 'filter-textColor1'
+        )}
+      />
+    </button>
+  )
+}

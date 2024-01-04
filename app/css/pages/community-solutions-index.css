@@ -1,19 +1,41 @@
 @import "../styles";
 
 #page-community-solutions-index {
-    & h2 {
+    h2 {
         @apply text-h3 mb-20;
     }
-    & .c-search-bar {
+    .c-search-bar {
         @apply mb-32;
 
-        & .--search {
+        .--search {
             @apply md:w-[450px] w-100;
             @apply md:mr-24 mr-0 md:mb-0 mb-12;
         }
     }
-    & .solutions {
+    .solutions {
         @apply grid gap-x-48 gap-y-32;
         @apply pb-80;
+
+        &.grid-layout {
+            @apply grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
+        }
+
+        &.lines-layout {
+            @apply grid-cols-1;
+            .c-community-solution {
+                pre {
+                    code {
+                        height: unset;
+                        max-height: 216px !important;
+                    }
+                }
+                .--info {
+                    @apply grow-0;
+                }
+                .--footer {
+                    @apply flex-row-reverse gap-20;
+                }
+            }
+        }
     }
 }

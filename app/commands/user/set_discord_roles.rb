@@ -7,42 +7,22 @@ class User::SetDiscordRoles
   def call
     return unless user.discord_uid.present?
 
-    set_maintainer_role!
-    set_supermentor_role!
-    set_mentor_role!
-    set_insiders_role!
+    [
+      [MAINTAINER_ROLE_ID, user.maintainer?],
+      [SUPERMENTOR_ROLE_ID, user.supermentor?],
+      [MENTOR_ROLE_ID, user.mentor?],
+      [INSIDERS_ROLE_ID, user.insider?]
+    ].each do |role_id, condition|
+      add_or_remove!(role_id, condition)
+    end
   end
 
   private
-  def set_maintainer_role!
-    if user.maintainer?
-      add_role!(MAINTAINER_ROLE_ID)
+  def add_or_remove!(role_id, condition)
+    if condition
+      add_role!(role_id)
     else
-      remove_role!(MAINTAINER_ROLE_ID)
-    end
-  end
-
-  def set_supermentor_role!
-    if user.supermentor?
-      add_role!(SUPERMENTOR_ROLE_ID)
-    else
-      remove_role!(SUPERMENTOR_ROLE_ID)
-    end
-  end
-
-  def set_mentor_role!
-    if user.mentor?
-      add_role!(MENTOR_ROLE_ID)
-    else
-      remove_role!(MENTOR_ROLE_ID)
-    end
-  end
-
-  def set_insiders_role!
-    if user.insider?
-      add_role!(INSIDERS_ROLE_ID)
-    else
-      remove_role!(INSIDERS_ROLE_ID)
+      remove_role!(role_id)
     end
   end
 

@@ -12,6 +12,14 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
     end
   end
 
+  test "returns progress order by week" do
+    user = create :user
+
+    progress = User::Challenges::FeaturedExercisesProgress48In24.(user)
+
+    assert_equal (3..4).to_a, progress.map(&:week)
+  end
+
   test "returns iterated tracks" do
     user = create :user
     create_iteration(user, 2022, 'hello-world', 'python')
@@ -21,8 +29,8 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal %w[python prolog], exercise_progress["hello-world"].iterated_tracks
-    assert_equal %w[elixir], exercise_progress["leap"].iterated_tracks
+    assert_equal ({ "python" => 2022, "prolog" => 2023 }), exercise_progress["hello-world"].iterated_tracks
+    assert_equal ({ "elixir" => 2024 }), exercise_progress["leap"].iterated_tracks
   end
 
   test "gold status when user has iterated in all three featured tracks in 2024" do

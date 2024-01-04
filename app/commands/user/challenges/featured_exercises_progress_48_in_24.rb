@@ -14,7 +14,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
   def exercise_progress(exercise)
     OpenStruct.new(
       exercise.merge({
-        iterated_tracks: iterations[exercise[:slug]].to_a.map(&:first),
+        iterated_tracks: iterations[exercise[:slug]].to_h,
         status: status(exercise)
       })
     )

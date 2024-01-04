@@ -18,6 +18,10 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
 
     User::SetDiscordRoles.(user)
   end
@@ -41,6 +45,10 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     )
     RestClient.expects(:delete).with(
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
     RestClient.expects(:put).with(
@@ -68,6 +76,60 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+
+    User::SetDiscordRoles.(user)
+  end
+
+  test "adds mentor role when user is mentor" do
+    uid = SecureRandom.hex
+    user = create :user, discord_uid: uid
+    create(:user_track_mentorship, user:)
+
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:put).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
+      {},
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+
+    User::SetDiscordRoles.(user)
+  end
+
+  test "removes mentor role when user is not a mentor" do
+    uid = SecureRandom.hex
+    user = create :user, discord_uid: uid
+
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
 
     User::SetDiscordRoles.(user)
   end
@@ -82,6 +144,10 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     )
     RestClient.expects(:delete).with(
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
 
@@ -106,6 +172,10 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
 
     RestClient.expects(:delete).with(
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681",
@@ -125,6 +195,10 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     )
     RestClient.expects(:delete).with(
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
     RestClient.expects(:put).with(
@@ -149,6 +223,10 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
     RestClient.expects(:delete).with(
+      "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966",
+      Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
+    )
+    RestClient.expects(:delete).with(
       "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578",
       Authorization: "Bot #{Exercism.secrets.discord_bot_token}"
     )
@@ -160,7 +238,7 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     uid = SecureRandom.hex
     user = create :user, :insider, discord_uid: uid
 
-    RestClient.expects(:delete).raises(RestClient::NotFound).twice
+    RestClient.expects(:delete).raises(RestClient::NotFound).times(3)
     RestClient.expects(:put).raises(RestClient::NotFound)
 
     User::SetDiscordRoles.(user)
@@ -170,14 +248,17 @@ class User::SetDiscordRolesTest < ActiveSupport::TestCase
     uid = SecureRandom.hex
     user = create :user, :maintainer, discord_uid: uid
 
-    # The first two calls are fine, no rate limit issues
+    # The first three calls are fine, no rate limit issues
     stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196488436633681").
       to_return(status: 200, body: "", headers: {})
 
     stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1096024168639766578").
       to_return(status: 200, body: "", headers: {})
 
-    # The third call hits the rate limit
+    stub_request(:delete, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1192435804602105966").
+      to_return(status: 200, body: "", headers: {})
+
+    # The fourth call hits the rate limit
     stub_request(:put, "https://discord.com/api/guilds/854117591135027261/members/#{uid}/roles/1085196376058646559").
       to_return(
         status: 429,

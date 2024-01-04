@@ -21,14 +21,14 @@ class User::Challenges::FeaturedExercisesProgress48In24
     iterated_exercises = iterations[exercise[:slug]].to_a
     return :in_progress if iterated_exercises.blank?
 
-    iterated_tracks = iterated_exercises.map(&:first)
-    return :gold if (exercise[:featured_tracks] - iterated_tracks).empty?
+    num_iterations_in_2024 = iterated_exercises.count { |(_, year)| year == 2024 }
+    return :in_progress if num_iterations_in_2024.zero?
+    return :bronze if num_iterations_in_2024 < 3
 
-    iterated_years = iterated_exercises.map(&:second).tally
-    return :silver if iterated_years[2024] >= 3
-    return :bronze if iterated_years[2024].positive?
+    iterated_featured_tracks = (exercise[:featured_tracks] - iterated_exercises.map(&:first)).empty?
+    return :silver unless iterated_featured_tracks
 
-    :in_progress
+    :gold
   end
 
   private

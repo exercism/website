@@ -102,7 +102,7 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by code (min 3 chars)"
         />
-        <div className="flex gap-24 md:flex-row flex-col w-100 shrink-2">
+        <div className="flex gap-24 md:flex-row flex-col w-100 shrink-[2]">
           <ExerciseTagFilter
             tags={tags}
             setQuery={setQuery}
@@ -189,7 +189,7 @@ end`,
   isOutOfDate: false,
   language: 'ruby',
   author: {
-    handle: 'insanelyveryLongIhidHandle',
+    handle: 'iHiD',
     avatarUrl: '/avatars/720037/1',
     flair: 'staff',
   },

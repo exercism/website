@@ -8,7 +8,7 @@
         @apply mb-32;
 
         .--search {
-            @apply lg:w-[450px] w-100;
+            @apply w-100;
             @apply md:mr-24 mr-0 md:mb-0 mb-12;
         }
     }

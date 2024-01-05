@@ -126,7 +126,7 @@ export function ExerciseCommunitySolutionsList({
           {resolvedData ? (
             <React.Fragment>
               <div className={assembleClassNames('solutions', layout)}>
-                {MOCK_ARR.map((solution) => {
+                {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution
                       key={solution.uuid}
@@ -154,60 +154,3 @@ export function ExerciseCommunitySolutionsList({
 }
 
 export default ExerciseCommunitySolutionsList
-
-const MOCK_OBJ = {
-  uuid: 'a194acd61da8435b9a4765e509eaaba2',
-  snippet: `class TwoFer
-  def self.two_fer(name = 'you')
-    "One for #{name}, one for me."
-  end
-end
-class TwoFer
-  def self.two_fer(name = 'you')
-    "One for #{name}, one for me."
-  end
-end
-class TwoFer
-  def self.two_fer(name = 'you')
-    "One for #{name}, one for me."
-  end
-end
-class TwoFer
-  def self.two_fer(name = 'you')
-    "One for #{name}, one for me."
-  end
-end`,
-  numViews: 0,
-  numStars: 0,
-  numComments: 0,
-  representationNumPublishedSolutions: 2,
-  numIterations: 35,
-  numLoc: 0,
-  iterationStatus: 'essential_automated_feedback',
-  publishedIterationHeadTestsStatus: 'passed',
-  publishedAt: '2023-10-25T14:17:05.760Z',
-  isOutOfDate: false,
-  language: 'ruby',
-  author: {
-    handle: 'iHiD',
-    avatarUrl: '/avatars/720037/1',
-    flair: 'staff',
-  },
-  exercise: {
-    title: 'Two Fer',
-    iconUrl: 'https://assets.exercism.org/exercises/two-fer.svg',
-  },
-  track: {
-    title: 'Ruby',
-    iconUrl: 'https://assets.exercism.org/tracks/ruby.svg',
-    highlightjsLanguage: 'ruby',
-  },
-  links: {
-    publicUrl:
-      'http://local.exercism.io:3020/tracks/ruby/exercises/two-fer/solutions/insanelyveryLongIhidHandle',
-    privateIterationsUrl:
-      'http://local.exercism.io:3020/tracks/ruby/exercises/two-fer/iterations',
-  },
-}
-
-const MOCK_ARR = new Array(24).fill(MOCK_OBJ)

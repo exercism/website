@@ -3,17 +3,20 @@ class User::Challenges::FeaturedExercisesProgress48In24
 
   initialize_with :user
 
+  # rubocop:disable Layout/LineLength
   EXERCISES = [
-    { week: 3, slug: 'hello-world', featured_tracks: %w[python csharp javascript] },
-    { week: 4, slug: 'leap', featured_tracks: %w[haskell clojure zig] }
+    { week: 1, slug: 'leap', featured_tracks: %w[haskell clojure zig], learning_opportunity: "This is a relatively simple exercise, but can teach you a lot about how to write idiomatic code in a language. Should you use boolean logic, early returns, pattern matching, or something more language specific? Whatever you do, just don't use the built-in leap-year method!" },
+    { week: 2, slug: 'hello-world', featured_tracks: %w[python csharp javascript], learning_opportunity: "" }
   ].freeze
+  # rubocop:enable Layout/LineLength
 
   def call = EXERCISES.map { |exercise| exercise_progress(exercise) }
 
   private
   def exercise_progress(exercise)
-    OpenStruct.new(
-      exercise.merge({
+    FeaturedExercise.new(
+      **exercise.merge({
+        exercise: csharp_exercises[exercise[:slug]],
         iterated_tracks: iterations[exercise[:slug]].to_h,
         status: status(exercise)
       })
@@ -40,5 +43,16 @@ class User::Challenges::FeaturedExercisesProgress48In24
       pluck('exercise.slug', 'tracks.slug', 'YEAR(last_iterated_at)').
       group_by(&:first).
       transform_values { |entries| entries.map { |entry| entry[1..] } }
+  end
+
+  def csharp_exercises
+    Track.find('csharp').practice_exercises.index_by(&:slug)
+  end
+
+  FeaturedExercise = Struct.new(
+    :week, :slug, :featured_tracks, :iterated_tracks, :status, :learning_opportunity, :exercise,
+    keyword_init: true
+  ) do
+    delegate :title, :icon_url, :blurb, to: :exercise
   end
 end

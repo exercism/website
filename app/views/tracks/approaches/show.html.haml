@@ -50,14 +50,14 @@
       .flex.justify-center.mb-32
         = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
         .flex.flex-col
-          %h2.text-h3.font-bold.mb-4 Other Approaches to #{@exercise.title}
+          %h2.text-h3.font-bold.mb-4 Other Approaches to #{@exercise.title} in #{@exercise.track.title}
           .text-p-base.text-textColor6 Other ways our community solved this exercise
 
-      .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.mb-32
+      .grid.gap-24.grid-cols-1.mb-32.place-items-center
         - @other_approaches.each do |other_approach|
-          = link_to Exercism::Routes.track_exercise_approach_path(@track, @exercise, other_approach[:slug]), class: "bg-backgroundColorA shadow-base rounded-8 px-20 py-16 flex flex-col" do
+          = link_to Exercism::Routes.track_exercise_approach_path(@track, @exercise, other_approach[:slug]), class: "bg-backgroundColorA shadow-base rounded-8 px-20 py-16 flex flex-col w-[800px]" do
             %pre.border-1.border-borderColor7.rounded-8.p-16.mb-16
-              %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} h-[180px]", style: "text-overflow:ellipsis" }
+              %code.block.overflow-hidden{ class: "lang-#{@track.highlightjs_language} min-h-[68px] max-h-[224px]", style: "text-overflow:ellipsis" }
                 = other_approach[:snippet]
             %h5.text-h5.mb-2
               = other_approach[:title]

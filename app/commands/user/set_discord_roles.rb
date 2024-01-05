@@ -14,6 +14,8 @@ class User::SetDiscordRoles
       [INSIDERS_ROLE_ID, user.insider?]
     ].each do |role_id, condition|
       add_or_remove!(role_id, condition)
+    rescue StandardError => e
+      Bugsnag.notify(e)
     end
   end
 

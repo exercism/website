@@ -167,6 +167,21 @@ const MOCK_OBJ = {
   def self.two_fer(name = 'you')
     "One for #{name}, one for me."
   end
+end
+class TwoFer
+  def self.two_fer(name = 'you')
+    "One for #{name}, one for me."
+  end
+end
+class TwoFer
+  def self.two_fer(name = 'you')
+    "One for #{name}, one for me."
+  end
+end
+class TwoFer
+  def self.two_fer(name = 'you')
+    "One for #{name}, one for me."
+  end
 end`,
   numViews: 0,
   numStars: 0,

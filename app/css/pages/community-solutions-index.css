@@ -26,7 +26,8 @@
                 pre {
                     code {
                         height: unset;
-                        max-height: 216px;
+                        /* 15 loc */
+                        max-height: 358px;
                     }
                 }
                 .--info {

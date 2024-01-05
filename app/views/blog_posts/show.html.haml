@@ -38,7 +38,7 @@
           Found it useful?
           = render ViewComponents::Blog::SharePostLink.new(@post)
 
-        .byline.shadow-sm.rounded-8.py-16.px-24.flex.flex-col.md:flex-row.md:items-center.border-1.border-borderColor6
+        = link_to profile_path(@post.author), class: "byline shadow-sm rounded-8 py-16 px-24 flex flex-col md:flex-row md:items-center border-1 border-borderColor6" do
           .flex.items-center
             = avatar(@post.author)
             .info

@@ -24,7 +24,10 @@ function LayoutButton({ currentLayout, layout, setLayout }) {
   return (
     <button
       onClick={() => setLayout(layout)}
-      className={assembleClassNames('p-12', selected && 'bg-purple')}
+      className={assembleClassNames(
+        'p-12',
+        selected ? 'bg-purple' : 'bg-backgroundColorA'
+      )}
     >
       <Icon
         width={18}

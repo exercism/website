@@ -102,7 +102,7 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by code (min 3 chars)"
         />
-        <div className="flex gap-24 md:flex-row flex-col w-100 shrink-[2]">
+        <div className="flex gap-24 md:flex-row flex-col place-self-start">
           <ExerciseTagFilter
             tags={tags}
             setQuery={setQuery}

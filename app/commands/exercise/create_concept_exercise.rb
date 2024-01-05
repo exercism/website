@@ -1,4 +1,4 @@
-class ConceptExercise::Create
+class Exercise::CreateConceptExercise
   include Mandate
 
   initialize_with :uuid, :track, attributes: Mandate::KWARGS

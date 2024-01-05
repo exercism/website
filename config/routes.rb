@@ -370,6 +370,7 @@ Rails.application.routes.draw do
   get "getting-started", to: redirect("docs/using/getting-started")
   get '/languages/:slug', to: redirect('/tracks/%{slug}')
   get "contribute", to: redirect("contributing")
+  get "faqs", to: redirect("docs/using/faqs")
 
   get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect
   get "r/twitter", to: redirect("https://twitter.com/exercism_io"), as: :twitter_redirect

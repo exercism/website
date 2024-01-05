@@ -92,7 +92,7 @@ class Git::SyncTrack < Git::Sync
   def sync_concept_exercises!
     head_git_track.concept_exercises.each_with_index do |exercise_config, position|
       git_exercise = Git::Exercise.new(exercise_config[:slug], 'concept', git_repo.head_sha, repo: git_repo)
-      exercise = ::ConceptExercise::Create.(
+      exercise = ::Exercise::CreateConceptExercise.(
         exercise_config[:uuid],
         track,
         slug: exercise_config[:slug],
@@ -116,7 +116,7 @@ class Git::SyncTrack < Git::Sync
   def sync_practice_exercises!
     head_git_track.practice_exercises.each_with_index do |exercise_config, position|
       git_exercise = Git::Exercise.new(exercise_config[:slug], 'practice', git_repo.head_sha, repo: git_repo)
-      exercise = ::PracticeExercise::Create.(
+      exercise = ::Exercise::CreatePracticeExercise.(
         exercise_config[:uuid],
         track,
         slug: exercise_config[:slug],

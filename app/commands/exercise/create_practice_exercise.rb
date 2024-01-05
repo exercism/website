@@ -1,4 +1,4 @@
-class PracticeExercise::Create
+class Exercise::CreatePracticeExercise
   include Mandate
 
   initialize_with :uuid, :track, attributes: Mandate::KWARGS

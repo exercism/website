@@ -1,13 +1,13 @@
 require "test_helper"
 
-class PracticeExercise::CreateTest < ActiveSupport::TestCase
+class Exercise::CreatePracticeExerciseTest < ActiveSupport::TestCase
   test "creates practice exercise" do
     uuid = SecureRandom.uuid
     track = create :track
     conditionals = create :concept, track:, slug: 'conditionals'
     basics = create :concept, track:, slug: 'basics'
 
-    PracticeExercise::Create.(
+    Exercise::CreatePracticeExercise.(
       uuid,
       track,
       slug: 'anagram',
@@ -42,7 +42,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
     basics = create :concept, track:, slug: 'basics'
 
     assert_idempotent_command do
-      PracticeExercise::Create.(
+      Exercise::CreatePracticeExercise.(
         uuid,
         track,
         slug: 'anagram',
@@ -63,7 +63,7 @@ class PracticeExercise::CreateTest < ActiveSupport::TestCase
   test "creates site_update" do
     SiteUpdates::ProcessNewExerciseUpdate.expects(:call)
 
-    PracticeExercise::Create.(
+    Exercise::CreatePracticeExercise.(
       SecureRandom.uuid,
       create(:track),
       **build(:practice_exercise).attributes.symbolize_keys

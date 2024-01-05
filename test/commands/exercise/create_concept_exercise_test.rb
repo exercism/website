@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ConceptExercise::CreateTest < ActiveSupport::TestCase
+class Exercise::CreateConceptExerciseTest < ActiveSupport::TestCase
   test "creates concept exercise" do
     uuid = SecureRandom.uuid
     track = create :track
@@ -8,7 +8,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
     conditionals = create :concept, track:, slug: 'conditionals'
     basics = create :concept, track:, slug: 'basics'
 
-    ConceptExercise::Create.(
+    Exercise::CreateConceptExercise.(
       uuid,
       track,
       slug: 'log-levels',
@@ -46,7 +46,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
     basics = create :concept, track:, slug: 'basics'
 
     assert_idempotent_command do
-      ConceptExercise::Create.(
+      Exercise::CreateConceptExercise.(
         uuid,
         track,
         slug: 'log-levels',
@@ -68,7 +68,7 @@ class ConceptExercise::CreateTest < ActiveSupport::TestCase
   test "creates site_update" do
     SiteUpdates::ProcessNewExerciseUpdate.expects(:call)
 
-    ConceptExercise::Create.(
+    Exercise::CreateConceptExercise.(
       SecureRandom.uuid,
       create(:track),
       **build(:concept_exercise).attributes.symbolize_keys

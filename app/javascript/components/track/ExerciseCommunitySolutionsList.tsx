@@ -106,7 +106,7 @@ export function ExerciseCommunitySolutionsList({
           />
         </div>
 
-        <div className="border-1 border-borderColor1 rounded-3">
+        <div className="border-1 border-buttonBorderColor2 rounded-8 overflow-hidden">
           <LayoutButton
             onClick={() => {
               setLayout('grid-layout')
@@ -207,11 +207,11 @@ function LayoutButton({ onClick, layout, selected }) {
   return (
     <button
       onClick={onClick}
-      className={assembleClassNames('p-6', selected && 'bg-purple')}
+      className={assembleClassNames('p-12', selected && 'bg-purple')}
     >
       <Icon
-        width={16}
-        height={16}
+        width={18}
+        height={18}
         icon={layout}
         alt={`${layout}-button`}
         className={assembleClassNames(

@@ -26,11 +26,11 @@
                 pre {
                     code {
                         height: unset;
-                        max-height: 216px !important;
+                        max-height: 216px;
                     }
                 }
                 .--info {
-                    @apply grow-0;
+                    /* @apply grow-0; */
                 }
                 .--footer {
                     @apply flex-row-reverse gap-20;

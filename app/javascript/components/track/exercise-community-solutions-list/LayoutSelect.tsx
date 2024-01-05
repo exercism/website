@@ -4,7 +4,7 @@ import { Icon } from '@/components/common'
 
 export function LayoutSelect({ layout, setLayout }) {
   return (
-    <div className="border-1 border-buttonBorderColor2 rounded-8 overflow-hidden">
+    <div className="md:flex hidden shrink-0 border-1 border-buttonBorderColor2 rounded-8 overflow-hidden">
       <LayoutButton
         setLayout={setLayout}
         currentLayout={layout}

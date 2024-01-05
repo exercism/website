@@ -93,7 +93,7 @@ export function ExerciseCommunitySolutionsList({
       className="lg-container c-community-solutions-list"
     >
       {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
-      <div className="c-search-bar md:flex-row flex-col gap-24">
+      <div className="c-search-bar lg:flex-row flex-col gap-24">
         <input
           className="--search"
           onChange={(e) => {
@@ -102,14 +102,20 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by code (min 3 chars)"
         />
-        <ExerciseTagFilter tags={tags} setQuery={setQuery} request={request} />
-        <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
-          <OrderSelect
-            value={request.query.order || DEFAULT_ORDER}
-            setValue={setOrder}
+        <div className="flex gap-24 md:flex-row flex-col w-100 shrink-2">
+          <ExerciseTagFilter
+            tags={tags}
+            setQuery={setQuery}
+            request={request}
           />
+          <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
+            <OrderSelect
+              value={request.query.order || DEFAULT_ORDER}
+              setValue={setOrder}
+            />
+          </div>
+          <LayoutSelect layout={layout} setLayout={setLayout} />
         </div>
-        <LayoutSelect layout={layout} setLayout={setLayout} />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import pluralize from 'pluralize'
+import React, { useState, useEffect } from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'
-import { Pagination } from '@/components/common'
+import { Icon, Pagination } from '@/components/common'
 import CommunitySolution from '../common/CommunitySolution'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
@@ -14,6 +13,9 @@ import type {
   PaginatedResult,
 } from '@/components/types'
 import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
+import { assembleClassNames } from '@/utils/assemble-classnames'
+import { useLocalStorage } from '@/utils/use-storage'
+import { LayoutSelect } from './exercise-community-solutions-list/LayoutSelect'
 
 export type Order =
   | 'most_popular'
@@ -63,6 +65,10 @@ export function ExerciseCommunitySolutionsList({
     request
   )
   const [criteria, setCriteria] = useState(request.query.criteria)
+  const [layout, setLayout] = useLocalStorage<`${'grid' | 'lines'}-layout`>(
+    'community-solutions-layout',
+    'grid-layout'
+  )
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -87,7 +93,7 @@ export function ExerciseCommunitySolutionsList({
       className="lg-container c-community-solutions-list"
     >
       {resolvedData ? <h2> Explore how others solved this exercise </h2> : null}
-      <div className="c-search-bar md:flex-row flex-col gap-24">
+      <div className="c-search-bar lg:flex-row flex-col gap-24">
         <input
           className="--search"
           onChange={(e) => {
@@ -96,12 +102,19 @@ export function ExerciseCommunitySolutionsList({
           value={criteria || ''}
           placeholder="Search by code (min 3 chars)"
         />
-        <ExerciseTagFilter tags={tags} setQuery={setQuery} request={request} />
-        <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
-          <OrderSelect
-            value={request.query.order || DEFAULT_ORDER}
-            setValue={setOrder}
+        <div className="flex gap-24 md:flex-row flex-col w-100 shrink-[2]">
+          <ExerciseTagFilter
+            tags={tags}
+            setQuery={setQuery}
+            request={request}
           />
+          <div className="flex items-center md:w-[unset] w-100 justify-between sm:flex-nowrap flex-wrap sm:gap-y-0 gap-y-24">
+            <OrderSelect
+              value={request.query.order || DEFAULT_ORDER}
+              setValue={setOrder}
+            />
+          </div>
+          <LayoutSelect layout={layout} setLayout={setLayout} />
         </div>
       </div>
       <ResultsZone isFetching={isFetching}>
@@ -112,7 +125,7 @@ export function ExerciseCommunitySolutionsList({
         >
           {resolvedData ? (
             <React.Fragment>
-              <div className="solutions grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+              <div className={assembleClassNames('solutions', layout)}>
                 {resolvedData.results.map((solution) => {
                   return (
                     <CommunitySolution

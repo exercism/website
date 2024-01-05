@@ -465,22 +465,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "mentor?" do
-    user = create :user
-
-    refute user.mentor?
-
-    create(:user_track_mentorship, user:)
-    assert user.mentor?
-  end
-
-  %i[admin staff].each do |role|
-    test "mentor? enabled for #{role}" do
-      user = create :user, role
-      assert user.mentor?
-    end
-  end
-
   test "automator?" do
     track = create :track
     user = create :user

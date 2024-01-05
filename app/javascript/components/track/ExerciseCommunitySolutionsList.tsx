@@ -14,6 +14,7 @@ import type {
 } from '@/components/types'
 import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { useLocalStorage } from '@/utils/use-storage'
 
 export type Order =
   | 'most_popular'
@@ -63,8 +64,10 @@ export function ExerciseCommunitySolutionsList({
     request
   )
   const [criteria, setCriteria] = useState(request.query.criteria)
-  const [layout, setLayout] =
-    useState<`${'grid' | 'lines'}-layout`>('grid-layout')
+  const [layout, setLayout] = useLocalStorage(
+    'community-solutions-layout',
+    'grid-layout'
+  )
 
   useEffect(() => {
     const handler = setTimeout(() => {

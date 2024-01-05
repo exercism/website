@@ -1,4 +1,4 @@
-class PracticeExercise::CreateOrUpdate48In24ForumPost
+class User::Challenges::CreateOrUpdate48In24ForumPostForExercise
   include Mandate
 
   initialize_with :slug, :date

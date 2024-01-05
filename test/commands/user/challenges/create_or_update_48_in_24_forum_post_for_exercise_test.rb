@@ -1,6 +1,6 @@
 require "test_helper"
 
-class PracticeExercise::CreateOrUpdate48In24ForumPostTest < ActiveSupport::TestCase
+class User::Challenges::CreateOrUpdate48In24ForumPostForExerciseTest < ActiveSupport::TestCase
   test "creates new forum post when not already created" do
     exercise = create :practice_exercise, slug: 'leap'
     date = Time.utc(2024, 1, 16)
@@ -32,7 +32,7 @@ class PracticeExercise::CreateOrUpdate48In24ForumPostTest < ActiveSupport::TestC
       ).
       to_return(status: 200, body: "", headers: {})
 
-    PracticeExercise::CreateOrUpdate48In24ForumPost.(exercise.slug, date)
+    User::Challenges::CreateOrUpdate48In24ForumPostForExercise.(exercise.slug, date)
   end
 
   test "updates forum post when already created" do
@@ -83,6 +83,6 @@ class PracticeExercise::CreateOrUpdate48In24ForumPostTest < ActiveSupport::TestC
       ).
       to_return(status: 200, body: "", headers: {})
 
-    PracticeExercise::CreateOrUpdate48In24ForumPost.(exercise.slug, date)
+    User::Challenges::CreateOrUpdate48In24ForumPostForExercise.(exercise.slug, date)
   end
 end

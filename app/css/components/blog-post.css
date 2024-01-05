@@ -3,7 +3,7 @@
 .c-blog-post {
     @apply block p-16 rounded-8 shadow-base bg-backgroundColorA;
     & .img {
-        height: 150px;
+        @apply pt-[56%];
         @apply mb-12 rounded-8;
         @apply bg-no-repeat bg-cover bg-center;
     }

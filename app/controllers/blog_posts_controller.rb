@@ -7,6 +7,6 @@ class BlogPostsController < ApplicationController
 
   def show
     @post = BlogPost.published.find(params[:id])
-    @other_posts = BlogPost.published.ordered_by_recency.includes(:author).where.not(id: @post.id).limit(3)
+    @other_posts = BlogPost.published.ordered_by_recency.includes(:author).where.not(id: @post.id).limit(6)
   end
 end

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
 import { useList } from '@/hooks/use-list'
@@ -15,6 +15,7 @@ import type {
 import { ExerciseTagFilter } from './exercise-community-solutions-list/exercise-tag-filter/ExerciseTagFilter'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useLocalStorage } from '@/utils/use-storage'
+import { LayoutSelect } from './exercise-community-solutions-list/LayoutSelect'
 
 export type Order =
   | 'most_popular'
@@ -64,7 +65,7 @@ export function ExerciseCommunitySolutionsList({
     request
   )
   const [criteria, setCriteria] = useState(request.query.criteria)
-  const [layout, setLayout] = useLocalStorage(
+  const [layout, setLayout] = useLocalStorage<`${'grid' | 'lines'}-layout`>(
     'community-solutions-layout',
     'grid-layout'
   )
@@ -108,23 +109,7 @@ export function ExerciseCommunitySolutionsList({
             setValue={setOrder}
           />
         </div>
-
-        <div className="border-1 border-buttonBorderColor2 rounded-8 overflow-hidden">
-          <LayoutButton
-            onClick={() => {
-              setLayout('grid-layout')
-            }}
-            selected={layout === 'grid-layout'}
-            layout={'grid-layout'}
-          />
-          <LayoutButton
-            onClick={() => {
-              setLayout('lines-layout')
-            }}
-            selected={layout === 'lines-layout'}
-            layout={'lines-layout'}
-          />
-        </div>
+        <LayoutSelect layout={layout} setLayout={setLayout} />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
@@ -220,22 +205,3 @@ end`,
 }
 
 const MOCK_ARR = new Array(24).fill(MOCK_OBJ)
-
-function LayoutButton({ onClick, layout, selected }) {
-  return (
-    <button
-      onClick={onClick}
-      className={assembleClassNames('p-12', selected && 'bg-purple')}
-    >
-      <Icon
-        width={18}
-        height={18}
-        icon={layout}
-        alt={`${layout}-button`}
-        className={assembleClassNames(
-          selected ? 'filter-white' : 'filter-textColor1'
-        )}
-      />
-    </button>
-  )
-}

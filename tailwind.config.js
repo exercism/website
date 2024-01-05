@@ -91,7 +91,7 @@ module.exports = {
       /* NEW */
       darkThemeBackgroundColor: 'var(--darkThemeBackgroundColor)',
 
-      backgroundColorA: 'var(--backgroundColorA)',
+      backgroundColorA: 'rgb(var(--backgroundColorA-RGB) / <alpha-value>)',
       backgroundColorB: 'var(--backgroundColorB)',
       backgroundColorC: 'var(--backgroundColorC)',
       backgroundColorD: 'var(--backgroundColorD)',

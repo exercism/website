@@ -1,6 +1,7 @@
 - week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
-- week = 1
 - featured_exercise = @exercises.find { |e| e.week == week }
+- live_exercises = @exercises.select { |e| e.week <= week }
+- num_placeholders = 48 - live_exercises.size
 
 #challenge-48in24-page
   %section.top-section
@@ -36,9 +37,34 @@
               .rhs
                 %div{ class: 'w-[100%] max-w-[500px]' }
                   .c-youtube-container
-                    %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/_w5Q3Tc1kqY", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                    %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/v6fMaOdUxSk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
             %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
+            %p.text-p-large.mb-12.c-highlight-links
+              Throughout the month we'll have interviews, walkthroughs from Exercism track contributors, and live streams of the community solving exercises. Our streaming team is really growing so definitely check out what's on!
+              Subscribe to our
+              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+              and
+              = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
+              to not miss out!
+              There's also a schedule at the top right of this page.
+
+            %p.text-p-large
+              Join in the conversation by using the
+              #{link_to '#48in24 tag on our forums', 'https://forum.exercism.org/tag/48in24', class: 'underline'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord', class: 'underline'},
+              or using the
+              %strong.font-semibold #48in24
+              hashtag around social media!
+          - else
+            %h1.text-h1.mb-8 #48in24 starts on January 16th!
+            %p.text-p-xlarge.mb-20
+              Every Tuesday for 48 weeks, we'll be featuring a different exercise.
+              This page will tell you everything you need to know about the featured exericse, and show you your progress through the year.
+            %p.text-p-xlarge.mb-20
+              We'll email you when the challenge starts!
+
+            %h2.text-h3.mt-32.mb-4 Subscribe to not miss out… 🎥
             %p.text-p-large.mb-12.c-highlight-links
               Throughout the month we'll have interviews, walkthroughs from Exercism track contributors, and live streams of the community solving exercises. Our streaming team is really growing so definitely check out what's on!
               Subscribe to our
@@ -62,7 +88,7 @@
 
 
         .ml-80{ class: 'max-w-[450px]' }
-          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
             %h2.text-h4.mb-4 How does #48in24 work?
             %p.text-p-base.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
             %ul.text-p-base.mb-12
@@ -77,18 +103,19 @@
                 Qualify for silver status. Plus have solved the exercise in the there featured languages at some point (not necessarily in 2024).
 
             %p.text-p-base.mb-12 Watch this video for more information!
-            = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative block' do
+            = link_to "https://youtu.be/v6fMaOdUxSk", class: 'bg-backgroundColorB p-2 shadow-smZ1 rounded-8 relative block' do
               = graphical_icon "video-play", css_class: '!absolute top-[80px] w-[30px] left-[50%] ml-[-30px] w-[60px] h-[60px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-              = image_tag "https://assets.exercism.org/images/thumbnails/introducing-48-in-24.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
+              = image_tag "https://assets.exercism.org/images/thumbnails/introducing-48-in-24.jpg", alt: 'A video thumbnail', class: 'block block w-fill rounded-5'
 
             %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
               Track your progress at the bottom of the page.
 
-          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 Enjoying #48in24? Please donate 🙏
-            %p.text-p-base.mb-12
-              We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #48in24 and are financially able, please consider donating to keep Exercism going!
-            = link_to "Donate now", donate_path, class: 'btn btn-primary'
+          - if week.positive?
+            .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
+              %h2.text-h4.mb-4 Enjoying #48in24? Please donate 🙏
+              %p.text-p-base.mb-12
+                We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #48in24 and are financially able, please consider donating to keep Exercism going!
+              = link_to "Donate now", donate_path, class: 'btn btn-primary'
 
   %article
     .md-container
@@ -100,7 +127,7 @@
           Click on any exercise to learn more about it and see the #48in24 featured tracks.
 
       .grid.grid-cols-4.gap-32.mx-auto
-        - @exercises.each do |exercise|
+        - live_exercises.each do |exercise|
           = link_to generic_exercise_path(exercise.slug), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 status-#{exercise.status}" do
             = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: '', class: "c-icon c-track-icon h-[96px] w-[96px] mb-8"
             .text-h4.mb-20= exercise.title
@@ -109,7 +136,6 @@
             %progress.progress-bar{ value: exercise.iterated_tracks.size, max: 3 }
             .count #{exercise.iterated_tracks.size} / 3 exercises completed
 
-        - num_placeholders = 48 - @exercises.size
         - if num_placeholders.positive?
           - num_placeholders.times do
             .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }

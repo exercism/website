@@ -6,10 +6,10 @@
 #challenge-external-page
   %section.top-section
     .relative.overflow-hidden
-      .py-24.bg-gradient-to-b.absolute{ class: "from-[var(--backgroundColorA)] to-[var(--backgroundColorE)] opacity-[0.7]" }
+      .p-24.bg-gradient-to-b.absolute.inset-0.flex.items-center.justify-center{ class: "from-[var(--backgroundColorA)] to-[var(--backgroundColorE)] opacity-[0.7]" }
         .flex.flex-wrap.justify-center.gap-2.lg:gap-4.mx-auto
           - Track.find('csharp').exercises.active.map(&:icon_url).sample(48).each do |icon_url|
-            = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[24px] w-[24px] md:h-[7.8%] md:w-[7.8%]"
+            = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[12%] w-[12%] md:h-[10.8%] md:w-[10.8%] lg:h-[9%] lg:w-[9%] xl:h-[8%] xl:w-[8%]"
 
       .relative.lg-container
         .bg-backgroundColorA.bg-opacity-95.my-48.px-32.py-32.rounded-16.border-borderColor5.shadow-baseZ1.flex.flex-col.items-center
@@ -34,7 +34,7 @@
   %article.lg-container
     %section.video-section
       .c-youtube-container.mb-32
-        %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/Svzev-9shKs", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+        %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/v6fMaOdUxSk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
     %section.reasons-section
       %h2 Why take part?

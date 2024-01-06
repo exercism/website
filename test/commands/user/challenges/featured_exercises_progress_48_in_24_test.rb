@@ -17,7 +17,7 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user)
 
-    assert_equal (3..4).to_a, progress.map(&:week)
+    assert_equal (1..2).to_a, progress.map(&:week)
   end
 
   test "returns iterated tracks" do

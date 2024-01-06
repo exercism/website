@@ -3,6 +3,7 @@ require "test_helper"
 class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::TestCase
   test "returns status for all features exercises, regardless whether the user has iterated it" do
     user = create :user
+    create :track, slug: :csharp
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user)
 
@@ -14,6 +15,7 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
   test "returns progress order by week" do
     user = create :user
+    create :track, slug: :csharp
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user)
 
@@ -22,6 +24,8 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
   test "returns iterated tracks" do
     user = create :user
+    create :track, slug: :csharp
+
     create_iteration(user, 2022, 'hello-world', 'python')
     create_iteration(user, 2023, 'hello-world', 'prolog')
     create_iteration(user, 2024, 'leap', 'elixir')
@@ -35,6 +39,8 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
   test "gold status when user has iterated in all three featured tracks in 2024" do
     user = create :user
+    create :track, slug: :csharp
+
     create_iteration(user, 2024, 'hello-world', 'python')
     create_iteration(user, 2024, 'hello-world', 'csharp')
     create_iteration(user, 2024, 'hello-world', 'javascript')
@@ -47,6 +53,8 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
   test "gold status when iterated all featured tracks and at least three iterations in 2024" do
     user = create :user
+    create :track, slug: :csharp
+
     create_iteration(user, 2021, 'hello-world', 'python')
     create_iteration(user, 2022, 'hello-world', 'csharp')
     create_iteration(user, 2023, 'hello-world', 'javascript')
@@ -73,6 +81,8 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
   test "silver status when user has iterated in at least three tracks in 2024 (but not in three features ones)" do
     user = create :user
+    create :track, slug: :csharp
+
     create_iteration(user, 2024, 'hello-world', 'zig')
     create_iteration(user, 2024, 'hello-world', 'csharp')
     create_iteration(user, 2024, 'hello-world', 'nim')
@@ -85,6 +95,7 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
   test "bronze status when user has iterated in at least one track in 2024" do
     user = create :user
+    create :track, slug: :csharp
     create_iteration(user, 2024, 'hello-world', 'kotlin')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)

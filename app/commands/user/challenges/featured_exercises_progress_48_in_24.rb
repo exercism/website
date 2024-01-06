@@ -48,7 +48,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
   def csharp_exercises
     Track.find('csharp').practice_exercises.index_by(&:slug)
   rescue ActiveRecord::RecordNotFound
-    []
+    {}
   end
 
   FeaturedExercise = Struct.new(

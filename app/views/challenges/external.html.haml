@@ -1,39 +1,40 @@
-- content_for :meta_title, "The #12in23 Challenge"
-- content_for :meta_description, "Try out 12 different programming langauges during 2023. Broaden your horizons and level up your programming skills as your explore the varied paradigms and ideas that different languages embrace. It's free, fun, and useful!".html_safe
+- content_for :meta_title, "The #48in24 Challenge"
+- content_for :meta_description, "Try out a new programming challenge each week. Broaden your horizons and level up your programming skills as your explore the varied paradigms and ideas that different languages embrace. It's free, fun, and useful!".html_safe
 - content_for :meta_image, "https://i.ytimg.com/vi/Svzev-9shKs/hqdefault.jpg"
-- content_for :canonical_url, challenge_url('12in23')
-
+- content_for :canonical_url, challenge_url('48in24')
 
 #challenge-external-page
   %section.top-section
-    .lg-container
-      .flex.flex-wrap.justify-center.mb-32.gap-2.lg:gap-4.mx-auto{ class: 'max-w-[1000px]' }
-        - Track.active.map(&:icon_url).shuffle.each do |icon_url|
-          = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[24px] w-[24px] lg:h-[48px] lg:w-[48px]"
+    .relative.overflow-hidden
+      .p-24.bg-gradient-to-b.absolute.inset-0.flex.items-center.justify-center{ class: "from-[var(--backgroundColorA)] to-[var(--backgroundColorE)] opacity-[0.7]" }
+        .flex.flex-wrap.justify-center.gap-2.lg:gap-4.mx-auto
+          - Track.find('csharp').exercises.active.map(&:icon_url).sample(48).each do |icon_url|
+            = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[12%] w-[12%] md:h-[10.8%] md:w-[10.8%] lg:h-[9%] lg:w-[9%] xl:h-[8%] xl:w-[8%]"
 
-      %h1.text-h0.mb-16 The #12in23 Challenge
-      %p.mb-12
-        Expand your horizons by trying out
-        %strong.font-semibold 12 different programming languages
-        in 2023.
-      %p
-        Go old-school with COBOL, cutting edge with Unison or esoteric with Prolog. Explore low-level code with Assembly, expressions with a Lisp or functional with Haskell!
-        %strong.block.font-semibold This month is December Diversions. Join the Challenge to learn more!
+      .relative.lg-container
+        .bg-backgroundColorA.bg-opacity-95.my-48.px-32.py-32.rounded-16.border-borderColor5.shadow-baseZ1.flex.flex-col.items-center
+          %h1.text-h0.mb-16 The #48in24 Challenge
+          %p.mb-12.text-balance
+            Improve your programming skills by digging deep into a
+            %strong.font-semibold different programming challenge
+            every week during 2024.
+          %p
+            Each week, solve a different exercise, explore different approaches and paradigms, try new languages, get mentored by experts, and join in with the community.
 
-      %p.unsure
-        Expand your knowledge. Have fun. Join the community. 100% free.
+          %p.unsure.mt-24.mb-24
+            100% free, fun and invaluable!
 
-      - if user_signed_in?
-        = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-m btn-primary'
-      - else
-        .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
-          = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary sm:w-unset w-100'
-          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary sm:w-unset w-100'
+          - if user_signed_in?
+            = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
+          - else
+            .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
+              = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary sm:w-unset w-100'
+              = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary sm:w-unset w-100'
 
   %article.lg-container
     %section.video-section
       .c-youtube-container.mb-32
-        %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/Svzev-9shKs", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+        %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/v6fMaOdUxSk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
     %section.reasons-section
       %h2 Why take part?

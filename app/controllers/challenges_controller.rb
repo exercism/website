@@ -45,4 +45,8 @@ class ChallengesController < ApplicationController
     @badge_progress_exercise_earned_count = @badge_progress_exercises.count { |progress| progress[:earned_for].present? }
     @badge_progress_exercise_count = User::Challenges::FeaturedExercisesProgress12In23.num_featured_exercises
   end
+
+  def load_data_for_48in24 # rubocop:disable Naming/VariableNumber
+    @exercises = User::Challenges::FeaturedExercisesProgress48In24.(current_user)
+  end
 end

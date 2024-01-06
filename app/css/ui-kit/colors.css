@@ -137,7 +137,7 @@
 
 .theme-light {
     --backgroundColorA: var(--c-FFFFFF);
-    --backgroundColorA-RGB: 255, 255, 255;
+    --backgroundColorA-RGB: 255 255 255;
     --backgroundColorB: var(--c-FBFCFE);
     --backgroundColorC: var(--c-EAECF3);
     --backgroundColorD: var(--c-F0F3F9);
@@ -422,7 +422,7 @@ body.namespace-.controller-insiders.theme-light,
 
     /* --backgroundColorA: var(--c-282339); */
     --backgroundColorA: theme(colors.russianViolet);
-    --backgroundColorA-RGB: 40, 35, 57;
+    --backgroundColorA-RGB: 40 35 57;
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-302B42);
     --backgroundColorD: var(--c-3A3557); /* Confirmed */

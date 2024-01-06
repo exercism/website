@@ -1,0 +1,37 @@
+- if current_user.challenges.where(challenge_id: '48in24').exists?
+  - week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
+  - featured_exercise = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES.find { |e| e[:week] == week }
+
+  .flex.flex-col.items-start.mb-28
+    - if featured_exercise
+      .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
+        %span.emoji.mr-6 📆
+        Week #{week} of #48in24
+      %h2.text-h3 We're exploring #{featured_exercise[:title]}
+      %p.text-p-base.mb-6
+        = featured_exercise[:learning_opportunity]
+
+    - else
+      .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
+        %span.emoji.mr-6 📆
+        Starting Jan 16th
+
+      %h2.text-h3 You're all signed up for #48in24
+      %p.text-p-base.mb-6 #48in24 goes live on January 16th after which we'll release a new featured exercise every Tuesday. We'll email you when the first exercise is live!
+
+    = link_to challenge_path('48in24'), class: "btn btn-primary btn-base" do
+      %span Explore #48in24
+      = graphical_icon "arrow-right"
+- else
+  - csharp = Track.find_by(slug: 'csharp')
+  - exercises = csharp ? csharp.exercises.active.map(&:icon_url).sample(48) : []
+  = link_to challenge_path('48in24'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
+    %h2.text-h3.text-white.text-center.mb-8
+      The #48in24 Challenge
+    %p.text-p-base.text-white.text-center.mb-16
+      Learn new programming skills, techniques and paradigms with #48in24. Solve a different programming challenge every week and explore the different approaches people take with our community!
+
+    .flex.flex-wrap.justify-center.gap-2
+      - exercises.each do |icon_url|
+        = image_tag icon_url, alt: '', class: "c-icon c-track-icon h-[27px] w-[27px]"
+

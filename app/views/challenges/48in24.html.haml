@@ -10,12 +10,12 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            - if week.positive?
+            - if featured_exercise
               Week #{week + 1} of #48in24
             - else
               Begins Jan 16th 2024
 
-          - if week.positive?
+          - if featured_exercise
             %h1.text-h1.mb-8 This week, we're featuring #{featured_exercise.title}.
             %p.text-p-xlarge.mb-20
               For week #{week} of #48in24, we're exploring #{featured_exercise.title}.
@@ -110,7 +110,7 @@
             %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
               Track your progress at the bottom of the page.
 
-          - if week.positive?
+          - if featured_exercise
             .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
               %h2.text-h4.mb-4 Enjoying #48in24? Please donate 🙏
               %p.text-p-base.mb-12

@@ -3,7 +3,7 @@
   - featured_exercise = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES.find { |e| e[:week] == week }
 
   .flex.flex-col.items-start.mb-28
-    - if week.positive?
+    - if featured_exercise
       .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
         %span.emoji.mr-6 📆
         Week #{week} of #48in24

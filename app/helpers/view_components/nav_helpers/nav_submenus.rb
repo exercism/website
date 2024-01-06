@@ -11,6 +11,14 @@ module ViewComponents
         },
 
         {
+          title: "#48in24 Challenge",
+          description: "A different challenge each week in 2024",
+          path: Exercism::Routes.challenge_path('48in24'),
+          icon: 'nav-12in23',
+          view: :challenge_48in24 # rubocop:disable Naming/VariableNumber
+        },
+
+        {
           title: "Your Journey",
           description: "Explore your Exercism journey",
           path: Exercism::Routes.journey_path,
@@ -156,9 +164,9 @@ module ViewComponents
         end
       end
 
-      def nav_dropdown_challenge_12in23_view
+      def nav_dropdown_challenge_48in24_view
         tag.div class: 'nav-dropdown-view-content' do
-          render(template: "layouts/nav/12in23")
+          render(template: "layouts/nav/48in24")
         end
       end
     end

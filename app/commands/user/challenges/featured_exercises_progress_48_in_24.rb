@@ -5,8 +5,8 @@ class User::Challenges::FeaturedExercisesProgress48In24
 
   # rubocop:disable Layout/LineLength
   EXERCISES = [
-    { week: 1, slug: 'leap', featured_tracks: %w[haskell clojure zig], learning_opportunity: "This is a relatively simple exercise, but can teach you a lot about how to write idiomatic code in a language. Should you use boolean logic, early returns, pattern matching, or something more language specific? Whatever you do, just don't use the built-in leap-year method!" },
-    { week: 2, slug: 'hello-world', featured_tracks: %w[python csharp javascript], learning_opportunity: "" }
+    { week: 1, slug: 'leap', title: "Leap", featured_tracks: %w[haskell clojure zig], learning_opportunity: "This is a relatively simple exercise, but can teach you a lot about how to write idiomatic code in a language. Should you use boolean logic, early returns, pattern matching, or something more language specific? Whatever you do, just don't use the built-in leap-year method!" },
+    { week: 2, slug: 'hello-world', title: "Hello, World!", featured_tracks: %w[python csharp javascript], learning_opportunity: "" }
   ].freeze
   # rubocop:enable Layout/LineLength
 
@@ -50,7 +50,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
   end
 
   FeaturedExercise = Struct.new(
-    :week, :slug, :featured_tracks, :iterated_tracks, :status, :learning_opportunity, :exercise,
+    :week, :slug, :title, :featured_tracks, :iterated_tracks, :status, :learning_opportunity, :exercise,
     keyword_init: true
   ) do
     delegate :title, :icon_url, :blurb, to: :exercise

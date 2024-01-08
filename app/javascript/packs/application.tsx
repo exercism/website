@@ -581,12 +581,34 @@ export const mappings = {
       />
     </Suspense>
   ),
+  'impact-testimonials-list': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <TestimonialsList
+        request={camelizeKeysAs<Request>(data.request)}
+        defaultSelected={data.default_selected || null}
+      >
+        <ImpactTestimonial
+          testimonial={{} as Testimonial}
+          onClick={() => {}}
+          onClose={() => {}}
+          open={false}
+        />
+      </TestimonialsList>
+    </Suspense>
+  ),
   'profile-testimonials-list': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <TestimonialsList
         request={camelizeKeysAs<Request>(data.request)}
         defaultSelected={data.default_selected || null}
-      />
+      >
+        <ProfileTestimonial
+          testimonial={{} as Testimonial}
+          onClick={() => {}}
+          onClose={() => {}}
+          open={false}
+        />
+      </TestimonialsList>
     </Suspense>
   ),
   'profile-contributions-list': (data: any): JSX.Element => (
@@ -742,6 +764,8 @@ import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skelet
 import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
 import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
+import { ProfileTestimonial } from '@/components/profile/testimonials-list/ProfileTestimonial'
+import { ImpactTestimonial } from '@/components/impact/ImpactTestimonial'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

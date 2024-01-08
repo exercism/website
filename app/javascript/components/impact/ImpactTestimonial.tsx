@@ -2,9 +2,9 @@ import React from 'react'
 import { fromNow } from '@/utils/date'
 import { Testimonial as TestimonialProps } from '@/components/types'
 import { Avatar, GraphicalIcon, TrackIcon } from '@/components/common'
-import { TestimonialModal } from './TestimonialModal'
+import { TestimonialModal } from '@/components/profile/testimonials-list/TestimonialModal'
 
-export const Testimonial = ({
+export const ImpactTestimonial = ({
   open,
   testimonial,
   onClick,
@@ -18,7 +18,7 @@ export const Testimonial = ({
   return (
     <React.Fragment>
       <button className="testimonial" type="button" onClick={onClick}>
-        <div className="absolute flex gap-8 items-center -top-24">
+        <div className="testimonial-avatar-container absolute flex gap-8 items-center -top-24">
           <Avatar
             handle={testimonial.student.handle}
             src={testimonial.student.avatarUrl}
@@ -29,12 +29,12 @@ export const Testimonial = ({
             icon="arrow-right"
             width={16}
             height={16}
-            className="filter-textColor6 -translate-y-[0.5px]"
+            className="arrow-right filter-textColor6 -translate-y-[0.5px]"
           />
           <Avatar
             handle={testimonial.mentor.handle}
             src={testimonial.mentor.avatarUrl}
-            className="h-[48px] w-[48px]"
+            className="testimonial-recipient h-[48px] w-[48px]"
           />
         </div>
         <div className="content">{testimonial.content}</div>

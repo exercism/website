@@ -147,6 +147,15 @@ const CommunitySolutionsList = lazy(
 const TestimonialsList = lazy(
   () => import('@/components/profile/TestimonialsList')
 )
+
+const ImpactTestimonial = lazy(
+  () => import('@/components/impact/ImpactTestimonial')
+)
+
+const ProfileTestimonial = lazy(
+  () => import('@/components/profile/testimonials-list/ProfileTestimonial')
+)
+
 const ContributionsList = lazy(
   () => import('@/components/profile/ContributionsList')
 )
@@ -764,8 +773,6 @@ import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skelet
 import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
 import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
-import { ProfileTestimonial } from '@/components/profile/testimonials-list/ProfileTestimonial'
-import { ImpactTestimonial } from '@/components/impact/ImpactTestimonial'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()

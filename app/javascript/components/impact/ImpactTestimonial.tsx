@@ -4,7 +4,7 @@ import { Testimonial as TestimonialProps } from '@/components/types'
 import { Avatar, GraphicalIcon, TrackIcon } from '@/components/common'
 import { TestimonialModal } from '@/components/profile/testimonials-list/TestimonialModal'
 
-export const ImpactTestimonial = ({
+const ImpactTestimonial = ({
   open,
   testimonial,
   onClick,
@@ -63,3 +63,5 @@ export const ImpactTestimonial = ({
     </React.Fragment>
   )
 }
+
+export default ImpactTestimonial

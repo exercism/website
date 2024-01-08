@@ -84,15 +84,15 @@
               hashtag around social media!
 
           %h2.text-h3.mt-32.mb-4 #48in24 Badges
-          %p.text-p-large.mb-12.c-highlight-links
+          %p.text-p-large.xl:mb-12.mb-24.c-highlight-links
             Throughout the year we'll be releasing badges as you earn bronze, silver and gold awards. Keep checking back here to see what badges have become available.
 
 
-        .xl:ml-80{ class: 'max-w-[450px]' }
-          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 How does #48in24 work?
-            %p.text-p-base.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
-            %ul.text-p-base.mb-12
+        .xl:ml-80{ class: 'xl:max-w-[450px] max-w-[860px]' }
+          %details.c-details.bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
+            %summary.text-h4.mb-4 How does #48in24 work?
+            %p.xl:text-p-base.text-p-large.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
+            %ul.xl:text-p-base.text-p-large.mb-12
               %li
                 %strong{ class: "!text-textColor1" } Bronze:
                 Solve the exercise during 2024.
@@ -114,7 +114,7 @@
           - if featured_exercise
             .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
               %h2.text-h4.mb-4 Enjoying #48in24? Please donate 🙏
-              %p.text-p-base.mb-12
+              %p.xl:text-p-base.text-p-large.mb-12
                 We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #48in24 and are financially able, please consider donating to keep Exercism going!
               = link_to "Donate now", donate_path, class: 'btn btn-primary'
 

@@ -6,8 +6,8 @@
 #challenge-48in24-page
   %section.top-section
     .lg-container
-      .flex
-        .mr-auto{ class: 'max-w-[860px]' }
+      .flex.xl:flex-row.flex-col.xl:items-start.items-center
+        .xl:mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
             - if featured_exercise
@@ -26,7 +26,7 @@
             %p.text-p-xlarge.mb-20
               We're featuring it into the following languages: #{featured_exercise.featured_tracks.map(&:to_s).map(&:titleize).to_sentence}.
 
-            .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
+            .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
               .flex-shrink
                 %h2.text-h4.mb-2 Solve leap in a language of your choice, then watch as Erik and Jeremy dig deeper into its nuances 👉
                 %p.text-p-base.mb-8
@@ -35,7 +35,7 @@
                   Enjoy watching and please leave a comment!
 
               .rhs
-                %div{ class: 'w-[100%] max-w-[500px]' }
+                %div{ class: 'w-[100%] md:max-w-[500px]' }
                   .c-youtube-container
                     %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/v6fMaOdUxSk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
@@ -83,15 +83,15 @@
               hashtag around social media!
 
           %h2.text-h3.mt-32.mb-4 #48in24 Badges
-          %p.text-p-large.mb-12.c-highlight-links
+          %p.text-p-large.xl:mb-12.mb-24.c-highlight-links
             Throughout the year we'll be releasing badges as you earn bronze, silver and gold awards. Keep checking back here to see what badges have become available.
 
 
-        .ml-80{ class: 'max-w-[450px]' }
+        .xl:ml-80{ class: 'xl:max-w-[450px] max-w-[860px]' }
           .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 How does #48in24 work?
-            %p.text-p-base.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
-            %ul.text-p-base.mb-12
+            .text-h4.mb-4 How does #48in24 work?
+            %p.xl:text-p-base.text-p-large.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
+            %ul.xl:text-p-base.text-p-large.mb-12
               %li
                 %strong{ class: "!text-textColor1" } Bronze:
                 Solve the exercise during 2024.
@@ -113,7 +113,7 @@
           - if featured_exercise
             .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
               %h2.text-h4.mb-4 Enjoying #48in24? Please donate 🙏
-              %p.text-p-base.mb-12
+              %p.xl:text-p-base.text-p-large.mb-12
                 We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #48in24 and are financially able, please consider donating to keep Exercism going!
               = link_to "Donate now", donate_path, class: 'btn btn-primary'
 
@@ -126,7 +126,7 @@
         %p.text-p-large.cta
           Click on any exercise to learn more about it and see the #48in24 featured tracks.
 
-      .grid.grid-cols-4.gap-32.mx-auto
+      .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto
         - live_exercises.each do |exercise|
           = link_to generic_exercise_path(exercise.slug), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 status-#{exercise.status}" do
             = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: '', class: "c-icon c-track-icon h-[96px] w-[96px] mb-8"
@@ -140,4 +140,3 @@
           - num_placeholders.times do
             .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }
               .text-h0{ class: "opacity-[0.2]" } ?
-

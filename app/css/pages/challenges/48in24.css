@@ -54,4 +54,42 @@
     .count {
         @apply font-medium mt-8;
     }
+
+    details {
+        @apply cursor-pointer;
+        &[open] {
+            summary {
+                @apply mb-8;
+                &::after {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+        @apply py-16 px-32 rounded-16;
+        @apply text-18 font-normal leading-150;
+
+        summary {
+            @apply flex items-center;
+            @apply select-none;
+            outline: none;
+            list-style: none;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+
+            &::after {
+                content: url("icons/chevron-down-circle.svg");
+                @apply filter-textColor6;
+                height: 32px;
+                width: 32px;
+                margin-left: auto;
+                transform: rotate(0deg);
+                transition: transform 0.2s ease-in-out;
+            }
+        }
+        summary + * {
+            @apply pt-10;
+        }
+    }
 }

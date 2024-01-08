@@ -58,7 +58,6 @@
     details {
         @apply cursor-pointer;
         &[open] {
-            display: none;
             summary {
                 @apply mb-8;
                 &::after {

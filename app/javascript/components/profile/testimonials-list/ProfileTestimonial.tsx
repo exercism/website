@@ -18,15 +18,13 @@ export const ProfileTestimonial = ({
   return (
     <React.Fragment>
       <button className="testimonial" type="button" onClick={onClick}>
-        <div className="testimonial-avatar-container absolute flex gap-8 items-center -top-24">
-          <Avatar
-            handle={testimonial.student.handle}
-            src={testimonial.student.avatarUrl}
-            className="h-[48px] w-[48px]"
-          />
-        </div>
+        <Avatar
+          handle={testimonial.student.handle}
+          src={testimonial.student.avatarUrl}
+          className="h-[48px] w-[48px]"
+        />
         <div className="content">{testimonial.content}</div>
-        <span className="text-16 font-medium">
+        <span className="text-16 font-medium text-textColor2 leading-160">
           {testimonial.student.handle}
         </span>
         <div className="exercise">

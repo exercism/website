@@ -1,5 +1,4 @@
--# - week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
-- week = 2
+- week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
 - featured_exercise = @exercises.find { |e| e.week == week }
 - live_exercises = @exercises.select { |e| e.week <= week }
 - num_placeholders = 48 - live_exercises.size
@@ -89,8 +88,8 @@
 
 
         .xl:ml-80{ class: 'xl:max-w-[450px] max-w-[860px]' }
-          %details.c-details.bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
-            %summary.text-h4.mb-4 How does #48in24 work?
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
+            .text-h4.mb-4 How does #48in24 work?
             %p.xl:text-p-base.text-p-large.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
             %ul.xl:text-p-base.text-p-large.mb-12
               %li

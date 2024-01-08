@@ -35,12 +35,6 @@
             @apply relative;
             @apply text-left;
 
-            & .c-avatar {
-                @apply absolute;
-                top: -24px;
-                height: 48px;
-                width: 48px;
-            }
             & .content {
                 @apply text-20 leading-130 font-medium;
                 @apply mb-8;

@@ -24,9 +24,7 @@ export const ProfileTestimonial = ({
           className="h-[48px] w-[48px]"
         />
         <div className="content">{testimonial.content}</div>
-        <span className="text-16 font-medium text-textColor2 leading-160">
-          {testimonial.student.handle}
-        </span>
+        <span className="student-name">{testimonial.student.handle}</span>
         <div className="exercise">
           {testimonial.exercise.title} on{' '}
           <TrackIcon

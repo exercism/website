@@ -18,7 +18,7 @@ export const ImpactTestimonial = ({
   return (
     <React.Fragment>
       <button className="testimonial" type="button" onClick={onClick}>
-        <div className="testimonial-avatar-container absolute flex gap-8 items-center -top-24">
+        <div className="absolute flex gap-8 items-center -top-24">
           <Avatar
             handle={testimonial.student.handle}
             src={testimonial.student.avatarUrl}
@@ -29,12 +29,12 @@ export const ImpactTestimonial = ({
             icon="arrow-right"
             width={16}
             height={16}
-            className="arrow-right filter-textColor6 -translate-y-[0.5px]"
+            className="filter-textColor6 -translate-y-[0.5px]"
           />
           <Avatar
             handle={testimonial.mentor.handle}
             src={testimonial.mentor.avatarUrl}
-            className="testimonial-recipient h-[48px] w-[48px]"
+            className="h-[48px] w-[48px]"
           />
         </div>
         <div className="content">{testimonial.content}</div>

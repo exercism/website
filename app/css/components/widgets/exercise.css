@@ -77,15 +77,14 @@
             }
         }
         & > .--data {
-            @apply flex items-center;
+            @apply flex items-center gap-8 flex-wrap;
 
-            & .c-exercise-status-tag {
-                @apply mr-16;
-            }
-            & .c-difficulty-tag,
-            & .c-exercise-type-tag {
-                margin-left: -8px;
-                @apply mr-16;
+            .c-exercise-status-tag {
+                &.--completed,
+                &.--published,
+                &.--in-progress {
+                    @apply mr-8;
+                }
             }
             & .--iterations-count {
                 @apply flex items-center;
@@ -100,8 +99,6 @@
             }
 
             & .--mentoring-status {
-                @apply mr-16;
-
                 height: 24px;
                 width: 24px;
                 filter: var(--textColor6-filter);

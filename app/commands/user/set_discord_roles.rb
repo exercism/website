@@ -14,38 +14,31 @@ class User::SetDiscordRoles
       [INSIDERS_ROLE_ID, user.insider?]
     ].each do |role_id, condition|
       add_or_remove!(role_id, condition)
-    rescue StandardError => e
-      Bugsnag.notify(e)
+    rescue RestClient::NotFound
+      # If the user's role could not be found in Discord, ignore the error
     end
+  rescue RestClient::TooManyRequests => e
+    retry_after = (e.http_headers[:retry_after].presence || 60).to_i
+    requeue_job!(retry_after.seconds)
   end
 
   private
   def add_or_remove!(role_id, condition)
+    url = API_URL % [GUILD_ID, user.discord_uid, role_id]
+
     if condition
-      add_role!(role_id)
+      add_role!(url)
     else
-      remove_role!(role_id)
+      remove_role!(url)
     end
   end
 
-  def add_role!(role_id)
-    url = API_URL % [GUILD_ID, user.discord_uid, role_id]
+  def add_role!(url)
     RestClient.put(url, {}, Authorization: AUTH_HEADER)
-  rescue RestClient::NotFound
-    # If the user could not be found, ignore the error
-  rescue RestClient::TooManyRequests => e
-    retry_after = (e.http_headers[:retry_after].presence || 60).to_i
-    requeue_job!(retry_after.seconds)
   end
 
-  def remove_role!(role_id)
-    url = API_URL % [GUILD_ID, user.discord_uid, role_id]
+  def remove_role!(url)
     RestClient.delete(url, Authorization: AUTH_HEADER)
-  rescue RestClient::NotFound
-    # If the user could not be found, ignore the error
-  rescue RestClient::TooManyRequests => e
-    retry_after = (e.http_headers[:retry_after].presence || 60).to_i
-    requeue_job!(retry_after.seconds)
   end
 
   API_URL =  "https://discord.com/api/guilds/%s/members/%s/roles/%s".freeze

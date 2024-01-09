@@ -43,8 +43,13 @@ class Markdown::Preprocess
 
       link_text = node.each.map(&:to_commonmark).join.strip
       link_text.match(%r{^(concept|exercise):([\w-]+)/([\w-]+)$}) do |m|
-        node.url = "https://exercism.org/tracks/#{m[2]}/#{m[1]}s/#{m[3]}"
+        node.url = "https://exercism.org/tracks/#{m[2]}/#{m[1].pluralize}/#{m[3]}"
         node.each.first.string_content = m[3]
+      end
+
+      link_text.match(%r{^(article|approach):([\w-]+)/([\w-]+)/([\w-]+)$}) do |m|
+        node.url = "https://exercism.org/tracks/#{m[2]}/exercises/#{m[3]}/#{m[1].pluralize}/#{m[4]}"
+        node.each.first.string_content = m[4]
       end
 
       link_text.match(%r{^video:vimeo/(\d+)$}) do |m|

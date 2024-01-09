@@ -285,28 +285,44 @@ Done')
   end
 
   test "render concept widget link without link" do
-    # TODO: render concept widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[concept:julia/if-statements]()")
   end
 
   test "render concept widget link with link" do
-    # TODO: render concept widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected,
       Markdown::Parse.("[concept:julia/if-statements](https://exercism.org/tracks/julia/concepts/if-statements)")
   end
 
   test "render exercise widget link without link" do
-    # TODO: render exercise widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer]()")
   end
 
   test "render exercise widget link with link" do
-    # TODO: render exercise widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
+  end
+
+  test "render article widget link without link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/reverse-string/articles/performance">performance</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[article:julia/reverse-string/performance]()")
+  end
+
+  test "render article widget link with link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/reverse-string/articles/performance">performance</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[article:julia/reverse-string/performance](https://exercism.org/tracks/julia/exercises/reverse-string/articles/performance)")
+  end
+
+  test "render approach widget link without link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">default-value</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach:julia/two-fer/default-value]()")
+  end
+
+  test "render approach widget link with link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">default-value</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach:julia/two-fer/default-value](https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value)")
   end
 
   test "don't render exercise widget for approach link" do

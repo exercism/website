@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, cloneElement, ReactElement } from 'react'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { Pagination } from '@/components/common'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { ResultsZone } from '@/components/ResultsZone'
-import { Testimonial } from './testimonials-list/Testimonial'
 import type {
   PaginatedResult,
   Testimonial as TestimonialProps,
@@ -17,9 +16,18 @@ const DEFAULT_ERROR = new Error('Unable to load testimonials')
 export default function TestimonialsList({
   request: initialRequest,
   defaultSelected,
+  children,
 }: {
   request: Request
   defaultSelected: string | null
+  children: ReactElement<
+    Partial<{
+      testimonial: TestimonialProps
+      open: boolean
+      onClick: () => void
+      onClose: () => void
+    }>
+  >
 }): JSX.Element {
   const [selected, setSelected] = useState<string | null>(defaultSelected)
 
@@ -60,15 +68,13 @@ export default function TestimonialsList({
           <>
             <div className="testimonials">
               {resolvedData.results.map((t) => {
-                return (
-                  <Testimonial
-                    testimonial={t}
-                    open={t.uuid === selected}
-                    onClick={handleTestimonialOpen(t.uuid)}
-                    onClose={handleTestimonialClose}
-                    key={t.uuid}
-                  />
-                )
+                return cloneElement(children, {
+                  testimonial: t,
+                  open: t.uuid === selected,
+                  onClick: handleTestimonialOpen(t.uuid),
+                  onClose: handleTestimonialClose,
+                  key: t.uuid,
+                })
               })}
             </div>
             <Pagination

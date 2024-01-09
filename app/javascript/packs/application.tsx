@@ -147,6 +147,15 @@ const CommunitySolutionsList = lazy(
 const TestimonialsList = lazy(
   () => import('@/components/profile/TestimonialsList')
 )
+
+const ImpactTestimonial = lazy(
+  () => import('@/components/impact/ImpactTestimonial')
+)
+
+const ProfileTestimonial = lazy(
+  () => import('@/components/profile/testimonials-list/ProfileTestimonial')
+)
+
 const ContributionsList = lazy(
   () => import('@/components/profile/ContributionsList')
 )
@@ -581,12 +590,34 @@ export const mappings = {
       />
     </Suspense>
   ),
+  'impact-testimonials-list': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <TestimonialsList
+        request={camelizeKeysAs<Request>(data.request)}
+        defaultSelected={data.default_selected || null}
+      >
+        <ImpactTestimonial
+          testimonial={{} as Testimonial}
+          onClick={() => {}}
+          onClose={() => {}}
+          open={false}
+        />
+      </TestimonialsList>
+    </Suspense>
+  ),
   'profile-testimonials-list': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <TestimonialsList
         request={camelizeKeysAs<Request>(data.request)}
         defaultSelected={data.default_selected || null}
-      />
+      >
+        <ProfileTestimonial
+          testimonial={{} as Testimonial}
+          onClick={() => {}}
+          onClose={() => {}}
+          open={false}
+        />
+      </TestimonialsList>
     </Suspense>
   ),
   'profile-contributions-list': (data: any): JSX.Element => (

@@ -77,15 +77,12 @@
             }
         }
         & > .--data {
-            @apply flex items-center;
+            @apply flex items-center gap-8 flex-wrap;
 
             & .c-exercise-status-tag {
-                @apply mr-16;
             }
             & .c-difficulty-tag,
             & .c-exercise-type-tag {
-                margin-left: -8px;
-                @apply mr-16;
             }
             & .--iterations-count {
                 @apply flex items-center;

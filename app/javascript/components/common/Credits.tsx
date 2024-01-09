@@ -35,7 +35,7 @@ export default function Credits({
         users={users}
       />
       <div>
-        {topCount + Number(bottomCount) > 1 || users[0]['handle'].length === 0
+        {topCount + Number(bottomCount) > 1 || users[0]?.handle?.length === 0
           ? pluralizeWithNumber(topCount, topLabel)
           : `By ${users[0]['handle']}`}
         {bottomCount &&

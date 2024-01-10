@@ -69,8 +69,8 @@ We use localstack and opensearch, and run them via Docker.
 Double check versions in `.dockerimages.json`.
 
 ```bash
-docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack:2.2.0
-docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:2.9.0
+docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack:2.3.2
+docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:2.11.0
 ```
 
 ### Run the setup script
@@ -106,7 +106,7 @@ On Unix systems we recommend using `overmind` to manage this, which can be insta
 To get everything started you can then run:
 
 ```bash
-overmind -p 3020 Procfile.dev
+overmind start --port 3020 --procfile Procfile.dev
 ```
 
 #### Windows-specific

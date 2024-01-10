@@ -3,6 +3,8 @@ module Git
     extend Mandate::Memoize
     extend Git::HasGitFilepath
 
+    attr_reader :repo
+
     delegate :head_sha, :fetch!, :lookup_commit, :head_commit, to: :repo
 
     git_filepath :about, file: "docs/ABOUT.md"
@@ -144,8 +146,13 @@ module Git
       concept_exercise_concept_slugs & concept_slugs
     end
 
+    memoize
+    def approaches_snippet_extension
+      (config[:approaches] || {})[:snippet_extension].presence || "txt"
+    end
+
     private
-    attr_reader :repo, :git_sha
+    attr_reader :git_sha
 
     def absolute_filepath(filepath) = filepath
 

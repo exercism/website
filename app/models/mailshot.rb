@@ -33,7 +33,7 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_recently_active(days)
+  def audience_for_recent(days)
     [
       User.with_data.where('user_data.last_visited_on >= ?', Time.current - days.days),
       lambda do |user|

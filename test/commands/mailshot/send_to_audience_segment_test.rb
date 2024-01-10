@@ -105,7 +105,7 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     User::Mailshot::Send.expects(:call).with(user_40, mailshot).never
     User::Mailshot::Send.expects(:call).with(user_new, mailshot).never
 
-    Mailshot::SendToAudienceSegment.(mailshot, :recently_active, 35, 10, 0)
+    Mailshot::SendToAudienceSegment.(mailshot, :recent, 35, 10, 0)
   end
 
   test "schedules audience_for_track" do

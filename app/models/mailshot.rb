@@ -35,7 +35,7 @@ class Mailshot < ApplicationRecord
 
   def audience_for_recent(days)
     [
-      User.with_data.where('user_data.last_visited_on >= ?', Time.current - days.days),
+      User.with_data.where('user_data.last_visited_on >= ?', Time.current - days.to_i.days),
       lambda do |user|
         return unless user.iterations.count >= 2
 

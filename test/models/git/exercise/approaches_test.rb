@@ -3,7 +3,7 @@ require 'test_helper'
 class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
   test "approaches" do
     approaches = Git::Exercise::Approaches.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected = [
       {
@@ -35,7 +35,7 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
 
   test "filepaths" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected_filepaths = [
       "config.json",
@@ -46,7 +46,7 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
 
   test "filepaths with approaches" do
     approaches = Git::Exercise::Approaches.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected_filepaths = [
       "config.json",
@@ -60,7 +60,7 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
 
   test "absolute_filepaths" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected_filepaths = [
       "exercises/practice/bob/.approaches/config.json",
@@ -71,7 +71,7 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
 
   test "absolute_filepaths with approaches" do
     approaches = Git::Exercise::Approaches.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected_filepaths = [
       "exercises/practice/hamming/.approaches/config.json",
@@ -85,51 +85,51 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
 
   test "introduction_last_modified_at with approaches introduction" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     assert_equal Time.zone.utc_to_local(Time.utc(2023, 8, 31, 10, 27, 9)), approaches.introduction_last_modified_at
   end
 
   test "introduction_last_modified_at without approaches introduction" do
     approaches = Git::Exercise::Approaches.new(:leap, "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     assert_nil approaches.introduction_last_modified_at
   end
 
   test "introduction_authors" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal(["erikschierboom"], approaches.introduction_authors)
   end
 
   test "introduction_authors for exercise without authors" do
     approaches = Git::Exercise::Approaches.new(:allergies, "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_empty(approaches.introduction_authors)
   end
 
   test "config file path" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal('config.json', approaches.config_filepath)
   end
 
   test "config absolute file path" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal('exercises/practice/bob/.approaches/config.json', approaches.config_absolute_filepath)
   end
 
   test "introduction file path" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal('introduction.md', approaches.introduction_filepath)
   end
 
   test "introduction absolute file path" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal('exercises/practice/bob/.approaches/introduction.md', approaches.introduction_absolute_filepath)
   end
 end

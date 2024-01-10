@@ -15,7 +15,7 @@ module Git
       elsif repo_url
         @repo_url = repo_url
       elsif Rails.env.test?
-        @repo_url = "file://#{Rails.root / 'test' / 'repos' / 'track-with-exercises'}"
+        @repo_url = "file://#{Rails.root / 'test' / 'repos' / 'track'}"
       else
         @repo_url = repo_url || "https://github.com/exercism/#{repo_name}"
       end

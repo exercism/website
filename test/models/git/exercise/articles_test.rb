@@ -3,7 +3,7 @@ require 'test_helper'
 class Git::Exercise::ArticlesTest < ActiveSupport::TestCase
   test "articles" do
     git_articles = Git::Exercise::Articles.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected = [
       {
@@ -20,7 +20,7 @@ class Git::Exercise::ArticlesTest < ActiveSupport::TestCase
 
   test "filepaths" do
     git_articles = Git::Exercise::Articles.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected_filepaths = [
       "config.json",
@@ -32,7 +32,7 @@ class Git::Exercise::ArticlesTest < ActiveSupport::TestCase
 
   test "absolute_filepaths" do
     git_articles = Git::Exercise::Articles.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
 
     expected_filepaths = [
       "exercises/practice/hamming/.articles/config.json",
@@ -44,13 +44,13 @@ class Git::Exercise::ArticlesTest < ActiveSupport::TestCase
 
   test "config file path" do
     git_articles = Git::Exercise::Articles.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal('config.json', git_articles.config_filepath)
   end
 
   test "config absolute file path" do
     git_articles = Git::Exercise::Articles.new("hamming", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+      repo_url: TestHelpers.git_repo_url("track"))
     assert_equal('exercises/practice/hamming/.articles/config.json', git_articles.config_absolute_filepath)
   end
 end

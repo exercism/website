@@ -26,7 +26,7 @@ class Git::SyncTest < ActiveSupport::TestCase
   end
 
   test "synced_to_head? returns false if not synced to head" do
-    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     previous_head_sha = repo.head_commit.parents.first.oid
     track = create :track, synced_to_git_sha: previous_head_sha
 
@@ -44,7 +44,7 @@ class Git::SyncTest < ActiveSupport::TestCase
   end
 
   test "synced_to_head? returns true if synced to head via SHA" do
-    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     head_sha = repo.head_commit.oid
     track = create :track, synced_to_git_sha: head_sha
 

@@ -446,4 +446,27 @@ Done')
     expected = %(<a href="https://www.youtube.com/watch?v=GOPmj_AMbP8" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[video:youtube-mail/GOPmj_AMbP8](https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg)")
   end
+
+  %w[svg png jpg jpeg gif].each do |extension|
+    test "render invertible images with .#{extension} using correct class" do
+      expected = %(<p><img src="tic-tac-toe-invertible.#{extension}" alt="Tic Tac Toe board" class="c-img-invertible"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-invertible.#{extension})")
+    end
+
+    test "render light image with .#{extension} when dark image is rendered" do
+      # TODO: figure out how to retain alt text for both images
+      expected = %(<p><img src="tic-tac-toe-light.#{extension}" alt="Tic Tac Toe board" class="c-img-light-theme"><img src="tic-tac-toe-dark.#{extension}" alt="Tic Tac Toe board" class="c-img-dark-theme"></p>\n) # rubocop:disable Layout/LineLength
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-dark.#{extension})")
+    end
+
+    test "render dark image with .#{extension} when light image is rendered" do
+      expected = %(<p><img src="tic-tac-toe-light.#{extension}" alt="Tic Tac Toe board" class="c-img-light-theme"><img src="tic-tac-toe-dark.#{extension}" alt="Tic Tac Toe board" class="c-img-dark-theme"></p>\n) # rubocop:disable Layout/LineLength
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-light.#{extension})")
+    end
+
+    test "render regular #{extension} image" do
+      expected = %(<p><img src="tic-tac-toe.#{extension}" alt="Tic Tac Toe board"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe.#{extension})")
+    end
+  end
 end

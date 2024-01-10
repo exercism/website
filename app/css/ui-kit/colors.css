@@ -414,6 +414,10 @@
     --c-concept-map-line-available: #dce3ef;
     --c-concept-map-line-locked: #c9c8d7;
     --c-concept-map-line-faded: #d2ddf3;
+
+    img.c-img-dark-theme {
+        display: none;
+    }
 }
 
 body.namespace-.controller-insiders.theme-light,
@@ -688,6 +692,13 @@ body.namespace-.controller-insiders.theme-light,
     --c-concept-map-line-faded: #d2ddf3;
 
     --lockedColor: var(--backgroundColorEDAvailable);
+
+    img.c-img-invertable {
+        filter: invert(100%);
+    }
+    img.c-img-light-theme {
+        display: none;
+    }
 }
 
 /* =============== SYSTEM =============== */

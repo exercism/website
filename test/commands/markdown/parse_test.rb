@@ -448,9 +448,9 @@ Done')
   end
 
   %w[svg png jpg jpeg gif].each do |extension|
-    test "render invertable images with .#{extension} using correct class" do
-      expected = %(<p><img src="tic-tac-toe-invertable.#{extension}" alt="Tic Tac Toe board" class="c-img-invertable"></p>\n)
-      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-invertable.#{extension})")
+    test "render invertible images with .#{extension} using correct class" do
+      expected = %(<p><img src="tic-tac-toe-invertible.#{extension}" alt="Tic Tac Toe board" class="c-img-invertible"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-invertible.#{extension})")
     end
 
     test "render light image with .#{extension} when dark image is rendered" do

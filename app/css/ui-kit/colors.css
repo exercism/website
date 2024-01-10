@@ -693,7 +693,7 @@ body.namespace-.controller-insiders.theme-light,
 
     --lockedColor: var(--backgroundColorEDAvailable);
 
-    img.c-img-invertable {
+    img.c-img-invertible {
         filter: invert(100%);
     }
     img.c-img-light-theme {

@@ -30,8 +30,8 @@ class Markdown::RenderHTML
     def image(node)
       m = IMAGE_URL_REGEX.match(node.url)
 
-      if m[:path].end_with?('-invertable')
-        image_with_class(node, class_name: IMAGE_CLASS_INVERTABLE)
+      if m[:path].end_with?('-invertible')
+        image_with_class(node, class_name: IMAGE_CLASS_INVERTIBLE)
       elsif m[:path].end_with?('-light')
         image_with_class(node, class_name: IMAGE_CLASS_LIGHT_THEME)
         image_with_class(node, url: "#{m[:path][0..-7]}-dark.#{m[:extension]}", class_name: IMAGE_CLASS_DARK_THEME)
@@ -159,10 +159,10 @@ class Markdown::RenderHTML
 
     NOTE_BLOCK_FENCES = %w[exercism/note exercism/caution exercism/advanced].freeze
     IMAGE_URL_REGEX = /^(?<path>.+)\.(?<extension>jpe?g|png|gif|svg)$/i
-    IMAGE_CLASS_INVERTABLE = 'c-img-invertable'.freeze
+    IMAGE_CLASS_INVERTIBLE = 'c-img-invertible'.freeze
     IMAGE_CLASS_LIGHT_THEME = 'c-img-light-theme'.freeze
     IMAGE_CLASS_DARK_THEME = 'c-img-dark-theme'.freeze
-    private_constant :NOTE_BLOCK_FENCES, :IMAGE_URL_REGEX, :IMAGE_CLASS_INVERTABLE,
+    private_constant :NOTE_BLOCK_FENCES, :IMAGE_URL_REGEX, :IMAGE_CLASS_INVERTIBLE,
       :IMAGE_CLASS_LIGHT_THEME, :IMAGE_CLASS_DARK_THEME
   end
 end

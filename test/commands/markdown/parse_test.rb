@@ -464,9 +464,19 @@ Done')
       assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-light.#{extension})")
     end
 
+    test "render light #{extension} image with query string in url" do
+      expected = %(<p><img src="tic-light.#{extension}?raw=true" alt="Tic" class="c-img-light-theme"><img src="tic-dark.#{extension}?raw=true" alt="Tic" class="c-img-dark-theme"></p>\n) # rubocop:disable Layout/LineLength
+      assert_equal expected, Markdown::Parse.("![Tic](tic-light.#{extension}?raw=true)")
+    end
+
     test "render regular #{extension} image" do
       expected = %(<p><img src="tic-tac-toe.#{extension}" alt="Tic Tac Toe board"></p>\n)
       assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe.#{extension})")
+    end
+
+    test "render regular #{extension} image with query string in url" do
+      expected = %(<p><img src="tic.#{extension}?raw=true" alt="Tic"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic](tic.#{extension}?raw=true)")
     end
   end
 end

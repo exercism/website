@@ -19,6 +19,6 @@ class Submission::LinkApproach
     return unless approach
 
     num_solutions = Submission.where(approach:).select(:solution_id).distinct.count
-    approach.update!(num_solutions:)
+    approach.update_column(:num_solutions, num_solutions)
   end
 end

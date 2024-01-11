@@ -39,4 +39,14 @@ class Submission::LinkApproachTest < ActiveSupport::TestCase
 
     assert_equal updated_at, submission.updated_at
   end
+
+  test "does not change the updated_at date for the approach" do
+    updated_at = Time.current - 3.days
+    approach = create(:exercise_approach, updated_at:)
+    submission = create(:submission, approach: nil)
+
+    Submission::LinkApproach.(submission, approach)
+
+    assert_equal updated_at, approach.updated_at
+  end
 end

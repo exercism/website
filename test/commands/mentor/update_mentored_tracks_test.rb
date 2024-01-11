@@ -53,7 +53,7 @@ class Mentor::UpdateMentoredTracksTest < ActiveSupport::TestCase
   test "updates discord roles" do
     mentor = create :user
 
-    User::SetDiscordRoles.expects(:call).with(mentor)
+    User::SetDiscordRoles.expects(:defer).with(mentor)
 
     perform_enqueued_jobs do
       Mentor::UpdateMentoredTracks.(mentor, [])

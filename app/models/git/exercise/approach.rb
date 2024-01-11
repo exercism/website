@@ -3,48 +3,18 @@ class Git::Exercise::Approach
   extend Mandate::InitializerInjector
   extend Git::HasGitFilepath
 
-  delegate :head_sha, :lookup_commit, :head_commit, to: :repo
+  delegate :commit, :repo, :head_sha, :approaches_snippet_extension, to: :git_track
 
   git_filepath :content, file: "content.md"
-  git_filepath :snippet, file: "snippet.txt"
+  git_filepath :snippet, file: ->(m) { "snippet.#{m.approaches_snippet_extension}" }
 
-  def initialize(approach_slug, exercise_slug, exercise_type, git_sha = "HEAD", repo_url: nil, repo: nil)
-    @repo = repo || Git::Repository.new(repo_url:)
-    @approach_slug = approach_slug
-    @exercise_slug = exercise_slug
-    @exercise_type = exercise_type
-    @git_sha = git_sha
-  end
-
-  memoize
-  def absolute_filepaths
-    filepaths.map { |filepath| absolute_filepath(filepath) }
-  end
-
-  def filepaths = file_entries.map { |defn| defn[:full] }
-
-  def dir = "exercises/#{exercise_type}/#{exercise_slug}/.approaches/#{approach_slug}"
+  initialize_with :approach_slug, :exercise_slug, :exercise_type, :git_track, git_sha: "HEAD"
 
   private
-  attr_reader :repo, :approach_slug, :exercise_slug, :exercise_type, :git_sha
+  attr_reader :git_track, :approach_slug, :exercise_slug, :exercise_type, :git_sha
 
   def absolute_filepath(filepath) = "#{dir}/#{filepath}"
 
   memoize
-  def file_entries
-    tree.walk(:preorder).map do |root, entry|
-      next if entry[:type] == :tree
-
-      entry[:full] = "#{root}#{entry[:name]}"
-      entry
-    end.compact
-  rescue Rugged::TreeError
-    []
-  end
-
-  memoize
-  def tree = repo.fetch_tree(commit, dir)
-
-  memoize
-  def commit = repo.lookup_commit(git_sha)
+  def dir = "exercises/#{exercise_type}/#{exercise_slug}/.approaches/#{approach_slug}"
 end

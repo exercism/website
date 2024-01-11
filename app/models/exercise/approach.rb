@@ -31,7 +31,7 @@ class Exercise::Approach < ApplicationRecord
   delegate :content, :snippet, to: :git
 
   memoize
-  def git = Git::Exercise::Approach.new(slug, exercise.slug, exercise.git_type, synced_to_git_sha, repo_url: track.repo_url)
+  def git = Git::Exercise::Approach.new(slug, exercise.slug, exercise.git_type, track.git, git_sha: synced_to_git_sha)
 
   memoize
   def content_html = Markdown::Parse.(content)

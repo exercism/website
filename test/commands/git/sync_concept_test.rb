@@ -2,7 +2,7 @@ require "test_helper"
 
 class Git::SyncConceptTest < ActiveSupport::TestCase
   test "respects force_sync: true" do
-    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     concept = create :concept, uuid: '3b1da281-7099-4c93-a109-178fc9436d68', slug: 'strings', name: 'Strings', blurb: 'Strings are immutable objects', synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
 
     Git::SyncConceptAuthors.expects(:call).never

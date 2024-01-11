@@ -148,7 +148,7 @@ module Git
 
     memoize
     def approaches_snippet_extension
-      (config[:approaches] || {})[:snippet_extension].presence || "txt"
+      config.dig(:approaches, :snippet_extension).presence || DEFAULT_SNIPPET_EXTENSION
     end
 
     private
@@ -175,5 +175,8 @@ module Git
     def exercises
       config[:exercises] || {}
     end
+
+    DEFAULT_SNIPPET_EXTENSION = "txt".freeze
+    private_constant :DEFAULT_SNIPPET_EXTENSION
   end
 end

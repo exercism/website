@@ -3,7 +3,7 @@ class Git::Exercise::Approach
   extend Mandate::InitializerInjector
   extend Git::HasGitFilepath
 
-  delegate :commit, :repo, :approaches_snippet_extension, to: :git_track
+  delegate :commit, :repo, :head_sha, :approaches_snippet_extension, to: :git_track
 
   git_filepath :content, file: "content.md"
   git_filepath :snippet, file: ->(m) { "snippet.#{m.approaches_snippet_extension}" }

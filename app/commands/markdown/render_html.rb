@@ -29,6 +29,7 @@ class Markdown::RenderHTML
 
     def image(node)
       m = IMAGE_URL_REGEX.match(node.url)
+      return image_with_class(node) if m.nil?
 
       if m[:path].end_with?('-invertible')
         image_with_class(node, class_name: IMAGE_CLASS_INVERTIBLE)

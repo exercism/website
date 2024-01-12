@@ -29,9 +29,9 @@ class Iteration::DiscussionPostTest < ActiveSupport::TestCase
     MD
 
     html = <<~HTML
-      <h3>Hello h1</h3>
-      <h4>Oooh h2</h4>
-      <h5>What now h3</h5>
+      <h3 id="h-hello-h1">Hello h1</h3>
+      <h4 id="h-oooh-h2">Oooh h2</h4>
+      <h5 id="h-what-now-h3">What now h3</h5>
     HTML
 
     post = create :mentor_discussion_post, content_markdown: markdown

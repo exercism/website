@@ -191,7 +191,8 @@ Done')
   end
 
   test "increment level of headings with greater than one" do
-    assert_equal "<h3>Level two</h3>\n<h4>Level three</h4>\n", Markdown::Parse.("## Level two\n\n### Level three")
+    assert_equal %(<h3 id="h-level-two">Level two</h3>\n<h4 id="h-level-three">Level three</h4>\n),
+      Markdown::Parse.("## Level two\n\n### Level three")
   end
 
   test "does not lower headings beyond h6" do

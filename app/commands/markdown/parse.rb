@@ -8,7 +8,7 @@ class Markdown::Parse
     new(*args, **kwargs).()
   end
 
-  initialize_with :text, nofollow_links: false, strip_h1: true, lower_heading_levels_by: 1, heading_ids: false
+  initialize_with :text, nofollow_links: false, strip_h1: true, lower_heading_levels_by: 1, heading_ids: true
 
   def call
     return "" if text.blank?

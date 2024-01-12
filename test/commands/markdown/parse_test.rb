@@ -181,7 +181,8 @@ Done')
   end
 
   test "can not remove level one headings" do
-    assert_equal "<h2>Top heading</h2>\n<p>Content</p>\n", Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
+    assert_equal "<h2 id=\"h-top-heading\">Top heading</h2>\n<p>Content</p>\n",
+      Markdown::Parse.("# Top heading\n\nContent", strip_h1: false)
   end
 
   test "does not remove level one headings in code blocks" do
@@ -195,12 +196,13 @@ Done')
 
   test "does not lower headings beyond h6" do
     str = "#### Level four\n\n##### Level five\n\n###### Level six\n\n####### Level seven"
-    assert_equal "<h5>Level four</h5>\n<h6>Level five</h6>\n<h6>Level six</h6>\n<p>####### Level seven</p>\n", Markdown::Parse.(str)
+    assert_equal "<h5 id=\"h-level-four\">Level four</h5>\n<h6 id=\"h-level-five\">Level five</h6>\n<h6 id=\"h-level-six\">Level six</h6>\n<p>####### Level seven</p>\n", # rubocop:disable Layout/LineLength
+      Markdown::Parse.(str)
   end
 
   test "does not increment level of level one heading if stripping" do
     assert_equal "", Markdown::Parse.("# Level one\n", strip_h1: true)
-    assert_equal "<h2>Level one</h2>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
+    assert_equal "<h2 id=\"h-level-one\">Level one</h2>\n", Markdown::Parse.("# Level one\n", strip_h1: false)
   end
 
   test "removes html comments" do

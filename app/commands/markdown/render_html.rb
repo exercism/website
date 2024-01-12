@@ -1,7 +1,7 @@
 class Markdown::RenderHTML
   include Mandate
 
-  initialize_with :doc, nofollow_links: false, heading_ids: false
+  initialize_with :doc, nofollow_links: false, heading_ids: true
 
   def call
     renderer = Renderer.new(options: %i[UNSAFE FOOTNOTES], nofollow_links:, heading_ids:)

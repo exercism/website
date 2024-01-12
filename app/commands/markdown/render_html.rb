@@ -76,7 +76,7 @@ class Markdown::RenderHTML
 
       uri = Addressable::URI.parse(node.url)
 
-      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
+      out('<a href="', link_href(uri), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
       if external_url?(uri)
         out(' target="_blank"')
@@ -87,6 +87,12 @@ class Markdown::RenderHTML
       end
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
+    end
+
+    def link_href(uri)
+      return '' if uri.nil?
+
+      escape_href(uri.to_s)
     end
 
     def table(node)

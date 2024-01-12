@@ -91,7 +91,11 @@ class Markdown::RenderHTML
 
     def link_href(uri)
       return '' if uri.nil?
+      return escape_href(uri.to_s) if uri.fragment.blank? || uri.fragment.start_with?('h-')
+      return escape_href(uri.to_s) if external_url?(uri)
+      return escape_href(uri.to_s) if uri.path.present? && !HEADING_ID_PATHS_REGEX.match(uri.path)
 
+      uri.fragment = "h-#{uri.fragment}"
       escape_href(uri.to_s)
     end
 
@@ -170,6 +174,7 @@ class Markdown::RenderHTML
     IMAGE_CLASS_INVERTIBLE = 'c-img-invertible'.freeze
     IMAGE_CLASS_LIGHT_THEME = 'c-img-light-theme'.freeze
     IMAGE_CLASS_DARK_THEME = 'c-img-dark-theme'.freeze
+    HEADING_ID_PATHS_REGEX = %r{^(/docs/|/tracks/[^/]+/(concepts|exercises)/)}
     private_constant :NOTE_BLOCK_FENCES, :IMAGE_URL_REGEX, :IMAGE_CLASS_INVERTIBLE,
       :IMAGE_CLASS_LIGHT_THEME, :IMAGE_CLASS_DARK_THEME
   end

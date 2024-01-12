@@ -33,5 +33,5 @@ class Exercise::Article < ApplicationRecord
   def content_html = Markdown::Parse.(content)
 
   memoize
-  def snippet_html = Markdown::Parse.(snippet)
+  def snippet_html = Markdown::Parse.(snippet, heading_ids: false)
 end

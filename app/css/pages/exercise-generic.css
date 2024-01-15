@@ -20,6 +20,7 @@
             }
         }
     }
+
     section.tracks {
         a {
             @apply shadow-smZ1 p-12 rounded-8 bg-backgroundColorA flex flex-col items-center border-3;

@@ -10,8 +10,8 @@
         .text-p-xlarge= @ps_data.blurb
 
   .lg-container
-    .flex
-      .mr-48
+    .flex.flex-col.md:flex-row.gap-48
+      .lhs
         - if @ps_data.deep_dive_youtube_id.present?
           .mb-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
             .text-h3.mb-8 Deep Dive into #{@exercise.title}!
@@ -45,7 +45,7 @@
                 - else
                   Explore the #{external_link_to 'source of this exercise', source_url}.
 
-      .flex-shrink-0{ class: "w-[33%]" }
+      .flex-shrink-0{ class: "md:w-[33%]" }
         - if @featured_in_2024_languages
           .shadow-lg.bg-backgroundColorA.px-20.py-16.mb-24.rounded-8
             .flex.items-center.gap-16

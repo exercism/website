@@ -6,27 +6,32 @@ class GenericExercisesController < ApplicationController
 
   def show
     @ps_data = Git::ProblemSpecifications::Exercise.new(params[:id])
-    solutions = current_user.solutions.
-      includes(:exercise).
-      where(exercise_id: Exercise.where(slug: params[:id])).to_a
-    @num_completed_solutions = solutions.count(&:completed?)
-    @solutions = solutions.index_by { |s| s.exercise.track_id }
-
     @track_variants = Exercise.active.where(
       slug: params[:id],
       track_id: Track.active.select(:id)
     ).includes(:track).to_a
-    # @track_variants.sort_by!{ |tv| "#{@solutions[tv.track_id] ? 0 : 1}_#{tv.track.slug}"}
     @track_variants.sort_by! { |tv| tv.track.slug }
 
-    current_week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
-    return unless Date.current.year == 2024
-
-    featured_data = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES.find do |e|
-      e[:slug] == @exercise.slug && e[:week] <= current_week
+    if current_user
+      solutions = current_user.solutions.
+        includes(:exercise).
+        where(exercise_id: Exercise.where(slug: params[:id])).to_a
+      @num_completed_solutions = solutions.count(&:completed?)
+      @solutions = solutions.index_by { |s| s.exercise.track_id }
+    else
+      @solutions = {}
+      @num_completed_solutions = 0
     end
-    track_slugs = featured_data[:featured_tracks] if featured_data
-    @featured_in_2024_languages = Track.where(slug: track_slugs) if track_slugs
+
+    if Date.current.year == 2024 # rubocop:disable Style/GuardClause
+      current_week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
+
+      featured_data = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES.find do |e|
+        e[:slug] == @exercise.slug && e[:week] <= current_week
+      end
+      track_slugs = featured_data[:featured_tracks] if featured_data
+      @featured_in_2024_languages = Track.where(slug: track_slugs) if track_slugs
+    end
   end
 
   private

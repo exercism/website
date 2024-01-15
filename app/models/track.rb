@@ -162,7 +162,7 @@ class Track < ApplicationRecord
     },
     platform: {
       windows: "Windows",
-      mac: "Mac OSX",
+      mac: "macOS",
       linux: "Linux",
       ios: "iOS",
       android: "Android",

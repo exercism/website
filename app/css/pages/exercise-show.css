@@ -258,7 +258,9 @@ body.namespace-tracks.controller-exercises.action-show {
             }
         }
 
-        &:before {
+        &.pending:before,
+        &.locked:before,
+        &.completed:before {
             @apply absolute left-[-12px] top-[2px];
             @apply rounded-circle bg-backgroundColorA;
             @apply w-[24px] h-[24px];

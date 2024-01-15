@@ -24,7 +24,7 @@
     section.tracks {
         a {
             @apply shadow-smZ1 p-12 rounded-8 bg-backgroundColorA flex flex-col items-center border-3;
-            @apply relative;
+            @apply relative text-center leading-120;
             &:before {
                 @apply absolute top-[-12px] right-[-12px];
                 @apply w-[24px] h-[24px] bg-cover;

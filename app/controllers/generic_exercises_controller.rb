@@ -12,7 +12,10 @@ class GenericExercisesController < ApplicationController
     @num_completed_solutions = solutions.count(&:completed?)
     @solutions = solutions.index_by { |s| s.exercise.track_id }
 
-    @track_variants = Exercise.where(slug: params[:id]).includes(:track).to_a
+    @track_variants = Exercise.active.where(
+      slug: params[:id],
+      track_id: Track.active.select(:id)
+    ).includes(:track).to_a
     # @track_variants.sort_by!{ |tv| "#{@solutions[tv.track_id] ? 0 : 1}_#{tv.track.slug}"}
     @track_variants.sort_by! { |tv| tv.track.slug }
 

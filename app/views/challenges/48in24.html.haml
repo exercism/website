@@ -1,5 +1,7 @@
 - week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
 - featured_exercise = @exercises.find { |e| e.week == week }
+- if featured_exercise
+  - featured_exercise_ps_data = Git::ProblemSpecifications::Exercise.new(featured_exercise.slug)
 - live_exercises = @exercises.select { |e| e.week <= week }
 - num_placeholders = 48 - live_exercises.size
 
@@ -17,29 +19,30 @@
 
           - if featured_exercise
             %h1.text-h1.mb-8 This week, we're featuring #{featured_exercise.title}.
-            %p.text-p-xlarge.mb-20
-              For week #{week} of #48in24, we're exploring #{featured_exercise.title}.
-              = featured_exercise.learning_opportunity
+            %p.text-p-xlarge.mb-12
+              For week #{week} of #48in24, we're exploring #{link_to featured_exercise.title, generic_exercise_path(featured_exercise), class: 'underline'}.
+            %p.text-p-large.mb-12= featured_exercise.learning_opportunity
 
-            %p.text-p-xlarge.mb-20
+            %p.text-p-large.mb-12
               Your task: #{featured_exercise.blurb}
-            %p.text-p-xlarge.mb-20
+            %p.text-p-large.mb-12
               We're featuring it into the following languages: #{featured_exercise.featured_tracks.map(&:to_s).map(&:titleize).to_sentence}.
 
-            .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
-              .flex-shrink
-                %h2.text-h4.mb-2 Solve leap in a language of your choice, then watch as Erik and Jeremy dig deeper into its nuances 👉
-                %p.text-p-base.mb-8
-                  Our weekly videos are fireside chats between Jeremy and Erik as they dig into the different ways people solve exercises using different paradigms and concepts.
-                %p.text-p-base
-                  Enjoy watching and please leave a comment!
+            - if featured_exercise_ps_data.deep_dive_youtube_id
+              .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
+                .flex-shrink
+                  %h2.text-h4.mb-4 Join Erik and Jeremy as they explore they different ways to approach this exercise 👉
+                  %p.text-p-base.mb-8
+                    Our weekly videos are relaxed conversations between Jeremy and Erik as they dig into the different ways people solve exercises using different paradigms and concepts.
+                  %p.text-p-base
+                    Enjoy watching and please leave a comment!
 
-              .rhs
-                %div{ class: 'w-[100%] md:max-w-[500px]' }
-                  .c-youtube-container
-                    %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/v6fMaOdUxSk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                .rhs
+                  %div{ class: 'w-[100%] md:max-w-[500px]' }
+                    .c-youtube-container
+                      %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{featured_exercise_ps_data.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
-            %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
+            %h2.text-h3.mt-32.mb-6 Learn from others… 🎥
             %p.text-p-large.mb-12.c-highlight-links
               Join us as our staff and community stream solving our featured exercises, and dig into the different ways they can be approached.
               Subscribe to our
@@ -82,7 +85,7 @@
               %strong.font-semibold #48in24
               hashtag around social media!
 
-          %h2.text-h3.mt-32.mb-4 #48in24 Badges
+          %h2.text-h3.mt-32.mb-6 #48in24 Badges
           %p.text-p-large.xl:mb-12.mb-24.c-highlight-links
             Throughout the year we'll be releasing badges as you earn bronze, silver and gold awards. Keep checking back here to see what badges have become available.
 
@@ -126,15 +129,25 @@
         %p.text-p-large.cta
           Click on any exercise to learn more about it and see the #48in24 featured tracks.
 
-      .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto
+      .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto.exercises
         - live_exercises.each do |exercise|
-          = link_to generic_exercise_path(exercise.slug), class: "relative text-center shadow-baseZ1 bg-backgroundColorA py-16 px-24 rounded-8 flex flex-col items-center border-2 status-#{exercise.status}" do
-            = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: '', class: "c-icon c-track-icon h-[96px] w-[96px] mb-8"
-            .text-h4.mb-20= exercise.title
-            - if exercise.iterated_tracks.size >= 1
-              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
-            %progress.progress-bar{ value: exercise.iterated_tracks.size, max: 3 }
-            .count #{exercise.iterated_tracks.size} / 3 exercises completed
+          - status = exercise.status.to_s.dasherize
+          - num_completed_tracks = exercise.completed_tracks.count { |_, year| year == 2024 }
+          .exercise{ class: status }
+            = link_to generic_exercise_path(exercise.slug), class: 'info' do
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: '', class: "exercise-icon c-icon"
+              .text-h3.mb-16= exercise.title
+              %progress.progress-bar{ value: num_completed_tracks, max: 3 }
+              - if num_completed_tracks > 2
+                .count Completed in #{num_completed_tracks} tracks
+              - else
+                .count Completed in #{num_completed_tracks} / 3 tracks
+            .featured
+              .tracks
+                - exercise.featured_tracks.map do |track_slug|
+                  - completed = exercise.completed_tracks.key?(track_slug)
+                  = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}" do
+                    = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg"
 
         - if num_placeholders.positive?
           - num_placeholders.times do

@@ -8,6 +8,8 @@ class Git::ProblemSpecifications::Exercise
   git_filepath :deprecated, file: ".deprecated"
   git_filepath :canonical_data, file: "canonical-data.json"
   git_filepath :description, file: "description.md"
+  git_filepath :instructions, file: "instructions.md"
+  git_filepath :introduction, file: "introduction.md"
   git_filepath :metadata, file: "metadata.toml"
 
   attr_reader :slug
@@ -30,7 +32,17 @@ class Git::ProblemSpecifications::Exercise
   def source_url = metadata["source_url"]
 
   memoize
+  def deep_dive_youtube_id = metadata["deep_dive_youtube_id"]
+
+  memoize
   def deprecated? = deprecated_exists?
+
+  memoize
+  def description_html
+    return Markdown::Parse.(description) if description.present?
+
+    Markdown::Parse.(introduction.to_s) + Markdown::Parse.(instructions.to_s)
+  end
 
   memoize
   def absolute_filepaths = filepaths.map { |filepath| absolute_filepath(filepath) }

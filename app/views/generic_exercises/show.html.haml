@@ -62,10 +62,10 @@
 
         .text-h4.mb-2 Try #{@exercise.title} in #{@track_variants.size} different languages…
         %p.xl:text-p-base.text-p-large.mb-20
-          - if @num_completed_solutions > 1
-            You've not yet completed it in any languages.
-          - else
+          - if @num_completed_solutions.positive?
             So far you've completed it in #{pluralize @num_completed_solutions, 'language'}.
+          - else
+            You've not yet completed it in any languages.
 
         %section.tracks.grid.grid-cols-1.lg:grid-cols-3.xl:grid-cols-4.gap-16
           - @track_variants.each do |exercise|

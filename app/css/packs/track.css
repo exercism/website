@@ -23,6 +23,7 @@
 
 /* Exercise */
 @import "../pages/exercise-show";
+@import "../pages/exercise-generic";
 @import "../pages/exercises-index";
 @import "../pages/iterations-index";
 @import "../pages/community-solutions-index";

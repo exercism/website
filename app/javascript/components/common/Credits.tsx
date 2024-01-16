@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import { AvatarGroup } from '.'
 import { User } from '../types'
 
@@ -28,7 +29,7 @@ export default function Credits({
   }
 
   return (
-    <div className={`flex items-center ${className ? className : ''}`}>
+    <div className={assembleClassNames('flex items-center', className)}>
       <AvatarGroup
         className={`mr-${overflow > 0 ? 12 : 8}`}
         overflow={overflow}

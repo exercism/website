@@ -1,4 +1,5 @@
 import React from 'react'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import { Avatar } from '../common'
 import { User } from '../types'
 
@@ -14,7 +15,9 @@ export function AvatarGroup({
   className,
 }: AvatarGroupProps): JSX.Element {
   return (
-    <div className={`c-faces-with-overflow-counter ${className}`}>
+    <div
+      className={assembleClassNames('c-faces-with-overflow-counter', className)}
+    >
       {users &&
         users
           .slice(0, 2)

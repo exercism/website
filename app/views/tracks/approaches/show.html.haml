@@ -8,11 +8,11 @@
     .md-container.flex.flex-col.md:flex-row.items-left.md:items-center
       .flex-grow
         %h1.text-h0.mb-8.md:mb-8= @approach.title
-        .md:flex.hidden.mb-32.items-center.text-16.font-semibold.leading-150.text-textColor1
-          = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'h-[40px] mr-12')
-          %span.text-textColor6.mr-12
+        .flex.mb-16.md:mb-32.items-center.text-16.font-semibold.leading-150.text-textColor1
+          = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'md:h-[40px] mr-12')
+          %span.hidden.md:block.text-textColor6.mr-12
             &middot
-          %span.text-textColor6
+          %span.hidden.md:block.text-textColor6
             Published at
             = format_date(@approach.created_at)
 

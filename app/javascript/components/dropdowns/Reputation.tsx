@@ -3,7 +3,7 @@ import { ReputationIcon } from './reputation/ReputationIcon'
 import { ReputationMenu } from './reputation/ReputationMenu'
 import { ReputationChannel } from '../../channels/reputationChannel'
 import { useDropdown, DropdownAttributes } from './useDropdown'
-import { QueryStatus } from 'react-query'
+import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
@@ -58,7 +58,7 @@ const DropdownContent = ({
   itemAttributes,
 }: {
   data: APIResponse | undefined
-  cacheKey: string
+  cacheKey: QueryKey
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
@@ -88,7 +88,7 @@ const DropdownContent = ({
 
 const MAX_TOKENS = 5
 
-export const Reputation = ({
+export default function Reputation({
   defaultReputation,
   defaultIsSeen,
   endpoint,
@@ -96,14 +96,17 @@ export const Reputation = ({
   defaultReputation: number
   defaultIsSeen: boolean
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
   const cacheKey = 'reputations'
-  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
-    APIResponse
-  >(cacheKey, {
+  const {
+    data: resolvedData,
+    error,
+    status,
+    refetch,
+  } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
     options: {},
@@ -168,7 +171,7 @@ export const Reputation = ({
         <div className="c-reputation-dropdown" {...panelAttributes}>
           <DropdownContent
             data={resolvedData}
-            cacheKey={cacheKey}
+            cacheKey={[cacheKey]}
             status={status}
             error={error}
             itemAttributes={itemAttributes}

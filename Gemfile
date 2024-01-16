@@ -11,9 +11,10 @@ gem 'propshaft', '0.4.0' # Changing this will break stuff. Work needed.
 
 gem 'mysql2', '~> 0.5.4'
 gem 'redis', '~> 4.0'
-gem 'mongo'
 gem 'aws-sdk-s3', '~> 1'
 gem 'aws-sdk-ecr'
+gem 'aws-sdk-cloudfront'
+gem 'aws-sdk-sesv2'
 gem 'anycable-rails', '~> 1.2.0'
 gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
@@ -37,13 +38,13 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.106.0'
+gem 'exercism-config', '>= 0.117.0'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
 gem 'friendly_id', '~> 5.4.0'
-gem 'sidekiq', '~> 6.3'
+gem 'sidekiq', '7.1.4'
 gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
 
@@ -52,6 +53,7 @@ gem 'hamlit'
 gem 'commonmarker', '>= 0.23.8'
 gem 'ansi-to-html'
 gem 'public_suffix'
+gem 'humanize'
 
 # Authentication
 gem 'devise', '~> 4.7'
@@ -105,7 +107,6 @@ group :test do
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
   gem 'webmock'
   gem 'show_me_the_cookies'
 
@@ -119,7 +120,7 @@ end
 gem 'addressable', '~> 2.7'
 gem 'mini_magick'
 
-gem 'elasticsearch', '6.8.3'
+gem 'opensearch-ruby'
 
 gem 'rack-attack', '~> 6.6'
 
@@ -128,4 +129,5 @@ gem 'maxminddb', '~> 0.1.22'
 
 gem 'rubyzip', '~> 2.3'
 
-gem "toml", "~> 0.3.0"
+gem 'toml', '~> 0.3.0'
+gem 'ruby-openai'

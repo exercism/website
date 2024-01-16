@@ -1,0 +1,89 @@
+- require_stylesheet "insiders"
+
+#page-insiders
+  = render ReactComponents::Modals::WelcomeToInsidersModal.new
+  .gradient-container.pt-20.md:pt-48.pb-48
+    .lg-container
+      .top.grid.grid-cols-1.md:grid-cols-2.gap-48
+        .top-lhs
+          %h1.text-h1.flex.items-center.gap-20.mb-0.sm:mb-8.lg:text-48.text-30.sm:text-32
+            Exercism Insiders
+            = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
+          %p.text-h3.mb-24
+            Thanks for making Exercism the success it is.
+          %p.text-p-xlarge.mb-8
+            Exercism exists because people like you come together to build, fund and support it. Thank you so much!
+          %p.text-p-large.mb-8
+            Below you'll find information about the different features you can now access through Insiders, along with behind the scenes videos.
+            If you have ideas for extra features or extra behind-the-scenes content, please post on our #insiders channel on Discord, or open a thread on the forum.
+          %p.text-p-large.mb-8
+            Why not start with the latest behind the scenes Insiders video 👉
+
+        .top-rhs
+          = video_embed(@videos.first.first, @videos.first.second)
+
+  .gradient-container.py-48
+    .lg-container
+      %h2.text-h2.mb-32 Behind-the-scenes videos
+      .grid.grid-cols-3.gap-32
+        - @videos.each do |type, id|
+          = video_embed(type, id)
+
+  .gradient-container.py-48
+    .lg-container
+      %h2.text-h2.mb-32 Your Insider Benefits
+      .features
+        .feature
+          = graphical_icon :'feature-youtube', css_class: "filter-yellowPrompt"
+          %h4 Exclusive content
+          %p Keep up to date with what we're planning and building with private Insiders livestreams, vlogs, and technical deep dives. Check out the videos above. We'll email you when there's a new one.
+
+        .feature
+          = graphical_icon :'feature-discord', css_class: "filter-yellowPrompt"
+          %h4 Private Discord channel
+          %p You should now have access to an exclusive #{link_to '#insiders channel on Discord', 'https://discord.com/channels/854117591135027261/1103737555490447460'} where you can hang out with me and other staff and Insiders. Check the #{link_to 'integrations page', integrations_settings_path} if you don't see it.
+
+        .feature
+          = graphical_icon :megaphone, css_class: "filter-yellowPrompt"
+          %h4 Contribute on community calls
+          %p Our community calls are watchable by anyone, but only Insiders join in the conversation. Jump on stage and make your voice heard. Check Events on #{link_to 'Discord', 'https://exercism.org/r/discord'} for the next call.
+
+        .feature
+          = graphical_icon :moon, css_class: "filter-yellowPrompt"
+          %h4 Dark theme
+          %p We've put together a lovely Dark Theme for you to enjoy. Give your eyes a break while coding at night and enjoy Exercism in its darkest glory. You can toggle your theme in your #{link_to 'User Preferences', user_preferences_settings_path}.
+
+        .feature
+          = graphical_icon :robot, css_class: "filter-yellowPrompt"
+          %h4 ChatGPT
+          %p Our ChatGPT integration will help you get unstuck directly in our online editor. You get 3x v4.0 requests and 30x v3.5 requests per calendar month. Let us know how you get on!
+
+        .feature
+          = graphical_icon :insiders
+          %h4 Name tag flair &amp; Badges
+          %p
+            You'll now see a shiny little
+            = icon "insiders", "purple heart icon signifying Insiders", style: "all:unset;display:inline;width:20px;height:20px"
+            next to your name around the site and a new tag on your #{link_to 'your public profile', profile_path(current_user.handle)}.
+            At some point soon, we'll be letting you customise which icon you'd like!
+
+        .feature
+          = graphical_icon :mentoring, css_class: "filter-yellowPrompt"
+          %h4 Extra Mentoring Slots
+          %p You now have the maximum amount of simultaneous mentoring slots available per track. Check half way down a track page to check your active sessions.
+
+        .feature
+          = graphical_icon :badges, css_class: "filter-yellowPrompt"
+          %h4 Exclusive Badges
+          %p
+            You should also have a new very exclusive badge (or two!). Check your
+            = link_to "My Journey", badges_journey_path
+            badges to reveal them. There are also new extra hidden badges for you to unlock
+            as you solve exercises.
+
+        .feature
+          = graphical_icon :perks, css_class: "filter-yellowPrompt"
+          %h4 Exclusive Perks
+          %p
+            In the next few weeks, we'll be revealing exclusive Perks from our partners.
+            As an Insider, you'll get exclusive bonuses offers and discounts.

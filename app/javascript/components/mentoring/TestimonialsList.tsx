@@ -1,29 +1,27 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import {
-  Request as BaseRequest,
   usePaginatedRequestQuery,
-  useHistory,
-  removeEmpty,
-  useList,
-} from '@/hooks'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { SharePlatform, Testimonial } from '../types'
-import { RevealedTestimonial } from './testimonials-list/RevealedTestimonial'
-import { UnrevealedTestimonial } from './testimonials-list/UnrevealedTestimonial'
-import { GraphicalIcon, Pagination } from '../common'
-import { TrackDropdown } from './testimonials-list/TrackDropdown'
-import { OrderSelect } from './testimonials-list/OrderSelect'
+  type Request as BaseRequest,
+} from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { GraphicalIcon, Pagination } from '@/components/common'
+import {
+  RevealedTestimonial,
+  OrderSelect,
+  TrackDropdown,
+  UnrevealedTestimonial,
+} from './testimonials-list'
+import type {
+  PaginatedResult as DefaultPaginatedResult,
+  SharePlatform,
+  Testimonial,
+} from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
-export type PaginatedResult = {
-  results: readonly Testimonial[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
-
+export type PaginatedResult = DefaultPaginatedResult<Testimonial[]>
 export type Track = {
   slug: string
   title: string
@@ -42,7 +40,7 @@ export type Request = BaseRequest<{
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 const DEFAULT_ORDER = 'unrevealed'
 
-export const TestimonialsList = ({
+export default function TestimonialsList({
   request: initialRequest,
   tracks,
   platforms,
@@ -50,7 +48,7 @@ export const TestimonialsList = ({
   request: Request
   tracks: readonly Track[]
   platforms: readonly SharePlatform[]
-}): JSX.Element => {
+}): JSX.Element {
   const {
     request,
     setQuery,
@@ -58,17 +56,21 @@ export const TestimonialsList = ({
     setPage,
     setOrder,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     'mentor-testimonials',
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+  })
 
   const setTrack = useCallback(
     (trackSlug) => {
@@ -82,6 +84,7 @@ export const TestimonialsList = ({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -102,7 +105,7 @@ export const TestimonialsList = ({
           <input
             className="--search"
             placeholder="Search by student name or testimonial"
-            value={criteria}
+            value={criteria || ''}
             onChange={(e) => {
               setCriteria(e.target.value)
             }}
@@ -166,10 +169,13 @@ export const TestimonialsList = ({
       </article>
       {resolvedData ? (
         <Pagination
-          disabled={latestData === undefined}
+          disabled={resolvedData === undefined}
           current={request.query.page || 1}
           total={resolvedData.meta.totalPages}
-          setPage={setPage}
+          setPage={(p) => {
+            setPage(p)
+            scrollToTop()
+          }}
         />
       ) : null}
     </div>

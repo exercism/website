@@ -23,7 +23,7 @@ export type Links = {
   updateTracks: string
 }
 
-export const Queue = ({
+export default function Queue({
   queueRequest,
   tracksRequest,
   defaultTrack,
@@ -37,7 +37,7 @@ export const Queue = ({
   defaultExercise: MentoredTrackExercise | null
   sortOptions: SortOption[]
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const isMounted = useRef(false)
   const {
     tracks,
@@ -45,7 +45,7 @@ export const Queue = ({
     error: trackListError,
     isFetching: isTrackListFetching,
   } = useTrackList({
-    cacheKey: TRACKS_LIST_CACHE_KEY,
+    cacheKey: [TRACKS_LIST_CACHE_KEY],
     request: tracksRequest,
   })
   const [selectedTrack, setSelectedTrack] =
@@ -59,7 +59,6 @@ export const Queue = ({
     useState<MentoredTrackExercise | null>(defaultExercise)
   const {
     resolvedData,
-    latestData,
     isFetching,
     criteria,
     setCriteria,
@@ -137,7 +136,6 @@ export const Queue = ({
             error={error}
             page={page}
             resolvedData={resolvedData}
-            latestData={latestData}
             setPage={setPage}
           />
         </ResultsZone>
@@ -150,7 +148,7 @@ export const Queue = ({
           isFetching={isTrackListFetching}
           value={selectedTrack}
           setValue={handleTrackChange}
-          cacheKey={TRACKS_LIST_CACHE_KEY}
+          cacheKey={[TRACKS_LIST_CACHE_KEY]}
           links={links}
         />
         <ExerciseFilterList

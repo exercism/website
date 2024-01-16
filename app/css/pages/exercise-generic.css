@@ -1,0 +1,56 @@
+#page-generic-exercise {
+    .header {
+        background: var(--exercise-header-gradient);
+    }
+
+    section.instructions {
+        @apply mb-32 bg-backgroundColorA rounded-8 shadow-lg;
+        & .source {
+            @apply mt-24;
+            & hr {
+                @apply mb-16;
+            }
+            & a {
+                @apply inline-flex items-center;
+                & .c-icon {
+                    height: 12px;
+                    width: 12px;
+                    @apply ml-6;
+                }
+            }
+        }
+    }
+
+    section.tracks {
+        a {
+            @apply shadow-smZ1 p-12 rounded-8 bg-backgroundColorA flex flex-col items-center border-3;
+            @apply relative text-center leading-120;
+            &:before {
+                @apply absolute top-[-12px] right-[-12px];
+                @apply w-[24px] h-[24px] bg-cover;
+            }
+
+            .track-icon {
+                @apply mb-12 max-w-[60px];
+            }
+            &.completed {
+                @apply border-darkGreen;
+                &:before {
+                    content: "";
+                    background-image: url("icons/completed-check-circle.svg");
+                }
+            }
+            &.in-progress {
+                @apply border-orange;
+                &:before {
+                    content: "";
+                    background-image: url("icons/pending-circle-orange.svg");
+                    @apply rounded-100 bg-white;
+                }
+            }
+            &.not-started {
+                @apply border-transparent;
+            }
+        }
+    }
+}

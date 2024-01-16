@@ -114,7 +114,7 @@ export const ActionSwitcher = ({
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ActionOption}
-      componentClassName="action-switcher"
+      className="action-switcher"
     />
   )
 }

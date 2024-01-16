@@ -40,7 +40,6 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "create notification when current insiders_status is eligible_lifetime" do
     user = create :user, insiders_status: :eligible_lifetime
 
-    User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_premium).once
     User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_lifetime_insiders).once
 
     User::InsidersStatus::Activate.(user)
@@ -146,7 +145,6 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
   test "create notification when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
 
-    User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_premium).once
     User::Notification::CreateEmailOnly.expects(:defer).with(user, :joined_insiders).once
 
     User::InsidersStatus::Activate.(user)
@@ -165,45 +163,5 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     end
 
     assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
-  end
-
-  test "give user lifetime of premium when changing status to active_lifetime" do
-    user = create :user
-    user.update(insiders_status: :eligible_lifetime)
-
-    # Sanity check
-    refute user.premium?
-
-    User::SetDiscordRoles.stubs(:defer)
-    User::SetDiscourseGroups.stubs(:defer)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Activate.(user)
-    end
-
-    assert user.reload.premium?
-
-    travel_to Time.current + 50.years
-    assert user.reload.premium?
-  end
-
-  test "give user lifetime of premium when changing status to active" do
-    user = create :user
-    user.update(insiders_status: :eligible)
-
-    # Sanity check
-    refute user.premium?
-
-    User::SetDiscordRoles.stubs(:defer)
-    User::SetDiscourseGroups.stubs(:defer)
-
-    perform_enqueued_jobs do
-      User::InsidersStatus::Activate.(user)
-    end
-
-    assert user.reload.premium?
-
-    travel_to Time.current + 50.years
-    assert user.reload.premium?
   end
 end

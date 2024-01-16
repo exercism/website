@@ -2,6 +2,8 @@ class UserTrack < ApplicationRecord
   extend Mandate::Memoize
   include UserTrack::MentoringSlots
 
+  MIN_REP_TO_TRAIN_ML = 50
+
   serialize :summary_data, JSON
 
   belongs_to :user
@@ -18,6 +20,20 @@ class UserTrack < ApplicationRecord
     foreign_key: :user_id,
     primary_key: :user_id,
     inverse_of: :user_track
+
+  has_many :viewed_community_solutions, # rubocop:disable Rails/HasManyOrHasOneDependent
+    ->(ut) { where(track_id: ut.track_id) },
+    foreign_key: :user_id,
+    primary_key: :user_id,
+    inverse_of: :user_track
+
+  has_many :viewed_exercise_approaches, # rubocop:disable Rails/HasManyOrHasOneDependent
+    ->(ut) { where(track_id: ut.track_id) },
+    foreign_key: :user_id,
+    primary_key: :user_id,
+    inverse_of: :user_track
+
+  scope :trainer, -> { where('reputation >= ?', MIN_REP_TO_TRAIN_ML) }
 
   delegate :num_concepts, to: :track
   delegate :title, to: :track, prefix: true
@@ -71,12 +87,20 @@ class UserTrack < ApplicationRecord
     enabled_exercises(concept.practice_exercises)
   end
 
+  def unlockable_concepts_for_exercise(exercise)
+    exercise.unlocked_concepts.to_a
+  end
+
+  def unlockable_exercises_for_exercise(exercise)
+    enabled_exercises(exercise.unlocked_exercises).to_a
+  end
+
   def unlocked_concepts_for_exercise(exercise)
-    exercise.unlocked_concepts.to_a.filter { |c| concept_unlocked?(c) }
+    unlockable_concepts_for_exercise(exercise).filter { |c| concept_unlocked?(c) }
   end
 
   def unlocked_exercises_for_exercise(exercise)
-    enabled_exercises(exercise.unlocked_exercises).to_a.filter { |e| exercise_unlocked?(e) }
+    unlockable_exercises_for_exercise(exercise).filter { |e| exercise_unlocked?(e) }
   end
 
   def enabled_exercises(exercises)
@@ -98,6 +122,9 @@ class UserTrack < ApplicationRecord
       where(user_id:, track_id:).
       exists?
   end
+
+  def completed? = num_completed_exercises >= num_exercises
+  def completed_course? = num_completed_concept_exercises >= num_concept_exercises
 
   def completed_percentage
     return 100.0 if num_exercises.zero?
@@ -169,6 +196,9 @@ class UserTrack < ApplicationRecord
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end
 
+  def viewed_community_solution?(exercise) = viewed_community_solutions.where(exercise:).exists?
+  def viewed_approach?(exercise) = viewed_exercise_approaches.where(exercise:).exists?
+
   private
   # A track's summary is an efficiently created summary of all
   # of a user_track's data. It's cached across requests, allowing
@@ -179,9 +209,9 @@ class UserTrack < ApplicationRecord
 
     digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
     track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
-    expected_key = "#{track_updated_at.to_f}:#{updated_at.to_f}:#{digest}"
+    expected_key = "#{track_updated_at.to_f}:#{last_touched_at.to_f}:#{digest}"
 
-    if summary_key != expected_key
+    if summary_data.nil? || summary_key != expected_key
       # It is important to use update_columns here
       # else we'll touch updated_at and end up always
       # invalidating the cache immediately.

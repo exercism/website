@@ -1,5 +1,5 @@
 .c-react-wrapper-track-exercise-makers-button {
-    @apply flex;
+    @apply flex min-h-[36px];
 }
 .c-makers-button {
     @apply flex items-center justify-end;

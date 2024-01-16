@@ -1,0 +1,7 @@
+.inner-box{ class: completed ? 'completed' : 'pending' }
+  .inner-box-content
+    .text-h6.mb-2 #{completed ? 'Explored' : 'Explore'} Community Solutions
+    %p
+      Explore how others have solved this exercise and learn new ideas in our
+      = succeed(".") do
+        = link_to "Community Solutions", track_exercise_solutions_path(track, exercise), class: "text-linkColor border-b-1"

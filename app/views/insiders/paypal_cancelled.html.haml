@@ -1,0 +1,10 @@
+- require_stylesheet "insiders"
+
+#page-insiders
+  .flex.flex-col.items-center.pt-40.pb-40{ class: 'min-h-[50vh]' }
+    = graphical_icon "insiders", css_class: 'h-[64px] w-[64px] mb-8'
+    %h1.text-h1.flex.items-center.mb-8 Exercism Insiders
+
+    %p.text-p-large.mb-16 Your Paypal payment was cancelled. Please try again.
+    = link_to "Return to Insiders", insiders_path, class: 'btn-l btn-primary'
+

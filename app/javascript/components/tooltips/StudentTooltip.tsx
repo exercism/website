@@ -4,16 +4,16 @@ import { useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Avatar, GraphicalIcon, Icon, Reputation } from '../common'
 import pluralize from 'pluralize'
-import { Loading } from './Loading'
+import { StudentTooltipSkeleton } from '../common/skeleton/skeletons/StudentTooltipSkeleton'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-export const StudentTooltip = React.forwardRef<
+const StudentTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
   const { data, error, status } = useRequestQuery<{ student: Student }>(
-    endpoint,
+    [endpoint],
     { endpoint: endpoint, options: {} }
   )
 
@@ -23,7 +23,7 @@ export const StudentTooltip = React.forwardRef<
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
-        LoadingComponent={() => <Loading alt="Loading student data" />}
+        LoadingComponent={() => <StudentTooltipSkeleton />}
       >
         {data ? (
           /* If we want the track we need to add a pivot to this,
@@ -43,21 +43,18 @@ export const StudentTooltip = React.forwardRef<
                 size="small"
               />
             </div>
-
             {data.student.trackObjectives ? (
               <div className="track-objectives">
                 <h3>Track objectives</h3>
                 <p>{data.student.trackObjectives}</p>
               </div>
             ) : null}
-
             {data.student.location ? (
               <div className="location">
                 <Icon icon="location" alt="Located in" />
                 {data.student.location}
               </div>
             ) : null}
-
             {data.student.numTotalDiscussions > 0 ? (
               <div className="previous-sessions">
                 Mentored <strong>{data.student.numTotalDiscussions}</strong>{' '}
@@ -81,7 +78,6 @@ export const StudentTooltip = React.forwardRef<
                 This will be their <strong>first</strong> mentoring session
               </div>
             )}
-
             {data.student.isFavorited ? (
               <div className="favorited">
                 <GraphicalIcon icon="gold-star" />
@@ -96,3 +92,5 @@ export const StudentTooltip = React.forwardRef<
     </div>
   )
 })
+
+export default StudentTooltip

@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
-import { Iteration } from '../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { typecheck } from '../../../utils/typecheck'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { Iteration } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to delete iteration')
 
@@ -18,8 +18,12 @@ export const DeleteIterationModal = ({
   iteration: Iteration
   onSuccess: (iteration: Iteration) => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: iteration.links.delete,
         method: 'DELETE',
@@ -49,7 +53,12 @@ export const DeleteIterationModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
+    <Modal
+      className="m-generic-confirmation"
+      shouldCloseOnEsc={false}
+      onClose={handleClose}
+      {...props}
+    >
       <h3>Are you sure you want to delete Iteration {iteration.idx}?</h3>
       <p>
         Deleted iterations are also removed from published solutions and

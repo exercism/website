@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { typecheck } from '../../../utils/typecheck'
-import { FormButton, GraphicalIcon } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { redirectTo } from '../../../utils/redirect-to'
+import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { redirectTo } from '@/utils/redirect-to'
+import { GraphicalIcon } from '@/components/common'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 type UserTrack = {
   links: {
@@ -20,8 +21,12 @@ export const ActivateLearningModeModal = ({
   onClose,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<UserTrack | undefined>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -52,7 +57,7 @@ export const ActivateLearningModeModal = ({
       <h2>Activate Learning Mode</h2>
       <p>
         Activating Learning Mode will enable Concepts and Learning Exercises on
-        this track, but will lock Exercises that you've not yet complete
+        this track, but will lock Exercises that you&apos;ve not yet complete
         prerequisites for. You will still have access to any exercises you have
         started.
       </p>

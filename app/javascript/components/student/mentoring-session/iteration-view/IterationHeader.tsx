@@ -1,10 +1,10 @@
 import React from 'react'
-import { Iteration } from '../../../types'
+import { Iteration } from '@/components/types'
 import {
-  IterationSummaryWithWebsockets,
+  default as IterationSummaryWithWebsockets,
   IterationSummary,
-} from '../../../track/IterationSummary'
-import { GenericTooltip } from '../../../misc/ExercismTippy'
+} from '@/components/track/IterationSummary'
+import { GenericTooltip } from '@/components/misc/ExercismTippy'
 
 export type Props = {
   iteration: Iteration

@@ -10,8 +10,7 @@ class User < ApplicationRecord
     founder: 0,
     staff: 1,
     insider: 2,
-    lifetime_insider: 3,
-    premium: 4
+    lifetime_insider: 3
   }, _prefix: "show", _suffix: "flair"
 
   # Include default devise modules. Others available are:
@@ -73,6 +72,9 @@ class User < ApplicationRecord
   has_many :badges, through: :acquired_badges
   has_many :revealed_badges, -> { User::AcquiredBadge.revealed }, through: :acquired_badges, source: :badge
 
+  has_many :acquired_trophies, class_name: "UserTrack::AcquiredTrophy", dependent: :destroy
+  has_many :trophies, through: :acquired_trophies
+
   has_many :authorships, class_name: "Exercise::Authorship", dependent: :destroy
   has_many :authored_exercises, through: :authorships, source: :exercise
 
@@ -131,12 +133,14 @@ class User < ApplicationRecord
   scope :random, -> { order('RAND()') }
 
   scope :with_data, -> { joins(:data) }
-  scope :premium, -> { with_data.where('user_data.premium_until > ?', Time.current) }
   scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
 
   # TODO: Validate presence of name
-
-  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true
+  validates :handle, uniqueness: { case_sensitive: false }, handle_format: true, length: { maximum: 190 }
+  validates :name, length: { maximum: 255 }
+  validates :email, length: { maximum: 190 }
+  validates :pronouns, length: { maximum: 255 }
+  validates :location, length: { maximum: 255 }
 
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_fill: [200, 200]
@@ -196,7 +200,7 @@ class User < ApplicationRecord
 
   def pronoun_parts
     a = pronouns.to_s.split("/")
-    a.fill("", a.length...3)
+    a.size == 3 && a.exclude?('') ? a : nil
   end
 
   def pronoun_parts=(parts)
@@ -221,17 +225,19 @@ class User < ApplicationRecord
   end
 
   memoize
-  def current_active_premium_subscription = subscriptions.premium.active.last
+  def donated_in_last_35_days?
+    payments.where('created_at > ?', Time.current - 35.days).exists?
+  end
 
   memoize
-  def current_active_donation_subscription = subscriptions.donation.active.last
+  def current_subscription? = current_subscription.present?
 
   memoize
-  def current_active_donation_subscription_amount_in_cents = current_active_donation_subscription&.amount_in_cents
+  def current_subscription = subscriptions.where(status: %i[active overdue]).last
 
   memoize
   def total_subscription_donations_in_dollars
-    payments.donation.subscription.sum(:amount_in_cents) / BigDecimal(100)
+    payments.subscription.sum(:amount_in_cents) / BigDecimal(100)
   end
 
   memoize
@@ -242,16 +248,11 @@ class User < ApplicationRecord
     total_donated_in_cents / BigDecimal(100)
   end
 
-  def reputation(track_slug: nil, category: nil)
-    return super() unless track_slug || category
-
-    raise if track_slug && category
-
-    category = "track_#{track_slug}" if track_slug
-
-    q = reputation_tokens
-    q.where!(category:) if category
-    q.sum(:value)
+  def reputation_for_track(track)
+    User::ReputationToken.where(
+      track:,
+      user_id: id
+    ).sum(:value)
   end
 
   def joined_track?(track)
@@ -286,11 +287,9 @@ class User < ApplicationRecord
     solution.viewable_by?(self)
   end
 
-  memoize
+  # Don't memoize this as it can change when someone uploads their photo
   def avatar_url
-    return Rails.application.routes.url_helpers.url_for(avatar.variant(:thumb)) if avatar.attached?
-
-    super.presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
+    "#{Exercism.config.website_avatars_host}/#{id}/#{version}"
   end
 
   def has_avatar?
@@ -301,6 +300,8 @@ class User < ApplicationRecord
     return false if disabled?
     return false if email.ends_with?("users.noreply.github.com")
     return false if email_status_invalid?
+    return false if system?
+    return false if ghost?
 
     true
   end
@@ -342,4 +343,26 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def flair = super&.to_sym
+
+  def automator?(track = nil)
+    return true if staff?
+
+    tms = track_mentorships.automator
+    tms = tms.where(track:) if track
+    tms.exists?
+  end
+
+  def trainer?(track = nil)
+    return true if staff?
+    return false unless super()
+    return eligible_for_trainer?(track) if track.present?
+
+    true
+  end
+
+  def eligible_for_trainer?(track = nil)
+    uts = user_tracks.trainer
+    uts = uts.where(track:) if track
+    uts.exists?
+  end
 end

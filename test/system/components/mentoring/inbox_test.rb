@@ -27,7 +27,7 @@ module Components
           assert_text "Mentee"
           assert_text "on Series"
           assert_text "0"
-          assert_text "a year ago"
+          assert_text "1 year ago"
           assert_link "", href: Exercism::Routes.mentoring_discussion_url(discussion)
           refute_css "img[alt='Favorite student']"
         end

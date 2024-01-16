@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { TrackData } from '../CommunitySolutionsList'
-import { TrackSelect, TrackLogo } from '../../common/TrackSelect'
+import { TrackSelect, TrackLogo } from '@/components/common/TrackSelect'
 
 const OptionComponent = ({
   option: track,

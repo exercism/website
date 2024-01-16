@@ -22,8 +22,8 @@ module Flows
         create :exercise_representation, :with_feedback, exercise: exercise_2, num_submissions: 2, feedback_author: other_mentor
         create :exercise_representation, exercise: exercise_3, feedback_type: nil, num_submissions: 3
 
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor, track:)
-        create(:user_track_mentorship, :supermentor_frequency, user: other_mentor, track:)
+        create(:user_track_mentorship, :automator, user: mentor, track:)
+        create(:user_track_mentorship, :automator, user: other_mentor, track:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -52,8 +52,8 @@ module Flows
         create :exercise_representation, :with_feedback, exercise: exercise_2, num_submissions: 2, feedback_author: other_mentor,
           feedback_added_at: time_2
 
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor, track:)
-        create(:user_track_mentorship, :supermentor_frequency, user: other_mentor, track:)
+        create(:user_track_mentorship, :automator, user: mentor, track:)
+        create(:user_track_mentorship, :automator, user: other_mentor, track:)
 
         use_capybara_host do
           sign_in!(mentor)
@@ -96,7 +96,7 @@ module Flows
           ast_digest: 'digest_3', exercise: exercise_3, track:)
         create :submission_representation, ast_digest: representation_3.ast_digest, mentored_by: mentor_1,
           submission: create(:submission, exercise: exercise_3)
-        create(:user_track_mentorship, :supermentor_frequency, user: mentor_1, track:)
+        create(:user_track_mentorship, :automator, user: mentor_1, track:)
 
         use_capybara_host do
           sign_in!(mentor_1)
@@ -132,8 +132,8 @@ module Flows
         create :exercise_representation, :with_feedback, exercise: csharp_exercise, feedback_type: :essential, num_submissions: 3
         create :exercise_representation, :with_feedback, exercise: ruby_exercise, feedback_type: :essential, num_submissions: 2
 
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: csharp
-        create :user_track_mentorship, :supermentor_frequency, user: mentor, track: ruby
+        create :user_track_mentorship, :automator, user: mentor, track: csharp
+        create :user_track_mentorship, :automator, user: mentor, track: ruby
 
         use_capybara_host do
           sign_in!(mentor)

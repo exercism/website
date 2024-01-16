@@ -7,37 +7,17 @@ class UnsubscribeController < ApplicationController
 
   def update
     if params[:communication_preferences].present?
-      @communication_preferences.update(
-        params.require(:communication_preferences).reject do |k, _v|
-          %w[user_id created_at updated_at token].include?(k)
-        end.permit!
-      )
+      prefs = params.require(:communication_preferences).
+        permit(*User::CommunicationPreferences.keys)
+      prefs.transform_values! { |v| ActiveModel::Type::Boolean.new.cast(v) }
+      @communication_preferences.update!(prefs)
     end
 
     redirect_to({ action: :show, token: @token, key: @email_key }, notice: "You have been unsubscribed successfully")
   end
 
   def all
-    @communication_preferences.update!(
-      email_on_mentor_started_discussion_notification: false,
-      email_on_mentor_replied_to_discussion_notification: false,
-      email_on_student_replied_to_discussion_notification: false,
-      email_on_student_added_iteration_notification: false,
-      email_on_new_solution_comment_for_solution_user_notification: false,
-      email_on_new_solution_comment_for_other_commenter_notification: false,
-      receive_product_updates: false,
-      email_on_remind_mentor: false,
-      email_on_mentor_heartbeat: false,
-      email_on_general_update_notification: false,
-      email_on_acquired_badge_notification: false,
-      email_on_nudge_notification: false,
-      email_on_student_finished_discussion_notification: false,
-      email_on_mentor_finished_discussion_notification: false,
-      email_on_automated_feedback_added_notification: false,
-      email_about_fundraising_campaigns: false,
-      email_about_events: false
-    )
-
+    User::UnsubscribeFromAllEmails.(@communication_preferences.user)
     redirect_to({ action: :show, token: @token }, notice: "You have been unsubscribed from all emails successfully")
   end
 

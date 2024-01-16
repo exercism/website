@@ -11,12 +11,15 @@ class Exercise < ApplicationRecord
     deprecated: 3
   }
 
-  belongs_to :track
+  belongs_to :track, touch: true
 
   has_many :solutions, dependent: :destroy
+  has_many :iterations, through: :solutions
   has_many :submissions, through: :solutions
   has_many :representations, dependent: :destroy
   has_many :community_videos, dependent: :destroy
+  has_many :site_updates, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   has_many :approaches,
     class_name: "Exercise::Approach",
@@ -69,6 +72,7 @@ class Exercise < ApplicationRecord
     source: :contributor
 
   scope :sorted, -> { order(:position) }
+  scope :available, -> { where(status: %i[beta active]) }
 
   scope :without_prerequisites, lambda {
     where.not(id: Exercise::Prerequisite.select(:exercise_id))
@@ -95,13 +99,15 @@ class Exercise < ApplicationRecord
 
   after_update_commit do
     if saved_changes.include?('git_important_files_hash')
-      Exercise::ProcessGitImportantFilesChanged.(
+      Exercise::ProcessGitImportantFilesChanged.defer(
         self,
         previous_changes['git_important_files_hash'][0],
         (previous_changes.dig('git_sha', 0) || git_sha),
         (previous_changes.dig('slug', 0) || slug)
       )
     end
+
+    Submission::Representation::TriggerRerunsForExercise.defer(self) if saved_changes.key?("representer_version")
   end
 
   after_commit do
@@ -119,17 +125,17 @@ class Exercise < ApplicationRecord
 
   def concept_exercise? = is_a?(ConceptExercise)
   def practice_exercise? = is_a?(PracticeExercise)
+  def approaches? = approaches.exists?
+  def tutorial? = slug == "hello-world"
+  def has_test_runner? = super && track.has_test_runner?
 
-  def tutorial?
-    slug == "hello-world"
-  end
+  memoize
+  def problem_specifications_data = Git::ProblemSpecifications::Exercise.new(slug)
 
-  def has_test_runner?
-    super && track.has_test_runner?
-  end
+  delegate :has_representer?, to: :track
 
   def to_param = slug
-  def download_cmd = "exercism download --exercise=#{slug} --track=#{track.slug}".freeze
+  def download_cmd = "exercism download --track=#{track.slug} --exercise=#{slug}".freeze
 
   def difficulty_category
     case difficulty

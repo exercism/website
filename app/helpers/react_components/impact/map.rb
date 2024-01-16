@@ -17,7 +17,7 @@ module ReactComponents
 
       private
       def metrics
-        records = Metrics::StartSolutionMetric
+        records = Metrics::StartSolutionMetric.includes(:track)
         records = records.where(track:) if track.present?
         records.last(10)
       end

@@ -6,7 +6,8 @@ import {
   GuidanceLinks,
   MentoringSessionExemplarFile,
 } from '../../types'
-import { CommunitySolution, GraphicalIcon } from '../../common'
+import { GraphicalIcon } from '../../common'
+import CommunitySolution from '@/components/common/CommunitySolution'
 import { useHighlighting } from '../../../utils/highlight'
 import { ExemplarFilesList } from './guidance/ExemplarFilesList'
 import { SessionGuidance } from '../Session'

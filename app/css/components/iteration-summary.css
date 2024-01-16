@@ -86,16 +86,27 @@
             @apply mr-12;
         }
     }
+    & > .c-copy-text-to-clipboard {
+        @apply border-borderColor6 shadow-xsZ1 ml-32;
+        @apply w-auto;
+        @apply py-0 px-12;
+        height: 40px;
+        & .c-icon {
+            @apply filter-textColor6;
+            @apply m-0;
+            height: 16px;
+            width: 16px;
+        }
+    }
     & .--feedback {
         @apply border-1 border-borderColor5 rounded-5;
         @apply flex items-center;
-        @apply px-12 py-6 ml-32;
+        @apply px-12 py-6 ml-16;
 
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-12;
-            filter: var(--textColor6-filter);
+            @apply mr-12 filter-textColor6;
         }
 
         & .--count {

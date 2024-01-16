@@ -1,0 +1,46 @@
+- if solution.mentoring_finished?
+  - discussion = solution.mentor_discussions.last
+
+  .inner-box.completed
+    .inner-box-content
+      .text-h6.mb-2 Code Review Finished
+      %p
+        Your mentoring discussion with #{discussion.mentor.handle} has finished.
+        You can view the discussion or start a new one on the
+        = succeed('.') do
+          = link_to "Code Review tab", track_exercise_mentor_discussions_path(track, exercise), class: 'text-linkColor border-b-1'
+
+- elsif solution.mentoring_in_progress?
+  - discussion = solution.in_progress_mentor_discussion
+  .inner-box.in-progress
+    .inner-box-content
+      .text-h6.mb-2 Code Review In Progress
+      - if discussion.mentor_finished? || discussion.timed_out?
+        %p.mb-8 Your conversation with @#{discussion.mentor.handle} has finished. Please take time to leave them a review.
+        = link_to "Finish discussion", track_exercise_mentor_discussion_path(track, exercise, discussion), class: 'btn-s btn-secondary self-start'
+      - elsif discussion.awaiting_mentor?
+        %p
+          Your solution is being reviewed by @#{discussion.mentor.handle}. You will be notified when they next reply.
+          = succeed('.') do
+            = link_to "Go to code review", track_exercise_mentor_discussion_path(track, exercise, discussion), class: 'text-linkColor border-b-1'
+      - else
+        %p.mb-8
+          %strong.font-semibold It's your turn to respond.
+          Engage with your mentor, ask questions, and iterate your code. Remember to thank them for making the time to help you.
+        = link_to "Go to code review", track_exercise_mentor_discussion_path(track, exercise, discussion), class: 'btn-s btn-secondary self-start'
+
+- elsif solution.mentoring_requested?
+  .inner-box.in-progress
+    .inner-box-content
+      .text-h6.mb-2 Code Review Requested
+      %p.mb-8
+        Your solution has been sent to our mentors to review. It is in a queue and one of them will pick it up soon and start a conversation.
+        = link_to "View mentoring request", track_exercise_mentor_request_path(track, exercise), class: "text-linkColor border-b-1"
+
+- elsif solution.mentoring_none?
+  .inner-box.pending
+    .inner-box-content
+      .text-h6.mb-2 Request Code Review
+      %p.mb-8 Get help from a real mentor who can help identify your knowledge gaps. It's 100% free.
+      = link_to "Request code review", new_track_exercise_mentor_request_path(track, exercise), class: 'btn-s btn-secondary self-start'
+

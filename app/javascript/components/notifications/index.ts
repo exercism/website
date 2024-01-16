@@ -1,1 +1,1 @@
-export { NotificationsList } from './NotificationsList'
+export { default as NotificationsList } from './NotificationsList'

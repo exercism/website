@@ -4,6 +4,7 @@ class Submission < ApplicationRecord
   belongs_to :track
   belongs_to :exercise
   belongs_to :solution
+  belongs_to :approach, class_name: "Exercise::Approach", optional: true
   has_one :user, through: :solution
   has_one :iteration, dependent: :destroy
 
@@ -32,7 +33,9 @@ class Submission < ApplicationRecord
     },
     class_name: "Submission::TestRun", dependent: :destroy
   has_one :analysis, class_name: "Submission::Analysis", dependent: :destroy
-  has_one :submission_representation, class_name: "Submission::Representation", dependent: :destroy
+  has_one :submission_representation, # rubocop:disable Rails/InverseOf
+    ->(s) { where(exercise_representer_version: s.exercise_representer_version).order(id: :desc) },
+    class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
   has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
@@ -43,15 +46,19 @@ class Submission < ApplicationRecord
   enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
-  before_create do
-    self.git_slug = solution.git_slug
-    self.git_sha = solution.git_sha if git_sha.blank?
-    self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
-  end
+  scope :tagged, -> { where.not(tags: nil) }
+  scope :untagged, -> { where(tags: nil) }
+  scope :has_iteration, -> { joins(:iteration) }
 
   before_validation on: :create do
     self.track = solution.track unless track
     self.exercise = solution.exercise unless exercise
+  end
+
+  before_create do
+    self.git_slug = solution.git_slug
+    self.git_sha = solution.git_sha if git_sha.blank?
+    self.git_important_files_hash = solution.git_important_files_hash if self.git_important_files_hash.blank?
   end
 
   after_save_commit do
@@ -84,7 +91,6 @@ class Submission < ApplicationRecord
     # submission when it is created, and then use those here instead of the track's
     # status fields
     return true if !representation_generated? && !analysis_completed? && track.has_representer? && track.has_analyzer?
-    return false if has_automated_feedback?
     return true if (representation_queued? || representation_not_queued?) && track.has_representer?
     return true if (analysis_queued? || analysis_not_queued?) && track.has_analyzer?
 
@@ -93,7 +99,7 @@ class Submission < ApplicationRecord
 
   def has_automated_feedback? = num_automated_comments_by_type.values.sum.positive?
 
-  %i[essential actionable non_actionable].each do |type|
+  %i[essential actionable non_actionable celebratory].each do |type|
     define_method "num_#{type}_automated_comments" do
       num_automated_comments_by_type[type]
     end
@@ -201,13 +207,15 @@ class Submission < ApplicationRecord
     {
       essential: analysis&.num_essential_comments.to_i,
       actionable: analysis&.num_actionable_comments.to_i,
-      non_actionable: analysis&.num_informative_comments.to_i +
-        analysis&.num_celebratory_comments.to_i
+      non_actionable: analysis&.num_informative_comments.to_i,
+      celebratory: analysis&.num_celebratory_comments.to_i
     }.tap do |values|
       if exercise_representation&.has_essential_feedback?
         values[:essential] += 1
       elsif exercise_representation&.has_actionable_feedback?
         values[:actionable] += 1
+      elsif exercise_representation&.has_celebratory_feedback?
+        values[:celebratory] += 1
       elsif exercise_representation&.has_feedback?
         values[:non_actionable] += 1
       end

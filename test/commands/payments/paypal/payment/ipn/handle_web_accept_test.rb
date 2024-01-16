@@ -1,7 +1,7 @@
 require_relative '../../../test_base'
 
 class Payments::Paypal::Payment::IPN::HandleWebAcceptTest < Payments::TestBase
-  test "create donation payment when payment_status is Completed" do
+  test "create payment when payment_status is Completed" do
     freeze_time do
       payment_id = SecureRandom.uuid
       paypal_payer_id = SecureRandom.uuid
@@ -29,12 +29,9 @@ class Payments::Paypal::Payment::IPN::HandleWebAcceptTest < Payments::TestBase
       assert_nil payment.external_receipt_url
       assert_equal user, payment.user
       assert_equal :paypal, payment.provider
-      assert_equal :donation, payment.product
       assert_nil payment.subscription
       assert_equal amount_in_cents, user.reload.total_donated_in_cents
       assert_equal Time.current, user.first_donated_at
-      assert user.donated?
-      refute user.premium?
     end
   end
 

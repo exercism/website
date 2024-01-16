@@ -14,10 +14,6 @@ class SerializeContributors
   end
 
   def eager_loaded_users
-    users.to_active_relation.
-      includes(
-        :profile,
-        avatar_attachment: :blob
-      )
+    users.to_active_relation.includes(:profile)
   end
 end

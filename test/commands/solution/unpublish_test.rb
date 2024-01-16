@@ -35,18 +35,35 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
   end
 
   test "updates num_published_solutions" do
-    track = create :track
-    user = create :user
-    exercise = create(:concept_exercise, track:)
-    solution = create(:concept_solution, :published, user:, exercise:)
+    Solution::UpdateNumLoc.any_instance.expects(:call)
+    Solution::UpdateSnippet.any_instance.expects(:call)
+
+    exercise = create(:concept_exercise)
+    solution = create(:concept_solution, :published, exercise:)
     create(:iteration, solution:)
 
-    CacheNumPublishedSolutionsOnExerciseJob.perform_now(exercise)
+    Exercise::CacheNumPublishedSolutions.(solution.exercise)
     assert_equal 1, exercise.reload.num_published_solutions
 
     perform_enqueued_jobs do
       Solution::Unpublish.(solution)
     end
     assert_equal 0, exercise.reload.num_published_solutions
+  end
+
+  test "calls out to change representation" do
+    exercise = create(:concept_exercise)
+    solution = create(:concept_solution, :published, exercise:)
+
+    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+    Solution::Unpublish.(solution)
+  end
+
+  test "calls out to update tags" do
+    exercise = create(:concept_exercise)
+    solution = create(:concept_solution, :published, exercise:)
+
+    Solution::UpdateTags.expects(:call).with(solution)
+    Solution::Unpublish.(solution)
   end
 end

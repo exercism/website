@@ -15,7 +15,7 @@ class User::RemoveRolesTest < ActiveSupport::TestCase
   test "updates discourse roles" do
     user = create :user, roles: []
 
-    User::SetDiscordRoles.expects(:call).with(user)
+    User::SetDiscordRoles.expects(:defer).with(user)
 
     User::RemoveRoles.(user, [:staff])
   end

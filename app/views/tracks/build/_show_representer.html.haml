@@ -1,0 +1,31 @@
+.track-team-group
+  .track-header.mb-16
+    .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
+      %h3.--representer-gradient Representer
+      = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
+        Learn More
+    %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
+
+  - if status.representer.health == "missing"
+    .action-required
+      Next goal: Build a Representer.
+      = link_to doc_path(:building, "tooling/representers/interface") do
+        Find out more.
+  - else
+    %p.text-16
+      Current version:
+      %strong= current_sha
+      %span.italic (Takes up to 10 mins to deploy)
+
+    .border-t-1.border-borderColor6.mt-20.mb-16
+    .c-build-page-stats-container
+      .record-row
+        .record-name Total Representer Runs
+        .record-value= number_with_delimiter(status.representer.num_runs)
+      .record-row
+        .record-name Total Representation Comments Made
+        .record-value= number_with_delimiter(status.representer.num_comments)
+      .record-row
+        .record-name Feedback Given Frequency
+        .record-value #{status.representer.display_rate_percentage}%
+

@@ -1,10 +1,12 @@
 !!!
 %html{ lang: "en-US" }
   %head
-    / Do this first - we want things loading ASAP.
+    -# Always start with this so browsers know what encoding to use
+    %meta{ "http-equiv": "Content-Type", content: "text/html; charset=utf-8" }
+
+    -# Do this first - we want things loading ASAP.
     = render "layouts/head"
 
-    %meta{ content: "text/html; charset=utf-8", "http-equiv": "Content-Type" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1" }
 
     = render "layouts/meta_tags"
@@ -21,5 +23,5 @@
 
     = yield :deferred
 
-/ TODO: Add test for this!
+-# TODO: Add test for this!
 - flash.clear

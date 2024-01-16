@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { Iteration, SolutionForStudent } from '@/components/types'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { typecheck } from '@/utils/typecheck'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { ModalProps, Modal } from './Modal'
-import { Iteration, SolutionForStudent } from '../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { FormButton } from '../common'
-import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
-import { redirectTo } from '../../utils/redirect-to'
+import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
 
 const DEFAULT_ERROR = new Error('Unable to publish solution')
 
@@ -20,8 +21,12 @@ export const PublishSolutionModal = ({
   iterations: readonly Iteration[]
 }): JSX.Element => {
   const [iterationIdx, setIterationIdx] = useState<number | null>(null)
-  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<SolutionForStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -48,11 +53,16 @@ export const PublishSolutionModal = ({
     [mutation]
   )
 
+  const ariaObject = generateAriaFieldIds('publish-solution')
   return (
-    <Modal {...props} className="m-change-published-iteration">
+    <Modal
+      {...props}
+      aria={ariaObject}
+      className="m-change-published-iteration"
+    >
       <form data-turbo="false" onSubmit={handleSubmit}>
-        <h3>Publish your solution</h3>
-        <p>
+        <h3 id={ariaObject.labelledby}>Publish your solution</h3>
+        <p id={ariaObject.describedby}>
           We recommend publishing all iterations to help others learn from your
           journey, but you can also choose just your favourite iteration to
           showcase instead.

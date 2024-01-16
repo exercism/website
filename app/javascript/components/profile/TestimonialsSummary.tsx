@@ -20,7 +20,7 @@ type Props = {
     all: string
   }
 }
-export const TestimonialsSummary = ({
+export default function TestimonialsSummary({
   handle,
   flair,
   numSolutionsMentored,
@@ -28,7 +28,7 @@ export const TestimonialsSummary = ({
   numTestimonialsReceived,
   testimonials,
   links,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0])
 
   return (

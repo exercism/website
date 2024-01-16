@@ -76,3 +76,5 @@ export function DigDeeper({ data }: { data: DigDeeperProps }): JSX.Element {
     </div>
   )
 }
+
+export default DigDeeper

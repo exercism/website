@@ -1,0 +1,90 @@
+@layer base {
+    /* TODO: These btn styles are legacy and should be refactored out */
+    .btn--simple {
+        @apply bg-backgroundColorA text-textColor6 border-borderColor5;
+    }
+    .btn--secondary {
+        @apply bg-backgroundColorA text-anotherPurple border-anotherPurple;
+    }
+    .btn--discourage {
+        @apply bg-backgroundColorA text-textColor6 border-borderColor5;
+    }
+    .btn {
+        @apply flex items-center justify-center px-20;
+        @apply border-2 border-buttonBorderColor1 rounded-5;
+        @apply text-16 font-semibold;
+        white-space: nowrap;
+        height: 48px;
+
+        & > .c-icon {
+            height: 18px;
+            width: 18px;
+            &:first-child {
+                @apply mr-12;
+            }
+            &:last-child {
+                @apply ml-12;
+            }
+        }
+
+        & > .kb-shortcut {
+            @apply ml-8;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+    .btn-simple {
+        @apply btn btn--simple;
+    }
+
+    .btn-i-large {
+        @apply btn;
+        @apply px-32 border-3 text-18;
+        @apply shadow-buttonS;
+        height: 54px;
+
+        & > .c-icon {
+            height: 16px;
+            width: 16px;
+        }
+    }
+    .btn-large-secondary {
+        @apply btn-i-large btn--secondary;
+    }
+
+    .btn-small {
+        @apply btn border-1 border-buttonBorderColor2;
+        @apply text-14 rounded-5 px-16;
+        @apply text-textColor6;
+        height: 36px;
+
+        & > .c-icon {
+            height: 14px;
+            width: 14px;
+            @apply filter-textColor6;
+        }
+    }
+    .btn-small-secondary {
+        @apply btn-small btn--secondary;
+    }
+    .btn-small-discourage {
+        @apply btn-small btn--discourage;
+    }
+
+    .btn-link-legacy {
+        @apply btn-small;
+        @apply border-0  p-0;
+        color: var(--c-prominent-link-color);
+        .c-icon {
+            filter: var(--c-prominent-link-icon-filter);
+        }
+    }
+
+    a.text-a-subtle,
+    button.text-a-subtle {
+        @apply text-textColor2 font-normal leading-140;
+        @apply border-b-1 border-textColor2;
+    }
+}

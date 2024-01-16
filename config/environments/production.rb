@@ -49,12 +49,12 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = (ENV['RAILS_LOG_LEVEL'].presence || :debug).to_sym
+  config.log_level = (ENV['RAILS_LOG_LEVEL'].presence || :error).to_sym
   config.colorize_logging = false
 
   # This uses too much memory in production
   # Maybe we should set it in Bastion using an ENV var?
-  config.active_record.verbose_query_logs = true
+  config.active_record.verbose_query_logs = false
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -117,12 +117,12 @@ Rails.application.configure do
   # SMTP setup
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: Exercism.secrets.smtp_username,
-    password: Exercism.secrets.smtp_password,
-    address: Exercism.secrets.smtp_address,
-    domain: Exercism.secrets.smtp_address,
-    port: Exercism.secrets.smtp_port,
-    authentication: Exercism.secrets.smtp_authentication
+    user_name: Exercism.secrets.transactional_smtp_username,
+    password: Exercism.secrets.transactional_smtp_password,
+    address: Exercism.secrets.transactional_smtp_address,
+    domain: Exercism.secrets.transactional_smtp_address,
+    port: Exercism.secrets.transactional_smtp_port,
+    authentication: Exercism.secrets.transactional_smtp_authentication
   }
 end
 

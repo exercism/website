@@ -9,12 +9,11 @@ class Payments::Stripe::Subscription::Create
 
   initialize_with :user, :stripe_data
 
-  def call = Payments::Subscription::Create.(user, :stripe, product, interval, external_id, amount_in_cents)
+  def call = Payments::Subscription::Create.(user, :stripe, interval, external_id, amount_in_cents)
 
   private
   def external_id = stripe_data.id
   def amount_in_cents = price.unit_amount
-  def product = Payments::Stripe.product_from_id(price.product)
   def price = stripe_data.items.data[0].price
 
   def interval

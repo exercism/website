@@ -32,7 +32,7 @@ class Solution::RemoveUserSolutionsForTrackFromSearchIndexTest < ActiveSupport::
     refute_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution_3.id)
     refute_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution_4.id)
 
-    Solution::RemoveUserSolutionsForTrackFromSearchIndex.(user_track_1.user, user_track_1.track)
+    Solution::RemoveUserSolutionsForTrackFromSearchIndex.(user_track_1.user_id, user_track_1.track_id)
 
     wait_for_opensearch_to_be_synced
     assert_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution_1.id)

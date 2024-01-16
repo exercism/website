@@ -15,7 +15,7 @@
             max-width: 640px;
         }
         & .box {
-            @apply flex;
+            @apply flex md:flex-row flex-col gap-32;
             @apply border-2 border-purple rounded-12;
             @apply py-24 px-32 mb-24;
             background: var(--backgroundColorExternalCTA);
@@ -25,18 +25,19 @@
                 @apply text-label-code-caps mb-12;
             }
             & .editor {
-                @apply mr-32 flex-shrink-0;
+                @apply flex-shrink-0;
             }
-            & .cli {
-                @apply overflow-hidden;
+            .cli {
+                @apply overflow-hidden md:overflow-visible;
                 & .c-copy-text-to-clipboard {
-                    @apply w-100;
+                    @apply md:w-[360px] w-100;
                 }
             }
         }
     }
     & section.iterations {
         & .iteration {
+            @apply relative;
             @apply mb-16 shadow-lg rounded-8;
             @apply flex flex-col;
 

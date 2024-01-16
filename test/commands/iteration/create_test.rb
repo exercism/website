@@ -51,12 +51,14 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal iteration, activity.iteration
   end
 
-  test "enqueues snippet job" do
+  test "enqueues snippet creation" do
     solution = create :concept_solution
     submission = create(:submission, solution:)
 
-    assert_enqueued_with job: GenerateIterationSnippetJob do
-      Iteration::Create.(solution, submission)
+    Iteration::Create.(solution, submission)
+    assert enqueued_jobs.find do |job|
+      job["job_class"] == "MandateJob" &&
+        job["arguments"][0] == "Iteration::GenerateSnippet"
     end
   end
 
@@ -64,8 +66,23 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     submission = create(:submission, solution:)
 
-    assert_enqueued_with job: CalculateLinesOfCodeJob do
-      Iteration::Create.(solution, submission)
+    Iteration::Create.(solution, submission)
+    assert enqueued_jobs.find do |job|
+      job["job_class"] == "MandateJob" &&
+        job["arguments"][0] == "Iteration::CountLinesOfCode"
+    end
+  end
+
+  test "enqueues PublishIteration job" do
+    solution = create :concept_solution
+    submission = create(:submission, solution:)
+
+    Iteration::Create.(solution, submission)
+    assert enqueued_jobs.find do |job|
+      job["job_class"] == "MandateJob" &&
+        job["arguments"][0] == "Iteration::PublishIteration" &&
+        job["arguments"][1] == solution &&
+        job["arguments"][2] == solution.published_iteration_id
     end
   end
 
@@ -94,13 +111,33 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
-  test "do not create representation if there's no representer" do
+  test "does not create representation if representation was already queued" do
+    track = create :track, has_representer: false
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:, representation_status: :queued)
+
+    Submission::Representation::Init.expects(:call).never
+    Iteration::Create.(solution, submission)
+  end
+
+  test "creates representation if there's no representer" do
     track = create :track, has_representer: false
     exercise = create(:concept_exercise, track:)
     solution = create(:concept_solution, exercise:)
     submission = create(:submission, solution:)
 
-    Submission::Representation::Init.expects(:call).never
+    Submission::Representation::Init.expects(:call).once
+    Iteration::Create.(solution, submission)
+  end
+
+  test "creates representation if there's a representer" do
+    track = create :track, has_representer: true
+    exercise = create(:concept_exercise, track:)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    Submission::Representation::Init.expects(:call).once
     Iteration::Create.(solution, submission)
   end
 
@@ -387,5 +424,30 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     assert_equal iteration, metric.iteration
     assert_equal iteration.track, metric.track
     assert_equal solution.user, metric.user
+  end
+
+  test "awards trophy when now having iterated twenty exercises" do
+    user = create :user
+    track = create :track
+    create(:user_track, user:, track:)
+
+    create_list(:practice_solution, 19, user:, track:) do |solution|
+      create_list(:submission, 2, solution:) do |submission|
+        create(:iteration, submission:)
+      end
+    end
+
+    refute_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
+
+    solution = create(:practice_solution, user:, track:)
+    submission_1 = create(:submission, solution:)
+    create(:iteration, submission: submission_1)
+
+    submission_2 = create(:submission, solution:)
+    perform_enqueued_jobs do
+      Iteration::Create.(solution, submission_2)
+    end
+
+    assert_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
   end
 end

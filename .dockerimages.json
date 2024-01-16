@@ -1,0 +1,4 @@
+{
+  "localstack": "localstack/localstack:2.3.2",
+  "opensearch": "opensearchproject/opensearch:2.11.0"
+}

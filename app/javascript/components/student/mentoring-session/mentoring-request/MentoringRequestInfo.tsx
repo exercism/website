@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
-import {
-  CopyToClipboardButton,
-  GraphicalIcon,
-  Icon,
-  MedianWaitTime,
-} from '../../../common'
-import { MentorSessionRequest as Request, Iteration } from '../../../types'
-import { timeFormat } from '../../../../utils/time'
-import { Video as VideoProps } from '../../MentoringSession'
-import { MentorSessionTrack as Track } from '../../../types'
-import { IterationMarker } from '../../../mentoring/session/IterationMarker'
+import { timeFormat } from '@/utils/time'
+import { GraphicalIcon, Icon } from '@/components/common'
+import { MedianWaitTime } from '@/components/common/MedianWaitTime'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
+import { IterationMarker } from '@/components/mentoring/session/IterationMarker'
 import {
   DiscussionPost,
   DiscussionPostProps,
   DiscussionPostAction,
-} from '../../../mentoring/discussion/DiscussionPost'
+} from '@/components/mentoring/discussion/DiscussionPost'
 import { CancelRequestButton } from './CancelRequestButton'
+import type {
+  MentorSessionRequest as Request,
+  Iteration,
+  MentorSessionTrack as Track,
+} from '@/components/types'
+import type { Video as VideoProps } from '../../MentoringSession'
 
 type Links = {
   privateMentoring: string
@@ -62,7 +62,7 @@ export const MentoringRequestInfo = ({
       <div className="content">
         <div className="status">
           <div className="info">
-            <h3>Waiting on a mentor...</h3>
+            <h3>Waiting on a mentor…</h3>
             <MedianWaitTime seconds={track.medianWaitTime} />
           </div>
           <CancelRequestButton request={request} />

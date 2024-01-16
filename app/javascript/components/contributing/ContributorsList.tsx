@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
-import { Pagination, TrackSelect } from '@/components/common'
+import { Pagination } from '@/components/common'
+import { TrackSelect } from '@/components/common/TrackSelect'
 import type { PaginatedResult, Contributor, Track } from '@/components/types'
 import { ResultsZone } from '@/components/ResultsZone'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
-import {
-  usePaginatedRequestQuery,
-  useQueryParams,
-  useList,
-  type Request,
-} from '@/hooks'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { useList } from '@/hooks/use-list'
+import { useQueryParams } from '@/hooks/use-query-params'
 import {
   ContributorRow,
   PeriodButton,
@@ -25,43 +25,38 @@ export type Category =
   | 'mentoring'
   | undefined
 
-export const ContributorsList = ({
+type QueryValueTypes = {
+  trackSlug: string
+  period: Period
+  category: Category
+}
+
+export default function ContributorsList({
   request: initialRequest,
   tracks,
 }: {
   request: Request
   tracks: readonly Track[]
-}): JSX.Element => {
+}): JSX.Element {
   const { request, setPage, setQuery } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
-      ['contributors-list', request.endpoint, request.query],
-      {
-        ...request,
-        options: { ...request.options },
-      }
-    )
-
-  const setPeriod = useCallback(
-    (period: Period) => {
-      setQuery({ ...request.query, period: period, page: undefined })
-    },
-    [request.query, setQuery]
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<readonly Contributor[]>>(
+    ['contributors-list', request.endpoint, request.query],
+    request
   )
 
-  const setCategory = useCallback(
-    (category: Category) => {
-      setQuery({ ...request.query, category: category, page: undefined })
+  const requestQuery = useDeepMemo(request.query)
+  const setQueryValue = useCallback(
+    <K extends keyof QueryValueTypes>(key: K, value: QueryValueTypes[K]) => {
+      setQuery({ ...requestQuery, [key]: value, page: undefined })
     },
-    [request.query, setQuery]
+    [requestQuery, setQuery]
   )
 
-  const setTrack = useCallback(
-    (track) => {
-      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
-    },
-    [request.query, setQuery]
-  )
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
 
@@ -73,28 +68,28 @@ export const ContributorsList = ({
         <div className="tabs overflow-x-auto">
           <PeriodButton
             period="week"
-            setPeriod={setPeriod}
+            setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
             <span data-text="This week">This week</span>
           </PeriodButton>
           <PeriodButton
             period="month"
-            setPeriod={setPeriod}
+            setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
             <span data-text="Last 30 days">Last 30 days</span>
           </PeriodButton>
           <PeriodButton
             period="year"
-            setPeriod={setPeriod}
+            setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
             <span data-text="Last year">Last year</span>
           </PeriodButton>
           <PeriodButton
             period={undefined}
-            setPeriod={setPeriod}
+            setPeriod={(period) => setQueryValue('period', period)}
             current={request.query.period}
           >
             <span data-text="All time">All time</span>
@@ -104,12 +99,12 @@ export const ContributorsList = ({
           <TrackSelect
             tracks={tracks}
             value={track}
-            setValue={setTrack}
+            setValue={(track) => setQueryValue('trackSlug', track.slug)}
             size="single"
           />
           <CategorySwitcher
             value={request.query.category}
-            setValue={setCategory}
+            setValue={(category) => setQueryValue('category', category)}
           />
         </div>
       </div>
@@ -131,10 +126,13 @@ export const ContributorsList = ({
                 ))}
               </div>
               <Pagination
-                disabled={latestData === undefined}
+                disabled={resolvedData === undefined}
                 current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop('contributors-list', 32)
+                }}
               />
             </>
           ) : null}

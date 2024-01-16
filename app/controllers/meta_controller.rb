@@ -1,7 +1,13 @@
 class MetaController < ApplicationController
   skip_before_action :authenticate_user!
 
+  def apple_developer_merchantid_domain_association
+    render layout: false
+  end
+
   def site_webmanifest
+    expires_in 1.day, public: true
+
     render json: {
       "name": "Exercism",
       "short_name": "Exercism",
@@ -20,7 +26,6 @@ class MetaController < ApplicationController
       "theme_color": "#ffffff",
       "background_color": "#ffffff",
       "display": "standalone"
-
     }
   end
 end

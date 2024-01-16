@@ -4,7 +4,8 @@ FactoryBot.define do
       exercise { create :practice_exercise }
     end
 
-    solution { create :practice_solution, exercise: }
+    student { create :user }
+    solution { create :practice_solution, exercise:, user: student }
     comment_markdown { "I could do with some help here" }
     external { false }
 

@@ -1,0 +1,11 @@
+- youtube_id = exercise.problem_specifications_data.deep_dive_youtube_id
+- return unless youtube_id
+
+.inner-box.pending
+  .inner-box-content
+    .text-h6.mb-2 Watch our deep dive
+    %p.mb-4
+      Explore the ways people solve this across Exercism with our official deep dive video.
+    .c-youtube-container
+      %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+

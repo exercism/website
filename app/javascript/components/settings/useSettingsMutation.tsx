@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { sendRequest } from '../../utils/send-request'
-import { useMutation } from 'react-query'
+import { MutationStatus, useMutation } from '@tanstack/react-query'
 
 export const useSettingsMutation = <
   T extends unknown,
@@ -11,15 +11,26 @@ export const useSettingsMutation = <
   body,
   timeout = 4000,
   onSuccess = () => null,
+  onError,
 }: {
   endpoint: string
   method: 'POST' | 'PATCH'
   body: T
   timeout?: number
   onSuccess?: (params: U) => void
-}) => {
-  const [baseMutation, { status, error, reset }] = useMutation<U>(
-    () => {
+  onError?: (error: unknown) => void
+}): {
+  status: MutationStatus
+  mutation: () => void
+  error: unknown
+} => {
+  const {
+    mutate: baseMutation,
+    status,
+    error,
+    reset,
+  } = useMutation<U>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: method,
@@ -29,7 +40,8 @@ export const useSettingsMutation = <
       return fetch
     },
     {
-      onSuccess: onSuccess,
+      onSuccess,
+      onError,
     }
   )
 

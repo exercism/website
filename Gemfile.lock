@@ -73,7 +73,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-    addressable (2.8.1)
+    addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     ansi-to-html (0.0.3)
     anycable (1.2.5)
@@ -91,6 +91,9 @@ GEM
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.759.0)
+    aws-sdk-cloudfront (1.76.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -112,6 +115,9 @@ GEM
     aws-sdk-secretsmanager (1.75.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-sesv2 (1.33.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.2.0)
@@ -120,7 +126,6 @@ GEM
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
-    bson (4.15.0)
     bugsnag (6.25.2)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
@@ -128,7 +133,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.1.3)
-    capybara (3.38.0)
+    capybara (3.39.2)
       addressable
       matrix
       mini_mime (>= 0.1.3)
@@ -139,7 +144,7 @@ GEM
       xpath (~> 3.2)
     commonmarker (0.23.8)
     concurrent-ruby (1.2.2)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -162,18 +167,11 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     e2mmap (0.1.0)
-    elasticsearch (6.8.3)
-      elasticsearch-api (= 6.8.3)
-      elasticsearch-transport (= 6.8.3)
-    elasticsearch-api (6.8.3)
-      multi_json
-    elasticsearch-transport (6.8.3)
-      faraday (~> 1)
-      multi_json
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
-    exercism-config (0.106.0)
+    event_stream_parser (1.0.0)
+    exercism-config (0.117.0)
       aws-sdk-dynamodb (~> 1.0)
       aws-sdk-secretsmanager (~> 1.0)
       mandate
@@ -208,7 +206,7 @@ GEM
     faraday-retry (1.0.3)
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
-    ffi (1.15.5)
+    ffi (1.16.3)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     fugit (1.8.1)
@@ -242,6 +240,7 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
+    humanize (2.5.1)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -285,19 +284,17 @@ GEM
     matrix (0.4.2)
     maxminddb (0.1.22)
     method_source (1.0.0)
-    mime-types (3.4.1)
+    mime-types (3.5.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.0218.1)
+    mime-types-data (3.2023.1003)
     mini_magick (4.12.0)
-    mini_mime (1.1.2)
-    mini_portile2 (2.8.1)
+    mini_mime (1.1.5)
+    mini_portile2 (2.8.4)
     minitest (5.18.0)
     minitest-retry (0.2.2)
       minitest (>= 5.0)
     mocha (2.0.2)
       ruby2_keywords (>= 0.0.5)
-    mongo (2.19.0)
-      bson (>= 4.14.1, < 5.0.0)
     msgpack (1.7.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -314,8 +311,8 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.14.2)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.15.4)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -344,6 +341,14 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
+    opensearch-api (2.2.0)
+      multi_json
+    opensearch-ruby (2.1.0)
+      opensearch-api (~> 2.1)
+      opensearch-transport (~> 2.0)
+    opensearch-transport (2.1.0)
+      faraday (>= 1.0, < 3)
+      multi_json
     orm_adapter (0.5.0)
     parallel (1.22.1)
     parser (3.2.1.1)
@@ -351,13 +356,13 @@ GEM
     parslet (2.0.0)
     propshaft (0.4.0)
       rails (>= 7.0.0.alpha2)
-    public_suffix (5.0.1)
+    public_suffix (5.0.3)
     puma (4.3.12)
       nio4r (~> 2.0)
     qonfig (0.28.0)
     raabro (1.4.0)
-    racc (1.6.2)
-    rack (2.2.6.4)
+    racc (1.7.1)
+    rack (2.2.8)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-cors (2.0.1)
@@ -403,7 +408,9 @@ GEM
       ffi (~> 1.0)
     recursive-open-struct (1.1.3)
     redis (4.8.1)
-    regexp_parser (2.7.0)
+    redis-client (0.17.0)
+      connection_pool
+    regexp_parser (2.8.1)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -420,7 +427,7 @@ GEM
       netrc (~> 0.8)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.2.5)
+    rexml (3.2.6)
     rubocop (1.48.1)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -443,6 +450,10 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
     ruby-next-core (0.15.3)
+    ruby-openai (6.3.0)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -454,16 +465,17 @@ GEM
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
-    selenium-webdriver (4.8.6)
+    selenium-webdriver (4.11.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     show_me_the_cookies (6.0.0)
       capybara (>= 2, < 4)
-    sidekiq (6.5.8)
-      connection_pool (>= 2.2.5, < 3)
-      rack (~> 2.0)
-      redis (>= 4.5.0, < 5)
+    sidekiq (7.1.4)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.14.0)
     sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
     sidekiq-scheduler (5.0.2)
@@ -519,11 +531,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.2.0)
-      nokogiri (~> 1.6)
-      rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
-    webmock (3.18.1)
+    webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -546,8 +554,10 @@ DEPENDENCIES
   addressable (~> 2.7)
   ansi-to-html
   anycable-rails (~> 1.2.0)
+  aws-sdk-cloudfront
   aws-sdk-ecr
   aws-sdk-s3 (~> 1)
+  aws-sdk-sesv2
   bootsnap (>= 1.4.2)
   bugsnag
   bullet
@@ -559,14 +569,14 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
-  elasticsearch (= 6.8.3)
-  exercism-config (>= 0.106.0)
+  exercism-config (>= 0.117.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
   geocoder (~> 1.8)
   grpc (>= 1.53.0)
   haml_lint
   hamlit
+  humanize
   image_processing (~> 1.2)
   jsbundling-rails
   kaminari
@@ -577,13 +587,13 @@ DEPENDENCIES
   minitest
   minitest-retry
   mocha
-  mongo
   mysql2 (~> 0.5.4)
   octokit
   oj (~> 3.14.0)
   omniauth-discord
   omniauth-github
   omniauth-rails_csrf_protection
+  opensearch-ruby
   propshaft (= 0.4.0)
   public_suffix
   puma (~> 4.3)
@@ -598,11 +608,12 @@ DEPENDENCIES
   rubocop-minitest
   rubocop-performance
   rubocop-rails
+  ruby-openai
   rubyzip (~> 2.3)
   rugged
   selenium-webdriver
   show_me_the_cookies
-  sidekiq (~> 6.3)
+  sidekiq (= 7.1.4)
   sidekiq-failures
   sidekiq-scheduler
   skylight
@@ -612,7 +623,6 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console (>= 3.3.0)
-  webdrivers
   webmock
 
 RUBY VERSION

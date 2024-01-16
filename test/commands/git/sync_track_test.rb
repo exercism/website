@@ -570,4 +570,12 @@ class Git::SyncTrackTest < ActiveSupport::TestCase
 
     Git::SyncTrack.(track)
   end
+
+  test "reseed variable trophies" do
+    track = create :track
+
+    Track::Trophy::ReseedVariable.expects(:call).once
+
+    Git::SyncTrack.(track)
+  end
 end

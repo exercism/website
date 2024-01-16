@@ -57,4 +57,52 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
 
     assert_equal other_iteration.snippet, solution.snippet
   end
+
+  test "updates representation" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+
+    create(:exercise_representation, exercise:)
+    solution = create(:concept_solution)
+    create(:iteration, submission: create(:submission, solution:))
+
+    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+
+    Solution::Publish.(solution, user_track, nil)
+  end
+
+  test "updates tags" do
+    track = create :track
+    user = create :user
+    exercise = create(:concept_exercise, track:)
+    user_track = create(:user_track, user:, track:)
+
+    create(:exercise_representation, exercise:)
+    solution = create(:concept_solution)
+    create(:iteration, submission: create(:submission, solution:))
+
+    Solution::UpdateTags.expects(:call).with(solution)
+
+    Solution::Publish.(solution, user_track, nil)
+  end
+
+  test "calculate lines of code for latest published iteration when not already done" do
+    Solution::UpdateNumLoc.expects(:defer).twice
+
+    track = create :track
+    exercise = create(:concept_exercise, track:)
+
+    create(:exercise_representation, exercise:)
+    solution = create(:concept_solution, :published)
+    first_iteration = create(:iteration, submission: create(:submission, solution:), idx: 1)
+    second_iteration = create(:iteration, submission: create(:submission, solution:), idx: 2)
+
+    Iteration::CountLinesOfCode.expects(:defer).with(second_iteration)
+    Solution::PublishIteration.(solution, nil)
+
+    Iteration::CountLinesOfCode.expects(:defer).with(first_iteration)
+    Solution::PublishIteration.(solution.reload, first_iteration.idx)
+  end
 end

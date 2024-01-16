@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react'
-import { Modal } from '../modals'
-import { CopyToClipboardButton } from '../common'
+import { Modal } from '@/components/modals'
+import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 
 type PerkKeys = 'claimUrl' | 'offerSummaryHtml' | 'offerDetails' | 'voucherCode'
-type PerksModalButtonProps = {
+export type PerksModalButtonProps = {
   text: string
   perk: Record<PerkKeys, string>
   partner: Record<'websiteDomain', string>
 }
-export function PerksModalButton({
+export default function PerksModalButton({
   data,
 }: {
   data: PerksModalButtonProps

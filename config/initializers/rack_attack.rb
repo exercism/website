@@ -27,6 +27,7 @@ api_non_get_limit_proc = proc do |req|
   next 12 if req.post? && req.routed_to == 'api/solutions/submissions#create'
   next 30 if req.post? && req.routed_to == 'api/markdown#parse'
   next 30 if req.patch? && req.routed_to == 'api/mentoring/testimonials#reveal'
+  next 30 if req.patch? && req.routed_to == 'api/tracks/trophies#reveal'
   next 20 if req.patch? && req.routed_to == 'api/reputation#mark_as_seen'
   next 20 if req.patch? && req.routed_to == 'api/settings/user_preferences#update'
   next 8 if req.patch? && req.routed_to == 'api/settings/communication_preferences#update'

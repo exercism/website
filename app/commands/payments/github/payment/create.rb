@@ -6,6 +6,6 @@ class Payments::Github::Payment::Create
   initialize_with :user, :node_id, :amount_in_cents, subscription: nil
 
   def call
-    Payments::Payment::Create.(user, :github, :donation, node_id, amount_in_cents, nil, subscription:)
+    Payments::Payment::Create.(user, :github, node_id, amount_in_cents, nil, subscription:)
   end
 end

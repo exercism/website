@@ -6,11 +6,28 @@ on:
   pull_request:
 
 jobs:
+  setup_env:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          sparse-checkout: |
+            .dockerimages.json
+          sparse-checkout-cone-mode: false
+
+      - name: Define Docker images
+        run: |
+          echo "localstack_image=$(jq -r '.localstack' .dockerimages.json)" >> "$GITHUB_ENV"
+          echo "opensearch_image=$(jq -r '.opensearch' .dockerimages.json)" >> "$GITHUB_ENV"
+    outputs:
+      localstack_image: ${{ env.localstack_image }}
+      opensearch_image: ${{ env.opensearch_image }}
+
   ##################
   ##### RUBOCOP ####
   ##################
   rubocop:
-    # TODO: Change this to website when merging
     if: github.repository == 'exercism/website'
 
     runs-on: ubuntu-22.04
@@ -60,7 +77,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -99,12 +116,14 @@ jobs:
           FILES_PER_BATCH: 50
         run: |
           tests=$(find test -name '*_test.rb' -not -path 'test/system/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
+          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
 
   ruby-tests:
     if: github.repository == 'exercism/website'
 
-    needs: ruby-test-files
+    needs:
+      - ruby-test-files
+      - setup_env
     strategy:
       fail-fast: false
       max-parallel: 15
@@ -135,12 +154,12 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:0.12.3"
+        image: ${{ needs.setup_env.outputs.localstack_image }}
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:1.1.0
+        image: ${{ needs.setup_env.outputs.opensearch_image }}
         env:
           discovery.type: single-node
         ports:
@@ -167,7 +186,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -178,23 +197,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      ###
-      # Install bundler and yarn dependencies
-      - name: Install dependencies
+      - name: Install yarn dependencies
+        run: yarn install
+
+      - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          yarn install
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
-
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.8.0
-        with:
-          mongodb-version: latest
 
       ###
       # Precompile JS
@@ -208,6 +222,13 @@ jobs:
         run: |
           bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare
+
+      ###
+      # Wait for everything to be ready
+      - name: Wait for open search to become ready
+        env:
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+        run: ./bin/wait_for_opensearch
 
       ###
       # Run the tests
@@ -250,12 +271,15 @@ jobs:
           FILES_PER_BATCH: 12
         run: |
           tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "::set-output name=matrix::{\"tests\":[${tests}]}"
+          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
 
   system-tests:
     if: github.repository == 'exercism/website'
 
-    needs: system-test-files
+    needs:
+      - system-test-files
+      - setup_env
+
     strategy:
       fail-fast: false
       max-parallel: 15
@@ -285,12 +309,12 @@ jobs:
           --health-retries 10
 
       aws:
-        image: "localstack/localstack:0.12.3"
+        image: ${{ needs.setup_env.outputs.localstack_image }}
         ports:
           - 4566
 
       opensearch:
-        image: opensearchproject/opensearch:1.1.0
+        image: ${{ needs.setup_env.outputs.opensearch_image }}
         env:
           discovery.type: single-node
         ports:
@@ -315,17 +339,12 @@ jobs:
       - name: Install packages
         run: sudo apt-get install libvips
 
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.8.0
-        with:
-          mongodb-version: latest
-
       ###
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -336,16 +355,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      ###
-      # Install bundler and yarn dependencies
-      - name: Install dependencies
+      - name: Install yarn dependencies
+        run: yarn install
+
+      - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
           AWS_PORT: ${{ job.services.aws.ports['4566'] }}
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          yarn install
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
 
@@ -361,6 +380,13 @@ jobs:
         run: |
           bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare
+
+      ###
+      # Wait for everything to be ready
+      - name: Wait for open search to become ready
+        env:
+          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+        run: ./bin/wait_for_opensearch
 
       ###
       # Run the tests
@@ -408,7 +434,7 @@ jobs:
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8

@@ -20,7 +20,7 @@ class PerksController < ApplicationController
   def claim
     perk = Partner::Perk.find_by!(uuid: params[:id])
 
-    Partner::LogPerkClick.defer(perk, current_user, Time.current)
+    Partner::LogPerkClick.defer(perk, current_user, Time.current) unless request.is_crawler?
 
     url = params[:partner_url] ? perk.partner.website_url : perk.url_for_user(current_user)
     redirect_to url, allow_other_host: true

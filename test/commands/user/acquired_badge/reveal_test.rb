@@ -1,7 +1,7 @@
 require "test_helper"
 
 class User::AcquiredBadge::RevealTest < ActiveSupport::TestCase
-  test "reveals testominal" do
+  test "reveals badge" do
     user = create :user
     badge = create :contributor_badge
     acquired_badge = create(:user_acquired_badge, user:, badge:)

@@ -11,6 +11,7 @@ export const ExercismTippy = (props: ExercismTippyProps): JSX.Element => {
       followCursor="horizontal"
       maxWidth="none"
       plugins={[followCursor]}
+      delay={100}
       {...props}
     />
   )
@@ -21,7 +22,11 @@ export const GenericTooltip = (props: ExercismTippyProps): JSX.Element => {
     <ExercismTippy
       arrow={roundArrow}
       {...props}
-      content={<div className="c-generic-tooltip">{props.content}</div>}
+      content={
+        <div className={`c-generic-tooltip ${props.className}`}>
+          {props.content}
+        </div>
+      }
     />
   )
 }

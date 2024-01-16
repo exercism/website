@@ -29,7 +29,6 @@ namespace :api do
     get "hiring/testimonials" => "hiring#testimonials"
 
     namespace :payments do
-      resource :active_subscription, only: [:show]
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do
         member do
@@ -38,13 +37,13 @@ namespace :api do
         end
       end
       resources :subscriptions, only: [] do
-        post :create_paypal_premium, on: :collection
-
         member do
           patch :cancel
           patch :update_amount
           patch :update_plan
         end
+
+        get :current, on: :collection
       end
     end
 
@@ -52,7 +51,10 @@ namespace :api do
       patch :sudo_update
     end
     namespace :settings do
-      resource :user_preferences, only: [:update]
+      resource :user_preferences, only: [:update] do
+        patch :enable_solution_comments
+        patch :disable_solution_comments
+      end
       resource :communication_preferences, only: [:update]
 
       resources :introducers, only: [], param: :slug do
@@ -65,6 +67,15 @@ namespace :api do
     end
 
     resources :tracks, only: [], controller: "user_tracks", param: :slug do
+      resources :tags, only: %i[], controller: "tracks/tags", param: :tag do
+        member do
+          post :filterable, constraints: { tag: %r{[^/]+} }
+          delete :filterable, to: 'tracks/tags#not_filterable', as: "not_filterable", constraints: { tag: %r{[^/]+} }
+          post :enabled, constraints: { tag: %r{[^/]+} }
+          delete :enabled, to: 'tracks/tags#not_enabled', as: "not_enabled", constraints: { tag: %r{[^/]+} }
+        end
+      end
+
       resources :solutions_for_mentoring, only: %i[index], controller: "tracks/solutions_for_mentoring"
       member do
         patch :activate_practice_mode
@@ -95,6 +106,11 @@ namespace :api do
       end
       resources :concepts, only: [], param: :slug do
         resources :makers, only: [:index], controller: "concepts/makers"
+      end
+      resources :trophies, only: [], param: :uuid, controller: "tracks/trophies" do
+        member do
+          patch :reveal
+        end
       end
     end
 
@@ -167,6 +183,7 @@ namespace :api do
 
       resources :iterations, only: %i[create destroy], param: :uuid do
         get :automated_feedback, on: :member
+        get :latest, on: :collection
         get :latest_status, on: :collection
       end
       resources :initial_files, only: %i[index], controller: "solutions/initial_files"
@@ -200,6 +217,7 @@ namespace :api do
         end
         member do
           patch :lock
+          patch :extend_lock
           patch :cancel
         end
       end
@@ -246,6 +264,14 @@ namespace :api do
     end
 
     resources :community_stories, only: %i[index]
+
+    namespace :training_data do
+      resources :code_tags_samples, only: %i[index] do
+        member do
+          patch :update_tags
+        end
+      end
+    end
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
   end

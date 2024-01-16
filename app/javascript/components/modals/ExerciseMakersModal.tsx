@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePaginatedRequestQuery } from '@/hooks'
+import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { ResultsZone } from '../ResultsZone'
 import { ModalProps, Modal } from './Modal'
@@ -106,11 +106,15 @@ export const ExerciseMakersModal = ({
   endpoint,
   ...props
 }: { endpoint: string } & Omit<ModalProps, 'className'>): JSX.Element => {
-  const { status, resolvedData, isFetching, error } =
-    usePaginatedRequestQuery<APIResponse>(['exercise-makers', endpoint], {
-      endpoint: endpoint,
-      options: { enabled: props.open },
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(['exercise-makers', endpoint], {
+    endpoint: endpoint,
+    options: { enabled: props.open },
+  })
 
   return (
     <Modal {...props} className="m-makers">

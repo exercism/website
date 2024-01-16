@@ -13,8 +13,7 @@ export function UploadVideoModalHeader({
         Produced a video of working through this exercise yourself? Want to
         share it with the Exercism community?{' '}
         <strong className="font-medium text">
-          Submit the form below and Jonathan (our community manager) will review
-          and approve it.
+          Submit the form below and Jeremy will review and approve it.
         </strong>
       </p>
       <ExerciseTrackIndicator videoRetrieved={videoRetrieved} />

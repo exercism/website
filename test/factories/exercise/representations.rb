@@ -6,7 +6,6 @@ FactoryBot.define do
     mapping { { foo: 'bar' } }
     uuid { SecureRandom.uuid }
     ast { SecureRandom.uuid }
-    ast_digest { SecureRandom.uuid }
 
     trait :with_feedback do
       feedback_markdown { "foo" }

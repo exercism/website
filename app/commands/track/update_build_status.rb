@@ -18,7 +18,8 @@ class Track::UpdateBuildStatus
       practice_exercises:,
       test_runner:,
       representer:,
-      analyzer:
+      analyzer:,
+      tags:
     }
   end
 
@@ -91,10 +92,17 @@ class Track::UpdateBuildStatus
       num_passed_percentage: percentage(num_passed, num_runs),
       num_failed_percentage: percentage(num_failed, num_runs),
       num_errored_percentage: percentage(num_errored, num_runs),
-      volunteers: serialize_tooling_volunteers(track.test_runner_repo_url),
       health: test_runner_health,
       version: test_runner_version,
       version_target: test_runner_version_target
+    }
+  end
+
+  def tags
+    solution_counts = track.solution_tags.group(:tag).count
+
+    {
+      solution_counts:
     }
   end
 
@@ -125,7 +133,6 @@ class Track::UpdateBuildStatus
       num_runs: representer_num_submissions,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
-      volunteers: serialize_tooling_volunteers(track.representer_repo_url),
       health: representer_health
     }
   end
@@ -159,7 +166,6 @@ class Track::UpdateBuildStatus
       num_runs: Submission::Analysis.where(track:).count,
       num_comments: Submission::Analysis.where(track:).sum(:num_comments),
       display_rate_percentage: analyzer_display_rate_percentage,
-      volunteers: serialize_tooling_volunteers(track.analyzer_repo_url),
       health: analyzer_health
     }
   end
@@ -183,7 +189,6 @@ class Track::UpdateBuildStatus
     {
       concepts:,
       concept_exercises:,
-      volunteers: syllabus_volunteers,
       health: syllabus_health
     }
   end
@@ -196,18 +201,6 @@ class Track::UpdateBuildStatus
     return :healthy if active_taught_concepts.size < 50
 
     :exemplar
-  end
-
-  def syllabus_volunteers
-    concept_author_ids = Concept::Authorship.where(concept: active_taught_concepts).distinct.pluck(:user_id)
-    exercise_author_ids = Exercise::Authorship.where(exercise: active_concept_exercises).distinct.pluck(:user_id)
-    author_ids = (concept_author_ids | exercise_author_ids).uniq
-
-    concept_contributor_ids = Concept::Contributorship.where(concept: active_taught_concepts).distinct.pluck(:user_id)
-    exercise_contributor_ids = Exercise::Contributorship.where(exercise: active_concept_exercises).distinct.pluck(:user_id)
-    contributor_ids = (concept_contributor_ids | exercise_contributor_ids).uniq
-
-    serialize_volunteers(author_ids, contributor_ids)
   end
 
   def concepts
@@ -258,7 +251,6 @@ class Track::UpdateBuildStatus
       deprecated: deprecated_practice_exercises.map { |exercise| serialize_exercise(exercise) },
       unimplemented: unimplemented_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
       foregone: foregone_practice_exercises.map { |exercise| serialize_prob_specs_exercise(exercise) },
-      volunteers: practice_exercises_volunteers,
       health: practice_exercises_health
     }
   end
@@ -275,13 +267,6 @@ class Track::UpdateBuildStatus
     max_target = active_practice_exercises.size + unimplemented_practice_exercises.size
 
     NUM_PRACTICE_EXERCISES_TARGETS.find { |target| active_practice_exercises.size < target } || max_target
-  end
-
-  def practice_exercises_volunteers
-    author_ids = Exercise::Authorship.where(exercise: active_practice_exercises).distinct.pluck(:user_id)
-    contributor_ids = Exercise::Contributorship.where(exercise: active_practice_exercises).distinct.pluck(:user_id)
-
-    serialize_volunteers(author_ids, contributor_ids)
   end
 
   memoize
@@ -365,37 +350,6 @@ class Track::UpdateBuildStatus
     }
   end
 
-  def serialize_tooling_volunteers(repo_url)
-    author_ids = track.reputation_tokens.
-      where(category: :building).
-      where('external_url LIKE ?', "#{repo_url}/%").
-      distinct.
-      pluck(:user_id)
-
-    contributor_ids = track.reputation_tokens.
-      where(category: :maintaining).
-      where('external_url LIKE ?', "#{repo_url}/%").
-      distinct.
-      pluck(:user_id)
-
-    serialize_volunteers(author_ids, contributor_ids)
-  end
-
-  def serialize_volunteers(author_ids, contributor_ids)
-    random_author_ids = author_ids.shuffle.take(NUM_VOLUNTEERS)
-    random_authors = User.where(id: random_author_ids).to_a
-
-    random_contributor_ids = (contributor_ids - author_ids).shuffle.take(NUM_VOLUNTEERS - random_author_ids.size)
-    random_contributors = User.where(id: random_contributor_ids).to_a
-
-    num_users = (author_ids | contributor_ids).uniq.size
-
-    {
-      users: SerializeAuthorOrContributors.(CombineAuthorsAndContributors.(random_authors, random_contributors)),
-      num_users:
-    }
-  end
-
   memoize
   def exercises_num_started
     Solution.joins(:exercise).where(exercises: { track: }).group(:exercise_id).count
@@ -418,7 +372,7 @@ class Track::UpdateBuildStatus
 
   NUM_COMPONENTS = 5
   NUM_DAYS_FOR_AVERAGE = 30
-  NUM_TRACK_VOLUNTEERS = 12
+  NUM_TRACK_VOLUNTEERS = 16
   NUM_VOLUNTEERS = 3
   NUM_CONCEPTS_TARGETS = [10, 20, 30, 40, 50].freeze
   NUM_PRACTICE_EXERCISES_TARGETS = [20, 30, 40, 50].freeze

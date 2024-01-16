@@ -37,12 +37,27 @@
             }
         }
         .published-at {
-            @apply flex;
+            @apply block md:flex;
             @apply mb-24 mt-24 pt-16;
             @apply border-t-1 border-borderColor6 text-16 text-textColor6 leading-150 md:self-start;
 
             button {
-                @apply ml-4;
+                @apply md:ml-4;
+            }
+        }
+    }
+
+    .c-faces-with-overflow-counter {
+        @apply hidden md:flex;
+    }
+}
+
+#page-approaches-index {
+    .dig-deeper-snippet {
+        .c-responsive-table-wrapper {
+            all: unset;
+            table {
+                @apply w-100 text-left;
             }
         }
     }

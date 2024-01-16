@@ -1,21 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { GraphicalIcon, Loading, Pagination } from '../common'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
+import { QueryKey } from '@tanstack/react-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { GraphicalIcon, Loading, Pagination } from '@/components/common'
 import { FilterPanel } from './searchable-list/FilterPanel'
-import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { QueryKey } from 'react-query'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-
-export type PaginatedResult<T> = {
-  results: T[]
-  meta: {
-    currentPage: number
-    totalPages: number
-    totalCount: number
-  }
-}
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { PaginatedResult } from '@/components/types'
 
 type ResultsType<T> = {
   order: string
@@ -62,33 +55,32 @@ export const SearchableList = <
     setQuery,
     setOrder,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     cacheKeyPrefix,
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const {
-    status,
-    resolvedData,
-    latestData,
-    isFetching,
-    error,
-  } = usePaginatedRequestQuery<U, Error | Response>(cacheKey, {
+  const { status, resolvedData, isFetching, error } = usePaginatedRequestQuery<
+    U,
+    Error | Response
+  >(cacheKey, {
     ...request,
     query: removeEmpty(request.query),
     options: { ...request.options, enabled: isEnabled },
   })
 
+  const requestQuery = useDeepMemo(request.query)
   const setFilter = useCallback(
     (filter) => {
-      setQuery({ ...request.query, ...filter })
+      setQuery({ ...requestQuery, ...filter })
     },
-    [JSON.stringify(request.query), setQuery]
+    [requestQuery, setQuery]
   )
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -107,7 +99,7 @@ export const SearchableList = <
           onChange={(e) => {
             setCriteria(e.target.value)
           }}
-          value={criteria}
+          value={criteria || ''}
           placeholder={placeholder}
         />
         <FilterPanel
@@ -134,7 +126,6 @@ export const SearchableList = <
             setOrder={setOrder}
             setPage={setPage}
             resolvedData={resolvedData}
-            latestData={latestData}
             ResultsComponent={ResultsComponent}
           />
         </ResultsZone>
@@ -149,7 +140,6 @@ const Results = <T extends unknown, U extends PaginatedResult<T>>({
   setOrder,
   setPage,
   resolvedData,
-  latestData,
   error,
   ResultsComponent,
 }: {
@@ -158,7 +148,6 @@ const Results = <T extends unknown, U extends PaginatedResult<T>>({
   setOrder: (order: string) => void
   setPage: (page: number) => void
   resolvedData: U | undefined
-  latestData: U | undefined
   error: Error | Response | null
   ResultsComponent: React.ComponentType<ResultsType<U>>
 }) => {
@@ -177,7 +166,7 @@ const Results = <T extends unknown, U extends PaginatedResult<T>>({
         cacheKey={cacheKey}
       />
       <Pagination
-        disabled={latestData === undefined}
+        disabled={resolvedData === undefined}
         current={query.page}
         total={resolvedData.meta.totalPages}
         setPage={setPage}

@@ -14,11 +14,11 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
     expected = {
       id: 3,
       exercise: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
+        icon_url: 'https://assets.exercism.org/exercises/bob.svg',
         title: 'Bob'
       },
       track: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
+        icon_url: 'https://assets.exercism.org/tracks/ruby.svg',
         title: 'Ruby',
         highlightjs_language: 'ruby'
       },
@@ -67,11 +67,11 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
     expected = {
       id: 3,
       exercise: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
+        icon_url: 'https://assets.exercism.org/exercises/bob.svg',
         title: 'Bob'
       },
       track: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
+        icon_url: 'https://assets.exercism.org/tracks/ruby.svg',
         title: 'Ruby',
         highlightjs_language: 'ruby'
       },
@@ -120,11 +120,11 @@ class SerializeExerciseRepresentationTest < ActiveSupport::TestCase
     expected = {
       id: 3,
       exercise: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bob.svg',
+        icon_url: 'https://assets.exercism.org/exercises/bob.svg',
         title: 'Bob'
       },
       track: {
-        icon_url: 'https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg',
+        icon_url: 'https://assets.exercism.org/tracks/ruby.svg',
         title: 'Ruby',
         highlightjs_language: 'ruby'
       },

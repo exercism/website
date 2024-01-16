@@ -5,7 +5,7 @@ class Payments::Github::Sponsorship::HandleTierChangedTest < Payments::TestBase
     sponsorship_node_id = SecureRandom.uuid
     is_one_time = false
     amount = 300
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, :github, user:,
       external_id: sponsorship_node_id, amount_in_cents: 500
 
@@ -18,7 +18,7 @@ class Payments::Github::Sponsorship::HandleTierChangedTest < Payments::TestBase
     sponsorship_node_id = SecureRandom.uuid
     is_one_time = true
     amount = 300
-    user = create :user, active_donation_subscription: true
+    user = create :user
     subscription = create :payments_subscription, :github, user:,
       external_id: sponsorship_node_id, amount_in_cents: 500
 

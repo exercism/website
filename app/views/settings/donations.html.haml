@@ -8,7 +8,7 @@
         .subscription-box
           = graphical_icon "donation-superhero", category: :graphics
           .flex.flex-col.items-start
-            - if current_user.active_donation_subscription?
+            - if current_user.current_subscription?
               = render ReactComponents::Donations::SubscriptionForm.new
             - else
               %h2 Become a monthly supporter of Exercism
@@ -65,7 +65,6 @@
                       = graphical_icon "download"
                       %span View Receipt
 
-
         - else
           .summary-box
             %h3.text-h5.mb-4 Your donations will appear here
@@ -73,5 +72,5 @@
               Once you've donated, you'll be able to see a history of all donations here.
             %p.text-p-base
               If you've donated to Exercism, but do not see your donations here or have not been awarded the Supporter badge, please email
-              = link_to "Loretta", "mailto:loretta@exercism.org"
-              and she'll sort it for you.
+              = link_to "Jeremy", "mailto:jeremy@exercism.org"
+              and he'll sort it for you.

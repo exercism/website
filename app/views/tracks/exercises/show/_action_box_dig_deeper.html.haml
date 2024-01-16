@@ -1,0 +1,6 @@
+- return if exercise.tutorial?
+
+- if exercise.practice_exercise?
+  = render("tracks/exercises/show/action_box_dig_deeper_practice_exercise", exercise:, track:, solution:, user_track:)
+- else
+  = render("tracks/exercises/show/action_box_dig_deeper_concept_exercise", exercise:, track:, solution:, user_track:)

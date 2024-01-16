@@ -5,7 +5,7 @@
 [![View performance data on Skylight](https://badges.skylight.io/typical/VNpB7GqXZDpQ.svg)](https://oss.skylight.io/app/applications/VNpB7GqXZDpQ)
 
 This is the website component of Exercism.
-It is Ruby on Rails app, backed by various services.
+It is Ruby on Rails app, backed by various other services.
 
 **Please note: This repo is an internal repo. That means the source code is public, but we do not accept Pull Requests, we do not support the app being run locally, and we do not encourage people to fork or reuse this repository.**
 
@@ -66,10 +66,11 @@ GRANT ALL PRIVILEGES ON `exercism_test`.* TO 'exercism'@'localhost';
 
 To run the app you must have a local version of AWS running.
 We use localstack and opensearch, and run them via Docker.
+Double check versions in `.dockerimages.json`.
 
 ```bash
-docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack
-docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:1.1.0
+docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack:2.2.0
+docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:2.9.0
 ```
 
 ### Run the setup script
@@ -151,6 +152,24 @@ The tests can be run using:
 ```
 bundle exec rails test
 ```
+
+### Running Jest tests
+
+##### Run tests:
+
+```
+yarn test [path/to/file]
+```
+
+> Omit path to run all tests
+
+##### Update snapshots:
+
+```
+yarn test [path/to/file] -- -u
+```
+
+> Omit path to update all snapshots
 
 ### Git Repos
 

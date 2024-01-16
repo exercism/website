@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import { MentorDiscussion } from '../../../types'
-import { Avatar, GraphicalIcon } from '../../../common'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { FormButton } from '../../../common'
-import { FetchingBoundary } from '../../../FetchingBoundary'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { MentorDiscussion } from '@/components/types'
+import { Avatar, GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { TestimonialField } from './TestimonialField'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
@@ -21,8 +21,12 @@ export const AddTestimonialStep = ({
   discussion: MentorDiscussion
 }): JSX.Element => {
   const [value, setValue] = useState('')
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
@@ -60,7 +64,7 @@ export const AddTestimonialStep = ({
 
   return (
     <section className="testimonial-step">
-      <h2>We're glad you had a good discussion!</h2>
+      <h2>We&apos;re glad you had a good discussion!</h2>
       <div className="container">
         <div className="lhs">
           <p className="explanation">
@@ -79,12 +83,6 @@ export const AddTestimonialStep = ({
               value={value}
               onChange={handleChange}
             />
-            {/*<p className="help">
-              Testimonials are a place to write what impressed you about a
-              mentor.
-              <br />
-              Mentors can choose to display them on their profiles.
-            </p>*/}
             <div className="form-buttons">
               <FormButton
                 type="button"

@@ -89,8 +89,6 @@ class Exercise::RepresentationTest < ActiveSupport::TestCase
     submission_representation = create(:submission_representation,
       submission: create(:submission, exercise:),
       ast_digest:)
-    p submission_representation.exercise_id_and_ast_digest_idx_cache
-    p representation.exercise_id_and_ast_digest_idx_cache
 
     assert_equal [submission_representation], representation.reload.submission_representations
 

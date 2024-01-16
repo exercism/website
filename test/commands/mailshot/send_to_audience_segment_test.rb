@@ -23,13 +23,12 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Array.new(2) { create :user, :admin }
     mailshot = create :mailshot
 
-    assert_no_enqueued_jobs only: MandateJob do
-      Mailshot::SendToAudienceSegment.(mailshot, :admins, :foobar, 3, 0)
-    end
+    Mailshot::SendToAudienceSegment.(mailshot, :admins, :foobar, 3, 0)
+    perform_enqueued_jobs_until_empty # This shouldn't loop forever!
   end
 
-  test "schedules if record counts matched" do
-    Array.new(3) { create :user, :admin }
+  test "schedules if there were any jobs returned" do
+    create :user, :admin
     mailshot = create :mailshot
 
     assert_enqueued_with(job: MandateJob) do
@@ -47,18 +46,6 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
 
     Mailshot::SendToAudienceSegment.(mailshot, :donors, nil, 10, 0)
-  end
-
-  test "schedules audience_for_premium" do
-    mailshot = create :mailshot
-
-    good_user = create :user, :premium
-    bad_user = create :user
-
-    User::Mailshot::Send.expects(:call).with(good_user, mailshot)
-    User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
-
-    Mailshot::SendToAudienceSegment.(mailshot, :premium, nil, 10, 0)
   end
 
   test "schedules audience_for_insiders" do
@@ -118,7 +105,7 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     User::Mailshot::Send.expects(:call).with(user_40, mailshot).never
     User::Mailshot::Send.expects(:call).with(user_new, mailshot).never
 
-    Mailshot::SendToAudienceSegment.(mailshot, :recently_active, 35, 10, 0)
+    Mailshot::SendToAudienceSegment.(mailshot, :recent, 35, 10, 0)
   end
 
   test "schedules audience_for_track" do

@@ -9,10 +9,7 @@ class Payments::Payment::UpdateAmount
 
     payment.update!(amount_in_cents:)
 
-    if payment.donation?
-      User::UpdateTotalDonatedInCents.(payment.user)
-    elsif payment.premium?
-      User::Premium::Update.(user)
-    end
+    User::UpdateTotalDonatedInCents.(payment.user)
+    User::InsidersStatus::UpdateForPayment.(payment.user)
   end
 end

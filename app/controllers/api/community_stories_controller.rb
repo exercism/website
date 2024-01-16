@@ -1,7 +1,5 @@
-module API
-  class CommunityStoriesController < BaseController
-    def index
-      render json: AssembleCommunityStories.(params)
-    end
+class API::CommunityStoriesController < API::BaseController
+  def index
+    render json: AssembleCommunityStories.(params)
   end
 end

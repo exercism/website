@@ -60,13 +60,10 @@ module Flows
         wait_for_redirect
         assert_text "You've completed Boutique."
 
-        within '.unlocked-exercises' do
+        within '.completed-info' do
           assert_text "Bob"
           assert_text "Cars Assemble"
           refute_text "Leap"
-        end
-
-        within '.unlocked-concepts' do
           assert_text "Conditionals"
           refute_text "Strings"
         end
@@ -94,7 +91,7 @@ module Flows
       use_capybara_host do
         visit track_exercise_url(track, boutique)
 
-        within("section.completion-nudge") { click_on "Mark as complete" }
+        click_on "Mark as complete"
         click_on "Confirm"
 
         assert_text "You've completed Boutique!"

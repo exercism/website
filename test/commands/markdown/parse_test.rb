@@ -157,6 +157,21 @@ Done')
     assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com)', nofollow_links: true).chomp
   end
 
+  test 'adds data-turbo="false" to internal links with anchor' do
+    expected = '<p><a href="https://exercism.org#about" data-turbo="false">Some link</a></p>'
+    assert_equal expected.chomp, Markdown::Parse.('[Some link](https://exercism.org#about)').chomp
+  end
+
+  test 'does not add data-turbo="false" to internal links without anchor' do
+    expected = '<p><a href="https://exercism.org">Some link</a></p>'
+    assert_equal expected.chomp, Markdown::Parse.('[Some link](https://exercism.org)').chomp
+  end
+
+  test 'does not add data-turbo="false" to external links with anchor' do
+    expected = '<p><a href="http://example.com#faq" target="_blank" rel="noreferrer">Some link</a></p>'
+    assert_equal expected.chomp, Markdown::Parse.('[Some link](http://example.com#faq)').chomp
+  end
+
   test "parses double tildes as strikethrough" do
     assert_equal "<p><del>Hello</del></p>\n", Markdown::Parse.("~~Hello~~")
   end
@@ -240,7 +255,7 @@ Done')
   end
 
   test "render internal link ending with hash" do
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/concepts/basics#intro" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/concepts/basics#intro" data-turbo="false" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[basics](https://exercism.org/tracks/ruby/concepts/basics#intro)")
   end
 
@@ -270,28 +285,44 @@ Done')
   end
 
   test "render concept widget link without link" do
-    # TODO: render concept widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[concept:julia/if-statements]()")
   end
 
   test "render concept widget link with link" do
-    # TODO: render concept widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/concepts/if-statements" data-tooltip-type="concept" data-endpoint="/tracks/julia/concepts/if-statements/tooltip">if-statements</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected,
       Markdown::Parse.("[concept:julia/if-statements](https://exercism.org/tracks/julia/concepts/if-statements)")
   end
 
   test "render exercise widget link without link" do
-    # TODO: render exercise widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer]()")
   end
 
   test "render exercise widget link with link" do
-    # TODO: render exercise widget instead of link
     expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer" data-tooltip-type="exercise" data-endpoint="/tracks/julia/exercises/two-fer/tooltip">two-fer</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](https://exercism.org/tracks/julia/exercises/two-fer)")
+  end
+
+  test "render article widget link without link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/reverse-string/articles/performance">performance</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[article:julia/reverse-string/performance]()")
+  end
+
+  test "render article widget link with link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/reverse-string/articles/performance">performance</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[article:julia/reverse-string/performance](https://exercism.org/tracks/julia/exercises/reverse-string/articles/performance)")
+  end
+
+  test "render approach widget link without link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">default-value</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach:julia/two-fer/default-value]()")
+  end
+
+  test "render approach widget link with link" do
+    expected = %(<p><a href="https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value">default-value</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[approach:julia/two-fer/default-value](https://exercism.org/tracks/julia/exercises/two-fer/approaches/default-value)")
   end
 
   test "don't render exercise widget for approach link" do
@@ -407,7 +438,45 @@ Done')
   end
 
   test "render youtube video for mail with link" do
-    expected = %(<a href="https://www.youtube.com/watch?v=LknqlTouTKg" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
-    assert_equal expected, Markdown::Parse.("[video:youtube-mail/LknqlTouTKg](https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/images/thumbnails/yt-jose-interview-preview.jpg)")
+    expected = %(<a href="https://www.youtube.com/watch?v=LknqlTouTKg" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-jose-interview-preview.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/LknqlTouTKg](https://assets.exercism.org/images/thumbnails/yt-jose-interview-preview.jpg)")
+  end
+
+  test "render youtube video for mail with link containing underscire" do
+    expected = %(<a href="https://www.youtube.com/watch?v=GOPmj_AMbP8" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/GOPmj_AMbP8](https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg)")
+  end
+
+  %w[svg png jpg jpeg gif].each do |extension|
+    test "render invertible images with .#{extension} using correct class" do
+      expected = %(<p><img src="tic-tac-toe-invertible.#{extension}" alt="Tic Tac Toe board" class="c-img-invertible"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-invertible.#{extension})")
+    end
+
+    test "render light image with .#{extension} when dark image is rendered" do
+      # TODO: figure out how to retain alt text for both images
+      expected = %(<p><img src="tic-tac-toe-light.#{extension}" alt="Tic Tac Toe board" class="c-img-light-theme"><img src="tic-tac-toe-dark.#{extension}" alt="Tic Tac Toe board" class="c-img-dark-theme"></p>\n) # rubocop:disable Layout/LineLength
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-dark.#{extension})")
+    end
+
+    test "render dark image with .#{extension} when light image is rendered" do
+      expected = %(<p><img src="tic-tac-toe-light.#{extension}" alt="Tic Tac Toe board" class="c-img-light-theme"><img src="tic-tac-toe-dark.#{extension}" alt="Tic Tac Toe board" class="c-img-dark-theme"></p>\n) # rubocop:disable Layout/LineLength
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe-light.#{extension})")
+    end
+
+    test "render light #{extension} image with query string in url" do
+      expected = %(<p><img src="tic-light.#{extension}?raw=true" alt="Tic" class="c-img-light-theme"><img src="tic-dark.#{extension}?raw=true" alt="Tic" class="c-img-dark-theme"></p>\n) # rubocop:disable Layout/LineLength
+      assert_equal expected, Markdown::Parse.("![Tic](tic-light.#{extension}?raw=true)")
+    end
+
+    test "render regular #{extension} image" do
+      expected = %(<p><img src="tic-tac-toe.#{extension}" alt="Tic Tac Toe board"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic Tac Toe board](tic-tac-toe.#{extension})")
+    end
+
+    test "render regular #{extension} image with query string in url" do
+      expected = %(<p><img src="tic.#{extension}?raw=true" alt="Tic"></p>\n)
+      assert_equal expected, Markdown::Parse.("![Tic](tic.#{extension}?raw=true)")
+    end
   end
 end

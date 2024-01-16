@@ -14,20 +14,13 @@ class Payments::Stripe::Payment::Create
   initialize_with :user, :stripe_data, subscription: nil
 
   def call
-    Payments::Payment::Create.(user, :stripe, product, external_id, amount_in_cents, external_receipt_url, subscription:)
+    Payments::Payment::Create.(user, :stripe, external_id, amount_in_cents, external_receipt_url, subscription:)
   end
 
   private
   def external_id = stripe_data.id
   def external_receipt_url = stripe_data.charges.first.receipt_url
   def amount_in_cents = stripe_data.amount
-
-  def product
-    return subscription.product if subscription
-
-    # Premium payments are always linked to a subscription
-    :donation
-  end
 
   memoize
   def subscription

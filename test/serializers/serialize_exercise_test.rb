@@ -118,7 +118,9 @@ class SerializeExerciseTest < ActiveSupport::TestCase
       is_external: false,
       is_unlocked: false,
       is_recommended: false,
-      links: {}
+      links: {
+        self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
+      }
     }
 
     assert_equal expected, SerializeExercise.(

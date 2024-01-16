@@ -33,6 +33,14 @@ FactoryBot.define do
       finished_by { :student }
     end
 
+    trait :student_timed_out do
+      status { :student_timed_out }
+    end
+
+    trait :mentor_timed_out do
+      status { :mentor_timed_out }
+    end
+
     trait :external do
       external { true }
       request { create :mentor_request, :external, solution:, status: :fulfilled }

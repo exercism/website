@@ -14,7 +14,7 @@ export const EditorStatusSummary = ({
     case EditorStatus.REVERT_FAILED:
       return <p className="editor-status">Error: {error}</p>
     case EditorStatus.REVERTING:
-      return <p className="editor-status">Reverting files...</p>
+      return <p className="editor-status">Reverting files…</p>
     default:
       return null
   }

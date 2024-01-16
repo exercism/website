@@ -7,9 +7,9 @@ module ReactComponents
         super("common-theme-toggle-button", {
           links: {
             update: Exercism::Routes.api_settings_user_preferences_url,
-            premium: Exercism::Routes.premium_path
+            insiders: Exercism::Routes.insiders_path
           },
-          disabled: !user.premium?,
+          disabled: !user.insider?,
           default_theme: user.preferences.theme
         })
       end

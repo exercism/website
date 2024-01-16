@@ -5,11 +5,12 @@ import React, {
   useEffect,
   createContext,
 } from 'react'
-import { useQueryCache } from 'react-query'
-import { redirectTo } from '@/utils/redirect-to'
+import { useQueryClient } from '@tanstack/react-query'
 import { getCacheKey } from '@/components/student'
+import { redirectTo } from '@/utils'
 import type { File } from './types'
-import { type TabContext, SplitPane } from './common'
+import { type TabContext } from './common'
+import { SplitPane } from './common/SplitPane'
 import {
   type Props,
   type EditorFeatures,
@@ -42,11 +43,22 @@ import {
   TestsPanel,
   ResultsPanel,
   FeedbackPanel,
+  GetHelpPanel,
+  GetHelpTab,
+  StuckButton,
+  TestContentWrapper,
+  ChatGPT,
 } from './editor/index'
-import { TestContentWrapper } from './editor/TestContentWrapper'
-import * as ChatGPT from './editor/ChatGptFeedback'
+import { RealtimeFeedbackModal } from './modals'
+import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
+import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
 
-type TabIndex = 'instructions' | 'tests' | 'results' | 'chatgpt'
+export type TabIndex =
+  | 'instructions'
+  | 'tests'
+  | 'results'
+  | 'get-help'
+  | 'chat-gpt'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (files.length !== other.length) {
@@ -77,18 +89,22 @@ export const TasksContext = createContext<TaskContext>({
 export default ({
   timeout = 60000,
   defaultSubmissions,
-  premium,
+  insider,
   defaultFiles,
   defaultSettings,
   autosave,
   panels,
+  help,
   track,
   exercise,
+  solution,
   links,
   iteration,
   discussion,
-  mentoringRequested,
+  request,
+  mentoringStatus,
   chatgptUsage,
+  trackObjectives,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -101,6 +117,9 @@ export default ({
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
   const [submissionFiles, setSubmissionFiles] = useState<File[]>(defaultFiles)
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false)
+  const [redirectLink, setRedirectLink] = useState('')
+  const [hasLatestIteration, setHasLatestIteration] = useState(false)
   const {
     create: createSubmission,
     current: submission,
@@ -117,22 +136,29 @@ export default ({
   const testRunStatus = useEditorTestRunStatus(submission)
   const isSubmitDisabled =
     testRunStatus !== TestRunStatus.PASS || !filesEqual(submissionFiles, files)
-  const isProcessing =
-    status === EditorStatus.CREATING_SUBMISSION ||
-    status === EditorStatus.CREATING_ITERATION ||
-    testRunStatus === TestRunStatus.QUEUED
+  const [isProcessing, setIsProcessing] = useState(false)
   const haveFilesChanged =
     submission === null ||
     !filesEqual(submissionFiles, files) ||
     testRunStatus === TestRunStatus.OPS_ERROR ||
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
-  const cache = useQueryCache()
+  const queryClient = useQueryClient()
   const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
   const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
     version: '3.5',
     usage: chatgptUsage['3.5'],
   })
+
+  useEffect(() => {
+    if (
+      status === EditorStatus.CREATING_SUBMISSION ||
+      status === EditorStatus.CREATING_ITERATION ||
+      testRunStatus === TestRunStatus.QUEUED
+    )
+      setIsProcessing(true)
+    else setIsProcessing(false)
+  }, [status, testRunStatus])
 
   const runTests = useCallback(() => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
@@ -141,16 +167,16 @@ export default ({
       onSuccess: () => {
         dispatch({ status: EditorStatus.INITIALIZED })
         setSubmissionFiles(files)
+        setHasLatestIteration(false)
       },
       onError: async (error) => {
-        let editorError = null
+        let editorError: null | Promise<{ type: string; message: string }> =
+          null
 
         if (error instanceof Error) {
-          editorError = Promise.resolve(() => {
-            return {
-              type: 'unknown',
-              message: 'Unable to submit file. Please try again.',
-            }
+          editorError = Promise.resolve({
+            type: 'unknown',
+            message: 'Unable to submit file. Please try again.',
           })
         } else if (error instanceof Response) {
           editorError = error
@@ -164,13 +190,23 @@ export default ({
             })
         }
 
-        dispatch({
-          status: EditorStatus.CREATE_SUBMISSION_FAILED,
-          error: await editorError,
-        })
+        if (editorError) {
+          dispatch({
+            status: EditorStatus.CREATE_SUBMISSION_FAILED,
+            error: await editorError,
+          })
+        }
       },
     })
   }, [createSubmission, dispatch, files])
+
+  const showFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(true)
+  }, [])
+  const hideFeedbackModal = useCallback(() => {
+    setFeedbackModalOpen(false)
+    setIsProcessing(false)
+  }, [])
 
   const submit = useCallback(() => {
     if (isSubmitDisabled) {
@@ -181,20 +217,34 @@ export default ({
       throw 'Submission expected'
     }
 
-    dispatch({ status: EditorStatus.CREATING_ITERATION })
+    if (exercise.slug !== 'hello-world') {
+      showFeedbackModal()
+    }
 
-    createIteration(submission, {
-      onSuccess: async (iteration) => {
-        await cache.invalidateQueries([getCacheKey(track.slug, exercise.slug)])
-        redirectTo(iteration.links.solution)
-      },
-    })
+    if (!hasLatestIteration) {
+      dispatch({ status: EditorStatus.CREATING_ITERATION })
+      createIteration(submission, {
+        onSuccess: async (iteration) => {
+          await queryClient.invalidateQueries({
+            queryKey: [getCacheKey(track.slug, exercise.slug)],
+          })
+
+          if (exercise.slug === 'hello-world') {
+            redirectTo(iteration.links.solution)
+          }
+          setRedirectLink(iteration.links.solution)
+          setHasLatestIteration(true)
+        },
+      })
+    }
   }, [
-    cache,
+    queryClient,
     createIteration,
     dispatch,
     exercise.slug,
+    hasLatestIteration,
     isSubmitDisabled,
+    showFeedbackModal,
     submission,
     track.slug,
   ])
@@ -233,14 +283,13 @@ export default ({
         setFiles(files)
       },
       onError: async (err) => {
-        let editorError = null
+        let editorError: null | Promise<{ type: string; message: string }> =
+          null
 
         if (err instanceof Error) {
-          editorError = Promise.resolve(() => {
-            return {
-              type: 'unknown',
-              message: 'Unable to revert file, please try again.',
-            }
+          editorError = Promise.resolve({
+            type: 'unknown',
+            message: 'Unable to revert file, please try again.',
           })
         } else if (err instanceof Response) {
           editorError = err
@@ -254,10 +303,12 @@ export default ({
             })
         }
 
-        dispatch({
-          status: EditorStatus.REVERT_FAILED,
-          error: await editorError,
-        })
+        if (editorError) {
+          dispatch({
+            status: EditorStatus.REVERT_FAILED,
+            error: await editorError,
+          })
+        }
       },
     })
   }, [submission, dispatch, revertToLastIteration, setFiles, defaultFiles])
@@ -275,14 +326,13 @@ export default ({
         setFiles(files)
       },
       onError: async (err) => {
-        let editorError = null
+        let editorError: null | Promise<{ type: string; message: string }> =
+          null
 
         if (err instanceof Error) {
-          editorError = Promise.resolve(() => {
-            return {
-              type: 'unknown',
-              message: 'Unable to revert file, please try again.',
-            }
+          editorError = Promise.resolve({
+            type: 'unknown',
+            message: 'Unable to revert file, please try again.',
           })
         } else if (err instanceof Response) {
           editorError = err
@@ -296,10 +346,12 @@ export default ({
             })
         }
 
-        dispatch({
-          status: EditorStatus.REVERT_FAILED,
-          error: await editorError,
-        })
+        if (editorError) {
+          dispatch({
+            status: EditorStatus.REVERT_FAILED,
+            error: await editorError,
+          })
+        }
       },
     })
   }, [submission, dispatch, revertToExerciseStart, setFiles, defaultFiles])
@@ -346,7 +398,7 @@ export default ({
 
   const invokeChatGpt = useCallback(() => {
     const status = chatGptFetchingStatus
-    setTab('chatgpt')
+    setTab('get-help')
     if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
       pokeChatGpt()
       setSubmissionUuid(submission?.uuid)
@@ -381,7 +433,6 @@ export default ({
               exerciseTitle={exercise.title}
             />
             <div className="options">
-              <Header.ActionHints assignment={panels.instructions.assignment} />
               <Header.ActionSettings
                 settings={settings}
                 setSettings={setSettings}
@@ -417,21 +468,7 @@ export default ({
 
                 <footer className="lhs-footer">
                   <EditorStatusSummary status={status} error={error?.message} />
-                  <ChatGPT.Button
-                    premium={premium}
-                    noSubmission={!submission}
-                    sameSubmission={
-                      submission ? submission.uuid === submissionUuid : false
-                    }
-                    isProcessing={isProcessing}
-                    passingTests={testRunStatus === TestRunStatus.PASS}
-                    chatGptFetchingStatus={chatGptFetchingStatus}
-                    onClick={
-                      premium
-                        ? () => setChatGptDialogOpen(true)
-                        : () => setTab('chatgpt')
-                    }
-                  />
+                  <StuckButton insider={insider} tab={tab} setTab={setTab} />
                   <RunTestsButton
                     onClick={runTests}
                     haveFilesChanged={haveFilesChanged}
@@ -462,7 +499,8 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  <ChatGPT.Tab />
+                  <ChatGptTab />
+                  <GetHelpTab />
                 </div>
                 <InstructionsPanel {...panels.instructions} />
                 {panels.tests ? (
@@ -492,37 +530,61 @@ export default ({
                     track={track}
                     iteration={iteration}
                     discussion={discussion}
-                    requestedMentoring={mentoringRequested}
+                    requestedMentoring={mentoringStatus === 'requested'}
                     mentoringRequestLink={links.mentoringRequest}
                     automatedFeedbackInfoLink={links.automatedFeedbackInfo}
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                {premium ? (
-                  <ChatGPT.Panel
-                    helpRecord={helpRecord}
-                    status={chatGptFetchingStatus}
-                  >
-                    <ChatGPT.Button
-                      premium={premium}
-                      noSubmission={!submission}
-                      sameSubmission={
-                        submission ? submission.uuid === submissionUuid : false
-                      }
-                      isProcessing={isProcessing}
-                      passingTests={testRunStatus === TestRunStatus.PASS}
-                      chatGptFetchingStatus={chatGptFetchingStatus}
-                      onClick={() => setChatGptDialogOpen(true)}
-                    />
-                  </ChatGPT.Panel>
-                ) : (
-                  <ChatGPT.UpsellPanel />
-                )}
+                <ChatGptPanel>
+                  {insider ? (
+                    <ChatGPT.Wrapper
+                      helpRecord={helpRecord}
+                      status={chatGptFetchingStatus}
+                    >
+                      <ChatGPT.Button
+                        insider={insider}
+                        noSubmission={!submission}
+                        sameSubmission={
+                          submission
+                            ? submission.uuid === submissionUuid
+                            : false
+                        }
+                        isProcessing={isProcessing}
+                        passingTests={testRunStatus === TestRunStatus.PASS}
+                        chatGptFetchingStatus={chatGptFetchingStatus}
+                        onClick={() => setChatGptDialogOpen(true)}
+                      />
+                    </ChatGPT.Wrapper>
+                  ) : (
+                    <ChatGPT.UpsellContent />
+                  )}
+                </ChatGptPanel>
+                <GetHelpPanel
+                  assignment={panels.instructions.assignment}
+                  helpHtml={help.html}
+                  links={links}
+                  track={track}
+                />
               </TasksContext.Provider>
             }
           />
+          <RealtimeFeedbackModal
+            open={feedbackModalOpen}
+            onClose={hideFeedbackModal}
+            discussion={discussion}
+            mentoringStatus={mentoringStatus}
+            onSubmit={submit}
+            solution={solution}
+            track={track}
+            request={request}
+            submission={submission}
+            exercise={exercise}
+            trackObjectives={trackObjectives}
+            links={{ ...links, redirectToExerciseLink: redirectLink }}
+          />
 
-          {submission && premium && (
+          {submission && insider && (
             <ChatGPT.Dialog
               onClose={() => setChatGptDialogOpen(false)}
               open={chatGptDialogOpen}

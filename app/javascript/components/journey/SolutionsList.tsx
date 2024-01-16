@@ -1,21 +1,23 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { SolutionProps, Solution } from './Solution'
-import { Request } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { removeEmpty, useHistory } from '../../hooks/use-history'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { ResultsZone } from '../ResultsZone'
-import { Pagination, GraphicalIcon } from '../common'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { PaginatedResult } from '../types'
-import { OrderSwitcher } from './solutions-list/OrderSwitcher'
 import pluralize from 'pluralize'
-import { SolutionFilter } from './solutions-list/SolutionFilter'
-import { ExerciseStatus } from './solutions-list/ExerciseStatusSelect'
-import { MentoringStatus } from './solutions-list/MentoringStatusSelect'
-import { SyncStatus } from './solutions-list/SyncStatusSelect'
-import { TestsStatus } from './solutions-list/TestsStatusSelect'
-import { HeadTestsStatus } from './solutions-list/HeadTestsStatusSelect'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { SolutionProps, Solution } from './Solution'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { removeEmpty, useHistory } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination, GraphicalIcon } from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import {
+  MentoringStatus,
+  SyncStatus,
+  TestsStatus,
+  HeadTestsStatus,
+  SolutionFilter,
+  OrderSwitcher,
+  ExerciseStatus,
+} from './solutions-list'
+import type { PaginatedResult } from '@/components/types'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -36,21 +38,26 @@ export const SolutionsList = ({
     setQuery,
     setOrder,
   } = useList(initialRequest)
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const cacheKey = [
     'contributions-list',
     request.endpoint,
     removeEmpty(request.query),
   ]
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult<SolutionProps[]>>(cacheKey, {
-      ...request,
-      query: removeEmpty(request.query),
-      options: { ...request.options, enabled: isEnabled },
-    })
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<SolutionProps[]>>(cacheKey, {
+    ...request,
+    query: removeEmpty(request.query),
+    options: { ...request.options, enabled: isEnabled },
+  })
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -95,7 +102,10 @@ export const SolutionsList = ({
   }, [request.query, setQuery])
 
   return (
-    <article className="solutions-tab theme-dark">
+    <article
+      data-scroll-top-anchor="solutions-list"
+      className="solutions-tab theme-dark"
+    >
       <div className="c-search-bar">
         <div className="md-container container">
           <input
@@ -103,7 +113,7 @@ export const SolutionsList = ({
             onChange={(e) => {
               setCriteria(e.target.value)
             }}
-            value={criteria}
+            value={criteria || ''}
             placeholder="Search by exercise or track name"
           />
           <SolutionFilter request={request} onApply={handleApply} />
@@ -144,10 +154,13 @@ export const SolutionsList = ({
                   </div>
                 </div>
                 <Pagination
-                  disabled={latestData === undefined}
-                  current={request.query.page}
+                  disabled={resolvedData === undefined}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('solutions-list')
+                  }}
                 />
               </React.Fragment>
             ) : null}

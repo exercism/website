@@ -8,7 +8,7 @@ module Pages
         include CapybaraHelpers
 
         test "exercise page for logged-out user" do
-          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
           create(:hello_world_exercise, track:)
           ce = create :concept_exercise, track:, slug: 'factory', status: :beta
           create :concept_exercise, track:, slug: 'movie', status: :wip
@@ -36,7 +36,7 @@ module Pages
         end
 
         test "exercise page for unjoined user" do
-          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
           create(:hello_world_exercise, track:)
           ce = create :concept_exercise, track:, slug: 'factory', status: :beta
           create :concept_exercise, track:, slug: 'movie', status: :wip
@@ -68,7 +68,7 @@ module Pages
         end
 
         test "exercise page for exercise with append instructions" do
-          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
           pe = create :practice_exercise, track:, slug: 'bob', status: :active
 
           user = create :user

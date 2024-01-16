@@ -27,8 +27,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "runs the tests for an iteration submission" do
     # Stub things we don't care about here
-    GenerateIterationSnippetJob.any_instance.expects(:perform)
-    CalculateLinesOfCodeJob.any_instance.expects(:perform)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     solution = create(:concept_solution)
     user_track = create :user_track, user: solution.user, track: solution.track
@@ -73,8 +74,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "handles a new git sha being pushed: failing" do
     # Stub things we don't care about here
-    GenerateIterationSnippetJob.any_instance.expects(:perform)
-    CalculateLinesOfCodeJob.any_instance.expects(:perform)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
     solution = create(:practice_solution, exercise:)
@@ -89,6 +91,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
     perform_enqueued_jobs
     submission.reload
     solution.reload
+
+    # Stub a representation so we don't get jobs for it later.
+    create(:submission_representation, submission:)
 
     # Store real values
     git_sha = exercise.git_sha
@@ -119,8 +124,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
       run_in_background: true
     )
 
-    exercise.update(git_sha:, git_important_files_hash:)
-    perform_enqueued_jobs
+    perform_enqueued_jobs do
+      exercise.update(git_sha:, git_important_files_hash:)
+    end
     solution.reload
     submission.reload
 
@@ -171,8 +177,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "handles a new git sha being pushed: passing auto updates" do
     # Stub things we don't care about here
-    GenerateIterationSnippetJob.any_instance.expects(:perform)
-    CalculateLinesOfCodeJob.any_instance.expects(:perform)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
     solution = create(:practice_solution, exercise:)
@@ -180,6 +187,7 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
     # Let's get to a starting state
     submission = Submission::Create.(solution, files, :cli)
+
     Iteration::Create.(solution, submission)
     job = create_test_run_job(submission)
     Submission::TestRun::Process.(job)
@@ -187,6 +195,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
     perform_enqueued_jobs
     submission.reload
     solution.reload
+
+    # Stub a representation so we don't get jobs for it later.
+    create(:submission_representation, submission:)
 
     # Store real values
     git_sha = exercise.git_sha
@@ -216,9 +227,17 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
       git_sha:,
       run_in_background: true
     )
+    # ToolingJob::Create.expects(:call).with(
+    #   submission,
+    #   :representer,
+    #   git_sha:,
+    #   run_in_background: true,
+    #   context: {}
+    # )
 
-    exercise.update(git_sha:, git_important_files_hash:)
-    perform_enqueued_jobs
+    perform_enqueued_jobs do
+      exercise.update(git_sha:, git_important_files_hash:)
+    end
     submission.reload
     solution.reload
 
@@ -251,8 +270,9 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
 
   test "honours [no important files changed] and auto-updates" do
     # Stub things we don't care about here
-    GenerateIterationSnippetJob.any_instance.expects(:perform)
-    CalculateLinesOfCodeJob.any_instance.expects(:perform)
+    Iteration::GenerateSnippet.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     # This exercise contains the right set of things to
     # go with this commit for this test.

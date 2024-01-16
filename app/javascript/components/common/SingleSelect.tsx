@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Icon } from '.'
+import { Icon } from './Icon'
 import { useDropdown } from '../dropdowns/useDropdown'
 
 export const SingleSelect = <T extends unknown>({
@@ -8,14 +8,14 @@ export const SingleSelect = <T extends unknown>({
   setValue,
   SelectedComponent,
   OptionComponent,
-  componentClassName = '',
+  className = '',
 }: {
   value: T
   options: readonly T[]
   setValue: (value: T) => void
   SelectedComponent: React.ComponentType<{ option: T }>
   OptionComponent: React.ComponentType<{ option: T }>
-  componentClassName?: string
+  className?: string
 }): JSX.Element => {
   const {
     buttonAttributes,
@@ -55,7 +55,7 @@ export const SingleSelect = <T extends unknown>({
     [handleChange, options]
   )
 
-  const classNames = ['c-single-select', componentClassName].filter(
+  const classNames = ['c-single-select', className].filter(
     (className) => className.length > 0
   )
 

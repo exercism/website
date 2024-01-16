@@ -1,5 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react'
 import { useLocalStorage } from '../../utils/use-storage'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 
 export const SplitPane = ({
   id,
@@ -95,15 +102,19 @@ export const SplitPane = ({
     }
   }, [onMouseMove, onTouchMove, onMouseUp])
 
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   return (
     <div className={classNames} ref={splitPaneRef}>
-      <div
-        className="--split-lhs"
-        ref={leftRef}
-        style={{ width: leftWidth, minWidth: leftMinWidth }}
-      >
-        {left}
-      </div>
+      {!isBelowLgWidth && (
+        <div
+          className="--split-lhs"
+          ref={leftRef}
+          style={{ width: leftWidth, minWidth: leftMinWidth }}
+        >
+          {left}
+        </div>
+      )}
       <div
         className="--split-divider"
         onMouseDown={onMouseDown}

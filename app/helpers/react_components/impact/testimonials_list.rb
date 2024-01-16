@@ -4,12 +4,12 @@ module ReactComponents
       initialize_with :params
 
       def to_s
-        super("profile-testimonials-list", {
+        super("impact-testimonials-list", {
           request: {
             endpoint: Exercism::Routes.api_impact_testimonials_path,
+            query: params.slice(*AssembleImpactTestimonialsList.keys),
             options: {
               endpoint: Exercism::Routes.api_impact_testimonials_url,
-              query: params.slice(*AssembleImpactTestimonialsList.keys),
               initial_data: AssembleImpactTestimonialsList.(params)
             }
           },

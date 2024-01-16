@@ -1,11 +1,27 @@
 import React, { useCallback } from 'react'
-import { Pagination } from '../common'
-import { Task } from './tasks-list/Task'
+import pluralize from 'pluralize'
+import { Pagination } from '@/components/common'
+import { useDeepMemo } from '@/hooks/use-deep-memo'
 import {
   usePaginatedRequestQuery,
-  Request as BaseRequest,
-} from '../../hooks/request-query'
+  type Request as BaseRequest,
+} from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { ResultsZone } from '@/components/ResultsZone'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { TrackSelect } from '@/components/common/TrackSelect'
 import {
+  ActionSwitcher,
+  TypeSwitcher,
+  SizeSwitcher,
+  KnowledgeSwitcher,
+  ModuleSwitcher,
+  ResetButton,
+  Sorter,
+  Task,
+} from './tasks-list'
+import type {
   Task as TaskProps,
   Track,
   TaskAction,
@@ -13,34 +29,21 @@ import {
   TaskSize,
   TaskKnowledge,
   TaskModule,
-} from '../types'
-import { ResultsZone } from '../ResultsZone'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { useList } from '../../hooks/use-list'
-import { TrackSelect } from '../common/TrackSelect'
-import { ActionSwitcher } from './tasks-list/ActionSwitcher'
-import { TypeSwitcher } from './tasks-list/TypeSwitcher'
-import { SizeSwitcher } from './tasks-list/SizeSwitcher'
-import { KnowledgeSwitcher } from './tasks-list/KnowledgeSwitcher'
-import { ModuleSwitcher } from './tasks-list/ModuleSwitcher'
-import { ResetButton } from './tasks-list/ResetButton'
-import { Sorter } from './tasks-list/Sorter'
-import pluralize from 'pluralize'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
+  PaginatedResult,
+} from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to pull tasks')
 const DEFAULT_ORDER = 'newest'
 
-type PaginatedResult = {
-  results: readonly TaskProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-    unscopedTotal: number
-  }
+type QueryValueTypes = {
+  trackSlug: string
+  actions: TaskAction[]
+  types: TaskType[]
+  sizes: TaskSize[]
+  knowledge: TaskKnowledge[]
+  areas: TaskModule[]
 }
-
 export type TasksListOrder = 'newest' | 'oldest' | 'track'
 
 export type Request = BaseRequest<{
@@ -55,19 +58,24 @@ export type Request = BaseRequest<{
   order: string
 }>
 
-export const TasksList = ({
+export default function TasksList({
   request: initialRequest,
   tracks,
 }: {
   request: Request
   tracks: readonly Track[]
-}): JSX.Element => {
+}): JSX.Element {
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-      ['contributing-tasks', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<PaginatedResult<TaskProps[]>, Error | Response>(
+    ['contributing-tasks', request.endpoint, request.query],
+    request
+  )
+
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
   const isFiltering =
@@ -78,46 +86,13 @@ export const TasksList = ({
     request.query.knowledge.length > 0 ||
     request.query.areas.length > 0
 
-  const setTrack = useCallback(
-    (track) => {
-      setQuery({ ...request.query, trackSlug: track.slug, page: undefined })
-    },
-    [JSON.stringify(request.query), setQuery]
-  )
+  const requestQuery = useDeepMemo(request.query)
 
-  const setActions = useCallback(
-    (actions: TaskAction[]) => {
-      setQuery({ ...request.query, actions: actions, page: undefined })
+  const setQueryValue = useCallback(
+    <K extends keyof QueryValueTypes>(key: K, value: QueryValueTypes[K]) => {
+      setQuery({ ...requestQuery, [key]: value, page: undefined })
     },
-    [JSON.stringify(request.query), setQuery]
-  )
-
-  const setTypes = useCallback(
-    (types: TaskType[]) => {
-      setQuery({ ...request.query, types: types, page: undefined })
-    },
-    [JSON.stringify(request.query), setQuery]
-  )
-
-  const setSizes = useCallback(
-    (sizes: TaskSize[]) => {
-      setQuery({ ...request.query, sizes: sizes, page: undefined })
-    },
-    [JSON.stringify(request.query), setQuery]
-  )
-
-  const setKnowledge = useCallback(
-    (knowledge: TaskKnowledge[]) => {
-      setQuery({ ...request.query, knowledge: knowledge, page: undefined })
-    },
-    [JSON.stringify(request.query), setQuery]
-  )
-
-  const setModules = useCallback(
-    (modules: TaskModule[]) => {
-      setQuery({ ...request.query, areas: modules, page: undefined })
-    },
-    [JSON.stringify(request.query), setQuery]
+    [requestQuery, setQuery]
   )
 
   const handleReset = useCallback(() => {
@@ -136,22 +111,34 @@ export const TasksList = ({
   useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
-    <div className="lg-container container">
+    <div data-scroll-top-anchor="tasks-list" className="lg-container container">
       <div className="c-search-bar">
         <TrackSelect
           tracks={tracks}
           value={track}
-          setValue={setTrack}
+          setValue={(track) => setQueryValue('trackSlug', track.slug)}
           size="multi"
         />
-        <ActionSwitcher value={request.query.actions} setValue={setActions} />
-        <TypeSwitcher value={request.query.types} setValue={setTypes} />
-        <SizeSwitcher value={request.query.sizes} setValue={setSizes} />
+        <ActionSwitcher
+          value={request.query.actions}
+          setValue={(actions) => setQueryValue('actions', actions)}
+        />
+        <TypeSwitcher
+          value={request.query.types}
+          setValue={(types) => setQueryValue('types', types)}
+        />
+        <SizeSwitcher
+          value={request.query.sizes}
+          setValue={(sizes) => setQueryValue('sizes', sizes)}
+        />
         <KnowledgeSwitcher
           value={request.query.knowledge}
-          setValue={setKnowledge}
+          setValue={(knowledge) => setQueryValue('knowledge', knowledge)}
         />
-        <ModuleSwitcher value={request.query.areas} setValue={setModules} />
+        <ModuleSwitcher
+          value={request.query.areas}
+          setValue={(modules) => setQueryValue('areas', modules)}
+        />
       </div>
       <ResultsZone isFetching={isFetching}>
         <FetchingBoundary
@@ -182,10 +169,13 @@ export const TasksList = ({
                   <Task task={task} key={task.uuid} />
                 ))}
                 <Pagination
-                  disabled={latestData === undefined}
-                  current={request.query.page}
+                  disabled={resolvedData === undefined}
+                  current={request.query.page || 1}
                   total={resolvedData.meta.totalPages}
-                  setPage={setPage}
+                  setPage={(p) => {
+                    setPage(p)
+                    scrollToTop('tasks-list', 32)
+                  }}
                 />
               </div>
             </React.Fragment>

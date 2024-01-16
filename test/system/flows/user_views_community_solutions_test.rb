@@ -12,14 +12,21 @@ module Flows
       exercise = create :concept_exercise, track: ruby, title: "Strings"
       solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
         published_iteration_head_tests_status: :passed
-      submission = create(:submission, solution:)
+      submission = create(:submission, solution:, tests_status: :passed)
+      exercise_representation = create(:exercise_representation, source_submission: submission)
+      solution.update!(published_exercise_representation: exercise_representation)
+      create :submission_representation, submission:, ast: exercise_representation.ast
       create(:iteration, solution:, submission:)
+
+      perform_enqueued_jobs do
+        Exercise::Representation::Recache.(exercise_representation, force: true)
+      end
 
       wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(user)
-        visit track_exercise_solutions_path(exercise.track, exercise)
+        visit track_exercise_solutions_path(ruby, exercise)
       end
 
       assert_text "author's solution"
@@ -31,127 +38,91 @@ module Flows
       author = create :user, handle: "author1"
       other_author = create :user, handle: "author2"
       ruby = create :track, title: "Ruby"
-      exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
-        published_iteration_head_tests_status: :passed
-      submission = create(:submission, solution:)
-      create(:iteration, solution:, submission:)
-      other_solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_author,
-        published_iteration_head_tests_status: :passed
-      other_submission = create :submission, solution: other_solution
-      create :iteration, solution: other_solution, submission: other_submission
+      exercise = create :practice_exercise, track: ruby
+      exercise_representation_1 = create(:exercise_representation, exercise:)
+      exercise_representation_2 = create(:exercise_representation, exercise:)
+
+      solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
+        git_important_files_hash: exercise.git_important_files_hash,
+        published_iteration_head_tests_status: :passed,
+        published_exercise_representation: exercise_representation_1
+      submission = create :submission, solution: solution_1, tests_status: :passed
+      create :submission_representation, submission:, ast: exercise_representation_1.ast
+      create :submission_file, submission:, filename: "main.rb", content: "def my_main; end"
+      create(:iteration, solution: solution_1, submission:)
+
+      solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_author,
+        git_important_files_hash: exercise.git_important_files_hash,
+        published_iteration_head_tests_status: :passed,
+        published_exercise_representation: exercise_representation_2
+      submission = create :submission, solution: solution_2, tests_status: :passed
+      create :submission_representation, submission:, ast: exercise_representation_2.ast
+      create :submission_file, submission:, filename: "main.rb", content: "def your_main; end"
+      create(:iteration, solution: solution_2, submission:)
+
+      perform_enqueued_jobs do
+        Exercise::Representation::Recache.(exercise_representation_1)
+        Exercise::Representation::Recache.(exercise_representation_2)
+      end
 
       wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(user)
         visit track_exercise_solutions_path(exercise.track, exercise)
-        fill_in "Search by user", with: "author2"
+        fill_in "Search by code (min 3 chars)", with: "your_main"
       end
 
       assert_text "author2's solution"
       assert_no_text "author1's solution"
     end
 
-    test "filter community solutions" do
-      # If we let this run it will override the solutions below
-      Solution::QueueHeadTestRun.stubs(:defer)
-
-      user = create :user
-      author = create :user, handle: "author1"
-      other_author = create :user, handle: "author2"
-      another_author = create :user, handle: "author3"
-      ruby = create :track, title: "Ruby"
-      exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author, num_stars: 11,
-        git_important_files_hash: exercise.git_important_files_hash,
-        published_iteration_head_tests_status: :queued
-      submission = create :submission, solution:, tests_status: :passed
-      create(:iteration, solution:, submission:)
-      other_solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_author, num_stars: 22,
-        git_important_files_hash: exercise.git_important_files_hash,
-        published_iteration_head_tests_status: :failed
-      other_submission = create :submission, solution: other_solution, tests_status: :failed
-      create :iteration, solution: other_solution, submission: other_submission
-      another_solution = create :concept_solution, exercise:, published_at: 4.days.ago, user: another_author, num_stars: 33,
-        git_important_files_hash: 'another-hash',
-        published_iteration_head_tests_status: :passed
-      another_submission = create :submission, solution: another_solution, tests_status: :failed
-      create :iteration, solution: another_solution, submission: another_submission
-
-      wait_for_opensearch_to_be_synced
-
-      use_capybara_host do
-        sign_in!(user)
-        visit track_exercise_solutions_path(exercise.track, exercise)
-      end
-
-      # Default: head tests passed filter is on
-      assert_text "author1's solution"
-      assert_no_text "author2's solution"
-      assert_text "author3's solution"
-
-      # Disable head tests passed filter
-      use_capybara_host do
-        find("img[alt='Only show solution that pass the tests of the latest version of this exercise']").click
-      end
-
-      assert_text "author1's solution"
-      assert_text "author2's solution"
-      assert_text "author3's solution"
-
-      # Enable up-to-date filter
-      use_capybara_host do
-        find("img[alt='Only show solutions that are up-to-date with the latest version of this exercise']").click
-      end
-
-      sleep(0.1)
-
-      assert_text "author1's solution"
-      assert_text "author2's solution"
-      assert_no_text "author3's solution"
-
-      # Enable tests passing filter
-      use_capybara_host do
-        find(".c-search-bar .--passed").click
-      end
-
-      sleep(0.1)
-
-      assert_text "author1's solution"
-      assert_no_text "author2's solution"
-      assert_no_text "author3's solution"
-    end
-
     test "paginates community solutions" do
-      Solution::SearchCommunitySolutions.stubs(:default_per).returns(1)
+      Solution::SearchViaRepresentations.stubs(:default_per).returns(1)
       user = create :user
       author = create :user, handle: "author1"
       other_author = create :user, handle: "author2"
       ruby = create :track, title: "Ruby"
-      exercise = create :concept_exercise, track: ruby, title: "Strings"
-      solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: author, num_stars: 11,
-        published_iteration_head_tests_status: :passed
-      submission = create(:submission, solution:)
-      create(:iteration, solution:, submission:)
-      other_solution = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_author, num_stars: 22,
-        published_iteration_head_tests_status: :passed
-      other_submission = create :submission, solution: other_solution
-      create :iteration, solution: other_solution, submission: other_submission
+      exercise = create :practice_exercise, track: ruby
+      exercise_representation_1 = create(:exercise_representation, exercise:)
+      exercise_representation_2 = create(:exercise_representation, exercise:)
+
+      solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago, user: author,
+        git_important_files_hash: exercise.git_important_files_hash,
+        published_iteration_head_tests_status: :passed,
+        published_exercise_representation: exercise_representation_1
+      submission = create :submission, solution: solution_1, tests_status: :passed
+      create :submission_representation, submission:, ast: exercise_representation_1.ast
+      create :submission_file, submission:, filename: "main.rb", content: "def my_main; end"
+      create(:iteration, solution: solution_1, submission:)
+
+      solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_author,
+        git_important_files_hash: exercise.git_important_files_hash,
+        published_iteration_head_tests_status: :passed,
+        published_exercise_representation: exercise_representation_2
+      submission = create :submission, solution: solution_2, tests_status: :passed
+      create :submission_representation, submission:, ast: exercise_representation_2.ast
+      create :submission_file, submission:, filename: "main.rb", content: "def your_main; end"
+      create(:iteration, solution: solution_2, submission:)
+
+      perform_enqueued_jobs do
+        Exercise::Representation::Recache.(exercise_representation_1)
+        Exercise::Representation::Recache.(exercise_representation_2)
+      end
 
       wait_for_opensearch_to_be_synced
 
       use_capybara_host do
         sign_in!(user)
         visit track_exercise_solutions_path(exercise.track, exercise)
-
-        assert_text "author2's solution"
-        assert_no_text "author1's solution"
-
-        click_on "2"
 
         assert_text "author1's solution"
         assert_no_text "author2's solution"
+
+        click_on "2"
+
+        assert_text "author2's solution"
+        assert_no_text "author1's solution"
       end
     end
 

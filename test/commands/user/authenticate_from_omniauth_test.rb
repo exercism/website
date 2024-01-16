@@ -39,7 +39,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     assert_equal "user@exercism.org", user.email
     assert_equal "Name", user.name
     assert_equal "user22", user.github_username
-    assert_equal "http://some.image/avatar.jpg", user.avatar_url
+    assert_equal "http://some.image/avatar.jpg", user.attributes["avatar_url"]
   end
 
   test "copes with duplicate gh username but unauthed" do
@@ -77,7 +77,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_equal "http://some.image/avatar.jpg", user.reload.avatar_url
+    assert_equal "http://some.image/avatar.jpg", user.reload.attributes['avatar_url']
   end
 
   test "does not update avatar if present" do
@@ -86,7 +86,7 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
     User::AuthenticateFromOmniauth.(auth)
 
-    assert_equal "original.jpg", user.reload.avatar_url
+    assert_equal "original.jpg", user.reload.attributes["avatar_url"]
   end
 
   test "sets provider, uid and github_username for email matches" do

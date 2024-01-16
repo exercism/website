@@ -24,24 +24,18 @@ const ProgressBar = ({
 
 export const ConceptProgression = ({
   name,
-  from,
-  to,
-  total,
+  links,
 }: {
   name: string
-  from: number
-  to: number
-  total: number
+  links: { self: string }
 }): JSX.Element => {
-  const isMastered = to === total
-
   return (
-    <div className="concept">
+    <a href={links.self} className="concept">
       <ConceptIcon name={name} size="medium" />
       <div className="name">{name}</div>
       <div className="exercises">
         <div className="c-ed --completed --concept" />
       </div>
-    </div>
+    </a>
   )
 }

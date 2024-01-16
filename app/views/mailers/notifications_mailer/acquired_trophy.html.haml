@@ -1,0 +1,6 @@
+%p Hi #{@user.handle},
+%p
+  Congratulations! You've unlocked a new trophy on the #{@track.title} track.
+  %br
+  Visit the #{@track.title} track page and check the trophy cabinet to see what you earned.
+= email_button_to "Show me what I unlocked!", track_url(@track, anchor: "trophy-cabinet")

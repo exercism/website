@@ -1,81 +1,37 @@
 - exercise_meta_tags(@exercise, @user_track)
+- require_stylesheet "track"
 
 #page-exercise-show
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
+  - if @user_track.external?
+    = render "tracks/exercises/show/external", track: @track, exercise: @exercise, user_track: @user_track
+  - else
+    .lg-container.flex.flex-col.lg:flex-row
+      .flex-shrink-0.mb-32.lg:mb-0{ class: 'lg:w-[40%]' }
+        .bg-backgroundColorA.shadow-lg.py-20.px-20.rounded-8{ class: "lg:py-24 lg:px-32" }
+          - if @solution
+            - if @solution.status_completed? || @solution.status_published?
+              = render "tracks/exercises/show/timeline_completed", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
+            - elsif @solution.status_iterated?
+              = render "tracks/exercises/show/timeline_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
+            - elsif @solution.status_started?
+              = render "tracks/exercises/show/timeline_pending", track: @track, exercise: @exercise, solution: @solution
 
-  .lg-container.flex.flex-col-reverse.lg:flex-row
-    .flex-grow.lg:w-arbitary
-      - if @solution&.completed?
-        %section.completed-heading
-          = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
-          .text You've completed #{@exercise.title}.
-          = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(@track))
-
-      = ReactComponents::Student::Nudge.new(@solution) if @solution
-      = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
-      = ReactComponents::Student::SolutionSummary.new(@solution) if @solution
-
-      - if @exercise.tutorial?
-        %section.tutorial-introduction
-          “Hello, World!” will get you writing some #{@track.title} and familiarize yourself with the Exercism workflow.
-          %strong Completing it unlocks the rest of the #{@track.title} Track.
-
-      - if @exercise.concept_exercise?
-        = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
-
-      %section.instructions.c-textual-content.--large.px-20.lg:px-32.py-20.lg:py-24
-        - introduction = @solution ? @solution.introduction : @exercise.introduction
-        - if introduction.present?
-          .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
-            %h2 Introduction
-            .mb-32= raw Markdown::Parse.(introduction)
-
-        %h2 Instructions
-        - instructions = @solution ? @solution.instructions : @exercise.instructions
-        = raw Markdown::Parse.(instructions)
-
-        - if @exercise.source.present? || @exercise.source_url.present?
-          .source
-            %hr.c-divider.--small
-            %h3 Source
-            - source = @solution ? @solution.source : @exercise.source
-            - source_url = @solution ? @solution.source_url : @exercise.source_url
-            - if source.present? && source_url.present?
-              = external_link_to source, source_url
-            - elsif source.present?
-              = source
+          - else
+            - if @user_track.exercise_unlocked?(@exercise)
+              = render "tracks/exercises/show/timeline_pending", track: @track, exercise: @exercise, solution: nil
+            - elsif @user_track.tutorial_exercise_completed?
+              = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
             - else
-              Explore the #{external_link_to 'source of this exercise', source_url}.
-      %section.extra-info
-        = render ReactComponents::Track::ExerciseMakersButton.new(@exercise)
+              = render "tracks/exercises/show/action_box_locked_by_hello_world", exercise: @exercise, user_track: @user_track, track: @track
 
-        = link_to "https://github.com/exercism/#{@track.slug}/tree/main/exercises/#{@exercise.git_type}/#{@exercise.slug}", target: "_blank", rel: 'noreferrer' do
-          = graphical_icon "external-site-github", css_class: "github-icon"
-          %span Edit via GitHub
-          = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
+        .mt-28.ml-8
+          = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
 
-    .flex-shrink-0.lg:w-1-3.lg:ml-32.mb-32.lg:mb-0
-      - if @solution
-        - if @solution.status_completed? || @solution.status_published?
-          = render "tracks/exercises/show/action_box_completed", track: @track, exercise: @exercise, solution: @solution
-        - elsif @solution.status_iterated?
-          = render "tracks/exercises/show/action_box_iterated", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
-        - elsif @solution.status_started?
-          = render "tracks/exercises/show/action_box_started", track: @track, exercise: @exercise, solution: @solution
-
-      - elsif !@user_track.external?
-        - if @user_track.exercise_unlocked?(@exercise)
-          = render "tracks/exercises/show/action_box_start", track: @track, exercise: @exercise
-        - elsif @user_track.tutorial_exercise_completed?
-          = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
-        - else
-          = render "tracks/exercises/show/action_box_locked_by_hello_world", exercise: @exercise, user_track: @user_track, track: @track
-
-      - elsif user_signed_in?
-        = render "tracks/exercises/show/action_box_join_track", exercise: @exercise, user_track: @user_track
-
-      - else
-        = render "tracks/exercises/show/action_box_join_exercism", exercise: @exercise, user_track: @user_track
-
-      .mt-28.ml-8
-        = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
+      .lg:ml-32.lg:w-arbitary.flex-grow
+        - if @exercise.concept_exercise?
+          - if @solution&.completed?
+            = render "tracks/exercises/show/concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
+          - else
+            = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
+        = render "tracks/exercises/show/instructions", track: @track, exercise: @exercise, solution: @solution

@@ -29,14 +29,18 @@ export default ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
-  const { request, setCriteria: setRequestCriteria, setQuery } = useList(
-    initialRequest
-  )
-  const [criteria, setCriteria] = useState(request.query?.criteria || '')
+  const {
+    request,
+    setCriteria: setRequestCriteria,
+    setQuery,
+  } = useList(initialRequest)
+  const [criteria, setCriteria] = useState(request.query?.criteria)
   const CACHE_KEY = ['track-list', request.endpoint, request.query]
-  const { resolvedData, isError, isFetching } = usePaginatedRequestQuery<
-    APIResponse
-  >(CACHE_KEY, request)
+  const {
+    data: resolvedData,
+    isError,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
 
   const setTags = useCallback(
     (tags) => {
@@ -62,6 +66,7 @@ export default ({
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -71,7 +76,7 @@ export default ({
   }, [setRequestCriteria, criteria])
 
   return (
-    <div className="c-tracks-list">
+    <div className="tracks-list">
       <section className="c-search-bar">
         <div className="lg-container container">
           <input
@@ -79,7 +84,7 @@ export default ({
             placeholder="Search language tracks"
             className="--search"
             onChange={(e) => setCriteria(e.target.value)}
-            value={criteria}
+            value={criteria || ''}
           />
           <TagsFilter
             setTags={setTags}

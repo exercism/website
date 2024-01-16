@@ -3,7 +3,8 @@ class Exercise::UpdateMedianWaitTimes
 
   def call
     Exercise.find_each do |exercise|
-      exercise.update(median_wait_time: median_wait_time(exercise))
+      # Use update_column. We don't want to touch updated_at
+      exercise.update_column(:median_wait_time, median_wait_time(exercise))
     end
   end
 

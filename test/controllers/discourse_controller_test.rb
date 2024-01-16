@@ -16,7 +16,7 @@ class DiscourseControllerTest < ActionDispatch::IntegrationTest
 
     sso.expects(:to_url).returns(resulting_url)
     DiscourseApi::SingleSignOn.expects(:parse).with("who=why", Exercism.secrets.discourse_oauth_secret).returns(sso)
-    User::SetDiscourseGroups.expects(:defer).with(user, wait: 30)
+    User::SetDiscourseGroups.expects(:defer).with(user, wait: 30.seconds)
 
     sign_in!(user)
 

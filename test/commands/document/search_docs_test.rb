@@ -130,12 +130,12 @@ class Document::SearchDocsTest < ActiveSupport::TestCase
 
   test "fallback is called" do
     Document::SearchDocs::Fallback.expects(:call).with("foobar", "csharp", 2, 15)
-    Elasticsearch::Client.expects(:new).raises
+    OpenSearch::Client.expects(:new).raises
 
     Document::SearchDocs.(criteria: "foobar", track_slug: "csharp", page: 2, per: 15)
   end
 
-  test "fallback is called when elasticsearch times out" do
+  test "fallback is called when OpenSearch times out" do
     # Simulate a timeout
     Mocha::Configuration.override(stubbing_non_public_method: :allow) do
       Document::SearchDocs.any_instance.stubs(:search_query).returns({

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../utils/send-request'
 import { typecheck } from '../../utils/typecheck'
 import { MarkdownEditorForm } from './MarkdownEditorForm'
@@ -29,8 +29,12 @@ export const EditListItemForm = <T extends ListItem>({
 }): JSX.Element => {
   const [value, setValue] = useState(item.contentMarkdown)
 
-  const [mutation, { status, error }] = useMutation<T, unknown, MutationAction>(
-    (action) => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<T, unknown, MutationAction>(
+    async (action) => {
       const endpoint = action === 'update' ? item.links.edit : item.links.delete
 
       if (!endpoint) {

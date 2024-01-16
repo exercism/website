@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
 import {
   CompleteRepresentationData,
   RepresentationFeedbackType,
@@ -44,7 +44,7 @@ export default function MentoringConversation({
     }
   }, [])
 
-  const [generateHTML] = useMutation(async (markdown: string) => {
+  const { mutate: generateHTML } = useMutation(async (markdown: string) => {
     const { fetch } = sendRequest<{ html: string }>({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -81,10 +81,6 @@ export default function MentoringConversation({
         onBlur={() => handleCompression(value)}
         onPreviewClick={handlePreviewClick}
       />
-
-      {/*<div className="mt-12 text-textColor6 bg-veryLightBlue py-4 px-8 rounded-5 leading-150">
-        We imported your last mentoring feedback to this solution above
-      </div>*/}
 
       <PreviewAutomationModal
         feedbackType={feedbackType}

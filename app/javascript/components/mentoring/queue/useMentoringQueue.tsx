@@ -1,22 +1,17 @@
 import { useMemo } from 'react'
-import { QueryStatus } from 'react-query'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  Request,
-  useDebounce,
-  useHistory,
-} from '@/hooks'
+import { QueryStatus } from '@tanstack/react-query'
+import { useDebounce } from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useHistory } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import type { MentoredTrack, MentoredTrackExercise } from '@/components/types'
 
 export type MentoringRequest = {
   uuid: string
-  trackTitle: string
-  trackIconUrl: string
-  exerciseTitle: string
-  exerciseIconUrl: string
-  studentHandle: string
-  studentAvatarUrl: string
+  track: { title: string }
+  exercise: { title: string; iconUrl: string }
+  student: { handle: string; avatarUrl: string }
+  solution: { uuid: string }
   updatedAt: string
   isFavorited: boolean
   haveMentoredPreviously: boolean
@@ -51,7 +46,6 @@ export const useMentoringQueue = ({
   page: number
   setPage: (page: number) => void
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   isFetching: boolean
   status: QueryStatus
   error: unknown
@@ -67,24 +61,27 @@ export const useMentoringQueue = ({
     }
   }, [exerciseSlug, request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
-  const { resolvedData, latestData, isFetching, status, error } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentoring-request', debouncedQuery, request],
-      {
-        ...request,
-        query: debouncedQuery,
-        options: {
-          ...request.options,
-          enabled: !!track,
-        },
-      }
-    )
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentoring-request', debouncedQuery, request],
+    {
+      ...request,
+      query: debouncedQuery,
+      options: {
+        ...request.options,
+        enabled: !!track,
+      },
+    }
+  )
 
   useHistory({ pushOn: debouncedQuery })
 
   return {
     resolvedData,
-    latestData,
     status,
     isFetching,
     criteria: request.query.criteria,

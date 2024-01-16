@@ -44,11 +44,6 @@ Dir.foreach(Rails.root / "test" / "support") do |path|
   require Rails.root / "test" / "support" / path
 end
 
-# We just want one copy of mongodb client for the whole test_suite
-Exercism.config.define_singleton_method(:mongodb_database_name) { :exercism_test }
-client = Exercism.mongodb_client
-Exercism.define_singleton_method(:mongodb_client) { client }
-
 # This "fixes" reload in Madnate.
 # TODO: (Optional) Move this into Mandate
 module ActiveRecord
@@ -134,14 +129,17 @@ else
 end
 
 class ActionMailer::TestCase
-  def assert_email(email, to, subject, fixture)
+  def assert_email(email, to, subject, fixture, bulk: false) # rubocop:disable Lint/UnusedMethodArgument
     # Test email can send ok
     assert_emails 1 do
       email.deliver_now
     end
 
+    tld = "org" # bulk ? "io" : "org"
+    from = "hello@mail.exercism.#{tld}"
+
     # Test the body of the sent email contains what we expect it to
-    assert_equal ["hello@mail.exercism.org"], email.from
+    assert_equal [from], email.from
     assert_equal [to], email.to
     assert_equal subject, email.subject
     read_fixture(fixture).each do |text|
@@ -161,7 +159,6 @@ class ActiveSupport::TestCase
     reset_opensearch!
     reset_redis!
     reset_rack_attack!
-    reset_mongodb!
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
@@ -220,10 +217,6 @@ class ActiveSupport::TestCase
     Rack::Attack.reset!
   end
 
-  def reset_mongodb!
-    Exercism.mongodb_client.collections.each(&:drop)
-  end
-
   ###################
   # Tooling Helpers #
   ###################
@@ -258,9 +251,10 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_analyzer_job!(submission, execution_status: nil, data: nil)
+  def create_analyzer_job!(submission, execution_status: nil, data: nil, tags_data: nil)
     execution_output = {
-      "analysis.json" => data&.to_json
+      "analysis.json" => data&.to_json,
+      "tags.json" => tags_data&.to_json
     }
     create_tooling_job!(
       submission,
@@ -301,7 +295,7 @@ class ActiveSupport::TestCase
   ######################
   def reset_opensearch!
     opensearch = Exercism.opensearch_client
-    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+    OPENSEARCH_INDEXES.each do |index|
       opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
       opensearch.indices.create(index:)
     end
@@ -309,7 +303,7 @@ class ActiveSupport::TestCase
 
   def get_opensearch_doc(index, id)
     Exercism.opensearch_client.get(index:, id:)
-  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+  rescue OpenSearch::Transport::Transport::Errors::NotFound
     nil
   end
 
@@ -318,9 +312,18 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    [Document::OPENSEARCH_INDEX, Solution::OPENSEARCH_INDEX].each do |index|
+    OPENSEARCH_INDEXES.each do |index|
       Exercism.opensearch_client.indices.refresh(index:)
     end
+  end
+
+  def perform_enqueued_jobs_until_empty
+    loop do
+      perform_enqueued_jobs
+      break if queue_adapter.enqueued_jobs.size.zero?
+    end
+
+    assert_no_enqueued_jobs
   end
 
   def stub_latest_track_forum_threads(track)
@@ -387,6 +390,13 @@ class ActiveSupport::TestCase
     user.data.reload.update!(cache: nil)
     user.reload
   end
+
+  OPENSEARCH_INDEXES = [
+    Document::OPENSEARCH_INDEX,
+    Solution::OPENSEARCH_INDEX,
+    Exercise::Representation::OPENSEARCH_INDEX
+  ].freeze
+  private_constant :OPENSEARCH_INDEXES
 end
 
 class ActionView::TestCase

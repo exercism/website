@@ -1,28 +1,20 @@
 import React from 'react'
-import { fromNow } from '../../utils/time'
+import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { fromNow } from '@/utils/date'
 import {
   GraphicalIcon,
   TrackIcon,
   ExerciseIcon,
   Icon,
   Pagination,
-} from '../common'
-import { Modal, ModalProps } from './Modal'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { useList } from '../../hooks/use-list'
-import { SolutionForStudent } from '../types'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
-import { Links } from '../student/RequestMentoringButton'
-
-type PaginatedResult = {
-  results: SolutionForStudent[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+} from '@/components/common'
+import { Modal, type ModalProps } from './Modal'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type { Links } from '@/components/student/RequestMentoringButton'
+import type { PaginatedResult, SolutionForStudent } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -37,14 +29,13 @@ export const RequestMentoringModal = ({
   const { request, setPage, setCriteria } = useList(initialRequest)
   const {
     status,
-    resolvedData,
-    latestData,
+    data: resolvedData,
     isFetching,
     error,
-  } = usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-    ['exercises-for-mentoring', request.query],
-    request
-  )
+  } = usePaginatedRequestQuery<
+    PaginatedResult<SolutionForStudent[]>,
+    Error | Response
+  >(['exercises-for-mentoring', request.query], request)
 
   return (
     <Modal
@@ -107,10 +98,13 @@ export const RequestMentoringModal = ({
               </div>
             </ResultsZone>
             <Pagination
-              disabled={latestData === undefined}
-              current={request.query.page}
+              disabled={resolvedData === undefined}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop()
+              }}
             />
           </React.Fragment>
         ) : null}

@@ -5,7 +5,11 @@ type Links = {
   delete: string
 }
 
-export const DeleteProfileForm = ({ links }: { links: Links }): JSX.Element => {
+export default function DeleteProfileForm({
+  links,
+}: {
+  links: Links
+}): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {

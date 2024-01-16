@@ -1,0 +1,29 @@
+@keyframes progress0To100 {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.c-loading-bar {
+    @apply w-100 rounded-100;
+    @apply bg-veryLightBlue;
+    @apply flex items-center;
+    @apply mb-12;
+    height: 6px;
+
+    .bar {
+        height: 6px;
+        min-width: 6px;
+        background: linear-gradient(to bottom, #2200ff 0%, #9e00ff 100%);
+
+        @apply rounded-100;
+
+        animation: progress0To100 normal forwards;
+        animation-timing-function: cubic-bezier(0.82, 0.27, 0.05, 0.92);
+        animation-iteration-count: 1;
+        animation-duration: 3s;
+    }
+}

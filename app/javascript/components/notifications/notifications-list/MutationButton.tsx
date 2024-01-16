@@ -1,7 +1,7 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
-import { FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { MutationStatus } from '@tanstack/react-query'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 export const MutationButton = ({
   onClick,
@@ -12,7 +12,7 @@ export const MutationButton = ({
 }: React.PropsWithChildren<{
   onClick: () => void
   disabled: boolean
-  mutation: { status: QueryStatus; error: unknown }
+  mutation: { status: MutationStatus; error: unknown }
   defaultError: Error
 }>): JSX.Element => {
   return (

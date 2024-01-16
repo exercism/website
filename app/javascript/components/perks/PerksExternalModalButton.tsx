@@ -3,12 +3,12 @@ import { Modal } from '../modals'
 
 type PerkKeys = 'offerSummaryHtml' | 'offerDetails'
 type Links = 'logIn' | 'signUp'
-type PerksExternalModalButtonProps = {
+export type PerksExternalModalButtonProps = {
   text: string
   perk: Record<PerkKeys, string>
   links: Record<Links, string>
 }
-export function PerksExternalModalButton({
+export default function PerksExternalModalButton({
   data,
 }: {
   data: PerksExternalModalButtonProps

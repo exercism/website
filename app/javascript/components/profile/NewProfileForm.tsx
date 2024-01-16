@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { redirectTo } from '../../utils/redirect-to'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { AvatarSelector } from './AvatarSelector'
-import { User } from '../types'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { User } from '@/components/types'
+import { default as AvatarSelector } from './AvatarSelector'
 
 type Links = {
   create: string
@@ -27,7 +27,7 @@ type Fields = {
 
 const DEFAULT_ERROR = new Error('Unable to create profile')
 
-export const NewProfileForm = ({
+export default function NewProfileForm({
   user,
   defaultFields,
   links,
@@ -35,10 +35,14 @@ export const NewProfileForm = ({
   user: User
   defaultFields: Fields
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [fields, setFields] = useState<Fields>(defaultFields)
-  const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',

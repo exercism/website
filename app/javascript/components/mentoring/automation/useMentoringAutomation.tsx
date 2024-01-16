@@ -1,12 +1,10 @@
 import { useMemo } from 'react'
-import { QueryStatus } from 'react-query'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  Request,
-  useDebounce,
-  useHistory,
-} from '@/hooks'
+import { QueryStatus } from '@tanstack/react-query'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { useHistory } from '@/hooks/use-history'
+import { useDebounce } from '@/hooks/use-debounce'
+
 import type { MentoredTrack, Representation } from '@/components/types'
 
 export type RepresentationsRequest = {
@@ -49,7 +47,6 @@ export const useMentoringAutomation = ({
   page: number
   setPage: (page: number) => void
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   isFetching: boolean
   status: QueryStatus
   error: unknown
@@ -63,24 +60,27 @@ export const useMentoringAutomation = ({
     }
   }, [request.query, trackSlug])
   const debouncedQuery = useDebounce(query, 500)
-  const { resolvedData, latestData, isFetching, status, error } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentoring-automation', debouncedQuery],
-      {
-        ...request,
-        query: debouncedQuery,
-        options: {
-          ...request.options,
-          enabled: !!track,
-        },
-      }
-    )
+  const {
+    data: resolvedData,
+    isFetching,
+    status,
+    error,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentoring-automation', debouncedQuery],
+    {
+      ...request,
+      query: debouncedQuery,
+      options: {
+        ...request.options,
+        enabled: !!track,
+      },
+    }
+  )
 
   useHistory({ pushOn: debouncedQuery })
 
   return {
     resolvedData,
-    latestData,
     status,
     isFetching,
     criteria: request.query.criteria,

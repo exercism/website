@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-import { FormButton } from '../../../common'
-import { GraphicalIcon } from '../../../common/GraphicalIcon'
-import { useMutation } from 'react-query'
-import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
-import { sendRequest } from '../../../../utils/send-request'
+import { useMutation } from '@tanstack/react-query'
+import { FormButton } from '@/components/common/FormButton'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
+import { sendRequest } from '@/utils/send-request'
 import { FavoritableStudent } from '../FavoriteButton'
-import { typecheck } from '../../../../utils/typecheck'
+import { typecheck } from '@/utils/typecheck'
 
 type ComponentProps = {
   endpoint: string
   onSuccess: (student: FavoritableStudent) => void
+  isRemoveButtonHoverable: boolean
+  setIsRemoveButtonHoverable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const RemoveFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -25,12 +27,18 @@ const DEFAULT_ERROR = new Error('Unable to remove student as a favorite')
 const Component = ({
   endpoint,
   onSuccess,
+  isRemoveButtonHoverable,
+  setIsRemoveButtonHoverable,
   ...props
 }: ComponentProps): JSX.Element | null => {
   const [isHovering, setIsHovering] = useState(false)
 
-  const [mutation, { status, error }] = useMutation<FavoritableStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',
@@ -64,8 +72,15 @@ const Component = ({
       }
       // TODO: (required) These do not work on tab (a11y).
       // When tabbing this should be set to true.
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={() => {
+        if (isRemoveButtonHoverable) {
+          setIsHovering(true)
+        }
+      }}
+      onMouseLeave={() => {
+        setIsHovering(false)
+        setIsRemoveButtonHoverable(true)
+      }}
       status={status}
     >
       {isHovering ? (

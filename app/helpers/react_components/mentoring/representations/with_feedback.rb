@@ -24,8 +24,7 @@ module ReactComponents
             endpoint: Exercism::Routes.with_feedback_api_mentoring_representations_url,
             query: representations_request_params,
             options: {
-              initial_data: representations,
-              stale_time: 5000 # milliseconds
+              initial_data: representations
             }
           }
         end

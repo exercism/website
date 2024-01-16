@@ -32,7 +32,7 @@ module Flows
         assert_text "You've completed Strings!"
         within(".m-completed-exercise") { click_on "Return to the exercise" }
         wait_for_redirect
-        assert_text "Your published solution"
+        assert_text "You've published your exercise"
 
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.
         solution.reload
@@ -62,7 +62,7 @@ module Flows
         click_on "Publish"
 
         wait_for_redirect
-        assert_text "Your published solution"
+        assert_text "You've published your exercise"
 
         # There is no way to determine from the screen which iteration was published. We can only check the solution record.
         solution.reload
@@ -84,7 +84,7 @@ module Flows
         sign_in!(user)
         visit track_exercise_url(track, strings)
 
-        assert_text "Your published solution"
+        assert_text "You've published your exercise"
         assert_link "User's solution", href: Exercism::Routes.published_solution_url(solution)
       end
     end
@@ -112,19 +112,17 @@ module Flows
         visit track_exercise_url(track, strings)
 
         # Change published iteration to all iterations
-        click_on "Publish settings"
-        click_on "Change published iteration"
+        click_on "change published iteration"
         find("label", text: "All iterations").click
         click_on "Update published solution"
-        assert_text "Your published solution"
+        assert_text "You've published your exercise"
         click_on(class: "c-community-solution")
         assert_text "class Bob"
 
         visit track_exercise_url(track, strings)
 
         # Change published iteration to specific iteration
-        click_on "Publish settings"
-        click_on "Change published iteration"
+        click_on "change published iteration"
         find("label", text: "Single iteration").click
         within(".c-single-select") do
           find("button").click
@@ -157,8 +155,7 @@ module Flows
         sign_in!(user)
         visit track_exercise_url(track, strings)
 
-        click_on "Publish settings"
-        click_on "Unpublish"
+        click_on "unpublish your solution"
         click_on "Unpublish solution"
 
         assert_button "Publish solution"

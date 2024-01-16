@@ -12,6 +12,7 @@ export type PaginatedResult<T> = {
     currentPage: number
     totalCount: number
     totalPages: number
+    unscopedTotal?: number
   }
 }
 
@@ -69,6 +70,11 @@ export type Testimonial = {
     handle: string
     flair: Flair
   }
+  mentor: {
+    avatarUrl: string
+    handle: string
+    flair: Flair
+  }
   exercise: {
     title: string
     iconUrl: string
@@ -101,8 +107,7 @@ export type User = {
 }
 
 export type Exercise =
-  | (ExerciseCore & { isUnlocked: true; links: { self: string } })
-  | (ExerciseCore & { isUnlocked: false })
+  | ExerciseCore & { isUnlocked: boolean; links: { self: string } }
 
 export type Student = {
   id: number
@@ -112,13 +117,14 @@ export type Student = {
   location: string
   languagesSpoken: string[]
   handle: string
-  flair: string
+  flair: Flair
   reputation: string
   isFavorited: boolean
   isBlocked: boolean
   trackObjectives: string
   numTotalDiscussions: number
   numDiscussionsWithMentor: number
+  pronouns?: string[]
   links: {
     block: string
     favorite?: string
@@ -168,6 +174,7 @@ export type CommunitySolution = {
   numLoc?: string
   numStars: string
   numComments: string
+  representationNumPublishedSolutions: string
   publishedAt: string
   language: string
   iterationStatus: IterationStatus
@@ -176,7 +183,7 @@ export type CommunitySolution = {
   author: {
     handle: string
     avatarUrl: string
-    flair: string
+    flair: Flair
   }
   exercise: {
     title: string
@@ -227,6 +234,7 @@ export type MentorSessionRequest = {
   uuid: string
   comment?: DiscussionPostProps
   isLocked: boolean
+  lockedUntil?: string
   track: {
     title: string
   }
@@ -238,6 +246,7 @@ export type MentorSessionRequest = {
     lock: string
     discussion: string
     cancel: string
+    extendLock: string
   }
 }
 export type MentorSessionTrack = {
@@ -305,6 +314,7 @@ export type Iteration = {
   numEssentialAutomatedComments: number
   numActionableAutomatedComments: number
   numNonActionableAutomatedComments: number
+  numCelebratoryAutomatedComments: number
   submissionMethod: SubmissionMethod
   representerFeedback?: RepresenterFeedback
   analyzerFeedback?: AnalyzerFeedback
@@ -314,6 +324,7 @@ export type Iteration = {
   isLatest: boolean
   files?: File[]
   posts?: DiscussionPostProps[]
+  new?: boolean
   links: {
     self: string
     delete: string
@@ -365,6 +376,7 @@ export enum IterationStatus {
   ESSENTIAL_AUTOMATED_FEEDBACK = 'essential_automated_feedback',
   ACTIONABLE_AUTOMATED_FEEDBACK = 'actionable_automated_feedback',
   NON_ACTIONABLE_AUTOMATED_FEEDBACK = 'non_actionable_automated_feedback',
+  CELEBRATORY_AUTOMATED_FEEDBACK = 'celebratory_automated_feedback',
   NO_AUTOMATED_FEEDBACK = 'no_automated_feedback',
 }
 
@@ -399,7 +411,11 @@ export type MentorDiscussionStatus =
   | 'mentor_finished'
   | 'finished'
 
-export type MentorDiscussionFinishedBy = 'mentor' | 'student'
+export type MentorDiscussionFinishedBy =
+  | 'mentor'
+  | 'student'
+  | 'mentor_timed_out'
+  | 'student_timed_out'
 
 export type MentorDiscussion = {
   uuid: string
@@ -410,12 +426,12 @@ export type MentorDiscussion = {
     avatarUrl: string
     handle: string
     isFavorited: boolean
-    flair: string
+    flair: Flair
   }
   mentor: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
   }
   track: {
     title: string
@@ -437,6 +453,7 @@ export type MentorDiscussion = {
     posts: string
     markAsNothingToDo: string
     finish: string
+    tooltipUrl: string
   }
 }
 
@@ -446,6 +463,32 @@ export type MentoredTrackExercise = {
   iconUrl: string
   count: number
   completedByMentor: boolean
+}
+
+export type MentoringSessionDonation = {
+  showDonationModal: boolean
+  request: {
+    endpoint: string
+    options: {
+      initialData: {
+        subscription?: {
+          provider: string
+          interval: string
+          amountInCents: string
+        }
+      }
+    }
+  }
+}
+
+export type MentoringSessionLinks = {
+  exercise: string
+  learnMoreAboutPrivateMentoring: string
+  privateMentoring: string
+  mentoringGuide: string
+  createMentorRequest: string
+  donationsSettings: string
+  donate: string
 }
 
 export type MentoredTrack = {
@@ -742,7 +785,7 @@ export type SolutionComment = {
   author: {
     avatarUrl: string
     handle: string
-    flair: string
+    flair: Flair
     reputation: string
   }
   updatedAt: string
@@ -779,17 +822,32 @@ export type SharePlatform =
   | 'linkedin'
   | 'devto'
 
+export type MetricUser = {
+  handle: string
+  avatarUrl: string
+  links: { self: string | null }
+}
 export type Metric = {
   type: string
   coordinates: number[]
-  user?: {
-    handle: string
-    avatarUrl: string
-  }
+  user?: MetricUser
+  countryCode: string
+  countryName: string
+  publishedSolutionUrl?: string
   track?: {
     title: string
     iconUrl: string
   }
+  pullRequest?: {
+    htmlUrl: string
+  }
+
+  exercise: {
+    title: string
+    exerciseUrl: string
+    iconUrl: string
+  }
+  occurredAt: string
 }
 
 export type Modifier =

@@ -1,6 +1,6 @@
 import React from 'react'
-import { useHighlighting } from '@/hooks'
-import { Credits } from '@/components/common'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
+import Credits from '@/components/common/Credits'
 import { Article } from '../DigDeeper'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
@@ -9,7 +9,7 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
   return (
     <a
       href={article.links.self}
-      className="bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16"
+      className="dig-deeper-snippet bg-backgroundColorA shadow-base rounded-8 px-20 py-16 mb-16"
     >
       <pre
         className="border-1 border-borderColor7 rounded-8 p-16 mb-16"

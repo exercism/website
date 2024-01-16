@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { sendRequest } from '../../utils/send-request'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { typecheck } from '../../utils/typecheck'
 import { MarkdownEditorForm } from './MarkdownEditorForm'
 
@@ -32,8 +32,12 @@ export const NewListItemForm = <T extends unknown>({
     [onSuccess]
   )
 
-  const [mutation, { status, error }] = useMutation<T>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<T>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'POST',

@@ -103,6 +103,16 @@
         }
         & .description {
             @apply text-p-base not-last:mb-20;
+
+            & p {
+                @apply mb-8;
+            }
+            & ul {
+                @apply list-disc pl-20;
+                & p {
+                    @apply mb-0;
+                }
+            }
         }
         & .pull-request {
             @apply flex items-center;

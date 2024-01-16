@@ -14,8 +14,6 @@ module.exports = {
   content: [
     './app/views/**/*.haml',
     './app/helpers/**/*.rb',
-    './app/css/*.css',
-    './app/css/**/*.css',
     './app/javascript/**/*',
   ],
   theme: {
@@ -38,6 +36,8 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn 0.2s forwards',
+        fadeOut: 'fadeOut 0.2s forwards',
+        spin: 'spin 2s linear infinite',
         'spin-slow': 'spin 3s linear infinite',
       },
     },
@@ -45,6 +45,7 @@ module.exports = {
       none: '0',
       3: '3px',
       5: '5px',
+      6: '6px',
       8: '8px',
       12: '12px',
       16: '16px',
@@ -91,7 +92,7 @@ module.exports = {
       /* NEW */
       darkThemeBackgroundColor: 'var(--darkThemeBackgroundColor)',
 
-      backgroundColorA: 'var(--backgroundColorA)',
+      backgroundColorA: 'rgb(var(--backgroundColorA-RGB) / <alpha-value>)',
       backgroundColorB: 'var(--backgroundColorB)',
       backgroundColorC: 'var(--backgroundColorC)',
       backgroundColorD: 'var(--backgroundColorD)',
@@ -100,6 +101,7 @@ module.exports = {
       backgroundColorG: 'var(--backgroundColorG)',
       backgroundColorH: 'var(--backgroundColorH)',
       backgroundColorI: 'var(--backgroundColorI)',
+      backgroundColorHoverMenuTrack: 'var(--backgroundColorHoverMenuTrack)',
       borderColor1: 'var(--borderColor1)',
       borderColor3: 'var(--borderColor3)',
       borderColor4: 'var(--borderColor4)',
@@ -191,7 +193,6 @@ module.exports = {
       anotherPurple: '#604FCD' /* Remove this */,
       russianViolet: '#302b42',
       englishViolet: '#4A475F',
-      lightPurple: '#B0A8E3',
       lightPurpleDarkened: '#f2f0fc',
       gotToLoveAPurple: '#271B72',
       biggerBolderAndMorePurpleThanEver: '#130B43',
@@ -287,7 +288,7 @@ module.exports = {
       backgroundColorNavDropdown: 'var(--backgroundColorNavDropdown)',
     },
     fontFamily: {
-      body: ['Poppins', 'sans-serif'],
+      body: 'var(--body-font)',
       mono: ['Source Code Pro', 'monospace'],
     },
     fontSize: {
@@ -378,7 +379,7 @@ module.exports = {
       auto: 'auto',
       arbitary: '1px',
       fill: '100%',
-      '5-7': '41.6%',
+      '5-7': '71.4%',
       '1-3': '33.3%',
       '1-2': '50%',
       100: '100%',

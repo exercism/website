@@ -4,7 +4,7 @@ import pluralize from 'pluralize'
 import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
 import { MarkAllAsSeenButton } from './contribution-results/MarkAllAsSeenButton'
 import { APIResult } from './ContributionsList'
-import { QueryKey, useQueryCache } from 'react-query'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -15,7 +15,7 @@ export const ContributionResults = ({
   cacheKey: QueryKey
   data: APIResult
 }): JSX.Element => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {
@@ -28,14 +28,14 @@ export const ContributionResults = ({
 
   const handleSuccess = useCallback(
     (response: APIResult) => {
-      const oldData = queryCache.getQueryData<APIResult>(cacheKey)
+      const oldData = queryClient.getQueryData<APIResult>(cacheKey)
 
-      queryCache.setQueryData(cacheKey, {
+      queryClient.setQueryData(cacheKey, {
         ...oldData,
         meta: { ...oldData?.meta, unseenTotal: response.meta.unseenTotal },
       })
     },
-    [cacheKey, queryCache]
+    [cacheKey, queryClient]
   )
 
   return (

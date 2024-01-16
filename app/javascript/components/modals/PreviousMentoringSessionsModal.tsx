@@ -1,23 +1,29 @@
-import React from 'react'
-import { fromNow } from '../../utils/time'
+import React, { useContext } from 'react'
+import pluralize from 'pluralize'
+import { usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { fromNow } from '@/utils/date'
 import {
   Avatar,
   GraphicalIcon,
   Pagination,
   TrackIcon,
   ExerciseIcon,
-} from '../common'
-import { Modal, ModalProps } from './Modal'
-import pluralize from 'pluralize'
+} from '@/components/common'
 import {
-  FavoritableStudent,
   FavoriteButton,
-} from '../mentoring/session/FavoriteButton'
-import { useList } from '../../hooks/use-list'
-import { PaginatedResult, MentorDiscussion, Student } from '../types'
-import { usePaginatedRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { ResultsZone } from '../ResultsZone'
+  type FavoritableStudent,
+} from '@/components/mentoring/session/FavoriteButton'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Modal, type ModalProps } from './Modal'
+import type {
+  PaginatedResult,
+  MentorDiscussion,
+  Student,
+} from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 
 const DEFAULT_ERROR = new Error('Unable to load discussions')
 
@@ -36,8 +42,7 @@ export const PreviousMentoringSessionsModal = ({
   })
   const {
     status,
-    resolvedData,
-    latestData,
+    data: resolvedData,
     isFetching,
     error,
   } = usePaginatedRequestQuery<
@@ -47,86 +52,174 @@ export const PreviousMentoringSessionsModal = ({
 
   const numPrevious = student.numDiscussionsWithMentor - 1
 
-  const DiscussionLink = ({ discussion }: { discussion: MentorDiscussion }) => {
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+  if (isBelowLgWidth) {
     return (
-      <a
-        href={discussion.links.self}
-        key={discussion.uuid}
-        className="discussion"
+      <Modal
+        {...props}
+        closeButton
+        onClose={onClose}
+        className="m-mentoring-sessions mobile"
       >
-        <TrackIcon
-          iconUrl={discussion.track.iconUrl}
-          title={discussion.track.title}
-        />
-        <ExerciseIcon
-          iconUrl={discussion.exercise.iconUrl}
-          title={discussion.exercise.title}
-          className="exercise-icon"
-        />
-        <div className="exercise-title">{discussion.exercise.title}</div>
-        <div className="num-comments">
-          <GraphicalIcon icon="comment" />
-          {discussion.postsCount}
-        </div>
-        <div className="num-iterations">
-          <GraphicalIcon icon="iteration" />
-          {discussion.iterationsCount}
-        </div>
-        <time dateTime={discussion.createdAt}>
-          {fromNow(discussion.createdAt)}
-        </time>
-        <GraphicalIcon icon="chevron-right" className="action-icon" />
-      </a>
-    )
-  }
-
-  return (
-    <Modal
-      {...props}
-      closeButton
-      onClose={onClose}
-      className="m-mentoring-sessions"
-    >
-      <header>
-        <strong>
-          You have {numPrevious} previous {pluralize('discussion', numPrevious)}
-        </strong>
-        with
-        <Avatar src={student.avatarUrl} handle={student.handle} />
-        <div className="student-name">{student.handle}</div>
-        {student.links.favorite ? (
-          <FavoriteButton
-            student={student as FavoritableStudent}
-            onSuccess={(student) => setStudent(student)}
-          />
-        ) : null}
-      </header>
-      <div className="discussions">
-        <ResultsZone isFetching={isFetching}>
-          <FetchingBoundary
-            status={status}
-            error={error}
-            defaultError={DEFAULT_ERROR}
-          >
-            {resolvedData ? (
-              <React.Fragment>
-                {resolvedData.results.map((discussion: MentorDiscussion) => (
-                  <DiscussionLink
-                    discussion={discussion}
-                    key={discussion.uuid}
+        <header>
+          {student.handle} and You have
+          <strong>
+            {numPrevious} previous {pluralize('discussion', numPrevious)}
+          </strong>
+        </header>
+        <div className="discussions">
+          <ResultsZone isFetching={isFetching}>
+            <FetchingBoundary
+              status={status}
+              error={error}
+              defaultError={DEFAULT_ERROR}
+            >
+              {resolvedData ? (
+                <React.Fragment>
+                  {resolvedData.results.map((discussion: MentorDiscussion) => (
+                    <MobileDiscussionLink
+                      discussion={discussion}
+                      key={discussion.uuid}
+                    />
+                  ))}
+                  <Pagination
+                    disabled={resolvedData === undefined}
+                    current={request.query.page || 1}
+                    total={resolvedData.meta.totalPages}
+                    setPage={(p) => {
+                      setPage(p)
+                      scrollToTop()
+                    }}
                   />
-                ))}
-                <Pagination
-                  disabled={latestData === undefined}
-                  current={request.query.page}
-                  total={resolvedData.meta.totalPages}
-                  setPage={setPage}
-                />
-              </React.Fragment>
-            ) : null}
-          </FetchingBoundary>
-        </ResultsZone>
+                </React.Fragment>
+              ) : null}
+            </FetchingBoundary>
+          </ResultsZone>
+        </div>
+      </Modal>
+    )
+  } else
+    return (
+      <Modal
+        {...props}
+        closeButton
+        onClose={onClose}
+        className="m-mentoring-sessions"
+      >
+        <header>
+          <strong>
+            You have {numPrevious} previous{' '}
+            {pluralize('discussion', numPrevious)}
+          </strong>
+          with
+          <Avatar src={student.avatarUrl} handle={student.handle} />
+          <div className="student-name">{student.handle}</div>
+          {student.links.favorite ? (
+            <FavoriteButton
+              student={student as FavoritableStudent}
+              onSuccess={(student) => setStudent(student)}
+            />
+          ) : null}
+        </header>
+        <div className="discussions">
+          <ResultsZone isFetching={isFetching}>
+            <FetchingBoundary
+              status={status}
+              error={error}
+              defaultError={DEFAULT_ERROR}
+            >
+              {resolvedData ? (
+                <React.Fragment>
+                  {resolvedData.results.map((discussion: MentorDiscussion) => (
+                    <DiscussionLink
+                      discussion={discussion}
+                      key={discussion.uuid}
+                    />
+                  ))}
+                  <Pagination
+                    disabled={resolvedData === undefined}
+                    current={request.query.page || 1}
+                    total={resolvedData.meta.totalPages}
+                    setPage={(p) => {
+                      setPage(p)
+                      scrollToTop()
+                    }}
+                  />
+                </React.Fragment>
+              ) : null}
+            </FetchingBoundary>
+          </ResultsZone>
+        </div>
+      </Modal>
+    )
+}
+
+function DiscussionLink({
+  discussion,
+}: {
+  discussion: MentorDiscussion
+}): JSX.Element {
+  return (
+    <a
+      href={discussion.links.self}
+      key={discussion.uuid}
+      className="discussion"
+    >
+      <TrackIcon
+        iconUrl={discussion.track.iconUrl}
+        title={discussion.track.title}
+      />
+      <ExerciseIcon
+        iconUrl={discussion.exercise.iconUrl}
+        title={discussion.exercise.title}
+        className="exercise-icon"
+      />
+      <div className="exercise-title">{discussion.exercise.title}</div>
+      <div className="num-comments">
+        <GraphicalIcon icon="comment" />
+        {discussion.postsCount}
       </div>
-    </Modal>
+      <div className="num-iterations">
+        <GraphicalIcon icon="iteration" />
+        {discussion.iterationsCount}
+      </div>
+      <time dateTime={discussion.createdAt}>
+        {fromNow(discussion.createdAt)}
+      </time>
+      <GraphicalIcon icon="chevron-right" className="action-icon" />
+    </a>
+  )
+}
+
+function MobileDiscussionLink({
+  discussion,
+}: {
+  discussion: MentorDiscussion
+}): JSX.Element {
+  return (
+    <a
+      href={discussion.links.self}
+      key={discussion.uuid}
+      className="discussion mobile"
+    >
+      <TrackIcon
+        iconUrl={discussion.track.iconUrl}
+        title={discussion.track.title}
+      />
+      <ExerciseIcon
+        iconUrl={discussion.exercise.iconUrl}
+        title={discussion.exercise.title}
+        className="exercise-icon"
+      />
+      <div className="num-comments">
+        <GraphicalIcon icon="comment" />
+        {discussion.postsCount}
+      </div>
+      <div className="num-iterations">
+        <GraphicalIcon icon="iteration" />
+        {discussion.iterationsCount}
+      </div>
+      <GraphicalIcon icon="chevron-right" className="action-icon" />
+    </a>
   )
 }

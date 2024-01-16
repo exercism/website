@@ -1,6 +1,7 @@
 import React from 'react'
-import { TaskModule } from '../../types'
-import { MultipleSelect, GraphicalIcon } from '../../common'
+import { TaskModule } from '@/components/types'
+import { GraphicalIcon } from '@/components/common'
+import { MultipleSelect } from '@/components/common/MultipleSelect'
 import { ModuleTag } from './task/ModuleTag'
 
 const ModuleOption = ({
@@ -135,7 +136,7 @@ export const ModuleSwitcher = ({
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ModuleOption}
-      componentClassName="module-switcher"
+      className="module-switcher"
     />
   )
 }

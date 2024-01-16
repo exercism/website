@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { ModalProps, Modal } from './Modal'
-import { Iteration, SolutionForStudent } from '../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { typecheck } from '../../utils/typecheck'
-import { useIsMounted } from 'use-is-mounted'
-import { FormButton } from '../common'
-import { ErrorMessage, ErrorBoundary } from '../ErrorBoundary'
+import { redirectTo } from '@/utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { Iteration, SolutionForStudent } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
-import { redirectTo } from '../../utils/redirect-to'
+import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
 
 const DEFAULT_ERROR = new Error('Unable to change published iteration')
 export type RedirectType = 'public' | 'private'
@@ -28,8 +28,12 @@ export const ChangePublishedIterationModal = ({
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )
-  const [mutation, { status, error }] = useMutation<SolutionForStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<SolutionForStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -60,10 +64,12 @@ export const ChangePublishedIterationModal = ({
     [mutation]
   )
 
+  const ariaObject = generateAriaFieldIds('change-published-iteration')
+
   return (
-    <Modal {...props}>
-      <h3>Change published iterations</h3>
-      <p>
+    <Modal aria={ariaObject} {...props}>
+      <h3 id={ariaObject.labelledby}>Change published iterations</h3>
+      <p id={ariaObject.describedby}>
         We recommend publishing all iterations to help others learn from your
         journey, but you can also choose just your favourite iteration to
         showcase instead.

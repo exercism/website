@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import {
   MarkdownEditorHandle,
-  MarkdownEditor,
+  default as MarkdownEditor,
 } from '@/components/common/MarkdownEditor'
 import { PrimaryButton } from '../common/PrimaryButton'
 

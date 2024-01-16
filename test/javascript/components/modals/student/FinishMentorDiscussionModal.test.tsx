@@ -1,11 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
-import { FinishMentorDiscussionModal } from '../../../../../app/javascript/components/modals/student/FinishMentorDiscussionModal'
+import { FinishMentorDiscussionModal } from '@/components/modals/student/FinishMentorDiscussionModal'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { TestQueryCache } from '../../support/TestQueryCache'
 
 test('has back button in add testimonial step', async () => {
   const links = {

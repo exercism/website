@@ -1,6 +1,6 @@
 import React from 'react'
-import { SingleSelect } from '../../common'
-import { ContributionCategoryId } from '../../types'
+import { SingleSelect } from '@/components/common/SingleSelect'
+import { ContributionCategoryId } from '@/components/types'
 
 const OptionComponent = ({
   option: category,

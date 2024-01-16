@@ -9,13 +9,13 @@ type Links = {
   delete: string
 }
 
-export const AvatarSelector = ({
+export default function AvatarSelector({
   defaultUser,
   links,
 }: {
   defaultUser: User
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [user, setUser] = useState(defaultUser)
   const { handleAttach, ...modalProps } = useImageCrop()
 

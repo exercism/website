@@ -74,12 +74,47 @@ class NotificationsMailer < ApplicationMailer
     transactional_mail(@user, subject)
   end
 
+  def acquired_trophy
+    notification = params[:notification]
+    @user = notification.user
+    @track = notification.track
+
+    subject = "You've unlocked a new trophy"
+    @unsubscribe_key = :email_on_acquired_trophy_notification
+    @title = "There's a new trophy waiting for you to reveal!"
+    transactional_mail(@user, subject)
+  end
+
   def joined_exercism
     notification = params[:notification]
     @user = notification.user
 
     @hide_header = true
     subject = "Welcome to Exercism"
+    transactional_mail(@user, subject)
+  end
+
+  def onboarding_product
+    notification = params[:notification]
+    @user = notification.user
+
+    subject = "How are you getting on with Exercism?"
+    transactional_mail(@user, subject)
+  end
+
+  def onboarding_community
+    notification = params[:notification]
+    @user = notification.user
+
+    subject = "Have you said hello on Discord or our forum yet?"
+    transactional_mail(@user, subject)
+  end
+
+  def onboarding_insiders
+    notification = params[:notification]
+    @user = notification.user
+
+    subject = "Did you know we're a not-for-profit?"
     transactional_mail(@user, subject)
   end
 
@@ -187,21 +222,91 @@ class NotificationsMailer < ApplicationMailer
     transactional_mail(@user, subject)
   end
 
-  def joined_premium
+  def nudge_student_to_reply_in_discussion
     notification = params[:notification]
     @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+    @num_days_waiting = notification.num_days_waiting
+    @num_days_to_time_out = notification.num_days_to_time_out
 
-    @hide_header = true
-    subject = "Welcome to Exercism Premium"
+    @unsubscribe_key = :email_on_nudge_student_to_reply_in_discussion_notification
+
+    @title = "Your mentor has been waiting #{@num_days_waiting} days for your reply"
+    subject = "Your mentor has been waiting #{@num_days_waiting} days for your reply."
     transactional_mail(@user, subject)
   end
 
-  def expired_premium
+  def nudge_mentor_to_reply_in_discussion
     notification = params[:notification]
     @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+    @num_days_waiting = notification.num_days_waiting
+    @num_days_to_time_out = notification.num_days_to_time_out
 
-    @hide_header = true
-    subject = "Exercism Premium membership expired"
+    @unsubscribe_key = :email_on_nudge_mentor_to_reply_in_discussion_notification
+
+    @title = "Your student has been waiting #{@num_days_waiting} days for your reply"
+    subject = "[Mentoring] #{@discussion.student.handle} is waiting for you to reply (#{@num_days_waiting} day nudge)"
+    transactional_mail(@user, subject)
+  end
+
+  def mentor_timed_out_discussion_student
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_mentor_timed_out_discussion_notification
+
+    @title = "Your discussion has timed out"
+    subject = "The discussion on your solution to #{@track.title}/#{@exercise.title} has timed out"
+    transactional_mail(@user, subject)
+  end
+
+  def mentor_timed_out_discussion_mentor
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_mentor_timed_out_discussion_notification
+
+    @title = "Your mentoring session has timed out"
+    subject = "[Mentoring] Your mentoring session has timed out due to lack of response by you."
+    transactional_mail(@user, subject)
+  end
+
+  def student_timed_out_discussion_student
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_student_timed_out_discussion_notification
+
+    @title = "Your discussion has timed out"
+    subject = "Your mentoring discussion on #{@track.title}/#{@exercise.title} has timed out"
+    transactional_mail(@user, subject)
+  end
+
+  def student_timed_out_discussion_mentor
+    notification = params[:notification]
+    @user = notification.user
+    @discussion = notification.discussion
+    @exercise = @discussion.exercise
+    @track = @exercise.track
+
+    @unsubscribe_key = :email_on_student_timed_out_discussion_notification
+
+    @title = "Your student's discussion has timed-out"
+    subject = "[Mentoring] Your mentoring session has timed out due to lack of student response."
     transactional_mail(@user, subject)
   end
 end

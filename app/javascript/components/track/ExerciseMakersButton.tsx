@@ -7,7 +7,7 @@ type Links = {
   makers: string
 }
 
-export const ExerciseMakersButton = ({
+export function ExerciseMakersButton({
   avatarUrls,
   numAuthors,
   numContributors,
@@ -17,7 +17,7 @@ export const ExerciseMakersButton = ({
   numAuthors: number
   numContributors: number
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (
@@ -53,3 +53,4 @@ export const ExerciseMakersButton = ({
     </React.Fragment>
   )
 }
+export default ExerciseMakersButton

@@ -1,0 +1,678 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GetHelpPanel tests Component snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    aria-labelledby="tab-get-help"
+    class="--tab-panel"
+    id="panel-get-help"
+    role="tabpanel"
+    tabindex="0"
+  >
+    <div
+      class="pb-12 flex flex-col"
+    >
+      <details
+        class="c-details border-t-1 border-borderColor6 py-16 px-24 hints"
+        open=""
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt=""
+            class="c-icon mr-16 filter-textColor6"
+            height="24"
+            src="undefined/assets/undefined"
+            width="24"
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Hints and Tips
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="pt-8 flex flex-col gap-2"
+        >
+          <p
+            class="text-p-base text-color-2 mb-8"
+          >
+            Stuck? These hints will give you nudges to the right direction to get you unblocked. Use them wisely though - remember that wrestling with a problem is where the learning occurs!
+          </p>
+          <p
+            class="text-p-base text-color-2"
+          >
+            Click a heading to expand the hints:
+          </p>
+        </div>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 1. Define the expected oven time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://www.rubyguides.com/2017/07/ruby-constants/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  constant
+                </a>
+                 that should contain the
+
+                <a
+                  href="https://ruby-doc.org/core-2.7.0/Integer.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  integer
+                </a>
+                 value specified in the recipe.
+              </li>
+              
+
+              <li>
+                The 
+                <code>
+                  ::
+                </code>
+                 used in 
+                <code>
+                  Lasagna::EXPECTED_MINUTES_IN_OVEN
+                </code>
+                 means that 
+                <code>
+                  EXPECTED_MINUTES_IN_OVEN
+                </code>
+                 needs to be defined
+within the 
+                <code>
+                  Lasagna
+                </code>
+                 class.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 2. Calculate the remaining oven time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with a single parameter for the
+actual time so far.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for
+subtraction
+                </a>
+                 to subtract values.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 3. Calculate the preparation time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with a single parameter for the
+number of layers.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for
+multiplication
+                </a>
+                 to multiply values.
+              </li>
+              
+
+              <li>
+                You could define an extra constant for the time in minutes per layer, or use a "magic number" in the code.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+        <details
+          class="c-details"
+        >
+          <summary
+            class="--summary"
+          >
+            <div
+              class="--summary-inner"
+            >
+              Task 4. Calculate the total working time in minutes
+              <img
+                alt=""
+                class="c-icon --closed-icon"
+                src="undefined/assets/undefined"
+              />
+              <img
+                alt=""
+                class="c-icon --open-icon"
+                src="undefined/assets/undefined"
+              />
+            </div>
+          </summary>
+          <div
+            class="c-textual-content --small"
+          >
+            <ul>
+              
+
+              <li>
+                You need to define a 
+                <a
+                  href="https://launchschool.com/books/ruby/read/methods"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  method
+                </a>
+                 with two named parameters:
+
+                <code>
+                  number_of_layers
+                </code>
+                 and 
+                <code>
+                  actual_minutes_in_oven
+                </code>
+                .
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="https://www.freecodecamp.org/news/idiomatic-ruby-writing-beautiful-code-6845c830c664/#implicit-return"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  implicitly return an
+integer
+                </a>
+                 from
+the method.
+              </li>
+              
+
+              <li>
+                You can 
+                <a
+                  href="http://ruby-for-beginners.rubymonstas.org/objects/calling.html"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  invoke
+                </a>
+                 one of the other methods you've
+defined previously.
+              </li>
+              
+
+              <li>
+                You can use the 
+                <a
+                  href="https://www.w3resource.com/ruby/ruby-arithmetic-operators.php"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  mathematical operator for addition
+                </a>
+                
+to add values.
+              </li>
+              
+
+            </ul>
+            
+
+          </div>
+        </details>
+      </details>
+      <details
+        class="c-details border-t-1 border-borderColor6 py-16 px-24 "
+        open=""
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt=""
+            class="c-icon mr-16 filter-textColor6"
+            height="24"
+            src="undefined/assets/undefined"
+            width="24"
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Community help
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="pt-8 flex flex-col gap-2"
+        >
+          <p
+            class="text-p-base text-color-2 mb-8"
+          >
+            Don't struggle on alone! Our community is always here to help.
+          </p>
+          <p
+            class="text-p-base text-color-2 mb-8"
+          >
+            Although you can't submit a mentoring requests until you get the tests passing, you can ask for help on Discord or our Forum. Use the links below to get started:
+          </p>
+          <a
+            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+            href=""
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              alt=""
+              class="c-icon"
+              height="32"
+              src="undefined/assets/undefined"
+              width="32"
+            />
+            <div>
+              <h6
+                class="text-h6 text-textColor1 mb-2"
+              >
+                Discord
+              </h6>
+              <p
+                class="text-p-base text-textColor5"
+              >
+                Get real time help in the #support channel on our Discord server.
+              </p>
+            </div>
+          </a>
+          <a
+            class="px-12 py-10 flex gap-16 items-center rounded-8 hover:bg-backgroundColorD"
+            href=""
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              alt=""
+              class="c-icon"
+              height="32"
+              src="undefined/assets/undefined"
+              width="32"
+            />
+            <div>
+              <h6
+                class="text-h6 text-textColor1 mb-2"
+              >
+                Forum
+              </h6>
+              <p
+                class="text-p-base text-textColor5"
+              >
+                Dig deeper into topics and ideas on our forum.
+              </p>
+            </div>
+          </a>
+        </div>
+      </details>
+      <details
+        class="c-details border-t-1 border-borderColor6 py-16 px-24 "
+        open=""
+      >
+        <summary
+          class="flex items-center"
+        >
+          <img
+            alt="icon for Ruby track"
+            class="c-icon c-track-icon w-[24px] h-[24px] mr-16"
+            src="undefined/assets/undefined"
+          />
+          <div
+            class="flex items-center justify-between w-100"
+          >
+            <span
+              class="text-h4"
+            >
+              Ruby help
+            </span>
+            <span
+              class="--closed-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+            <span
+              class="--open-icon"
+            >
+              <img
+                alt=""
+                class="c-icon filter-textColor6"
+                height="12"
+                src="undefined/assets/undefined"
+                width="12"
+              />
+            </span>
+          </div>
+        </summary>
+        <div
+          class="c-textual-content --base pt-16"
+        >
+          <p>
+            To get help if you're having trouble, you can use one of the following resources:
+          </p>
+          
+  
+          <ul>
+            
+  
+            <li>
+              <a
+                href="http://ruby-doc.org/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ruby Documentation
+              </a>
+            </li>
+            
+  
+            <li>
+              <a
+                href="http://stackoverflow.com/questions/tagged/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                StackOverflow
+              </a>
+            </li>
+            
+  
+            <li>
+              
+  
+              <a
+                href="https://www.reddit.com/r/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                /r/ruby
+              </a>
+               is the Ruby subreddit.
+            </li>
+            
+  
+          </ul>
+          
+  
+          <p>
+            Should those resources not suffice, check the following pages:
+          </p>
+          
+  
+          <ul>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://exercism.org/docs/tracks/ruby"
+              >
+                Ruby track's documentation
+              </a>
+              
+  
+            </li>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://forum.exercism.org/c/programming/ruby"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ruby track's programming category on the forum
+              </a>
+              
+  
+            </li>
+            
+  
+            <li>
+              <a
+                href="https://forum.exercism.org/c/programming/5"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Exercism's programming category on the forum
+              </a>
+            </li>
+            
+  
+            <li>
+              The 
+              <a
+                href="https://exercism.org/docs/using/faqs"
+              >
+                Frequently Asked Questions
+              </a>
+              
+  
+            </li>
+            
+  
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -15,7 +15,7 @@ class SerializeTrackForSelectTest < ActiveSupport::TestCase
     expected = {
       slug: nil,
       title: "All Tracks",
-      icon_url: "ICON"
+      icon_url: nil
     }
     assert_equal expected, SerializeTrackForSelect::ALL_TRACK
   end

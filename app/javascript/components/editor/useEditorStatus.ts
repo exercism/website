@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { APIError } from '../../utils/send-request'
+import { APIError } from '@/utils/send-request'
 
 export enum EditorStatus {
   INITIALIZED = 'initialized',

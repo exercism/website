@@ -2,7 +2,7 @@ require "test_helper"
 
 class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
   test "respects force_sync: true" do
-    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     exercise = create :concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", git_sha: repo.head_commit.oid, synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
 
     Git::SyncExerciseAuthors.expects(:call).never
@@ -23,7 +23,7 @@ class Git::SyncConceptExerciseTest < ActiveSupport::TestCase
 
   test "git SHA does not change when there are no changes" do
     updated_at = Time.current - 1.week
-    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track-with-exercises"))
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     previous_head_sha = repo.head_commit.parents.first.oid
     exercise = create(:concept_exercise, uuid: '71ae39c4-7364-11ea-bc55-0242ac130003', slug: 'lasagna', title: "Lasagna", position: 3, git_sha: previous_head_sha, synced_to_git_sha: previous_head_sha, updated_at:) # rubocop:disable Layout/LineLength
     exercise.taught_concepts << (create :concept, slug: 'basics', uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e')

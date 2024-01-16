@@ -1,5 +1,5 @@
 import React from 'react'
-import { missingExerciseIconErrorHandler } from '../common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
 
 type ExerciseIconProps = {
   iconUrl: string
@@ -21,8 +21,7 @@ export function ExerciseIcon({
     <img
       className={classNames.join(' ')}
       src={iconUrl}
-      alt={title ? `Icon for exercise called ${title}` : undefined}
-      role={title ? undefined : 'presentation'}
+      alt={title ? `Icon for exercise called ${title}` : ''}
       onError={missingExerciseIconErrorHandler}
     />
   )

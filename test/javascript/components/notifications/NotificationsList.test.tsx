@@ -1,11 +1,12 @@
 import React from 'react'
 import {
-  render,
   screen,
+  waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react'
+import { render } from '../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
-import { NotificationsList } from '../../../../app/javascript/components/notifications/NotificationsList'
+import { default as NotificationsList } from '@/components/notifications/NotificationsList'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { deferred } from '../../support/deferred'
@@ -220,7 +221,9 @@ test('disables mark as read button when processing', async () => {
   })
   userEvent.click(markAsReadButton)
 
-  expect(markAsReadButton).toBeDisabled()
+  await waitFor(() => {
+    expect(markAsReadButton).toBeDisabled()
+  })
 })
 
 test('disables checkboxes when processing', async () => {
@@ -248,7 +251,9 @@ test('disables checkboxes when processing', async () => {
   userEvent.click(checkbox)
   userEvent.click(await screen.findByRole('button', { name: /mark as read/i }))
 
-  expect(checkbox).toBeDisabled()
+  await waitFor(() => {
+    expect(checkbox).toBeDisabled()
+  })
 })
 
 test('shows API error when marking notifications as read', async () => {

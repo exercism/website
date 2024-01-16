@@ -1,0 +1,21 @@
+- content_for :canonical_url, mentoring_url
+
+#mentor-external-page
+  %section.top-section
+    .lg-container.c-shapes
+      = graphical_icon "ml-trainer", category: 'graphics', css_class: "!w-[192px] !h-[192px]"
+      %h1 Help us build a more intelligent Exercism
+      %p
+        We're using machine learning to improve Exercism's ability to understand the code people submit, using a mixture of our data and crowd-sourced effort.
+      %p.unsure Bonus: Helping us out earns reputation!
+
+      - if user_signed_in?
+        - if @eligible
+          = form_tag training_data_become_trainer_path, method: :patch, class: "flex flex-row items-center mt-20" do
+            = button_tag "Become a Trainer →", class: "btn btn-primary btn-l"
+        - else
+          = render "locked", max_reputation_track: @max_reputation_track, track_min_reputation: UserTrack::MIN_REP_TO_TRAIN_ML
+      - else
+        .flex.items-center
+          = link_to "Sign up to help us out", new_user_registration_path, class: 'btn-m btn-primary'
+          = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary ml-24'

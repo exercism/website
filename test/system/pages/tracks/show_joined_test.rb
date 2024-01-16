@@ -25,7 +25,7 @@ module Pages
       end
 
       test "show joined on course-track in different states" do
-        track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+        track = create :track, slug: 'ruby', title: "Ruby #{SecureRandom.hex}"
         hello_world = create(:hello_world_exercise, track:)
         ce_1 = create :concept_exercise, track:, slug: 'movie'
         ce_2 = create :concept_exercise, track:, slug: 'lasa'
@@ -65,7 +65,7 @@ module Pages
       end
 
       test "show joined on non-course-track in different states" do
-        track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+        track = create :track, slug: 'ruby', title: "Ruby #{SecureRandom.hex}"
         hello_world = create(:hello_world_exercise, track:)
         pe_1 = create :practice_exercise, track:, slug: 'bob'
         create :practice_exercise, track:, slug: 'food'

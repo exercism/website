@@ -7,9 +7,9 @@ module ReactComponents
         super("profile-testimonials-list", {
           request: {
             endpoint: Exercism::Routes.api_profile_testimonials_path(user.handle),
+            query: params.slice(*AssembleProfileTestimonialsList.keys),
             options: {
               endpoint: Exercism::Routes.api_profile_testimonials_url(user),
-              query: params.slice(*AssembleProfileTestimonialsList.keys),
               initial_data: AssembleProfileTestimonialsList.(user, params)
             }
           },

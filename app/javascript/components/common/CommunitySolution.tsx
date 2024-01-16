@@ -1,5 +1,6 @@
 import React from 'react'
-import { useHighlighting, shortFromNow } from '@/utils'
+import { shortFromNow } from '@/utils/time'
+import { useHighlighting } from '@/utils/highlight'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
 import { GraphicalIcon, Avatar, Icon } from '../common'
@@ -18,23 +19,43 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
         solution.publishedAt
       )}`}</time>
       <div className="--counts">
-        {solution.numLoc ? (
-          <div className="--count">
-            <GraphicalIcon icon="loc" />
-            <div className="--num">{solution.numLoc}</div>
+        {solution.representationNumPublishedSolutions ? (
+          <div
+            className="--count"
+            title="Number of times someone has published a solution similar to this"
+          >
+            <GraphicalIcon icon="upload" />
+            <div className="--num">
+              {solution.representationNumPublishedSolutions.toLocaleString()}
+            </div>
           </div>
         ) : null}
-        <div className="--count">
-          <Icon icon="star" alt="Number of times solution has been stared" />
-          <div className="--num">{solution.numStars}</div>
+        {solution.numLoc ? (
+          <div
+            className="--count"
+            title="Number of lines of code in the solution"
+          >
+            <GraphicalIcon icon="loc" />
+            <div className="--num">{solution.numLoc.toLocaleString()}</div>
+          </div>
+        ) : null}
+        <div
+          className="--count"
+          title="Number of times solution has been starred"
+        >
+          <GraphicalIcon icon="star" />
+          <div className="--num">{solution.numStars.toLocaleString()}</div>
         </div>
-        <div className="--count">
-          <Icon
-            icon="comment"
-            alt="Number of times solution has been commented on"
-          />
-          <div className="--num">{solution.numComments}</div>
-        </div>
+        {solution.numComments &&
+        !solution.representationNumPublishedSolutions ? (
+          <div
+            className="--count"
+            title="Number of times solution has been commented on"
+          >
+            <GraphicalIcon icon="comment" />
+            <div className="--num">{solution.numComments.toLocaleString()}</div>
+          </div>
+        ) : null}
       </div>
     </>
   )
@@ -93,13 +114,13 @@ const ProcessingStatus = ({
   )
 }
 
-export const CommunitySolution = ({
+export default function CommunitySolution({
   solution,
   context,
 }: {
   solution: CommunitySolutionProps
   context: CommunitySolutionContext
-}): JSX.Element => {
+}): JSX.Element {
   const snippetRef = useHighlighting<HTMLPreElement>()
 
   const url =

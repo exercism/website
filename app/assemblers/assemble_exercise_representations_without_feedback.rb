@@ -21,9 +21,10 @@ class AssembleExerciseRepresentationsWithoutFeedback
   memoize
   def representations
     Exercise::Representation::Search.(
-      mentor:,
-      track:,
       mode: :without_feedback,
+      representer_version:,
+      track:,
+      mentor:,
       only_mentored_solutions: params[:only_mentored_solutions],
       criteria: params[:criteria],
       page: params.fetch(:page, 1),
@@ -31,5 +32,15 @@ class AssembleExerciseRepresentationsWithoutFeedback
     )
   end
 
-  def track = Track.find_by(slug: params[:track_slug])
+  def representer_version = track.representations.maximum(:representer_version) || 1
+
+  memoize
+  def track
+    t = Track.find_by(slug: params[:track_slug])
+    return t if t
+
+    return Track.first if mentor.staff?
+
+    mentor.track_mentorships.automator.first.track
+  end
 end

@@ -1,22 +1,19 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { sendRequest } from '../../../utils/send-request'
-import { typecheck } from '../../../utils/typecheck'
+import React, { useCallback, useState, useEffect, useContext } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { camelizeKeys } from 'humps'
-import {
-  Loading,
-  TrackIcon,
-  Introducer,
-  AlertTag,
-  MarkdownEditor,
-} from '../../common'
-import {
+import { sendRequest } from '@/utils/send-request'
+import { typecheck } from '@/utils/typecheck'
+import { Loading, TrackIcon, AlertTag } from '@/components/common'
+import Introducer from '@/components/common/Introducer'
+import { default as MarkdownEditor } from '@/components/common/MarkdownEditor'
+import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
   RepresentationTrack,
   RepresentationExercise,
-} from '../../types'
-import { Scratchpad as ScratchpadProps } from '../Session'
-import { useMutation } from 'react-query'
+} from '@/components/types'
+import type { Scratchpad as ScratchpadProps } from '../Session'
+import { ScreenSizeContext } from './ScreenSizeContext'
 
 type ScratchpadPage = {
   contentMarkdown: string
@@ -35,12 +32,14 @@ export const Scratchpad = ({
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
 
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
   const handleChange = useCallback((content) => {
     setContent(content)
   }, [])
 
-  const [mutation] = useMutation<ScratchpadPage>(
-    () => {
+  const { mutate: mutation } = useMutation<ScratchpadPage>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: scratchpad.links.self,
         method: 'PATCH',
@@ -143,14 +142,17 @@ export const Scratchpad = ({
           </p>
         </Introducer>
       )}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mb-12 items-center">
         <div className="title">
           Your notes for <strong>{exercise.title}</strong> in
           <TrackIcon iconUrl={track.iconUrl} title={track.title} />
           <strong>{track.title}</strong>
         </div>
 
-        {content === page.contentMarkdown ? null : <AlertTag>Unsaved</AlertTag>}
+        <UnsavedWidget
+          isBelowLgWidth={isBelowLgWidth}
+          isUnchanged={content === page.contentMarkdown}
+        />
       </div>
 
       <form
@@ -183,4 +185,16 @@ export const Scratchpad = ({
       {error ? <p>{error}</p> : null}
     </>
   )
+}
+
+function UnsavedWidget({
+  isUnchanged,
+  isBelowLgWidth,
+}: Record<'isUnchanged' | 'isBelowLgWidth', boolean>): JSX.Element | null {
+  if (isUnchanged) return null
+  if (isBelowLgWidth)
+    return (
+      <div className="bg-red animate-fadeIn w-[8px] h-[8px] rounded-circle" />
+    )
+  return <AlertTag>Unsaved</AlertTag>
 }

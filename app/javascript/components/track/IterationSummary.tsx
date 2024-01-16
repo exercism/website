@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import { shortFromNow, fromNow } from '../../utils/time'
 import { SubmissionMethodIcon } from './iteration-summary/SubmissionMethodIcon'
 import { AnalysisStatusSummary } from './iteration-summary/AnalysisStatusSummary'
@@ -7,6 +7,7 @@ import { ProcessingStatusSummary } from '../common'
 import { IterationChannel } from '../../channels/iterationChannel'
 import { Iteration } from '../types'
 import { OutOfDateNotice } from './iteration-summary/OutOfDateNotice'
+import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
 
 const SUBMISSION_METHOD_LABELS = {
   cli: 'CLI',
@@ -17,15 +18,16 @@ type IterationSummaryProps = {
   iteration: Iteration
   className?: string
   showSubmissionMethod: boolean
+  showTimeStamp?: boolean
   showTestsStatusAsButton: boolean
   showFeedbackIndicator: boolean
   OutOfDateNotice?: React.ReactNode
 }
 
-export const IterationSummaryWithWebsockets = ({
+export default function IterationSummaryWithWebsockets({
   iteration: initialIteration,
   ...props
-}: IterationSummaryProps): JSX.Element => {
+}: IterationSummaryProps): JSX.Element {
   const [iteration, setIteration] = useState(initialIteration)
   const channel = useRef<IterationChannel | undefined>()
 
@@ -58,9 +60,11 @@ export function IterationSummary({
   showTestsStatusAsButton,
   showFeedbackIndicator,
   OutOfDateNotice,
+  showTimeStamp = true,
 }: IterationSummaryProps): JSX.Element {
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   return (
-    <div className={`c-iteration-summary ${className}`}>
+    <div className={`c-iteration-summary ${className ?? ''}`}>
       {showSubmissionMethod ? (
         <SubmissionMethodIcon submissionMethod={iteration.submissionMethod} />
       ) : null}
@@ -83,16 +87,20 @@ export function IterationSummary({
           ) : null}
         </div>
         <div className="--details" data-testid="details">
-          Submitted{' '}
+          {!isBelowLgWidth && 'Submitted '}
           {showSubmissionMethod
-            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}, `
+            ? `via ${SUBMISSION_METHOD_LABELS[iteration.submissionMethod]}${
+                showTimeStamp ? ',' : ''
+              } `
             : null}
-          <time
-            dateTime={iteration.createdAt.toString()}
-            title={iteration.createdAt.toString()}
-          >
-            {fromNow(iteration.createdAt)}
-          </time>
+          {showTimeStamp && (
+            <time
+              dateTime={iteration.createdAt.toString()}
+              title={iteration.createdAt.toString()}
+            >
+              {fromNow(iteration.createdAt)}
+            </time>
+          )}
         </div>
       </div>
       {OutOfDateNotice}
@@ -102,6 +110,7 @@ export function IterationSummary({
       ) : (
         <ProcessingStatusSummary iterationStatus={iteration.status} />
       )}
+
       {showFeedbackIndicator ? (
         <AnalysisStatusSummary
           numEssentialAutomatedComments={

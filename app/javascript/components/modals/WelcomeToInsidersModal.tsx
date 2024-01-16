@@ -1,21 +1,25 @@
 import React, { useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
+import { useMutation } from '@tanstack/react-query'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from './Modal'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export const WelcomeToInsidersModal = ({
+export default function WelcomeToInsidersModal({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(true)
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -50,15 +54,16 @@ export const WelcomeToInsidersModal = ({
       {...props}
       onClose={() => null}
       theme="dark"
-      className="m-community-launch"
+      className="m-welcome"
     >
       <div className="lhs">
         <header>
           <h1>Welcome to Insiders! 💙</h1>
 
           <p className="">
-            You now have access to Exercism Premium along with behind the scenes
-            videos, new badges, and more!
+            You now have access to Dark Mode, ChatGPT Integration, extra
+            mentoring slots along with behind the scenes videos, new badges, and
+            more!
           </p>
         </header>
 

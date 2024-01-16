@@ -24,7 +24,6 @@ class Mailshot < ApplicationRecord
   end
 
   def audience_for_donors(_) = [User::Data.donors, ->(user_data) { user_data.user }]
-  def audience_for_premium(_) = [User.premium, ->(user) { user }]
   def audience_for_insiders(_) = [User.insiders, ->(user) { user }]
 
   def audience_for_reputation(min_rep)
@@ -34,9 +33,9 @@ class Mailshot < ApplicationRecord
     ]
   end
 
-  def audience_for_recently_active(days)
+  def audience_for_recent(days)
     [
-      User.with_data.where('user_data.last_visited_on >= ?', Time.current - days.days),
+      User.with_data.where('user_data.last_visited_on >= ?', Time.current - days.to_i.days),
       lambda do |user|
         return unless user.iterations.count >= 2
 

@@ -5,17 +5,14 @@ import { CustomAmountInput } from './donation-form/CustomAmountInput'
 import { FormModal } from './footer-form/FormModal'
 import { GraphicalIcon } from '../common'
 import { Request } from '../../hooks/request-query'
-
-type Links = {
-  settings: string
-}
+import { StripeFormLinks } from './Form'
 
 const PRESET_AMOUNTS = [currency(16), currency(32), currency(64), currency(128)]
 const DEFAULT_AMOUNT = currency(16)
 
-type Props = {
+export type FooterFormProps = {
   request: Request
-  links: Links
+  links: StripeFormLinks
   userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
@@ -27,7 +24,7 @@ const FooterForm = ({
   userSignedIn,
   captchaRequired,
   recaptchaSiteKey,
-}: Props): JSX.Element => {
+}: FooterFormProps): JSX.Element => {
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
   const [customAmount, setCustomAmount] = useState('')
   const [modalOpen, setModalOpen] = useState(false)

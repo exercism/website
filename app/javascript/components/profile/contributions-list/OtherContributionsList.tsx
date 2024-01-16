@@ -1,20 +1,20 @@
 import React from 'react'
-import { Contribution as ContributionProps } from '../../types'
-import { TrackIcon, Reputation, GraphicalIcon, Pagination } from '../../common'
-import { fromNow } from '../../../utils/date'
-import { FetchingBoundary } from '../../FetchingBoundary'
-import { ResultsZone } from '../../ResultsZone'
-import { useList } from '../../../hooks/use-list'
-import { usePaginatedRequestQuery, Request } from '../../../hooks/request-query'
-
-type PaginatedResult = {
-  results: readonly ContributionProps[]
-  meta: {
-    currentPage: number
-    totalCount: number
-    totalPages: number
-  }
-}
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useList } from '@/hooks/use-list'
+import { fromNow } from '@/utils/date'
+import { scrollToTop } from '@/utils/scroll-to-top'
+import {
+  TrackIcon,
+  Reputation,
+  GraphicalIcon,
+  Pagination,
+} from '@/components/common'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import type {
+  Contribution as ContributionProps,
+  PaginatedResult,
+} from '@/components/types'
 
 const DEFAULT_ERROR = new Error('Unable to load other contributions')
 
@@ -24,11 +24,18 @@ export const OtherContributionsList = ({
   request: Request
 }): JSX.Element => {
   const { request, setPage } = useList(initialRequest)
-  const { status, resolvedData, latestData, isFetching, error } =
-    usePaginatedRequestQuery<PaginatedResult, Error | Response>(
-      [request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    error,
+  } = usePaginatedRequestQuery<
+    PaginatedResult<ContributionProps[]>,
+    Error | Response
+  >([request.endpoint, request.query], {
+    ...request,
+    options: { ...request.options, staleTime: 1000 },
+  })
 
   return (
     <ResultsZone isFetching={isFetching}>
@@ -45,10 +52,13 @@ export const OtherContributionsList = ({
               ))}
             </div>
             <Pagination
-              disabled={latestData === undefined}
-              current={request.query.page}
+              disabled={resolvedData === undefined}
+              current={request.query.page || 1}
               total={resolvedData.meta.totalPages}
-              setPage={setPage}
+              setPage={(p) => {
+                setPage(p)
+                scrollToTop('profile-contributions', 32)
+              }}
             />
           </React.Fragment>
         ) : null}
@@ -71,12 +81,7 @@ const Contribution = ({
 
   return (
     <a href={url} className="reputation-token">
-      <img
-        alt=""
-        role="presentation"
-        src={iconUrl}
-        className="c-icon primary-icon"
-      />
+      <img alt="" src={iconUrl} className="c-icon primary-icon" />
       <div className="info">
         <div className="title">{text}</div>
         <div className="extra">

@@ -47,7 +47,7 @@ class ReactComponents::Contributing::TasksListTest < ReactComponentTestCase
                 track: {
                   slug: "ruby",
                   title: "Ruby",
-                  icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg"
+                  icon_url: "https://assets.exercism.org/tracks/ruby.svg"
                 },
                 opened_by_username: "iHiD",
                 opened_at: "2021-03-05T23:23:00Z",
@@ -69,7 +69,7 @@ class ReactComponents::Contributing::TasksListTest < ReactComponentTestCase
                 track: {
                   slug: "ruby",
                   title: "Ruby",
-                  icon_url: "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/tracks/ruby.svg"
+                  icon_url: "https://assets.exercism.org/tracks/ruby.svg"
                 },
                 opened_by_username: "ErikSchierboom",
                 opened_at: "2020-10-17T02:39:37Z",

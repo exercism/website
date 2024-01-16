@@ -2,12 +2,16 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
-import { ResetAccountButton } from '../../../../app/javascript/components/settings/ResetAccountButton'
+import { default as ResetAccountButton } from '@/components/settings/ResetAccountButton'
 import { act } from 'react-dom/test-utils'
+import { TestQueryCache } from '../../support/TestQueryCache'
+import { queryClient } from '../../setupTests'
 
 test('closes modal when clicking on cancel', async () => {
   render(
-    <ResetAccountButton handle="" links={{ reset: '' }} ariaHideApp={false} />
+    <TestQueryCache queryClient={queryClient}>
+      <ResetAccountButton handle="" links={{ reset: '' }} ariaHideApp={false} />
+    </TestQueryCache>
   )
 
   act(() =>

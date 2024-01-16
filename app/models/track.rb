@@ -16,6 +16,10 @@ class Track < ApplicationRecord
   has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy
   has_many :reputation_tokens, class_name: "User::ReputationToken", dependent: :destroy
 
+  has_many :analyzer_tags, class_name: "Track::Tag", dependent: :destroy
+  has_many :exercise_tags, class_name: "Exercise::Tag", dependent: :destroy
+  has_many :solution_tags, class_name: "Solution::Tag", dependent: :destroy
+
   has_many :concept_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :practice_exercises # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :documents # rubocop:disable Rails/HasManyOrHasOneDependent
@@ -92,6 +96,11 @@ class Track < ApplicationRecord
       count
   end
 
+  memoize
+  def trophies
+    Track::Trophy.for_track(self)
+  end
+
   def icon_url = "#{Exercism.config.website_icons_host}/tracks/#{slug}.svg"
 
   def highlightjs_language
@@ -153,7 +162,7 @@ class Track < ApplicationRecord
     },
     platform: {
       windows: "Windows",
-      mac: "Mac OSX",
+      mac: "macOS",
       linux: "Linux",
       ios: "iOS",
       android: "Android",

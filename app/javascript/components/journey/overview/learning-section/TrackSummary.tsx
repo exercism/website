@@ -1,9 +1,10 @@
 import React from 'react'
-import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
-import { GraphicalIcon, ProgressGraph } from '../../../common'
-import { TrackProgress } from '../../types'
-import { timeFormat, fromNow } from '../../../../utils/time'
 import pluralize from 'pluralize'
+import { timeFormat, fromNow } from '@/utils/time'
+import { GraphicalIcon } from '@/components/common'
+import ProgressGraph from '@/components/common/ProgressGraph'
+import { TrackSummaryHeader } from './track-summary/TrackSummaryHeader'
+import type { TrackProgress } from '../../types'
 
 export const TrackSummary = ({
   track,
@@ -68,7 +69,7 @@ export const TrackSummary = ({
             </strong>{' '}
             in progress and{' '}
             <strong>
-              {track.numInProgressMentoringDiscussions === 0
+              {track.numQueuedMentoringRequests === 0
                 ? 'none'
                 : `${track.numQueuedMentoringRequests} ${pluralize(
                     'solution',
@@ -87,8 +88,8 @@ export const TrackSummary = ({
               <div className="note">Avg. on Exercism = {avgVelocity}</div>
             ) : null}
             <div className="info">
-              This is a measure of how quickly you’ve progressed through the
-              track in the last 6 months
+              This is a measure of how quickly you&apos;ve progressed through
+              the track in the last 6 months
             </div>
           </div>
         ) : null}

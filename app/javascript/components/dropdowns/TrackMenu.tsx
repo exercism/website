@@ -18,7 +18,7 @@ export type Links = {
 
 type ModalType = 'learning' | 'practice' | 'reset' | 'leave'
 
-export const TrackMenu = ({
+export default function TrackMenu({
   track,
   links,
   ariaHideApp = false,
@@ -26,7 +26,7 @@ export const TrackMenu = ({
   track: Track
   links: Links
   ariaHideApp?: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,
@@ -65,6 +65,12 @@ export const TrackMenu = ({
               <a href={links.documentation} target="_blank" rel="noreferrer">
                 <GraphicalIcon icon="docs" />
                 {track.title} documentation
+              </a>
+            </li>
+            <li {...itemAttributes(2)}>
+              <a href={links.buildStatus}>
+                <GraphicalIcon icon="building" />
+                Track Build Status
               </a>
             </li>
             {links.activatePracticeMode ? (

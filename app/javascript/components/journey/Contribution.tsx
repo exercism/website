@@ -1,12 +1,8 @@
 import React from 'react'
-import { fromNow } from '../../utils/date'
-import {
-  missingExerciseIconErrorHandler,
-  GraphicalIcon,
-  TrackIcon,
-  Reputation,
-} from '../common'
-import { Contribution as ContributionProps } from '../types'
+import { fromNow } from '@/utils/date'
+import { GraphicalIcon, TrackIcon, Reputation } from '@/components/common'
+import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
+import { Contribution as ContributionProps } from '@/components/types'
 
 export const Contribution = ({
   value,
@@ -24,7 +20,6 @@ export const Contribution = ({
     <a href={url} className="reputation-token">
       <img
         alt=""
-        role="presentation"
         src={iconUrl}
         className="c-icon primary-icon"
         onError={missingExerciseIconErrorHandler}

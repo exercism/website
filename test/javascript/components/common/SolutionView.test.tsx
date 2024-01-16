@@ -1,10 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { render } from '../../test-utils'
 import '@testing-library/jest-dom/extend-expect'
 import {
-  SolutionView,
+  default as SolutionView,
   Props,
-} from '../../../../app/javascript/components/common/SolutionView'
+} from '@/components/common/SolutionView'
 import { createIteration } from '../../factories/IterationFactory'
 import { build, perBuild } from '@jackfranklin/test-data-bot'
 

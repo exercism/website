@@ -5,7 +5,7 @@ module ViewComponents
     def initialize(docs, selected_doc, track: nil)
       super()
 
-      @docs = docs
+      @docs = docs.includes(:track)
       @selected_doc = selected_doc
       @track = track
     end
@@ -16,7 +16,7 @@ module ViewComponents
         tags << tag.h2(@track.title) if track
         tags << tag.input(class: 'side-menu-trigger', id: 'side-menu-trigger', type: 'checkbox', style: 'display: none')
         tags << hamburger
-        tags << tag.ul do
+        tags << tag.ul(class: 'c-docs-side-nav-ul', data: { scrollable_container: true }) do
           safe_join(
             structured_docs.map do |node, children|
               render_section(node, children)
@@ -77,7 +77,7 @@ module ViewComponents
 
       css_classes = []
       css_classes << "selected expanded" if doc.slug == selected_doc&.slug
-      scroll_into_view = true if doc.slug == selected_doc&.slug
+      scroll_into_view = ScrollAxis::Y if doc.slug == selected_doc&.slug
       css_classes << "header" if slugs_with_children.include?(doc.slug)
       css_classes << "expanded" if flatten_hash(children).any? { |c| c == selected_doc&.slug }
 

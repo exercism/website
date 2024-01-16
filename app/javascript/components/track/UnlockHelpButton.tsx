@@ -1,6 +1,6 @@
 import React from 'react'
-import { useMutation } from 'react-query'
-import { sendRequest } from '@/utils'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon } from '../common'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 
@@ -9,7 +9,7 @@ export function UnlockHelpButton({
 }: {
   unlockUrl: string
 }): JSX.Element {
-  async function UnlockHelp() {
+  function UnlockHelp() {
     const { fetch } = sendRequest({
       endpoint: unlockUrl,
       body: '',
@@ -39,7 +39,7 @@ export function UnlockHelpButton({
     )
   }
 
-  const [unlockHelp, { error }] = useMutation(() => UnlockHelp(), {
+  const { mutate: unlockHelp, error } = useMutation(UnlockHelp, {
     onSuccess: () => window.location.reload(),
   })
 
@@ -63,3 +63,5 @@ export function UnlockHelpButton({
     </div>
   )
 }
+
+export default UnlockHelpButton

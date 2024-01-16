@@ -27,6 +27,36 @@ class Markdown::RenderHTML
       end
     end
 
+    def image(node)
+      m = IMAGE_URL_REGEX.match(node.url)
+      return image_with_class(node) if m.nil?
+
+      if m[:path].end_with?('-invertible')
+        image_with_class(node, class_name: IMAGE_CLASS_INVERTIBLE)
+      elsif m[:path].end_with?('-light')
+        image_with_class(node, class_name: IMAGE_CLASS_LIGHT_THEME)
+        image_with_class(node, url: "#{m[:path][0..-7]}-dark.#{m[:extension]}#{m[:query_string]}", class_name: IMAGE_CLASS_DARK_THEME)
+      elsif m[:path].end_with?('-dark')
+        image_with_class(node, url: "#{m[:path][0..-6]}-light.#{m[:extension]}#{m[:query_string]}",
+          class_name: IMAGE_CLASS_LIGHT_THEME)
+        image_with_class(node, class_name: IMAGE_CLASS_DARK_THEME)
+      else
+        image_with_class(node)
+      end
+    end
+
+    def image_with_class(node, url: nil, class_name: nil)
+      out('<img src="', escape_href(url || node.url), '"')
+      plain do
+        out(' alt="')
+        node.each { |child| out(child) }
+        out('"')
+      end
+      out(' title="', escape_html(node.title), '"') if node.title.present?
+      out(' class="', class_name, '"') if class_name.present?
+      out(' />')
+    end
+
     def header_id(node)
       title = "h-#{header_string_content(node).join('-').parameterize}"
       unique_title = heading_id_counts[title].zero? ? title : "#{title}-#{heading_id_counts[title]}"
@@ -44,13 +74,16 @@ class Markdown::RenderHTML
       # TODO: re-enable once we figure out how to do custom scrubbing
       # return vimeo_link(node) if vimeo_link?(node)
 
+      uri = Addressable::URI.parse(node.url)
+
       out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
-      if external_url?(node.url)
+      if external_url?(uri)
         out(' target="_blank"')
         out(' rel="noreferrer', nofollow_links ? ' nofollow' : '', '"')
-      elsif nofollow_links
-        out(' rel="nofollow"')
+      else
+        out(' rel="nofollow"') if nofollow_links
+        out(' data-turbo="false"') if uri.fragment.present?
       end
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
@@ -64,8 +97,7 @@ class Markdown::RenderHTML
       end
     end
 
-    def external_url?(url)
-      uri = Addressable::URI.parse(url)
+    def external_url?(uri)
       return false if uri.scheme.nil?
       return true unless %w[https http].include?(uri.scheme)
       return false if %w[exercism.io exercism.lol local.exercism.io exercism.org local.exercism.io].include?(uri.host)
@@ -128,5 +160,11 @@ class Markdown::RenderHTML
     end
 
     NOTE_BLOCK_FENCES = %w[exercism/note exercism/caution exercism/advanced].freeze
+    IMAGE_URL_REGEX = /^(?<path>.+)\.(?<extension>jpe?g|png|gif|svg)(?<query_string>\?.+)?$/i
+    IMAGE_CLASS_INVERTIBLE = 'c-img-invertible'.freeze
+    IMAGE_CLASS_LIGHT_THEME = 'c-img-light-theme'.freeze
+    IMAGE_CLASS_DARK_THEME = 'c-img-dark-theme'.freeze
+    private_constant :NOTE_BLOCK_FENCES, :IMAGE_URL_REGEX, :IMAGE_CLASS_INVERTIBLE,
+      :IMAGE_CLASS_LIGHT_THEME, :IMAGE_CLASS_DARK_THEME
   end
 end

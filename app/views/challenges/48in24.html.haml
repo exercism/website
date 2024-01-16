@@ -1,0 +1,155 @@
+- week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
+- featured_exercise = @exercises.find { |e| e.week == week }
+- if featured_exercise
+  - featured_exercise_ps_data = Git::ProblemSpecifications::Exercise.new(featured_exercise.slug)
+- live_exercises = @exercises.select { |e| e.week <= week }
+- num_placeholders = 48 - live_exercises.size
+
+#challenge-48in24-page
+  %section.top-section
+    .lg-container
+      .flex.xl:flex-row.flex-col.xl:items-start.items-center
+        .xl:mr-auto{ class: 'max-w-[860px]' }
+          .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
+            %span.emoji.mr-6 📆
+            - if featured_exercise
+              Week #{week} of #48in24
+            - else
+              Begins Jan 16th 2024
+
+          - if featured_exercise
+            %h1.text-h1.mb-8 This week, we're featuring #{featured_exercise.title}.
+            %p.text-p-xlarge.mb-12
+              For week #{week} of #48in24, we're exploring #{link_to featured_exercise.title, generic_exercise_path(featured_exercise.slug), class: 'underline'}.
+            %p.text-p-large.mb-12= featured_exercise.learning_opportunity
+
+            %p.text-p-large.mb-12
+              Your task: #{featured_exercise.blurb}
+            %p.text-p-large.mb-12
+              We're featuring it into the following languages: #{featured_exercise.featured_tracks.map(&:to_s).map(&:titleize).to_sentence}.
+
+            - if featured_exercise_ps_data.deep_dive_youtube_id
+              .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
+                .flex-shrink
+                  %h2.text-h4.mb-4 Join Erik and Jeremy as they explore they different ways to approach this exercise 👉
+                  %p.text-p-base.mb-8
+                    Our weekly videos are relaxed conversations between Jeremy and Erik as they dig into the different ways people solve exercises using different paradigms and concepts.
+                  %p.text-p-base
+                    Enjoy watching and please leave a comment!
+
+                .rhs
+                  %div{ class: 'w-[100%] md:max-w-[500px]' }
+                    .c-youtube-container
+                      %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{featured_exercise_ps_data.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+            %h2.text-h3.mt-32.mb-6 Learn from others… 🎥
+            %p.text-p-large.mb-12.c-highlight-links
+              Join us as our staff and community stream solving our featured exercises, and dig into the different ways they can be approached.
+              Subscribe to our
+              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+              and
+              = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
+              to not miss out!
+              There's also a schedule at the top right of this page.
+
+            %p.text-p-large
+              Join in the conversation by using the
+              #{link_to '#48in24 tag on our forums', 'https://forum.exercism.org/tag/48in24', class: 'underline'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord', class: 'underline'},
+              or using the
+              %strong.font-semibold #48in24
+              hashtag around social media!
+          - else
+            %h1.text-h1.mb-8 #48in24 starts on January 16th!
+            %p.text-p-xlarge.mb-20
+              Every Tuesday for 48 weeks, we'll be featuring a different exercise.
+              This page will tell you everything you need to know about the featured exericse, and show you your progress through the year.
+            %p.text-p-xlarge.mb-20
+              We'll email you when the challenge starts!
+
+            %h2.text-h3.mt-32.mb-4 Subscribe to not miss out… 🎥
+            %p.text-p-large.mb-12.c-highlight-links
+              Join us as our staff and community stream solving our featured exercises, and dig into the different ways they can be approached.
+              Subscribe to our
+              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+              and
+              = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
+              to not miss out!
+              There's also a schedule at the top right of this page.
+
+            %p.text-p-large
+              Join in the conversation by using the
+              #{link_to '#48in24 tag on our forums', 'https://forum.exercism.org/tag/48in24', class: 'underline'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord', class: 'underline'},
+              or using the
+              %strong.font-semibold #48in24
+              hashtag around social media!
+
+          %h2.text-h3.mt-32.mb-6 #48in24 Badges
+          %p.text-p-large.xl:mb-12.mb-24.c-highlight-links
+            Throughout the year we'll be releasing badges as you earn bronze, silver and gold awards. Keep checking back here to see what badges have become available.
+
+
+        .xl:ml-80{ class: 'xl:max-w-[450px] max-w-[860px]' }
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
+            .text-h4.mb-4 How does #48in24 work?
+            %p.xl:text-p-base.text-p-large.mb-12 Each week we feature a new exercise. You can earn one of three statuses for each exercise:
+            %ul.xl:text-p-base.text-p-large.mb-12
+              %li
+                %strong{ class: "!text-textColor1" } Bronze:
+                Solve the exercise during 2024.
+              %li
+                %strong{ class: "!text-textColor1" } Silver:
+                Solve the exercise in any three languages during 2024.
+              %li
+                %strong{ class: "!text-textColor1" } Gold:
+                Qualify for silver status. Plus have solved the exercise in the three featured languages at some point (not necessarily in 2024).
+
+            %p.text-p-base.mb-12 Watch this video for more information!
+            = link_to "https://youtu.be/v6fMaOdUxSk", class: 'bg-backgroundColorB p-2 shadow-smZ1 rounded-8 relative block' do
+              = graphical_icon "video-play", css_class: '!absolute top-[80px] w-[30px] left-[50%] ml-[-30px] w-[60px] h-[60px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
+              = image_tag "https://assets.exercism.org/images/thumbnails/introducing-48-in-24.jpg", alt: 'A video thumbnail', class: 'block block w-fill rounded-5'
+
+            %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
+              Track your progress at the bottom of the page.
+
+          - if featured_exercise
+            .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
+              %h2.text-h4.mb-4 Enjoying #48in24? Please donate 🙏
+              %p.xl:text-p-base.text-p-large.mb-12
+                We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #48in24 and are financially able, please consider donating to keep Exercism going!
+              = link_to "Donate now", donate_path, class: 'btn btn-primary'
+
+  %article
+    .md-container
+      .flex.text-center.flex-col.items-center
+        %h1.text-h1.mb-16 Your #48in24 Progress
+        %p.text-p-xlarge
+          Below you'll see a list of all the featured exercises for #48in24, along with your progress for each. Click to jump to the exercise or featured tracks.
+        %p.text-p-large.cta
+          Read the instructions at the top-right of this page to understand how everything works.
+
+      .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto.exercises
+        - live_exercises.each do |exercise|
+          - status = exercise.status.to_s.dasherize
+          - num_completed_tracks = exercise.completed_tracks.count { |_, year| year == 2024 }
+          .exercise{ class: status }
+            = link_to generic_exercise_path(exercise.slug), class: 'info' do
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: '', class: "exercise-icon c-icon"
+              .text-h3.mb-16= exercise.title
+              %progress.progress-bar{ value: num_completed_tracks, max: 3 }
+              - if num_completed_tracks > 2
+                .count #{num_completed_tracks} completed during 2024
+              - else
+                .count #{num_completed_tracks} / 3 completed during 2024
+            .featured
+              .tracks
+                - exercise.featured_tracks.map do |track_slug|
+                  - completed = exercise.completed_tracks.key?(track_slug)
+                  = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}" do
+                    = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg"
+
+        - if num_placeholders.positive?
+          - num_placeholders.times do
+            .shadow-base.bg-backgroundColorA.rounded-8.flex.flex-col.items-center.justify-center.opacity-60{ class: 'min-h-[175px]' }
+              .text-h0{ class: "opacity-[0.2]" } ?

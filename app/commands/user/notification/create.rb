@@ -16,6 +16,13 @@ class User::Notification::Create
       exercise:,
       params:
     )
+
+    # Don't attempt to create a notification when there already is one
+    # This optimizes for scripts that create notifications but where
+    # the notification has usually already been created
+    existing_notification = user.notifications.find_by(uniqueness_key: notification.uniqueness_key)
+    return existing_notification if existing_notification.present?
+
     begin
       notification.save!
       notification.tap do

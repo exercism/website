@@ -2,8 +2,7 @@ import React, { forwardRef } from 'react'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
-import { ActionMore } from './header/ActionMore'
-import { Hints } from './header/Hints'
+import { More } from './header/More'
 
 export const Header = ({
   children,
@@ -32,8 +31,6 @@ Header.Title = ({
   </div>
 )
 
-Header.ActionHints = Hints
-
 Header.ActionKeyboardShortcuts = forwardRef<
   HTMLButtonElement,
   { onClick: () => void }
@@ -52,5 +49,4 @@ Header.ActionKeyboardShortcuts = forwardRef<
 })
 
 Header.ActionSettings = Settings
-
-Header.ActionMore = ActionMore
+Header.ActionMore = More

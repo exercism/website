@@ -1,5 +1,9 @@
 import { sendRequest } from '../../../utils/send-request'
-import { useMutation } from 'react-query'
+import {
+  MutationStatus,
+  UseMutateFunction,
+  useMutation,
+} from '@tanstack/react-query'
 
 export const useNotificationMutation = ({
   endpoint,
@@ -7,8 +11,16 @@ export const useNotificationMutation = ({
 }: {
   endpoint: string
   body: { uuids: readonly string[] } | null
-}) => {
-  const [mutation, { status, error }] = useMutation(() => {
+}): {
+  mutation: UseMutateFunction
+  status: MutationStatus
+  error: unknown
+} => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(async () => {
     const { fetch } = sendRequest({
       endpoint: endpoint,
       method: 'PATCH',

@@ -12,8 +12,7 @@ class AboutController < ApplicationController
       page(params[:page]).per(30).without_count.
       pluck(:user_id)
 
-    users = User.with_attached_avatar.
-      where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
+    users = User.where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
     @supporting_users = Kaminari.paginate_array(users, total_count: @num_individual_supporters).
       page(params[:page]).per(30)
   end
@@ -74,7 +73,7 @@ class AboutController < ApplicationController
       https://avatars1.githubusercontent.com/u/1099999?v=4
       https://exercism.org/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbDhLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--85c4ddce2d10fd2c488909446e464088ce8e6dd8/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWNocEFjZz0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf22b5230692a68d08c0320d3b3745f81d8aca85/joshjpeg.jpg
       https://avatars.githubusercontent.com/u/1228739
-      https://dg8krxphbh767.cloudfront.net/placeholders/user-avatar.svg
+      https://assets.exercism.org/placeholders/user-avatar.svg
       https://exercism.org/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBcUJQIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--e1c6d4ff9c5e01c0d42d9e72f0a951f555d6b699/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWNocEFjZz0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf22b5230692a68d08c0320d3b3745f81d8aca85/me_2012.jpg
       https://avatars1.githubusercontent.com/u/122470?v=4
       https://avatars0.githubusercontent.com/u/1964376

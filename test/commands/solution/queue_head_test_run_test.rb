@@ -80,6 +80,17 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.(solution)
   end
 
+  test "published/latest: does not init if tests are already running" do
+    solution = create :practice_solution, :published
+    submission = create(:submission, solution:)
+    create(:iteration, submission:, solution:)
+    submission.update!(tests_status: :queued)
+
+    Submission::TestRun::Init.expects(:call).never
+
+    Solution::QueueHeadTestRun.(solution)
+  end
+
   test "published: writes to efs if not already written" do
     solution = create :practice_solution, :published
     submission = create(:submission, solution:)

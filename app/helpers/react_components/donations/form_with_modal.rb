@@ -6,9 +6,9 @@ module ReactComponents
           "donations-with-modal-form",
           {
             request: {
-              endpoint: Exercism::Routes.api_payments_active_subscription_url(product: :donation),
+              endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
               options: {
-                initial_data: AssembleActiveSubscription.(current_user, :donation)
+                initial_data: AssembleCurrentSubscription.(current_user)
               }
             },
             user_signed_in: user_signed_in?,
@@ -16,7 +16,7 @@ module ReactComponents
             recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
             links: {
               settings: Exercism::Routes.donations_settings_url,
-              donate: Exercism::Routes.donate_url
+              success: Exercism::Routes.donate_url
             }
           }
         )

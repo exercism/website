@@ -28,7 +28,9 @@ class Submission::TestRun::Process
       else
         raise "Unknown status"
       end
-    rescue StandardError
+    rescue StandardError => e
+      # Alert bugsnag and mark as exceptioned
+      Bugsnag.notify(e)
       update_status!(:exceptioned)
     end
 
@@ -76,6 +78,9 @@ class Submission::TestRun::Process
       return if submission.tests_cancelled?
 
       submission.send("tests_#{status}!")
+
+      representation = submission.exercise_representation
+      Exercise::Representation::UpdateNumSubmissions.defer(representation) if representation
     end
   end
 
@@ -109,7 +114,8 @@ class Submission::TestRun::Process
   def results
     res = JSON.parse(tooling_job.execution_output['results.json'], allow_invalid_unicode: true)
     res.is_a?(Hash) ? res.symbolize_keys : {}
-  rescue StandardError
+  rescue StandardError => e
+    Bugsnag.notify(e)
     {}
   end
 

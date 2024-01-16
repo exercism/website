@@ -1,4 +1,5 @@
 - concept_meta_tags(@concept, @user_track)
+- require_stylesheet "track"
 
 #page-concept-show
   %header.concept-header
@@ -49,9 +50,9 @@
         .text You've mastered #{@concept.name} in #{@track.title}.
         = render ViewComponents::ProminentLink.new("Explore more concepts", track_concepts_path(@track))
 
-    .flex.flex-col.md:flex-row
-      .flex-grow.lg:w-arbitary.lg:mr-48.mb-32.lg:mb-0
-        %section.about.px-20.lg:px-32.py-20.lg:py-24
+    .flex.flex-col.xl:flex-row
+      .flex-grow.xl:w-arbitary.xl:mr-48.mb-32.xl:mb-0
+        %section.about.px-20.xl:px-32.py-20.xl:py-24
           .c-textual-content.--large
             %h2 About #{@concept.name}
             - if @user_track.external? || @user_track.concept_learnt?(@concept)
@@ -81,4 +82,3 @@
           = render "tracks/concepts/show/learnt", concept: @concept, user_track: @user_track, concept_exercises: @concept_exercises, practice_exercises: @practice_exercises, solutions: @solutions
         - elsif @concept_exercises.present?
           = render "tracks/concepts/show/learn", concept: @concept, user_track: @user_track, concept_exercises: @concept_exercises, practice_exercises: @practice_exercises, solutions: @solutions
-

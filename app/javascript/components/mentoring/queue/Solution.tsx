@@ -9,10 +9,8 @@ import { MentoringRequest } from './useMentoringQueue'
 import { ExercismTippy } from '../../misc/ExercismTippy'
 
 export const Solution = ({
-  studentAvatarUrl,
-  studentHandle,
-  exerciseTitle,
-  exerciseIconUrl,
+  student,
+  exercise,
   isFavorited,
   haveMentoredPreviously,
   status,
@@ -23,11 +21,11 @@ export const Solution = ({
   return (
     <ExercismTippy content={<StudentTooltip endpoint={tooltipUrl} />}>
       <a href={url} className="--solution">
-        <ExerciseIcon title={exerciseTitle} iconUrl={exerciseIconUrl} />
-        <Avatar src={studentAvatarUrl} handle={studentHandle} />
+        <ExerciseIcon title={exercise.title} iconUrl={exercise.iconUrl} />
+        <Avatar src={student.avatarUrl} handle={student.handle} />
         <div className="--info">
           <div className="--handle">
-            {studentHandle}
+            {student.handle}
             {isFavorited ? (
               <Icon
                 icon="gold-star"
@@ -42,7 +40,7 @@ export const Solution = ({
               />
             ) : null}
           </div>
-          <div className="--exercise-title">on {exerciseTitle}</div>
+          <div className="--exercise-title">on {exercise.title}</div>
         </div>
         {status ? <div className="--status">{status}</div> : null}
         <time className="-updated-at">{fromNow(updatedAt)}</time>

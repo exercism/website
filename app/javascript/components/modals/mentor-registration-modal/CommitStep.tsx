@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import { Icon, GraphicalIcon, FormButton } from '../../common'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { Icon, GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { ReputationInfo } from './commit-step/ReputationInfo'
 import { Checkbox } from './commit-step/Checkbox'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { ErrorMessage, ErrorBoundary } from '../../ErrorBoundary'
 
 export type Links = {
   codeOfConduct: string
@@ -26,8 +27,12 @@ export const CommitStep = ({
   onContinue: () => void
   onBack: () => void
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: links.registration,
         method: 'POST',

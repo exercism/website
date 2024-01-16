@@ -15,11 +15,11 @@ interface IProgressGraph {
   smooth?: boolean
 }
 
-export const ProgressGraph: React.FC<IProgressGraph> = ({
+export default function ProgressGraph({
   data,
   height,
   width,
-}) => {
+}: IProgressGraph): JSX.Element {
   const randomIdRef = useRef<null | number>(null)
 
   function getRandomId() {

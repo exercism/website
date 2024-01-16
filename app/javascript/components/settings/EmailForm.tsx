@@ -1,7 +1,10 @@
 import React, { useState, useCallback } from 'react'
+import { Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
-import { FormButton, Icon } from '../common'
 import { FormMessage } from './FormMessage'
+import { InputWithValidation } from './inputs/InputWithValidation'
+import { createMaxLengthAttributes } from './useInvalidField'
 
 type Links = {
   update: string
@@ -16,13 +19,13 @@ type RequestBody = {
 
 const DEFAULT_ERROR = new Error('Unable to change email')
 
-export const EmailForm = ({
+export default function EmailForm({
   defaultEmail,
   links,
 }: {
   defaultEmail: string
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [state, setState] = useState({ email: defaultEmail, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -52,12 +55,13 @@ export const EmailForm = ({
         <label htmlFor="user_email" className="label">
           Your email address
         </label>
-        <input
+        <InputWithValidation
           type="email"
           id="user_email"
           value={state.email}
           onChange={(e) => setState({ ...state, email: e.target.value })}
           required
+          {...createMaxLengthAttributes('Email', 255)}
         />
       </div>
       <div className="field">

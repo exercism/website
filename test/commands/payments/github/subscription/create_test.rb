@@ -16,9 +16,7 @@ class Payments::Github::Subscription::CreateTest < Payments::TestBase
     assert_equal user, subscription.user
     assert_equal :active, subscription.status
     assert_equal :github, subscription.provider
-    assert_equal :donation, subscription.product
     assert_equal :month, subscription.interval
-    assert user.active_donation_subscription?
   end
 
   test "idempotent" do
@@ -37,7 +35,7 @@ class Payments::Github::Subscription::CreateTest < Payments::TestBase
     user = create :user
     node_id = SecureRandom.uuid
     amount = 1500
-    User::InsidersStatus::TriggerUpdate.expects(:call).with(user).at_least_once
+    User::InsidersStatus::UpdateForPayment.expects(:call).with(user).at_least_once
 
     Payments::Github::Subscription::Create.(user, node_id, amount)
   end

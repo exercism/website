@@ -8,7 +8,7 @@
       - if current_user.unconfirmed_email.present?
         .unconfirmed-email
           %span We've sent a confirmation email to #{current_user.unconfirmed_email}
-          = link_to user_confirmation_path(user: { email: current_user.unconfirmed_email }), method: :post, class: "c-prominent-link" do
+          = button_to user_confirmation_path(user: { email: current_user.unconfirmed_email }), method: :post, class: "c-prominent-link" do
             %span Resend email
             = graphical_icon("arrow-right")
 

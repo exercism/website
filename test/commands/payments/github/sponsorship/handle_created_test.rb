@@ -5,7 +5,7 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
     sponsorship_node_id = SecureRandom.uuid
     is_one_time = false
     amount = 300
-    user = create :user, active_donation_subscription: true
+    user = create :user
 
     Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
@@ -18,7 +18,6 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
     assert_equal :active, subscription.status
     assert_equal :github, subscription.provider
     assert_equal :month, subscription.interval
-    assert user.active_donation_subscription?
   end
 
   test "creates payment with subscription if not a one time payment" do
@@ -26,15 +25,14 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
       sponsorship_node_id = SecureRandom.uuid
       is_one_time = false
       amount = 300
-      user = create :user, active_donation_subscription: false
+      user = create :user
 
       Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
       assert user.subscriptions.exists?
-      assert user.active_donation_subscription?
       assert_equal 1, user.payments.count
       assert_equal 1, user.subscriptions.count
-      payment = user.payments.last
+      payment = user.reload.payments.last
       subscription = user.subscriptions.last
       assert_equal sponsorship_node_id, payment.external_id
       assert_equal amount, payment.amount_in_cents
@@ -51,12 +49,11 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
   test "does not create a subscription if a one time payment" do
     sponsorship_node_id = SecureRandom.uuid
     is_one_time = true
-    user = create :user, active_donation_subscription: false
+    user = create :user
 
     Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, 300)
 
     refute user.subscriptions.exists?
-    refute user.active_donation_subscription?
   end
 
   test "creates payment without subscription if a one time payment" do
@@ -64,12 +61,11 @@ class Payments::Github::Sponsorship::HandleCreatedTest < Payments::TestBase
       sponsorship_node_id = SecureRandom.uuid
       is_one_time = true
       amount = 300
-      user = create :user, active_donation_subscription: false
+      user = create :user
 
       Payments::Github::Sponsorship::HandleCreated.(user, sponsorship_node_id, is_one_time, amount)
 
       refute user.subscriptions.exists?
-      refute user.active_donation_subscription?
       assert_equal 1, user.payments.count
       payment = user.payments.last
       assert_equal sponsorship_node_id, payment.external_id

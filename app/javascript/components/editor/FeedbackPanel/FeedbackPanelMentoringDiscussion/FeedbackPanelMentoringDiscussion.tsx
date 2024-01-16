@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRequestQuery } from '@/hooks'
+import { useRequestQuery } from '@/hooks/request-query'
 import { DiscussionPostProps } from '@/components/mentoring/discussion/DiscussionPost'
 import { FeedbackPanelProps } from '../FeedbackPanel'
 import { FeedbackDetail } from '../FeedbackDetail'
@@ -17,14 +17,14 @@ export function MentoringDiscussion({
   open?: boolean
 }): JSX.Element | null {
   const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
-    `posts-discussion-${discussion?.uuid}`,
+    [`posts-discussion-${discussion?.uuid}`],
     { endpoint: discussion?.links.posts, options: { enabled: !!discussion } }
   )
   if (discussion) {
     return (
       <FeedbackDetail open={open} summary="Code Review">
         {status === 'loading' ? (
-          <div>Loading...</div>
+          <div>Loading…</div>
         ) : (
           <div className="c-discussion-timeline">
             <p className="text-p-base">

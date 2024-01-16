@@ -4,13 +4,13 @@ import { StatusTab } from './inbox/StatusTab'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { TrackFilter } from './inbox/TrackFilter'
-import { useList } from '../../hooks/use-list'
 import {
   usePaginatedRequestQuery,
-  Request as BaseRequest,
-} from '../../hooks/request-query'
+  type Request as BaseRequest,
+} from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
 import { ResultsZone } from '../ResultsZone'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
 import { MentorDiscussion, DiscussionStatus } from '../types'
 
 export type SortOption = {
@@ -41,7 +41,7 @@ type Links = {
   queue: string
 }
 
-export const Inbox = ({
+export default function Inbox({
   tracksRequest,
   sortOptions,
   discussionsRequest,
@@ -51,10 +51,8 @@ export const Inbox = ({
   discussionsRequest: Request
   sortOptions: readonly SortOption[]
   links: Links
-}): JSX.Element => {
-  const [criteria, setCriteria] = useState(
-    discussionsRequest.query?.criteria || ''
-  )
+}): JSX.Element {
+  const [criteria, setCriteria] = useState(discussionsRequest.query?.criteria)
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -62,14 +60,19 @@ export const Inbox = ({
     setPage,
     setQuery,
   } = useList(discussionsRequest)
-  const { status, resolvedData, latestData, isFetching, refetch } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentor-discussion-list', request.endpoint, request.query],
-      request
-    )
+  const {
+    status,
+    data: resolvedData,
+    isFetching,
+    refetch,
+  } = usePaginatedRequestQuery<APIResponse>(
+    ['mentor-discussion-list', request.endpoint, request.query],
+    request
+  )
 
   useEffect(() => {
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       setRequestCriteria(criteria)
     }, 200)
 
@@ -149,7 +152,6 @@ export const Inbox = ({
         </header>
         <ResultsZone isFetching={isFetching}>
           <DiscussionList
-            latestData={latestData}
             resolvedData={resolvedData}
             status={status}
             refetch={refetch}

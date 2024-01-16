@@ -1,7 +1,7 @@
 import React from 'react'
 import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary'
 import { FallbackProps } from 'react-error-boundary'
-import { QueryStatus } from 'react-query'
+import { MutationStatus } from '@tanstack/react-query'
 import { Icon } from '../common'
 
 const ErrorMessage = ({ error }: FallbackProps): JSX.Element => {
@@ -19,7 +19,7 @@ export const FormMessage = ({
   defaultError,
   SuccessMessage,
 }: {
-  status: QueryStatus
+  status: MutationStatus
   error: unknown
   defaultError: Error
   SuccessMessage: React.ComponentType<{}>
@@ -42,7 +42,7 @@ const Message = ({
   defaultError,
   error,
 }: {
-  status: QueryStatus
+  status: MutationStatus
   SuccessMessage: React.ComponentType<{}>
   defaultError: Error
   error: unknown

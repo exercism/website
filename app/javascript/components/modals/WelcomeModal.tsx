@@ -1,20 +1,24 @@
 import React, { useCallback, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export const WelcomeModal = ({
+export default function WelcomeModal({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(true)
-  const [mutation, { status, error }] = useMutation(
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
     () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
@@ -26,7 +30,7 @@ export const WelcomeModal = ({
     },
     {
       onSuccess: () => {
-        handleClose()
+        setOpen(false)
       },
     }
   )
@@ -35,21 +39,13 @@ export const WelcomeModal = ({
     mutation()
   }, [mutation])
 
-  const handleClose = useCallback(() => {
-    if (status === 'loading') {
-      return
-    }
-
-    setOpen(false)
-  }, [status])
-
   return (
     <Modal
       cover={true}
       open={open}
       {...props}
       onClose={() => null}
-      className="m-community-launch"
+      className="m-welcome"
     >
       <div className="lhs">
         <header>
@@ -103,12 +99,12 @@ export const WelcomeModal = ({
             allowFullScreen
           />
         </div>
-        <h2 className="text-h4 mb-4">Where can I join #12in23?</h2>
+        <h2 className="text-h4 mb-4">Where can I join #48in24?</h2>
         <p className="text-p-base mb-8">
-          Discovered Exercism because of #12in23 or one of our featured months?
+          Discovered Exercism because of #48in24 or one of our featured months?
           Good stuff! Once you&apos;ve watched the video above, close this modal
           and you&apos;ll see a big graphic on the right-hand side advertising
-          #12in23. Click on that and follow the instructions to get started!
+          #48in24. Click on that and follow the instructions to get started!
         </p>
       </div>
     </Modal>

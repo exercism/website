@@ -1,9 +1,9 @@
 import React from 'react'
-import { Pagination, Loading, GraphicalIcon } from '../../common'
+import { QueryStatus, UseQueryResult } from '@tanstack/react-query'
+import { Pagination, Loading, GraphicalIcon } from '@/components/common'
 import { Discussion } from './Discussion'
-import { APIResponse } from '../Inbox'
-import { QueryStatus } from 'react-query'
-import { RefetchOptions } from 'react-query/types/core/query'
+import type { APIResponse } from '../Inbox'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 type Links = {
   queue: string
@@ -11,18 +11,16 @@ type Links = {
 
 export const DiscussionList = ({
   resolvedData,
-  latestData,
   refetch,
   status,
   setPage,
   links,
 }: {
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   status: QueryStatus
   setPage: (page: number) => void
-  refetch: (options?: RefetchOptions) => Promise<APIResponse | undefined>
   links: Links
+  refetch: () => Promise<UseQueryResult<APIResponse, unknown>>
 }): JSX.Element => {
   return (
     <div>
@@ -55,10 +53,13 @@ export const DiscussionList = ({
                 ))}
                 <footer>
                   <Pagination
-                    disabled={latestData === undefined}
+                    disabled={resolvedData === undefined}
                     current={resolvedData.meta.currentPage}
                     total={resolvedData.meta.totalPages}
-                    setPage={setPage}
+                    setPage={(p) => {
+                      setPage(p)
+                      scrollToTop()
+                    }}
                   />
                 </footer>
               </React.Fragment>

@@ -1,15 +1,16 @@
 import React from 'react'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { GraphicalIcon } from '../../../common/GraphicalIcon'
-import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { GraphicalIcon } from '@/components/common/GraphicalIcon'
+import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { FavoritableStudent } from '../FavoriteButton'
-import { FormButton } from '../../../common'
-import { typecheck } from '../../../../utils/typecheck'
+import { FormButton } from '@/components/common/FormButton'
+import { typecheck } from '@/components/../utils/typecheck'
 
 type ComponentProps = {
   endpoint: string
   onSuccess: (student: FavoritableStudent) => void
+  setIsRemoveButtonHoverable: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const AddFavoriteButton = (props: ComponentProps): JSX.Element => {
@@ -25,9 +26,14 @@ const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 const Component = ({
   endpoint,
   onSuccess,
+  setIsRemoveButtonHoverable,
 }: ComponentProps): JSX.Element | null => {
-  const [mutation, { status, error }] = useMutation<FavoritableStudent>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<FavoritableStudent>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'POST',
@@ -50,6 +56,8 @@ const Component = ({
     <FormButton
       onClick={() => {
         mutation()
+        // Disable `isHoverable` in RemoveFavoriteButton to prevent immediate hover after click.
+        setIsRemoveButtonHoverable(false)
       }}
       type="button"
       className="btn-small"

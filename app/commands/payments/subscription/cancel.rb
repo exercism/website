@@ -3,5 +3,8 @@ class Payments::Subscription::Cancel
 
   initialize_with :subscription
 
-  def call = Payments::Subscription::UpdateStatus.(subscription, :canceled)
+  def call
+    subscription.update!(status: :canceled)
+    User::InsidersStatus::Update.defer(subscription.user)
+  end
 end

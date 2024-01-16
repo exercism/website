@@ -1,0 +1,159 @@
+#challenge-48in24-page {
+    & .top-section {
+        @apply pt-32 pb-40;
+        @apply bg-backgroundColorA;
+        background: linear-gradient(
+            180deg,
+            var(--backgroundColorA) 80%,
+            var(--backgroundColorC) 100%
+        );
+    }
+    & article {
+        @apply pt-48 pb-48;
+
+        & p {
+            max-width: 770px;
+
+            & a {
+                @apply text-adaptivePurple font-medium;
+            }
+        }
+        & p.cta {
+            max-width: none;
+            @apply mt-24 mb-48;
+
+            @apply py-8 px-24 rounded-8;
+            @apply bg-backgroundColorI;
+            @apply font-medium;
+
+            & a {
+                @apply text-prominentLinkColor;
+            }
+        }
+        .exercises {
+            .exercise {
+                @apply shadow-smZ1 rounded-8 bg-backgroundColorB border-8;
+                @apply text-center;
+                @apply relative;
+
+                &.in-progress {
+                    @apply border-orange;
+                    &:before {
+                        content: "";
+                        background-image: url("icons/pending-circle-orange.svg");
+                        @apply rounded-100 bg-white;
+                    }
+                }
+                &.not-started {
+                    @apply border-transparent;
+                }
+
+                &.in-progress {
+                    @apply border-textColor7;
+                    .info .exercise-icon {
+                        @apply block;
+                    }
+                }
+
+                &.bronze {
+                    @apply border-[#DD8F43];
+                    box-shadow: 0 0 10px 4px #9d4f03;
+                    .info:before {
+                        content: "";
+                        background-image: url("icons/challenge-48in24-bronze.svg");
+                    }
+                }
+
+                &.silver {
+                    @apply border-[#C0C0C0];
+                    box-shadow: 0 0 10px 4px #707070;
+                    .info:before {
+                        content: "";
+                        background-image: url("icons/challenge-48in24-silver.svg");
+                    }
+                }
+
+                &.gold {
+                    @apply border-[#FFE500];
+                    box-shadow: 0 0 10px 4px #cdb800;
+                    .info {
+                        background: #ffe50022;
+                    }
+                    .featured {
+                        background: #ffe50044;
+                    }
+                    .info:before {
+                        content: "";
+                        background-image: url("icons/challenge-48in24-gold.svg");
+                    }
+                }
+
+                .info {
+                    @apply py-16 px-24 flex flex-col items-center;
+                    @apply border-1 border-textColor7;
+
+                    &:before {
+                        /* @apply absolute top-[-10px] right-[-12px]; */
+                        @apply w-[128px] h-[128px] bg-cover;
+                        @apply mt-[-30px];
+                        @apply mb-16;
+                    }
+                    .exercise-icon {
+                        @apply h-[96px] w-[96px] mb-8 hidden;
+                    }
+
+                    progress,
+                    .progress {
+                        @apply appearance-none w-100 rounded-8 overflow-hidden;
+                        @apply mt-auto mb-10;
+                        height: 8px;
+                    }
+                    progress {
+                        &::-webkit-progress-bar {
+                            @apply bg-backgroundColorI;
+                        }
+                        &[value] {
+                            &::-webkit-progress-value {
+                                background-color: #d7d7d7;
+                                background-image: linear-gradient(
+                                    145deg,
+                                    #d7d7d7 0%,
+                                    #666666 100%
+                                );
+                            }
+                        }
+                    }
+                    .progress {
+                        @apply bg-successColor;
+                    }
+                    .count {
+                        @apply font-semibold;
+                    }
+                }
+                .featured {
+                    @apply border-t-1 border-borderColor5;
+                    @apply bg-backgroundColorD;
+                    @apply border-1 border-textColor7;
+                    @apply px-24 py-20 mt-[-1px];
+                    .tracks {
+                        @apply flex gap-16 items-center justify-center;
+                        .track-icon {
+                            @apply block;
+                            img {
+                                @apply w-[48px] h-[48px];
+                            }
+                            &.completed {
+                                img {
+                                    filter: grayscale(1) opacity(0.5)
+                                        drop-shadow(0 0 0 #ffe500)
+                                        saturate(300%)
+                                        drop-shadow(0px 0px 5px #ffe500);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

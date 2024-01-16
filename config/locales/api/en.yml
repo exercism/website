@@ -3,7 +3,8 @@ en:
     errors:
       not_onboarded: "You have not yet onboarded on the website"
       not_supermentor: "You do not have supermentor permissions"
-      not_supermentor_for_track: "You do not have supermentor permissions for this track"
+      not_automator: "You do not have automator permissions for this track"
+      not_trainer: "You do not have trainer permissions for this track"
       not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
       duplicate_video: "The video has already been submitted by someone else"
@@ -23,6 +24,8 @@ en:
       solution_comment_not_accessible: "This comment is not accessible"
       submission_not_found: "This submission could not be found"
       submission_not_accessible: "You do not have permission to view this submission"
+      trophy_not_found: "This trophy could not be found"
+      trophy_not_accessible: "You do not have permission to access this trophy"
       representation_not_found: "This representation could not be found"
       team_not_found: "The team could not be found"
       track_ambiguous: "Please specify a track ID"
@@ -32,6 +35,7 @@ en:
       # TODO: Add max size to this
       file_too_large: "The submitted file was too large"
       too_many_requests: "A rate limit has been hit"
+      sample_not_found: "The sample was not found"
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."
@@ -54,5 +58,5 @@ en:
       invalid_metric_type: "The metric type is invalid"
       profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"
       invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"
-      no_donation_subscription: "The subscription is not a donation subscription"
-      no_premium_subscription: "The subscription is not a premium subscription"
+      invalid_discussion_status: "The discussion status is invalid"
+      training_data_code_tags_sample_locked: "This training data code tags sample is locked by someone else."

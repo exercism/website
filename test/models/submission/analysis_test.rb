@@ -24,6 +24,17 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert_nil analysis.summary
   end
 
+  test "tags is empty if nil" do
+    analysis = create :submission_analysis, tags_data: { tags: nil }
+    assert_empty analysis.tags
+  end
+
+  test "tags returns tags from tags_data" do
+    tags = ["construct:if", "paradigm:functional"]
+    analysis = create :submission_analysis, tags_data: { tags: }
+    assert_equal tags, analysis.tags
+  end
+
   test "comments doesn't raise" do
     TestHelpers.use_website_copy_test_repo!
     Github::Issue::Open.expects(:call)
@@ -132,24 +143,6 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert analysis.has_informative_comments?
   end
 
-  test "celebratory comments: none" do
-    comments = ["ruby.two-fer.incorrect_default_param"]
-    analysis = create :submission_analysis, data: { comments: }
-
-    assert_equal 0, analysis.num_celebratory_comments
-    refute analysis.has_celebratory_comments?
-  end
-
-  test "celebratory comments: one" do
-    analysis = create :submission_analysis, data: { comments: [{
-      "comment" => "ruby.two-fer.string_interpolation",
-      "type": "celebratory"
-    }] }
-
-    assert_equal 1, analysis.num_celebratory_comments
-    assert analysis.has_celebratory_comments?
-  end
-
   test "essential comments: none" do
     comments = ["ruby.two-fer.incorrect_default_param"]
     analysis = create :submission_analysis, data: { comments: }
@@ -183,6 +176,23 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
 
     assert_equal 1, analysis.num_actionable_comments
     assert analysis.has_actionable_comments?
+  end
+
+  test "celebratory comments: none" do
+    analysis = create :submission_analysis, data: { comments: [] }
+
+    assert_equal 0, analysis.num_celebratory_comments
+    refute analysis.has_actionable_comments?
+  end
+
+  test "celebratory comments: one" do
+    analysis = create :submission_analysis, data: { comments: [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "type": "celebratory"
+    }] }
+
+    assert_equal 1, analysis.num_celebratory_comments
+    assert analysis.has_celebratory_comments?
   end
 
   test "comments with bad types don't break" do

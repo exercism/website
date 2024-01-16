@@ -112,6 +112,13 @@
                 & .c-solution-iterations {
                     height: 500px;
 
+                    &.full-height-iteration {
+                        height: 100%;
+                        .c-iteration-pane {
+                            height: 100%;
+                        }
+                    }
+
                     & .c-iteration-summary {
                         @apply py-8 px-24;
                         @apply border-b-1 border-borderColor7;

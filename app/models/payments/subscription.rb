@@ -5,7 +5,6 @@ class Payments::Subscription < ApplicationRecord
 
   enum status: { canceled: 0, overdue: 1, active: 2, pending: 3 }
   enum provider: { stripe: 0, github: 1, paypal: 2 }
-  enum product: { donation: 0, premium: 1 }
   enum interval: { month: 0, year: 1 }
 
   def amount_in_dollars = amount_in_cents / BigDecimal(100)
@@ -13,7 +12,6 @@ class Payments::Subscription < ApplicationRecord
 
   def status = super.to_sym
   def provider = super.to_sym
-  def product = super.to_sym
   def interval = super.to_sym
 
   def last_payment = payments.order(:id).last

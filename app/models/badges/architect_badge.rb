@@ -21,6 +21,7 @@ module Badges
       davidgerva
       efx
       erikschierboom
+      glennj
       junedev
       meatball
       mikedamay

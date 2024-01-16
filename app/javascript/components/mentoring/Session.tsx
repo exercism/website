@@ -1,4 +1,10 @@
-import React, { useState, createContext, useCallback } from 'react'
+import React, {
+  useState,
+  createContext,
+  useCallback,
+  useEffect,
+  useContext,
+} from 'react'
 
 import { CommunitySolution, Guidance as GuidanceTypes, Student } from '../types'
 import { CloseButton } from './session/CloseButton'
@@ -31,11 +37,20 @@ import {
 } from '../types'
 
 import { useIterationScrolling } from './session/useIterationScrolling'
-import { SplitPane } from '../common'
+import { SplitPane } from '../common/SplitPane'
 import { FavoritableStudent } from './session/FavoriteButton'
+import {
+  MentorRequestChannel,
+  ChannelResponse as MentorRequestChannelResponse,
+} from '@/channels/mentorRequestChannel'
+import { CancelledRequestModal } from './session/CancelledRequestModal'
+import { ScreenSizeContext } from './session/ScreenSizeContext'
+import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
+import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
 
 export type Links = {
   mentorDashboard: string
+  mentorQueue: string
   improveNotes: string
   mentoringDocs: string
 }
@@ -66,6 +81,7 @@ export type SessionProps = {
   request: Request
   scratchpad: Scratchpad
   downloadCommand: string
+  studentSolutionUuid: string
 }
 
 export type SessionGuidance = Pick<
@@ -73,14 +89,14 @@ export type SessionGuidance = Pick<
   'exercise' | 'track' | 'links'
 >
 
-export type TabIndex = 'discussion' | 'scratchpad' | 'guidance'
+export type TabIndex = 'discussion' | 'scratchpad' | 'guidance' | 'code'
 
 export const TabsContext = createContext<TabContext>({
   current: 'instructions',
   switchToTab: () => null,
 })
 
-export const Session = (props: SessionProps): JSX.Element => {
+export default function Session(props: SessionProps): JSX.Element {
   const [session, setSession] = useState(props)
   const {
     student,
@@ -99,6 +115,7 @@ export const Session = (props: SessionProps): JSX.Element => {
     scratchpad,
     userHandle,
     downloadCommand,
+    studentSolutionUuid,
   } = session
   const [tab, setTab] = useState<TabIndex>('discussion')
 
@@ -109,14 +126,42 @@ export const Session = (props: SessionProps): JSX.Element => {
     [session]
   )
 
-  const { iterations, status } = useDiscussionIterations({
+  const { iterations, setIterations, status } = useDiscussionIterations({
     discussion: discussion,
     iterations: initialIterations,
+    studentSolutionUuid,
   })
 
   const [isLinked, setIsLinked] = useState(false)
+  const [cancelledRequestModalOpen, setCancelledRequestModalOpen] =
+    useState(false)
   const { currentIteration, handleIterationClick, handleIterationScroll } =
-    useIterationScrolling({ iterations: iterations, on: isLinked })
+    useIterationScrolling({
+      iterations: iterations,
+      on: isLinked,
+      setIterations,
+    })
+
+  useEffect(() => {
+    const mentorRequestChannel = new MentorRequestChannel(
+      request,
+      (response: MentorRequestChannelResponse) => {
+        if (response.mentorRequest.status === 'cancelled') {
+          setCancelledRequestModalOpen(true)
+        }
+      }
+    )
+
+    return () => {
+      mentorRequestChannel.disconnect()
+    }
+    // Only run this hook on mount, we don't want to re-establish channel connection when the request updates,
+    // because the only relevant information for this hook is the uuid of the request which should never change.
+  }, [])
+
+  const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
+
+  usePanelFallback({ tab, setTab, isBelowLgWidth })
 
   return (
     <div className="c-mentor-discussion">
@@ -124,7 +169,7 @@ export const Session = (props: SessionProps): JSX.Element => {
         id="mentoring-session"
         defaultLeftWidth="90%"
         leftMinWidth={550}
-        rightMinWidth={625}
+        rightMinWidth={isBelowLgWidth ? 0 : 625}
         left={
           <>
             <header className="discussion-header">
@@ -168,6 +213,12 @@ export const Session = (props: SessionProps): JSX.Element => {
             >
               <>
                 <div className="tabs" role="tablist">
+                  {isBelowLgWidth && (
+                    <Tab id="code" context={TabsContext}>
+                      <GraphicalIcon icon="comment" />
+                      <Tab.Title text="Code" />
+                    </Tab>
+                  )}
                   <Tab id="discussion" context={TabsContext}>
                     <GraphicalIcon icon="comment" />
                     <Tab.Title text="Discussion" />
@@ -181,6 +232,26 @@ export const Session = (props: SessionProps): JSX.Element => {
                     <Tab.Title text="Guidance" />
                   </Tab>
                 </div>
+                {isBelowLgWidth && (
+                  <MobileCodePanel
+                    currentIteration={currentIteration}
+                    discussion={discussion}
+                    downloadCommand={downloadCommand}
+                    exercise={exercise}
+                    instructions={instructions}
+                    isLinked={isLinked}
+                    setIsLinked={setIsLinked}
+                    iterations={iterations}
+                    links={links}
+                    onClick={handleIterationClick}
+                    outOfDate={outOfDate}
+                    session={session}
+                    setSession={setSession}
+                    student={student}
+                    testFiles={testFiles}
+                    track={track}
+                  />
+                )}
                 <Tab.Panel id="discussion" context={TabsContext}>
                   <StudentInfo student={student} setStudent={setStudent} />
                   {discussion ? (
@@ -234,6 +305,12 @@ export const Session = (props: SessionProps): JSX.Element => {
             </TabsContext.Provider>
           </PostsWrapper>
         }
+      />
+      <CancelledRequestModal
+        open={cancelledRequestModalOpen}
+        onClose={() => setCancelledRequestModalOpen(false)}
+        links={links}
+        isLocked={request.isLocked}
       />
     </div>
   )

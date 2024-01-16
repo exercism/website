@@ -88,7 +88,6 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_1 = user_1.subscriptions.first
     assert_equal :active, subscription_1.status
     assert_equal :stripe, subscription_1.provider
-    assert_equal :donation, subscription_1.product
     assert_equal :month, subscription_1.interval
     assert_equal "su_1", subscription_1.external_id
     assert_equal 999, subscription_1.amount_in_cents
@@ -97,7 +96,6 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_2 = user_2.subscriptions.first
     assert_equal :active, subscription_2.status
     assert_equal :stripe, subscription_2.provider
-    assert_equal :premium, subscription_2.product
     assert_equal :year, subscription_2.interval
     assert_equal "su_2", subscription_2.external_id
     assert_equal 777, subscription_2.amount_in_cents
@@ -191,7 +189,6 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_1 = user_1.subscriptions.first
     assert_equal :active, subscription_1.status
     assert_equal :stripe, subscription_1.provider
-    assert_equal :donation, subscription_1.product
     assert_equal "su_1", subscription_1.external_id
     assert_equal 999, subscription_1.amount_in_cents
 
@@ -200,7 +197,6 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
     subscription_2 = user_2.subscriptions.first
     assert_equal :active, subscription_2.status
     assert_equal :stripe, subscription_2.provider
-    assert_equal :premium, subscription_2.product
     assert_equal "su_2", subscription_2.external_id
     assert_equal 777, subscription_2.amount_in_cents
   end

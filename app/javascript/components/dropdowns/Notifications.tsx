@@ -9,7 +9,7 @@ import { DropdownAttributes } from './useDropdown'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 
 export type APIResponse = {
   results: NotificationType[]
@@ -80,15 +80,18 @@ const DropdownContent = ({
 const MAX_NOTIFICATIONS = 5
 const CACHE_KEY = 'notifications'
 
-export const Notifications = ({
+export default function Notifications({
   endpoint,
 }: {
   endpoint: string
-}): JSX.Element => {
+}): JSX.Element {
   const [isStale, setIsStale] = useState(false)
-  const { resolvedData, error, status, refetch } = usePaginatedRequestQuery<
-    APIResponse
-  >(CACHE_KEY, {
+  const {
+    data: resolvedData,
+    error,
+    status,
+    refetch,
+  } = usePaginatedRequestQuery<APIResponse, unknown>([CACHE_KEY], {
     endpoint: endpoint,
     query: { per_page: MAX_NOTIFICATIONS },
     options: {},

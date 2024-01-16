@@ -40,7 +40,13 @@ class ChallengesController < ApplicationController
       sort_by(&:second).reverse. # Order by highest count first
       to_h # Then back to {track_id => count}
 
-    @tracks = Track.where(id: @track_counts.keys).index_by(&:id)
+    @tracks = Track.includes(:concepts).where(id: @track_counts.keys).index_by(&:id)
     @badge_progress_exercises = User::Challenges::FeaturedExercisesProgress12In23.(current_user)
+    @badge_progress_exercise_earned_count = @badge_progress_exercises.count { |progress| progress[:earned_for].present? }
+    @badge_progress_exercise_count = User::Challenges::FeaturedExercisesProgress12In23.num_featured_exercises
+  end
+
+  def load_data_for_48in24 # rubocop:disable Naming/VariableNumber
+    @exercises = User::Challenges::FeaturedExercisesProgress48In24.(current_user)
   end
 end

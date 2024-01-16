@@ -1,6 +1,9 @@
 .c-mentor-inbox,
+.c-mentor-automation,
+.c-training-data,
 .c-mentor-queue {
-    & .--solution {
+    & .--solution,
+    .--code-sample {
         @apply border-backgroundColorC border-t-1;
         @apply flex items-center;
         @apply py-8 px-20;
@@ -96,5 +99,8 @@
             height: 16px;
             width: 16px;
         }
+    }
+    .--code-sample {
+        @apply py-16;
     }
 }

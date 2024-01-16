@@ -1,0 +1,66 @@
+@import "../minimal_tailwind.css";
+@import "../ui-kit/minimal.css";
+
+/* Journey */
+@import "../pages/journey";
+@import "../pages/journey/overview";
+@import "../pages/journey/solutions";
+@import "../pages/journey/reputation";
+@import "../pages/journey/badges";
+@import "../components/community-rank-tag";
+
+/* Header + Notifications */
+@import "../pages/notifications";
+@import "../dropdowns/notifications";
+@import "../dropdowns/reputation";
+@import "../components/notification";
+@import "../components/notification-dot";
+@import "../components/theme-toggle-button";
+
+/* Track/exercise */
+@import "../modals/activate-track-mode";
+@import "../modals/completed-tutorial-exercise";
+@import "../modals/completed-exercise";
+@import "../modals/publish-exercise";
+@import "../modals/unpublish-solution";
+@import "../modals/change-published-iteration";
+@import "../modals/update-exercise";
+@import "../dropdowns/request-mentoring";
+@import "../dropdowns/open-editor-button";
+@import "../components/mentoring-request-form";
+@import "../components/completed-exercise-progress";
+@import "../pages/exercise-mentoring";
+
+/* Mentoring */
+@import "../components/mentor-discussion-post-editor";
+@import "../modals/mentoring-sessions";
+@import "../modals/confirm-finish-student-mentor-discussion";
+@import "../modals/finish-student-mentor-discussion";
+@import "../modals/become-mentor";
+@import "../modals/change-mentor-tracks";
+@import "../modals/select-exercise-for-mentoring";
+@import "../modals/session-info";
+@import "../components/mentor-discussion-widget";
+@import "../components/mentor-discussion-summary";
+@import "../components/mentor-track-selector";
+
+/* Mentoring + Editor */
+@import "../components/discussion-timeline";
+
+/* Mentoring + Editor + Track */
+@import "../modals/automated-feedback";
+
+/* Profile */
+@import "../pages/profile-intro";
+@import "../pages/profile-new";
+@import "../components/avatar-selector";
+
+/* Settings */
+@import "../pages/settings";
+@import "../modals/crop-avatar";
+
+/* Misc */
+@import "../modals/bug-report";
+@import "../components/markdown-editor";
+@import "../modals/generic-confirmation";
+@import "../modals/generic-destructive";

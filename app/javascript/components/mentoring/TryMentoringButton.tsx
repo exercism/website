@@ -12,7 +12,7 @@ export type Links = {
 
 export type Size = 'm' | 'l'
 
-export const TryMentoringButton = ({
+export default function TryMentoringButton({
   links,
   text,
   size,
@@ -20,7 +20,7 @@ export const TryMentoringButton = ({
   links: Links
   text: string
   size: Size
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (

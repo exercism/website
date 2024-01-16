@@ -1,5 +1,6 @@
 import React, { useState, createContext, useCallback, useMemo } from 'react'
-import { PaymentIntentType } from './StripeForm'
+import { useQueryClient } from '@tanstack/react-query'
+import { PaymentIntentType } from './stripe-form/useStripeForm'
 import { Tab, TabContext } from '../common/Tab'
 import { Icon } from '../common'
 import { TransactionForm } from './TransactionForm'
@@ -9,18 +10,14 @@ import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { useQueryCache } from 'react-query'
+import { FormWithModalLinks } from './FormWithModal'
 
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
   switchToTab: () => null,
 })
 
-type Links = {
-  settings: string
-}
-
-type FormAmount = {
+export type FormAmount = {
   subscription: currency
   payment: currency
 }
@@ -41,10 +38,10 @@ type Props = {
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   userSignedIn: boolean
   captchaRequired: boolean
-  recaptchaSiteKey: string
+  recaptchaSiteKey?: string
   onProcessing?: () => void
   onSettled?: () => void
-  links: Links
+  links: StripeFormLinks
   id?: string
 }
 
@@ -61,10 +58,10 @@ export const Form = ({
   onSettled = () => null,
   id,
 }: Props): JSX.Element => {
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription
-  }>('active-subscription', request)
+  }>(['active-subscription'], request)
   const [amount, setAmount] = useState({
     subscription: SUBSCRIPTION_DEFAULT_AMOUNT,
     payment: PAYMENT_DEFAULT_AMOUNT,
@@ -114,7 +111,7 @@ export const Form = ({
   const handleSuccess = useCallback(
     (type, amount) => {
       if (type === 'subscription') {
-        queryCache.setQueryData('active-subscription', () => {
+        queryClient.setQueryData(['active-subscription'], () => {
           return {
             subscription: {
               amountInCents: amount.intValue,
@@ -125,7 +122,7 @@ export const Form = ({
 
       onSuccess(type, amount)
     },
-    [onSuccess, queryCache]
+    [onSuccess, queryClient]
   )
 
   return (
@@ -181,6 +178,24 @@ export const Form = ({
                 ) : null}
               </TransactionForm>
             </FetchingBoundary>
+            <ExercismStripeElements
+              mode="subscription"
+              amount={
+                currentAmount?.intValue || PAYMENT_DEFAULT_AMOUNT.intValue
+              }
+            >
+              <StripeForm
+                confirmParamsReturnUrl={links.success}
+                paymentIntentType={transactionType}
+                userSignedIn={userSignedIn}
+                captchaRequired={captchaRequired}
+                recaptchaSiteKey={recaptchaSiteKey}
+                amount={currentAmount || currency(0)}
+                onSuccess={handleSuccess}
+                onProcessing={onProcessing}
+                onSettled={onSettled}
+              />
+            </ExercismStripeElements>
           </Tab.Panel>
           <Tab.Panel id="payment" context={TabsContext}>
             <TransactionForm
@@ -193,21 +208,29 @@ export const Form = ({
                 currency(128),
               ]}
             />
+            <ExercismStripeElements
+              mode="payment"
+              amount={
+                currentAmount?.intValue || PAYMENT_DEFAULT_AMOUNT.intValue
+              }
+            >
+              <StripeForm
+                confirmParamsReturnUrl={links.success}
+                paymentIntentType={transactionType}
+                userSignedIn={userSignedIn}
+                captchaRequired={captchaRequired}
+                recaptchaSiteKey={recaptchaSiteKey}
+                amount={currentAmount || currency(0)}
+                onSuccess={handleSuccess}
+                onProcessing={onProcessing}
+                onSettled={onSettled}
+              />
+            </ExercismStripeElements>
           </Tab.Panel>
-          <ExercismStripeElements>
-            <StripeForm
-              paymentIntentType={transactionType}
-              userSignedIn={userSignedIn}
-              captchaRequired={captchaRequired}
-              recaptchaSiteKey={recaptchaSiteKey}
-              amount={currentAmount}
-              onSuccess={handleSuccess}
-              onProcessing={onProcessing}
-              onSettled={onSettled}
-            />
-          </ExercismStripeElements>
         </div>
       </div>
     </TabsContext.Provider>
   )
 }
+
+export default Form

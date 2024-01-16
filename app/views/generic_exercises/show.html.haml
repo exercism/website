@@ -1,0 +1,82 @@
+- content_for :meta_title, "Solve #{@ps_data.title} on Exercism"
+- content_for :meta_description, "Can you solve #{@ps_data.title}? Improve your programming and problem-solving skills with support from our world-class team of mentors."
+- content_for :canonical_url, generic_exercise_url(@ps_data.slug)
+- require_stylesheet "track"
+
+#page-generic-exercise
+  .header.mb-8.py-8
+    .lg-container.flex.items-center.relative
+      = exercise_icon @exercise, css_class: "self-start md:self-center w-[80px] h-[80px] md:w-[118px] md:h-[118px] mr-12 md:mr-24"
+      .flex-grow
+        %h1.text-h1.md:mb-2= @exercise.title
+        .text-p-xlarge= @ps_data.blurb
+
+  .lg-container
+    .flex.flex-col.md:flex-row.gap-48
+      .lhs
+        - if @ps_data.deep_dive_youtube_id.present?
+          .mb-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
+            .text-h3.mb-8 Deep Dive into #{@exercise.title}!
+            %p.text-p-large.mb-16 Take a deep dive into #{@exercise.title} with Jeremy and Erik, as they explore the different ways this exercise can be solved and dig into some interesting community solutions.
+            %div{ class: 'w-[100%]' }
+              .c-youtube-container
+                %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@ps_data.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+
+        %section.instructions.px-20.lg:px-32.py-20.lg:py-24
+          .text-h3.mb-12 Instructions
+          .c-textual-content.--large
+            .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
+              = raw @ps_data.description_html
+
+            - if @exercise.tutorial?
+              %p.mb-20
+                Watch our "Introduction to Hello, World" video to get started 👇
+                = vimeo_embed("853440496?h=6abbdfc68f")
+
+            - source = @ps_data.source
+            - source_url = @ps_data.source_url
+            - if source.present? || source_url.present?
+              .source
+                %hr.c-divider.--small
+                %h3 Source
+                - if source.present? && source_url.present?
+                  = external_link_to source, source_url
+                - elsif source.present?
+                  = source
+                - else
+                  Explore the #{external_link_to 'source of this exercise', source_url}.
+
+      .flex-shrink-0{ class: "md:w-[33%]" }
+        - if @featured_in_2024_languages
+          .shadow-lg.bg-backgroundColorA.px-20.py-16.mb-24.rounded-8
+            .flex.items-center.gap-16
+              .lhs
+                .text-h4.mb-2 Part of #48in24
+                %p.xl:text-p-base.text-p-large
+                  #{@exercise.title} is featured as part of
+                  = succeed('.') do
+                    = link_to "#48in24 challenge", challenge_path("48in24")
+                  Solve it in
+                  = @featured_in_2024_languages.map { |track| link_to track.title, track_exercise_path(track.slug, @exercise.slug) }.to_sentence.html_safe
+                  to earn the gold award.
+              = graphical_icon "challenge-48in24-gold-circle", width: 80, height: 80
+
+        .text-h4.mb-2 Try #{@exercise.title} in #{@track_variants.size} different languages…
+        %p.xl:text-p-base.text-p-large.mb-20
+          - if @num_completed_solutions.positive?
+            So far you've completed it in #{pluralize @num_completed_solutions, 'language'}.
+          - else
+            You've not yet completed it in any languages.
+
+        %section.tracks.grid.grid-cols-1.lg:grid-cols-3.xl:grid-cols-4.gap-16
+          - @track_variants.each do |exercise|
+            - track = exercise.track
+            - solution = @solutions[exercise.track_id]
+            - if solution
+              - css_class = solution.completed? ? "completed" : "in-progress"
+            - else
+              - css_class = 'not-started'
+            = link_to track_exercise_path(track, exercise), class: css_class do
+              = image_tag exercise.track.icon_url, class: 'track-icon'
+              .font-medium.text-textColor1.text-16= track.title

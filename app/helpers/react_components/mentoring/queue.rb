@@ -42,9 +42,7 @@ module ReactComponents
           options: {
             initial_data: {
               tracks: tracks_data
-            },
-            stale_time: 0,
-            cache_time: 0
+            }
           }
         }
       end
@@ -74,9 +72,7 @@ module ReactComponents
           endpoint: Exercism::Routes.api_mentoring_requests_path,
           query:,
           options: {
-            initial_data: AssembleMentorRequests.(mentor, query),
-            stale_time: 0,
-            cache_time: 0
+            initial_data: AssembleMentorRequests.(mentor, query)
           }
         }
       end

@@ -85,7 +85,7 @@
 
     & .rhs {
         @apply flex-shrink-0;
-        @screen lg {
+        @screen xl {
             width: 520px;
         }
     }

@@ -8,7 +8,7 @@ export const useEditorFiles = ({
 }: {
   defaultFiles: File[]
   editorRef: React.MutableRefObject<FileEditorHandle | undefined>
-}) => {
+}): { get: () => File[]; set: (files: File[]) => void } => {
   const get = useCallback(() => {
     const files = editorRef.current?.getFiles()
 
@@ -18,9 +18,10 @@ export const useEditorFiles = ({
 
     return files
   }, [defaultFiles, editorRef])
-  const set = useCallback((files) => editorRef.current?.setFiles(files), [
-    editorRef,
-  ])
+  const set = useCallback(
+    (files) => editorRef.current?.setFiles(files),
+    [editorRef]
+  )
 
   return { get, set }
 }

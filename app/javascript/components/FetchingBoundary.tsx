@@ -1,6 +1,6 @@
 import React from 'react'
 import { Loading } from './common/Loading'
-import { QueryStatus } from 'react-query'
+import { MutationStatus } from '@tanstack/react-query'
 import { ErrorBoundary, useErrorHandler, ErrorFallback } from './ErrorBoundary'
 import { FallbackProps } from 'react-error-boundary'
 
@@ -24,7 +24,7 @@ export const FetchingBoundary = ({
   FallbackComponent = ErrorFallback,
   LoadingComponent = Loading,
 }: React.PropsWithChildren<{
-  status: QueryStatus
+  status: MutationStatus
   error: Error | unknown
   defaultError: Error
   FallbackComponent?: React.ComponentType<FallbackProps>

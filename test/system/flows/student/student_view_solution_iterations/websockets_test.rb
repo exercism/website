@@ -26,7 +26,7 @@ module Flows
 
             submission_analysis_finished!(submission)
 
-            assert_text "Our Ruby Analyzer has some comments on your solution"
+            assert_text "Our Ruby Analyzer generated this feedback when analyzing your solution."
           end
         end
 

@@ -8,7 +8,7 @@ module Pages
         include CapybaraHelpers
 
         test "exercise page in different states" do
-          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
           hello_world = create(:hello_world_exercise, track:)
           ce_1 = create :concept_exercise, track:, slug: 'movie'
           ce_2 = create :concept_exercise, track:, slug: 'team'
@@ -83,7 +83,7 @@ module Pages
         end
 
         test "exercise page always unlocked for admin user" do
-          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
           ce_1 = create :concept_exercise, track:, slug: 'movie'
           ce_2 = create :concept_exercise, track:, slug: 'team'
           ce_3 = create :concept_exercise, track:, slug: 'book', status: :deprecated
@@ -129,7 +129,7 @@ module Pages
         end
 
         test "exercise page for exercise with append instructions" do
-          track = create :track, slug: :ruby_1, title: "Ruby #{SecureRandom.hex}"
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
           pe = create :practice_exercise, track:, slug: 'bob', status: :active
 
           user = create :user
@@ -141,6 +141,35 @@ module Pages
             visit track_exercise_path(track, pe)
             assert_text "Instructions for bob"
             assert_text "Extra instructions for bob"
+          end
+        end
+
+        test "switching to practice mode unlocks things" do
+          track = create :track, slug: "ruby", title: "Ruby #{SecureRandom.hex}"
+          ce = create :concept_exercise, track:, slug: 'movie'
+          pe = create :practice_exercise, track:, slug: 'bob'
+          concept = create :concept, track:, slug: 'basics'
+          ce.taught_concepts << concept
+          pe.prerequisites << concept
+
+          user = create :user
+          create(:user_track, user:, track:)
+          create(:hello_world_solution, :completed, track:, user:)
+          stub_latest_track_forum_threads(track)
+
+          use_capybara_host do
+            sign_in!(user.reload)
+            visit track_path(track)
+
+            click_on "Practice"
+            within(".c-exercise-widget:last-child") { assert_text "Locked" }
+
+            click_on "Track options"
+            click_on "Disable Learning Mode…"
+            click_on "Disable Learning Mode"
+
+            click_on "Practice"
+            within(".c-exercise-widget:last-child") { refute_text "Locked" }
           end
         end
       end

@@ -22,7 +22,6 @@ class User::AuthenticateFromOmniauth
     User::SetGithubUsername.(user, auth.info.nickname)
 
     user.update_column(:avatar_url, auth.info.image) if user.attributes['avatar_url'].blank?
-
     user
   end
 

@@ -28,10 +28,6 @@ class User::Data < ApplicationRecord
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
   def email_status = super.to_sym
 
-  def premium?
-    (premium_until.present? && premium_until > Time.current)
-  end
-
   def usages = super || (self.usages = {})
 
   def chatgpt_usage

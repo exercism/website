@@ -1,6 +1,6 @@
-class Admin::PerksController < ApplicationController
-  before_action :set_partner
-  before_action :set_perk, only: %i[show edit update destroy]
+class Admin::PerksController < Admin::BaseController
+  before_action :use_partner
+  before_action :use_perk, only: %i[show edit update destroy]
 
   # GET /admin/perks/1
   def show; end
@@ -40,11 +40,11 @@ class Admin::PerksController < ApplicationController
   end
 
   private
-  def set_partner
+  def use_partner
     @partner = Partner.find_by(slug: params[:partner_id])
   end
 
-  def set_perk
+  def use_perk
     @perk = @partner.perks.find_by(uuid: params[:id])
   end
 
@@ -55,7 +55,7 @@ class Admin::PerksController < ApplicationController
         status preview_text
         light_logo dark_logo
         general_url general_offer_summary_markdown general_button_text general_offer_details general_voucher_code
-        premium_url premium_offer_summary_markdown premium_button_text premium_offer_details premium_voucher_code
+        insiders_url insiders_offer_summary_markdown insiders_button_text insiders_offer_details insiders_voucher_code
 
       ]
     )

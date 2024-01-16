@@ -10,7 +10,7 @@ class RackAttackTest < Webhooks::BaseTestCase
 
       # Sanity check: different token does not count against rate limit
       5.times do
-        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: User.find(@current_user.id) }, headers: @headers, as: :json
         assert_response :success
       end
 
@@ -25,18 +25,18 @@ class RackAttackTest < Webhooks::BaseTestCase
 
       # Sanity check: different HTTP method does not count against limit
       5.times do
-        patch api_user_path, params: { user: @current_user }, headers: @headers, as: :json
+        patch api_user_path, params: { user: User.find(@current_user.id) }, headers: @headers, as: :json
         assert_response :success
       end
 
       # Sanity check: response not rate limited while not exceeding limit
       5.times do
-        put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
+        put api_user_path, params: { user: User.find(@current_user.id) }, headers: @headers, as: :json
         assert_response :success
       end
 
       # Exceeding rate limit returns too_many_requests response
-      put api_user_path, params: { user: @current_user }, headers: @headers, as: :json
+      put api_user_path, params: { user: User.find(@current_user.id) }, headers: @headers, as: :json
       assert_response :too_many_requests
     end
   end

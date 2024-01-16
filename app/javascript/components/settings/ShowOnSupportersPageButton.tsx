@@ -12,18 +12,16 @@ type RequestBody = {
   }
 }
 
-const DEFAULT_ERROR = new Error('Unable to change setting')
-
-export const ShowOnSupportersPageButton = ({
+export default function ShowOnSupportersPageButton({
   defaultValue,
   links,
 }: {
   defaultValue: boolean
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [value, setValue] = useState(defaultValue)
 
-  const { mutation, status, error } = useSettingsMutation<RequestBody>({
+  const { mutation } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',
     body: { user: { show_on_supporters_page: value } },

@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { APIResult } from '../ContributionsList'
 
 const DEFAULT_ERROR = new Error('Unable to mark all as seen')
@@ -19,8 +19,12 @@ export const MarkAllAsSeenModal = ({
   onSuccess: (response: APIResult) => void
   unseenTotal: number
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<APIResult>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResult>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

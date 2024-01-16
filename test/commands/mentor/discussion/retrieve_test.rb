@@ -169,4 +169,22 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     assert_empty Mentor::Discussion::Retrieve.(user, :all, page: 1, exclude_uuid: [discussion_1.uuid, discussion_2.uuid])
     assert_equal [discussion_2], Mentor::Discussion::Retrieve.(user, :all, page: 1, exclude_uuid: discussion_1.uuid)
   end
+
+  test "raises when status is invalid" do
+    user = create :user
+    status = :unknown
+
+    assert_raises InvalidDiscussionStatusError do
+      Mentor::Discussion::Retrieve.(user, status)
+    end
+  end
+
+  test "raises when status is nil" do
+    user = create :user
+    status = nil
+
+    assert_raises InvalidDiscussionStatusError do
+      Mentor::Discussion::Retrieve.(user, status)
+    end
+  end
 end

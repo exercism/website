@@ -1,13 +1,13 @@
 import React from 'react'
-import { Exercise, Track, SolutionForStudent } from '../types'
-import { ExerciseWidget } from '../common'
-import { useRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { Loading } from './Loading'
+import { Exercise, Track, SolutionForStudent } from '@/components/types'
+import ExerciseWidget from '@/components/common/ExerciseWidget'
+import { useRequestQuery } from '@/hooks/request-query'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ExerciseTooltipSkeleton } from '../common/skeleton/skeletons/ExerciseTooltipSkeleton'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
-export const ExerciseTooltip = React.forwardRef<
+const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
@@ -15,7 +15,7 @@ export const ExerciseTooltip = React.forwardRef<
     track: Track
     exercise: Exercise
     solution: SolutionForStudent
-  }>(endpoint, { endpoint: endpoint, options: {} })
+  }>([endpoint], { endpoint: endpoint, options: {} })
 
   return (
     <div className="c-exercise-tooltip" {...props} ref={ref}>
@@ -23,7 +23,7 @@ export const ExerciseTooltip = React.forwardRef<
         status={status}
         error={error}
         defaultError={DEFAULT_ERROR}
-        LoadingComponent={() => <Loading alt="Unable to load exercises" />}
+        LoadingComponent={() => <ExerciseTooltipSkeleton />}
       >
         {data ? (
           /* If we want the track we need to add a pivot to this,
@@ -31,7 +31,7 @@ export const ExerciseTooltip = React.forwardRef<
           <ExerciseWidget
             exercise={data.exercise}
             solution={data.solution}
-            renderAsLink={false}
+            isStatic
           />
         ) : (
           <span>Unable to load information</span>
@@ -40,3 +40,5 @@ export const ExerciseTooltip = React.forwardRef<
     </div>
   )
 })
+
+export default ExerciseTooltip

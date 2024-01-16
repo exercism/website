@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :set_request_context
   after_action :set_body_class_header
   after_action :set_csp_header
+  after_action :set_link_header
   after_action :updated_last_visited_on!
 
   def process_action(*args)
@@ -70,6 +71,12 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  def ensure_trainer!
+    return if current_user&.trainer?(@track)
+
+    redirect_to training_data_external_path
+  end
+
   # We want to mark relevant notifications as read, but we don't
   # care about doing this before the rest of the action is run, so we
   # use a promise to kick it off async. However, we do want it to finish
@@ -102,8 +109,9 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_path
   end
 
-  def ensure_supermentor!
-    return if current_user&.supermentor?
+  def ensure_automator!
+    return if current_user&.staff?
+    return if current_user&.track_mentorships&.automator&.exists?
 
     redirect_to mentoring_path
   end
@@ -123,23 +131,22 @@ class ApplicationController < ActionController::Base
     websockets = "ws://#{Rails.env.production? ? 'exercism.org' : 'local.exercism.io:3334'}"
     stripe = "https://js.stripe.com"
     captcha = %w[https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/]
-    google_fonts_font = "https://fonts.gstatic.com"
-    google_fonts_css = "https://fonts.googleapis.com"
     fontawesome = "https://maxcdn.bootstrapcdn.com"
     spellchecker = "https://cdn.jsdelivr.net"
+    bugsnag = "https://sessions.bugsnag.com/"
 
-    default = %w['self' https://exercism.org https://api.exercism.org https://d24y9kuxp2d7l2.cloudfront.net]
+    default = %w['self' https://exercism.org https://api.exercism.org https://assets.exercism.org]
     default << "127.0.0.1" if Rails.env.test?
 
     {
       default:,
-      connect: ["'self'", websockets, spellchecker],
+      connect: ["'self'", websockets, spellchecker, bugsnag],
       img: %w['self' data: https://*],
       media: %w[*],
       script: default + [stripe, spellchecker, *captcha],
       frame: [stripe, *captcha],
-      font: [google_fonts_font, fontawesome],
-      style: default + ["'unsafe-inline'", google_fonts_css, fontawesome],
+      font: default + [fontawesome],
+      style: default + ["'unsafe-inline'", fontawesome],
       child: %w['none']
 
     }.map do |type, domains|
@@ -173,7 +180,25 @@ class ApplicationController < ActionController::Base
   end
 
   def set_csp_header
+    return unless Rails.env.production?
+
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
+  end
+
+  def set_link_header
+    links = [
+      LinkHeaderLink.new('website.css', rel: :preload, as: :style),
+      LinkHeaderLink.new('poppins-v20-latin-regular.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous),
+      LinkHeaderLink.new('poppins-v20-latin-600.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous)
+    ]
+    response.set_header('Link', links.map(&:to_s).join(","))
+  end
+  LinkHeaderLink = Struct.new(:asset, :attrs) do
+    include Propshaft::Helper
+    def to_s
+      url = "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path(asset)}"
+      "<#{url}>; #{attrs.map { |k, v| %(#{k}="#{v}") }.join('; ')}"
+    end
   end
 
   def storable_location?

@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { QueryStatus } from 'react-query'
 import { ResultsZone } from '@/components/ResultsZone'
 import {
   Avatar,
@@ -10,19 +9,22 @@ import {
 import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
-import type { Request } from '@/hooks'
+import { type Request } from '@/hooks/request-query'
 import type { VideoTrack } from '@/components/types'
 import type { CommunityVideoType } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
-type VideoGridProps = {
-  data: {
-    tracks: VideoTrack[]
-    itemsPerRow: number
-    request: Request
-  }
+export type VideoGridProps = {
+  tracks: VideoTrack[]
+  itemsPerRow: number
+  request: Request
 }
 
-export function VideoGrid({ data }: VideoGridProps): JSX.Element {
+export function VideoGrid({
+  tracks,
+  itemsPerRow,
+  request,
+}: VideoGridProps): JSX.Element {
   const {
     resolvedData,
     page,
@@ -32,7 +34,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
     selectedTrack,
     criteria,
     setCriteria,
-  } = useVideoGrid(data.request, data.tracks)
+  } = useVideoGrid(request, tracks)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const timer = useRef<any>()
@@ -52,7 +54,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
   return (
     <>
       <VideoGridHeader
-        tracks={data.tracks}
+        tracks={tracks}
         handleTrackChange={handleTrackChange}
         selectedTrack={selectedTrack}
       />
@@ -61,7 +63,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
         <input
           className="grow --search --right"
           placeholder="Search community content"
-          value={criteria}
+          value={criteria || ''}
           onChange={(e) => {
             setCriteria(e.target.value)
             handlePageResetOnInputChange(e.target.value)
@@ -71,7 +73,7 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
 
       <ResultsZone isFetching={isFetching}>
         <div
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${data.itemsPerRow} gap-16`}
+          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${itemsPerRow} gap-16`}
         >
           {resolvedData && resolvedData.results.length > 0 ? (
             resolvedData.results.map((video) => (
@@ -87,7 +89,10 @@ export function VideoGrid({ data }: VideoGridProps): JSX.Element {
           <Pagination
             current={page}
             total={resolvedData.meta.totalPages}
-            setPage={setPage}
+            setPage={(p) => {
+              setPage(p)
+              scrollToTop('video-grid')
+            }}
           />
         )}
       </ResultsZone>
@@ -125,7 +130,7 @@ function VideoGridHeader({
         tracks={tracks}
         setValue={handleTrackChange}
         sizeVariant="automation"
-        status={QueryStatus.Success}
+        status={'success'}
         error={undefined}
         countText={'video'}
       />
@@ -195,3 +200,5 @@ function NoResultsYet() {
     </div>
   )
 }
+
+export default VideoGrid

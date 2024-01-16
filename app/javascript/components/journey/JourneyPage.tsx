@@ -11,7 +11,7 @@ import { ContributionsList } from './ContributionsList'
 import { SolutionsList } from './SolutionsList'
 import { BadgesList } from './BadgesList'
 import { Overview } from './Overview'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 
 type CategoryId = 'solutions' | 'reputation'
 
@@ -28,13 +28,13 @@ export type Category = {
   request: Request
 }
 
-export const JourneyPage = ({
+export default function JourneyPage({
   defaultCategory,
   categories,
 }: {
   defaultCategory: CategoryId
   categories: readonly Category[]
-}): JSX.Element => {
+}): JSX.Element {
   const isMounted = useRef(false)
   const [currentCategory, setCurrentCategory] = useState<Category>(() => {
     const category = categories.find((c) => c.id === defaultCategory)

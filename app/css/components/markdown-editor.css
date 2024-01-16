@@ -21,7 +21,9 @@
         height: 99px;
         &:before {
             content: "Add a comment";
-            @apply py-12 px-16;
+            /* 'pr-[100%]' increases touch area to open MD editor on mobile devices */
+            @apply py-12 pl-16 pr-[100%];
+            @apply whitespace-nowrap;
             @apply text-16 leading-160 text-textColor7;
             @apply absolute z-1;
             top: 0;
@@ -52,7 +54,23 @@
         @apply flex flex-col-reverse;
 
         & .editor-toolbar {
-            @apply hidden md:flex;
+            .preview {
+                @apply relative border-0;
+                &::after {
+                    content: "Preview";
+                    font-family: "Poppins";
+                    @apply absolute text-12 font-medium -translate-y-[50%] top-[50%] left-[24px] px-8;
+                    @apply flex lg:hidden items-center h-[30px];
+                    border-radius: 0px 5px 5px 0px;
+                }
+
+                &.active {
+                    @apply bg-tabBackgroundColorSelected;
+                    &::after {
+                        @apply bg-tabBackgroundColorSelected;
+                    }
+                }
+            }
 
             border-width: 0; /* Override default */
             @apply border-t-1 border-borderColor5 rounded-none;
@@ -63,11 +81,11 @@
 
                 &:hover {
                     @apply border-0;
-                    @apply bg-tabBackgroundColorSelected rounded-5;
+                    @apply lg:bg-tabBackgroundColorSelected rounded-5;
                 }
                 &.active {
                     @apply border-0;
-                    @apply bg-tabBackgroundColorSelected rounded-5;
+                    @apply lg:bg-tabBackgroundColorSelected rounded-5;
                 }
             }
         }

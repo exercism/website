@@ -7,6 +7,6 @@
       %h2.text-center A taste of the concepts you&apos;ll cover
       %hr.c-divider
 
-    = image_tag "screenshots/concept-map.svg", role: :presentation, class: "screenshot", width: 2880, height: 1434
+    = image_tag "screenshots/concept-map.svg", class: "screenshot", width: 2880, height: 1434
 
     = render ViewComponents::ProminentLink.new("See all the concepts for #{track.title}", track_concepts_path(track))

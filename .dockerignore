@@ -1,8 +1,15 @@
+.appends/
+.built-assets/
 .cache/
 .git/
 .github/
+.husky/
+docs/
 log/
 node_modules/
 public/packs/
 storage/
+test/
 tmp/
+vendor/
+docker/*.Dockerfile

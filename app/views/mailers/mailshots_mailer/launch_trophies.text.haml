@@ -1,0 +1,21 @@
+Hi exercism-bot,
+\
+Last week we rolled out Track Trophies for Exercism's language tracks, a new way of marking and celebrating your progress 🏆
+\
+- if @num_trophies == 1
+  Based on your past achievements, we've already awarded you a trophy in #{@trophy_tracks.first.title}. You can reveal it in the new Trophy cabinet at #{track_url(@trophy_tracks.first)}
+- elsif @trophy_tracks.size == 1
+  Based on your past achievements, we've already awarded you #{@num_trophies.humanize} trophies in #{@trophy_tracks.first.title}. You can reveal them in the new Trophy cabinet at #{track_url(@trophy_tracks.first)}
+- else
+  Based on your past achievements, we've already awarded you #{@num_trophies} trophies across:
+  - @trophy_tracks.each do |track|
+    \- #{track.title} (#{track_url(track)})
+  \
+  You can reveal them in the new Trophy cabinet on each Track page.
+\
+Trophies are all about giving you that extra motivational nudge and making the learning journey a bit more fun. Hit milestones, achieve learning goals, and the trophy is yours. We also have language-specific trophies in the works. You'll be able to earn them for mastering recursion in Elixir, getting cozy with prototypes in JavaScript, or becoming a metaprogramming maestro in Ruby.
+\
+Take some time to check out the new Trophies feature and I hope you enjoy the learning adventure! 🚀
+\
+Jeremy Walker
+Exercism Co-founder

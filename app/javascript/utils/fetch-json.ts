@@ -1,20 +1,16 @@
 import { camelizeKeys } from 'humps'
 
-export const fetchJSON = <T extends any>(
+export async function fetchJSON<T extends any>(
   input: RequestInfo,
   options: RequestInit
-): Promise<T> => {
+): Promise<T> {
   const headers = {
     'content-type': 'application/json',
     accept: 'application/json',
   }
 
-  return fetch(input, Object.assign(options, { headers: headers }))
-    .then((response) => {
-      if (!response.ok) {
-        throw response
-      }
-
+  return fetch(input, Object.assign(options, { headers }))
+    .then(async (response) => {
       const contentType = response.headers.get('Content-Type')
       if (
         !contentType ||
@@ -24,12 +20,9 @@ export const fetchJSON = <T extends any>(
         throw response
       }
 
-      return response
-    })
-    .then((response) => {
+      if (!response.ok) throw response
+
       return response.json()
     })
-    .then((json) => {
-      return camelizeKeys(json) as T
-    })
+    .then((json) => camelizeKeys(json) as T)
 }

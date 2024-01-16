@@ -137,7 +137,7 @@
 
 .theme-light {
     --backgroundColorA: var(--c-FFFFFF);
-    --backgroundColorA-RGB: 255, 255, 255;
+    --backgroundColorA-RGB: 255 255 255;
     --backgroundColorB: var(--c-FBFCFE);
     --backgroundColorC: var(--c-EAECF3);
     --backgroundColorD: var(--c-F0F3F9);
@@ -204,6 +204,7 @@
     --backgroundColorReputationInfo: theme(colors.trueDarkGray);
     --backgroundColorNavDropdown: theme(colors.aliceBlue);
     --backgroundColorDonationFormCover: rgba(255, 255, 255, 0.6);
+    --backgroundColorHoverMenuTrack: #fafaff;
 
     --backgroundImpactPageHeader: linear-gradient(
             180deg,
@@ -217,7 +218,7 @@
             rgba(250, 250, 255, 0) 77.6%,
             #fafaff 100%
         ),
-        url("bg-tracks-header@2x.jpg"), #fafaff;
+        var(--hex-bg-image), #fafaff;
 
     --backgroundImageHex: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA4MCA4MCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1IDIuODg3YTEwIDEwIDAgMCAxIDEwIDBsMjQuNjQgMTQuMjI2YTEwIDEwIDAgMCAxIDUgOC42NnYyOC40NTNhMTAgMTAgMCAwIDEtNSA4LjY2TDQ1IDc3LjExNGExMCAxMCAwIDAgMS0xMCAwTDEwLjM1OSA2Mi44ODdhMTAgMTAgMCAwIDEtNS04LjY2VjI1Ljc3NGExMCAxMCAwIDAgMSA1LTguNjZsMjQuNjQtMTQuMjI3eiIvPjxwYXRoIGZpbGw9IiMxMzBCNDMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTY3Ljc2NiAyMC4zNiA0My4xMjUgNi4xMzVhNi4yNSA2LjI1IDAgMCAwLTYuMjUgMEwxMi4yMzQgMjAuMzYxYTYuMjUgNi4yNSAwIDAgMC0zLjEyNSA1LjQxM3YyOC40NTNhNi4yNSA2LjI1IDAgMCAwIDMuMTI1IDUuNDEybDI0LjY0IDE0LjIyN2E2LjI1IDYuMjUgMCAwIDAgNi4yNSAwbDI0LjY0Mi0xNC4yMjdhNi4yNSA2LjI1IDAgMCAwIDMuMTI1LTUuNDEzVjI1Ljc3NGE2LjI1IDYuMjUgMCAwIDAtMy4xMjUtNS40MTN6TTQ1IDIuODg4YTEwIDEwIDAgMCAwLTEwIDBMMTAuMzU5IDE3LjExM2ExMCAxMCAwIDAgMC01IDguNjZ2MjguNDUzYTEwIDEwIDAgMCAwIDUgOC42NmwyNC42NCAxNC4yMjdhMTAgMTAgMCAwIDAgMTAgMGwyNC42NDItMTQuMjI2YTEwIDEwIDAgMCAwIDUtOC42NlYyNS43NzRhMTAgMTAgMCAwIDAtNS04LjY2TDQ1IDIuODg2eiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+");
     --textColorCReputation: var(--textColor7);
@@ -413,16 +414,19 @@
     --c-concept-map-line-available: #dce3ef;
     --c-concept-map-line-locked: #c9c8d7;
     --c-concept-map-line-faded: #d2ddf3;
+
+    img.c-img-dark-theme {
+        display: none;
+    }
 }
 
 body.namespace-.controller-insiders.theme-light,
-body.namespace-.controller-premium.theme-light,
 .theme-dark {
     color-scheme: dark;
 
     /* --backgroundColorA: var(--c-282339); */
     --backgroundColorA: theme(colors.russianViolet);
-    --backgroundColorA-RGB: 40, 35, 57;
+    --backgroundColorA-RGB: 40 35 57;
     --backgroundColorB: var(--c-211D2F);
     --backgroundColorC: var(--c-302B42);
     --backgroundColorD: var(--c-3A3557); /* Confirmed */
@@ -480,6 +484,7 @@ body.namespace-.controller-premium.theme-light,
     --backgroundColorReputationInfo: theme(colors.russianViolet);
     --backgroundColorNavDropdown: theme(colors.eerieBlack);
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
+    --backgroundColorHoverMenuTrack: #3a3557;
 
     --backgroundImpactPageHeader: theme(colors.eerieBlack);
 
@@ -687,6 +692,13 @@ body.namespace-.controller-premium.theme-light,
     --c-concept-map-line-faded: #d2ddf3;
 
     --lockedColor: var(--backgroundColorEDAvailable);
+
+    img.c-img-invertible {
+        filter: invert(100%);
+    }
+    img.c-img-light-theme {
+        display: none;
+    }
 }
 
 /* =============== SYSTEM =============== */
@@ -740,7 +752,7 @@ html {
 
     /* negate the filter */
     /* img:not(#site-header .c-icon):not(.theme-preference-form-button
-            .c-icon):not(#page-premium .feature .c-icon), */
+            .c-icon):not(#page-insiders .feature .c-icon), */
     img:not(.c-icon):not(.logo):not(.c-icon.graphic):not(.c-icon.--hex img):not(#page-journey .c-track-icon),
     /* .c-icon.graphic, */
     img[src*="/assets/graphics"],
@@ -759,10 +771,10 @@ html {
     .c-badge-medallion,
     #site-footer,
     #page-journey,
-    #journey-view, 
-    #impact-page .logos .gobridge, 
+    #journey-view,
+    #impact-page .logos .gobridge,
     #page-journey article.overview-tab header.section-header .c-icon img,
-    #page-organisation-supporters .logos .gobridge, 
+    #page-organisation-supporters .logos .gobridge,
     .emoji {
         filter: invert(100%) hue-rotate(180deg);
     }
@@ -791,7 +803,6 @@ html {
     .shadow-keystroke,
     .shadow-launching,
     .shadow-navDropdown,
-    #page-premium .feature,
     #page-insiders .feature,
     #page-dashboard section.actions-section {
         box-shadow: 0 0 0 2px #000 !important;
@@ -867,7 +878,6 @@ html {
             }
         }
     }
-    #page-premium,
     #page-insiders {
         color: var(--textColor1);
 

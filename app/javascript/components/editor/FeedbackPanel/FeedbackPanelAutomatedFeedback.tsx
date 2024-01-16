@@ -23,6 +23,9 @@ export function AutomatedFeedback({
           {iteration.representerFeedback ? (
             <RepresenterFeedback {...iteration.representerFeedback} />
           ) : null}
+          {iteration.representerFeedback && iteration.analyzerFeedback && (
+            <hr className="border-t-2 border-borderColor6 my-16" />
+          )}
           {iteration.analyzerFeedback ? (
             <AnalyzerFeedback
               {...iteration.analyzerFeedback}

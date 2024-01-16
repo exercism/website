@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react'
-import { QueryKey, useQueryCache } from 'react-query'
-import { Modal, ModalProps } from '../../../modals/Modal'
-import { Testimonial } from '../../../types'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../../utils/send-request'
-import { FormButton } from '../../../common'
-import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
+import { QueryKey, useQueryClient, useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { Testimonial } from '@/components/types'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { PaginatedResult } from '../../TestimonialsList'
 
 const DEFAULT_ERROR = new Error('Unable to delete testimonial')
@@ -19,9 +18,13 @@ export const DeleteTestimonialModal = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
-  const queryCache = useQueryCache()
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const queryClient = useQueryClient()
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: testimonial.links.delete,
         method: 'DELETE',
@@ -32,7 +35,7 @@ export const DeleteTestimonialModal = ({
     },
     {
       onSuccess: () => {
-        queryCache.setQueryData<PaginatedResult | undefined>(
+        queryClient.setQueryData<PaginatedResult | undefined>(
           cacheKey,
           (result) => {
             if (!result) {
@@ -69,7 +72,12 @@ export const DeleteTestimonialModal = ({
   }, [onClose, status])
 
   return (
-    <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
+    <Modal
+      className="m-generic-confirmation"
+      shouldCloseOnEsc={false}
+      onClose={handleClose}
+      {...props}
+    >
       <h3>Are you sure you want to delete this testimonial?</h3>
       <p>
         Deleting the testimonial will hide it from this list, your profile and

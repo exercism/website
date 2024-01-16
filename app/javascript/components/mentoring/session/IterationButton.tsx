@@ -44,6 +44,14 @@ const CommentsCount = ({
   )
 }
 
+const NewLabel = (): JSX.Element => {
+  return (
+    <div className="new" aria-hidden={true}>
+      New
+    </div>
+  )
+}
+
 export const IterationButton = ({
   iteration,
   selected,
@@ -80,6 +88,7 @@ export const IterationButton = ({
       onClick={onClick}
     >
       {iteration.idx}
+      {iteration.new && iterationWithCount.numComments === 0 && <NewLabel />}
       {iterationWithCount.numComments > 0 ? (
         <CommentsCount iteration={iterationWithCount} />
       ) : null}

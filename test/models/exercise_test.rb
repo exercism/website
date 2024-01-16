@@ -71,7 +71,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
   test "icon_url" do
     exercise = create :practice_exercise, slug: 'bob', icon_name: 'bobby'
-    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/exercises/bobby.svg", exercise.icon_url
+    assert_equal "https://assets.exercism.org/exercises/bobby.svg", exercise.icon_url
   end
 
   test "git_important_files_sha is generated" do
@@ -110,6 +110,7 @@ class ExerciseTest < ActiveSupport::TestCase
 
     assert_enqueued_with(job: MandateJob, args: [Exercise::QueueSolutionHeadTestRuns.name, exercise]) do
       exercise.update!(git_important_files_hash: 'new-hash')
+      perform_enqueued_jobs
     end
   end
 
@@ -133,7 +134,7 @@ class ExerciseTest < ActiveSupport::TestCase
     git_sha = '0b04b8976650d993ecf4603cf7413f3c6b898eff'
     exercise = create(:practice_exercise, git_sha:)
 
-    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash, git_sha,
+    Exercise::ProcessGitImportantFilesChanged.expects(:defer).with(exercise, exercise.git_important_files_hash, git_sha,
       exercise.slug).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
@@ -143,7 +144,7 @@ class ExerciseTest < ActiveSupport::TestCase
     git_sha = 'cfd8cf31bb9c90fd9160c82db69556a47f7c2a54'
     exercise = create(:practice_exercise, slug: 'satellite', git_sha:)
 
-    Exercise::ProcessGitImportantFilesChanged.expects(:call).with(exercise, exercise.git_important_files_hash, git_sha,
+    Exercise::ProcessGitImportantFilesChanged.expects(:defer).with(exercise, exercise.git_important_files_hash, git_sha,
       exercise.slug).once
 
     exercise.update!(git_important_files_hash: 'new-hash')
@@ -185,5 +186,46 @@ class ExerciseTest < ActiveSupport::TestCase
 
     Track::UpdateNumExercises.expects(:call).with(track).never
     exercise.update(title: 'something')
+  end
+
+  test "queues trigger representation reruns for exercise job when representer version is updated" do
+    exercise = create :practice_exercise
+
+    assert_enqueued_with(job: MandateJob, args: [Submission::Representation::TriggerRerunsForExercise.name, exercise]) do
+      exercise.update!(representer_version: 2)
+    end
+  end
+
+  test "does not enqueue trigger representation reruns for exercise job when representer version is unchanged" do
+    exercise = create :practice_exercise
+
+    assert_no_enqueued_jobs(only: MandateJob) do
+      exercise.update!(slug: 'test')
+    end
+  end
+
+  test "deletes associated site updates" do
+    concept_exercise = create :concept_exercise
+    practice_exercise = create :practice_exercise
+
+    ce_site_update = create :new_exercise_site_update, params: { exercise: concept_exercise }
+    assert_equal concept_exercise, ce_site_update.exercise # Sanity
+
+    pe_site_update = create :new_exercise_site_update, params: { exercise: practice_exercise }
+    assert_equal practice_exercise, pe_site_update.exercise # Sanity
+
+    concept_exercise.destroy
+
+    refute ConceptExercise.where(id: concept_exercise.id).exists?
+    refute SiteUpdate.where(id: ce_site_update.id).exists?
+    assert PracticeExercise.where(id: practice_exercise.id).exists?
+    assert SiteUpdate.where(id: pe_site_update.id).exists?
+
+    practice_exercise.destroy
+
+    refute ConceptExercise.where(id: concept_exercise.id).exists?
+    refute SiteUpdate.where(id: ce_site_update.id).exists?
+    refute PracticeExercise.where(id: practice_exercise.id).exists?
+    refute SiteUpdate.where(id: pe_site_update.id).exists?
   end
 end

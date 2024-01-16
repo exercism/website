@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
-import { QueryStatus } from 'react-query'
+import { QueryStatus } from '@tanstack/react-query'
 import { FavoritableStudent } from '../session/FavoriteButton'
 
 export const DiscussionDetails = ({
@@ -22,9 +22,12 @@ export const DiscussionDetails = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element => {
-  const [defaultWizardStep, setDefaultWizardStep] = useState<ModalStep>(
+  const [defaultWizardStep] = useState<ModalStep>(
     discussion.isFinished ? 'finish' : 'mentorAgain'
   )
+  const timedOut =
+    discussion.finishedBy &&
+    ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)
 
   return (
     <div className="c-discussion-timeline">
@@ -41,6 +44,11 @@ export const DiscussionDetails = ({
           student={student}
           defaultStep={defaultWizardStep}
           setStudent={setStudent}
+          timelineContent={
+            timedOut
+              ? 'This discussion timed out'
+              : `You've finished your discussion with ${student.handle}.`
+          }
         />
       ) : null}
     </div>

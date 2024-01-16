@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Modal, ModalProps } from '../../modals/Modal'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
 import { FormButton } from '../../common/FormButton'
@@ -27,8 +27,12 @@ export const ResetTrackModal = ({
   track: Track
 }): JSX.Element => {
   const confirmation = `reset ${track.slug}`
-  const [mutation, { status, error }] = useMutation<UserTrack | undefined>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<UserTrack | undefined>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -91,6 +95,19 @@ export const ResetTrackModal = ({
             <li>
               Lose any reputation you have earned for publishing solutions in{' '}
               {track.title}
+            </li>
+          </ul>
+          <p>
+            <strong>However:</strong>
+          </p>
+          <ul>
+            <li>
+              Any local versions of solutions stored on your machine will be
+              unaffected
+            </li>
+            <li>
+              You will keep any badges earned as a result of your work on the{' '}
+              {track.title} track
             </li>
           </ul>
         </div>

@@ -81,6 +81,27 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     assert_equal JSON.parse(expected.to_json), JSON.parse(response.body)
   end
 
+  test "index returns 404 when status is invalid" do
+    user = create :user
+    setup_user(user)
+
+    create :mentor_discussion, :awaiting_mentor, mentor: user
+
+    get api_mentoring_discussions_path(status: :unknown),
+      headers: @headers, as: :json
+
+    assert_response :bad_request
+    assert_equal(
+      {
+        "error" => {
+          "type" => "invalid_discussion_status",
+          "message" => I18n.t("api.errors.invalid_discussion_status")
+        }
+      },
+      JSON.parse(response.body)
+    )
+  end
+
   ###
   # Tracks
   ###
@@ -105,7 +126,7 @@ class API::Mentoring::DiscussionsControllerTest < API::BaseTestCase
     assert_response :ok
 
     expected = [
-      { slug: nil, title: 'All Tracks', icon_url: "ICON", count: 3 },
+      { slug: nil, title: 'All Tracks', icon_url: nil, count: 3 },
       { slug: go.slug, title: go.title, icon_url: go.icon_url, count: 2 },
       { slug: ruby.slug, title: ruby.title, icon_url: ruby.icon_url, count: 1 }
     ]

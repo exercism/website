@@ -9,15 +9,22 @@ class User::ResetAccountTest < ActiveSupport::TestCase
       avatar_url: "somewhere",
       location: "here",
       pronouns: "there",
-      became_mentor_at: Time.current
+      became_mentor_at: Time.current,
+      version: 10
 
-    User::ResetAccount.(user)
+    User::InvalidateAvatarInCloudfront.expects(:defer).with(user)
 
+    perform_enqueued_jobs do
+      User::ResetAccount.(user)
+    end
+
+    user.reload
     assert_equal 0, user.reputation
+    assert_equal 11, user.version
     assert_empty user.roles
     assert_nil user.bio
 
-    assert_equal "https://exercism-v3-icons.s3.eu-west-2.amazonaws.com/placeholders/user-avatar.svg", user.avatar_url
+    assert_nil user.attributes["avatar_url"]
 
     assert_nil user.location
     assert_nil user.pronouns
@@ -189,6 +196,17 @@ class User::ResetAccountTest < ActiveSupport::TestCase
     User::ResetAccount.(user)
     assert_raises ActiveRecord::RecordNotFound do
       challenge.reload
+    end
+  end
+
+  test "cleans up viewed community solutions" do
+    create :user, :ghost
+    user = create :user
+    viewed_solution = create(:user_track_viewed_community_solution, user:)
+
+    User::ResetAccount.(user)
+    assert_raises ActiveRecord::RecordNotFound do
+      viewed_solution.reload
     end
   end
 end

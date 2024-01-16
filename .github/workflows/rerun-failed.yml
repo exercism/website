@@ -1,0 +1,29 @@
+name: Rerun failed
+
+on:
+  workflow_run:
+    workflows:
+      - Tests
+    types:
+      - completed
+
+jobs:
+  on-failure:
+    runs-on: ubuntu-22.04
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Check if OpenSearch failed to start
+        id: check-opensearch
+        run: |
+          jobs=$(gh api ${{ github.event.workflow_run.jobs_url }})
+          failed=$(echo "${jobs}" | jq '.jobs | any(.steps | any((.name == "Wait for open search to become ready" or .name == "Setup Exercism services") and .conclusion == "failure"))')
+          echo "failed=${failed}" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Rerun job
+        if: ${{ steps.check-opensearch.outputs.failed == 'true' }}
+        run: |
+          gh api --method POST ${{ github.event.workflow_run.rerun_url }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOWS_PAT }}

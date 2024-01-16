@@ -7,7 +7,7 @@ type Links = {
   makers: string
 }
 
-export const ConceptMakersButton = ({
+export function ConceptMakersButton({
   avatarUrls,
   numAuthors,
   numContributors,
@@ -17,7 +17,7 @@ export const ConceptMakersButton = ({
   numAuthors: number
   numContributors: number
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [open, setOpen] = useState(false)
 
   return (
@@ -53,3 +53,4 @@ export const ConceptMakersButton = ({
     </React.Fragment>
   )
 }
+export default ConceptMakersButton

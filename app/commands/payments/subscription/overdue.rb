@@ -3,5 +3,8 @@ class Payments::Subscription::Overdue
 
   initialize_with :subscription
 
-  def call = Payments::Subscription::UpdateStatus.(subscription, :overdue)
+  def call
+    subscription.update!(status: :overdue)
+    User::InsidersStatus::UpdateForPayment.(subscription.user)
+  end
 end

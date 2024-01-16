@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import { Modal, ModalProps } from '../../modals/Modal'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../../utils/send-request'
-import { FormButton } from '../../common'
-import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
-import { redirectTo } from '../../../utils/redirect-to'
+import { useMutation } from '@tanstack/react-query'
+import { redirectTo } from '@/utils/redirect-to'
+import { sendRequest } from '@/utils/send-request'
+import { Modal, ModalProps } from '@/components/modals/Modal'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 
 const DEFAULT_ERROR = new Error('Unable to delete profile')
 
@@ -15,8 +15,12 @@ export const DeleteProfileModal = ({
 }: Omit<ModalProps, 'className'> & {
   endpoint: string
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'DELETE',

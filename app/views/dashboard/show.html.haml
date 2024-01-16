@@ -7,7 +7,7 @@
       .info
         .handle= render ViewComponents::HandleWithFlair.new(current_user.handle, current_user.flair, size: :medium)
         .extra= current_user.name
-      / TODO: Add tests for this
+      -# TODO: Add tests for this
       = link_to badges_journey_path(anchor: "journey-content") do
         .badges
           - @featured_badges.each do |badge|
@@ -35,7 +35,7 @@
             Solve coding exercises and get mentored to develop fluency in your chosen programming languages.
             %strong Exercism is open-source and not-for-profit.
 
-      %h2.text-h3.mb-16 Where to start...
+      %h2.text-h3.mb-16 Where to start…
       %section.actions-section
         = link_to tracks_path, class: 'action e-hover-grow' do
           = graphical_icon "bookworm", category: 'graphics'
@@ -85,30 +85,7 @@
             - else
               %iframe{ src: "https://player.twitch.tv/?channel=exercismlive&parent=exercism.org", height: "240", width: "100%", allowfullscreen: true }
 
-      - if current_user.challenges.exists?
-        .flex.flex-col.items-start.mb-28
-          .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4
-            %span.emoji.mr-6 📆
-            Month 7 of #12in23
-          %h2.text-h3 It's Jurassic July
-          %p.text-p-base.mb-6
-            This month we're exploring established languages that have been incredibly successful: C, C++, COBOL, Fortran and Visual Basic!
-            Have fun!
-          = link_to challenge_path('12in23'), class: "btn btn-primary btn-base" do
-            %span Explore #12in23
-            = graphical_icon "arrow-right"
-      - else
-        = link_to challenge_path('12in23'), class: "bg-purple flex flex-col items-center px-24 py-24 rounded-8 shadow-baseZ1 mb-32" do
-          %h2.text-h3.text-white.text-center.mb-8
-            The #12in23 Challenge
-          %p.text-p-base.text-white.text-center.mb-16
-            Broaden your horizons. Try 12 languages during 2023 and become a better developer!
-            %br
-            %strong{ class: "!font-semibold !text-white" } Which will you choose?
-
-          .flex.flex-wrap.justify-center.gap-2
-            - Track.active.map(&:icon_url).shuffle.each do |icon_url|
-              = image_tag icon_url, alt: '', role: :presentation, class: "c-icon c-track-icon h-[30px] w-[30px]"
+      = render "48in24"
 
       - if @featured_event
         .flex.flex-col.mb-32

@@ -17,10 +17,7 @@ class Mentor::Discussion::Retrieve
                  sorted: true, paginated: true,
                  exclude_uuid: nil)
 
-    # This will be a code-level exception rather than a user-level
-    # exception so we don't worry about a special class. Getting this
-    # tells us that we've got a bug.
-    raise "Invalid status: #{status}" unless STATUSES.include?(status.to_sym)
+    raise InvalidDiscussionStatusError unless STATUSES.include?(status&.to_sym)
 
     @mentor = mentor
     @status = status.to_sym

@@ -1,23 +1,26 @@
 - content_for :meta_title, "Explore the '#{@article.title}' article for #{@exercise.title} in #{@track.title} on Exercism".html_safe
 - content_for :meta_description, "Explore the '#{@article.title}' article for #{@exercise.title} in #{@track.title} on Exercism. #{@article.blurb}".html_safe
+- require_stylesheet "track"
 -# TODO: add :meta_image
 
 #page-articles-show.pb-80
   %header.pt-24.md:pt-32.pb-32{ class: 'md:pb-[158px]' }
-    .md-container.flex.flex-col.md:flex-row-reverse.items-center
-      -# .c-shapes.c-shapes-1{ class: 'gap-[48px]' }
-      = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "py-8 px-24 bg-gray border-2 border-gradient-bgGray rounded-100 flex flex-row items-center h-[68px]" do
-        = track_icon @track, css_class: 'h-[40px] w-[40px] mr-12'
-        = exercise_icon @exercise, css_class: 'h-[48px] w-[48px] mr-12'
-        .flex.flex-col.mr-24
-          .text-h5.whitespace-nowrap= @exercise.title
-          .textColor-6.font-normal.leading-150.text-16 in #{@track.title}
-        = graphical_icon "new-tab", css_class: "filter-textColor6 w-[16px] h-[16px]"
-
+    .md-container.flex.flex-col.md:flex-row.items-left.md:items-center
       .block.flex-grow
         %h1.text-h0.mb-8.md:mb-8= @article.title
-        .flex.items-center.text-16.font-semibold.leading-150
-          = render ReactComponents::Common::Credits.new(@users.map { |user| user[:avatar_url] }, @num_authors, "author", @num_contributors, "contributor")
+        .flex.items-center.text-16.font-semibold.leading-150.mb-16.md:mb-32.text-textColor1
+          = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor")
+
+      = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "flex flex-row py-4 md:py-8 md:px-24 px-12 bg-gray border-2 border-gradient-bgGray rounded-100 items-center md:h-[68px] w-fit mb-32" do
+        = track_icon @track, css_class: 'md:block hidden md:h-[40px] md:w-[40px] w-32 h-32 md:mr-12 mr-4'
+        = exercise_icon @exercise, css_class: 'md:h-[48px] md:w-[48px] h-[40px] w-[40px] mr-12'
+        .flex.flex-col
+          .text-h5.whitespace-nowrap
+            = @exercise.title
+            %span.md:hidden.inline
+              in #{@track.title}
+          .md:block.hidden.textColor-6.font-normal.leading-150.text-16 in #{@track.title}
+
   .md-container.mb-32.md:mb-48
     %article.shadow-lgZ1.bg-backgroundColorA.rounded-8
       .share-bar.border-b-1.border-borderColor6.py-12.md:py-16.px-24.md:px-32.flex.items-center

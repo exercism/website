@@ -46,7 +46,6 @@ class SerializeApproaches
   def users
     User.includes(:profile).
       where(id: approach_author_ids.values.flatten + approach_contributor_ids.values.flatten).
-      with_attached_avatar.
       to_a
   end
 

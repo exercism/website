@@ -3,28 +3,26 @@ class Mentor::UpdateStats
 
   queue_as :default
 
-  initialize_with :mentor,
-    update_counts: false,
-    update_satisfaction_rating: false
+  initialize_with :mentor, :track
 
   # This command:
   # - Gets the old values
   # - Sets the new values
   # - Triggers some extra checks if they've changed
   def call
-    # Actively use the cache to get these values as we don't want
-    # to follow the automatic setting pathway we normally use.
-    old_values = [
-      mentor.data.cache['num_students_mentored'],
-      mentor.data.cache['num_solutions_mentored'],
-      mentor.data.cache['mentor_satisfaction_percentage']
-    ]
-    new_values = old_values.clone
+    # Firstly we want to update the number of finished discussions
+    # for this track. It's important to do this first as the other
+    # methods below us this for quicker calculation
+    Mentor::UpdateNumFinishedDiscussions.(mentor, track)
 
-    new_values[0] = User::ResetCache.(mentor, :num_students_mentored) if update_counts
-    new_values[1] = User::ResetCache.(mentor, :num_solutions_mentored) if update_counts
-    new_values[2] = Mentor::UpdateSatisfactionPercentage.(mentor) if update_satisfaction_rating
+    # Now we do the other essential checks
+    User::ResetCache.(mentor, :num_students_mentored)
+    User::ResetCache.(mentor, :num_solutions_mentored)
+    Mentor::UpdateSatisfactionPercentage.(mentor)
 
-    User::UpdateMentorRoles.defer(mentor) if old_values != new_values
+    # These can safely be defered into other jobs
+    User::UpdateSupermentorRole.defer(mentor)
+    User::UpdateAutomatorRole.defer(mentor, track)
+    AwardBadgeJob.perform_later(mentor, :mentor)
   end
 end

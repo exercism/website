@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   # ##### #
   namespace :admin do
     root to: "dashboard#show"
-    resources :premium, controller: 'premium'
+    resources :insiders, controller: 'insiders'
     resources :community_videos
     resources :partners do
       resources :adverts
@@ -80,10 +80,10 @@ Rails.application.routes.draw do
     get :user_preferences
     get :communication_preferences
     get :donations
-    get :premium
     get :integrations
     patch :reset_account
     delete :destroy_account
+    delete :disconnect_discord
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"
@@ -99,11 +99,10 @@ Rails.application.routes.draw do
 
   resources :impact, only: [:index]
 
-  resources :insiders, only: [:index]
+  resources :solution_tagger, only: [:index]
 
-  resource :premium, only: [:show], controller: 'premium' do
-    get :paypal_pending
-    get :paypal_cancelled
+  resource :insiders, only: [:show], controller: "insiders" do
+    get :payment_pending
   end
 
   resources :profiles, only: %i[index show new create] do
@@ -147,7 +146,6 @@ Rails.application.routes.draw do
     root to: "dashboard#show"
     resources :submissions, only: [:index]
     resources :exercise_representations
-    resources :tracks, only: [:show]
     resources :site_updates, except: [:destroy]
   end
 
@@ -156,6 +154,16 @@ Rails.application.routes.draw do
     resources :contributors, only: [:index]
     resources :tasks, only: [:index], param: :uuid do
       get :tooltip, on: :member
+    end
+  end
+  namespace :training_data do
+    root to: "dashboard#index"
+
+    get "external" => "external#index"
+    patch "become_trainer" => "external#become_trainer"
+
+    resources :code_tags_samples, only: %i[index show] do
+      get :next, on: :collection
     end
   end
 
@@ -218,6 +226,7 @@ Rails.application.routes.draw do
       post :join
     end
   end
+  resources :exercises, only: %i[show], controller: "generic_exercises", as: :generic_exercises
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
   resource :journey, only: [:show], controller: "journey" do
@@ -317,10 +326,16 @@ Rails.application.routes.draw do
   # Partners #
   ############
   get "partners/gobridge" => "partners#gobridge", as: :gobridge_partner_page
+  get "partners/code-capsules/advert_redirect" => "partners#code_capsules_advert_redirect"
   get "partners/go-developer-network", to: redirect("partners/gobridge")
   get "partners/gdn", to: redirect("partners/gobridge")
 
+  ##################
+  # Special routes #
+  ##################
   get "site.webmanifest" => "meta#site_webmanifest"
+  get ".well-known/apple-developer-merchantid-domain-association" => "meta#apple_developer_merchantid_domain_association"
+  get "avatars/:id/:version" => "avatars#show"
 
   #################
   # Legacy routes #
@@ -356,6 +371,7 @@ Rails.application.routes.draw do
   get "getting-started", to: redirect("docs/using/getting-started")
   get '/languages/:slug', to: redirect('/tracks/%{slug}')
   get "contribute", to: redirect("contributing")
+  get "faqs", to: redirect("docs/using/faqs")
 
   get "r/discord", to: redirect("https://discord.gg/ph6erP7P7G"), as: :discord_redirect
   get "r/twitter", to: redirect("https://twitter.com/exercism_io"), as: :twitter_redirect

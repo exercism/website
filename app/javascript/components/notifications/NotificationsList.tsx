@@ -1,16 +1,19 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { Request, usePaginatedRequestQuery } from '../../hooks/request-query'
-import { FetchingBoundary } from '../FetchingBoundary'
-import { Notification } from '../types'
-import { ResultsZone } from '../ResultsZone'
-import { List } from './notifications-list/List'
-import { useList } from '../../hooks/use-list'
-import { Pagination, GraphicalIcon } from '../common'
-import { useHistory, removeEmpty } from '../../hooks/use-history'
-import { useNotificationMutation } from './notifications-list/useNotificationMutation'
-import { MutationButton } from './notifications-list/MutationButton'
-import { MarkAllNotificationsAsReadModal } from './notifications-list/MarkAllNotificationsAsReadModal'
-import { useQueryCache } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
+import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { FetchingBoundary } from '@/components/FetchingBoundary'
+import { ResultsZone } from '@/components/ResultsZone'
+import { Pagination, GraphicalIcon } from '@/components/common'
+import {
+  useNotificationMutation,
+  MutationButton,
+  List,
+  MarkAllNotificationsAsReadModal,
+} from './notifications-list'
+import type { Notification } from '@/components/types'
+import { scrollToTop } from '@/utils/scroll-to-top'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
@@ -39,14 +42,14 @@ type APIResponse = {
   }
 }
 
-export const NotificationsList = ({
+export default function NotificationsList({
   request: initialRequest,
   links,
 }: {
   request: Request
   links: Links
-}): JSX.Element => {
-  const queryCache = useQueryCache()
+}): JSX.Element {
+  const queryClient = useQueryClient()
   const { request, setPage } = useList(initialRequest)
   const cacheKey = useMemo(
     () => ['notifications-list', removeEmpty(request.query)],
@@ -54,8 +57,7 @@ export const NotificationsList = ({
   )
   const {
     status,
-    resolvedData,
-    latestData,
+    data: resolvedData,
     error,
     isFetching,
   } = usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
@@ -107,13 +109,13 @@ export const NotificationsList = ({
           {
             onSuccess: () => {
               setSelected([])
-              queryCache.invalidateQueries(cacheKey)
+              queryClient.invalidateQueries(cacheKey)
             },
           }
         )
       }
     },
-    [cacheKey, selected, queryCache]
+    [cacheKey, selected, queryClient]
   )
 
   const disabled = isFetching || mutations.some((m) => m.status === 'loading')
@@ -175,10 +177,13 @@ export const NotificationsList = ({
                 disabled={disabled}
               />
               <Pagination
-                disabled={latestData === undefined}
-                current={request.query.page}
+                disabled={resolvedData === undefined}
+                current={request.query.page || 1}
                 total={resolvedData.meta.totalPages}
-                setPage={setPage}
+                setPage={(p) => {
+                  setPage(p)
+                  scrollToTop()
+                }}
               />
             </React.Fragment>
           ) : null}

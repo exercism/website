@@ -86,7 +86,7 @@ jobs:
           docker tag $IMAGE_NAME website
 
           # Save the output for writing to the task definiton
-          echo "::set-output name=image::$IMAGE_NAME"
+          echo "image=${IMAGE_NAME}" >> $GITHUB_OUTPUT
 
       ##################################
       ##################################
@@ -125,7 +125,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
           # Save the output for writing to the task definiton
-          echo "::set-output name=image::$IMAGE_NAME"
+          echo "image=${IMAGE_NAME}" >> $GITHUB_OUTPUT
 
       ##################################
       ##################################

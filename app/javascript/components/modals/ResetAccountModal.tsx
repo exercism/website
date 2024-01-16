@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils/redirect-to'
+import { useConfirmation } from '@/hooks/use-confirmation'
+import { FormButton } from '@/components/common/FormButton'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
-import { useMutation } from 'react-query'
-import { sendRequest } from '../../utils/send-request'
-import { FormButton } from '../common'
-import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-import { useConfirmation } from '../../hooks/use-confirmation'
-import { redirectTo } from '../../utils/redirect-to'
 
 type APIResponse = {
   links: {
@@ -23,8 +23,12 @@ export const ResetAccountModal = ({
   handle: string
   endpoint: string
 }): JSX.Element => {
-  const [mutation, { status, error }] = useMutation<APIResponse>(
-    () => {
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation<APIResponse>(
+    async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',

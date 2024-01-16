@@ -81,4 +81,17 @@ class ConceptTest < ActiveSupport::TestCase
     concept.destroy
     refute Concept.where(id: concept.id).exists?
   end
+
+  test "deletes associated site updates" do
+    track = create :track
+    concept = create(:concept, track:)
+
+    site_update = create :new_concept_site_update, params: { concept: }
+    assert_equal concept, site_update.concept # Sanity
+
+    concept.destroy
+
+    refute Concept.where(id: concept.id).exists?
+    refute SiteUpdate.where(id: site_update.id).exists?
+  end
 end

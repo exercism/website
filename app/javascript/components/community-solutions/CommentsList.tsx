@@ -4,7 +4,7 @@ import { NewCommentForm } from './comments-list/NewCommentForm'
 import { Reminder } from './comments-list/Reminder'
 import { ListContainer } from './comments-list/ListContainer'
 import { ListDisabled } from './comments-list/ListDisabled'
-import { Request } from '../../hooks/request-query'
+import type { Request } from '@/hooks/request-query'
 
 export type Links = {
   create: string
@@ -14,7 +14,7 @@ export type Links = {
   disable: string
 }
 
-export const CommentsList = ({
+export default function CommentsList({
   defaultAllowComments,
   isAuthor,
   userSignedIn,
@@ -26,7 +26,7 @@ export const CommentsList = ({
   userSignedIn: boolean
   request: Request
   links: Links
-}): JSX.Element => {
+}): JSX.Element {
   const [allowComments, setAllowComments] = useState(defaultAllowComments)
 
   const handleCommentsEnabled = useCallback(() => {
@@ -51,7 +51,7 @@ export const CommentsList = ({
           {allowComments ? (
             <React.Fragment>
               <NewCommentForm
-                cacheKey={request.endpoint}
+                cacheKey={[request.endpoint]}
                 endpoint={links.create}
               />
               <Reminder />
@@ -60,7 +60,7 @@ export const CommentsList = ({
         </React.Fragment>
       ) : null}
       {allowComments ? (
-        <ListContainer cacheKey={request.endpoint} request={request} />
+        <ListContainer cacheKey={[request.endpoint]} request={request} />
       ) : (
         <ListDisabled isAuthor={isAuthor} />
       )}

@@ -39,7 +39,7 @@ module Flows
       test "views comments" do
         author = create :user, handle: "author"
         exercise = create :concept_exercise
-        solution = create :concept_solution, :published, exercise:, user: author
+        solution = create :concept_solution, :published, exercise:, user: author, allow_comments: true
         submission = create(:submission, solution:)
         create(:iteration, idx: 1, solution:, submission:)
         create :solution_comment,

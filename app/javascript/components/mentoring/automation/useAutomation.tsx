@@ -1,13 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  useList,
-  usePaginatedRequestQuery,
-  Request,
-  useHistory,
-  removeEmpty,
-  useDebounce,
-} from '@/hooks'
-import type { QueryStatus } from 'react-query'
+import { useDebounce } from '@/hooks'
+import { usePaginatedRequestQuery, Request } from '@/hooks/request-query'
+import { useHistory, removeEmpty } from '@/hooks/use-history'
+import { useList } from '@/hooks/use-list'
+import { type QueryStatus } from '@tanstack/react-query'
 import type { AutomationTrack, Representation } from '@/components/types'
 
 export type APIResponse = {
@@ -25,7 +21,6 @@ type returnMentoringAutomation = {
   error: unknown
   isFetching: boolean
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   criteria?: string
   setCriteria: (criteria: string) => void
   order: string
@@ -48,11 +43,12 @@ const BLANK_TRACK_DATA: AutomationTrack = {
 
 export function useAutomation(
   representationsRequest: Request,
-  tracks: AutomationTrack[]
+  tracks: AutomationTrack[],
+  selectedTab: string
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
   const [criteria, setCriteria] = useState(
-    representationsRequest.query?.criteria || ''
+    representationsRequest.query?.criteria
   )
 
   const {
@@ -69,15 +65,23 @@ export function useAutomation(
       BLANK_TRACK_DATA
   )
 
-  const { status, error, resolvedData, latestData, isFetching } =
-    usePaginatedRequestQuery<APIResponse>(
-      ['mentor-representations-list', request],
-      request
-    )
+  const CACHE_KEY = [
+    'mentor-representations-list',
+    selectedTab,
+    ...Object.values(request.query),
+  ]
+
+  const {
+    status,
+    error,
+    data: resolvedData,
+    isFetching,
+  } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
 
   const debouncedCriteria = useDebounce(criteria, 500)
 
   useEffect(() => {
+    if (debouncedCriteria === undefined || debouncedCriteria === null) return
     if (debouncedCriteria.length > 2 || debouncedCriteria === '') {
       setRequestCriteria(debouncedCriteria)
     }
@@ -131,7 +135,6 @@ export function useAutomation(
     error,
     isFetching,
     resolvedData,
-    latestData,
     criteria,
     setCriteria,
     order: request.query.order,

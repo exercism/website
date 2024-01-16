@@ -1,13 +1,11 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
+import { render } from '../../../test-utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import '@testing-library/jest-dom/extend-expect'
 import { StartMentoringPanel } from '../../../../../app/javascript/components/mentoring/request/StartMentoringPanel'
-import {
-  expectConsoleError,
-  silenceConsole,
-} from '../../../support/silence-console'
+import { expectConsoleError } from '../../../support/silence-console'
 import userEvent from '@testing-library/user-event'
 
 const server = setupServer(

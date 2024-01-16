@@ -17,6 +17,8 @@ class Tracks::ApproachesController < ApplicationController
     @users = CombineAuthorsAndContributors.(@approach.authors, @approach.contributors).map do |user|
       SerializeAuthorOrContributor.(user)
     end
+
+    UserTrack::ViewedExerciseApproach::Create.defer(current_user, @track, @approach) if user_signed_in?
   end
 
   private

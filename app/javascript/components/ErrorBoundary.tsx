@@ -107,7 +107,7 @@ export const useErrorHandler = (
   }, [defaultError, error, handler])
 }
 
-class HandledError extends Error {
+export class HandledError extends Error {
   constructor(message: string) {
     super(message)
     this.name = 'HandledError'

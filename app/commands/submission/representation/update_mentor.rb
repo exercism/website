@@ -3,7 +3,7 @@ class Submission::Representation::UpdateMentor
 
   initialize_with :submission
 
-  queue_as :default
+  queue_as :solution_processing
 
   def call
     return unless iteration

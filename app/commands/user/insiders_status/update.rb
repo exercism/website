@@ -42,13 +42,12 @@ class User::InsidersStatus::Update
       # we need to revert a load of bits
       User::SetDiscordRoles.defer(user)
       User::SetDiscourseGroups.defer(user)
-      User::Premium::Update.defer(user)
       User::UpdateFlair.defer(user)
 
     # This is the case where someone's cancelled their donation
     # but are still active for a period
     elsif user.insiders_status_active?
-      User::Premium::Update.defer(user)
+      # Do nothing
 
     elsif user.insiders_status_active_lifetime?
       # This is only called when someone is changing from
@@ -79,5 +78,12 @@ class User::InsidersStatus::Update
 
   def update_to_ineligible
     user.update!(insiders_status: :ineligible)
+    user.preferences.update(theme: DEFAULT_THEME) if uses_insiders_only_theme?
   end
+
+  def uses_insiders_only_theme? = INSIDERS_ONLY_THEMES.include?(user.preferences.theme)
+
+  DEFAULT_THEME = "light".freeze
+  INSIDERS_ONLY_THEMES = %w[dark system].freeze
+  private_constant :DEFAULT_THEME, :INSIDERS_ONLY_THEMES
 end

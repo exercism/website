@@ -1,3 +1,5 @@
+- require_stylesheet "maintaining"
+
 #page-maintaining-dashboard
   .lg-container.container
     %h1 Maintaining Exercism
@@ -7,15 +9,3 @@
       %ul
         %li
           = link_to "Site Updates", maintaining_site_updates_path
-
-    %h2 Track Info
-    %table
-      %tr
-        %th Title
-        %th Synced Version
-        %th
-      - @tracks.each do |track|
-        %tr
-          %td= track.title
-          %td= track.synced_to_git_sha
-          %td= render ViewComponents::ProminentLink.new("More", maintaining_track_path(track))

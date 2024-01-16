@@ -11,6 +11,7 @@ class Solution < ApplicationRecord
   belongs_to :user
   belongs_to :exercise
   belongs_to :published_iteration, class_name: "Iteration", optional: true
+  belongs_to :published_exercise_representation, class_name: "Exercise::Representation", optional: true
   has_one :track, through: :exercise
 
   # TODO: This might be horrific for performance
@@ -38,6 +39,8 @@ class Solution < ApplicationRecord
   has_many :mentor_requests, class_name: "Mentor::Request", dependent: :destroy
   has_many :mentor_discussions, class_name: "Mentor::Discussion", dependent: :destroy
   has_many :mentors, through: :mentor_discussions
+
+  has_many :tags, dependent: :destroy
 
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
@@ -98,20 +101,6 @@ class Solution < ApplicationRecord
   end
 
   delegate :instructions, :introduction, :hints, :test_files, :source, :source_url, to: :git_exercise
-
-  def update_published_iteration_head_tests_status!(status)
-    return if published_iteration_head_tests_status == status.to_sym
-
-    update_column(:published_iteration_head_tests_status, status)
-    Solution::SyncToSearchIndex.defer(self)
-  end
-
-  def update_latest_iteration_head_tests_status!(status)
-    return if latest_iteration_head_tests_status == status.to_sym
-
-    update_column(:latest_iteration_head_tests_status, status)
-    Solution::SyncToSearchIndex.defer(self)
-  end
 
   memoize
   def latest_published_iteration = published_iterations.last
@@ -204,7 +193,7 @@ class Solution < ApplicationRecord
   end
 
   def update_iteration_status!
-    new_status = iterations.last&.status.to_s
+    new_status = iterations.last&.status&.to_sym
     update_column(:iteration_status, new_status) if iteration_status != new_status
   end
 
@@ -228,19 +217,12 @@ class Solution < ApplicationRecord
 
   def broadcast!
     SolutionChannel.broadcast!(self)
+    SolutionWithLatestIterationChannel.broadcast!(self)
     LatestIterationStatusChannel.broadcast!(self)
   end
 
   def anonymised_user_handle
     "anonymous-#{Digest::SHA1.hexdigest("#{id}-#{uuid}")}"
-  end
-
-  def sync_git!
-    update!(
-      git_slug: exercise.slug,
-      git_sha: exercise.git_sha,
-      git_important_files_hash: exercise.git_important_files_hash
-    )
   end
 
   def read_file(filepath)

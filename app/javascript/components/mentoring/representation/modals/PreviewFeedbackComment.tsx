@@ -2,7 +2,7 @@ import React from 'react'
 import dayjs from 'dayjs'
 import { Avatar } from '@/components/common'
 import { RepresentationFeedbackType, User } from '@/components/types'
-import { useHighlighting } from '@/hooks'
+import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { CommentTag } from '../common/CommentTag'
 
 export type PreviewFeedbackCommentProps = {

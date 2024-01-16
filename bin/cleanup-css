@@ -1,0 +1,3 @@
+#!/bin/bash
+
+find public/assets -name '*.css' -exec sed -i 's/.*\.exercism-delete-before-this{color:red}//' {} \;

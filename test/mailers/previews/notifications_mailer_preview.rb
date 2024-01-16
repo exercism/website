@@ -47,6 +47,12 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).acquired_badge
   end
 
+  def acquired_trophy
+    NotificationsMailer.with(
+      notification: User::Notifications::AcquiredTrophyNotification.first
+    ).acquired_trophy
+  end
+
   def joined_exercism
     NotificationsMailer.with(
       notification: User::Notifications::JoinedExercismNotification.first
@@ -63,6 +69,24 @@ class NotificationsMailerPreview < ActionMailer::Preview
     NotificationsMailer.with(
       notification: User::Notifications::AutomatedFeedbackAddedNotification.first
     ).automated_feedback_added
+  end
+
+  def onboarding_product
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingProductNotification.first
+    ).onboarding_product
+  end
+
+  def onboarding_community
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingCommunityNotification.first
+    ).onboarding_community
+  end
+
+  def onboarding_insiders
+    NotificationsMailer.with(
+      notification: User::Notifications::OnboardingInsidersNotification.first
+    ).onboarding_insiders
   end
 
   def eligible_for_insiders_notification
@@ -95,15 +119,45 @@ class NotificationsMailerPreview < ActionMailer::Preview
     ).upgraded_to_lifetime_insiders
   end
 
-  def joined_premium_notification
+  def expired_insiders_notification
     NotificationsMailer.with(
-      notification: User::Notifications::JoinedPremiumNotification.first
-    ).joined_premium
+      notification: User::Notifications::JoinedInsidersNotification.first
+    ).expired_premium
   end
 
-  def expired_premium_notification
+  def nudge_student_to_reply_in_discussion
     NotificationsMailer.with(
-      notification: User::Notifications::JoinedPremiumNotification.first
-    ).expired_premium
+      notification: User::Notifications::NudgeStudentToReplyInDiscussionNotification.first
+    ).nudge_student_to_reply_in_discussion
+  end
+
+  def nudge_mentor_to_reply_in_discussion
+    NotificationsMailer.with(
+      notification: User::Notifications::NudgeMentorToReplyInDiscussionNotification.first
+    ).nudge_mentor_to_reply_in_discussion
+  end
+
+  def mentor_timed_out_discussion_student
+    NotificationsMailer.with(
+      notification: User::Notifications::MentorTimedOutDiscussionStudentNotification.first
+    ).mentor_timed_out_discussion_student
+  end
+
+  def mentor_timed_out_discussion_mentor
+    NotificationsMailer.with(
+      notification: User::Notifications::MentorTimedOutDiscussionMentorNotification.first
+    ).mentor_timed_out_discussion_mentor
+  end
+
+  def student_timed_out_discussion_student
+    NotificationsMailer.with(
+      notification: User::Notifications::StudentTimedOutDiscussionStudentNotification.first
+    ).student_timed_out_discussion_student
+  end
+
+  def student_timed_out_discussion_mentor
+    NotificationsMailer.with(
+      notification: User::Notifications::StudentTimedOutDiscussionMentorNotification.first
+    ).student_timed_out_discussion_mentor
   end
 end

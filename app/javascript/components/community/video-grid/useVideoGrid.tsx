@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  usePaginatedRequestQuery,
-  useList,
-  useQueryParams,
-  type Request,
-  type ListState,
-} from '@/hooks'
+import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
+import { useList, ListState } from '@/hooks/use-list'
+import { useQueryParams } from '@/hooks/use-query-params'
 import type { CommunityVideoType, VideoTrack } from '@/components/types'
 
 export type APIResponse = {
@@ -24,7 +20,6 @@ export type UseVideoGridReturnType = {
   handleTrackChange: HandleTrackChangeType
   selectedTrack: VideoTrack
   resolvedData: APIResponse | undefined
-  latestData: APIResponse | undefined
   isFetching: boolean
   page: number
   setPage: (page: number) => void
@@ -41,7 +36,7 @@ export function useVideoGrid(
     tracks.find((t) => t.slug === videoRequest.query?.videoTrackSlug) ||
     tracks[0]
 
-  const [criteria, setCriteria] = useState(videoRequest.query?.criteria || '')
+  const [criteria, setCriteria] = useState(videoRequest.query?.criteria)
   const [selectedTrack, setSelectedTrack] = useState<VideoTrack>(initialTrack)
 
   const {
@@ -51,7 +46,7 @@ export function useVideoGrid(
     setQuery,
   } = useList(videoRequest)
 
-  const { resolvedData, latestData, isFetching } =
+  const { data: resolvedData, isFetching } =
     usePaginatedRequestQuery<APIResponse>(
       [
         'community-video-grid-key',
@@ -80,6 +75,7 @@ export function useVideoGrid(
     }
 
     const handler = setTimeout(() => {
+      if (criteria === undefined || criteria === null) return
       if (criteria.length > 2 || criteria === '') {
         setRequestCriteria(criteria)
         setQuery({ ...request.query, criteria })
@@ -114,7 +110,6 @@ export function useVideoGrid(
     handleTrackChange,
     selectedTrack,
     resolvedData,
-    latestData,
     isFetching,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     page: request.query.videoPage!,

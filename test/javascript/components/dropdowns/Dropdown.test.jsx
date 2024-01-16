@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { Dropdown } from '../../../../app/javascript/components/dropdowns/Dropdown'
+import { default as Dropdown } from '@/components/dropdowns/Dropdown'
 import userEvent from '@testing-library/user-event'
 import { awaitPopper } from '../../support/await-popper'
 

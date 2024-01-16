@@ -1,5 +1,4 @@
 import React from 'react'
-import { QueryStatus } from 'react-query'
 import { Checkbox, SearchInput } from '@/components/common'
 import { ResultsZone } from '@/components/ResultsZone'
 import { useAutomation } from './useAutomation'
@@ -7,10 +6,11 @@ import { TrackFilterList } from './TrackFilterList'
 import { AutomationIntroducer } from './AutomationIntroducer'
 import { RepresentationList } from './RepresentationList'
 import { Sorter } from '../Sorter'
-import { StatusTab } from '../inbox/StatusTab'
+import { StatusTabLink } from '../inbox/StatusTab'
 import { SortOption } from '../Inbox'
-import type { Request } from '@/hooks'
+import type { Request } from '@/hooks/request-query'
 import type { AutomationStatus, AutomationTrack } from '@/components/types'
+import { QueryKey } from '@tanstack/react-query'
 
 export type AutomationLinks = {
   withFeedback?: string
@@ -29,7 +29,7 @@ export type AutomationProps = {
   representationsRequest: Request
   sortOptions: SortOption[]
   selectedTab: SelectedTab
-  trackCacheKey: string
+  trackCacheKey: QueryKey
   isIntroducerHidden: boolean
 }
 
@@ -46,13 +46,12 @@ export function Representations({
   const withFeedback = selectedTab === 'with_feedback'
   const trackCountText = ['with_feedback', 'admin'].includes(selectedTab)
     ? 'submission'
-    : 'request'
+    : 'representation'
   const {
     status,
     error,
     isFetching,
     resolvedData,
-    latestData,
     criteria,
     setCriteria,
     order,
@@ -64,43 +63,49 @@ export function Representations({
     handleTrackChange,
     handleOnlyMentoredSolutions,
     handlePageResetOnInputChange,
-  } = useAutomation(representationsRequest, tracks)
+  } = useAutomation(representationsRequest, tracks, selectedTab)
 
   return (
-    <div className="c-mentor-inbox">
+    <div className="c-mentor-automation">
       {!isIntroducerHidden && (
         <AutomationIntroducer hideEndpoint={links.hideIntroducer} />
       )}
       <div className="flex justify-between items-center">
         <div className="tabs">
-          <StatusTab<AutomationStatus>
+          <StatusTabLink<AutomationStatus>
             status="without_feedback"
             currentStatus={selectedTab}
-            setStatus={() => null}
+            href={links.withoutFeedback!}
           >
-            <a href={links.withoutFeedback}>Need feedback</a>
+            Need feedback
             {resolvedData ? (
-              <div className="count">{counts.withoutFeedback}</div>
+              <div className="count">
+                {counts.withoutFeedback.toLocaleString()}
+              </div>
             ) : null}
-          </StatusTab>
-          <StatusTab<AutomationStatus>
+          </StatusTabLink>
+          <StatusTabLink<AutomationStatus>
             status="with_feedback"
             currentStatus={selectedTab}
-            setStatus={() => null}
+            href={links.withFeedback!}
           >
-            <a href={links.withFeedback}>Feedback submitted</a>
+            Feedback submitted
             {resolvedData ? (
-              <div className="count">{counts.withFeedback}</div>
+              <div className="count">
+                {counts.withFeedback.toLocaleString()}
+              </div>
             ) : null}
-          </StatusTab>
-          <StatusTab<AutomationStatus>
+          </StatusTabLink>
+          <StatusTabLink<AutomationStatus>
             status="admin"
             currentStatus={selectedTab}
-            setStatus={() => null}
+            href={links.admin!}
           >
-            <a href={links.admin}>Admin</a>
-            {resolvedData ? <div className="count">{counts.admin}</div> : null}
-          </StatusTab>
+            Admin
+            {resolvedData ? (
+              <div className="count">{counts.admin.toLocaleString()}</div>
+            ) : null}
+          </StatusTabLink>
         </div>
         {!withFeedback && (
           <Checkbox
@@ -115,7 +120,7 @@ export function Representations({
       <div className="container">
         <header className="c-search-bar automation-header">
           <TrackFilterList
-            status={QueryStatus.Success}
+            status={'success'}
             error={''}
             tracks={tracks}
             countText={trackCountText}
@@ -133,11 +138,11 @@ export function Representations({
                 setCriteria(input)
                 handlePageResetOnInputChange(input)
               }}
-              filter={criteria}
+              filter={criteria || ''}
               placeholder="Filter by exercise (min 3 chars)"
             />
             <Sorter
-              componentClassName="automation-sorter"
+              className="automation-sorter"
               sortOptions={sortOptions}
               order={order}
               setOrder={setOrder}
@@ -151,7 +156,6 @@ export function Representations({
             error={error}
             withFeedback={withFeedback}
             selectedTab={selectedTab}
-            latestData={latestData}
             page={page}
             setPage={setPage}
             resolvedData={resolvedData}

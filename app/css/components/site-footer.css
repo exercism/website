@@ -1,7 +1,6 @@
 @import "../styles";
 
 body.namespace-.controller-journey,
-body.namespace-.controller-premium,
 body.namespace-.controller-insiders {
     & #site-footer {
         margin-top: 0px;
@@ -41,14 +40,15 @@ body.namespace-.controller-insiders {
                 rgba(39, 27, 114, 0) 48.1%,
                 #271b72 100%
             ),
-            linear-gradient(0deg, #271b72, #271b72),
-            url("bg-tracks-header@2x.jpg");
+            linear-gradient(0deg, #271b72, #271b72), var(--hex-bg-image);
 
         background-size: 100%;
         background-position: -190px;
 
         & .c-icon {
             @apply mb-24;
+            width: 133px;
+            height: 24px;
             filter: var(--filter-FFFFFF);
         }
         & h2 {
@@ -218,6 +218,7 @@ body.namespace-.controller-insiders {
             @apply mx-12;
             & .c-icon {
                 height: 24px;
+                width: 24px;
                 filter: var(--filter-FFFFFF);
             }
             &.twitter {

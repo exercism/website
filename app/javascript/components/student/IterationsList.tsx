@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { Loading } from '../common'
 import { Iteration } from '../types'
 import { IterationReport } from './iterations-list/IterationReport'
 import { EmptyIterations } from './iterations-list/EmptyIterations'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { SolutionChannel } from '../../channels/solutionChannel'
-import { useQueryCache } from 'react-query'
 
 export type Exercise = {
   title: string
@@ -46,7 +46,7 @@ export const getCacheKey = (
   return `iterations-${trackSlug}-${exerciseSlug}`
 }
 
-export const IterationsList = ({
+export default function IterationsList({
   solutionUuid,
   request,
   exercise,
@@ -58,17 +58,26 @@ export const IterationsList = ({
   exercise: Exercise
   track: Track
   links: Links
-}): JSX.Element => {
-  const queryCache = useQueryCache()
+}): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean[]>([])
+
+  const queryClient = useQueryClient()
   const CACHE_KEY = getCacheKey(track.slug, exercise.slug)
-  const { resolvedData } = usePaginatedRequestQuery<{
+
+  useEffect(() => {
+    queryClient.setQueryData([CACHE_KEY], request.options.initialData)
+  }, [])
+
+  const { data: resolvedData } = usePaginatedRequestQuery<{
     iterations: readonly Iteration[]
-  }>(CACHE_KEY, request)
+  }>([CACHE_KEY], {
+    ...request,
+    options: { ...request.options, staleTime: 1000 },
+  })
 
   const handleDelete = (deletedIteration: Iteration) => {
-    queryCache.setQueryData<{ iterations: readonly Iteration[] }>(
-      CACHE_KEY,
+    queryClient.setQueryData<{ iterations: readonly Iteration[] }>(
+      [CACHE_KEY],
       (result) => {
         if (!result) {
           return { iterations: [] }
@@ -81,15 +90,16 @@ export const IterationsList = ({
           ),
         }
       }
-    ),
-      []
+    )
   }
 
   useEffect(() => {
     const solutionChannel = new SolutionChannel(
       { uuid: solutionUuid },
       (response) => {
-        queryCache.setQueryData(CACHE_KEY, { iterations: response.iterations })
+        queryClient.setQueryData([CACHE_KEY], {
+          iterations: response.iterations,
+        })
       }
     )
 
@@ -109,9 +119,7 @@ export const IterationsList = ({
     }
 
     if (isOpen.length === 0) {
-      setIsOpen(
-        resolvedData.iterations.map((iteration, i) => (i === 0 ? true : false))
-      )
+      setIsOpen(resolvedData.iterations.map((_, i) => i === 0))
 
       return
     }

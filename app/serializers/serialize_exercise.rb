@@ -36,8 +36,6 @@ class SerializeExercise
   end
 
   def links
-    return {} unless unlocked?
-
     {
       self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
     }

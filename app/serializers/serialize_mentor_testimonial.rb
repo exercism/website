@@ -12,6 +12,11 @@ class SerializeMentorTestimonial
         handle: testimonial.student.handle,
         flair: testimonial.student.flair
       },
+      mentor: {
+        avatar_url: testimonial.mentor.avatar_url,
+        handle: testimonial.mentor.handle,
+        flair: testimonial.mentor.flair
+      },
       exercise: {
         title: testimonial.exercise.title,
         icon_url: testimonial.exercise.icon_url

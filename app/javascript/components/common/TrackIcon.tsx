@@ -1,5 +1,6 @@
 import React from 'react'
 import { missingTrackIconErrorHandler } from './imageErrorHandler'
+import { assetUrl } from '@/utils/assets'
 
 type TrackIconProps = {
   iconUrl: string
@@ -20,7 +21,7 @@ export function TrackIcon({
   return (
     <img
       className={classNames.join(' ')}
-      src={iconUrl}
+      src={iconUrl || assetUrl('icons/all-tracks.svg')}
       alt={`icon for ${title} track`}
       onError={missingTrackIconErrorHandler}
     />

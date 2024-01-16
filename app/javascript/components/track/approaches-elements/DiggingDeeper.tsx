@@ -1,6 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
-import { GraphicalIcon, Icon, Credits } from '@/components/common'
+import { GraphicalIcon, Icon } from '@/components/common'
+import Credits from '@/components/common/Credits'
 import { User } from '@/components/types'
 import { NoIntroductionYet } from '.'
 

@@ -11,9 +11,9 @@ module Flows
 
     test "shows track information" do
       user = create :user
-      ruby = create :track, :random_slug
-      create :track, :random_slug
-      create :track, :random_slug
+      ruby = create :track, slug: "ruby"
+      create :track, slug: "nim"
+      create :track, slug: "kotlin"
       create :user_track, track: ruby, user:, last_touched_at: 2.days.ago
 
       use_capybara_host do
@@ -27,8 +27,8 @@ module Flows
 
     test "separates tracks into joined and unjoined" do
       user = create :user
-      ruby = create :track, :random_slug, title: "Ruby"
-      create :track, :random_slug, title: "Go"
+      ruby = create :track, slug: "ruby", title: "Ruby"
+      create :track, slug: "go", title: "Go"
       create(:user_track, track: ruby, user:)
 
       use_capybara_host do
@@ -41,22 +41,22 @@ module Flows
     end
 
     test "filter by track title" do
-      create :track, :random_slug, title: "Ruby"
-      create :track, :random_slug, title: "Go"
+      create :track, slug: "ruby", title: "Ruby"
+      create :track, slug: "go", title: "Go"
 
       use_capybara_host do
         sign_in!
         visit tracks_path
         fill_in "Search language tracks", with: "Go"
 
-        assert_selector(".c-tracks-list .--track", count: 1)
+        assert_selector(".tracks-list .--track", count: 1)
         within(".--track") { assert_text "Go" }
       end
     end
 
     test "filter by tag" do
-      create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
-      create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
+      create :track, slug: "ruby", title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+      create :track, slug: "go", title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
       use_capybara_host do
         sign_in!
@@ -66,14 +66,14 @@ module Flows
         check "Dynamic"
         click_on "Apply"
 
-        assert_selector(".c-tracks-list .--track", count: 1)
+        assert_selector(".tracks-list .--track", count: 1)
         within(".--track") { assert_text "Ruby" }
       end
     end
 
     test "resets filters" do
-      create :track, :random_slug, title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
-      create :track, :random_slug, title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
+      create :track, slug: "ruby", title: "Ruby", tags: ["paradigm/object_oriented", "typing/dynamic"]
+      create :track, slug: "go", title: "Go", tags: ["paradigm/object_oriented", "typing/static"]
 
       use_capybara_host do
         sign_in!
@@ -100,8 +100,8 @@ module Flows
 
     test "sorts by last touched" do
       user = create :user
-      ruby = create :track, :random_slug, title: "Ruby"
-      go = create :track, :random_slug, title: "Go"
+      ruby = create :track, slug: "ruby", title: "Ruby"
+      go = create :track, slug: "go", title: "Go"
       create :user_track, track: ruby, user:, last_touched_at: 1.day.ago
       create :user_track, track: go, user:, last_touched_at: 2.days.ago
       order = %w[Ruby Go]

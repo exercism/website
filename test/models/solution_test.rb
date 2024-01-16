@@ -32,20 +32,6 @@ class SolutionTest < ActiveSupport::TestCase
     end
   end
 
-  test "sync_git!" do
-    solution = create :concept_solution
-    solution.update!(git_sha: "foo", git_slug: "bar")
-
-    # Sanity
-    assert_equal "foo", solution.git_sha
-    assert_equal "bar", solution.git_slug
-
-    solution.sync_git!
-    assert_equal solution.exercise.git_sha, solution.git_sha
-    assert_equal solution.exercise.slug, solution.git_slug
-    assert_equal solution.exercise.git_important_files_hash, solution.git_important_files_hash
-  end
-
   test "status" do
     solution = create :concept_solution
     assert_equal :started, solution.reload.status.to_sym
@@ -58,6 +44,36 @@ class SolutionTest < ActiveSupport::TestCase
 
     solution.update!(published_at: Time.current)
     assert_equal :published, solution.reload.status.to_sym
+  end
+
+  test "update_iteration_status!" do
+    solution = create :concept_solution
+
+    solution.expects(:update_column).with(:iteration_status, :testing)
+    create(:iteration, solution:, submission: create(:submission, tests_status: :queued))
+
+    # Manually repeat the stubbed call
+    solution.update!(iteration_status: :testing)
+
+    solution.expects(:update_column).never
+    solution.update_iteration_status!
+  end
+
+  test "update_iteration_status! does not call unncessarily" do
+    solution = create :concept_solution
+
+    solution.update_iteration_status!
+    assert_nil solution.reload.iteration_status
+
+    create(:iteration, solution:, submission: create(:submission, tests_status: :queued))
+    solution.update_iteration_status!
+    assert_equal :testing, solution.reload.iteration_status
+
+    create(:iteration, solution:, submission: create(:submission, tests_status: :passed))
+    solution.update_iteration_status!
+    assert_equal :no_automated_feedback, solution.reload.iteration_status
+
+    solution.expects(:update_column).never
   end
 
   test "published_iterations" do
@@ -354,6 +370,7 @@ class SolutionTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
+      - The [Ruby track's programming category on the forum](https://forum.exercism.org/c/programming/ruby)
       - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 
@@ -391,6 +408,7 @@ class SolutionTest < ActiveSupport::TestCase
       If you'd like help solving the exercise, check the following pages:
 
       - The [Ruby track's documentation](https://exercism.org/docs/tracks/ruby)
+      - The [Ruby track's programming category on the forum](https://forum.exercism.org/c/programming/ruby)
       - [Exercism's programming category on the forum](https://forum.exercism.org/c/programming/5)
       - The [Frequently Asked Questions](https://exercism.org/docs/using/faqs)
 

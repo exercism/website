@@ -11,7 +11,6 @@ module ViewComponents
         item_for("Integrations", :integrations_settings, :integrations),
         item_for("Preferences", :user_preferences_settings, :preferences),
         item_for("Communication Preferences", :communication_preferences_settings, :communication),
-        item_for("Premium", :premium_settings, :premium),
         item_for("Donations", :donations_settings, :donations)
       ]
 

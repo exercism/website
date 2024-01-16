@@ -5,12 +5,14 @@ import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
 import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
+import setupBallerina from '@ballerina/highlightjs-ballerina'
 
 highlighter.default.registerLanguage('abap', setupABAP)
 highlighter.default.registerLanguage('cobol', setupCobol)
 highlighter.default.registerLanguage('bqn', setupBqn)
 highlighter.default.registerLanguage('zig', setupZig)
 highlighter.default.registerLanguage('gleam', setupGleam)
+highlighter.default.registerLanguage('ballerina', setupBallerina)
 
 highlighter.default.configure({
   throwUnescapedHTML: true,
@@ -117,6 +119,7 @@ export const highlightAll = (parent: ParentNode = document): void => {
 
 export const highlightAllAlways = (parent: ParentNode = document): void => {
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
+    block.removeAttribute('data-highlighted')
     highlightBlock(block)
   })
 }

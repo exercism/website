@@ -42,30 +42,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal handle, user.name
   end
 
-  test "reputation sums correctly" do
+  test "reputation_for_track" do
     user = create :user
-    create :user_code_contribution_reputation_token # Random token for different user
+    track = create :track
 
-    create(:user_exercise_contribution_reputation_token, user:)
-    create(:user_exercise_author_reputation_token, user:)
-    create :user_code_contribution_reputation_token, user:, level: :large
-    create :user_code_contribution_reputation_token, user:, level: :medium
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 18, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
 
-    assert_equal 72, user.reload.reputation
-    # assert_equal 20, user.reputation(track_slug: :ruby)
-    assert_equal 30, user.reputation(category: :authoring)
-  end
-
-  test "reputation raises with both track_slug and category specified" do
-    user = create :user
-
-    # Sanity check the individuals work
-    # before testing them both together
-    assert user.reputation(track_slug: :ruby)
-    assert user.reputation(category: :docs)
-    assert_raises do
-      user.reputation(track_slug: :ruby, category: :docs)
-    end
+    assert_equal 20 + 18 + 30, user.reputation_for_track(track)
   end
 
   test "formatted_reputation works" do
@@ -226,7 +211,7 @@ class UserTest < ActiveSupport::TestCase
   test "pronoun_parts" do
     user = create :user
     assert_nil user.pronouns
-    assert_equal ['', '', ''], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = %w[he him his]
     assert_equal "he/him/his", user.pronouns
@@ -234,19 +219,19 @@ class UserTest < ActiveSupport::TestCase
 
     user.pronoun_parts = ["she", "", "her"]
     assert_equal "she//her", user.pronouns
-    assert_equal ["she", "", "her"], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = ["they", "their", ""]
     assert_equal "they/their/", user.pronouns
-    assert_equal ["they", "their", ""], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = { 2 => "his", 0 => "he", 1 => "" }
     assert_equal "he//his", user.pronouns
-    assert_equal ["he", "", "his"], user.pronoun_parts
+    assert_nil user.pronoun_parts
 
     user.pronoun_parts = { '2' => "her", '0' => "she", '1' => "" }
     assert_equal "she//her", user.pronouns
-    assert_equal ["she", "", "her"], user.pronoun_parts
+    assert_nil user.pronoun_parts
   end
 
   test "dismiss_introducer!" do
@@ -345,15 +330,6 @@ class UserTest < ActiveSupport::TestCase
     refute_equal User.all, User.random
   end
 
-  test "scope: premium" do
-    create :user, premium_until: nil
-    create :user, premium_until: Time.current - 3.days
-    user_2 = create :user, premium_until: Time.current + 2.days
-    user_3 = create :user, premium_until: Time.current + 4.months
-
-    assert_equal [user_2, user_3], User.premium.order(:id)
-  end
-
   test "scope: insiders" do
     create :user, insiders_status: :unset
     create :user, insiders_status: :ineligible
@@ -433,17 +409,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal :insider, user.flair
   end
 
-  test "premium?" do
-    user = create :user, premium_until: nil
-    refute user.premium?
-
-    user.update(premium_until: Time.current - 5.seconds)
-    refute user.premium?
-
-    user.update(premium_until: Time.current + 5.seconds)
-    assert user.premium?
-  end
-
   test "email verified when email changes" do
     user = create :user
 
@@ -473,5 +438,140 @@ class UserTest < ActiveSupport::TestCase
     user = create :user, disabled_at: Time.current
     user.email_status_invalid!
     refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for ghost user" do
+    user = create :user, :ghost
+    refute user.may_receive_emails?
+  end
+
+  test "refute may receive email for system user" do
+    user = create :user, :system
+    refute user.may_receive_emails?
+  end
+
+  test "donated_in_last_35_days?" do
+    freeze_time do
+      user = create :user
+      refute user.donated_in_last_35_days?
+
+      create :payments_payment, user:, created_at: Time.current - 36.days
+      user.reload
+      refute user.donated_in_last_35_days?
+
+      create :payments_payment, user:, created_at: Time.current - 34.days
+      user.reload
+      assert user.donated_in_last_35_days?
+    end
+  end
+
+  test "automator?" do
+    track = create :track
+    user = create :user
+
+    refute user.automator?(track)
+
+    tm = create(:user_track_mentorship, user:, track:)
+    refute user.automator?(track)
+
+    # Different track
+    create :user_track_mentorship, :automator, user:, track: create(:track, :random_slug)
+    refute user.automator?(track)
+
+    tm.update!(automator: true)
+    assert user.automator?(track)
+  end
+
+  %i[admin staff].each do |role|
+    test "automator? enabled for #{role}" do
+      track = create :track
+      user = create :user, role
+
+      assert user.automator?(track)
+    end
+  end
+
+  test "trainer?" do
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+
+    refute user.trainer?(nil)
+    refute user.trainer?(track)
+    refute user.trainer?(other_track)
+
+    user.update(trainer: true)
+    assert user.trainer?(nil)
+    refute user.trainer?(track)
+    refute user.trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
+  end
+
+  %i[admin staff].each do |role|
+    test "trainer? enabled for #{role}" do
+      track = create :track
+      user = create :user, role
+
+      assert user.trainer?(track)
+    end
+  end
+
+  test "eligible_for_trainer?" do
+    user = create :user
+    track = create :track, :random_slug
+    other_track = create :track, :random_slug
+
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track:, reputation: 10)
+    refute user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    refute user.eligible_for_trainer?(other_track)
+
+    create(:user_track, user:, track: other_track, reputation: 60)
+    assert user.eligible_for_trainer?(nil)
+    refute user.eligible_for_trainer?(track)
+    assert user.eligible_for_trainer?(other_track)
+  end
+
+  test "validates" do
+    user = create :user
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(name: 'a' * 256)
+    end
+    user.update!(name: 'a' * 255)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(handle: 'a' * 191)
+    end
+    user.update!(handle: 'a' * 190)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(email: "#{'a' * 182}@test.org")
+    end
+    user.update!(email: "#{'a' * 181}@test.org")
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(pronouns: 'a' * 256)
+    end
+    user.update!(pronouns: 'a' * 255)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      user.update!(location: 'a' * 256)
+    end
+
+    user.update!(location: 'a' * 255)
   end
 end

@@ -20,7 +20,7 @@
           - if featured_exercise
             %h1.text-h1.mb-8 This week, we're featuring #{featured_exercise.title}.
             %p.text-p-xlarge.mb-12
-              For week #{week} of #48in24, we're exploring #{link_to featured_exercise.title, generic_exercise_path(featured_exercise), class: 'underline'}.
+              For week #{week} of #48in24, we're exploring #{link_to featured_exercise.title, generic_exercise_path(featured_exercise.slug), class: 'underline'}.
             %p.text-p-large.mb-12= featured_exercise.learning_opportunity
 
             %p.text-p-large.mb-12

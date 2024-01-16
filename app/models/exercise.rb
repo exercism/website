@@ -128,6 +128,8 @@ class Exercise < ApplicationRecord
   def approaches? = approaches.exists?
   def tutorial? = slug == "hello-world"
   def has_test_runner? = super && track.has_test_runner?
+
+  memoize
   def problem_specifications_data = Git::ProblemSpecifications::Exercise.new(slug)
 
   delegate :has_representer?, to: :track

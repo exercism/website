@@ -1,4 +1,4 @@
-- week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
+- week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
 - featured_exercise = @exercises.find { |e| e.week == week }
 - if featured_exercise
   - featured_exercise_ps_data = Git::ProblemSpecifications::Exercise.new(featured_exercise.slug)

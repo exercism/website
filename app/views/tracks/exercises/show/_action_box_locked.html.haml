@@ -1,9 +1,11 @@
 .action-box.pending
   .action-box-content
     %h3 Unlock #{exercise.title}
-    %p.mb-20
+    .leading-160.text-textColor2.text-16.mb-20
       This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
-      %strong #{exercise.title}.
+      %strong #{exercise.title}, or
+      .inline-block
+        = render ReactComponents::Track::ActivatePracticeMode.new(user_track)
 
     .prereqs
       - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|

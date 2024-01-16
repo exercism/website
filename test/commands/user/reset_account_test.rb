@@ -181,12 +181,11 @@ class User::ResetAccountTest < ActiveSupport::TestCase
   end
 
   test "cleans up solution_tags" do
+    ghost_user = create :user, :ghost
     user = create :user
     solution_tag = create(:solution_tag, user:)
     User::ResetAccount.(user)
-    assert_raises ActiveRecord::RecordNotFound do
-      solution_tag.reload
-    end
+    assert_equal ghost_user, solution_tag.reload.user
   end
 
   test "cleans up problem reports" do

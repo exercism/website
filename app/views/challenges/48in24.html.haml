@@ -125,9 +125,9 @@
       .flex.text-center.flex-col.items-center
         %h1.text-h1.mb-16 Your #48in24 Progress
         %p.text-p-xlarge
-          Below you'll see a list of all the featured exercises for #48in24, along with your progress for each.
+          Below you'll see a list of all the featured exercises for #48in24, along with your progress for each. Click to jump to the exercise or featured tracks.
         %p.text-p-large.cta
-          Click on any exercise to learn more about it and see the #48in24 featured tracks.
+          Read the instructions at the top-right of this page to understand how everything works.
 
       .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto.exercises
         - live_exercises.each do |exercise|
@@ -139,9 +139,9 @@
               .text-h3.mb-16= exercise.title
               %progress.progress-bar{ value: num_completed_tracks, max: 3 }
               - if num_completed_tracks > 2
-                .count Completed in #{num_completed_tracks} tracks
+                .count #{num_completed_tracks} completed during 2024
               - else
-                .count Completed in #{num_completed_tracks} / 3 tracks
+                .count #{num_completed_tracks} / 3 completed during 2024
             .featured
               .tracks
                 - exercise.featured_tracks.map do |track_slug|

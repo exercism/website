@@ -307,7 +307,11 @@ export const mappings = {
 
   'track-activate-practice-mode': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <ActivatePracticeMode endpoint={data.endpoint} />
+      <ActivatePracticeMode
+        endpoint={data.endpoint}
+        redirectToUrl={data.redirect_to_url}
+        buttonLabel={data.button_label}
+      />
     </Suspense>
   ),
 

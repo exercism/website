@@ -5,7 +5,7 @@
       This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
       %strong #{exercise.title}, or
       .inline-block
-        = render ReactComponents::Track::ActivatePracticeMode.new(user_track.track)
+        = render ReactComponents::Track::ActivatePracticeMode.new(user_track.track, "disable learning mode.", redirect_to_url: track_exercise_path(user_track.track, exercise))
 
     .prereqs
       - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|

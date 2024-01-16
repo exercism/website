@@ -19,8 +19,12 @@ const DEFAULT_ERROR = new Error('Unable to switch to practice mode')
 export const ActivatePracticeModeModal = ({
   endpoint,
   onClose,
+  redirectToOnSuccessUrl,
   ...props
-}: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
+}: Omit<ModalProps, 'className'> & {
+  endpoint: string
+  redirectToOnSuccessUrl?: string
+}): JSX.Element => {
   const {
     mutate: mutation,
     status,
@@ -46,7 +50,7 @@ export const ActivatePracticeModeModal = ({
           return
         }
 
-        redirectTo(track.links.self)
+        redirectTo(redirectToOnSuccessUrl || track.links.self)
       },
     }
   )

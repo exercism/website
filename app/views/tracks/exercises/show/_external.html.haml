@@ -6,3 +6,14 @@
       = render("tracks/exercises/show/action_box_join_track", exercise:, user_track:)
     - else
       = render("tracks/exercises/show/action_box_join_exercism", exercise:, user_track:)
+
+    - deep_dive_youtube_id = exercise.problem_specifications_data.deep_dive_youtube_id
+    - if deep_dive_youtube_id.present?
+      .mt-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
+        .text-h4.mb-4 Deep Dive into #{exercise.title}!
+        %p.text-p-large.mb-16 Take a deep dive into #{exercise.title} with Jeremy and Erik, as they explore the different ways this exercise can be solved and dig into some interesting community solutions.
+        %div{ class: 'w-[100%]' }
+          .c-youtube-container
+            %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+
+

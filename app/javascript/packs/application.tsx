@@ -102,6 +102,9 @@ const ExerciseCommunitySolutionsList = lazy(
   () => import('@/components/track/ExerciseCommunitySolutionsList')
 )
 const DigDeeper = lazy(() => import('@/components/track/DigDeeper'))
+const ActivatePracticeMode = lazy(
+  () => import('@/components/track/ActivatePracticeMode')
+)
 const ConceptMakersButton = lazy(
   () => import('@/components/track/ConceptMakersButton')
 )
@@ -298,6 +301,16 @@ export const mappings = {
       <ExerciseCommunitySolutionsList
         request={camelizeKeysAs<Request>(data.request)}
         tags={data.tags}
+      />
+    </Suspense>
+  ),
+
+  'track-activate-practice-mode': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <ActivatePracticeMode
+        endpoint={data.endpoint}
+        redirectToUrl={data.redirect_to_url}
+        buttonLabel={data.button_label}
       />
     </Suspense>
   ),

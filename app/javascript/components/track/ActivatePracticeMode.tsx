@@ -16,7 +16,7 @@ export default function ActivatePracticeMode({
   return (
     <>
       <button
-        className="font-bold text-prominentLinkColor"
+        className="font-semibold text-prominentLinkColor"
         onClick={() => setModalOpen(true)}
       >
         {buttonLabel}

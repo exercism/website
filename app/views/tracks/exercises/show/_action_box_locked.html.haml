@@ -2,8 +2,9 @@
   .action-box-content
     %h3 Unlock #{exercise.title}
     .leading-160.text-textColor2.text-16.mb-20
-      This exercise is currently unavailable for you to start. Complete all of these exercises to unlock
-      %strong #{exercise.title}, or
+      This exercise is currently unavailable for you to start. Complete the following exercises to unlock
+      %span.font-semibold= exercise.title
+      or
       .inline-block
         = render ReactComponents::Track::ActivatePracticeMode.new(user_track.track, "disable learning mode.", redirect_to_url: track_exercise_path(user_track.track, exercise))
 

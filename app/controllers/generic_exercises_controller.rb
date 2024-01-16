@@ -24,7 +24,7 @@ class GenericExercisesController < ApplicationController
     end
 
     if Date.current.year == 2024 # rubocop:disable Style/GuardClause
-      current_week = ((Time.zone.today - Date.new(2024, 1, 16)) / 7).to_i
+      current_week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
 
       featured_data = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES.find do |e|
         e[:slug] == @exercise.slug && e[:week] <= current_week

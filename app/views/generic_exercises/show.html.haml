@@ -1,4 +1,6 @@
--# - exercise_meta_tags(@exercise, @user_track)
+- content_for :meta_title, "Solve #{@ps_data.title} on Exercism"
+- content_for :meta_description, "Can you solve #{@ps_data.title}? Improve your programming and problem-solving skills with support from our world-class team of mentors."
+- content_for :canonical_url, generic_exercise_url(@ps_data.slug)
 - require_stylesheet "track"
 
 #page-generic-exercise

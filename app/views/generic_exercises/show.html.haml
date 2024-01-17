@@ -13,7 +13,7 @@
 
   .lg-container
     .flex.flex-col.md:flex-row.gap-48
-      .lhs
+      .lhs.flex-grow
         - if @ps_data.deep_dive_youtube_id.present?
           .mb-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
             .text-h3.mb-8 Deep Dive into #{@exercise.title}!

@@ -1,14 +1,13 @@
 class AboutController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :use_num_individual_supporters, only: %i[organisation_supporters individual_supporters partners]
 
-  def organisation_supporters
-    @num_individual_supporters = User::Data.donors.count
-  end
+  def organisation_supporters; end
+
+  def partners; end
 
   def individual_supporters
-    @num_individual_supporters = User::Data.donors.count
-    user_ids = User::Data.public_supporter.
-      order(first_donated_at: :asc).
+    user_ids = supporters.order(first_donated_at: :asc).
       page(params[:page]).per(30).without_count.
       pluck(:user_id)
 
@@ -149,5 +148,9 @@ class AboutController < ApplicationController
   end
 
   private
-  def use_num_individual_supporters; end
+  def supporters = User::Data.public_supporter
+
+  def use_num_individual_supporters
+    @num_individual_supporters = supporters.count
+  end
 end

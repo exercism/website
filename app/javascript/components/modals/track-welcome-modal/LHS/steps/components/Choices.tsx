@@ -11,9 +11,8 @@ export function Choices(): JSX.Element {
 
   const showResetButton = track.course
     ? currentState.value !== 'hasLearningMode'
-    : currentState.value !== 'hasNoLearningMode' ||
+    : currentState.value !== 'hasNoLearningMode' &&
       currentState.value !== 'learningEnvironmentSelector'
-
   return (
     <div className="flex gap-8">
       {Object.entries(currentState.context.choices).map(([key, value], id) => (

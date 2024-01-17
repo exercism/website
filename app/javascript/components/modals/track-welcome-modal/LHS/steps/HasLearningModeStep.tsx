@@ -21,10 +21,8 @@ export function HasLearningModeStep({
             modes 👉
           </span>
         </p>
-        <p>
-          Would you like to use the track in learning mode or practice mode?
-        </p>
       </header>
+      <p>Would you like to use the track in learning mode or practice mode?</p>
       <ButtonContainer>
         <StepButton onClick={onSelectLearningMode}>Learning Mode</StepButton>
         <StepButton onClick={onSelectPracticeMode}>Practice Mode</StepButton>

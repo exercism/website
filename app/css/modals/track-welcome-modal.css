@@ -26,7 +26,7 @@
     }
 
     & .lhs {
-        @apply flex-grow mr-48;
+        @apply flex flex-col flex-grow mr-48 h-[360px];
 
         & header {
             @apply mb-16;
@@ -46,7 +46,7 @@
             @apply text-h3 mb-6;
         }
         & p {
-            @apply text-16 leading-huge;
+            @apply text-18 leading-huge;
         }
         & .improvements {
             @apply mt-24 mb-32;

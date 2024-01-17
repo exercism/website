@@ -8,7 +8,12 @@ module ReactComponents
         super(
           "modals-#{slug}",
           {
-            endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug),
+            links: {
+              hide_modal: Exercism::Routes.hide_api_settings_introducer_path(slug),
+              activate_practice_mode: Exercism::Routes.activate_practice_mode_api_track_url(track),
+              activate_learning_mode: Exercism::Routes.activate_learning_mode_api_track_url(track),
+              hello_world: Exercism::Routes.track_exercise_path(track, 'hello-world')
+            },
             track:
           }
         )

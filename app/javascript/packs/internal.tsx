@@ -207,7 +207,10 @@ import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeCont
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
-import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal'
+import {
+  TrackWelcomeModal,
+  TrackWelcomeModalProps,
+} from '@/components/modals/track-welcome-modal'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -231,10 +234,7 @@ initReact({
   ),
 
   'modals-track-welcome-modal': (data: any) => (
-    <TrackWelcomeModal
-      endpoint={data.endpoint}
-      track={camelizeKeysAs<Track>(data.track)}
-    />
+    <TrackWelcomeModal {...camelizeKeysAs<TrackWelcomeModalProps>(data)} />
   ),
 
   'modals-welcome-to-insiders-modal': (data: any) => (

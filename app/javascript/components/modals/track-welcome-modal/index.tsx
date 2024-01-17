@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 
 // import { FormButton } from '../common'
@@ -17,6 +17,7 @@ import {
 import { useMachine } from '@xstate/react'
 import { State, BaseActionObject, ResolveTypegenMeta, ServiceMap } from 'xstate'
 import { Typegen0 } from './LHS/lhs.machine.typegen'
+import { redirectTo } from '@/utils/redirect-to'
 
 // const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -64,19 +65,28 @@ export const TrackContext = createContext<{
   send: () => {},
 })
 
-export const TrackWelcomeModal = ({
-  endpoint,
-  track,
-}: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
-  endpoint: string
+export type TrackWelcomeModalProps = {
+  links: Record<
+    | 'hideModal'
+    | 'activatePracticeMode'
+    | 'activateLearningMode'
+    | 'helloWorld',
+    string
+  >
   track: Track
-}): JSX.Element => {
+}
+
+export const TrackWelcomeModal = ({
+  links,
+  track,
+}: Omit<ModalProps, 'className' | 'open' | 'onClose'> &
+  TrackWelcomeModalProps): JSX.Element => {
   const [open, setOpen] = useState(true)
   const [choices, setChoices] = useState<ChoicesType>(UNSET_CHOICES)
-  const [mutation, { status, error }] = useMutation(
+  const { mutate: hideModal, status } = useMutation(
     () => {
       const { fetch } = sendRequest({
-        endpoint: endpoint,
+        endpoint: links.hideModal,
         method: 'PATCH',
         body: null,
       })
@@ -90,11 +100,6 @@ export const TrackWelcomeModal = ({
     }
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleClick = useCallback(() => {
-    mutation()
-  }, [mutation])
-
   const handleClose = useCallback(() => {
     if (status === 'loading') {
       return
@@ -106,10 +111,11 @@ export const TrackWelcomeModal = ({
   const [currentState, send] = useMachine(machine, {
     actions: {
       handleContinueToLocalMachine() {
-        console.log('continue to cli hello world')
+        hideModal()
       },
       handleContinueToOnlineEditor() {
-        console.log('continue to online hello world')
+        hideModal()
+        redirectTo(links.helloWorld)
       },
     },
   })

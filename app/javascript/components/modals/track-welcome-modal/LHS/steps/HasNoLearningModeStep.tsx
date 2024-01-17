@@ -26,7 +26,7 @@ export function HasNoLearningModeStep({
           .
         </p>
       </header>
-      <StepButton onClick={onContinue} className="w-fit mt-auto">
+      <StepButton onClick={onContinue} className="w-fit mt-16">
         Continue
       </StepButton>
     </>

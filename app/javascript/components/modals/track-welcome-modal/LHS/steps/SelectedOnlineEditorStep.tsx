@@ -1,5 +1,6 @@
 import React from 'react'
 import { StepButton } from './components/StepButton'
+import { ButtonContainer } from './components/ButtonContainer'
 
 export function SelectedOnlineEdiorStep({
   onContinueToOnlineEditor,
@@ -14,12 +15,12 @@ export function SelectedOnlineEdiorStep({
         </p>
       </header>
 
-      <div className="flex gap-12 items-center">
+      <ButtonContainer>
         <StepButton onClick={onReset}>Reset</StepButton>
         <StepButton onClick={onContinueToOnlineEditor}>
           Continue to online editor
         </StepButton>
-      </div>
+      </ButtonContainer>
     </>
   )
 }

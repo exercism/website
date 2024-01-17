@@ -25,16 +25,10 @@
         max-width: 1140px;
     }
 
-    .lhs,
-    .rhs {
-        @apply h-[360px];
-    }
     .lhs {
         @apply flex flex-col flex-grow mr-48;
 
         header {
-            @apply mb-16;
-
             h1 {
                 @apply text-h1 mb-12;
             }

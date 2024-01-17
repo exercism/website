@@ -16,7 +16,7 @@ export function Choices(): JSX.Element {
       {Object.entries(choices).map(([key, value], id) => (
         <span
           className={assembleClassNames(
-            'py-6 px-12 text-aliceBlue rounded-24',
+            'py-6 px-12 rounded-24',
             value === 'Unset' ? unsetStyle : setStyle
           )}
           key={id}

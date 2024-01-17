@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../../..'
-export function Choices({}: {}): JSX.Element {
+export function Choices(): JSX.Element {
   const { choices } = useContext(TrackContext)
 
   return (

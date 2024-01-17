@@ -9,7 +9,7 @@ export function HasLearningModeStep({
   'onSelectLearningMode' | 'onSelectPracticeMode',
   () => void
 >): JSX.Element {
-  const track = useContext(TrackContext)
+  const { track } = useContext(TrackContext)
   return (
     <>
       <header>

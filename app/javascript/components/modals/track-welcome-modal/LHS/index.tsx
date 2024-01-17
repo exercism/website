@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useMachine } from '@xstate/react'
 import * as STEPS from './steps'
 import { StateValue, machine } from './lhs.machine'
 import { useLogger } from '@/hooks'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
+import { TrackContext } from '..'
 
 export function TrackWelcomeModalLHS(): JSX.Element {
   return (
@@ -26,9 +27,14 @@ function Steps() {
     },
   })
 
+  const { setChoices } = useContext(TrackContext)
+
   const { context } = currentState
 
-  useLogger('context', context)
+  useEffect(() => {
+    setChoices(context.choices)
+  }, [context.choices])
+
   switch (currentState.value as StateValue) {
     case 'hasLearningMode':
       return (

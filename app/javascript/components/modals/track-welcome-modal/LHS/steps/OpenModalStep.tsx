@@ -8,7 +8,7 @@ export function OpenModalStep({
   'onHasLearningMode' | 'onHasNoLearningMode',
   () => void
 >): JSX.Element {
-  const track = useContext(TrackContext)
+  const { track } = useContext(TrackContext)
 
   useEffect(() => {
     if (track.course) {

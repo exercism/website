@@ -11,7 +11,7 @@ export function LearningEnvironmentSelectorStep({
   'onSelectLocalMachine' | 'onSelectOnlineEditor' | 'onGoBack',
   () => void
 >): JSX.Element {
-  const track = useContext(TrackContext)
+  const { track } = useContext(TrackContext)
   return (
     <>
       <header>

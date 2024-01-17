@@ -7,7 +7,12 @@ const unsetStyle = `border-1 border-yellowPrompt text-textColor1 bg-yellowPrompt
 const setStyle = `border-1 border-greenPrompt text-textColor1 bg-greenPrompt bg-opacity-40 font-semibold`
 
 export function Choices(): JSX.Element {
-  const { currentState, send } = useContext(TrackContext)
+  const { currentState, send, track } = useContext(TrackContext)
+
+  const showResetButton = track.course
+    ? currentState.value !== 'hasLearningMode'
+    : currentState.value !== 'hasNoLearningMode' ||
+      currentState.value !== 'learningEnvironmentSelector'
 
   return (
     <div className="flex gap-8">
@@ -23,15 +28,17 @@ export function Choices(): JSX.Element {
         </span>
       ))}
 
-      <button onClick={() => send('RESET')}>
-        <Icon
-          icon="reset"
-          alt="reset-button"
-          height={16}
-          width={16}
-          className="filter-textColor6"
-        />
-      </button>
+      {showResetButton && (
+        <button onClick={() => send('RESET')}>
+          <Icon
+            icon="reset"
+            alt="reset-button"
+            height={16}
+            width={16}
+            className="filter-textColor6"
+          />
+        </button>
+      )}
     </div>
   )
 }

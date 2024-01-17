@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react'
-import { useMachine } from '@xstate/react'
+import React, { useContext } from 'react'
 import * as STEPS from './steps'
-import { StateValue, machine } from './lhs.machine'
+import { StateValue } from './lhs.machine'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
 import { TrackContext } from '..'
 
@@ -15,24 +14,7 @@ export function TrackWelcomeModalLHS(): JSX.Element {
 }
 
 function Steps() {
-  const [currentState, send] = useMachine(machine, {
-    actions: {
-      handleContinueToLocalMachine() {
-        console.log('continue to cli hello world')
-      },
-      handleContinueToOnlineEditor() {
-        console.log('continue to online hello world')
-      },
-    },
-  })
-
-  const { setChoices } = useContext(TrackContext)
-
-  const { context } = currentState
-
-  useEffect(() => {
-    setChoices(context.choices)
-  }, [context.choices])
+  const { send, currentState } = useContext(TrackContext)
 
   switch (currentState.value as StateValue) {
     case 'hasLearningMode':
@@ -51,7 +33,6 @@ function Steps() {
         <STEPS.LearningEnvironmentSelectorStep
           onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
           onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
-          onReset={() => send('RESET')}
         />
       )
 
@@ -59,14 +40,12 @@ function Steps() {
       return (
         <STEPS.SelectedLocalMachineStep
           onContinueToLocalMachine={() => send('CONTINUE')}
-          onReset={() => send('RESET')}
         />
       )
     case 'selectedOnlineEditor':
       return (
         <STEPS.SelectedOnlineEdiorStep
           onContinueToOnlineEditor={() => send('CONTINUE')}
-          onReset={() => send('RESET')}
         />
       )
 

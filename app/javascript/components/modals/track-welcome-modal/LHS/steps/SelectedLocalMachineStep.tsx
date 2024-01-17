@@ -6,8 +6,7 @@ import { TrackContext } from '../..'
 
 export function SelectedLocalMachineStep({
   onContinueToLocalMachine,
-  onReset,
-}: Record<'onReset' | 'onContinueToLocalMachine', () => void>): JSX.Element {
+}: Record<'onContinueToLocalMachine', () => void>): JSX.Element {
   const { track } = useContext(TrackContext)
   return (
     <>
@@ -20,7 +19,6 @@ export function SelectedLocalMachineStep({
         textToCopy={`exercism download --exercise=hello-world --track=${track.title}`}
       />
       <ButtonContainer>
-        <StepButton onClick={onReset}>Reset</StepButton>
         <StepButton onClick={onContinueToLocalMachine}>Continue</StepButton>
       </ButtonContainer>
     </>

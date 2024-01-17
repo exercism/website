@@ -8,7 +8,8 @@ import { Track } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import { TrackWelcomeModalRHS as RHS } from './RHS'
 import { TrackWelcomeModalLHS as LHS } from './LHS'
-import { ChoicesType, UNSET_CHOICES } from './LHS/lhs.machine'
+import { ChoicesType, UNSET_CHOICES, machine } from './LHS/lhs.machine'
+import { useMachine } from '@xstate/react'
 
 // const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -16,7 +17,15 @@ export const TrackContext = createContext<{
   track: Track
   choices: ChoicesType
   setChoices: React.Dispatch<React.SetStateAction<ChoicesType>>
-}>({ track: {} as Track, choices: UNSET_CHOICES, setChoices: () => {} })
+  currentState: any
+  send: any
+}>({
+  track: {} as Track,
+  choices: UNSET_CHOICES,
+  setChoices: () => {},
+  currentState: {},
+  send: () => {},
+})
 
 export const TrackWelcomeModal = ({
   endpoint,
@@ -57,6 +66,17 @@ export const TrackWelcomeModal = ({
     setOpen(false)
   }, [status])
 
+  const [currentState, send] = useMachine(machine, {
+    actions: {
+      handleContinueToLocalMachine() {
+        console.log('continue to cli hello world')
+      },
+      handleContinueToOnlineEditor() {
+        console.log('continue to online hello world')
+      },
+    },
+  })
+
   return (
     <Modal
       cover={true}
@@ -64,7 +84,9 @@ export const TrackWelcomeModal = ({
       onClose={() => null}
       className="m-track-welcome-modal"
     >
-      <TrackContext.Provider value={{ track, choices, setChoices }}>
+      <TrackContext.Provider
+        value={{ track, choices, setChoices, currentState, send }}
+      >
         <LHS />
         <RHS />
       </TrackContext.Provider>

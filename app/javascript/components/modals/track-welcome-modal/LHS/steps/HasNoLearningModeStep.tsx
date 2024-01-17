@@ -1,17 +1,15 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../..'
-import { WelcomeToTrack } from './components/WelcomeToTrack'
 import { StepButton } from './components/StepButton'
 export function HasNoLearningModeStep({
   onContinue,
 }: {
   onContinue: () => void
 }): JSX.Element {
-  const track = useContext(TrackContext)
+  const { track } = useContext(TrackContext)
   return (
     <>
       <header>
-        <WelcomeToTrack />
         <p>
           Welcome to the {track.title} Track. This track is designed to help you
           practicing {track.title} through. a series of&nbsp;

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Choices } from './LHS/steps/components/Choices'
 
 export function TrackWelcomeModalRHS(): JSX.Element {
   return (
@@ -14,6 +15,8 @@ export function TrackWelcomeModalRHS(): JSX.Element {
           allowFullScreen
         />
       </div>
+
+      <Choices />
     </div>
   )
 }

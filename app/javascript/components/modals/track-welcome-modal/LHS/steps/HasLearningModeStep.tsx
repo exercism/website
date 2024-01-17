@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../..'
-import { WelcomeToTrack } from './components/WelcomeToTrack'
 import { StepButton } from './components/StepButton'
 import { ButtonContainer } from './components/ButtonContainer'
 export function HasLearningModeStep({
@@ -14,7 +13,6 @@ export function HasLearningModeStep({
   return (
     <>
       <header>
-        <WelcomeToTrack />
         <p>
           This track can be used for learning {track.title} (Learning Mode) or
           for practicing your existing {track.title} knowledge (Practice Mode).{' '}

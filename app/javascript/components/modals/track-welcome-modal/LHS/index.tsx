@@ -3,7 +3,6 @@ import { useMachine } from '@xstate/react'
 import * as STEPS from './steps'
 import { StateValue, machine } from './lhs.machine'
 import { useLogger } from '@/hooks'
-import { Choices } from './steps/components/Choices'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
 
 export function TrackWelcomeModalLHS(): JSX.Element {
@@ -44,32 +43,26 @@ function Steps() {
 
     case 'learningEnvironmentSelector':
       return (
-        <Choices context={context}>
-          <STEPS.LearningEnvironmentSelectorStep
-            onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
-            onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
-            onGoBack={() => send('GO_BACK')}
-          />
-        </Choices>
+        <STEPS.LearningEnvironmentSelectorStep
+          onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
+          onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
+          onGoBack={() => send('RESET')}
+        />
       )
 
     case 'selectedLocalMachine':
       return (
-        <Choices context={context}>
-          <STEPS.SelectedLocalMachineStep
-            onContinueToLocalMachine={() => send('CONTINUE')}
-            onGoBack={() => send('GO_BACK')}
-          />
-        </Choices>
+        <STEPS.SelectedLocalMachineStep
+          onContinueToLocalMachine={() => send('CONTINUE')}
+          onGoBack={() => send('RESET')}
+        />
       )
     case 'selectedOnlineEditor':
       return (
-        <Choices context={context}>
-          <STEPS.SelectedOnlineEdiorStep
-            onContinueToOnlineEditor={() => send('CONTINUE')}
-            onGoBack={() => send('GO_BACK')}
-          />
-        </Choices>
+        <STEPS.SelectedOnlineEdiorStep
+          onContinueToOnlineEditor={() => send('CONTINUE')}
+          onGoBack={() => send('RESET')}
+        />
       )
 
     default:

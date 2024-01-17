@@ -37,7 +37,8 @@
 
           .py-12.px-32
             %h3.label-large Mentoring Discussions
-            .text-purple.font-semibold.text-40.leading-150= number_with_delimiter(Metrics.num_discussions.to_i)
+            .text-purple.font-semibold.text-40.leading-150
+              = render ReactComponents::Impact::Stat.new(:mentoring_discussions_metric, Metrics.num_discussions.to_i)
 
         .bg-backgroundColorB.shadow-base.py-16.px-24
           %p.text-p-large.mb-8

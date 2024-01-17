@@ -6,12 +6,12 @@ export function SelectedOnlineEdiorStep({
 }: Record<'onContinueToOnlineEditor', () => void>): JSX.Element {
   return (
     <>
-      <p>
+      <p className="mb-16">
         Great. In that case let&apos;s jump straight into the first exercise -
         “Hello, World!
       </p>
 
-      <StepButton onClick={onContinueToOnlineEditor}>
+      <StepButton onClick={onContinueToOnlineEditor} className="w-fit">
         Continue to online editor
       </StepButton>
     </>

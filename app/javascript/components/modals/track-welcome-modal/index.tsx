@@ -8,22 +8,59 @@ import { Track } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
 import { TrackWelcomeModalRHS as RHS } from './RHS'
 import { TrackWelcomeModalLHS as LHS } from './LHS'
-import { ChoicesType, UNSET_CHOICES, machine } from './LHS/lhs.machine'
+import {
+  ChoicesType,
+  StateEvent,
+  UNSET_CHOICES,
+  machine,
+} from './LHS/lhs.machine'
 import { useMachine } from '@xstate/react'
+import { State, BaseActionObject, ResolveTypegenMeta, ServiceMap } from 'xstate'
+import { Typegen0 } from './LHS/lhs.machine.typegen'
 
 // const DEFAULT_ERROR = new Error('Unable to dismiss modal')
+
+type CurrentState = State<
+  {
+    choices: {
+      Mode: string
+      Interface: string
+    }
+  },
+  {
+    type: StateEvent
+  },
+  any,
+  {
+    value: any
+    context: {
+      choices: {
+        Mode: string
+        Interface: string
+      }
+    }
+  },
+  ResolveTypegenMeta<
+    Typegen0,
+    {
+      type: StateEvent
+    },
+    BaseActionObject,
+    ServiceMap
+  >
+>
 
 export const TrackContext = createContext<{
   track: Track
   choices: ChoicesType
   setChoices: React.Dispatch<React.SetStateAction<ChoicesType>>
-  currentState: any
+  currentState: CurrentState
   send: any
 }>({
   track: {} as Track,
   choices: UNSET_CHOICES,
   setChoices: () => {},
-  currentState: {},
+  currentState: {} as CurrentState,
   send: () => {},
 })
 

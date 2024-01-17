@@ -12,7 +12,7 @@ export function Choices(): JSX.Element {
   const { choices } = useContext(TrackContext)
 
   return (
-    <div className="flex gap-8 mt-auto">
+    <div className="flex gap-8">
       {Object.entries(choices).map(([key, value], id) => (
         <span
           className={assembleClassNames(

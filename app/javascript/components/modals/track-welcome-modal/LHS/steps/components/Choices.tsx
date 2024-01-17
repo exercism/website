@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { TrackContext } from '../../..'
+import { TrackContext } from '../../../WelcomeTrackModal'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { Icon } from '@/components/common/Icon'
 

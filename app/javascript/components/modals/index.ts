@@ -1,5 +1,5 @@
 export { default as WelcomeModal } from './WelcomeModal'
-export { TrackWelcomeModal } from './track-welcome-modal'
+export { TrackWelcomeModal } from './track-welcome-modal/WelcomeTrackModal'
 export { default as WelcomeToInsidersModal } from './WelcomeToInsidersModal'
 export { default as Modal } from './Modal'
 export { UploadVideoModal } from './upload-video'

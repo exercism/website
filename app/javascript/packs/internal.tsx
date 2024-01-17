@@ -210,7 +210,7 @@ import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeleto
 import {
   TrackWelcomeModal,
   TrackWelcomeModalProps,
-} from '@/components/modals/track-welcome-modal'
+} from '@/components/modals/track-welcome-modal/WelcomeTrackModal'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components

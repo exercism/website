@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { TrackContext } from '../..'
+import { TrackContext } from '../../WelcomeTrackModal'
 
 export function OpenModalStep({
   onHasLearningMode,

@@ -50,15 +50,21 @@ export const machine = createMachine({
       on: {
         SELECT_LEARNING_MODE: {
           target: 'learningEnvironmentSelector',
-          actions: assign({
-            choices: (context) => ({ ...context.choices, Mode: 'Learning' }),
-          }),
+          actions: [
+            assign({
+              choices: (context) => ({ ...context.choices, Mode: 'Learning' }),
+            }),
+            'handleSelectLearningMode',
+          ],
         },
         SELECT_PRACTICE_MODE: {
           target: 'learningEnvironmentSelector',
-          actions: assign({
-            choices: (context) => ({ ...context.choices, Mode: 'Practice' }),
-          }),
+          actions: [
+            assign({
+              choices: (context) => ({ ...context.choices, Mode: 'Practice' }),
+            }),
+            'handleSelectPracticeMode',
+          ],
         },
       },
     },

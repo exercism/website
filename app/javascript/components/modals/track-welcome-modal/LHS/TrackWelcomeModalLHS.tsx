@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import * as STEPS from './steps'
 import { StateValue } from './lhs.machine'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
-import { TrackContext } from '..'
+import { TrackContext } from '../WelcomeTrackModal'
 
 export function TrackWelcomeModalLHS(): JSX.Element {
   return (
@@ -20,7 +20,6 @@ function Steps() {
     case 'hasLearningMode':
       return (
         <STEPS.HasLearningModeStep
-          // these should fire an action that saves preferences?
           onSelectLearningMode={() => send('SELECT_LEARNING_MODE')}
           onSelectPracticeMode={() => send('SELECT_PRACTICE_MODE')}
         />

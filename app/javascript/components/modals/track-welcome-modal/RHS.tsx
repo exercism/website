@@ -1,8 +1,8 @@
 import React from 'react'
 
-export function TrackWelcomeModalLHS(): JSX.Element {
+export function TrackWelcomeModalRHS(): JSX.Element {
   return (
-    <div className="lhs">
+    <div className="rhs">
       <div
         className="video relative rounded-8 overflow-hidden !mb-24"
         style={{ padding: '56.25% 0 0 0', position: 'relative' }}

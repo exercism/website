@@ -1,13 +1,15 @@
 import React from 'react'
 import { useMachine } from '@xstate/react'
 import * as STEPS from './steps'
-import { StateValue, machine } from './rhs.machine'
+import { StateValue, machine } from './lhs.machine'
 import { useLogger } from '@/hooks'
 import { Choices } from './steps/components/Choices'
+import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
 
-export function TrackWelcomeModalRHS(): JSX.Element {
+export function TrackWelcomeModalLHS(): JSX.Element {
   return (
-    <div className="rhs">
+    <div className="lhs">
+      <WelcomeToTrack />
       <Steps />
     </div>
   )

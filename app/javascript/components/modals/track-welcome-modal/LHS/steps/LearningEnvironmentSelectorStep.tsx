@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { TrackContext } from '../..'
 import { StepButton } from './components/StepButton'
 import { ButtonContainer } from './components/ButtonContainer'
-import { YouCanChangeMode } from './components/YouCanChangeMode'
 
 export function LearningEnvironmentSelectorStep({
   onSelectLocalMachine,
@@ -35,7 +34,6 @@ export function LearningEnvironmentSelectorStep({
           On my local machine
         </StepButton>
       </ButtonContainer>
-      <YouCanChangeMode />
     </>
   )
 }

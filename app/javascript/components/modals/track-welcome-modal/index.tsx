@@ -6,8 +6,8 @@ import { sendRequest } from '@/utils/send-request'
 // import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
 import { Track } from '@/components/types'
 import { Modal, ModalProps } from '../Modal'
-import { TrackWelcomeModalLHS as LHS } from './LHS'
 import { TrackWelcomeModalRHS as RHS } from './RHS'
+import { TrackWelcomeModalLHS as LHS } from './LHS'
 
 // const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -58,10 +58,10 @@ export const TrackWelcomeModal = ({
       onClose={() => null}
       className="m-track-welcome-modal"
     >
-      <LHS />
       <TrackContext.Provider value={track}>
-        <RHS />
+        <LHS />
       </TrackContext.Provider>
+      <RHS />
     </Modal>
   )
 }

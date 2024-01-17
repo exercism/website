@@ -22,11 +22,11 @@
         @apply shadow-lgZ1 rounded-16;
         @apply flex items-start;
         width: 100%;
-        max-width: 1180px;
+        max-width: 1140px;
     }
 
-    & .rhs {
-        @apply flex-grow;
+    & .lhs {
+        @apply flex-grow mr-48;
 
         & header {
             @apply mb-16;
@@ -72,8 +72,8 @@
         }
     }
 
-    & .lhs {
-        @apply flex-shrink-0 mr-48;
+    & .rhs {
+        @apply flex-shrink-0;
         width: 450px;
 
         & .video {

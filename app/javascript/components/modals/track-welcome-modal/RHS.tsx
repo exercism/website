@@ -1,21 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Choices } from './LHS/steps/components/Choices'
+import VimeoEmbed from '@/components/common/VimeoEmbed'
+import { TrackContext } from '.'
 
 export function TrackWelcomeModalRHS(): JSX.Element {
+  const { track } = useContext(TrackContext)
   return (
     <div className="rhs">
-      <div
-        className="video relative rounded-8 overflow-hidden !mb-24"
-        style={{ padding: '56.25% 0 0 0', position: 'relative' }}
-      >
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/zomfphsDQrs"
-          title="Welcome to Exercism Insiders!"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-
+      <VimeoEmbed
+        className="rounded-8"
+        id={track.course ? '903381063?h=bb0a6316bf' : '903384161?h=91c7b9a795'}
+      />
       <Choices />
     </div>
   )

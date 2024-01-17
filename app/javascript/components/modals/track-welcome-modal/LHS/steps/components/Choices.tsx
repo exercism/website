@@ -2,11 +2,8 @@ import React, { useContext } from 'react'
 import { TrackContext } from '../../..'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 
-const choiceStyle = (color: 'green' | 'yellow') =>
-  `border-1 border-${color}Prompt text-textColor1 bg-${color}Prompt bg-opacity-40 font-semibold`
-
-const unsetStyle = choiceStyle('yellow')
-const setStyle = choiceStyle('green')
+const unsetStyle = `border-1 border-yellowPrompt text-textColor1 bg-yellowPrompt bg-opacity-40 font-semibold`
+const setStyle = `border-1 border-greenPrompt text-textColor1 bg-greenPrompt bg-opacity-40 font-semibold`
 
 export function Choices(): JSX.Element {
   const { choices } = useContext(TrackContext)

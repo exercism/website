@@ -433,6 +433,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_102652) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "generic_exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", null: false
+    t.string "source"
+    t.string "source_url"
+    t.string "deep_dive_youtube_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "github_issue_labels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "github_issue_id", null: false
     t.string "name", null: false

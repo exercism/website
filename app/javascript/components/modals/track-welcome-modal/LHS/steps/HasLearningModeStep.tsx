@@ -12,21 +12,30 @@ export function HasLearningModeStep({
   const { track } = useContext(TrackContext)
   return (
     <>
-      <header>
-        <p>
-          This track can be used for learning {track.title} (Learning Mode) or
-          for practicing your existing {track.title} knowledge (Practice Mode).{' '}
-          <span className="font-semibold">
-            Watch this video to learn more about the difference between the
-            modes 👉
-          </span>
-        </p>
-      </header>
-      <p>Would you like to use the track in learning mode or practice mode?</p>
-      <ButtonContainer>
-        <StepButton onClick={onSelectLearningMode}>Learning Mode</StepButton>
-        <StepButton onClick={onSelectPracticeMode}>Practice Mode</StepButton>
-      </ButtonContainer>
+      <h3 className="text-h3 mb-8">Here to learn or practice?</h3>
+      <p className="mb-12">
+        This track can be used for learning {track.title} (Learning Mode) or for
+        practicing your existing {track.title} knowledge (Practice Mode).{' '}
+      </p>
+      <p className="mb-12">
+        We recommend Learning Mode if you're new to {track.title}, and Practice
+        Mode if you're experienced.
+      </p>
+      <p className="mb-16">
+        <span className="font-semibold">
+          Would you like to start the track in Learning Mode or Practice Mode?
+        </span>{' '}
+        (You can always change later.)
+      </p>
+
+      <div className="grid grid-cols-2 gap-12 items-center">
+        <StepButton onClick={onSelectLearningMode} className="btn-primary">
+          Learning Mode
+        </StepButton>
+        <StepButton onClick={onSelectPracticeMode} className="btn-secondary">
+          Practice Mode
+        </StepButton>
+      </div>
     </>
   )
 }

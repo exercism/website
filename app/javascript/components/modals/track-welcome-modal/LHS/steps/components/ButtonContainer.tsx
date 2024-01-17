@@ -5,5 +5,7 @@ export function ButtonContainer({
 }: {
   children: React.ReactNode
 }): JSX.Element {
-  return <div className="flex gap-12 items-center mt-16">{children}</div>
+  return (
+    <div className="flex gap-12 items-center content-stretch">{children}</div>
+  )
 }

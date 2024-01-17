@@ -10,10 +10,7 @@ export function StepButton({
   ...props
 }: StepButtonProps): JSX.Element {
   return (
-    <button
-      {...props}
-      className={assembleClassNames('btn-primary btn-m', className)}
-    >
+    <button {...props} className={assembleClassNames('btn-m', className)}>
       {children}
     </button>
   )

@@ -10,17 +10,51 @@ export function SelectedLocalMachineStep({
   const { track } = useContext(TrackContext)
   return (
     <>
-      <p className="mb-8">
-        I&apos;ll write the text out later including a link to the CLI
-        walkthrough, and the copy-to-clipboard widget for Hello World. If you
-        get those links in, I&apos;ll do the rest.
+      <h3 className="text-h3 mb-8">Let's get coding!</h3>
+      <p className="mb-8">There are three steps to get started:</p>
+      <ol className="list-decimal pl-16 mb-16">
+        <li>
+          Install{' '}
+          <a href="" target="_blank">
+            Exercism's CLI
+          </a>
+          .
+        </li>
+        <li>
+          Install{' '}
+          <a href="" target="_blank">
+            {track.title}'s tooling
+          </a>
+          .
+        </li>
+        <li>
+          Download this exercise:
+          <div className="mr-[-54px]">
+            <CopyToClipboardButton
+              textToCopy={`exercism download --exercise=hello-world --track=${track.title}`}
+            />
+          </div>
+        </li>
+      </ol>
+
+      <p className="mb-16">
+        <strong className="font-semibold">All done?</strong> Click "Continue" to
+        see the instructions, then solve the exercise on your machine and submit
+        it via{' '}
+        <code class="inline-block bg-backgroundColorD px-8 rounded-2">
+          <pre>exercism submit</pre>
+        </code>
+        .
       </p>
-      <CopyToClipboardButton
-        textToCopy={`exercism download --exercise=hello-world --track=${track.title}`}
-      />
-      <ButtonContainer>
-        <StepButton onClick={onContinueToLocalMachine}>Continue</StepButton>
-      </ButtonContainer>
+      <div className="flex gap-8">
+        <StepButton
+          onClick={onContinueToLocalMachine}
+          className="btn-primary flex-grow"
+        >
+          Continue
+        </StepButton>
+        <StepButton className="btn-secondary w-1-3">Reset choices</StepButton>
+      </div>
     </>
   )
 }

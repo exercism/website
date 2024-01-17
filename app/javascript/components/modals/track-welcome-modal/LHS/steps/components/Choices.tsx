@@ -14,21 +14,27 @@ export function Choices(): JSX.Element {
     : currentState.value !== 'hasNoLearningMode' &&
       currentState.value !== 'learningEnvironmentSelector'
   return (
-    <div className="flex gap-8">
-      {Object.entries(currentState.context.choices).map(([key, value], id) => (
-        <span
-          className={assembleClassNames(
-            'py-6 px-12 rounded-24',
-            value === 'Unset' ? unsetStyle : setStyle
-          )}
-          key={id}
-        >
-          {key}: {value}
-        </span>
-      ))}
-
+    <div className="flex flex-col items-center gap-16 mt-24 mx-[-48px] mb-[-40px] px-48 py-20 bg-backgroundColorD border-borderColor7">
+      <div className="flex gap-8 ">
+        {Object.entries(currentState.context.choices).map(
+          ([key, value], id) => (
+            <span
+              className={assembleClassNames(
+                'py-6 px-12 rounded-24 flex items-center',
+                value === 'Unset' ? unsetStyle : setStyle
+              )}
+              key={id}
+            >
+              {key}: {value}
+            </span>
+          )
+        )}
+      </div>
       {showResetButton && (
-        <button onClick={() => send('RESET')}>
+        <button
+          className="flex items-center gap-4"
+          onClick={() => send('RESET')}
+        >
           <Icon
             icon="reset"
             alt="reset-button"
@@ -36,6 +42,7 @@ export function Choices(): JSX.Element {
             width={16}
             className="filter-textColor6"
           />
+          <span className="font-medium">Reset Choices</span>
         </button>
       )}
     </div>

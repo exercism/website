@@ -20,31 +20,30 @@
         @apply mt-20 mb-40;
         @apply py-40 px-48 bg-backgroundColorA;
         @apply shadow-lgZ1 rounded-16;
-        @apply flex items-start;
+        @apply overflow-hidden;
         width: 100%;
-        max-width: 1140px;
+        max-width: 1100px;
     }
 
     .lhs {
         @apply flex flex-col flex-grow mr-48;
 
-        header {
-            h1 {
-                @apply text-h1 mb-12;
-            }
-            p {
-                @apply text-18 leading-huge;
+        h1 {
+            @apply text-h1 mb-12;
+        }
+        p,
+        li {
+            @apply text-17 leading-huge;
 
-                strong {
-                    @apply font-medium;
-                }
+            strong {
+                @apply font-medium;
+            }
+            a {
+                @apply font-semibold text-linkColor;
             }
         }
-        h2 {
-            @apply text-h3 mb-6;
-        }
-        p {
-            @apply text-18 leading-huge;
+        li {
+            @apply mb-2;
         }
         .improvements {
             @apply mt-24 mb-32;

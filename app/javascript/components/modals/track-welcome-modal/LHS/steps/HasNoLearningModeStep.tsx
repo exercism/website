@@ -9,24 +9,26 @@ export function HasNoLearningModeStep({
   const { track } = useContext(TrackContext)
   return (
     <>
-      <header>
-        <p>
-          Welcome to the {track.title} Track. This track is designed to help you
-          practicing {track.title} through. a series of&nbsp;
-          {track.numExercises} exercises. Unlike some tracks,&nbsp;
-          {track.title} doesn&apos;t contain a learning mode, so if you&apos;d
-          like to learn the language, we also recommend some suplimentary
-          resources, which we&apos;ve listed&nbsp;
-          <a
-            className="font-semibold text-prominentLinkColor"
-            href="learning_doc path"
-          >
-            here
-          </a>
-          .
-        </p>
-      </header>
-      <StepButton onClick={onContinue} className="w-fit mt-16">
+      <h3 className="text-h3 mb-8">You'll be in Practice Mode</h3>
+      <p className="mb-12">
+        The {track.title} track is designed to help you practice the language.
+        Unlike some tracks,&nbsp;
+        {track.title} doesn&apos;t have a Learning Mode yet, so you'll be
+        completing the track's {track.numExercises} exercises in Practice Mode.
+      </p>
+      <p className="mb-12">
+        {' '}
+        If you&apos;d like to learn {track.title} from scratch, take a look at
+        these{' '}
+        <a
+          className="font-semibold text-prominentLinkColor"
+          href="learning_doc path"
+        >
+          these supplementary resources
+        </a>{' '}
+        that we've collated for you.
+      </p>
+      <StepButton onClick={onContinue} className="btn-primary w-fit">
         Continue
       </StepButton>
     </>

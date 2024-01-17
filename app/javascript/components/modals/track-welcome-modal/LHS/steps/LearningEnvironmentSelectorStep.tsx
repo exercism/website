@@ -13,25 +13,30 @@ export function LearningEnvironmentSelectorStep({
   const { track } = useContext(TrackContext)
   return (
     <>
-      <header>
-        <p>
-          You can solve the exercises on our {track.title} track either within
-          our online editor, or locally within your own environment. If you use
-          your own environment, you&apos;ll need to install both {track.title}{' '}
-          and the Exercism CLI. How would you like to solve the Prolog
-          exercises.
-        </p>
-      </header>
-      <p>Would you like to use the track in learning mode or practice mode?</p>
+      <h3 className="text-h3 mb-8">Online or on your computer?</h3>
+      <p className="mb-12">
+        You can solve the exercises using either our online editor, or locally
+        within your own environment. If you use your own environment,
+        you&apos;ll need to install both {track.title} and the Exercism CLI.
+      </p>
+      <p className="mb-12">
+        We generally recommend starting by using our editor.
+      </p>
+      <p className="mb-16">
+        <span className="font-semibold">
+          {' '}
+          How would you like to start solving the {track.title} exercises?
+        </span>
+      </p>
 
-      <ButtonContainer>
-        <StepButton onClick={onSelectOnlineEditor}>
+      <div className="grid grid-cols-2 gap-12 items-center">
+        <StepButton onClick={onSelectOnlineEditor} className="btn-primary">
           In the online editor
         </StepButton>
-        <StepButton onClick={onSelectLocalMachine}>
+        <StepButton onClick={onSelectLocalMachine} className="btn-secondary">
           On my local machine
         </StepButton>
-      </ButtonContainer>
+      </div>
     </>
   )
 }

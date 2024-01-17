@@ -27,6 +27,12 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     end
   end
 
+  test "should enqueue sync problem-specifications job when pushing problem-specifications" do
+    assert_enqueued_with job: MandateJob, args: [Git::SyncProblemSpecifications.name] do
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'problem-specifications', 'user17', [], false)
+    end
+  end
+
   test "should not enqueue sync track job when pushing to non-main branch" do
     create :track, slug: :ruby
 

@@ -1,19 +1,15 @@
 class AboutController < ApplicationController
   skip_before_action :authenticate_user!
 
-  def organisation_supporters
-    @num_individual_supporters = User::Data.donors.count
-  end
-
   def individual_supporters
     @num_individual_supporters = User::Data.donors.count
-    user_ids = User::Data.public_supporter.
-      order(first_donated_at: :asc).
+
+    user_ids = User::Data.public_supporter.order(first_donated_at: :asc).
       page(params[:page]).per(30).without_count.
       pluck(:user_id)
 
     users = User.where(id: user_ids).sort_by { |u| user_ids.index(u.id) }
-    @supporting_users = Kaminari.paginate_array(users, total_count: @num_individual_supporters).
+    @supporting_users = Kaminari.paginate_array(users, total_count: User::Data.public_supporter.count).
       page(params[:page]).per(30)
   end
 
@@ -147,7 +143,4 @@ class AboutController < ApplicationController
       https://avatars1.githubusercontent.com/u/22666187
     ]
   end
-
-  private
-  def use_num_individual_supporters; end
 end

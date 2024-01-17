@@ -91,11 +91,11 @@
             %strong Mozilla
             supported us in the creation of our automated analyzers. They funded the product design, prototype, and analyzer infrastructure, saving thousands of hours of mentors time, and dramatically reducing wait-times for students.
 
-    .individuals.flex.flex-col.items-center.text-center.mb-56
+    .individuals.flex.flex-col.items-center.text-center.mb-56.text-balance
       = icon "individual-supporters", "Individual Supporters"
-      %h2.text-h2 Exercism is also supported by generous individuals
+      %h2.text-h2 Exercism is also supported by #{@num_individual_supporters} generous individuals
       %hr.c-divider.mt-20.mb-28
-      = render ViewComponents::ProminentLink.new("See all of our #{@num_individual_supporters} individual supporters", individual_supporters_about_path)
+      = render ViewComponents::ProminentLink.new("See all of our individual supporters", individual_supporters_about_path)
 
     .cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
       = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'

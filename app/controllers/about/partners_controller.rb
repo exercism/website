@@ -2,6 +2,7 @@ class About::PartnersController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
+    @num_individual_supporters = User::Data.donors.count
     @partners = Partner.where.not(support_markdown: '')
   end
 

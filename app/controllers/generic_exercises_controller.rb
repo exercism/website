@@ -6,7 +6,7 @@ class GenericExercisesController < ApplicationController
 
   def show
     @ps_data = Git::ProblemSpecifications::Exercise.new(params[:id])
-    @track_variants = Exercise.active.where(
+    @track_variants = Exercise.available.where(
       slug: params[:id],
       track_id: Track.active.select(:id)
     ).includes(:track).to_a

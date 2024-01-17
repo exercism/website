@@ -171,9 +171,8 @@ class User::Challenges::CreateOrUpdate48In24ForumPostForExercise
 
   memoize
   def implementations
-    PracticeExercise.includes(:track, :approaches, :community_videos).
+    PracticeExercise.available.includes(:track, :approaches, :community_videos).
       joins(:track).
-      where(status: %i[beta active]).
       where(tracks: { active: true }).
       where(slug: exercise.slug)
   end

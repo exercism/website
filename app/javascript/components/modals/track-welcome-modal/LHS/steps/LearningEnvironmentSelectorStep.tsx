@@ -6,9 +6,9 @@ import { ButtonContainer } from './components/ButtonContainer'
 export function LearningEnvironmentSelectorStep({
   onSelectLocalMachine,
   onSelectOnlineEditor,
-  onGoBack,
+  onReset,
 }: Record<
-  'onSelectLocalMachine' | 'onSelectOnlineEditor' | 'onGoBack',
+  'onSelectLocalMachine' | 'onSelectOnlineEditor' | 'onReset',
   () => void
 >): JSX.Element {
   const { track } = useContext(TrackContext)
@@ -26,7 +26,7 @@ export function LearningEnvironmentSelectorStep({
       <p>Would you like to use the track in learning mode or practice mode?</p>
 
       <ButtonContainer>
-        <StepButton onClick={onGoBack}>Go back</StepButton>
+        <StepButton onClick={onReset}>Reset</StepButton>
         <StepButton onClick={onSelectOnlineEditor}>
           In the online editor
         </StepButton>

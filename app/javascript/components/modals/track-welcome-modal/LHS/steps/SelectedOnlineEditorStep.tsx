@@ -3,8 +3,8 @@ import { StepButton } from './components/StepButton'
 
 export function SelectedOnlineEdiorStep({
   onContinueToOnlineEditor,
-  onGoBack,
-}: Record<'onGoBack' | 'onContinueToOnlineEditor', () => void>): JSX.Element {
+  onReset,
+}: Record<'onReset' | 'onContinueToOnlineEditor', () => void>): JSX.Element {
   return (
     <>
       <header>
@@ -15,7 +15,7 @@ export function SelectedOnlineEdiorStep({
       </header>
 
       <div className="flex gap-12 items-center">
-        <StepButton onClick={onGoBack}>Go back</StepButton>
+        <StepButton onClick={onReset}>Reset</StepButton>
         <StepButton onClick={onContinueToOnlineEditor}>
           Continue to online editor
         </StepButton>

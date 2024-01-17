@@ -4,8 +4,8 @@ import { ButtonContainer } from './components/ButtonContainer'
 
 export function SelectedLocalMachineStep({
   onContinueToLocalMachine,
-  onGoBack,
-}: Record<'onGoBack' | 'onContinueToLocalMachine', () => void>): JSX.Element {
+  onReset,
+}: Record<'onReset' | 'onContinueToLocalMachine', () => void>): JSX.Element {
   return (
     <>
       <header>
@@ -16,7 +16,7 @@ export function SelectedLocalMachineStep({
         </p>
       </header>
       <ButtonContainer>
-        <StepButton onClick={onGoBack}>Go back</StepButton>
+        <StepButton onClick={onReset}>Reset</StepButton>
         <StepButton onClick={onContinueToLocalMachine}>Continue</StepButton>
       </ButtonContainer>
     </>

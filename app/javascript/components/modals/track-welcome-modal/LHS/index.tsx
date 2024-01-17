@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { useMachine } from '@xstate/react'
 import * as STEPS from './steps'
 import { StateValue, machine } from './lhs.machine'
-import { useLogger } from '@/hooks'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
 import { TrackContext } from '..'
 
@@ -52,7 +51,7 @@ function Steps() {
         <STEPS.LearningEnvironmentSelectorStep
           onSelectLocalMachine={() => send('SELECT_LOCAL_MACHINE')}
           onSelectOnlineEditor={() => send('SELECT_ONLINE_EDITOR')}
-          onGoBack={() => send('RESET')}
+          onReset={() => send('RESET')}
         />
       )
 
@@ -60,14 +59,14 @@ function Steps() {
       return (
         <STEPS.SelectedLocalMachineStep
           onContinueToLocalMachine={() => send('CONTINUE')}
-          onGoBack={() => send('RESET')}
+          onReset={() => send('RESET')}
         />
       )
     case 'selectedOnlineEditor':
       return (
         <STEPS.SelectedOnlineEdiorStep
           onContinueToOnlineEditor={() => send('CONTINUE')}
-          onGoBack={() => send('RESET')}
+          onReset={() => send('RESET')}
         />
       )
 

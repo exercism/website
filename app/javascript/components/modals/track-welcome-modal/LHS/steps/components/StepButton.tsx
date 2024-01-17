@@ -1,3 +1,4 @@
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import React, { ButtonHTMLAttributes } from 'react'
 
 interface StepButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -5,10 +6,14 @@ interface StepButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 export function StepButton({
   children,
+  className,
   ...props
 }: StepButtonProps): JSX.Element {
   return (
-    <button {...props} className="btn-primary btn-m">
+    <button
+      {...props}
+      className={assembleClassNames('btn-primary btn-m', className)}
+    >
       {children}
     </button>
   )

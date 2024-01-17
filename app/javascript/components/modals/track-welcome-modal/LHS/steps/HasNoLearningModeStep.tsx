@@ -17,10 +17,18 @@ export function HasNoLearningModeStep({
           {track.title} doesn&apos;t contain a learning mode, so if you&apos;d
           like to learn the language, we also recommend some suplimentary
           resources, which we&apos;ve listed&nbsp;
-          <a href="learning_doc path">here</a>.
+          <a
+            className="font-semibold text-prominentLinkColor"
+            href="learning_doc path"
+          >
+            here
+          </a>
+          .
         </p>
       </header>
-      <StepButton onClick={onContinue}>Continue</StepButton>
+      <StepButton onClick={onContinue} className="w-fit mt-auto">
+        Continue
+      </StepButton>
     </>
   )
 }

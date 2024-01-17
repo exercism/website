@@ -36,7 +36,12 @@ export const machine = createMachine({
     openModal: {
       on: {
         HAS_LEARNING_MODE: 'hasLearningMode',
-        HAS_NO_LEARNING_MODE: 'hasNoLearningMode',
+        HAS_NO_LEARNING_MODE: {
+          target: 'hasNoLearningMode',
+          actions: assign({
+            choices: (context) => ({ ...context.choices, Mode: 'Practice' }),
+          }),
+        },
       },
     },
     hasLearningMode: {

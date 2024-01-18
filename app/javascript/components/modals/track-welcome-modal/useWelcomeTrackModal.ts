@@ -59,7 +59,7 @@ export function useWelcomeTrackModal(links: TrackWelcomeModalLinks) {
         hideModal()
       },
       handleContinueToOnlineEditor() {
-        // hideModal()
+        hideModal()
         redirectTo(links.editHelloWorld)
       },
       handleSelectLearningMode() {

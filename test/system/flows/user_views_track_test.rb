@@ -79,6 +79,7 @@ module Flows
       track = create :track, course: false
       create(:concept_exercise, status: :wip, track:)
       user = create :user, :maintainer, uid: '256123'
+      create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create :github_team_member, user_id: user.uid, team_name: track.github_team_name
       create(:user_track, track:, user:)
       create(:hello_world_solution, :completed, track:, user:)

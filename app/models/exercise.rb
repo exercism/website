@@ -130,7 +130,7 @@ class Exercise < ApplicationRecord
   def has_test_runner? = super && track.has_test_runner?
 
   memoize
-  def problem_specifications_data = Git::ProblemSpecifications::Exercise.new(slug)
+  def generic_exercise = GenericExercise.for(slug)
 
   delegate :has_representer?, to: :track
 

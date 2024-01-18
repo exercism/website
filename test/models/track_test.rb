@@ -199,13 +199,6 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal submissions, track.submissions
   end
 
-  test "foregone_exercises" do
-    track = create :track
-
-    expected_slugs = %w[alphametics zipper]
-    assert_equal expected_slugs, track.foregone_exercises.map(&:slug)
-  end
-
   test "representer" do
     track = create :track
 

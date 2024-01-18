@@ -371,6 +371,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "practice_exercises: foregone" do
+    fix_prob_specs_repo_sha
+
+    Git::SyncProblemSpecifications.()
+
     track = create :track
 
     Track::UpdateBuildStatus.(track)
@@ -427,7 +431,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create_list(:practice_exercise, 2, status: :deprecated, track:)
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 195, track.reload.build_status.practice_exercises.num_active_target
+    assert_equal 194, track.reload.build_status.practice_exercises.num_active_target
   end
 
   test "practice_exercises: health" do

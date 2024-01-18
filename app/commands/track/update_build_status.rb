@@ -257,11 +257,13 @@ class Track::UpdateBuildStatus
 
   memoize
   def unimplemented_practice_exercises
-    Track::RetrieveUnimplementedPracticeExercises.(track).sort_by(&:title)
+    Track::RetrieveUnimplementedPracticeExercises.(track).order(:title)
   end
 
   memoize
-  def foregone_practice_exercises = track.foregone_exercises.sort_by(&:title)
+  def foregone_practice_exercises
+    Track::RetrieveForegonePracticeExercises.(track).order(:title)
+  end
 
   def practice_exercises_num_exercises_target
     max_target = active_practice_exercises.size + unimplemented_practice_exercises.size

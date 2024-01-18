@@ -2,6 +2,7 @@
 - featured_exercise = @exercises.find { |e| e.week == week }
 - if featured_exercise
   - featured_exercise_ps_data = Git::ProblemSpecifications::Exercise.new(featured_exercise.slug)
+  - featured_tracks = Track.where(slug: featured_exercise.featured_tracks).order(:title).pluck(:slug, :title).to_h
 - live_exercises = @exercises.select { |e| e.week <= week }
 - num_placeholders = 48 - live_exercises.size
 
@@ -26,7 +27,7 @@
             %p.text-p-large.mb-12
               Your task: #{featured_exercise.blurb}
             %p.text-p-large.mb-12
-              We're featuring it into the following languages: #{featured_exercise.featured_tracks.map(&:to_s).map(&:titleize).to_sentence}.
+              We're featuring it into the following languages: #{featured_tracks.values.to_sentence}.
 
             - if featured_exercise_ps_data.deep_dive_youtube_id
               .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
@@ -146,7 +147,7 @@
               .tracks
                 - exercise.featured_tracks.map do |track_slug|
                   - completed = exercise.completed_tracks.key?(track_slug)
-                  = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}", title: "#{track_slug} #{completed ? '(completed)' : ''}" do
+                  = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}", title: "#{featured_tracks[track_slug]} #{completed ? '(completed)' : ''}" do
                     = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg"
 
         - if num_placeholders.positive?

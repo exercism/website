@@ -16,7 +16,6 @@ export function useInvalidField() {
     setInvalidMessage(e.target.title)
   }, [])
 
-
   const clearInvalidMessage = useCallback(() => {
     setInvalidMessage('')
   }, [invalidMessage])

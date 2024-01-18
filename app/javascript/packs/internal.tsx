@@ -25,6 +25,7 @@ import type {
   CompleteRepresentationData,
   Guidance,
   MentoringSessionDonation,
+  Track,
 } from '@/components/types'
 import type { Links as TryMentoringButtonLinks } from '@/components/mentoring/TryMentoringButton'
 import type { Links as MentoringQueueLinks } from '@/components/mentoring/Queue'
@@ -206,6 +207,10 @@ import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeCont
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
+import {
+  TrackWelcomeModal,
+  TrackWelcomeModalProps,
+} from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -226,6 +231,10 @@ initReact({
     <Suspense fallback={RenderLoader()}>
       <WelcomeModal endpoint={data.endpoint} />
     </Suspense>
+  ),
+
+  'modals-track-welcome-modal': (data: any) => (
+    <TrackWelcomeModal {...camelizeKeysAs<TrackWelcomeModalProps>(data)} />
   ),
 
   'modals-welcome-to-insiders-modal': (data: any) => (

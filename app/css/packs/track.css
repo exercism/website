@@ -40,6 +40,7 @@
 
 /* General */
 @import "../modals/makers";
+@import "../modals/track-welcome-modal";
 @import "../components/makers-button";
 @import "../components/code-pane";
 @import "../components/flags";

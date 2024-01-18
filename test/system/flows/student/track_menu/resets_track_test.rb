@@ -13,6 +13,7 @@ module Flows
           create :user, :ghost
           user = create :user
           track = create :track, title: "Ruby"
+          create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
           create(:concept_exercise, track:)
           create :concept_solution, status: :completed, user:, completed_at: 2.days.ago
           create(:user_track, user:, track:)

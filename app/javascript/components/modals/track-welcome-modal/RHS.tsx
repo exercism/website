@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import VimeoEmbed from '@/components/common/VimeoEmbed'
-import { TrackContext } from './WelcomeTrackModal'
+import { TrackContext } from './TrackWelcomeModal'
 
 export function TrackWelcomeModalRHS(): JSX.Element {
   const { track } = useContext(TrackContext)

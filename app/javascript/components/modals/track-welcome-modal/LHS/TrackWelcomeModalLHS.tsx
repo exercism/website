@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import * as STEPS from './steps'
 import { StateValue } from './TrackWelcomeModal.machine'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
-import { TrackContext } from '../WelcomeTrackModal'
+import { TrackContext } from '../TrackWelcomeModal'
 
 export function TrackWelcomeModalLHS(): JSX.Element {
   return (

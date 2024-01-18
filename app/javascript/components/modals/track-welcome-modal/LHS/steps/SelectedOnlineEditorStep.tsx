@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { StepButton } from './components/StepButton'
-import { TrackContext } from '../../WelcomeTrackModal'
+import { TrackContext } from '../../TrackWelcomeModal'
 
 export function SelectedOnlineEdiorStep({
   onContinueToOnlineEditor,

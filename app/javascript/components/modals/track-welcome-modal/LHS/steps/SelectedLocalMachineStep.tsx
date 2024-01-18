@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { StepButton } from './components/StepButton'
 import { ButtonContainer } from './components/ButtonContainer'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
-import { TrackContext } from '../../WelcomeTrackModal'
+import { TrackContext } from '../../TrackWelcomeModal'
 
 export function SelectedLocalMachineStep({
   onContinueToLocalMachine,

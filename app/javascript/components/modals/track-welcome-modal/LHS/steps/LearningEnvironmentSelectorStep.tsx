@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { TrackContext } from '../../WelcomeTrackModal'
+import { TrackContext } from '../../TrackWelcomeModal'
 import { StepButton } from './components/StepButton'
 import { ButtonContainer } from './components/ButtonContainer'
 

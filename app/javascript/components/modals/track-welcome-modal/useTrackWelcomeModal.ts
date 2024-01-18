@@ -4,9 +4,9 @@ import { useMachine } from '@xstate/react'
 import { useState, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { machine } from './LHS/TrackWelcomeModal.machine'
-import { TrackWelcomeModalLinks } from './WelcomeTrackModal.types'
+import { TrackWelcomeModalLinks } from './TrackWelcomeModal.types'
 
-export function useWelcomeTrackModal(links: TrackWelcomeModalLinks) {
+export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
   const [open, setOpen] = useState(true)
   const { mutate: hideModal, status } = useMutation(
     () => {

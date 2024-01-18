@@ -3,7 +3,7 @@ class CreateGenericExercises < ActiveRecord::Migration[7.0]
     return if Rails.env.production?
 
     create_table :generic_exercises do |t|
-      t.string :slug, null: false
+      t.string :slug, null: false, index: { unique: true }
       t.string :title, null: false
       t.string :blurb, null: false
       t.string :source, null: true

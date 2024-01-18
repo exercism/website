@@ -440,6 +440,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_102652) do
     t.string "source"
     t.string "source_url"
     t.string "deep_dive_youtube_id"
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -7,6 +7,7 @@ class CreateGenericExercises < ActiveRecord::Migration[7.0]
       t.string :source, null: true
       t.string :source_url, null: true
       t.string :deep_dive_youtube_id, null: true
+      t.integer :status, null: false, default: 0, size: 1
 
       t.timestamps
     end

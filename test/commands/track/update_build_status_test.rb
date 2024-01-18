@@ -352,11 +352,13 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   test "practice_exercises: unimplemented" do
     fix_prob_specs_repo_sha
 
+    Git::SyncProblemSpecifications.()
+
     track = create :track
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 126, track.build_status.practice_exercises.unimplemented.size
+    assert_equal 125, track.build_status.practice_exercises.unimplemented.size
     expected = {
       slug: "zebra-puzzle",
       title: "Zebra Puzzle",
@@ -387,6 +389,8 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
   test "practice_exercises: num_active_target" do
     fix_prob_specs_repo_sha
+
+    Git::SyncProblemSpecifications.()
 
     track = create :track
     Track::UpdateBuildStatus.(track)

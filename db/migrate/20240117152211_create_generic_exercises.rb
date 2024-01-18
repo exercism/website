@@ -1,5 +1,7 @@
 class CreateGenericExercises < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :generic_exercises do |t|
       t.string :slug, null: false
       t.string :title, null: false

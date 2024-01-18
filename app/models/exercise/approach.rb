@@ -27,6 +27,7 @@ class Exercise::Approach < ApplicationRecord
   has_one :track, through: :exercise
 
   scope :random, -> { order('RAND()') }
+  scope :sorted, -> { order(:position) }
 
   delegate :content, :snippet, to: :git
 

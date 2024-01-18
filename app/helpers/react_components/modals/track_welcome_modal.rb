@@ -3,7 +3,8 @@ module ReactComponents
     class TrackWelcomeModal < ReactComponent
       initialize_with :track
       def to_s
-        return if current_user.introducer_dismissed?(introducer_slug)
+        return if current_user.introducer_dismissed?(introducer_slug) || UserTrack.for(current_user,
+          track).tutorial_exercise_completed?
 
         super(
           "modals-#{modal_slug}",

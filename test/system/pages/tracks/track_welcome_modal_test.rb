@@ -111,6 +111,19 @@ module Pages
           assert_current_path Exercism::Routes.edit_track_exercise_path(@track, 'hello-world')
         end
       end
+
+      test "choosing local closes modal correctly" do
+        @track.update(course: false)
+        create :hello_world_exercise
+        use_capybara_host do
+          sign_in!(@user.reload)
+          visit track_path(@track)
+          click_on "Continue"
+          click_on "On my local machine"
+          click_on "Continue"
+          refute_text "Let's get coding"
+        end
+      end
     end
   end
 end

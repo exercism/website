@@ -4,15 +4,20 @@ import { Typegen0 } from './LHS/lhs.machine.typegen'
 import { Track } from '@/components/types'
 
 export type TrackWelcomeModalProps = {
-  links: Record<
-    | 'hideModal'
-    | 'activatePracticeMode'
-    | 'activateLearningMode'
-    | 'helloWorld',
-    string
-  >
   track: Track
+  links: TrackWelcomeModalLinks
 }
+
+export type TrackWelcomeModalLinks = Record<
+  | 'hideModal'
+  | 'activatePracticeMode'
+  | 'activateLearningMode'
+  | 'editHelloWorld'
+  | 'cliWalkthrough'
+  | 'trackTooling'
+  | 'learningResources',
+  string
+>
 
 export type CurrentState = State<
   {

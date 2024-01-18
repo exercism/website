@@ -4,8 +4,9 @@ import { useMachine } from '@xstate/react'
 import { useState, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { machine } from './LHS/lhs.machine'
+import { TrackWelcomeModalLinks } from './WelcomeTrackModal.types'
 
-export function useWelcomeTrackModal(links) {
+export function useWelcomeTrackModal(links: TrackWelcomeModalLinks) {
   const [open, setOpen] = useState(true)
   const { mutate: hideModal, status } = useMutation(
     () => {
@@ -58,8 +59,8 @@ export function useWelcomeTrackModal(links) {
         hideModal()
       },
       handleContinueToOnlineEditor() {
-        hideModal()
-        redirectTo(links.helloWorld)
+        // hideModal()
+        redirectTo(links.editHelloWorld)
       },
       handleSelectLearningMode() {
         activateLearningMode()

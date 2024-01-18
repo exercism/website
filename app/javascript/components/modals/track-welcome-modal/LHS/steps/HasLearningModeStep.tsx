@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../../WelcomeTrackModal'
 import { StepButton } from './components/StepButton'
-import { ButtonContainer } from './components/ButtonContainer'
 export function HasLearningModeStep({
   onSelectLearningMode,
   onSelectPracticeMode,

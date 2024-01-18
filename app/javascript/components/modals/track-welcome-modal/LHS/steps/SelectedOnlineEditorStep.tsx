@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StepButton } from './components/StepButton'
+import { TrackContext } from '../../WelcomeTrackModal'
 
 export function SelectedOnlineEdiorStep({
   onContinueToOnlineEditor,
 }: Record<'onContinueToOnlineEditor', () => void>): JSX.Element {
+  const { send } = useContext(TrackContext)
   return (
     <>
       <h3 className="text-h3 mb-8">You're all set!</h3>
@@ -24,7 +26,12 @@ export function SelectedOnlineEdiorStep({
         >
           Continue to online editor
         </StepButton>
-        <StepButton className="btn-secondary w-1-3">Reset choices</StepButton>
+        <StepButton
+          onClick={() => send('RESET')}
+          className="btn-secondary w-1-3"
+        >
+          Reset choices
+        </StepButton>
       </div>
     </>
   )

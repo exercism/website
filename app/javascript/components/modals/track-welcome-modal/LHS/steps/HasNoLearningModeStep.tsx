@@ -6,7 +6,7 @@ export function HasNoLearningModeStep({
 }: {
   onContinue: () => void
 }): JSX.Element {
-  const { track } = useContext(TrackContext)
+  const { track, links } = useContext(TrackContext)
   return (
     <>
       <h3 className="text-h3 mb-8">You'll be in Practice Mode</h3>
@@ -22,7 +22,8 @@ export function HasNoLearningModeStep({
         these{' '}
         <a
           className="font-semibold text-prominentLinkColor"
-          href="learning_doc path"
+          href={links.learningResources}
+          target="_blank"
         >
           these supplementary resources
         </a>{' '}

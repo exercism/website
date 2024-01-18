@@ -26,7 +26,7 @@
     }
 
     .lhs {
-        @apply flex flex-col flex-grow mr-48;
+        @apply flex flex-col flex-grow mr-48 w-1-2;
 
         h1 {
             @apply text-h1 mb-12;

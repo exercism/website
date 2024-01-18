@@ -1,5 +1,5 @@
 import { State, ResolveTypegenMeta, BaseActionObject, ServiceMap } from 'xstate'
-import { StateEvent } from './LHS/lhs.machine'
+import { StateEvent } from './LHS/TrackWelcomeModal.machine'
 import { Typegen0 } from './LHS/lhs.machine.typegen'
 import { Track } from '@/components/types'
 

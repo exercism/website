@@ -3,7 +3,7 @@ import { sendRequest } from '@/utils/send-request'
 import { useMachine } from '@xstate/react'
 import { useState, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { machine } from './LHS/lhs.machine'
+import { machine } from './LHS/TrackWelcomeModal.machine'
 import { TrackWelcomeModalLinks } from './WelcomeTrackModal.types'
 
 export function useWelcomeTrackModal(links: TrackWelcomeModalLinks) {

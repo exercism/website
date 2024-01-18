@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import * as STEPS from './steps'
-import { StateValue } from './lhs.machine'
+import { StateValue } from './TrackWelcomeModal.machine'
 import { WelcomeToTrack } from './steps/components/WelcomeToTrack'
 import { TrackContext } from '../WelcomeTrackModal'
 

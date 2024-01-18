@@ -15,7 +15,11 @@ class Git::SyncExerciseApproaches < Git::Sync
   private
   attr_reader :exercise
 
-  def approaches = approaches_config.map { |approach| Git::SyncExerciseApproach.(exercise, approach) }
+  def approaches
+    approaches_config.map.with_index do |approach, index|
+      Git::SyncExerciseApproach.(exercise, approach, index + 1)
+    end
+  end
 
   def introduction_config = head_git_approaches.config_introduction
 

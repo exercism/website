@@ -10,6 +10,7 @@ module Flows
     test "student requests mentorship" do
       user = create :user
       track = create :track
+      create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create(:user_track, user:, track:)
       hello_world = create :concept_exercise, track:, slug: "hello-world"
 
@@ -46,6 +47,7 @@ module Flows
     test "form should be invalid when textarea value doesn't reach min length of 20 characters" do
       user = create :user
       track = create :track
+      create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create(:user_track, user:, track:)
       hello_world = create :concept_exercise, track:, slug: "hello-world"
 
@@ -97,6 +99,7 @@ module Flows
     test "student can not request mentorship for hello-world" do
       user = create :user
       track = create :track
+      create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
       create(:user_track, user:, track:)
       hello_world = create :concept_exercise, track:, slug: "hello-world"
 

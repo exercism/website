@@ -8,7 +8,11 @@ import { TrackWelcomeModalLinks } from './TrackWelcomeModal.types'
 
 export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
   const [open, setOpen] = useState(true)
-  const { mutate: hideModal, status } = useMutation(
+  const {
+    mutate: hideModal,
+    status,
+    error,
+  } = useMutation(
     () => {
       const { fetch } = sendRequest({
         endpoint: links.hideModal,
@@ -20,7 +24,7 @@ export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
     },
     {
       onSuccess: () => {
-        handleClose()
+        setOpen(false)
       },
     }
   )
@@ -45,14 +49,6 @@ export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
     return fetch
   })
 
-  const handleClose = useCallback(() => {
-    if (status === 'loading') {
-      return
-    }
-
-    setOpen(false)
-  }, [status])
-
   const [currentState, send] = useMachine(machine, {
     actions: {
       handleContinueToLocalMachine() {
@@ -71,5 +67,5 @@ export function useTrackWelcomeModal(links: TrackWelcomeModalLinks) {
     },
   })
 
-  return { open, currentState, send }
+  return { open, currentState, send, error }
 }

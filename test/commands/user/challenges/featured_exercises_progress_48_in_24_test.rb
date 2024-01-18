@@ -23,78 +23,78 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
   test "returns completed tracks" do
     user = create :user
 
-    create_completed_solution(user, 2022, 'hello-world', 'python')
-    create_completed_solution(user, 2023, 'hello-world', 'prolog')
+    create_completed_solution(user, 2022, 'reverse-string', 'cpp')
+    create_completed_solution(user, 2023, 'reverse-string', 'nim')
     create_completed_solution(user, 2024, 'leap', 'elixir')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal ({ "python" => 2022, "prolog" => 2023 }), exercise_progress["hello-world"].completed_tracks
+    assert_equal ({ "cpp" => 2022, "nim" => 2023 }), exercise_progress["reverse-string"].completed_tracks
     assert_equal ({ "elixir" => 2024 }), exercise_progress["leap"].completed_tracks
   end
 
   test "gold status when user has completed all three featured tracks in 2024" do
     user = create :user
 
-    create_completed_solution(user, 2024, 'hello-world', 'python')
-    create_completed_solution(user, 2024, 'hello-world', 'csharp')
-    create_completed_solution(user, 2024, 'hello-world', 'javascript')
+    create_completed_solution(user, 2024, 'reverse-string', 'cpp')
+    create_completed_solution(user, 2024, 'reverse-string', 'nim')
+    create_completed_solution(user, 2024, 'reverse-string', 'javascript')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal :gold, exercise_progress["hello-world"].status
+    assert_equal :gold, exercise_progress["reverse-string"].status
   end
 
   test "gold status when completed all featured tracks and at least three iterations in 2024" do
     user = create :user
 
-    create_completed_solution(user, 2021, 'hello-world', 'python')
-    create_completed_solution(user, 2022, 'hello-world', 'csharp')
-    create_completed_solution(user, 2023, 'hello-world', 'javascript')
+    create_completed_solution(user, 2021, 'reverse-string', 'cpp')
+    create_completed_solution(user, 2022, 'reverse-string', 'csharp')
+    create_completed_solution(user, 2023, 'reverse-string', 'javascript')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal :in_progress, exercise_progress["hello-world"].status
+    assert_equal :in_progress, exercise_progress["reverse-string"].status
 
     # Create two iterations in 2024
-    create_completed_solution(user, 2024, 'hello-world', 'zig')
-    create_completed_solution(user, 2024, 'hello-world', 'nim')
+    create_completed_solution(user, 2024, 'reverse-string', 'zig')
+    create_completed_solution(user, 2024, 'reverse-string', 'nim')
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal :in_progress, exercise_progress["hello-world"].status
+    assert_equal :in_progress, exercise_progress["reverse-string"].status
 
     # Ensure that there are now three iterations in 2024
-    create_completed_solution(user, 2024, 'hello-world', 'racket')
+    create_completed_solution(user, 2024, 'reverse-string', 'racket')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
     exercise_progress = progress_by_exercise(progress)
-    assert_equal :gold, exercise_progress["hello-world"].status
+    assert_equal :gold, exercise_progress["reverse-string"].status
   end
 
   test "silver status when user has completed at least three tracks in 2024 (but not in three features ones)" do
     user = create :user
 
-    create_completed_solution(user, 2024, 'hello-world', 'zig')
-    create_completed_solution(user, 2024, 'hello-world', 'csharp')
-    create_completed_solution(user, 2024, 'hello-world', 'nim')
+    create_completed_solution(user, 2024, 'reverse-string', 'zig')
+    create_completed_solution(user, 2024, 'reverse-string', 'csharp')
+    create_completed_solution(user, 2024, 'reverse-string', 'nim')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal :silver, exercise_progress["hello-world"].status
+    assert_equal :silver, exercise_progress["reverse-string"].status
   end
 
   test "bronze status when user has completed at least one track in 2024" do
     user = create :user
-    create_completed_solution(user, 2024, 'hello-world', 'kotlin')
+    create_completed_solution(user, 2024, 'reverse-string', 'kotlin')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
     exercise_progress = progress_by_exercise(progress)
-    assert_equal :bronze, exercise_progress["hello-world"].status
+    assert_equal :bronze, exercise_progress["reverse-string"].status
   end
 
   private

@@ -15,14 +15,22 @@ export function SelectedLocalMachineStep({
       <ol className="list-decimal pl-16 mb-16">
         <li>
           Install{' '}
-          <a href={links.cliWalkthrough} target="_blank">
+          <a
+            href={links.cliWalkthrough}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Exercism's CLI
           </a>
           .
         </li>
         <li>
           Install{' '}
-          <a href={links.trackTooling} target="_blank">
+          <a
+            href={links.trackTooling}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {track.title}'s tooling
           </a>
           .

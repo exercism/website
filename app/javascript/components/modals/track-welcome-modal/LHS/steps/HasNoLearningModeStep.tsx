@@ -24,6 +24,7 @@ export function HasNoLearningModeStep({
           className="font-semibold text-prominentLinkColor"
           href={links.learningResources}
           target="_blank"
+          rel="noopener noreferrer"
         >
           these supplementary resources
         </a>{' '}

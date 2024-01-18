@@ -10,7 +10,7 @@ export function SelectedOnlineEdiorStep({
     <>
       <h3 className="text-h3 mb-8">You're all set!</h3>
       <p className="mb-16">
-        If you change your mind later and want to work in our own environment,
+        If you change your mind later and want to work in your own environment,
         you'll find instructions for installing the Exercism CLI and language
         tooling on the right-hand side of each exercise.
       </p>

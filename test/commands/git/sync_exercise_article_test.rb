@@ -5,13 +5,14 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
     config = { uuid: SecureRandom.uuid, slug: "performance", title: "Performance", blurb: "Speed up!" }
 
-    article = Git::SyncExerciseArticle.(exercise, config)
+    article = Git::SyncExerciseArticle.(exercise, config, 1)
 
     assert_equal exercise, article.exercise
     assert_equal config[:slug], article.slug
     assert_equal config[:title], article.title
     assert_equal config[:blurb], article.blurb
     assert_equal article.git.head_sha, article.synced_to_git_sha
+    assert_equal 1, article.position
   end
 
   test "creates authors and contributors from config" do
@@ -28,7 +29,7 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
       contributors: [contributor.github_username]
     }
 
-    article = Git::SyncExerciseArticle.(exercise, config)
+    article = Git::SyncExerciseArticle.(exercise, config, 1)
 
     assert_equal [author_1, author_2], article.authors
     assert_equal [contributor], article.contributors
@@ -39,13 +40,14 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
     article = create(:exercise_article, exercise:)
     config = { uuid: article.uuid, slug: "new slug", title: "new title", blurb: "new blurb" }
 
-    Git::SyncExerciseArticle.(exercise, config)
+    Git::SyncExerciseArticle.(exercise, config, 2)
 
     article.reload
     assert_equal exercise, article.exercise
     assert_equal config[:slug], article.slug
     assert_equal config[:title], article.title
     assert_equal config[:blurb], article.blurb
+    assert_equal 2, article.position
     assert_equal article.git.head_sha, article.synced_to_git_sha
   end
 
@@ -62,7 +64,7 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
       contributors: [contributor_2.github_username]
     })
 
-    Git::SyncExerciseArticle.(exercise, config)
+    Git::SyncExerciseArticle.(exercise, config, 1)
 
     article.reload
     assert_equal [author_1, author_2], article.authors
@@ -75,7 +77,7 @@ class Git::SyncExerciseArticleTest < ActiveSupport::TestCase
     article = create :exercise_article, exercise:, updated_at:, synced_to_git_sha: exercise.git.head_sha
     config = article.slice(:uuid, :slug, :title, :blurb)
 
-    Git::SyncExerciseArticle.(exercise, config)
+    Git::SyncExerciseArticle.(exercise, config, 1)
 
     article.reload
     assert_equal updated_at, article.updated_at

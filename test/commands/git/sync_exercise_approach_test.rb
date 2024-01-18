@@ -5,13 +5,14 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     exercise = create :practice_exercise
     config = { uuid: SecureRandom.uuid, slug: "performance", title: "Performance", blurb: "Speed up!" }
 
-    approach = Git::SyncExerciseApproach.(exercise, config)
+    approach = Git::SyncExerciseApproach.(exercise, config, 1)
 
     assert_equal exercise, approach.exercise
     assert_equal config[:slug], approach.slug
     assert_equal config[:title], approach.title
     assert_equal config[:blurb], approach.blurb
     assert_equal approach.git.head_sha, approach.synced_to_git_sha
+    assert_equal 1, approach.position
     assert_nil approach.tags
   end
 
@@ -29,7 +30,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       contributors: [contributor.github_username]
     }
 
-    approach = Git::SyncExerciseApproach.(exercise, config)
+    approach = Git::SyncExerciseApproach.(exercise, config, 1)
 
     assert_equal [author_1, author_2], approach.authors
     assert_equal [contributor], approach.contributors
@@ -40,13 +41,14 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     approach = create(:exercise_approach, exercise:)
     config = { uuid: approach.uuid, slug: "new slug", title: "new title", blurb: "new blurb" }
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 2)
 
     approach.reload
     assert_equal exercise, approach.exercise
     assert_equal config[:slug], approach.slug
     assert_equal config[:title], approach.title
     assert_equal config[:blurb], approach.blurb
+    assert_equal 2, approach.position
     assert_equal approach.git.head_sha, approach.synced_to_git_sha
   end
 
@@ -63,7 +65,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       contributors: [contributor_2.github_username]
     })
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
 
     approach.reload
     assert_equal [author_1, author_2], approach.authors
@@ -76,7 +78,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
     approach = create :exercise_approach, exercise:, updated_at:, synced_to_git_sha: exercise.git.head_sha
     config = approach.slice(:uuid, :slug, :title, :blurb)
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
 
     approach.reload
     assert_equal updated_at, approach.updated_at
@@ -97,7 +99,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       tags:
     }
 
-    approach = Git::SyncExerciseApproach.(exercise, config)
+    approach = Git::SyncExerciseApproach.(exercise, config, 1)
 
     assert_equal tags, approach.tags
   end
@@ -125,7 +127,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
       tags: new_tags
     }
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
 
     assert_equal new_tags, approach.reload.tags
   end
@@ -144,7 +146,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
 
     Exercise::Approach::LinkMatchingSubmissions.expects(:call).once
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
   end
 
   test "don't link submissions when creating approach without tags" do
@@ -153,7 +155,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
 
     Exercise::Approach::LinkMatchingSubmissions.expects(:call).never
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
   end
 
   test "link submissions when tags are updated from config" do
@@ -166,7 +168,7 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
 
     Exercise::Approach::LinkMatchingSubmissions.expects(:call).with(approach)
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
   end
 
   test "don't link submissions when tags haven't changed" do
@@ -178,6 +180,6 @@ class Git::SyncExerciseApproachTest < ActiveSupport::TestCase
 
     Exercise::Approach::LinkMatchingSubmissions.expects(:call).with(approach).never
 
-    Git::SyncExerciseApproach.(exercise, config)
+    Git::SyncExerciseApproach.(exercise, config, 1)
   end
 end

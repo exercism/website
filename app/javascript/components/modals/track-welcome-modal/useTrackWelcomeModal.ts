@@ -1,7 +1,7 @@
 import { redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
 import { useMachine } from '@xstate/react'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { machine } from './LHS/TrackWelcomeModal.machine'
 import { TrackWelcomeModalLinks } from './TrackWelcomeModal.types'

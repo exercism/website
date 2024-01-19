@@ -53,7 +53,7 @@ class Submission::Representation::Process
 
   memoize
   def metadata
-    return nil if ops_errored?
+    return {} if ops_errored?
 
     representation_json = tooling_job.execution_output['representation.json']
     return {} if representation_json.blank?

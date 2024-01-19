@@ -106,10 +106,13 @@ module Pages
           visit track_path(@track)
           click_on "Continue"
           click_on "In the online editor"
-          click_on "Continue to online editor"
 
-          wait_for_redirect
-          assert_current_path Exercism::Routes.edit_track_exercise_path(@track, 'hello-world')
+          Exercism.without_bullet do
+            click_on "Continue to online editor"
+
+            wait_for_redirect
+            assert_current_path Exercism::Routes.edit_track_exercise_path(@track, 'hello-world')
+          end
         end
       end
 

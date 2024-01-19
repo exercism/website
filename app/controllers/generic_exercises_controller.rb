@@ -5,7 +5,7 @@ class GenericExercisesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :start
 
   def show
-    @ps_data = Git::ProblemSpecifications::Exercise.new(params[:id])
+    @ps_data = @exercise.generic_exercise
     @track_variants = Exercise.available.where(
       slug: params[:id],
       track_id: Track.active.select(:id)

@@ -17,7 +17,7 @@ class Submission::Representation::Process
   def ops_status = tooling_job.execution_status.to_i
   def ops_errored? = ops_status != 200
   def ast_digest = Submission::Representation.digest_ast(ast)
-  def representer_version = metadata ? metadata[:version] : 1
+  def representer_version = metadata.present? ? metadata.fetch(:version, 1) : 1
 
   def exercise_version
     git_exercise = Git::Exercise.for_solution(solution, git_sha:)

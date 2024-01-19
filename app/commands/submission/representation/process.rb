@@ -42,7 +42,7 @@ class Submission::Representation::Process
 
   memoize
   def mapping
-    return nil if ops_errored?
+    return {} if ops_errored?
 
     res = JSON.parse(tooling_job.execution_output['mapping.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}

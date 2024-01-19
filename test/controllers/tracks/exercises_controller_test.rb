@@ -79,6 +79,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     user = create :user, roles: [:maintainer]
     track = create :track, active: false
     exercise = create(:practice_exercise, track:)
+    create(:generic_exercise, slug: exercise.slug)
 
     sign_in!(user)
 
@@ -88,6 +89,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
 
   test "concept/show: renders correctly for external" do
     exercise = create :concept_exercise
+    create(:generic_exercise, slug: exercise.slug)
 
     get track_exercise_url(exercise.track, exercise)
     assert_template "tracks/exercises/show"
@@ -96,6 +98,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "concept/show: renders correctly for joined" do
     user = create :user
     exercise = create :concept_exercise
+    create(:generic_exercise, slug: exercise.slug)
     create :user_track, user:, track: exercise.track
 
     sign_in!(user)
@@ -107,6 +110,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "concept/show: renders correctly for unjoined" do
     user = create :user
     exercise = create :concept_exercise
+    create(:generic_exercise, slug: exercise.slug)
 
     sign_in!(user)
 
@@ -117,6 +121,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
   test "practice/show: renders correctly for external" do
     track = create :track
     exercise = create(:practice_exercise, track:)
+    create(:generic_exercise, slug: exercise.slug)
 
     get track_exercise_url(track, exercise)
     assert_template "tracks/exercises/show"
@@ -127,6 +132,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     track = create :track
     create(:user_track, user:, track:)
     exercise = create(:practice_exercise, track:)
+    create(:generic_exercise, slug: exercise.slug)
 
     sign_in!(user)
 
@@ -138,6 +144,7 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     user = create :user
     track = create :track
     exercise = create(:practice_exercise, track:)
+    create(:generic_exercise, slug: exercise.slug)
 
     sign_in!(user)
 

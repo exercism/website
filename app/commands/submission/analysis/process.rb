@@ -66,7 +66,7 @@ class Submission::Analysis::Process
 
   memoize
   def tags_data
-    return nil if ops_errored?
+    return {} if ops_errored?
 
     tags_json = tooling_job.execution_output['tags.json']
     return {} if tags_json.blank?

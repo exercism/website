@@ -9,6 +9,7 @@ module Pages
       test "ensure user track is not recached" do
         track = create :track
         user = create :user
+        create(:hello_world_exercise, track:)
         user_track = create(:user_track, user:, track:)
 
         # Generate summary then assert it should never get called again

@@ -15,6 +15,7 @@ module Flows
 
           @user = create :user
           @track = create :track, title: "Ruby"
+          create(:hello_world_exercise, track: @track)
           @exercise = create(:concept_exercise, track: @track)
           create(:user_track, user: @user, track: @track)
 

@@ -10,6 +10,7 @@ module Pages
       setup do
         @user = create :user
         @track = create :track
+        create(:hello_world_exercise, track: @track)
         create(:user_track, track: @track, user: @user)
         stub_latest_track_forum_threads(@track)
       end

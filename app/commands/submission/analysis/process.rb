@@ -55,7 +55,7 @@ class Submission::Analysis::Process
 
   memoize
   def data
-    return nil if ops_errored?
+    return {} if ops_errored?
 
     res = JSON.parse(tooling_job.execution_output['analysis.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}

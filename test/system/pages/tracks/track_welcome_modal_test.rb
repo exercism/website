@@ -40,6 +40,18 @@ module Pages
         end
       end
 
+      test "user doesnt see track welcome modal after completed tutorial exercise" do
+        create(:hello_world_solution, :completed, user: @user, track: @track)
+
+        use_capybara_host do
+          sign_in!(@user.reload)
+          visit track_path(@track)
+
+          refute_text "Welcome to #{@track.title}!"
+          refute_text "Here to learn or practice?"
+        end
+      end
+
       test "user sees correct embedded video on track with learning mode" do
         use_capybara_host do
           sign_in!(@user.reload)

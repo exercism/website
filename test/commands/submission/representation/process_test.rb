@@ -90,6 +90,8 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
 
+    Bugsnag.expects(:notify).never
+
     job = create_representer_job!(submission, execution_status: 500, ast: nil)
     Submission::Representation::Process.(job)
 

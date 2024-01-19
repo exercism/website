@@ -7,7 +7,7 @@
     - else
       = render("tracks/exercises/show/action_box_join_exercism", exercise:, user_track:)
 
-    - deep_dive_youtube_id = exercise.deep_dive_youtube_id
+    - deep_dive_youtube_id = exercise&.deep_dive_youtube_id
     - if deep_dive_youtube_id.present?
       .mt-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
         .text-h4.mb-4 Deep Dive into #{exercise.title}!

@@ -444,6 +444,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_18_102652) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_generic_exercises_on_slug", unique: true
+    t.index ["title"], name: "index_generic_exercises_on_title"
   end
 
   create_table "github_issue_labels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { StepButton } from './components/StepButton'
-import { ButtonContainer } from './components/ButtonContainer'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { TrackContext } from '../../TrackWelcomeModal'
 
@@ -37,9 +36,7 @@ export function SelectedLocalMachineStep({
         </li>
         <li>
           Download this exercise:
-          <CopyToClipboardButton
-            textToCopy={`exercism download --exercise=hello-world --track=${track.title}`}
-          />
+          <CopyToClipboardButton textToCopy={links.downloadCmd} />
         </li>
       </ol>
 

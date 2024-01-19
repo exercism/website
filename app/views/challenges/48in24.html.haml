@@ -1,7 +1,7 @@
 - week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
 - featured_exercise = @exercises.find { |e| e.week == week }
 - if featured_exercise
-  - featured_exercise_ps_data = Git::ProblemSpecifications::Exercise.new(featured_exercise.slug)
+  - generic_exercise = GenericExercise.for(featured_exercise.slug)
   - featured_tracks = Track.where(slug: featured_exercise.featured_tracks).order(:title).pluck(:slug, :title).to_h
 - live_exercises = @exercises.select { |e| e.week <= week }
 - num_placeholders = 48 - live_exercises.size
@@ -29,7 +29,7 @@
             %p.text-p-large.mb-12
               We're featuring it into the following languages: #{featured_tracks.values.to_sentence}.
 
-            - if featured_exercise_ps_data.deep_dive_youtube_id
+            - if generic_exercise.deep_dive_youtube_id
               .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
                 .flex-shrink
                   %h2.text-h4.mb-4 Join Erik and Jeremy as they explore the different ways to approach this exercise 👉
@@ -41,7 +41,7 @@
                 .rhs
                   %div{ class: 'w-[100%] md:max-w-[500px]' }
                     .c-youtube-container
-                      %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{featured_exercise_ps_data.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                      %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{generic_exercise.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
 
             %h2.text-h3.mt-32.mb-6 Learn from others… 🎥
             %p.text-p-large.mb-12.c-highlight-links

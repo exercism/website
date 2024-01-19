@@ -15,8 +15,7 @@ export type TrackWelcomeModalLinks = Record<
   | 'editHelloWorld'
   | 'cliWalkthrough'
   | 'trackTooling'
-  | 'learningResources'
-  | 'downloadCmd',
+  | 'learningResources',
   string
 >
 

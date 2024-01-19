@@ -40,8 +40,7 @@ module Pages
       end
 
       test "user doesnt see track welcome modal after completed tutorial exercise" do
-        exercise = create :practice_exercise, track: @track, slug: "hello-world"
-        create(:practice_solution, exercise:, completed_at: Time.current, user: @user)
+        create(:hello_world_solution, :completed, user: @user, track: @track)
 
         use_capybara_host do
           sign_in!(@user.reload)

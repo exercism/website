@@ -17,7 +17,7 @@ class Submission::Representation::Process
   def ops_status = tooling_job.execution_status.to_i
   def ops_errored? = ops_status != 200
   def ast_digest = Submission::Representation.digest_ast(ast)
-  def representer_version = metadata[:version] || 1
+  def representer_version = metadata ? metadata[:version] : 1
 
   def exercise_version
     git_exercise = Git::Exercise.for_solution(solution, git_sha:)
@@ -42,7 +42,7 @@ class Submission::Representation::Process
 
   memoize
   def mapping
-    return {} if ops_errored?
+    return nil if ops_errored?
 
     res = JSON.parse(tooling_job.execution_output['mapping.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
@@ -53,7 +53,7 @@ class Submission::Representation::Process
 
   memoize
   def metadata
-    return {} if ops_errored?
+    return nil if ops_errored?
 
     representation_json = tooling_job.execution_output['representation.json']
     return {} if representation_json.blank?

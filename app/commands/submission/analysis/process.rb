@@ -8,7 +8,7 @@ class Submission::Analysis::Process
     # us some basis of the next set of decisions etc.
     analysis = submission.create_analysis!(
       tooling_job_id: tooling_job.id,
-      ops_status: tooling_job.execution_status.to_i,
+      ops_status:,
       data:,
       tags_data:
     )
@@ -34,6 +34,9 @@ class Submission::Analysis::Process
   end
 
   private
+  def ops_status = tooling_job.execution_status.to_i
+  def ops_errored? = ops_status != 200
+
   def handle_ops_error!
     submission.analysis_exceptioned!
   end
@@ -52,6 +55,8 @@ class Submission::Analysis::Process
 
   memoize
   def data
+    return nil if ops_errored?
+
     res = JSON.parse(tooling_job.execution_output['analysis.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue StandardError => e
@@ -61,6 +66,8 @@ class Submission::Analysis::Process
 
   memoize
   def tags_data
+    return nil if ops_errored?
+
     tags_json = tooling_job.execution_output['tags.json']
     return {} if tags_json.blank?
 

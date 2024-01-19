@@ -1,5 +1,5 @@
 - track = user_track.track
-.action-box.join-box
+.join-box
   .icons
     = track_icon track
     = graphical_icon :plus, css_class: "plus"
@@ -19,4 +19,3 @@
   .buttons
     = link_to "Sign up, it’s free!", new_user_registration_path, class: 'btn-primary btn-m'
     = link_to "Log in to Exercism", new_user_session_path, class: 'btn-secondary btn-m'
-

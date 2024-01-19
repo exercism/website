@@ -158,7 +158,7 @@ Done')
   end
 
   test 'adds data-turbo="false" to internal links with anchor' do
-    expected = '<p><a href="https://exercism.org#about" data-turbo="false">Some link</a></p>'
+    expected = '<p><a href="https://exercism.org#h-about" data-turbo="false">Some link</a></p>'
     assert_equal expected.chomp, Markdown::Parse.('[Some link](https://exercism.org#about)').chomp
   end
 
@@ -258,7 +258,7 @@ Done')
   end
 
   test "render internal link ending with hash" do
-    expected = %(<p><a href="https://exercism.org/tracks/ruby/concepts/basics#intro" data-turbo="false" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
+    expected = %(<p><a href="https://exercism.org/tracks/ruby/concepts/basics#h-intro" data-turbo="false" data-tooltip-type="concept" data-endpoint="/tracks/ruby/concepts/basics/tooltip">basics</a></p>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[basics](https://exercism.org/tracks/ruby/concepts/basics#intro)")
   end
 
@@ -438,6 +438,40 @@ Done')
   test "heading id for same titles uses sequential numbering" do
     expected = %(<h2 id="h-my-title">my title</h2>\n<h2 id="h-my-title-1">my title</h2>\n<h2 id="h-my-title-2">my title</h2>\n)
     assert_equal expected, Markdown::Parse.("## my title\n\n## my title\n\n## my title", heading_ids: true, lower_heading_levels_by: 0)
+  end
+
+  ["", "/docs/", "/tracks/csharp/exercises/", "/tracks/csharp/concepts/"].each do |path|
+    test "inline link for #{path} path with hash but not prefixed with 'h-'" do
+      expected = %(<p><a href="#{path}#h-test" data-turbo="false">Link</a></p>\n)
+      assert_equal expected, Markdown::Parse.("[Link](#{path}#test)")
+    end
+
+    test "inline link for #{path} path with hash but no domain prefixed with 'h-'" do
+      expected = %(<p><a href="#{path}#h-test" data-turbo="false">Link</a></p>\n)
+      assert_equal expected, Markdown::Parse.("[Link](#{path}#test)")
+    end
+
+    test "inline link for #{path} path with hash prefixed with 'h-' does not add another 'h-' prefix" do
+      expected = %(<p><a href="#{path}#h-test" data-turbo="false">Link</a></p>\n)
+      assert_equal expected, Markdown::Parse.("[Link](#{path}#h-test)")
+    end
+
+    %w[exercism.org exercism.io].each do |domain|
+      test "inline link for #{path} path with hash and #{domain} domain prefixed with 'h-'" do
+        expected = %(<p><a href=\"https://#{domain}#{path}#h-test\" data-turbo=\"false\">Link</a></p>\n)
+        assert_equal expected, Markdown::Parse.("[Link](https://#{domain}#{path}#test)")
+      end
+    end
+  end
+
+  test "inline link with hash for non-special path not prefixed with 'h-'" do
+    expected = %(<p><a href="https://exercism.org/about/#test" data-turbo="false">Link</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[Link](https://exercism.org/about/#test)")
+  end
+
+  test "inline link with hash and non-exercism domain not prefixed with 'h-'" do
+    expected = %(<p><a href="https://test.org/docs/#test" target="_blank" rel="noreferrer">Link</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[Link](https://test.org/docs/#test)")
   end
 
   test "render youtube video for mail with link" do

@@ -40,6 +40,18 @@ module Pages
         end
       end
 
+      test "user doesnt see track welcome modal after completed tutorial exercise" do
+        create(:hello_world_solution, :completed, user: @user, track: @track)
+
+        use_capybara_host do
+          sign_in!(@user.reload)
+          visit track_path(@track)
+
+          refute_text "Welcome to #{@track.title}!"
+          refute_text "Here to learn or practice?"
+        end
+      end
+
       test "user sees correct embedded video on track with learning mode" do
         use_capybara_host do
           sign_in!(@user.reload)
@@ -106,10 +118,13 @@ module Pages
           visit track_path(@track)
           click_on "Continue"
           click_on "In the online editor"
-          click_on "Continue to online editor"
 
-          wait_for_redirect
-          assert_current_path Exercism::Routes.edit_track_exercise_path(@track, 'hello-world')
+          Exercism.without_bullet do
+            click_on "Continue to online editor"
+
+            wait_for_redirect
+            assert_current_path Exercism::Routes.edit_track_exercise_path(@track, 'hello-world')
+          end
         end
       end
 

@@ -1,6 +1,6 @@
 module TimeHelper
   def time_ago_in_words(time, short: false)
-    t = super(time)
+    t = "#{super(time)}" # rubocop:disable Style/RedundantInterpolation Required to unfreeze string
     t.gsub!(/^about /, '')
     t.gsub!(/^almost /, '')
 

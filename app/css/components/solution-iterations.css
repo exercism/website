@@ -18,8 +18,11 @@
         }
     }
     & .c-iterations-footer {
-        @apply flex-grow-0 mb-8;
-        @apply flex items-center;
+        @apply flex-grow-0;
+        @apply flex items-center py-16;
+        .iterations {
+            @apply py-0;
+        }
 
         & .publish-settings-button {
             @apply ml-auto px-0 border-borderColor6;

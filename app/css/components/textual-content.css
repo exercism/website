@@ -8,12 +8,23 @@
     }
 
     &.--large {
-        & * {
+        & *:not(.footnotes) {
             @apply text-16;
         }
+        .footnotes * {
+            @apply text-14;
+        }
+
+        .footnotes {
+            @apply border-t-1 border-borderColor6 pt-20 mt-20;
+        }
+
         @screen md {
-            & * {
+            & *:not(.footnotes) {
                 @apply text-18;
+            }
+            .footnotes * {
+                @apply text-16;
             }
         }
         & > * {

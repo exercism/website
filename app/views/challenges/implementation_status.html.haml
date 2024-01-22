@@ -1,0 +1,22 @@
+#challenge-48in24-page
+  %section.top-section
+    .lg-container
+      .flex.xl:flex-row.flex-col.xl:items-start.items-center
+        .xl:mr-auto{ class: 'max-w-[860px]' }
+          %table
+            %tr
+              %th
+              - @featured_exercises.each do |featured_exercises|
+                %th= featured_exercises[:slug]
+            - @tracks.each do |track|
+              %tr
+                %td
+                  = track.title
+                - @featured_exercises.each do |featured_exercises|
+                  %td
+                    = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
+                    - if featured_exercises[:featured_tracks].include?(track.slug)
+                      %sup
+                        %a{ href: "#footnote-1" } 1
+
+          %sup{ id: "footnote-1" } 1. Exercise is featured in this track

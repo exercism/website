@@ -1,6 +1,6 @@
 class ChallengesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show]
-  before_action :use_challenge_id!
+  skip_before_action :authenticate_user!, only: %i[show implementation_status]
+  before_action :use_challenge_id!, except: [:implementation_status]
 
   def show
     if user_signed_in? && User::Challenge.where(user: current_user, challenge_id: @challenge_id).exists?
@@ -19,6 +19,17 @@ class ChallengesController < ApplicationController
     end
 
     redirect_to action: :show
+  end
+
+  def implementation_status
+    @featured_exercises = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES
+    @tracks = Track.active.order(:title)
+    @track_exercises = Exercise.joins(:track).
+      where(status: %i[beta active], track: @tracks).
+      where(slug: @featured_exercises.pluck(:slug)).
+      pluck('tracks.slug', 'exercises.slug').
+      group_by(&:first).
+      transform_values { |pairs| pairs.map(&:second) }
   end
 
   private

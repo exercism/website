@@ -5,8 +5,9 @@ class User::Challenges::FeaturedExercisesProgress48In24
 
   # rubocop:disable Layout/LineLength
   EXERCISES = [
-    { week: 1, slug: 'leap', title: "Leap", featured_tracks: %w[python clojure mips], learning_opportunity: "This is a relatively simple exercise, but can teach you a lot about how to write idiomatic code in a language. Should you use boolean logic, early returns, pattern matching, or something more language specific? Whatever you do, just don't use the built-in leap-year method!" },
-    { week: 2, slug: 'hello-world', title: "Hello, World!", featured_tracks: %w[python csharp javascript], learning_opportunity: "" }
+    { week: 1, slug: 'leap', title: 'Leap', featured_tracks: %w[python clojure mips], learning_opportunity: "This is a relatively simple exercise, but can teach you a lot about how to write idiomatic code in a language. Should you use boolean logic, early returns, pattern matching, or something more language specific? Whatever you do, just don't use the built-in leap-year method!" },
+    { week: 2, slug: 'reverse-string', title: 'Reverse String', featured_tracks: %w[javascript nim cpp], learning_opportunity: "This is a classic job interview question and at first feels a bit simple, but as you dig into Unicode, Graphemes, stack-vs-heap allocation and pointers, you'll find there's tons more to explore!" },
+    { week: 3, slug: 'raindrops', title: 'Raindrops', featured_tracks: %w[ruby r common-lisp], learning_opportunity: "" }
   ].freeze
   # rubocop:enable Layout/LineLength
 

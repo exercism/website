@@ -38,8 +38,11 @@
           Found it useful?
           = render ViewComponents::Blog::SharePostLink.new(@post)
 
-        - link_path = @post.author.profile? ? profile_path(@post.author) : "javascript:void(0);"
-        = link_to link_path, class: "byline shadow-sm rounded-8 py-16 px-24 flex flex-col md:flex-row md:items-center border-1 border-borderColor6" do
+        - t = @post.author.profile? ? :a : :div
+        - tag_options = { class: "byline shadow-sm rounded-8 py-16 px-24 flex flex-col md:flex-row md:items-center border-1 border-borderColor6" }
+        - tag_options[:href] = profile_path(@post.author) if @post.author.profile?
+
+        = content_tag t, tag_options do
           .flex.items-center
             = avatar(@post.author)
             .info

@@ -12,7 +12,7 @@ module Flows
         @post = create :blog_post, author: @user
       end
 
-      test "clicking on public blog author opens author profile page" do
+      test "author with profile is linked" do
         create(:user_profile, user: @user)
 
         use_capybara_host do
@@ -23,7 +23,7 @@ module Flows
         end
       end
 
-      test "clicking on private blog author does not navigate to profile page" do
+      test "author without profile is not linked" do
         use_capybara_host do
           visit blog_post_path(@post)
           assert_selector 'div.byline', text: @user.name

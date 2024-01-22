@@ -23,6 +23,7 @@ class Exercise::Article < ApplicationRecord
   has_one :track, through: :exercise
 
   scope :random, -> { order('RAND()') }
+  default_scope -> { order(:position) }
 
   delegate :content, :snippet, to: :git
 

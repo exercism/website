@@ -87,6 +87,7 @@ class Exercise < ApplicationRecord
     :approaches_introduction_edit_url, to: :git
   delegate :dir, :no_important_files_changed?, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
+  delegate :deep_dive_youtube_id, to: :generic_exercise, allow_nil: true
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha
@@ -130,7 +131,7 @@ class Exercise < ApplicationRecord
   def has_test_runner? = super && track.has_test_runner?
 
   memoize
-  def problem_specifications_data = Git::ProblemSpecifications::Exercise.new(slug)
+  def generic_exercise = GenericExercise.for(slug)
 
   delegate :has_representer?, to: :track
 

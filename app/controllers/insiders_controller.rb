@@ -21,6 +21,7 @@ class InsidersController < ApplicationController
   def paypal_cancelled; end
 
   VIDEOS = [
+    [:vimeo, "904597260?h=0322718fa5", "insiders-11.jpg"],
     [:vimeo, "879746346?h=06399e1893", "insiders-10.jpg"],
     [:vimeo, "868410302?h=056539cf66", "insiders-9.jpg"],
     [:vimeo, "865572872?h=aab9cef911", "insiders-8.jpg"],

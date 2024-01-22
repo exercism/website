@@ -38,7 +38,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
 
   memoize
   def completions
-    user.solutions.
+    user.solutions.completed.
       joins(exercise: :track).
       where(exercise: { slug: EXERCISES.pluck(:slug) }).
       pluck('exercise.slug', 'tracks.slug', 'YEAR(completed_at)').

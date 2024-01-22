@@ -1,7 +1,7 @@
 class Git::SyncExerciseArticle
   include Mandate
 
-  initialize_with :exercise, :config
+  initialize_with :exercise, :config, :position
 
   def call
     find_or_create!.tap do |article|
@@ -16,7 +16,10 @@ class Git::SyncExerciseArticle
     end
   end
 
-  def attributes_for_create = config.slice(:slug, :title, :blurb).merge({ exercise:, synced_to_git_sha: exercise.git.head_sha })
+  def attributes_for_create
+    config.slice(:slug, :title, :blurb).
+      merge({ exercise:, position:, synced_to_git_sha: exercise.git.head_sha })
+  end
 
   def attributes_for_update(article)
     attributes_for_create.merge({

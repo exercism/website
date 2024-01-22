@@ -35,6 +35,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     user = create :user, roles: [:maintainer]
     sign_in!(user)
     track = create :track, active: false
+    create(:hello_world_exercise, track:)
     create(:user_track, user:, track:)
 
     stub_latest_track_forum_threads(track)

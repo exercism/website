@@ -153,6 +153,7 @@ module Pages
           pe.prerequisites << concept
 
           user = create :user
+          create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
           create(:user_track, user:, track:)
           create(:hello_world_solution, :completed, track:, user:)
           stub_latest_track_forum_threads(track)

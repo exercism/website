@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+%rss{ "xmlns:atom": "http://www.w3.org/2005/Atom", "xmlns:dc": "http://purl.org/dc/elements/1.1/", "xmlns:content": "http://purl.org/rss/1.0/modules/content/", version: "2.0" }
+  %channel
+    %title Exercism's Blog
+    %link= blog_posts_url(format: "rss")
+    = tag "atom:link", href: blog_posts_url(format: "rss"), rel: "self", type: "application/rss+xml"
+    %description Keep up to date with changes to Exercism, get to know our community, and find out about the new up and coming features!
+    %language en-US
+    = tag.lastBuildDate @posts[0].published_at.rfc822
+    = tag.webMaster "jeremy@exercism.org (Jeremy Walker)"
+    = tag.managingEditor "jeremy@exercism.org (Jeremy Walker)"
+
+    - @posts.each do |post|
+      %item
+        %title= post.title
+        %link= blog_post_url(post)
+        %description= post.marketing_copy
+        = tag.pubDate post.published_at.rfc822
+        %guid{ isPermaLink: 'true' }= blog_post_url(post)
+        %content:encoded <![CDATA[#{raw post.content_html.delete("\n")}]]>

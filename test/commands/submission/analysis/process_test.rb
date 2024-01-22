@@ -22,8 +22,10 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
 
   test "handle ops error" do
     submission = create :submission
-    data = { 'comments' => [] }
-    job = create_analyzer_job!(submission, execution_status: 500, data:)
+    job = create_analyzer_job!(submission, execution_status: 500, data: nil)
+
+    Bugsnag.expects(:notify).never
+
     Submission::Analysis::Process.(job)
 
     assert submission.reload.analysis_exceptioned?

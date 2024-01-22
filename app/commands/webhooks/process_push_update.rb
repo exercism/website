@@ -13,6 +13,8 @@ class Webhooks::ProcessPushUpdate
       Git::SyncMainDocs.defer
     when "blog"
       Git::SyncBlog.defer
+    when "problem-specifications"
+      Git::SyncProblemSpecifications.defer
     else
       track = Track.find_by(slug: repo_name)
       Git::SyncTrack.defer(track) if track

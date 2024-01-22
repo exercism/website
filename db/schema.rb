@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_18_102652) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "add_uuid_to_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -140,6 +145,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
   end
 
+  create_table "conversations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "track_id"
@@ -239,6 +249,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.datetime "updated_at", null: false
     t.json "tags"
     t.integer "num_solutions", default: 0, null: false
+    t.integer "position", limit: 1, null: false
+    t.index ["exercise_id", "position"], name: "index_exercise_approaches_on_exercise_id_and_position"
     t.index ["exercise_id", "uuid"], name: "index_exercise_approaches_on_exercise_id_and_uuid", unique: true
     t.index ["exercise_id"], name: "index_exercise_approaches_on_exercise_id"
     t.index ["uuid"], name: "index_exercise_approaches_on_uuid"
@@ -273,6 +285,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.string "synced_to_git_sha", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", limit: 1, null: false
+    t.index ["exercise_id", "position"], name: "index_exercise_articles_on_exercise_id_and_position"
     t.index ["exercise_id", "uuid"], name: "index_exercise_articles_on_exercise_id_and_uuid", unique: true
     t.index ["exercise_id"], name: "index_exercise_articles_on_exercise_id"
     t.index ["uuid"], name: "index_exercise_articles_on_uuid"
@@ -373,9 +387,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
   end
 
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
     t.string "tag", null: false
     t.boolean "filterable", default: true, null: false
-    t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -427,6 +441,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "generic_exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.string "blurb", null: false
+    t.string "source"
+    t.string "source_url"
+    t.string "deep_dive_youtube_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_generic_exercises_on_slug", unique: true
+    t.index ["title"], name: "index_generic_exercises_on_title"
   end
 
   create_table "github_issue_labels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -876,10 +904,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
   end
 
   create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "tag", null: false
     t.bigint "solution_id", null: false
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
+    t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id", null: false
@@ -925,11 +953,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
     t.bigint "published_exercise_representation_id"
-    t.bigint "exercise_approach_id"
     t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_1"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_2"
-    t.index ["exercise_approach_id"], name: "index_solutions_on_exercise_approach_id"
     t.index ["exercise_id", "approved_by_id", "completed_at", "mentoring_requested_at", "id"], name: "mentor_selection_idx_3"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_solutions_on_exercise_id_and_git_important_files_hash"
     t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat"
@@ -1020,6 +1046,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
+  create_table "submission_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "submission_id", null: false
@@ -1061,6 +1092,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
     t.json "tags"
+    t.index "`exercise_id`, `approach_id`, (json_value(`tags`, _utf8mb4\\'$[0]\\' returning char(512) null on empty))", name: "index_submissions_exercise_approach_tags"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
@@ -1306,11 +1338,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
     t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1667,7 +1699,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_01_091435) do
   add_foreign_key "solution_tags", "exercises"
   add_foreign_key "solution_tags", "solutions"
   add_foreign_key "solution_tags", "users"
-  add_foreign_key "solutions", "exercise_approaches"
   add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"

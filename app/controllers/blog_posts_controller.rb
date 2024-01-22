@@ -3,6 +3,14 @@ class BlogPostsController < ApplicationController
 
   def index
     @posts = BlogPost.published.ordered_by_recency.includes(:author).limit(13)
+
+    respond_to do |format|
+      format.html
+      format.rss do
+        headers['Content-Disposition'] = "inline"
+        render type: "application/rss"
+      end
+    end
   end
 
   def show

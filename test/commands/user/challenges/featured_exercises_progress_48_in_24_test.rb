@@ -74,12 +74,21 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
     assert_equal :gold, exercise_progress["reverse-string"].status
   end
 
-  test "silver status when user has completed at least three tracks in 2024 (but not in three features ones)" do
+  test "silver status when user has completed at least three tracks in 2024 (but not the three featured ones)" do
     user = create :user
 
     create_completed_solution(user, 2024, 'reverse-string', 'zig')
     create_completed_solution(user, 2024, 'reverse-string', 'csharp')
     create_completed_solution(user, 2024, 'reverse-string', 'nim')
+
+    progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
+
+    exercise_progress = progress_by_exercise(progress)
+    assert_equal :silver, exercise_progress["reverse-string"].status
+
+    # Even if the user has started all three featured tracks, they don't count if they're not completed
+    create_non_completed_solution(user, 2024, 'reverse-string', 'python')
+    create_non_completed_solution(user, 2024, 'reverse-string', 'javascript')
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user.reload)
 
@@ -105,6 +114,14 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
       track = create(:track, slug: track_slug)
       exercise = create(:practice_exercise, slug: exercise_slug, track:)
       create(:practice_solution, :completed, user:, exercise:)
+    end
+  end
+
+  def create_non_completed_solution(user, year, exercise_slug, track_slug)
+    travel_to Time.utc(year, SecureRandom.random_number(1..12), SecureRandom.random_number(1..28)) do
+      track = create(:track, slug: track_slug)
+      exercise = create(:practice_exercise, slug: exercise_slug, track:)
+      create(:practice_solution, user:, exercise:)
     end
   end
 end

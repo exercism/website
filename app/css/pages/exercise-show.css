@@ -347,23 +347,6 @@ body.namespace-tracks.controller-exercises.action-show {
             }
         }
 
-        & h3 {
-            @apply flex items-center text-h4 mb-4;
-        }
-        & p {
-            @apply text-16 leading-160 text-textColor2;
-
-            & a {
-                @apply font-medium text-prominentLinkColor;
-            }
-
-            & strong {
-                @apply font-medium;
-                & a {
-                    @apply border-b-2 border-prominentLinkColor text-prominentLinkColor;
-                }
-            }
-        }
         & .prereqs {
             @apply flex flex-wrap gap-4;
 
@@ -408,37 +391,57 @@ body.namespace-tracks.controller-exercises.action-show {
                 @apply mt-16;
             }
         }
+    }
 
-        &.join-box {
-            @apply bg-backgroundColorA shadow-lg py-20 px-20 rounded-8 lg:py-24 lg:px-32;
+    .join-box {
+        @apply bg-backgroundColorA shadow-lg py-20 px-20 rounded-8 lg:py-24 lg:px-32;
 
-            & .icons {
-                @apply flex items-center;
+        & .icons {
+            @apply flex items-center;
+            @apply mb-12;
+
+            & .c-track-icon,
+            & .c-icon {
+                height: 48px;
+                width: 48px;
+            }
+            & .c-icon.plus {
+                height: 16px;
+                width: 16px;
+                @apply mx-12;
+            }
+        }
+        & p {
+            & a {
+                @apply font-semibold;
+            }
+        }
+        & .buttons {
+            & .btn-primary {
+                @apply w-100;
+            }
+            & > :first-child {
                 @apply mb-12;
+            }
+        }
+    }
 
-                & .c-track-icon,
-                & .c-icon {
-                    height: 48px;
-                    width: 48px;
-                }
-                & .c-icon.plus {
-                    height: 16px;
-                    width: 16px;
-                    @apply mx-12;
-                }
-            }
-            & p {
-                & a {
-                    @apply font-semibold;
-                }
-            }
-            & .buttons {
-                & .btn-primary {
-                    @apply w-100;
-                }
-                & > :first-child {
-                    @apply mb-12;
-                }
+    .action-box h3,
+    .join-box h3 {
+        @apply flex items-center text-h4 mb-4;
+    }
+    .action-box p,
+    .join-box p {
+        @apply text-16 leading-160 text-textColor2;
+
+        a {
+            @apply font-medium text-prominentLinkColor;
+        }
+
+        strong {
+            @apply font-medium;
+            a {
+                @apply border-b-2 border-prominentLinkColor text-prominentLinkColor;
             }
         }
     }

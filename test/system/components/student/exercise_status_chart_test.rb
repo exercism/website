@@ -13,6 +13,7 @@ module Components
       test "shows locked exercise tooltip" do
         user = create :user
         track = create :track
+        create(:user_dismissed_introducer, slug: "track-welcome-modal-#{track.slug}", user:)
         exercise = create :concept_exercise, track:, title: "Lasagna"
         exercise.prerequisites << create(:concept)
         create(:user_track, track:, user:)

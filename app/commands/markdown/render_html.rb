@@ -76,7 +76,7 @@ class Markdown::RenderHTML
 
       uri = Addressable::URI.parse(node.url)
 
-      out('<a href="', node.url.nil? ? '' : escape_href(node.url), '"')
+      out('<a href="', link_href(uri), '"')
       out(' title="', escape_html(node.title), '"') if node.title.present?
       if external_url?(uri)
         out(' target="_blank"')
@@ -87,6 +87,16 @@ class Markdown::RenderHTML
       end
       out(link_tooltip_attributes(node))
       out('>', :children, '</a>')
+    end
+
+    def link_href(uri)
+      return '' if uri.nil?
+      return escape_href(uri.to_s) if uri.fragment.blank? || uri.fragment.start_with?('h-')
+      return escape_href(uri.to_s) if external_url?(uri)
+      return escape_href(uri.to_s) if uri.path.present? && !HEADING_ID_PATHS_REGEX.match(uri.path)
+
+      uri.fragment = "h-#{uri.fragment}"
+      escape_href(uri.to_s)
     end
 
     def table(node)
@@ -164,6 +174,7 @@ class Markdown::RenderHTML
     IMAGE_CLASS_INVERTIBLE = 'c-img-invertible'.freeze
     IMAGE_CLASS_LIGHT_THEME = 'c-img-light-theme'.freeze
     IMAGE_CLASS_DARK_THEME = 'c-img-dark-theme'.freeze
+    HEADING_ID_PATHS_REGEX = %r{^(/docs/|/tracks/[^/]+/(concepts|exercises)/)}
     private_constant :NOTE_BLOCK_FENCES, :IMAGE_URL_REGEX, :IMAGE_CLASS_INVERTIBLE,
       :IMAGE_CLASS_LIGHT_THEME, :IMAGE_CLASS_DARK_THEME
   end

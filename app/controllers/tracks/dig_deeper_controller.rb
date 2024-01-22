@@ -7,8 +7,8 @@ class Tracks::DigDeeperController < ApplicationController
 
   def show
     @videos = @exercise.community_videos.approved
-    @approaches = @exercise.approaches.random
-    @articles = @exercise.articles.random
+    @approaches = @exercise.approaches
+    @articles = @exercise.articles
     @introduction = introduction
     @links = links
   end

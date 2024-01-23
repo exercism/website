@@ -237,10 +237,9 @@ Rails.application.routes.draw do
     end
   end
 
-  get "challenges/48in23/implementation_status", to: 'challenges#implementation_status'
-
   resources :challenges, only: [:show] do
     post :start, on: :member
+    get :implementation_status, on: :member
   end
 
   # ############ #

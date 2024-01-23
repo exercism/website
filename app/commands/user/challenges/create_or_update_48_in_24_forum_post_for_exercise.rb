@@ -133,7 +133,7 @@ class User::Challenges::CreateOrUpdate48In24ForumPostForExercise
       sort_by { |k, _v| k }.
       each do |approach, exercises|
         exercises_md = exercises.sort_by(&:second).map do |(exercise, track)|
-          "[#{track}](#{Exercism::Routes.track_exercise_approach_path(track, exercise, approach)})"
+          "[#{track}](https://exercism.org#{Exercism::Routes.track_exercise_approach_path(track, exercise, approach)})"
         end.join(', ')
         markdown += "- `#{approach}` (#{exercises_md})\n"
       end

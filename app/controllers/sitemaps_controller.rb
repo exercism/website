@@ -100,6 +100,18 @@ class SitemapsController < ApplicationController
         priority = 0.5 + [0.1, solution.num_stars / 100.0].min
         pages << [Exercism::Routes.published_solution_url(solution), solution.updated_at, :monthly, priority]
       end
+
+      if exercise.has_approaches? # rubocop:disable Style/Next
+        pages << [track_exercise_dig_deeper_path(track, exercise), exercise.updated_at, :monthly, 0.75]
+
+        exercise.approaches.each do |approach|
+          pages << [track_exercise_approach_path(track, exercise, approach), approach.updated_at, :monthly, 0.75]
+        end
+
+        exercise.articles.each do |article|
+          pages << [track_exercise_article_path(track, exercise, article), article.updated_at, :monthly, 0.75]
+        end
+      end
     end
 
     render xml: pages_to_xml(pages)

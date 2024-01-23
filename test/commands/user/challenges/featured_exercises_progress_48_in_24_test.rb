@@ -6,7 +6,7 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user)
 
-    assert_equal 2, progress.size # TODO: change to 48 once we've selected them all
+    assert_equal 3, progress.size # TODO: change to 48 once we've selected them all
     progress.each do |exercise_progress|
       assert_equal :in_progress, exercise_progress.status
     end
@@ -17,7 +17,7 @@ class User::Challenges::FeaturedExercisesProgress48In24Test < ActiveSupport::Tes
 
     progress = User::Challenges::FeaturedExercisesProgress48In24.(user)
 
-    assert_equal (1..2).to_a, progress.map(&:week)
+    assert_equal (1..3).to_a, progress.map(&:week)
   end
 
   test "returns completed tracks" do

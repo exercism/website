@@ -157,7 +157,7 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :track, track.slug, 10, 0)
   end
 
-  test "requeues with deserializatione error" do
+  test "requeues with deserialization error" do
     class TestSender < Mailshot::SendToAudienceSegment # rubocop:disable Lint/ConstantDefinitionInBlock
       # ActiveJob::DeserializationError uses $! so this needs wrapping like this.
       def call

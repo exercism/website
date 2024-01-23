@@ -319,6 +319,7 @@ module.exports = {
     height: {
       auto: 'auto',
       arbitary: '1px',
+      fill: '100%',
       32: '32px',
       48: '48px',
       100: '100%',

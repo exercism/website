@@ -4,19 +4,28 @@ class Mailshot
 
     queue_as :background
 
-    initialize_with :mailshot, :audience_type, :audience_slug, :limit, :offset
+    initialize_with :mailshot, :audience_type, :audience_slug, :limit, :offset do
+      @ar_relation, @user_extractor = mailshot.audience_for(audience_type, audience_slug)
+    end
+
+    # Required to stop potentially accidently hidden job-drops
+    def guard_against_deserialization_errors? = false
 
     # TOOD: This is where we can add throttling to check how many
     # mails have been sent today and reschedule ourselves for the next
     # day if we've hit a limit
     def call
-      @ar_relation, @user_extractor = mailshot.audience_for(audience_type, audience_slug)
-
       send_to_segment!
 
-      # If we had some records, schedule some more. Once this is zero,
-      # we can safely finish the job.
+      # If we had some records, schedule some more.
+      # Once this is zero, we can safely finish the job.
       schedule_next_segment! if records.length.positive?
+    rescue StandardError => e
+      # I don't want this silently failing, but I do want it catching
+      # and requeuing automatically by ActiveJob.
+      Bugsnag.notify(e)
+
+      raise
     end
 
     private

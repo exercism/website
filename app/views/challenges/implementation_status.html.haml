@@ -5,10 +5,13 @@
     padding:8px;
     line-height:130%;
   }
+  td {
+    white-space:nowrap;
+  }
 
 #challenge-48in24-page
   .p-32
-    .flex.items-start
+    .flex.items-start.overflow-scroll{ class: "max-h-[90vh]" }
       %table
         %tr
           %th.bg-backgroundColorD{ class: 'h-[35px]' }
@@ -19,7 +22,7 @@
             %td.p-8.font-semibold.bg-backgroundColorD
               = track.title
 
-      .overflow-x-scroll
+      .overflow-scroll
         %table
           %tr
             - @featured_exercises.each.with_index do |_, idx|
@@ -35,3 +38,9 @@
                     💜
                   - else
                     = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
+
+    %hr.mt-32.mb-20
+    .text-h5.mb-12 Key
+    .text-16.mb-12 💜 = Featured
+    .text-16.mb-12 ✅ = Present on Track
+    .text-16 ❌ = Missing from Track

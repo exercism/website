@@ -1,22 +1,37 @@
-#challenge-48in24-page
-  %section.top-section
-    .lg-container
-      .flex.xl:flex-row.flex-col.xl:items-start.items-center
-        .xl:mr-auto{ class: 'max-w-[860px]' }
-          %table
-            %tr
-              %th
-              - @featured_exercises.each do |featured_exercises|
-                %th= featured_exercises[:slug]
-            - @tracks.each do |track|
-              %tr
-                %td
-                  = track.title
-                - @featured_exercises.each do |featured_exercises|
-                  %td
-                    = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
-                    - if featured_exercises[:featured_tracks].include?(track.slug)
-                      %sup
-                        %a{ href: "#footnote-1" } 1
+:css
+  th, td {
+    border: 1px solid var(--borderColor8);
+    text-align:center;
+    padding:8px;
+    line-height:130%;
+  }
 
-          %sup{ id: "footnote-1" } 1. Exercise is featured in this track
+#challenge-48in24-page
+  .p-32
+    .flex.items-start
+      %table
+        %tr
+          %th.bg-backgroundColorD{ class: 'h-[35px]' }
+        %tr
+          %th.bg-backgroundColorD{ class: 'h-[75px]' }
+        - @tracks.each do |track|
+          %tr
+            %td.p-8.font-semibold.bg-backgroundColorD
+              = track.title
+
+      .overflow-x-scroll
+        %table
+          %tr
+            - @featured_exercises.each.with_index do |_, idx|
+              %th.bg-backgroundColorD{ class: 'h-[35px]' }= idx + 1
+          %tr
+            - @featured_exercises.each do |featured_exercises|
+              %th.bg-backgroundColorD{ class: 'h-[75px]' }= featured_exercises[:slug]
+          - @tracks.each do |track|
+            %tr
+              - @featured_exercises.each do |featured_exercises|
+                %td.p-8
+                  - if featured_exercises[:featured_tracks].include?(track.slug)
+                    💜
+                  - else
+                    = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"

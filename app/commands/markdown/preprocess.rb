@@ -52,7 +52,7 @@ class Markdown::Preprocess
         node.each.first.string_content = m[4]
       end
 
-      link_text.match(%r{^video:vimeo/(\d+\?h=\d+)$}) do |m|
+      link_text.match(%r{^video:vimeo/(\d+\?h=[0-9a-z]+)$}) do |m|
         node.url = "https://player.vimeo.com/video/#{m[1]}"
       end
 

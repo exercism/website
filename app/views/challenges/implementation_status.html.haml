@@ -25,7 +25,6 @@
     %table.sticky{ class: "left-[0px] z-[2]" }
       %tr
         %th.bg-backgroundColorA{ class: 'h-[100px]' }
-      - 5.times do
         - @tracks.each do |track|
           %tr
             %td.p-8.font-semibold.bg-backgroundColorD
@@ -40,13 +39,12 @@
                 .text-textColor7.mb-4 W#{idx + 1}
                 = featured_exercises[:slug]
         %tbody
-          - 5.times do
-            - @tracks.each do |track|
-              %tr
-                - @featured_exercises.each do |featured_exercises|
-                  %td.p-8
-                    - if featured_exercises[:featured_tracks].include?(track.slug)
-                      💜
-                    - else
-                      = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
+          - @tracks.each do |track|
+            %tr
+              - @featured_exercises.each do |featured_exercises|
+                %td.p-8
+                  - if featured_exercises[:featured_tracks].include?(track.slug)
+                    💜
+                  - else
+                    = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
 

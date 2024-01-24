@@ -239,6 +239,7 @@ Rails.application.routes.draw do
 
   resources :challenges, only: [:show] do
     post :start, on: :member
+    get :implementation_status, on: :member
   end
 
   # ############ #

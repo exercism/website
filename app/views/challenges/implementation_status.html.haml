@@ -17,7 +17,8 @@
   .text-16
     .mb-8 💜 = Featured
     .mb-8 ✅ = Present on Track
-    ❌ = Missing from Track
+    .mb-8 ❌ = Missing from Track
+    ⛔ = Foregone
 
   %hr.mt-20.mb-32
 
@@ -43,8 +44,12 @@
             %tr
               - @featured_exercises.each do |featured_exercises|
                 %td.p-8
-                  - if featured_exercises[:featured_tracks].include?(track.slug)
+                  - if track.foregone_exercises.include?(featured_exercises[:slug])
+                    ⛔
+                  - elsif featured_exercises[:featured_tracks].include?(track.slug)
                     💜
+                  - elsif @track_exercises[track.slug].to_a.include?(featured_exercises[:slug])
+                    ✅
                   - else
-                    = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
+                    ❌
 

@@ -43,4 +43,7 @@
 - if Rails.env.production?
   %link{ rel: "manifest", href: "/site.webmanifest" }
 
+-# RSS: See: https://rknight.me/blog/please-expose-your-rss/
+%link{ rel: "alternate", type: "application/rss+xml", title: "Exercism's Blog", href: blog_posts_url(format: :rss) }
+
 = yield :meta_tags

@@ -8,39 +8,45 @@
   td {
     white-space:nowrap;
   }
+  #site-header, #site-footer { display: none !important }
 
-#challenge-48in24-page
-  .p-32
-    .flex.items-start.overflow-scroll{ class: "max-h-[90vh]" }
-      %table
-        %tr
-          %th.bg-backgroundColorD{ class: 'h-[35px]' }
-        %tr
-          %th.bg-backgroundColorD{ class: 'h-[75px]' }
+
+.p-32
+  .text-h3.mb-8 Exercises for #48in24
+  .text-h5.mb-4 Key to Symbols
+  .text-16
+    .mb-8 💜 = Featured
+    .mb-8 ✅ = Present on Track
+    ❌ = Missing from Track
+
+  %hr.mt-20.mb-32
+
+  .flex.items-start{ class: "max-h-[90vh]" }
+    %table.sticky{ class: "left-[0px] z-[2]" }
+      %tr
+        %th.bg-backgroundColorA{ class: 'h-[100px]' }
+      - 5.times do
         - @tracks.each do |track|
           %tr
             %td.p-8.font-semibold.bg-backgroundColorD
               = track.title
 
-      .overflow-scroll
-        %table
+    %div
+      %table
+        %thead.sticky{ class: "top-[0px]" }
           %tr
-            - @featured_exercises.each.with_index do |_, idx|
-              %th.bg-backgroundColorD{ class: 'h-[35px]' }= idx + 1
-          %tr
-            - @featured_exercises.each do |featured_exercises|
-              %th.bg-backgroundColorD{ class: 'h-[75px]' }= featured_exercises[:slug]
-          - @tracks.each do |track|
-            %tr
-              - @featured_exercises.each do |featured_exercises|
-                %td.p-8
-                  - if featured_exercises[:featured_tracks].include?(track.slug)
-                    💜
-                  - else
-                    = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
+            - @featured_exercises.each.with_index do |featured_exercises, idx|
+              %th.bg-backgroundColorD.align-top{ class: 'h-[100px]' }
+                .text-textColor7.mb-4 W#{idx + 1}
+                = featured_exercises[:slug]
+        %tbody
+          - 5.times do
+            - @tracks.each do |track|
+              %tr
+                - @featured_exercises.each do |featured_exercises|
+                  %td.p-8
+                    - if featured_exercises[:featured_tracks].include?(track.slug)
+                      💜
+                    - else
+                      = @track_exercises[track.slug].to_a.include?(featured_exercises[:slug]) ? "✅" : "❌"
 
-    %hr.mt-32.mb-20
-    .text-h5.mb-12 Key
-    .text-16.mb-12 💜 = Featured
-    .text-16.mb-12 ✅ = Present on Track
-    .text-16 ❌ = Missing from Track

@@ -8,7 +8,7 @@
     .md-container.flex.flex-col.md:flex-row.items-left.md:items-center
       .flex-grow
         %h1.text-h0.mb-8.md:mb-8= @approach.title
-        .flex.mb-16.md:mb-32.items-center.text-16.font-semibold.leading-150.text-textColor1
+        .flex.md:mb-0.mb-16.items-center.text-16.font-semibold.leading-150.text-textColor1
           = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor", css_class: 'md:h-[40px] mr-12')
           %span.hidden.md:block.text-textColor6.mr-12
             &middot
@@ -16,7 +16,7 @@
             Published at
             = format_date(@approach.created_at)
 
-      = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "flex flex-row py-4 md:py-8 md:px-24 px-12 bg-gray border-2 border-gradient-bgGray rounded-100 items-center md:h-[68px] w-fit mb-32" do
+      = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "flex flex-row py-4 md:py-8 md:px-24 px-12 bg-gray border-2 border-gradient-bgGray rounded-100 items-center md:h-[68px] w-fit md:mb-auto mb-32" do
         = track_icon @track, css_class: 'md:block hidden md:h-[40px] md:w-[40px] w-32 h-32 md:mr-12 mr-4'
         = exercise_icon @exercise, css_class: 'md:h-[48px] md:w-[48px] h-[40px] w-[40px] mr-12'
         .flex.flex-col

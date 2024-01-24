@@ -22,6 +22,7 @@ export const LockedSolutionMentoringNote = ({
     extendModalOpen,
     setExtendModalOpen,
     extendLockedUntil,
+    adjustOpenModalAt,
   } = useLockedSolutionMentoringNote(request)
 
   return (
@@ -42,6 +43,7 @@ export const LockedSolutionMentoringNote = ({
         diffMinutes={diffMinutes}
         onClose={() => setExtendModalOpen(false)}
         onExtend={extendLockedUntil}
+        adjustOpenModalAt={adjustOpenModalAt}
       />
     </>
   )

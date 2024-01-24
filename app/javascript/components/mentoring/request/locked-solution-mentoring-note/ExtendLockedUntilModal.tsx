@@ -7,11 +7,13 @@ export function ExtendLockedUntilModal({
   onClose,
   onExtend,
   diffMinutes,
+  adjustOpenModalAt,
 }: {
   open: boolean
   onClose: () => void
   onExtend: () => void
   diffMinutes: string
+  adjustOpenModalAt: () => void
 }): JSX.Element {
   return (
     <Modal
@@ -43,7 +45,13 @@ export function ExtendLockedUntilModal({
             <button onClick={onExtend} className="btn-m btn-primary">
               Yes, extend for 30 minutes
             </button>
-            <button className="btn-m btn-secondary" onClick={onClose}>
+            <button
+              className="btn-m btn-secondary"
+              onClick={() => {
+                onClose()
+                adjustOpenModalAt()
+              }}
+            >
               No, thank you
             </button>
           </div>

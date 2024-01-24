@@ -34,8 +34,7 @@ export const LockedSolutionMentoringNote = ({
         </a>{' '}
         for more information.{' '}
         {diff > 0
-          ? `This solution is locked until ${lockedUntil} (
-        ${diffMins} from now.)`
+          ? `This solution is locked until ${lockedUntil} (${diffMins} from now).`
           : 'This solution is no longer locked and another mentor may pick it up'}
       </div>
       <ExtendLockedUntilModal

@@ -72,21 +72,19 @@ export function useLockedSolutionMentoringNote(
     }, 60000)
 
     return () => clearInterval(interval)
-  }, [lockedUntil])
+  }, [lockedUntil, shouldOpenModalAt])
 
   const adjustOpenModalAt = useCallback(() => {
-    const diffInMinute = lockedUntil.diff(dayjs(), 'minute')
-
-    if (diffInMinute > 10) {
+    if (diff > 10) {
       setShouldOpenModalAt(10)
-    } else if (diffInMinute > 3) {
+    } else if (diff > 3) {
       setShouldOpenModalAt(3)
-    } else if (diffInMinute > 1) {
+    } else if (diff > 1) {
       setShouldOpenModalAt(1)
     } else {
       setShouldOpenModalAt(0)
     }
-  }, [lockedUntil])
+  }, [diff])
 
   return {
     extendLockedUntil,

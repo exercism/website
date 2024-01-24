@@ -8,7 +8,12 @@ class ApplicationJob < ActiveJob::Base
   end
 
   rescue_from ActiveRecord::Deadlocked, &skip_bugnag_and_raise
+
+  # Can be overriden to disable this
+  def guard_against_deserialization_errors? = true
   rescue_from ActiveJob::DeserializationError do |exception|
+    raise exception unless guard_against_deserialization_errors?
+
     # We expect this to be a record not found. If it's not
     # then get out of here and go via Bugsnag!
     raise exception unless exception.cause.is_a?(ActiveRecord::RecordNotFound)

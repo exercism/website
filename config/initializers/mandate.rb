@@ -30,6 +30,12 @@ class MandateJob < ApplicationJob
 
     instance = cmd.constantize.new(*args, **kwargs)
     instance.define_singleton_method(:requeue_job!) { |wait| raise MandateJobNeedsRequeuing, wait }
+    self.define_singleton_method :guard_against_deserialization_errors? do
+      return true unless instance.respond_to?(:guard_against_deserialization_errors?)
+
+      instance.guard_against_deserialization_errors?
+    end
+
     instance.()
   rescue MandateJobNeedsRequeuing => e
     cmd.constantize.defer(

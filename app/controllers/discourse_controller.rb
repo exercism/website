@@ -12,7 +12,7 @@ class DiscourseController < ApplicationController
     sso.sso_secret = secret
 
     User::SetDiscourseGroups.defer(current_user, wait: 30.seconds)
-    AwardBadgeJob.perform_later(current_user, :discourser)
+    AwardBadgeJob.set(wait: 30.seconds).perform_later(current_user, :discourser)
 
     redirect_to sso.to_url("https://forum.exercism.org/session/sso_login"), allow_other_host: true
   end

@@ -17,12 +17,12 @@
   .text-16
     .mb-8 💜 = Featured in #48in24
     .mb-8 ✅ = Present on Track
-    .mb-8 ❌ = Missing from Track (#{link_to('Please add it!', doc_path(:building, 'tracks/practice-exercises'))})
-    ⛔ = Do not implement on this Track
-  .text-16
+    .mb-8 ❌ = Missing from Track (#{link_to('Please add it!', doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor')})
+    .mb-16 ⛔ = Do not implement on this Track
+
     Want to implement one of the missing exercises?
-    Check out the #{link_to 'implementing a practice exercise', doc_path(:building, 'tracks/practice-exercises')} documentation.
-  %hr.mt-20.mb-32
+    Start with the #{link_to 'this video and docs', doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor'}.
+  %hr.mt-20.mb-32.border-borderColor5
 
   .flex.items-start{ class: "max-h-[90vh]" }
     %table.sticky{ class: "left-[0px] z-[2]" }

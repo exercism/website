@@ -101,6 +101,10 @@ Rails.application.routes.draw do
 
   resources :solution_tagger, only: [:index]
 
+  resource :images, controller: "images" do
+    get "solutions/:track_slug/:exercise_slug/:user_handle", to: "images#solution"
+  end
+
   resource :insiders, only: [:show], controller: "insiders" do
     get :payment_pending
   end

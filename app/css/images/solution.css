@@ -1,0 +1,21 @@
+#page-image-solution {
+    .c-react-wrapper-common-solution-view {
+        @apply w-fill h-fill;
+    }
+    .c-solution-iterations {
+        height: 100%;
+    }
+    .c-iteration-pane {
+        @apply py-16 h-auto;
+        @apply max-h-[450px];
+    }
+    .c-code-pane {
+        @apply overflow-hidden;
+    }
+
+    .c-iteration-summary,
+    .tabs,
+    .c-iterations-footer {
+        @apply hidden;
+    }
+}

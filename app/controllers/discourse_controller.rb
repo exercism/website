@@ -11,8 +11,10 @@ class DiscourseController < ApplicationController
     sso.bio = current_user.bio
     sso.sso_secret = secret
 
+    # Wait 30s on these so we don't get a race condition from Discourse
+    # not having updated its data by the time we run things.
     User::SetDiscourseGroups.defer(current_user, wait: 30.seconds)
-    AwardBadgeJob.perform_later(current_user, :discourser)
+    AwardBadgeJob.set(wait: 30.seconds).perform_later(current_user, :discourser)
 
     redirect_to sso.to_url("https://forum.exercism.org/session/sso_login"), allow_other_host: true
   end

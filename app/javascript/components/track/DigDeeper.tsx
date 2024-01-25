@@ -11,7 +11,8 @@ import {
   Articles,
   CommunityVideos,
   DiggingDeeper,
-} from './approaches-elements'
+} from './dig-deeper-components'
+import { DeepDiveVideo } from './dig-deeper-components/DeepDiveVideo'
 
 export type Article = {
   users: User[]
@@ -46,7 +47,7 @@ export type DigDeeperProps = {
 
 type DigDeeperDataContext = {
   track: Track
-  exercise: Exercise
+  exercise: Exercise & { deepDiveYoutubeId: string }
   links: { video: { create: string; lookup: string } }
 }
 
@@ -69,6 +70,7 @@ export function DigDeeper({ data }: { data: DigDeeperProps }): JSX.Element {
           <CommunityVideos videos={data.videos} />
         </div>
         <div className="lg:col-span-1 col-span-2">
+          <DeepDiveVideo />
           <Approaches approaches={data.approaches} />
           <Articles articles={data.articles} />
         </div>

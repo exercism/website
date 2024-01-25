@@ -6,7 +6,7 @@ import {
   GraphicalIcon,
   Pagination,
 } from '@/components/common'
-import { CommunityVideoModal } from '@/components/track/approaches-elements/community-videos/CommunityVideoModal'
+import { CommunityVideoModal } from '@/components/track/dig-deeper-components/community-videos/CommunityVideoModal'
 import { TrackFilterList } from './TrackFilterList'
 import { type HandleTrackChangeType, useVideoGrid } from './useVideoGrid'
 import { type Request } from '@/hooks/request-query'

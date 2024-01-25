@@ -77,6 +77,29 @@ module Flows
           end
         end
 
+        test "sees deep dive video" do
+          user = create :user
+          track = create :track
+          create(:user_track, user:, track:)
+          create(:hello_world_solution, :completed, track:, user:)
+          exercise = create :practice_exercise, track:, slug: 'reverse-string', has_approaches: true,
+            deep_dive_youtube_id: 'biGAfK6OElE'
+          create(:exercise_approach, exercise:)
+          create(:exercise_article, exercise:)
+          solution = create(:practice_solution, user:, exercise:)
+          submission = create(:submission, solution:)
+          create(:iteration, submission:)
+
+          use_capybara_host do
+            sign_in!(user)
+            visit track_exercise_dig_deeper_path(track, exercise)
+
+            assert_text "Deep Dive into #{exercise.title}!"
+
+            # more assertions?
+          end
+        end
+
         test "check if highlighting works for approaches introduction" do
           user = create :user
           track = create :track

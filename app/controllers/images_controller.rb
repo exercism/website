@@ -1,4 +1,6 @@
 class ImagesController < ApplicationController
+  skip_before_action :authenticate_user!
+
   layout 'images'
 
   def solution

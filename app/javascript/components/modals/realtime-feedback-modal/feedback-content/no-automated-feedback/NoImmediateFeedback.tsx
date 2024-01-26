@@ -1,5 +1,5 @@
 import React from 'react'
-import { RealtimeFeedbackModalProps } from '../..'
+import { RealtimeFeedbackModalProps } from '../../RealTimeFeedbackModal'
 import { ContinueButton } from '../../components/FeedbackContentButtons'
 
 export function NoImmediateFeedback({

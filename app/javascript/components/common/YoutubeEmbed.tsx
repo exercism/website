@@ -4,9 +4,11 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 export default function YoutubeEmbed({
   id,
   className,
+  onPlay,
 }: {
   id: string
   className?: string
+  onPlay?: () => void
 }) {
   const src = `https://www.youtube-nocookie.com/embed/${id}`
 
@@ -20,6 +22,7 @@ export default function YoutubeEmbed({
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         title="YouTube video player"
+        onPlay={onPlay}
       />
     </div>
   )

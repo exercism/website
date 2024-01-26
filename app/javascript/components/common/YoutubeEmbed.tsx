@@ -21,7 +21,6 @@ export default function YoutubeEmbed({
         allowFullScreen
         title="YouTube video player"
       />
-      <script src="https://player.vimeo.com/api/player.js"></script>
     </div>
   )
 }

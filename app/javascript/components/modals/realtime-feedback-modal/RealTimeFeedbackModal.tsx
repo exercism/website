@@ -9,7 +9,6 @@ import type { Submission } from '@/components/editor/types'
 import type { Iteration } from '@/components/types'
 import { DeepDiveVideo } from '@/components/track/dig-deeper-components/DeepDiveVideo'
 import { DeepDiveVideoContent } from './feedback-content/DeepDiveVideoContent'
-import { useLogger } from '@/hooks'
 
 export type RealtimeFeedbackModalProps = {
   open: boolean
@@ -56,8 +55,6 @@ export const RealtimeFeedbackModal = ({
   // const shouldShowDeepDiveVideo = videoExists && userHasNeverSeenItVideo && userHasNeverSeenVideoAdStep
 
   const [showDeepDiveVideo, setShowDeepDiveVideo] = useState(false)
-
-  useLogger('exercise', exercise)
 
   return (
     <Modal

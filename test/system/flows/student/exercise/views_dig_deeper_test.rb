@@ -77,26 +77,25 @@ module Flows
           end
         end
 
-        test "sees deep dive video" do
+        test "user sees deep dive video" do
           user = create :user
           track = create :track
           create(:user_track, user:, track:)
           create(:hello_world_solution, :completed, track:, user:)
-          exercise = create :practice_exercise, track:, slug: 'reverse-string', has_approaches: true,
-            deep_dive_youtube_id: 'biGAfK6OElE'
+          exercise = create :practice_exercise, track:, slug: 'reverse-string', has_approaches: true
           create(:exercise_approach, exercise:)
           create(:exercise_article, exercise:)
           solution = create(:practice_solution, user:, exercise:)
           submission = create(:submission, solution:)
           create(:iteration, submission:)
+          deep_dive_youtube_id = 'yYnqweoy12'
+          GenericExercise::CreateOrUpdate.(exercise.slug, exercise.title, exercise.blurb, exercise.source, exercise.source_url,
+            deep_dive_youtube_id, exercise.status)
 
           use_capybara_host do
             sign_in!(user)
             visit track_exercise_dig_deeper_path(track, exercise)
-
             assert_text "Deep Dive into #{exercise.title}!"
-
-            # more assertions?
           end
         end
 

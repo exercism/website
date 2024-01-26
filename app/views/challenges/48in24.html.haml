@@ -2,8 +2,9 @@
 - featured_exercise = @exercises.find { |e| e.week == week }
 - if featured_exercise
   - generic_exercise = GenericExercise.for(featured_exercise.slug)
-  - featured_tracks = Track.where(slug: featured_exercise.featured_tracks).order(:title).pluck(:slug, :title).to_h
 - live_exercises = @exercises.select { |e| e.week <= week }
+- flat_live_exercises = live_exercises.flat_map(&:featured_tracks).uniq
+- featured_tracks = Track.where(slug: flat_live_exercises).order(:title).pluck(:slug, :title).to_h
 - num_placeholders = 48 - live_exercises.size
 
 #challenge-48in24-page
@@ -136,7 +137,7 @@
           - num_completed_tracks = exercise.completed_tracks.count { |_, year| year == 2024 }
           .exercise{ class: status }
             = link_to generic_exercise_path(exercise.slug), class: 'info' do
-              = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: '', class: "exercise-icon c-icon"
+              = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise.slug}.svg", alt: "Icon of #{exercise.title}", class: "exercise-icon c-icon"
               .text-h3.mb-16= exercise.title
               %progress.progress-bar{ value: num_completed_tracks, max: 3 }
               - if num_completed_tracks > 2
@@ -148,7 +149,7 @@
                 - exercise.featured_tracks.map do |track_slug|
                   - completed = exercise.completed_tracks.key?(track_slug)
                   = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}", title: "#{featured_tracks[track_slug]} #{completed ? '(completed)' : ''}" do
-                    = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg"
+                    = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg", alt: "Icon of #{featured_tracks[track_slug]}"
 
         - if num_placeholders.positive?
           - num_placeholders.times do

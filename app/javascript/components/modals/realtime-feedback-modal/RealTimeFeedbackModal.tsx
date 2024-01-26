@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { redirectTo } from '@/utils'
 import { Modal } from '../Modal'
 import { FeedbackContent } from './FeedbackContent'
@@ -7,6 +7,9 @@ import type { Props } from '@/components/editor/Props'
 import type { IterationsListRequest } from '@/components/student/IterationsList'
 import type { Submission } from '@/components/editor/types'
 import type { Iteration } from '@/components/types'
+import { DeepDiveVideo } from '@/components/track/dig-deeper-components/DeepDiveVideo'
+import { DeepDiveVideoContent } from './feedback-content/DeepDiveVideoContent'
+import { useLogger } from '@/hooks'
 
 export type RealtimeFeedbackModalProps = {
   open: boolean
@@ -37,6 +40,7 @@ export const RealtimeFeedbackModal = ({
   links,
   trackObjectives,
   mentoringStatus,
+  exercise,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const { latestIteration, checkStatus } = useGetLatestIteration({
     request,
@@ -49,6 +53,12 @@ export const RealtimeFeedbackModal = ({
     redirectTo(links.redirectToExerciseLink)
   }, [links.redirectToExerciseLink])
 
+  // const shouldShowDeepDiveVideo = videoExists && userHasNeverSeenItVideo && userHasNeverSeenVideoAdStep
+
+  const [showDeepDiveVideo, setShowDeepDiveVideo] = useState(false)
+
+  useLogger('exercise', exercise)
+
   return (
     <Modal
       open={open}
@@ -58,17 +68,24 @@ export const RealtimeFeedbackModal = ({
       shouldCloseOnOverlayClick={false}
       ReactModalClassName="w-fill max-w-[700px]"
     >
-      <FeedbackContent
-        checkStatus={checkStatus}
-        open={open}
-        onContinue={redirectToExercise}
-        track={track}
-        latestIteration={latestIteration}
-        onClose={onClose}
-        links={links}
-        trackObjectives={trackObjectives}
-        mentoringStatus={mentoringStatus}
-      />
+      {showDeepDiveVideo ? (
+        <DeepDiveVideoContent
+          exercise={exercise}
+          onContinue={redirectToExercise}
+        />
+      ) : (
+        <FeedbackContent
+          checkStatus={checkStatus}
+          open={open}
+          onContinue={() => setShowDeepDiveVideo(true)}
+          track={track}
+          latestIteration={latestIteration}
+          onClose={onClose}
+          links={links}
+          trackObjectives={trackObjectives}
+          mentoringStatus={mentoringStatus}
+        />
+      )}
     </Modal>
   )
 }

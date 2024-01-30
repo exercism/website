@@ -60,7 +60,8 @@ module ReactComponents
           mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, exercise),
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           discord_redirect_path: Exercism::Routes.discord_redirect_path,
-          forum_redirect_path: Exercism::Routes.forum_redirect_path
+          forum_redirect_path: Exercism::Routes.forum_redirect_path,
+          mark_deep_dive_video_as_seen_endpoint: ''
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,
@@ -92,7 +93,6 @@ module ReactComponents
       }
     end
 
-    # TODO: implement this
     def show_deep_dive_video?
       return false unless exercise.deep_dive_youtube_id
       return false if solution.iterations.size.positive?

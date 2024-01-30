@@ -6,6 +6,8 @@ class CreateUserWatchedVideos < ActiveRecord::Migration[7.0]
       t.string :video_id, null: false
 
       t.timestamps
+
+      t.index [:user_id, :video_provider, :video_id], unique: true, name: "user_watched_videos_uniq"
     end
   end
 end

@@ -3,7 +3,7 @@ class User::WatchedVideo::Create
 
   initialize_with :user, :video_provider, :video_id
   def call
-    User::WatchedVideo.create!(
+    User::WatchedVideo.create_or_find_by!(
       user:, video_provider:, video_id:
     )
   end

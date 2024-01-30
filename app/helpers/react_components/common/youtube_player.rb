@@ -1,19 +1,13 @@
 module ReactComponents
   module Common
     class YoutubePlayer < ReactComponent
-      def initialize(id)
-        super()
-
-        Rails.logger.debug "YUTUB DUBUGU: #{youtube_id.inspect}"
-
-        @youtube_id = id
-      end
+      initialize_with :id
 
       def to_s
+        Rails.logger.debug "YUTUB DUBUGU: #{id.inspect}"
         super("common-youtube-player", {
-          id: @youtube_id,
-          # TODO: add endpoint
-          mark_as_seen_endpoint:
+          id:,
+          mark_as_seen_endpoint: api_watched_videos_path(:youtube, id)
         })
       end
     end

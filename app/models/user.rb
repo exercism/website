@@ -130,6 +130,7 @@ class User < ApplicationRecord
     dependent: :destroy
 
   has_many :challenges, dependent: :destroy
+  has_many :watched_videos, class_name: "User::WatchedVideo", dependent: :destroy
 
   scope :random, -> { order('RAND()') }
 
@@ -365,5 +366,11 @@ class User < ApplicationRecord
     uts = user_tracks.trainer
     uts = uts.where(track:) if track
     uts.exists?
+  end
+
+  def watched_video?(video_provider, video_id)
+    watched_videos.where(
+      video_provider:, video_id:
+    ).exists?
   end
 end

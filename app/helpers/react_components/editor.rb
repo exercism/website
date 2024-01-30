@@ -28,7 +28,7 @@ module ReactComponents
             assignment: SerializeExerciseAssignment.(solution),
             debugging_instructions:
           },
-          tests: solution.exercise.practice_exercise? ? {
+          tests: exercise.practice_exercise? ? {
             test_files: SerializeFiles.(solution.test_files),
             highlightjs_language: track.highlightjs_language
           } : nil,
@@ -41,10 +41,10 @@ module ReactComponents
           chatgpt_usage:
         },
         exercise: {
-          title: solution.exercise.title,
-          slug: solution.exercise.slug,
-          deep_dive_youtube_id: solution.exercise.deep_dive_youtube_id,
-          deep_dive_blurb: solution.exercise.deep_dive_blurb
+          title: exercise.title,
+          slug: exercise.slug,
+          deep_dive_youtube_id: exercise.deep_dive_youtube_id,
+          deep_dive_blurb: exercise.deep_dive_blurb
         },
         solution: {
           uuid: solution.uuid
@@ -54,10 +54,10 @@ module ReactComponents
         track_objectives: user_track&.objectives.to_s,
         links: {
           run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
-          back: Exercism::Routes.track_exercise_path(track, solution.exercise),
+          back: Exercism::Routes.track_exercise_path(track, exercise),
           automated_feedback_info: Exercism::Routes.doc_path('using', 'feedback/automated'),
-          mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, solution.exercise),
-          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, solution.exercise),
+          mentor_discussions: Exercism::Routes.track_exercise_mentor_discussions_path(track, exercise),
+          mentoring_request: Exercism::Routes.track_exercise_mentor_request_path(track, exercise),
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           discord_redirect_path: Exercism::Routes.discord_redirect_path,
           forum_redirect_path: Exercism::Routes.forum_redirect_path,
@@ -74,9 +74,13 @@ module ReactComponents
           slug: track.slug,
           icon_url: track.icon_url,
           median_wait_time: track.median_wait_time
-        }
+        },
+        show_deep_dive_video: show_deep_dive_video?
       }
     end
+
+    private
+    delegate :exercise, to: :solution
 
     # TODO: clean this up, and maybe enough to get the latest iteration?
     def request
@@ -92,11 +96,13 @@ module ReactComponents
 
     # TODO: implement this
     def show_deep_dive_video?
-      deep_dive_watched = false
-      !deep_dive_watched && solution.iterations.size.zero?
+      return false unless exercise.deep_dive_youtube_id
+      return false if solution.iterations.size.positive?
+      return false if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
+
+      true
     end
 
-    private
     def submissions = submission ? [SerializeSubmission.(submission)] : []
 
     memoize

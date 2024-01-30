@@ -233,7 +233,7 @@ export const mappings = {
     </Suspense>
   ),
 
-  'common-tracked-youtube-player': (data: any): JSX.Element => (
+  'common-youtube-player': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <YoutubePlayer id={data.id} endpoint={data.endpoint} />
     </Suspense>

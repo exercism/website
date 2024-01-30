@@ -43,7 +43,8 @@ module ReactComponents
         exercise: {
           title: solution.exercise.title,
           slug: solution.exercise.slug,
-          deep_dive_youtube_id: solution.exercise.deep_dive_youtube_id
+          deep_dive_youtube_id: solution.exercise.deep_dive_youtube_id,
+          deep_dive_blurb: solution.exercise.deep_dive_blurb
         },
         solution: {
           uuid: solution.uuid

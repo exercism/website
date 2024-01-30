@@ -44,7 +44,7 @@ module ReactComponents
           title: exercise.title,
           slug: exercise.slug,
           deep_dive_youtube_id: exercise.deep_dive_youtube_id,
-          deep_dive_blurb: exercise.deep_dive_blurb
+          deep_dive_blurb: 'Deep dive blurb'
         },
         solution: {
           uuid: solution.uuid
@@ -61,7 +61,7 @@ module ReactComponents
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           discord_redirect_path: Exercism::Routes.discord_redirect_path,
           forum_redirect_path: Exercism::Routes.forum_redirect_path,
-          watched_deep_dive_endpoint: api_watched_videos_path(:youtube, id)
+          watched_deep_dive_endpoint: Exercism::Routes.api_watched_videos_path(:youtube, exercise.deep_dive_youtube_id)
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,

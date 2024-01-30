@@ -1,6 +1,6 @@
-import YoutubeEmbed from '@/components/common/YoutubeEmbed'
 import React, { useContext } from 'react'
 import { DigDeeperDataContext } from '../DigDeeper'
+import { YouTubePlayer } from '@/components/common/YoutubePlayer'
 
 export function DeepDiveVideo() {
   const { exercise } = useContext(DigDeeperDataContext)
@@ -17,7 +17,7 @@ export function DeepDiveVideo() {
         interesting community solutions.
       </p>
       <div className="w-[100%]">
-        <YoutubeEmbed id={exercise.deepDiveYoutubeId} />
+        <YouTubePlayer id={exercise.deepDiveYoutubeId} />
       </div>
     </div>
   )

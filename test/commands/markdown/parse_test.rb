@@ -495,8 +495,8 @@ Done')
   end
 
   test "render youtube video for mail with link containing dash" do
-    expected = %(<a href="https://www.youtube.com/watch?v=GOPmj-AMbP8" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
-    assert_equal expected, Markdown::Parse.("[video:youtube-mail/GOPmj-AMbP8](https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg)")
+    expected = %(<a href="https://www.youtube.com/watch?v=mwe-9RIV39Y" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[video:youtube-mail/mwe-9RIV39Y](https://assets.exercism.org/images/thumbnails/yt-insiders-2023-07-31-with-play-icon.jpg)")
   end
 
   %w[svg png jpg jpeg gif].each do |extension|

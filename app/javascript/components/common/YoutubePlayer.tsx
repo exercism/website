@@ -13,7 +13,8 @@ export function YouTubePlayer({
 }: {
   id: string
   onPlay?: () => void
-}): JSX.Element {
+}): JSX.Element | null {
+  if (!id) return null
   const playerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

@@ -61,7 +61,7 @@ module ReactComponents
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           discord_redirect_path: Exercism::Routes.discord_redirect_path,
           forum_redirect_path: Exercism::Routes.forum_redirect_path,
-          mark_deep_dive_video_as_seen_endpoint: ''
+          watched_deep_dive_endpoint: api_watched_videos_path(:youtube, id)
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,

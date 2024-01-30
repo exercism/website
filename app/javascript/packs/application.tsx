@@ -102,8 +102,8 @@ const ExerciseCommunitySolutionsList = lazy(
   () => import('@/components/track/ExerciseCommunitySolutionsList')
 )
 
-const TrackedYoutubePlayer = lazy(
-  () => import('@/components/common/TrackedYoutubePlayer')
+const YoutubePlayer = lazy(
+  () => import('@/components/common/YoutubePlayerWithMutation')
 )
 
 const DigDeeper = lazy(() => import('@/components/track/DigDeeper'))
@@ -235,7 +235,7 @@ export const mappings = {
 
   'common-tracked-youtube-player': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <TrackedYoutubePlayer id={data.id} endpoint={data.endpoint} />
+      <YoutubePlayer id={data.id} endpoint={data.endpoint} />
     </Suspense>
   ),
 

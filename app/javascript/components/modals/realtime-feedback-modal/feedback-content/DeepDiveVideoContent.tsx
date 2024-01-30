@@ -28,11 +28,7 @@ export function DeepDiveVideoContent({
   return (
     <>
       <h3 className="text-h3 mb-8">Deep Dive into {exercise.title}!</h3>
-      <p className="text-p-large mb-16">
-        Take a deep dive into {exercise.title} with Jeremy and Erik, as they
-        explore the different ways this exercise can be solved and dig into some
-        interesting community solutions.
-      </p>
+      <p className="text-p-large mb-16">{exercise.deepDiveBlurb}</p>
       <div className="w-[100%] mb-16">
         <YouTubePlayer
           id={exercise.deepDiveYoutubeId}

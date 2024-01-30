@@ -7,7 +7,6 @@ import type { Props } from '@/components/editor/Props'
 import type { IterationsListRequest } from '@/components/student/IterationsList'
 import type { Submission } from '@/components/editor/types'
 import type { Iteration } from '@/components/types'
-import { DeepDiveVideo } from '@/components/track/dig-deeper-components/DeepDiveVideo'
 import { DeepDiveVideoContent } from './feedback-content/DeepDiveVideoContent'
 
 export type RealtimeFeedbackModalProps = {
@@ -15,6 +14,7 @@ export type RealtimeFeedbackModalProps = {
   onClose: () => void
   onSubmit: () => void
   request: IterationsListRequest
+  showDeepDiveVideo: boolean
   submission: Submission | null
   links: Props['links'] & { redirectToExerciseLink: string }
 } & Pick<
@@ -40,6 +40,7 @@ export const RealtimeFeedbackModal = ({
   trackObjectives,
   mentoringStatus,
   exercise,
+  showDeepDiveVideo,
 }: RealtimeFeedbackModalProps): JSX.Element => {
   const { latestIteration, checkStatus } = useGetLatestIteration({
     request,
@@ -48,13 +49,11 @@ export const RealtimeFeedbackModal = ({
     feedbackModalOpen: open,
   })
 
+  const [showVideoStep, setShowVideoStep] = useState(false)
+
   const redirectToExercise = useCallback(() => {
     redirectTo(links.redirectToExerciseLink)
   }, [links.redirectToExerciseLink])
-
-  // const shouldShowDeepDiveVideo = videoExists && userHasNeverSeenItVideo && userHasNeverSeenVideoAdStep
-
-  const [showDeepDiveVideo, setShowDeepDiveVideo] = useState(false)
 
   return (
     <Modal
@@ -65,16 +64,19 @@ export const RealtimeFeedbackModal = ({
       shouldCloseOnOverlayClick={false}
       ReactModalClassName="w-fill max-w-[700px]"
     >
-      {showDeepDiveVideo ? (
+      {showVideoStep ? (
         <DeepDiveVideoContent
           exercise={exercise}
           onContinue={redirectToExercise}
+          links={links}
         />
       ) : (
         <FeedbackContent
           checkStatus={checkStatus}
           open={open}
-          onContinue={() => setShowDeepDiveVideo(true)}
+          onContinue={() =>
+            showDeepDiveVideo ? setShowVideoStep(true) : redirectToExercise()
+          }
           track={track}
           latestIteration={latestIteration}
           onClose={onClose}

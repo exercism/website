@@ -50,6 +50,7 @@ type Exercise = {
   title: string
   slug: string
   deepDiveYoutubeId: string
+  deepDiveBlurb: string
 }
 
 export type Solution = {

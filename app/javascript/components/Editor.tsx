@@ -105,6 +105,7 @@ export default ({
   mentoringStatus,
   chatgptUsage,
   trackObjectives,
+  showDeepDiveVideo,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -574,6 +575,7 @@ export default ({
             onClose={hideFeedbackModal}
             discussion={discussion}
             mentoringStatus={mentoringStatus}
+            showDeepDiveVideo={showDeepDiveVideo}
             onSubmit={submit}
             solution={solution}
             track={track}

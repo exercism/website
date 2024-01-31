@@ -20,16 +20,17 @@ RUN apt-get update && \
 
 WORKDIR /opt/exercism/website
 
-RUN gem install bundler -v "${BUNDLER_VERSION}" && \
-    gem install nokogiri -v 1.14.2 && \
-    gem install propshaft -v 0.4.0 && \
-    gem install anycable -v 1.2.5
+RUN gem install bundler -v "${BUNDLER_VERSION}"
+RUN bundle config set deployment 'true' && \
+    bundle config set without 'development test'
+
+RUN gem install propshaft -v 0.4.0
+RUN gem install nokogiri -v 1.14.2
+RUN gem install anycable -v 1.2.5
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
-RUN bundle config set deployment 'true' && \
-    bundle config set without 'development test' && \
-    bundle install && \
+RUN bundle install && \
     grpc_path="$(bundle show --paths grpc)/src/ruby/ext/grpc" && \
     make -C "${grpc_path}" clean && \
     rm -rf "${grpc_path}/libs" "${grpc_path}/objs"

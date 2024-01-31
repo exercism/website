@@ -10,9 +10,15 @@ class Solution::PublishIteration
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
+    Infrastructure::InvalidateCloudfrontItems.(
+      :website,
+      ["/tracks/#{track.slug}/exercises/#{exercise.slug}/solutions/#{user.handle}.jpg"]
+    )
   end
 
   private
+  delegate :user, :exercise, :track, to: :solution
+
   memoize
   def iteration
     return nil unless iteration_idx

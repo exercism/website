@@ -12,13 +12,11 @@ class Solution::PublishIteration
     Solution::UpdateNumLoc.(solution)
     Infrastructure::InvalidateCloudfrontItems.(
       :website,
-      [Exercism::Routes.track_exercise_solution_path(track, exercise, user, format: :jpg)]
+      [Exercism::Routes.published_solution_path(solution, format: :jpg)]
     )
   end
 
   private
-  delegate :user, :exercise, :track, to: :solution
-
   memoize
   def iteration
     return nil unless iteration_idx

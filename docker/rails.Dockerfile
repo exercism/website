@@ -25,8 +25,10 @@ RUN bundle config set deployment 'true' && \
     bundle config set without 'development test'
 
 RUN gem install propshaft -v 0.4.0
-RUN gem install nokogiri -v 1.14.2
+RUN gem install nokogiri -v 1.15.4
 RUN gem install anycable -v 1.2.5
+RUN gem install oj -v 3.14.2
+RUN gem install rugged -v 1.6.3
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./

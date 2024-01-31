@@ -61,7 +61,7 @@ module ReactComponents
           create_mentor_request: Exercism::Routes.api_solution_mentor_requests_path(solution.uuid),
           discord_redirect_path: Exercism::Routes.discord_redirect_path,
           forum_redirect_path: Exercism::Routes.forum_redirect_path,
-          watched_deep_dive_endpoint: Exercism::Routes.api_watched_videos_path(video_provider: :youtube, video_id: id)
+          mark_video_as_seen_endpoint:
         },
         iteration: iteration ? {
           analyzer_feedback: iteration&.analyzer_feedback,
@@ -99,6 +99,12 @@ module ReactComponents
       return false if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 
       true
+    end
+
+    def mark_video_as_seen_endpoint
+      return nil if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
+
+      Exercism::Routes.api_watched_videos_path(video_provider: :youtube, video_id: id)
     end
 
     def deep_dive_blurb

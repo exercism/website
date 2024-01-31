@@ -7,7 +7,7 @@ import type { Props } from '@/components/editor/Props'
 import type { IterationsListRequest } from '@/components/student/IterationsList'
 import type { Submission } from '@/components/editor/types'
 import type { Iteration } from '@/components/types'
-import { DeepDiveVideoContent } from './feedback-content/DeepDiveVideoContent'
+import { DeepDiveVideoContent } from './feedback-content/DeepDiveVideoContent.1'
 
 export type RealtimeFeedbackModalProps = {
   open: boolean

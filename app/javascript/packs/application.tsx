@@ -237,7 +237,7 @@ export const mappings = {
     <Suspense fallback={RenderLoader()}>
       <YoutubePlayerWithMutation
         id={data.id}
-        endpoint={data.mark_as_seen_endpoint}
+        markAsSeenEndpoint={data.mark_as_seen_endpoint}
       />
     </Suspense>
   ),

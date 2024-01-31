@@ -12,7 +12,7 @@ class Solution::PublishIteration
     Solution::UpdateNumLoc.(solution)
     Infrastructure::InvalidateCloudfrontItems.(
       :website,
-      ["/tracks/#{track.slug}/exercises/#{exercise.slug}/solutions/#{user.handle}.jpg"]
+      [Exercism::Routes.track_exercise_solution_path(track, exercise, user, format: :jpg)]
     )
   end
 

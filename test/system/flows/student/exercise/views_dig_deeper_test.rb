@@ -89,8 +89,9 @@ module Flows
           submission = create(:submission, solution:)
           create(:iteration, submission:)
           deep_dive_youtube_id = 'yYnqweoy12'
-          GenericExercise::CreateOrUpdate.(exercise.slug, exercise.title, exercise.blurb, exercise.source, exercise.source_url,
-            deep_dive_youtube_id, exercise.status)
+          deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
+          create(:generic_exercise, slug: exercise.slug, blurb: exercise.blurb, source: exercise.source,
+            source_url: exercise.source_url, deep_dive_youtube_id:, deep_dive_blurb:, status: exercise.status)
 
           use_capybara_host do
             sign_in!(user)

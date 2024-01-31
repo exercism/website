@@ -1,7 +1,7 @@
 class GenericExercise::CreateOrUpdate
   include Mandate
 
-  initialize_with :slug, :title, :blurb, :source, :source_url, :deep_dive_youtube_id, :status
+  initialize_with :slug, :title, :blurb, :source, :source_url, :deep_dive_youtube_id, :deep_dive_blurb, :status
 
   def call
     create!.tap do |exercise|
@@ -16,5 +16,5 @@ class GenericExercise::CreateOrUpdate
     end
   end
 
-  def attributes = { title:, blurb:, source:, source_url:, deep_dive_youtube_id:, status: }
+  def attributes = { title:, blurb:, source:, source_url:, deep_dive_youtube_id:, deep_dive_blurb:, status: }
 end

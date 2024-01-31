@@ -31,4 +31,12 @@ class Git::SyncProblemSpecificationsTest < ActiveSupport::TestCase
     assert_equal 'Given a word and a list of possible anagrams, select the correct sublist.', exercise.blurb
     assert_equal :active, exercise.status
   end
+
+  test "syncs deep dive data" do
+    Git::SyncProblemSpecifications.()
+
+    exercise = GenericExercise.for!('raindrops')
+    assert_equal "mwe-9RIV39Y", exercise.deep_dive_youtube_id
+    assert_equal "Explore 14 different ways to solve Raindrops.", exercise.deep_dive_blurb
+  end
 end

@@ -33,7 +33,7 @@ RUN bundle config set deployment 'true' && \
     bundle config set without 'development test' && \
     bundle config set disable_shared_gems 'false' && \
     bundle config set ignore_funding_requests 'true' && \
-    bundle config set ignore_messages 'true' && \
+    bundle config set ignore_messages 'true'
 
 RUN echo $(bundle config list)
 

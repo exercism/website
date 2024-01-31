@@ -44,7 +44,7 @@ module ReactComponents
           title: exercise.title,
           slug: exercise.slug,
           deep_dive_youtube_id: exercise.deep_dive_youtube_id,
-          deep_dive_blurb:
+          deep_dive_blurb: exercise.deep_dive_blurb
         },
         solution: {
           uuid: solution.uuid
@@ -104,13 +104,7 @@ module ReactComponents
     def mark_video_as_seen_endpoint
       return nil if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 
-      Exercism::Routes.api_watched_videos_path(video_provider: :youtube, video_id: id)
-    end
-
-    def deep_dive_blurb
-      "Take a deep dive into #{exercise.title} with Jeremy and Erik, as they
-      explore the different ways this exercise can be solved and dig into some
-      interesting community solutions."
+      Exercism::Routes.api_watched_videos_path(video_provider: :youtube, video_id: exercise.deep_dive_youtube_id)
     end
 
     def submissions = submission ? [SerializeSubmission.(submission)] : []

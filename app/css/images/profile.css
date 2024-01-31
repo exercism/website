@@ -48,6 +48,11 @@
                 &.maintainer {
                     @apply border-textColor2;
                 }
+                &.insider {
+                    img {
+                        @apply filter-none;
+                    }
+                }
             }
         }
     }

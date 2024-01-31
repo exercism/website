@@ -1571,6 +1571,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_31_123604) do
     t.index ["user_id"], name: "fk_rails_99e944edbc"
   end
 
+  create_table "user_watched_videos", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "video_provider", null: false
+    t.string "video_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "video_provider", "video_id"], name: "user_watched_videos_uniq", unique: true
+    t.index ["user_id"], name: "index_user_watched_videos_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "handle", limit: 190, null: false

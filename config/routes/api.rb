@@ -20,6 +20,7 @@ namespace :api do
   end
 
   resource :profile, only: %i[create destroy]
+  resources :watched_videos, only: :create
 
   resource :journey_overview, only: [:show], controller: "journey_overview"
 

@@ -31,7 +31,7 @@ type Links = {
   createMentorRequest: string
   discordRedirectPath: string
   forumRedirectPath: string
-  markDeepDiveVideoAsSeenEndpoint: string
+  watchedDeepDiveEndpoint: string
 }
 
 type Track = {

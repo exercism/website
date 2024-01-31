@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 declare global {
   interface Window {
@@ -14,49 +14,60 @@ export function YouTubePlayer({
   id: string
   onPlay?: () => void
 }): JSX.Element | null {
-  if (!id) return null
-  const playerRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef(null)
+  const [player, setPlayer] = useState<any>(null)
 
   useEffect(() => {
-    const handleStateChange = (event: { data: number }) => {
-      if (event.data === window.YT.PlayerState.PLAYING) {
-        onPlay
+    if (!id) return
+
+    if (!window.YT) {
+      const tag = document.createElement('script')
+      tag.src = 'https://www.youtube.com/iframe_api'
+      const firstScriptTag = document.getElementsByTagName('script')[0]
+      if (firstScriptTag.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
       }
     }
 
-    window.onYouTubeIframeAPIReady = () => {
-      new window.YT.Player(playerRef.current, {
-        height: '315',
-        width: '560',
-        videoId: id,
-        playerVars: {
-          playsinline: 1,
-        },
-        events: {
-          onStateChange: handleStateChange,
-        },
-      })
+    const onYouTubeIframeAPIReady = () => {
+      if (playerRef.current && !player) {
+        const newPlayer = new window.YT.Player(playerRef.current, {
+          videoId: id,
+          playerVars: {
+            rel: 0,
+            playsinline: 1,
+          },
+          events: {
+            onStateChange: (event: { data: number }) => {
+              if (event.data === window.YT.PlayerState.PLAYING && onPlay) {
+                onPlay()
+              }
+            },
+          },
+        })
+        console.log(newPlayer)
+        setPlayer(newPlayer)
+      }
     }
 
-    const tag = document.createElement('script')
-    tag.src = 'https://www.youtube.com/iframe_api'
-    const firstScriptTag = document.getElementsByTagName('script')[0]
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag)
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
 
     return () => {
-      const iframeApiScript = document.querySelector(
-        'script[src="https://www.youtube.com/iframe_api"]'
-      )
-      if (iframeApiScript) {
-        iframeApiScript.remove()
+      if (player && player.destroy) {
+        player.destroy()
       }
-      window.onYouTubeIframeAPIReady = null
     }
-  }, [])
+  }, [id, onPlay, player])
+
+  useEffect(() => {
+    if (window.YT && window.YT.Player && window.onYouTubeIframeAPIReady) {
+      window.onYouTubeIframeAPIReady()
+    }
+  }, [id])
 
   return (
     <div className="c-youtube-container">
-      <div ref={playerRef} />
+      <div id={`youtube-player-${id}`} ref={playerRef} />
     </div>
   )
 }

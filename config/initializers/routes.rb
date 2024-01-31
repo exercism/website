@@ -19,11 +19,16 @@ class Exercism::Routes
     Exercism::Routes.track_exercise_url(solution.track, solution.exercise)
   end
 
-  def self.published_solution_url(solution)
+  def self.published_solution_path(solution, **kwargs)
+    published_solution_url(solution, **kwargs.merge(only_path: true))
+  end
+
+  def self.published_solution_url(solution, **kwargs)
     Exercism::Routes.track_exercise_solution_url(
       solution.track.slug,
       solution.exercise.slug,
-      solution.user.handle
+      solution.user.handle,
+      **kwargs
     )
   end
 

@@ -2,6 +2,7 @@ FROM ruby:3.2.1-bullseye AS build
 
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER
+ARG BUNDLER_VERSION
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
@@ -19,7 +20,7 @@ RUN apt-get update && \
 
 WORKDIR /opt/exercism/website
 
-RUN gem install bundler -v $(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock)
+RUN gem install bundler -v "${BUNDLER_VERSION}" && \
     gem install nokogiri -v 1.14.2 && \
     gem install propshaft -v 0.4.0 && \
     gem install anycable -v 1.2.5 && \

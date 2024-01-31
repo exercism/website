@@ -75,7 +75,11 @@ jobs:
           GEOIP_LICENSE_KEY: ${{ secrets.GEOIP_LICENSE_KEY }}
         run: |
           # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE --build-arg GEOIP_LICENSE_KEY --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) .
+          docker build -t $IMAGE_NAME -f $DOCKERFILE \
+            --build-arg GEOIP_LICENSE_KEY \
+            --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) \
+            --build-arg BUNDLER_VERSION=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock) \
+            .
           docker push $IMAGE_NAME
 
           # Retag this as the latest

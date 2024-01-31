@@ -19,7 +19,8 @@ RUN apt-get update && \
 
 WORKDIR /opt/exercism/website
 
-RUN gem install nokogiri -v 1.14.2 && \
+RUN gem install bundler -v $(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock)
+    gem install nokogiri -v 1.14.2 && \
     gem install propshaft -v 0.4.0 && \
     gem install anycable -v 1.2.5 && \
     gem install bundler -v 2.4.13

@@ -44,7 +44,7 @@ module ReactComponents
           title: exercise.title,
           slug: exercise.slug,
           deep_dive_youtube_id: exercise.deep_dive_youtube_id,
-          deep_dive_blurb: 'Deep dive blurb'
+          deep_dive_blurb:
         },
         solution: {
           uuid: solution.uuid
@@ -99,6 +99,12 @@ module ReactComponents
       return false if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 
       true
+    end
+
+    def deep_dive_blurb
+      "Take a deep dive into #{exercise.title} with Jeremy and Erik, as they
+      explore the different ways this exercise can be solved and dig into some
+      interesting community solutions."
     end
 
     def submissions = submission ? [SerializeSubmission.(submission)] : []

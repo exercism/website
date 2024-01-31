@@ -102,7 +102,7 @@ const ExerciseCommunitySolutionsList = lazy(
   () => import('@/components/track/ExerciseCommunitySolutionsList')
 )
 
-const YoutubePlayer = lazy(
+const YoutubePlayerWithMutation = lazy(
   () => import('@/components/common/YoutubePlayerWithMutation')
 )
 
@@ -235,7 +235,10 @@ export const mappings = {
 
   'common-youtube-player': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <YoutubePlayer id={data.id} endpoint={data.endpoint} />
+      <YoutubePlayerWithMutation
+        id={data.id}
+        endpoint={data.mark_as_seen_endpoint}
+      />
     </Suspense>
   ),
 

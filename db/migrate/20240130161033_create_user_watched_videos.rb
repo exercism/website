@@ -1,5 +1,7 @@
 class CreateUserWatchedVideos < ActiveRecord::Migration[7.0]
   def change
+    return if Rails.env.production?
+
     create_table :user_watched_videos do |t|
       t.belongs_to :user, null: false
       t.integer :video_provider, null: false

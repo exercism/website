@@ -1,7 +1,8 @@
 - youtube_id = exercise.deep_dive_youtube_id
+- completed = current_user.watched_video?(:youtube, youtube_id)
 - return unless youtube_id
 
-.inner-box.pending
+.inner-box{ class: completed ? 'completed' : 'pending' }
   .inner-box-content
     .text-h6.mb-2 Watch our deep dive
     %p.mb-4

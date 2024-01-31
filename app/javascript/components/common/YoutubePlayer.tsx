@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 
 declare global {
   interface Window {
-    onYouTubeIframeAPIReady: (() => void) | null
+    onYoutubeIframeAPIReady: (() => void) | null
     YT: any
   }
 }
 
-export function YouTubePlayer({
+export function YoutubePlayer({
   id,
   onPlay,
 }: {
@@ -29,7 +29,7 @@ export function YouTubePlayer({
       }
     }
 
-    const onYouTubeIframeAPIReady = () => {
+    const onYoutubeIframeAPIReady = () => {
       if (playerRef.current && !player) {
         const newPlayer = new window.YT.Player(playerRef.current, {
           videoId: id,
@@ -49,7 +49,7 @@ export function YouTubePlayer({
       }
     }
 
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
+    window.onYoutubeIframeAPIReady = onYoutubeIframeAPIReady
 
     return () => {
       if (player && player.destroy) {
@@ -59,8 +59,8 @@ export function YouTubePlayer({
   }, [id, onPlay, player])
 
   useEffect(() => {
-    if (window.YT && window.YT.Player && window.onYouTubeIframeAPIReady) {
-      window.onYouTubeIframeAPIReady()
+    if (window.YT && window.YT.Player && window.onYoutubeIframeAPIReady) {
+      window.onYoutubeIframeAPIReady()
     }
   }, [id])
 

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { DigDeeperDataContext } from '../DigDeeper'
-import { YouTubePlayer } from '@/components/common/YoutubePlayer'
+import { YoutubePlayer } from '@/components/common/YoutubePlayer'
 
 export function DeepDiveVideo() {
   const { exercise } = useContext(DigDeeperDataContext)
@@ -17,7 +17,7 @@ export function DeepDiveVideo() {
         interesting community solutions.
       </p>
       <div className="w-[100%]">
-        <YouTubePlayer id={exercise.deepDiveYoutubeId} />
+        <YoutubePlayer id={exercise.deepDiveYoutubeId} />
       </div>
     </div>
   )

@@ -94,7 +94,7 @@ module ReactComponents
     end
 
     def show_deep_dive_video?
-      return false unless exercise.deep_dive_youtube_id
+      return false unless exercise.deep_dive_youtube_id.present?
       return false if solution.iterations.size.positive?
       return false if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 

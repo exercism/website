@@ -384,7 +384,7 @@ module Components
           create :user_track, user:, track: bob.track
           solution = create :concept_solution, user:, exercise: bob
           deep_dive_youtube_id = 'yYnqweoy12'
-          deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
+          deep_dive_blurb = 'Explore 14 different ways to solve Bob.'
           create(:generic_exercise, slug: solution.exercise.slug, blurb: solution.exercise.blurb, source: solution.exercise.source,
             source_url: solution.exercise.source_url, deep_dive_youtube_id:, deep_dive_blurb:, status: solution.exercise.status)
 
@@ -407,6 +407,7 @@ module Components
           sleep(0.5)
           click_on "Continue without waiting"
           assert_text "Deep Dive into Strings!"
+          assert_text "Explore 14 different ways to solve Bob."
           click_on "Continue"
           wait_for_redirect
           assert_text "Iteration 1"

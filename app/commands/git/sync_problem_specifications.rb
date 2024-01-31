@@ -9,7 +9,8 @@ class Git::SyncProblemSpecifications
     repo.exercises.each do |exercise|
       GenericExercise::CreateOrUpdate.(
         exercise.slug, exercise.title, exercise.blurb,
-        exercise.source, exercise.source_url, exercise.deep_dive_youtube_id,
+        exercise.source, exercise.source_url,
+        exercise.deep_dive_youtube_id, exercise.deep_dive_blurb,
         exercise.deprecated? ? :deprecated : :active
       )
     rescue StandardError => e

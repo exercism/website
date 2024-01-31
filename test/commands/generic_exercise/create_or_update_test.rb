@@ -8,9 +8,10 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
     source = 'Inspired by the Extreme Startup game'
     source_url = 'https://github.com/rchatley/extreme_startup'
     deep_dive_youtube_id = 'yYnqweoy12'
+    deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
     status = :active
 
-    exercise = GenericExercise::CreateOrUpdate.(slug, title, blurb, source, source_url, deep_dive_youtube_id, status)
+    exercise = GenericExercise::CreateOrUpdate.(slug, title, blurb, source, source_url, deep_dive_youtube_id, deep_dive_blurb, status)
 
     assert_equal 1, GenericExercise.count
     assert_equal GenericExercise.last, exercise
@@ -21,6 +22,7 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal source, exercise.source
     assert_equal source_url, exercise.source_url
     assert_equal deep_dive_youtube_id, exercise.deep_dive_youtube_id
+    assert_equal deep_dive_blurb, exercise.deep_dive_blurb
     assert_equal status, exercise.status
   end
 
@@ -31,15 +33,16 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
     source = 'Inspired by the Extreme Startup game'
     source_url = 'https://github.com/rchatley/extreme_startup'
     deep_dive_youtube_id = 'yYnqweoy12'
+    deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
     status = :active
 
-    exercise = create(:generic_exercise, slug:, title:, blurb:, source:, source_url:, deep_dive_youtube_id:, status:)
+    exercise = create(:generic_exercise, slug:, title:, blurb:, source:, source_url:, deep_dive_youtube_id:, deep_dive_blurb:, status:)
 
     new_title = 'The Gram'
     new_blurb = 'Make a selection.'
     new_status = :deprecated
 
-    GenericExercise::CreateOrUpdate.(slug, new_title, new_blurb, source, source_url, deep_dive_youtube_id, new_status)
+    GenericExercise::CreateOrUpdate.(slug, new_title, new_blurb, source, source_url, deep_dive_youtube_id, deep_dive_blurb, new_status)
 
     assert_equal 1, GenericExercise.count
     assert_equal GenericExercise.last, exercise
@@ -51,6 +54,7 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_equal source, exercise.source
     assert_equal source_url, exercise.source_url
     assert_equal deep_dive_youtube_id, exercise.deep_dive_youtube_id
+    assert_equal deep_dive_blurb, exercise.deep_dive_blurb
     assert_equal new_status, exercise.status
   end
 
@@ -61,10 +65,11 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
     source = 'Inspired by the Extreme Startup game'
     source_url = 'https://github.com/rchatley/extreme_startup'
     deep_dive_youtube_id = 'yYnqweoy12'
+    deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
     status = :active
 
     assert_idempotent_command do
-      GenericExercise::CreateOrUpdate.(slug, title, blurb, source, source_url, deep_dive_youtube_id, status)
+      GenericExercise::CreateOrUpdate.(slug, title, blurb, source, source_url, deep_dive_youtube_id, deep_dive_blurb, status)
     end
 
     assert_equal 1, GenericExercise.count

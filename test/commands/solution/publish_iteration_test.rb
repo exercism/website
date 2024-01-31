@@ -114,7 +114,7 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
     solution = create(:concept_solution, :published, track:, exercise:, user:)
     create(:iteration, submission: create(:submission, solution:), idx: 1)
 
-    Infrastructure::InvalidateCloudfrontItems.expects(:call).with(
+    Infrastructure::InvalidateCloudfrontItems.expects(:defer).with(
       :website,
       ["/tracks/#{track.slug}/exercises/#{exercise.slug}/solutions/#{user.handle}.jpg"]
     )

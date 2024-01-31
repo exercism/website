@@ -10,7 +10,7 @@ class Solution::PublishIteration
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
-    Infrastructure::InvalidateCloudfrontItems.(
+    Infrastructure::InvalidateCloudfrontItems.defer(
       :website,
       [Exercism::Routes.published_solution_path(solution, format: :jpg)]
     )

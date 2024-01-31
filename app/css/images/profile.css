@@ -1,0 +1,88 @@
+#page-image-profile {
+    .profile-header {
+        @apply bg-transparent shadow-none;
+        .c-avatar {
+            @apply h-[80px] w-[80px] mr-32;
+            @apply shadow-xsZ1;
+        }
+        & .c-primary-reputation {
+            @apply mr-24;
+        }
+        & .tracks {
+            @apply hidden md:flex;
+
+            & .c-track-icon {
+                height: 40px;
+                width: 40px;
+                @apply mr-12;
+            }
+        }
+        & .name {
+            @apply text-h4 text-textColor5 leading-140;
+        }
+        & .tags {
+            @apply flex justify-end;
+
+            & .tag {
+                @apply ml-16;
+                @apply py-6 px-16;
+                @apply border-1 rounded-100;
+                @apply flex items-center;
+                @apply bg-backgroundColorD;
+
+                & .c-icon {
+                    height: 16px;
+                    width: 16px;
+                    @apply mr-10;
+                    @apply filter-textColor6;
+                }
+                & .title {
+                    @apply font-semibold text-14 leading-130;
+                }
+
+                &.founder,
+                &.staff {
+                    @apply bg-backgroundColorF;
+                    @apply border-gradient;
+                }
+                &.maintainer {
+                    @apply border-textColor2;
+                }
+            }
+        }
+    }
+
+    .contributions-chart {
+        .lg-container {
+            padding: 0;
+        }
+        .c-contributions-summary {
+            @apply relative;
+            .summary {
+                @apply w-[370px] flex-grow-0;
+
+                .section-header,
+                .c-primary-reputation,
+                .c-track-select,
+                .c-prominent-link {
+                    @apply hidden;
+                }
+                .category {
+                    @apply px-0;
+                    &:last-of-type {
+                        @apply mb-0;
+                    }
+                }
+            }
+            .chart-container {
+                @apply absolute right-0;
+                @apply mt-[-50px] mr-[-240px];
+                scale: 0.8;
+                @apply p-0;
+                .label {
+                    @apply hidden;
+                }
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ export default function YoutubePlayerWithMutation({ endpoint, id }) {
   const { mutate: markVideoAsSeen } = useMutation(async () => {
     const { fetch } = sendRequest({
       endpoint: endpoint,
-      method: 'PATCH',
+      method: 'POST',
       body: null,
     })
 

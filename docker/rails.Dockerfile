@@ -21,14 +21,21 @@ RUN apt-get update && \
 WORKDIR /opt/exercism/website
 
 RUN gem install bundler -v "${BUNDLER_VERSION}"
-RUN bundle config set deployment 'true' && \
-    bundle config set without 'development test'
-
 RUN gem install propshaft -v 0.4.0
 RUN gem install nokogiri -v 1.15.4
 RUN gem install anycable -v 1.2.5
 RUN gem install oj -v 3.14.2
 RUN gem install rugged -v 1.6.3
+
+RUN echo $(bundle config list)
+
+RUN bundle config set deployment 'true' && \
+    bundle config set without 'development test' && \
+    bundle config set disable_shared_gems 'false' && \
+    bundle config set ignore_funding_requests 'true' && \
+    bundle config set ignore_messages 'true' && \
+
+RUN echo $(bundle config list)
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./

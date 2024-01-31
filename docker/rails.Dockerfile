@@ -23,8 +23,7 @@ WORKDIR /opt/exercism/website
 RUN gem install bundler -v "${BUNDLER_VERSION}" && \
     gem install nokogiri -v 1.14.2 && \
     gem install propshaft -v 0.4.0 && \
-    gem install anycable -v 1.2.5 && \
-    gem install bundler -v 2.4.13
+    gem install anycable -v 1.2.5
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./

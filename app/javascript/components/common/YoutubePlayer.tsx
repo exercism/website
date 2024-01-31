@@ -45,7 +45,6 @@ export function YouTubePlayer({
             },
           },
         })
-        console.log(newPlayer)
         setPlayer(newPlayer)
       }
     }
@@ -67,7 +66,7 @@ export function YouTubePlayer({
 
   return (
     <div className="c-youtube-container">
-      <div id={`youtube-player-${id}`} ref={playerRef} />
+      <div ref={playerRef} />
     </div>
   )
 }

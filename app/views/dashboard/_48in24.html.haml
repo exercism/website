@@ -3,6 +3,7 @@
 - return unless featured_exercise
 
 - generic_exercise = GenericExercise.for(featured_exercise[:slug])
+- return unless generic_exercise
 
 .flex.flex-col.items-start.mb-12
   = link_to challenge_path('48in24'), class: 'text-adaptivePurple font-semibold leading-150 flex items-center mb-4' do

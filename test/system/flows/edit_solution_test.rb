@@ -376,6 +376,80 @@ module Components
         end
       end
 
+      test "user sees deep dive video" do
+        use_capybara_host do
+          user = create :user
+          create(:user_auth_token, user:)
+          bob = create :concept_exercise
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
+          deep_dive_youtube_id = 'yYnqweoy12'
+          deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
+          create(:generic_exercise, slug: solution.exercise.slug, blurb: solution.exercise.blurb, source: solution.exercise.source,
+            source_url: solution.exercise.source_url, deep_dive_youtube_id:, deep_dive_blurb:, status: solution.exercise.status)
+
+          sign_in!(user)
+          visit edit_track_exercise_path(solution.track, solution.exercise)
+          click_on "Run Tests"
+          wait_for_submission
+          2.times { wait_for_websockets }
+          test_run = create :submission_test_run,
+            submission: Submission.last,
+            ops_status: 200,
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
+          create :submission_file, submission: Submission.last
+          Submission::TestRunsChannel.broadcast!(test_run)
+          within(".lhs-footer") { click_on "Submit" }
+
+          sleep(0.5)
+          click_on "Continue without waiting"
+          assert_text "Deep Dive into Strings!"
+          click_on "Continue"
+          wait_for_redirect
+          assert_text "Iteration 1"
+        end
+      end
+
+      test "user doesn't see deep dive video with multiple iterations " do
+        use_capybara_host do
+          user = create :user
+          create(:user_auth_token, user:)
+          bob = create :concept_exercise
+          create :user_track, user:, track: bob.track
+          solution = create :concept_solution, user:, exercise: bob
+          create(:iteration, solution:)
+          deep_dive_youtube_id = 'yYnqweoy12'
+          deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
+          create(:generic_exercise, slug: solution.exercise.slug, blurb: solution.exercise.blurb, source: solution.exercise.source,
+            source_url: solution.exercise.source_url, deep_dive_youtube_id:, deep_dive_blurb:, status: solution.exercise.status)
+
+          sign_in!(user)
+          visit edit_track_exercise_path(solution.track, solution.exercise)
+          click_on "Run Tests"
+          wait_for_submission
+          2.times { wait_for_websockets }
+          test_run = create :submission_test_run,
+            submission: Submission.last,
+            ops_status: 200,
+            raw_results: {
+              status: "pass",
+              tests: [{ name: :test_a_name_given, status: :pass, output: "Hello" }]
+            }
+          create :submission_file, submission: Submission.last
+          Submission::TestRunsChannel.broadcast!(test_run)
+          within(".lhs-footer") { click_on "Submit" }
+
+          sleep(0.5)
+          click_on "Continue without waiting"
+          refute_text "Deep Dive into Strings!"
+          wait_for_redirect
+          assert_text "Iteration 2"
+        end
+      end
+
       private
       def wait_for_submission
         assert_text "Running tests…"

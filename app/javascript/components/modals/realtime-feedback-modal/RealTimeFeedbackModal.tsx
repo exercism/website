@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { redirectTo } from '@/utils'
+import { redirectTo } from '@/utils/redirect-to'
 import { Modal } from '../Modal'
 import { FeedbackContent } from './FeedbackContent'
 import { useGetLatestIteration } from './hooks/useGetLatestIteration'

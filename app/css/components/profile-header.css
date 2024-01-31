@@ -135,6 +135,10 @@ header.c-profile-header {
                         @apply font-semibold leading-170;
                     }
 
+                    &.insider .c-icon {
+                        filter: none;
+                    }
+
                     &.founder,
                     &.staff {
                         @apply bg-backgroundColorF;

@@ -18,7 +18,7 @@ export function DeepDiveVideoContent({
   const { mutate: markVideoAsSeen } = useMutation(async () => {
     const { fetch } = sendRequest({
       endpoint: links.watchedDeepDiveEndpoint,
-      method: 'PATCH',
+      method: 'POST',
       body: null,
     })
 

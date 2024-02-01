@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { GraphicalIcon } from '@/components/common'
-import { RealtimeFeedbackModalProps } from '../..'
+import { RealtimeFeedbackModalProps } from '../../RealTimeFeedbackModal'
 import { FeedbackMentoringRequestForm } from './FeedbackMentoringRequestForm'
 import { NoAutomatedFeedbackLHS } from './NoAutomatedFeedbackLHS'
 import { NoImmediateFeedback } from './NoImmediateFeedback'

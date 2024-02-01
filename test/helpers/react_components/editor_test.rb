@@ -19,11 +19,14 @@ class ReactComponents::EditorTest < ReactComponentTestCase
         key: solution.uuid,
         save_interval: 500
       },
+      help: {
+        html: Markdown::Parse.(::Track::GenerateHelp.(track))
+      },
       panels: {
         instructions: {
-          introduction:,
+          introduction: Markdown::Parse.(solution.introduction),
           assignment: SerializeExerciseAssignment.(solution),
-          debugging_instructions:
+          debugging_instructions: Markdown::Parse.(track.debugging_instructions)
         },
         tests: {
           test_files: SerializeFiles.(solution.test_files),
@@ -34,25 +37,31 @@ class ReactComponents::EditorTest < ReactComponentTestCase
             average_test_duration: track.average_test_duration
           }
         },
-        ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil,
-        chatgpt_usage:
+        ai_help: nil,
+        chatgpt_usage: {}
       },
-      iteration: iteration ? {
-        analyzer_feedback: iteration&.analyzer_feedback,
-        representer_feedback: iteration&.representer_feedback
-      } : nil,
-      discussion: discussion ? SerializeMentorDiscussionForStudent.(discussion) : nil,
+
+      exercise: {
+        title: solution.exercise.title,
+        slug: solution.exercise.slug,
+        deep_dive_youtube_id: nil,
+        deep_dive_blurb: nil
+      },
+      solution: {
+        uuid: solution.uuid
+      },
+      request: nil,
+      mentoring_requested: false,
+      track_objectives: "",
+      links: links_for(solution),
+      iteration: nil,
+      discussion: nil,
       track: {
         title: track.title,
         slug: track.slug,
         icon_url: track.icon_url
       },
-      exercise: {
-        title: solution.exercise.title,
-        slug: solution.exercise.slug
-      },
-      mentoring_requested: solution.mentoring_requested?,
-      links: links_for(solution)
+      show_deep_dive_video: false
     }
 
     component = ReactComponents::Editor.new(solution).to_s
@@ -84,6 +93,44 @@ class ReactComponents::EditorTest < ReactComponentTestCase
     solution = create(:concept_solution, track:)
     actual = ReactComponents::Editor.new(solution).data
     assert_nil actual[:panels][:tests]
+  end
+
+  test "no deep_dive_video without video" do
+    solution = create(:concept_solution)
+    solution.exercise.stubs(deep_dive_youtube_id: nil)
+
+    actual = ReactComponents::Editor.new(solution).data
+
+    refute actual[:show_deep_dive_video]
+  end
+
+  test "show deep_dive_video if id is present" do
+    solution = create(:concept_solution)
+    solution.exercise.stubs(deep_dive_youtube_id: SecureRandom.uuid)
+
+    actual = ReactComponents::Editor.new(solution).data
+
+    assert actual[:show_deep_dive_video]
+  end
+
+  test "hide deep_dive_video not first iteration" do
+    solution = create(:concept_solution)
+    solution.exercise.stubs(deep_dive_youtube_id: SecureRandom.uuid)
+    create(:iteration, solution:)
+
+    actual = ReactComponents::Editor.new(solution).data
+    refute actual[:show_deep_dive_video]
+  end
+
+  test "hide deep_dive_video if viewed" do
+    youtube_id = SecureRandom.uuid
+
+    solution = create(:concept_solution)
+    solution.exercise.stubs(deep_dive_youtube_id: youtube_id)
+    create :user_watched_video, user: solution.user, video_provider: :youtube, video_id: youtube_id
+
+    actual = ReactComponents::Editor.new(solution).data
+    refute actual[:show_deep_dive_video]
   end
 
   def links_for(solution)

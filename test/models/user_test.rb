@@ -574,4 +574,21 @@ class UserTest < ActiveSupport::TestCase
 
     user.update!(location: 'a' * 255)
   end
+
+  test "watched_video?" do
+    user = create :user
+    provider = :youtube
+    id = "asdsaeqwe31231"
+
+    # Different person
+    create :user_watched_video, video_provider: provider, video_id: id
+    #
+    # Different video
+    create(:user_watched_video, user:)
+
+    refute user.watched_video?(provider, id)
+
+    create :user_watched_video, user:, video_provider: provider, video_id: id
+    assert user.watched_video?(provider, id)
+  end
 end

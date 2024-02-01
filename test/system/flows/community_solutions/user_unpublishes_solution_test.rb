@@ -29,7 +29,7 @@ module Flows
           within(".m-unpublish-solution") { click_on "Unpublish solution" }
 
           wait_for_redirect
-          assert_text "Publish your solution"
+          assert_text "Publish your Exercise"
         end
       end
     end

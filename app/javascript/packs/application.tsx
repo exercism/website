@@ -101,6 +101,11 @@ const StoriesGrid = lazy(() => import('@/components/community/stories-grid'))
 const ExerciseCommunitySolutionsList = lazy(
   () => import('@/components/track/ExerciseCommunitySolutionsList')
 )
+
+const YoutubePlayerWithMutation = lazy(
+  () => import('@/components/common/YoutubePlayerWithMutation')
+)
+
 const DigDeeper = lazy(() => import('@/components/track/DigDeeper'))
 const ActivatePracticeMode = lazy(
   () => import('@/components/track/ActivatePracticeMode')
@@ -225,6 +230,15 @@ export const mappings = {
   'common-concept-widget': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <ConceptWidget concept={data.concept} />
+    </Suspense>
+  ),
+
+  'common-youtube-player': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <YoutubePlayerWithMutation
+        id={data.id}
+        markAsSeenEndpoint={data.mark_as_seen_endpoint}
+      />
     </Suspense>
   ),
 

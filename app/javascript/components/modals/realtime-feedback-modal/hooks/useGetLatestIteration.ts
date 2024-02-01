@@ -3,7 +3,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { SolutionWithLatestIterationChannel } from '@/channels/solutionWithLatestIterationChannel'
 import { IterationStatus } from '@/components/types'
-import type { RealtimeFeedbackModalProps, ResolvedIteration } from '..'
+import type {
+  RealtimeFeedbackModalProps,
+  ResolvedIteration,
+} from '../RealTimeFeedbackModal'
 
 const REFETCH_INTERVAL = 2000
 const PENDING_STATUS = [

@@ -3,7 +3,10 @@ import { IterationStatus } from '@/components/types'
 import { useTakingTooLong } from './hooks'
 import { CheckingForAutomatedFeedback } from './CheckingForAutomatedFeedback'
 import { NoAutomatedFeedback, FoundAutomatedFeedback } from './feedback-content'
-import type { RealtimeFeedbackModalProps, ResolvedIteration } from '.'
+import type {
+  RealtimeFeedbackModalProps,
+  ResolvedIteration,
+} from './RealTimeFeedbackModal'
 
 export type FeedbackContentProps = {
   checkStatus: string

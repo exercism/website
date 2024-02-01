@@ -31,6 +31,7 @@ type Links = {
   createMentorRequest: string
   discordRedirectPath: string
   forumRedirectPath: string
+  markVideoAsSeenEndpoint: string
 }
 
 type Track = {
@@ -48,6 +49,8 @@ type Iteration = {
 type Exercise = {
   title: string
   slug: string
+  deepDiveYoutubeId: string
+  deepDiveBlurb: string
 }
 
 export type Solution = {
@@ -103,4 +106,5 @@ export type Props = {
   mentoringStatus: MentoringStatus
   request: IterationsListRequest
   trackObjectives: string
+  showDeepDiveVideo: boolean
 }

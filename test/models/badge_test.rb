@@ -2,8 +2,10 @@ require 'test_helper'
 
 class BadgeTest < ActiveSupport::TestCase
   test "percentage_awardees" do
-    badge = create :badge, num_awardees: 123_456
-    assert_equal 15.44, badge.percentage_awardees
+    create_list(:user, 21)
+
+    badge = create :badge, num_awardees: 4
+    assert_equal 9.76, badge.percentage_awardees
   end
 
   test "ordered_by_rarity" do

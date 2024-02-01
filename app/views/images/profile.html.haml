@@ -3,8 +3,8 @@
 
 #page-image-profile{ class: "m-[50px] w-[800px] max-h-[800px] overflow-hidden" }
   #image-content.theme-dark.w-fill.h-fill
-    %header.profile-header.border-b-1.border-borderColor7.px-32.pt-32.pb-20
-      .flex
+    %header.profile-header.border-b-1.border-borderColor7.px-32.pt-20.pb-20
+      .flex.images-center
         = avatar(@user)
         .flex-grow
           .flex.items-center.mb-4
@@ -32,5 +32,5 @@
                         = graphical_icon tag[:icon]
                         .title= tag[:title]
 
-    .contributions-chart.bg-backgroundColorB.pt-16.px-32.pb-32
+    .contributions-chart.bg-backgroundColorB.pt-16.px-32.pb-20
       = render ReactComponents::Profile::ContributionsSummary.new(@user)

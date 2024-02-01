@@ -61,8 +61,19 @@ class Badge < ApplicationRecord
   def rarity = super.to_sym
   def icon = super.to_sym
 
-  # TODO: Cache number of users
   def percentage_awardees
-    ((num_awardees / 800_000.0) * 100).ceil(2)
+    ((num_awardees / num_users.to_f) * 100).ceil(2)
+  end
+
+  def num_users
+    query = <<~QUERY
+      SELECT TABLE_ROWS
+      FROM INFORMATION_SCHEMA.TABLES
+      WHERE TABLE_NAME='#{User.table_name}'
+      AND TABLE_SCHEMA='#{ActiveRecord::Base.connection.current_database}'
+      LIMIT 1;
+    QUERY
+
+    ActiveRecord::Base.connection.select_value(query)
   end
 end

@@ -2,8 +2,14 @@ require 'test_helper'
 
 class BadgeTest < ActiveSupport::TestCase
   test "percentage_awardees" do
-    badge = create :badge, num_awardees: 123_456
-    assert_equal 15.44, badge.percentage_awardees
+    badge = create :rookie_badge
+    badge.update!(num_awardees: 4)
+    # Ideally we'd run Infrastructure::AnalyzeTable.(User.table_name) here
+    # but that breaks the transaction and totally screws up the tests :)
+    # So we do this instead
+    badge.stubs(num_users: 21)
+
+    assert_equal 19.05, badge.percentage_awardees
   end
 
   test "ordered_by_rarity" do

@@ -2,11 +2,11 @@ require 'test_helper'
 
 class BadgeTest < ActiveSupport::TestCase
   test "percentage_awardees" do
-    badge = create :rookie_badge, num_awardees: 4
-    create_list(:user, 21, :not_mentor)
-    Infrastructure::UpdateTable.(User.table_name)
+    badge = Badge.find_by_slug!(:rookie) # rubocop:disable Rails/DynamicFindBy
+    badge.stubs(num_users: 21)
+    badge.update!(num_awardees: 4)
 
-    assert_equal 9.76, badge.percentage_awardees
+    assert_equal 19.05, badge.percentage_awardees
   end
 
   test "ordered_by_rarity" do

@@ -30,7 +30,7 @@ class AboutController < ApplicationController
 
   def impact
     # This is the calculation for the average first iteration time.
-    # It comes out at 1450 (seconds) at the time of writing
+    # It comes out at 2594 (seconds) at the time of writing
     #
     # SELECT AVG(dd.val) as median_val
     # FROM (
@@ -55,10 +55,10 @@ class AboutController < ApplicationController
     # go into it based on learning/mentoring but this bit is the most
     # sketchy, but we have no other way to measure it currently.
     #
-    # So (1_450 * 4_312_556) / 60.0 = 104_220_130
+    # So (2_594 * 7_183_572) / 60.0 = 310_569_762
     #
-    # There are 5,500 iterations per day, so
-    # (1_450 * 5_500) / 60.0 = 132_916
+    # There are 6,600 iterations per day, so
+    # (2_594 * 6_600) / 60.0 = 285_340
 
     @contributor_avatars = %w[
       https://avatars3.githubusercontent.com/u/135246

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BadgeTest < ActiveSupport::TestCase
   test "percentage_awardees" do
-    badge = Badge.find_by_slug!(:rookie) # rubocop:disable Rails/DynamicFindBy
+    badge = create :rookie_badge
     badge.update!(num_awardees: 4)
     # Ideally we'd run Infrastructure::AnalyzeTable.(User.table_name) here
     # but that breaks the transaction and totally screws up the tests :)

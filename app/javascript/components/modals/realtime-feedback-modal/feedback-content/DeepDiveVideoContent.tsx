@@ -15,7 +15,7 @@ export function DeepDiveVideoContent({
 }: DeepDiveVideoContentProps) {
   return (
     <>
-      <h3 className="text-h3 mb-8">Deep Dive into {exercise.title}!</h3>
+      <h3 className="text-h3 mb-8">Dig Deeper into {exercise.title}!</h3>
       <p className="text-p-large mb-16">{exercise.deepDiveBlurb}</p>
       <div className="w-[100%] mb-16">
         <YoutubePlayerWithMutation

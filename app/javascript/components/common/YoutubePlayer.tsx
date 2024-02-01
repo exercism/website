@@ -24,12 +24,10 @@ export function YoutubePlayer({
       const tag = document.createElement('script')
       tag.src = 'https://www.youtube.com/iframe_api'
       const firstScriptTag = document.getElementsByTagName('script')[0]
-      if (firstScriptTag.parentNode) {
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
-      }
+      document.head.append(tag, firstScriptTag)
     }
 
-    const onYoutubeIframeAPIReady = () => {
+    const showVideo = () => {
       if (playerRef.current && !player) {
         const newPlayer = new window.YT.Player(playerRef.current, {
           videoId: id,
@@ -49,7 +47,13 @@ export function YoutubePlayer({
       }
     }
 
-    window.onYoutubeIframeAPIReady = onYoutubeIframeAPIReady
+    const ytChecker = setInterval(() => {
+      if (!window.YT) return
+      if (!window.YT.loaded) return
+
+      showVideo()
+      clearInterval(ytChecker)
+    }, 10)
 
     return () => {
       if (player && player.destroy) {
@@ -57,12 +61,6 @@ export function YoutubePlayer({
       }
     }
   }, [id, onPlay, player])
-
-  useEffect(() => {
-    if (window.YT && window.YT.Player && window.onYoutubeIframeAPIReady) {
-      window.onYoutubeIframeAPIReady()
-    }
-  }, [id])
 
   return (
     <div className="c-youtube-container">

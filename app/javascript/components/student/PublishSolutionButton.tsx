@@ -12,15 +12,7 @@ export default function PublishSolutionButton({
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
-    <div className="publish-section">
-      <div className="header">
-        <h3>Publish your solution</h3>
-      </div>
-      <p>
-        By publishing your solution, you earn reputation and help others
-        discover new tips and tricks.
-      </p>
-
+    <>
       <button
         onClick={() => setIsModalOpen(!isModalOpen)}
         className="btn-enhanced btn-m publish-btn"
@@ -34,6 +26,6 @@ export default function PublishSolutionButton({
         endpoint={endpoint}
         iterations={iterations}
       />
-    </div>
+    </>
   )
 }

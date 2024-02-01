@@ -4,6 +4,7 @@ class BadgeTest < ActiveSupport::TestCase
   test "percentage_awardees" do
     badge = create :rookie_badge, num_awardees: 4
     create_list(:user, 21, :not_mentor)
+    Infrastructure::UpdateTable.(User.table_name)
 
     assert_equal 9.76, badge.percentage_awardees
   end

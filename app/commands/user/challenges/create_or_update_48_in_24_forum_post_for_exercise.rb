@@ -142,28 +142,11 @@ class User::Challenges::CreateOrUpdate48In24ForumPostForExercise
   end
 
   def track_statuses
-    markdown = <<~MARKDOWN
+    <<~MARKDOWN
       ### Track Statuses
 
-      | | Implemented | Approaches introduction | Num approaches | Num video walkthroughs |
-      | - | - | - | - | - |
+      You can see an overview of which tracks have implemented the exercise at the [#48in24 implementation status page](https://exercism.org#{Exercism::Routes.implementation_status_challenge_path('48in24')}).
     MARKDOWN
-
-    exercise_by_track = implementations.index_by { |exercise| exercise.track.slug }
-
-    Track.active.order(:title).each do |track|
-      exercise = exercise_by_track[track.slug]
-      implemented = exercise.present?
-      approach_introduction = exercise&.approaches_introduction_exists?
-      num_approaches = exercise ? exercise.approaches.size : 0
-      num_approaches = '-' if num_approaches.zero?
-      num_walkthroughs = exercise ? exercise.community_videos.size : 0
-      num_walkthroughs = '-' if num_walkthroughs.zero?
-
-      markdown += "| #{track.title} | #{implemented ? '✅' : '❌'} | #{approach_introduction ? '✅' : '❌'} | #{num_approaches} | #{num_walkthroughs} |\n" # rubocop:disable Layout/LineLength
-    end
-
-    markdown
   end
 
   memoize

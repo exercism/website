@@ -74,6 +74,6 @@ class Badge < ApplicationRecord
       LIMIT 1;
     QUERY
 
-    ActiveRecord::Base.connection.execute(query).first[0]
+    ActiveRecord::Base.connection.select_value(query)
   end
 end

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { type Request, usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useHistory, removeEmpty } from '@/hooks/use-history'
@@ -50,6 +50,8 @@ export default function NotificationsList({
   links: Links
 }): JSX.Element {
   const queryClient = useQueryClient()
+
+  const [currentData, setCurrentData] = useState<APIResponse | undefined>()
   const { request, setPage } = useList(initialRequest)
   const cacheKey = useMemo(
     () => ['notifications-list', removeEmpty(request.query)],
@@ -61,6 +63,10 @@ export default function NotificationsList({
     error,
     isFetching,
   } = usePaginatedRequestQuery<APIResponse, Error | Response>(cacheKey, request)
+
+  useEffect(() => {
+    if (!isFetching) setCurrentData(resolvedData)
+  }, [resolvedData, isFetching])
 
   const [selected, setSelected] = useState<Notification[]>([])
 
@@ -155,7 +161,7 @@ export default function NotificationsList({
             <button
               type="button"
               onClick={handleModalOpen}
-              disabled={disabled || resolvedData?.meta.unreadCount === 0}
+              disabled={disabled || currentData?.meta.unreadCount === 0}
               className="btn-s btn-enhanced"
             >
               <GraphicalIcon icon="double-checkmark" />
@@ -168,18 +174,18 @@ export default function NotificationsList({
           status={status}
           defaultError={DEFAULT_ERROR}
         >
-          {resolvedData ? (
+          {currentData ? (
             <React.Fragment>
               <List
-                notifications={resolvedData.results}
+                notifications={currentData.results}
                 selected={selected}
                 onSelect={handleSelect}
                 disabled={disabled}
               />
               <Pagination
-                disabled={resolvedData === undefined}
+                disabled={currentData === undefined}
                 current={request.query.page || 1}
-                total={resolvedData.meta.totalPages}
+                total={currentData.meta.totalPages}
                 setPage={(p) => {
                   setPage(p)
                   scrollToTop()

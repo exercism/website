@@ -23,12 +23,7 @@ WORKDIR /opt/exercism/website
 RUN gem install bundler -v "${BUNDLER_VERSION}"
 
 RUN bundle config set frozen 'true' && \
-    bundle config set without 'development test' && \
-    bundle config set ignore_funding_requests 'true' && \
-    bundle config set ignore_messages 'true' && \
-    bundle config set system 'true' && \
-    bundle config set disable_shared_gems 'false' && \
-    bundle config set version "${BUNDLER_VERSION}"
+    bundle config set without 'development test'
 
 RUN gem install propshaft -v 0.4.0
 RUN gem install nokogiri -v 1.15.4
@@ -84,5 +79,9 @@ COPY --from=build /opt/exercism/website /opt/exercism/website
 COPY --from=build /usr/share/GeoIP /usr/share/GeoIP
 
 WORKDIR /opt/exercism/website
+
+RUN bundle config set frozen 'true' && \
+    bundle config set without 'development test' && \
+    bundle check
 
 ENTRYPOINT bin/start_webserver

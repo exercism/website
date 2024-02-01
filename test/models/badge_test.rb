@@ -2,9 +2,9 @@ require 'test_helper'
 
 class BadgeTest < ActiveSupport::TestCase
   test "percentage_awardees" do
-    create_list(:user, 21)
+    badge = create :rookie_badge, num_awardees: 4
+    create_list(:user, 21, :not_mentor)
 
-    badge = create :badge, num_awardees: 4
     assert_equal 9.76, badge.percentage_awardees
   end
 

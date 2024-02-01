@@ -103,6 +103,7 @@ Rails.application.routes.draw do
 
   resource :images, controller: "images" do
     get "solutions/:track_slug/:exercise_slug/:user_handle", to: "images#solution"
+    get "profiles/:user_handle", to: "images#profile"
   end
 
   resource :insiders, only: [:show], controller: "insiders" do

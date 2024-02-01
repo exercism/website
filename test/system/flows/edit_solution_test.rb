@@ -406,7 +406,7 @@ module Components
 
           sleep(0.5)
           click_on "Continue without waiting"
-          assert_text "Deep Dive into Strings!"
+          assert_text "Dig Deeper into Strings!"
           assert_text "Explore 14 different ways to solve Bob."
           click_on "Continue"
           wait_for_redirect

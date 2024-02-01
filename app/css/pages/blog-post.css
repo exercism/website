@@ -2,7 +2,7 @@
     & header {
         background: linear-gradient(180deg, #271b72 0%, #420d62 100%),
             linear-gradient(0deg, #271b72, #271b72);
-        box-shadow: 0px 4px 42px 0px #4f72cd99;
+        box-shadow: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.6);
 
         & h1 {
             @apply text-white;

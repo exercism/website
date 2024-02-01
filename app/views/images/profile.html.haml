@@ -1,36 +1,37 @@
 - require_stylesheet "images"
 - require_stylesheet "profile"
 
-#page-image-profile{ class: "m-[50px] w-[800px] max-h-[800px] overflow-hidden" }
-  #image-content.theme-dark.w-fill.h-fill
-    %header.profile-header.border-b-1.border-borderColor7.px-32.pt-20.pb-20
-      .flex.images-center
-        = avatar(@user)
-        .flex-grow
-          .flex.items-center.mb-4
-            %h1.text-h2.mr-20= render ViewComponents::HandleWithFlair.new(@user.handle, @user.flair, size: :xlarge)
-            = render ViewComponents::Reputation.new(number_with_delimiter(@user.reputation), flashy: true)
-          .name= @user.name
-        .ml-auto
-          .badges-and-tags.flex.flex-col.gap-12
-            - if @user.revealed_badges.exists?
-              .flex
-                - @user.featured_badges.each do |badge|
-                  .c-badge.ml-8
-                    .c-badge-medallion{ class: "--#{badge.rarity} !w-[40px] !h-[40px]" }
-                      = icon(badge.icon, "Badge: #{badge.name}")
+.flex
+  #page-image-profile{ class: "m-[50px] min-w-[800px] max-h-[800px] overflow-hidden" }
+    #image-content.theme-dark.w-fill.h-fill
+      %header.profile-header.border-b-1.border-borderColor7.px-32.pt-20.pb-20
+        .flex.images-center
+          = avatar(@user)
+          .flex-grow
+            .flex.items-center.mb-4
+              %h1.text-h2.mr-20= render ViewComponents::HandleWithFlair.new(@user.handle, @user.flair, size: :xlarge)
+              = render ViewComponents::Reputation.new(number_with_delimiter(@user.reputation), flashy: true)
+            .name= @user.name
+          .ml-auto
+            .badges-and-tags.flex.flex-col.gap-12
+              - if @user.revealed_badges.exists?
+                .flex
+                  - @user.featured_badges.each do |badge|
+                    .c-badge.ml-8
+                      .c-badge-medallion{ class: "--#{badge.rarity} !w-[40px] !h-[40px]" }
+                        = icon(badge.icon, "Badge: #{badge.name}")
 
-              - if @header_tags.present? || @user.founder?
-                .tags
-                  - if @user.founder?
-                    .tag.founder
-                      = graphical_icon :logo
-                      .title Exercism Founder
-                  - else
-                    - @header_tags.each do |tag|
-                      %div{ class: tag[:class] }
-                        = graphical_icon tag[:icon]
-                        .title= tag[:title]
+                - if @header_tags.present? || @user.founder?
+                  .tags
+                    - if @user.founder?
+                      .tag.founder
+                        = graphical_icon :logo
+                        .title Exercism Founder
+                    - else
+                      - @header_tags.each do |tag|
+                        %div{ class: tag[:class] }
+                          = graphical_icon tag[:icon]
+                          .title= tag[:title]
 
-    .contributions-chart.bg-backgroundColorB.pt-16.px-32.pb-20
-      = render ReactComponents::Profile::ContributionsSummary.new(@user)
+      .contributions-chart.bg-backgroundColorB.pt-16.px-32.pb-20
+        = render ReactComponents::Profile::ContributionsSummary.new(@user)

@@ -15,7 +15,7 @@
           .ml-auto
             .badges-and-tags.flex.flex-col.gap-12
               - if @user.revealed_badges.exists?
-                .flex
+                .flex.self-end
                   - @user.featured_badges.each do |badge|
                     .c-badge.ml-8
                       .c-badge-medallion{ class: "--#{badge.rarity} !w-[40px] !h-[40px]" }

@@ -24,7 +24,7 @@
             @apply flex justify-end;
 
             & .tag {
-                @apply ml-16;
+                @apply ml-8;
                 @apply py-6 px-16;
                 @apply border-1 rounded-100;
                 @apply flex items-center;
@@ -37,7 +37,7 @@
                     @apply filter-textColor6;
                 }
                 & .title {
-                    @apply font-semibold text-14 leading-130;
+                    @apply font-semibold text-14 leading-130 whitespace-nowrap;
                 }
 
                 &.founder,

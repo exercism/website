@@ -47,6 +47,7 @@ export function useAutomation(
   selectedTab: string
 ): returnMentoringAutomation {
   const [checked, setChecked] = useState(false)
+  const [currentData, setCurrentData] = useState<APIResponse | undefined>()
   const [criteria, setCriteria] = useState(
     representationsRequest.query?.criteria
   )
@@ -77,6 +78,10 @@ export function useAutomation(
     data: resolvedData,
     isFetching,
   } = usePaginatedRequestQuery<APIResponse>(CACHE_KEY, request)
+
+  useEffect(() => {
+    if (!isFetching) setCurrentData(resolvedData)
+  }, [isFetching, resolvedData])
 
   const debouncedCriteria = useDebounce(criteria, 500)
 
@@ -134,7 +139,7 @@ export function useAutomation(
     status,
     error,
     isFetching,
-    resolvedData,
+    resolvedData: currentData,
     criteria,
     setCriteria,
     order: request.query.order,

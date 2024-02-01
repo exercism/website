@@ -20,7 +20,7 @@ RUN apt-get update && \
 
 WORKDIR /opt/exercism/website
 
-RUN gem install --default bundler -v "${BUNDLER_VERSION}"
+RUN gem install bundler -v "${BUNDLER_VERSION}"
 
 RUN bundle config set frozen 'true' && \
     bundle config set without 'development test' && \

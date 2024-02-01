@@ -59,6 +59,7 @@ export function YoutubePlayer({
       if (player && player.destroy) {
         player.destroy()
       }
+      clearInterval(ytChecker)
     }
   }, [id, onPlay, player])
 

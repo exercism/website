@@ -20,8 +20,7 @@
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
-                .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/_PPXEJZ7gOg", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                = render ReactComponents::Common::YoutubePlayer.new('_PPXEJZ7gOg', :challenge)
 
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20

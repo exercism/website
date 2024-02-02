@@ -94,8 +94,7 @@
           %p.text-p-base.mb-12 Dig into #{track.title} with Erik as he explores its main features and solves an interesting exercise.
 
           %div{ class: 'w-[100%] max-w-[500px]' }
-            .c-youtube-container
-              %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{track.intro_video_youtube_slug}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+            = render ReactComponents::Common::YoutubePlayer.new(track.intro_video_youtube_slug, :track_summary)
 
       = render "tracks/show/ticker", track:
 

@@ -21,8 +21,7 @@
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
-                .c-youtube-container
-                  %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/_w5Q3Tc1kqY", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                = render ReactComponents::Common::YoutubePlayer.new('_w5Q3Tc1kqY', :challenge)
 
           - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::DECEMBER_TRACKS)
           %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!

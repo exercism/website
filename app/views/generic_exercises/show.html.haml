@@ -19,8 +19,7 @@
             .text-h3.mb-8 Deep Dive into #{@exercise.title}!
             %p.text-p-large.mb-16 Take a deep dive into #{@exercise.title} with Jeremy and Erik, as they explore the different ways this exercise can be solved and dig into some interesting community solutions.
             %div{ class: 'w-[100%]' }
-              .c-youtube-container
-                %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{@exercise.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+              = render ReactComponents::Common::YoutubePlayer.new(@exercise.deep_dive_youtube_id, :generic_exercises)
 
 
         %section.instructions.px-20.lg:px-32.py-20.lg:py-24

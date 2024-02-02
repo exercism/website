@@ -33,8 +33,7 @@
 
   %article.lg-container
     %section.video-section
-      .c-youtube-container.mb-32
-        %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/v6fMaOdUxSk", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+      = render ReactComponents::Common::YoutubePlayer.new('v6fMaOdUxSk', :challenge_external)
 
     %section.reasons-section
       %h2 Why take part?

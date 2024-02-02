@@ -40,8 +40,7 @@
 
                 .rhs
                   %div{ class: 'w-[100%] md:max-w-[500px]' }
-                    .c-youtube-container
-                      %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{generic_exercise.deep_dive_youtube_id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+                    = render ReactComponents::Common::YoutubePlayer.new(generic_exercise.deep_dive_youtube_id, :challenge)
 
             %h2.text-h3.mt-32.mb-6 Learn from others… 🎥
             %p.text-p-large.mb-12.c-highlight-links

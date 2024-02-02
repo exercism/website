@@ -32,7 +32,7 @@
     %h2.text-p-xlarge.mb-32 Join Jeremy as he speaks to the creators and maintainers of the languages you love.
     .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-24
       - @language_creator_ids.each do |id|
-        = render ReactComponents::Common::YoutubePlayer.new(id, :community_interviews)
+        = render ReactComponents::Common::YoutubePlayer.new(id, 'community_interviews')
 
   %hr.border-borderColor6.my-40
 

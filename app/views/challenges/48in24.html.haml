@@ -40,7 +40,7 @@
 
                 .rhs
                   %div{ class: 'w-[100%] md:max-w-[500px]' }
-                    = render ReactComponents::Common::YoutubePlayer.new(generic_exercise.deep_dive_youtube_id, :challenge)
+                    = render ReactComponents::Common::YoutubePlayer.new(generic_exercise.deep_dive_youtube_id, 'challenge')
 
             %h2.text-h3.mt-32.mb-6 Learn from others… 🎥
             %p.text-p-large.mb-12.c-highlight-links

@@ -16,7 +16,7 @@
   - if generic_exercise.deep_dive_youtube_id
     .text-p-base.mb-8.font-medium.text-textColor2 👇 Watch our Deep Dive with Erik &amp; Jeremy!
     %div{ class: 'w-[100%] md:max-w-[500px]' }
-      = render ReactComponents::Common::YoutubePlayer.new(generic_exercise.deep_dive_youtube_id, :dashboard)
+      = render ReactComponents::Common::YoutubePlayer.new(generic_exercise.deep_dive_youtube_id, 'dashboard')
 
 = link_to challenge_path('48in24'), class: "btn btn-secondary btn-base mb-28 bg-backgroundColor1" do
   %span Explore all of #48in24

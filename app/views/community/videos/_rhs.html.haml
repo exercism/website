@@ -15,7 +15,7 @@
 
     .rounded-8.shadow-baseZ1.w-fill.overflow-hidden
       - if live_event.youtube?
-        = render ReactComponents::Common::YoutubePlayer.new(live_event.youtube_id, :community)
+        = render ReactComponents::Common::YoutubePlayer.new(live_event.youtube_id, 'community')
       - else
         %iframe{ src: "https://player.twitch.tv/?channel=exercismlive&parent=exercism.org", height: "240", width: "100%", allowfullscreen: true }
 

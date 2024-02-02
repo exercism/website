@@ -13,4 +13,4 @@
         .text-h4.mb-4 Deep Dive into #{exercise.title}!
         %p.text-p-large.mb-16= exercise.deep_dive_blurb
         %div{ class: 'w-[100%]' }
-          = render ReactComponents::Common::YoutubePlayer.new(deep_dive_youtube_id, :exercises_external)
+          = render ReactComponents::Common::YoutubePlayer.new(deep_dive_youtube_id, 'exercises_external')

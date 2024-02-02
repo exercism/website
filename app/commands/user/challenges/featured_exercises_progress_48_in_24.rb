@@ -12,7 +12,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 5, slug: 'protein-translation', title: 'Protein Translation', featured_tracks: %w[fsharp crystal csharp], learning_opportunity: "" },
     { week: 6, slug: 'list-ops', title: 'List Ops', featured_tracks: %w[gleam swift sml], learning_opportunity: "" },
     { week: 7, slug: 'acronym', title: 'Acronym', featured_tracks: %w[haskell tcl powershell], learning_opportunity: "" },
-    { week: 8, slug: 'linked-list', title: 'Linked List', featured_tracks: %w[c groovy scala], learning_opportunity: "" },
+    { week: 8, slug: 'nucleotide-count', title: 'Nucleotide Count', featured_tracks: %w[c groovy scala], learning_opportunity: "" },
     { week: 9, slug: 'parallel-letter-frequency', title: 'Parallel Letter Frequency', featured_tracks: %w[go java elixir], learning_opportunity: "" },
     { week: 10, slug: 'allergies', title: 'Allergies', featured_tracks: %w[nim elm rust], learning_opportunity: "" },
     { week: 11, slug: 'sieve', title: 'Sieve', featured_tracks: %w[zig bash fortran], learning_opportunity: "" },

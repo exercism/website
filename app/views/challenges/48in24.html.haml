@@ -106,9 +106,7 @@
                 Qualify for silver status. Plus have solved the exercise in the three featured languages at some point (not necessarily in 2024).
 
             %p.text-p-base.mb-12 Watch this video for more information!
-            = link_to "https://youtu.be/v6fMaOdUxSk", class: 'bg-backgroundColorB p-2 shadow-smZ1 rounded-8 relative block' do
-              = graphical_icon "video-play", css_class: '!absolute top-[80px] w-[30px] left-[50%] ml-[-30px] w-[60px] h-[60px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-              = image_tag "https://assets.exercism.org/images/thumbnails/introducing-48-in-24.jpg", alt: 'A video thumbnail', class: 'block block w-fill rounded-5'
+            = render ReactComponents::Common::YoutubePlayer.new('v6fMaOdUxSk', "challenge#show")
 
             %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
               Track your progress at the bottom of the page.

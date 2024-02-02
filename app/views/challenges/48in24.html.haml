@@ -1,11 +1,12 @@
 - week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
-- featured_exercise = @exercises.find { |e| e.week == week }
+- exercises = @exercises.select { |e| e.week <= week }
+- tracks = Track.where(slug: exercises.flat_map(&:featured_tracks)).pluck(:slug, :title).to_h
+
+- featured_exercise = exercises.last
 - if featured_exercise
   - generic_exercise = GenericExercise.for(featured_exercise.slug)
-- live_exercises = @exercises.select { |e| e.week <= week }
-- flat_live_exercises = live_exercises.flat_map(&:featured_tracks).uniq
-- featured_tracks = Track.where(slug: flat_live_exercises).order(:title).pluck(:slug, :title).to_h
-- num_placeholders = 48 - live_exercises.size
+  - featured_tracks = Track.where(slug: featured_exercise.featured_tracks).pluck(:title).sort
+- num_placeholders = 48 - exercises.size
 
 #challenge-48in24-page
   %section.top-section
@@ -28,7 +29,7 @@
             %p.text-p-large.mb-12
               Your task: #{featured_exercise.blurb}
             %p.text-p-large.mb-12
-              We're featuring it into the following languages: #{featured_tracks.values.to_sentence}.
+              We're featuring it into the following languages: #{featured_tracks.to_sentence}.
 
             - if generic_exercise.deep_dive_youtube_id
               .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
@@ -132,7 +133,7 @@
           Read the instructions at the top-right of this page to understand how everything works.
 
       .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto.exercises
-        - live_exercises.each do |exercise|
+        - exercises.each do |exercise|
           - status = exercise.status.to_s.dasherize
           - num_completed_tracks = exercise.completed_tracks.count { |_, year| year == 2024 }
           .exercise{ class: status }
@@ -148,8 +149,8 @@
               .tracks
                 - exercise.featured_tracks.map do |track_slug|
                   - completed = exercise.completed_tracks.key?(track_slug)
-                  = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}", title: "#{featured_tracks[track_slug]} #{completed ? '(completed)' : ''}" do
-                    = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg", alt: "Icon of #{featured_tracks[track_slug]}"
+                  = link_to track_exercise_path(track_slug, exercise.slug), class: "track-icon #{completed ? 'completed' : ''}", title: "#{tracks[track_slug]} #{completed ? '(completed)' : ''}" do
+                    = image_tag "#{Exercism.config.website_icons_host}/tracks/#{track_slug}.svg", alt: "Icon of #{tracks[track_slug]}"
 
         - if num_placeholders.positive?
           - num_placeholders.times do

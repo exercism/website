@@ -121,6 +121,24 @@
             @apply mb-8;
         }
     }
+
+    /*************/
+    /* Footnotes */
+    /*************/
+
+    .footnotes * {
+        @apply text-14;
+    }
+
+    .footnotes {
+        @apply border-t-1 border-borderColor6 pt-20 mt-20;
+    }
+
+    @screen md {
+        .footnotes * {
+            @apply text-16;
+        }
+    }
 }
 
 .c-textual-content {

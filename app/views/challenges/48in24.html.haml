@@ -5,8 +5,8 @@
 - featured_exercise = exercises.last
 - if featured_exercise
   - generic_exercise = GenericExercise.for(featured_exercise.slug)
-  - featured_tracks = Track.where(slug: featured_exercise.featured_tracks).pluck(:title).sort
-- num_placeholders = 48 - exercises.size
+  - featured_tracks = featured_exercise.featured_tracks.select { |slug| tracks[slug] }.sort
+- num_placeholders = @exercises.size - exercises.size
 
 #challenge-48in24-page
   %section.top-section

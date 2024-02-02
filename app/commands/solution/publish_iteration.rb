@@ -1,7 +1,7 @@
 class Solution::PublishIteration
   include Mandate
 
-  initialize_with :solution, :iteration_idx
+  initialize_with :solution, :iteration_idx, invalidate: true
 
   def call
     solution.update!(published_iteration: iteration)
@@ -10,10 +10,7 @@ class Solution::PublishIteration
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
-    Infrastructure::InvalidateCloudfrontItems.defer(
-      :website,
-      [Exercism::Routes.published_solution_path(solution, format: :jpg)]
-    )
+    Solution::InvalidateCloudfrontItem.(solution) if invalidate
   end
 
   private

@@ -27,7 +27,8 @@ class ReactComponents::Track::DigDeeper < ReactComponents::ReactComponent
       icon_url: exercise.icon_url,
       title: exercise.title,
       slug: exercise.slug,
-      deep_dive_youtube_id: exercise.deep_dive_youtube_id
+      deep_dive_youtube_id: exercise.deep_dive_youtube_id,
+      deep_dive_blurb: exercise.deep_dive_blurb
     }
   end
 

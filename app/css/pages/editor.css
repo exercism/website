@@ -578,7 +578,7 @@
         }
 
         .cm-cursor {
-            borderleftcolor: theme(colors.aliceBlue);
+            border-left-color: var(--cmCursorColor);
         }
         & .cm-panels-top {
             @apply border-0;

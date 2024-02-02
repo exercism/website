@@ -42,3 +42,5 @@
     .grid.gap-24.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-4
       - @posts[1..].each do |post|
         = render ViewComponents::BlogPost.new(post)
+
+    = paginate @posts

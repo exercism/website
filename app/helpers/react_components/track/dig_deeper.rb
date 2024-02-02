@@ -28,6 +28,7 @@ class ReactComponents::Track::DigDeeper < ReactComponents::ReactComponent
       title: exercise.title,
       slug: exercise.slug,
       deep_dive_youtube_id: exercise.deep_dive_youtube_id,
+      deep_dive_blurb: exercise.deep_dive_blurb,
       deep_dive_mark_as_seen_endpoint: Exercism::Routes.api_watched_videos_path(video_provider: :youtube,
         video_id: exercise.deep_dive_youtube_id, context: :solution_dig_deeper)
     }

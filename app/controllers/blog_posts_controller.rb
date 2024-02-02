@@ -2,7 +2,7 @@ class BlogPostsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    @posts = BlogPost.published.ordered_by_recency.includes(:author).limit(13)
+    @posts = BlogPost.published.ordered_by_recency.includes(:author).page(params[:page]).per(13)
 
     respond_to do |format|
       format.html

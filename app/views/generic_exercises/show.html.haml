@@ -17,7 +17,7 @@
         - if @exercise.deep_dive_youtube_id.present?
           .mb-32.bg-backgroundColorA.shadow-lg.rounded-8.px-20.lg:px-32.py-20.lg:py-24
             .text-h3.mb-8 Deep Dive into #{@exercise.title}!
-            %p.text-p-large.mb-16 Take a deep dive into #{@exercise.title} with Jeremy and Erik, as they explore the different ways this exercise can be solved and dig into some interesting community solutions.
+            %p.text-p-large.mb-16= @exercise.deep_dive_blurb
             %div{ class: 'w-[100%]' }
               = render ReactComponents::Common::YoutubePlayer.new(@exercise.deep_dive_youtube_id, :generic_exercises)
 

@@ -5,6 +5,5 @@
 .inner-box{ class: completed ? 'completed' : 'pending' }
   .inner-box-content
     .text-h6.mb-2 Watch our deep dive
-    %p.mb-4
-      Explore the ways people solve this across Exercism with our official deep dive video.
+    %p.mb-4= exercise.deep_dive_blurb
     = render ReactComponents::Common::YoutubePlayer.new(youtube_id)

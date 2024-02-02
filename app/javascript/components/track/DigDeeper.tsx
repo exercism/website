@@ -47,7 +47,11 @@ export type DigDeeperProps = {
 
 type DigDeeperDataContext = {
   track: Track
-  exercise: Exercise & { deepDiveYoutubeId: string; deepDiveBlurb: string }
+  exercise: Exercise & {
+    deepDiveYoutubeId: string
+    deepDiveBlurb: string
+    deepDiveMarkAsSeenEndpoint: string
+  }
   links: { video: { create: string; lookup: string } }
 }
 

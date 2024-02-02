@@ -104,7 +104,7 @@ module ReactComponents
     def mark_video_as_seen_endpoint
       return nil if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 
-      Exercism::Routes.api_watched_videos_path(video_provider: :youtube, video_id: exercise.deep_dive_youtube_id)
+      Exercism::Routes.api_watched_videos_path(video_provider: :youtube, video_id: exercise.deep_dive_youtube_id, context: 'editor')
     end
 
     def submissions = submission ? [SerializeSubmission.(submission)] : []

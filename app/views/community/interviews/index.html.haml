@@ -32,8 +32,7 @@
     %h2.text-p-xlarge.mb-32 Join Jeremy as he speaks to the creators and maintainers of the languages you love.
     .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-24
       - @language_creator_ids.each do |id|
-        .c-youtube-container
-          %iframe{ width: "560", height: "315", src: "https://www.youtube-nocookie.com/embed/#{id}", title: "YouTube video player", frameborder: "0", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true }
+        = render ReactComponents::Common::YoutubePlayer.new(id, 'community_interviews')
 
   %hr.border-borderColor6.my-40
 
@@ -49,5 +48,3 @@
             - interviewee = community_story.interviewee
             = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
             = interviewee.name
-
-

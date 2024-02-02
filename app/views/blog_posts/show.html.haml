@@ -26,7 +26,7 @@
 
       .p-16.md:py-32.md:px-40.flex.flex-col
         - if @post.video?
-          = render ReactComponents::Common::YoutubePlayer.new(@post.youtube_id, 'blog')
+          = render ReactComponents::Common::YoutubePlayer.new(@post.youtube_id, 'blog_post#show')
 
         .c-textual-content.--large
           = raw @post.content_html

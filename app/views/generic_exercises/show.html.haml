@@ -19,7 +19,7 @@
             .text-h3.mb-8 Deep Dive into #{@exercise.title}!
             %p.text-p-large.mb-16= @exercise.deep_dive_blurb
             %div{ class: 'w-[100%]' }
-              = render ReactComponents::Common::YoutubePlayer.new(@exercise.deep_dive_youtube_id, 'generic_exercises')
+              = render ReactComponents::Common::YoutubePlayer.new(@exercise.deep_dive_youtube_id, 'generic_exercise')
 
 
         %section.instructions.px-20.lg:px-32.py-20.lg:py-24

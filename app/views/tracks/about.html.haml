@@ -59,7 +59,7 @@
 
         - if @track.intro_video_youtube_slug.present?
           %div{ class: 'w-[100%] max-w-[500px]' }
-            = render ReactComponents::Common::YoutubePlayer.new(@track.intro_video_youtube_slug, 'tracks_about')
+            = render ReactComponents::Common::YoutubePlayer.new(@track.intro_video_youtube_slug, 'track#about')
         - else
           %pre
             %code{ class: "lang-#{@track.highlightjs_language}" }

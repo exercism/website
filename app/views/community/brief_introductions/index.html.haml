@@ -13,11 +13,11 @@
           Check out his latest video to the right, or explore the full series below.
 
       .flex-shrink-0{ class: "lg:w-[400px] w-100" }
-        = render ReactComponents::Common::YoutubePlayer.new(@latest_id, 'brief_introduction')
+        = render ReactComponents::Common::YoutubePlayer.new(@latest_id, 'brief_introductions')
 
   %hr.border-borderColor6
 
   .lg-container.relative
     .grid.lg:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-24.pt-40
       - @ids.each do |id|
-        = render ReactComponents::Common::YoutubePlayer.new(id, 'brief_introduction')
+        = render ReactComponents::Common::YoutubePlayer.new(id, 'brief_introductions')

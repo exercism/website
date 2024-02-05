@@ -26,12 +26,21 @@ export function useTheme(
   links: Pick<ThemePreferenceLinks, 'update'>
 ): useThemeReturns {
   const [hasBeenUpdated, setHasBeenUpdated] = useState(false)
-  const [storedTheme, setStoredTheme] = useLocalStorage<string>(
-    'theme-preference',
-    defaultThemePreference
-  )
-  const [theme, setTheme] = useState<string>(storedTheme || '')
+  const [storedTheme, setStoredTheme] = useLocalStorage<{
+    theme: string
+    time: number
+  }>('theme-preference', {
+    theme: defaultThemePreference,
+    time: Date.now(),
+  })
+  const [theme, setTheme] = useState<string>(storedTheme.theme || '')
   const debouncedTheme = useDebounce(theme, 500)
+
+  useEffect(() => {
+    if (hasFiveMinElapsed(storedTheme.time)) {
+      setStoredTheme({ theme: defaultThemePreference, time: Date.now() })
+    }
+  }, [])
 
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -53,9 +62,14 @@ export function useTheme(
   const handleThemeUpdate = useCallback((t, e) => {
     e.preventDefault()
     setTheme(t.value)
-    setStoredTheme(t.value)
+    setStoredTheme({ theme: t.value, time: Date.now() })
     setThemeClassName(t.value)
   }, [])
 
   return { handleThemeUpdate, status, error, theme }
+}
+
+function hasFiveMinElapsed(startTimestampMs: number): boolean {
+  const oneMinuteMs = 60000
+  return Date.now() - startTimestampMs >= 5 * oneMinuteMs
 }

@@ -1,7 +1,4 @@
 @import "../styles";
-@import "../components/widgets/exercise";
-@import "../components/unlocked-concept";
-@import "../tooltips/concept";
 
 .theme-light,
 .theme-accessibility-dark {

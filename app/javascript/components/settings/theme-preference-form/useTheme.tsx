@@ -4,6 +4,7 @@ import { useDebounce } from '@/hooks'
 import { useSettingsMutation } from '../useSettingsMutation'
 import { setThemeClassName } from './utils'
 import { Theme, ThemePreferenceLinks } from '../ThemePreferenceForm'
+import { useLocalStorage } from '@/utils/use-storage'
 
 type RequestBody = {
   user_preferences: {
@@ -24,9 +25,13 @@ export function useTheme(
   defaultThemePreference: string,
   links: Pick<ThemePreferenceLinks, 'update'>
 ): useThemeReturns {
-  const [theme, setTheme] = useState<string>(defaultThemePreference || '')
   const [hasBeenUpdated, setHasBeenUpdated] = useState(false)
-  const debouncedTheme = useDebounce(theme, 1000)
+  const [storedTheme, setStoredTheme] = useLocalStorage<string>(
+    'theme-preference',
+    defaultThemePreference
+  )
+  const [theme, setTheme] = useState<string>(storedTheme || '')
+  const debouncedTheme = useDebounce(theme, 500)
 
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -48,6 +53,7 @@ export function useTheme(
   const handleThemeUpdate = useCallback((t, e) => {
     e.preventDefault()
     setTheme(t.value)
+    setStoredTheme(t.value)
     setThemeClassName(t.value)
   }, [])
 

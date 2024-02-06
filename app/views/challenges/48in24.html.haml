@@ -5,7 +5,7 @@
 - featured_exercise = live_exercises.last
 - if featured_exercise
   - generic_exercise = GenericExercise.for(featured_exercise.slug)
-  - featured_tracks = featured_exercise.featured_tracks.select { |slug| tracks[slug] }.sort
+  - featured_tracks = featured_exercise.featured_tracks.filter_map { |slug| tracks[slug] ? [slug, tracks[slug]] : nil }.sort
 - num_placeholders = @exercises.size - live_exercises.size
 
 #challenge-48in24-page
@@ -29,7 +29,7 @@
             %p.text-p-large.mb-12
               Your task: #{generic_exercise.blurb}
             %p.text-p-large.mb-12
-              We're featuring it into the following languages: #{featured_tracks.to_sentence}.
+              We're featuring it into the following languages: #{featured_tracks.map { |slug, title| link_to(title, track_exercise_path(slug, featured_exercise.slug), class: 'underline') }.to_sentence.html_safe}.
 
             - if generic_exercise.deep_dive_youtube_id
               .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB

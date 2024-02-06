@@ -1,12 +1,12 @@
 - week = ((Time.zone.today - Date.new(2024, 1, 15)) / 7).ceil
-- exercises = @exercises.select { |e| e.week <= week }
-- tracks = Track.where(slug: exercises.flat_map(&:featured_tracks)).pluck(:slug, :title).to_h
+- live_exercises = @exercises.select { |e| e.week <= week }
+- tracks = Track.where(slug: live_exercises.flat_map(&:featured_tracks)).pluck(:slug, :title).to_h
 
-- featured_exercise = exercises.last
+- featured_exercise = live_exercises.last
 - if featured_exercise
   - generic_exercise = GenericExercise.for(featured_exercise.slug)
-  - featured_tracks = featured_exercise.featured_tracks.select { |slug| tracks[slug] }.sort
-- num_placeholders = @exercises.size - exercises.size
+  - featured_tracks = featured_exercise.featured_tracks.filter_map { |slug| tracks[slug] ? [slug, tracks[slug]] : nil }.sort
+- num_placeholders = @exercises.size - live_exercises.size
 
 #challenge-48in24-page
   %section.top-section
@@ -29,7 +29,7 @@
             %p.text-p-large.mb-12
               Your task: #{generic_exercise.blurb}
             %p.text-p-large.mb-12
-              We're featuring it into the following languages: #{featured_tracks.to_sentence}.
+              We're featuring it into the following languages: #{featured_tracks.map { |slug, title| link_to(title, track_exercise_path(slug, featured_exercise.slug), class: 'underline') }.to_sentence.html_safe}.
 
             - if generic_exercise.deep_dive_youtube_id
               .shadow-baseZ1.grid.md:grid-cols-2.grid-cols-1.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
@@ -130,7 +130,7 @@
           Read the instructions at the top-right of this page to understand how everything works.
 
       .grid.grid-cols-1.xl:grid-cols-4.lg:grid-cols-3.sm:grid-cols-2.gap-32.mx-auto.exercises
-        - exercises.each do |exercise|
+        - live_exercises.each do |exercise|
           - status = exercise.status.to_s.dasherize
           - num_completed_tracks = exercise.completed_tracks.count { |_, year| year == 2024 }
           .exercise{ class: status }

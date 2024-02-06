@@ -34,7 +34,7 @@
             .exercise {
                 @apply shadow-smZ1 rounded-8 bg-backgroundColorB border-8;
                 @apply text-center;
-                @apply relative;
+                @apply relative flex flex-col;
 
                 &.in-progress {
                     @apply border-orange;
@@ -89,7 +89,7 @@
                 }
 
                 .info {
-                    @apply py-16 px-24 flex flex-col items-center;
+                    @apply py-16 px-24 flex flex-col items-center flex-grow;
                     @apply border-1 border-textColor7;
 
                     &:before {

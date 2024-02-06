@@ -47,7 +47,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 40, slug: 'circular-buffer', title: 'Circular Buffer', featured_tracks: %w[powershell gleam lua], learning_opportunity: "" },
     { week: 41, slug: 'bank-account', title: 'Bank Account', featured_tracks: %w[java erlang clojure], learning_opportunity: "" },
     { week: 42, slug: 'food-chain', title: 'Food Chain', featured_tracks: %w[ruby go haskell], learning_opportunity: "" },
-    { week: 43, slug: 'pop-count', title: 'Eliud\'s Eggs', featured_tracks: %w[x86-64 racket 8th], learning_opportunity: "" },
+    { week: 43, slug: 'eluids-eggs', title: 'Eliud\'s Eggs', featured_tracks: %w[x86-64 racket 8th], learning_opportunity: "" },
     { week: 44, slug: 'collatz-conjecture', title: 'Collatz Conjecture', featured_tracks: %w[rust csharp jq], learning_opportunity: "" },
     { week: 45, slug: 'run-length-encoding', title: 'Run-Length Encoding', featured_tracks: %w[wasm elm kotlin], learning_opportunity: "" },
     { week: 46, slug: 'armstrong-numbers', title: 'Armstrong Numbers', featured_tracks: %w[mips d javascript], learning_opportunity: "" },

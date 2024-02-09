@@ -16,6 +16,7 @@ module ViewComponents
     private
     def cache_key
       parts = digests
+      parts << Date.current.year
       parts << ::Track.active.count
       parts << user_part
       parts << stripe_version

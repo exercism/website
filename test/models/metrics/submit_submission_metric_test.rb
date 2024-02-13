@@ -47,4 +47,12 @@ class Metrics::SubmitSubmissionTest < ActiveSupport::TestCase
       Metric::Create.(:submit_submission, Time.utc(2012, 7, 25), submission:)
     end
   end
+
+  test "calls increment_num_solutions!" do
+    submission = create :submission
+
+    Metrics.expects(:increment_num_submissions!)
+
+    Metric::Create.(:submit_submission, Time.utc(2012, 7, 25), submission:)
+  end
 end

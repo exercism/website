@@ -1,11 +1,13 @@
 module Metrics
   NUM_USERS_KEY = "metrics_num_users".freeze
   NUM_SOLUTIONS_KEY = "metrics_num_solutions".freeze
+  NUM_SUBMISSIONS_KEY = "metrics_num_submissions".freeze
   NUM_DISCUSSIONS_KEY = "metrics_num_discussions".freeze
 
   class << self
     { users: User,
       solutions: Solution,
+      submissions: Submission,
       discussions: Mentor::Discussion }.each do |key, klass|
       redis_key = Metrics.const_get("num_#{key}_key".upcase)
 

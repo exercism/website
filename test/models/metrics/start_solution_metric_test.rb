@@ -47,4 +47,12 @@ class Metrics::StartSolutionTest < ActiveSupport::TestCase
       Metric::Create.(:start_solution, Time.utc(2012, 7, 25), solution:)
     end
   end
+
+  test "calls increment_num_solutions!" do
+    solution = create :concept_solution
+
+    Metrics.expects(:increment_num_solutions!)
+
+    Metric::Create.(:start_solution, Time.utc(2012, 7, 25), solution:)
+  end
 end

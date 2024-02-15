@@ -29,16 +29,19 @@ class Maintaining::SiteUpdatesController < Maintaining::BaseController
 
   def update
     @update = SiteUpdate.find(params[:id])
+    redirect_to action: :index unless @update.editable_by?(current_user)
 
-    if @update.editable_by?(current_user)
-      @update.update!(
-        params.require(:site_update).permit(
-          :title, :description_markdown, :pull_request_number
-        ).merge(author: current_user)
-      )
+    if @update.update(
+      params.require(:site_update).
+        permit(:title, :description_markdown, :pull_request_number).
+        merge(author: current_user)
+    )
+      redirect_to action: :index
     end
 
-    redirect_to action: :index
+    render :edit, status: :unprocessable_entity
+  rescue StandardError
+    render :edit, status: :unprocessable_entity
   end
 
   private

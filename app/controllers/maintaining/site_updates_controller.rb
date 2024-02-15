@@ -2,7 +2,7 @@ class Maintaining::SiteUpdatesController < Maintaining::BaseController
   def index
     @updates = SiteUpdate.sorted
     @updates = @updates.for_track(Track.find(params[:track_slug])) if params[:track_slug].present?
-    @updates = @updates.page(params[:page]).per(30)
+    @updates = @updates.includes(:track, :exercise, :author, :pull_request).page(params[:page]).per(30)
   end
 
   def new

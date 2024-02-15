@@ -30,7 +30,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 23, slug: 'matching-brackets', title: 'Matching Brackets', featured_tracks: %w[racket zig vbnet], learning_opportunity: "" },
     { week: 24, slug: 'rna-transcription', title: 'RNA Transcription', featured_tracks: %w[scheme elm abap], learning_opportunity: "" },
     { week: 25, slug: 'binary-search', title: 'Binary Search', featured_tracks: %w[fortran ballerina ocaml], learning_opportunity: "" },
-    { week: 26, slug: 'spiral-matrix', title: 'Spiral Matrix', featured_tracks: %w[purescript go], learning_opportunity: "" },
+    { week: 26, slug: 'spiral-matrix', title: 'Spiral Matrix', featured_tracks: %w[vbnet purescript go], learning_opportunity: "" },
     { week: 27, slug: 'secret-handshake', title: 'Secret Handshake', featured_tracks: %w[cpp raku haskell], learning_opportunity: "" },
     { week: 28, slug: 'anagram', title: 'Anagram', featured_tracks: %w[cobol lfe reasonml], learning_opportunity: "" },
     { week: 29, slug: 'kindergarten-garden', title: 'Kindergarten Garden', featured_tracks: %w[c awk perl5], learning_opportunity: "" },

@@ -50,7 +50,7 @@ en:
 
     nudge_mentor_to_reply_in_discussion:
       1: >
-        <strong>%{student_name}</strong> is waiting for you to reply in the discussion on your solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
+        <strong>%{student_name}</strong> is waiting for you to reply in the discussion on their solution to <strong>%{exercise_title}</strong> in <strong>%{track_title}</strong>
 
     mentor_timed_out_discussion_mentor:
       1: >

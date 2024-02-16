@@ -23,6 +23,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
       contributorship = create(:exercise_contributorship, contributor: user, exercise:)
       create :user_exercise_contribution_reputation_token, params: { contributorship: }, user:
     end
+
     6.times do
       exercise = create :practice_exercise, track: js
       contributorship = create(:exercise_contributorship, contributor: user, exercise:)
@@ -49,6 +50,9 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
       create :user_mentored_reputation_token, params: { discussion: }, user:
     end
 
+    create(:user_arbitrary_reputation_token, user:)
+    create(:user_arbitrary_reputation_token, user:)
+
     generate_reputation_periods!
 
     expected = {
@@ -63,7 +67,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
             { id: :authoring, reputation: 110, metric_full: "11 exercises contributed", metric_short: "11 exercises" },
             { id: :building, reputation: 72, metric_full: "6 PRs accepted", metric_short: "6 PRs accepted" },
             { id: :maintaining, reputation: 45, metric_full: "9 PRs reviewed", metric_short: "9 PRs reviewed" },
-            { id: :other, reputation: 0 }
+            { id: :other, reputation: 46 }
           ]
         },
         {

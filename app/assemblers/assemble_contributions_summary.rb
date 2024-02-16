@@ -139,29 +139,31 @@ class AssembleContributionsSummary
 
   memoize
   def reputation_points
-    data = @user.reputation_periods.
+    data = user.reputation_periods.
       where(period: :forever).
       group(:track_id, :category).sum(:reputation)
 
-    grouped_sums = @user.reputation_tokens.where(category: :publishing).group(:track_id).sum(:value)
+    grouped_sums = user.reputation_tokens.where(category: :publishing).group(:track_id).sum(:value)
     grouped_sums.each do |track_id, value|
       data[[track_id, "publishing"]] = value
     end
     data[[0, "publishing"]] = grouped_sums.sum(&:second)
+    data[[0, "misc"]] = user.reputation_tokens.where(category: :misc, track_id: nil).sum(:value)
     data
   end
 
   memoize
   def reputation_occurrences
-    data = @user.reputation_periods.
+    data = user.reputation_periods.
       where(period: :forever).
       group(:track_id, :category).sum(:num_tokens)
 
-    grouped_counts = @user.reputation_tokens.where(category: :publishing).group(:track_id).count
+    grouped_counts = user.reputation_tokens.where(category: :publishing).group(:track_id).count
     grouped_counts.each do |track_id, value|
       data[[track_id, "publishing"]] = value
     end
     data[[0, "publishing"]] = grouped_counts.sum(&:second)
+    data[[0, "misc"]] = user.reputation_tokens.where(category: :misc, track_id: nil).count
     data
   end
 end

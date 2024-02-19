@@ -47,11 +47,12 @@ import { CancelledRequestModal } from './session/CancelledRequestModal'
 import { ScreenSizeContext } from './session/ScreenSizeContext'
 import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
 import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
+import { useLogger } from '@/hooks'
 
 export type Links = {
   mentorDashboard: string
   mentorQueue: string
-  improveNotes: string
+  exercise: string
   mentoringDocs: string
 }
 
@@ -178,6 +179,7 @@ export default function Session(props: SessionProps): JSX.Element {
                 student={student}
                 track={track}
                 exercise={exercise}
+                links={links}
               />
               {discussion ? (
                 <DiscussionActions

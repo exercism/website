@@ -30,7 +30,7 @@ export default function WelcomeToInsidersModal({
     },
     {
       onSuccess: () => {
-        handleClose()
+        setOpen(false)
       },
     }
   )
@@ -38,14 +38,6 @@ export default function WelcomeToInsidersModal({
   const handleClick = useCallback(() => {
     mutation()
   }, [mutation])
-
-  const handleClose = useCallback(() => {
-    if (status === 'loading') {
-      return
-    }
-
-    setOpen(false)
-  }, [status])
 
   return (
     <Modal

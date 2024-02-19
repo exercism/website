@@ -19,7 +19,7 @@ export const InstructionsPanel = ({
   const ref = useHighlighting<HTMLDivElement>()
 
   return (
-    <Tab.Panel id="instructions" context={TabsContext}>
+    <Tab.Panel id="instructions" context={TabsContext} alwaysAttachToDOM>
       <section className="instructions-pane" ref={ref}>
         <div className="c-textual-content --small">
           <Introduction introduction={introduction} />

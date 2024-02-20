@@ -30,7 +30,7 @@ export const SessionInfo = ({
             on{' '}
             <a
               href={links.exercise}
-              className="text-prominentLinkColor font-semibold"
+              className="hover:text-prominentLinkColor font-semibold"
             >
               {exercise.title}
             </a>{' '}

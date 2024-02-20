@@ -51,7 +51,7 @@ import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
 export type Links = {
   mentorDashboard: string
   mentorQueue: string
-  improveNotes: string
+  exercise: string
   mentoringDocs: string
 }
 
@@ -178,6 +178,7 @@ export default function Session(props: SessionProps): JSX.Element {
                 student={student}
                 track={track}
                 exercise={exercise}
+                links={links}
               />
               {discussion ? (
                 <DiscussionActions

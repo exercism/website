@@ -28,7 +28,10 @@ export const SessionInfo = ({
           <div className="handle">{student.handle}</div>
           <div className="exercise">
             on{' '}
-            <a href={links.exercise} className="text-prominentLinkColor">
+            <a
+              href={links.exercise}
+              className="text-prominentLinkColor font-semibold"
+            >
               {exercise.title}
             </a>{' '}
             in {track.title}{' '}

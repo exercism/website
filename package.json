@@ -54,7 +54,7 @@
     "highlight.js": "11.9.0",
     "highlightjs-bqn": "^0.0.1",
     "highlightjs-cobol": "^0.3.1",
-    "highlightjs-redbol": "^2.1.1",
+    "highlightjs-redbol": "^2.1.2",
     "highlightjs-sap-abap": "^0.2.0",
     "highlightjs-zig": "^1.0.2",
     "humps": "^2.0.1",

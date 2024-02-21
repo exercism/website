@@ -5467,10 +5467,10 @@ highlightjs-cobol@^0.3.1:
     minimist ">=1.2.6"
     mkdirp "^1.0.4"
 
-highlightjs-redbol@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/highlightjs-redbol/-/highlightjs-redbol-2.1.1.tgz#28fca78a342c5d851bd80d0c3e60bcb1d2bb623e"
-  integrity sha512-j9ULplkN12Ln3tl04W8HIcBUjjZyUg7h5dEFIR7q1+UycJUjPCfZgMIIuoTJTOhz0/rYDuxenj0pLMWA3xXoAQ==
+highlightjs-redbol@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/highlightjs-redbol/-/highlightjs-redbol-2.1.2.tgz#5f4eb1fdcf9c7259d9cc1337b231272b2fe7621e"
+  integrity sha512-MMhBycvOQawsPj26sVmUOH09urnYoVlZVKWS5cYA8ah2lg7v9PLMC9y07QHOyoUkQ0AhKDyuyOncMQ/Cvr/G0A==
   dependencies:
     highlight.js "^11.9.0"
 

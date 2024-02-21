@@ -1,12 +1,12 @@
 import * as highlighter from 'highlight.js'
 import { useLayoutEffect, useRef } from 'react'
+import { areAllRegExpFeaturesSupported } from './regex-check'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
 import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
-import { areAllRegExpFeaturesSupported } from './regex-check'
 import setupRed from 'highlightjs-redbol'
 
 if (areAllRegExpFeaturesSupported()) {

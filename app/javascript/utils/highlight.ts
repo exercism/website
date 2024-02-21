@@ -8,12 +8,14 @@ import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
 import { areAllRegExpFeaturesSupported } from './regex-check'
 
-highlighter.default.registerLanguage('abap', setupABAP)
-highlighter.default.registerLanguage('cobol', setupCobol)
-highlighter.default.registerLanguage('bqn', setupBqn)
-highlighter.default.registerLanguage('zig', setupZig)
-highlighter.default.registerLanguage('gleam', setupGleam)
-highlighter.default.registerLanguage('ballerina', setupBallerina)
+if (areAllRegExpFeaturesSupported()) {
+  highlighter.default.registerLanguage('abap', setupABAP)
+  highlighter.default.registerLanguage('cobol', setupCobol)
+  highlighter.default.registerLanguage('bqn', setupBqn)
+  highlighter.default.registerLanguage('zig', setupZig)
+  highlighter.default.registerLanguage('gleam', setupGleam)
+  highlighter.default.registerLanguage('ballerina', setupBallerina)
+}
 
 highlighter.default.configure({
   throwUnescapedHTML: true,

@@ -61,27 +61,51 @@ export function useThemeObserver(updateEndpoint?: string): ThemeData {
       }
     }
 
-    mediaQueryPrefersColorSchemeDark.addEventListener(
-      'change',
+    addMediaQueryListener(
+      mediaQueryPrefersColorSchemeDark,
       mediaQueryListenerPrefersColorSchemeDark
     )
-    mediaQueryPrefersContrastMore.addEventListener(
-      'change',
+    addMediaQueryListener(
+      mediaQueryPrefersContrastMore,
       mediaQueryListenerPrefersContrastMore
     )
 
     return () => {
       observer.disconnect()
-      mediaQueryPrefersColorSchemeDark.removeEventListener(
-        'change',
+      removeMediaQueryListener(
+        mediaQueryPrefersColorSchemeDark,
         mediaQueryListenerPrefersColorSchemeDark
       )
-      mediaQueryPrefersContrastMore.removeEventListener(
-        'change',
+      removeMediaQueryListener(
+        mediaQueryPrefersContrastMore,
         mediaQueryListenerPrefersContrastMore
       )
     }
   }, [themeData.theme, isDarkMode, updateEndpoint])
 
   return themeData
+}
+
+function addMediaQueryListener(
+  mediaQueryList: MediaQueryList,
+  listener: (ev: MediaQueryListEvent) => void
+) {
+  if (mediaQueryList.addEventListener) {
+    mediaQueryList.addEventListener('change', listener)
+  } else {
+    // Fallback for Safari < 14 and other older browsers
+    mediaQueryList.addListener(listener)
+  }
+}
+
+function removeMediaQueryListener(
+  mediaQueryList: MediaQueryList,
+  listener: (ev: MediaQueryListEvent) => void
+) {
+  if (mediaQueryList.removeEventListener) {
+    mediaQueryList.removeEventListener('change', listener)
+  } else {
+    // Fallback for Safari < 14 and other older browsers
+    mediaQueryList.removeListener(listener)
+  }
 }

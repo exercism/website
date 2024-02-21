@@ -13,13 +13,5 @@ export function areAllRegExpFeaturesSupported(): boolean {
     return false
   }
 
-  try {
-    const hasIndicesFlagTest = new RegExp('.', 'd')
-    if ('a'.match(hasIndicesFlagTest)?.indices === undefined) return false
-  } catch (e) {
-    console.log('Has indices flag is not supported:', e)
-    return false
-  }
-
   return true
 }

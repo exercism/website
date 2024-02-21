@@ -6,6 +6,7 @@ import setupBqn from 'highlightjs-bqn'
 import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
+import { areAllRegExpFeaturesSupported } from './regex-check'
 
 highlighter.default.registerLanguage('abap', setupABAP)
 highlighter.default.registerLanguage('cobol', setupCobol)
@@ -108,6 +109,7 @@ const highlightBlock = (block: HTMLElement): void => {
 }
 
 export const highlightAll = (parent: ParentNode = document): void => {
+  if (!areAllRegExpFeaturesSupported()) return
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     if (block.dataset.highlighted === 'true') {
       return
@@ -118,6 +120,7 @@ export const highlightAll = (parent: ParentNode = document): void => {
 }
 
 export const highlightAllAlways = (parent: ParentNode = document): void => {
+  if (!areAllRegExpFeaturesSupported()) return
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     block.removeAttribute('data-highlighted')
     highlightBlock(block)

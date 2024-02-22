@@ -14,7 +14,7 @@ class Solution::SearchViaRepresentations
     @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
     @order = order&.to_sym || :most_popular
-    @criteria = criteria&.strip
+    @criteria = criteria&.split.to_a
     @tags = tags.present? && tags.is_a?(String) ? tags.split : tags.to_a
   end
 
@@ -73,7 +73,11 @@ class Solution::SearchViaRepresentations
       { term: { 'exercise.id': exercise.id } }
     ]
 
-    parts << { match: { code: { query: criteria, fuzziness: 1 } } } if criteria.size >= MIN_CRITERIA_LEN
+    criteria.each do |value|
+      next if value.size < MIN_CRITERIA_LEN
+
+      parts << { wildcard: { code: { value: "*#{value}*" } } }
+    end
 
     # Tags are matched exactly
     tags.each do |tag|

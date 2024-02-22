@@ -73,12 +73,7 @@ class Solution::SearchViaRepresentations
       { term: { 'exercise.id': exercise.id } }
     ]
 
-    # We match criteria via wildcards to allow for partial matching
-    criteria.each do |value|
-      next if value.size < MIN_CRITERIA_LEN
-
-      parts << { wildcard: { code: { value: "*#{value}*" } } }
-    end
+    parts << criteria_query if criteria_query.present?
 
     # Tags are matched exactly
     tags.each do |tag|
@@ -103,15 +98,33 @@ class Solution::SearchViaRepresentations
     end
   end
 
-  def to_terms(value)
-    return value.split if value.is_a?(String)
+  memoize
+  def criteria_query
+    return if criteria_query_terms.empty?
 
-    [value].flatten
+    {
+      simple_query_string: {
+        query: criteria_query_terms.join(' + '),
+        fields: ["code"],
+        analyze_wildcard: true
+      }
+    }
+  end
+
+  memoize
+  def criteria_query_terms
+    criteria.filter_map do |value|
+      next if value.size < MIN_CRITERIA_LEN
+
+      term = Infrastructure::EscapeOpensearchSimpleQueryStringTerm.(value)
+      "#{term}~#{CODE_TERM_FUZZINESS}"
+    end
   end
 
   TIMEOUT = '400ms'.freeze
   MIN_CRITERIA_LEN = 3
-  private_constant :TIMEOUT, :MIN_CRITERIA_LEN
+  CODE_TERM_FUZZINESS = 1
+  private_constant :TIMEOUT, :MIN_CRITERIA_LEN, :CODE_TERM_FUZZINESS
 
   class Fallback
     include Mandate

@@ -92,7 +92,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
         git_important_files_hash: exercise.git_important_files_hash,
         published_iteration_head_tests_status: :passed
       submission = create :submission, solution:, tests_status: :passed
-      create :submission_file, submission:, filename: "main.rb", content: "def #{word}_main; end"
+      create :submission_file, submission:, filename: "main.rb", content: "def #{word}_main;\n#class\nend"
       create(:iteration, solution:, submission:)
 
       representation = create(:exercise_representation, exercise:, source_submission: submission)
@@ -115,8 +115,8 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [data[:my][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'my_main')
     assert_equal [data[:your][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'your_main')
     assert_equal [data[:another][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'another_main')
-    assert_equal data.values.pluck(:solution), Solution::SearchViaRepresentations.(exercise, criteria: 'main')
-    assert_equal data.values.pluck(:solution), Solution::SearchViaRepresentations.(exercise, criteria: 'mai')
+    assert_equal data.values.pluck(:solution), Solution::SearchViaRepresentations.(exercise, criteria: '#class')
+    assert_equal data.values.pluck(:solution), Solution::SearchViaRepresentations.(exercise, criteria: '#clasz')
   end
 
   test "filter: criteria ignored when length less than three" do

@@ -116,7 +116,8 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [data[:your][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'your_main')
     assert_equal [data[:another][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'another_main')
     assert_equal data.values.pluck(:solution), Solution::SearchViaRepresentations.(exercise, criteria: '#class')
-    assert_equal data.values.pluck(:solution), Solution::SearchViaRepresentations.(exercise, criteria: '#clasz')
+    assert_equal [data[:my][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'my_maan')
+    assert_equal [data[:my][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'my_main class')
   end
 
   test "filter: criteria ignored when length less than three" do

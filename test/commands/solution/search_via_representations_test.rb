@@ -84,7 +84,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [other_solution], Solution::SearchViaRepresentations.(other_exercise)
   end
 
-  test "filter: criteria" do
+  test "filter: criteria searches for code" do
     exercise = create :practice_exercise
 
     data = %i[my your another].each_with_object({}) do |word, d|
@@ -117,10 +117,49 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [data[:another][:solution]], Solution::SearchViaRepresentations.(exercise, criteria: 'another_main')
     assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'main')
     assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'mai')
+  end
 
-    # The minimum search length is three. We'll ignore queries of less length
-    assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'z')
-    assert_equal data.values.map { |d| d[:solution] }, Solution::SearchViaRepresentations.(exercise, criteria: 'zz')
+  test "filter: criteria ignored when length less than three" do
+    user = create :user, handle: 'john'
+    other_user = create :user, handle: 'jane'
+    ruby = create :track, title: "Ruby"
+
+    exercise = create :practice_exercise, track: ruby
+    exercise_representation_1 = create(:exercise_representation, exercise:)
+    exercise_representation_2 = create(:exercise_representation, exercise:)
+
+    solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago, user:,
+      git_important_files_hash: exercise.git_important_files_hash,
+      published_iteration_head_tests_status: :passed,
+      published_exercise_representation: exercise_representation_1
+    submission = create :submission, solution: solution_1, tests_status: :passed
+    create :submission_representation, submission:, ast: exercise_representation_1.ast
+    create :submission_file, submission:, filename: "main.rb", content: "def my_main; end"
+    create(:iteration, solution: solution_1, submission:)
+
+    solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago, user: other_user,
+      git_important_files_hash: exercise.git_important_files_hash,
+      published_iteration_head_tests_status: :passed,
+      published_exercise_representation: exercise_representation_2
+    submission = create :submission, solution: solution_2, tests_status: :passed
+    create :submission_representation, submission:, ast: exercise_representation_2.ast
+    create :submission_file, submission:, filename: "main.rb", content: "def your_main; end"
+    create(:iteration, solution: solution_2, submission:)
+
+    perform_enqueued_jobs do
+      Exercise::Representation::Recache.(exercise_representation_1)
+      Exercise::Representation::Recache.(exercise_representation_2)
+    end
+
+    # Sanity check: ensure that the results are not returned using the fallback
+    Solution::SearchViaRepresentations::Fallback.expects(:call).never
+
+    wait_for_opensearch_to_be_synced
+
+    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations.(exercise, criteria: '')
+    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations.(exercise, criteria: 'm')
+    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations.(exercise, criteria: 'ma')
+    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations.(exercise, criteria: '  ma  ')
   end
 
   test "filter: tag" do

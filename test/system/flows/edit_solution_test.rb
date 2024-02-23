@@ -196,7 +196,7 @@ module Components
           refute_text "Checking for automated feedback"
           assert_text "No Immediate Feedback"
           click_on "Request code review"
-          assert_text "What are you hoping to learn from this track?"
+          assert_text "About you"
 
           input_1 = find("#request-mentoring-form-track-objectives")
           input_2 = find("#request-mentoring-form-solution-comment")

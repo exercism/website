@@ -148,6 +148,79 @@ export function initReact(mappings: Mappings): void {
   }
 }
 
+function onGoogleTranslateDetected(): void {
+  // See: https://github.com/facebook/react/issues/11538#issuecomment-417504600
+  if (typeof Node === 'function' && Node.prototype) {
+    const originalRemoveChild: (child: Node) => Node =
+      Node.prototype.removeChild
+    Node.prototype.removeChild = function <T extends Node>(
+      this: Node,
+      child: T
+    ): T {
+      if (child.parentNode !== this) {
+        if (console) {
+          console.error(
+            'Cannot remove a child from a different parent',
+            child,
+            this
+          )
+        }
+        return child
+      }
+      return originalRemoveChild.apply(this, [child]) as T
+    }
+
+    const originalInsertBefore: (
+      newNode: Node,
+      referenceNode: Node | null
+    ) => Node = Node.prototype.insertBefore
+    Node.prototype.insertBefore = function <T extends Node>(
+      this: Node,
+      newNode: T,
+      referenceNode: Node | null
+    ): T {
+      if (referenceNode && referenceNode.parentNode !== this) {
+        if (console) {
+          console.error(
+            'Cannot insert before a reference node from a different parent',
+            referenceNode,
+            this
+          )
+        }
+        return newNode
+      }
+      return originalInsertBefore.apply(this, [newNode, referenceNode]) as T
+    }
+  }
+}
+
+// Currently only Chrome produces this React bug, so let's not use this piece of code on other browsers
+if (/Chrome/.test(navigator.userAgent)) {
+  // We need to use MutationObserver here because translating almost only happens as a DOM mutation
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (
+        mutation.type === 'attributes' &&
+        mutation.attributeName === 'class'
+      ) {
+        const htmlElement = document.documentElement
+        const hasTranslationClasses =
+          htmlElement.classList.contains('translated-ltr') ||
+          htmlElement.classList.contains('translated-rtl')
+
+        if (hasTranslationClasses) {
+          onGoogleTranslateDetected()
+        }
+      }
+    })
+  })
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  })
+}
+
 const roots = new WeakMap()
 const render = (elem: HTMLElement, component: React.ReactNode) => {
   let root = roots.get(elem)

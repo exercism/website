@@ -1,0 +1,6 @@
+- require_stylesheet "contributing"
+- content_for :canonical_url, contributing_approaches_url
+
+#contributing-approaches
+  = render ViewComponents::Contributing::Header.new(:approaches)
+  = render ReactComponents::Contributing::ApproachesList.new(params)

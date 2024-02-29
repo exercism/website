@@ -104,6 +104,13 @@ module ViewComponents
           icon_filter: "textColor6"
         },
         {
+          title: "Approaches",
+          description: "Write approaches for exercises",
+          path: Exercism::Routes.docs_path,
+          icon: :docs,
+          icon_filter: "textColor6"
+        },
+        {
           title: "Contributors",
           description: "Meet the people behind Exercism",
           path: Exercism::Routes.contributing_contributors_path,

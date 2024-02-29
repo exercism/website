@@ -1,7 +1,7 @@
 module ViewComponents
   module Contributing
     class Header < ViewComponent
-      TABS = %i[dashboard contributors tasks].freeze
+      TABS = %i[dashboard contributors tasks approaches].freeze
 
       initialize_with :selected_tab
 
@@ -61,6 +61,15 @@ module ViewComponents
             graphical_icon(:tasks) +
               tag.span("Explore tasks") +
               tag.span(number_with_delimiter(tasks_size), class: 'count')
+          end,
+
+          link_to(
+            Exercism::Routes.contributing_approaches_path,
+            class: tab_class(:approaches),
+            data: scroll_into_view(:approaches)
+          ) do
+            graphical_icon(:approaches) +
+              tag.span("Write approaches")
           end,
 
           link_to(

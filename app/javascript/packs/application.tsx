@@ -24,6 +24,7 @@ import type {
 } from '@/components/types'
 import type { Request as ContributingTasksRequest } from '@/components/contributing/TasksList'
 import type { TrackData as ProfileCommunitySolutionsListTrackData } from '@/components/profile/CommunitySolutionsList'
+import type { Request as ContributingApproachesRequest } from '@/components/contributing/ApproachesList'
 import type { Category as ProfileContributionsListCategory } from '@/components/profile/ContributionsList'
 import type { Links as SolutionViewLinks } from '@/components/common/SolutionView'
 import type { Links as CommentsListLinks } from '@/components/community-solutions/CommentsList'
@@ -186,6 +187,10 @@ const ContributorsList = lazy(
   () => import('@/components/contributing/ContributorsList')
 )
 const TasksList = lazy(() => import('@/components/contributing/TasksList'))
+
+const ApproachesList = lazy(
+  () => import('@/components/contributing/ApproachesList')
+)
 
 const CodeTagger = lazy(() => import('@/components/training-data/CodeTagger'))
 
@@ -437,7 +442,15 @@ export const mappings = {
       />
     </Suspense>
   ),
-
+  'contributing-approaches-list': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <ApproachesList
+        request={camelizeKeysAs<ContributingApproachesRequest>(data.request)}
+        tracks={camelizeKeysAs<readonly Track[]>(data.tracks)}
+        exercises={camelizeKeysAs<readonly Exercise[]>(data.exercises)}
+      />
+    </Suspense>
+  ),
   'training-data-dashboard': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <Dashboard {...camelizeKeysAs<DashboardProps>(data)} />

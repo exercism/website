@@ -160,6 +160,7 @@ Rails.application.routes.draw do
     resources :tasks, only: [:index], param: :uuid do
       get :tooltip, on: :member
     end
+    resources :approaches, only: [:index]
   end
   namespace :training_data do
     root to: "dashboard#index"

@@ -158,6 +158,8 @@ namespace :api do
 
     resources :tasks, only: [:index]
 
+    resources :approaches, only: [:index]
+
     resources :docs, only: [:index]
 
     resources :streaming_events, only: [:index]

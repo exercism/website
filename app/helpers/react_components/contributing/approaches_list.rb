@@ -10,13 +10,15 @@ module ReactComponents
           "contributing-approaches-list",
           {
             request: {
-              endpoint: Exercism::Routes.api_tasks_url,
+              endpoint: Exercism::Routes.api_approaches_url,
               query:,
               options: {
-                initial_data: AssembleTasks.(params)
+                initial_data: AssembleApproaches.(params)
               }
             },
             tracks: AssembleTracksForSelect.()
+            # TODO: output only relevant tracks
+            # TODO: output exercises
           }
         )
       end

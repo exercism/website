@@ -106,7 +106,7 @@ module ViewComponents
         {
           title: "Approaches",
           description: "Write approaches for exercises",
-          path: Exercism::Routes.docs_path,
+          path: Exercism::Routes.contributing_approaches_path,
           icon: :docs,
           icon_filter: "textColor6"
         },

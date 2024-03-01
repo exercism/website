@@ -5,31 +5,20 @@ class AssembleApproaches
 
   def call
     SerializePaginatedCollection.(
-      tasks,
-      serializer: SerializeTasks,
+      approaches,
+      serializer: SerializeApproaches,
       meta: {
         unscoped_total: Exercise::Approach.count
       }
     )
   end
 
-  memoize
-  def tasks
-    Github::Task::Search.(
-      actions: params[:actions],
-      knowledge: params[:knowledge],
-      areas: params[:areas],
-      sizes: params[:sizes],
-      types: params[:types],
-      repo_url: params[:repo_url],
+  def approaches
+    Exercise::Approach::Search.(
+      exercise_slug: params[:exercise_slug],
+      track_slug: params[:track_slug],
       order: params[:order],
-      page: params[:page],
-      track_id:
+      page: params[:page]
     )
-  end
-
-  memoize
-  def track_id
-    Track.find(params[:track_slug]).id if params[:track_slug].present?
   end
 end

@@ -27,12 +27,7 @@ module ReactComponents
       memoize
       def query
         {
-          actions: params[:actions] || [],
-          knowledge: params[:knowledge] || [],
-          areas: params[:areas] || [],
-          sizes: params[:sizes] || [],
-          types: params[:types] || [],
-          repo_url: params[:repo_url] || "",
+          exercise_slug: params[:exercise_slug] || "",
           track_slug: params[:track_slug] || "",
           order: params[:order] || "newest",
           page: params[:page] || 1

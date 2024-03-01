@@ -1,4 +1,4 @@
-class AssembleTasks
+class AssembleApproaches
   include Mandate
 
   initialize_with :params
@@ -8,7 +8,7 @@ class AssembleTasks
       tasks,
       serializer: SerializeTasks,
       meta: {
-        unscoped_total: Github::Task.count
+        unscoped_total: Exercise::Approach.count
       }
     )
   end

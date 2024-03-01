@@ -5,7 +5,7 @@ class Exercise::Approach::Search
   # easier stubbing during testing
   def self.requests_per_page = 20
 
-  initialize_with exercise_id: nil, track_id: nil, order: nil, page: 1
+  initialize_with exercise_slug: nil, track_slug: nil, order: nil, page: 1
 
   def call
     @approaches = Exercise::Approach
@@ -21,16 +21,16 @@ class Exercise::Approach::Search
   attr_reader :approaches
 
   def filter!
-    filter_track! if track_id.present?
-    filter_exercise! if exercise_id.present?
+    filter_track! if track_slug.present?
+    filter_exercise! if exercise_slug.present?
   end
 
   def filter_track!
-    @approaches = @approaches.joins(:exercise).where(exercise: { track_id: })
+    @approaches = @approaches.joins(exercise: :track).where(exercise: { tracks: { slug: track_slug } })
   end
 
   def filter_exercise!
-    @approaches = @approaches.where(exercise_id:)
+    @approaches = @approaches.joins(:exercise).where(exercise: { slug: exercise_slug })
   end
 
   def sort!

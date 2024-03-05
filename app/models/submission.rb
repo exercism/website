@@ -90,8 +90,8 @@ class Submission < ApplicationRecord
     # TODO: materialize the track's has_representer and has_analyzer status to the
     # submission when it is created, and then use those here instead of the track's
     # status fields
-    return true if !representation_generated? && !analysis_completed? && track.has_representer? && track.has_analyzer?
-    return true if (representation_queued? || representation_not_queued?) && track.has_representer?
+    return true if !representation_generated? && !analysis_completed? && track.has_analyzer?
+    return true if representation_queued? || representation_not_queued?
     return true if (analysis_queued? || analysis_not_queued?) && track.has_analyzer?
 
     false

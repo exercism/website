@@ -88,6 +88,7 @@ class Exercise < ApplicationRecord
   delegate :dir, :no_important_files_changed?, to: :git, prefix: true
   delegate :content, :edit_url, to: :mentoring_notes, prefix: :mentoring_notes
   delegate :deep_dive_youtube_id, :deep_dive_blurb, to: :generic_exercise, allow_nil: true
+  delegate :has_analyzer?, :has_representer?, to: :track
 
   before_create do
     self.synced_to_git_sha = git_sha unless self.synced_to_git_sha

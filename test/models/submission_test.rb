@@ -195,18 +195,18 @@ class SubmissionTest < ActiveSupport::TestCase
 
   test "automated_feedback_pending for track without analyzer" do
     # Pending without queued
-    submission = create :submission, representation_status: :not_queued, analysis_status: :not_queued
-    submission.track.update!(has_representer: false, has_analyzer: true)
-    refute submission.automated_feedback_pending?
+    submission = create :submission, representation_status: :generated, analysis_status: :not_queued
+    submission.track.update!(has_analyzer: true)
+    assert submission.automated_feedback_pending?
 
     # Pending with queued
-    submission = create :submission, representation_status: :not_queued, analysis_status: :queued
-    submission.track.update!(has_representer: false, has_analyzer: true)
+    submission = create :submission, representation_status: :generated, analysis_status: :queued
+    submission.track.update!(has_analyzer: true)
     assert submission.automated_feedback_pending?
 
     # Present only if there is actual feedback on analysis
-    submission = create :submission, representation_status: :not_queued, analysis_status: :completed
-    submission.track.update!(has_representer: false, has_analyzer: true)
+    submission = create :submission, representation_status: :generated, analysis_status: :completed
+    submission.track.update!(has_analyzer: true)
     refute submission.automated_feedback_pending?
 
     sa = create(:submission_analysis, submission:)
@@ -218,20 +218,20 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.has_automated_feedback?
 
     # Check if completed but without have feedback
-    submission = create :submission, representation_status: :not_queued, analysis_status: :completed
-    submission.track.update!(has_representer: false, has_analyzer: true)
+    submission = create :submission, representation_status: :generated, analysis_status: :completed
+    submission.track.update!(has_analyzer: true)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
 
     # Check exceptioned state
-    submission = create :submission, representation_status: :not_queued, analysis_status: :exceptioned
-    submission.track.update!(has_representer: false, has_analyzer: true)
+    submission = create :submission, representation_status: :generated, analysis_status: :exceptioned
+    submission.track.update!(has_analyzer: true)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
 
     # Check cancelled state
-    submission = create :submission, representation_status: :not_queued, analysis_status: :cancelled
-    submission.track.update!(has_representer: false, has_analyzer: true)
+    submission = create :submission, representation_status: :generated, analysis_status: :cancelled
+    submission.track.update!(has_analyzer: true)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
   end
@@ -239,17 +239,17 @@ class SubmissionTest < ActiveSupport::TestCase
   test "automated_feedback_pending for track without representer" do
     # Pending without queued
     submission = create :submission, representation_status: :not_queued, analysis_status: :not_queued
-    submission.track.update!(has_representer: true, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     refute submission.automated_feedback_pending?
 
     # Pending with queued
     submission = create :submission, representation_status: :queued, analysis_status: :not_queued
-    submission.track.update!(has_representer: true, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     assert submission.automated_feedback_pending?
 
     # Present only if there is actual feedback on representation
     submission = create :submission, representation_status: :generated, analysis_status: :not_queued
-    submission.track.update!(has_representer: true, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     refute submission.automated_feedback_pending?
 
     create(:submission_representation, ast_digest: "foobar", submission:)
@@ -279,26 +279,26 @@ class SubmissionTest < ActiveSupport::TestCase
 
     # Check if completed but without feedback
     submission = create :submission, representation_status: :generated, analysis_status: :not_queued
-    submission.track.update!(has_representer: true, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
 
     # Check exceptioned state
     submission = create :submission, representation_status: :exceptioned, analysis_status: :not_queued
-    submission.track.update!(has_representer: true, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
 
     # Check cancelled state
     submission = create :submission, representation_status: :cancelled, analysis_status: :not_queued
-    submission.track.update!(has_representer: true, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
   end
 
   test "automated_feedback_pending for track without representer nor analyzer" do
     submission = create :submission, representation_status: :not_queued, analysis_status: :not_queued
-    submission.track.update!(has_representer: false, has_analyzer: false)
+    submission.track.update!(has_analyzer: false)
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
   end

@@ -43,7 +43,7 @@
             - @featured_exercises.each.with_index do |featured_exercises, idx|
               %th.bg-backgroundColorD.align-top{ class: 'h-[100px]' }
                 .text-textColor7.mb-4 W#{idx + 1}
-                = featured_exercises[:slug]
+                = link_to featured_exercises[:slug], generic_exercise_path(featured_exercises[:slug])
         %tbody
           - @tracks.each do |track|
             %tr
@@ -57,4 +57,3 @@
                     ✅
                   - else
                     ❌
-

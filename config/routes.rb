@@ -260,6 +260,7 @@ Rails.application.routes.draw do
   resources :blog_posts, only: %i[index show], path: "blog"
 
   get "donate" => "donations#index", as: :donate
+  get "donated" => "donations#donated", as: :donated
 
   # #### #
   # SEO #

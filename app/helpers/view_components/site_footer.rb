@@ -31,7 +31,7 @@ module ViewComponents
       current_user.captcha_required? ? 2 : 1
     end
 
-    def stripe_version = 2
+    def stripe_version = 3
 
     def digests
       %w[external shared].map do |file|

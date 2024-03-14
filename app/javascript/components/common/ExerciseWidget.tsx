@@ -107,7 +107,7 @@ const ReferenceElement = forwardRef<
             solution.status === 'published') && (
             <GraphicalIcon
               icon="green-check"
-              className="h-[24px] w-[24px] ml-8 sm:block hidden filter-none"
+              className="h-[24px] w-[24px] ml-8 sm:block hidden"
             />
           )}
       </a>

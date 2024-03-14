@@ -9,8 +9,10 @@
         = render ReactComponents::Track::ActivatePracticeMode.new(user_track.track, "disable learning mode.", redirect_to_url: track_exercise_path(user_track.track, exercise))
 
     .prereqs
-      - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|
-        = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, skinny: true)
+      - prereq_exercises = user_track.enabled_exercises(exercise.prerequisite_exercises)
+      - prereq_solutions = user_track.solutions.where(exercise_id: prereq_exercises.map(&:id)).index_by(&:exercise_id)
+      - prereq_exercises.each do |prereq|
+        = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, solution: prereq_solutions[prereq.id], skinny: true)
 
 = render "tracks/exercises/show/action_box_solve_locked"
 = render("tracks/exercises/show/action_box_dig_deeper_locked", exercise:)

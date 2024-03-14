@@ -352,6 +352,12 @@ body.namespace-tracks.controller-exercises.action-show {
 
             & .c-exercise-widget {
                 @apply mr-8 mb-8;
+                &.--published,
+                &.--completed {
+                    &.--skinny {
+                        @apply outline outline-2 outline-darkGreen;
+                    }
+                }
             }
         }
         & h4 {

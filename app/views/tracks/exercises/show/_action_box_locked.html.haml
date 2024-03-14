@@ -10,7 +10,8 @@
 
     .prereqs
       - user_track.enabled_exercises(exercise.prerequisite_exercises).each do |prereq|
-        = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, skinny: true)
+        - solution = user_track.solutions.find { |s| s.exercise_id == prereq.id }
+        = render ReactComponents::Common::ExerciseWidget.new(prereq, user_track, solution:, skinny: true)
 
 = render "tracks/exercises/show/action_box_solve_locked"
 = render("tracks/exercises/show/action_box_dig_deeper_locked", exercise:)

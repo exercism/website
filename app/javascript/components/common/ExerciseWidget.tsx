@@ -5,6 +5,7 @@ import { GraphicalIcon } from './GraphicalIcon'
 import { Info } from './exercise-widget/Info'
 import { ExerciseTooltip } from '../tooltips'
 import { ExercismTippy } from '../misc/ExercismTippy'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 type Links = {
   tooltip?: string
@@ -68,7 +69,8 @@ const ReferenceElement = forwardRef<
         isSkinny={isSkinny}
       />
     )
-    const classNames = [
+
+    const classNames = assembleClassNames(
       'c-exercise-widget',
       `--${
         solution
@@ -79,10 +81,8 @@ const ReferenceElement = forwardRef<
       }`,
       exercise.isRecommended ? '--recommended' : '',
       isStatic ? '--static' : '--interactive',
-      isSkinny ? '--skinny' : '',
-    ]
-      .filter((name) => name.length > 0)
-      .join(' ')
+      isSkinny ? '--skinny' : ''
+    )
 
     const url = solution ? solution.privateUrl : exercise.links.self
 
@@ -101,6 +101,15 @@ const ReferenceElement = forwardRef<
             className="--action-icon sm:block hidden"
           />
         )}
+        {solution &&
+          isSkinny &&
+          (solution.status === 'completed' ||
+            solution.status === 'published') && (
+            <GraphicalIcon
+              icon="green-check"
+              className="h-[24px] w-[24px] ml-8 sm:block hidden filter-none"
+            />
+          )}
       </a>
     )
   }

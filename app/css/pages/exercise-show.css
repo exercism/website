@@ -354,7 +354,9 @@ body.namespace-tracks.controller-exercises.action-show {
                 @apply mr-8 mb-8;
                 &.--published,
                 &.--completed {
-                    @apply outline outline-2 outline-darkGreen;
+                    &.--skinny {
+                        @apply outline outline-2 outline-darkGreen;
+                    }
                 }
             }
         }

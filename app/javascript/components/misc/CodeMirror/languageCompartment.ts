@@ -217,6 +217,10 @@ export const loadLanguageCompartment = async (
       const { sml } = await import('@codemirror/legacy-modes/mode/mllike')
       return compartment.of(StreamLanguage.define(sml))
     }
+    case 'sqlite': {
+      const { sqlite } = await import('@codemirror/legacy-modes/mode/sql')
+      return compartment.of(StreamLanguage.define(sqlite))
+    }
     case 'swift': {
       const { swift } = await import('@codemirror/legacy-modes/mode/swift')
       return compartment.of(StreamLanguage.define(swift))

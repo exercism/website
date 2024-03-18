@@ -61,4 +61,16 @@
             }
         }
     }
+
+    .c-textual-content.--base.dig-deeper-introduction {
+        h2 {
+            @apply text-h2;
+        }
+        h3 {
+            @apply text-h3;
+        }
+        h4 {
+            @apply text-h4;
+        }
+    }
 }

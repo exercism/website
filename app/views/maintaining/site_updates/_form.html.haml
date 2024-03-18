@@ -22,7 +22,7 @@
 
   .field
     = form.label :pull_request_number, "Pull Request number (https://github.com/exercism/<repo>/pull/<number>)"
-    = form.text_field :pull_request_number
+    = form.number_field :pull_request_number
 
   .flex.gap-8
     = form.button button_label, class: "btn-primary btn-m"

@@ -28,6 +28,8 @@ class AboutController < ApplicationController
   #       )
   #     end
 
+  def testimonials; end
+
   def impact
     # This is the calculation for the average first iteration time.
     # It comes out at 2594 (seconds) at the time of writing

@@ -303,6 +303,7 @@ Rails.application.routes.draw do
     resources :partners, only: %i[index show], path: "supporters/organisations", controller: "about/partners"
 
     get :impact
+    get :testimonials
     get :team
     get :hiring
     get :hiring_content, path: "hiring/content-2", as: :hiring_2

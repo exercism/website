@@ -387,6 +387,7 @@ Rails.application.routes.draw do
   get "r/twitch", to: redirect("https://twitch.tv/exercismlive"), as: :twitch_redirect
   get "r/youtube-community", to: redirect("https://youtube.com/@ExercismCommunity"), as: :youtube_community_redirect
   get "r/forum", to: redirect("https://forum.exercism.org"), as: :forum_redirect
+  get "r/t", to: redirect("/about/testimonials"), as: :testimonials_redirect
 
   # Licences
   %w[licence license].each do |spelling|

@@ -17,7 +17,9 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") unless user_signed_in? && !current_user&.donated?
+      return tag.span("") if !user_signed_in? ||
+                             current_user.donated? ||
+                             current_user.solutions.count < 3
 
       link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do

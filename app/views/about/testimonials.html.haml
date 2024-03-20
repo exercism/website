@@ -1,0 +1,16 @@
+- content_for :meta_title, "Exercism's Impact Report".html_safe
+- content_for :meta_description, "We've provided over 310 million minutes of free learning to over a million people. Learn more in our impact report!".html_safe
+- content_for :canonical_url, impact_about_url
+- require_stylesheet "about"
+
+= render ViewComponents::AboutNav.new(:impact)
+
+#impact-page.pt-32
+  .lg-container.mb-64
+    .c-shapes-impact.c-shapes-1
+      %h2.text-h1.text-center{ class: "max-w-[800px] mx-auto" }
+        Over 85,000 students have left testimonials about their mentors.
+
+    .md-container{ class: "bg-[var(--backgroundColorImpactPage)]" }
+      %article.testimonials.pt-40
+        = ReactComponents::Impact::TestimonialsList.new(params)

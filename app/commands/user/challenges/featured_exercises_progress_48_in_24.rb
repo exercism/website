@@ -14,7 +14,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 7, slug: 'acronym', title: 'Acronym', featured_tracks: %w[haskell tcl powershell], learning_opportunity: "This exercise is the perfect space to explore regular expressions. You can solve the exercise using basic techniques or more complex ones, but can you solve it using just one regular single expression?" },
     { week: 8, slug: 'circular-buffer', title: 'Circular Buffer', featured_tracks: %w[c groovy scala], learning_opportunity: "Circular Buffers are First In, First Out (FIFO) queues that are a fixed size. They're usually backed by an array, which gives it great spatial/data locality (good for performance!). Explore different ways to create them yourself!" },
     { week: 9, slug: 'parallel-letter-frequency', title: 'Parallel Letter Frequency', featured_tracks: %w[go java elixir], learning_opportunity: "" },
-    { week: 10, slug: 'allergies', title: 'Allergies', featured_tracks: %w[nim elm rust], learning_opportunity: "" },
+    { week: 10, slug: 'allergies', title: 'Allergies', featured_tracks: %w[nim elm rust], learning_opportunity: "Learn about bitwise operations, bitshifting, bitwise comparison and other binary number concepts, or try solving the exercise functionally with pattern matching and recursion." },
     { week: 11, slug: 'sieve', title: 'Sieve', featured_tracks: %w[zig bash fortran], learning_opportunity: "" },
     { week: 12, slug: 'luhn', title: 'Luhn', featured_tracks: %w[typescript perl5 awk], learning_opportunity: "" },
     { week: 13, slug: 'scrabble-score', title: 'Scrabble Score', featured_tracks: %w[python scheme c], learning_opportunity: "" },

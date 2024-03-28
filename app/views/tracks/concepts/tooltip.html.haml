@@ -36,8 +36,9 @@
       You’ve learnt #{@concept.name}.
   - else
     .info.available
-      .icon.c-ed.--available.--concept.disabled
-      #{@concept.name} is available for you to learn.
+      .icon.c-ed.--available.--concept.disabled.shrink-0
+      .truncate{ style: 'width: 410px' }
+        #{@concept.name} is available for you to learn.
 
 
 = link_to Exercism::Routes.track_concept_path(@track, @concept), class: 'explore-concept-button btn-xs btn-secondary mt-16' do

@@ -1,6 +1,7 @@
 class AddCohortToCohortMemberships < ActiveRecord::Migration[7.0]
-  def change
-    add_reference :cohort_memberships, :cohort, null: true, foreign_key: true, if_not_exists: true
+def change
+  unless index_exists?(:cohort_memberships, :cohort_id)
+    add_reference :cohort_memberships, :cohort, null: true, foreign_key: true
 
     track = Track.find_by(slug: 'go') || Track.first # Guard against dev db not having Golang
 
@@ -15,5 +16,6 @@ class AddCohortToCohortMemberships < ActiveRecord::Migration[7.0]
     CohortMembership.update_all(cohort_id: Cohort.find_by(slug: :gohort).id)
 
     change_column_null :cohort_memberships, :cohort_id, false
+    end
   end
 end

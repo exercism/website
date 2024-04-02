@@ -133,4 +133,22 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
 
     assert_equal 0, solution.num_loc
   end
+
+  test "updates snippet on previous iteration if doesn't exist" do
+    solution = create :concept_solution, :published
+    iteration_1 = create(:iteration, solution:)
+    iteration_2 = create(:iteration, solution:)
+
+    Iteration::GenerateSnippet.expects(:defer).with(iteration_1)
+    Iteration::Destroy.(iteration_2)
+  end
+
+  test "updates snippet on solution if prev iteration snippet exists" do
+    solution = create :concept_solution, :published
+    create(:iteration, solution:, snippet: "foobar")
+    iteration_2 = create(:iteration, solution:)
+
+    Solution::UpdateSnippet.expects(:call).with(solution)
+    Iteration::Destroy.(iteration_2)
+  end
 end

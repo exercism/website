@@ -8,7 +8,7 @@ class Mentoring::ExternalRequestsController < ApplicationController
     # Redirect to mentor queue if this is your own request
     return redirect_to Exercism::Routes.private_solution_path(@solution) if @solution.user == current_user
 
-    return render action: :show_not_mentor unless current_user.mentor?
+    render action: :show_not_mentor unless current_user.mentor?
   end
 
   def accept

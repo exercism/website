@@ -36,7 +36,7 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   def no_test_runner
-    return redirect_to(action: :edit) if @exercise.has_test_runner?
+    redirect_to(action: :edit) if @exercise.has_test_runner?
   end
 
   private

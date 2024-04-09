@@ -24,12 +24,7 @@ class ChallengesController < ApplicationController
   def implementation_status
     @featured_exercises = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES
     @tracks = Track.active.order(:title)
-    @track_exercises = Exercise.joins(:track).
-      where(status: %i[beta active], track: @tracks).
-      where(slug: @featured_exercises.pluck(:slug)).
-      pluck('tracks.slug', 'exercises.slug').
-      group_by(&:first).
-      transform_values { |pairs| pairs.map(&:second) }
+    @track_exercises_status = User::Challenges::FeaturedExercisesImplementationStatus48In24.(@featured_exercises, @tracks)
   end
 
   private

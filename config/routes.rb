@@ -231,7 +231,11 @@ Rails.application.routes.draw do
       post :join
     end
   end
-  resources :exercises, only: %i[show], controller: "generic_exercises", as: :generic_exercises
+  resources :exercises, only: %i[show], controller: "generic_exercises", as: :generic_exercises do
+    member do
+      get :approaches
+    end
+  end
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
   resource :journey, only: [:show], controller: "journey" do

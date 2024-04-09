@@ -1,0 +1,25 @@
+- content_for :meta_title, "Explore different ways to solve #{@ps_data.title} on Exercism"
+- content_for :meta_description, "Explore the different ways to solve #{@ps_data.title}."
+- content_for :canonical_url, approaches_generic_exercise_url(@ps_data.slug)
+- require_stylesheet "track"
+
+#page-generic-exercise
+  .header.mb-8.py-8
+    .lg-container.flex.items-center.relative
+      = exercise_icon @exercise, css_class: "self-start md:self-center w-[80px] h-[80px] md:w-[118px] md:h-[118px] mr-12 md:mr-24"
+      .flex-grow
+        %h1.text-h1.md:mb-2
+          #{@exercise.title} approaches
+
+  .lg-container
+    .flex.flex-col.md:flex-row.gap-48
+      .lhs.flex-grow
+        %section.approaches
+          - @approaches.each do |(slug, track_approaches)|
+            %h3= slug
+            %ul
+              - track_approaches.each do |approach|
+                %li
+                  = link_to track_exercise_approach_path(approach.track, approach.exercise, approach) do
+                    = image_tag approach.track.icon_url, class: 'mb-8'
+                    = approach.track.title

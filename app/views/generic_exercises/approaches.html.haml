@@ -11,6 +11,9 @@
         %h1.text-h1.md:mb-2
           #{@exercise.title} approaches
 
+        .p
+          = link_to "Go back to the exercise", generic_exercise_path(@exercise.slug), class: "text-linkColor"
+
   .lg-container
     .flex.flex-col.md:flex-row.gap-48
       .lhs.flex-grow

@@ -1531,6 +1531,11 @@
     "@codemirror/highlight" "^0.19.6"
     "@codemirror/language" "^0.19.3"
 
+"@exercism/highlightjs-gdscript@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#1b10f0b394d406f6f9309ad66eec801ee399e671"
+  integrity sha512-LiCFDhXCr3iIEGESHEsSCpCI7qNa2suHcrBWeOYSEtEwCXc+IQpEh5i4K8qPcOMJB9ckVOgLgbSNML8TyvPCVg==
+
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"
   resolved "https://github.com/exercism/twine2-story-format.git#94ac1ce6a2560f06db4172dd28707b98220b4fb9"

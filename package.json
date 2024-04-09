@@ -19,6 +19,7 @@
     "@exercism/active-background": "^0.6.2",
     "@exercism/codemirror-lang-gleam": "^1.0.1",
     "@exercism/codemirror-lang-wren": "https://github.com/exercism/codemirror-lang-wren",
+    "@exercism/highlightjs-gdscript": "^0.0.1",
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@gleam-lang/highlight.js-gleam": "^1.0.0",
     "@hotwired/turbo-rails": "^7.3.0",

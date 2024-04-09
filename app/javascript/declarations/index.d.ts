@@ -95,3 +95,24 @@ declare module '@ballerina/highlightjs-ballerina' {
 
   export default setup
 }
+
+declare module 'highlightjs-redbol' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module 'highlightjs-chapel' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module '@exercism/highlightjs-gdscript' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}

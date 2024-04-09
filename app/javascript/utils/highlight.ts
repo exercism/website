@@ -8,6 +8,7 @@ import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
 import setupRed from 'highlightjs-redbol'
+import setupChapel from 'highlightjs-chapel'
 
 if (areAllRegExpFeaturesSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -17,6 +18,7 @@ if (areAllRegExpFeaturesSupported()) {
   highlighter.default.registerLanguage('gleam', setupGleam)
   highlighter.default.registerLanguage('ballerina', setupBallerina)
   highlighter.default.registerLanguage('red', setupRed)
+  highlighter.default.registerLanguage('chapel', setupChapel)
 }
 
 highlighter.default.configure({

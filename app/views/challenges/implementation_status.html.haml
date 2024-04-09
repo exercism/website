@@ -47,13 +47,14 @@
         %tbody
           - @tracks.each do |track|
             %tr
-              - @featured_exercises.each do |featured_exercises|
+              - @featured_exercises.each do |featured_exercise|
                 %td.p-8
-                  - if track.foregone_exercises.include?(featured_exercises[:slug])
+                  - case @track_exercises_status[track.slug][featured_exercise[:slug]]
+                  - when :do_not_implement
                     ⛔
-                  - elsif featured_exercises[:featured_tracks].include?(track.slug)
+                  - when :featured
                     💜
-                  - elsif @track_exercises[track.slug].to_a.include?(featured_exercises[:slug])
+                  - when :present
                     ✅
                   - else
                     ❌

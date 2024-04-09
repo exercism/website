@@ -1955,6 +1955,11 @@
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
+"@pfertyk/highlightjs-gdscript@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@pfertyk/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#8fa2090e3a278725050544f7c4ca91a73b2d1fe7"
+  integrity sha512-nV03NHE5Cv+TXKAA8u7qTYXeQJ04f9sUsHLJf6PDW9VjDBNjYAjxeFuyydQZEqPgVd0zvnbleq/630NlHh1ZVQ==
+
 "@popperjs/core@^2.11.8":
   version "2.11.8"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"

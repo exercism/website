@@ -9,6 +9,7 @@ import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
 import setupRed from 'highlightjs-redbol'
 import setupChapel from 'highlightjs-chapel'
+import setupGDScript from '@exercism/highlightjs-gdscript'
 
 if (areAllRegExpFeaturesSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -19,6 +20,7 @@ if (areAllRegExpFeaturesSupported()) {
   highlighter.default.registerLanguage('ballerina', setupBallerina)
   highlighter.default.registerLanguage('red', setupRed)
   highlighter.default.registerLanguage('chapel', setupChapel)
+  highlighter.default.registerLanguage('gdscript', setupGDScript)
 }
 
 highlighter.default.configure({

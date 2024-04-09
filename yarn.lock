@@ -1531,6 +1531,11 @@
     "@codemirror/highlight" "^0.19.6"
     "@codemirror/language" "^0.19.3"
 
+"@exercism/highlightjs-gdscript@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#1b10f0b394d406f6f9309ad66eec801ee399e671"
+  integrity sha512-LiCFDhXCr3iIEGESHEsSCpCI7qNa2suHcrBWeOYSEtEwCXc+IQpEh5i4K8qPcOMJB9ckVOgLgbSNML8TyvPCVg==
+
 "@exercism/twine2-story-format@https://github.com/exercism/twine2-story-format.git":
   version "1.0.0"
   resolved "https://github.com/exercism/twine2-story-format.git#94ac1ce6a2560f06db4172dd28707b98220b4fb9"
@@ -1954,11 +1959,6 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
-
-"@pfertyk/highlightjs-gdscript@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@pfertyk/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#8fa2090e3a278725050544f7c4ca91a73b2d1fe7"
-  integrity sha512-nV03NHE5Cv+TXKAA8u7qTYXeQJ04f9sUsHLJf6PDW9VjDBNjYAjxeFuyydQZEqPgVd0zvnbleq/630NlHh1ZVQ==
 
 "@popperjs/core@^2.11.8":
   version "2.11.8"

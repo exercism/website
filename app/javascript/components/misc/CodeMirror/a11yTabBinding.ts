@@ -1,5 +1,4 @@
-import { EditorView } from '@codemirror/view'
-import { Panel, showPanel } from '@codemirror/view'
+import { EditorView, Panel, showPanel } from '@codemirror/view'
 import { StateField } from '@codemirror/state'
 
 // See the note on this near the bottom of the file

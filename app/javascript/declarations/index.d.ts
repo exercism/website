@@ -116,3 +116,10 @@ declare module '@exercism/highlightjs-gdscript' {
 
   export default setup
 }
+
+declare module 'highlightjs-jq' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}

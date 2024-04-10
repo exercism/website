@@ -58,6 +58,6 @@ class API::Solutions::MentorDiscussionPostsController < API::BaseController
     return render_404(:mentor_discussion_not_found) unless @discussion
 
     @solution = @discussion.solution
-    return render_403(:mentor_discussion_not_accessible) unless @solution.user_id == current_user.id
+    render_403(:mentor_discussion_not_accessible) unless @solution.user_id == current_user.id
   end
 end

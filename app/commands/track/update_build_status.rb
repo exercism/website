@@ -125,7 +125,8 @@ class Track::UpdateBuildStatus
   def test_runner_version_target
     return 1 unless track.has_test_runner?
     return 2 if test_runner_version < 2
-    return 3 if test_runner_version < 3 && track.course?
+
+    3 if test_runner_version < 3 && track.course?
   end
 
   def representer

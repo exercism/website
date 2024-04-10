@@ -43,7 +43,7 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
       type: "too_many_requests",
       message: I18n.t('api.errors.too_many_requests'),
       usage_type: 'chatgpt',
-      usage: { "4.0": 10, "3.5": 100 }  # rubocop:disable Naming/VariableNumber
+      usage: { "4.0": 10, "3.5": 100 } # rubocop:disable Naming/VariableNumber
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual

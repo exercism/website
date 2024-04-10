@@ -54,10 +54,10 @@ export const loadLanguageCompartment = async (
     }
 
     // Legacy
-    // case 'abap': {
-    //   const { abapMode } = await import('codemirror6-abap')
-    //   return compartment.of(StreamLanguage.define(abapMode))
-    // }
+    case 'abap': {
+      const { abapMode } = await import('codemirror6-abap')
+      return compartment.of(StreamLanguage.define(abapMode))
+    }
     case 'bash': {
       const { shell } = await import('@codemirror/legacy-modes/mode/shell')
       return compartment.of(StreamLanguage.define(shell))
@@ -246,10 +246,10 @@ export const loadLanguageCompartment = async (
       return compartment.of(StreamLanguage.define(gas))
     }
     // Custom
-    // case 'elixir': {
-    //   const { elixir } = await import('codemirror-lang-elixir')
-    //   return compartment.of(StreamLanguage.define(elixir))
-    // }
+    case 'elixir': {
+      const { elixir } = await import('codemirror-lang-elixir')
+      return compartment.of(StreamLanguage.define(elixir))
+    }
     case 'nim': {
       const { nim } = await require('nim-codemirror-mode')
       return compartment.of(StreamLanguage.define(nim({}, {})))

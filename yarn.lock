@@ -1489,12 +1489,13 @@
     "@codemirror/language" "^0.19.3"
 
 "@exercism/codemirror-lang-wren@https://github.com/exercism/codemirror-lang-wren":
-  version "0.7.2"
-  resolved "https://github.com/exercism/codemirror-lang-wren#d512d2a0cbc9156c861e6860d7f8379bea38f838"
+  version "1.0.0"
+  resolved "https://github.com/exercism/codemirror-lang-wren#3bde9961a87f3e46ddb3e282f979f39295be626b"
   dependencies:
-    "@codemirror/autocomplete" "^0.19.4"
-    "@codemirror/highlight" "^0.19.6"
-    "@codemirror/language" "^0.19.3"
+    "@codemirror/autocomplete" "^6.0.0"
+    "@codemirror/language" "^6.0.0"
+    "@lezer/highlight" "^1.0.0"
+    "@lezer/lr" "^1.0.0"
 
 "@exercism/highlightjs-gdscript@^0.0.1":
   version "0.0.1"

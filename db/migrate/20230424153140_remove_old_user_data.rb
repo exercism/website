@@ -1,8 +1,9 @@
 class RemoveOldUserData < ActiveRecord::Migration[7.0]
   def change
     return if Rails.env.production?
-
-    remove_column :users, :bio
+    if column_exists?(:users, :bio)
+      remove_column :users, :bio
+    
     remove_column :users, :roles
     remove_column :users, :insiders_status
     remove_column :users, :stripe_customer_id
@@ -21,5 +22,6 @@ class RemoveOldUserData < ActiveRecord::Migration[7.0]
     remove_column :users, :github_username
     remove_column :users, :paypal_payer_id
     remove_column :users, :usages
+  end
   end
 end

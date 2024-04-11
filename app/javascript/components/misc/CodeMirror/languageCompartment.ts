@@ -28,6 +28,10 @@ export const loadLanguageCompartment = async (
       const { javascript } = await import('@codemirror/lang-javascript')
       return compartment.of(javascript())
     }
+    case 'jq': {
+      const { jq } = await import('codemirror-lang-jq')
+      return compartment.of(jq())
+    }
     case 'php': {
       const { php } = await import('@codemirror/lang-php')
       return compartment.of(php())
@@ -56,6 +60,7 @@ export const loadLanguageCompartment = async (
     // Legacy
     case 'abap': {
       const { abapMode } = await import('codemirror6-abap')
+      // @ts-ignore
       return compartment.of(StreamLanguage.define(abapMode))
     }
     case 'bash': {
@@ -248,6 +253,7 @@ export const loadLanguageCompartment = async (
     // Custom
     case 'elixir': {
       const { elixir } = await import('codemirror-lang-elixir')
+      // @ts-ignore
       return compartment.of(StreamLanguage.define(elixir))
     }
     case 'nim': {

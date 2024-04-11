@@ -3424,6 +3424,15 @@ code-point-at@^1.0.0:
   version "2.0.0"
   resolved "https://github.com/sachinraja/codemirror-lang-elixir#999a3eb1fc8465d8ca01121aa9c2b52b4ccf9efb"
 
+codemirror-lang-jq@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/codemirror-lang-jq/-/codemirror-lang-jq-1.0.0.tgz#6865885dea031a0c4e405a0961c071e436c090a4"
+  integrity sha512-oE0kFbhPQekIykUMty9gN9SoijER5gScGbX+b1GYAUp+XtAekP/NPyUHNiFG3OeqGK/B3NWO0di2CYij9Pf48A==
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+    "@lezer/highlight" "^1.0.0"
+    "@lezer/lr" "^1.0.0"
+
 codemirror-spell-checker@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz#1c660f9089483ccb5113b9ba9ca19c3f4993371e"

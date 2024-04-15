@@ -46,6 +46,14 @@ declare module 'nim-codemirror-mode' {
   import { StreamParser } from '@codemirror/stream-parser'
   export const nim: StreamParser<unknown>
 }
+declare module 'codemirror6-abap' {
+  import { StreamParser } from '@codemirror/stream-parser'
+  export const abapMode: StreamParser<unknown>
+}
+declare module 'codemirror-lang-jq' {
+  import { LanguageSupport } from '@codemirror/language'
+  export const jq: () => LanguageSupport
+}
 
 declare module '@exercism/twine2-story-format/src/story' {
   export default class Story {

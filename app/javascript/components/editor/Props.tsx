@@ -107,4 +107,5 @@ export type Props = {
   request: IterationsListRequest
   trackObjectives: string
   showDeepDiveVideo: boolean
+  hasAvailableMentoringSlot: boolean
 }

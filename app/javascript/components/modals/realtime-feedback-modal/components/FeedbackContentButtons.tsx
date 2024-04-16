@@ -1,3 +1,4 @@
+import { assembleClassNames } from '@/utils/assemble-classnames'
 import React from 'react'
 
 type ReactButton = React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -19,7 +20,10 @@ export function ContinueButton({
   className?: string
 } & ReactButton): JSX.Element {
   return (
-    <button {...props} className={`btn-primary btn-s ${className}`}>
+    <button
+      {...props}
+      className={assembleClassNames('btn-primary btn-s', className)}
+    >
       {text}
     </button>
   )

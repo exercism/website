@@ -1,0 +1,29 @@
+- content_for :meta_title, "Explore different ways to solve #{@ps_data.title} on Exercism"
+- content_for :meta_description, "Explore the different ways to solve #{@ps_data.title}."
+- content_for :canonical_url, approaches_generic_exercise_url(@ps_data.slug)
+- require_stylesheet "track"
+
+#page-generic-exercise
+  .header.mb-8.py-8
+    .lg-container.flex.items-center.relative
+      = exercise_icon @exercise, css_class: "self-start md:self-center w-[68px] h-[68px] md:w-[118px] md:h-[118px] mr-12 md:mr-24"
+      .flex-grow
+        %h1.text-h1.md:mb-8
+          #{@exercise.title} approaches
+
+        .p
+          = link_to "← Back to the exercise", generic_exercise_path(@exercise.slug), class: "text-prominentLinkColor"
+
+  .lg-container
+    .flex.flex-col.md:flex-row.gap-48
+      .lhs.flex-grow
+        %section.approaches
+          - @approaches.each do |(slug, track_approaches)|
+            .border-1.px-8.py-4.rounded-8.mb-8.border-borderColor5
+              %h4.text-h4.mb-8.font-mono= slug
+              %ul.mb-8.flex.gap-4.flex-wrap
+                - track_approaches.each do |approach|
+                  %li
+                    = link_to track_exercise_approach_path(approach.track, approach.exercise, approach), class: 'flex items-center border-1 border-prominentLinkColor rounded-16 w-fit py-4 px-8' do
+                      = image_tag approach.track.icon_url, height: '24px', width: '24px', class: 'mr-4'
+                      .text-h6= approach.track.title

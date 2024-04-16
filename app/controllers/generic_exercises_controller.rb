@@ -1,11 +1,8 @@
 class GenericExercisesController < ApplicationController
-  before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
-
-  skip_before_action :authenticate_user!, only: %i[index show tooltip]
-  skip_before_action :verify_authenticity_token, only: :start
+  before_action :use_exercise!, only: %i[show approaches]
+  skip_before_action :authenticate_user!, only: %i[show approaches]
 
   def show
-    @ps_data = @exercise.generic_exercise
     @track_variants = Exercise.available.where(
       slug: params[:id],
       track_id: Track.active.select(:id)
@@ -34,6 +31,15 @@ class GenericExercisesController < ApplicationController
     end
   end
 
+  def approaches
+    @approaches = Exercise::Approach.includes(:exercise, :track).joins(:exercise).
+      where(exercise: { slug: params[:id] }).
+      group_by(&:slug).
+      to_h.
+      transform_values { |approaches| approaches.sort_by { |a| a.track.title } }.
+      sort
+  end
+
   private
   def use_exercise!
     begin
@@ -41,6 +47,8 @@ class GenericExercisesController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       @exercise = Exercise.find(params[:id])
     end
+
+    @ps_data = @exercise.generic_exercise
   rescue ActiveRecord::RecordNotFound
     render_404
   end

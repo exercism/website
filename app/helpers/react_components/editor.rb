@@ -52,6 +52,7 @@ module ReactComponents
         request:,
         mentoring_status: solution.mentoring_status,
         track_objectives: user_track&.objectives.to_s,
+        has_available_mentoring_slot: user_track&.has_available_mentoring_slot?,
         links: {
           run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
           back: Exercism::Routes.track_exercise_path(track, exercise),

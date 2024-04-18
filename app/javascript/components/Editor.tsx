@@ -106,6 +106,7 @@ export default ({
   chatgptUsage,
   trackObjectives,
   showDeepDiveVideo,
+  hasAvailableMentoringSlot,
   features = { theme: false, keybindings: false },
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
@@ -583,6 +584,7 @@ export default ({
             submission={submission}
             exercise={exercise}
             trackObjectives={trackObjectives}
+            hasAvailableMentoringSlot={hasAvailableMentoringSlot}
             links={{ ...links, redirectToExerciseLink: redirectLink }}
           />
 

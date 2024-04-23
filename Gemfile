@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.2.1'
+ruby '3.3.0'
 
 # Service/framework dependencies
 gem 'rails', '~> 7.0.1'
@@ -38,8 +38,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.118.0'
-# gem 'exercism-config', path: '../config'
+gem 'exercism-config', '>= 0.118.0' # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
 gem 'image_processing', '~> 1.2'
@@ -65,7 +64,7 @@ gem 'omniauth-rails_csrf_protection'
 
 # Payments
 gem 'stripe'
-gem 'coinbase_commerce', github: "exercism/coinbase-commerce-ruby"
+gem 'coinbase_commerce', github: 'exercism/coinbase-commerce-ruby'
 
 # Discourse
 gem 'discourse_api'

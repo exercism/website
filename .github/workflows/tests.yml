@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
         with:
           ruby-version: .ruby-version
 
@@ -170,7 +170,7 @@ jobs:
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -328,7 +328,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -423,7 +423,7 @@ jobs:
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@6bd3d993c602f6b675728ebaecb2b569ff86e99b
         with:
           ruby-version: .ruby-version
           bundler-cache: true

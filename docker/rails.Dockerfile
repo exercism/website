@@ -1,4 +1,4 @@
-FROM ruby:3.2.1-bullseye AS build
+FROM ruby:3.3.0-bullseye AS build
 
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER
@@ -63,7 +63,7 @@ RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
 RUN bin/cleanup-css
 
-FROM ruby:3.2.1-bullseye AS runtime
+FROM ruby:3.3.0-bullseye AS runtime
 
 ENV RAILS_ENV=production
 ENV NODE_ENV=production

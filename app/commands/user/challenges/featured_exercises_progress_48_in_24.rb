@@ -19,7 +19,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 12, slug: 'luhn', title: 'Luhn', featured_tracks: %w[typescript perl5 awk], learning_opportunity: "Explore different ways to validate input and to double every other digit, which can be done in some surprising ways, with imperative, OOP and functional ways all possible!" },
     { week: 13, slug: 'scrabble-score', title: 'Scrabble Score', featured_tracks: %w[python scheme c], learning_opportunity: "Learn to use loops, dictionaries, pattern matching and lookup tables to sum a word's letter scores! Or try and get creative to solve it with regular expressions." },
     { week: 14, slug: 'difference-of-squares', title: 'Difference Of Squares', featured_tracks: %w[r wasm swift], learning_opportunity: "" },
-    { week: 15, slug: 'pangram', title: 'Pangram', featured_tracks: %w[julia elixir go], learning_opportunity: "" },
+    { week: 15, slug: 'pangram', title: 'Pangram', featured_tracks: %w[julia elixir go], learning_opportunity: "Learn how to use higher-order functions to filter and count unique letters, or try using set operations or even bitwise operations to efficiently keep track of seen letters." },
     { week: 16, slug: 'all-your-base', title: 'All Your Base', featured_tracks: %w[cpp erlang groovy], learning_opportunity: "Learn to use modulo arithmetic or built-in functions to convert between bases. Or try a long multiplication approach that doesn't require converting to a base 10 intermediate value!" },
     { week: 17, slug: 'zebra-puzzle', title: 'Zebra Puzzle', featured_tracks: %w[prolog scala javascript], learning_opportunity: "" },
     { week: 18, slug: 'minesweeper', title: 'Minesweeper', featured_tracks: %w[pharo-smalltalk ocaml crystal], learning_opportunity: "" },

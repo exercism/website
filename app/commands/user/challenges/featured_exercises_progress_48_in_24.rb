@@ -20,7 +20,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 13, slug: 'scrabble-score', title: 'Scrabble Score', featured_tracks: %w[python scheme c], learning_opportunity: "Learn to use loops, dictionaries, pattern matching and lookup tables to sum a word's letter scores! Or try and get creative to solve it with regular expressions." },
     { week: 14, slug: 'difference-of-squares', title: 'Difference Of Squares', featured_tracks: %w[r wasm swift], learning_opportunity: "" },
     { week: 15, slug: 'pangram', title: 'Pangram', featured_tracks: %w[julia elixir go], learning_opportunity: "" },
-    { week: 16, slug: 'all-your-base', title: 'All Your Base', featured_tracks: %w[cpp erlang groovy], learning_opportunity: "" },
+    { week: 16, slug: 'all-your-base', title: 'All Your Base', featured_tracks: %w[cpp erlang groovy], learning_opportunity: "Learn to use modulo arithmetic or built-in functions to convert between bases. Or try a long multiplication approach that doesn't require converting to a base 10 intermediate value!" },
     { week: 17, slug: 'zebra-puzzle', title: 'Zebra Puzzle', featured_tracks: %w[prolog scala javascript], learning_opportunity: "" },
     { week: 18, slug: 'minesweeper', title: 'Minesweeper', featured_tracks: %w[pharo-smalltalk ocaml crystal], learning_opportunity: "" },
     { week: 19, slug: 'dnd-character', title: 'D&D Character', featured_tracks: %w[unison nim tcl], learning_opportunity: "" },

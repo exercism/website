@@ -53,8 +53,8 @@
                   - when :do_not_implement
                     ⛔
                   - when :featured
-                    💜
+                    = link_to "💜", track_exercise_url(track, featured_exercise[:slug])
                   - when :present
-                    ✅
+                    = link_to "✅", track_exercise_url(track, featured_exercise[:slug])
                   - else
                     ❌

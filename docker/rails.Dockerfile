@@ -44,7 +44,7 @@ RUN yarn install
 
 # Pause to download GeoIP
 WORKDIR /usr/share/GeoIP
-RUN curl "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${GEOIP_LICENSE_KEY}&suffix=tar.gz" --output geolite2-city.tar.gz && \
+RUN curl -J -L -u "${GEOIP_ACCOUNT_ID}:${GEOIP_LICENSE_KEY}" --output geolite2-city.tar.gz 'https://download.maxmind.com/geoip/databases/GeoLite2-City/download?suffix=tar.gz' && \
     tar -xvf geolite2-city.tar.gz --strip-components=1 --wildcards '*/GeoLite2-City.mmdb' && \
     rm geolite2-city.tar.gz
 

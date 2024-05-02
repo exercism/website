@@ -73,10 +73,12 @@ jobs:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
           DOCKERFILE: ${{ env.dockerfile_rails }}
           GEOIP_LICENSE_KEY: ${{ secrets.GEOIP_LICENSE_KEY }}
+          GEOIP_ACCOUNT_ID: ${{ secrets.GEOIP_ACCOUNT_ID }}
         run: |
           # Build a docker container and push it to ECR
           docker build -t $IMAGE_NAME -f $DOCKERFILE \
             --build-arg GEOIP_LICENSE_KEY \
+            --build-arg GEOIP_ACCOUNT_ID \
             --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) \
             --build-arg BUNDLER_VERSION=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock) \
             .

@@ -20,7 +20,7 @@ class User::Challenges::FeaturedExercisesImplementationStatus48In24
     exercise_slug = featured_exercise[:slug]
     return :do_not_implement if track.foregone_exercises.include?(exercise_slug)
 
-    case track_exercises[track.slug][exercise_slug]
+    case track_exercises.dig(track.slug, exercise_slug)
     when nil
       :missing
     when 'active', 'beta'

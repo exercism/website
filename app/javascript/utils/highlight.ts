@@ -1,6 +1,6 @@
 import * as highlighter from 'highlight.js'
 import { useLayoutEffect, useRef } from 'react'
-import { areAllRegExpFeaturesSupported } from './regex-check'
+import { isLookbehindSupported } from './regex-check'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
@@ -12,7 +12,7 @@ import setupChapel from 'highlightjs-chapel'
 import setupGDScript from '@exercism/highlightjs-gdscript'
 import setupJq from 'highlightjs-jq'
 
-if (areAllRegExpFeaturesSupported()) {
+if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
   highlighter.default.registerLanguage('cobol', setupCobol)
   highlighter.default.registerLanguage('bqn', setupBqn)
@@ -119,7 +119,7 @@ const highlightBlock = (block: HTMLElement): void => {
 }
 
 export const highlightAll = (parent: ParentNode = document): void => {
-  if (!areAllRegExpFeaturesSupported()) return
+  if (!isLookbehindSupported()) return
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     if (block.dataset.highlighted === 'true') {
       return
@@ -130,7 +130,7 @@ export const highlightAll = (parent: ParentNode = document): void => {
 }
 
 export const highlightAllAlways = (parent: ParentNode = document): void => {
-  if (!areAllRegExpFeaturesSupported()) return
+  if (!isLookbehindSupported()) return
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     block.removeAttribute('data-highlighted')
     highlightBlock(block)

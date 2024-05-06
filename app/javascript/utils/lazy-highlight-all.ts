@@ -1,7 +1,7 @@
-import { areAllRegExpFeaturesSupported } from './regex-check'
+import { isLookbehindSupported } from './regex-check'
 
 export function lazyHighlightAll(): void {
-  if (!areAllRegExpFeaturesSupported()) return
+  if (!isLookbehindSupported()) return
   function applySyntaxHighlighting() {
     import('@/utils/highlight')
       .then((m) => {

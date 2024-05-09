@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { EditorView, keymap, KeyBinding } from '@codemirror/view'
-import { basicSetup } from '@codemirror/basic-setup'
+import { basicSetup } from 'codemirror'
 import { EditorState, Compartment, StateEffect } from '@codemirror/state'
-import { indentUnit } from '@codemirror/language'
-import { defaultHighlightStyle } from '@codemirror/highlight'
-import { oneDarkTheme, oneDarkHighlightStyle } from '@codemirror/theme-one-dark'
+import {
+  indentUnit,
+  defaultHighlightStyle,
+  syntaxHighlighting,
+} from '@codemirror/language'
+import { oneDark } from '@codemirror/theme-one-dark'
+
 import { Themes } from '../editor/types'
 import { loadLanguageCompartment } from './CodeMirror/languageCompartment'
 import { a11yTabBindingPanel } from './CodeMirror/a11yTabBinding'
@@ -90,12 +94,12 @@ export default function CodeMirror({
             keymap.of(isTabCaptured ? [tabBinding] : [])
           ),
           indentUnit.of(indentChar),
-          wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
           themeCompartment.of(
-            theme === Themes.LIGHT
-              ? [defaultHighlightStyle]
-              : [oneDarkTheme, oneDarkHighlightStyle]
+            theme !== Themes.LIGHT
+              ? oneDark
+              : syntaxHighlighting(defaultHighlightStyle)
           ),
+          wrapCompartment.of(wrap ? EditorView.lineWrapping : []),
           readonlyCompartment.of([EditorView.editable.of(!readonly)]),
         ],
       }),
@@ -132,9 +136,9 @@ export default function CodeMirror({
 
     viewRef.current.dispatch({
       effects: themeCompartment.reconfigure(
-        theme === Themes.LIGHT
-          ? [defaultHighlightStyle]
-          : [oneDarkTheme, oneDarkHighlightStyle]
+        theme !== Themes.LIGHT
+          ? oneDark
+          : syntaxHighlighting(defaultHighlightStyle)
       ),
     })
   }, [theme])

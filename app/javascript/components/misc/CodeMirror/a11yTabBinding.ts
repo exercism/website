@@ -1,7 +1,5 @@
-import { EditorView } from '@codemirror/view'
-import { Panel } from '@codemirror/panel'
+import { EditorView, Panel, showPanel } from '@codemirror/view'
 import { StateField } from '@codemirror/state'
-import { showPanel } from '@codemirror/panel'
 
 // See the note on this near the bottom of the file
 // import { insertTab, indentSelection } from '@codemirror/commands'

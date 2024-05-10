@@ -12,9 +12,15 @@
   - if author.present?
     .text-h6.mb-8 Author: #{author.name} | @#{author.handle} | ##{author.id}
 
-  %p Aron - put the other things on this model here…
+  = video_embed(@community_video.platform, @community_video.watch_id)
+  .text-h4.mb-8.mt-16 COMMUNITY VIDEO Attributes:
+  - if @community_video
+    - @community_video.attributes.each do |key, value|
+      .text-h6.mb-8 #{key}: #{value}
+  - else
+    %li.text-sm.text-red-500 COMMUNITY VIDEO is nil
 
-  .flex
+  .flex.mt-16
     = link_to "Edit this community video", edit_admin_community_video_path(@community_video), class: 'btn btn-standard btn-base'
     |
     = link_to "Back to community videos", admin_community_videos_path, class: 'btn btn-standard btn-base'

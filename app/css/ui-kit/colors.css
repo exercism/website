@@ -179,7 +179,7 @@
     --backgroundColorConceptLocked: theme(colors.lightGray);
     --backgroundColorCompletedHeading: theme(colors.mediumGreen);
     --backgroundColorCReputation: var(--backgroundColorA);
-    --backgroundColorEditorActiveLine: theme(colors.veryLightBlue);
+    --backgroundColorEditorActiveLine: #e1ebff88;
     --backgroundColorTeamHeader: linear-gradient(
         180deg,
         var(--backgroundColorE) 0%,
@@ -463,7 +463,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorConceptLocked: var(--backgroundColorA);
     --backgroundColorCompletedHeading: none;
     --backgroundColorCReputation: theme(colors.eerieBlack);
-    --backgroundColorEditorActiveLine: theme(colors.russianViolet);
+    --backgroundColorEditorActiveLine: #302b4288;
     --backgroundColorTeamHeader: theme(colors.darkBlueGray);
     --backgroundColorTeamInfoBox: theme(colors.eerieBlack);
     --backgroundColorImpactPage: theme(colors.eerieBlack);

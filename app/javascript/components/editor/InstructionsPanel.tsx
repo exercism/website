@@ -6,15 +6,18 @@ import { TaskHintsModal } from '../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../common'
 import { useHighlighting } from '../../utils/highlight'
 import { useReducedMotion } from '../../hooks/use-reduced-motion'
+import VimeoEmbed from '../common/VimeoEmbed'
 
 export const InstructionsPanel = ({
   introduction,
   assignment,
   debuggingInstructions,
+  tutorial = false,
 }: {
   introduction: string
   assignment: Assignment
   debuggingInstructions?: string
+  tutorial?: boolean
 }): JSX.Element => {
   const ref = useHighlighting<HTMLDivElement>()
 
@@ -22,12 +25,25 @@ export const InstructionsPanel = ({
     <Tab.Panel id="instructions" context={TabsContext} alwaysAttachToDOM>
       <section className="instructions-pane" ref={ref}>
         <div className="c-textual-content --small">
+          {tutorial && <HelloWorldVideo />}
           <Introduction introduction={introduction} />
           <Instructions assignment={assignment} />
           <Debug debuggingInstructions={debuggingInstructions} />
         </div>
       </section>
     </Tab.Panel>
+  )
+}
+
+function HelloWorldVideo() {
+  return (
+    <>
+      <h2>Introduction</h2>
+      <p className="mb-20">
+        Watch our "Introduction to Hello, World" video to get started 👇
+      </p>
+      <VimeoEmbed id="853440496?h=6abbdfc68f" className="rounded-5" />
+    </>
   )
 }
 

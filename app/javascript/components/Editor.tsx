@@ -504,7 +504,10 @@ export default ({
                   <ChatGptTab />
                   <GetHelpTab />
                 </div>
-                <InstructionsPanel {...panels.instructions} />
+                <InstructionsPanel
+                  {...panels.instructions}
+                  tutorial={exercise.slug === 'hello-world'}
+                />
                 {panels.tests ? (
                   <TestsPanel context={TabsContext}>
                     <TestContentWrapper

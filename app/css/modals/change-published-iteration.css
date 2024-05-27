@@ -2,6 +2,7 @@
 
 .m-change-published-iteration {
     & .--modal-content {
+        overflow-y: visible !important;
         max-width: 820px;
     }
     & h3 {

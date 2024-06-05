@@ -39,9 +39,7 @@ class Iteration::Create
   end
 
   def init_services
-    return unless solution.exercise.has_test_runner?
-
-    Submission::TestRun::Init.(submission) if submission.tests_not_queued?
+    Submission::TestRun::Init.(submission) if submission.tests_not_queued? && solution.exercise.has_test_runner?
     Submission::Representation::Init.(submission) if submission.representation_not_queued?
     Submission::Analysis::Init.(submission) if solution.track.has_analyzer?
   end

@@ -141,6 +141,26 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
+  test "creates representation if there's a representer but no test runner" do
+    track = create :track, has_representer: true
+    exercise = create(:concept_exercise, track:, has_test_runner: false)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    Submission::Representation::Init.expects(:call).once
+    Iteration::Create.(solution, submission)
+  end
+
+  test "runs analysis if there's an analyzer but no test runner" do
+    track = create :track, has_analyzer: true
+    exercise = create(:concept_exercise, track:, has_test_runner: false)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    Submission::Analysis::Init.expects(:call).once
+    Iteration::Create.(solution, submission)
+  end
+
   test "do not analyze if there's no analyzer" do
     track = create :track, has_analyzer: false
     exercise = create(:concept_exercise, track:)

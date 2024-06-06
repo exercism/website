@@ -1,0 +1,57 @@
+:css
+  th, td {
+    border: 1px solid var(--borderColor8);
+    text-align:center;
+    padding:8px;
+    line-height:130%;
+  }
+  td {
+    white-space:nowrap;
+  }
+  #site-footer { display: none !important }
+  body {
+    width: 4000px;
+  }
+
+
+.p-32
+  .text-h3.mb-8 #{@track.title} exercises for #48in24
+  .text-h5.mb-4 Key to Symbols
+  .text-16
+    .mb-8 💜 = Featured in #48in24
+    .mb-8 ✅ = Present on Track
+    .mb-8 ❌ = Missing from Track (#{link_to('Please add it!', doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor')})
+    .mb-16 ⛔ = Do not implement on this Track
+
+    Want to implement one of the missing exercises?
+    Start with #{link_to 'this video and docs', doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor'}.
+
+  .text-16
+    = link_to "Back to tracks overview", implementation_status_challenge_path, class: 'font-semibold text-linkColor'
+
+  %hr.mt-20.mb-32.border-borderColor5
+
+  .flex.items-start{ class: "max-h-[90vh]" }
+    %table
+      %thead
+        %tr.font-semibold.bg-backgroundColorD
+          %th Week
+          %th Exercise
+          %th Status
+
+      %tbody
+        - @featured_exercises.each.with_index do |featured_exercise, idx|
+          %tr
+            %td.p-8= idx + 1
+            %td.p-8
+              = link_to featured_exercise[:title], generic_exercise_path(featured_exercise[:slug]), class: 'font-semibold text-linkColor'
+            %td.p-8
+              - case @exercise_status[featured_exercise[:slug]]
+              - when :do_not_implement
+                = link_to "⛔", generic_exercise_path(featured_exercise[:slug])
+              - when :featured
+                = link_to "💜", track_exercise_url(@track, featured_exercise[:slug])
+              - when :present
+                = link_to "✅", track_exercise_url(@track, featured_exercise[:slug])
+              - else
+                = link_to "❌", generic_exercise_path(featured_exercise[:slug])

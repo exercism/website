@@ -34,7 +34,7 @@
         - @tracks.each do |track|
           %tr
             %td.p-8.font-semibold.bg-backgroundColorD
-              = track.title
+              = link_to track.title, track_implementation_status_challenge_path('48in24', track.slug)
 
     %div
       %table

@@ -1,6 +1,7 @@
 class ChallengesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[show implementation_status]
-  before_action :use_challenge_id!, except: [:implementation_status]
+  before_action :use_challenge_id!, except: %i[implementation_status track_implementation_status]
+  before_action :use_track!, only: [:track_implementation_status]
 
   def show
     if user_signed_in? && User::Challenge.where(user: current_user, challenge_id: @challenge_id).exists?
@@ -27,10 +28,19 @@ class ChallengesController < ApplicationController
     @track_exercises_status = User::Challenges::FeaturedExercisesImplementationStatus48In24.(@featured_exercises, @tracks)
   end
 
+  def track_implementation_status
+    @featured_exercises = User::Challenges::FeaturedExercisesProgress48In24::EXERCISES
+    @exercise_status = User::Challenges::FeaturedExercisesImplementationStatus48In24.(@featured_exercises, [@track])[@track.slug]
+  end
+
   private
   def use_challenge_id!
     @challenge_id = params[:id]
     redirect_to root_path unless User::Challenge::CHALLENGES.include?(@challenge_id)
+  end
+
+  def use_track!
+    @track = Track.for!(params[:track_slug])
   end
 
   # Doing this in Ruby is *much* quicker than in SQL

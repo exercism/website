@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import pluralize from 'pluralize'
 import { Pagination } from '@/components/common'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
@@ -66,6 +66,9 @@ export default function TasksList({
   tracks: readonly Track[]
 }): JSX.Element {
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
+  const [currentData, setCurrentData] = useState<
+    PaginatedResult<TaskProps[]> | undefined
+  >()
   const {
     status,
     data: resolvedData,
@@ -75,6 +78,10 @@ export default function TasksList({
     ['contributing-tasks', request.endpoint, request.query],
     request
   )
+
+  useEffect(() => {
+    if (!isFetching) setCurrentData(resolvedData)
+  }, [isFetching, resolvedData])
 
   const track =
     tracks.find((t) => t.slug === request.query.trackSlug) || tracks[0]
@@ -146,17 +153,17 @@ export default function TasksList({
           error={error}
           defaultError={DEFAULT_ERROR}
         >
-          {resolvedData ? (
+          {currentData ? (
             <React.Fragment>
               <header className="main-header c-search-bar">
                 <h2>
                   <strong className="block md:inline">
-                    Showing {resolvedData.meta.totalCount}{' '}
-                    {pluralize('task', resolvedData.meta.totalCount)}
+                    Showing {currentData.meta.totalCount}{' '}
+                    {pluralize('task', currentData.meta.totalCount)}
                   </strong>
                   <span className="hidden md:inline mr-8">/</span>
-                  out of {resolvedData.meta.unscopedTotal} possible{' '}
-                  {pluralize('task', resolvedData.meta.unscopedTotal)}
+                  out of {currentData.meta.unscopedTotal} possible{' '}
+                  {pluralize('task', currentData.meta.unscopedTotal)}
                 </h2>
                 {isFiltering ? <ResetButton onClick={handleReset} /> : null}
                 <Sorter
@@ -165,13 +172,13 @@ export default function TasksList({
                 />
               </header>
               <div className="tasks">
-                {resolvedData.results.map((task) => (
+                {currentData.results.map((task) => (
                   <Task task={task} key={task.uuid} />
                 ))}
                 <Pagination
-                  disabled={resolvedData === undefined}
+                  disabled={currentData === undefined}
                   current={request.query.page || 1}
-                  total={resolvedData.meta.totalPages}
+                  total={currentData.meta.totalPages}
                   setPage={(p) => {
                     setPage(p)
                     scrollToTop('tasks-list', 32)

@@ -1,4 +1,13 @@
 class API::Tracks::TrophiesController < API::BaseController
+  skip_before_action :authenticate_user!
+  before_action :authenticate_user
+
+  def index
+    track = Track.find(params[:track_slug])
+
+    render json: SerializeTrackTrophies.(track, current_user)
+  end
+
   def reveal
     begin
       track = Track.find(params[:track_slug])

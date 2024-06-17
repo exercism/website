@@ -760,7 +760,6 @@ html {
     img[src*="/assets/graphics"],
     .img,
     iframe, 
-    .fullscreen-youtube, 
     .c-avatar,
     .c-notification,
     .c-icon.c-exercise-icon:not(#page-journey .c-exercise-icon),

@@ -1,7 +1,4 @@
 class API::Tracks::TrophiesController < API::BaseController
-  skip_before_action :authenticate_user!
-  before_action :authenticate_user
-
   def index
     track = Track.find(params[:track_slug])
 

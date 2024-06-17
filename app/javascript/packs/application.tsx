@@ -800,12 +800,14 @@ import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skelet
 import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
 import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
+import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
   addAnchorsToDocsHeaders()
+  initializeFullscreenChangeListeners()
   document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 
   // Do this last

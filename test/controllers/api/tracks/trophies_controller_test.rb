@@ -13,8 +13,9 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
     get api_track_trophies_url(track.slug), headers: @headers, as: :json
 
     assert_response :ok
-    expected = SerializeTrackTrophies.(track, User.first).to_json
-    assert_equal expected, response.body
+    expected = { trophies: SerializeTrackTrophies.(track, User.first) }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 
   test "index with one revealed" do
@@ -27,8 +28,9 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
     get api_track_trophies_url(track.slug), headers: @headers, as: :json
 
     assert_response :ok
-    expected = SerializeTrackTrophies.(track, user).to_json
-    assert_equal expected, response.body
+    expected = { trophies: SerializeTrackTrophies.(track, User.first) }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 
   ##########

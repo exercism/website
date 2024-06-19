@@ -2,7 +2,7 @@ class API::Tracks::TrophiesController < API::BaseController
   def index
     track = Track.find(params[:track_slug])
 
-    render json: SerializeTrackTrophies.(track, current_user)
+    render json: { trophies: SerializeTrackTrophies.(track, current_user) }
   end
 
   def reveal

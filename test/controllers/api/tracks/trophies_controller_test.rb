@@ -4,6 +4,9 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
   guard_incorrect_token! :reveal_api_track_trophy_path, args: 2, method: :patch
   guard_incorrect_token! :api_track_trophies_path, args: 1, method: :get
 
+  #########
+  # Index #
+  #########
   test "index with none revealed" do
     track = create :track
     create :trophy, valid_track_slugs: [track.slug]
@@ -13,9 +16,8 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
     get api_track_trophies_url(track.slug), headers: @headers, as: :json
 
     assert_response :ok
-    expected = { trophies: SerializeTrackTrophies.(track, User.first) }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
+    expected = { trophies: SerializeTrackTrophies.(track, User.first) }.to_json
+    assert_equal expected, response.body
   end
 
   test "index with one revealed" do
@@ -28,9 +30,8 @@ class API::Tracks::TrophiesControllerTest < API::BaseTestCase
     get api_track_trophies_url(track.slug), headers: @headers, as: :json
 
     assert_response :ok
-    expected = { trophies: SerializeTrackTrophies.(track, User.first) }
-    actual = JSON.parse(response.body, symbolize_names: true)
-    assert_equal expected, actual
+    expected = { trophies: SerializeTrackTrophies.(track, User.first) }.to_json
+    assert_equal expected, response.body
   end
 
   ##########

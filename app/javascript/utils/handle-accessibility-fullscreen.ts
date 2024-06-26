@@ -3,10 +3,11 @@ let shouldToggleDarkThemeOnFullscreenChange = false
 export function toggleDarkThemeOnFullscreenChange() {
   const fullscreenElement =
     document.fullscreenElement as HTMLIFrameElement | null
+  const youtubeRegex = /^https?:\/\/(www\.)?youtube\.com\/.*$/
 
   if (
     fullscreenElement &&
-    fullscreenElement.src.includes('youtube.com') &&
+    youtubeRegex.test(fullscreenElement.src) &&
     document.body.classList.contains('theme-accessibility-dark')
   ) {
     document.body.classList.remove('theme-accessibility-dark')

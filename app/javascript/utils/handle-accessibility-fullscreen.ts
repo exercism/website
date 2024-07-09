@@ -1,14 +1,21 @@
+let shouldToggleDarkThemeOnFullscreenChange = false
+
 export function toggleDarkThemeOnFullscreenChange() {
-  const fullscreenElement = document.fullscreenElement
-  const youtubeIframe = document.querySelector('iframe')
+  const fullscreenElement =
+    document.fullscreenElement as HTMLIFrameElement | null
+  const videoRegex =
+    /^https?:\/\/(www\.)?(youtube\.com|player\.vimeo\.com)\/.*$/
 
   if (
-    fullscreenElement === youtubeIframe &&
+    fullscreenElement &&
+    videoRegex.test(fullscreenElement.src) &&
     document.body.classList.contains('theme-accessibility-dark')
   ) {
     document.body.classList.remove('theme-accessibility-dark')
-  } else {
+    shouldToggleDarkThemeOnFullscreenChange = true
+  } else if (!fullscreenElement && shouldToggleDarkThemeOnFullscreenChange) {
     document.body.classList.add('theme-accessibility-dark')
+    shouldToggleDarkThemeOnFullscreenChange = false
   }
 }
 

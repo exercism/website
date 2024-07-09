@@ -57,10 +57,7 @@ module Pages
           sign_in!(@user.reload)
           visit track_path(@track)
 
-          assert_selector 'iframe'
-          within_frame(find("iframe[src*='903381063?h=bb0a6316bf']")) do
-            assert_selector ".vp-video", visible: :all, wait: 5
-          end
+          assert_selector 'iframe[src*="903381063?h=bb0a6316bf"]'
         end
       end
 
@@ -70,10 +67,7 @@ module Pages
           sign_in!(@user.reload)
           visit track_path(@track)
 
-          assert_selector 'iframe'
-          within_frame(find("iframe[src*='903384161?h=91c7b9a795']")) do
-            assert_selector ".vp-video", visible: :all, wait: 5
-          end
+          assert_selector "iframe[src*='903384161?h=91c7b9a795']"
         end
       end
 

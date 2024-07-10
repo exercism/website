@@ -11,8 +11,8 @@ class Git::SyncTrackDocs < Git::Sync
 
     config = git_repo.read_json_blob(git_repo.head_commit, "docs/config.json")
 
-    config[:docs].to_a.each do |doc_config|
-      Git::SyncDoc.(doc_config, :tracks, git_repo.head_commit.oid, track:)
+    config[:docs].to_a.each_with_index do |doc_config, position|
+      Git::SyncDoc.(doc_config, :tracks, position, git_repo.head_commit.oid, track:)
     end
   end
 

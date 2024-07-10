@@ -29,12 +29,12 @@ class DocsController < ApplicationController
   private
   def use_section
     @section = params[:section].to_sym
-    @nav_docs = Document.where(section: @section)
+    @nav_docs = Document.where(section: @section).sorted
   end
 
   def use_track
     @track = Track.find(params[:track_slug])
-    @nav_docs = Document.where(track_id: @track.id)
+    @nav_docs = Document.where(track_id: @track.id).sorted
 
     render_404 unless @track.accessible_by?(current_user)
   end

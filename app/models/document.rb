@@ -10,6 +10,8 @@ class Document < ApplicationRecord
 
   belongs_to :track, optional: true
 
+  scope :sorted, -> { order(:position) }
+
   after_save_commit do
     Document::SyncToSearchIndex.defer(self)
   end

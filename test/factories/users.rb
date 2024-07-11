@@ -116,6 +116,7 @@ FactoryBot.define do
     end
 
     trait :maintainer do
+      uid { SecureRandom.uuid }
       after(:create) do |user, _evaluator|
         user.data.update!(
           roles: (data.roles + [:maintainer])

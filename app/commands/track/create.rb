@@ -6,6 +6,8 @@ class Track::Create
   end
 
   def call
+    add_safe_directory!
+
     Track.create!(
       slug: git_track.slug,
       repo_url:,
@@ -24,4 +26,8 @@ class Track::Create
 
   memoize
   def git_track = Git::Track.new("HEAD", repo_url:)
+
+  def add_safe_directory!
+    system("git config --global --add safe.directory #{slug}")
+  end
 end

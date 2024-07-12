@@ -5,6 +5,8 @@ class Track::SetFileSystemPermissions
 
   def call
     add_safe_directory!
+
+    # A redeploy of the website is required to pick up the new safe directory
     trigger_redeploy!
   end
 

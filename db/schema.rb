@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_10_082636) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -152,7 +152,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.string "blurb"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", limit: 1, default: 0, null: false
+    t.index ["section", "position"], name: "index_documents_on_section_and_position"
     t.index ["slug"], name: "index_documents_on_slug"
+    t.index ["track_id", "position"], name: "index_documents_on_track_id_and_position"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
   end

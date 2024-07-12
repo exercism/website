@@ -1,7 +1,7 @@
 class Git::SyncDoc
   include Mandate
 
-  initialize_with :config, :section, :git_sha, track: nil
+  initialize_with :config, :section, :position, :git_sha, track: nil
 
   def call
     doc = Document.where(track:).create_or_find_by!(
@@ -26,7 +26,8 @@ class Git::SyncDoc
       git_path: config[:path],
       section:,
       title: config[:title],
-      blurb: config[:blurb]
+      blurb: config[:blurb],
+      position:
     }
   end
 end

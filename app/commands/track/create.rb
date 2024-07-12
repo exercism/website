@@ -6,8 +6,6 @@ class Track::Create
   end
 
   def call
-    add_safe_directory!
-
     Track.create!(
       slug: git_track.slug,
       repo_url:,
@@ -19,6 +17,7 @@ class Track::Create
       # We need to force_sync due to the synced_to_git_sha value set to the HEAD commit
       Git::SyncTrack.(track, force_sync: true)
       Track::CreateForumCategory.(track)
+      Track::SetFileSystemPermissions.(track)
     end
   rescue ActiveRecord::RecordNotUnique
     Track.find_by!(slug: git_track.slug)
@@ -26,8 +25,4 @@ class Track::Create
 
   memoize
   def git_track = Git::Track.new("HEAD", repo_url:)
-
-  def add_safe_directory!
-    system("git config --global --add safe.directory #{slug}")
-  end
 end

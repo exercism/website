@@ -4,6 +4,7 @@ class Track::CreateTest < ActiveSupport::TestCase
   test "creates track" do
     repo_url = TestHelpers.git_repo_url("track")
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
 
     Track::Create.('ruby', repo_url:)
 
@@ -22,6 +23,7 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "syncs track" do
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
 
     Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
 
@@ -32,12 +34,21 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "adds track to forum" do
     Track::CreateForumCategory.expects(:call).once
+    Track::SetFileSystemPermissions.stubs(:call)
+
+    Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
+  end
+
+  test "sets file system permissions" do
+    Track::SetFileSystemPermissions.expects(:call).once
+    Track::CreateForumCategory.stubs(:call)
 
     Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
   end
 
   test "idempotent" do
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
 
     assert_idempotent_command do
       Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
@@ -46,6 +57,7 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "use http repo url when not passed in" do
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
     Git::SyncTrack.stubs(:call)
 
     git_track = Git::Track.new("HEAD", repo_url: TestHelpers.git_repo_url("track"))

@@ -35,7 +35,7 @@ export const createTrack = (track?: Partial<Track>): Track => ({
     },
     {
       id: 'authoring',
-      metricFull: '3 exercises contributed',
+      metricFull: '3 exercises/articles contributed',
       metricShort: '3 exercises',
       reputation: 50,
     },

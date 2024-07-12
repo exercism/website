@@ -1,7 +1,9 @@
 class Track::Create
   include Mandate
 
-  initialize_with :repo_url
+  initialize_with :slug, repo_url: nil do
+    @repo_url ||= "https://github.com/exercism/#{slug}"
+  end
 
   def call
     Track.create!(

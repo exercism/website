@@ -6,6 +6,6 @@ class Github::DispatchWorkflow
   def call = Exercism.octokit_client.post(api_url, body)
 
   private
-  def api_url = "https://api.github.com/repos/exercism/#{repo}/actions/workflows/configlet.yml/dispatches"
+  def api_url = "https://api.github.com/repos/exercism/#{repo}/actions/workflows/#{workflow_id}/dispatches"
   def body = { ref: "main" }.to_json
 end

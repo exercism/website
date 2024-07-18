@@ -21,9 +21,7 @@ class Track::SetFileSystemPermissions
     Kernel.system("git config --global --add safe.directory #{safe_directory}")
   end
 
-  def trigger_redeploy!
-    Github::DispatchWorkflow.("website", "deploy.yml")
-  end
+  def trigger_redeploy! = Infrastructure::TriggerRedeploy.()
 
   def safe_directory = "/mnt/efs/repos/#{track.slug}"
 end

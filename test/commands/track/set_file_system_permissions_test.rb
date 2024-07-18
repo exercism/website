@@ -24,7 +24,7 @@ class Track::SetFileSystemPermissionsTest < ActiveSupport::TestCase
   test "dispatches deploy workflow" do
     track = create :track
 
-    Github::DispatchWorkflow.expects(:call).with("website", "deploy.yml")
+    Infrastructure::TriggerRedeploy.expects(:call)
     Kernel.stubs(:system)
 
     Track::SetFileSystemPermissions.(track)

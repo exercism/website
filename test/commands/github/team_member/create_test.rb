@@ -12,6 +12,20 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     assert_equal team_name, team_name_member.team_name
   end
 
+  test "update maintainer role" do
+    user_id = '137131'
+    team_name = 'fsharp'
+
+    user = create(:user, uid: user_id)
+    User::UpdateMaintainer.expects(:call).with(user).once
+
+    team_name_member = Github::TeamMember::Create.(user_id, team_name)
+
+    assert_equal 1, Github::TeamMember.count
+    assert_equal user_id, team_name_member.user_id
+    assert_equal team_name, team_name_member.team_name
+  end
+
   test "idempotent" do
     user_id = '137131'
     team_name = 'fsharp'

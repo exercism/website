@@ -15,6 +15,18 @@ class Github::TeamMember::DestroyTest < ActiveSupport::TestCase
     refute Github::TeamMember.where(user_id:, team_name:).exists?
   end
 
+  test "update maintainer role" do
+    user_id = '137131'
+    team_name = 'fsharp'
+
+    create(:github_team_member, team_name:, user_id:)
+
+    user = create(:user, uid: user_id)
+    User::UpdateMaintainer.expects(:call).with(user).once
+
+    Github::TeamMember::Destroy.(user_id, team_name)
+  end
+
   test "idempotent" do
     user_id = '137131'
     team_name = 'fsharp'

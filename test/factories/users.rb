@@ -114,5 +114,14 @@ FactoryBot.define do
         user.data.update(trainer: true)
       end
     end
+
+    trait :maintainer do
+      uid { SecureRandom.uuid }
+      after(:create) do |user, _evaluator|
+        user.data.update!(
+          roles: (data.roles + [:maintainer])
+        )
+      end
+    end
   end
 end

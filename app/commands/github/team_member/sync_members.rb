@@ -2,19 +2,25 @@ class Github::TeamMember::SyncMembers
   include Mandate
 
   def call
-    team_members = add_team_members!
-    delete_team_members!(team_members)
+    delete_team_members!
+    add_team_members!
   end
 
   private
   def add_team_members!
-    org_team_members.flat_map do |team_name, user_ids|
-      user_ids.map { |user_id| ::Github::TeamMember::Create.(user_id, team_name) }
+    org_team_members.each do |team_name, user_ids|
+      user_ids.each do |user_id|
+        ::Github::TeamMember::Create.(user_id, team_name)
+      end
     end
   end
 
-  def delete_team_members!(current_team_members)
-    Github::TeamMember.where.not(id: current_team_members.map(&:id)).destroy_all
+  def delete_team_members!
+    Github::TeamMember.find_each do |team_member|
+      next if org_team_members[team_member.team_name].include?(team_member.user_id)
+
+      Github::TeamMember::Destroy.(team_member.user_id, team_member.team_name)
+    end
   end
 
   memoize

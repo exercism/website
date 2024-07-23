@@ -131,7 +131,7 @@ track_slugs.each do |track_slug|
 
   begin
     puts "Adding Track: #{track_slug}"
-    Track::Create.("https://github.com/exercism/#{track_slug}")
+    Track::Create.(track_slug)
   rescue StandardError => e
     # puts e.message
     # puts e.backtrace

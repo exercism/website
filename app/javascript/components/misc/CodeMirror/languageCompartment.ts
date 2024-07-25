@@ -7,6 +7,10 @@ export const loadLanguageCompartment = async (
   language: string
 ): Promise<Extension> => {
   switch (language) {
+    case 'arturo': {
+      const { arturo } = await import('@exercism/codemirror-lang-arturo')
+      return compartment.of(arturo())
+    }
     case 'cpp': {
       const { cpp } = await import('@codemirror/lang-cpp')
       return compartment.of(cpp())

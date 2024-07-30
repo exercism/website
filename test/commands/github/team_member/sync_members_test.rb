@@ -38,4 +38,18 @@ class Github::TeamMember::SyncMembersTest < ActiveSupport::TestCase
     assert ::Github::TeamMember.where(team_name: 'ruby', user_id: '82462').exists?
     assert ::Github::TeamMember.where(team_name: 'fsharp', user_id: '12412').exists?
   end
+
+  test "delete when group does not exist" do
+    team_members = { 'ruby' => [82_462], 'fsharp' => [12_412] }
+    Github::Organization.any_instance.stubs(:team_members).returns(team_members)
+
+    create :github_team_member, team_name: 'prolog', user_id: '56653'
+
+    Github::TeamMember::SyncMembers.()
+
+    assert_equal 2, ::Github::TeamMember.count
+    refute ::Github::TeamMember.where(team_name: 'prolog', user_id: '56653').exists?
+    assert ::Github::TeamMember.where(team_name: 'ruby', user_id: '82462').exists?
+    assert ::Github::TeamMember.where(team_name: 'fsharp', user_id: '12412').exists?
+  end
 end

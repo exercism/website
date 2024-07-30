@@ -5,6 +5,8 @@ class Github::TeamMember::SyncMembersTest < ActiveSupport::TestCase
     team_members = { 'ruby' => [12_412, 82_462], 'fsharp' => [12_412, 56_653] }
     Github::Organization.any_instance.stubs(:team_members).returns(team_members)
 
+    Github::TeamMember::Destroy.expects(:call).never
+
     Github::TeamMember::SyncMembers.()
 
     assert ::Github::TeamMember.where(team_name: 'ruby', user_id: '12412').exists?

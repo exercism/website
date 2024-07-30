@@ -6,7 +6,7 @@ class Github::TeamMember::Destroy
   def call
     return unless team_member
 
-    team_member.delete
+    team_member.destroy
     User::UpdateMaintainer.(user) if user
   end
 

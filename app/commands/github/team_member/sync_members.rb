@@ -17,8 +17,7 @@ class Github::TeamMember::SyncMembers
 
   def delete_team_members!
     Github::TeamMember.find_each do |team_member|
-      existing_members = org_team_members[team_member.team_name]
-      next if existing_members.present? && existing_members.include?(team_member.user_id)
+      next if org_team_members[team_member.team_name].to_a.include?(team_member.user_id)
 
       Github::TeamMember::Destroy.(team_member.user_id, team_member.team_name)
     end

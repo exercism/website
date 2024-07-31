@@ -72,3 +72,5 @@ class RequestLockHasExpired < RuntimeError; end
 class InvalidDiscussionStatusError < RuntimeError; end
 
 class TrainingDataCodeTagsSampleLockedError < RuntimeError; end
+
+class NuPublishedSolutionForReputationTokenError < RuntimeError; end

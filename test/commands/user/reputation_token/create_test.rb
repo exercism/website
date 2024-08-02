@@ -42,6 +42,19 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     refute User::ReputationToken.exists?
   end
 
+  test "does not create reputation token when earned_on is nil" do
+    solution = create(:practice_solution, published_at: nil)
+
+    User::ReputationToken::Create.(
+      solution.user,
+      :published_solution,
+      solution:,
+      level: solution.exercise.difficulty_category
+    )
+
+    refute User::ReputationToken.exists?
+  end
+
   test "idempotent" do
     user = create :user, handle: "User22", github_username: "user22"
     contributorship = create :exercise_contributorship, contributor: user

@@ -9,6 +9,8 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
     self.track = solution.track unless track
     self.exercise = solution.exercise unless exercise
     self.earned_on = solution.published_at unless earned_on
+
+    raise NuPublishedSolutionForReputationTokenError unless earned_on
   end
 
   def guard_params = "Solution##{solution.id}"

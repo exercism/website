@@ -2,10 +2,12 @@ require "test_helper"
 
 class Github::TeamMemberTest < ActiveSupport::TestCase
   test "user" do
-    team_member = create :github_team_member
-    assert_nil team_member.user
+    uid = "123"
+    team_name = "ruby"
+    user = create(:user, uid:)
 
-    user = create :user, uid: team_member.user_id
-    assert_equal user, team_member.reload.user
+    team_member = create(:github_team_member, user_id: uid, team_name:)
+    assert_equal user, team_member.user
+    assert_includes user.github_team_memberships, team_member
   end
 end

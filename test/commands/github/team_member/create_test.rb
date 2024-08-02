@@ -4,6 +4,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
   test "creates team member" do
     user_id = '137131'
     team_name = 'fsharp'
+    create(:user, uid: user_id)
 
     team_name_member = Github::TeamMember::Create.(user_id, team_name)
 
@@ -29,6 +30,8 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
   test "idempotent" do
     user_id = '137131'
     team_name = 'fsharp'
+
+    create(:user, uid: user_id)
 
     assert_idempotent_command do
       Github::TeamMember::Create.(user_id, team_name)

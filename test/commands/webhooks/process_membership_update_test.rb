@@ -6,6 +6,8 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     team_name = 'team11'
     org = 'exercism'
 
+    create(:user, uid: user_id)
+
     Github::Organization.any_instance.stubs(:name).returns(org)
 
     Webhooks::ProcessMembershipUpdate.('added', user_id, team_name, org)
@@ -17,6 +19,7 @@ class Webhooks::ProcessMembershipUpdateTest < ActiveSupport::TestCase
     user_id = 12_348_521
     team_name = 'team11'
     org = 'exercism'
+    create(:user, uid: user_id)
     create(:github_team_member, user_id:, team_name:)
 
     Github::Organization.any_instance.stubs(:name).returns(org)

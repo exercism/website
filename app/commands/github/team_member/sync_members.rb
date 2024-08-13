@@ -9,8 +9,8 @@ class Github::TeamMember::SyncMembers
   private
   def add_team_members!
     org_team_members.each do |team_name, user_ids|
-      user_ids.each do |user_id|
-        ::Github::TeamMember::Create.(user_id, team_name)
+      user_ids.each do |github_uid|
+        ::Github::TeamMember::Create.(github_uid, team_name)
       end
     end
   end

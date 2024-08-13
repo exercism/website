@@ -1,14 +1,16 @@
 class Github::TeamMember::Destroy
   include Mandate
 
-  initialize_with :user_id, :team_name
+  initialize_with :github_uid, :team_name
 
   def call
-    ::Github::TeamMember.where(user_id:, team_name:).destroy_all.tap do
-      User::UpdateMaintainer.(user) if user
+    return unless user
+
+    user.github_team_memberships.where(team_name:).delete_all.tap do
+      User::UpdateMaintainer.(user)
     end
   end
 
   memoize
-  def user = User.find_by(uid: user_id)
+  def user = User.find_by(uid: github_uid)
 end

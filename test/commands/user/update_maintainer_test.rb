@@ -15,7 +15,7 @@ class User::UpdateMaintainerTest < ActiveSupport::TestCase
   test "becomes maintainer when member of track github team" do
     user = create(:user, uid: SecureRandom.uuid)
     track = create :track
-    create(:github_team_member, user_id: user.uid, team_name: track.slug)
+    create(:github_team_member, user:, team_name: track.slug)
 
     # Sanity check
     refute user.maintainer?
@@ -39,7 +39,7 @@ class User::UpdateMaintainerTest < ActiveSupport::TestCase
   test "retains maintainership when still member of track github team" do
     user = create(:user, :maintainer, uid: SecureRandom.uuid)
     track = create :track
-    create(:github_team_member, user_id: user.uid, team_name: track.slug)
+    create(:github_team_member, user:, team_name: track.slug)
 
     # Sanity check
     assert user.maintainer?

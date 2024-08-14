@@ -9,9 +9,9 @@ module Flows
       test 'maintainer adds arbitrary site update' do
         maintainer = create :user, :maintainer, uid: '136131'
         maintainer.dismiss_introducer!('welcome-modal')
-        track = create :track, slug: 'fsharp', repo_url: 'exercism/fsharp'
+        track = create :track, title: 'F#', slug: 'fsharp', repo_url: 'exercism/fsharp'
         create(:user_track, user: maintainer, track:)
-        create :github_team_member, team_name: track.github_team_name, user_id: maintainer.uid
+        create :github_team_member, team_name: track.github_team_name, user: maintainer
         pr = create :github_pull_request, repo: track.repo_url
 
         use_capybara_host do
@@ -22,7 +22,7 @@ module Flows
 
           fill_in 'Title', with: 'F# track now supports .NET 7'
           fill_in 'Description', with: 'The F# has added support for the _lovely_ .NET 7'
-          select track.title, from: 'site_update_track_id'
+          select 'F#', from: 'site_update_track_id'
           fill_in 'Pull Request number (https://github.com/exercism/<repo>/pull/<number>)', with: pr.number
           click_on 'Create Site Update'
 

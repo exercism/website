@@ -44,7 +44,7 @@ class Maintaining::SiteUpdatesController < Maintaining::BaseController
   private
   def setup_new_form
     @tracks = current_user.admin? ? Track.all :
-      Track.where(slug: Github::TeamMember.where(user_id: current_user.uid).pluck(:team_name)).order(:title)
+      Track.where(slug: Github::TeamMember.where(user: current_user).pluck(:team_name)).order(:title)
   end
 
   # Whitelist allowed parameters

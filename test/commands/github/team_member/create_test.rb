@@ -27,6 +27,17 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     assert_equal team_name, team_name_member.team_name
   end
 
+  test "noop when already created" do
+    github_uid = '137131'
+    team_name = 'fsharp'
+    user = create(:user, uid: github_uid)
+    create(:github_team_member, team_name:, user:)
+
+    User::UpdateMaintainer.expects(:call).with(user).never
+
+    Github::TeamMember::Create.(github_uid, team_name)
+  end
+
   test "idempotent" do
     user_id = '137131'
     team_name = 'fsharp'

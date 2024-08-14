@@ -6,8 +6,8 @@ class Github::TeamMember::Create
   def call
     return unless user
 
-    user.github_team_memberships.find_or_create_by!(team_name:).tap do
-      User::UpdateMaintainer.(user)
+    user.github_team_memberships.find_or_create_by!(team_name:).tap do |team_member|
+      User::UpdateMaintainer.(user) if team_member.previously_new_record?
     end
   end
 

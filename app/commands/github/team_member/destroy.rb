@@ -5,12 +5,15 @@ class Github::TeamMember::Destroy
 
   def call
     return unless user
+    return unless team_member
 
-    user.github_team_memberships.where(team_name:).delete_all.tap do
-      User::UpdateMaintainer.(user)
-    end
+    team_member.delete
+    User::UpdateMaintainer.(user)
   end
 
   memoize
   def user = User.find_by(uid: github_uid)
+
+  memoize
+  def team_member = Github::TeamMember.find_by(user:, team_name:)
 end

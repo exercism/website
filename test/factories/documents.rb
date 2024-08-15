@@ -6,6 +6,7 @@ FactoryBot.define do
     git_path { "docs/TESTS.md" }
     section { :contributing }
     title { "Running the Tests" }
+    position { 1 }
   end
 
   trait :track do

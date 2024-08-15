@@ -108,7 +108,7 @@ namespace :api do
       resources :concepts, only: [], param: :slug do
         resources :makers, only: [:index], controller: "concepts/makers"
       end
-      resources :trophies, only: [], param: :uuid, controller: "tracks/trophies" do
+      resources :trophies, only: [:index], param: :uuid, controller: "tracks/trophies" do
         member do
           patch :reveal
         end

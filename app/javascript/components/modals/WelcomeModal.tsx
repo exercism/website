@@ -61,7 +61,7 @@ export default function WelcomeModal({
         <p className="mb-12">
           Exercism has been made by thousands of people who want to create a
           fun, powerful educational platform that makes it easy to learn and
-          deepen your programming skils. We&apos;re really glad you&apos;ve
+          deepen your programming skills. We&apos;re really glad you&apos;ve
           joined us for the ride! Check our forums, Youtube and Twitch to
           explore everything Exercism has to offer 🎉
         </p>

@@ -8,7 +8,7 @@
     .bg-gradient-to-r.from-gradientProgressBarA.to-gradientProgressBarB.rounded-8.h-100{ class: "min-w-[6px]", style: "width:#{@finished_mentoring_sessions}%" }
 
 
-  .mb-16 #{@finished_mentoring_sessions}/#{@min_finished_mentoring_sessions}
+  .mb-16 #{@finished_mentoring_sessions}/#{@min_finished_mentoring_sessions} #{"(on the #{@finished_mentoring_sessions_track.title} track)" if @finished_mentoring_sessions.positive?}
 
   %h4.font-semibold.mb-4 What is automation?
 

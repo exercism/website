@@ -47,7 +47,8 @@ module Flows
           assert_css ".m-confirm-finish-student-mentor-discussion"
           within(".m-confirm-finish-student-mentor-discussion") { click_on "Review and end discussion" }
           click_on "It was good!"
-          fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
+          fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)",
+            with: "I am very satisfied with this mentor. He was amazing."
           click_on "Finish"
           click_on "Continue without donating"
 
@@ -86,7 +87,8 @@ module Flows
           refute_css ".m-confirm-finish-student-mentor-discussion"
           assert_text "Your discussion timed out"
           click_on "It was good!"
-          fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
+          fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)",
+            with: "I am very satisfied with this mentor. He was amazing."
           click_on "Finish"
           click_on "Continue without donating"
 
@@ -125,7 +127,8 @@ module Flows
           refute_css ".m-confirm-finish-student-mentor-discussion"
           assert_text "Your discussion timed out"
           click_on "It was good!"
-          fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)", with: "Good mentor!"
+          fill_in "Leave #{discussion.mentor.handle} a testimonial (optional)",
+            with: "I am very satisfied with this mentor. He was amazing."
           click_on "Finish"
           click_on "Continue without donating"
 

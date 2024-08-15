@@ -32,6 +32,9 @@ env:
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: 0 */2 * * *
 
 jobs:
   deploy:

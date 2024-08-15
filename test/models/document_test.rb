@@ -19,4 +19,12 @@ class DocumentTest < ActiveSupport::TestCase
       doc.update!(title: 'new-title')
     end
   end
+
+  test "sorted scope sorts by position" do
+    doc_1 = create :document, position: 3
+    doc_2 = create :document, position: 1
+    doc_3 = create :document, position: 2
+
+    assert_equal [doc_2, doc_3, doc_1], Document.sorted
+  end
 end

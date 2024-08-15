@@ -1,7 +1,9 @@
 class Track::Create
   include Mandate
 
-  initialize_with :repo_url
+  initialize_with :slug, repo_url: nil do
+    @repo_url ||= "https://github.com/exercism/#{slug}"
+  end
 
   def call
     Track.create!(
@@ -15,6 +17,7 @@ class Track::Create
       # We need to force_sync due to the synced_to_git_sha value set to the HEAD commit
       Git::SyncTrack.(track, force_sync: true)
       Track::CreateForumCategory.(track)
+      Track::SetFileSystemPermissions.(track)
     end
   rescue ActiveRecord::RecordNotUnique
     Track.find_by!(slug: git_track.slug)

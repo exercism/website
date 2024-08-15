@@ -64,7 +64,8 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           categories: [
             { id: :publishing, reputation: 10, metric_full: "5 solutions published", metric_short: "5 solutions" },
             { id: :mentoring, reputation: 45, metric_full: "9 students mentored", metric_short: "9 students" },
-            { id: :authoring, reputation: 110, metric_full: "11 exercises contributed", metric_short: "11 exercises" },
+            { id: :authoring, reputation: 110, metric_full: "11 exercises/articles contributed",
+              metric_short: "11 exercises/articles" },
             { id: :building, reputation: 72, metric_full: "6 PRs accepted", metric_short: "6 PRs accepted" },
             { id: :maintaining, reputation: 45, metric_full: "9 PRs reviewed", metric_short: "9 PRs reviewed" },
             { id: :other, reputation: 46 }
@@ -74,7 +75,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           slug: "elixir", title: "Elixir", icon_url: elixir.icon_url, categories: [
             { id: :publishing, reputation: 6, metric_full: "3 solutions published", metric_short: "3 solutions" },
             { id: :mentoring, reputation: 25, metric_full: "5 students mentored", metric_short: "5 students" },
-            { id: :authoring, reputation: 50, metric_full: "5 exercises contributed", metric_short: "5 exercises" },
+            { id: :authoring, reputation: 50, metric_full: "5 exercises/articles contributed", metric_short: "5 exercises/articles" },
             { id: :building, reputation: 36, metric_full: "3 PRs accepted", metric_short: "3 PRs accepted" },
             { id: :maintaining, reputation: 20, metric_full: "4 PRs reviewed", metric_short: "4 PRs reviewed" },
             { id: :other, reputation: 0 }
@@ -84,7 +85,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           slug: "js", title: "JavaScript", icon_url: js.icon_url, categories: [
             { id: :publishing, reputation: 4, metric_full: "2 solutions published", metric_short: "2 solutions" },
             { id: :mentoring, reputation: 20, metric_full: "4 students mentored", metric_short: "4 students" },
-            { id: :authoring, reputation: 60, metric_full: "6 exercises contributed", metric_short: "6 exercises" },
+            { id: :authoring, reputation: 60, metric_full: "6 exercises/articles contributed", metric_short: "6 exercises/articles" },
             { id: :building, reputation: 24, metric_full: "2 PRs accepted", metric_short: "2 PRs accepted" },
             { id: :maintaining, reputation: 15, metric_full: "3 PRs reviewed", metric_short: "3 PRs reviewed" },
             { id: :other, reputation: 0 }
@@ -113,7 +114,7 @@ class AssembleContributionsSummaryTest < ActiveSupport::TestCase
           categories: [
             { id: :publishing, reputation: 0, metric_full: "No solutions published", metric_short: "No solutions" },
             { id: :mentoring, reputation: 0, metric_full: "No students mentored", metric_short: "No students" },
-            { id: :authoring, reputation: 0, metric_full: "No exercises contributed", metric_short: "No exercises" },
+            { id: :authoring, reputation: 0, metric_full: "No exercises/articles contributed", metric_short: "No exercises/articles" },
             { id: :building, reputation: 0, metric_full: "No PRs accepted", metric_short: "No PRs accepted" },
             { id: :maintaining, reputation: 0, metric_full: "No PRs reviewed", metric_short: "No PRs reviewed" },
             { id: :other, reputation: 0 }

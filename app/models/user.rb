@@ -123,11 +123,7 @@ class User < ApplicationRecord
 
   has_many :cohort_memberships, dependent: :destroy
 
-  has_many :github_team_memberships,
-    class_name: "Github::TeamMember",
-    primary_key: :uid,
-    inverse_of: :user,
-    dependent: :destroy
+  has_many :github_team_memberships, class_name: "Github::TeamMember", dependent: :destroy
 
   has_many :challenges, dependent: :destroy
   has_many :watched_videos, class_name: "User::WatchedVideo", dependent: :destroy

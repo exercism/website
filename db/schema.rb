@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_13_125214) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -152,7 +152,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.string "blurb"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", limit: 2, default: 0, null: false
+    t.index ["section", "position"], name: "index_documents_on_section_and_position"
     t.index ["slug"], name: "index_documents_on_slug"
+    t.index ["track_id", "position"], name: "index_documents_on_track_id_and_position"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
   end
@@ -523,11 +526,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
   end
 
   create_table "github_team_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "user_id", null: false
     t.string "team_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id", "team_name"], name: "index_github_team_members_on_user_id_and_team_name", unique: true
+    t.index ["user_id"], name: "index_github_team_members_on_user_id"
   end
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1668,6 +1672,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
   add_foreign_key "github_issue_labels", "github_issues"
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "github_tasks", "tracks"
+  add_foreign_key "github_team_members", "users"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"

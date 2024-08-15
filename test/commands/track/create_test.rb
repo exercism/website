@@ -4,8 +4,9 @@ class Track::CreateTest < ActiveSupport::TestCase
   test "creates track" do
     repo_url = TestHelpers.git_repo_url("track")
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
 
-    Track::Create.(repo_url)
+    Track::Create.('ruby', repo_url:)
 
     assert_equal 1, Track.count
     track = Track.last
@@ -22,8 +23,9 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "syncs track" do
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
 
-    Track::Create.(TestHelpers.git_repo_url("track"))
+    Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
 
     track = Track.last
     assert_equal track.git.concept_exercises.count, track.concept_exercises.count
@@ -32,15 +34,35 @@ class Track::CreateTest < ActiveSupport::TestCase
 
   test "adds track to forum" do
     Track::CreateForumCategory.expects(:call).once
+    Track::SetFileSystemPermissions.stubs(:call)
 
-    Track::Create.(TestHelpers.git_repo_url("track"))
+    Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
+  end
+
+  test "sets file system permissions" do
+    Track::SetFileSystemPermissions.expects(:call).once
+    Track::CreateForumCategory.stubs(:call)
+
+    Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
   end
 
   test "idempotent" do
     Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
 
     assert_idempotent_command do
-      Track::Create.(TestHelpers.git_repo_url("track"))
+      Track::Create.('ruby', repo_url: TestHelpers.git_repo_url("track"))
     end
+  end
+
+  test "use http repo url when not passed in" do
+    Track::CreateForumCategory.stubs(:call)
+    Track::SetFileSystemPermissions.stubs(:call)
+    Git::SyncTrack.stubs(:call)
+
+    git_track = Git::Track.new("HEAD", repo_url: TestHelpers.git_repo_url("track"))
+    Git::Track.expects(:new).with("HEAD", repo_url: "https://github.com/exercism/ruby").returns(git_track)
+
+    Track::Create.('ruby')
   end
 end

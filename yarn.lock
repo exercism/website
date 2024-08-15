@@ -1506,6 +1506,11 @@
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
 
+"@exercism/highlightjs-arturo@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-arturo/-/highlightjs-arturo-0.0.2.tgz#a053ffebda0a97caeb99654e9a77b792e11176a7"
+  integrity sha512-GFb7zlGB0aGr7cEdMQFCZejDE6zuc3+lHpZCll7euuBf4fHRo2kpt2BhST6m1z/E+KK8oPY9n8RpXNkNFHJfsg==
+
 "@exercism/highlightjs-gdscript@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-gdscript/-/highlightjs-gdscript-0.0.1.tgz#1b10f0b394d406f6f9309ad66eec801ee399e671"

@@ -11,9 +11,11 @@ import setupRed from 'highlightjs-redbol'
 import setupChapel from 'highlightjs-chapel'
 import setupGDScript from '@exercism/highlightjs-gdscript'
 import setupJq from 'highlightjs-jq'
+import setupArturo from '@exercism/highlightjs-arturo'
 
 if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
+  highlighter.default.registerLanguage('arturo', setupArturo)
   highlighter.default.registerLanguage('cobol', setupCobol)
   highlighter.default.registerLanguage('bqn', setupBqn)
   highlighter.default.registerLanguage('zig', setupZig)

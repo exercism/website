@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { MutationStatus, useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
-import { Icon } from '../../common'
+import { Icon, Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { IterationSelector } from '../student/IterationSelector'
@@ -25,9 +25,12 @@ const ConfirmButton = ({
       )
     case 'loading':
       return (
-        <div className="confirm-button btn-primary btn-l w-[125px]">
-          <Icon icon="spinner" className="animate-spin-slow" alt="loading" />
-        </div>
+        <>
+          <div className="confirm-button btn-primary btn-l w-[125px]">
+            <Icon icon="spinner" className="animate-spin-slow" alt="loading" />
+          </div>
+          <Loading />
+        </>
       )
     default:
       return null
@@ -120,7 +123,7 @@ export const PublishSolutionForm = ({
           return <div className="c-donation-card-error">{error.message}</div>
         }}
       >
-        <ConfirmButton status={status} error={error} />
+        <ConfirmButton status={'loading'} error={error} />
       </ErrorBoundary>
     </form>
   )

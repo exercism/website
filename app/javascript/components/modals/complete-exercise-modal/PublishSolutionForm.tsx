@@ -123,7 +123,7 @@ export const PublishSolutionForm = ({
           return <div className="c-donation-card-error">{error.message}</div>
         }}
       >
-        <ConfirmButton status={'loading'} error={error} />
+        <ConfirmButton status={status} error={error} />
       </ErrorBoundary>
     </form>
   )

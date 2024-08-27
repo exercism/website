@@ -9,9 +9,11 @@ const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export default function WelcomeModal({
   endpoint,
+  numTracks,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   endpoint: string
+  numTracks: number
 }): JSX.Element {
   const [open, setOpen] = useState(true)
   const {
@@ -53,7 +55,7 @@ export default function WelcomeModal({
 
           <p className="">
             Exercism is the place to deepen your programming skills and explore
-            over 65 programming languages. It&apos;s 100% free.
+            over {numTracks} programming languages. It&apos;s 100% free.
           </p>
         </header>
 

@@ -229,7 +229,7 @@ initReact({
 
   'modals-welcome-modal': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <WelcomeModal endpoint={data.endpoint} />
+      <WelcomeModal endpoint={data.endpoint} numTracks={data.num_tracks} />
     </Suspense>
   ),
 

@@ -35,10 +35,10 @@
 
   .text-h5.mb-4 Legend
   .text-16
-    .mb-8 Active = Member of track team and their building reputation meets the minimum threshold. Displays the user's Exercism login.
-    .mb-8 Inctive = Member of track team but their building reputation does not meet the minimum threshold. Displays the user's Exercism login.
-    .mb-8 Candidates = Not member of track team but their building reputation does not meet the minimum threshold. Displays the user's Exercism login.
-    .mb-16 Unlinked = Member of track team but no user found linked to that GitHub username. Displays the user's GitHub username.
+    .mb-8 Active = Member of track team and their building reputation meets the member minimum threshold. Shows the user's Exercism login.
+    .mb-8 Inctive = Member of track team but their building reputation does not meet the member minimum threshold. Shows the user's Exercism login.
+    .mb-8 Candidates = Not member of track team but their building reputation meet the candidate minimum threshold. Shows the user's Exercism login.
+    .mb-16 Unlinked = Member of track team but no user found linked to that GitHub username. Shows the user's GitHub username.
   .text-h5.mb-4 Cutoff values used
   .text-16
     .mb-8 Minimum reputation for member: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER}

@@ -10,7 +10,7 @@ class User::ReputationTokens::PublishedSolutionToken < User::ReputationToken
     self.exercise = solution.exercise unless exercise
     self.earned_on = solution.published_at unless earned_on
 
-    raise NuPublishedSolutionForReputationTokenError unless earned_on
+    raise NoPublishedSolutionForReputationTokenError unless earned_on.present?
   end
 
   def guard_params = "Solution##{solution.id}"

@@ -26,7 +26,7 @@ class User::ReputationToken::Create
     rescue ActiveRecord::RecordNotUnique
       return klass.find_by!(user:, uniqueness_key: token.uniqueness_key)
     end
-  rescue NuPublishedSolutionForReputationTokenError
+  rescue NoPublishedSolutionForReputationTokenError
     # Don't create a token if the user has subsequently unpublished the solution
   end
 end

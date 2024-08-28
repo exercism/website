@@ -39,6 +39,11 @@
     .mb-8 Inctive = Member of track team but their building reputation does not meet the minimum threshold. Displays the user's Exercism login.
     .mb-8 Candidates = Not member of track team but their building reputation does not meet the minimum threshold. Displays the user's Exercism login.
     .mb-16 Unlinked = Member of track team but no user found linked to that GitHub username. Displays the user's GitHub username.
+  .text-h5.mb-4 Cutoff values used
+  .text-16
+    .mb-8 Minimum reputation for member: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER}
+    .mb-8 Minimum reputation for candidate: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_CANDIDATE}
+    .mb-8 Last number of months for reputation: #{Track::RetrieveMaintainersStatus::LAST_NUMBER_OF_MONTHS_FOR_REP}
 
   %table.mb-16.c-admin-table
     %thead

@@ -1,0 +1,64 @@
+- require_stylesheet "maintaining"
+
+:css
+  #maintaining-track-maintainers {
+    padding:25px 5%;
+    font-size: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #888;
+    padding: 10px;
+    text-align:left;
+    font-weight:600px;
+  }
+  td {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #aaa;
+    padding: 10px;
+    white-space: pre;
+    font:monospace;
+    vertical-align:top;
+    white-space: pre-wrap;
+  }
+
+#maintaining-track-maintainers
+  %h2.text-h3 Track Maintainers
+
+  .text-h5.mb-4 Legend
+  .text-16
+    .mb-8 Active = Member of track team and their building reputation meets the minimum threshold. Displays the user's Exercism login.
+    .mb-8 Inctive = Member of track team but their building reputation does not meet the minimum threshold. Displays the user's Exercism login.
+    .mb-8 Candidates = Not member of track team but their building reputation does not meet the minimum threshold. Displays the user's Exercism login.
+    .mb-16 Unlinked = Member of track team but no user found linked to that GitHub username. Displays the user's GitHub username.
+  .text-h5.mb-4 Cutoff values used
+  .text-16
+    .mb-8 Minimum reputation for member: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER}
+    .mb-8 Minimum reputation for candidate: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_CANDIDATE}
+    .mb-8 Last number of months for reputation: #{Track::RetrieveMaintainersStatus::LAST_NUMBER_OF_MONTHS_FOR_REP}
+
+  %table.mb-16.c-admin-table
+    %thead
+      %tr
+        %th Track
+        %th Active
+        %th Inactive
+        %th Candidates
+        %th Unlinked
+
+    %tbody
+      - @track_maintainers_status.each do |track, maintainers|
+        %tr
+          %td= track.title
+          %td= maintainers[:active].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
+          %td= maintainers[:inactive].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
+          %td= maintainers[:candidates].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
+          %td= maintainers[:unlinked].join(', ')

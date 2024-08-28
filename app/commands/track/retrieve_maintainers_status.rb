@@ -5,7 +5,11 @@ class Track::RetrieveMaintainersStatus
   MIN_REP_FOR_CANDIDATE = 100
   LAST_NUMBER_OF_MONTHS_FOR_REP = 9
 
-  def call = tracks.index_with { |track| track_maintainers(track) }
+  def call
+    Rails.cache.fetch("Track::RetrieveMaintainersStatus", expires_in: 1.day) do
+      tracks.index_with { |track| track_maintainers(track) }
+    end
+  end
 
   private
   def track_maintainers(track)
@@ -59,15 +63,13 @@ class Track::RetrieveMaintainersStatus
       next unless track_slugs.include?(node[:name])
 
       [node[:name], node.dig(:members, :nodes).pluck(:login)]
-    end.sort.to_h
+    end.to_h
   end
 
   memoize
   def track_contributors
-    rep_cutoff_date = Time.zone.today - LAST_NUMBER_OF_MONTHS_FOR_REP.months
-
-    track_slugs.map do |track_slug|
-      users_rep = User::ReputationToken.
+    track_slugs.index_with do |track_slug|
+      User::ReputationToken.
         includes(user: :data).
         joins(:track).
         where('tracks.slug': track_slug).
@@ -77,9 +79,7 @@ class Track::RetrieveMaintainersStatus
         sum(:value).
         map { |user, reputation| { handle: user.handle, github_username: user.data&.github_username, reputation: } }.
         sort_by { |data| -data[:reputation] }
-
-      [track_slug, users_rep]
-    end.to_h
+    end
   end
 
   memoize
@@ -87,4 +87,7 @@ class Track::RetrieveMaintainersStatus
 
   memoize
   def track_slugs = tracks.pluck(:slug)
+
+  memoize
+  def rep_cutoff_date = Time.zone.today - LAST_NUMBER_OF_MONTHS_FOR_REP.months
 end

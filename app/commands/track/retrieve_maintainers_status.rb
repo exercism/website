@@ -83,7 +83,7 @@ class Track::RetrieveMaintainersStatus
   end
 
   memoize
-  def tracks = Track.active
+  def tracks = Track.active.order(:title)
 
   memoize
   def track_slugs = tracks.pluck(:slug)

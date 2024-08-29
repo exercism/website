@@ -6,9 +6,9 @@ class Track::RetrieveMaintainersStatus
   LAST_NUMBER_OF_MONTHS_FOR_REP = 9
 
   def call
-    # Rails.cache.fetch("Track::RetrieveMaintainersStatus", expires_in: 1.day) do
-    tracks.index_with { |track| track_maintainers(track) }
-    # end
+    Rails.cache.fetch("Track::RetrieveMaintainersStatus/1", expires_in: 1.day) do
+      tracks.index_with { |track| track_maintainers(track) }
+    end
   end
 
   private
@@ -17,14 +17,15 @@ class Track::RetrieveMaintainersStatus
     team_members = track_team_members[track.slug].to_a
     unlinked = team_members & unlinked_github_usernames
 
-    maintainers = { active: [], inactive: [], candidates: [], unlinked: }
+    maintainers = { active: [], inactive: [], candidates: [], contributors: [], unlinked: }
     contributors.each do |contributor|
       if team_members.include?(contributor[:github_username])
         category = contributor[:reputation] >= MIN_REP_FOR_MEMBER ? :active : :inactive
-        maintainers[category] << contributor
-      elsif contributor[:reputation] >= MIN_REP_FOR_CANDIDATE
-        maintainers[:candidates] << contributor
+      else
+        category = contributor[:reputation] >= MIN_REP_FOR_CANDIDATE ? :candidates : :contributors
       end
+
+      maintainers[category] << contributor
     end
 
     maintainers

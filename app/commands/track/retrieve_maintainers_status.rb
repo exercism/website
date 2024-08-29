@@ -6,7 +6,7 @@ class Track::RetrieveMaintainersStatus
   LAST_NUMBER_OF_MONTHS_FOR_REP = 9
 
   def call
-    Rails.cache.fetch("Track::RetrieveMaintainersStatus/1", expires_in: 1.day) do
+    Rails.cache.fetch("Track::RetrieveMaintainersStatus/2", expires_in: 1.day) do
       tracks.index_with { |track| track_maintainers(track) }
     end
   end
@@ -15,9 +15,9 @@ class Track::RetrieveMaintainersStatus
   def track_maintainers(track)
     contributors = track_contributors[track.slug].to_a
     team_members = track_team_members[track.slug].to_a
-    unlinked = team_members & unlinked_github_usernames
 
-    maintainers = { active: [], inactive: [], candidates: [], contributors: [], unlinked: }
+    maintainers = { active: [], inactive: [], candidates: [], contributors: [], unlinked: [] }
+
     contributors.each do |contributor|
       if team_members.include?(contributor[:github_username])
         category = contributor[:reputation] >= MIN_REP_FOR_MEMBER ? :active : :inactive
@@ -26,6 +26,16 @@ class Track::RetrieveMaintainersStatus
       end
 
       maintainers[category] << contributor
+    end
+
+    team_members.each do |github_username|
+      handle = contributors_github_username_to_handle[github_username]
+
+      if handle.nil?
+        maintainers[:unlinked] << { github_username: }
+      elsif contributors.none? { |m| m[:handle] == handle }
+        maintainers[:inactive] << { handle:, github_username:, reputation: 0 }
+      end
     end
 
     maintainers
@@ -81,12 +91,12 @@ class Track::RetrieveMaintainersStatus
   end
 
   memoize
-  def unlinked_github_usernames
+  def contributors_github_username_to_handle
     usernames = track_team_members.values.flatten.uniq
-    linked = User::Data.
+    User::Data.joins(:user).
       where(github_username: usernames).
-      pluck(:github_username)
-    usernames - linked
+      pluck(:github_username, :handle).
+      to_h
   end
 
   memoize

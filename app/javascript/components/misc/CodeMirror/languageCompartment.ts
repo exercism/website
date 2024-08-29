@@ -209,6 +209,10 @@ export const loadLanguageCompartment = async (
       const { r } = await import('@codemirror/legacy-modes/mode/r')
       return compartment.of(StreamLanguage.define(r))
     }
+    case 'roc': {
+      const { elm } = await import('@codemirror/legacy-modes/mode/elm')
+      return compartment.of(StreamLanguage.define(elm))
+    }
     case 'ruby': {
       const { ruby } = await import('@codemirror/legacy-modes/mode/ruby')
       return compartment.of(StreamLanguage.define(ruby))

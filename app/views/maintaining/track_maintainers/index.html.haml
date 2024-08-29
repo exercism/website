@@ -64,4 +64,4 @@
           %td= maintainers[:inactive].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
           %td= maintainers[:candidates].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
           %td= maintainers[:contributors].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
-          %td= maintainers[:unlinked].join(', ')
+          %td= maintainers[:unlinked].pluck(:github_username).join(', ')

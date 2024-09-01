@@ -48,8 +48,6 @@ class Solution < ApplicationRecord
   scope :published, -> { where(status: :published) }
   scope :not_published, -> { where.not(status: :published) }
 
-  delegate :files_for_editor, to: :exercise, prefix: :exercise
-
   before_create do
     # Search engines derive meaning by using hyphens
     # as word-boundaries in URLs. Since we use the

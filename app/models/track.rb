@@ -45,27 +45,9 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
-  def self.for_repo(repo)
-    repo_url = repo_uri_from_repo(repo)
-    slug = repo_url.path.split('/').last
-    find_by(slug:)
-  end
-
-  def self.id_for_repo(repo)
-    repo_url = repo_uri_from_repo(repo).to_s
-    where(repo_url:).pick(:id)
-  end
-
-  def self.repo_uri_from_repo(repo)
-    URI(repo).tap do |uri|
-      if uri.scheme.nil?
-        uri.scheme = "https"
-        uri.host = "github.com"
-        uri.path = "/#{uri.path}"
-      end
-      uri.path.gsub!(/-(test-runner|analyzer|representer)$/, '')
-    end
-  end
+  def self.for_repo(repo) = find_by(slug: slug_from_repo(repo))
+  def self.id_for_repo(repo) = where(slug: slug_from_repo(repo)).pick(:id)
+  def self.slug_from_repo(repo) = repo.split('/').last.gsub(/-(test-runner|analyzer|representer)$/, '')
 
   def to_param = slug
 

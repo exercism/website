@@ -203,6 +203,27 @@ class TrackTest < ActiveSupport::TestCase
     end
   end
 
+  [
+    ["exercism/dotnet-tests", "csharp"],
+    ["exercism/nim-docker-base", "nim"],
+    ["exercism/codemirror-lang-arturo", "arturo"],
+    ["exercism/codemirror-lang-phix", "phix"],
+    ["exercism/codemirror-lang-gleam", "gleam"],
+    ["exercism/codemirror-lang-wren", "wren"],
+    ["exercism/codemirror-lang-elixir", "elixir"],
+    ["exercism/highlightjs-arturo", "arturo"],
+    ["exercism/highlightjs-gdscript", "gdscript"],
+    ["eslint-config-typescript", "typescript"],
+    ["eslint-config-javascript", "javascript"],
+    ["eslint-config-tooling", "javascript"],
+    ["javascript-lib-static-analysis", "javascript"]
+  ].each do |(repo, slug)|
+    test ".id_for_repo with cross-track repo #{repo} is linked to #{slug}" do
+      track = create(:track, slug:)
+      assert_equal track.id, Track.id_for_repo(repo)
+    end
+  end
+
   test ".id_for_repo with non-track or track tooling repo" do
     assert_nil Track.id_for_repo("exercism/configlet")
   end

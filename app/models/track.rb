@@ -27,6 +27,8 @@ class Track < ApplicationRecord
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :tasks, class_name: "Github::Task", dependent: :destroy
 
+  has_many :github_team_members, class_name: "Github::TeamMember", dependent: :destroy
+
   scope :active, -> { where(active: true) }
 
   delegate :key_features, :about, :snippet,

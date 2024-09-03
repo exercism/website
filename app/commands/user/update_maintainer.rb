@@ -15,6 +15,6 @@ class User::UpdateMaintainer
   def member_of_track_team?
     return true if user.admin?
 
-    user.github_team_memberships.where(team_name: Track.pluck(:slug)).exists?
+    user.github_team_memberships.where.not(track: nil).exists?
   end
 end

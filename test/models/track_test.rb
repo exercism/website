@@ -176,6 +176,47 @@ class TrackTest < ActiveSupport::TestCase
     assert_nil Track.for_repo("exercism/configlet")
   end
 
+  test "" do
+    track = create :track, slug: 'ruby'
+    assert_equal track, Track.for_repo("exercism/#{track.slug}")
+  end
+
+  test ".id_for_repo with track repo with file repo url" do
+    track = create :track, repo_url: "file:///home/erik/exercism/website/test/repos/track"
+    assert_equal track.id, Track.id_for_repo(track.repo_url)
+  end
+
+  test ".id_for_repo with track repo with github repo url" do
+    track = create :track, repo_url: "https://github.com/exercism/ruby"
+    assert_equal track.id, Track.id_for_repo(track.repo_url)
+  end
+
+  test ".id_for_repo with track repo with github repo name" do
+    track = create :track, repo_url: "https://github.com/exercism/ruby"
+    assert_equal track.id, Track.id_for_repo("exercism/ruby")
+  end
+
+  %w[test-runner analyzer representer].each do |suffix|
+    test ".id_for_repo with #{suffix} repo with file repo url" do
+      track = create :track, repo_url: "file:///home/erik/exercism/website/test/repos/track"
+      assert_equal track.id, Track.id_for_repo("#{track.repo_url}-#{suffix}")
+    end
+
+    test ".id_for_repo with #{suffix} repo with github repo url" do
+      track = create :track, repo_url: "https://github.com/exercism/ruby"
+      assert_equal track.id, Track.id_for_repo("#{track.repo_url}-#{suffix}")
+    end
+
+    test ".id_for_repo with #{suffix} repo with github repo name" do
+      track = create :track, repo_url: "https://github.com/exercism/ruby"
+      assert_equal track.id, Track.id_for_repo("exercism/ruby-#{suffix}")
+    end
+  end
+
+  test ".id_for_repo with non-track or track tooling repo" do
+    assert_nil Track.id_for_repo("exercism/configlet")
+  end
+
   test "representations" do
     track = create :track
     exercise_1 = create(:practice_exercise, track:)

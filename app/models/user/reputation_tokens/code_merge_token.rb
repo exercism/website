@@ -7,7 +7,7 @@ class User::ReputationTokens::CodeMergeToken < User::ReputationToken
 
   before_validation on: :create do
     self.earned_on = self.merged_at || Time.current unless earned_on
-    self.track_id = Github::Repo::RetrieveTrackId.(repo) unless track
+    self.track_id = Track.id_for_repo(repo) unless track
   end
 
   def guard_params = "PR##{pr_node_id}"

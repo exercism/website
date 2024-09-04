@@ -83,7 +83,7 @@ class Track::RetrieveMaintainersStatus
         includes(user: :data).
         joins(:track).
         where('tracks.slug': track_slug).
-        where(category: %i[building maintaining]).
+        where(category: %i[authoring building maintaining]).
         where('user_reputation_tokens.created_at > ?', rep_cutoff_date).
         group(:user).
         sum(:value).

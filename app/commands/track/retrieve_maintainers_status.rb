@@ -110,7 +110,7 @@ class Track::RetrieveMaintainersStatus
   memoize
   def rep_cutoff_date = Time.zone.today - LAST_NUMBER_OF_MONTHS_FOR_REP.months
 
-  CACHE_KEY = "Track::RetrieveMaintainersStatus/4".freeze
+  CACHE_KEY = "Track::RetrieveMaintainersStatus/5".freeze
   CACHE_EXPIRY = 1.day.freeze
   private_constant :CACHE_KEY, :CACHE_EXPIRY
 end

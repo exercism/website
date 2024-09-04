@@ -192,11 +192,11 @@ class Track < ApplicationRecord
 
   INFRASTRUCTURE_DURATION_S = 1
 
-  TRACK_REPO_PREFIXES = /^(codemirror-lang|eslint-config|highlightjs)-/i
-  TRACK_REPO_SUFFIXES = /-(test-runner|analyzer|representer|lib-static-analysis|docker-base)$/i
+  TRACK_REPO_PREFIXES = /^(codemirror-lang|eslint-config|babel-preset|highlightjs)-/i
+  TRACK_REPO_SUFFIXES = /-(test-runner|analyzer|representer|lib-jest-extensions|lib-static-analysis|docker-base)$/i
 
   TRACK_HELPER_REPOS = {
     "dotnet-tests" => "csharp",
-    "eslint-config-tooling" => "javascript"
+    "eslint-config-tooling" => "typescript"
   }.freeze
 end

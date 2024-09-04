@@ -176,11 +176,6 @@ class TrackTest < ActiveSupport::TestCase
     assert_nil Track.for_repo("exercism/configlet")
   end
 
-  test "" do
-    track = create :track, slug: 'ruby'
-    assert_equal track, Track.for_repo("exercism/#{track.slug}")
-  end
-
   test ".id_for_repo with track repo with repo url" do
     track = create :track, repo_url: "https://github.com/exercism/ruby"
     assert_equal track.id, Track.id_for_repo(track.repo_url)

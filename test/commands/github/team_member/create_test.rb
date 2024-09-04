@@ -17,6 +17,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     github_uid = '137131'
     team_name = 'fsharp'
 
+    create(:track, slug: team_name)
     user = create(:user, uid: github_uid)
     User::UpdateMaintainer.expects(:call).with(user).once
 
@@ -32,6 +33,16 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     team_name = 'fsharp'
     user = create(:user, uid: github_uid)
     create(:github_team_member, team_name:, user:)
+
+    User::UpdateMaintainer.expects(:call).with(user).never
+
+    Github::TeamMember::Create.(github_uid, team_name)
+  end
+
+  test "noop when team is not track team" do
+    github_uid = '137131'
+    team_name = 'configlet'
+    user = create(:user, uid: github_uid)
 
     User::UpdateMaintainer.expects(:call).with(user).never
 

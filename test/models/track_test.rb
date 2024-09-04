@@ -204,6 +204,9 @@ class TrackTest < ActiveSupport::TestCase
   end
 
   [
+    ["exercism/babel-preset-javascript", "javascript"],
+    ["exercism/babel-preset-typescript", "typescript"],
+    ["exercism/javascript-lib-jest-extensions", "javascript"],
     ["exercism/dotnet-tests", "csharp"],
     ["exercism/nim-docker-base", "nim"],
     ["exercism/codemirror-lang-arturo", "arturo"],
@@ -215,7 +218,7 @@ class TrackTest < ActiveSupport::TestCase
     ["exercism/highlightjs-gdscript", "gdscript"],
     ["eslint-config-typescript", "typescript"],
     ["eslint-config-javascript", "javascript"],
-    ["eslint-config-tooling", "javascript"],
+    ["eslint-config-tooling", "typescript"],
     ["javascript-lib-static-analysis", "javascript"]
   ].each do |(repo, slug)|
     test ".id_for_repo with cross-track repo #{repo} is linked to #{slug}" do

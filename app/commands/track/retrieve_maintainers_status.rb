@@ -6,7 +6,7 @@ class Track::RetrieveMaintainersStatus
   LAST_NUMBER_OF_MONTHS_FOR_REP = 9
 
   def call
-    Rails.cache.fetch("Track::RetrieveMaintainersStatus/2", expires_in: 1.day) do
+    Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_EXPIRY) do
       tracks.index_with { |track| track_maintainers(track) }
     end
   end
@@ -81,7 +81,7 @@ class Track::RetrieveMaintainersStatus
         includes(user: :data).
         joins(:track).
         where('tracks.slug': track_slug).
-        where(category: :building).
+        where(category: %i[building maintaining]).
         where('user_reputation_tokens.created_at > ?', rep_cutoff_date).
         group(:user).
         sum(:value).
@@ -107,4 +107,8 @@ class Track::RetrieveMaintainersStatus
 
   memoize
   def rep_cutoff_date = Time.zone.today - LAST_NUMBER_OF_MONTHS_FOR_REP.months
+
+  CACHE_KEY = "Track::RetrieveMaintainersStatus/3".freeze
+  CACHE_EXPIRY = 1.day.freeze
+  private_constant :CACHE_KEY, :CACHE_EXPIRY
 end

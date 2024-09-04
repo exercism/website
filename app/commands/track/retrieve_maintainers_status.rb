@@ -67,11 +67,13 @@ class Track::RetrieveMaintainersStatus
     GRAPHQL
 
     response = Github::Graphql::ExecuteQuery.(query, %i[organization team childTeams])
-    response[0][:nodes].filter_map do |node|
-      next unless track_slugs.include?(node[:name])
+    response.flat_map do |nodes|
+      nodes[:nodes].filter_map do |node|
+        next unless track_slugs.include?(node[:name])
 
-      [node[:name], node.dig(:members, :nodes).pluck(:login)]
-    end.to_h
+        [node[:name], node.dig(:members, :nodes).pluck(:login)]
+      end
+    end.sort.to_h
   end
 
   memoize
@@ -108,7 +110,7 @@ class Track::RetrieveMaintainersStatus
   memoize
   def rep_cutoff_date = Time.zone.today - LAST_NUMBER_OF_MONTHS_FOR_REP.months
 
-  CACHE_KEY = "Track::RetrieveMaintainersStatus/3".freeze
+  CACHE_KEY = "Track::RetrieveMaintainersStatus/4".freeze
   CACHE_EXPIRY = 1.day.freeze
   private_constant :CACHE_KEY, :CACHE_EXPIRY
 end

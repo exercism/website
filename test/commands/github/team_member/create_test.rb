@@ -6,7 +6,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     team_name = 'fsharp'
     user = create(:user, uid: github_uid)
 
-    team_name_member = Github::TeamMember::Create.(github_uid, team_name)
+    team_name_member = Github::TeamMember::Create.(user, team_name)
 
     assert_equal 1, Github::TeamMember.count
     assert_equal user, team_name_member.user
@@ -21,11 +21,21 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     user = create(:user, uid: github_uid)
     User::UpdateMaintainer.expects(:call).with(user).once
 
-    team_name_member = Github::TeamMember::Create.(github_uid, team_name)
+    team_name_member = Github::TeamMember::Create.(user, team_name)
 
     assert_equal 1, Github::TeamMember.count
     assert_equal user, team_name_member.user
     assert_equal team_name, team_name_member.team_name
+  end
+
+  test "don't update maintainer when team is not track team" do
+    github_uid = '137131'
+    team_name = 'configlet'
+    user = create(:user, uid: github_uid)
+
+    User::UpdateMaintainer.expects(:call).with(user).never
+
+    Github::TeamMember::Create.(user, team_name)
   end
 
   test "noop when already created" do
@@ -36,17 +46,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
 
     User::UpdateMaintainer.expects(:call).with(user).never
 
-    Github::TeamMember::Create.(github_uid, team_name)
-  end
-
-  test "noop when team is not track team" do
-    github_uid = '137131'
-    team_name = 'configlet'
-    user = create(:user, uid: github_uid)
-
-    User::UpdateMaintainer.expects(:call).with(user).never
-
-    Github::TeamMember::Create.(github_uid, team_name)
+    Github::TeamMember::Create.(user, team_name)
   end
 
   test "idempotent" do
@@ -55,7 +55,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     user = create(:user, uid: user_id)
 
     assert_idempotent_command do
-      Github::TeamMember::Create.(user_id, team_name)
+      Github::TeamMember::Create.(user, team_name)
     end
 
     assert_equal 1, Github::TeamMember.count

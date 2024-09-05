@@ -57,8 +57,8 @@ export const loadLanguageCompartment = async (
       return compartment.of(wren())
     }
     case 'yamlscript': {
-      const { yamlScript } = await import('@codemirror/lang-yaml')
-      return compartment.of(yamlScript())
+      const { yaml } = await import('@codemirror/lang-yaml')
+      return compartment.of(yaml())
     }
     case 'zig': {
       const { rust: zig } = await import('@codemirror/lang-rust')

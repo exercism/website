@@ -35,11 +35,21 @@
 
   .text-h5.mb-4 Legend
   .text-16
-    .mb-8 Active = Member of track team and their building reputation meets the member minimum threshold. Shows the user's Exercism login.
-    .mb-8 Inctive = Member of track team but their building reputation does not meet the member minimum threshold. Shows the user's Exercism login.
-    .mb-8 Candidates = Not member of track team but their building reputation meet the candidate minimum threshold. Shows the user's Exercism login.
-    .mb-8 Contributors = Not member of track team and their building reputation does not meet the candidate minimum threshold. Shows the user's Exercism login.
-    .mb-16 Unlinked = Member of track team but no user found linked to that GitHub username. Shows the user's GitHub username.
+    .mb-8
+      Active = Member of track team and their building reputation meets the member minimum threshold.
+      %strong Shows the user's Exercism login.
+    .mb-8
+      Inactive = Member of track team but their building reputation does not meet the member minimum threshold.
+      %strong Shows the user's Exercism login.
+    .mb-8
+      Candidates = Not member of track team but their building reputation meet the candidate minimum threshold.
+      %strong Shows the user's Exercism login.
+    .mb-8
+      Contributors = Not member of track team and their building reputation does not meet the candidate minimum threshold.
+      %strong Shows the user's Exercism login.
+    .mb-16
+      Unlinked = Member of track team but no user found linked to that GitHub username.
+      %strong Shows the user's GitHub username.
   .text-h5.mb-4 Cutoff values used
   .text-16
     .mb-8 Minimum reputation for member: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER}
@@ -60,8 +70,35 @@
       - @track_maintainers_status.each do |track, maintainers|
         %tr
           %td= track.title
-          %td= maintainers[:active].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
-          %td= maintainers[:inactive].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
-          %td= maintainers[:candidates].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
-          %td= maintainers[:contributors].map { |maintainer| "#{maintainer[:handle]} (#{maintainer[:reputation]})" }.join(', ')
-          %td= maintainers[:unlinked].pluck(:github_username).join(', ')
+          %td
+            %ul
+            - maintainers[:active].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
+          %td
+            %ul
+            - maintainers[:inactive].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
+          %td
+            %ul
+            - maintainers[:candidates].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
+          %td
+            %ul
+            - maintainers[:contributors].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
+          %td
+            %ul
+            - maintainers[:unlinked].each do |maintainer|
+              %li #{link_to maintainer[:github_username], "https://github.com/#{maintainer[:github_username]}"} (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})

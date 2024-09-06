@@ -153,6 +153,7 @@ Rails.application.routes.draw do
     resources :exercise_representations
     resources :site_updates, except: [:destroy]
     resources :track_maintainers, only: [:index]
+    resources :track_categories, only: [:index]
   end
 
   namespace :contributing do

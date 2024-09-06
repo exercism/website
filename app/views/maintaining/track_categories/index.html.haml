@@ -1,0 +1,46 @@
+- require_stylesheet "maintaining"
+
+:css
+  #maintaining-track-categories {
+    padding:25px 5%;
+    font-size: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #888;
+    padding: 10px;
+    text-align:left;
+    font-weight:600px;
+  }
+  td {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #aaa;
+    padding: 10px;
+    white-space: pre;
+    font:monospace;
+    vertical-align:top;
+    white-space: pre-wrap;
+  }
+
+#maintaining-track-categories
+  %h2.text-h3 Track Categories
+
+  %table.mb-16.c-admin-table
+    %thead
+      %tr
+        %th Track
+        %th Category
+
+    %tbody
+      - @track_categories.each do |track, category|
+        %tr
+          %td #{link_to track.title, Exercism::Routes.track_url(track)} (#{link_to 'GitHub repo', track.repo_url})
+          %td= category

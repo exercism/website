@@ -1,6 +1,8 @@
 class Track::RetrieveCategories
   include Mandate
 
+  CACHE_KEY = "Track::RetrieveCategories".freeze
+
   def call
     Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_EXPIRY) do
       Track.order(:title).
@@ -53,8 +55,7 @@ class Track::RetrieveCategories
     end.sort.to_h
   end
 
-  CACHE_KEY = "Track::RetrieveCategories/1".freeze
   CACHE_EXPIRY = 1.day.freeze
   CATEGORIES = %w[wip-track unmaintained maintained maintained-autonomous maintained-solitary].freeze
-  private_constant :CACHE_KEY, :CACHE_EXPIRY, :CATEGORIES
+  private_constant :CACHE_EXPIRY, :CATEGORIES
 end

@@ -44,3 +44,6 @@
         %tr
           %td #{link_to track.title, Exercism::Routes.track_url(track)} (#{link_to 'GitHub repo', track.repo_url})
           %td= category
+
+  %p.mb-16
+    = button_to "Clear cache", maintaining_track_categories_path, method: :post, form: { data: { turbo_confirm: "Are you sure? This is an expensive operation" } }, class: 'btn btn-warning'

@@ -4,6 +4,7 @@ class Track::RetrieveMaintainersStatus
   MIN_REP_FOR_MEMBER = 50
   MIN_REP_FOR_CANDIDATE = 100
   LAST_NUMBER_OF_MONTHS_FOR_REP = 9
+  CACHE_KEY = "Track::RetrieveMaintainersStatus".freeze
 
   def call
     Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_EXPIRY) do
@@ -110,7 +111,6 @@ class Track::RetrieveMaintainersStatus
   memoize
   def rep_cutoff_date = Time.zone.today - LAST_NUMBER_OF_MONTHS_FOR_REP.months
 
-  CACHE_KEY = "Track::RetrieveMaintainersStatus/5".freeze
   CACHE_EXPIRY = 1.day.freeze
-  private_constant :CACHE_KEY, :CACHE_EXPIRY
+  private_constant :CACHE_EXPIRY
 end

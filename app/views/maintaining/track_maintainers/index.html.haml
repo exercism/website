@@ -102,3 +102,6 @@
             %ul
             - maintainers[:unlinked].each do |maintainer|
               %li #{link_to maintainer[:github_username], "https://github.com/#{maintainer[:github_username]}"} (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
+
+  %p.mb-16
+    = button_to "Clear cache", maintaining_track_maintainers_path, method: :post, form: { data: { turbo_confirm: "Are you sure? This is an expensive operation" } }, class: 'btn btn-warning'

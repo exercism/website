@@ -152,8 +152,8 @@ Rails.application.routes.draw do
     resources :submissions, only: [:index]
     resources :exercise_representations
     resources :site_updates, except: [:destroy]
-    resources :track_maintainers, only: [:index]
-    resources :track_categories, only: [:index]
+    resources :track_maintainers, only: %i[index create]
+    resources :track_categories, only: %i[index create]
   end
 
   namespace :contributing do

@@ -12,6 +12,7 @@ import setupChapel from 'highlightjs-chapel'
 import setupGDScript from '@exercism/highlightjs-gdscript'
 import setupJq from 'highlightjs-jq'
 import setupArturo from '@exercism/highlightjs-arturo'
+import setupRoc from 'highlightjs-roc'
 
 if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -25,6 +26,7 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('chapel', setupChapel)
   highlighter.default.registerLanguage('gdscript', setupGDScript)
   highlighter.default.registerLanguage('jq', setupJq)
+  highlighter.default.registerLanguage('roc', setupRoc)
 }
 
 highlighter.default.configure({

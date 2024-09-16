@@ -5552,6 +5552,11 @@ highlightjs-redbol@^2.1.2:
   dependencies:
     highlight.js "^11.9.0"
 
+highlightjs-roc@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/highlightjs-roc/-/highlightjs-roc-0.2.0.tgz#dfe1dc2967f472ba1756182688dcb3a427b78c37"
+  integrity sha512-ER14FB9uaH0zuLsm/A9SsBncTAmdSF1sic9CULfpB3bQoq7xQVQT+arqhuXQu4I0ndydqS8JNdKhm9RDJrRRRw==
+
 highlightjs-sap-abap@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/highlightjs-sap-abap/-/highlightjs-sap-abap-0.2.0.tgz#d5291bf777deb7c297683f7dc87c02c8d108cc5b"

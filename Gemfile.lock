@@ -215,7 +215,7 @@ GEM
     geocoder (1.8.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (3.25.3)
+    google-protobuf (3.25.5)
     googleapis-common-protos-types (1.14.0)
       google-protobuf (~> 3.18)
     grpc (1.62.0)

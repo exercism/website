@@ -20,7 +20,7 @@ gem 'grpc', '>= 1.53.0'
 gem 'crawler_detect'
 
 # Serving requests
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.6'
 gem 'rack-cors'
 
 # Helper gems for Rails

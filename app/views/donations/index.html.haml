@@ -20,7 +20,7 @@
             = link_to 'Team', team_about_path, class: link_class
 
     .sm-container{ class: "!pb-28" }
-      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
+      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.lg:mb-128.mb-32
         .c-progress
           - target = 25_000.0
           - actual = Payments::Subscription.active_total_per_month_in_dollars

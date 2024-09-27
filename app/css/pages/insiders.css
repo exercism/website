@@ -106,7 +106,7 @@
             position: absolute;
             bottom: -65px;
             right: -15px;
-            @apply bg-lightGold py-6 px-12 text-16 text-textColor9 leading-150 font-medium rounded-8;
+            @apply bg-lightGold py-6 px-12 text-16 text-textColor1NoDark leading-150 font-medium rounded-8;
             &:before {
                 content: "";
                 background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDIyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMS4zMzY5IDBMMjEuOTAwNCA3LjVIMC43NzMzNDdMMTEuMzM2OSAwWiIgZmlsbD0iI0ZGRDM4RiIvPgo8L3N2Zz4K");

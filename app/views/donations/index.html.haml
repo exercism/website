@@ -28,14 +28,14 @@
           .bar{ style: "width:#{progress}%" }
 
           .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
-          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 170px)" }
+          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
             Monthly donations:
             %span.font-semibold= number_to_currency(actual.round, precision: 0)
 
           .target-icon
             = graphical_icon "party-popper"
           .goal
-            Monthly costs:
+            Sustainable at:
             %span.font-semibold $25,000
 
   .lg-container

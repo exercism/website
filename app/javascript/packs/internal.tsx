@@ -219,7 +219,6 @@ initReact({
       <BegModal
         request={camelizeKeysAs<Request>(data.request)}
         links={camelizeKeysAs<StripeFormLinks>(data.links)}
-        onSuccessfulDonation={data.on_successful_donation}
       />
     </Suspense>
   ),

@@ -5,7 +5,7 @@ import { DiscussionActionsLinks } from '@/components/student/mentoring-session/D
 import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
 const Form = lazy(() => import('@/components/donations/Form'))
 
-export function DonationStep({
+export default function ({
   donation,
   links,
   onSuccessfulDonation,
@@ -17,7 +17,7 @@ export function DonationStep({
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
       <div className="mr-64 max-w-[700px]">
-        <h3 className="text-h4 mb-4 text-lightBlue">One more request…</h3>
+        <h3 className="text-h4 mb-4 text-lightBlue">Sorry to disturb you...</h3>
         <h1 className="text-h1 mb-12">
           We need your help to keep Exercism alive.
         </h1>
@@ -57,7 +57,7 @@ export function DonationStep({
 
         <div className="flex">
           <a
-            href={links.exercise}
+            href={''}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
           >
             Continue without donating
@@ -68,7 +68,7 @@ export function DonationStep({
         <div className="w-[564px] shadow-lgZ1 rounded-8 mb-20">
           <Suspense fallback={<div className="c-loading-suspense" />}>
             <Form
-              request={donation.request}
+              request={{}} /*donation.request}*/
               defaultAmount={{
                 payment: currency(16),
                 subscription: currency(16),
@@ -76,8 +76,8 @@ export function DonationStep({
               userSignedIn={true}
               captchaRequired={false}
               links={{
-                success: links.exerciseMentorDiscussionUrl,
-                settings: links.donationsSettings,
+                success: '' /*links.exerciseMentorDiscussionUrl,*/,
+                settings: '' /*links.donationsSettings,*/,
               }}
               onSuccess={onSuccessfulDonation}
             />
@@ -94,5 +94,3 @@ export function DonationStep({
     </div>
   )
 }
-
-export default DonationStep

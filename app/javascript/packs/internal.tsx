@@ -67,6 +67,7 @@ import type { ChangePublishedIterationModalButtonProps } from '@/components/stud
 import type { UnpublishSolutionModalButtonProps } from '@/components/student/published-solution/UnpublishSolutionModalButton'
 
 // Component imports
+const BegModal = lazy(() => import('@/components/modals/BegModal'))
 const Editor = lazy(() => import('@/components/Editor'))
 const SubmissionsSummaryTable = lazy(() => import('@/components/maintaining'))
 const Inbox = lazy(() => import('@/components/mentoring/Inbox'))
@@ -215,6 +216,15 @@ import {
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'beg-modal': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BegModal
+        donation={camelizeKeysAs<MentoringSessionDonation>(data.donation)}
+        links={camelizeKeysAs<DiscussionActionsLinks>(data.links)}
+        onSuccessfulDonation={data.on_successful_donation}
+      />
+    </Suspense>
+  ),
   'common-markdown-editor': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <MarkdownEditor contextId={data.context_id} />

@@ -24,6 +24,33 @@
         .top-rhs
           = vimeo_embed("855534271?h=97d3a4c8c2")
 
+  .gradient-container.py-32
+    .sm-container
+      %h2.text-center.text-h2 Road to Sustainability
+      %p.text-center.text-p-large.mb-16
+        We need
+        %span.font-medium.text-white $25,000 in donations
+        each month to become sustainable.
+        %span.font-medium.text-white Please help us get there.
+      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
+        .c-progress
+          - target = 25_000.0
+          - actual = Payments::Subscription.active_total_per_month_in_dollars
+          - progress = [1,  actual / target].min * 100
+          .bar{ style: "width:#{progress}%" }
+
+          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
+          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
+            Monthly donations:
+            %span.font-semibold= number_to_currency(actual.round, precision: 0)
+
+          .target-icon
+            = graphical_icon "party-popper"
+          .goal
+            Sustainable at
+            %span.font-semibold $25,000
+
+
   .gradient-container.py-56
     .lg-container
       %h2.text-h2.mb-4.text-center Insider Benefits

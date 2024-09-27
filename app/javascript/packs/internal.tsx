@@ -208,10 +208,8 @@ import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeCont
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
-import {
-  TrackWelcomeModal,
-  TrackWelcomeModalProps,
-} from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
+import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
+import { TrackWelcomeModalProps } from '@/components/modals/track-welcome-modal/TrackWelcomeModal.types'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -219,8 +217,8 @@ initReact({
   'beg-modal': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <BegModal
-        donation={camelizeKeysAs<MentoringSessionDonation>(data.donation)}
-        links={camelizeKeysAs<DiscussionActionsLinks>(data.links)}
+        request={camelizeKeysAs<Request>(data.request)}
+        links={camelizeKeysAs<StripeFormLinks>(data.links)}
         onSuccessfulDonation={data.on_successful_donation}
       />
     </Suspense>

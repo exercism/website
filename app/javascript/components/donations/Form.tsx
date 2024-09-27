@@ -10,8 +10,11 @@ import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { FormWithModalLinks } from './FormWithModal'
 
+export type StripeFormLinks = {
+  success: string
+  settings: string
+}
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
   switchToTab: () => null,

@@ -14,7 +14,7 @@ module ReactComponents
           },
           links: {
             settings: Exercism::Routes.donations_settings_url,
-            success: Exercism::Routes.dashboard_path,
+            success: Exercism::Routes.dashboard_url,
             hide_introducer: Exercism::Routes.hide_api_settings_introducer_path(slug)
           }
         })
@@ -24,8 +24,9 @@ module ReactComponents
       def show_modal?
         return false if current_user.current_subscription
         return false if current_user.donated_in_last_35_days?
+        return false unless current_user.solutions.count >= 5
 
-        dismissal = current_user.dismissed_introducers.find_by(slug)
+        dismissal = current_user.dismissed_introducers.find_by(slug:)
         return true unless dismissal
 
         if dismissal.created_at < 1.month.ago

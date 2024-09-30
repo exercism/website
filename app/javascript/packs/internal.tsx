@@ -217,6 +217,7 @@ initReact({
   'beg-modal': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <BegModal
+        previousDonor={data.previous_donor}
         request={camelizeKeysAs<Request>(data.request)}
         links={camelizeKeysAs<StripeFormLinks>(data.links)}
       />

@@ -7,10 +7,59 @@ import { Modal } from '.'
 import SuccessModal from '../donations/SuccessModal'
 const Form = lazy(() => import('@/components/donations/Form'))
 
+function PreviousDonorContent() {
+  return (
+    <>
+      <p className="text-p-large mb-12">
+        You're one of the few people who have donated to Exercism. Thank you so
+        much for supporting us 💙
+      </p>
+      <p className="text-p-large mb-12">
+        I hate to ask you again (😔), but we really need your support. Exercism
+        isn't covering its costs and we really need your help. If you're
+        enjoying Exercism and can afford it,{' '}
+        <strong className="font-medium">
+          please consider donating a few more dollars{' '}
+        </strong>
+        to support us.
+      </p>
+
+      <p className="text-p-large">
+        If possible, a monthly donation would be extra helpful! It takes 30
+        seconds to setup using the form on the right 👉
+      </p>
+    </>
+  )
+}
+
+function NonDonorContent() {
+  return (
+    <>
+      <p className="text-p-large mb-12">
+        Exercism relies on donations. But right now we don't have enough 😔
+      </p>
+      <p className="text-p-large mb-12">
+        Most people who use Exercism can't afford to donate. But if you can, and
+        you're finding Exercism useful,{' '}
+        <strong className="font-medium">
+          please consider donating a few dollars{' '}
+        </strong>
+        so that we can keep it free for those who can't afford it.
+      </p>
+      <p className="text-p-large">
+        If only 1% of our users support us regularly, we'll be able to cover our
+        costs. It takes 30 seconds to donate, using the form on the right 👉
+      </p>
+    </>
+  )
+}
+
 export default function ({
+  previousDonor,
   links,
   request,
 }: {
+  previousDonor: boolean
   links: StripeFormLinks
   request: Request
 }): JSX.Element {
@@ -34,6 +83,7 @@ export default function ({
         cover
         aria={{ modal: true, describedby: 'a11y-finish-mentor-discussion' }}
         className="m-finish-student-mentor-discussion"
+        containerClassName="!p-48"
         ReactModalClassName="bg-unnamed15"
         shouldCloseOnOverlayClick={false}
         shouldCloseOnEsc={false}
@@ -43,21 +93,26 @@ export default function ({
         <div id="a11y-finish-mentor-discussion" className="flex flex-row">
           <div className="mr-64 max-w-[700px]">
             <h3 className="text-h4 mb-4 text-prominentLinkColor">
-              Sorry to disturb you...
+              Sorry to disturb, but...
             </h3>
-            <h1 className="text-h1 mb-12">
-              We need your help to keep Exercism alive.
-            </h1>
-            <p className="text-p-large mb-12">
-              Exercism relies on donations from wonderful people like you to
-              keep us financially afloat. Currently, not enough people are
-              donating to Exercism and we may have to shut down the site. With
-              your help, we can keep the lights on, and also grow and expand our
-              work.{' '}
-              <strong className="font-medium">
-                Please take one minute to watch this video and see how your
-                donation will help 👇
-              </strong>
+            <h1 className="text-h1 mb-12">We need your help!</h1>
+
+            <div className="mb-20 pb-20 border-b-1 border-borderColor7">
+              {previousDonor ? <PreviousDonorContent /> : <NonDonorContent />}
+            </div>
+
+            <h3 className="text-h4 mb-6">Can't afford it?</h3>
+            <p className="text-p-large mb-20">
+              If you can&apos;t afford to donate, but would like to help in some
+              other way, please share Exercism with your friends and colleagues,
+              and shout about us on social media. The more people that use us,
+              the more donations we get!
+            </p>
+
+            <h3 className="text-h4 mb-6">Want to know more?</h3>
+            <p className="text-p-large mb-20">
+              I put together a short video that explains why we need donations
+              and how we use them 👇
             </p>
 
             <div className="c-youtube-container mb-32">
@@ -70,26 +125,6 @@ export default function ({
                 allowFullScreen
               />
               <script src="https://player.vimeo.com/api/player.js" />
-            </div>
-
-            <h3 className="text-h3 mb-6">Want to help?</h3>
-            <p className="text-p-large mb-6">
-              If you can&apos;t afford to donate, please don&apos;t feel bad.
-              Exercism is free exactly so that people in your situation can
-              learn. Please just go and enjoy the platform! 🙂
-            </p>
-            <p className="text-p-large mb-16">
-              However, if you can spare a few dollars, please use the form to
-              the right to support us. Every little helps. Thank you! 💙
-            </p>
-
-            <div className="flex">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24 mb-16"
-              >
-                Continue without donating
-              </button>
             </div>
           </div>
           <div className="flex flex-col items-end bg-transparent">
@@ -116,6 +151,14 @@ export default function ({
               </p>
             </div>
           </div>
+        </div>
+        <div className="flex items-center border-t-1 border-borderColor6 pt-20">
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24"
+          >
+            Continue without donating
+          </button>
         </div>
       </Modal>
       <SuccessModal

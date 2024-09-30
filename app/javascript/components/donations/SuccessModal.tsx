@@ -12,10 +12,12 @@ export default function ({
   amount,
   open,
   closeLink,
+  handleCloseModal,
 }: {
   amount: currency | null
   open: boolean
-  closeLink: string
+  closeLink?: string
+  handleCloseModal?: () => void
 }): JSX.Element {
   return (
     <Modal open={open} onClose={() => null} className="m-donation-confirmation">
@@ -36,9 +38,15 @@ export default function ({
         </div>
       </div>
 
-      <a href={closeLink} className="btn-primary btn-l w-100">
-        Happy to help! I&apos;m done here 👍
-      </a>
+      {closeLink ? (
+        <a href={closeLink} className="btn-primary btn-l w-100">
+          Happy to help! I&apos;m done here 👍
+        </a>
+      ) : (
+        <button onClick={handleCloseModal} className="btn-primary btn-l w-100">
+          Happy to help! I&apos;m done here 👍
+        </button>
+      )}
     </Modal>
   )
 }

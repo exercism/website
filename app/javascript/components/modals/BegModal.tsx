@@ -20,14 +20,14 @@ export default function ({
   request: Request
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(true)
-  const [paymentMade, setPaymentMade] = useState(false)
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
 
   const handleSuccess = useCallback(
     (_type: PaymentIntentType, amount: currency) => {
       setIsModalOpen(false)
       setPaymentAmount(amount)
-      setPaymentMade(true)
+      setIsSuccessModalOpen(true)
     },
     []
   )
@@ -73,8 +73,11 @@ export default function ({
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
-        <div id="a11y-finish-mentor-discussion" className="flex flex-row">
-          <div className="mr-64 max-w-[700px]">
+        <div
+          id="a11y-finish-mentor-discussion"
+          className="flex lg:flex-row flex-col"
+        >
+          <div className="lg:mr-64 mr-0 lg:max-w-[700px] max-w-full">
             <h3 className="text-h4 mb-4 text-prominentLinkColor">
               Sorry to disturb, but...
             </h3>
@@ -111,7 +114,7 @@ export default function ({
             </div>
           </div>
           <div className="flex flex-col items-end bg-transparent">
-            <div className="w-[564px] shadow-lgZ1 rounded-8 mb-20">
+            <div className="lg:w-[564px] w-100 shadow-lgZ1 rounded-8 mb-20">
               <Suspense fallback={<div className="c-loading-suspense" />}>
                 <Form
                   request={request}
@@ -127,7 +130,7 @@ export default function ({
               </Suspense>
             </div>
 
-            <div className="w-[564px] border-2 border-gradient bg-lightPurple py-12 px-24 rounded-8">
+            <div className="lg:w-[564px] w-100 border-2 border-gradient bg-lightPurple py-12 px-24 rounded-8">
               <p className="text-gradient font-semibold leading-160 text-17">
                 Fewer than 1% of who use Exercism choose to donate. If you can
                 afford to do so, please be one of them.
@@ -135,7 +138,7 @@ export default function ({
             </div>
           </div>
         </div>
-        <div className="flex items-center border-t-1 border-borderColor6 pt-20">
+        <div className="flex items-center lg:border-t-1 border-borderColor6 pt-20">
           <button
             onClick={handleContinueWithoutDonating}
             className="btn-enhanced btn-l !shadow-xsZ1v3 py-16 px-24"
@@ -148,9 +151,9 @@ export default function ({
         </div>
       </Modal>
       <SuccessModal
-        open={paymentMade}
+        open={isSuccessModalOpen}
         amount={paymentAmount}
-        closeLink={links.success}
+        handleCloseModal={() => setIsSuccessModalOpen(false)}
       />
     </>
   )

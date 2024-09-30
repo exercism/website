@@ -159,7 +159,7 @@ export default function ({
   )
 }
 
-function PreviousDonorContent() {
+export function PreviousDonorContent() {
   return (
     <>
       <p className="text-p-large mb-12">
@@ -184,7 +184,7 @@ function PreviousDonorContent() {
   )
 }
 
-function NonDonorContent() {
+export function NonDonorContent() {
   return (
     <>
       <p className="text-p-large mb-12">

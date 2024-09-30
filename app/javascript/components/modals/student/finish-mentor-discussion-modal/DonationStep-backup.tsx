@@ -3,7 +3,6 @@ import { MentoringSessionDonation } from '@/components/types'
 import currency from 'currency.js'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'
 import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
-import { PreviousDonorContent, NonDonorContent } from '../../BegModal'
 const Form = lazy(() => import('@/components/donations/Form'))
 
 export function DonationStep({
@@ -18,31 +17,19 @@ export function DonationStep({
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
       <div className="mr-64 max-w-[700px]">
-        <h3 className="text-h4 mb-4 text-prominentLinkColor">
-          One more request…
-        </h3>
-        <h1 className="text-h1 mb-12">Are you finding Exercism helpful?</h1>
-
-        <div className="mb-20 pb-20 border-b-1 border-borderColor7">
-          {!donation.previousDonor ? (
-            <PreviousDonorContent />
-          ) : (
-            <NonDonorContent />
-          )}
-        </div>
-
-        <h3 className="text-h4 mb-6">Can't afford it?</h3>
-        <p className="text-p-large mb-20">
-          If you can&apos;t afford to donate, but would like to help in some
-          other way, please share Exercism with your friends and colleagues, and
-          shout about us on social media. The more people that use us, the more
-          donations we get!
-        </p>
-
-        <h3 className="text-h4 mb-6">Want to know more?</h3>
-        <p className="text-p-large mb-20">
-          I put together a short video that explains why we need donations and
-          how we use them 👇
+        <h3 className="text-h4 mb-4 text-lightBlue">One more request…</h3>
+        <h1 className="text-h1 mb-12">
+          We need your help to keep Exercism alive.
+        </h1>
+        <p className="text-p-large mb-12">
+          Exercism relies on donations from wonderful people like you to keep us
+          financially alive. Currently, not enough people are donating to
+          Exercism and we may have to shut down the site. With your help, we can
+          keep the lights on, and also grow and expand our work.{' '}
+          <strong className="font-medium">
+            Please take one minute to watch this video and see how your donation
+            will help 👇
+          </strong>
         </p>
 
         <div className="c-youtube-container mb-32">
@@ -56,6 +43,17 @@ export function DonationStep({
           />
           <script src="https://player.vimeo.com/api/player.js" />
         </div>
+
+        <h3 className="text-h3 mb-6">Want to help?</h3>
+        <p className="text-p-large mb-6">
+          If you can&apos;t afford to donate, please don&apos;t feel bad.
+          Exercism is free exactly so that people in your situation can learn.
+          Please just go and enjoy the platform! 🙂
+        </p>
+        <p className="text-p-large mb-16">
+          However, if you can spare a few dollars, please use the form to the
+          right to support us. Every little helps. Thank you! 💙
+        </p>
 
         <div className="flex">
           <a

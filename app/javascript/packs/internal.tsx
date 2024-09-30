@@ -67,6 +67,7 @@ import type { ChangePublishedIterationModalButtonProps } from '@/components/stud
 import type { UnpublishSolutionModalButtonProps } from '@/components/student/published-solution/UnpublishSolutionModalButton'
 
 // Component imports
+const BegModal = lazy(() => import('@/components/modals/BegModal'))
 const Editor = lazy(() => import('@/components/Editor'))
 const SubmissionsSummaryTable = lazy(() => import('@/components/maintaining'))
 const Inbox = lazy(() => import('@/components/mentoring/Inbox'))
@@ -207,14 +208,21 @@ import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeCont
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
-import {
-  TrackWelcomeModal,
-  TrackWelcomeModalProps,
-} from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
+import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
+import { TrackWelcomeModalProps } from '@/components/modals/track-welcome-modal/TrackWelcomeModal.types'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'beg-modal': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BegModal
+        previousDonor={data.previous_donor}
+        request={camelizeKeysAs<Request>(data.request)}
+        links={camelizeKeysAs<StripeFormLinks>(data.links)}
+      />
+    </Suspense>
+  ),
   'common-markdown-editor': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <MarkdownEditor contextId={data.context_id} />

@@ -23,7 +23,7 @@ export function DonationStep({
         </h1>
         <p className="text-p-large mb-12">
           Exercism relies on donations from wonderful people like you to keep us
-          financially afloat. Currently, not enough people are donating to
+          financially alive. Currently, not enough people are donating to
           Exercism and we may have to shut down the site. With your help, we can
           keep the lights on, and also grow and expand our work.{' '}
           <strong className="font-medium">
@@ -94,3 +94,5 @@ export function DonationStep({
     </div>
   )
 }
+
+export default DonationStep

@@ -274,6 +274,8 @@
     --textColorMentorTrackSelectorSelected: theme(colors.smokeGray);
     --textColorProgressTextCompleted: theme(colors.darkSuccessGreen);
     --c-prominent-link-color: theme(colors.lightBlue);
+    --textGradientStart: #2200ff;
+    --textGradientEnd: #9e00ff;
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
@@ -540,6 +542,8 @@ body.namespace-.controller-insiders.theme-light,
     --textColorMentoringRequestedStatusInfo: theme(colors.aliceBlue);
     --textColorMentorTrackSelectorSelected: theme(colors.aliceBlue);
     --textColorProgressTextCompleted: theme(colors.greenPrompt);
+    --textGradientStart: #8370ff;
+    --textGradientEnd: #b947ff;
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);

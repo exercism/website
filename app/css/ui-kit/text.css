@@ -95,7 +95,10 @@
 
     .text-gradient {
         color: #6a01ff;
-        background: -webkit-linear-gradient(#2200ff, #9e00ff);
+        background: -webkit-linear-gradient(
+            var(--textGradientStart),
+            var(--textGradientEnd)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }

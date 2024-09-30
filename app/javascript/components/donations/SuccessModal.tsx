@@ -8,15 +8,17 @@ import currency from 'currency.js'
 
 const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
-export default ({
+export default function ({
   amount,
   open,
   closeLink,
+  handleCloseModal,
 }: {
   amount: currency | null
   open: boolean
-  closeLink: string
-}): JSX.Element => {
+  closeLink?: string
+  handleCloseModal?: () => void
+}): JSX.Element {
   return (
     <Modal open={open} onClose={() => null} className="m-donation-confirmation">
       <GraphicalIcon icon="completed-check-circle" className="main-icon" />
@@ -36,9 +38,15 @@ export default ({
         </div>
       </div>
 
-      <a href={closeLink} className="btn-primary btn-l w-100">
-        Happy to help! I&apos;m done here 👍
-      </a>
+      {closeLink ? (
+        <a href={closeLink} className="btn-primary btn-l w-100">
+          Happy to help! I&apos;m done here 👍
+        </a>
+      ) : (
+        <button onClick={handleCloseModal} className="btn-primary btn-l w-100">
+          Happy to help! I&apos;m done here 👍
+        </button>
+      )}
     </Modal>
   )
 }

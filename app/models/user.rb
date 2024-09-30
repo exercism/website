@@ -242,9 +242,7 @@ class User < ApplicationRecord
   def total_one_off_donations_in_dollars = total_donated_in_dollars - total_subscription_donations_in_dollars
 
   memoize
-  def total_donated_in_dollars
-    total_donated_in_cents / BigDecimal(100)
-  end
+  def total_donated_in_dollars = total_donated_in_cents / BigDecimal(100)
 
   def reputation_for_track(track)
     User::ReputationToken.where(

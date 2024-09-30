@@ -15,6 +15,7 @@ export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
   theme?: Theme
   aria?: Aria
   ReactModalClassName?: string
+  containerClassName?: string
 }
 
 export function Modal({
@@ -28,6 +29,7 @@ export function Modal({
   children,
   aria,
   ReactModalClassName,
+  containerClassName,
   ...props
 }: React.PropsWithChildren<ModalProps>): JSX.Element {
   const overlayClassNames = [
@@ -70,7 +72,7 @@ export function Modal({
               </ActiveBackground>
             )}
           >
-            <div className="--modal-container">
+            <div className={`--modal-container ${containerClassName}`}>
               {closeButton ? <CloseButton onClose={onClose} /> : null}
               {contentElement}
             </div>

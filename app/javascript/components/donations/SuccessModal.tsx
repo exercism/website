@@ -8,7 +8,7 @@ import currency from 'currency.js'
 
 const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
-export default ({
+export default function ({
   amount,
   open,
   closeLink,
@@ -16,7 +16,7 @@ export default ({
   amount: currency | null
   open: boolean
   closeLink: string
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <Modal open={open} onClose={() => null} className="m-donation-confirmation">
       <GraphicalIcon icon="completed-check-circle" className="main-icon" />

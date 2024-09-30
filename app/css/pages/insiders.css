@@ -52,6 +52,75 @@
         }
     }
 
+    & .c-progress {
+        @apply relative;
+        .target-icon {
+            right: 0px;
+        }
+        .current-icon {
+            @apply bg-gradientProgressBarB;
+            @apply absolute;
+            height: 34px;
+            width: 34px;
+            box-shadow: 0px 4px 24px 0px #9c822666;
+
+            @apply grid place-items-center rounded-circle;
+        }
+        .target-icon {
+            @apply absolute;
+            height: 48px;
+            width: 48px;
+            background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0) 100%
+                ),
+                linear-gradient(0deg, #fff4e3, #fff4e3);
+            box-shadow: 0px 4px 24px 0px #9c822666;
+
+            @apply grid place-items-center rounded-circle;
+
+            & .c-icon {
+                height: 40px;
+                width: 40px;
+                padding-left: 7px;
+            }
+        }
+        .actual-number {
+            position: absolute;
+            bottom: -65px;
+            @apply bg-gradientProgressBarB py-6 px-12 text-16 text-white leading-150 rounded-8 font-medium;
+            &:before {
+                content: "";
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDIyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMS4zMzY5IDBMMjEuOTAwNCA3LjVIMC43NzMzNDdMMTEuMzM2OSAwWiIgZmlsbD0iIzlFMDBGRiIvPgo8L3N2Zz4K");
+                background-repeat: no-repeat;
+                background-size: contain;
+                position: absolute;
+                top: -8px;
+                right: 58px;
+                height: 10px;
+                width: 25px;
+            }
+        }
+        .goal {
+            position: absolute;
+            bottom: -65px;
+            right: -15px;
+            @apply bg-lightGold py-6 px-12 text-16 text-textColor1NoDark leading-150 font-medium rounded-8;
+            &:before {
+                content: "";
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDIyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMS4zMzY5IDBMMjEuOTAwNCA3LjVIMC43NzMzNDdMMTEuMzM2OSAwWiIgZmlsbD0iI0ZGRDM4RiIvPgo8L3N2Zz4K");
+                background-repeat: no-repeat;
+                background-size: contain;
+                position: absolute;
+                top: -8px;
+                right: 30px;
+                height: 10px;
+                width: 25px;
+            }
+        }
+    }
+
     .faqs {
         a {
             @apply text-veryLightBlue font-semibold underline;

@@ -94,5 +94,3 @@ export function DonationStep({
     </div>
   )
 }
-
-export default DonationStep

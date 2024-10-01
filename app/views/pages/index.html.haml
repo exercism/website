@@ -45,7 +45,7 @@
           = link_to track_path(track), class: 'track' do
             = track_icon(track)
             .title= track.title
-            .students-count #{track.num_students} students
+            .students-count #{number_with_delimiter(track.num_students)} students
       .cta.border-t-3.border-veryLightBlue
         = render ViewComponents::ProminentLink.new("See all #{@num_tracks} Language Tracks", tracks_path, with_bg: true)
 
@@ -57,7 +57,7 @@
             = graphical_icon :exercises, hex: true
             %h2.text-h2
               Over
-              %strong #{Exercise.available.count} coding exercises.
+              %strong #{number_with_delimiter(Exercise.available.count)} coding exercises.
               %br
               From "Allergies" to "Zebra Puzzle".
             %hr.c-divider

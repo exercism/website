@@ -17,15 +17,16 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") if !user_signed_in? ||
-                             current_user.donated? ||
-                             current_user.solutions.count < 3
+      return tag.span("") unless user_signed_in?
+      return tag.span("") if current_user.solutions.count <= 5
+      return tag.span("") if current_user.current_subscription
+      return tag.span("") if current_user.donated_in_last_35_days?
 
       link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji mr-6') +
             tag.span("Enjoying Exercism? We need your help to survive…") +
-            tag.strong("Please support us if you can!")
+            tag.strong("Please donate if you can!")
         end
       end
     end

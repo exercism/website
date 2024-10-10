@@ -467,6 +467,7 @@ export type MentoredTrackExercise = {
 
 export type MentoringSessionDonation = {
   showDonationModal: boolean
+  previousDonor: boolean
   request: {
     endpoint: string
     options: {

@@ -53,6 +53,7 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         videos: [],
         donation: {
           show_donation_modal: true,
+          previous_donor: false,
           request: {
             endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
             options: {
@@ -112,6 +113,7 @@ class ReactComponents::Student::MentoringSessionTest < ReactComponentTestCase
         ],
         donation: {
           show_donation_modal: true,
+          previous_donor: false,
           request: {
             endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
             options: {

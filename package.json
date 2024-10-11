@@ -92,7 +92,7 @@
     "react-simplemde-editor": "^5",
     "reconnecting-websocket": "3.2.2",
     "regenerator-runtime": "^0.13.7",
-    "rough-notation": "^0.5.1",
+    "rough-notation": "github:exercism/rough-notation#build",
     "tailwindcss": "^3.3.3",
     "ua-parser-js": "^1.0.37",
     "use-is-mounted": "^1.0.0",

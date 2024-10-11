@@ -9542,10 +9542,9 @@ rimraf@^3.0.0, rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-rough-notation@^0.5.1:
+"rough-notation@github:exercism/rough-notation#build":
   version "0.5.1"
-  resolved "https://registry.yarnpkg.com/rough-notation/-/rough-notation-0.5.1.tgz#32abbb16b973fb00fba83ab96b18704e98620e95"
-  integrity sha512-ITHofTzm13cWFVfoGsh/4c/k2Mg8geKgBCwex71UZLnNuw403tCRjYPQ68jSAd37DMbZIePXPjDgY0XdZi9HPw==
+  resolved "https://codeload.github.com/exercism/rough-notation/tar.gz/939c741520d83139d4a3088dcf5357244676fcca"
 
 rsvp@^4.8.4:
   version "4.8.5"

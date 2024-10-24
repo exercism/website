@@ -1,21 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
-import { Modal, ModalProps } from './Modal'
+import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export default function WelcomeModal({
-  endpoint,
-  numTracks,
-  ...props
-}: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
-  endpoint: string
-  numTracks: number
-}): JSX.Element {
-  const [open, setOpen] = useState(true)
+export function SeniorView() {
+  const { numTracks, endpoint, setOpen, setCurrentView } =
+    useContext(WelcomeModalContext)
   const {
     mutate: mutation,
     status,
@@ -42,13 +36,7 @@ export default function WelcomeModal({
   }, [mutation])
 
   return (
-    <Modal
-      cover={true}
-      open={open}
-      {...props}
-      onClose={() => null}
-      className="m-welcome"
-    >
+    <>
       <div className="lhs">
         <header>
           <h1>Welcome to Exercism! 💙</h1>
@@ -75,14 +63,23 @@ export default function WelcomeModal({
           with the platform, then start solving exercises for real.
         </p>
 
-        <FormButton
-          status={status}
-          className="btn-primary btn-l"
-          type="button"
-          onClick={handleClick}
-        >
-          Got it! Close this modal.
-        </FormButton>
+        <div className="flex items-center gap-8">
+          <button
+            type="button"
+            className={VIEW_CHANGER_BUTTON_CLASS}
+            onClick={() => setCurrentView('initial')}
+          >
+            Back
+          </button>
+          <FormButton
+            status={status}
+            className="btn-primary btn-l"
+            type="button"
+            onClick={handleClick}
+          >
+            Got it! Close this modal.
+          </FormButton>
+        </div>
         <ErrorBoundary resetKeys={[status]}>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>
@@ -109,6 +106,6 @@ export default function WelcomeModal({
           #48in24. Click on that and follow the instructions to get started!
         </p>
       </div>
-    </Modal>
+    </>
   )
 }

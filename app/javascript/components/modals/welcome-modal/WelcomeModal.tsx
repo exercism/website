@@ -5,7 +5,7 @@ import { SeniorView } from './SeniorView'
 import { JuniorView } from './JuniorView'
 
 export const VIEW_CHANGER_BUTTON_CLASS =
-  'cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px]'
+  'cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px] pointer-events-auto'
 
 type ViewVariant = 'initial' | 'junior' | 'senior'
 

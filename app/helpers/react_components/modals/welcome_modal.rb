@@ -2,12 +2,12 @@ module ReactComponents
   module Modals
     class WelcomeModal < ReactComponent
       def to_s
-        return if current_user.introducer_dismissed?(slug)
+        # return if current_user.introducer_dismissed?(slug)
 
-        if current_user.solutions.count >= 2
-          current_user.dismiss_introducer!(slug)
-          return
-        end
+        # if current_user.solutions.count >= 2
+        #   current_user.dismiss_introducer!(slug)
+        #   return
+        # end
 
         super(
           "modals-welcome-modal",

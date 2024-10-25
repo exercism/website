@@ -171,8 +171,9 @@ const IterationSummaryWithWebsockets = lazy(
 const NotificationsList = lazy(
   () => import('@/components/notifications/NotificationsList')
 )
-const WelcomeModal = lazy(
-  () => import('@/components/modals/welcome-modal/WelcomeModal')
+const WelcomeModal = lazy(() => import('@/components/modals/WelcomeModal'))
+const SenioritySurveyModal = lazy(
+  () => import('@/components/modals/SenioritySurveyModal')
 )
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')
@@ -246,6 +247,11 @@ initReact({
         }>(data.links)}
         numTracks={data.num_tracks}
       />
+    </Suspense>
+  ),
+  'modals-seniority-survey-modal': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <SenioritySurveyModal endpoint={data.endpoint} />
     </Suspense>
   ),
 

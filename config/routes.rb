@@ -475,4 +475,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get "/bootcamp" => "bootcamp#index"
 end

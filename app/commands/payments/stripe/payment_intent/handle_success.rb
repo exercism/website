@@ -10,6 +10,7 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
 
   def call
     return unless user
+    return unless should_record_payment?
 
     subscription = Payments::Stripe::Subscription::Create.(user, subscription_data) if subscription_data
     Payments::Stripe::Payment::Create.(user, payment_intent, subscription:)
@@ -33,6 +34,20 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
     return unless invoice.subscription
 
     Stripe::Subscription.retrieve(invoice.subscription)
+  end
+
+  memoize
+  def should_record_payment?
+    return true if subscription_data
+
+    charge = Stripe::Charge.retrieve(payment_intent.latest_charge)
+
+    # If there is an email, then it's the Bootcamp.
+    # If there's not an email, then through our integration.
+    # This is terrible, I know.
+    charge.billing_details.email.blank?
+  rescue StandardError
+    true
   end
 
   memoize

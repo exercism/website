@@ -71,7 +71,6 @@ body {
     width: 100%;
     background: rgb(13, 18, 33);
     z-index: 9999;
-    box-shadow: 0 0 10px black;
     @apply py-16;
     @apply md:text-18 text-14;
 

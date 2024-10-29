@@ -1,5 +1,7 @@
 class BootcampController < ApplicationController
   layout false
+  skip_before_action :authenticate_user!
+
   COMPLETE_PRICE = 149.99
   PART_1_PRICE = 99.99
 

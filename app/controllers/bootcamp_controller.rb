@@ -9,7 +9,7 @@ class BootcampController < ApplicationController
 
     if Rails.env.production?
       begin
-        data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.config.vpnapi_key}").body)
+        data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
         @country_code_2 = data.dig("location", "country_code")
         @is_vpn = data.dig("security", "vpn")
       rescue StandardError

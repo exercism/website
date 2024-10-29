@@ -9,8 +9,6 @@ class Payments::Payment::Create
   initialize_with :user, :provider, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
 
   def call
-    # TODO: Check product id here!
-
     Payments::Payment.create!(
       user:,
       provider:,

@@ -107,7 +107,13 @@ body {
 }
 
 .hero {
-    background: linear-gradient(rgb(13, 18, 33), rgb(19, 47, 68));
+    background-image: url("bootcamp/hero-bg.png"),
+        linear-gradient(rgb(13, 18, 33), rgb(19, 47, 68));
+    background-repeat: repeat-y;
+    background-size: 100%;
+    margin-top: -70px;
+    padding-top: 70px;
+
     color: white;
     @apply overflow-hidden;
 

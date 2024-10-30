@@ -648,7 +648,7 @@ section#exercism {
             @apply mb-8;
         }
         p {
-            @apply text-[14px];
+            @apply lg:text-[14px] text-16;
         }
     }
 }

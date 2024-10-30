@@ -20,6 +20,7 @@ function build() {
       bundle: true,
       sourcemap: true,
       format: 'esm',
+      chunkNames: 'chunks/[name]-[hash]-1',
       splitting: true,
       minify: process.env.NODE_ENV === 'production',
       watch: process.argv.includes('--watch'),

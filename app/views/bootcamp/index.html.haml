@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }/
 
     -# Fallback fonts first
     %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
@@ -43,17 +43,16 @@
       }
 
     %title= content_for(:title) || "Bootcamp"
-    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
-    %meta{:content => "yes", :name => "apple-mobile-web-app-capable"}/
+    %meta{ content:  "width=device-width,initial-scale=1", name: "viewport" }/
+    %meta{ content: "yes", name: "apple-mobile-web-app-capable" }/
 
     = csrf_meta_tags
     = csp_meta_tag
 
-    
     - title = "The Exercism Learn-to-Code Bootcamp"
     - description = "The Exercism Bootcamp is a unique six-month part-time coding bootcamp, teaching absolute beginners coding funamentals, by the team behind Exercism."
-    - url = "https://bootcamp.exercism.org" 
-    - og_image_url = image_url('bootcamp/og.png') 
+    - url = "https://bootcamp.exercism.org"
+    - og_image_url = image_url('bootcamp/og.png')
 
     %link{ rel: "canonical", href: "https://bootcamp.exercism.org" }
 
@@ -73,7 +72,7 @@
     -# Open Graph data
     %meta{ property: "og:title", content: title }
     %meta{ property: "og:type", content: "website" }
-    %meta{ property: "og:url", content: url}
+    %meta{ property: "og:url", content: url }
     %meta{ property: "og:image", content: og_image_url }
     %meta{ property: "og:description", content: description }
     %meta{ property: "og:site_name", content: "Exercism" }
@@ -85,10 +84,10 @@
     %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
 
   %body
-    -if @has_discount
+    - if @has_discount
       #discount-bar
         .flag= flag_for_country_code(@country_code_2)
-        -if @hello
+        - if @hello
           %strong #{@hello}!
         Everyone in #{@country_name} gets a
         %strong.inline #{@discount_percentage}% discount!
@@ -107,7 +106,7 @@
             Build rock solid coding
             %span foundations
           .tagline
-            A unique part-time remote 
+            A unique part-time remote
             %strong coding bootcamp
             by the team behind Exercism.
 
@@ -126,7 +125,7 @@
             - if @has_discount
               .flag= flag_for_country_code(@country_code_2)
               .text
-                %span.line-through{class: 'text-[#666]'} $#{@full_complete_price}
+                %span.line-through{ class: 'text-[#666]' } $#{@full_complete_price}
                 Only
                 %strong $#{@complete_price}
             - else
@@ -213,10 +212,10 @@
           There was basically only one way to learn.
           %strong Make stuff. Lots of stuff!
 
-        .sm:float-right.mt-20.sm:ml-24.sm:mb-24{class: "xl:mr-[-100px] mr-0"}
-          %div{class: 'border-white border-[8px] rounded-[5px] lg:w-[300px] sm:w-[220px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);"}
+        .sm:float-right.mt-20.sm:ml-24.sm:mb-24{ class: "xl:mr-[-100px] mr-0" }
+          %div{ class: 'border-white border-[8px] rounded-[5px] lg:w-[300px] sm:w-[220px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);" }
             = image_tag "bootcamp/with-rhodri.jpg", class: 'w-[100%] border-[#aaa] border-[1px] rounded-[1px]'
-            .text-14.text-center.font-normal.pt-8.px-8{class: "leading-[140%]"}
+            .text-14.text-center.font-normal.pt-8.px-8{ class: "leading-[140%]" }
               %span.lg:hidden.inline 1998: Me making the first website I ever got paid for.
               %span.lg:inline.hidden 1998: Me and Rhodri making the first website we ever got paid for.
 
@@ -374,7 +373,7 @@
       .lg-container
         #schedule-subsection.subcontainer.relative
           #schedule-arrow.arrow-animation
-          .flex.flex-col.mb-8{class: 'lg:flex-row'}
+          .flex.flex-col.mb-8{ class: 'lg:flex-row' }
             %h3.mr-auto
               What your week will look like 🔎
             .h3-sideheading.flex.mt-8.flex-wrap
@@ -420,7 +419,7 @@
       .lg-container
         #portfolio-subsection.subcontainer.relative
           #portfolio-arrow.arrow-animation
-          .flex.flex-col.mb-8{class: 'lg:flex-row'}
+          .flex.flex-col.mb-8{ class: 'lg:flex-row' }
             %h3.mr-auto
               A few things we'll build together ✨
             .h3-sideheading
@@ -530,7 +529,7 @@
               - if @has_discount
                 .price
                   %strong $#{@part_1_price}
-                  %span{class: "text-[26px] line-through text-[#777] font-normal"} $#{@full_part_1_price}
+                  %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_part_1_price}
                 .discount
 
                   Includes a
@@ -538,7 +537,7 @@
                   for our friends in
                   %span.flag= flag_for_country_code(@country_code_2)
                   #{@country_name}!
-              -else
+              - else
                 .price
                   %strong $#{@full_part_1_price}
             .body
@@ -572,7 +571,7 @@
                   %li A dedicated community Discord server.
                   %li An official certificate of completion.
 
-              =link_to "Enroll now 👉", @part_1_payment_url, class: "button"
+              = link_to "Enroll now 👉", @part_1_payment_url, class: "button"
 
           .container
             .header
@@ -591,14 +590,14 @@
               - if @has_discount
                 .price
                   %strong $#{@complete_price}
-                  %span{class: "text-[26px] line-through text-[#777] font-normal"} $#{@full_complete_price}
+                  %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@full_complete_price}
                 .discount
                   Includes a
                   %strong #{@discount_percentage}% discount
                   for our friends in
                   %span.flag= flag_for_country_code(@country_code_2)
                   #{@country_name}.
-              -else
+              - else
                 .price
                   %strong $#{@full_complete_price}
             .body
@@ -631,7 +630,7 @@
                   %li More exercises and projects, this time for you to solve on your own laptop.
                   %li A second official certificate of completion to put on your resume.
 
-              =link_to "Enroll now 👉", @full_payment_url, class: "button"
+              = link_to "Enroll now 👉", @full_payment_url, class: "button"
 
     = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 
@@ -679,7 +678,7 @@
           %span.inline-block These are the questions we get asked the most.
           %span.inline-block
             Your question not answered here?
-            =link_to "Ping us an email!", "#"
+            = link_to "Ping us an email!", "#"
 
         .faq
           %h4 Can I join Part 1 now and then sign up for the rest of the course later?
@@ -714,7 +713,7 @@
         - else
           .faq
             %h4 Do you offer any discounts for students, unemployed or people in countries with weak currencies?
-            %p Yes, we do. We want to ensure as many people can benefit from this bootcamp as possible. Email #{link_to "bootcamp@exercism.org", "mailto:bootcamp@exercism.org", class: "font-semibold text-[blue]"}, tell me your situation, and I'll see what we can do for you.
+            %p Yes, we do. We want to ensure as many people can benefit from this bootcamp as possible. Email #{link_to 'bootcamp@exercism.org', 'mailto:bootcamp@exercism.org', class: 'font-semibold text-[blue]'}, tell me your situation, and I'll see what we can do for you.
 
     %section#legals
       .md-container.text-center

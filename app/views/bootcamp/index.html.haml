@@ -48,11 +48,41 @@
 
     = csrf_meta_tags
     = csp_meta_tag
-    = yield :head
-    %link{:href => "/manifest.json", :rel => "manifest"}/
-    %link{:href => "/icon.png", :rel => "icon", :type => "image/png"}/
-    %link{:href => "/icon.svg", :rel => "icon", :type => "image/svg+xml"}/
-    %link{:href => "/icon.png", :rel => "apple-touch-icon"}/
+
+    
+    - title = "The Exercism Learn-to-Code Bootcamp"
+    - description = "The Exercism Bootcamp is a unique six-month part-time coding bootcamp, teaching absolute beginners coding funamentals, by the team behind Exercism."
+    - url = "https://bootcamp.exercism.org" 
+    - og_image_url = image_url('bootcamp/og.png') 
+
+    %link{ rel: "canonical", href: "https://bootcamp.exercism.org" }
+
+    %title= title
+    %meta{ name: "description", content: description }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" }
+
+    -# Twitter Card data
+    %meta{ name: "twitter:card", content: "summary_large_image" }
+    %meta{ name: "twitter:site", content: "@exercism_io" }
+    %meta{ name: "twitter:creator", content: "@exercism_io" }
+    %meta{ name: "twitter:url", content: url }
+    %meta{ name: "twitter:title", content: title }
+    %meta{ name: "twitter:description", content: description }
+    %meta{ name: "twitter:image", content: og_image_url }
+
+    -# Open Graph data
+    %meta{ property: "og:title", content: title }
+    %meta{ property: "og:type", content: "website" }
+    %meta{ property: "og:url", content: url}
+    %meta{ property: "og:image", content: og_image_url }
+    %meta{ property: "og:description", content: description }
+    %meta{ property: "og:site_name", content: "Exercism" }
+    %meta{ property: "fb:admins", content: "744760440" }
+
+    -# Favicon
+    %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
 
   %body
     -if @has_discount
@@ -77,7 +107,7 @@
             Build rock solid coding
             %span foundations
           .tagline
-            A unique six-month part-time
+            A unique part-time remote 
             %strong coding bootcamp
             by the team behind Exercism.
 

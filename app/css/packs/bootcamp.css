@@ -122,7 +122,7 @@ body {
         @apply md:text-22 text-18 mb-20;
         @apply font-light;
         @apply text-[#dde5f0];
-        @apply max-w-[550px] mx-auto;
+        @apply max-w-[530px] mx-auto;
         strong {
             @apply font-semibold;
             @apply text-white;

@@ -18,7 +18,7 @@ class BootcampController < ApplicationController
         # Rate limit probably
       end
     else
-      @country_code_2 = "BA"
+      @country_code_2 = "IN"
       @is_vpn = false
     end
 

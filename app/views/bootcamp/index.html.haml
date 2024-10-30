@@ -42,6 +42,8 @@
         -webkit-font-smoothing: antialiased;
       }
 
+    = javascript_include_tag('bootcamp', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
+
     %title= content_for(:title) || "Bootcamp"
     %meta{ content:  "width=device-width,initial-scale=1", name: "viewport" }/
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }/
@@ -720,5 +722,3 @@
         is a registered
         %strong not-for-profit organisation.
         %span.whitespace-nowrap © #{Date.current.year} Exercism
-
-    = javascript_include_tag('bootcamp', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)

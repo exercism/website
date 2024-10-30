@@ -876,7 +876,7 @@ section#faqs {
     .background {
         @apply absolute inset-0;
         background-color: white;
-        background-image: url("grid-dark.svg");
+        background-image: url("bootcamp/grid-dark.svg");
         @apply bg-repeat;
         background-size: 1000px;
         background-position: top center;

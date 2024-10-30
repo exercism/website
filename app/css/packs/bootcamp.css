@@ -185,12 +185,8 @@ body {
 
         .video {
             width: 100%;
-            background-image: url(https://d3e54v103j8qbb.cloudfront.net/static/youtube-placeholder.2b05e7d68d.svg);
-            background-position: 50%;
-            background-size: cover;
-            padding-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
+            background-color: black;
+            padding: 56.25% 0 0 0;
             position: relative;
         }
     }

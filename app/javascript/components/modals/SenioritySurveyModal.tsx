@@ -59,23 +59,21 @@ export default function SenioritySurveyModal({
       onClose={() => null}
       className="m-welcome"
     >
-      {' '}
       <div className="lhs">
-        {' '}
         <header>
-          {' '}
-          <h1>Hey!</h1>{' '}
+          <h1>Hey there 👋</h1>
           <p className="mb-16">
-            We're starting to add more features and nudges and want to ensure
-            they're relevant to you.
+            As Exercism grows, certain features are becoming more relevant than
+            others based on your experience coding. So we're starting to filter
+            what we show by your seniority.
           </p>
-          <h2>What seniority are you?</h2>
+          <h2>How experienced a developer are you?</h2>
         </header>
-        <div className="flex flex-row flex-wrap gap-8 mb-16 text-18">
+        <div className="flex flex-col flex-wrap gap-8 mb-16 text-18">
           {SENIORITIES.map((seniority) => (
             <button
               className={assembleClassNames(
-                'p-8 border-1 rounded-8 font-medium',
+                'btn-m btn-enhanced',
                 selected === seniority
                   ? 'border-prominentLinkColor text-prominentLinkColor'
                   : 'border-borderColor1'
@@ -86,6 +84,10 @@ export default function SenioritySurveyModal({
             </button>
           ))}
         </div>
+
+        <p className="text-14 text-center mt-4">
+          (This can be updated at any time in your settings)
+        </p>
         <FormButton
           status={status}
           className="btn-primary btn-l"

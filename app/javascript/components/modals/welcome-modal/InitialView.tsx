@@ -20,7 +20,7 @@ export function InitialView() {
           className="view-changer-btn"
           onClick={() => {
             setCurrentView('beginner')
-            patchUserSeniority.mutation(0)
+            patchUserSeniority.mutate('absolute_beginner')
           }}
         >
           Absolute Beginner
@@ -28,28 +28,40 @@ export function InitialView() {
         <button
           type="button"
           className="view-changer-btn"
-          onClick={() => setCurrentView('beginner')}
+          onClick={() => {
+            setCurrentView('beginner')
+            patchUserSeniority.mutate('beginner')
+          }}
         >
           Beginner
         </button>
         <button
           type="button"
           className="view-changer-btn"
-          onClick={() => setCurrentView('developer')}
+          onClick={() => {
+            setCurrentView('developer')
+            patchUserSeniority.mutate('junior')
+          }}
         >
           Junior Developer
         </button>
         <button
           type="button"
           className="view-changer-btn"
-          onClick={() => setCurrentView('developer')}
+          onClick={() => {
+            setCurrentView('developer')
+            patchUserSeniority.mutate('mid')
+          }}
         >
           Mid-level Developer
         </button>{' '}
         <button
           type="button"
           className="view-changer-btn"
-          onClick={() => setCurrentView('developer')}
+          onClick={() => {
+            setCurrentView('developer')
+            patchUserSeniority.mutate('senior')
+          }}
         >
           Senior Developer
         </button>

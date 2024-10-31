@@ -7,7 +7,7 @@ import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function JuniorView() {
-  const { closeModal } = useContext(WelcomeModalContext)
+  const { patchCloseModal } = useContext(WelcomeModalContext)
   return (
     <>
       <div className="lhs">
@@ -41,16 +41,19 @@ export function JuniorView() {
           </a>
 
           <FormButton
-            status={closeModal.status}
+            status={patchCloseModal.status}
             className="btn-secondary btn-l"
             type="button"
-            onClick={closeModal.handleCloseModal}
+            onClick={patchCloseModal.mutate}
           >
             Skip &amp; Continue
           </FormButton>
         </div>
-        <ErrorBoundary resetKeys={[closeModal.status]}>
-          <ErrorMessage error={closeModal.error} defaultError={DEFAULT_ERROR} />
+        <ErrorBoundary resetKeys={[patchCloseModal.status]}>
+          <ErrorMessage
+            error={patchCloseModal.error}
+            defaultError={DEFAULT_ERROR}
+          />
         </ErrorBoundary>
       </div>
       <div className="rhs pt-72">

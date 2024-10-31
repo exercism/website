@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
@@ -10,10 +10,10 @@ type ViewVariant = 'initial' | 'beginner' | 'developer'
 
 type WelcomeModalContextProps = {
   patchCloseModal: {
-    mutation: () => void
+    mutate: () => void
   } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
   patchUserSeniority: {
-    mutation: (seniority: SeniorityLevel) => void
+    mutate: (seniority: SeniorityLevel) => void
   } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
   numTracks: number
   open: boolean
@@ -22,16 +22,21 @@ type WelcomeModalContextProps = {
   setCurrentView: React.Dispatch<React.SetStateAction<ViewVariant>>
 }
 
-type SeniorityLevel = 0 | 1 | 2 | 3 | 4
+type SeniorityLevel =
+  | 'absolute_beginner'
+  | 'beginner'
+  | 'junior'
+  | 'mid'
+  | 'senior'
 export const WelcomeModalContext =
   React.createContext<WelcomeModalContextProps>({
     patchCloseModal: {
-      mutation: () => null,
+      mutate: () => null,
       status: 'idle',
       error: null,
     },
     patchUserSeniority: {
-      mutation: () => null,
+      mutate: () => null,
       status: 'idle',
       error: null,
     },
@@ -80,32 +85,26 @@ export default function WelcomeModal({
     mutate: setSeniorityMutation,
     status: setSeniorityMutationStatus,
     error: setSeniorityMutationError,
-  } = useMutation(
-    (seniority: SeniorityLevel) => {
-      const { fetch } = sendRequest({
-        endpoint: links.apiUserEndpoint + `?users[seniority]=${seniority}`,
-        method: 'PATCH',
-        body: null,
-      })
+  } = useMutation((seniority: SeniorityLevel) => {
+    const { fetch } = sendRequest({
+      endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
+      method: 'PATCH',
+      body: null,
+    })
 
-      return fetch
-    },
-    {
-      // onSuccess: () => {
-      // },
-    }
-  )
+    return fetch
+  })
 
   return (
     <WelcomeModalContext.Provider
       value={{
         patchCloseModal: {
-          mutation: hideModalMutation,
+          mutate: hideModalMutation,
           status: hideModalMutationStatus,
           error: hideModalMutationError,
         },
         patchUserSeniority: {
-          mutation: setSeniorityMutation,
+          mutate: setSeniorityMutation,
           status: setSeniorityMutationStatus,
           error: setSeniorityMutationError,
         },

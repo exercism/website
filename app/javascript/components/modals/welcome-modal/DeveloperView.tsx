@@ -6,7 +6,7 @@ import { WelcomeModalContext } from './WelcomeModal'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function SeniorView() {
-  const { numTracks, closeModal, setCurrentView } =
+  const { numTracks, patchCloseModal, setCurrentView } =
     useContext(WelcomeModalContext)
 
   return (
@@ -46,16 +46,19 @@ export function SeniorView() {
             Back
           </button>
           <FormButton
-            status={closeModal.status}
+            status={patchCloseModal.status}
             className="btn-primary btn-l"
             type="button"
-            onClick={closeModal.handleCloseModal}
+            onClick={patchCloseModal.mutate}
           >
             Got it! Close this modal.
           </FormButton>
         </div>
-        <ErrorBoundary resetKeys={[closeModal.status]}>
-          <ErrorMessage error={closeModal.error} defaultError={DEFAULT_ERROR} />
+        <ErrorBoundary resetKeys={[patchCloseModal.status]}>
+          <ErrorMessage
+            error={patchCloseModal.error}
+            defaultError={DEFAULT_ERROR}
+          />
         </ErrorBoundary>
       </div>
       <div className="rhs">

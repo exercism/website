@@ -4,7 +4,7 @@ import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
 import { InitialView } from './InitialView'
 import { SeniorView } from './DeveloperView'
-import { JuniorView } from './BeginnerView'
+import { JuniorView } from './JuniorView'
 
 type ViewVariant = 'initial' | 'beginner' | 'developer'
 

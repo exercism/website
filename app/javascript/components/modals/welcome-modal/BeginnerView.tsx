@@ -41,8 +41,8 @@ export function JuniorView() {
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe
-            src="https://www.youtube-nocookie.com/embed/8rmbTWAncb8"
-            title="Introducing the 'Community' tab"
+            src="https://player.vimeo.com/video/1024390839?h=c2b3bdce14&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+            title="Introducing the Exercism Bootcamp"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

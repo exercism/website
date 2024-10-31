@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
 
 export function InitialView() {
-  const { numTracks, setCurrentView } = useContext(WelcomeModalContext)
+  const { setCurrentView } = useContext(WelcomeModalContext)
   return (
     <div className="lhs">
       <header>

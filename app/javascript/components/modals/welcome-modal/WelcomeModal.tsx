@@ -53,6 +53,9 @@ export default function WelcomeModal({
       <Modal
         cover={true}
         open={open}
+        style={
+          currentView === 'initial' ? { content: { maxWidth: '700px' } } : {}
+        }
         {...props}
         onClose={() => null}
         className="m-welcome"

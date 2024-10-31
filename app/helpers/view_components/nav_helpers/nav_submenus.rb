@@ -11,6 +11,13 @@ module ViewComponents
         },
 
         {
+          title: "Beginners Bootcamp",
+          description: "The best way to learn to code",
+          path: Exercism::Routes.bootcamp_url,
+          icon: 'nav-bootcamp',
+          view: :bootcamp
+        },
+        {
           title: "#48in24 Challenge",
           description: "A different challenge each week in 2024",
           path: Exercism::Routes.challenge_path('48in24'),

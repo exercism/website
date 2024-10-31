@@ -36,6 +36,10 @@ class Exercism::Routes
     Exercism::Routes.doc_path('using', 'solving-exercises/working-locally')
   end
 
+  def self.bootcamp_url
+    "https://bootcamp.exercism.org"
+  end
+
   def self.routes
     Rails.application.routes.url_helpers
   end

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
@@ -9,8 +9,11 @@ import { JuniorView } from './BeginnerView'
 type ViewVariant = 'initial' | 'beginner' | 'developer'
 
 type WelcomeModalContextProps = {
-  closeModal: {
-    handleCloseModal: () => void
+  patchCloseModal: {
+    mutation: () => void
+  } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
+  patchUserSeniority: {
+    mutation: (seniority: SeniorityLevel) => void
   } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
   numTracks: number
   open: boolean
@@ -19,13 +22,20 @@ type WelcomeModalContextProps = {
   setCurrentView: React.Dispatch<React.SetStateAction<ViewVariant>>
 }
 
+type SeniorityLevel = 0 | 1 | 2 | 3 | 4
 export const WelcomeModalContext =
   React.createContext<WelcomeModalContextProps>({
-    closeModal: {
-      handleCloseModal: () => null,
+    patchCloseModal: {
+      mutation: () => null,
       status: 'idle',
       error: null,
     },
+    patchUserSeniority: {
+      mutation: () => null,
+      status: 'idle',
+      error: null,
+    },
+
     numTracks: 0,
     open: false,
     setOpen: () => null,
@@ -34,25 +44,25 @@ export const WelcomeModalContext =
   })
 
 export default function WelcomeModal({
-  endpoint,
+  links,
   numTracks,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
-  endpoint: string
+  links: { hideModalEndpoint: string; apiUserEndpoint: string }
   numTracks: number
 }): JSX.Element {
   const [open, setOpen] = useState(true)
   const [currentView, setCurrentView] = useState<ViewVariant>('initial')
 
   const {
-    mutate: mutation,
-    status,
-    error,
+    mutate: hideModalMutation,
+    status: hideModalMutationStatus,
+    error: hideModalMutationError,
   } = useMutation(
     () => {
       const { fetch } = sendRequest({
         // close modal endpoint
-        endpoint,
+        endpoint: links.hideModalEndpoint,
         method: 'PATCH',
         body: null,
       })
@@ -66,15 +76,38 @@ export default function WelcomeModal({
     }
   )
 
-  const handleCloseModal = useCallback(mutation, [mutation])
+  const {
+    mutate: setSeniorityMutation,
+    status: setSeniorityMutationStatus,
+    error: setSeniorityMutationError,
+  } = useMutation(
+    (seniority: SeniorityLevel) => {
+      const { fetch } = sendRequest({
+        endpoint: links.apiUserEndpoint + `?users[seniority]=${seniority}`,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+    {
+      // onSuccess: () => {
+      // },
+    }
+  )
 
   return (
     <WelcomeModalContext.Provider
       value={{
-        closeModal: {
-          handleCloseModal,
-          status,
-          error,
+        patchCloseModal: {
+          mutation: hideModalMutation,
+          status: hideModalMutationStatus,
+          error: hideModalMutationError,
+        },
+        patchUserSeniority: {
+          mutation: setSeniorityMutation,
+          status: setSeniorityMutationStatus,
+          error: setSeniorityMutationError,
         },
         open,
         setOpen,

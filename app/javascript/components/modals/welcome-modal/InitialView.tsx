@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { WelcomeModalContext } from './WelcomeModal'
 
 export function InitialView() {
-  const { setCurrentView } = useContext(WelcomeModalContext)
+  const { setCurrentView, patchUserSeniority } = useContext(WelcomeModalContext)
   return (
     <div className="lhs">
       <header>
@@ -18,7 +18,10 @@ export function InitialView() {
         <button
           type="button"
           className="view-changer-btn"
-          onClick={() => setCurrentView('beginner')}
+          onClick={() => {
+            setCurrentView('beginner')
+            patchUserSeniority.mutation(0)
+          }}
         >
           Absolute Beginner
         </button>

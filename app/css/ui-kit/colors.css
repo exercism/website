@@ -276,6 +276,7 @@
     --c-prominent-link-color: theme(colors.lightBlue);
     --textGradientStart: #2200ff;
     --textGradientEnd: #9e00ff;
+    --textColorSoftEmphasis: #333;
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
@@ -544,6 +545,7 @@ body.namespace-.controller-insiders.theme-light,
     --textColorProgressTextCompleted: theme(colors.greenPrompt);
     --textGradientStart: #8370ff;
     --textGradientEnd: #b947ff;
+    --textColorSoftEmphasis: #f5f5f5;
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);

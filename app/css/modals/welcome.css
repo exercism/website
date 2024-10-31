@@ -3,17 +3,17 @@
 .m-welcome.c-modal.--cover {
     background: var(--modalBackgroundColor);
 
-    & .--modal-container {
+    .--modal-container {
         padding: 50px 0;
     }
 
-    & .wrapper {
+    .wrapper {
         overflow-y: scroll;
         max-height: 100%;
         width: 100%;
         @apply flex items-start justify-center;
     }
-    & .--modal-content {
+    .--modal-content {
         padding: 0;
         max-height: none;
 
@@ -22,47 +22,58 @@
         @apply shadow-lgZ1 rounded-16;
         @apply flex items-start;
         width: 100%;
-        max-width: 1180px;
+        /* Developer: max-width: 1180px; */
+        /* Start: max-width: 590px; */
+        /* Beginners */
+        max-width: 1060px;
+
+        .view-changer-btn {
+            @apply cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px] pointer-events-auto;
+        }
     }
 
-    & .lhs {
+    .lhs {
         @apply flex-grow;
 
-        & header {
+        header {
             @apply mb-16;
 
-            & h1 {
-                @apply text-h1 mb-12;
+            h1 {
+                @apply text-32 font-bold text-textColor1;
+                line-height: 1.25;
+
+                @apply md:text-34 lg:text-[36px];
+                @apply mb-12;
             }
-            & p {
+            p {
                 @apply text-18 leading-huge;
 
-                & strong {
+                strong {
                     @apply font-medium;
                 }
             }
         }
-        & h2 {
+        h2 {
             @apply text-h3 mb-6;
         }
-        & p {
+        p {
             @apply text-16 leading-huge;
         }
-        & .improvements {
+        .improvements {
             @apply mt-24 mb-32;
 
-            & .improvement {
+            .improvement {
                 @apply flex items-start;
 
-                & + .improvement {
+                + .improvement {
                     @apply mt-24;
                 }
-                & .c-icon {
+                .c-icon {
                     height: 64px;
                     width: 64px;
                     @apply flex-shrink-0 mr-24;
                 }
-                & h3 {
+                h3 {
                     @apply text-h5 mb-4;
                 }
                 p {
@@ -72,20 +83,20 @@
         }
     }
 
-    & .rhs {
+    .rhs {
         @apply flex-shrink-0 ml-48;
         width: 450px;
 
-        & .video {
+        .video {
             @apply mb-40;
             @apply relative rounded-8 overflow-hidden;
             padding-bottom: 56.25%;
             padding-top: 30px;
             height: 0;
 
-            & iframe,
-            & object,
-            & embed {
+            iframe,
+            object,
+            embed {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -93,14 +104,35 @@
                 height: 100%;
             }
         }
-        & .thank-you {
+
+        .bubbles {
+            @apply mb-[60px];
+            @apply flex flex-row items-center justify-center gap-16 flex-wrap;
+            .bubble {
+                @apply text-14 font-medium;
+                @apply border-1;
+                border-color: rgba(96, 79, 205, 0.8);
+                box-shadow: 0 0 10px rgba(96, 79, 205, 0.2);
+                @apply bg-white text-purple py-6 px-12 rounded-[12px];
+                @apply flex flex-row items-center gap-6;
+
+                img {
+                    @apply w-[16px] h-[16px] inline;
+                }
+
+                strong {
+                    @apply font-semibold;
+                }
+            }
+        }
+        .thank-you {
             @apply bg-backgroundColorD;
             @apply rounded-8 py-24 px-32;
 
-            & h3 {
+            h3 {
                 @apply text-h4 mb-8;
             }
-            & p {
+            p {
                 @apply text-16 leading-paragraph;
             }
         }

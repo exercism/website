@@ -171,7 +171,9 @@ const IterationSummaryWithWebsockets = lazy(
 const NotificationsList = lazy(
   () => import('@/components/notifications/NotificationsList')
 )
-const WelcomeModal = lazy(() => import('@/components/modals/WelcomeModal'))
+const WelcomeModal = lazy(
+  () => import('@/components/modals/welcome-modal/WelcomeModal')
+)
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')
 )
@@ -237,7 +239,13 @@ initReact({
 
   'modals-welcome-modal': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <WelcomeModal endpoint={data.endpoint} numTracks={data.num_tracks} />
+      <WelcomeModal
+        links={camelizeKeysAs<{
+          hideModalEndpoint: string
+          apiUserEndpoint: string
+        }>(data.links)}
+        numTracks={data.num_tracks}
+      />
     </Suspense>
   ),
 

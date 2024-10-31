@@ -1,57 +1,18 @@
-import React, { useCallback, useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { sendRequest } from '@/utils/send-request'
+import React, { useContext } from 'react'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
-import { Modal, ModalProps } from './Modal'
+import { WelcomeModalContext } from './WelcomeModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export default function WelcomeModal({
-  endpoint,
-  numTracks,
-  ...props
-}: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
-  endpoint: string
-  numTracks: number
-}): JSX.Element {
-  const [open, setOpen] = useState(true)
-  const {
-    mutate: mutation,
-    status,
-    error,
-  } = useMutation(
-    () => {
-      const { fetch } = sendRequest({
-        endpoint: endpoint,
-        method: 'PATCH',
-        body: null,
-      })
-
-      return fetch
-    },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
-
-  const handleClick = useCallback(() => {
-    mutation()
-  }, [mutation])
+export function SeniorView() {
+  const { numTracks, patchCloseModal } = useContext(WelcomeModalContext)
 
   return (
-    <Modal
-      cover={true}
-      open={open}
-      {...props}
-      onClose={() => null}
-      className="m-welcome"
-    >
+    <>
       <div className="lhs">
         <header>
-          <h1>Welcome to Exercism! 💙</h1>
+          <h1>Hello fellow developer 👋</h1>
 
           <p className="">
             Exercism is the place to deepen your programming skills and explore
@@ -76,15 +37,18 @@ export default function WelcomeModal({
         </p>
 
         <FormButton
-          status={status}
+          status={patchCloseModal.status}
           className="btn-primary btn-l"
           type="button"
-          onClick={handleClick}
+          onClick={patchCloseModal.mutate}
         >
           Got it! Close this modal.
         </FormButton>
-        <ErrorBoundary resetKeys={[status]}>
-          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        <ErrorBoundary resetKeys={[patchCloseModal.status]}>
+          <ErrorMessage
+            error={patchCloseModal.error}
+            defaultError={DEFAULT_ERROR}
+          />
         </ErrorBoundary>
       </div>
       <div className="rhs">
@@ -109,6 +73,6 @@ export default function WelcomeModal({
           #48in24. Click on that and follow the instructions to get started!
         </p>
       </div>
-    </Modal>
+    </>
   )
 }

@@ -11,6 +11,12 @@ class API::UsersController < API::BaseController
   def update
     User::UpdateAvatar.(current_user, params.require(:user)[:avatar])
 
+    if params.dig(:user, :seniority).present?
+      current_user.update(
+        seniority: params.require(:user)[:seniority]
+      )
+    end
+
     render json: {
       user: {
         handle: current_user.handle,

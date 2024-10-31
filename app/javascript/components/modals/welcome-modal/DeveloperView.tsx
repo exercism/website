@@ -39,7 +39,7 @@ export function SeniorView() {
     <>
       <div className="lhs">
         <header>
-          <h1>Welcome to Exercism! 💙</h1>
+          <h1>Hello fellow developer 👋</h1>
 
           <p className="">
             Exercism is the place to deepen your programming skills and explore

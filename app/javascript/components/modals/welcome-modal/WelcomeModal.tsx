@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { Modal, ModalProps } from '../Modal'
 import { InitialView } from './InitialView'
-import { SeniorView } from './SeniorView'
-import { JuniorView } from './JuniorView'
+import { SeniorView } from './DeveloperView'
+import { JuniorView } from './BeginnerView'
 
 export const VIEW_CHANGER_BUTTON_CLASS =
   'cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px] pointer-events-auto'
 
-type ViewVariant = 'initial' | 'junior' | 'senior'
+type ViewVariant = 'initial' | 'beginner' | 'developer'
 
 type WelcomeModalContextProps = {
   endpoint: string
@@ -68,9 +68,9 @@ function Inner() {
   switch (currentView) {
     case 'initial':
       return <InitialView />
-    case 'junior':
+    case 'beginner':
       return <JuniorView />
-    case 'senior':
+    case 'developer':
       return <SeniorView />
     default:
       return null

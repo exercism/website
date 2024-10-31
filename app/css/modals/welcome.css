@@ -22,7 +22,10 @@
         @apply shadow-lgZ1 rounded-16;
         @apply flex items-start;
         width: 100%;
-        max-width: 1180px;
+        /* Developer: max-width: 1180px; */
+        /* Start: max-width: 590px; */
+        /* Beginners */
+        max-width: 1060px;
     }
 
     & .lhs {

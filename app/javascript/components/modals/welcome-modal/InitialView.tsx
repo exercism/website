@@ -6,29 +6,49 @@ export function InitialView() {
   return (
     <div className="lhs">
       <header>
-        <h1>Welcome to Exercism! 💙</h1>
+        <h1 className="text-center">Welcome to Exercism! 💙</h1>
 
-        <p>
-          Exercism is the place to deepen your programming skills and explore
-          over {numTracks} programming languages. It&apos;s 100% free.
+        <p className="text-center">
+          Let's make sure that you get the most out of Exercism.
         </p>
+        <p className="text-center">How experienced a developer are you?</p>
       </header>
 
-      <h3 className="text-h3 mb-16">Which one are you?</h3>
-      <div className="flex items-center gap-8">
+      <div className="flex flex-col items-stretch gap-8">
         <button
           type="button"
           className={VIEW_CHANGER_BUTTON_CLASS}
-          onClick={() => setCurrentView('junior')}
+          onClick={() => setCurrentView('beginner')}
         >
-          Complete beginner
+          Absolute Beginner
         </button>
         <button
           type="button"
           className={VIEW_CHANGER_BUTTON_CLASS}
-          onClick={() => setCurrentView('senior')}
+          onClick={() => setCurrentView('beginner')}
         >
-          Lead architect
+          Beginner
+        </button>
+        <button
+          type="button"
+          className={VIEW_CHANGER_BUTTON_CLASS}
+          onClick={() => setCurrentView('developer')}
+        >
+          Junior Developer
+        </button>
+        <button
+          type="button"
+          className={VIEW_CHANGER_BUTTON_CLASS}
+          onClick={() => setCurrentView('developer')}
+        >
+          Mid-level Developer
+        </button>{' '}
+        <button
+          type="button"
+          className={VIEW_CHANGER_BUTTON_CLASS}
+          onClick={() => setCurrentView('developer')}
+        >
+          Senior Developer
         </button>
       </div>
     </div>

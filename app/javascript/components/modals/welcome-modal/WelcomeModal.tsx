@@ -28,6 +28,7 @@ type SeniorityLevel =
   | 'junior'
   | 'mid'
   | 'senior'
+
 export const WelcomeModalContext =
   React.createContext<WelcomeModalContextProps>({
     patchCloseModal: {

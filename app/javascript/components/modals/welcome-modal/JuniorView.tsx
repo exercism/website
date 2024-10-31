@@ -57,8 +57,21 @@ export function JuniorView() {
         </ErrorBoundary>
       </div>
       <div className="rhs pt-72">
+        <div className="flex flex-row gap-8 items-center justify-center text-16 text-textColor1 mb-16">
+          <Icon
+            icon="exercism-face"
+            className="filter-textColor1"
+            alt="exercism-face"
+            height={16}
+            width={16}
+          />
+          <div>
+            <strong className="font-semibold"> Exercism </strong>
+            Bootcamp
+          </div>
+        </div>
         <div
-          className="video relative rounded-8 overflow-hidden !mb-24"
+          className="video relative rounded-8 overflow-hidden !mb-16"
           style={{ padding: '56.25% 0 0 0', position: 'relative' }}
         >
           <iframe

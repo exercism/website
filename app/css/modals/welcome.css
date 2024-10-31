@@ -39,7 +39,11 @@
             @apply mb-16;
 
             h1 {
-                @apply text-h1 mb-12;
+                @apply text-32 font-bold text-textColor1;
+                line-height: 1.25;
+
+                @apply md:text-34 lg:text-[36px];
+                @apply mb-12;
             }
             p {
                 @apply text-18 leading-huge;

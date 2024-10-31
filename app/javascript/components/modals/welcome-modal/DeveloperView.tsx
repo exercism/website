@@ -6,8 +6,7 @@ import { WelcomeModalContext } from './WelcomeModal'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function SeniorView() {
-  const { numTracks, patchCloseModal, setCurrentView } =
-    useContext(WelcomeModalContext)
+  const { numTracks, patchCloseModal } = useContext(WelcomeModalContext)
 
   return (
     <>
@@ -37,23 +36,14 @@ export function SeniorView() {
           with the platform, then start solving exercises for real.
         </p>
 
-        <div className="flex items-center gap-8">
-          <button
-            type="button"
-            className="view-changer-btn"
-            onClick={() => setCurrentView('initial')}
-          >
-            Back
-          </button>
-          <FormButton
-            status={patchCloseModal.status}
-            className="btn-primary btn-l"
-            type="button"
-            onClick={patchCloseModal.mutate}
-          >
-            Got it! Close this modal.
-          </FormButton>
-        </div>
+        <FormButton
+          status={patchCloseModal.status}
+          className="btn-primary btn-l"
+          type="button"
+          onClick={patchCloseModal.mutate}
+        >
+          Got it! Close this modal.
+        </FormButton>
         <ErrorBoundary resetKeys={[patchCloseModal.status]}>
           <ErrorMessage
             error={patchCloseModal.error}

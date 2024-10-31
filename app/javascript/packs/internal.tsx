@@ -171,7 +171,9 @@ const IterationSummaryWithWebsockets = lazy(
 const NotificationsList = lazy(
   () => import('@/components/notifications/NotificationsList')
 )
-const WelcomeModal = lazy(() => import('@/components/modals/WelcomeModal'))
+const WelcomeModal = lazy(
+  () => import('@/components/modals/welcome-modal/WelcomeModal')
+)
 const SenioritySurveyModal = lazy(
   () => import('@/components/modals/SenioritySurveyModal')
 )

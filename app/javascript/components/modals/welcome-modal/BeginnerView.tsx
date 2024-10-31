@@ -12,7 +12,7 @@ export function JuniorView() {
           <p className="mb-8">
             You've signed up at a great time! In January, we're running a
             one-off{' '}
-            <strong className="font-semibold text-[#333]">
+            <strong className="font-semibold text-softEmphasis">
               part-time, remote bootcamp for beginners!
             </strong>
           </p>

@@ -281,6 +281,8 @@ module.exports = {
       legendaryBadge: '#EB5757',
       legendaryBadgeFill: '#4B0000',
 
+      softEmphasis: 'var(--textColorSoftEmphasis)',
+
       white: '#fff',
       black: '#000',
 

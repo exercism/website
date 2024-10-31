@@ -7,7 +7,7 @@ export function JuniorView() {
     <>
       <div className="lhs">
         <header>
-          <h1>Oooh, good timing!</h1>
+          <h1>Oooh, good timing! 👏</h1>
 
           <p className="mb-8">
             You've signed up at a great time! In January, we're running a
@@ -52,22 +52,26 @@ export function JuniorView() {
         </div>
         <div className="bubbles">
           <div className="bubble">
+            {/* Fix */}
             <img src="/assets/bootcamp/wave-44e5a9c881849138d0810b3c78be16a4e14f7b7a.svg" />
             <div className="text">
-              <strong>Live</strong>
-              teaching
+              <strong>Live</strong> teaching
             </div>
           </div>
           <div className="bubble">
+            {/* Fix */}
             <img src="/assets/bootcamp/fun-59abfe9a4e8628bbc7c86267225fafc2ccd2522a.svg" />
             <div className="text">
-              <strong>Fun</strong>
-              projects
+              <strong>Fun</strong> projects
             </div>
           </div>
           <div className="bubble">
-            <div className="flag"></div>
-            <div className="text"> Priced fairly </div>
+            {/* Change to price.svg */}
+            <img src="/assets/bootcamp/fun-59abfe9a4e8628bbc7c86267225fafc2ccd2522a.svg" />
+            <div className="text">
+              {' '}
+              Priced <strong>fairly</strong>{' '}
+            </div>
           </div>
         </div>
       </div>

@@ -96,6 +96,27 @@
                 height: 100%;
             }
         }
+
+        .bubbles {
+            @apply mb-[60px];
+            @apply flex flex-row items-center justify-center gap-16 flex-wrap;
+            .bubble {
+                @apply text-14 font-medium;
+                @apply border-1;
+                border-color: rgba(96, 79, 205, 0.8);
+                box-shadow: 0 0 10px rgba(96, 79, 205, 0.2);
+                @apply bg-white text-purple py-6 px-12 rounded-[12px];
+                @apply flex flex-row items-center gap-6;
+
+                img {
+                    @apply w-[16px] h-[16px] inline;
+                }
+
+                strong {
+                    @apply font-semibold;
+                }
+            }
+        }
         & .thank-you {
             @apply bg-backgroundColorD;
             @apply rounded-8 py-24 px-32;

@@ -1599,7 +1599,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_31_072829) do
     t.string "video_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "context", default: "0", null: false
+    t.string "context"
     t.index ["context"], name: "index_user_watched_videos_on_context"
     t.index ["user_id", "video_provider", "video_id"], name: "user_watched_videos_uniq", unique: true
     t.index ["user_id"], name: "index_user_watched_videos_on_user_id"

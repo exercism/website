@@ -473,6 +473,9 @@ section#bootcamp {
     }
 
     #schedule-subsection {
+        ul li p {
+            @apply relative;
+        }
         &::before,
         &::after {
             content: "";

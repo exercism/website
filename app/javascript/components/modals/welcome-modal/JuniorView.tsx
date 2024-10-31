@@ -72,7 +72,11 @@ export function JuniorView() {
         </div>
         <div
           className="video relative rounded-8 overflow-hidden !mb-16"
-          style={{ padding: '56.25% 0 0 0', position: 'relative' }}
+          style={{
+            padding: '56.25% 0 0 0',
+            position: 'relative',
+            background: '#333',
+          }}
         >
           <iframe
             src="https://player.vimeo.com/video/1024390839?h=c2b3bdce14&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"

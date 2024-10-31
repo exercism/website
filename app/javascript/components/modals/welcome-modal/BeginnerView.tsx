@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from '@/components/common'
 
 export function JuniorView() {
   return (
@@ -26,9 +27,12 @@ export function JuniorView() {
           <p className="mb-20">Watch our intro video to learn more 👉</p>
         </header>
         <div className="flex gap-8">
-          <button type="button" className="btn-primary btn-l">
+          <a
+            href="https://bootcamp.exercism.org"
+            className="btn-primary btn-l cursor-pointer"
+          >
             Go to the Bootcamp ✨
-          </button>
+          </a>
 
           <button className="btn-secondary btn-l" type="button">
             Skip &amp; Continue
@@ -51,23 +55,21 @@ export function JuniorView() {
         <div className="bubbles">
           <div className="bubble">
             {/* Fix */}
-            <img src="/assets/bootcamp/wave-44e5a9c881849138d0810b3c78be16a4e14f7b7a.svg" />
+            <Icon category="bootcamp" alt="wave-icon" icon="wave" />
             <div className="text">
               <strong>Live</strong> teaching
             </div>
           </div>
           <div className="bubble">
             {/* Fix */}
-            <img src="/assets/bootcamp/fun-59abfe9a4e8628bbc7c86267225fafc2ccd2522a.svg" />
+            <Icon category="bootcamp" alt="fun-icon" icon="fun" />
             <div className="text">
               <strong>Fun</strong> projects
             </div>
           </div>
           <div className="bubble">
-            {/* Change to price.svg */}
-            <img src="/assets/bootcamp/fun-59abfe9a4e8628bbc7c86267225fafc2ccd2522a.svg" />
+            <Icon category="bootcamp" alt="price-icon" icon="price" />
             <div className="text">
-              {' '}
               Priced <strong>fairly</strong>{' '}
             </div>
           </div>

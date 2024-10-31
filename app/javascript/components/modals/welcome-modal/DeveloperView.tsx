@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
-import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
+import { WelcomeModalContext } from './WelcomeModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
@@ -40,7 +40,7 @@ export function SeniorView() {
         <div className="flex items-center gap-8">
           <button
             type="button"
-            className={VIEW_CHANGER_BUTTON_CLASS}
+            className="view-changer-btn"
             onClick={() => setCurrentView('initial')}
           >
             Back

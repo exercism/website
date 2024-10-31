@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
+import { WelcomeModalContext } from './WelcomeModal'
 
 export function InitialView() {
   const { setCurrentView } = useContext(WelcomeModalContext)
@@ -17,35 +17,35 @@ export function InitialView() {
       <div className="flex flex-col items-stretch gap-8">
         <button
           type="button"
-          className={VIEW_CHANGER_BUTTON_CLASS}
+          className="view-changer-btn"
           onClick={() => setCurrentView('beginner')}
         >
           Absolute Beginner
         </button>
         <button
           type="button"
-          className={VIEW_CHANGER_BUTTON_CLASS}
+          className="view-changer-btn"
           onClick={() => setCurrentView('beginner')}
         >
           Beginner
         </button>
         <button
           type="button"
-          className={VIEW_CHANGER_BUTTON_CLASS}
+          className="view-changer-btn"
           onClick={() => setCurrentView('developer')}
         >
           Junior Developer
         </button>
         <button
           type="button"
-          className={VIEW_CHANGER_BUTTON_CLASS}
+          className="view-changer-btn"
           onClick={() => setCurrentView('developer')}
         >
           Mid-level Developer
         </button>{' '}
         <button
           type="button"
-          className={VIEW_CHANGER_BUTTON_CLASS}
+          className="view-changer-btn"
           onClick={() => setCurrentView('developer')}
         >
           Senior Developer

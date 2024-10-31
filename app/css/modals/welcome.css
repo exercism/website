@@ -3,17 +3,17 @@
 .m-welcome.c-modal.--cover {
     background: var(--modalBackgroundColor);
 
-    & .--modal-container {
+    .--modal-container {
         padding: 50px 0;
     }
 
-    & .wrapper {
+    .wrapper {
         overflow-y: scroll;
         max-height: 100%;
         width: 100%;
         @apply flex items-start justify-center;
     }
-    & .--modal-content {
+    .--modal-content {
         padding: 0;
         max-height: none;
 
@@ -26,46 +26,50 @@
         /* Start: max-width: 590px; */
         /* Beginners */
         max-width: 1060px;
+
+        .view-changer-btn {
+            @apply cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px] pointer-events-auto;
+        }
     }
 
-    & .lhs {
+    .lhs {
         @apply flex-grow;
 
-        & header {
+        header {
             @apply mb-16;
 
-            & h1 {
+            h1 {
                 @apply text-h1 mb-12;
             }
-            & p {
+            p {
                 @apply text-18 leading-huge;
 
-                & strong {
+                strong {
                     @apply font-medium;
                 }
             }
         }
-        & h2 {
+        h2 {
             @apply text-h3 mb-6;
         }
-        & p {
+        p {
             @apply text-16 leading-huge;
         }
-        & .improvements {
+        .improvements {
             @apply mt-24 mb-32;
 
-            & .improvement {
+            .improvement {
                 @apply flex items-start;
 
-                & + .improvement {
+                + .improvement {
                     @apply mt-24;
                 }
-                & .c-icon {
+                .c-icon {
                     height: 64px;
                     width: 64px;
                     @apply flex-shrink-0 mr-24;
                 }
-                & h3 {
+                h3 {
                     @apply text-h5 mb-4;
                 }
                 p {
@@ -75,20 +79,20 @@
         }
     }
 
-    & .rhs {
+    .rhs {
         @apply flex-shrink-0 ml-48;
         width: 450px;
 
-        & .video {
+        .video {
             @apply mb-40;
             @apply relative rounded-8 overflow-hidden;
             padding-bottom: 56.25%;
             padding-top: 30px;
             height: 0;
 
-            & iframe,
-            & object,
-            & embed {
+            iframe,
+            object,
+            embed {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -117,14 +121,14 @@
                 }
             }
         }
-        & .thank-you {
+        .thank-you {
             @apply bg-backgroundColorD;
             @apply rounded-8 py-24 px-32;
 
-            & h3 {
+            h3 {
                 @apply text-h4 mb-8;
             }
-            & p {
+            p {
                 @apply text-16 leading-paragraph;
             }
         }

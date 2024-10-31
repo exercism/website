@@ -6,9 +6,6 @@ import { InitialView } from './InitialView'
 import { SeniorView } from './DeveloperView'
 import { JuniorView } from './BeginnerView'
 
-export const VIEW_CHANGER_BUTTON_CLASS =
-  'cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px] pointer-events-auto'
-
 type ViewVariant = 'initial' | 'beginner' | 'developer'
 
 type WelcomeModalContextProps = {
@@ -69,9 +66,7 @@ export default function WelcomeModal({
     }
   )
 
-  const handleCloseModal = useCallback(() => {
-    mutation()
-  }, [mutation])
+  const handleCloseModal = useCallback(mutation, [mutation])
 
   return (
     <WelcomeModalContext.Provider

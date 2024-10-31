@@ -120,7 +120,7 @@ export default function WelcomeModal({
         cover={true}
         open={open}
         style={
-          currentView === 'initial' ? { content: { maxWidth: '700px' } } : {}
+          currentView === 'initial' ? { content: { maxWidth: '590px' } } : {}
         }
         {...props}
         onClose={() => null}

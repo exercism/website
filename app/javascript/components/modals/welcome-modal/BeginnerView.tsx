@@ -1,8 +1,6 @@
-import React, { useContext } from 'react'
-import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
+import React from 'react'
 
 export function JuniorView() {
-  const { setCurrentView } = useContext(WelcomeModalContext)
   return (
     <>
       <div className="lhs">

@@ -1,4 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
 import { InitialView } from './InitialView'
 import { SeniorView } from './DeveloperView'
@@ -10,7 +12,9 @@ export const VIEW_CHANGER_BUTTON_CLASS =
 type ViewVariant = 'initial' | 'beginner' | 'developer'
 
 type WelcomeModalContextProps = {
-  endpoint: string
+  closeModal: {
+    handleCloseModal: () => void
+  } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
   numTracks: number
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -20,7 +24,11 @@ type WelcomeModalContextProps = {
 
 export const WelcomeModalContext =
   React.createContext<WelcomeModalContextProps>({
-    endpoint: '',
+    closeModal: {
+      handleCloseModal: () => null,
+      status: 'idle',
+      error: null,
+    },
     numTracks: 0,
     open: false,
     setOpen: () => null,
@@ -39,10 +47,40 @@ export default function WelcomeModal({
   const [open, setOpen] = useState(true)
   const [currentView, setCurrentView] = useState<ViewVariant>('initial')
 
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation(
+    () => {
+      const { fetch } = sendRequest({
+        // close modal endpoint
+        endpoint,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+    {
+      onSuccess: () => {
+        setOpen(false)
+      },
+    }
+  )
+
+  const handleCloseModal = useCallback(() => {
+    mutation()
+  }, [mutation])
+
   return (
     <WelcomeModalContext.Provider
       value={{
-        endpoint,
+        closeModal: {
+          handleCloseModal,
+          status,
+          error,
+        },
         open,
         setOpen,
         numTracks,

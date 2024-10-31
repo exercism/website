@@ -1,6 +1,4 @@
-import React, { useContext, useCallback } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { sendRequest } from '@/utils/send-request'
+import React, { useContext } from 'react'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
@@ -8,32 +6,8 @@ import { WelcomeModalContext, VIEW_CHANGER_BUTTON_CLASS } from './WelcomeModal'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function SeniorView() {
-  const { numTracks, endpoint, setOpen, setCurrentView } =
+  const { numTracks, closeModal, setCurrentView } =
     useContext(WelcomeModalContext)
-  const {
-    mutate: mutation,
-    status,
-    error,
-  } = useMutation(
-    () => {
-      const { fetch } = sendRequest({
-        endpoint: endpoint,
-        method: 'PATCH',
-        body: null,
-      })
-
-      return fetch
-    },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
-
-  const handleClick = useCallback(() => {
-    mutation()
-  }, [mutation])
 
   return (
     <>
@@ -72,16 +46,16 @@ export function SeniorView() {
             Back
           </button>
           <FormButton
-            status={status}
+            status={closeModal.status}
             className="btn-primary btn-l"
             type="button"
-            onClick={handleClick}
+            onClick={closeModal.handleCloseModal}
           >
             Got it! Close this modal.
           </FormButton>
         </div>
-        <ErrorBoundary resetKeys={[status]}>
-          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        <ErrorBoundary resetKeys={[closeModal.status]}>
+          <ErrorMessage error={closeModal.error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>
       </div>
       <div className="rhs">

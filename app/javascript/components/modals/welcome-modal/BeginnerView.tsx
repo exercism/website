@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Icon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { WelcomeModalContext } from './WelcomeModal'
+import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+
+const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function JuniorView() {
+  const { closeModal } = useContext(WelcomeModalContext)
   return (
     <>
       <div className="lhs">
@@ -34,10 +40,18 @@ export function JuniorView() {
             Go to the Bootcamp ✨
           </a>
 
-          <button className="btn-secondary btn-l" type="button">
+          <FormButton
+            status={closeModal.status}
+            className="btn-secondary btn-l"
+            type="button"
+            onClick={closeModal.handleCloseModal}
+          >
             Skip &amp; Continue
-          </button>
+          </FormButton>
         </div>
+        <ErrorBoundary resetKeys={[closeModal.status]}>
+          <ErrorMessage error={closeModal.error} defaultError={DEFAULT_ERROR} />
+        </ErrorBoundary>
       </div>
       <div className="rhs pt-72">
         <div
@@ -54,14 +68,12 @@ export function JuniorView() {
         </div>
         <div className="bubbles">
           <div className="bubble">
-            {/* Fix */}
             <Icon category="bootcamp" alt="wave-icon" icon="wave" />
             <div className="text">
               <strong>Live</strong> teaching
             </div>
           </div>
           <div className="bubble">
-            {/* Fix */}
             <Icon category="bootcamp" alt="fun-icon" icon="fun" />
             <div className="text">
               <strong>Fun</strong> projects

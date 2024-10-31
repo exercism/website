@@ -224,7 +224,9 @@ initReact({
       <BegModal
         previousDonor={data.previous_donor}
         request={camelizeKeysAs<Request>(data.request)}
-        links={camelizeKeysAs<StripeFormLinks>(data.links)}
+        links={camelizeKeysAs<StripeFormLinks & { hideIntroducer: string }>(
+          data.links
+        )}
       />
     </Suspense>
   ),

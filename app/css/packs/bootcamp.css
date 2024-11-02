@@ -53,6 +53,9 @@ body {
 .sm-container {
     @apply w-[100%] mx-auto max-w-[800px] px-[5%];
 }
+.xs-container {
+    @apply w-[100%] mx-auto max-w-[720px] px-[5%];
+}
 
 #discount-bar {
     @apply bg-[var(--purple)] text-white text-center;
@@ -986,6 +989,230 @@ section#legals {
         right: -60px;
         top: -13px;
         transform: rotate(140deg);
+    }
+}
+
+section#enroll {
+    @apply min-h-[100vh];
+    @apply pt-64 pb-80;
+    background-color: #7029f5;
+
+    background-image: url("bootcamp/bootcamp-bg.svg");
+
+    @apply bg-repeat;
+    background-size: 360px;
+    background-position: top center;
+
+    h3 {
+        @apply text-[24px] font-semibold;
+        @apply flex md:flex-row flex-col-reverse md:items-center items-start gap-8;
+
+        .bubble {
+            @apply rounded-[50px] py-4 px-16;
+            @apply text-[12px] text-[white];
+            @apply uppercase font-bold whitespace-nowrap;
+        }
+    }
+    .h3-sideheading {
+        @apply flex flex-row items-center gap-8;
+        @apply font-semibold text-[15px];
+        img {
+            @apply h-[20px];
+        }
+    }
+
+    .container {
+        border: 1px solid #eee;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+        background: white;
+        @apply md:pt-32 md:pb-32 pt-16 pb-8 md:px-48 px-24 rounded-[8px];
+        @apply flex flex-col items-center;
+    }
+
+    .tag {
+        @apply text-[12px] font-semibold;
+        @apply uppercase text-[#7029f5];
+        @apply mb-16;
+        @apply mx-auto  py-4 px-12 rounded-[12px];
+        @apply bg-[#7029f522];
+    }
+    h2 {
+        @apply md:text-[38px] text-22 font-light;
+        @apply mb-4;
+        strong {
+            @apply font-semibold;
+        }
+    }
+
+    p.info {
+        @apply md:text-18 text-16 font-light;
+        @apply text-center;
+        text-wrap: balance;
+
+        strong {
+            @apply font-medium;
+        }
+    }
+
+    .intro {
+        @apply md:text-22 text-18 font-light;
+        text-align: center;
+        text-wrap: balance;
+        @apply max-w-[750px] mx-auto;
+        strong {
+            @apply font-semibold;
+        }
+    }
+    hr {
+        @apply border-b-1 border-[#eee] my-20;
+        width: 100%;
+    }
+
+    form {
+        @apply w-[100%] text-left;
+
+        h4 {
+            @apply text-[19px] font-medium;
+            @apply mt-24 mb-12;
+        }
+
+        .label {
+            @apply block mb-8;
+            @apply text-14 leading-code uppercase font-mono font-bold;
+        }
+
+        .field {
+            @apply mb-16;
+
+            &:focus-within {
+                & label {
+                    @apply text-lightBlue;
+                }
+            }
+
+            label {
+                @apply block mb-8;
+                @apply text-14 leading-code uppercase font-mono font-bold;
+            }
+
+            input {
+                @apply w-100;
+                background-color: var(--inputBackgroundColor);
+                color: var(--textColor2);
+                font-size: 16px;
+                line-height: 160%;
+                border-color: #a9a6bd;
+                border-radius: 8px;
+                border-width: 1px;
+                padding: 12px 16px;
+            }
+        }
+        label input:checked + .package {
+            filter: grayscale(0);
+            .checkmark {
+                @apply block;
+            }
+        }
+        label:first-child {
+            .package {
+                background: var(--light-purple);
+            }
+            .bubble {
+                background: var(--purple);
+            }
+
+            input:checked + .package {
+                @apply border-[var(--purple)];
+                box-shadow: 0 0 3px var(--purple);
+            }
+        }
+        label:last-child {
+            .package {
+                background: var(--light-blue);
+            }
+            .bubble {
+                background-image: linear-gradient(
+                    to right,
+                    var(--purple),
+                    var(--blue)
+                );
+            }
+            input:checked + .package {
+                @apply border-[var(--blue)];
+                box-shadow: 0 0 3px var(--blue);
+            }
+        }
+        .package {
+            @apply rounded-r-[8px];
+            @apply flex flex-col;
+            @apply px-16 pt-16 pb-16;
+            @apply border-2;
+            @apply rounded-8;
+            @apply relative overflow-hidden;
+            border-color: transparent;
+            cursor: pointer;
+            filter: grayscale(0.5);
+
+            .checkmark {
+                @apply w-[22px];
+                @apply absolute top-[20px] right-[20px];
+                @apply hidden;
+            }
+            h3 {
+                @apply text-[24px] font-semibold leading-[120%] mb-2;
+            }
+            p {
+                @apply text-[16px] font-light leading-140;
+            }
+            .face {
+                @apply opacity-[0.02];
+                @apply absolute top-[5%] right-[10px] bottom-[5%];
+                @apply !w-[auto] !h-[90%];
+                transform: translateX(50%);
+            }
+
+            .bubble {
+                @apply rounded-[10px] py-4 px-10;
+                @apply text-[12px] text-[#fff];
+                @apply mb-6;
+                strong {
+                    @apply font-semibold;
+                }
+            }
+
+            .price {
+                @apply md:text-[34px] text-34 font-light leading-[100%] mb-6;
+                strong {
+                    @apply font-semibold;
+                }
+            }
+            .discount {
+                @apply text-[16px] font-light;
+                strong {
+                    @apply font-medium;
+                }
+            }
+        }
+    }
+    button,
+    .button {
+        @apply w-100;
+        border-radius: 8px;
+        font-size: 18px;
+        height: 56px;
+        padding-left: 24px;
+        padding-right: 24px;
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+        font-weight: 600;
+        justify-content: center;
+        transition: background-color 0.1s ease-in;
+        white-space: nowrap;
+        background-color: var(--purple);
+        border-color: rgb(19 11 67);
+        border-width: 1px;
+        color: rgb(255 255 255);
     }
 }
 

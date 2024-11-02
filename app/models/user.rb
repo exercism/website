@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_many :auth_tokens, dependent: :destroy
 
   has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
+  has_one :bootcamp_data, dependent: :destroy, class_name: "User::BootcampData"
   has_one :profile, dependent: :destroy
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy

@@ -48,7 +48,7 @@ module Flows
     test "user attempts to log in an account with a oauth password hash" do
       create(:user,
         email: "user@exercism.org",
-        encrypted_password: "wrong",
+        encrypted_password: "invalid",
         provider: "github",
         confirmed_at: Date.new(2016, 12, 25))
 

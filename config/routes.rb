@@ -477,4 +477,7 @@ Rails.application.routes.draw do
   end
 
   get "/bootcamp" => "bootcamp#index"
+  get "/bootcamp/enroll" => "bootcamp#start_enrolling", as: :bootcamp_enroll
+  post "/bootcamp/enroll" => "bootcamp#do_enrollment", as: :bootcamp_create_enrollment
+  get "/bootcamp/enroll/confirmation" => "bootcamp#enrollment_confirmed", as: :bootcamp_enrollment_confirmed
 end

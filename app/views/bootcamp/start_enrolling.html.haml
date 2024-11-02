@@ -1,0 +1,59 @@
+%section#enroll
+  .xs-container
+    .container
+      .tag Let's get you coding!
+      %h2
+        %strong Enroll
+        on the Bootcamp
+      %p.intro.mb-2
+        %strong Great decision! 🎉
+        We're really excited to have you come and learn to code with us!
+
+      %hr
+
+      = form_with url: bootcamp_create_enrollment_path do |f|
+
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, placeholder: 'Your name', value: @name
+        .field
+          = f.label :email
+          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address", value: @email
+
+        - if @package.present?
+          = f.hidden_field :package, value: @package
+        - else
+          .label.mt-24 Choose your course
+          .part-selector.flex.flex-col.gap-12
+            = f.label "package_part_1" do
+              = f.radio_button :package, "part_1", checked: true, class: "hidden"
+              .package
+                = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
+                = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+                .flex.flex-col.items-start
+                  .bubble
+                    Only
+                    %strong Part 1
+
+                  %h3
+                    Learn to Code
+                  %p Build rock solid coding fundamentals, applicable to every speciality.
+
+            = f.label "package_complete" do
+              = f.radio_button :package, "complete", checked: true, class: "hidden"
+              .package
+                = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
+                = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+                .flex.flex-col.items-start
+                  .bubble
+                    The
+                    %strong Complete Course
+
+                  %h3
+                    Become a Front-End Dev
+                  %p Build rock solid coding fundamentals, and then specialize your knowledge and learn front-end web development.
+
+        .field.mt-20
+          = f.button do
+            Enroll on the Bootcamp
+            %span.ml-12 👉

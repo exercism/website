@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_31_072829) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_02_090226) do
+
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1298,6 +1299,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_31_072829) do
     t.index ["domain"], name: "index_user_block_domains_on_domain", unique: true
   end
 
+  create_table "user_bootcamp_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "num_views", default: 0, null: false
+    t.datetime "last_viewed_at"
+    t.datetime "started_enrolling_at"
+    t.datetime "enrolled_at"
+    t.string "package"
+    t.datetime "paid_at"
+    t.string "payment_intent_id"
+    t.string "name"
+    t.string "email"
+    t.string "ppp_country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true
+  end
+
   create_table "user_challenges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "challenge_id", null: false
@@ -1740,6 +1758,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_31_072829) do
   add_foreign_key "user_activities", "tracks"
   add_foreign_key "user_activities", "users"
   add_foreign_key "user_auth_tokens", "users"
+  add_foreign_key "user_bootcamp_data", "users"
   add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_dismissed_introducers", "users"
   add_foreign_key "user_mailshots", "mailshots"

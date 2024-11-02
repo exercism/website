@@ -114,6 +114,8 @@ class BootcampController < ApplicationController
       @discount_percentage = ((COMPLETE_PRICE - @complete_price) / COMPLETE_PRICE * 100).round
     else
       @has_discount = false
+      @complete_price = COMPLETE_PRICE
+      @part_1_price = PART_1_PRICE
       @full_payment_url = "https://buy.stripe.com/14k9BE4FBcyBeDmf0f"
       @part_1_payment_url = "https://buy.stripe.com/6oE4hk9ZVfKNeDm7xO"
     end

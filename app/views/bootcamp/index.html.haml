@@ -11,7 +11,7 @@
     .content
       %strong.font-semibold Exercism
       Bootcamp
-    = link_to "Enroll now 👉", @full_payment_url, class: "button"
+    = link_to "Enroll now 👉", bootcamp_enroll_path, class: "button"
 
 .hero
   .md-container
@@ -484,7 +484,7 @@
               %li A dedicated community Discord server.
               %li An official certificate of completion.
 
-          = link_to "Enroll now 👉", @part_1_payment_url, class: "button"
+          = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'part_1'), class: "button"
 
       .container
         .header
@@ -543,7 +543,7 @@
               %li More exercises and projects, this time for you to solve on your own laptop.
               %li A second official certificate of completion to put on your resume.
 
-          = link_to "Enroll now 👉", @full_payment_url, class: "button"
+          = link_to "Enroll now 👉", bootcamp_enroll_path(package: 'complete'), class: "button"
 
 = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 

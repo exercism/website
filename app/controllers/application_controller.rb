@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :ensure_onboarded!
   around_action :mark_notifications_as_read!
   before_action :set_request_context
+  before_action :set_user_id_cookie
   after_action :set_body_class_header
   after_action :set_csp_header
   after_action :set_link_header
@@ -124,6 +125,16 @@ class ApplicationController < ActionController::Base
 
   def set_request_context
     Exercism.request_context = { remote_ip: request.remote_ip }
+  end
+
+  def set_user_id_cookie
+    return unless user_signed_in?
+
+    cookies.signed[:_exercism_user_id] = {
+      value: current_user.id,
+      domain: :all,
+      expires: 10.years
+    }
   end
 
   # rubocop:disable Lint/PercentStringArray

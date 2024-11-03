@@ -15,10 +15,10 @@
 
         .field
           = f.label :name, "Name"
-          = f.text_field :name, placeholder: 'Your name', value: @name
+          = f.text_field :name, placeholder: 'Your name', value: @name, required: true
         .field
           = f.label :email
-          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address", value: @email
+          = f.email_field :email, autocomplete: "email", placeholder: "Enter your email address", value: @email, required: true
 
         - if @package.present?
           = f.hidden_field :package, value: @package

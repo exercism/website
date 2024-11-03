@@ -6,17 +6,13 @@ class BootcampController < ApplicationController
   before_action :retrieve_geolocated_data!
   before_action :setup_pricing!
 
-  COMPLETE_PRICE = 149.99
-  PART_1_PRICE = 99.99
-
   def index
-    return unless @bootcamp_data
-
-    @bootcamp_data.update(
-      num_views: @bootcamp_data.num_views + 1,
-      last_viewed_at: Time.current,
-      ppp_country: @country_code_2
-    )
+    if @bootcamp_data # rubocop:disable Style/GuardClause
+      @bootcamp_data.num_views += 1
+      @bootcamp_data.last_viewed_at = Time.current
+      @bootcamp_data.ppp_country = @country_code_2 if @country_code_2 && !@using_vpn
+      @bootcamp_data.save
+    end
   end
 
   def start_enrolling
@@ -50,12 +46,11 @@ class BootcampController < ApplicationController
       ppp_country: @country_code_2
     )
 
-    redirect_to action: :enrollment_confirmed
+    redirect_to action: :enrollment_confirmed, package: params[:package]
   end
 
   def enrollment_confirmed
-    @package = @bootcamp_data.package
-    @price = @package == "complete" ? @complete_price : @part_1_price
+    @price = params[:package] == "complete" ? @complete_price : @part_1_price
   end
 
   private
@@ -77,31 +72,31 @@ class BootcampController < ApplicationController
     if session[:geolocated_data]
       data = JSON.parse(session[:geolocated_data]).symbolize_keys
       @country_code_2 = data[:country_code_2]
-      @is_vpn = data[:is_vpn]
+      @using_vpn = data[:is_vpn]
     else
       if Rails.env.production?
         begin
           data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
           @country_code_2 = data.dig("location", "country_code")
-          @is_vpn = data.dig("security", "vpn")
+          @using_vpn = data.dig("security", "vpn")
         rescue StandardError
           # Rate limit probably
         end
       else
         @country_code_2 = "IN"
-        @is_vpn = false
+        @using_vpn = false
       end
 
       session[:geolocated_data] = {
         country_code_2: @country_code_2,
-        is_vpn: @is_vpn
+        using_vpn: @using_vpn
       }.to_json
     end
   end
 
   def setup_pricing!
-    country_data = DATA[@country_code_2]
-    if country_data && !@is_vpn
+    country_data = User::BootcampData::DATA[@country_code_2]
+    if country_data && !@using_vpn
       @country_name = country_data[0]
       @hello = country_data[1]
 
@@ -111,21 +106,22 @@ class BootcampController < ApplicationController
       @full_payment_url = country_data[4]
       @part_1_payment_url = country_data[5]
 
-      @discount_percentage = ((COMPLETE_PRICE - @complete_price) / COMPLETE_PRICE * 100).round
+      @discount_percentage = (
+        (
+          User::BootcampData::COMPLETE_PRICE - @complete_price
+        ) / User::BootcampData::COMPLETE_PRICE * 100
+      ).round
     else
       @has_discount = false
-      @complete_price = COMPLETE_PRICE
-      @part_1_price = PART_1_PRICE
-      @full_payment_url = "https://buy.stripe.com/14k9BE4FBcyBeDmf0f"
-      @part_1_payment_url = "https://buy.stripe.com/6oE4hk9ZVfKNeDm7xO"
+      @complete_price = User::BootcampData::COMPLETE_PRICE
+      @part_1_price = User::BootcampData::PART_1_PRICE
+      @full_payment_url = User::BootcampData::FULL_PAYMENT_URL
+      @part_1_payment_url = User::BootcampData::PART_1_PAYMENT_URL
     end
 
-    @full_complete_price = COMPLETE_PRICE
-    @full_part_1_price = PART_1_PRICE
+    @full_complete_price = User::BootcampData::COMPLETE_PRICE
+    @full_part_1_price = User::BootcampData::PART_1_PRICE
   end
-
-  DATA = JSON.parse(File.read(Rails.root / 'config' / 'bootcamp.json')).freeze
-  private_constant :DATA
 end
 
 #

@@ -477,6 +477,6 @@ body.namespace-tracks.controller-exercises.action-show {
     .c-perk-a {
         @apply absolute top-20;
         right: var(--container-padding-x);
-        @apply w-[320px];
+        @apply w-[325px];
     }
 }

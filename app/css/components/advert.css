@@ -7,7 +7,7 @@
     @apply flex flex-col items-start;
     @apply relative;
 
-    background: #f8f5ff;
+    background: var(--backgroundColorPerkContainer);
     @apply border-1 border-vividPurple;
 
     .logo {
@@ -35,10 +35,11 @@
     }
     .cta {
         @apply flex flex-row items-center gap-4;
-        @apply text-14 text-purple font-medium;
+        @apply text-14 font-medium;
+        color: var(--textColorPerkCTA);
         img {
             @apply h-[10px];
-            filter: var(--purple-filter);
+            filter: var(--purple-light-white-dark-filter);
             &:last-child {
                 opacity: 0.5;
             }

@@ -5,10 +5,7 @@ module ViewComponents
     initialize_with advert: nil, track: nil, preview: false
 
     def to_s
-      # Don't show adverts at all for crawlers
-      return nil if request.is_crawler?
-      return nil unless preview || show_advert?
-      return nil unless advert
+      return nil unless show_advert?
 
       uuid = SecureRandom.hex
 
@@ -27,34 +24,15 @@ module ViewComponents
     private
     memoize
     def advert
-      return @advert if @advert
-
-      return unless track
-
-      candidates = ::Partner::Advert.active.to_a
-      candidates.sort_by! { rand }
-
-      # rubocop:disable Style/CombinableLoops
-      candidates.each do |candidate|
-        next unless candidate.track_slugs
-
-        if candidate.track_slugs.include?(track.slug)
-          @advert = candidate
-          return @advert
-        end
-      end
-
-      candidates.each do |candidate|
-        unless candidate.track_slugs
-          @advert = candidate
-          return @advert
-        end
-      end
-      # rubocop:enable Style/CombinableLoops
+      @advert ||= ::Partner::Advert.for_track(track)
     end
 
     def show_advert?
-      !!advert
+      return false if request.is_crawler?
+      return true if preview
+      return false unless advert
+
+      true
     end
 
     ALLOWED_DATES = [

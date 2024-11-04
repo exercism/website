@@ -1,7 +1,14 @@
 - concept_meta_tags(@concept, @user_track)
 - require_stylesheet "track"
 
-#page-concept-show
+- advert = Partner::Advert.for_track(@track)
+- advert = nil unless advert.show_to?(current_user)
+
+#page-concept-show{ class: advert ? "has-advert" : nil }
+  .lg-container.relative
+    - if advert
+      = render ViewComponents::Partner::Advert.new(advert:)
+
   %header.concept-header
     .c-track-breadcrumbs
       .lg-container.container
@@ -28,8 +35,6 @@
           = graphical_icon(:exercises)
           = pluralize @user_track.num_exercises_for_concept(@concept), "exercise"
 
-      .absolute{ style: 'right: var(--container-padding-x)', class: 'z-[10] top-[-31px]' }
-        = render ViewComponents::Partner::Advert.new(track: @track)
       -#
         - unless @user_track.external?
           .rhs.progress

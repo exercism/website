@@ -1,7 +1,14 @@
 - exercise_meta_tags(@exercise, @user_track)
 - require_stylesheet "track"
 
-#page-exercise-show
+- advert = Partner::Advert.for_track(@track)
+- advert = nil unless advert.show_to?(current_user)
+
+#page-exercise-show{ class: advert ? "has-advert" : nil }
+  .lg-container.relative
+    - if advert
+      = render ViewComponents::Partner::Advert.new(advert:)
+
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
   - if @user_track.external?
     = render "tracks/exercises/show/external", track: @track, exercise: @exercise, user_track: @user_track

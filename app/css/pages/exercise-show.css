@@ -468,3 +468,14 @@ body.namespace-tracks.controller-exercises.action-show {
         }
     }
 }
+
+#page-exercise-show.has-advert,
+#page-concept-show.has-advert {
+    .c-react-wrapper-student-update-exercise-notice {
+        max-width: calc(100% - 310px);
+    }
+    .c-advert {
+        @apply absolute right-0 top-20;
+        @apply w-[320px];
+    }
+}

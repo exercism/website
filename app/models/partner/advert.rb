@@ -7,6 +7,23 @@ class Partner::Advert < ApplicationRecord
 
   serialize :track_slugs, JSON
 
+  def self.for_track(track)
+    candidates = active.to_a.sort_by! { rand }
+
+    # Sort through ones without slugs first, then ones with them.
+    # rubocop:disable Style/CombinableLoops
+    candidates.each do |candidate|
+      next unless candidate.track_slugs
+
+      return candidate if candidate.track_slugs.include?(track.slug)
+    end
+
+    candidates.each do |candidate|
+      return candidate unless candidate.track_slugs
+    end
+    # rubocop:enable Style/CombinableLoops
+  end
+
   before_create do
     self.uuid = SecureRandom.compact_uuid
   end
@@ -17,5 +34,10 @@ class Partner::Advert < ApplicationRecord
 
   def to_param
     uuid
+  end
+
+  def show_to?(user)
+    @show_to ||= {}
+    @show_to[user&.id] ||= true
   end
 end

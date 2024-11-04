@@ -30,18 +30,28 @@ partner_attributes = {
 
 perk_attributes = {
   preview_text: "If you like Exercism, you'll like ZTM's courses built by programmers (not influencers), for programmers. ZTM helps you get a better job and earn more with one trick: quality, not gimmicks.",
-  general_url: "https://links.zerotomastery.io/exercism-perk",
-  general_offer_summary_markdown: "Get 20% off your first team Kaido Challenge with your Exercism account.",
-  general_offer_summary_html: "<p>Get 20% off your first team Kaido Challenge with your Exercism account.</p>\n",
+  general_url: "https://zerotomastery.io",
+  general_offer_summary_markdown: "Get 20% off a ZTM membership with your Exercism membership.",
   general_button_text: "Claim 20% discount",
-  general_offer_details: "Get 20% off your first Kaido Challenge with your Exercism account.",
+  general_offer_details: "Copy the discount code below, then use it at checkout to get 20% off your ZTM membership.",
   general_voucher_code: "EXERCISM20",
-  insiders_url: nil,
-  insiders_offer_summary_markdown: nil,
-  insiders_offer_summary_html: nil,
-  insiders_button_text: nil,
-  insiders_offer_details: nil,
-  insiders_voucher_code: nil,
+  insiders_url: "https://zerotomastery.io",
+  insiders_offer_summary_markdown: "Get 25% off a ZTM membership with your Exercism Insiders membership",
+  insiders_button_text: "Claim 25% discount",
+  insiders_offer_details: "Copy the discount code below, then use it at checkout to get 25% off your ZTM membership.",
+  insiders_voucher_code: "EXERCISM25",
+}
+
+js_advert_attributes = {
+  track_slugs: ["javascript"],
+  url: "https://links.zerotomastery.io/exercism-ajs",
+  markdown: "Want to master advanced JavaScript? **Get 20% off** a ZTM annual membership!",
+}
+
+py_advert_attributes = {
+  track_slugs: ["python"],
+  url: "https://links.zerotomastery.io/exercism-ml",
+  markdown: "Want to boost your data science skills? **Get 20% off** a ZTM annual membership!",
 }
 
 partner = Partner.find_or_create_by!(slug: slug) { |p| p.attributes = partner_attributes }
@@ -54,4 +64,18 @@ if perk
   perk.update!(perk_attributes)
 else
   partner.perks.create!(perk_attributes.merge(status: :active))
+end
+
+js_advert = partner.adverts.active.select{|a| a.track_slugs.include?("javascript")}.first
+if js_advert
+  js_advert.update!(js_advert_attributes)
+else
+  partner.adverts.create!(js_advert_attributes.merge(status: :active))
+end
+
+py_advert = partner.adverts.active.select{|a| a.track_slugs.include?("python")}.first
+if py_advert
+  py_advert.update!(py_advert_attributes)
+else
+  partner.adverts.create!(py_advert_attributes.merge(status: :active))
 end

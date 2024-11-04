@@ -1,3 +1,57 @@
+.namespace-tracks.controller-exercises.action-show,
+.namespace-tracks.controller-concepts.action-show {
+    .c-advert {
+        @apply mt-[-100px];
+        @apply w-[320px];
+    }
+}
+.c-advert {
+    @apply bg-backgroundColorA;
+    @apply border-1 border-borderColor5 rounded-8;
+    @apply pt-10 pb-12 px-16;
+    @apply text-left leading-140 text-14;
+    @apply hover:shadow-sm;
+    @apply flex flex-col items-start;
+    @apply relative;
+
+    background: #f8f5ff;
+    @apply border-1 border-vividPurple;
+
+    .logo {
+        max-width: 50%;
+        height: auto;
+        max-height: 35px;
+    }
+
+    .advert {
+        @apply ml-auto mr-[-16px];
+        @apply py-2 pl-16 pr-12;
+        background: #eee;
+        @apply rounded-l-[16px];
+        @apply font-medium;
+        @apply bg-vividPurple text-white;
+    }
+
+    .offer {
+        @apply text-14;
+        @apply mb-6;
+
+        strong {
+            @apply font-semibold;
+        }
+    }
+    .cta {
+        @apply flex flex-row items-center gap-4;
+        @apply text-14 text-purple font-medium;
+        img {
+            @apply h-[10px];
+            filter: var(--purple-filter);
+            &:last-child {
+                opacity: 0.5;
+            }
+        }
+    }
+}
 .theme-light {
     .c-advert {
         .logo-dark {

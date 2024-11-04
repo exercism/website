@@ -27,15 +27,34 @@ module ViewComponents
     private
     memoize
     def advert
-      @advert || ::Partner::Advert.active.first
+      return @advert if @advert
+
+      return unless track
+
+      candidates = ::Partner::Advert.active.to_a
+      candidates.sort_by! { rand }
+
+      # rubocop:disable Style/CombinableLoops
+      candidates.each do |candidate|
+        next unless candidate.track_slugs
+
+        if candidate.track_slugs.include?(track.slug)
+          @advert = candidate
+          return @advert
+        end
+      end
+
+      candidates.each do |candidate|
+        unless candidate.track_slugs
+          @advert = candidate
+          return @advert
+        end
+      end
+      # rubocop:enable Style/CombinableLoops
     end
 
     def show_advert?
-      return false unless track
-      return true if track.slug == "go"
-      return true if %w[javascript python java].include?(track.slug) && ALLOWED_DATES.include?(Date.current)
-
-      false
+      !!advert
     end
 
     ALLOWED_DATES = [

@@ -175,7 +175,8 @@ const WelcomeModal = lazy(
   () => import('@/components/modals/welcome-modal/WelcomeModal')
 )
 const SenioritySurveyModal = lazy(
-  () => import('@/components/modals/SenioritySurveyModal')
+  () =>
+    import('@/components/modals/seniority-survey-modal/SenioritySurveyModal')
 )
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')

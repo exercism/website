@@ -5,35 +5,50 @@ import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { SeniorityLevel } from './welcome-modal/WelcomeModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-const SENIORITIES = [
-  'beginner',
-  'junior',
-  'medior',
-  'senior',
-  'staff',
-  'lead',
-] as const
-type Seniority = typeof SENIORITIES[number] | ''
+const SENIORITIES: { label: string; value: SeniorityLevel }[] = [
+  {
+    label: 'Absolute Beginner',
+    value: 'absolute_beginner',
+  },
+  {
+    label: 'Beginner',
+    value: 'beginner',
+  },
+  {
+    label: 'Junior Developer',
+    value: 'junior',
+  },
+  {
+    label: 'Mid-level Developer',
+    value: 'mid',
+  },
+  {
+    label: 'Senior Developer',
+    value: 'senior',
+  },
+]
 
 export default function SenioritySurveyModal({
-  endpoint,
+  links,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
-  endpoint: string
+  links: { hideModalEndpoint: string; apiUserEndpoint: string }
 }): JSX.Element {
   const [open, setOpen] = useState(true)
-  const [selected, setSelected] = useState<Seniority>('')
+  const [selected, setSelected] = useState<SeniorityLevel | ''>('')
   const {
-    mutate: mutation,
-    status,
-    error,
+    mutate: hideModalMutation,
+    status: hideModalMutationStatus,
+    error: hideModalMutationError,
   } = useMutation(
     () => {
       const { fetch } = sendRequest({
-        endpoint: endpoint,
+        // close modal endpoint
+        endpoint: links.hideModalEndpoint,
         method: 'PATCH',
         body: null,
       })
@@ -47,9 +62,23 @@ export default function SenioritySurveyModal({
     }
   )
 
-  const handleClick = useCallback(() => {
-    mutation()
-  }, [mutation])
+  const { mutate: setSeniorityMutation } = useMutation(
+    (seniority: SeniorityLevel) => {
+      const { fetch } = sendRequest({
+        endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    }
+  )
+
+  const handleSave = useCallback(() => {
+    if (selected === '') return
+    setSeniorityMutation(selected)
+    hideModalMutation()
+  }, [selected, setSeniorityMutation, hideModalMutation])
 
   return (
     <Modal
@@ -75,30 +104,34 @@ export default function SenioritySurveyModal({
             <button
               className={assembleClassNames(
                 'btn-m btn-enhanced',
-                selected === seniority
+                selected === seniority.value
                   ? 'border-prominentLinkColor text-prominentLinkColor'
                   : 'border-borderColor1'
               )}
-              onClick={() => setSelected(seniority)}
+              onClick={() => setSelected(seniority.value)}
             >
-              {seniority}
+              {seniority.label}
             </button>
           ))}
         </div>
 
-        <p className="text-14 text-center mt-4">
+        <p className="text-12 text-center mb-20">
           (This can be updated at any time in your settings)
         </p>
         <FormButton
-          status={status}
+          status={hideModalMutationStatus}
+          disabled={selected === ''}
           className="btn-primary btn-l"
           type="button"
-          onClick={handleClick}
+          onClick={handleSave}
         >
           Save my choice
         </FormButton>
-        <ErrorBoundary resetKeys={[status]}>
-          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+        <ErrorBoundary resetKeys={[hideModalMutationStatus]}>
+          <ErrorMessage
+            error={hideModalMutationError}
+            defaultError={DEFAULT_ERROR}
+          />
         </ErrorBoundary>
       </div>
     </Modal>

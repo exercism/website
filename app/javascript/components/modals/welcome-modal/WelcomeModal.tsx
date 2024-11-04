@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
@@ -22,7 +22,7 @@ type WelcomeModalContextProps = {
   setCurrentView: React.Dispatch<React.SetStateAction<ViewVariant>>
 }
 
-type SeniorityLevel =
+export type SeniorityLevel =
   | 'absolute_beginner'
   | 'beginner'
   | 'junior'

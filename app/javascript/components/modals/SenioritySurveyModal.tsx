@@ -56,6 +56,7 @@ export default function SenioritySurveyModal({
       cover={true}
       open={open}
       {...props}
+      style={{ content: { maxWidth: '620px' } }}
       onClose={() => null}
       className="m-welcome"
     >

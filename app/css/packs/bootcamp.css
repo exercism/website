@@ -349,7 +349,7 @@ section#bootcamp {
         }
         .intro {
             @apply md:text-22 text-18 font-light;
-            @apply text-center;
+            @apply text-center text-balance;
             @apply max-w-[750px] mx-auto;
         }
         hr {

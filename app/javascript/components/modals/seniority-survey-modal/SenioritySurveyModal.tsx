@@ -26,7 +26,7 @@ type SenioritySurveyModalContextProps = {
   } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
 }
 
-const DEFAULT_VIEW = 'bootcamp-advertisment'
+const DEFAULT_VIEW = 'initial'
 
 export const SenioritySurveyModalContext =
   createContext<SenioritySurveyModalContextProps>({
@@ -92,7 +92,7 @@ export default function SenioritySurveyModal({
         style={{
           content: {
             maxWidth: currentView === 'bootcamp-advertisment' ? '' : '620px',
-            placeSelf: 'initial',
+            placeSelf: 'center',
           },
         }}
         onClose={() => null}

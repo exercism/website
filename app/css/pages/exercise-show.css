@@ -474,7 +474,7 @@ body.namespace-tracks.controller-exercises.action-show {
     .c-react-wrapper-student-update-exercise-notice {
         max-width: calc(100% - 340px);
     }
-    .c-perk {
+    .c-perk-a {
         @apply absolute top-20;
         right: var(--container-padding-x);
         @apply w-[320px];

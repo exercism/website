@@ -3,7 +3,7 @@
   = image_tag (perk.dark_logo.presence || perk.partner.dark_logo.presence || 'blank.png'), alt: "Logo of #{perk.partner.name}", class: 'logo logo-dark'
   %p.about= perk.preview_text
   .details= raw offer_summary_html
-  .flex.gap-12
+  .buttons
     - if !user_signed_in?
       = render ReactComponents::Perks::PerksExternalModalButton.new(perk)
     - elsif perk.voucher_code?

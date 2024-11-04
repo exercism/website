@@ -1,4 +1,4 @@
-= link_to redirect_advert_path(advert, impression_uuid: uuid), class: 'c-perk', data: { turbo: false }, target: "_blank", rel: 'noopener' do
+= link_to redirect_advert_path(advert, impression_uuid: uuid), class: 'c-perk-a', data: { turbo: false }, target: "_blank", rel: 'noopener' do
   .flex.flex-row.items-center.w-100.mb-8
     = image_tag (advert.light_logo.presence || advert.partner.light_logo || 'blank.png'), class: 'logo logo-light'
     = image_tag (advert.dark_logo.presence || advert.partner.dark_logo || 'blank.png'), class: 'logo logo-dark'

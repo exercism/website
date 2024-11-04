@@ -28,12 +28,12 @@ partner_attributes = {
 perk_attributes = {
   preview_text: "Ready to put your new-found language skills into practice? We recommend Code Crafters' real-world proficiency projects.",
   general_url: "https://app.codecrafters.io/join?via=Exercism",
-  general_offer_summary_markdown: "Get 40% off your CodeCrafters membership. Try it for free!",
+  general_offer_summary_markdown: "Try CodeCrafters for free (no card required) and if you choose to upgrade, get 40% off!",
   general_button_text: "Claim 40% discount",
   general_offer_details: "Sign up for free then have the discount applied if you choose to upgrade!",
   general_voucher_code: nil,
   insiders_url: "https://app.codecrafters.io/join?via=Exercism",
-  insiders_offer_summary_markdown: "Get 50% off your CodeCrafters membership. Try it for free!",
+  insiders_offer_summary_markdown: "Try CodeCrafters for free (no card required) and if you choose to upgrade, get 50% off!",
   insiders_button_text: "Claim 50% discount",
   insiders_offer_details: "Sign up for free, then email hello@codecrafters.io to get this exclusive Insiders discount (so exclusive their system can't copy with automating it!)",
   insiders_voucher_code: nil

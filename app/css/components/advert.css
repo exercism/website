@@ -1,4 +1,4 @@
-.c-perk {
+.c-perk-a {
     @apply bg-backgroundColorA;
     @apply border-1 border-borderColor5 rounded-8;
     @apply pt-10 pb-12 px-16;
@@ -47,14 +47,14 @@
     }
 }
 .theme-light {
-    .c-perk {
+    .c-perk-a {
         .logo-dark {
             @apply hidden;
         }
     }
 }
 .theme-dark {
-    .c-perk {
+    .c-perk-a {
         .logo-light {
             @apply hidden;
         }

@@ -29,7 +29,7 @@ partner_attributes = {
 } 
 
 perk_attributes = {
-  preview_text: "If you like Exercism, you'll like ZTM's courses built by programmers (not influencers), for programmers. ZTM helps you get a better job and earn more with one trick: quality, not gimmicks.",
+  preview_text: "ZTM's courses are built by programmers, not influencers. ZTM helps you get a better job and earn more with one trick: quality, not gimmicks.",
   general_url: "https://zerotomastery.io",
   general_offer_summary_markdown: "Get 20% off a ZTM membership with your Exercism membership.",
   general_button_text: "Claim 20% discount",
@@ -59,23 +59,23 @@ partner.update!(partner_attributes)
 partner.light_logo.attach(io: File.open(Rails.root.join("app/images/partners/#{light_image_slug}-light.svg")), filename: "#{slug}-light.svg")
 partner.dark_logo.attach(io: File.open(Rails.root.join("app/images/partners/#{dark_image_slug}-dark.svg")), filename: "#{slug}-dark.svg")
 
-perk = partner.perks.active.first
+perk = partner.perks.first
 if perk
   perk.update!(perk_attributes)
 else
-  partner.perks.create!(perk_attributes.merge(status: :active))
+  partner.perks.create!(perk_attributes.merge(status: :pending))
 end
 
-js_advert = partner.adverts.active.select{|a| a.track_slugs.include?("javascript")}.first
+js_advert = partner.adverts.select{|a| a.track_slugs.include?("javascript")}.first
 if js_advert
   js_advert.update!(js_advert_attributes)
 else
-  partner.adverts.create!(js_advert_attributes.merge(status: :active))
+  partner.adverts.create!(js_advert_attributes.merge(status: :pending))
 end
 
-py_advert = partner.adverts.active.select{|a| a.track_slugs.include?("python")}.first
+py_advert = partner.adverts.select{|a| a.track_slugs.include?("python")}.first
 if py_advert
   py_advert.update!(py_advert_attributes)
 else
-  partner.adverts.create!(py_advert_attributes.merge(status: :active))
+  partner.adverts.create!(py_advert_attributes.merge(status: :pending))
 end

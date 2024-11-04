@@ -75,7 +75,7 @@
             %p= raw partner.support_html
             - perk = partner.perks.active.first
             - if perk
-              = render ViewComponents::ProminentLink.new("Learn more", perk_path(perk))
+              = render ViewComponents::ProminentLink.new("Learn more", partner_path(partner))
         .supporter
           = icon "chicago", "University of Chicago", category: :partners, css_class: "logo chicago"
           %p

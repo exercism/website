@@ -41,7 +41,7 @@ perk_attributes = {
 
 advert_attributes = {
   url: "https://app.codecrafters.io/join?via=Exercism",
-  markdown: "Want to master advanced JavaScript? **Get 20% off** a ZTM annual membership!",
+  markdown: "Ready to put your newfound language skills into use? **Get 40% off** CodeCrafter's real-world proficiency projects!",
 }
 
 partner = Partner.find_or_create_by!(slug: slug) { |p| p.attributes = partner_attributes }
@@ -55,11 +55,10 @@ if perk
 else
   partner.perks.create!(perk_attributes.merge(status: :pending))
 end
-=begin 
-advert = partner.adverts.select{|a| a.track_slugs.include?("javascript")}.first
+
+advert = partner.adverts.first
 if advert
   advert.update!(advert_attributes)
 else
   partner.adverts.create!(advert_attributes.merge(status: :pending))
 end
-=end

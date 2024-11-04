@@ -741,6 +741,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_04_060222) do
     t.text "track_slugs"
     t.text "markdown"
     t.text "html"
+    t.text "mailer_text"
     t.index ["partner_id"], name: "index_partner_adverts_on_partner_id"
   end
 

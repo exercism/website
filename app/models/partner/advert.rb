@@ -22,6 +22,8 @@ class Partner::Advert < ApplicationRecord
       return candidate unless candidate.track_slugs
     end
     # rubocop:enable Style/CombinableLoops
+
+    nil
   end
 
   before_create do

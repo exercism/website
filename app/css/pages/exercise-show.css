@@ -472,10 +472,11 @@ body.namespace-tracks.controller-exercises.action-show {
 #page-exercise-show.has-advert,
 #page-concept-show.has-advert {
     .c-react-wrapper-student-update-exercise-notice {
-        max-width: calc(100% - 310px);
+        max-width: calc(100% - 340px);
     }
     .c-perk {
-        @apply absolute right-0 top-20;
+        @apply absolute top-20;
+        right: var(--container-padding-x);
         @apply w-[320px];
     }
 }

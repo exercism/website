@@ -56,8 +56,8 @@ py_advert_attributes = {
 
 partner = Partner.find_or_create_by!(slug: slug) { |p| p.attributes = partner_attributes }
 partner.update!(partner_attributes)
-partner.light_logo.attach(io: File.open(Rails.root.join("app/images/partners/#{light_image_slug}.svg")), filename: "#{slug}-light.svg")
-partner.dark_logo.attach(io: File.open(Rails.root.join("app/images/partners/#{dark_image_slug}.svg")), filename: "#{slug}-dark.svg")
+partner.light_logo.attach(io: File.open(Rails.root.join("app/images/partners/#{light_image_slug}-light.svg")), filename: "#{slug}-light.svg")
+partner.dark_logo.attach(io: File.open(Rails.root.join("app/images/partners/#{dark_image_slug}-dark.svg")), filename: "#{slug}-dark.svg")
 
 perk = partner.perks.active.first
 if perk

@@ -256,7 +256,12 @@ initReact({
   ),
   'modals-seniority-survey-modal': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <SenioritySurveyModal endpoint={data.endpoint} />
+      <SenioritySurveyModal
+        links={camelizeKeysAs<{
+          hideModalEndpoint: string
+          apiUserEndpoint: string
+        }>(data.links)}
+      />
     </Suspense>
   ),
 

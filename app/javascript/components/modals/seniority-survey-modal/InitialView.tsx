@@ -6,6 +6,7 @@ import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
 import type { SeniorityLevel } from '../welcome-modal/WelcomeModal'
+import { ErrorFallback } from '@/components/common/ErrorFallback'
 
 const DEFAULT_ERROR = new Error('Unable to save seniority level.')
 
@@ -51,7 +52,13 @@ export function InitialView() {
       return fetch
     },
     {
-      onSuccess: () => setCurrentView('thanks'),
+      onSuccess: () => {
+        if (selected.includes('beginner')) {
+          setCurrentView('bootcamp-advertisment')
+          return
+        }
+        setCurrentView('thanks')
+      },
     }
   )
 
@@ -74,6 +81,7 @@ export function InitialView() {
       <div className="flex flex-col flex-wrap gap-8 mb-16 text-18">
         {SENIORITIES.map((seniority) => (
           <button
+            key={seniority.value}
             className={assembleClassNames(
               'btn-m btn-enhanced',
               selected === seniority.value
@@ -99,7 +107,10 @@ export function InitialView() {
       >
         Save my choice
       </FormButton>
-      <ErrorBoundary resetKeys={[setSeniorityMutationStatus]}>
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        resetKeys={[setSeniorityMutationStatus]}
+      >
         <ErrorMessage
           error={setSeniorityMutationError}
           defaultError={DEFAULT_ERROR}

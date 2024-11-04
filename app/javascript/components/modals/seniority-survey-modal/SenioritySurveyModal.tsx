@@ -8,8 +8,11 @@ import React, {
 import { Modal, ModalProps } from '../Modal'
 import { ThanksView } from './ThanksView'
 import { InitialView } from './InitialView'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { BootcampAdvertismentView } from './BootcampAdvertismentView'
 
-type ViewVariant = 'initial' | 'thanks'
+type ViewVariant = 'initial' | 'thanks' | 'bootcamp-advertisment'
 
 type Links = { hideModalEndpoint: string; apiUserEndpoint: string }
 
@@ -18,9 +21,12 @@ type SenioritySurveyModalContextProps = {
   setCurrentView: Dispatch<SetStateAction<ViewVariant>>
   setOpen: Dispatch<SetStateAction<boolean>>
   links: Links
+  patchCloseModal: {
+    mutate: () => void
+  } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
 }
 
-const DEFAULT_VIEW = 'thanks'
+const DEFAULT_VIEW = 'bootcamp-advertisment'
 
 export const SenioritySurveyModalContext =
   createContext<SenioritySurveyModalContextProps>({
@@ -28,6 +34,11 @@ export const SenioritySurveyModalContext =
     setCurrentView: () => {},
     setOpen: () => {},
     links: { apiUserEndpoint: '', hideModalEndpoint: '' },
+    patchCloseModal: {
+      mutate: () => null,
+      status: 'idle',
+      error: null,
+    },
   })
 
 export default function SenioritySurveyModal({
@@ -37,18 +48,53 @@ export default function SenioritySurveyModal({
   links: Links
 }): JSX.Element {
   const [open, setOpen] = useState(true)
-
   const [currentView, setCurrentView] = useState<ViewVariant>(DEFAULT_VIEW)
+
+  const {
+    mutate: hideModalMutation,
+    status: hideModalMutationStatus,
+    error: hideModalMutationError,
+  } = useMutation(
+    () => {
+      const { fetch } = sendRequest({
+        endpoint: links.hideModalEndpoint,
+        method: 'PATCH',
+        body: null,
+      })
+
+      return fetch
+    },
+    {
+      onSuccess: () => {
+        setOpen(false)
+      },
+    }
+  )
 
   return (
     <SenioritySurveyModalContext.Provider
-      value={{ currentView, setCurrentView, setOpen, links }}
+      value={{
+        currentView,
+        setCurrentView,
+        setOpen,
+        links,
+        patchCloseModal: {
+          mutate: hideModalMutation,
+          status: hideModalMutationStatus,
+          error: hideModalMutationError,
+        },
+      }}
     >
       <Modal
         cover={true}
         open={open}
         {...props}
-        style={{ content: { maxWidth: '620px' } }}
+        style={{
+          content: {
+            maxWidth: currentView === 'bootcamp-advertisment' ? '' : '620px',
+            placeSelf: 'initial',
+          },
+        }}
         onClose={() => null}
         className="m-welcome"
       >
@@ -63,6 +109,8 @@ function Inner() {
   switch (currentView) {
     case 'initial':
       return <InitialView />
+    case 'bootcamp-advertisment':
+      return <BootcampAdvertismentView />
     case 'thanks':
       return <ThanksView />
   }

@@ -1,39 +1,13 @@
-import React, { useContext, useCallback } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import React, { useContext } from 'react'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
-import { sendRequest } from '@/utils/send-request'
 import { SenioritySurveyModalContext } from './SenioritySurveyModal'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function ThanksView() {
-  const { links, setOpen } = useContext(SenioritySurveyModalContext)
+  const { patchCloseModal } = useContext(SenioritySurveyModalContext)
 
-  const {
-    mutate: hideModalMutation,
-    status: hideModalMutationStatus,
-    error: hideModalMutationError,
-  } = useMutation(
-    () => {
-      const { fetch } = sendRequest({
-        endpoint: links.hideModalEndpoint,
-        method: 'PATCH',
-        body: null,
-      })
-
-      return fetch
-    },
-    {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    }
-  )
-
-  const handleSave = useCallback(() => {
-    hideModalMutation()
-  }, [hideModalMutation])
   return (
     <div className="lhs">
       <header>
@@ -45,16 +19,16 @@ export function ThanksView() {
       </header>
 
       <FormButton
-        status={hideModalMutationStatus}
+        status={patchCloseModal.status}
         className="btn-primary btn-l"
         type="button"
-        onClick={handleSave}
+        onClick={patchCloseModal.mutate}
       >
         Close this modal
       </FormButton>
-      <ErrorBoundary resetKeys={[hideModalMutationStatus]}>
+      <ErrorBoundary resetKeys={[patchCloseModal.status]}>
         <ErrorMessage
-          error={hideModalMutationError}
+          error={patchCloseModal.status}
           defaultError={DEFAULT_ERROR}
         />
       </ErrorBoundary>

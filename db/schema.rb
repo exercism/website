@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_02_090226) do
-
+ActiveRecord::Schema[7.0].define(version: 2024_11_04_095304) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -735,10 +734,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_02_090226) do
     t.integer "num_impressions", default: 0, null: false
     t.integer "num_clicks", default: 0, null: false
     t.string "url", null: false
-    t.string "base_text", null: false
-    t.string "emphasised_text", null: false
+    t.string "base_text"
+    t.string "emphasised_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "track_slugs"
+    t.text "markdown"
+    t.text "html"
+    t.text "mailer_text"
     t.index ["partner_id"], name: "index_partner_adverts_on_partner_id"
   end
 

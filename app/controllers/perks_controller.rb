@@ -9,7 +9,7 @@ class PerksController < ApplicationController
       },
       light_logo_attachment: :blob,
       dark_logo_attachment: :blob
-    )
+    ).order(id: :desc)
   end
 
   def show

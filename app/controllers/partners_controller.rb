@@ -1,6 +1,11 @@
 class PartnersController < ApplicationController
   skip_before_action :authenticate_user!
 
+  def show
+    @partner = Partner.find_by!(slug: params[:id])
+    @perk = @partner.perks.active.first
+  end
+
   def gobridge
     @track = Track.find('go')
     @num_concepts = @track.concepts.count

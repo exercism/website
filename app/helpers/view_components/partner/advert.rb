@@ -5,10 +5,7 @@ module ViewComponents
     initialize_with advert: nil, track: nil, preview: false
 
     def to_s
-      # Don't show adverts at all for crawlers
-      return nil if request.is_crawler?
-      return nil unless preview || show_advert?
-      return nil unless advert
+      return nil unless show_advert?
 
       uuid = SecureRandom.hex
 
@@ -27,15 +24,15 @@ module ViewComponents
     private
     memoize
     def advert
-      @advert || ::Partner::Advert.active.first
+      @advert ||= ::Partner::Advert.for_track(track)
     end
 
     def show_advert?
-      return false unless track
-      return true if track.slug == "go"
-      return true if %w[javascript python java].include?(track.slug) && ALLOWED_DATES.include?(Date.current)
+      return false if request.is_crawler?
+      return true if preview
+      return false unless advert
 
-      false
+      true
     end
 
     ALLOWED_DATES = [

@@ -116,6 +116,13 @@
                 <![endif]-->
             </div>
         </main>
+        
+        <% if @advert %>
+          <div style="margin-top:32px; text-align:center">
+            This email is kindly sponsored by <%= @advert.partner.name %>. <%= @advert.mailer_text %>
+            <%= link_to "Click here", partner_url(@advert.partner) %> to learn more.
+          </div>
+        <% end %>
 
         <!-- Footer information. Footer is a useful landmark element. -->
         <footer style="text-align:center">

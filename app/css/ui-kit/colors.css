@@ -205,6 +205,7 @@
     --backgroundColorNavDropdown: theme(colors.aliceBlue);
     --backgroundColorDonationFormCover: rgba(255, 255, 255, 0.6);
     --backgroundColorHoverMenuTrack: #fafaff;
+    --backgroundColorPerkContainer: #f8f5ff;
 
     --backgroundImpactPageHeader: linear-gradient(
             180deg,
@@ -277,6 +278,7 @@
     --textGradientStart: #2200ff;
     --textGradientEnd: #9e00ff;
     --textColorSoftEmphasis: #333;
+    --textColorPerkCTA: theme(colors.purple);
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
@@ -361,6 +363,7 @@
     --white-filter: var(--filter-FFFFFF);
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
+    --purple-light-white-dark-filter: var(--purple-filter);
     --dark-purple-filter: invert(20%) sepia(60%) saturate(1812%)
         hue-rotate(229deg) brightness(92%) contrast(89%);
     --selected-tab-icon-filter: var(--purple-filter);
@@ -488,6 +491,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorNavDropdown: theme(colors.eerieBlack);
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
     --backgroundColorHoverMenuTrack: #3a3557;
+    --backgroundColorPerkContainer: #103;
 
     --backgroundImpactPageHeader: theme(colors.eerieBlack);
 
@@ -546,6 +550,7 @@ body.namespace-.controller-insiders.theme-light,
     --textGradientStart: #8370ff;
     --textGradientEnd: #b947ff;
     --textColorSoftEmphasis: #f5f5f5;
+    --textColorPerkCTA: theme(colors.white);
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);
@@ -676,6 +681,8 @@ body.namespace-.controller-insiders.theme-light,
     /* --purple-filter: var(--filter-FFFFFF); */
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
+
+    --purple-light-white-dark-filter: var(--white-filter);
 
     /* aliceBlue */
     --selected-tab-icon-filter: invert(94%) sepia(7%) saturate(129%)

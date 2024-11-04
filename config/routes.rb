@@ -299,7 +299,8 @@ Rails.application.routes.draw do
   resources :adverts, controller: "partner/adverts", only: [] do
     get :redirect, on: :member
   end
-  resources :perks, only: %i[index show] do
+  resources :partners, only: [:show]
+  resources :perks, only: %i[index] do
     get :claim, on: :member
   end
 

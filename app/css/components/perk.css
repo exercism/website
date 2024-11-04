@@ -4,7 +4,7 @@
     @apply flex flex-col items-stretch;
 
     .logo {
-        @apply h-[40px];
+        @apply h-[40px] max-w-[190px];
         @apply mb-12;
         @apply self-start;
     }

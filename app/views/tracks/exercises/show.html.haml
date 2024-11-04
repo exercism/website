@@ -5,7 +5,7 @@
 - advert = nil unless advert.show_to?(current_user)
 
 #page-exercise-show{ class: advert ? "has-advert" : nil }
-  .lg-container.relative
+  .lg-container.relative.z-1
     - if advert
       = render ViewComponents::Partner::Advert.new(advert:)
 

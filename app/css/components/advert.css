@@ -1,4 +1,4 @@
-.c-advert {
+.c-perk {
     @apply bg-backgroundColorA;
     @apply border-1 border-borderColor5 rounded-8;
     @apply pt-10 pb-12 px-16;
@@ -16,7 +16,7 @@
         max-height: 35px;
     }
 
-    .advert {
+    .tag {
         @apply ml-auto mr-[-16px];
         @apply py-2 pl-16 pr-12;
         background: #eee;
@@ -46,14 +46,14 @@
     }
 }
 .theme-light {
-    .c-advert {
+    .c-perk {
         .logo-dark {
             @apply hidden;
         }
     }
 }
 .theme-dark {
-    .c-advert {
+    .c-perk {
         .logo-light {
             @apply hidden;
         }

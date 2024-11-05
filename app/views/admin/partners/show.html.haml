@@ -31,6 +31,7 @@
       %tr
         %th Advert
         %th Status
+        %th Track Slugs
         %th Impressions
         %th Clicks
         %th{ colspan: 2 }
@@ -38,6 +39,7 @@
         %tr
           %td= render ViewComponents::Partner::Advert.new(advert:, preview: true)
           %td.w-arbitary= advert.status.titleize
+          %td.w-arbitary= advert.track_slugs
           %td.w-arbitary= advert.num_impressions
           %td.w-arbitary= advert.num_clicks
           %td.w-arbitary= link_to "Details", admin_partner_advert_path(@partner, advert)

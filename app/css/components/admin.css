@@ -1,0 +1,5 @@
+body.namespace-admin.controller-partners.action-show {
+    .c-perk-a {
+        width: var(--c-perk-a-width);
+    }
+}

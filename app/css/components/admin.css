@@ -1,4 +1,5 @@
-body.namespace-admin.controller-partners.action-show {
+body.namespace-admin.controller-partners.action-show,
+body.namespace-admin.controller-adverts.action-show {
     .c-perk-a {
         width: var(--c-perk-a-width);
     }

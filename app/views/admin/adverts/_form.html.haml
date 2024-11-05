@@ -30,6 +30,11 @@
     = f.label :dark_logo, class: 'text-h6 mb-4'
     = f.file_field :dark_logo
 
+  .flex.flex-col.mb-16
+    = f.label :track_slugs, "Select Tracks", class: 'text-h6 mb-4'
+    = render ReactComponents::Common::TrackSlugsMultiselector.new(Track.all.map(&:slug))
+    = f.hidden_field :track_slugs, id: 'partner_advert_track_slugs'
+
 %div
   = f.submit class: 'btn btn-primary btn-base'
 

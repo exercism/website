@@ -1,6 +1,10 @@
 class User::BootcampData < ApplicationRecord
   belongs_to :user
 
+  after_save do
+    User::Bootcamp::SubscribeToOnboardingEmails.defer(self)
+  end
+
   def self.to_tsv(status: :enrolled_unpaid)
     return unless status == :enrolled_unpaid
 
@@ -13,6 +17,7 @@ class User::BootcampData < ApplicationRecord
   end
 
   def enrolled? = enrolled_at.present?
+  def paid? = paid_at.present?
 
   def price
     return unless package
@@ -34,6 +39,12 @@ class User::BootcampData < ApplicationRecord
     when 'part_1' then DATA['part_1_price']
                        country_data ? country_data[5] : PART_1_PAYMENT_URL
     end
+  end
+
+  def country_name
+    return unless country_data
+
+    country_data[1]
   end
 
   def country_data

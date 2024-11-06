@@ -579,7 +579,10 @@ export const mappings = {
   ),
   'common-track-slugs-multiselector': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <TrackSlugsMultiselector trackSlugs={data.track_slugs} />
+      <TrackSlugsMultiselector
+        trackSlugs={data.track_slugs}
+        selectedTrackSlugs={data.selected_track_slugs}
+      />
     </Suspense>
   ),
   'common-theme-toggle-button': (

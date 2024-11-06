@@ -3,8 +3,10 @@ import CreatableSelect from 'react-select/creatable'
 
 export default function TrackSlugsMultiselector({
   trackSlugs,
+  selectedTrackSlugs,
 }: {
   trackSlugs: string[]
+  selectedTrackSlugs: string[]
 }): JSX.Element {
   const trackSlugsHiddenInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -14,14 +16,15 @@ export default function TrackSlugsMultiselector({
     ) as HTMLInputElement
 
     if (trackSlugsHiddenInputRef.current) {
-      trackSlugsHiddenInputRef.current.value = JSON.stringify(trackSlugs)
+      trackSlugsHiddenInputRef.current.value =
+        JSON.stringify(selectedTrackSlugs)
     }
-  }, [trackSlugs])
+  }, [selectedTrackSlugs])
 
   return (
     <CreatableSelect
       isMulti
-      // defaultValue={formatTags(tags)}
+      defaultValue={formatTags(selectedTrackSlugs)}
       options={formatTags(trackSlugs)}
       isClearable={false}
       maxMenuHeight={100}

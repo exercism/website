@@ -9,7 +9,7 @@ const observer = new IntersectionObserver(([linkedin], observer) => {
   }
 })
 
-observer.observe(linkedin)
+if (linkedin) observer.observe(linkedin)
 
 /* ========================= helpers & setup ========================= */
 function createCanvas() {

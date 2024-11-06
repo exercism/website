@@ -23,6 +23,7 @@
     }
     & .update-bar {
         background: var(--backgroundColorCAlert);
+        @apply text-left;
         @apply border-2 border-lightGold rounded-8;
         @apply py-10 px-24;
         @apply text-textColor2 text-16 leading-160 font-semibold;
@@ -35,7 +36,7 @@
         }
 
         & .faux-link {
-            @apply text-prominentLinkColor ml-auto;
+            @apply text-prominentLinkColor ml-auto text-right md:block contents;
         }
     }
 

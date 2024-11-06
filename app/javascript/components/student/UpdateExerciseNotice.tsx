@@ -21,7 +21,7 @@ export default function UpdateExerciseNotice({
       >
         <Icon icon="warning" alt="Warning" />
         This exercise has been updated. Update to the latest version and see if
-        your tests still pass.
+        your tests still pass.&nbsp;
         <div className="faux-link">See what&apos;s changed…</div>
       </button>
       <ExerciseUpdateModal

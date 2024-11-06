@@ -1,5 +1,5 @@
 class BootcampController < ApplicationController
-  layout "bootcamp"
+  layout 'bootcamp'
 
   skip_before_action :authenticate_user!
   before_action :use_user_bootcamp_data!

@@ -51,7 +51,7 @@ const roughUnderlineElements = document.querySelectorAll('.rough-underline')
 const roughHighlightElements = document.querySelectorAll('.rough-highlight')
 const wavingElement = document.querySelector('.waving-hand')
 
-wavingObserver.observe(wavingElement)
+if (wavingElement) wavingObserver.observe(wavingElement)
 
 roughUnderlineElements.forEach((element) => {
   roughUnderlineObserver.observe(element)

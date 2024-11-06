@@ -1,5 +1,5 @@
 class BootcampController < ApplicationController
-  layout "bootcamp"
+  layout 'bootcamp'
 
   skip_before_action :authenticate_user!
   before_action :use_user_bootcamp_data!
@@ -46,12 +46,44 @@ class BootcampController < ApplicationController
       ppp_country: @country_code_2
     )
 
-    redirect_to action: :enrollment_confirmed, package: params[:package]
+    redirect_to action: :pay
   end
 
-  def enrollment_confirmed
-    @price = params[:package] == "complete" ? @complete_price : @part_1_price
+  def pay; end
+
+  def stripe_create_checkout_session
+    # Sample for you to use. This will work with Stripe's test cards.
+    if Rails.env.production?
+      stripe_price = @bootcamp_data.stripe_price_id
+    else
+      stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
+    end
+
+    session = Stripe::Checkout::Session.create({
+      ui_mode: 'embedded',
+      customer_email: @bootcamp_data.email,
+      line_items: [{
+        price: stripe_price,
+        quantity: 1
+      }],
+      mode: 'payment',
+      allow_promotion_codes: true,
+      return_url: "#{bootcamp_confirmed_url}?session_id={CHECKOUT_SESSION_ID}"
+    })
+
+    render json: { clientSecret: session.client_secret }
   end
+
+  def stripe_session_status
+    session = Stripe::Checkout::Session.retrieve(params[:session_id])
+
+    render json: {
+      status: session.status,
+      customer_email: session.customer_details.email
+    }
+  end
+
+  def confirmed; end
 
   private
   def use_user_bootcamp_data!

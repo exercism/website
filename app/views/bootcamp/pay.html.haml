@@ -15,10 +15,6 @@
 
       %p.info
         %strong Please complete your payment
-        of $#{@price} using the link below to confirm your enrollment 👇
-
-      .mt-24.w-fill
-        - if @package == 'part_1'
-          = link_to "Complete Payment", @part_1_payment_url, class: "button"
-        - else
-          = link_to "Complete Payment", @full_payment_url, class: "button"
+        of $#{@bootcamp_data.price} below...
+        
+        -# TODO: Aron do the stuff here.
